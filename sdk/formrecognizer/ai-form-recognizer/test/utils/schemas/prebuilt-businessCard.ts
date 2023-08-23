@@ -3,8 +3,8 @@
 
 // Model:       prebuilt-businessCard
 // Description: Extract key information from business cards.
-// API Version: 2022-08-31
-// Created:     Thu Aug 25 2022
+// API Version: 2023-07-31
+// Created:     Tue Aug 01 2023
 
 import * as fr from "../../../src";
 
@@ -134,8 +134,8 @@ function modelInfo() {
   return {
     modelId: "prebuilt-businessCard",
     description: "Extract key information from business cards.",
-    createdOn: "2022-08-31T00:00:00.000Z",
-    apiVersion: "2022-08-31",
+    createdOn: "2023-07-31T00:00:00.000Z",
+    apiVersion: "2023-07-31",
     docTypes: {
       businessCard: {
         buildMode: "template",

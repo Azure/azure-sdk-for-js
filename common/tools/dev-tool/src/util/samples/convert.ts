@@ -3,18 +3,12 @@
 
 import { EOL } from "os";
 
-import * as prettier from "prettier";
 import ts from "typescript";
 
 import { createPrinter } from "../printer";
+import { format } from "../prettier";
 
 const log = createPrinter("ts-to-js");
-
-const prettierOptions: prettier.Options = {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  ...(require("../../../../eslint-plugin-azure-sdk/prettier.json") as prettier.Options),
-  parser: "typescript",
-};
 
 const compilerOptions: ts.CompilerOptions = {
   target: ts.ScriptTarget.ESNext,
@@ -53,7 +47,7 @@ function postTransform(outText: string): string {
 
   // Format first so that we can write matching regexps
   // that are humanly comprehensible
-  text = prettier.format(text, prettierOptions);
+  text = format(text, "babel");
 
   for (const [rx, replacement] of REGEX_STACK) {
     const match = typeof rx === "function" ? rx() : rx;
@@ -61,7 +55,7 @@ function postTransform(outText: string): string {
   }
 
   // Format once more for the final output.
-  return prettier.format(text, prettierOptions);
+  return format(text, "babel");
 }
 
 /**

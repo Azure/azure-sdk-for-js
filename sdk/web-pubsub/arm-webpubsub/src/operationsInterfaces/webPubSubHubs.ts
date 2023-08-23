@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WebPubSubHub,
   WebPubSubHubsListOptionalParams,
@@ -23,8 +23,7 @@ import {
 export interface WebPubSubHubs {
   /**
    * List hub settings.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -36,8 +35,7 @@ export interface WebPubSubHubs {
   /**
    * Get a hub setting.
    * @param hubName The hub name.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -50,8 +48,7 @@ export interface WebPubSubHubs {
   /**
    * Create or update a hub setting.
    * @param hubName The hub name.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters The resource of WebPubSubHub and its properties
    * @param options The options parameters.
@@ -63,16 +60,15 @@ export interface WebPubSubHubs {
     parameters: WebPubSubHub,
     options?: WebPubSubHubsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebPubSubHubsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WebPubSubHubsCreateOrUpdateResponse>,
       WebPubSubHubsCreateOrUpdateResponse
     >
   >;
   /**
    * Create or update a hub setting.
    * @param hubName The hub name.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters The resource of WebPubSubHub and its properties
    * @param options The options parameters.
@@ -87,8 +83,7 @@ export interface WebPubSubHubs {
   /**
    * Delete a hub setting.
    * @param hubName The hub name.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -97,12 +92,11 @@ export interface WebPubSubHubs {
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubHubsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a hub setting.
    * @param hubName The hub name.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */

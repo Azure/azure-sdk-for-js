@@ -12,6 +12,7 @@ export * from "./configurationServices";
 export * from "./serviceRegistries";
 export * from "./applicationLiveViews";
 export * from "./devToolPortals";
+export * from "./containerRegistries";
 export * from "./buildServiceOperations";
 export * from "./buildpackBinding";
 export * from "./buildServiceBuilder";

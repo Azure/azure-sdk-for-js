@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List streaming endpoint supported skus.
  *
  * @summary List streaming endpoint supported skus.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/streamingendpoint-list-skus.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/streamingendpoint-list-skus.json
  */
 async function listAStreamingEndpointSku() {
   const subscriptionId =

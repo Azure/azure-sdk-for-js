@@ -38,3 +38,5 @@ extends:
         safeName: webpubsubexpress
       - name: azure-web-pubsub-client
         safeName: webpubsubclient
+      - name: azure-web-pubsub-client-protobuf
+        safeName: webpubsubclientprotobuf

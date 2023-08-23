@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CustomDomain,
   WebPubSubCustomDomainsListOptionalParams,
@@ -23,8 +23,7 @@ import {
 export interface WebPubSubCustomDomains {
   /**
    * List all custom domains.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -35,8 +34,7 @@ export interface WebPubSubCustomDomains {
   ): PagedAsyncIterableIterator<CustomDomain>;
   /**
    * Get a custom domain.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param name Custom domain name.
    * @param options The options parameters.
@@ -49,8 +47,7 @@ export interface WebPubSubCustomDomains {
   ): Promise<WebPubSubCustomDomainsGetResponse>;
   /**
    * Create or update a custom domain.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param name Custom domain name.
    * @param parameters A custom domain
@@ -63,15 +60,14 @@ export interface WebPubSubCustomDomains {
     parameters: CustomDomain,
     options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebPubSubCustomDomainsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WebPubSubCustomDomainsCreateOrUpdateResponse>,
       WebPubSubCustomDomainsCreateOrUpdateResponse
     >
   >;
   /**
    * Create or update a custom domain.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param name Custom domain name.
    * @param parameters A custom domain
@@ -86,8 +82,7 @@ export interface WebPubSubCustomDomains {
   ): Promise<WebPubSubCustomDomainsCreateOrUpdateResponse>;
   /**
    * Delete a custom domain.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param name Custom domain name.
    * @param options The options parameters.
@@ -97,11 +92,10 @@ export interface WebPubSubCustomDomains {
     resourceName: string,
     name: string,
     options?: WebPubSubCustomDomainsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a custom domain.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param name Custom domain name.
    * @param options The options parameters.

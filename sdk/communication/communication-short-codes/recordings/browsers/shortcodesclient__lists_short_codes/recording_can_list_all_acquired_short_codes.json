@@ -12,31 +12,48 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
-        "x-ms-client-request-id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
-        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Mon, 19 Dec 2022 21:36:21 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 01 Aug 2023 17:56:07 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Connection": "keep-alive",
+        "Content-Length": "271",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 19 Dec 2022 21:36:21 GMT",
-        "MS-CV": "pZFgqfSFUECf7qgE/MhhCA.0",
+        "Date": "Tue, 01 Aug 2023 17:56:08 GMT",
+        "MS-CV": "FUoQAWQXMECYkFyU8Cl7rg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0VdmgYwAAAAB2pH3L2wc3TZbFmfqMxxgSR1JVMzBFREdFMDcxOABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "x-azure-ref": "20230801T175607Z-5yv19g937h43ddbvb353t99fcs000000012000000000m05c",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "217ms"
+        "X-Processing-Time": "281ms"
       },
       "ResponseBody": {
-        "shortCodes": []
+        "shortCodes": [
+          {
+            "value": "57605",
+            "countryCode": "US",
+            "programBriefIds": [
+              "f5d6f67c-436f-4429-985d-a8c92804e7e7"
+            ],
+            "purchaseDate": "2023-05-12T18:28:12.964788\u002B00:00"
+          },
+          {
+            "value": "61234",
+            "countryCode": "GB",
+            "programBriefIds": [],
+            "purchaseDate": "2023-06-21T14:25:02.0277443\u002B00:00"
+          }
+        ]
       }
     }
   ],

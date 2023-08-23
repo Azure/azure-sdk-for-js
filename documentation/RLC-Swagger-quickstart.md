@@ -47,7 +47,7 @@ We are working on to automatically generate everything right now, but currently 
     security: AADToken
     security-scopes: https://farmbeats.azure.net/.default
     use-extension:
-      "@autorest/typescript": "6.0.0-rc.8"
+      "@autorest/typescript": "6.0.0-rc.10"
     ```
     ~~~
 
@@ -147,16 +147,12 @@ In order to release your RLC library, we need to add some tests for it to make s
 
 See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md) for information on how to write and run tests for the JavaScript SDK.
 
-1. **Prerequisites**  
-
-    To record and playback the tests, [Docker](https://www.docker.com/) is required when we run the test, as the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it.
-
-2. **Write the test**
+1. **Write the test**
     
     You could follow the [basic RLC test interaction and recording example](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service) to write your test step by step. Also you could refer [the test of MapsRouteClient](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/test/public) for more cases.
 
 
-3. **Run the test**  
+2. **Run the test**  
     Now, you can run the test like this. If you are the first time to run test, you need to set the environment variable `TEST_MODE` to `record`. This will generate recordings for your test they could be used in `playback` mode.
     On Linux, you could use `export` to set env variable:
     ```shell
@@ -297,6 +293,14 @@ Please ensure that your test recordings are committed together with your code.
 
 ## Fix CI for PR
 You may meet the CI failures after submitting the PR, so please refer to [Troubleshoot CI Failure](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-ci-failure.md) to fix it.
+
+## CC dpg-devs for review
+
+Please add below comment in your pr to include dpg-devs to review your pr timely.
+
+```
+cc @Azure/dpg-devs for awareness
+```
 
 # Create API View
 When submitting a PR our pipeline would automatically prepare the API view in [API View Website](https://apiview.dev/). You could see an [example link](https://github.com/Azure/azure-sdk-for-js/pull/23866#issuecomment-1316259448) here. You could click the API view link in that comment to know more details. 

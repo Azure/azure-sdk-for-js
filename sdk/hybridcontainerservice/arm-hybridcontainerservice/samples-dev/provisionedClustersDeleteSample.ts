@@ -10,24 +10,35 @@
 // Licensed under the MIT License.
 import { HybridContainerServiceClient } from "@azure/arm-hybridcontainerservice";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the Hybrid AKS provisioned cluster
  *
  * @summary Deletes the Hybrid AKS provisioned cluster
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-05-01-preview/examples/DeleteProvisionedCluster.json
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/DeleteProvisionedCluster.json
  */
 async function deleteProvisionedCluster() {
-  const subscriptionId = "a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b";
-  const resourceGroupName = "test-arcappliance-resgrp";
-  const provisionedClustersName = "test-hybridakscluster";
+  const subscriptionId =
+    process.env["HYBRIDCONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b";
+  const resourceGroupName =
+    process.env["HYBRIDCONTAINERSERVICE_RESOURCE_GROUP"] ||
+    "test-arcappliance-resgrp";
+  const resourceName = "test-hybridakscluster";
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential, subscriptionId);
   const result = await client.provisionedClustersOperations.delete(
     resourceGroupName,
-    provisionedClustersName
+    resourceName
   );
   console.log(result);
 }
 
-deleteProvisionedCluster().catch(console.error);
+async function main() {
+  deleteProvisionedCluster();
+}
+
+main().catch(console.error);

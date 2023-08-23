@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   GatewayCustomDomainResource,
   GatewayCustomDomainsListOptionalParams,
@@ -70,8 +70,8 @@ export interface GatewayCustomDomains {
     gatewayCustomDomainResource: GatewayCustomDomainResource,
     options?: GatewayCustomDomainsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GatewayCustomDomainsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<GatewayCustomDomainsCreateOrUpdateResponse>,
       GatewayCustomDomainsCreateOrUpdateResponse
     >
   >;
@@ -109,7 +109,7 @@ export interface GatewayCustomDomains {
     gatewayName: string,
     domainName: string,
     options?: GatewayCustomDomainsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the Spring Cloud Gateway custom domain.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

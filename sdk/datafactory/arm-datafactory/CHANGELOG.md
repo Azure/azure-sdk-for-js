@@ -1,4 +1,22 @@
 # Release History
+
+## 11.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 11.1.0 (2023-03-02)
+    
+**Features**
+
+  - Interface AzureBlobFSLinkedService has a new optional parameter sasToken
+  - Interface AzureBlobFSLinkedService has a new optional parameter sasUri
+    
     
 ## 11.0.0 (2023-02-10)
     

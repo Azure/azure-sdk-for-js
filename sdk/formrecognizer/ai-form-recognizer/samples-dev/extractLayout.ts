@@ -7,6 +7,7 @@
  * such as lines, words, and selection marks), tables, and text font styles.
  *
  * @summary use the prebuilt layout model to extract basic document elements only
+ * @azsdk-skip-javascript
  */
 
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
@@ -24,7 +25,7 @@ async function main() {
 
   const poller = await client.beginAnalyzeDocumentFromUrl(
     PrebuiltLayoutModel,
-    // The form recognizer service will access the following URL to a receipt image and extract data from it
+    // The Document Intelligence service will access the following URL to a receipt image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf"
   );
 

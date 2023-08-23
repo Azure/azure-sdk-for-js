@@ -5,13 +5,16 @@
 /* eslint-disable sort-imports */
 
 import { ClientSecretCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
+import {
+  MsalTestCleanup,
+  msalNodeTestSetup,
+} from "../../../../identity/test/node/msalNodeTestSetup";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
 import { createPersistence } from "./setup.spec";
 import { ConfidentialClientApplication } from "@azure/msal-node";
-import Sinon from "sinon";
 import assert from "assert";
+import Sinon from "sinon";
 
 const scope = "https://graph.microsoft.com/.default";
 

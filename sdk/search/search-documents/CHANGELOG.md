@@ -1,6 +1,39 @@
 # Release History
 
-## 12.0.0-beta.1 (2023-03-07)
+## 12.0.0-beta.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 12.0.0-beta.3 (2023-08-10)
+
+### Features Added
+
+- Add multi-vector search. [#26765](https://github.com/Azure/azure-sdk-for-js/pull/26765)
+
+### Breaking Changes
+
+- Change vector option `SearchOptions.vector` to array of vectors option 
+`SearchOptions.vectors`. [#26765](https://github.com/Azure/azure-sdk-for-js/pull/26765)
+
+## 12.0.0-beta.2 (2023-07-11)
+
+### Features Added
+
+- Add vector search. [#26069](https://github.com/Azure/azure-sdk-for-js/pull/26069)
+
+### Bugs Fixed
+
+- Fix compiler errors when using `SearchClient` without defined model. [#25999](https://github.com/Azure/azure-sdk-for-js/pull/25999)
+- Fix all clients adding one or more duplicate user agents. [#26298](https://github.com/Azure/azure-sdk-for-js/pull/26298)
+- Fix serializerOptions and onResponse options for SearchClient methods. [#26327](https://github.com/Azure/azure-sdk-for-js/pull/26327)
+
+## 12.0.0-beta.1 (2023-05-09)
 
 ### Features Added
 
@@ -29,10 +62,12 @@
     - `SearchRequestOptions`
     - `SuggestRequest`
 - Fix discarded user-defined `onResponse` callback [#24479](https://github.com/Azure/azure-sdk-for-js/pull/24479)
+- Fix ISO8601 deserialization [#25801](https://github.com/Azure/azure-sdk-for-js/pull/25801)
 
 ### Other Changes
 
 - Add `object` type constraint to `IndexDocumentsClient` and its dependencies [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
+
   - Affects these types:
     - `IndexDocumentsClient`
     - `SearchClient`
@@ -43,6 +78,8 @@
     - `SearchResult`
     - `SuggestDocumentsResult`
     - `SuggestResult`
+
+- Add deprecation warning to `EntityRecognitionSkill` and `SentimentSkill` [#25686](https://github.com/Azure/azure-sdk-for-js/pull/25686)
 
 ## 11.3.0-beta.8 (2022-09-06)
 

@@ -54,6 +54,7 @@ module.exports = function (config) {
       "TEST_MODE",
       "RECORDINGS_RELATIVE_PATH",
       "TEST_PROXY_HTTP_PORT",
+      "AZURE_LOG_LEVEL",
     ],
 
     // test results reporter to use

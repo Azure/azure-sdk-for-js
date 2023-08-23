@@ -35,7 +35,7 @@ export class UsageModelsImpl implements UsageModels {
   }
 
   /**
-   * Get the list of Cache Usage Models available to this subscription.
+   * Get the list of cache usage models available to this subscription.
    * @param options The options parameters.
    */
   public list(
@@ -89,7 +89,7 @@ export class UsageModelsImpl implements UsageModels {
   }
 
   /**
-   * Get the list of Cache Usage Models available to this subscription.
+   * Get the list of cache usage models available to this subscription.
    * @param options The options parameters.
    */
   private _list(
@@ -146,8 +146,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

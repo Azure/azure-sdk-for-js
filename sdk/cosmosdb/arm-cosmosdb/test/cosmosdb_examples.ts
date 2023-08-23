@@ -29,7 +29,7 @@ const replaceableVariables: Record<string, string> = {
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables
-}; queryParametersToSkip: []
+};
 
 
 export const testPollingOptions = {

@@ -20,7 +20,7 @@ To know the status of the operation, call the GetProtectedItemOperationResult AP
  *
  * @summary Provides the information of the backed up data identified using RecoveryPointID. This is an asynchronous operation.
 To know the status of the operation, call the GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/RecoveryPoints_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/RecoveryPoints_Get.json
  */
 async function getAzureVMRecoveryPointDetails() {
   const subscriptionId =

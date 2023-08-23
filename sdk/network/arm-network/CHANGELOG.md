@@ -1,6 +1,6 @@
 # Release History
 
-## 30.1.1 (Unreleased)
+## 32.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,182 @@
 
 ### Other Changes
 
+## 32.1.0 (2023-08-08)
+    
+**Features**
+
+  - Added operation LoadBalancers.migrateToIpBased
+  - Added Interface LoadBalancersMigrateToIpBasedOptionalParams
+  - Added Interface MigratedPools
+  - Added Interface MigrateLoadBalancerToIpBasedRequest
+  - Added Type Alias LoadBalancersMigrateToIpBasedResponse
+  - Added Type Alias SyncMode
+  - Interface BackendAddressPool has a new optional parameter syncMode
+  - Added Enum KnownSyncMode
+  - Enum KnownApplicationGatewaySkuName has a new value Basic
+  - Enum KnownApplicationGatewayTier has a new value Basic
+    
+    
+## 32.0.0 (2023-07-06)
+    
+**Features**
+
+  - Added Type Alias AdminState
+  - Interface ActiveDefaultSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface ActiveSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface AdminRule has a new optional parameter resourceGuid
+  - Interface AdminRuleCollection has a new optional parameter resourceGuid
+  - Interface ApplicationGateway has a new optional parameter defaultPredefinedSslPolicy
+  - Interface ConfigurationGroup has a new optional parameter resourceGuid
+  - Interface ConnectivityConfiguration has a new optional parameter resourceGuid
+  - Interface DefaultAdminRule has a new optional parameter resourceGuid
+  - Interface EffectiveConnectivityConfiguration has a new optional parameter resourceGuid
+  - Interface EffectiveDefaultSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface EffectiveSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface NetworkGroup has a new optional parameter resourceGuid
+  - Interface NetworkManager has a new optional parameter resourceGuid
+  - Interface SecurityAdminConfiguration has a new optional parameter resourceGuid
+  - Interface VirtualNetworkGateway has a new optional parameter adminState
+  - Added Enum KnownAdminState
+  - Class NetworkManagementClient has a new signature
+
+**Breaking Changes**
+
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus499
+    
+    
+## 31.0.0 (2023-05-19)
+    
+**Features**
+
+  - Added operation group NetworkVirtualApplianceConnections
+  - Added operation AzureFirewalls.beginPacketCapture
+  - Added operation AzureFirewalls.beginPacketCaptureAndWait
+  - Added Interface AzureFirewallPacketCaptureFlags
+  - Added Interface AzureFirewallPacketCaptureRule
+  - Added Interface AzureFirewallsPacketCaptureHeaders
+  - Added Interface AzureFirewallsPacketCaptureOptionalParams
+  - Added Interface EffectiveRouteMapRouteList
+  - Added Interface FirewallPacketCaptureParameters
+  - Added Interface FirewallPolicyHttpHeaderToInsert
+  - Added Interface GroupByUserSession
+  - Added Interface GroupByVariable
+  - Added Interface NetworkVirtualApplianceConnection
+  - Added Interface NetworkVirtualApplianceConnectionList
+  - Added Interface NetworkVirtualApplianceConnectionsCreateOrUpdateOptionalParams
+  - Added Interface NetworkVirtualApplianceConnectionsDeleteHeaders
+  - Added Interface NetworkVirtualApplianceConnectionsDeleteOptionalParams
+  - Added Interface NetworkVirtualApplianceConnectionsGetOptionalParams
+  - Added Interface NetworkVirtualApplianceConnectionsListNextOptionalParams
+  - Added Interface NetworkVirtualApplianceConnectionsListOptionalParams
+  - Added Interface NetworkVirtualAppliancesCreateOrUpdateHeaders
+  - Added Interface NetworkVirtualAppliancesDeleteHeaders
+  - Added Interface PolicySettingsLogScrubbing
+  - Added Interface PropagatedRouteTableNfv
+  - Added Interface RoutingConfigurationNfv
+  - Added Interface RoutingConfigurationNfvSubResource
+  - Added Interface VirtualApplianceAdditionalNicProperties
+  - Added Interface WebApplicationFirewallScrubbingRules
+  - Added Type Alias ApplicationGatewayFirewallRateLimitDuration
+  - Added Type Alias ApplicationGatewayFirewallUserSessionVariable
+  - Added Type Alias AzureFirewallPacketCaptureFlagsType
+  - Added Type Alias AzureFirewallsPacketCaptureResponse
+  - Added Type Alias NetworkInterfaceAuxiliarySku
+  - Added Type Alias NetworkVirtualApplianceConnectionsCreateOrUpdateResponse
+  - Added Type Alias NetworkVirtualApplianceConnectionsGetResponse
+  - Added Type Alias NetworkVirtualApplianceConnectionsListNextResponse
+  - Added Type Alias NetworkVirtualApplianceConnectionsListResponse
+  - Added Type Alias PublicIpAddressDnsSettingsDomainNameLabelScope
+  - Added Type Alias ScrubbingRuleEntryMatchOperator
+  - Added Type Alias ScrubbingRuleEntryMatchVariable
+  - Added Type Alias ScrubbingRuleEntryState
+  - Added Type Alias VirtualHubsGetEffectiveVirtualHubRoutesResponse
+  - Added Type Alias VirtualHubsGetInboundRoutesResponse
+  - Added Type Alias VirtualHubsGetOutboundRoutesResponse
+  - Added Type Alias WebApplicationFirewallScrubbingState
+  - Interface ApplicationRule has a new optional parameter httpHeadersToInsert
+  - Interface BastionHost has a new optional parameter enableKerberos
+  - Interface DdosProtectionPlan has a new optional parameter publicIPAddresses
+  - Interface NetworkInterface has a new optional parameter auxiliarySku
+  - Interface NetworkVirtualAppliance has a new optional parameter additionalNics
+  - Interface NetworkVirtualAppliance has a new optional parameter virtualApplianceConnections
+  - Interface PolicySettings has a new optional parameter fileUploadEnforcement
+  - Interface PolicySettings has a new optional parameter logScrubbing
+  - Interface PolicySettings has a new optional parameter requestBodyEnforcement
+  - Interface PolicySettings has a new optional parameter requestBodyInspectLimitInKB
+  - Interface PrivateEndpointConnection has a new optional parameter privateEndpointLocation
+  - Interface PublicIPAddressDnsSettings has a new optional parameter domainNameLabelScope
+  - Interface Subnet has a new optional parameter applicationGatewayIPConfigurations
+  - Interface VirtualApplianceNicProperties has a new optional parameter instanceName
+  - Interface WebApplicationFirewallCustomRule has a new optional parameter groupByUserSession
+  - Interface WebApplicationFirewallCustomRule has a new optional parameter rateLimitDuration
+  - Interface WebApplicationFirewallCustomRule has a new optional parameter rateLimitThreshold
+  - Added Enum KnownApplicationGatewayFirewallRateLimitDuration
+  - Added Enum KnownApplicationGatewayFirewallUserSessionVariable
+  - Added Enum KnownAzureFirewallPacketCaptureFlagsType
+  - Added Enum KnownNetworkInterfaceAuxiliarySku
+  - Added Enum KnownScrubbingRuleEntryMatchOperator
+  - Added Enum KnownScrubbingRuleEntryMatchVariable
+  - Added Enum KnownScrubbingRuleEntryState
+  - Added Enum KnownWebApplicationFirewallScrubbingState
+  - Enum KnownNetworkInterfaceAuxiliaryMode has a new value AcceleratedConnections
+  - Enum KnownWebApplicationFirewallRuleType has a new value RateLimitRule
+
+**Breaking Changes**
+
+  - Interface DdosProtectionPlan no longer has parameter publicIpAddresses
+  - Interface Subnet no longer has parameter applicationGatewayIpConfigurations
+  - Type of parameter prefix of interface EffectiveRouteMapRoute is changed from string[] to string
+  - Enum KnownLoadBalancerBackendAddressAdminState no longer has value Drain
+    
+    
+## 30.2.0 (2023-03-07)
+    
+**Features**
+
+  - Added Type Alias WebApplicationFirewallState
+  - Interface ExpressRouteCircuit has a new optional parameter authorizationStatus
+  - Interface VirtualNetwork has a new optional parameter flowLogs
+  - Interface VpnGatewaysResetOptionalParams has a new optional parameter ipConfigurationId
+  - Interface WebApplicationFirewallCustomRule has a new optional parameter state
+  - Added Enum KnownWebApplicationFirewallState
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus400
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus404
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus405
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus408
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus499
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus500
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus503
+  - Enum KnownApplicationGatewayCustomErrorStatusCode has a new value HttpStatus504
+  - Interface AdminRuleCollectionsListNextOptionalParams no longer has parameter skipToken
+  - Interface AdminRuleCollectionsListNextOptionalParams no longer has parameter top
+  - Interface AdminRulesListNextOptionalParams no longer has parameter skipToken
+  - Interface AdminRulesListNextOptionalParams no longer has parameter top
+  - Interface ConnectivityConfigurationsListNextOptionalParams no longer has parameter skipToken
+  - Interface ConnectivityConfigurationsListNextOptionalParams no longer has parameter top
+  - Interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams no longer has parameter skipToken
+  - Interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams no longer has parameter top
+  - Interface NetworkGroupsListNextOptionalParams no longer has parameter skipToken
+  - Interface NetworkGroupsListNextOptionalParams no longer has parameter top
+  - Interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextOptionalParams no longer has parameter expand
+  - Interface NetworkManagersListBySubscriptionNextOptionalParams no longer has parameter skipToken
+  - Interface NetworkManagersListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface NetworkManagersListNextOptionalParams no longer has parameter skipToken
+  - Interface NetworkManagersListNextOptionalParams no longer has parameter top
+  - Interface ScopeConnectionsListNextOptionalParams no longer has parameter skipToken
+  - Interface ScopeConnectionsListNextOptionalParams no longer has parameter top
+  - Interface SecurityAdminConfigurationsListNextOptionalParams no longer has parameter skipToken
+  - Interface SecurityAdminConfigurationsListNextOptionalParams no longer has parameter top
+  - Interface ServiceTagInformationListNextOptionalParams no longer has parameter noAddressPrefixes
+  - Interface ServiceTagInformationListNextOptionalParams no longer has parameter tagName
+  - Interface StaticMembersListNextOptionalParams no longer has parameter skipToken
+  - Interface StaticMembersListNextOptionalParams no longer has parameter top
+  - Interface SubscriptionNetworkManagerConnectionsListNextOptionalParams no longer has parameter skipToken
+  - Interface SubscriptionNetworkManagerConnectionsListNextOptionalParams no longer has parameter top
+  - Interface VirtualNetworksListDdosProtectionStatusNextOptionalParams no longer has parameter skipToken
+  - Interface VirtualNetworksListDdosProtectionStatusNextOptionalParams no longer has parameter top
+    
+    
 ## 30.1.0 (2022-12-13)
     
 **Features**

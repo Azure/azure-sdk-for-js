@@ -25,7 +25,7 @@ async function getAStreamingPolicyByName() {
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const streamingPolicyName = "clearStreamingPolicy";
   const credential = new DefaultAzureCredential();

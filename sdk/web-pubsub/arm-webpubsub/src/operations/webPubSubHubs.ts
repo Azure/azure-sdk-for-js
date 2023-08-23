@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WebPubSubManagementClient } from "../webPubSubManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   WebPubSubHub,
   WebPubSubHubsListNextOptionalParams,
@@ -43,8 +47,7 @@ export class WebPubSubHubsImpl implements WebPubSubHubs {
 
   /**
    * List hub settings.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -120,8 +123,7 @@ export class WebPubSubHubsImpl implements WebPubSubHubs {
 
   /**
    * List hub settings.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -139,8 +141,7 @@ export class WebPubSubHubsImpl implements WebPubSubHubs {
   /**
    * Get a hub setting.
    * @param hubName The hub name.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -159,8 +160,7 @@ export class WebPubSubHubsImpl implements WebPubSubHubs {
   /**
    * Create or update a hub setting.
    * @param hubName The hub name.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters The resource of WebPubSubHub and its properties
    * @param options The options parameters.
@@ -172,8 +172,8 @@ export class WebPubSubHubsImpl implements WebPubSubHubs {
     parameters: WebPubSubHub,
     options?: WebPubSubHubsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebPubSubHubsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WebPubSubHubsCreateOrUpdateResponse>,
       WebPubSubHubsCreateOrUpdateResponse
     >
   > {
@@ -183,7 +183,7 @@ export class WebPubSubHubsImpl implements WebPubSubHubs {
     ): Promise<WebPubSubHubsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -216,14 +216,18 @@ export class WebPubSubHubsImpl implements WebPubSubHubs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { hubName, resourceGroupName, resourceName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { hubName, resourceGroupName, resourceName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WebPubSubHubsCreateOrUpdateResponse,
+      OperationState<WebPubSubHubsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -232,8 +236,7 @@ export class WebPubSubHubsImpl implements WebPubSubHubs {
   /**
    * Create or update a hub setting.
    * @param hubName The hub name.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters The resource of WebPubSubHub and its properties
    * @param options The options parameters.
@@ -258,8 +261,7 @@ export class WebPubSubHubsImpl implements WebPubSubHubs {
   /**
    * Delete a hub setting.
    * @param hubName The hub name.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -268,14 +270,14 @@ export class WebPubSubHubsImpl implements WebPubSubHubs {
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubHubsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -308,15 +310,15 @@ export class WebPubSubHubsImpl implements WebPubSubHubs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { hubName, resourceGroupName, resourceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { hubName, resourceGroupName, resourceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -325,8 +327,7 @@ export class WebPubSubHubsImpl implements WebPubSubHubs {
   /**
    * Delete a hub setting.
    * @param hubName The hub name.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -347,8 +348,7 @@ export class WebPubSubHubsImpl implements WebPubSubHubs {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -482,7 +482,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

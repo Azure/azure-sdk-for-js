@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, delay, env, isRecordMode } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { ClientSecretCredential } from "../../../src";
@@ -33,6 +33,19 @@ describe("ClientSecretCredential", function () {
     );
 
     const token = await credential.getToken(scope);
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp! > Date.now());
+  });
+
+  it("authenticates when cae enabled", async function () {
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!,
+      recorder.configureClientOptions({})
+    );
+
+    const token = await credential.getToken(scope, { enableCae: true });
     assert.ok(token?.token);
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });

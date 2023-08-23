@@ -21,7 +21,7 @@ require("dotenv").config();
 async function createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const contentKeyPolicyName = "PolicyWithClearKeyOptionAndSwtTokenRestriction";
   const parameters = {
@@ -65,7 +65,7 @@ async function createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction() {
 async function createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const contentKeyPolicyName = "PolicyWithPlayReadyOptionAndOpenRestriction";
   const parameters = {
@@ -122,7 +122,7 @@ async function createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction() {
 async function createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const contentKeyPolicyName = "PolicyWithWidevineOptionAndJwtTokenRestriction";
   const parameters = {
@@ -175,7 +175,7 @@ async function createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction() {
 async function createsAContentKeyPolicyWithMultipleOptions() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const contentKeyPolicyName = "PolicyCreatedWithMultipleOptions";
   const parameters = {

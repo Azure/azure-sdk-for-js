@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 const { HybridContainerServiceClient } = require("@azure/arm-hybridcontainerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Puts the Hybrid AKS virtual network
  *
  * @summary Puts the Hybrid AKS virtual network
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-05-01-preview/examples/PutVirtualNetwork.json
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/PutVirtualNetwork.json
  */
 async function putVirtualNetwork() {
-  const subscriptionId = "a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b";
-  const resourceGroupName = "test-arcappliance-resgrp";
+  const subscriptionId =
+    process.env["HYBRIDCONTAINERSERVICE_SUBSCRIPTION_ID"] || "a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b";
+  const resourceGroupName =
+    process.env["HYBRIDCONTAINERSERVICE_RESOURCE_GROUP"] || "test-arcappliance-resgrp";
   const virtualNetworksName = "test-vnet-static";
   const virtualNetworks = {
     extendedLocation: {
@@ -49,4 +52,8 @@ async function putVirtualNetwork() {
   console.log(result);
 }
 
-putVirtualNetwork().catch(console.error);
+async function main() {
+  putVirtualNetwork();
+}
+
+main().catch(console.error);

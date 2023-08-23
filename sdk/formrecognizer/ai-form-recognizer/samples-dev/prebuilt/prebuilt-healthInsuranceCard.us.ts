@@ -3,12 +3,13 @@
 
 /**
  * @azsdk-util
+ * @azsdk-skip-javascript
  */
 
 // Model:       prebuilt-healthInsuranceCard.us
 // Description: Extract key information from US health insurance cards.
-// API Version: 2022-08-31
-// Created:     Tue Aug 23 2022
+// API Version: 2023-07-31
+// Created:     Wed Aug 02 2023
 
 import * as fr from "@azure/ai-form-recognizer";
 
@@ -114,13 +115,13 @@ export interface HealthInsuranceCardUsFields {
    */
   payer?: fr.DocumentObjectField<HealthInsuranceCardUsPayer>;
   /**
-   * `HealthInsuranceCardUs` "MedicareMedicaidInfo" field
-   */
-  medicareMedicaidInfo?: fr.DocumentObjectField<HealthInsuranceCardUsMedicareMedicaidInfo>;
-  /**
    * `HealthInsuranceCardUs` "Plan" field
    */
   plan?: fr.DocumentObjectField<HealthInsuranceCardUsPlan>;
+  /**
+   * `HealthInsuranceCardUs` "MedicareMedicaidInfo" field
+   */
+  medicareMedicaidInfo?: fr.DocumentObjectField<HealthInsuranceCardUsMedicareMedicaidInfo>;
 }
 
 /**
@@ -134,7 +135,7 @@ export interface HealthInsuranceCardUsMember {
   /**
    * Member date of birth
    */
-  dateOfBirth?: fr.DocumentStringField;
+  birthDate?: fr.DocumentDateField;
   /**
    * Member name employer
    */
@@ -159,10 +160,6 @@ export interface HealthInsuranceCardUsDependentsElement {
    * Dependent name
    */
   name?: fr.DocumentStringField;
-  /**
-   * Dependent Membership Identification Suffix
-   */
-  idNumberSuffix?: fr.DocumentStringField;
 }
 
 /**
@@ -186,7 +183,7 @@ export interface HealthInsuranceCardUsPrescriptionInfo {
   /**
    * ANSI issuer identification number (IIN)
    */
-  issuerId?: fr.DocumentStringField;
+  issuer?: fr.DocumentStringField;
   /**
    * Prescription issued BIN number
    */
@@ -222,7 +219,7 @@ export interface HealthInsuranceCardUsCopaysElement {
   /**
    * Co-Pay required amount
    */
-  amount?: fr.DocumentStringField;
+  amount?: fr.DocumentCurrencyField;
 }
 
 /**
@@ -236,25 +233,11 @@ export interface HealthInsuranceCardUsPayer {
   /**
    * Payer address
    */
-  address?: fr.DocumentStringField;
+  address?: fr.DocumentAddressField;
   /**
    * Payer phone number
    */
   phoneNumber?: fr.DocumentPhoneNumberField;
-}
-
-/**
- * Describes the fields of `HealthInsuranceCardUsMedicareMedicaidInfo`.
- */
-export interface HealthInsuranceCardUsMedicareMedicaidInfo {
-  /**
-   * Hospital and facilities effective date
-   */
-  partAEffectiveDate?: fr.DocumentStringField;
-  /**
-   * Medical and services effictive date
-   */
-  partBEffectiveDate?: fr.DocumentStringField;
 }
 
 /**
@@ -266,9 +249,31 @@ export interface HealthInsuranceCardUsPlan {
    */
   number?: fr.DocumentStringField;
   /**
-   * Plan name - If see Medicaid -\> then medicaid
+   * Plan name - If see Medicaid -> then medicaid
    */
   name?: fr.DocumentStringField;
+  /**
+   * Plan type
+   */
+  type?: fr.DocumentStringField;
+}
+
+/**
+ * Describes the fields of `HealthInsuranceCardUsMedicareMedicaidInfo`.
+ */
+export interface HealthInsuranceCardUsMedicareMedicaidInfo {
+  /**
+   * Medicare or Medicaid number
+   */
+  id?: fr.DocumentStringField;
+  /**
+   * Effective date of Medicare Part A
+   */
+  partAEffectiveDate?: fr.DocumentDateField;
+  /**
+   * Effective date of Medicare Part B
+   */
+  partBEffectiveDate?: fr.DocumentDateField;
 }
 
 /**
@@ -278,8 +283,8 @@ function modelInfo() {
   return {
     modelId: "prebuilt-healthInsuranceCard.us",
     description: "Extract key information from US health insurance cards.",
-    createdOn: "2022-08-31T00:00:00.000Z",
-    apiVersion: "2022-08-31",
+    createdOn: "2023-07-31T00:00:00.000Z",
+    apiVersion: "2023-07-31",
     docTypes: {
       "healthInsuranceCard.us": {
         buildMode: "template",
@@ -287,6 +292,7 @@ function modelInfo() {
           Insurer: {
             type: "string",
             description: "Health insurance provider name",
+            example: "PREMERA\nBLUE CROSS",
           },
           Member: {
             type: "object",
@@ -294,23 +300,28 @@ function modelInfo() {
               Name: {
                 type: "string",
                 description: "Member name",
+                example: "ANGEL BROWN",
               },
-              DateOfBirth: {
-                type: "string",
+              BirthDate: {
+                type: "date",
                 description: "Member date of birth",
+                example: "01/06/1958",
               },
               Employer: {
                 type: "string",
                 description: "Member name employer",
+                example: "Microsoft",
               },
               Gender: {
                 type: "string",
                 description: "Member gender",
+                example: "M",
               },
               IdNumberSuffix: {
                 type: "string",
                 description:
                   "Identification Number Suffix as it appears on some health insurance cards",
+                example: "01",
               },
             },
           },
@@ -324,10 +335,7 @@ function modelInfo() {
                 Name: {
                   type: "string",
                   description: "Dependent name",
-                },
-                IdNumberSuffix: {
-                  type: "string",
-                  description: "Dependent Membership Identification Suffix",
+                  example: "01",
                 },
               },
             },
@@ -339,54 +347,65 @@ function modelInfo() {
                 type: "string",
                 description:
                   "Identification Number Prefix as it appears on some health insurance cards",
+                example: "ABC",
               },
               Number: {
                 type: "string",
                 description: "Identification Number",
+                example: "123456789",
               },
             },
           },
           GroupNumber: {
             type: "string",
             description: "Insurance Group Number",
+            example: "1000000",
           },
           PrescriptionInfo: {
             type: "object",
             properties: {
-              IssuerId: {
+              Issuer: {
                 type: "string",
                 description: "ANSI issuer identification number (IIN)",
+                example: "(80840) 300-11908-77",
               },
               RxBIN: {
                 type: "string",
                 description: "Prescription issued BIN number",
+                example: "987654",
               },
               RxPCN: {
                 type: "string",
                 description: "Prescription processor control number",
+                example: "63200305",
               },
               RxGrp: {
                 type: "string",
                 description: "Prescription group number",
+                example: "BCAAXYZ",
               },
               RxId: {
                 type: "string",
                 description:
                   "Prescription identification number. If not present, will default to membership id number",
+                example: "P97020065",
               },
               RxPlan: {
                 type: "string",
                 description: "Prescription Plan number",
+                example: "A1",
               },
             },
           },
           Pbm: {
             type: "string",
             description: "Pharmacy Benefit Manager for the plan",
+            example: "CVS CAREMARK",
           },
           EffectiveDate: {
             type: "date",
             description: "Date from which the plan is effective",
+            example: "08/12/2012",
           },
           Copays: {
             type: "array",
@@ -397,10 +416,12 @@ function modelInfo() {
                 Benefit: {
                   type: "string",
                   description: "Co-Pay Benefit name",
+                  example: "Deductible",
                 },
                 Amount: {
-                  type: "string",
+                  type: "currency",
                   description: "Co-Pay required amount",
+                  example: "$1,500",
                 },
               },
             },
@@ -411,27 +432,17 @@ function modelInfo() {
               Id: {
                 type: "string",
                 description: "Payer Id Number",
+                example: "89063",
               },
               Address: {
-                type: "string",
+                type: "address",
                 description: "Payer address",
+                example: "123 Service St, Redmond WA, 98052",
               },
               PhoneNumber: {
                 type: "phoneNumber",
                 description: "Payer phone number",
-              },
-            },
-          },
-          MedicareMedicaidInfo: {
-            type: "object",
-            properties: {
-              PartAEffectiveDate: {
-                type: "string",
-                description: "Hospital and facilities effective date",
-              },
-              PartBEffectiveDate: {
-                type: "string",
-                description: "Medical and services effictive date",
+                example: "+1 (987) 213-5674",
               },
             },
           },
@@ -441,10 +452,37 @@ function modelInfo() {
               Number: {
                 type: "string",
                 description: "Plan number",
+                example: "456",
               },
               Name: {
                 type: "string",
                 description: "Plan name - If see Medicaid -> then medicaid",
+                example: "HEALTH SAVINGS PLAN",
+              },
+              Type: {
+                type: "string",
+                description: "Plan type",
+                example: "PPO",
+              },
+            },
+          },
+          MedicareMedicaidInfo: {
+            type: "object",
+            properties: {
+              Id: {
+                type: "string",
+                description: "Medicare or Medicaid number",
+                example: "1AB2-CD3-EF45",
+              },
+              PartAEffectiveDate: {
+                type: "date",
+                description: "Effective date of Medicare Part A",
+                example: "01-01-2023",
+              },
+              PartBEffectiveDate: {
+                type: "date",
+                description: "Effective date of Medicare Part B",
+                example: "01-01-2023",
               },
             },
           },

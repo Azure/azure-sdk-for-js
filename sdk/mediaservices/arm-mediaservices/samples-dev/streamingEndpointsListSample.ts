@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the streaming endpoints in the account.
  *
  * @summary Lists the streaming endpoints in the account.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/streamingendpoint-list-all.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/streamingendpoint-list-all.json
  */
 async function listAllStreamingEndpoints() {
   const subscriptionId =

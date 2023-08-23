@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Update the alert's state
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2022-01-01/examples/Alerts/UpdateAlertResourceGroupLocation_activate_example.json
  */
 async function updateSecurityAlertStateOnAResourceGroupFromASecurityDataLocation() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const resourceGroupName = "myRg2";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg2";
   const ascLocation = "westeurope";
   const alertName = "2518765996949954086_2325cf9e-42a2-4f72-ae7f-9b863cba2d22";
   const credential = new DefaultAzureCredential();
@@ -32,6 +37,8 @@ async function updateSecurityAlertStateOnAResourceGroupFromASecurityDataLocation
   console.log(result);
 }
 
-updateSecurityAlertStateOnAResourceGroupFromASecurityDataLocation().catch(
-  console.error
-);
+async function main() {
+  updateSecurityAlertStateOnAResourceGroupFromASecurityDataLocation();
+}
+
+main().catch(console.error);

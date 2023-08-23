@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new live output.
  *
  * @summary Creates a new live output.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/liveoutput-create.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveoutput-create.json
  */
 async function createALiveOutput() {
   const subscriptionId =

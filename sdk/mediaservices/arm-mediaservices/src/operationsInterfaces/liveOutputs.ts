@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   LiveOutput,
   LiveOutputsListOptionalParams,
@@ -70,8 +70,8 @@ export interface LiveOutputs {
     parameters: LiveOutput,
     options?: LiveOutputsCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<LiveOutputsCreateResponse>,
+    PollerLike<
+      PollOperationState<LiveOutputsCreateResponse>,
       LiveOutputsCreateResponse
     >
   >;
@@ -107,7 +107,7 @@ export interface LiveOutputs {
     liveEventName: string,
     liveOutputName: string,
     options?: LiveOutputsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a live output. Deleting a live output does not delete the asset the live output is writing
    * to.

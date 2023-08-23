@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ReservationResponse,
   ReservationListOptionalParams,
@@ -76,8 +76,8 @@ export interface Reservation {
     body: AvailableScopeRequest,
     options?: ReservationAvailableScopesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationAvailableScopesResponse>,
+    SimplePollerLike<
+      OperationState<ReservationAvailableScopesResponse>,
       ReservationAvailableScopesResponse
     >
   >;
@@ -106,8 +106,8 @@ export interface Reservation {
     body: SplitRequest,
     options?: ReservationSplitOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationSplitResponse>,
+    SimplePollerLike<
+      OperationState<ReservationSplitResponse>,
       ReservationSplitResponse
     >
   >;
@@ -134,8 +134,8 @@ export interface Reservation {
     body: MergeRequest,
     options?: ReservationMergeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationMergeResponse>,
+    SimplePollerLike<
+      OperationState<ReservationMergeResponse>,
       ReservationMergeResponse
     >
   >;
@@ -175,8 +175,8 @@ export interface Reservation {
     parameters: Patch,
     options?: ReservationUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReservationUpdateResponse>,
       ReservationUpdateResponse
     >
   >;

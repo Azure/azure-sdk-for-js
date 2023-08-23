@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualHubRouteTableV2,
   VirtualHubRouteTableV2SListOptionalParams,
@@ -62,8 +62,8 @@ export interface VirtualHubRouteTableV2S {
     virtualHubRouteTableV2Parameters: VirtualHubRouteTableV2,
     options?: VirtualHubRouteTableV2SCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualHubRouteTableV2SCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualHubRouteTableV2SCreateOrUpdateResponse>,
       VirtualHubRouteTableV2SCreateOrUpdateResponse
     >
   >;
@@ -96,7 +96,7 @@ export interface VirtualHubRouteTableV2S {
     virtualHubName: string,
     routeTableName: string,
     options?: VirtualHubRouteTableV2SDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a VirtualHubRouteTableV2.
    * @param resourceGroupName The resource group name of the VirtualHubRouteTableV2.

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the live outputs of a live event.
  *
  * @summary Lists the live outputs of a live event.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/liveoutput-list-all.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveoutput-list-all.json
  */
 async function listAllLiveOutputs() {
   const subscriptionId =

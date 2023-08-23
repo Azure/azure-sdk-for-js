@@ -3,12 +3,13 @@
 
 /**
  * @azsdk-util
+ * @azsdk-skip-javascript
  */
 
 // Model:       prebuilt-invoice
 // Description: Extract key information from invoices.
-// API Version: 2022-08-31
-// Created:     Tue Aug 23 2022
+// API Version: 2023-07-31
+// Created:     Wed Aug 02 2023
 
 import * as fr from "@azure/ai-form-recognizer";
 
@@ -140,6 +141,10 @@ export interface InvoiceFields {
    */
   subTotal?: fr.DocumentCurrencyField;
   /**
+   * Total discount field identified on this invoice
+   */
+  totalDiscount?: fr.DocumentCurrencyField;
+  /**
    * Total tax field identified on this invoice
    */
   totalTax?: fr.DocumentCurrencyField;
@@ -166,11 +171,11 @@ export interface InvoiceFields {
   /**
    * Explicit service address or property address for the customer
    */
-  serviceAddress?: fr.DocumentStringField;
+  serviceAddress?: fr.DocumentAddressField;
   /**
    * Name associated with the ServiceAddress
    */
-  serviceAddressRecipient?: fr.DocumentAddressField;
+  serviceAddressRecipient?: fr.DocumentStringField;
   /**
    * First date for the service period (for example, a utility bill service period)
    */
@@ -192,9 +197,49 @@ export interface InvoiceFields {
    */
   paymentTerm?: fr.DocumentStringField;
   /**
+   * List of payment details
+   */
+  paymentDetails?: fr.DocumentArrayField<fr.DocumentObjectField<InvoicePaymentDetailsElement>>;
+  /**
+   * List of tax details
+   */
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<InvoiceTaxDetailsElement>>;
+  /**
    * List of line items
    */
   items?: fr.DocumentArrayField<fr.DocumentObjectField<InvoiceItemsElement>>;
+}
+
+/**
+ * Describes the fields of `InvoicePaymentDetailsElement`.
+ *
+ * List of payment details
+ */
+export interface InvoicePaymentDetailsElement {
+  /**
+   * International bank account number
+   */
+  iBAN?: fr.DocumentStringField;
+  /**
+   * ISO9362, an international standard for Business Identifier Codes (BIC)
+   */
+  sWIFT?: fr.DocumentStringField;
+}
+
+/**
+ * Describes the fields of `InvoiceTaxDetailsElement`.
+ *
+ * List of tax details
+ */
+export interface InvoiceTaxDetailsElement {
+  /**
+   * The amount of the tax detail
+   */
+  amount?: fr.DocumentCurrencyField;
+  /**
+   * The rate of the tax detail
+   */
+  rate?: fr.DocumentStringField;
 }
 
 /**
@@ -228,6 +273,10 @@ export interface InvoiceItemsElement {
    */
   tax?: fr.DocumentCurrencyField;
   /**
+   * Tax rate associated with each line item
+   */
+  taxRate?: fr.DocumentStringField;
+  /**
    * The unit of the line item, e.g, kg, lb etc.
    */
   unit?: fr.DocumentStringField;
@@ -244,8 +293,8 @@ function modelInfo() {
   return {
     modelId: "prebuilt-invoice",
     description: "Extract key information from invoices.",
-    createdOn: "2022-08-31T00:00:00.000Z",
-    apiVersion: "2022-08-31",
+    createdOn: "2023-07-31T00:00:00.000Z",
+    apiVersion: "2023-07-31",
     docTypes: {
       invoice: {
         buildMode: "template",
@@ -330,6 +379,11 @@ function modelInfo() {
             description: "Subtotal field identified on this invoice",
             example: "$100.00",
           },
+          TotalDiscount: {
+            type: "currency",
+            description: "Total discount field identified on this invoice",
+            example: "$5.00",
+          },
           TotalTax: {
             type: "currency",
             description: "Total tax field identified on this invoice",
@@ -397,6 +451,47 @@ function modelInfo() {
             description: "The terms under which the payment is meant to be paid",
             example: "Net90",
           },
+          PaymentDetails: {
+            type: "array",
+            description: "List of payment details",
+            items: {
+              type: "object",
+              description: "A single payment detail",
+              properties: {
+                IBAN: {
+                  type: "string",
+                  description: "International bank account number",
+                  example: "DE 94 700 700 100 029 49 00 00",
+                },
+                SWIFT: {
+                  type: "string",
+                  description:
+                    "ISO9362, an international standard for Business Identifier Codes (BIC)",
+                  example: "DEUTDEMMXXX",
+                },
+              },
+            },
+          },
+          TaxDetails: {
+            type: "array",
+            description: "List of tax details",
+            items: {
+              type: "object",
+              description: "A single tax detail",
+              properties: {
+                Amount: {
+                  type: "currency",
+                  description: "The amount of the tax detail",
+                  example: "29,520.00",
+                },
+                Rate: {
+                  type: "string",
+                  description: "The rate of the tax detail",
+                  example: "18 %",
+                },
+              },
+            },
+          },
           Items: {
             type: "array",
             description: "List of line items",
@@ -437,6 +532,11 @@ function modelInfo() {
                   description:
                     "Tax associated with each line item. Possible values include tax amount, tax %, and tax Y/N",
                   example: "$6.00",
+                },
+                TaxRate: {
+                  type: "string",
+                  description: "Tax rate associated with each line item",
+                  example: "18 %",
                 },
                 Unit: {
                   type: "string",

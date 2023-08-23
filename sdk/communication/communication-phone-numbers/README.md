@@ -55,7 +55,7 @@ It is important to consider the assignment type of your phone number. Some capab
 
 Direct routing feature allows connecting customer-provided telephony infrastructure to Azure Communication Resources. In order to setup routing configuration properly, customer needs to supply the SIP trunk configuration and SIP routing rules for calls. SIP routing client provides the necessary interface for setting this configuration.
 
-When the call arrives, system tries to match the destination number with regex number patterns of defined routes. The first route to match the number will be selected. The order of regex matching is the same as the order of routes in configuration, therefore the order of routes matters.
+When a call is made, system tries to match the destination number with regex number patterns of defined routes. The first route to match the number will be selected. The order of regex matching is the same as the order of routes in configuration, therefore the order of routes matters.
 Once a route is matched, the call is routed to the first trunk in the route's trunks list. If the trunk is not available, next trunk in the list is selected.
 
 ## Examples
@@ -196,13 +196,13 @@ Use the `beginPurchasePhoneNumbers` method to purchase the phone numbers from yo
 `beginPurchasePhoneNumbers` is a long running operation and returns a poller.
 
 ```typescript
-import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "@azure/communication-phone-numbers";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
 
 async function main() {
-  const searchRequest = {
+  const searchRequest:SearchAvailablePhoneNumbersRequest  = {
     countryCode: "US",
     phoneNumberType: "tollFree",
     assignmentType: "application",
@@ -216,7 +216,7 @@ async function main() {
   const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
 
   // The search is underway. Wait to receive searchId.
-  const { searchId, phoneNumbers } = searchPoller.pollUntilDone();
+  const { searchId, phoneNumbers } = await searchPoller.pollUntilDone();
 
   const purchasePoller = await client.beginPurchasePhoneNumbers(searchId);
 
@@ -300,7 +300,7 @@ import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
 
-async main function() {
+async function main() {
   const phoneNumberToGet = "<phone-number-to-get>";
 
   const phoneNumber = await client.getPurchasedPhoneNumber(phoneNumberToGet);

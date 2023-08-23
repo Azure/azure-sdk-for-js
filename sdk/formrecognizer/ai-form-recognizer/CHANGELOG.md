@@ -1,5 +1,75 @@
 # Release History
 
+## 5.0.0 (2023-08-08)
+
+### Features Added
+
+- Updated the SDK to use the latest Generally Available (GA) version of the Form Recognizer REST API: `2023-07-31`.
+- `AnalyzeDocumentOptions.features` accepts three new features compared to the last beta version:
+  - `barcodes`: enables the detection of barcodes in the document.
+  - `keyValuePairs`: enable the detection of general key value pairs (form fields) in the document.
+  - `languages`: enables the detection of the text content language.
+- `beginBuildDocumentModel` has a new overload that accepts a `DocumentModelSource` in place of a raw `containerUrl`. This allows training document models using the new Blob File List source (that is already supported by document classifiers). Like with classifiers, the source inputs are specified as an object containing an `azureFileListSource` property or an `azureBlobSource` property containing the respective details of each source type.
+
+### Breaking Changes
+
+From the last stable release (4.0.0):
+
+- Support for passing alternative API versions has been removed from the client. In practice, the client only supported
+  using a single API version, but types and options for specifying an API version were provided. In version 5.0.0, these options and their associated types were removed:
+  - The `apiVersion` option that was previously accepted by the `DocumentAnalysisClient` and `DocumentModelAdministrationClient` constructors was removed. This option previously only had one valid value in version 4.0.0, and supporting multiple API versions in a single package weakens the type constraints, so we have chosen to only support the latest Generally Available version of the service in this SDK package. Support for multiple API versions may be reintroduced in a future version.
+  - The `FormRecognizerApiVersion` type and enum were removed as they no longer serve any purpose.
+  - The type of `apiVersion` properties of result objects was changed from `FormRecognizerApiVersion` to `string`. This type is more accurate, as these fields reflect the API version used to create the model or start the analysis operation, and not necessarily an API version that the client instance is aware of.
+  - The `FormRecognizerCommonClientOptions` interface, which both `DocumentAnalysisClientOptions` and `DocumentModelAdministrationClientOptions` inherited from was removed, as it only carried the `apiVersion` option that no longer exists.
+- The `languages` and `keyValuePairs` properties of `AnalyzeResult` that were previously returned when using the `prebuilt-document` model are no longer returned unless the corresponding `features` are specified when making the analysis request.
+
+From the last beta release (4.1.0-beta.1):
+
+- `AnalyzeDocumentOptions.features` changed the following feature names:
+  - `ocr.highResolution` renamed to `ocrHighResolution`.
+  - `ocr.formula` renamed to `formulas`.
+  - `ocr.font` renamed to `styleFont`.
+- The following fields have been removed:
+  - `AnalyzeDocumentOptions.queryFields`
+  - `DocumentPage.kind` and `DocumentPage.images` (`DocumentPageKind` and `DocumentImage` types have been removed too.)
+  - `DocumentKeyValuePair.commonName`
+- The type of the `docTypes` parameter of `beginBuildDocumentClassifier` was refined slightly. The type will no longer accept _both_ `azureBlobSource` and `azureFileListSource`
+
+## 4.1.0-beta.1 (2023-04-11)
+
+### Features Added
+
+- Added support for Form Recognizer API version `2023-02-28-preview`. This is the default API version for SDK version `4.1.0-beta.1`. For a detailed list of changes included in this API version, see the [Form Recognizer release notes](https://learn.microsoft.com/azure/applied-ai-services/form-recognizer/whats-new?view=form-recog-3.0.0&tabs=javascript#march-2023).
+- Added an `expiresOn` property to `DocumentModelSummary` and `DocumentModelDetails`. If this field is populated, it contains the date and time that the model will expire and will no longer be usable.
+- Added support for custom classification models. Classifiers combine layout and language features to accurately identify documents from among a set of document types.
+  - Added `beginBuildDocumentClassifier` to `DocumentModelAdministrationClient` to build a custom classifier from training documents. See [the service documentation on custom classifiers](https://aka.ms/azsdk/formrecognizer/buildclassifiermodel) for more information on creating a training data set and creating a classifier.
+  - Added `getDocumentClassifier`, `listDocumentClassifiers`, and `deleteDocumentClassifier` methods to `DocumentModelAdministrationClient` to manage custom classifiers.
+  - Added `beginClassifyDocument` and `beginClassifyDocumentFromUrl` to `DocumentAnalysisClient` to classify documents using a custom classification model.
+  - The `getOperation` method can now return `DocumentClassifierBuildOperationDetails` for classifier build operations.
+- Added `features` to `AnalyzeDocumentOptions`. Features are add-on capabilities that must be explicitly activated in order to extract them. The use of features may incur additional costs, so please review the [service documentation of add-on capabilities](https://aka.ms/azsdk/formrecognizer/features) for more information. The Form Recognizer service has introduced four features in this API version:
+  - `ocr.highResolution`: improves the quality of content extraction for A1/A2/A3 documents with small text.
+  - `ocr.formula`: enables extraction of formulas, such as mathematical equations.
+  - `ocr.font`: extends the existing `styles` property to include more font properties such as `similarFontFamily` for the font face of the text, `fontStyle` for styles such as italics, `fontWeight` for boldness, `color`, and `backgroundColor`.
+  - `queryFields.premium`: enables the use of `queryFields` (see below).
+- Added `queryFields` to `AnalyzeDocumentOptions`. The service now supports extracting additional query fields using Azure OpenAI capabilities. This feature may only be used if the `"queryFields.premium"` feature is enabled (see above). See [the service documentation on query fields](https://aka.ms/azsdk/formrecognizer/queryfields) for more information.
+- Updated the `AddressValue` type to include several new fields: `cityDistrict`, `house`, `level`, `stateDistrict`, `suburb`, and `unit`. Please see the documentation of these fields for more information.
+- Added a `currencyCode` field to `CurrencyValue`. This field contains the normalized ISO 4217 currency code for the currency value.
+- Added a `commonName` field to `DocumentKeyValuePair`. This field contains a normalized "common" name for the field if the service was able to extract one.
+- Added a new field `annotations` and corresponding type `DocumentAnnotation` to `DocumentPage`. This new page-level property contains information about extracted "annotations," which are visual marks like checkmarks or crosses.
+- Added a new field `barcodes` and corresponding type `DocumentBarcode` to `DocumentPage`. This new page-level property contains information about extracted barcodes, including the type of the barcode (`kind`) and the decoded data (`value`).
+- Added a new field `formulas` and corresponding type `DocumentFormula` to `DocumentPage`. This new page-level property contains information about extracted formulas, including the `kind` of formula ("display" or "inline") and an equivalent LaTeX expression (`value`). This field is only populated if the `"ocr.formula"` feature is enabled.
+- Added a new field `images` and corresponding type `DocumentImage` to `DocumentPage`. This page-level property contains information about images in the document. Images are represented by other pages, and the `DocumentImage` type contains the page number of the image's data (`pageNumber`, **note** that this is a 1-based index) and the bounding polygon of the image.
+- Added a new `kind` field to `DocumentPage`. This field indicates what kind of content the page represents. The possible kinds are "document", "sheet", "slide", and "image".
+- Added a new `DocumentBooleanField` type for extracted fields that contain boolean values. This type is used in the `fields` data of an `AnalyzedDocument`.
+- Added new fields `backgroundColor`, `color`, `fontStyle`, `fontWeight`, and `similarFontFamily` to `DocumentStyle`. These fields contain additional information about the font style of extracted text and will only be populated if the `"ocr.font"` feature is enabled.
+- Added a new field `customNeuralDocumentModelBuilds` to `ResourceDetails` that contains information about the neural model build quota. This field has the type `QuotaDetails` and contains information about how many custom neural models may be built (`quota`), how many have been built (`used`), and when the quota will be reset (`quotaResetOn`).
+
+### Bugs Fixed
+
+- Form Recognizer pollers (`AnalysisPoller`, `DocumentModelPoller`, and `DocumentClassifierPoller`) will now appropriately handle the HTTP `Retry-After` header. If the Form Recognizer service sends a `Retry-After` header in its response, the poller will wait at least that long before polling again. This prevents the poller from making too many requests if the service tells the client to wait.
+- Form Recognizer pollers will now appropriately handle `AbortSignal` cancellation. If the client passes an `AbortSignal` to a long-running operation (such as any of the model/classifier creation operations or any analysis operation), the `AbortSignal` may now be used to abort the operation. The poller will stop polling, any requests in progress will be aborted, and the poller will throw an `AbortError`.
+- Fixed a bug in which fields of strongly-typed custom `DocumentModel` objects that contain spaces in their field names were not handled correctly. A field named `"Account Number"` will now be represented as `accountNumber` in the `DocumentModel` object, instead of `"account Number"`. None of the supported prebuilt DocumentModel objects are affected by this change.
+
 ## 4.0.0 (2022-09-08)
 
 ### Features Added
@@ -113,7 +183,7 @@
 
 ## 4.0.0-beta.1 (2021-10-07)
 
-This new major version beta introduces a full redesign of the Azure Form Recognizer client library. To leverage features of the newest Form Recognizer service API (version "2021-09-30-preview" and newer), the new SDK is required, and application code must be changed to use the new clients. Please see the [Migration Guide](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/MIGRATION-v3_v4.md) for detailed instructions on how to update application code from version 3.x of the Form Recognizer SDK to the new version (4.x). The following sections contain an outline of the changes.
+This new major version beta introduces a full redesign of the Azure Form Recognizer client library. To leverage features of the newest Form Recognizer service API (version "2021-09-30-preview" and newer), the new SDK is required, and application code must be changed to use the new clients. Please see the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/09eeb926e5c632ec27b386b47adb33f1a893aeb6/sdk/formrecognizer/ai-form-recognizer/MIGRATION-v3_v4.md) for detailed instructions on how to update application code from version 3.x of the Form Recognizer SDK to the new version (4.x). The following sections contain an outline of the changes.
 
 ### Breaking Changes
 
@@ -133,7 +203,7 @@ This new major version beta introduces a full redesign of the Azure Form Recogni
   - Custom models no longer have a name that is distinct from the model ID (more accurately, the model ID and name have been unified).
   - You must now specify a model ID to create a model (whether composed, copied, or built). Previously, the Form Recognizer service would generate a GUID for the newly-created model. Now, the model ID may be any text (so long as it does not start with "prebuilt-"), and it must be provided when the model is created.
   - The `ModelInfo` type (previously `CustomFormModelInfo`) has been redesigned. It no longer contains `trainingDocuments`, and it has a property called `docTypes` that contains the information previously contained in `submodels`, but with a different shape. Please refer to the documentation for more information, as this type has changed significantly.
-- The structure of many output types has changed. The full list of changes is extensive and discussed in depth in [the migration guide](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/MIGRATION-v3_v4.md). The following are some of the changes:
+- The structure of many output types has changed. The full list of changes is extensive and discussed in depth in [the migration guide](https://github.com/Azure/azure-sdk-for-js/blob/09eeb926e5c632ec27b386b47adb33f1a893aeb6/sdk/formrecognizer/ai-form-recognizer/MIGRATION-v3_v4.md). The following are some of the changes:
   - When analyzing a document, the output is no longer an array of `RecognizedForm`s. All analysis methods&mdash;including custom/prebuilt model analysis, layout, and the generic document model&mdash;produce an `AnalyzeResult` or a subset thereof. The `AnalyzeResult` has fields for `pages`, `tables`, `styles`, `entities`, `keyValuePairs`, and `documents`. The `beginExtractLayout` and `beginExtractGenericDocument` methods produce subtypes (`LayoutResult` and `GenericDocumentResult` respectively) of `AnalyzeResult` that contain only those fields that are produced by that model. The list of changes within these types is extensive, as they have been redesigned. Please consult the documentation for more information.
   - The new type `AnalyzedDocument` replaces `RecognizedForm`. It does not contain a `pages` property, as `pages` are now a top-level property of the `AnalyzeResult`.
   - The new type `DocumentPage` replaces `FormPage`. It does not have a `tables` property, as `tables` are now a top-level property of the `AnalyzeResult`.

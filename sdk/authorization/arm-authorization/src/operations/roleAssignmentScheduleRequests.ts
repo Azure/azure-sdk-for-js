@@ -23,6 +23,8 @@ import {
   RoleAssignmentScheduleRequestsGetOptionalParams,
   RoleAssignmentScheduleRequestsGetResponse,
   RoleAssignmentScheduleRequestsCancelOptionalParams,
+  RoleAssignmentScheduleRequestsValidateOptionalParams,
+  RoleAssignmentScheduleRequestsValidateResponse,
   RoleAssignmentScheduleRequestsListForScopeNextResponse
 } from "../models";
 
@@ -107,8 +109,8 @@ export class RoleAssignmentScheduleRequestsImpl
    *              for a resource group, and
    *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
    *              for a resource.
-   * @param roleAssignmentScheduleRequestName The name of the role assignment to create. It can be any
-   *                                          valid GUID.
+   * @param roleAssignmentScheduleRequestName A GUID for the role assignment to create. The name must be
+   *                                          unique and different for each role assignment.
    * @param parameters Parameters for the role assignment schedule request.
    * @param options The options parameters.
    */
@@ -175,6 +177,25 @@ export class RoleAssignmentScheduleRequestsImpl
   }
 
   /**
+   * Validates a new role assignment schedule request.
+   * @param scope The scope of the role assignment request to validate.
+   * @param roleAssignmentScheduleRequestName The name of the role assignment request to validate.
+   * @param parameters Parameters for the role assignment schedule request.
+   * @param options The options parameters.
+   */
+  validate(
+    scope: string,
+    roleAssignmentScheduleRequestName: string,
+    parameters: RoleAssignmentScheduleRequest,
+    options?: RoleAssignmentScheduleRequestsValidateOptionalParams
+  ): Promise<RoleAssignmentScheduleRequestsValidateResponse> {
+    return this.client.sendOperationRequest(
+      { scope, roleAssignmentScheduleRequestName, parameters, options },
+      validateOperationSpec
+    );
+  }
+
+  /**
    * ListForScopeNext
    * @param scope The scope of the role assignments schedule requests.
    * @param nextLink The nextLink from the previous successful call to the ListForScope method.
@@ -206,8 +227,8 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -229,7 +250,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -250,7 +271,7 @@ const listForScopeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [Parameters.filter, Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
@@ -265,13 +286,36 @@ const cancelOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
     Parameters.roleAssignmentScheduleRequestName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const validateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}/validate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoleAssignmentScheduleRequest
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.scope,
+    Parameters.roleAssignmentScheduleRequestName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listForScopeNextOperationSpec: coreClient.OperationSpec = {
@@ -285,7 +329,7 @@ const listForScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
 };

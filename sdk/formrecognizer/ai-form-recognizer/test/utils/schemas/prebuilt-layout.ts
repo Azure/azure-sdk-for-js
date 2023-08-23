@@ -3,8 +3,8 @@
 
 // Model:       prebuilt-layout
 // Description: Extract text and layout information from documents.
-// API Version: 2022-08-31
-// Created:     Thu Aug 25 2022
+// API Version: 2023-07-31
+// Created:     Wed Apr 05 2023
 
 import * as fr from "../../../src";
 
@@ -41,7 +41,7 @@ function modelInfo() {
   return {
     modelId: "prebuilt-layout",
     description: "Extract text and layout information from documents.",
-    createdOn: "2022-08-31T00:00:00.000Z",
-    apiVersion: "2022-08-31",
+    createdOn: "2023-02-28T00:00:00.000Z",
+    apiVersion: "2023-07-31",
   } as const;
 }

@@ -97,14 +97,15 @@ The following sections provide several code snippets covering some of the most c
 
 - [Create a database](#create-a-database)
 - [Create a container](#create-a-container)
+- [Using Partition Keys](#using-partition-keys)
 - [Insert items](#insert-items)
 - [Query documents](#query-the-database)
 - [Read an item](#read-an-item)
 - [Delete an item](#delete-an-data)
-
+- [CRUD on Container with hierarchical partition key](#container-hierarchical-partition-key)
 ### Create a database
 
-After authenticating your [CosmosClient](https://docs.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest), you can work with any resource in the account. The code snippet below creates a SQL API database.
+After authenticating your [CosmosClient](https://docs.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest), you can work with any resource in the account. The code snippet below creates a NOSQL API database.
 
 ```js
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
@@ -120,9 +121,37 @@ const { container } = await database.containers.createIfNotExists({ id: "Test Da
 console.log(container.id);
 ```
 
+### Using Partition Keys
+This example shows various types of partition Keys supported.
+```js
+await container.item("id", "1").read();        // string type
+await container.item("id", 2).read();          // number type
+await container.item("id", true).read();       // boolean type
+await container.item("id", {}).read();         // None type
+await container.item("id", undefined).read();  // None type
+await container.item("id", null).read();       // null type
+```
+
+If the Partition Key consists of a single value, it could be supplied either as a lietral value, or an array.
+
+```js
+await container.item("id", "1").read();
+await container.item("id", ["1"]).read();
+```
+
+If the Partition Key consists of more than one values, it should be supplied as an array.
+```js
+await container.item("id", ["a", "b"]).read();
+await container.item("id", ["a", 2]).read();
+await container.item("id", [{}, {}]).read();
+await container.item("id", ["a", {}]).read();
+await container.item("id", [2, null]).read();
+
+```
+
 ### Insert items
 
-To insert items into a container, pass an object containing your data to [Items.upsert](https://docs.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#upsert-t--requestoptions-). The Cosmos DB service requires each item has an `id` key. If you do not provide one, the SDK will generate an `id` automatically.
+To insert items into a container, pass an object containing your data to [Items.upsert](https://docs.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#upsert-t--requestoptions-). The Azure Cosmos DB service requires each item has an `id` key. If you do not provide one, the SDK will generate an `id` automatically.
 
 This example inserts several items into the container
 
@@ -142,9 +171,51 @@ for (const city of cities) {
 To read a single item from a container, use [Item.read](https://docs.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest#read-requestoptions-). This is a less expensive operation than using SQL to query by `id`.
 
 ```js
-await container.item("1").read();
+await container.item("1", "1").read();
+```
+### CRUD on Container with hierarchical partition key
+
+Create a Container with hierarchical partition key
+```js
+const containerDefinition = {
+  id: "Test Database",
+  partitionKey: {
+    paths: ["/name", "/address/zip"],
+    version: PartitionKeyDefinitionVersion.V2,
+    kind: PartitionKeyKind.MultiHash,
+  },
+}
+const { container } = await database.containers.createIfNotExists(containerDefinition);
+console.log(container.id);
+```
+Insert an item with hierarchical partition key defined as - `["/name", "/address/zip"]`
+```js
+const item = {
+  id: 1,
+  name: 'foo',
+  address: {
+    zip: 100
+  },
+  active: true
+}
+await container.items.create(item);
 ```
 
+To read a single item from a container with hierarchical partition key defined as - `["/name", "/address/zip"],`
+```js
+await container.item("1", ["foo", 100]).read();
+```
+Query an item with hierarchical partition key with hierarchical partition key defined as - `["/name", "/address/zip"],`
+```js
+const { resources } = await container.items
+  .query("SELECT * from c WHERE c.active = true", {
+          partitionKey: ["foo", 100],
+        })
+  .fetchAll();
+for (const item of resources) {
+  console.log(`${item.name}, ${item.address.zip} `);
+}
+```
 ### Delete an item
 
 To delete items from a container, use [Item.delete](https://docs.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest#delete-requestoptions-).
@@ -278,7 +349,7 @@ Currently the features below are **not supported**. For alternatives options, ch
 
 * Queries with COUNT from a DISTINCT subquery​
 * Direct TCP Mode access​
-* Continuation token for cross partitions queries
+* Aggregate cross-partition queries, like sorting, counting, and distinct, don't support continuation tokens.       Streamable queries, like SELECT \* FROM <table> WHERE <condition>, support continuation tokens. See the "Workaround" section for executing non-streamable queries without a continuation token.
 * Change Feed: Processor
 * Change Feed: Read multiple partitions key values
 * Change Feed: Read specific time
@@ -298,6 +369,28 @@ Currently the features below are **not supported**. For alternatives options, ch
 You can achieve cross partition queries with continuation token support by using
 [Side car pattern](https://github.com/Azure-Samples/Cosmosdb-query-sidecar).
 This pattern can also enable applications to be composed of heterogeneous components and technologies.
+
+### Executing non-stremable cross-partition query
+
+To execute non-streamable queries without the use of continuation tokens, you can create a query iterator with the required query specification and options. The following sample code demonstrates how to use a query iterator to fetch all results without the need for a continuation token:
+
+```javascript
+const querySpec = {
+  query: "SELECT * FROM c WHERE c.status = @status",
+  parameters: [{ name: "@status", value: "active" }],
+};
+const queryOptions = {
+  maxItemCount: 10, // maximum number of items to return per page
+  enableCrossPartitionQuery: true,
+};
+const querIterator = await container.items.query(querySpec, queryOptions);
+while (querIterator.hasMoreResults()) {
+  const { resources: result } = await querIterator.fetchNext();
+  //Do something with result
+}
+```
+
+This approach can also be used for streamable queries.
 
 ### Control Plane operations
 Typically, you can use [Azure Portal](https://portal.azure.com/), [Azure Cosmos DB Resource Provider REST API](https://docs.microsoft.com/rest/api/cosmos-db-resource-provider), [Azure CLI](https://docs.microsoft.com/cli/azure/azure-cli-reference-for-cosmos-db) or [PowerShell](https://docs.microsoft.com/azure/cosmos-db/manage-with-powershell) for the control plane unsupported limitations.

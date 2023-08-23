@@ -3,12 +3,13 @@
 
 /**
  * @azsdk-util
+ * @azsdk-skip-javascript
  */
 
 // Model:       prebuilt-receipt
 // Description: Extract key information from receipts.
-// API Version: 2022-08-31
-// Created:     Tue Aug 23 2022
+// API Version: 2023-07-31
+// Created:     Wed Aug 02 2023
 
 import * as fr from "@azure/ai-form-recognizer";
 
@@ -232,6 +233,10 @@ export interface ReceiptFields {
    * `Receipt` "Items" field
    */
   items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptItemsElement>>;
+  /**
+   * `Receipt` "TaxDetails" field
+   */
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptTaxDetailsElement>>;
 }
 
 /**
@@ -254,6 +259,24 @@ export interface ReceiptItemsElement {
    * Individual price of each item unit
    */
   price?: fr.DocumentNumberField;
+  /**
+   * Product code, product number, or SKU associated with the specific line item
+   */
+  productCode?: fr.DocumentStringField;
+  /**
+   * Quantity unit of each item
+   */
+  quantityUnit?: fr.DocumentStringField;
+}
+
+/**
+ * Describes the fields of `ReceiptTaxDetailsElement`.
+ */
+export interface ReceiptTaxDetailsElement {
+  /**
+   * The amount of the tax detail
+   */
+  amount?: fr.DocumentCurrencyField;
 }
 
 /**
@@ -300,6 +323,10 @@ export interface ReceiptRetailMealFields {
    * `ReceiptRetailMeal` "Items" field
    */
   items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptRetailMealItemsElement>>;
+  /**
+   * `ReceiptRetailMeal` "TaxDetails" field
+   */
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptRetailMealTaxDetailsElement>>;
 }
 
 /**
@@ -322,6 +349,24 @@ export interface ReceiptRetailMealItemsElement {
    * Individual price of each item unit
    */
   price?: fr.DocumentNumberField;
+  /**
+   * Product code, product number, or SKU associated with the specific line item
+   */
+  productCode?: fr.DocumentStringField;
+  /**
+   * Quantity unit of each item
+   */
+  quantityUnit?: fr.DocumentStringField;
+}
+
+/**
+ * Describes the fields of `ReceiptRetailMealTaxDetailsElement`.
+ */
+export interface ReceiptRetailMealTaxDetailsElement {
+  /**
+   * The amount of the tax detail
+   */
+  amount?: fr.DocumentCurrencyField;
 }
 
 /**
@@ -368,6 +413,10 @@ export interface ReceiptCreditCardFields {
    * `ReceiptCreditCard` "Items" field
    */
   items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptCreditCardItemsElement>>;
+  /**
+   * `ReceiptCreditCard` "TaxDetails" field
+   */
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptCreditCardTaxDetailsElement>>;
 }
 
 /**
@@ -390,6 +439,24 @@ export interface ReceiptCreditCardItemsElement {
    * Individual price of each item unit
    */
   price?: fr.DocumentNumberField;
+  /**
+   * Product code, product number, or SKU associated with the specific line item
+   */
+  productCode?: fr.DocumentStringField;
+  /**
+   * Quantity unit of each item
+   */
+  quantityUnit?: fr.DocumentStringField;
+}
+
+/**
+ * Describes the fields of `ReceiptCreditCardTaxDetailsElement`.
+ */
+export interface ReceiptCreditCardTaxDetailsElement {
+  /**
+   * The amount of the tax detail
+   */
+  amount?: fr.DocumentCurrencyField;
 }
 
 /**
@@ -436,6 +503,10 @@ export interface ReceiptGasFields {
    * `ReceiptGas` "Items" field
    */
   items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptGasItemsElement>>;
+  /**
+   * `ReceiptGas` "TaxDetails" field
+   */
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptGasTaxDetailsElement>>;
 }
 
 /**
@@ -458,6 +529,24 @@ export interface ReceiptGasItemsElement {
    * Individual price of each item unit
    */
   price?: fr.DocumentNumberField;
+  /**
+   * Product code, product number, or SKU associated with the specific line item
+   */
+  productCode?: fr.DocumentStringField;
+  /**
+   * Quantity unit of each item
+   */
+  quantityUnit?: fr.DocumentStringField;
+}
+
+/**
+ * Describes the fields of `ReceiptGasTaxDetailsElement`.
+ */
+export interface ReceiptGasTaxDetailsElement {
+  /**
+   * The amount of the tax detail
+   */
+  amount?: fr.DocumentCurrencyField;
 }
 
 /**
@@ -504,6 +593,10 @@ export interface ReceiptParkingFields {
    * `ReceiptParking` "Items" field
    */
   items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptParkingItemsElement>>;
+  /**
+   * `ReceiptParking` "TaxDetails" field
+   */
+  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptParkingTaxDetailsElement>>;
 }
 
 /**
@@ -526,6 +619,24 @@ export interface ReceiptParkingItemsElement {
    * Individual price of each item unit
    */
   price?: fr.DocumentNumberField;
+  /**
+   * Product code, product number, or SKU associated with the specific line item
+   */
+  productCode?: fr.DocumentStringField;
+  /**
+   * Quantity unit of each item
+   */
+  quantityUnit?: fr.DocumentStringField;
+}
+
+/**
+ * Describes the fields of `ReceiptParkingTaxDetailsElement`.
+ */
+export interface ReceiptParkingTaxDetailsElement {
+  /**
+   * The amount of the tax detail
+   */
+  amount?: fr.DocumentCurrencyField;
 }
 
 /**
@@ -599,8 +710,8 @@ function modelInfo() {
   return {
     modelId: "prebuilt-receipt",
     description: "Extract key information from receipts.",
-    createdOn: "2022-08-31T00:00:00.000Z",
-    apiVersion: "2022-08-31",
+    createdOn: "2023-07-31T00:00:00.000Z",
+    apiVersion: "2023-07-31",
     docTypes: {
       receipt: {
         buildMode: "template",
@@ -675,6 +786,31 @@ function modelInfo() {
                 Price: {
                   type: "number",
                   description: "Individual price of each item unit",
+                  example: "$999.00",
+                },
+                ProductCode: {
+                  type: "string",
+                  description:
+                    "Product code, product number, or SKU associated with the specific line item",
+                  example: "A123",
+                },
+                QuantityUnit: {
+                  type: "string",
+                  description: "Quantity unit of each item",
+                },
+              },
+            },
+          },
+          TaxDetails: {
+            type: "array",
+            items: {
+              type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
+              properties: {
+                Amount: {
+                  type: "currency",
+                  description: "The amount of the tax detail",
                   example: "$999.00",
                 },
               },
@@ -757,6 +893,31 @@ function modelInfo() {
                   description: "Individual price of each item unit",
                   example: "$999.00",
                 },
+                ProductCode: {
+                  type: "string",
+                  description:
+                    "Product code, product number, or SKU associated with the specific line item",
+                  example: "A123",
+                },
+                QuantityUnit: {
+                  type: "string",
+                  description: "Quantity unit of each item",
+                },
+              },
+            },
+          },
+          TaxDetails: {
+            type: "array",
+            items: {
+              type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
+              properties: {
+                Amount: {
+                  type: "currency",
+                  description: "The amount of the tax detail",
+                  example: "$999.00",
+                },
               },
             },
           },
@@ -835,6 +996,31 @@ function modelInfo() {
                 Price: {
                   type: "number",
                   description: "Individual price of each item unit",
+                  example: "$999.00",
+                },
+                ProductCode: {
+                  type: "string",
+                  description:
+                    "Product code, product number, or SKU associated with the specific line item",
+                  example: "A123",
+                },
+                QuantityUnit: {
+                  type: "string",
+                  description: "Quantity unit of each item",
+                },
+              },
+            },
+          },
+          TaxDetails: {
+            type: "array",
+            items: {
+              type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
+              properties: {
+                Amount: {
+                  type: "currency",
+                  description: "The amount of the tax detail",
                   example: "$999.00",
                 },
               },
@@ -917,6 +1103,31 @@ function modelInfo() {
                   description: "Individual price of each item unit",
                   example: "$999.00",
                 },
+                ProductCode: {
+                  type: "string",
+                  description:
+                    "Product code, product number, or SKU associated with the specific line item",
+                  example: "A123",
+                },
+                QuantityUnit: {
+                  type: "string",
+                  description: "Quantity unit of each item",
+                },
+              },
+            },
+          },
+          TaxDetails: {
+            type: "array",
+            items: {
+              type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
+              properties: {
+                Amount: {
+                  type: "currency",
+                  description: "The amount of the tax detail",
+                  example: "$999.00",
+                },
               },
             },
           },
@@ -995,6 +1206,31 @@ function modelInfo() {
                 Price: {
                   type: "number",
                   description: "Individual price of each item unit",
+                  example: "$999.00",
+                },
+                ProductCode: {
+                  type: "string",
+                  description:
+                    "Product code, product number, or SKU associated with the specific line item",
+                  example: "A123",
+                },
+                QuantityUnit: {
+                  type: "string",
+                  description: "Quantity unit of each item",
+                },
+              },
+            },
+          },
+          TaxDetails: {
+            type: "array",
+            items: {
+              type: "object",
+              description: "Extracted line item",
+              example: "1\nSurface Pro 6\n$999.00\n$999.00",
+              properties: {
+                Amount: {
+                  type: "currency",
+                  description: "The amount of the tax detail",
                   example: "$999.00",
                 },
               },

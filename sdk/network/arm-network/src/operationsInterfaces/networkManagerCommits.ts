@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NetworkManagerCommit,
   NetworkManagerCommitsPostOptionalParams,
@@ -28,8 +28,8 @@ export interface NetworkManagerCommits {
     parameters: NetworkManagerCommit,
     options?: NetworkManagerCommitsPostOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkManagerCommitsPostResponse>,
+    SimplePollerLike<
+      OperationState<NetworkManagerCommitsPostResponse>,
       NetworkManagerCommitsPostResponse
     >
   >;

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Alert,
   AlertsListNextOptionalParams,
@@ -614,14 +618,14 @@ export class AlertsImpl implements Alerts {
     ascLocation: string,
     alertSimulatorRequestBody: AlertSimulatorRequestBody,
     options?: AlertsSimulateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -654,15 +658,15 @@ export class AlertsImpl implements Alerts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { ascLocation, alertSimulatorRequestBody, options },
-      simulateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { ascLocation, alertSimulatorRequestBody, options },
+      spec: simulateOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "original-uri"
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -776,7 +780,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -793,7 +797,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -814,7 +818,7 @@ const listSubscriptionLevelByRegionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -835,7 +839,7 @@ const listResourceGroupLevelByRegionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -857,7 +861,7 @@ const getSubscriptionLevelOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -879,7 +883,7 @@ const getResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -900,7 +904,7 @@ const updateSubscriptionLevelStateToDismissOperationSpec: coreClient.OperationSp
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -920,7 +924,7 @@ const updateSubscriptionLevelStateToResolveOperationSpec: coreClient.OperationSp
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -940,7 +944,7 @@ const updateSubscriptionLevelStateToActivateOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -960,7 +964,7 @@ const updateSubscriptionLevelStateToInProgressOperationSpec: coreClient.Operatio
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -980,7 +984,7 @@ const updateResourceGroupLevelStateToResolveOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1001,7 +1005,7 @@ const updateResourceGroupLevelStateToDismissOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1022,7 +1026,7 @@ const updateResourceGroupLevelStateToActivateOperationSpec: coreClient.Operation
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1043,7 +1047,7 @@ const updateResourceGroupLevelStateToInProgressOperationSpec: coreClient.Operati
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1068,7 +1072,7 @@ const simulateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.alertSimulatorRequestBody,
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1089,7 +1093,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1109,7 +1112,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1130,7 +1132,6 @@ const listSubscriptionLevelByRegionNextOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1151,7 +1152,6 @@ const listResourceGroupLevelByRegionNextOperationSpec: coreClient.OperationSpec 
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

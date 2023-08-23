@@ -10,6 +10,7 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { AnonymousCredential } from '@azure/storage-blob';
 import { AnonymousCredentialPolicy } from '@azure/storage-blob';
 import { AzureLogger } from '@azure/logger';
+import { BaseRequestPolicy } from '@azure/storage-blob';
 import { BlobLeaseClient } from '@azure/storage-blob';
 import { BlobQueryArrowConfiguration } from '@azure/storage-blob';
 import { CommonOptions } from '@azure/storage-blob';
@@ -22,6 +23,10 @@ import { Credential as Credential_2 } from '@azure/storage-blob';
 import { CredentialPolicy } from '@azure/storage-blob';
 import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
 import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
+import { HttpHeaders } from '@azure/storage-blob';
+import { HttpOperationResponse } from '@azure/storage-blob';
+import { HttpRequestBody } from '@azure/storage-blob';
+import { IHttpClient } from '@azure/storage-blob';
 import { Lease } from '@azure/storage-blob';
 import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
@@ -32,6 +37,9 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/storage-blob';
 import { Readable } from 'stream';
 import { RequestBodyType } from '@azure/core-rest-pipeline';
+import { RequestPolicy } from '@azure/storage-blob';
+import { RequestPolicyFactory } from '@azure/storage-blob';
+import { RequestPolicyOptions } from '@azure/storage-blob';
 import { RestError } from '@azure/core-rest-pipeline';
 import { ServiceGetPropertiesOptions } from '@azure/storage-blob';
 import { ServiceListContainersSegmentResponse } from '@azure/storage-blob';
@@ -40,7 +48,9 @@ import { ServiceSetPropertiesOptions } from '@azure/storage-blob';
 import { ServiceSetPropertiesResponse } from '@azure/storage-blob';
 import { StorageBrowserPolicy } from '@azure/storage-blob';
 import { StorageBrowserPolicyFactory } from '@azure/storage-blob';
+import { StorageOAuthScopes } from '@azure/storage-blob';
 import { StoragePipelineOptions } from '@azure/storage-blob';
+import { StorageRetryOptions } from '@azure/storage-blob';
 import { StorageRetryPolicy } from '@azure/storage-blob';
 import { StorageRetryPolicyFactory } from '@azure/storage-blob';
 import { StorageSharedKeyCredential } from '@azure/storage-blob';
@@ -48,6 +58,7 @@ import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import { UserDelegationKeyModel } from '@azure/storage-blob';
+import { WebResource } from '@azure/storage-blob';
 import { WithResponse } from '@azure/storage-blob';
 
 // @public
@@ -134,6 +145,8 @@ export interface AccountSASSignatureValues {
 export { AnonymousCredential }
 
 export { AnonymousCredentialPolicy }
+
+export { BaseRequestPolicy }
 
 // @public (undocumented)
 export interface BlobHierarchyListSegment {
@@ -502,7 +515,7 @@ export interface FileAppendOptions extends CommonOptions {
     flush?: boolean;
     // Warning: (ae-forgotten-export) The symbol "LeaseAction" needs to be exported by the entry point index.d.ts
     leaseAction?: LeaseAction;
-    leaseDuration?: number;
+    leaseDurationInSeconds?: number;
     // (undocumented)
     onProgress?: (progress: TransferProgressEvent) => void;
     proposedLeaseId?: string;
@@ -542,7 +555,7 @@ export interface FileFlushOptions extends CommonOptions {
     conditions?: DataLakeRequestConditions;
     customerProvidedKey?: CpkInfo;
     leaseAction?: LeaseAction;
-    leaseDuration?: number;
+    leaseDurationInSeconds?: number;
     // (undocumented)
     pathHttpHeaders?: PathHttpHeaders;
     proposedLeaseId?: string;
@@ -565,6 +578,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
     close?: boolean;
     conditions?: DataLakeRequestConditions;
     customerProvidedKey?: CpkInfo;
+    encryptionContext?: string;
     maxConcurrency?: number;
     metadata?: Metadata;
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -653,14 +667,18 @@ export interface FileReadHeaders {
     copyStatus?: CopyStatusType;
     // (undocumented)
     copyStatusDescription?: string;
+    createdOn?: Date;
     // (undocumented)
     date?: Date;
+    encryptionContext?: string;
     // (undocumented)
     encryptionKeySha256?: string;
     // (undocumented)
     etag?: string;
     // (undocumented)
     fileContentMD5?: Uint8Array;
+    // (undocumented)
+    group?: string;
     // (undocumented)
     isServerEncrypted?: boolean;
     // (undocumented)
@@ -673,6 +691,10 @@ export interface FileReadHeaders {
     leaseStatus?: LeaseStatusType;
     // (undocumented)
     metadata?: Metadata;
+    // (undocumented)
+    owner?: string;
+    // (undocumented)
+    permissions?: PathPermissions;
     // (undocumented)
     requestId?: string;
     // (undocumented)
@@ -1054,6 +1076,14 @@ export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: D
 // @public
 export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: DataLakeSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
 
+export { HttpHeaders }
+
+export { HttpOperationResponse }
+
+export { HttpRequestBody }
+
+export { IHttpClient }
+
 export { Lease }
 
 export { LeaseAccessConditions }
@@ -1157,6 +1187,7 @@ export interface Path {
     // (undocumented)
     contentLength?: number;
     createdOn?: Date;
+    encryptionContext?: string;
     encryptionScope?: string;
     // (undocumented)
     etag?: string;
@@ -1259,6 +1290,7 @@ export interface PathCreateIfNotExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     acl?: PathAccessControlItem[];
     customerProvidedKey?: CpkInfo;
+    encryptionContext?: string;
     expiresOn?: number | Date;
     group?: string;
     leaseDuration?: number;
@@ -1287,6 +1319,7 @@ export interface PathCreateOptions extends CommonOptions {
     // (undocumented)
     conditions?: DataLakeRequestConditions;
     customerProvidedKey?: CpkInfo;
+    encryptionContext?: string;
     expiresOn?: number | Date;
     group?: string;
     leaseDuration?: number;
@@ -1439,12 +1472,15 @@ export interface PathGetPropertiesHeaders {
     date?: Date;
     // (undocumented)
     destinationSnapshot?: string;
+    encryptionContext?: string;
     // (undocumented)
     encryptionKeySha256?: string;
     encryptionScope?: string;
     // (undocumented)
     etag?: string;
     expiresOn?: Date;
+    // (undocumented)
+    group?: string;
     // (undocumented)
     isIncrementalCopy?: boolean;
     // (undocumented)
@@ -1459,6 +1495,10 @@ export interface PathGetPropertiesHeaders {
     leaseStatus?: LeaseStatusType;
     // (undocumented)
     metadata?: Metadata;
+    // (undocumented)
+    owner?: string;
+    // (undocumented)
+    permissions?: PathPermissions;
     // (undocumented)
     requestId?: string;
     // (undocumented)
@@ -1539,6 +1579,8 @@ export interface PathModel {
     contentLength?: number;
     // (undocumented)
     creationTime?: string;
+    // (undocumented)
+    encryptionContext?: string;
     encryptionScope?: string;
     // (undocumented)
     etag?: string;
@@ -1774,6 +1816,12 @@ export interface RemovePathAccessControlItem {
     entityId?: string;
 }
 
+export { RequestPolicy }
+
+export { RequestPolicyFactory }
+
+export { RequestPolicyOptions }
+
 export { RestError }
 
 // @public (undocumented)
@@ -1928,7 +1976,11 @@ export { StorageBrowserPolicy }
 
 export { StorageBrowserPolicyFactory }
 
+export { StorageOAuthScopes }
+
 export { StoragePipelineOptions }
+
+export { StorageRetryOptions }
 
 export { StorageRetryPolicy }
 
@@ -1963,6 +2015,8 @@ export interface UserDelegationKey {
 }
 
 export { UserDelegationKeyModel }
+
+export { WebResource }
 
 // (No @packageDocumentation comment for this package)
 

@@ -44,8 +44,8 @@ import {
   expectation59,
   expectation60,
   expectation62,
-  expectation72,
 } from "./expectations";
+import { authModes } from "./inputs";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -59,7 +59,7 @@ const testDataEs = [
   "La carretera estaba atascada. Había mucho tráfico el día de ayer.",
 ];
 
-matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
+matrix(authModes, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalysisClient;
@@ -244,16 +244,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.LanguageDetection, docs, "invalidcountry"),
             expectation42
-          );
-        });
-
-        it("service returns script with DetectLanguageInput[]", async function () {
-          const doc = ["Tumhara naam kya hai?"];
-          assertActionResults(
-            await client.analyze(AnalyzeActionNames.LanguageDetection, doc, "in", {
-              modelVersion: "2022-04-10-preview",
-            }),
-            expectation72
           );
         });
 
@@ -584,7 +574,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               checkEntityTextOffset
             );
           });
-
           it("emoji with skin tone modifier", async function () {
             await checkOffsetAndLength(
               client,
@@ -780,7 +769,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               client,
               "👩🏻 SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
-              8,
+              7,
               11
             ); // offset was 10 with UTF16
           });
@@ -790,7 +779,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               client,
               "👩‍👩‍👧‍👧 SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
-              13,
+              7,
               11
             ); // offset was 17 with UTF16
           });
@@ -800,7 +789,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
-              17,
+              7,
               11
             ); // offset was 25 with UTF16
           });

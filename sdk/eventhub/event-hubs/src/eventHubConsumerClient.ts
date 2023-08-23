@@ -25,9 +25,9 @@ import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStr
 import { PartitionGate } from "./impl/partitionGate";
 import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy";
 import { isCredential } from "./util/typeGuards";
-import { logger } from "./log";
-import { v4 as uuid } from "uuid";
+import { logger } from "./logger";
 import { validateEventPositions } from "./eventPosition";
+import { getRandomName } from "./util/utils";
 
 const defaultConsumerClientOptions: Required<
   Pick<FullEventProcessorOptions, "maxWaitTimeInSeconds" | "maxBatchSize">
@@ -63,7 +63,6 @@ export class EventHubConsumerClient {
    */
   private _clientOptions: EventHubConsumerClientOptions;
   private _partitionGate = new PartitionGate();
-  private _id = uuid();
 
   /**
    * The Subscriptions that were spawned by calling `subscribe()`.
@@ -101,6 +100,12 @@ export class EventHubConsumerClient {
   get fullyQualifiedNamespace(): string {
     return this._context.config.host;
   }
+
+  /**
+   * The name used to identify this EventHubConsumerClient.
+   * If not specified or empty, a random unique one will be generated.
+   */
+  public readonly identifier: string;
 
   /**
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
@@ -327,6 +332,7 @@ export class EventHubConsumerClient {
         this._clientOptions
       );
     }
+    this.identifier = this._clientOptions.identifier ?? getRandomName();
     this._loadBalancingOptions = {
       // default options
       strategy: "balanced",
@@ -565,7 +571,7 @@ export class EventHubConsumerClient {
         ownerLevel: getOwnerLevel(options, this._userChoseCheckpointStore),
         // make it so all the event processors process work with the same overarching owner ID
         // this allows the EventHubConsumer to unify all the work for any processors that it spawns
-        ownerId: this._id,
+        ownerId: this.identifier,
         retryOptions: this._clientOptions.retryOptions,
         loadBalancingStrategy,
         loopIntervalInMs: this._loadBalancingOptions.updateIntervalInMs,

@@ -108,7 +108,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters17,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
@@ -117,7 +117,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.databaseName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

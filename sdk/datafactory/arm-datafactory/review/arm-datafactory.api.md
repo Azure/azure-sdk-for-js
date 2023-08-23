@@ -401,13 +401,15 @@ export interface AzureBlobFSLinkedService extends LinkedService {
     azureCloudType?: any;
     credential?: CredentialReference;
     encryptedCredential?: any;
+    sasToken?: SecretBaseUnion;
+    sasUri?: any;
     servicePrincipalCredential?: SecretBaseUnion;
     servicePrincipalCredentialType?: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
     type: "AzureBlobFS";
-    url: any;
+    url?: any;
 }
 
 // @public

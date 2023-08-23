@@ -9,7 +9,10 @@ import {
   LengthUnit,
   ParagraphRole,
   SelectionMarkState,
+  DocumentBarcodeKind,
+  DocumentFormulaKind,
 } from "../generated";
+import { AnalyzeDocumentOptions } from "../options";
 
 /** Simple document elements such as words, selection marks and lines are bounded by the polygon. */
 export interface HasBoundingPolygon {
@@ -162,7 +165,55 @@ export interface DocumentKeyValuePair {
   key: DocumentKeyValueElement;
   /** Field value of the key-value pair. */
   value?: DocumentKeyValueElement;
+
   /** Confidence of correctly extracting the key-value pair. */
+  confidence: number;
+}
+
+/**
+ * A visual annotation element in the document, such as a check mark or cross.
+ */
+export interface DocumentAnnotation extends HasBoundingPolygon {
+  /** Confidence of correctly extracting the annotation. */
+  confidence: number;
+}
+
+/**
+ * An extracted barcode.
+ */
+export interface DocumentBarcode extends HasBoundingPolygon {
+  /**
+   * The type of barcode that was extracted. See the `DocumentBarcodeKind` type for a list of possible values.
+   */
+  kind: DocumentBarcodeKind;
+  /** The encoded data in the barcode. */
+  value: string;
+
+  /** The location of the barcode in the reading-order concatenated `content`. */
+  span: DocumentSpan;
+
+  /** Confidence of correctly extracting the barcode. */
+  confidence: number;
+}
+
+/**
+ * An extracted formula.
+ */
+export interface DocumentFormula extends HasBoundingPolygon {
+  /**
+   * The type of formula that was extracted. One of:
+   * - "inline": a formula embedded in the content of a paragraph.
+   * - "display": a formula in display mode that takes up a whole line.
+   */
+  kind: DocumentFormulaKind;
+
+  /** A LaTeX expression describing the formula. */
+  value: string;
+
+  /** Location of the formula in the reading-order concatenated content. */
+  span: DocumentSpan;
+
+  /** Confidence of correctly extracting the formula. */
   confidence: number;
 }
 
@@ -186,4 +237,18 @@ export interface DocumentPage {
   selectionMarks?: DocumentSelectionMark[];
   /** Extracted lines from the page, potentially containing both textual and visual elements. */
   lines?: DocumentLine[];
+
+  /**
+   * Extracted barcodes from the page.
+   */
+  barcodes?: DocumentBarcode[];
+
+  /**
+   * Extracted formulas from the page.
+   *
+   * The `"formulas"` feature must be enabled or this property will be undefined.
+   *
+   * See {@link AnalyzeDocumentOptions#features}.
+   */
+  formulas?: DocumentFormula[];
 }

@@ -8,6 +8,7 @@
 
 export * from "./operations";
 export * from "./monitors";
+export * from "./elasticVersions";
 export * from "./monitoredResources";
 export * from "./deploymentInfo";
 export * from "./externalUser";
@@ -25,3 +26,4 @@ export * from "./associateTrafficFilter";
 export * from "./detachAndDeleteTrafficFilter";
 export * from "./detachTrafficFilter";
 export * from "./trafficFilters";
+export * from "./organizations";

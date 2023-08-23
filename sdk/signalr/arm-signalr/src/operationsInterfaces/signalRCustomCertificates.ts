@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CustomCertificate,
   SignalRCustomCertificatesListOptionalParams,
@@ -63,8 +63,8 @@ export interface SignalRCustomCertificates {
     parameters: CustomCertificate,
     options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SignalRCustomCertificatesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SignalRCustomCertificatesCreateOrUpdateResponse>,
       SignalRCustomCertificatesCreateOrUpdateResponse
     >
   >;

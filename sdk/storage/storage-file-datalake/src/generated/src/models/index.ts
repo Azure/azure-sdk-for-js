@@ -50,6 +50,7 @@ export interface Path {
   encryptionScope?: string;
   creationTime?: string;
   expiryTime?: string;
+  encryptionContext?: string;
 }
 
 /** An enumeration of blobs */
@@ -939,6 +940,8 @@ export interface PathCreateOptionalParams extends coreClient.OperationOptions {
   expiryOptions?: PathExpiryOptions;
   /** The time to set the blob to expiry */
   expiresOn?: string;
+  /** Specifies the encryption context to set on the file. */
+  encryptionContext?: string;
 }
 
 /** Contains response data for the create operation. */
@@ -1075,6 +1078,8 @@ export interface PathDeleteOptionalParams extends coreClient.OperationOptions {
   timeout?: number;
   /** Required */
   recursive?: boolean;
+  /** If true, paginated behavior will be seen. Pagination is for the recursive ACL checks as a POSIX requirement in the server and Delete in an atomic operation once the ACL checks are completed. If false or missing, normal default behavior will kick in, which may timeout in case of very large directories due to recursive ACL checks. This new parameter is introduced for backward compatibility. */
+  paginated?: boolean;
 }
 
 /** Contains response data for the delete operation. */

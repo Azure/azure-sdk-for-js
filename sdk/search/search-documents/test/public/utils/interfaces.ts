@@ -7,6 +7,7 @@ export interface Hotel {
   hotelId: string;
   hotelName?: string | null;
   description?: string | null;
+  vectorDescription?: number[] | null;
   descriptionFr?: string | null;
   category?: string | null;
   tags?: string[] | null;

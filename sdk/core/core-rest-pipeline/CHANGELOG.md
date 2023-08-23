@@ -1,6 +1,6 @@
 # Release History
 
-## 1.10.3 (Unreleased)
+## 1.12.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,30 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Set `init.duplex` to `"half"` when streaming body via `fetch()` [PR #26890](https://github.com/Azure/azure-sdk-for-js/pull/26890)
+
+## 1.12.0 (2023-08-08)
+
+### Features Added
+
+- Add CommonTelemetryOptions in PipelineOptions to allow customizing the client request id header name [PR #26424](https://github.com/Azure/azure-sdk-for-js/pull/26424)
+
+### Bugs Fixed
+
+- Fix a TypeError in React Native when `Platform.constants` is undefined [Issue #26609](https://github.com/Azure/azure-sdk-for-js/issues/26609)
+
+## 1.11.0 (2023-06-01)
+
+### Features Added
+
+- Add a policy `auxiliaryAuthenticationHeaderPolicy` for external tokens to `x-ms-authorization-auxiliary` header. This header will be used when creating a cross-tenant application we may need to handle authentication requests for resources that are in different tenants. [PR #25270](https://github.com/Azure/azure-sdk-for-js/pull/25270)
+
+## 1.10.3 (2023-04-06)
+
+### Other Changes
+
+- Migrate to use core-util UUID helper [PR# 25413](https://github.com/Azure/azure-sdk-for-js/pull/25413)
 
 ## 1.10.2 (2023-03-02)
 

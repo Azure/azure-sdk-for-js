@@ -596,6 +596,12 @@ export const RedisCommonPropertiesRedisConfiguration: coreClient.CompositeMapper
         type: {
           name: "String"
         }
+      },
+      storageSubscriptionId: {
+        serializedName: "storage-subscription-id",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1035,6 +1041,12 @@ export const ImportRDBParameters: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      storageSubscriptionId: {
+        serializedName: "storage-subscription-id",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1067,6 +1079,12 @@ export const ExportRDBParameters: coreClient.CompositeMapper = {
       },
       preferredDataArchiveAuthMethod: {
         serializedName: "preferred-data-archive-auth-method",
+        type: {
+          name: "String"
+        }
+      },
+      storageSubscriptionId: {
+        serializedName: "storage-subscription-id",
         type: {
           name: "String"
         }

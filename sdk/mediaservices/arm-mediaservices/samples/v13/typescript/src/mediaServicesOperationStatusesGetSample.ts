@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get media service operation status.
  *
  * @summary Get media service operation status.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2023-01-01/examples/media-service-operation-status-by-id-non-terminal-state-failed.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/media-service-operation-status-by-id-non-terminal-state-failed.json
  */
 async function getStatusOfAsynchronousOperationWhenItIsCompletedWithError() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function getStatusOfAsynchronousOperationWhenItIsCompletedWithError() {
  * This sample demonstrates how to Get media service operation status.
  *
  * @summary Get media service operation status.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2023-01-01/examples/media-service-operation-status-by-id-terminal-state.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/media-service-operation-status-by-id-terminal-state.json
  */
 async function getStatusOfAsynchronousOperationWhenItIsCompleted() {
   const subscriptionId =
@@ -60,7 +60,7 @@ async function getStatusOfAsynchronousOperationWhenItIsCompleted() {
  * This sample demonstrates how to Get media service operation status.
  *
  * @summary Get media service operation status.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2023-01-01/examples/media-service-operation-status-by-id-non-terminal-state.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/media-service-operation-status-by-id-non-terminal-state.json
  */
 async function getStatusOfAsynchronousOperationWhenItIsOngoing() {
   const subscriptionId =

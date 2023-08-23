@@ -9,7 +9,7 @@ import {
   EventPosition,
   MessagingError,
 } from "../../src";
-import { EventHubReceiver } from "../../src/eventHubReceiver";
+import { createReceiver } from "../../src/partitionReceiver";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "../public/utils/mockService";
@@ -85,9 +85,10 @@ testWithServiceTypes((serviceVersion) => {
         await producerClient.sendBatch([message], { partitionId });
 
         // Disable retries to make it easier to test scenario.
-        const receiver = new EventHubReceiver(
+        const receiver = createReceiver(
           consumerClient["_context"],
           EventHubConsumerClient.defaultConsumerGroupName,
+          "Consumer",
           partitionId,
           startPosition,
           {
@@ -140,9 +141,10 @@ testWithServiceTypes((serviceVersion) => {
         await producerClient.sendBatch([message], { partitionId });
 
         // Disable retries to make it easier to test scenario.
-        const receiver = new EventHubReceiver(
+        const receiver = createReceiver(
           consumerClient["_context"],
           EventHubConsumerClient.defaultConsumerGroupName,
+          "Consumer",
           partitionId,
           startPosition,
           {

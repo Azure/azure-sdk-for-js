@@ -26,21 +26,27 @@ export class CertificateOperations {
   }
 
   /**
+   * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    * @summary Adds a Certificate to the specified Account.
    * @param certificate The Certificate to be added.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.CertificateAddResponse>
    */
   add(certificate: Models.CertificateAddParameter, options?: Models.CertificateAddOptionalParams): Promise<Models.CertificateAddResponse>;
   /**
    * @param certificate The Certificate to be added.
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   add(certificate: Models.CertificateAddParameter, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param certificate The Certificate to be added.
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   add(certificate: Models.CertificateAddParameter, options: Models.CertificateAddOptionalParams, callback: msRest.ServiceCallback<void>): void;
   add(certificate: Models.CertificateAddParameter, options?: Models.CertificateAddOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.CertificateAddResponse> {
@@ -54,18 +60,24 @@ export class CertificateOperations {
   }
 
   /**
+   * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    * @summary Lists all of the Certificates that have been added to the specified Account.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.CertificateListResponse>
    */
   list(options?: Models.CertificateListOptionalParams): Promise<Models.CertificateListResponse>;
   /**
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   list(callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   list(options: Models.CertificateListOptionalParams, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
   list(options?: Models.CertificateListOptionalParams | msRest.ServiceCallback<Models.CertificateListResult>, callback?: msRest.ServiceCallback<Models.CertificateListResult>): Promise<Models.CertificateListResponse> {
@@ -84,11 +96,16 @@ export class CertificateOperations {
    * you intend to delete the Certificate, you do not need to run this operation after the deletion
    * failed. You must make sure that the Certificate is not being used by any resources, and then you
    * can try again to delete the Certificate.
+   *
+   * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    * @summary Cancels a failed deletion of a Certificate from the specified Account.
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
    * @param thumbprint The thumbprint of the Certificate being deleted.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.CertificateCancelDeletionResponse>
    */
   cancelDeletion(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateCancelDeletionOptionalParams): Promise<Models.CertificateCancelDeletionResponse>;
@@ -97,6 +114,7 @@ export class CertificateOperations {
    * sha1.
    * @param thumbprint The thumbprint of the Certificate being deleted.
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   cancelDeletion(thumbprintAlgorithm: string, thumbprint: string, callback: msRest.ServiceCallback<void>): void;
   /**
@@ -105,6 +123,7 @@ export class CertificateOperations {
    * @param thumbprint The thumbprint of the Certificate being deleted.
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   cancelDeletion(thumbprintAlgorithm: string, thumbprint: string, options: Models.CertificateCancelDeletionOptionalParams, callback: msRest.ServiceCallback<void>): void;
   cancelDeletion(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateCancelDeletionOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.CertificateCancelDeletionResponse> {
@@ -127,11 +146,16 @@ export class CertificateOperations {
    * that is in use, the deletion fails. The Certificate status changes to deleteFailed. You can use
    * Cancel Delete Certificate to set the status back to active if you decide that you want to
    * continue using the Certificate.
+   *
+   * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    * @summary Deletes a Certificate from the specified Account.
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
    * @param thumbprint The thumbprint of the Certificate to be deleted.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.CertificateDeleteResponse>
    */
   deleteMethod(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateDeleteMethodOptionalParams): Promise<Models.CertificateDeleteResponse>;
@@ -140,6 +164,7 @@ export class CertificateOperations {
    * sha1.
    * @param thumbprint The thumbprint of the Certificate to be deleted.
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   deleteMethod(thumbprintAlgorithm: string, thumbprint: string, callback: msRest.ServiceCallback<void>): void;
   /**
@@ -148,6 +173,7 @@ export class CertificateOperations {
    * @param thumbprint The thumbprint of the Certificate to be deleted.
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   deleteMethod(thumbprintAlgorithm: string, thumbprint: string, options: Models.CertificateDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
   deleteMethod(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.CertificateDeleteResponse> {
@@ -162,11 +188,15 @@ export class CertificateOperations {
   }
 
   /**
-   * Gets information about the specified Certificate.
+   * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
+   * @summary Gets information about the specified Certificate.
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
    * @param thumbprint The thumbprint of the Certificate to get.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.CertificateGetResponse>
    */
   get(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateGetOptionalParams): Promise<Models.CertificateGetResponse>;
@@ -175,6 +205,7 @@ export class CertificateOperations {
    * sha1.
    * @param thumbprint The thumbprint of the Certificate to get.
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   get(thumbprintAlgorithm: string, thumbprint: string, callback: msRest.ServiceCallback<Models.Certificate>): void;
   /**
@@ -183,6 +214,7 @@ export class CertificateOperations {
    * @param thumbprint The thumbprint of the Certificate to get.
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   get(thumbprintAlgorithm: string, thumbprint: string, options: Models.CertificateGetOptionalParams, callback: msRest.ServiceCallback<Models.Certificate>): void;
   get(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateGetOptionalParams | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificateGetResponse> {
@@ -197,21 +229,27 @@ export class CertificateOperations {
   }
 
   /**
+   * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    * @summary Lists all of the Certificates that have been added to the specified Account.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.CertificateListResponse>
    */
   listNext(nextPageLink: string, options?: Models.CertificateListNextOptionalParams): Promise<Models.CertificateListResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   listNext(nextPageLink: string, options: Models.CertificateListNextOptionalParams, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
   listNext(nextPageLink: string, options?: Models.CertificateListNextOptionalParams | msRest.ServiceCallback<Models.CertificateListResult>, callback?: msRest.ServiceCallback<Models.CertificateListResult>): Promise<Models.CertificateListResponse> {
@@ -235,13 +273,13 @@ const addOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout32
+    Parameters.timeout18
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId40,
-    Parameters.returnClientRequestId40,
-    Parameters.ocpDate40
+    Parameters.clientRequestId23,
+    Parameters.returnClientRequestId23,
+    Parameters.ocpDate23
   ],
   requestBody: {
     parameterPath: "certificate",
@@ -271,16 +309,16 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.filter7,
-    Parameters.select6,
-    Parameters.maxResults8,
-    Parameters.timeout33
+    Parameters.filter4,
+    Parameters.select2,
+    Parameters.maxResults5,
+    Parameters.timeout19
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId41,
-    Parameters.returnClientRequestId41,
-    Parameters.ocpDate41
+    Parameters.clientRequestId24,
+    Parameters.returnClientRequestId24,
+    Parameters.ocpDate24
   ],
   responses: {
     200: {
@@ -305,13 +343,13 @@ const cancelDeletionOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout34
+    Parameters.timeout20
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId42,
-    Parameters.returnClientRequestId42,
-    Parameters.ocpDate42
+    Parameters.clientRequestId25,
+    Parameters.returnClientRequestId25,
+    Parameters.ocpDate25
   ],
   responses: {
     204: {
@@ -335,13 +373,13 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout35
+    Parameters.timeout21
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId43,
-    Parameters.returnClientRequestId43,
-    Parameters.ocpDate43
+    Parameters.clientRequestId26,
+    Parameters.returnClientRequestId26,
+    Parameters.ocpDate26
   ],
   responses: {
     202: {
@@ -365,14 +403,14 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.select7,
-    Parameters.timeout36
+    Parameters.select3,
+    Parameters.timeout22
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId44,
-    Parameters.returnClientRequestId44,
-    Parameters.ocpDate44
+    Parameters.clientRequestId27,
+    Parameters.returnClientRequestId27,
+    Parameters.ocpDate27
   ],
   responses: {
     200: {
@@ -399,9 +437,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId45,
-    Parameters.returnClientRequestId45,
-    Parameters.ocpDate45
+    Parameters.clientRequestId28,
+    Parameters.returnClientRequestId28,
+    Parameters.ocpDate28
   ],
   responses: {
     200: {

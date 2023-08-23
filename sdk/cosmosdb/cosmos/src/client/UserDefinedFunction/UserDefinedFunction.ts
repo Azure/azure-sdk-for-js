@@ -49,7 +49,13 @@ export class UserDefinedFunction {
       resourceId: id,
       options,
     });
-    return new UserDefinedFunctionResponse(response.result, response.headers, response.code, this);
+    return new UserDefinedFunctionResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /**
@@ -79,7 +85,13 @@ export class UserDefinedFunction {
       resourceId: id,
       options,
     });
-    return new UserDefinedFunctionResponse(response.result, response.headers, response.code, this);
+    return new UserDefinedFunctionResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /**
@@ -95,6 +107,12 @@ export class UserDefinedFunction {
       resourceId: id,
       options,
     });
-    return new UserDefinedFunctionResponse(response.result, response.headers, response.code, this);
+    return new UserDefinedFunctionResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 }

@@ -1322,7 +1322,8 @@ export const BlobPropertiesInternal: coreClient.CompositeMapper = {
           name: "Enum",
           allowedValues: [
             "rehydrate-pending-to-hot",
-            "rehydrate-pending-to-cool"
+            "rehydrate-pending-to-cool",
+            "rehydrate-pending-to-cold"
           ]
         }
       },
@@ -3869,6 +3870,13 @@ export const BlobDownloadHeaders: coreClient.CompositeMapper = {
       lastModified: {
         serializedName: "last-modified",
         xmlName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      createdOn: {
+        serializedName: "x-ms-creation-time",
+        xmlName: "x-ms-creation-time",
         type: {
           name: "DateTimeRfc1123"
         }

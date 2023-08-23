@@ -16,7 +16,9 @@ import {
   BuildDocumentModelRequest as BuildDocumentModelRequestMapper,
   ComposeDocumentModelRequest as ComposeDocumentModelRequestMapper,
   AuthorizeCopyRequest as AuthorizeCopyRequestMapper,
-  CopyAuthorization as CopyAuthorizationMapper
+  CopyAuthorization as CopyAuthorizationMapper,
+  BuildDocumentClassifierRequest as BuildDocumentClassifierRequestMapper,
+  ClassifyDocumentRequest as ClassifyDocumentRequestMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -29,6 +31,9 @@ export const contentType: OperationParameter = {
       allowedValues: [
         "application/octet-stream",
         "application/pdf",
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "image/bmp",
         "image/heif",
         "image/jpeg",
@@ -64,7 +69,7 @@ export const accept: OperationParameter = {
 export const contentType1: OperationParameter = {
   parameterPath: "contentType",
   mapper: {
-    defaultValue: "application/json",
+    defaultValue: "text/html",
     isConstant: true,
     serializedName: "Content-Type",
     type: {
@@ -75,10 +80,44 @@ export const contentType1: OperationParameter = {
 
 export const analyzeRequest1: OperationParameter = {
   parameterPath: ["options", "analyzeRequest"],
-  mapper: AnalyzeDocumentRequestMapper
+  mapper: {
+    serializedName: "analyzeRequest",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType2: OperationParameter = {
+  parameterPath: "contentType",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const analyzeRequest2: OperationParameter = {
+  parameterPath: ["options", "analyzeRequest"],
+  mapper: AnalyzeDocumentRequestMapper
+};
+
+export const accept2: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue: "application/json",
@@ -106,7 +145,8 @@ export const modelId: OperationURLParameter = {
   parameterPath: "modelId",
   mapper: {
     constraints: {
-      Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}$"),
+      MaxLength: 64
     },
     serializedName: "modelId",
     required: true,
@@ -152,7 +192,7 @@ export const stringIndexType: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-08-31",
+    defaultValue: "2023-07-31",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -161,18 +201,34 @@ export const apiVersion: OperationQueryParameter = {
   }
 };
 
+export const features: OperationQueryParameter = {
+  parameterPath: ["options", "features"],
+  mapper: {
+    serializedName: "features",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: "CSV"
+};
+
 export const resultId: OperationURLParameter = {
   parameterPath: "resultId",
   mapper: {
     serializedName: "resultId",
     required: true,
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
 
-export const contentType2: OperationParameter = {
+export const contentType3: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
     defaultValue: "application/json",
@@ -204,17 +260,6 @@ export const copyToRequest: OperationParameter = {
   mapper: CopyAuthorizationMapper
 };
 
-export const operationId: OperationURLParameter = {
-  parameterPath: "operationId",
-  mapper: {
-    serializedName: "operationId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const nextLink: OperationURLParameter = {
   parameterPath: "nextLink",
   mapper: {
@@ -225,4 +270,66 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+      ),
+      MaxLength: 36
+    },
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const buildRequest1: OperationParameter = {
+  parameterPath: "buildRequest",
+  mapper: BuildDocumentClassifierRequestMapper
+};
+
+export const classifierId: OperationURLParameter = {
+  parameterPath: "classifierId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}$"),
+      MaxLength: 64
+    },
+    serializedName: "classifierId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const classifyRequest: OperationParameter = {
+  parameterPath: ["options", "classifyRequest"],
+  mapper: {
+    serializedName: "classifyRequest",
+    type: {
+      name: "Stream"
+    }
+  }
+};
+
+export const classifyRequest1: OperationParameter = {
+  parameterPath: ["options", "classifyRequest"],
+  mapper: {
+    serializedName: "classifyRequest",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const classifyRequest2: OperationParameter = {
+  parameterPath: ["options", "classifyRequest"],
+  mapper: ClassifyDocumentRequestMapper
 };

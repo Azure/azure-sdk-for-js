@@ -1,6 +1,6 @@
 # Release History
 
-## 3.2.1 (Unreleased)
+## 3.3.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,20 @@
 
 ### Other Changes
 
+## 3.3.0 (2023-03-01)
+    
+**Features**
+
+  - Added Type Alias CleanupConnectionArtifacts
+  - Added Type Alias RecordPropertyAndItemRemovals
+  - Interface AzureDataExplorerConnectionProperties has a new optional parameter adxRelationshipLifecycleEventsTableName
+  - Interface AzureDataExplorerConnectionProperties has a new optional parameter adxTwinLifecycleEventsTableName
+  - Interface AzureDataExplorerConnectionProperties has a new optional parameter recordPropertyAndItemRemovals
+  - Interface TimeSeriesDatabaseConnectionsDeleteOptionalParams has a new optional parameter cleanupConnectionArtifacts
+  - Added Enum KnownCleanupConnectionArtifacts
+  - Added Enum KnownRecordPropertyAndItemRemovals
+    
+    
 ## 3.2.0 (2022-11-30)
     
 **Features**

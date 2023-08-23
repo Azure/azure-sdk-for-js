@@ -90,6 +90,6 @@ describe("Datafactory test", () => {
     for await (let item of client.quota.list(subscriptionId, providerId, location)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 106);
+    assert.equal(resArray.length, 108);
   });
 });

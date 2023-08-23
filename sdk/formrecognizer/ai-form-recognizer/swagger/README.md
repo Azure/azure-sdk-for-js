@@ -12,12 +12,11 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-# input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1a8a869d1a96dc007f116d320f5c2659323bbe7c/specification/cognitiveservices/data-plane/FormRecognizer/stable/v2.1/FormRecognizer.json
-input-file: ./FormRecognizer.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/cognitiveservices/data-plane/FormRecognizer/stable/2023-07-31/FormRecognizer.json
 override-client-name: GeneratedClient
 add-credentials: false
 typescript: true
-package-version: "4.0.0"
+package-version: "5.0.0"
 use-extension:
   "@autorest/typescript": "6.0.0-alpha.20.20220622.1"
 ```
@@ -57,8 +56,14 @@ directive:
   - from: swagger-document
     where: $.definitions[*].properties
     transform: >
-      for (const p of Object.keys($).filter((k) => k.endsWith("DateTime"))) {
-        $[p]["x-ms-client-name"] = p.replace(/DateTime$/, "On");
+      for (let p of Object.keys($).filter((k) => k.endsWith("DateTime"))) {
+        const name = p;
+        
+        if (p.startsWith("expiration")) {
+          p = p.replace("expiration", "expires");
+        }
+
+        $[name]["x-ms-client-name"] = p.replace(/DateTime$/, "On");
       }
 ```
 
@@ -70,4 +75,18 @@ directive:
     where: $.definitions.CopyAuthorization.properties.expirationDateTime
     transform: >
       delete $["x-ms-client-name"];
+```
+
+### Unset `format: uuid` for Id parameters
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.PathModelId
+    transform: >
+      delete $["format"];
+  - from: swagger-document
+    where: $.parameters.PathOperationId
+    transform: >
+      delete $["format"];
 ```

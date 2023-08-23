@@ -6,7 +6,7 @@ REST API for Azure SignalR Service
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/signalr/arm-signalr) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-signalr) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-signalr?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-signalr) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

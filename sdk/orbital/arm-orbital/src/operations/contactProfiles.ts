@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureOrbital } from "../azureOrbital";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ContactProfile,
   ContactProfilesListBySubscriptionNextOptionalParams,
@@ -25,6 +29,8 @@ import {
   ContactProfilesListResponse,
   ContactProfilesGetOptionalParams,
   ContactProfilesGetResponse,
+  ContactProfilesPropertiesNetworkConfiguration,
+  ContactProfileLink,
   ContactProfilesCreateOrUpdateOptionalParams,
   ContactProfilesCreateOrUpdateResponse,
   ContactProfilesDeleteOptionalParams,
@@ -49,7 +55,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Returns list of contact profiles by Subscription
+   * Returns list of contact profiles by Subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -103,7 +109,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Returns list of contact profiles by Resource Group
+   * Returns list of contact profiles by Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -165,9 +171,9 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Gets the specified contact Profile in a specified resource group
+   * Gets the specified contact Profile in a specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param options The options parameters.
    */
   get(
@@ -182,20 +188,24 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Creates or updates a contact profile
+   * Creates or updates a contact profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param location The geo-location where the resource lives
+   * @param networkConfiguration Network configuration of customer virtual network.
+   * @param links Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     contactProfileName: string,
     location: string,
+    networkConfiguration: ContactProfilesPropertiesNetworkConfiguration,
+    links: ContactProfileLink[],
     options?: ContactProfilesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContactProfilesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ContactProfilesCreateOrUpdateResponse>,
       ContactProfilesCreateOrUpdateResponse
     >
   > {
@@ -205,7 +215,7 @@ export class ContactProfilesImpl implements ContactProfiles {
     ): Promise<ContactProfilesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -238,37 +248,53 @@ export class ContactProfilesImpl implements ContactProfiles {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, contactProfileName, location, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        contactProfileName,
+        location,
+        networkConfiguration,
+        links,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ContactProfilesCreateOrUpdateResponse,
+      OperationState<ContactProfilesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates or updates a contact profile
+   * Creates or updates a contact profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param location The geo-location where the resource lives
+   * @param networkConfiguration Network configuration of customer virtual network.
+   * @param links Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     contactProfileName: string,
     location: string,
+    networkConfiguration: ContactProfilesPropertiesNetworkConfiguration,
+    links: ContactProfileLink[],
     options?: ContactProfilesCreateOrUpdateOptionalParams
   ): Promise<ContactProfilesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       contactProfileName,
       location,
+      networkConfiguration,
+      links,
       options
     );
     return poller.pollUntilDone();
@@ -277,21 +303,21 @@ export class ContactProfilesImpl implements ContactProfiles {
   /**
    * Deletes a specified contact profile resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     contactProfileName: string,
     options?: ContactProfilesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -324,15 +350,15 @@ export class ContactProfilesImpl implements ContactProfiles {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, contactProfileName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, contactProfileName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -341,7 +367,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   /**
    * Deletes a specified contact profile resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -360,7 +386,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   /**
    * Updates the specified contact profile tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param parameters Parameters supplied to update contact profile tags.
    * @param options The options parameters.
    */
@@ -370,8 +396,8 @@ export class ContactProfilesImpl implements ContactProfiles {
     parameters: TagsObject,
     options?: ContactProfilesUpdateTagsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContactProfilesUpdateTagsResponse>,
+    SimplePollerLike<
+      OperationState<ContactProfilesUpdateTagsResponse>,
       ContactProfilesUpdateTagsResponse
     >
   > {
@@ -381,7 +407,7 @@ export class ContactProfilesImpl implements ContactProfiles {
     ): Promise<ContactProfilesUpdateTagsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -414,15 +440,18 @@ export class ContactProfilesImpl implements ContactProfiles {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, contactProfileName, parameters, options },
-      updateTagsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, contactProfileName, parameters, options },
+      spec: updateTagsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ContactProfilesUpdateTagsResponse,
+      OperationState<ContactProfilesUpdateTagsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -431,7 +460,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   /**
    * Updates the specified contact profile tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile Name
+   * @param contactProfileName Contact Profile name.
    * @param parameters Parameters supplied to update contact profile tags.
    * @param options The options parameters.
    */
@@ -451,7 +480,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Returns list of contact profiles by Subscription
+   * Returns list of contact profiles by Subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
@@ -464,7 +493,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Returns list of contact profiles by Resource Group
+   * Returns list of contact profiles by Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -522,7 +551,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactProfile
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -553,7 +582,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactProfile
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: {
@@ -565,8 +594,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       minimumElevationDegrees: ["options", "minimumElevationDegrees"],
       autoTrackingConfiguration: ["options", "autoTrackingConfiguration"],
       eventHubUri: ["options", "eventHubUri"],
-      networkConfiguration: ["options", "networkConfiguration"],
-      links: ["options", "links"]
+      networkConfiguration: ["networkConfiguration"],
+      thirdPartyConfigurations: ["options", "thirdPartyConfigurations"],
+      links: ["links"]
     },
     mapper: { ...Mappers.ContactProfile, required: true }
   },
@@ -591,7 +621,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -622,7 +652,7 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactProfile
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters1,
@@ -646,7 +676,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactProfileListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
@@ -663,7 +693,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactProfileListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
@@ -683,7 +713,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactProfileListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
@@ -702,7 +732,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContactProfileListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [

@@ -309,7 +309,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters32,
+  requestBody: Parameters.parameters24,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
@@ -319,7 +319,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.jobAgentName,
     Parameters.credentialName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

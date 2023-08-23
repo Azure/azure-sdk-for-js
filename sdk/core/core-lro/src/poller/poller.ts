@@ -56,6 +56,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     isOperationError,
     getResourceLocation,
     getPollingInterval,
+    getError,
     resolveOnUnsuccessful,
   } = inputs;
   return async (
@@ -171,6 +172,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           getOperationStatus: getStatusFromPollResponse,
           getResourceLocation,
           processResult,
+          getError,
           updateState,
           options: pollOptions,
           setDelay: (pollIntervalInMs) => {

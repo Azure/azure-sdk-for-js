@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.89.0",
+  "rushVersion": "5.101.0",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "7.26.0",
+  "pnpmVersion": "7.33.5",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -341,6 +341,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/ai-translation-text",
+      "projectFolder": "sdk/translation/ai-translation-text-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/confidential-ledger",
       "projectFolder": "sdk/confidentialledger/confidential-ledger-rest",
       "versionPolicyName": "client"
@@ -371,6 +376,16 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-language-textauthoring",
+      "projectFolder": "sdk/cognitivelanguage/ai-language-textauthoring",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/openai",
+      "projectFolder": "sdk/openai/openai",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-metrics-advisor",
       "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor",
       "versionPolicyName": "client"
@@ -393,6 +408,11 @@
     {
       "packageName": "@azure/quantum-jobs",
       "projectFolder": "sdk/quantum/quantum-jobs",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-call-automation",
+      "projectFolder": "sdk/communication/communication-call-automation",
       "versionPolicyName": "client"
     },
     {
@@ -433,6 +453,11 @@
     {
       "packageName": "@azure-tools/communication-recipient-verification",
       "projectFolder": "sdk/communication/communication-recipient-verification",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tools/communication-tiering",
+      "projectFolder": "sdk/communication/communication-tiering",
       "versionPolicyName": "client"
     },
     {
@@ -518,6 +543,11 @@
     {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/monitor-opentelemetry",
+      "projectFolder": "sdk/monitor/monitor-opentelemetry",
       "versionPolicyName": "client"
     },
     {
@@ -622,11 +652,13 @@
     },
     {
       "packageName": "@azure-rest/maps-render",
-      "projectFolder": "sdk/maps/maps-render-rest"
+      "projectFolder": "sdk/maps/maps-render-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-rest/maps-geolocation",
-      "projectFolder": "sdk/maps/maps-geolocation-rest"
+      "projectFolder": "sdk/maps/maps-geolocation-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-rest/maps-search",
@@ -656,6 +688,11 @@
     {
       "packageName": "@azure/schema-registry-avro",
       "projectFolder": "sdk/schemaregistry/schema-registry-avro",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/schema-registry-json",
+      "projectFolder": "sdk/schemaregistry/schema-registry-json",
       "versionPolicyName": "client"
     },
     {
@@ -744,8 +781,18 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/template-dpg",
+      "projectFolder": "sdk/template/template-dpg",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/eslint-plugin-azure-sdk",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure-tool/eslint-plugin-azure-sdk-helper",
+      "projectFolder": "common/tools/eslint-plugin-azure-sdk-helper",
       "versionPolicyName": "utility"
     },
     {
@@ -1364,6 +1411,16 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/health-insights-cancerprofiling",
+      "projectFolder": "sdk/healthinsights/health-insights-cancerprofiling-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/health-insights-clinicalmatching",
+      "projectFolder": "sdk/healthinsights/health-insights-clinicalmatching-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-deploymentmanager",
       "projectFolder": "sdk/deploymentmanager/arm-deploymentmanager",
       "versionPolicyName": "management"
@@ -1929,11 +1986,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-liftrqumulo",
-      "projectFolder": "sdk/liftrqumulo/arm-liftrqumulo",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-storagemover",
       "projectFolder": "sdk/storagemover/arm-storagemover",
       "versionPolicyName": "management"
@@ -1947,6 +1999,81 @@
       "packageName": "@azure/web-pubsub-client-protobuf",
       "projectFolder": "sdk/web-pubsub/web-pubsub-client-protobuf",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-graphservices",
+      "projectFolder": "sdk/graphservices/arm-graphservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-newrelicobservability",
+      "projectFolder": "sdk/newrelicobservability/arm-newrelicobservability",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-paloaltonetworksngfw",
+      "projectFolder": "sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-selfhelp",
+      "projectFolder": "sdk/selfhelp/arm-selfhelp",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-costmanagement",
+      "projectFolder": "sdk/cost-management/arm-costmanagement",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-networkcloud",
+      "projectFolder": "sdk/networkcloud/arm-networkcloud",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-baremetalinfrastructure",
+      "projectFolder": "sdk/baremetalinfrastructure/arm-baremetalinfrastructure",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-qumulo",
+      "projectFolder": "sdk/liftrqumulo/arm-qumulo",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerservicefleet",
+      "projectFolder": "sdk/containerservice/arm-containerservicefleet",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cosmosdbforpostgresql",
+      "projectFolder": "sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managednetworkfabric",
+      "projectFolder": "sdk/managednetworkfabric/arm-managednetworkfabric",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-iotfirmwaredefense",
+      "projectFolder": "sdk/iotfirmwaredefense/arm-iotfirmwaredefense",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-quantum",
+      "projectFolder": "sdk/quantum/arm-quantum",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sphere",
+      "projectFolder": "sdk/sphere/arm-sphere",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-defendereasm",
+      "projectFolder": "sdk/defendereasm/arm-defendereasm",
+      "versionPolicyName": "management"
     }
   ]
 }

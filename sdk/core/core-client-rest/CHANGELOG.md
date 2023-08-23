@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.1.5 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,26 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.4 (2023-07-06)
+
+### Features Added
+
+- Add `timeout`, `onUploadProgress`, `onDownloadProgress`, `abortSignal`, `tracingOptions`, `onResponse` in the `RequestParameters` for better RLC user experience.
+- Add `OperationOptions` for better modular user experience.
+- Correctly handle `allowInsecureConnection` handling when `undefined` is passed in `RequestParameters`. See https://github.com/Azure/autorest.typescript/issues/1916 for details.
+
+## 1.1.3 (2023-05-04)
+
+### Features Added
+
+- Add loggingOptions in ClientOptions for logger support.
+
+## 1.1.2 (2023-04-06)
+
+### Bugs Fixed
+
+- fix unexpected url encoding when apiVersionPolicy applies and even if we have passed the skipUrlEncoding as true in the request.
 
 ## 1.1.1 (2023-03-02)
 

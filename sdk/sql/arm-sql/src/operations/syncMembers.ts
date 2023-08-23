@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SyncMember,
   SyncMembersListBySyncGroupNextOptionalParams,
@@ -315,8 +319,8 @@ export class SyncMembersImpl implements SyncMembers {
     parameters: SyncMember,
     options?: SyncMembersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SyncMembersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SyncMembersCreateOrUpdateResponse>,
       SyncMembersCreateOrUpdateResponse
     >
   > {
@@ -326,7 +330,7 @@ export class SyncMembersImpl implements SyncMembers {
     ): Promise<SyncMembersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -359,9 +363,9 @@ export class SyncMembersImpl implements SyncMembers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -370,10 +374,13 @@ export class SyncMembersImpl implements SyncMembers {
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SyncMembersCreateOrUpdateResponse,
+      OperationState<SyncMembersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -429,14 +436,14 @@ export class SyncMembersImpl implements SyncMembers {
     syncGroupName: string,
     syncMemberName: string,
     options?: SyncMembersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -469,9 +476,9 @@ export class SyncMembersImpl implements SyncMembers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -479,10 +486,10 @@ export class SyncMembersImpl implements SyncMembers {
         syncMemberName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -538,8 +545,8 @@ export class SyncMembersImpl implements SyncMembers {
     parameters: SyncMember,
     options?: SyncMembersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SyncMembersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SyncMembersUpdateResponse>,
       SyncMembersUpdateResponse
     >
   > {
@@ -549,7 +556,7 @@ export class SyncMembersImpl implements SyncMembers {
     ): Promise<SyncMembersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -582,9 +589,9 @@ export class SyncMembersImpl implements SyncMembers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -593,10 +600,13 @@ export class SyncMembersImpl implements SyncMembers {
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SyncMembersUpdateResponse,
+      OperationState<SyncMembersUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -705,14 +715,14 @@ export class SyncMembersImpl implements SyncMembers {
     syncGroupName: string,
     syncMemberName: string,
     options?: SyncMembersRefreshMemberSchemaOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -745,9 +755,9 @@ export class SyncMembersImpl implements SyncMembers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -755,10 +765,10 @@ export class SyncMembersImpl implements SyncMembers {
         syncMemberName,
         options
       },
-      refreshMemberSchemaOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: refreshMemberSchemaOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -904,7 +914,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters70,
+  requestBody: Parameters.parameters56,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
@@ -915,7 +925,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.syncMemberName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -955,7 +965,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters70,
+  requestBody: Parameters.parameters56,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
@@ -966,7 +976,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.syncMemberName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

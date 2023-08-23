@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BaseAdminRuleUnion,
   AdminRulesListOptionalParams,
@@ -88,7 +88,7 @@ export interface AdminRules {
     ruleCollectionName: string,
     ruleName: string,
     options?: AdminRulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an admin rule.
    * @param resourceGroupName The name of the resource group.

@@ -8,10 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const ShortCodes: coreClient.CompositeMapper = {
+export const AcquiredShortCodes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ShortCodes",
+    className: "AcquiredShortCodes",
     modelProperties: {
       shortCodes: {
         serializedName: "shortCodes",
@@ -40,14 +40,8 @@ export const ShortCode: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ShortCode",
     modelProperties: {
-      number: {
-        serializedName: "number",
-        type: {
-          name: "String"
-        }
-      },
-      numberType: {
-        serializedName: "numberType",
+      value: {
+        serializedName: "value",
         type: {
           name: "String"
         }
@@ -139,6 +133,72 @@ export const CommunicationError: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CommunicationError"
+        }
+      }
+    }
+  }
+};
+
+export const ShortCodeCosts: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ShortCodeCosts",
+    modelProperties: {
+      costs: {
+        serializedName: "costs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ShortCodeCost"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ShortCodeCost: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ShortCodeCost",
+    modelProperties: {
+      amount: {
+        serializedName: "amount",
+        type: {
+          name: "Number"
+        }
+      },
+      currencyCode: {
+        serializedName: "currencyCode",
+        type: {
+          name: "String"
+        }
+      },
+      countryCode: {
+        serializedName: "countryCode",
+        type: {
+          name: "String"
+        }
+      },
+      isVanityShortCode: {
+        serializedName: "isVanityShortCode",
+        type: {
+          name: "Boolean"
+        }
+      },
+      billingFrequency: {
+        serializedName: "billingFrequency",
+        type: {
+          name: "String"
         }
       }
     }
@@ -264,36 +324,6 @@ export const ReviewNote: coreClient.CompositeMapper = {
         serializedName: "date",
         type: {
           name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const ShortCodeCost: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ShortCodeCost",
-    modelProperties: {
-      amount: {
-        serializedName: "amount",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      currencyCode: {
-        serializedName: "currencyCode",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      billingFrequency: {
-        serializedName: "billingFrequency",
-        required: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -771,6 +801,9 @@ export const ProgramBriefAttachment: coreClient.CompositeMapper = {
         }
       },
       fileName: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "fileName",
         required: true,
         type: {
@@ -791,6 +824,9 @@ export const ProgramBriefAttachment: coreClient.CompositeMapper = {
         }
       },
       fileContentBase64: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "fileContentBase64",
         required: true,
         type: {

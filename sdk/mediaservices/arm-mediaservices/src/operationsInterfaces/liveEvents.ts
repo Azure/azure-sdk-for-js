@@ -7,16 +7,10 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   LiveEvent,
   LiveEventsListOptionalParams,
-  LiveEventStatus,
-  LiveEventsListGetStatusOptionalParams,
-  LiveEventStreamEvent,
-  LiveEventsListGetStreamEventsOptionalParams,
-  LiveEventTrackEvent,
-  LiveEventsListGetTrackIngestHeartbeatsOptionalParams,
   LiveEventsGetOptionalParams,
   LiveEventsGetResponse,
   LiveEventsCreateOptionalParams,
@@ -50,45 +44,6 @@ export interface LiveEvents {
     options?: LiveEventsListOptionalParams
   ): PagedAsyncIterableIterator<LiveEvent>;
   /**
-   * Gets status telemetry of a live event.
-   * @param resourceGroupName The name of the resource group within the Azure subscription.
-   * @param accountName The Media Services account name.
-   * @param liveEventName The name of the live event, maximum length is 32.
-   * @param options The options parameters.
-   */
-  beginListGetStatusAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    liveEventName: string,
-    options?: LiveEventsListGetStatusOptionalParams
-  ): PagedAsyncIterableIterator<LiveEventStatus>;
-  /**
-   * Get stream events telemetry of a live event.
-   * @param resourceGroupName The name of the resource group within the Azure subscription.
-   * @param accountName The Media Services account name.
-   * @param liveEventName The name of the live event, maximum length is 32.
-   * @param options The options parameters.
-   */
-  beginListGetStreamEventsAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    liveEventName: string,
-    options?: LiveEventsListGetStreamEventsOptionalParams
-  ): PagedAsyncIterableIterator<LiveEventStreamEvent>;
-  /**
-   * Get track ingest heartbeat events telemetry of a live event.
-   * @param resourceGroupName The name of the resource group within the Azure subscription.
-   * @param accountName The Media Services account name.
-   * @param liveEventName The name of the live event, maximum length is 32.
-   * @param options The options parameters.
-   */
-  beginListGetTrackIngestHeartbeatsAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    liveEventName: string,
-    options?: LiveEventsListGetTrackIngestHeartbeatsOptionalParams
-  ): PagedAsyncIterableIterator<LiveEventTrackEvent>;
-  /**
    * Gets properties of a live event.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -116,8 +71,8 @@ export interface LiveEvents {
     parameters: LiveEvent,
     options?: LiveEventsCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<LiveEventsCreateResponse>,
+    PollerLike<
+      PollOperationState<LiveEventsCreateResponse>,
       LiveEventsCreateResponse
     >
   >;
@@ -151,8 +106,8 @@ export interface LiveEvents {
     parameters: LiveEvent,
     options?: LiveEventsUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<LiveEventsUpdateResponse>,
+    PollerLike<
+      PollOperationState<LiveEventsUpdateResponse>,
       LiveEventsUpdateResponse
     >
   >;
@@ -183,7 +138,7 @@ export interface LiveEvents {
     accountName: string,
     liveEventName: string,
     options?: LiveEventsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a live event.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
@@ -209,7 +164,7 @@ export interface LiveEvents {
     accountName: string,
     liveEventName: string,
     options?: LiveEventsAllocateOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * A live event is in StandBy state after allocation completes, and is ready to start.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
@@ -236,7 +191,7 @@ export interface LiveEvents {
     accountName: string,
     liveEventName: string,
     options?: LiveEventsStartOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * A live event in Stopped or StandBy state will be in Running state after the start operation
    * completes.
@@ -265,7 +220,7 @@ export interface LiveEvents {
     liveEventName: string,
     parameters: LiveEventActionInput,
     options?: LiveEventsStopOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Stops a running live event.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
@@ -295,7 +250,7 @@ export interface LiveEvents {
     accountName: string,
     liveEventName: string,
     options?: LiveEventsResetOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Resets an existing live event. All live outputs for the live event are deleted and the live event is
    * stopped and will be started again. All assets used by the live outputs and streaming locators

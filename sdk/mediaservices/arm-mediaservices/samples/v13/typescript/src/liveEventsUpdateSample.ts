@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates settings on an existing live event.
  *
  * @summary Updates settings on an existing live event.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/liveevent-update.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveevent-update.json
  */
 async function updateALiveEvent() {
   const subscriptionId =

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   LoadBalancer,
   LoadBalancersListAllNextOptionalParams,
@@ -36,6 +40,8 @@ import {
   QueryInboundNatRulePortMappingRequest,
   LoadBalancersListInboundNatRulePortMappingsOptionalParams,
   LoadBalancersListInboundNatRulePortMappingsResponse,
+  LoadBalancersMigrateToIpBasedOptionalParams,
+  LoadBalancersMigrateToIpBasedResponse,
   LoadBalancersListAllNextResponse,
   LoadBalancersListNextResponse
 } from "../models";
@@ -179,14 +185,14 @@ export class LoadBalancersImpl implements LoadBalancers {
     resourceGroupName: string,
     loadBalancerName: string,
     options?: LoadBalancersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -219,15 +225,15 @@ export class LoadBalancersImpl implements LoadBalancers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, loadBalancerName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, loadBalancerName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -282,8 +288,8 @@ export class LoadBalancersImpl implements LoadBalancers {
     parameters: LoadBalancer,
     options?: LoadBalancersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LoadBalancersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LoadBalancersCreateOrUpdateResponse>,
       LoadBalancersCreateOrUpdateResponse
     >
   > {
@@ -293,7 +299,7 @@ export class LoadBalancersImpl implements LoadBalancers {
     ): Promise<LoadBalancersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -326,15 +332,18 @@ export class LoadBalancersImpl implements LoadBalancers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, loadBalancerName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, loadBalancerName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LoadBalancersCreateOrUpdateResponse,
+      OperationState<LoadBalancersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -416,14 +425,14 @@ export class LoadBalancersImpl implements LoadBalancers {
     location: string,
     parameters: LoadBalancerVipSwapRequest,
     options?: LoadBalancersSwapPublicIpAddressesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -456,15 +465,15 @@ export class LoadBalancersImpl implements LoadBalancers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { location, parameters, options },
-      swapPublicIpAddressesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { location, parameters, options },
+      spec: swapPublicIpAddressesOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -504,8 +513,8 @@ export class LoadBalancersImpl implements LoadBalancers {
     parameters: QueryInboundNatRulePortMappingRequest,
     options?: LoadBalancersListInboundNatRulePortMappingsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LoadBalancersListInboundNatRulePortMappingsResponse>,
+    SimplePollerLike<
+      OperationState<LoadBalancersListInboundNatRulePortMappingsResponse>,
       LoadBalancersListInboundNatRulePortMappingsResponse
     >
   > {
@@ -515,7 +524,7 @@ export class LoadBalancersImpl implements LoadBalancers {
     ): Promise<LoadBalancersListInboundNatRulePortMappingsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -548,15 +557,24 @@ export class LoadBalancersImpl implements LoadBalancers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { groupName, loadBalancerName, backendPoolName, parameters, options },
-      listInboundNatRulePortMappingsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        groupName,
+        loadBalancerName,
+        backendPoolName,
+        parameters,
+        options
+      },
+      spec: listInboundNatRulePortMappingsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LoadBalancersListInboundNatRulePortMappingsResponse,
+      OperationState<LoadBalancersListInboundNatRulePortMappingsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -585,6 +603,23 @@ export class LoadBalancersImpl implements LoadBalancers {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Migrate load balancer to IP Based
+   * @param groupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param options The options parameters.
+   */
+  migrateToIpBased(
+    groupName: string,
+    loadBalancerName: string,
+    options?: LoadBalancersMigrateToIpBasedOptionalParams
+  ): Promise<LoadBalancersMigrateToIpBasedResponse> {
+    return this.client.sendOperationRequest(
+      { groupName, loadBalancerName, options },
+      migrateToIpBasedOperationSpec
+    );
   }
 
   /**
@@ -688,7 +723,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters25,
+  requestBody: Parameters.parameters26,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -775,7 +810,7 @@ const swapPublicIpAddressesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters26,
+  requestBody: Parameters.parameters27,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -807,7 +842,7 @@ const listInboundNatRulePortMappingsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters27,
+  requestBody: Parameters.parameters28,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -815,6 +850,30 @@ const listInboundNatRulePortMappingsOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.loadBalancerName,
     Parameters.backendPoolName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const migrateToIpBasedOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/migrateToIpBased",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MigratedPools
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters29,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.groupName1,
+    Parameters.loadBalancerName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -831,7 +890,6 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -851,7 +909,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

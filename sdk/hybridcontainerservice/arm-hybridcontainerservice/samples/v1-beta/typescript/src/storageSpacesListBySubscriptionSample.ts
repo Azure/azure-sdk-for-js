@@ -10,15 +10,20 @@
 // Licensed under the MIT License.
 import { HybridContainerServiceClient } from "@azure/arm-hybridcontainerservice";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List the Hybrid AKS storage object by subscription
  *
  * @summary List the Hybrid AKS storage object by subscription
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-05-01-preview/examples/ListStorageSpaceBySubscription.json
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/ListStorageSpaceBySubscription.json
  */
 async function listStorageSpaceBySubscription() {
-  const subscriptionId = "a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b";
+  const subscriptionId =
+    process.env["HYBRIDCONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b";
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function listStorageSpaceBySubscription() {
   console.log(resArray);
 }
 
-listStorageSpaceBySubscription().catch(console.error);
+async function main() {
+  listStorageSpaceBySubscription();
+}
+
+main().catch(console.error);

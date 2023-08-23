@@ -25,7 +25,7 @@ async function createsAStreamingLocatorWithClearStreaming() {
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const streamingLocatorName = "UserCreatedClearStreamingLocator";
   const parameters: StreamingLocator = {
@@ -54,14 +54,14 @@ async function createsAStreamingLocatorWithSecureStreaming() {
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const streamingLocatorName = "UserCreatedSecureStreamingLocator";
   const parameters: StreamingLocator = {
     assetName: "ClimbingMountRainier",
     endTime: new Date("2028-12-31T23:59:59.9999999Z"),
     startTime: new Date("2018-03-01T00:00:00Z"),
-    streamingPolicyName: "UserCreatedSecureStreamingPolicy"
+    streamingPolicyName: "secureStreamingPolicy"
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
@@ -85,7 +85,7 @@ async function createsAStreamingLocatorWithUserDefinedContentKeys() {
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const streamingLocatorName =
     "UserCreatedSecureStreamingLocatorWithUserDefinedContentKeys";

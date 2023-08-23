@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Volume,
   VolumesListOptionalParams,
@@ -24,6 +24,10 @@ import {
   VolumeRevert,
   VolumesRevertOptionalParams,
   VolumesResetCifsPasswordOptionalParams,
+  VolumesBreakFileLocksOptionalParams,
+  GetGroupIdListForLdapUserRequest,
+  VolumesListGetGroupIdListForLdapUserOptionalParams,
+  VolumesListGetGroupIdListForLdapUserResponse,
   VolumesBreakReplicationOptionalParams,
   ReestablishReplicationRequest,
   VolumesReestablishReplicationOptionalParams,
@@ -46,7 +50,7 @@ import {
 export interface Volumes {
   /**
    * List all volumes within the capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The options parameters.
@@ -59,7 +63,7 @@ export interface Volumes {
   ): PagedAsyncIterableIterator<Volume>;
   /**
    * List all replications for a specified volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -74,7 +78,7 @@ export interface Volumes {
   ): PagedAsyncIterableIterator<Replication>;
   /**
    * Get the details of the specified volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -89,7 +93,7 @@ export interface Volumes {
   ): Promise<VolumesGetResponse>;
   /**
    * Create or update the specified volume within the capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -104,14 +108,14 @@ export interface Volumes {
     body: Volume,
     options?: VolumesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VolumesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VolumesCreateOrUpdateResponse>,
       VolumesCreateOrUpdateResponse
     >
   >;
   /**
    * Create or update the specified volume within the capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -128,7 +132,7 @@ export interface Volumes {
   ): Promise<VolumesCreateOrUpdateResponse>;
   /**
    * Patch the specified volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -143,11 +147,14 @@ export interface Volumes {
     body: VolumePatch,
     options?: VolumesUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<VolumesUpdateResponse>, VolumesUpdateResponse>
+    SimplePollerLike<
+      OperationState<VolumesUpdateResponse>,
+      VolumesUpdateResponse
+    >
   >;
   /**
    * Patch the specified volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -164,7 +171,7 @@ export interface Volumes {
   ): Promise<VolumesUpdateResponse>;
   /**
    * Delete the specified volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -176,10 +183,10 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     options?: VolumesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -194,7 +201,7 @@ export interface Volumes {
   ): Promise<void>;
   /**
    * Revert a volume to the snapshot specified in the body
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -208,10 +215,10 @@ export interface Volumes {
     volumeName: string,
     body: VolumeRevert,
     options?: VolumesRevertOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Revert a volume to the snapshot specified in the body
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -228,7 +235,7 @@ export interface Volumes {
   ): Promise<void>;
   /**
    * Reset cifs password from volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -240,10 +247,10 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     options?: VolumesResetCifsPasswordOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Reset cifs password from volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -257,8 +264,77 @@ export interface Volumes {
     options?: VolumesResetCifsPasswordOptionalParams
   ): Promise<void>;
   /**
+   * Break all the file locks on a volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginBreakFileLocks(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesBreakFileLocksOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Break all the file locks on a volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginBreakFileLocksAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesBreakFileLocksOptionalParams
+  ): Promise<void>;
+  /**
+   * Returns the list of group Ids for a specific LDAP User
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body Returns group Id list for a specific LDAP user
+   * @param options The options parameters.
+   */
+  beginListGetGroupIdListForLdapUser(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: GetGroupIdListForLdapUserRequest,
+    options?: VolumesListGetGroupIdListForLdapUserOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesListGetGroupIdListForLdapUserResponse>,
+      VolumesListGetGroupIdListForLdapUserResponse
+    >
+  >;
+  /**
+   * Returns the list of group Ids for a specific LDAP User
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body Returns group Id list for a specific LDAP user
+   * @param options The options parameters.
+   */
+  beginListGetGroupIdListForLdapUserAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: GetGroupIdListForLdapUserRequest,
+    options?: VolumesListGetGroupIdListForLdapUserOptionalParams
+  ): Promise<VolumesListGetGroupIdListForLdapUserResponse>;
+  /**
    * Break the replication connection on the destination volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -270,10 +346,10 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     options?: VolumesBreakReplicationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Break the replication connection on the destination volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -289,7 +365,7 @@ export interface Volumes {
   /**
    * Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or
    * policy-based snapshots
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -303,11 +379,11 @@ export interface Volumes {
     volumeName: string,
     body: ReestablishReplicationRequest,
     options?: VolumesReestablishReplicationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or
    * policy-based snapshots
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -324,7 +400,7 @@ export interface Volumes {
   ): Promise<void>;
   /**
    * Get the status of the replication
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -340,7 +416,7 @@ export interface Volumes {
   /**
    * Resync the connection on the destination volume. If the operation is ran on the source volume it
    * will reverse-resync the connection and sync from destination to source.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -352,11 +428,11 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     options?: VolumesResyncReplicationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resync the connection on the destination volume. If the operation is ran on the source volume it
    * will reverse-resync the connection and sync from destination to source.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -372,7 +448,7 @@ export interface Volumes {
   /**
    * Delete the replication connection on the destination volume, and send release to the source
    * replication
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -384,11 +460,11 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     options?: VolumesDeleteReplicationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the replication connection on the destination volume, and send release to the source
    * replication
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -403,7 +479,7 @@ export interface Volumes {
   ): Promise<void>;
   /**
    * Authorize the replication connection on the source volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -417,10 +493,10 @@ export interface Volumes {
     volumeName: string,
     body: AuthorizeRequest,
     options?: VolumesAuthorizeReplicationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Authorize the replication connection on the source volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -437,7 +513,7 @@ export interface Volumes {
   ): Promise<void>;
   /**
    * Re-Initializes the replication connection on the destination volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -449,10 +525,10 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     options?: VolumesReInitializeReplicationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Re-Initializes the replication connection on the destination volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -467,7 +543,7 @@ export interface Volumes {
   ): Promise<void>;
   /**
    * Moves volume to another pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -481,10 +557,10 @@ export interface Volumes {
     volumeName: string,
     body: PoolChangeRequest,
     options?: VolumesPoolChangeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Moves volume to another pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -501,7 +577,7 @@ export interface Volumes {
   ): Promise<void>;
   /**
    * Relocates volume to a new stamp
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -513,10 +589,10 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     options?: VolumesRelocateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Relocates volume to a new stamp
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -531,7 +607,7 @@ export interface Volumes {
   ): Promise<void>;
   /**
    * Finalizes the relocation of the volume and cleans up the old volume.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -543,10 +619,10 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     options?: VolumesFinalizeRelocationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Finalizes the relocation of the volume and cleans up the old volume.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -562,7 +638,7 @@ export interface Volumes {
   /**
    * Reverts the volume relocation process, cleans up the new volume and starts using the former-existing
    * volume.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -574,11 +650,11 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     options?: VolumesRevertRelocationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Reverts the volume relocation process, cleans up the new volume and starts using the former-existing
    * volume.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume

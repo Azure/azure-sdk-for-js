@@ -39,11 +39,10 @@ export const defaultResultFields: Record<string, Field> = {
     type: "fr.DocumentStyle[]",
     optional: true,
   },
-  documents: {
+  unconstrainedDocuments: {
     name: "documents",
-    docContents:
-      "Extracted documents (instances of any of the model's document types and corresponding field schemas).",
-    type: "fr.Document[]",
+    docContents: "Extracted documents containing any extracted fields.",
+    type: "fr.AnalyzedDocument[]",
     optional: true,
   },
   paragraphs: {
@@ -79,7 +78,7 @@ export function getFeatures(model: DocumentModelDetails): string[] {
     {
       "prebuilt-read": [...textFeatures, "languages"],
       "prebuilt-layout": layoutFeatures,
-      "prebuilt-document": documentFeatures,
+      "prebuilt-document": [...documentFeatures, "unconstrainedDocuments"],
       "prebuilt-receipt": [...textFeatures, "keyValuePairs", "_documents"],
       "prebuilt-invoice": [...layoutFeatures, "keyValuePairs", "_documents"],
       "prebuilt-idDocument": [...textFeatures, "keyValuePairs", "_documents"],

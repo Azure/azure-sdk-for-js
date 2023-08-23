@@ -3,7 +3,7 @@
 
 import { EnvVarKeys, getEnvVars } from "../../public/utils/testUtils";
 import { EventHubConsumerClient, latestEventPosition } from "../../../src";
-import { EventHubReceiver } from "../../../src/eventHubReceiver";
+import { createReceiver, WritableReceiver } from "../../../src/partitionReceiver";
 import { EventHubSender } from "../../../src/eventHubSender";
 import { MessagingError } from "@azure/core-amqp";
 import chai from "chai";
@@ -64,7 +64,9 @@ testWithServiceTypes((serviceVersion) => {
        */
       it("send works after disconnect", async () => {
         const context = createConnectionContext(service.connectionString, service.path);
-        const sender = EventHubSender.create(context, { enableIdempotentProducer: false });
+        const sender = EventHubSender.create(context, "Sender1", {
+          enableIdempotentProducer: false,
+        });
 
         // Create the sender link via getMaxMessageSize() so we can check when 'send' is about to be called on it.
         await sender.getMaxMessageSize();
@@ -98,35 +100,43 @@ testWithServiceTypes((serviceVersion) => {
           const context = createConnectionContext(service.connectionString, service.path);
 
           // Add 2 receivers.
-          const receiver1 = new EventHubReceiver(
+          const receiver1 = createReceiver(
             context,
             EventHubConsumerClient.defaultConsumerGroupName,
+            "Consumer1",
             partitionIds[0],
             latestEventPosition
           );
-          const receiver2 = new EventHubReceiver(
+          const receiver2 = createReceiver(
             context,
             EventHubConsumerClient.defaultConsumerGroupName,
+            "Consumer2",
             partitionIds[1],
             latestEventPosition
           );
 
           // Add 2 senders.
-          const sender1 = new EventHubSender(context, { enableIdempotentProducer: false });
-          const sender2 = new EventHubSender(context, { enableIdempotentProducer: false });
+          const sender1 = new EventHubSender(context, "Sender1", {
+            enableIdempotentProducer: false,
+          });
+          const sender2 = new EventHubSender(context, "Sender2", {
+            enableIdempotentProducer: false,
+          });
 
           // Initialize sender links
           await sender1["_getLink"]();
           await sender2["_getLink"]();
 
           // Initialize receiver links
-          await receiver1.initialize({
+          await receiver1.connect({
             abortSignal: undefined,
             timeoutInMs: 60000,
+            prefetchCount: 1,
           });
-          await receiver2.initialize({
+          await receiver2.connect({
             abortSignal: undefined,
             timeoutInMs: 60000,
+            prefetchCount: 1,
           });
 
           // We are going to override sender1's close method so that it also invokes receiver2's close method.
@@ -140,7 +150,7 @@ testWithServiceTypes((serviceVersion) => {
 
           // We are going to override receiver1's close method so that it also invokes receiver2's close method.
           const receiver1Close = receiver1.close.bind(receiver1);
-          receiver1.close = async function () {
+          (receiver1 as WritableReceiver).close = async function () {
             receiver2.close().catch(() => {
               /* no-op */
             });
@@ -158,35 +168,43 @@ testWithServiceTypes((serviceVersion) => {
           const context = createConnectionContext(service.connectionString, service.path);
 
           // Add 2 receivers.
-          const receiver1 = new EventHubReceiver(
+          const receiver1 = createReceiver(
             context,
             EventHubConsumerClient.defaultConsumerGroupName,
+            "Consumer1",
             partitionIds[0],
             latestEventPosition
           );
-          const receiver2 = new EventHubReceiver(
+          const receiver2 = createReceiver(
             context,
             EventHubConsumerClient.defaultConsumerGroupName,
+            "Consumer2",
             partitionIds[1],
             latestEventPosition
           );
 
           // Add 2 senders.
-          const sender1 = new EventHubSender(context, { enableIdempotentProducer: false });
-          const sender2 = new EventHubSender(context, { enableIdempotentProducer: false });
+          const sender1 = new EventHubSender(context, "Sender1", {
+            enableIdempotentProducer: false,
+          });
+          const sender2 = new EventHubSender(context, "Sender2", {
+            enableIdempotentProducer: false,
+          });
 
           // Initialize sender links
           await sender1["_getLink"]();
           await sender2["_getLink"]();
 
           // Initialize receiver links
-          await receiver1.initialize({
+          await receiver1.connect({
             abortSignal: undefined,
             timeoutInMs: 60000,
+            prefetchCount: 1,
           });
-          await receiver2.initialize({
+          await receiver2.connect({
             abortSignal: undefined,
             timeoutInMs: 60000,
+            prefetchCount: 1,
           });
 
           // We are going to override sender1's close method so that it also invokes receiver2's close method.
@@ -200,7 +218,7 @@ testWithServiceTypes((serviceVersion) => {
 
           // We are going to override receiver1's close method so that it also invokes receiver2's close method.
           const originalClose = receiver1.close.bind(receiver1);
-          receiver1.close = async function () {
+          (receiver1 as WritableReceiver).close = async function () {
             receiver2.close().catch(() => {
               /* no-op */
             });

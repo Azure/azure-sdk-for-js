@@ -285,7 +285,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters46,
+  requestBody: Parameters.parameters32,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
@@ -295,7 +295,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.managedInstanceName,
     Parameters.tdeName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

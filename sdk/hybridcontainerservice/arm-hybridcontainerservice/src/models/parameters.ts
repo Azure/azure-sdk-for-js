@@ -16,10 +16,10 @@ import {
   ProvisionedClustersPatch as ProvisionedClustersPatchMapper,
   HybridIdentityMetadata as HybridIdentityMetadataMapper,
   AgentPool as AgentPoolMapper,
-  VirtualNetworks as VirtualNetworksMapper,
-  VirtualNetworksPatch as VirtualNetworksPatchMapper,
   StorageSpaces as StorageSpacesMapper,
-  StorageSpacesPatch as StorageSpacesPatchMapper
+  StorageSpacesPatch as StorageSpacesPatchMapper,
+  VirtualNetworks as VirtualNetworksMapper,
+  VirtualNetworksPatch as VirtualNetworksPatchMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -75,14 +75,17 @@ export const resourceGroupName: OperationURLParameter = {
   }
 };
 
-export const provisionedClustersName: OperationURLParameter = {
-  parameterPath: "provisionedClustersName",
+export const resourceName: OperationURLParameter = {
+  parameterPath: "resourceName",
   mapper: {
     constraints: {
-      MaxLength: 64,
-      MinLength: 3
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
+      ),
+      MaxLength: 63,
+      MinLength: 1
     },
-    serializedName: "provisionedClustersName",
+    serializedName: "resourceName",
     required: true,
     type: {
       name: "String"
@@ -93,7 +96,7 @@ export const provisionedClustersName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-01-preview",
+    defaultValue: "2022-09-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -188,31 +191,6 @@ export const customLocationResourceUri: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const virtualNetworksName: OperationURLParameter = {
-  parameterPath: "virtualNetworksName",
-  mapper: {
-    constraints: {
-      MaxLength: 64,
-      MinLength: 3
-    },
-    serializedName: "virtualNetworksName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const virtualNetworks: OperationParameter = {
-  parameterPath: "virtualNetworks",
-  mapper: VirtualNetworksMapper
-};
-
-export const virtualNetworks1: OperationParameter = {
-  parameterPath: "virtualNetworks",
-  mapper: VirtualNetworksPatchMapper
-};
-
 export const storageSpacesName: OperationURLParameter = {
   parameterPath: "storageSpacesName",
   mapper: {
@@ -236,4 +214,29 @@ export const storageSpaces: OperationParameter = {
 export const storageSpaces1: OperationParameter = {
   parameterPath: "storageSpaces",
   mapper: StorageSpacesPatchMapper
+};
+
+export const virtualNetworksName: OperationURLParameter = {
+  parameterPath: "virtualNetworksName",
+  mapper: {
+    constraints: {
+      MaxLength: 64,
+      MinLength: 3
+    },
+    serializedName: "virtualNetworksName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const virtualNetworks: OperationParameter = {
+  parameterPath: "virtualNetworks",
+  mapper: VirtualNetworksMapper
+};
+
+export const virtualNetworks1: OperationParameter = {
+  parameterPath: "virtualNetworks",
+  mapper: VirtualNetworksPatchMapper
 };

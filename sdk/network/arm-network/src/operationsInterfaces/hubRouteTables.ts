@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   HubRouteTable,
   HubRouteTablesListOptionalParams,
@@ -47,8 +47,8 @@ export interface HubRouteTables {
     routeTableParameters: HubRouteTable,
     options?: HubRouteTablesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<HubRouteTablesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<HubRouteTablesCreateOrUpdateResponse>,
       HubRouteTablesCreateOrUpdateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface HubRouteTables {
     virtualHubName: string,
     routeTableName: string,
     options?: HubRouteTablesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a RouteTable.
    * @param resourceGroupName The resource group name of the RouteTable.

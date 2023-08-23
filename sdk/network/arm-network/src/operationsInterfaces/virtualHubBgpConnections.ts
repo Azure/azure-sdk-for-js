@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BgpConnection,
   VirtualHubBgpConnectionsListOptionalParams,
@@ -44,8 +44,8 @@ export interface VirtualHubBgpConnections {
     connectionName: string,
     options?: VirtualHubBgpConnectionsListLearnedRoutesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualHubBgpConnectionsListLearnedRoutesResponse>,
+    SimplePollerLike<
+      OperationState<VirtualHubBgpConnectionsListLearnedRoutesResponse>,
       VirtualHubBgpConnectionsListLearnedRoutesResponse
     >
   >;
@@ -75,8 +75,8 @@ export interface VirtualHubBgpConnections {
     connectionName: string,
     options?: VirtualHubBgpConnectionsListAdvertisedRoutesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualHubBgpConnectionsListAdvertisedRoutesResponse>,
+    SimplePollerLike<
+      OperationState<VirtualHubBgpConnectionsListAdvertisedRoutesResponse>,
       VirtualHubBgpConnectionsListAdvertisedRoutesResponse
     >
   >;

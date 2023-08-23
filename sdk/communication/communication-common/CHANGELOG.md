@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.1 (Unreleased)
+## 3.0.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,22 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.2.1 (2023-06-16)
+
+### Bugs Fixed
+
+- Bug fix for when running the policy, a query param is always being detected as the URLSearchParams object exists, even if it is empty.
+
+## 3.0.0-beta.1 (2023-03-27)
+
+### Features Added
+
+- Added support for a new communication identifier `MicrosoftBotIdentifier`.
+
+### Breaking Changes
+
+- Introduction of `MicrosoftBotIdentifier` is a breaking change. It will affect code that relied on using `UnknownIdentifier` with a rawID starting with `28:`
 
 ## 2.2.0 (2022-11-03)
 

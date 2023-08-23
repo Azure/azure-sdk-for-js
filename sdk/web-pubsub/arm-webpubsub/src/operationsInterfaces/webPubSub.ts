@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WebPubSubResource,
   WebPubSubListBySubscriptionOptionalParams,
@@ -27,7 +27,10 @@ import {
   RegenerateKeyParameters,
   WebPubSubRegenerateKeyOptionalParams,
   WebPubSubRegenerateKeyResponse,
+  WebPubSubListReplicaSkusOptionalParams,
+  WebPubSubListReplicaSkusResponse,
   WebPubSubRestartOptionalParams,
+  WebPubSubRestartResponse,
   WebPubSubListSkusOptionalParams,
   WebPubSubListSkusResponse
 } from "../models";
@@ -44,8 +47,7 @@ export interface WebPubSub {
   ): PagedAsyncIterableIterator<WebPubSubResource>;
   /**
    * Handles requests to list all resources in a resource group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -65,8 +67,7 @@ export interface WebPubSub {
   ): Promise<WebPubSubCheckNameAvailabilityResponse>;
   /**
    * Get the resource and its properties.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -77,8 +78,7 @@ export interface WebPubSub {
   ): Promise<WebPubSubGetResponse>;
   /**
    * Create or update a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the create or update operation
    * @param options The options parameters.
@@ -89,15 +89,14 @@ export interface WebPubSub {
     parameters: WebPubSubResource,
     options?: WebPubSubCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebPubSubCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WebPubSubCreateOrUpdateResponse>,
       WebPubSubCreateOrUpdateResponse
     >
   >;
   /**
    * Create or update a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the create or update operation
    * @param options The options parameters.
@@ -110,8 +109,7 @@ export interface WebPubSub {
   ): Promise<WebPubSubCreateOrUpdateResponse>;
   /**
    * Operation to delete a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -119,11 +117,10 @@ export interface WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -134,8 +131,7 @@ export interface WebPubSub {
   ): Promise<void>;
   /**
    * Operation to update an exiting resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the update operation
    * @param options The options parameters.
@@ -146,15 +142,14 @@ export interface WebPubSub {
     parameters: WebPubSubResource,
     options?: WebPubSubUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebPubSubUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WebPubSubUpdateResponse>,
       WebPubSubUpdateResponse
     >
   >;
   /**
    * Operation to update an exiting resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the update operation
    * @param options The options parameters.
@@ -167,8 +162,7 @@ export interface WebPubSub {
   ): Promise<WebPubSubUpdateResponse>;
   /**
    * Get the access keys of the resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -180,8 +174,7 @@ export interface WebPubSub {
   /**
    * Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the
    * same time.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameter that describes the Regenerate Key Operation.
    * @param options The options parameters.
@@ -192,16 +185,15 @@ export interface WebPubSub {
     parameters: RegenerateKeyParameters,
     options?: WebPubSubRegenerateKeyOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebPubSubRegenerateKeyResponse>,
+    SimplePollerLike<
+      OperationState<WebPubSubRegenerateKeyResponse>,
       WebPubSubRegenerateKeyResponse
     >
   >;
   /**
    * Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the
    * same time.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameter that describes the Regenerate Key Operation.
    * @param options The options parameters.
@@ -213,9 +205,21 @@ export interface WebPubSub {
     options?: WebPubSubRegenerateKeyOptionalParams
   ): Promise<WebPubSubRegenerateKeyResponse>;
   /**
+   * List all available skus of the replica resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
+   * @param options The options parameters.
+   */
+  listReplicaSkus(
+    resourceGroupName: string,
+    resourceName: string,
+    replicaName: string,
+    options?: WebPubSubListReplicaSkusOptionalParams
+  ): Promise<WebPubSubListReplicaSkusResponse>;
+  /**
    * Operation to restart a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -223,11 +227,15 @@ export interface WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WebPubSubRestartResponse>,
+      WebPubSubRestartResponse
+    >
+  >;
   /**
    * Operation to restart a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -235,11 +243,10 @@ export interface WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubRestartOptionalParams
-  ): Promise<void>;
+  ): Promise<WebPubSubRestartResponse>;
   /**
    * List all available skus of the resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */

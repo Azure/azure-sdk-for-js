@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WebPubSubManagementClient } from "../webPubSubManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PrivateEndpointConnection,
   WebPubSubPrivateEndpointConnectionsListNextOptionalParams,
@@ -44,8 +48,7 @@ export class WebPubSubPrivateEndpointConnectionsImpl
 
   /**
    * List private endpoint connections
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -121,8 +124,7 @@ export class WebPubSubPrivateEndpointConnectionsImpl
 
   /**
    * List private endpoint connections
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -139,9 +141,9 @@ export class WebPubSubPrivateEndpointConnectionsImpl
 
   /**
    * Get the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
+   *                                      Azure resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -164,9 +166,9 @@ export class WebPubSubPrivateEndpointConnectionsImpl
 
   /**
    * Update the state of specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
+   *                                      Azure resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters The resource of private endpoint and its properties
    * @param options The options parameters.
@@ -192,9 +194,9 @@ export class WebPubSubPrivateEndpointConnectionsImpl
 
   /**
    * Delete the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
+   *                                      Azure resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -203,14 +205,14 @@ export class WebPubSubPrivateEndpointConnectionsImpl
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -243,20 +245,20 @@ export class WebPubSubPrivateEndpointConnectionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         privateEndpointConnectionName,
         resourceGroupName,
         resourceName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -264,9 +266,9 @@ export class WebPubSubPrivateEndpointConnectionsImpl
 
   /**
    * Delete the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
+   *                                      Azure resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -287,8 +289,7 @@ export class WebPubSubPrivateEndpointConnectionsImpl
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -413,7 +414,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

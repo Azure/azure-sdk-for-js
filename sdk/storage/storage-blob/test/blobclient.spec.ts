@@ -213,6 +213,7 @@ describe("BlobClient", () => {
   it("download with with default parameters", async function () {
     const result = await blobClient.download();
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    assert.exists(result.createdOn);
   });
 
   it("download with progress report", async function () {
@@ -555,6 +556,24 @@ describe("BlobClient", () => {
     properties = await blockBlobClient.getProperties();
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-hot");
+    }
+  });
+
+  it("setAccessTier set archive to cold", async () => {
+    await blockBlobClient.setAccessTier("Archive");
+    const properties = await blockBlobClient.getProperties();
+    assert.equal(properties.accessTier!.toLowerCase(), "archive");
+
+    await blockBlobClient.setAccessTier("Cold");
+    for await (const blobItem of containerClient.listBlobsFlat()) {
+      if (blobItem.name === blockBlobClient.name) {
+        if (blobItem.properties.archiveStatus) {
+          assert.equal(
+            blobItem.properties.archiveStatus.toLowerCase(),
+            "rehydrate-pending-to-cold"
+          );
+        }
+      }
     }
   });
 
@@ -929,7 +948,7 @@ describe("BlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  async function checkRehydratePriority(rehydratePriority: RehydratePriority) {
+  async function checkRehydratePriority(rehydratePriority: RehydratePriority): Promise<void> {
     await blobClient.setAccessTier("Archive");
     await blobClient.setAccessTier("Hot", { rehydratePriority });
 
@@ -1379,7 +1398,7 @@ describe("BlobClient - Verify Name Properties", () => {
   const blobName = "blob/part/1.txt";
   const containerName = "containername";
 
-  function verifyNameProperties(url: string) {
+  function verifyNameProperties(url: string): void {
     const newClient = new BlobClient(url);
     assert.equal(
       newClient.containerName,

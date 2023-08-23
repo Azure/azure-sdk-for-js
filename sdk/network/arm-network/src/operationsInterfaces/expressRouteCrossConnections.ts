@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ExpressRouteCrossConnection,
   ExpressRouteCrossConnectionsListOptionalParams,
@@ -70,8 +70,8 @@ export interface ExpressRouteCrossConnections {
     parameters: ExpressRouteCrossConnection,
     options?: ExpressRouteCrossConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExpressRouteCrossConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ExpressRouteCrossConnectionsCreateOrUpdateResponse>,
       ExpressRouteCrossConnectionsCreateOrUpdateResponse
     >
   >;
@@ -117,8 +117,8 @@ export interface ExpressRouteCrossConnections {
     devicePath: string,
     options?: ExpressRouteCrossConnectionsListArpTableOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExpressRouteCrossConnectionsListArpTableResponse>,
+    SimplePollerLike<
+      OperationState<ExpressRouteCrossConnectionsListArpTableResponse>,
       ExpressRouteCrossConnectionsListArpTableResponse
     >
   >;
@@ -153,8 +153,8 @@ export interface ExpressRouteCrossConnections {
     devicePath: string,
     options?: ExpressRouteCrossConnectionsListRoutesTableSummaryOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ExpressRouteCrossConnectionsListRoutesTableSummaryResponse
       >,
       ExpressRouteCrossConnectionsListRoutesTableSummaryResponse
@@ -191,8 +191,8 @@ export interface ExpressRouteCrossConnections {
     devicePath: string,
     options?: ExpressRouteCrossConnectionsListRoutesTableOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExpressRouteCrossConnectionsListRoutesTableResponse>,
+    SimplePollerLike<
+      OperationState<ExpressRouteCrossConnectionsListRoutesTableResponse>,
       ExpressRouteCrossConnectionsListRoutesTableResponse
     >
   >;

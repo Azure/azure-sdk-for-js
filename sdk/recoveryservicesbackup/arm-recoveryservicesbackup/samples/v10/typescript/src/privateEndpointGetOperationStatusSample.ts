@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the operation status for a private endpoint connection.
  *
  * @summary Gets the operation status for a private endpoint connection.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PrivateEndpointConnection/GetPrivateEndpointConnectionOperationStatus.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/PrivateEndpointConnection/GetPrivateEndpointConnectionOperationStatus.json
  */
 async function getOperationStatus() {
   const subscriptionId =

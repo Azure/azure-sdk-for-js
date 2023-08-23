@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LoadBalancer,
   LoadBalancersListAllOptionalParams,
@@ -24,7 +24,9 @@ import {
   LoadBalancersSwapPublicIpAddressesOptionalParams,
   QueryInboundNatRulePortMappingRequest,
   LoadBalancersListInboundNatRulePortMappingsOptionalParams,
-  LoadBalancersListInboundNatRulePortMappingsResponse
+  LoadBalancersListInboundNatRulePortMappingsResponse,
+  LoadBalancersMigrateToIpBasedOptionalParams,
+  LoadBalancersMigrateToIpBasedResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +58,7 @@ export interface LoadBalancers {
     resourceGroupName: string,
     loadBalancerName: string,
     options?: LoadBalancersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified load balancer.
    * @param resourceGroupName The name of the resource group.
@@ -92,8 +94,8 @@ export interface LoadBalancers {
     parameters: LoadBalancer,
     options?: LoadBalancersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LoadBalancersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LoadBalancersCreateOrUpdateResponse>,
       LoadBalancersCreateOrUpdateResponse
     >
   >;
@@ -133,7 +135,7 @@ export interface LoadBalancers {
     location: string,
     parameters: LoadBalancerVipSwapRequest,
     options?: LoadBalancersSwapPublicIpAddressesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Swaps VIPs between two load balancers.
    * @param location The region where load balancers are located at.
@@ -160,8 +162,8 @@ export interface LoadBalancers {
     parameters: QueryInboundNatRulePortMappingRequest,
     options?: LoadBalancersListInboundNatRulePortMappingsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LoadBalancersListInboundNatRulePortMappingsResponse>,
+    SimplePollerLike<
+      OperationState<LoadBalancersListInboundNatRulePortMappingsResponse>,
       LoadBalancersListInboundNatRulePortMappingsResponse
     >
   >;
@@ -180,4 +182,15 @@ export interface LoadBalancers {
     parameters: QueryInboundNatRulePortMappingRequest,
     options?: LoadBalancersListInboundNatRulePortMappingsOptionalParams
   ): Promise<LoadBalancersListInboundNatRulePortMappingsResponse>;
+  /**
+   * Migrate load balancer to IP Based
+   * @param groupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param options The options parameters.
+   */
+  migrateToIpBased(
+    groupName: string,
+    loadBalancerName: string,
+    options?: LoadBalancersMigrateToIpBasedOptionalParams
+  ): Promise<LoadBalancersMigrateToIpBasedResponse>;
 }

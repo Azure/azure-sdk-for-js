@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SignalRResource,
   SignalRListBySubscriptionOptionalParams,
@@ -89,8 +89,8 @@ export interface SignalR {
     parameters: SignalRResource,
     options?: SignalRCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SignalRCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SignalRCreateOrUpdateResponse>,
       SignalRCreateOrUpdateResponse
     >
   >;
@@ -119,7 +119,7 @@ export interface SignalR {
     resourceGroupName: string,
     resourceName: string,
     options?: SignalRDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -146,7 +146,10 @@ export interface SignalR {
     parameters: SignalRResource,
     options?: SignalRUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<SignalRUpdateResponse>, SignalRUpdateResponse>
+    SimplePollerLike<
+      OperationState<SignalRUpdateResponse>,
+      SignalRUpdateResponse
+    >
   >;
   /**
    * Operation to update an exiting resource.
@@ -189,8 +192,8 @@ export interface SignalR {
     parameters: RegenerateKeyParameters,
     options?: SignalRRegenerateKeyOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SignalRRegenerateKeyResponse>,
+    SimplePollerLike<
+      OperationState<SignalRRegenerateKeyResponse>,
       SignalRRegenerateKeyResponse
     >
   >;
@@ -220,7 +223,7 @@ export interface SignalR {
     resourceGroupName: string,
     resourceName: string,
     options?: SignalRRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to restart a resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

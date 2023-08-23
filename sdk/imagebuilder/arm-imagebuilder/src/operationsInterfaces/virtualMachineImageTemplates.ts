@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ImageTemplate,
   VirtualMachineImageTemplatesListOptionalParams,
@@ -71,8 +71,8 @@ export interface VirtualMachineImageTemplates {
     parameters: ImageTemplate,
     options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineImageTemplatesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineImageTemplatesCreateOrUpdateResponse>,
       VirtualMachineImageTemplatesCreateOrUpdateResponse
     >
   >;
@@ -102,8 +102,8 @@ export interface VirtualMachineImageTemplates {
     parameters: ImageTemplateUpdateParameters,
     options?: VirtualMachineImageTemplatesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineImageTemplatesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineImageTemplatesUpdateResponse>,
       VirtualMachineImageTemplatesUpdateResponse
     >
   >;
@@ -141,7 +141,7 @@ export interface VirtualMachineImageTemplates {
     resourceGroupName: string,
     imageTemplateName: string,
     options?: VirtualMachineImageTemplatesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a virtual machine image template
    * @param resourceGroupName The name of the resource group.
@@ -163,7 +163,7 @@ export interface VirtualMachineImageTemplates {
     resourceGroupName: string,
     imageTemplateName: string,
     options?: VirtualMachineImageTemplatesRunOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Create artifacts from a existing image template
    * @param resourceGroupName The name of the resource group.
@@ -185,7 +185,7 @@ export interface VirtualMachineImageTemplates {
     resourceGroupName: string,
     imageTemplateName: string,
     options?: VirtualMachineImageTemplatesCancelOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Cancel the long running image build based on the image template
    * @param resourceGroupName The name of the resource group.

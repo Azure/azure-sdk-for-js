@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   TimeSeriesDatabaseConnection,
   TimeSeriesDatabaseConnectionsListOptionalParams,
@@ -61,8 +61,8 @@ export interface TimeSeriesDatabaseConnections {
     timeSeriesDatabaseConnectionDescription: TimeSeriesDatabaseConnection,
     options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>,
       TimeSeriesDatabaseConnectionsCreateOrUpdateResponse
     >
   >;
@@ -94,8 +94,8 @@ export interface TimeSeriesDatabaseConnections {
     timeSeriesDatabaseConnectionName: string,
     options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TimeSeriesDatabaseConnectionsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<TimeSeriesDatabaseConnectionsDeleteResponse>,
       TimeSeriesDatabaseConnectionsDeleteResponse
     >
   >;

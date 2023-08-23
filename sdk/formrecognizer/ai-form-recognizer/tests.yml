@@ -3,10 +3,10 @@
 # tests pipeline. This is useful for when we want to test in different
 # environments: Prod, Canary, etc.
 parameters:
-- name: Location
-  displayName: Location
-  type: string
-  default: canadacentral
+  - name: Location
+    displayName: Location
+    type: string
+    default: centralus
 
 trigger: none
 

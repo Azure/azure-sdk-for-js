@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AuthorityValidationOptions } from "./authorityValidationOptions";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 
@@ -9,4 +10,5 @@ import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialO
  */
 export interface UsernamePasswordCredentialOptions
   extends MultiTenantTokenCredentialOptions,
-    CredentialPersistenceOptions {}
+    CredentialPersistenceOptions,
+    AuthorityValidationOptions {}

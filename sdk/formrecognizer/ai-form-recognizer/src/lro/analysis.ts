@@ -12,8 +12,8 @@ import {
   DocumentStyle,
 } from "../generated";
 import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
-import { FormRecognizerApiVersion, PollerOptions } from "../options";
-import { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentsOptions";
+import { PollerOptions } from "../options";
+import { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentOptions";
 import {
   toBoundingPolygon,
   toBoundingRegions,
@@ -27,6 +27,7 @@ import {
   DocumentPage,
   DocumentLine,
   DocumentParagraph,
+  DocumentFormula,
 } from "../models/documentElements";
 import {
   Document as GeneratedDocument,
@@ -101,7 +102,7 @@ export interface AnalyzeResultCommon {
   /**
    * The service API version used to produce this result.
    */
-  apiVersion: FormRecognizerApiVersion;
+  apiVersion: string;
 
   /**
    * The unique ID of the model that was used to produce this result.
@@ -224,6 +225,16 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
       ...word,
       polygon: toBoundingPolygon(word.polygon),
     })),
+    barcodes: generated.barcodes?.map((barcode) => ({
+      ...barcode,
+      polygon: toBoundingPolygon(barcode.polygon),
+    })),
+    formulas: generated.formulas?.map(
+      (formula): DocumentFormula => ({
+        ...formula,
+        polygon: toBoundingPolygon(formula.polygon),
+      })
+    ),
   };
 }
 
@@ -361,7 +372,7 @@ export type AnalysisPoller<Result = AnalyzeResult<AnalyzedDocument>> = PollerLik
  */
 export function toAnalyzeResultFromGenerated(result: GeneratedAnalyzeResult): AnalyzeResult {
   return {
-    apiVersion: result.apiVersion as FormRecognizerApiVersion,
+    apiVersion: result.apiVersion,
     modelId: result.modelId,
     content: result.content,
     pages: result.pages.map((page) => toDocumentPageFromGenerated(page)),

@@ -17,7 +17,7 @@ import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import { createMockServer } from "./utils/mockService";
 import { testWithServiceTypes } from "./utils/testWithServiceTypes";
-import { v4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -89,7 +89,7 @@ testWithServiceTypes((serviceVersion) => {
         properties: {
           contentEncoding: "application/json; charset=utf-8",
           correlationId: randomTag,
-          messageId: v4(),
+          messageId: randomUUID(),
         },
       } as AmqpAnnotatedMessage;
     }

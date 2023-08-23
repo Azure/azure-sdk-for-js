@@ -38,6 +38,7 @@ export class AzureSASCredential implements SASCredential {
 export interface GetTokenOptions {
     abortSignal?: AbortSignalLike;
     claims?: string;
+    enableCae?: boolean;
     requestOptions?: {
         timeout?: number;
     };

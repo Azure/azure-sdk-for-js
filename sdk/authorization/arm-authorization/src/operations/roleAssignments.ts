@@ -34,16 +34,12 @@ import {
   RoleAssignmentsCreateResponse,
   RoleAssignmentsDeleteOptionalParams,
   RoleAssignmentsDeleteResponse,
-  RoleAssignmentsValidateOptionalParams,
-  RoleAssignmentsValidateResponse,
   RoleAssignmentsGetByIdOptionalParams,
   RoleAssignmentsGetByIdResponse,
   RoleAssignmentsCreateByIdOptionalParams,
   RoleAssignmentsCreateByIdResponse,
   RoleAssignmentsDeleteByIdOptionalParams,
   RoleAssignmentsDeleteByIdResponse,
-  RoleAssignmentsValidateByIdOptionalParams,
-  RoleAssignmentsValidateByIdResponse,
   RoleAssignmentsListForSubscriptionNextResponse,
   RoleAssignmentsListForResourceGroupNextResponse,
   RoleAssignmentsListForResourceNextResponse,
@@ -469,28 +465,6 @@ export class RoleAssignmentsImpl implements RoleAssignments {
   }
 
   /**
-   * Validate a role assignment create or update operation by scope and name.
-   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
-   *              '/subscriptions/{subscriptionId}'), resource group (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
-   * @param roleAssignmentName The name of the role assignment. It can be any valid GUID.
-   * @param parameters Parameters for the role assignment.
-   * @param options The options parameters.
-   */
-  validate(
-    scope: string,
-    roleAssignmentName: string,
-    parameters: RoleAssignmentCreateParameters,
-    options?: RoleAssignmentsValidateOptionalParams
-  ): Promise<RoleAssignmentsValidateResponse> {
-    return this.client.sendOperationRequest(
-      { scope, roleAssignmentName, parameters, options },
-      validateOperationSpec
-    );
-  }
-
-  /**
    * List all role assignments that apply to a scope.
    * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
    *              '/subscriptions/{subscriptionId}'), resource group (format:
@@ -561,26 +535,6 @@ export class RoleAssignmentsImpl implements RoleAssignments {
     return this.client.sendOperationRequest(
       { roleAssignmentId, options },
       deleteByIdOperationSpec
-    );
-  }
-
-  /**
-   * Validate a role assignment create or update operation by ID.
-   * @param roleAssignmentId The fully qualified ID of the role assignment including scope, resource
-   *                         name, and resource type. Format:
-   *                         /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
-   *                         /subscriptions/<SUB_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.Authorization/roleAssignments/<ROLE_ASSIGNMENT_NAME>
-   * @param parameters Parameters for the role assignment.
-   * @param options The options parameters.
-   */
-  validateById(
-    roleAssignmentId: string,
-    parameters: RoleAssignmentCreateParameters,
-    options?: RoleAssignmentsValidateByIdOptionalParams
-  ): Promise<RoleAssignmentsValidateByIdResponse> {
-    return this.client.sendOperationRequest(
-      { roleAssignmentId, parameters, options },
-      validateByIdOperationSpec
     );
   }
 
@@ -683,7 +637,7 @@ const listForSubscriptionOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.filter1,
     Parameters.tenantId
   ],
@@ -704,7 +658,7 @@ const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.filter1,
     Parameters.tenantId
   ],
@@ -729,7 +683,7 @@ const listForResourceOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.filter1,
     Parameters.tenantId
   ],
@@ -739,7 +693,7 @@ const listForResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.resourceName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -756,7 +710,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.tenantId],
+  queryParameters: [Parameters.apiVersion1, Parameters.tenantId],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -780,8 +734,8 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -804,36 +758,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.tenantId],
+  queryParameters: [Parameters.apiVersion1, Parameters.tenantId],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
     Parameters.roleAssignmentName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}/validate",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ValidationResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.roleAssignmentName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const listForScopeOperationSpec: coreClient.OperationSpec = {
@@ -848,9 +779,10 @@ const listForScopeOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.filter1,
-    Parameters.tenantId
+    Parameters.tenantId,
+    Parameters.skipToken
   ],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
@@ -867,7 +799,7 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.tenantId],
+  queryParameters: [Parameters.apiVersion1, Parameters.tenantId],
   urlParameters: [Parameters.$host, Parameters.roleAssignmentId],
   headerParameters: [Parameters.accept],
   serializer
@@ -886,8 +818,8 @@ const createByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.roleAssignmentId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -905,27 +837,9 @@ const deleteByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.tenantId],
+  queryParameters: [Parameters.apiVersion1, Parameters.tenantId],
   urlParameters: [Parameters.$host, Parameters.roleAssignmentId],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const validateByIdOperationSpec: coreClient.OperationSpec = {
-  path: "/{roleAssignmentId}/validate",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ValidationResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.roleAssignmentId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const listForSubscriptionNextOperationSpec: coreClient.OperationSpec = {
@@ -941,8 +855,8 @@ const listForSubscriptionNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -960,8 +874,8 @@ const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
@@ -980,12 +894,12 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.resourceName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1001,7 +915,7 @@ const listForScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
 };

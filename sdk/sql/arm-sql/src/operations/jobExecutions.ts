@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   JobExecution,
   JobExecutionsListByAgentNextOptionalParams,
@@ -311,8 +315,8 @@ export class JobExecutionsImpl implements JobExecutions {
     jobName: string,
     options?: JobExecutionsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<JobExecutionsCreateResponse>,
+    SimplePollerLike<
+      OperationState<JobExecutionsCreateResponse>,
       JobExecutionsCreateResponse
     >
   > {
@@ -322,7 +326,7 @@ export class JobExecutionsImpl implements JobExecutions {
     ): Promise<JobExecutionsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -355,13 +359,16 @@ export class JobExecutionsImpl implements JobExecutions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, jobAgentName, jobName, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serverName, jobAgentName, jobName, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      JobExecutionsCreateResponse,
+      OperationState<JobExecutionsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -465,8 +472,8 @@ export class JobExecutionsImpl implements JobExecutions {
     jobExecutionId: string,
     options?: JobExecutionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<JobExecutionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<JobExecutionsCreateOrUpdateResponse>,
       JobExecutionsCreateOrUpdateResponse
     >
   > {
@@ -476,7 +483,7 @@ export class JobExecutionsImpl implements JobExecutions {
     ): Promise<JobExecutionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -509,9 +516,9 @@ export class JobExecutionsImpl implements JobExecutions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         jobAgentName,
@@ -519,10 +526,13 @@ export class JobExecutionsImpl implements JobExecutions {
         jobExecutionId,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      JobExecutionsCreateOrUpdateResponse,
+      OperationState<JobExecutionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

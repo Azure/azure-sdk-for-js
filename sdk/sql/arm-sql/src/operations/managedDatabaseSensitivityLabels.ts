@@ -586,7 +586,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters43,
+  requestBody: Parameters.parameters69,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
@@ -599,7 +599,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.managedInstanceName,
     Parameters.sensitivityLabelSource1
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -672,8 +672,8 @@ const listCurrentByDatabaseOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.skipToken,
-    Parameters.apiVersion2,
     Parameters.filter1,
+    Parameters.apiVersion2,
     Parameters.count
   ],
   urlParameters: [
@@ -691,7 +691,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/currentSensitivityLabels",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters44,
+  requestBody: Parameters.parameters70,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
@@ -716,8 +716,8 @@ const listRecommendedByDatabaseOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.skipToken,
-    Parameters.apiVersion2,
     Parameters.filter1,
+    Parameters.apiVersion2,
     Parameters.includeDisabledRecommendations
   ],
   urlParameters: [

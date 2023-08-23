@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   InstanceFailoverGroup,
   InstanceFailoverGroupsListByLocationOptionalParams,
@@ -67,8 +67,8 @@ export interface InstanceFailoverGroups {
     parameters: InstanceFailoverGroup,
     options?: InstanceFailoverGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<InstanceFailoverGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<InstanceFailoverGroupsCreateOrUpdateResponse>,
       InstanceFailoverGroupsCreateOrUpdateResponse
     >
   >;
@@ -101,7 +101,7 @@ export interface InstanceFailoverGroups {
     locationName: string,
     failoverGroupName: string,
     options?: InstanceFailoverGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a failover group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -130,8 +130,8 @@ export interface InstanceFailoverGroups {
     failoverGroupName: string,
     options?: InstanceFailoverGroupsFailoverOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<InstanceFailoverGroupsFailoverResponse>,
+    SimplePollerLike<
+      OperationState<InstanceFailoverGroupsFailoverResponse>,
       InstanceFailoverGroupsFailoverResponse
     >
   >;
@@ -164,10 +164,8 @@ export interface InstanceFailoverGroups {
     failoverGroupName: string,
     options?: InstanceFailoverGroupsForceFailoverAllowDataLossOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        InstanceFailoverGroupsForceFailoverAllowDataLossResponse
-      >,
+    SimplePollerLike<
+      OperationState<InstanceFailoverGroupsForceFailoverAllowDataLossResponse>,
       InstanceFailoverGroupsForceFailoverAllowDataLossResponse
     >
   >;

@@ -99,6 +99,18 @@ export const prefer: OperationParameter = {
   }
 };
 
+export const resourceId: OperationURLParameter = {
+  parameterPath: "resourceId",
+  mapper: {
+    serializedName: "resourceId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const body1: OperationParameter = {
   parameterPath: "body",
   mapper: BatchRequestMapper

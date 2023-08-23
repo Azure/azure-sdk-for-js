@@ -507,8 +507,12 @@ export interface AzureDataExplorerConnectionProperties
   adxEndpointUri: string;
   /** The name of the Azure Data Explorer database. */
   adxDatabaseName: string;
-  /** The name of the Azure Data Explorer table. Defaults to AdtPropertyEvents. */
+  /** The name of the Azure Data Explorer table used for storing updates to properties of twins and relationships. Defaults to AdtPropertyEvents. */
   adxTableName?: string;
+  /** The name of the Azure Data Explorer table used for recording twin lifecycle events. The table will not be created if this property is left unspecified. */
+  adxTwinLifecycleEventsTableName?: string;
+  /** The name of the Azure Data Explorer table used for recording relationship lifecycle events. The table will not be created if this property is left unspecified. */
+  adxRelationshipLifecycleEventsTableName?: string;
   /** The URL of the EventHub namespace for identity-based authentication. It must include the protocol sb:// */
   eventHubEndpointUri: string;
   /** The EventHub name in the EventHub namespace for identity-based authentication. */
@@ -517,6 +521,8 @@ export interface AzureDataExplorerConnectionProperties
   eventHubNamespaceResourceId: string;
   /** The EventHub consumer group to use when ADX reads from EventHub. Defaults to $Default. */
   eventHubConsumerGroup?: string;
+  /** Specifies whether or not to record twin / relationship property and item removals, including removals of indexed or keyed values (such as map entries, array elements, etc.). This feature is de-activated unless explicitly set to 'true'. Setting this property to 'true' will generate an additional column in the property events table in ADX. */
+  recordPropertyAndItemRemovals?: RecordPropertyAndItemRemovals;
 }
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
@@ -864,6 +870,42 @@ export enum KnownTimeSeriesDatabaseConnectionState {
  */
 export type TimeSeriesDatabaseConnectionState = string;
 
+/** Known values of {@link CleanupConnectionArtifacts} that the service accepts. */
+export enum KnownCleanupConnectionArtifacts {
+  /** True */
+  True = "true",
+  /** False */
+  False = "false"
+}
+
+/**
+ * Defines values for CleanupConnectionArtifacts. \
+ * {@link KnownCleanupConnectionArtifacts} can be used interchangeably with CleanupConnectionArtifacts,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true** \
+ * **false**
+ */
+export type CleanupConnectionArtifacts = string;
+
+/** Known values of {@link RecordPropertyAndItemRemovals} that the service accepts. */
+export enum KnownRecordPropertyAndItemRemovals {
+  /** True */
+  True = "true",
+  /** False */
+  False = "false"
+}
+
+/**
+ * Defines values for RecordPropertyAndItemRemovals. \
+ * {@link KnownRecordPropertyAndItemRemovals} can be used interchangeably with RecordPropertyAndItemRemovals,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true** \
+ * **false**
+ */
+export type RecordPropertyAndItemRemovals = string;
+
 /** Optional parameters. */
 export interface DigitalTwinsGetOptionalParams
   extends coreClient.OperationOptions {}
@@ -1079,6 +1121,8 @@ export type TimeSeriesDatabaseConnectionsCreateOrUpdateResponse = TimeSeriesData
 /** Optional parameters. */
 export interface TimeSeriesDatabaseConnectionsDeleteOptionalParams
   extends coreClient.OperationOptions {
+  /** Specifies whether or not to attempt to clean up artifacts that were created in order to establish a connection to the time series database. This is a best-effort attempt that will fail if appropriate permissions are not in place. Setting this to 'true' does not delete any recorded data. */
+  cleanupConnectionArtifacts?: CleanupConnectionArtifacts;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */

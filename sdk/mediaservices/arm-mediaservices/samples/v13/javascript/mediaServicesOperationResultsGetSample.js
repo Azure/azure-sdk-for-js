@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get media service operation result.
  *
  * @summary Get media service operation result.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2023-01-01/examples/media-service-operation-result-by-id.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/media-service-operation-result-by-id.json
  */
 async function getStatusOfAsynchronousOperation() {
   const subscriptionId =

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ContainerApp,
   ContainerAppsListBySubscriptionOptionalParams,
@@ -18,12 +18,17 @@ import {
   ContainerAppsCreateOrUpdateResponse,
   ContainerAppsDeleteOptionalParams,
   ContainerAppsUpdateOptionalParams,
+  ContainerAppsUpdateResponse,
   ContainerAppsListCustomHostNameAnalysisOptionalParams,
   ContainerAppsListCustomHostNameAnalysisResponse,
   ContainerAppsListSecretsOptionalParams,
   ContainerAppsListSecretsResponse,
   ContainerAppsGetAuthTokenOptionalParams,
-  ContainerAppsGetAuthTokenResponse
+  ContainerAppsGetAuthTokenResponse,
+  ContainerAppsStartOptionalParams,
+  ContainerAppsStartResponse,
+  ContainerAppsStopOptionalParams,
+  ContainerAppsStopResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -69,8 +74,8 @@ export interface ContainerApps {
     containerAppEnvelope: ContainerApp,
     options?: ContainerAppsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContainerAppsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ContainerAppsCreateOrUpdateResponse>,
       ContainerAppsCreateOrUpdateResponse
     >
   >;
@@ -97,7 +102,7 @@ export interface ContainerApps {
     resourceGroupName: string,
     containerAppName: string,
     options?: ContainerAppsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -121,7 +126,12 @@ export interface ContainerApps {
     containerAppName: string,
     containerAppEnvelope: ContainerApp,
     options?: ContainerAppsUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ContainerAppsUpdateResponse>,
+      ContainerAppsUpdateResponse
+    >
+  >;
   /**
    * Patches a Container App using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -134,7 +144,7 @@ export interface ContainerApps {
     containerAppName: string,
     containerAppEnvelope: ContainerApp,
     options?: ContainerAppsUpdateOptionalParams
-  ): Promise<void>;
+  ): Promise<ContainerAppsUpdateResponse>;
   /**
    * Analyzes a custom hostname for a Container App
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -168,4 +178,58 @@ export interface ContainerApps {
     containerAppName: string,
     options?: ContainerAppsGetAuthTokenOptionalParams
   ): Promise<ContainerAppsGetAuthTokenResponse>;
+  /**
+   * Start a container app
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  beginStart(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsStartOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ContainerAppsStartResponse>,
+      ContainerAppsStartResponse
+    >
+  >;
+  /**
+   * Start a container app
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  beginStartAndWait(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsStartOptionalParams
+  ): Promise<ContainerAppsStartResponse>;
+  /**
+   * Stop a container app
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  beginStop(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsStopOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ContainerAppsStopResponse>,
+      ContainerAppsStopResponse
+    >
+  >;
+  /**
+   * Stop a container app
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  beginStopAndWait(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsStopOptionalParams
+  ): Promise<ContainerAppsStopResponse>;
 }

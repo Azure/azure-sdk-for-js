@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import { SubnetServiceAssociationLinkDeleteOptionalParams } from "../models";
 
 /** Interface representing a SubnetServiceAssociationLink. */
@@ -24,7 +24,7 @@ export interface SubnetServiceAssociationLink {
     virtualNetworkName: string,
     subnetName: string,
     options?: SubnetServiceAssociationLinkDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete container group virtual network association links. The operation does not delete other
    * resources provided by the user.

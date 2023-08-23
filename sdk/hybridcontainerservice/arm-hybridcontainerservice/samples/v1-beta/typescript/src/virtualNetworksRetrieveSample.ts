@@ -10,16 +10,23 @@
 // Licensed under the MIT License.
 import { HybridContainerServiceClient } from "@azure/arm-hybridcontainerservice";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the Hybrid AKS virtual network
  *
  * @summary Gets the Hybrid AKS virtual network
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-05-01-preview/examples/GetVirtualNetwork.json
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/GetVirtualNetwork.json
  */
 async function getVirtualNetwork() {
-  const subscriptionId = "a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b";
-  const resourceGroupName = "test-arcappliance-resgrp";
+  const subscriptionId =
+    process.env["HYBRIDCONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b";
+  const resourceGroupName =
+    process.env["HYBRIDCONTAINERSERVICE_RESOURCE_GROUP"] ||
+    "test-arcappliance-resgrp";
   const virtualNetworksName = "test-vnet-static";
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential, subscriptionId);
@@ -30,4 +37,8 @@ async function getVirtualNetwork() {
   console.log(result);
 }
 
-getVirtualNetwork().catch(console.error);
+async function main() {
+  getVirtualNetwork();
+}
+
+main().catch(console.error);

@@ -154,6 +154,10 @@ export function generateTableSasQueryParameters(
     ipRange: tableSasSignatureValues.ipRange,
     identifier: tableSasSignatureValues.identifier,
     tableName,
+    startPartitionKey: tableSasSignatureValues.startPartitionKey,
+    startRowKey: tableSasSignatureValues.startRowKey,
+    endPartitionKey: tableSasSignatureValues.endPartitionKey,
+    endRowKey: tableSasSignatureValues.endRowKey,
   });
 }
 

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServerKey,
   ServerKeysListByServerOptionalParams,
@@ -66,8 +66,8 @@ export interface ServerKeys {
     parameters: ServerKey,
     options?: ServerKeysCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerKeysCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServerKeysCreateOrUpdateResponse>,
       ServerKeysCreateOrUpdateResponse
     >
   >;
@@ -103,7 +103,7 @@ export interface ServerKeys {
     serverName: string,
     keyName: string,
     options?: ServerKeysDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the server key with the given name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

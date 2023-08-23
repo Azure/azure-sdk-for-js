@@ -11,7 +11,6 @@ import { MsalClientAssertion } from "../msal/nodeFlows/msalClientAssertion";
 import { MsalFlow } from "../msal/flows";
 import { credentialLogger } from "../util/logging";
 import { tracingClient } from "../util/tracing";
-import { CredentialUnavailableError } from "../errors";
 
 const logger = credentialLogger("ClientAssertionCredential");
 

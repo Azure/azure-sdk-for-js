@@ -3,12 +3,13 @@
 
 /**
  * @azsdk-util
+ * @azsdk-skip-javascript
  */
 
 // Model:       prebuilt-document
 // Description: Extract text, layout, entities, and general key-value pairs from documents.
-// API Version: 2022-08-31
-// Created:     Tue Aug 23 2022
+// API Version: 2023-07-31
+// Created:     Thu Apr 06 2023
 
 import * as fr from "@azure/ai-form-recognizer";
 
@@ -40,6 +41,10 @@ export interface PrebuiltDocumentResult extends fr.AnalyzeResultCommon {
    * Extracted key-value pairs.
    */
   keyValuePairs?: fr.DocumentKeyValuePair[];
+  /**
+   * Extracted documents containing any extracted fields.
+   */
+  documents?: fr.AnalyzedDocument[];
 }
 
 /**
@@ -49,7 +54,7 @@ function modelInfo() {
   return {
     modelId: "prebuilt-document",
     description: "Extract text, layout, entities, and general key-value pairs from documents.",
-    createdOn: "2022-08-31T00:00:00.000Z",
-    apiVersion: "2022-08-31",
+    createdOn: "2023-02-28T00:00:00.000Z",
+    apiVersion: "2023-07-31",
   } as const;
 }

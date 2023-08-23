@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a existing streaming endpoint.
  *
  * @summary Updates a existing streaming endpoint.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/streamingendpoint-update.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/streamingendpoint-update.json
  */
 async function updateAStreamingEndpoint() {
   const subscriptionId =

@@ -18,7 +18,7 @@ GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest.json
  */
 async function restoreDisksWithIaasVMRestoreRequest() {
   const subscriptionId =
@@ -47,6 +47,11 @@ async function restoreDisksWithIaasVMRestoreRequest() {
         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1",
       storageAccountId:
         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testingRg/providers/Microsoft.Storage/storageAccounts/testAccount",
+      targetDiskNetworkAccessSettings: {
+        targetDiskAccessId:
+          "/subscriptions/e7a191f5-713c-4bdb-b5e4-cf3dd90230ef/resourceGroups/arpja/providers/Microsoft.Compute/diskAccesses/arpja-diskaccess-ccy",
+        targetDiskNetworkAccessOption: "EnablePrivateAccessForAllDisks",
+      },
     },
   };
   const credential = new DefaultAzureCredential();
@@ -69,7 +74,7 @@ GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
  */
 async function restoreDisksWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails() {
   const subscriptionId =
@@ -122,7 +127,7 @@ GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreWithRehydrationRequest.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreWithRehydrationRequest.json
  */
 async function restoreDisksWithIaasVMRestoreWithRehydrationRequest() {
   const subscriptionId =
@@ -172,7 +177,7 @@ GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest.json
  */
 async function restoreToNewAzureIaasVMWithIaasVMRestoreRequest() {
   const subscriptionId =
@@ -227,7 +232,7 @@ GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
  */
 async function restoreToNewAzureIaasVMWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails() {
   const subscriptionId =
@@ -284,7 +289,7 @@ GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreWithRehydrationRequest.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreWithRehydrationRequest.json
  */
 async function restoreToNewAzureIaasVMWithIaasVMRestoreWithRehydrationRequest() {
   const subscriptionId =

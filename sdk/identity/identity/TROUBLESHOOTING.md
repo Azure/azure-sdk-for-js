@@ -9,11 +9,14 @@ This troubleshooting guide covers the following areas of the Azure Identity clie
 ## Table of contents
 
 - [Handle Azure Identity errors](#handle-azure-identity-errors)
-  - [AuthenticationRequiredError](#authenticationrequirederror)
-  - [CredentialUnavailableError](#credentialunavailableerror)
+  - [AggregateAuthenticationError](#aggregateauthenticationerror) 
   - [AuthenticationError](#authenticationerror)
+  - [AuthenticationRequiredError](#authenticationrequirederror) 
+  - [CredentialUnavailableError](#credentialunavailableerror)
 - [Find relevant information in error messages](#find-relevant-information-in-error-messages)
 - [Enable and configure logging](#enable-and-configure-logging)
+    - [Allow logging identifiers](#allow-logging-identifiers)
+    - [PII Logging](#pii-logging)
 - [Permission issues](#permission-issues)
 - [Troubleshoot default Azure credential authentication issues](#troubleshoot-default-azure-credential-authentication-issues)
 - [Troubleshoot environment credential authentication issues](#troubleshoot-environment-credential-authentication-issues)
@@ -24,10 +27,41 @@ This troubleshooting guide covers the following areas of the Azure Identity clie
   - [Azure App Service and Azure Functions managed identity](#azure-app-service-and-azure-functions-managed-identity)
 - [Troubleshoot Visual Studio Code authentication issues](#troubleshoot-visual-studio-code-authentication-issues)
 - [Troubleshoot Azure CLI authentication issues](#troubleshoot-azure-cli-authentication-issues)
+- [Troubleshoot AzureDeveloperCliCredential authentication issues](#troubleshoot-azuredeveloperclicredential-authentication-issues)
 - [Troubleshoot Azure PowerShell authentication issues](#troubleshoot-azure-powershell-authentication-issues)
+- [Troubleshoot WorkloadIdentityCredential authentication issues](#troubleshoot-workloadidentitycredential-authentication-issues)
 - [Troubleshoot multi-tenant authentication issues](#troubleshoot-multi-tenant-authentication-issues)
 
 ## Handle Azure Identity errors
+
+### AggregateAuthenticationError
+
+An `AggregateAuthenticationError` will be raised by `ChainedTokenCredential` with an `errors` field containing an array of errors from each credential in the chain.
+
+### AuthenticationError
+
+The `AuthenticationError` is used to indicate a failure to authenticate with Azure Active Directory (Azure AD). The `errorResponse` field contains more details about the specific failure.
+
+```ts
+import * from "@azure/identity";
+import * from "@azure/keyvault-secrets";
+
+async function main() {
+  // Create a key client using the DefaultAzureCredential
+  const keyVaultUrl = "https://key-vault-name.vault.azure.net";
+  const credential = new DefaultAzureCredential();
+  const client = new KeyClient(keyVaultUrl, credential);
+
+  try {
+    // Retrieving the properties of the existing keys in that specific Key Vault.
+    console.log(await client.listPropertiesOfKeys().next());
+  } catch (error) {
+    console.log("Azure Active Directory service response with error", error.errorResponse);
+  }
+}
+
+main();
+```
 
 ### AuthenticationRequiredError
 
@@ -60,31 +94,6 @@ main();
 
 The `CredentialUnavailableError` is used to indicate that the credential can't authenticate in the current environment due to lack of required configuration or setup. This error is also used as a signal to chained credential types, such as `DefaultAzureCredential` and `ChainedTokenCredential`, that the chained credential should continue to try other credential types later in the chain. In `ManagedIdentityCredential`, it can also trigger if the authentication endpoint (like the IMDS endpoint) is unavailable.
 
-### AuthenticationError
-
-The `AuthenticationError` is used to indicate a failure to authenticate with Azure Active Directory (Azure AD). The `errorResponse` field contains more details about the specific failure.
-
-```ts
-import * from "@azure/identity";
-import * from "@azure/keyvault-secrets";
-
-async function main() {
-  // Create a key client using the DefaultAzureCredential
-  const keyVaultUrl = "https://key-vault-name.vault.azure.net";
-  const credential = new DefaultAzureCredential();
-  const client = new KeyClient(keyVaultUrl, credential);
-
-  try {
-    // Retrieving the properties of the existing keys in that specific Key Vault.
-    console.log(await client.listPropertiesOfKeys().next());
-  } catch (error) {
-    console.log("Azure Active Directory service response with error", error.errorResponse);
-  }
-}
-
-main();
-```
-
 ## Find relevant information in error messages
 
 `AuthenticationRequiredError` is thrown when unexpected errors occurred while a credential is authenticating. This can include errors received from requests to the Azure AD Security Token Service (STS) and often contains information helpful to diagnosis. Consider the following `AuthenticationRequiredError` message:
@@ -115,6 +124,13 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
+Alternatively, you can set the `AZURE_LOG_LEVEL` environment variable to `info`. You can read this environment variable from the _.env_ file by explicitly specifying a file path:
+
+```ts
+import dotenv from "dotenv";
+dotenv.config({path: ".env"});
+```
+
 Consider a scenario in which you have the following environment variables set up either in your environment or _.env_ file:
 
 - `AZURE_TENANT_ID`
@@ -131,6 +147,44 @@ azure:identity:info EnvironmentCredential => Invoking ClientSecretCredential wit
 These logging statements indicate that the `EnvironmentCredential` is being used for authentication and `ClientSecretCredential` is invoked.
 
 > CAUTION: Requests and responses in the Azure Identity library contain sensitive information. Precaution must be taken to protect logs when customizing the output to avoid compromising account security.
+
+#### Allow logging identifiers
+
+In cases where the authentication code might be running in an environment with more than one credential available, the `@azure/identity` package offers a unique form of logging. On the optional parameters for every credential, developers can set `allowLoggingAccountIdentifiers` to `true` in the `loggingOptions` to log information specific to the authenticated account after each successful authentication, including the Client ID, the Tenant ID, the Object ID of the authenticated user, and, if possible, the User Principal Name.
+
+For example, using the `DefaultAzureCredential`:
+
+```ts
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+
+const credential = new DefaultAzureCredential({
+  loggingOptions: { allowLoggingAccountIdentifiers: true },
+});
+```
+
+Once that credential authenticates, the following message will appear in the logs (with the real information instead of `HIDDEN`):
+
+```
+azure:identity:info [Authenticated account] Client ID: HIDDEN. Tenant ID: HIDDEN. User Principal Name: HIDDEN. Object ID (user): HIDDEN
+```
+
+#### PII logging
+
+In cases where the user's [Personally Identifiable Information](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/PII) needs to be logged for customer support, developers can set `enableUnsafeSupportLogging` to `true` in the `loggingOptions`.
+
+For example, using the `DefaultAzureCredential`:
+
+```ts
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+
+const credential = new DefaultAzureCredential({
+  loggingOptions: { enableUnsafeSupportLogging: true },
+});
+```
 
 ## Permission issues
 
@@ -348,6 +402,30 @@ az account get-access-token --output json --resource https://management.core.win
 ```
 >Note that output of this command will contain a valid access token, and SHOULD NOT BE SHARED to avoid compromising account security.
 
+## Troubleshoot `AzureDeveloperCliCredential` authentication issues
+
+`CredentialUnavailableException`
+
+| Error Message |Description| Mitigation |
+|---|---|---|
+|Azure Developer CLI not installed|The Azure Developer CLI isn't installed or couldn't be found.|<ul><li>Ensure the Azure Developer CLI is properly installed. Installation instructions can be found [here](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd).</li><li>Validate the installation location has been added to the `PATH` environment variable.</li></ul>|
+|Please run `azd auth login` to set up account|No account is currently logged into the Azure Developer CLI, or the login has expired.|<ul><li>Log into the Azure Developer CLI using the `azd auth login` command.</li><li>Validate that the Azure Developer CLI can obtain tokens. See [below](#verify-the-azure-developer-cli-can-obtain-tokens) for instructions.</li></ul>|
+
+### Verify the Azure Developer CLI can obtain tokens
+
+You can manually verify that the Azure Developer CLI is properly authenticated and can obtain tokens. First, use the `config` command to verify the account which is currently logged in to the Azure Developer CLI.
+
+```bash
+azd config list
+```
+
+Once you've verified the Azure Developer CLI is using the correct account, validate that it's able to obtain tokens for this account.
+
+```bash
+azd auth token --output json --scope https://management.core.windows.net/.default
+```
+
+> Note that output of this command will contain a valid access token. The token SHOULD NOT BE SHARED, as doing so would compromise account security.
 ## Troubleshoot Azure PowerShell authentication issues
 
 ### CredentialUnavailableError
@@ -377,6 +455,12 @@ Get-AzAccessToken -ResourceUrl "https://management.core.windows.net"
 If the preceding command isn't working properly, follow the instructions to resolve the Azure PowerShell issue. Then try running the credential again.
 
 >Note that output of this command will contain a valid access token, and SHOULD NOT BE SHARED to avoid compromising account security.
+
+## Troubleshoot `WorkloadIdentityCredential` authentication issues
+
+| Error |Description| Mitigation |
+|---|---|---|  
+|`CredentialUnavailableException` raised with message. "WorkloadIdentityCredential authentication unavailable. The workload options are not fully configured."|The `WorkloadIdentityCredential` requires `clientId`, `tenantId`, and `tokenFilePath` to authenticate with Azure Active Directory.| <ul><li>If using `DefaultAzureCredential` then:</li><ul><li>Ensure client ID is specified via the `workloadIdentityClientId` option or the `AZURE_CLIENT_ID` environment variable.</li><li>Ensure tenant ID is specified via the `AZURE_TENANT_ID` environment variable.</li><li>Ensure the token file path is specified via the `AZURE_FEDERATED_TOKEN_FILE` environment variable.</li><li>Ensure the authority host is specified via the `AZURE_AUTHORITY_HOST` environment variable.</ul><li>If using `WorkloadIdentityCredential` then:</li><ul><li>Ensure the tenant ID is specified via the `tenantId` options to the credential constructor or the `AZURE_TENANT_ID` environment variable.</li><li>Ensure client ID is specified via the `clientId` options to the credential constructor.</li><li>Ensure the token file path is specified via the `tokenFilePath` options to credential constructor or the `AZURE_FEDERATED_TOKEN_FILE` environment variable. </li></ul></li><li>Consult the [product troubleshooting guide](https://azure.github.io/azure-workload-identity/docs/troubleshooting.html) for other issues.</li></ul> |
 
 ## Troubleshoot multi-tenant authentication issues
 

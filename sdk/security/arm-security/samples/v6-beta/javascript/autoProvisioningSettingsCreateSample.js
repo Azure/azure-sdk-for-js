@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Details of a specific setting
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2017-08-01-preview/examples/AutoProvisioningSettings/CreateAutoProvisioningSettingsSubscription_example.json
  */
 async function createAutoProvisioningSettingsForSubscription() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const settingName = "default";
   const setting = {
     name: "default",
@@ -32,4 +34,8 @@ async function createAutoProvisioningSettingsForSubscription() {
   console.log(result);
 }
 
-createAutoProvisioningSettingsForSubscription().catch(console.error);
+async function main() {
+  createAutoProvisioningSettingsForSubscription();
+}
+
+main().catch(console.error);

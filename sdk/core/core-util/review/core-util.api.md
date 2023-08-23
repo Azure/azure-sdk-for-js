@@ -32,13 +32,25 @@ export interface DelayOptions {
 }
 
 // @public
+export type EncodingType = "utf-8" | "base64" | "base64url";
+
+// @public
 export function getErrorMessage(e: unknown): string;
 
 // @public
 export function getRandomIntegerInclusive(min: number, max: number): number;
 
 // @public
+export const isBrowser: boolean;
+
+// @public
+export const isBun: boolean;
+
+// @public
 export function isDefined<T>(thing: T | undefined | null): thing is T;
+
+// @public
+export const isDeno: boolean;
 
 // @public
 export function isError(e: unknown): e is Error;
@@ -53,7 +65,22 @@ export function isObject(input: unknown): input is UnknownObject;
 export function isObjectWithProperties<Thing, PropertyName extends string>(thing: Thing, properties: PropertyName[]): thing is Thing & Record<PropertyName, unknown>;
 
 // @public
+export const isReactNative: boolean;
+
+// @public
+export const isWebWorker: boolean;
+
+// @public
 export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
+
+// @public
+export function randomUUID(): string;
+
+// @public
+export function stringToUint8Array(value: string, format: EncodingType): Uint8Array;
+
+// @public
+export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string;
 
 // @public
 export type UnknownObject = {

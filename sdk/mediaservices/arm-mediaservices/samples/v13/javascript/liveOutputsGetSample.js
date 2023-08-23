@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a live output.
  *
  * @summary Gets a live output.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/liveoutput-list-by-name.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveoutput-list-by-name.json
  */
 async function getALiveOutputByName() {
   const subscriptionId =

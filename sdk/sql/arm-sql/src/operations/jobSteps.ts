@@ -616,7 +616,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters34,
+  requestBody: Parameters.parameters26,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
@@ -627,7 +627,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.jobName,
     Parameters.stepName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

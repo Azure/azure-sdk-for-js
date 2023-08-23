@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 const { HybridContainerServiceClient } = require("@azure/arm-hybridcontainerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists the Hybrid AKS virtual networks by resource group
  *
  * @summary Lists the Hybrid AKS virtual networks by resource group
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-05-01-preview/examples/ListVirtualNetworkByResourceGroup.json
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/ListVirtualNetworkByResourceGroup.json
  */
 async function listVirtualNetworkByResourceGroup() {
-  const subscriptionId = "a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b";
-  const resourceGroupName = "test-arcappliance-resgrp";
+  const subscriptionId =
+    process.env["HYBRIDCONTAINERSERVICE_SUBSCRIPTION_ID"] || "a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b";
+  const resourceGroupName =
+    process.env["HYBRIDCONTAINERSERVICE_RESOURCE_GROUP"] || "test-arcappliance-resgrp";
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,4 +32,8 @@ async function listVirtualNetworkByResourceGroup() {
   console.log(resArray);
 }
 
-listVirtualNetworkByResourceGroup().catch(console.error);
+async function main() {
+  listVirtualNetworkByResourceGroup();
+}
+
+main().catch(console.error);

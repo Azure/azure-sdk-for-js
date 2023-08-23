@@ -5,6 +5,7 @@ export {
   DocumentPhoneNumberField,
   DocumentDateField,
   DocumentNumberField,
+  DocumentBooleanField,
   DocumentTimeField,
   DocumentArrayField,
   DocumentObjectField,
@@ -33,4 +34,17 @@ export {
   DocumentWord,
   HasBoundingPolygon,
   DocumentPage,
+  DocumentAnnotation,
+  DocumentBarcode,
+  DocumentFormula,
 } from "./documentElements";
+
+export {
+  DocumentModelSource,
+  DocumentClassifierSource,
+  DocumentClassifierDocumentTypeSources,
+  AzureBlobSource,
+  AzureBlobSourceDetails,
+  AzureBlobFileListSource,
+  AzureBlobFileListSourceDetails,
+} from "./contentSource";

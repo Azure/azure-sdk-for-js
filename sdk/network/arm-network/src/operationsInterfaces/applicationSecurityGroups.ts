@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ApplicationSecurityGroup,
   ApplicationSecurityGroupsListAllOptionalParams,
@@ -51,7 +51,7 @@ export interface ApplicationSecurityGroups {
     resourceGroupName: string,
     applicationSecurityGroupName: string,
     options?: ApplicationSecurityGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified application security group.
    * @param resourceGroupName The name of the resource group.
@@ -87,8 +87,8 @@ export interface ApplicationSecurityGroups {
     parameters: ApplicationSecurityGroup,
     options?: ApplicationSecurityGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationSecurityGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationSecurityGroupsCreateOrUpdateResponse>,
       ApplicationSecurityGroupsCreateOrUpdateResponse
     >
   >;

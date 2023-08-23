@@ -150,6 +150,8 @@ export interface Container {
   livenessProbe?: ContainerProbe;
   /** The readiness probe. */
   readinessProbe?: ContainerProbe;
+  /** The container security properties. */
+  securityContext?: SecurityContextDefinition;
 }
 
 /** The port exposed on the container instance. */
@@ -347,6 +349,30 @@ export interface HttpHeader {
   value?: string;
 }
 
+/** The security context for the container. */
+export interface SecurityContextDefinition {
+  /** The flag to determine if the container permissions is elevated to Privileged. */
+  privileged?: boolean;
+  /** A boolean value indicating whether the init process can elevate its privileges */
+  allowPrivilegeEscalation?: boolean;
+  /** The capabilities to add or drop from a container. */
+  capabilities?: SecurityContextCapabilitiesDefinition;
+  /** Sets the User GID for the container. */
+  runAsGroup?: number;
+  /** Sets the User UID for the container. */
+  runAsUser?: number;
+  /** a base64 encoded string containing the contents of the JSON in the seccomp profile */
+  seccompProfile?: string;
+}
+
+/** The capabilities to add or drop from a container. */
+export interface SecurityContextCapabilitiesDefinition {
+  /** The capabilities to add to the container. */
+  add?: string[];
+  /** The capabilities to drop from the container. */
+  drop?: string[];
+}
+
 /** Image registry credential. */
 export interface ImageRegistryCredential {
   /** The Docker image registry server without a protocol such as "http" and "https". */
@@ -505,6 +531,8 @@ export interface InitContainerDefinition {
   readonly instanceView?: InitContainerPropertiesDefinitionInstanceView;
   /** The volume mounts available to the init container. */
   volumeMounts?: VolumeMount[];
+  /** The container security properties. */
+  securityContext?: SecurityContextDefinition;
 }
 
 /** The instance view of the init container. Only valid in response. */

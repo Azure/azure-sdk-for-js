@@ -112,15 +112,15 @@ const getLatencyScorecardsOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion2,
     Parameters.endDateTimeUTC,
     Parameters.country,
     Parameters.aggregationInterval
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.profileName,
     Parameters.experimentName
   ],
@@ -140,7 +140,7 @@ const getTimeseriesOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion2,
     Parameters.country,
     Parameters.startDateTimeUTC,
     Parameters.endDateTimeUTC1,
@@ -150,8 +150,8 @@ const getTimeseriesOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.profileName,
     Parameters.experimentName
   ],

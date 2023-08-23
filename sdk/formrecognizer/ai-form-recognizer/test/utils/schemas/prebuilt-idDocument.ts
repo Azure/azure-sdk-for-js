@@ -3,8 +3,8 @@
 
 // Model:       prebuilt-idDocument
 // Description: Extract key information from passports and ID cards.
-// API Version: 2022-08-31
-// Created:     Thu Aug 25 2022
+// API Version: 2023-07-31
+// Created:     Tue Aug 01 2023
 
 import * as fr from "../../../src";
 
@@ -486,6 +486,10 @@ export interface IdDocumentResidencePermitFields {
    * Permit category
    */
   category?: fr.DocumentStringField;
+  /**
+   * Address
+   */
+  address?: fr.DocumentStringField;
 }
 
 /**
@@ -515,6 +519,10 @@ export interface IdDocumentUsSocialSecurityCardFields {
  */
 export interface IdDocumentFields {
   /**
+   * Address
+   */
+  address?: fr.DocumentAddressField;
+  /**
    * Driver license number
    */
   documentNumber?: fr.DocumentStringField;
@@ -526,6 +534,10 @@ export interface IdDocumentFields {
    * Surname
    */
   lastName?: fr.DocumentStringField;
+  /**
+   * Date of birth
+   */
+  dateOfBirth?: fr.DocumentDateField;
   /**
    * Date of expiration
    */
@@ -539,8 +551,8 @@ function modelInfo() {
   return {
     modelId: "prebuilt-idDocument",
     description: "Extract key information from passports and ID cards.",
-    createdOn: "2022-08-31T00:00:00.000Z",
-    apiVersion: "2022-08-31",
+    createdOn: "2023-07-31T00:00:00.000Z",
+    apiVersion: "2023-07-31",
     docTypes: {
       "idDocument.driverLicense": {
         buildMode: "template",
@@ -906,6 +918,11 @@ function modelInfo() {
             description: "Permit category",
             example: "DV2",
           },
+          Address: {
+            type: "string",
+            description: "Address",
+            example: "123 STREET ADDRESS YOUR CITY WA 99999-1234",
+          },
         },
       },
       "idDocument.usSocialSecurityCard": {
@@ -936,6 +953,11 @@ function modelInfo() {
       idDocument: {
         buildMode: "template",
         fieldSchema: {
+          Address: {
+            type: "address",
+            description: "Address",
+            example: "123 STREET ADDRESS YOUR CITY WA 99999-1234",
+          },
           DocumentNumber: {
             type: "string",
             description: "Driver license number",
@@ -950,6 +972,11 @@ function modelInfo() {
             type: "string",
             description: "Surname",
             example: "TALBOT",
+          },
+          DateOfBirth: {
+            type: "date",
+            description: "Date of birth",
+            example: "01/06/1958",
           },
           DateOfExpiration: {
             type: "date",

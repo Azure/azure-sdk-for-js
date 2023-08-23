@@ -17,7 +17,8 @@ import {
   ExternalUserInfo as ExternalUserInfoMapper,
   MonitoringTagRules as MonitoringTagRulesMapper,
   VMCollectionUpdate as VMCollectionUpdateMapper,
-  ElasticMonitorUpgrade as ElasticMonitorUpgradeMapper
+  ElasticMonitorUpgrade as ElasticMonitorUpgradeMapper,
+  UserEmailId as UserEmailIdMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -47,7 +48,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-01-preview",
+    defaultValue: "2023-02-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -121,6 +122,17 @@ export const body: OperationParameter = {
 export const body1: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: ElasticMonitorResourceUpdateParametersMapper
+};
+
+export const region: OperationQueryParameter = {
+  parameterPath: "region",
+  mapper: {
+    serializedName: "region",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const body2: OperationParameter = {
@@ -202,4 +214,9 @@ export const rulesetId: OperationQueryParameter = {
       name: "String"
     }
   }
+};
+
+export const body6: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: UserEmailIdMapper
 };

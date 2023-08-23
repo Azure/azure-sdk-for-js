@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a security automation. If a security automation is already created and a subsequent request is issued for the same automation id, then it will be updated.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/Automations/PutAutomationAllAssessments_example.json
  */
 async function createOrUpdateASecurityAutomationForAllAssessmentsIncludingAllSeverities() {
-  const subscriptionId = "a5caac9c-5c04-49af-b3d0-e204f40345d5";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "a5caac9c-5c04-49af-b3d0-e204f40345d5";
+  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const automationName = "exampleAutomation";
   const automation = {
     description:
@@ -56,8 +58,6 @@ async function createOrUpdateASecurityAutomationForAllAssessmentsIncludingAllSev
   console.log(result);
 }
 
-createOrUpdateASecurityAutomationForAllAssessmentsIncludingAllSeverities().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a security automation. If a security automation is already created and a subsequent request is issued for the same automation id, then it will be updated.
  *
@@ -65,8 +65,9 @@ createOrUpdateASecurityAutomationForAllAssessmentsIncludingAllSeverities().catch
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/Automations/PutAutomationHighSeverityAssessments_example.json
  */
 async function createOrUpdateASecurityAutomationForAllHighSeverityAssessments() {
-  const subscriptionId = "a5caac9c-5c04-49af-b3d0-e204f40345d5";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "a5caac9c-5c04-49af-b3d0-e204f40345d5";
+  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const automationName = "exampleAutomation";
   const automation = {
     description:
@@ -119,8 +120,6 @@ async function createOrUpdateASecurityAutomationForAllHighSeverityAssessments() 
   console.log(result);
 }
 
-createOrUpdateASecurityAutomationForAllHighSeverityAssessments().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a security automation. If a security automation is already created and a subsequent request is issued for the same automation id, then it will be updated.
  *
@@ -128,8 +127,9 @@ createOrUpdateASecurityAutomationForAllHighSeverityAssessments().catch(console.e
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/Automations/PutDisableAutomation_example.json
  */
 async function disableOrEnableASecurityAutomation() {
-  const subscriptionId = "a5caac9c-5c04-49af-b3d0-e204f40345d5";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "a5caac9c-5c04-49af-b3d0-e204f40345d5";
+  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const automationName = "exampleAutomation";
   const automation = {
     description:
@@ -182,4 +182,10 @@ async function disableOrEnableASecurityAutomation() {
   console.log(result);
 }
 
-disableOrEnableASecurityAutomation().catch(console.error);
+async function main() {
+  createOrUpdateASecurityAutomationForAllAssessmentsIncludingAllSeverities();
+  createOrUpdateASecurityAutomationForAllHighSeverityAssessments();
+  disableOrEnableASecurityAutomation();
+}
+
+main().catch(console.error);

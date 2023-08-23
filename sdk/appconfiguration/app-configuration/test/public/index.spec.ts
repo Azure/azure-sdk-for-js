@@ -165,7 +165,8 @@ describe("AppConfigurationClient", () => {
       await client.deleteConfigurationSetting({ key, label });
     });
 
-    it("accepts operation options", async function () {
+    // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
+    it.skip("accepts  operation options", async function () {
       if (isPlaybackMode()) this.skip();
       const key = recorder.variable(
         "addConfigTestTwice",
@@ -318,7 +319,8 @@ describe("AppConfigurationClient", () => {
       await client.deleteConfigurationSetting({ key, label });
     });
 
-    it("accepts operation options", async function () {
+    // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
+    it.skip("accepts  operation options", async function () {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
       // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isPlaybackMode()) this.skip();
@@ -447,7 +449,8 @@ describe("AppConfigurationClient", () => {
       }
     });
 
-    it("accepts operation options", async function () {
+    // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
+    it.skip("accepts  operation options", async function () {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
       // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isPlaybackMode()) this.skip();
@@ -848,7 +851,8 @@ describe("AppConfigurationClient", () => {
       }
     });
 
-    it("accepts operation options", async function () {
+    // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
+    it.skip("accepts  operation options", async function () {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
       // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isPlaybackMode()) this.skip();
@@ -858,6 +862,79 @@ describe("AppConfigurationClient", () => {
         });
         await settingsIterator.next();
       });
+    });
+  });
+
+  describe("listConfigSettings", function () {
+    let key1: string;
+    let key2: string;
+    beforeEach(async () => {
+      key1 = recorder.variable(
+        "backslash-zero-label-1",
+        `backslash-zero-label-1-${Math.floor(Math.random() * 900 + 100)}`
+      );
+      key2 = recorder.variable(
+        "backslash-zero-label-2",
+        `backslash-zero-label-2-${Math.floor(Math.random() * 900 + 100)}`
+      );
+      await client.addConfigurationSetting({
+        key: key1,
+        value: "[A] production value",
+      });
+      await client.addConfigurationSetting({
+        key: key2,
+        value: "[A] value",
+      });
+
+      await client.addConfigurationSetting({
+        key: key2,
+        value: "[B] value",
+        label: "with label",
+      });
+    });
+
+    afterEach(async () => {
+      (
+        await toSortedArray(
+          client.listConfigurationSettings({
+            keyFilter: "backslash-zero-label-*",
+          })
+        )
+      ).forEach(async (setting) => {
+        try {
+          await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
+        } catch (_) {
+          /** empty code block */
+        }
+      });
+    });
+
+    it("matches any key without label - `backslash0`", async () => {
+      const byLabelIterator = client.listConfigurationSettings({
+        keyFilter: "backslash-zero-label-*",
+        labelFilter: "\0",
+      });
+      const byLabelSettings = (await toSortedArray(byLabelIterator)).filter((setting) =>
+        [key1, key2].includes(setting.key)
+      );
+      assert.equal(byLabelSettings.length, 2, "got unexpected number of settings");
+      assertEqualSettings(
+        [
+          {
+            key: key1,
+            value: "[A] production value",
+            label: undefined,
+            isReadOnly: false,
+          },
+          {
+            key: key2,
+            value: "[A] value",
+            label: undefined,
+            isReadOnly: false,
+          },
+        ],
+        byLabelSettings
+      );
     });
   });
 
@@ -953,7 +1030,8 @@ describe("AppConfigurationClient", () => {
       );
     });
 
-    it("accepts operation options", async function () {
+    // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
+    it.skip("accepts  operation options", async function () {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
       // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isPlaybackMode()) this.skip();
@@ -1227,7 +1305,8 @@ describe("AppConfigurationClient", () => {
       );
     });
 
-    it("accepts operation options", async function () {
+    // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
+    it.skip("accepts  operation options", async function () {
       if (isPlaybackMode()) this.skip();
       const key = recorder.variable(
         `setConfigTestNA`,
