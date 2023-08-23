@@ -14,6 +14,46 @@
 
 export { AzureKeyCredential } from "@azure/core-auth";
 export { OpenAIClient, OpenAIClientOptions } from "./OpenAIClient.js";
-export * from "./models/index.js";
+export {
+  AzureChatExtensionConfiguration,
+  AzureChatExtensionType,
+  AzureChatExtensionsMessageContext,
+  AzureOpenAIOperationState,
+  BatchImageGenerationOperationResponse,
+  BeginAzureBatchImageGenerationOptions,
+  ChatChoice,
+  ChatCompletions,
+  ChatMessage,
+  ChatRole,
+  Choice,
+  Completions,
+  CompletionsFinishReason,
+  CompletionsLogProbabilityModel,
+  CompletionsUsage,
+  ContentFilterResult,
+  ContentFilterResults,
+  ContentFilterSeverity,
+  EmbeddingItem,
+  Embeddings,
+  EmbeddingsUsage,
+  FunctionCall,
+  FunctionCallPreset,
+  FunctionDefinition,
+  FunctionName,
+  GetAzureBatchImageGenerationOperationStatusOptions,
+  GetCompletionsOptions,
+  GetEmbeddingsOptions,
+  ImageGenerationResponseFormat,
+  ImageGenerations,
+  ImageLocation,
+  ImagePayload,
+  ImageSize,
+  PromptFilterResult,
+  ImageGenerationResponse,
+} from "./models/index.js";
 export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";
-export { ImageGenerationOptions } from "./api/operations.js";
+export {
+  ImageGenerationOptions,
+  AzureExtensionsOptions,
+  GetChatCompletionsOptions,
+} from "./api/operations.js";

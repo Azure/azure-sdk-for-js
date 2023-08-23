@@ -11,6 +11,25 @@ import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
+// @public
+export interface AzureChatExtensionConfiguration {
+    parameters: any;
+    type: AzureChatExtensionType;
+}
+
+// @public
+export interface AzureChatExtensionsMessageContext {
+    messages?: ChatMessage[];
+}
+
+// @public
+export type AzureChatExtensionType = string;
+
+// @public (undocumented)
+export interface AzureExtensionsOptions {
+    extensions?: AzureChatExtensionConfiguration[];
+}
+
 export { AzureKeyCredential }
 
 // @public
@@ -55,6 +74,7 @@ export interface ChatCompletions {
 // @public
 export interface ChatMessage {
     content: string | null;
+    context?: AzureChatExtensionsMessageContext;
     functionCall?: FunctionCall;
     name?: string;
     role: ChatRole;
@@ -169,6 +189,7 @@ export interface GetAzureBatchImageGenerationOperationStatusOptions extends Oper
 
 // @public (undocumented)
 export interface GetChatCompletionsOptions extends OperationOptions {
+    azureExtensionOptions?: AzureExtensionsOptions;
     frequencyPenalty?: number;
     functionCall?: FunctionCallPreset | FunctionName;
     functions?: FunctionDefinition[];

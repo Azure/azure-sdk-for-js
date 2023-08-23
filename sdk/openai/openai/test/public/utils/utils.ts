@@ -10,7 +10,7 @@ import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices"
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AuthMethod } from "./recordedClient.js";
 import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
-import { OpenAIKeyCredential } from "../../../src/OpenAIKeyCredential.js";
+import { OpenAIKeyCredential } from "../../../src/index.js";
 
 export async function withDeployment<T>(
   deployments: string[],
