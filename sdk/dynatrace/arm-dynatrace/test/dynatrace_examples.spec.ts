@@ -67,7 +67,7 @@ describe("Dynatrace test", () => {
       monitoringStatus: "Enabled",
       planData: {
         billingCycle: "Monthly",
-        effectiveDate: new Date("2019-08-30T15:14:33+02:00"),
+        effectiveDate: new Date("2023-08-22T15:14:33+02:00"),
         planDetails: "dynatraceapitestplan",
         usageType: "Committed"
       },
