@@ -110,7 +110,7 @@ Each set of metric values is a time series with the following characteristics:
 - [Metrics query](#metrics-query)
   - [Handle metrics query response](#handle-metrics-query-response)
   - [Example of handling response](#example-of-handling-response)
-- [Batch query](#batch-query)
+- [Batch metrics query](#batch-metrics-query)
 
 ### Logs query
 
