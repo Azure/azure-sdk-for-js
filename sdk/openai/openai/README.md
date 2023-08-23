@@ -249,7 +249,28 @@ async function main(){
   console.log(`Summarization: ${completion}`);
 }
 ```
+### Generate images with DALL-E image generation models
 
+This example generates batch images from a given input prompt.
+
+```js
+const { OpenAIClient } = require("@azure/openai");
+
+async function main() {
+  const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
+
+  const PROMPT = "a monkey eating a banana";
+  const SIZE = "256x256";
+  const N = 3;
+  
+  const endpoint = "https://myaccount.openai.azure.com/";
+  let operationState = await client.getImages(PROMPT, { n: N, size: SIZE });
+
+  for (const image of operationState.data as ImageLocation[]) {
+    console.log(`Image generation result URL: ${image.url}`);
+  }
+}
+```
 ## Troubleshooting
 
 ### Logging

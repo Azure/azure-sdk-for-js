@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ChatCompletions, ChatMessage, Completions } from "../../generated/src/models/models.js";
+import {
+  ChatCompletions,
+  ChatMessage,
+  Completions,
+  ImageGenerations,
+} from "../../generated/src/models/models.js";
 import {
   BeginAzureBatchImageGenerationOptions,
   GetChatCompletionsOptions,
@@ -10,6 +15,7 @@ import {
 import {
   _getCompletionsSend,
   _getChatCompletionsSend,
+  _beginAzureBatchImageGenerationSend,
 } from "../../generated/src/api/operations.js";
 import {
   ChatChoiceOutput,
@@ -17,7 +23,17 @@ import {
   PromptFilterResultOutput,
 } from "../../generated/src/rest/outputModels.js";
 import { getOaiSSEs } from "./oaiSse.js";
-import { OpenAIContext as Client } from "../../generated/src/rest/index.js";
+import {
+  BeginAzureBatchImageGeneration202Response,
+  BeginAzureBatchImageGenerationDefaultResponse,
+  BeginAzureBatchImageGenerationLogicalResponse,
+  OpenAIContext as Client,
+  getLongRunningPoller,
+  isUnexpected,
+} from "../../generated/src/rest/index.js";
+import { ImageGenerationsOutput } from "../../../src/rest/outputModels.js";
+import { isObjectWithProperties } from "@azure/core-util";
+import { ImageLocation } from "../../../src/models/models.js";
 
 function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usage"> {
   return {
@@ -222,4 +238,73 @@ export function listCompletions(
     stream: true,
   });
   return getOaiSSEs(response, getCompletionsResult);
+}
+
+export async function getImages(
+  context: Client,
+  prompt: string,
+  options: ImageGenerationOptions = { requestOptions: {} }
+): Promise<ImageGenerations> {
+  const response = await _beginAzureBatchImageGenerationSend(context, prompt, options);
+
+  if (isUnexpected(response)) {
+    // Check for response from OpenAI
+    const body = response.body as unknown as ImageGenerations;
+    if (body.created && body.data) {
+      return body;
+    }
+    throw response.body.error;
+  }
+
+  if ((response.status = "202")) {
+    const poller = await getLongRunningPoller(
+      context,
+      response as BeginAzureBatchImageGeneration202Response
+    );
+    const result = await poller.pollUntilDone();
+    return getImageResultsDeserialize(result);
+  } else {
+    return getImageResultsDeserialize(response);
+  }
+}
+
+function isImageLocationOutputArray(object: unknown): object is ImageLocation[] {
+  return (
+    Array.isArray(object) &&
+    object.length > 0 &&
+    isObjectWithProperties(object[0], ["url"]) &&
+    typeof object[0].url === "string"
+  );
+}
+
+function convertResultTypes(input: ImageGenerationsOutput): ImageGenerations {
+  let data = input.data;
+  if (isImageLocationOutputArray(data)) {
+    return {
+      created: new Date(input.created),
+      data,
+    };
+  } else {
+    return {
+      created: new Date(input.created),
+      data: data.map((data) => {
+        return {
+          base64Data: data.b64_json,
+        };
+      }),
+    };
+  }
+}
+
+function getImageResultsDeserialize(
+  response:
+    | BeginAzureBatchImageGeneration202Response
+    | BeginAzureBatchImageGenerationDefaultResponse
+    | BeginAzureBatchImageGenerationLogicalResponse
+): ImageGenerations {
+  if (isUnexpected(response) || !response.body.result) {
+    throw response.body.error;
+  }
+  const result = response.body.result;
+  return convertResultTypes(result);
 }

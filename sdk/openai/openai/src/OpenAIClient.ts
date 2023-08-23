@@ -36,7 +36,6 @@ import {
   GetEmbeddingsOptions,
 } from "./models/options.js";
 import { OpenAIContext } from "./rest/clientDefinitions.js";
-import { PipelinePolicy } from "@azure/core-rest-pipeline";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
@@ -107,7 +106,17 @@ export class OpenAIClient {
               ...(opts.additionalPolicies ?? []),
               {
                 position: "perCall",
-                policy: getPolicy(),
+                policy: {
+                  name: "openAiEndpoint",
+                  sendRequest: (request, next) => {
+                    const obj = new URL(request.url);
+                    const parts = obj.pathname.split("/");
+                    obj.pathname = `/${parts[1]}/${parts.slice(5).join("/")}`;
+                    obj.searchParams.delete("api-version");
+                    request.url = obj.toString();
+                    return next(request);
+                  },
+                },
               },
             ],
           }),
@@ -238,36 +247,4 @@ function createOpenAIEndpoint(version: number): string {
 
 function isCred(cred: Record<string, any>): cred is TokenCredential | KeyCredential {
   return isTokenCredential(cred) || cred.key !== undefined;
-}
-
-function getPolicy(): PipelinePolicy {
-  const policy: PipelinePolicy = {
-    name: "openAiEndpoint",
-    sendRequest: (request, next) => {
-      const obj = new URL(request.url);
-      const parts = obj.pathname.split("/");
-      const [type] = parts.slice(-1);
-      switch (type) {
-        case "completions":
-          if (parts[-2] === "chat") {
-            obj.pathname = `/${parts[1]}/chat/completions`;
-          } else {
-            obj.pathname = `/${parts[1]}/completions`;
-          }
-          break;
-        case "embeddings":
-          obj.pathname = `/${parts[1]}/embeddings`;
-          break;
-        case "generations:submit":
-          obj.pathname = `/${parts[1]}/images/generations`;
-          throw new Error(
-            "batchImageGeneration is currently not supported with OpenAI Key credential. Please use Azure credential for this feature."
-          );
-      }
-      obj.searchParams.delete("api-version");
-      request.url = obj.toString();
-      return next(request);
-    },
-  };
-  return policy;
 }

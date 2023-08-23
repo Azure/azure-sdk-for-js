@@ -100,7 +100,6 @@
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
-    "@azure/core-http": "^3.0.2",
     "@azure/core-rest-pipeline": "^1.12.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^7.0.2",

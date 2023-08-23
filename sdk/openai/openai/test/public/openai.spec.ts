@@ -4,7 +4,6 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert, matrix } from "@azure/test-utils";
 import { Context } from "mocha";
-import { OpenAIClient } from "../../src/index.js";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient.js";
 import {
   assertChatCompletions,
@@ -20,7 +19,14 @@ import {
   withDeployment,
 } from "./utils/utils.js";
 import { logger } from "./utils/logger.js";
-
+import { OpenAIClient } from "../../sources/customizations/OpenAIClient.js";
+import {
+  createDefaultHttpClient,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
+import { getImageDimensions } from "./utils/getImageDimensions.js";
+import { ImageLocation } from "../../src/models/models.js";
 describe("OpenAI", function () {
   let deployments: string[] = [];
   let models: string[] = [];
@@ -29,7 +35,6 @@ describe("OpenAI", function () {
     deployments = await getDeployments();
     models = await getModels();
   });
-  import { ImageLocation } from "../../src/api/models.js";
 
   matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
@@ -291,30 +296,45 @@ describe("OpenAI", function () {
           assert.equal(embeddings.data[0].embedding.length > 0, true);
           assert.isNotNull(embeddings.usage);
         });
-      })
+      });
 
-      describe("getImages", function(){
+      describe("getImages", function () {
         it("get images test", async function () {
-          if (authMethod === "OpenAIKey") {
-            this.skip();
-          }
-          function delay(ms: number) {
-            return new Promise((resolve) => setTimeout(resolve, ms));
-          }
           const prompt = "monkey eating banana";
           const numberOfImages = 2;
-          const size = "256x256";
-          let imageLinks = await client.beginAzureBatchImageGeneration(prompt, {
+          const height = 256;
+          const width = 256;
+          const size = `${height}x${width}`;
+
+          async function checkSize(imageUrl: string): Promise<void> {
+            const coreClient = createDefaultHttpClient();
+            const set = new Set<number>();
+            const request = createPipelineRequest({
+              url: imageUrl,
+              method: "GET",
+              headers: createHttpHeaders(),
+              streamResponseStatusCodes: set.add(200),
+            });
+            const response = await coreClient.sendRequest(request);
+
+            const dimensions = await getImageDimensions(response);
+            assert.isDefined(dimensions, "Unable to get dimensions");
+            assert.equal(dimensions?.height, height, "Height does not match");
+            assert.equal(dimensions?.width, width, "Width does not match");
+          }
+          const imageLinks = await client.getImages(prompt, {
             n: numberOfImages,
             size: size,
           });
-          while (imageLinks.status === "notRunning" || imageLinks.status === "running") {
-            await delay(5000);
-            imageLinks = await client.getAzureBatchImageGenerationOperationStatus(imageLinks.id);
+          assert.isNotNull(imageLinks);
+          const url = "https://dalleproduse.blob.core.windows.net/private/images";
+          assert.equal(imageLinks.data.length, numberOfImages);
+
+          for (const image of imageLinks.data as ImageLocation[]) {
+            assert.isDefined(image.url, "Image generation result URL is not defined");
+            assert.include(image.url, url, "Invalid URL");
+            await checkSize(image.url);
           }
-          assert.equal(imageLinks.status, "succeeded");
-          assert.isNotNull(imageLinks.result);
-          assert.equal((imageLinks.result?.data as ImageLocation[]).length, numberOfImages);
         });
       });
     });
