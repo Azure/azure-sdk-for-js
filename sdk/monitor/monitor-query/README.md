@@ -728,7 +728,7 @@ let resourceIds: string[] = [
 ];
 let metricsNamespace: string = "<YOUR_METRICS_NAMESPACE>";
 let metricNames: string[] = ["requests", "count"];
-const batchEndPoint: string = "<YOUR_METRICS_ENDPOINT>"; //Eg: https://eastus.metrics.monitor.azure.com/
+const batchEndPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
 
 const clientSecretCredential = new ClientSecretCredential(<YOUR_TENANT_ID>, <YOUR_CLIENT_ID>, <YOUR_CLIENT_SECRET>);
 const metricsBatchQueryClient: MetricsBatchQueryClient = new MetricsBatchQueryClient(
