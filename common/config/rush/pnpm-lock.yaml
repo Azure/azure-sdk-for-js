@@ -4129,7 +4129,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230821
+      typescript: 5.3.0-dev.20230822
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8713,8 +8713,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230821:
-    resolution: {integrity: sha512-YkxBZgI3iA0uJR9pJLDXQPZ6xdzGUnDyJTtNlJzh00tGFbDh93aI13DioYrZANNCZeWn7Pr3FUT7tRCq3500wA==}
+  /typescript/5.3.0-dev.20230822:
+    resolution: {integrity: sha512-zVlawDu8ult5+AoXXQck+R+qJn1Gzv5aE1lH9UcStRRE461MjXK7P8DDJuee840m66huRJKMzh+ttgrTUEfWmQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13618,7 +13618,7 @@ packages:
     dev: false
 
   file:projects/arm-networkcloud.tgz:
-    resolution: {integrity: sha512-Rho447UvDnX2mK63B1gR1WUlVjeyDNzq534BZwwvf03aZ+tQHWIvg/eAvzAwB54dxliI3OBfn7eQbc0e171z9g==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-VFA7of0eZEEmMeh5MikhF6RYJhcZNTVYiZauqQVMgPoquK8+6BPf/VYmH+JSB+mUTzAYlpWFFjtci+9n5IVVKw==, tarball: file:projects/arm-networkcloud.tgz}
     name: '@rush-temp/arm-networkcloud'
     version: 0.0.0
     dependencies:
@@ -13638,10 +13638,13 @@ packages:
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.2
       typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 

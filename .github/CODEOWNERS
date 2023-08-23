@@ -612,6 +612,10 @@
 /sdk/network/ci.mgmt.yml       @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/networkcloud/arm-networkcloud/      @qiaozha @MaryGao
+/sdk/networkcloud/ci.mgmt.yml       @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/network/arm-network-profile-2019-03-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
