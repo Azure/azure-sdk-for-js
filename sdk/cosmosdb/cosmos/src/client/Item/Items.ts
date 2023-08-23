@@ -45,23 +45,18 @@ function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
   return options && !(isPrimitivePartitionKeyValue(options) || Array.isArray(options));
 }
 
-// function isPartitionKey(partitionKey: unknown) {
-//   return isPrimitivePartitionKeyValue(partitionKey) || Array.isArray(partitionKey);
-// }
-
 /**
  * Operations for creating new items, and reading/querying all items
  *
  * @see {@link Item} for reading, replacing, or deleting an existing container; use `.item(id)`.
  */
 export class Items {
+  private partitionKeyRangeCache: PartitionKeyRangeCache;
   /**
    * Create an instance of {@link Items} linked to the parent {@link Container}.
    * @param container - The parent container.
    * @hidden
    */
-  private partitionKeyRangeCache: PartitionKeyRangeCache;
-
   constructor(public readonly container: Container, private readonly clientContext: ClientContext) {
     this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
   }
@@ -133,7 +128,7 @@ export class Items {
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    *
-   * @deprecated Use `getChangeFeedIterator` instead.
+   * @deprecated Use `changeFeed` instead.
    *
    * @example Read from the beginning of the change feed.
    * ```javascript
@@ -149,13 +144,13 @@ export class Items {
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `getChangeFeedIterator` instead.
+   * @deprecated Use `changeFeed` instead.
    *
    */
   public readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `getChangeFeedIterator` instead.
+   * @deprecated Use `changeFeed` instead.
    */
   public readChangeFeed<T>(
     partitionKey: PartitionKey,
@@ -163,7 +158,7 @@ export class Items {
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `getChangeFeedIterator` instead.
+   * @deprecated Use `changeFeed` instead.
    */
   public readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public readChangeFeed<T>(
@@ -179,7 +174,7 @@ export class Items {
 
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `getChangeFeedIterator` instead.
+   *
    * @example Read from the beginning of the change feed.
    * ```javascript
    * const iterator = items.readChangeFeed({ startFromBeginning: true });
@@ -194,12 +189,10 @@ export class Items {
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public changeFeed<T>(
     partitionKey: PartitionKey,
@@ -207,7 +200,6 @@ export class Items {
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public changeFeed<T>(
@@ -242,10 +234,7 @@ export class Items {
   ): ChangeFeedPullModelIterator<T> {
     const diagnosticContext: CosmosDiagnosticContext = new CosmosDiagnosticContext();
 
-    const cfOptions =
-      changeFeedIteratorOptions !== undefined
-        ? changeFeedIteratorOptions
-        : ({} as ChangeFeedIteratorOptions);
+    const cfOptions = changeFeedIteratorOptions !== undefined ? changeFeedIteratorOptions : {};
     validateChangeFeedIteratorOptions(cfOptions);
     const iterator = changeFeedIteratorBuilder(
       cfOptions,

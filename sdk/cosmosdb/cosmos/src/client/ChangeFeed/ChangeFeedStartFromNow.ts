@@ -14,7 +14,7 @@ export class ChangeFeedStartFromNow {
     this.cfResource = cfResource;
   }
 
-  public getCfResource(): PartitionKey | FeedRange {
+  public getCfResource(): PartitionKey | FeedRange | undefined {
     return this.cfResource;
   }
 }

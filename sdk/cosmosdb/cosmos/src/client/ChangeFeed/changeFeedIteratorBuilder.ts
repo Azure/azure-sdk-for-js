@@ -15,12 +15,8 @@ import { ChangeFeedForPartitionKey } from "./ChangeFeedForPartitionKey";
 import { ErrorResponse } from "../../request";
 import { ChangeFeedForEpkRange } from "./ChangeFeedForEpkRange";
 import { getIdFromLink, getPathFromLink, ResourceType, Constants } from "../../common";
-import {
-  buildInternalChangeFeedOptions,
-  fetchStartTime,
-  isEpkRange,
-  isPartitionKey,
-} from "./changeFeedUtils";
+import { buildInternalChangeFeedOptions, fetchStartTime, isEpkRange } from "./changeFeedUtils";
+import { isPartitionKey } from "../../utils/typeChecks";
 import { Container } from "../Container";
 import { FeedRangeInternal } from "./FeedRange";
 

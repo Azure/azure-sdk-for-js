@@ -10,7 +10,7 @@ import { Constants, SubStatusCodes, StatusCodes, ResourceType } from "../../comm
 import { Response, FeedOptions, ErrorResponse } from "../../request";
 import { CompositeContinuationToken } from "./CompositeContinuationToken";
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
-import { checkEpkHeaders } from "./changeFeedUtils";
+import { extractOverlappingRanges } from "./changeFeedUtils";
 import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
 import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 /**
@@ -83,7 +83,10 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         this.diagnosticContext
       );
       for (const overLappingRange of overLappingRanges) {
-        const [epkMinHeader, epkMaxHeader] = await checkEpkHeaders(this.epkRange, overLappingRange);
+        const [epkMinHeader, epkMaxHeader] = await extractOverlappingRanges(
+          this.epkRange,
+          overLappingRange
+        );
         const feedRange: ChangeFeedRange = new ChangeFeedRange(
           overLappingRange.minInclusive,
           overLappingRange.maxExclusive,
@@ -118,7 +121,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
             // If yes, minInclusive and maxExclusive of the overlapping range will be set.
             // If no, i.e. there is only partial overlap, epkMinHeader and epkMaxHeader are set as min and max of overlap.
             // This will be used when we make a call to fetch change feed.
-            const [epkMinHeader, epkMaxHeader] = await checkEpkHeaders(
+            const [epkMinHeader, epkMaxHeader] = await extractOverlappingRanges(
               queryRange,
               overLappingRange
             );
@@ -307,7 +310,10 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       // This section is only applicable when handleSplit is called by getPartitionRangeId().
       // used only when existing partition key range cache is used to check for any overlapping ranges.
       // Modifies the first element with the first overlapping range.
-      const [epkMinHeader, epkMaxHeader] = await checkEpkHeaders(oldFeedRange, resolvedRanges[0]);
+      const [epkMinHeader, epkMaxHeader] = await extractOverlappingRanges(
+        oldFeedRange,
+        resolvedRanges[0]
+      );
       const newFeedRange = new ChangeFeedRange(
         resolvedRanges[0].minInclusive,
         resolvedRanges[0].maxExclusive,
@@ -321,7 +327,10 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     }
     // Enqueue the overlapping ranges.
     for (let i = flag; i < resolvedRanges.length; i++) {
-      const [epkMinHeader, epkMaxHeader] = await checkEpkHeaders(oldFeedRange, resolvedRanges[i]);
+      const [epkMinHeader, epkMaxHeader] = await extractOverlappingRanges(
+        oldFeedRange,
+        resolvedRanges[i]
+      );
 
       const newFeedRange = new ChangeFeedRange(
         resolvedRanges[i].minInclusive,

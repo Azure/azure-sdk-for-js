@@ -7,7 +7,7 @@ import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning";
 import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
 import { ChangeFeedStartFromContinuation } from "./ChangeFeedStartFromContinuation";
 import { ErrorResponse } from "../../request/ErrorResponse";
-import { checkTokenEmptyOrWhiteSpace } from "./changeFeedUtils";
+import { isNullOrEmpty } from "./changeFeedUtils";
 
 /**
  * Base class for where to start a ChangeFeedIterator.
@@ -54,7 +54,7 @@ export abstract class ChangeFeedStartFrom {
     if (!continuationToken) {
       throw new ErrorResponse("Argument continuation must be passed.");
     }
-    if (checkTokenEmptyOrWhiteSpace(continuationToken)) {
+    if (isNullOrEmpty(continuationToken)) {
       throw new ErrorResponse("Argument continuationToken must be a non-empty string.");
     }
     return new ChangeFeedStartFromContinuation(continuationToken);

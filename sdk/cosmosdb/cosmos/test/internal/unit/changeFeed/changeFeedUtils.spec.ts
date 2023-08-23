@@ -3,8 +3,8 @@
 
 import assert from "assert";
 import {
-  checkEpkHeaders,
-  checkTokenEmptyOrWhiteSpace,
+  extractOverlappingRanges,
+  isNullOrEmpty,
   fetchStartTime,
 } from "../../../../src/client/ChangeFeed/changeFeedUtils";
 import { ChangeFeedStartFrom, PartitionKeyRange } from "../../../../src/";
@@ -12,7 +12,7 @@ import { FeedRangeInternal } from "../../../../src/client/ChangeFeed/FeedRange";
 import { isEpkRange } from "../../../../src/client/ChangeFeed/changeFeedUtils";
 import { QueryRange } from "../../../../src/routing";
 
-describe("test checkEpkHeaders", function () {
+describe("test extractOverlappingRanges", function () {
   it("exact overlap", async function () {
     const overLappingRange: PartitionKeyRange = {
       id: "2",
@@ -25,7 +25,7 @@ describe("test checkEpkHeaders", function () {
     };
 
     const pkRange = new QueryRange("05C1D5AB55AB50", "05C1DFFFFFFFF8", true, false);
-    const [epkMinHeader, epkMaxHeader] = await checkEpkHeaders(pkRange, overLappingRange);
+    const [epkMinHeader, epkMaxHeader] = await extractOverlappingRanges(pkRange, overLappingRange);
 
     assert.equal(epkMinHeader, undefined);
     assert.equal(epkMaxHeader, undefined);
@@ -44,7 +44,7 @@ describe("test checkEpkHeaders", function () {
 
     const pkRange = new QueryRange("05C1C5AB55AB50", "05C1E5AB55AB50", true, false);
 
-    const [epkMinHeader, epkMaxHeader] = await checkEpkHeaders(pkRange, overLappingRange);
+    const [epkMinHeader, epkMaxHeader] = await extractOverlappingRanges(pkRange, overLappingRange);
 
     assert.equal(epkMinHeader, undefined);
     assert.equal(epkMaxHeader, undefined);
@@ -63,7 +63,7 @@ describe("test checkEpkHeaders", function () {
 
     const pkRange = new QueryRange("05C1C5AB55AB50", "05C1DFFFFFFFF7", true, false);
 
-    const [epkMinHeader, epkMaxHeader] = await checkEpkHeaders(pkRange, overLappingRange);
+    const [epkMinHeader, epkMaxHeader] = await extractOverlappingRanges(pkRange, overLappingRange);
 
     assert.equal(epkMinHeader, "05C1D5AB55AB50");
     assert.equal(epkMaxHeader, "05C1DFFFFFFFF7");
@@ -81,7 +81,7 @@ describe("test checkEpkHeaders", function () {
     };
 
     const pkRange = new QueryRange("05C1D5AB55AB51", "05C1DFFFFFFFF9", true, false);
-    const [epkMinHeader, epkMaxHeader] = await checkEpkHeaders(pkRange, overLappingRange);
+    const [epkMinHeader, epkMaxHeader] = await extractOverlappingRanges(pkRange, overLappingRange);
 
     assert.equal(epkMinHeader, "05C1D5AB55AB51");
     assert.equal(epkMaxHeader, "05C1DFFFFFFFF8");
@@ -99,7 +99,7 @@ describe("test checkEpkHeaders", function () {
     };
 
     const pkRange = new QueryRange("05C1D5AB55AB51", "05C1DFFFFFFFF7", true, false);
-    const [epkMinHeader, epkMaxHeader] = await checkEpkHeaders(pkRange, overLappingRange);
+    const [epkMinHeader, epkMaxHeader] = await extractOverlappingRanges(pkRange, overLappingRange);
 
     assert.equal(epkMinHeader, "05C1D5AB55AB51");
     assert.equal(epkMaxHeader, "05C1DFFFFFFFF7");
@@ -138,15 +138,15 @@ describe("test isEpkRange", function () {
 
 describe("test checkTokenEmptyOrWhiteSpace", function () {
   it("empty continuation token", function () {
-    const result = checkTokenEmptyOrWhiteSpace("");
+    const result = isNullOrEmpty("");
     assert.equal(result, true);
   });
   it("white space", function () {
-    const result = checkTokenEmptyOrWhiteSpace("    ");
+    const result = isNullOrEmpty("    ");
     assert.equal(result, true);
   });
   it("non empty", function () {
-    const result = checkTokenEmptyOrWhiteSpace("{}");
+    const result = isNullOrEmpty("{}");
     assert.equal(result, false);
   });
 });

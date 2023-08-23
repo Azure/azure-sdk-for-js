@@ -30,7 +30,10 @@ export function validateChangeFeedIteratorOptions(options: ChangeFeedIteratorOpt
 }
 
 function isChangeFeedIteratorOptions(options: unknown): options is ChangeFeedIteratorOptions {
-  if (Object.keys(options).length === 0) {
+  if (typeof options !== "object") {
+    return false;
+  }
+  if (Object.keys(options).length === 0 && JSON.stringify(options) === "{}") {
     return true;
   }
   return options && !(isPrimitivePartitionKeyValue(options) || Array.isArray(options));
@@ -42,7 +45,7 @@ function isChangeFeedIteratorOptions(options: unknown): options is ChangeFeedIte
  *
  * If no complete overlap, exact range which overlaps is retured which is used to set minEpk and maxEpk headers while quering change feed.
  */
-export async function checkEpkHeaders(
+export async function extractOverlappingRanges(
   epkRange: QueryRange,
   overLappingRange: PartitionKeyRange
 ): Promise<[string, string]> {
@@ -75,8 +78,7 @@ export async function checkEpkHeaders(
  * @hidden
  * Checks if the object is a valid EpkRange
  */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-export function isEpkRange(obj: any): boolean {
+export function isEpkRange(obj: unknown): boolean {
   return (
     obj instanceof FeedRangeInternal &&
     typeof obj.minInclusive === "string" &&
@@ -87,14 +89,6 @@ export function isEpkRange(obj: any): boolean {
       Constants.EffectivePartitionKeyConstants.MaximumExclusiveEffectivePartitionKey &&
     obj.maxExclusive > obj.minInclusive
   );
-}
-
-/**
- * @hidden
- * Verify validity of partition key.
- */
-export function isPartitionKey(partitionKey: unknown) {
-  return isPrimitivePartitionKeyValue(partitionKey) || Array.isArray(partitionKey);
 }
 
 /**
@@ -117,7 +111,7 @@ export function buildInternalChangeFeedOptions(
 /**
  * @hidden
  */
-export function fetchStartTime(changeFeedStartFrom: ChangeFeedStartFrom): Date {
+export function fetchStartTime(changeFeedStartFrom: ChangeFeedStartFrom): Date | undefined {
   if (changeFeedStartFrom instanceof ChangeFeedStartFromBeginning) {
     return undefined;
   } else if (changeFeedStartFrom instanceof ChangeFeedStartFromNow) {
@@ -130,6 +124,6 @@ export function fetchStartTime(changeFeedStartFrom: ChangeFeedStartFrom): Date {
 /**
  * @hidden
  */
-export function checkTokenEmptyOrWhiteSpace(text: string): boolean {
-  return text === null || text.match(/^ *$/) !== null;
+export function isNullOrEmpty(text: string | null | undefined): boolean {
+  return text === null || text === undefined || text.trim() === "";
 }
