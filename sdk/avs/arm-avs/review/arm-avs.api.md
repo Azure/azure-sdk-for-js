@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface Addon extends Resource {
@@ -47,9 +47,9 @@ export type AddonProvisioningState = string;
 
 // @public
 export interface Addons {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, addonName: string, addon: Addon, options?: AddonsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AddonsCreateOrUpdateResponse>, AddonsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, addonName: string, addon: Addon, options?: AddonsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AddonsCreateOrUpdateResponse>, AddonsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, addonName: string, addon: Addon, options?: AddonsCreateOrUpdateOptionalParams): Promise<AddonsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsGetOptionalParams): Promise<AddonsGetResponse>;
     list(resourceGroupName: string, privateCloudName: string, options?: AddonsListOptionalParams): PagedAsyncIterableIterator<Addon>;
@@ -122,9 +122,9 @@ export type AffinityType = string;
 
 // @public
 export interface Authorizations {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, authorizationName: string, authorization: ExpressRouteAuthorization, options?: AuthorizationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AuthorizationsCreateOrUpdateResponse>, AuthorizationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, authorizationName: string, authorization: ExpressRouteAuthorization, options?: AuthorizationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AuthorizationsCreateOrUpdateResponse>, AuthorizationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, authorizationName: string, authorization: ExpressRouteAuthorization, options?: AuthorizationsCreateOrUpdateOptionalParams): Promise<AuthorizationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsGetOptionalParams): Promise<AuthorizationsGetResponse>;
     list(resourceGroupName: string, privateCloudName: string, options?: AuthorizationsListOptionalParams): PagedAsyncIterableIterator<ExpressRouteAuthorization>;
@@ -238,11 +238,6 @@ export interface Circuit {
 }
 
 // @public
-export interface CloudError {
-    error?: ErrorResponse;
-}
-
-// @public
 export interface CloudLink extends Resource {
     linkedCloud?: string;
     readonly status?: CloudLinkStatus;
@@ -256,9 +251,9 @@ export interface CloudLinkList {
 
 // @public
 export interface CloudLinks {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, cloudLinkName: string, cloudLink: CloudLink, options?: CloudLinksCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CloudLinksCreateOrUpdateResponse>, CloudLinksCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, cloudLinkName: string, cloudLink: CloudLink, options?: CloudLinksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CloudLinksCreateOrUpdateResponse>, CloudLinksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, cloudLinkName: string, cloudLink: CloudLink, options?: CloudLinksCreateOrUpdateOptionalParams): Promise<CloudLinksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksGetOptionalParams): Promise<CloudLinksGetResponse>;
     list(resourceGroupName: string, privateCloudName: string, options?: CloudLinksListOptionalParams): PagedAsyncIterableIterator<CloudLink>;
@@ -327,11 +322,11 @@ export type ClusterProvisioningState = string;
 
 // @public
 export interface Clusters {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<ClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, clusterUpdate: ClusterUpdate, options?: ClustersUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, clusterUpdate: ClusterUpdate, options?: ClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, clusterUpdate: ClusterUpdate, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
     get(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     list(resourceGroupName: string, privateCloudName: string, options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
@@ -434,9 +429,9 @@ export type DatastoreProvisioningState = string;
 
 // @public
 export interface Datastores {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, datastore: Datastore, options?: DatastoresCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DatastoresCreateOrUpdateResponse>, DatastoresCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, datastore: Datastore, options?: DatastoresCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DatastoresCreateOrUpdateResponse>, DatastoresCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, datastore: Datastore, options?: DatastoresCreateOrUpdateOptionalParams): Promise<DatastoresCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, options?: DatastoresDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, options?: DatastoresDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, options?: DatastoresDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, options?: DatastoresGetOptionalParams): Promise<DatastoresGetResponse>;
     list(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: DatastoresListOptionalParams): PagedAsyncIterableIterator<Datastore>;
@@ -537,12 +532,17 @@ export interface ErrorAdditionalInfo {
 }
 
 // @public
-export interface ErrorResponse {
+export interface ErrorDetail {
     readonly additionalInfo?: ErrorAdditionalInfo[];
     readonly code?: string;
-    readonly details?: ErrorResponse[];
+    readonly details?: ErrorDetail[];
     readonly message?: string;
     readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -586,9 +586,9 @@ export type GlobalReachConnectionProvisioningState = string;
 
 // @public
 export interface GlobalReachConnections {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, globalReachConnection: GlobalReachConnection, options?: GlobalReachConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<GlobalReachConnectionsCreateOrUpdateResponse>, GlobalReachConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, globalReachConnection: GlobalReachConnection, options?: GlobalReachConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GlobalReachConnectionsCreateOrUpdateResponse>, GlobalReachConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, globalReachConnection: GlobalReachConnection, options?: GlobalReachConnectionsCreateOrUpdateOptionalParams): Promise<GlobalReachConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, options?: GlobalReachConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, options?: GlobalReachConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, options?: GlobalReachConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, options?: GlobalReachConnectionsGetOptionalParams): Promise<GlobalReachConnectionsGetResponse>;
     list(resourceGroupName: string, privateCloudName: string, options?: GlobalReachConnectionsListOptionalParams): PagedAsyncIterableIterator<GlobalReachConnection>;
@@ -1219,11 +1219,11 @@ export type OptionalParamEnum = string;
 
 // @public
 export interface PlacementPolicies {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicy: PlacementPolicy, options?: PlacementPoliciesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PlacementPoliciesCreateOrUpdateResponse>, PlacementPoliciesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicy: PlacementPolicy, options?: PlacementPoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PlacementPoliciesCreateOrUpdateResponse>, PlacementPoliciesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicy: PlacementPolicy, options?: PlacementPoliciesCreateOrUpdateOptionalParams): Promise<PlacementPoliciesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicyUpdate: PlacementPolicyUpdate, options?: PlacementPoliciesUpdateOptionalParams): Promise<PollerLike<PollOperationState<PlacementPoliciesUpdateResponse>, PlacementPoliciesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicyUpdate: PlacementPolicyUpdate, options?: PlacementPoliciesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PlacementPoliciesUpdateResponse>, PlacementPoliciesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicyUpdate: PlacementPolicyUpdate, options?: PlacementPoliciesUpdateOptionalParams): Promise<PlacementPoliciesUpdateResponse>;
     get(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesGetOptionalParams): Promise<PlacementPoliciesGetResponse>;
     list(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: PlacementPoliciesListOptionalParams): PagedAsyncIterableIterator<PlacementPolicy>;
@@ -1326,6 +1326,7 @@ export interface PrivateCloud extends TrackedResource {
     circuit?: Circuit;
     encryption?: Encryption;
     readonly endpoints?: Endpoints;
+    extendedNetworkBlocks?: string[];
     readonly externalCloudLinks?: string[];
     identity?: PrivateCloudIdentity;
     identitySources?: IdentitySource[];
@@ -1381,15 +1382,15 @@ export type PrivateCloudProvisioningState = string;
 
 // @public
 export interface PrivateClouds {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, privateCloud: PrivateCloud, options?: PrivateCloudsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateCloudsCreateOrUpdateResponse>, PrivateCloudsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, privateCloud: PrivateCloud, options?: PrivateCloudsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateCloudsCreateOrUpdateResponse>, PrivateCloudsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, privateCloud: PrivateCloud, options?: PrivateCloudsCreateOrUpdateOptionalParams): Promise<PrivateCloudsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsDeleteOptionalParams): Promise<void>;
-    beginRotateNsxtPassword(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateNsxtPasswordOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRotateNsxtPassword(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateNsxtPasswordOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRotateNsxtPasswordAndWait(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateNsxtPasswordOptionalParams): Promise<void>;
-    beginRotateVcenterPassword(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateVcenterPasswordOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRotateVcenterPassword(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateVcenterPasswordOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRotateVcenterPasswordAndWait(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateVcenterPasswordOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, privateCloudName: string, privateCloudUpdate: PrivateCloudUpdate, options?: PrivateCloudsUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateCloudsUpdateResponse>, PrivateCloudsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, privateCloudName: string, privateCloudUpdate: PrivateCloudUpdate, options?: PrivateCloudsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateCloudsUpdateResponse>, PrivateCloudsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, privateCloudName: string, privateCloudUpdate: PrivateCloudUpdate, options?: PrivateCloudsUpdateOptionalParams): Promise<PrivateCloudsUpdateResponse>;
     get(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsGetOptionalParams): Promise<PrivateCloudsGetResponse>;
     list(resourceGroupName: string, options?: PrivateCloudsListOptionalParams): PagedAsyncIterableIterator<PrivateCloud>;
@@ -1479,6 +1480,7 @@ export type PrivateCloudsUpdateResponse = PrivateCloud;
 export interface PrivateCloudUpdate {
     availability?: AvailabilityProperties;
     encryption?: Encryption;
+    extendedNetworkBlocks?: string[];
     identity?: PrivateCloudIdentity;
     identitySources?: IdentitySource[];
     internet?: InternetEnum;
@@ -1492,6 +1494,7 @@ export interface PrivateCloudUpdate {
 export interface PrivateCloudUpdateProperties {
     availability?: AvailabilityProperties;
     encryption?: Encryption;
+    extendedNetworkBlocks?: string[];
     identitySources?: IdentitySource[];
     internet?: InternetEnum;
     managementCluster?: ManagementCluster;
@@ -1607,9 +1610,9 @@ export type ScriptExecutionProvisioningState = string;
 
 // @public
 export interface ScriptExecutions {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, scriptExecution: ScriptExecution, options?: ScriptExecutionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ScriptExecutionsCreateOrUpdateResponse>, ScriptExecutionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, scriptExecution: ScriptExecution, options?: ScriptExecutionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ScriptExecutionsCreateOrUpdateResponse>, ScriptExecutionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, scriptExecution: ScriptExecution, options?: ScriptExecutionsCreateOrUpdateOptionalParams): Promise<ScriptExecutionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsGetOptionalParams): Promise<ScriptExecutionsGetResponse>;
     getExecutionLogs(resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsGetExecutionLogsOptionalParams): Promise<ScriptExecutionsGetExecutionLogsResponse>;
@@ -1786,7 +1789,7 @@ export type VirtualMachineRestrictMovementState = string;
 
 // @public
 export interface VirtualMachines {
-    beginRestrictMovement(resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, restrictMovement: VirtualMachineRestrictMovement, options?: VirtualMachinesRestrictMovementOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRestrictMovement(resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, restrictMovement: VirtualMachineRestrictMovement, options?: VirtualMachinesRestrictMovementOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestrictMovementAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, restrictMovement: VirtualMachineRestrictMovement, options?: VirtualMachinesRestrictMovementOptionalParams): Promise<void>;
     get(resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, options?: VirtualMachinesGetOptionalParams): Promise<VirtualMachinesGetResponse>;
     list(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: VirtualMachinesListOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
@@ -1995,45 +1998,45 @@ export interface WorkloadNetworkPublicIPsList {
 
 // @public
 export interface WorkloadNetworks {
-    beginCreateDhcp(resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksCreateDhcpOptionalParams): Promise<PollerLike<PollOperationState<WorkloadNetworksCreateDhcpResponse>, WorkloadNetworksCreateDhcpResponse>>;
+    beginCreateDhcp(resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksCreateDhcpOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksCreateDhcpResponse>, WorkloadNetworksCreateDhcpResponse>>;
     beginCreateDhcpAndWait(resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksCreateDhcpOptionalParams): Promise<WorkloadNetworksCreateDhcpResponse>;
-    beginCreateDnsService(resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksCreateDnsServiceOptionalParams): Promise<PollerLike<PollOperationState<WorkloadNetworksCreateDnsServiceResponse>, WorkloadNetworksCreateDnsServiceResponse>>;
+    beginCreateDnsService(resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksCreateDnsServiceOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksCreateDnsServiceResponse>, WorkloadNetworksCreateDnsServiceResponse>>;
     beginCreateDnsServiceAndWait(resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksCreateDnsServiceOptionalParams): Promise<WorkloadNetworksCreateDnsServiceResponse>;
-    beginCreateDnsZone(resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksCreateDnsZoneOptionalParams): Promise<PollerLike<PollOperationState<WorkloadNetworksCreateDnsZoneResponse>, WorkloadNetworksCreateDnsZoneResponse>>;
+    beginCreateDnsZone(resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksCreateDnsZoneOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksCreateDnsZoneResponse>, WorkloadNetworksCreateDnsZoneResponse>>;
     beginCreateDnsZoneAndWait(resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksCreateDnsZoneOptionalParams): Promise<WorkloadNetworksCreateDnsZoneResponse>;
-    beginCreatePortMirroring(resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksCreatePortMirroringOptionalParams): Promise<PollerLike<PollOperationState<WorkloadNetworksCreatePortMirroringResponse>, WorkloadNetworksCreatePortMirroringResponse>>;
+    beginCreatePortMirroring(resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksCreatePortMirroringOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksCreatePortMirroringResponse>, WorkloadNetworksCreatePortMirroringResponse>>;
     beginCreatePortMirroringAndWait(resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksCreatePortMirroringOptionalParams): Promise<WorkloadNetworksCreatePortMirroringResponse>;
-    beginCreatePublicIP(resourceGroupName: string, privateCloudName: string, publicIPId: string, workloadNetworkPublicIP: WorkloadNetworkPublicIP, options?: WorkloadNetworksCreatePublicIPOptionalParams): Promise<PollerLike<PollOperationState<WorkloadNetworksCreatePublicIPResponse>, WorkloadNetworksCreatePublicIPResponse>>;
+    beginCreatePublicIP(resourceGroupName: string, privateCloudName: string, publicIPId: string, workloadNetworkPublicIP: WorkloadNetworkPublicIP, options?: WorkloadNetworksCreatePublicIPOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksCreatePublicIPResponse>, WorkloadNetworksCreatePublicIPResponse>>;
     beginCreatePublicIPAndWait(resourceGroupName: string, privateCloudName: string, publicIPId: string, workloadNetworkPublicIP: WorkloadNetworkPublicIP, options?: WorkloadNetworksCreatePublicIPOptionalParams): Promise<WorkloadNetworksCreatePublicIPResponse>;
-    beginCreateSegments(resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksCreateSegmentsOptionalParams): Promise<PollerLike<PollOperationState<WorkloadNetworksCreateSegmentsResponse>, WorkloadNetworksCreateSegmentsResponse>>;
+    beginCreateSegments(resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksCreateSegmentsOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksCreateSegmentsResponse>, WorkloadNetworksCreateSegmentsResponse>>;
     beginCreateSegmentsAndWait(resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksCreateSegmentsOptionalParams): Promise<WorkloadNetworksCreateSegmentsResponse>;
-    beginCreateVMGroup(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksCreateVMGroupOptionalParams): Promise<PollerLike<PollOperationState<WorkloadNetworksCreateVMGroupResponse>, WorkloadNetworksCreateVMGroupResponse>>;
+    beginCreateVMGroup(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksCreateVMGroupOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksCreateVMGroupResponse>, WorkloadNetworksCreateVMGroupResponse>>;
     beginCreateVMGroupAndWait(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksCreateVMGroupOptionalParams): Promise<WorkloadNetworksCreateVMGroupResponse>;
-    beginDeleteDhcp(resourceGroupName: string, privateCloudName: string, dhcpId: string, options?: WorkloadNetworksDeleteDhcpOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteDhcp(resourceGroupName: string, privateCloudName: string, dhcpId: string, options?: WorkloadNetworksDeleteDhcpOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteDhcpAndWait(resourceGroupName: string, privateCloudName: string, dhcpId: string, options?: WorkloadNetworksDeleteDhcpOptionalParams): Promise<void>;
-    beginDeleteDnsService(resourceGroupName: string, dnsServiceId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsServiceOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteDnsService(resourceGroupName: string, dnsServiceId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsServiceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteDnsServiceAndWait(resourceGroupName: string, dnsServiceId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsServiceOptionalParams): Promise<void>;
-    beginDeleteDnsZone(resourceGroupName: string, dnsZoneId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsZoneOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteDnsZone(resourceGroupName: string, dnsZoneId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsZoneOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteDnsZoneAndWait(resourceGroupName: string, dnsZoneId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsZoneOptionalParams): Promise<void>;
-    beginDeletePortMirroring(resourceGroupName: string, portMirroringId: string, privateCloudName: string, options?: WorkloadNetworksDeletePortMirroringOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeletePortMirroring(resourceGroupName: string, portMirroringId: string, privateCloudName: string, options?: WorkloadNetworksDeletePortMirroringOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeletePortMirroringAndWait(resourceGroupName: string, portMirroringId: string, privateCloudName: string, options?: WorkloadNetworksDeletePortMirroringOptionalParams): Promise<void>;
-    beginDeletePublicIP(resourceGroupName: string, publicIPId: string, privateCloudName: string, options?: WorkloadNetworksDeletePublicIPOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeletePublicIP(resourceGroupName: string, publicIPId: string, privateCloudName: string, options?: WorkloadNetworksDeletePublicIPOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeletePublicIPAndWait(resourceGroupName: string, publicIPId: string, privateCloudName: string, options?: WorkloadNetworksDeletePublicIPOptionalParams): Promise<void>;
-    beginDeleteSegment(resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksDeleteSegmentOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteSegment(resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksDeleteSegmentOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteSegmentAndWait(resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksDeleteSegmentOptionalParams): Promise<void>;
-    beginDeleteVMGroup(resourceGroupName: string, vmGroupId: string, privateCloudName: string, options?: WorkloadNetworksDeleteVMGroupOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteVMGroup(resourceGroupName: string, vmGroupId: string, privateCloudName: string, options?: WorkloadNetworksDeleteVMGroupOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteVMGroupAndWait(resourceGroupName: string, vmGroupId: string, privateCloudName: string, options?: WorkloadNetworksDeleteVMGroupOptionalParams): Promise<void>;
-    beginUpdateDhcp(resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksUpdateDhcpOptionalParams): Promise<PollerLike<PollOperationState<WorkloadNetworksUpdateDhcpResponse>, WorkloadNetworksUpdateDhcpResponse>>;
+    beginUpdateDhcp(resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksUpdateDhcpOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksUpdateDhcpResponse>, WorkloadNetworksUpdateDhcpResponse>>;
     beginUpdateDhcpAndWait(resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksUpdateDhcpOptionalParams): Promise<WorkloadNetworksUpdateDhcpResponse>;
-    beginUpdateDnsService(resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksUpdateDnsServiceOptionalParams): Promise<PollerLike<PollOperationState<WorkloadNetworksUpdateDnsServiceResponse>, WorkloadNetworksUpdateDnsServiceResponse>>;
+    beginUpdateDnsService(resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksUpdateDnsServiceOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksUpdateDnsServiceResponse>, WorkloadNetworksUpdateDnsServiceResponse>>;
     beginUpdateDnsServiceAndWait(resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksUpdateDnsServiceOptionalParams): Promise<WorkloadNetworksUpdateDnsServiceResponse>;
-    beginUpdateDnsZone(resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksUpdateDnsZoneOptionalParams): Promise<PollerLike<PollOperationState<WorkloadNetworksUpdateDnsZoneResponse>, WorkloadNetworksUpdateDnsZoneResponse>>;
+    beginUpdateDnsZone(resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksUpdateDnsZoneOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksUpdateDnsZoneResponse>, WorkloadNetworksUpdateDnsZoneResponse>>;
     beginUpdateDnsZoneAndWait(resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksUpdateDnsZoneOptionalParams): Promise<WorkloadNetworksUpdateDnsZoneResponse>;
-    beginUpdatePortMirroring(resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksUpdatePortMirroringOptionalParams): Promise<PollerLike<PollOperationState<WorkloadNetworksUpdatePortMirroringResponse>, WorkloadNetworksUpdatePortMirroringResponse>>;
+    beginUpdatePortMirroring(resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksUpdatePortMirroringOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksUpdatePortMirroringResponse>, WorkloadNetworksUpdatePortMirroringResponse>>;
     beginUpdatePortMirroringAndWait(resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksUpdatePortMirroringOptionalParams): Promise<WorkloadNetworksUpdatePortMirroringResponse>;
-    beginUpdateSegments(resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksUpdateSegmentsOptionalParams): Promise<PollerLike<PollOperationState<WorkloadNetworksUpdateSegmentsResponse>, WorkloadNetworksUpdateSegmentsResponse>>;
+    beginUpdateSegments(resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksUpdateSegmentsOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksUpdateSegmentsResponse>, WorkloadNetworksUpdateSegmentsResponse>>;
     beginUpdateSegmentsAndWait(resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksUpdateSegmentsOptionalParams): Promise<WorkloadNetworksUpdateSegmentsResponse>;
-    beginUpdateVMGroup(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams): Promise<PollerLike<PollOperationState<WorkloadNetworksUpdateVMGroupResponse>, WorkloadNetworksUpdateVMGroupResponse>>;
+    beginUpdateVMGroup(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksUpdateVMGroupResponse>, WorkloadNetworksUpdateVMGroupResponse>>;
     beginUpdateVMGroupAndWait(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams): Promise<WorkloadNetworksUpdateVMGroupResponse>;
     get(resourceGroupName: string, privateCloudName: string, workloadNetworkName: WorkloadNetworkName, options?: WorkloadNetworksGetOptionalParams): Promise<WorkloadNetworksGetResponse>;
     getDhcp(resourceGroupName: string, dhcpId: string, privateCloudName: string, options?: WorkloadNetworksGetDhcpOptionalParams): Promise<WorkloadNetworksGetDhcpResponse>;
