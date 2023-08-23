@@ -46,13 +46,13 @@ An authenticated client is required to query Logs or Metrics. To authenticate, t
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, MetricsQueryClient } from "@azure/monitor-query";
+import { LogsQueryClient, MetricsQueryClient, MetricsBatchQueryClient } from "@azure/monitor-query";
 
 const credential = new DefaultAzureCredential();
 
-const logsQueryClient = new LogsQueryClient(credential);
+const logsQueryClient: LogsQueryClient = new LogsQueryClient(credential);
 // or
-const metricsQueryClient = new MetricsQueryClient(credential);
+const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(credential);
 // or
 const batchEndPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
 
