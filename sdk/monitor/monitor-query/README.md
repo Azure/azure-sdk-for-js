@@ -53,6 +53,13 @@ const credential = new DefaultAzureCredential();
 const logsQueryClient = new LogsQueryClient(credential);
 // or
 const metricsQueryClient = new MetricsQueryClient(credential);
+// or
+const batchEndPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
+
+const metricsBatchQueryClient: MetricsBatchQueryClient = new MetricsBatchQueryClient(
+  batchEndPoint,
+  credential
+);
 ```
 
 #### Configure clients for non-public Azure clouds
@@ -730,12 +737,10 @@ let metricsNamespace: string = "<YOUR_METRICS_NAMESPACE>";
 let metricNames: string[] = ["requests", "count"];
 const batchEndPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
 
-const clientSecretCredential = new ClientSecretCredential(<YOUR_TENANT_ID>, <YOUR_CLIENT_ID>, <YOUR_CLIENT_SECRET>);
+const credential = new DefaultAzureCredential();
 const metricsBatchQueryClient: MetricsBatchQueryClient = new MetricsBatchQueryClient(
-  clientSecretCredential,
-  {
-    batchEndPoint,
-  }
+  batchEndPoint,
+  credential
 );
 
 const result: MetricResultsResponseValuesItem[] = await metricsBatchQueryClient.queryBatch(
