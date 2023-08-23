@@ -10,33 +10,32 @@
  */
 
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { createOpenAI } from "./api/OpenAIContext.js";
+import { OpenAIClientOptions, createOpenAI } from "./api/OpenAIContext.js";
+import "./api/index.js";
 import {
-  _getChatCompletionsSend,
-  _getCompletionsSend,
+  ImageGenerationOptions,
   beginAzureBatchImageGeneration,
   getAzureBatchImageGenerationOperationStatus,
   getChatCompletions,
-  getChatCompletionsResult,
   getCompletions,
-  getCompletionsResult,
   getEmbeddings,
+  listChatCompletions,
+  listCompletions,
 } from "./api/operations.js";
 import {
   ChatCompletions,
   ChatMessage,
   Completions,
   Embeddings,
+  ImageGenerationResponse,
+} from "./models/models.js";
+import {
   GetAzureBatchImageGenerationOperationStatusOptions,
   GetChatCompletionsOptions,
   GetCompletionsOptions,
   GetEmbeddingsOptions,
-  ImageGenerationOptions,
-  ImageGenerationResponse,
-  OpenAIClientOptions,
-} from "./index.js";
+} from "./models/options.js";
 import { OpenAIContext } from "./rest/clientDefinitions.js";
-import { getSSEs } from "./api/sse.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
@@ -124,37 +123,6 @@ export class OpenAIClient {
     });
   }
 
-  /** Returns the status of the images operation */
-  getAzureBatchImageGenerationOperationStatus(
-    operationId: string,
-    options: GetAzureBatchImageGenerationOperationStatusOptions = {
-      requestOptions: {},
-    }
-  ): Promise<ImageGenerationResponse> {
-    return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
-  }
-
-  /** Starts the generation of a batch of images from a text caption */
-  beginAzureBatchImageGeneration(
-    prompt: string,
-    options: ImageGenerationOptions = { requestOptions: {} }
-  ): Promise<ImageGenerationResponse> {
-    return beginAzureBatchImageGeneration(this._client, prompt, options);
-  }
-
-  /**
-   * Starts the generation of a batch of images from a text caption
-   * @param prompt - The prompt to use for this request.
-   * @param options - The options for this image request.
-   * @returns The image generation response (containing url or base64 data).
-   */
-  getImages(
-    prompt: string,
-    options: ImageGenerationOptions = { requestOptions: {} }
-  ): Promise<ImageGenerationResponse> {
-    return beginAzureBatchImageGeneration(this._client, prompt, options);
-  }
-
   /**
    * Returns textual completions as configured for a given prompt.
    * @param deploymentName - Specifies either the model deployment name (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
@@ -182,13 +150,9 @@ export class OpenAIClient {
     deploymentName: string,
     prompt: string[],
     options: GetCompletionsOptions = {}
-  ): Promise<AsyncIterable<Omit<Completions, "usage">>> {
+  ): AsyncIterable<Omit<Completions, "usage">> {
     this.setModel(deploymentName, options);
-    const response = _getCompletionsSend(this._client, prompt, deploymentName, {
-      ...options,
-      stream: true,
-    });
-    return getSSEs(response, getCompletionsResult);
+    return listCompletions(this._client, prompt, deploymentName, options);
   }
 
   /**
@@ -234,13 +198,40 @@ export class OpenAIClient {
     deploymentName: string,
     messages: ChatMessage[],
     options: GetChatCompletionsOptions = { requestOptions: {} }
-  ): Promise<AsyncIterable<Omit<ChatCompletions, "usage">>> {
+  ): AsyncIterable<Omit<ChatCompletions, "usage">> {
     this.setModel(deploymentName, options);
-    const response = _getChatCompletionsSend(this._client, messages, deploymentName, {
-      ...options,
-      stream: true,
-    });
-    return getSSEs(response, getChatCompletionsResult);
+    return listChatCompletions(this._client, messages, deploymentName, options);
+  }
+
+  /** Returns the status of the images operation */
+  getAzureBatchImageGenerationOperationStatus(
+    operationId: string,
+    options: GetAzureBatchImageGenerationOperationStatusOptions = {
+      requestOptions: {},
+    }
+  ): Promise<ImageGenerationResponse> {
+    return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
+  }
+
+  /** Starts the generation of a batch of images from a text caption */
+  beginAzureBatchImageGeneration(
+    prompt: string,
+    options: ImageGenerationOptions = { requestOptions: {} }
+  ): Promise<ImageGenerationResponse> {
+    return beginAzureBatchImageGeneration(this._client, prompt, options);
+  }
+
+  /**
+   * Starts the generation of a batch of images from a text caption
+   * @param prompt - The prompt to use for this request.
+   * @param options - The options for this image request.
+   * @returns The image generation response (containing url or base64 data).
+   */
+  getImages(
+    prompt: string,
+    options: ImageGenerationOptions = { requestOptions: {} }
+  ): Promise<ImageGenerationResponse> {
+    return beginAzureBatchImageGeneration(this._client, prompt, options);
   }
 
   private setModel(model: string, options: { model?: string }): void {

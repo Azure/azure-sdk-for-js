@@ -366,12 +366,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.EncryptionScopeListResult
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxpagesize,
-    Parameters.filter,
-    Parameters.include
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

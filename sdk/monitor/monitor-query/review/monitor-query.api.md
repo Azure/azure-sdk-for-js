@@ -5,12 +5,25 @@
 ```ts
 
 import { CommonClientOptions } from '@azure/core-client';
+import * as coreClient from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
+
+// @public
+export interface BatchQueryMetric {
+    displayDescription: string;
+    errorCode?: string;
+    errorMessage?: string;
+    id: string;
+    name: LocalizableString;
+    timeseries: TimeSeriesElement[];
+    type: string;
+    unit: MetricUnit;
+}
 
 // @public
 export const Durations: {
@@ -35,6 +48,12 @@ export interface ListMetricDefinitionsOptions extends OperationOptions {
 // @public
 export interface ListMetricNamespacesOptions extends OperationOptions {
     startTime?: string;
+}
+
+// @public
+export interface LocalizableString {
+    localizedValue?: string;
+    value: string;
 }
 
 // @public
@@ -170,6 +189,39 @@ export interface MetricNamespace {
     metricNamespaceName?: string;
     name?: string;
     type?: string;
+}
+
+// @public
+export interface MetricResultsResponseValuesItem {
+    endTime: string;
+    interval?: string;
+    namespace?: string;
+    resourceId?: string;
+    resourceRegion?: string;
+    startTime: string;
+    value: BatchQueryMetric[];
+}
+
+// @public
+export interface MetricsBatchOptionalParams extends coreClient.OperationOptions {
+    aggregation?: string;
+    endTime?: Date;
+    filter?: string;
+    interval?: string;
+    orderBy?: string;
+    startTime?: Date;
+    top?: number;
+}
+
+// @public
+export class MetricsBatchQueryClient {
+    constructor(batchEndPoint: string, tokenCredential: TokenCredential, options?: MetricsBatchQueryClientOptions);
+    queryBatch(resourceIds: string[], metricNamespace: string, metricNames: string[], options?: MetricsBatchOptionalParams): Promise<MetricResultsResponseValuesItem[]>;
+}
+
+// @public
+export interface MetricsBatchQueryClientOptions extends CommonClientOptions {
+    batchMetricsAuthScope?: string;
 }
 
 // @public

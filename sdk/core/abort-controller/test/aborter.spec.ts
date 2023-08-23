@@ -110,12 +110,12 @@ describe("AbortController", () => {
 
     const acks: string[] = [];
     try {
-      const onAbortFoo = () => {
+      const onAbortFoo = (): void => {
         acks.push("foo");
         signal.removeEventListener("abort", onAbortFoo);
       };
 
-      const onAbortBar = () => {
+      const onAbortBar = (): void => {
         acks.push("bar");
         signal.removeEventListener("abort", onAbortBar);
       };

@@ -82,7 +82,6 @@ function DockerValidation() {
   return GetResult $true $Package $installOutput
 }
 
-
 if (!$DocValidationImageId) {
   FallbackValidation
 } 

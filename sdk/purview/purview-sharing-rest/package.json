@@ -68,7 +68,6 @@
     "@azure/core-paging": "^1.5.0",
     "@azure/core-rest-pipeline": "^1.10.3",
     "@azure/logger": "^1.0.0",
-    "@microsoft/rush": "^5.98.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
