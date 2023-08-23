@@ -717,7 +717,7 @@ main().catch((err) => {
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts).
 
-### Batch query
+### Batch metrics query
 
 The following example executes multiple logs queries in a single request using the `MetricsBatchQueryClient.queryBatch` method:
 
