@@ -1,6 +1,6 @@
 # Release History
 
-## 32.0.1 (Unreleased)
+## 32.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,22 @@
 
 ### Other Changes
 
+## 32.1.0 (2023-08-08)
+    
+**Features**
+
+  - Added operation LoadBalancers.migrateToIpBased
+  - Added Interface LoadBalancersMigrateToIpBasedOptionalParams
+  - Added Interface MigratedPools
+  - Added Interface MigrateLoadBalancerToIpBasedRequest
+  - Added Type Alias LoadBalancersMigrateToIpBasedResponse
+  - Added Type Alias SyncMode
+  - Interface BackendAddressPool has a new optional parameter syncMode
+  - Added Enum KnownSyncMode
+  - Enum KnownApplicationGatewaySkuName has a new value Basic
+  - Enum KnownApplicationGatewayTier has a new value Basic
+    
+    
 ## 32.0.0 (2023-07-06)
     
 **Features**

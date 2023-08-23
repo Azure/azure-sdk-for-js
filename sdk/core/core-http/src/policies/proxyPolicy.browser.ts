@@ -11,7 +11,7 @@ import { HttpOperationResponse } from "../httpOperationResponse";
 import { ProxySettings } from "../serviceClient";
 import { WebResourceLike } from "../webResource";
 
-const proxyNotSupportedInBrowser = new Error("ProxyPolicy is not supported in browser environment");
+const errorMessage = "ProxyPolicy is not supported in browser environment";
 
 export function getDefaultProxySettings(_proxyUrl?: string): ProxySettings | undefined {
   return undefined;
@@ -20,7 +20,7 @@ export function getDefaultProxySettings(_proxyUrl?: string): ProxySettings | und
 export function proxyPolicy(_proxySettings?: ProxySettings): RequestPolicyFactory {
   return {
     create: (_nextPolicy: RequestPolicy, _options: RequestPolicyOptions) => {
-      throw proxyNotSupportedInBrowser;
+      throw new Error(errorMessage);
     },
   };
 }
@@ -28,10 +28,10 @@ export function proxyPolicy(_proxySettings?: ProxySettings): RequestPolicyFactor
 export class ProxyPolicy extends BaseRequestPolicy {
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
     super(nextPolicy, options);
-    throw proxyNotSupportedInBrowser;
+    throw new Error(errorMessage);
   }
 
   public sendRequest(_request: WebResourceLike): Promise<HttpOperationResponse> {
-    throw proxyNotSupportedInBrowser;
+    throw new Error(errorMessage);
   }
 }

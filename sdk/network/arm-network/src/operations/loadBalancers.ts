@@ -40,6 +40,8 @@ import {
   QueryInboundNatRulePortMappingRequest,
   LoadBalancersListInboundNatRulePortMappingsOptionalParams,
   LoadBalancersListInboundNatRulePortMappingsResponse,
+  LoadBalancersMigrateToIpBasedOptionalParams,
+  LoadBalancersMigrateToIpBasedResponse,
   LoadBalancersListAllNextResponse,
   LoadBalancersListNextResponse
 } from "../models";
@@ -604,6 +606,23 @@ export class LoadBalancersImpl implements LoadBalancers {
   }
 
   /**
+   * Migrate load balancer to IP Based
+   * @param groupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param options The options parameters.
+   */
+  migrateToIpBased(
+    groupName: string,
+    loadBalancerName: string,
+    options?: LoadBalancersMigrateToIpBasedOptionalParams
+  ): Promise<LoadBalancersMigrateToIpBasedResponse> {
+    return this.client.sendOperationRequest(
+      { groupName, loadBalancerName, options },
+      migrateToIpBasedOperationSpec
+    );
+  }
+
+  /**
    * ListAllNext
    * @param nextLink The nextLink from the previous successful call to the ListAll method.
    * @param options The options parameters.
@@ -831,6 +850,30 @@ const listInboundNatRulePortMappingsOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.loadBalancerName,
     Parameters.backendPoolName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const migrateToIpBasedOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/migrateToIpBased",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MigratedPools
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters29,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.groupName1,
+    Parameters.loadBalancerName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
