@@ -1,6 +1,11 @@
 # Release History
 
-## 1.0.0-beta.15
+## 1.0.0-beta.15 (2023-08-24)
+
+### Features Added
+
+- [BREAKING] `AzureMonitorExporterOptions.aadTokenCredential` is now `AzureMonitorExporterOptions.credential`.
+- [BREAKING] No longer expose the `MonitorBase`, `MonitorDomain`, or `TelemetryItem` interfaces.
 
 ### Bugs Fixed
 
