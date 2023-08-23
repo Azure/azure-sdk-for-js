@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createOrUpdateAzureInstallation, deleteAzureInstallation } from "./installationHttpClient.js";
+import {
+  createOrUpdateAzureInstallation,
+  deleteAzureInstallation,
+} from "./installationHttpClient.js";
 import { getDBRecord, putDBRecord, removeDBRecord } from "./dataStore.js";
-import type {
-  WebPushChannel,
-  WebPushClientContext,
-  WebPushInstallation
-} from "../publicTypes.js";
+import type { WebPushChannel, WebPushClientContext, WebPushInstallation } from "../publicTypes.js";
 import { WebPushError } from "../errors.js";
 
 export async function deleteInternalInstallation(
@@ -31,7 +30,9 @@ export async function deleteInternalInstallation(
   return true;
 }
 
-export async function getInternalInstallation(clientContext: WebPushClientContext): Promise<WebPushInstallation> {
+export async function getInternalInstallation(
+  clientContext: WebPushClientContext
+): Promise<WebPushInstallation> {
   if (!clientContext.serviceWorkerRegistration) {
     throw new WebPushError("The ServiceWorker requires registration");
   }
@@ -49,7 +50,7 @@ export async function getInternalInstallation(clientContext: WebPushClientContex
     p256dh: base64Encode(subscription.getKey("p256dh")!),
     auth: base64Encode(subscription.getKey("auth")!),
     endpoint: subscription.endpoint,
-    vapidPublicKey: clientContext.vapidPublicKey
+    vapidPublicKey: clientContext.vapidPublicKey,
   };
 
   const applicationUrl = new URL(clientContext.baseUrl);
@@ -60,7 +61,7 @@ export async function getInternalInstallation(clientContext: WebPushClientContex
   if (!installation) {
     installation = {
       installationId: crypto.randomUUID(),
-      pushChannel: subscriptionOptions
+      pushChannel: subscriptionOptions,
     };
 
     installation = await putDBRecord(applicationId, installation);
@@ -70,7 +71,7 @@ export async function getInternalInstallation(clientContext: WebPushClientContex
     await deleteInternalInstallation(clientContext);
     installation = {
       installationId: crypto.randomUUID(),
-      pushChannel: subscriptionOptions
+      pushChannel: subscriptionOptions,
     };
   }
 
@@ -109,7 +110,10 @@ function base64Encode(arrayBuffer: ArrayBuffer): string {
   return btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
 }
 
-function hasPushChannelChanged(currentChannel: WebPushChannel, dbPushChannel: WebPushChannel): boolean {
+function hasPushChannelChanged(
+  currentChannel: WebPushChannel,
+  dbPushChannel: WebPushChannel
+): boolean {
   const isEndpointEqual = currentChannel.endpoint === dbPushChannel.endpoint;
   const isAuthEqual = currentChannel.auth === dbPushChannel.auth;
   const isP256dhEqual = currentChannel.p256dh === dbPushChannel.p256dh;

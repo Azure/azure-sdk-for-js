@@ -34,7 +34,7 @@ export class WebPushError extends Error {
 }
 
 /**
- * The options for the @link WebPushError class.
+ * The options for the {@link WebPushError} class.
  */
 export interface WebPushErrorOptions {
   /**

@@ -41,10 +41,7 @@ export interface ServiceWorkerGlobalScope {
   readonly registration: ServiceWorkerRegistration;
   addEventListener<K extends keyof ServiceWorkerGlobalScopeEventMap>(
     type: K,
-    listener: (
-      this: ServiceWorkerGlobalScope,
-      ev: ServiceWorkerGlobalScopeEventMap[K]
-    ) => any,
+    listener: (this: ServiceWorkerGlobalScope, ev: ServiceWorkerGlobalScopeEventMap[K]) => any,
     options?: boolean | AddEventListenerOptions
   ): void;
 }

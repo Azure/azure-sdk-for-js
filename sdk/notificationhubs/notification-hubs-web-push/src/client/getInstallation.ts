@@ -4,7 +4,7 @@
 import type {
   GetInstallationOptions,
   WebPushClientContext,
-  WebPushInstallation
+  WebPushInstallation,
 } from "../publicTypes.js";
 import { getInternalInstallation } from "../utils/lifecycleClient.js";
 import { updateRegistration } from "../utils/serviceWorkerRegistration.js";

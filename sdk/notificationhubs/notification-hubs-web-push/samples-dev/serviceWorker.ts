@@ -6,7 +6,7 @@ import { onNotificationClick, onPush } from "@azure/notification-hubs-web-push/w
 import type { ServiceWorkerGlobalScope } from "../src/worker/serviceWorkerTypes.js";
 
 const connectionString = "<connection string>";
-const hubName = "<hub-name";
+const hubName = "<hub-name>";
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -16,7 +16,6 @@ interface NotificationMessage {
   icon: string;
 }
 
-
 const clientContext = createClientContext(connectionString, hubName);
 
 const pushSubscription = onPush(clientContext, async (notification) => {
@@ -25,7 +24,7 @@ const pushSubscription = onPush(clientContext, async (notification) => {
   // Show notification with title and body
   self.registration.showNotification(message.title, {
     body: message.body,
-    icon: message.icon
+    icon: message.icon,
   });
 });
 

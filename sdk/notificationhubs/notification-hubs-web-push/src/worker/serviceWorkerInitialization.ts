@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { 
+import type {
   NotificationEvent,
   PushEvent,
-  PushSubscriptionChangeEvent, 
-  ServiceWorkerGlobalScope 
+  PushSubscriptionChangeEvent,
+  ServiceWorkerGlobalScope,
 } from "./serviceWorkerTypes.js";
 import type { WebPushClientContext } from "../publicTypes.js";
 import { _getClientContextInstance } from "../client.js";
@@ -15,7 +15,7 @@ import { getDBRecord } from "../utils/dataStore.js";
 declare const self: ServiceWorkerGlobalScope;
 
 export function registerServiceWorkerMethods(): void {
-  self.addEventListener("push",  (event: PushEvent) => {
+  self.addEventListener("push", (event: PushEvent) => {
     event.waitUntil(onPush(_getClientContextInstance()!, event));
   });
 
@@ -28,10 +28,7 @@ export function registerServiceWorkerMethods(): void {
   });
 }
 
-export async function onPush(
-  clientContext: WebPushClientContext,
-  event: PushEvent
-): Promise<void> {
+export async function onPush(clientContext: WebPushClientContext, event: PushEvent): Promise<void> {
   if (!clientContext) {
     return;
   }
@@ -57,11 +54,9 @@ export async function onPushSubscriptionChange(
     return;
   }
 
-  const applicationUrl = new URL(clientContext.baseUrl);
-  applicationUrl.pathname += `/${clientContext.hubName}`;
-  const applicationId = applicationUrl.toString();
+  const applicationId = clientContext.applicationId;
 
-  let installation = await getDBRecord(applicationId);
+  const installation = await getDBRecord(applicationId);
 
   clientContext.vapidPublicKey = installation?.pushChannel.vapidPublicKey;
 
@@ -72,13 +67,15 @@ export async function onNotificationClick(
   clientContext: WebPushClientContext,
   event: NotificationEvent
 ): Promise<void> {
-
   if (!clientContext) {
     return;
   }
 
   if (clientContext.onNotificationClick) {
-    await clientContext.onNotificationClick({ action: event.action, notification: event.notification });
+    await clientContext.onNotificationClick({
+      action: event.action,
+      notification: event.notification,
+    });
   }
 }
 

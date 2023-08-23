@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { WebPushError } from "../errors.js";
-import type { NotificationHubResponse, WebPushClientContext } from "../publicTypes.js";
-import { JsonPatch, updateAzureInstallation } from "../utils/installationHttpClient.js";
+import type { JsonPatch, NotificationHubResponse, WebPushClientContext } from "../publicTypes.js";
 import { getInternalInstallation } from "../utils/lifecycleClient.js";
 
 /**
@@ -25,9 +24,11 @@ export async function addTags(
     throw new WebPushError("Installation not set, initialize through getInstallation() first");
   }
 
-  const updates: JsonPatch[] = tags.map(tag => ({
-    op: "add", "path": "/tags", value: tag
+  const updates: JsonPatch[] = tags.map((tag) => ({
+    op: "add",
+    path: "/tags",
+    value: tag,
   }));
 
-  return await updateAzureInstallation(clientContext, installation.installationId, updates);
+  return clientContext.lifecycle.updateInstallation(installation.installationId, updates);
 }

@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AZURE_DATABASE_NAME, AZURE_DATABASE_VERSION, AZURE_OBJECT_STORE_NAME } from "./constants.js";
-import { DBSchema, IDBPDatabase, deleteDB, openDB } from 'idb';
+import {
+  AZURE_DATABASE_NAME,
+  AZURE_DATABASE_VERSION,
+  AZURE_OBJECT_STORE_NAME,
+} from "./constants.js";
+import { DBSchema, IDBPDatabase, deleteDB, openDB } from "idb";
 import type { WebPushInstallation } from "../publicTypes.js";
 
 interface WebPushDBSchema extends DBSchema {
-  'azure-webpush-store': {
+  "azure-webpush-store": {
     key: string;
     value: WebPushInstallation;
   };
@@ -18,16 +22,18 @@ function getDatabase(): Promise<IDBPDatabase<WebPushDBSchema>> {
     lazyDatabase = openDB(AZURE_DATABASE_NAME, AZURE_DATABASE_VERSION, {
       upgrade: (database) => {
         database.createObjectStore(AZURE_OBJECT_STORE_NAME);
-      }
+      },
     });
   }
 
   return lazyDatabase;
 }
 
-export async function getDBRecord(applicationUrl: string): Promise<WebPushInstallation | undefined> {
+export async function getDBRecord(
+  applicationUrl: string
+): Promise<WebPushInstallation | undefined> {
   const db = await getDatabase();
-  return await db
+  return db
     .transaction(AZURE_OBJECT_STORE_NAME)
     .objectStore(AZURE_OBJECT_STORE_NAME)
     .get(applicationUrl);
@@ -35,7 +41,7 @@ export async function getDBRecord(applicationUrl: string): Promise<WebPushInstal
 
 export async function putDBRecord(
   applicationUrl: string,
-  installation: WebPushInstallation,
+  installation: WebPushInstallation
 ): Promise<WebPushInstallation> {
   const db = await getDatabase();
   const transaction = db.transaction(AZURE_OBJECT_STORE_NAME, "readwrite");
@@ -45,9 +51,7 @@ export async function putDBRecord(
   return installation;
 }
 
-export async function removeDBRecord(
-  applicationUrl: string,
-): Promise<void> {
+export async function removeDBRecord(applicationUrl: string): Promise<void> {
   const db = await getDatabase();
   const transaction = db.transaction(AZURE_OBJECT_STORE_NAME, "readwrite");
   await transaction.objectStore(AZURE_OBJECT_STORE_NAME).delete(applicationUrl);
@@ -57,7 +61,7 @@ export async function removeDBRecord(
 /**
  * @internal
  */
-export async function deleteDatabase() {
+export async function deleteDatabase(): Promise<void> {
   if (lazyDatabase) {
     const db = await getDatabase();
     db.close();

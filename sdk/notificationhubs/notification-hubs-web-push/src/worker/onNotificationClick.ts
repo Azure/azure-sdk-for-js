@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  NotificationClickHandler, 
-  WebPushClientContext, 
-  WebPushUnsubscribe 
+import {
+  NotificationClickHandler,
+  WebPushClientContext,
+  WebPushUnsubscribe,
 } from "../publicTypes.js";
 import { WebPushError } from "../errors.js";
 
@@ -16,7 +16,7 @@ import { WebPushError } from "../errors.js";
  */
 export function onNotificationClick(
   clientContext: WebPushClientContext,
-  handler: NotificationClickHandler,
+  handler: NotificationClickHandler
 ): WebPushUnsubscribe {
   if (!clientContext) {
     throw new WebPushError("clientContext is not properly initilized");

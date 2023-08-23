@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { WebPushError } from "../errors.js";
-import type { NotificationHubResponse, WebPushClientContext } from "../publicTypes.js";
-import { JsonPatch, updateAzureInstallation } from "../utils/installationHttpClient.js";
+import type { JsonPatch, NotificationHubResponse, WebPushClientContext } from "../publicTypes.js";
 import { getInternalInstallation } from "../utils/lifecycleClient.js";
 
 /**
@@ -27,9 +26,13 @@ export async function addTemplate(
     throw new WebPushError("Installation not set, initialize through getInstallation() first");
   }
 
-  const updates: JsonPatch[] = [{
-    op: "add", path: `/templates/${templateName}`, value: `{ body: "${templateBody}" }}`
-  }];
+  const updates: JsonPatch[] = [
+    {
+      op: "add",
+      path: `/templates/${templateName}`,
+      value: `{ body: "${templateBody}" }}`,
+    },
+  ];
 
-  return await updateAzureInstallation(clientContext, installation.installationId, updates);
+  return clientContext.lifecycle.updateInstallation(installation.installationId, updates);
 }

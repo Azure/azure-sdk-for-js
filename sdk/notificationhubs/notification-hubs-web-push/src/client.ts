@@ -6,7 +6,13 @@ import {
   createTokenProviderFromConnection,
   parseNotificationHubsConnectionString,
 } from "./auth/connectionStringUtils.js";
-import type { WebPushClientContext } from "./publicTypes.js";
+import type {
+  JsonPatch,
+  NotificationHubResponse,
+  WebPushClientContext,
+  WebPushInstallation,
+} from "./publicTypes.js";
+import { WebPushError } from "./errors.js";
 
 const API_VERSION = "2020-06";
 
@@ -29,15 +35,18 @@ export function createClientContext(
   connectionString: string,
   hubName: string
 ): WebPushClientContext {
-
   const parsedConnection = parseNotificationHubsConnectionString(connectionString);
-  const baseUrl = parsedConnection.endpoint;
+  const baseUrl = parsedConnection.endpoint.replace("sb://", "https://");
   const sasTokenProvider = createTokenProviderFromConnection(
     parsedConnection.sharedAccessKey,
     parsedConnection.sharedAccessKeyName
   );
 
-  if (clientContext && baseUrl === clientContext.baseUrl && hubName === clientContext.hubName) {
+  const applicationUrl = new URL(baseUrl);
+  applicationUrl.pathname += `/${hubName}`;
+  const applicationId = applicationUrl.toString();
+
+  if (clientContext && applicationId === clientContext.applicationId) {
     return clientContext;
   }
 
@@ -59,19 +68,88 @@ export function createClientContext(
   }
 
   function requestUrl(): URL {
-    // Node doesn't allow change in protocol but browsers do, so doing a string replace
-    const url = new URL(baseUrl.replace("sb://", "https://"));
+    const url = new URL(baseUrl);
     url.pathname = hubName;
     url.searchParams.set("api-version", API_VERSION);
 
     return url;
   }
 
+  async function installationRequest(
+    installationId: string,
+    method: string,
+    body?: BodyInit
+  ): Promise<NotificationHubResponse> {
+    const operation = `${method.toLowerCase()}Installation`;
+    const url = requestUrl();
+    url.pathname += `/installations/${installationId}`;
+
+    const headers = await createHeaders(operation);
+    const response = await fetch(url, {
+      body,
+      headers,
+      method,
+    });
+
+    return handleResponse(response, operation);
+  }
+
+  function handleResponse(response: Response, operation: string): NotificationHubResponse {
+    const trackingId = response.headers.get("trackingid") || undefined;
+    const correlationId = response.headers.get("x-ms-correlation-request-id") || undefined;
+    const location = response.headers.get("location") || undefined;
+    if (!response.ok) {
+      throw new WebPushError(`${operation} failed with status ${response.status}`, {
+        status: response.status,
+        trackingId,
+        correlationId,
+      });
+    }
+
+    return {
+      trackingId,
+      correlationId,
+      location,
+    };
+  }
+
+  async function createOrUpdateInstallation(
+    installation: WebPushInstallation
+  ): Promise<NotificationHubResponse> {
+    const installationToSave = {
+      installationId: installation.installationId,
+      platform: "browser",
+      pushChannel: {
+        endpoint: installation.pushChannel.endpoint,
+        p256dh: installation.pushChannel.p256dh,
+        auth: installation.pushChannel.auth,
+      },
+    };
+    return installationRequest(
+      installation.installationId,
+      "PUT",
+      JSON.stringify(installationToSave)
+    );
+  }
+
+  async function deleteInstallation(installationId: string): Promise<NotificationHubResponse> {
+    return installationRequest(installationId, "DELETE");
+  }
+
+  async function updateInstallation(
+    installationId: string,
+    updates: JsonPatch[]
+  ): Promise<NotificationHubResponse> {
+    return installationRequest(installationId, "PATCH", JSON.stringify(updates));
+  }
+
   clientContext = {
-    hubName,
-    baseUrl,
-    createHeaders,
-    requestUrl,
+    applicationId,
+    lifecycle: {
+      createOrUpdateInstallation,
+      deleteInstallation,
+      updateInstallation,
+    },
   };
 
   return clientContext;

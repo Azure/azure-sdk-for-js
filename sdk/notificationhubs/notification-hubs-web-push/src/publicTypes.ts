@@ -6,15 +6,15 @@
  */
 export interface WebPushClientContext {
   /**
-   * The base URL for the Notification Hub namespace.
+   * @internal
+   * The Web Push Application ID.
    */
-  readonly baseUrl: string;
-
+  applicationId: string;
   /**
-   * The Notification Hub name.
+   * @internal
+   * The Web Push Installation lifecycle
    */
-  readonly hubName: string;
-
+  lifecycle: WebPushContextLifecycle;
   /**
    * The ServiceWorkerRegistration for the Web Push.
    */
@@ -41,18 +41,32 @@ export interface WebPushClientContext {
    * The Web Push notification click handler.
    */
   onNotificationClick?: NotificationClickHandler;
+}
+
+/**
+ * Represents the Web Push context lifecycle.
+ */
+export interface WebPushContextLifecycle {
+  /**
+   * @internal
+   * Creates or updates a Web Push installation.
+   */
+  createOrUpdateInstallation(installation: WebPushInstallation): Promise<NotificationHubResponse>;
 
   /**
    * @internal
-   * Creates the HTTP headers for the Web Push operations.
+   * Deletes a Web Push installation.
    */
-  createHeaders(operationName: string): Promise<Headers>;
+  deleteInstallation(installationId: string): Promise<NotificationHubResponse>;
 
   /**
    * @internal
-   * Gets the request URL for the Web Push operations.
+   * Updates a Web Push installation.
    */
-  requestUrl(): URL;
+  updateInstallation(
+    installationId: string,
+    updates: JsonPatch[]
+  ): Promise<NotificationHubResponse>;
 }
 
 /**
@@ -133,6 +147,11 @@ export interface NotificationHubResponse {
    * The Notification Hubs correlation ID
    */
   readonly correlationId?: string;
+
+  /**
+   * The notification hubs location header.
+   */
+  readonly location?: string;
 }
 
 /**
@@ -147,4 +166,22 @@ export interface WebPushNotificationClickEvent {
    * The notification that was clicked.
    */
   readonly notification: Notification;
+}
+
+/**
+ * Represents a JSON Patch Operation
+ */
+export interface JsonPatch {
+  /**
+   * The operation to perform.
+   */
+  op: "add" | "remove" | "replace";
+  /**
+   * The path to perform the operation on.
+   */
+  path: string;
+  /**
+   * The value to use for the operation.
+   */
+  value?: string;
 }
