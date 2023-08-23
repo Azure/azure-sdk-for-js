@@ -113,7 +113,8 @@
     "sinon": "^15.0.0",
     "source-map-support": "^0.5.9",
     "typescript": "~5.0.0",
-    "ws": "^8.2.0"
+    "ws": "^8.2.0",
+    "ts-node": "^10.0.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub",
