@@ -26,3 +26,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-managednetworkfabric?view=a
 https://docs.microsoft.com/javascript/api/@azure/arm-iotfirmwaredefense?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-quantum?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-sphere?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-defendereasm?view=azure-node-preview

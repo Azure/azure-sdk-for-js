@@ -394,6 +394,10 @@
 /sdk/devspaces/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/defendereasm/arm-defendereasm/ @qiaozha @MaryGao
+/sdk/defendereasm/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/devtestlabs/arm-devtestlabs/ @qiaozha @MaryGao
 /sdk/devtestlabs/ci.mgmt.yml @qiaozha @MaryGao
 

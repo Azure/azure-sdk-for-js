@@ -78,6 +78,7 @@ specifiers:
   '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:./projects/arm-datamigration.tgz
   '@rush-temp/arm-dataprotection': file:./projects/arm-dataprotection.tgz
+  '@rush-temp/arm-defendereasm': file:./projects/arm-defendereasm.tgz
   '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:./projects/arm-devcenter.tgz
@@ -435,6 +436,7 @@ dependencies:
   '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:projects/arm-datamigration.tgz
   '@rush-temp/arm-dataprotection': file:projects/arm-dataprotection.tgz
+  '@rush-temp/arm-defendereasm': file:projects/arm-defendereasm.tgz
   '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:projects/arm-devcenter.tgz
@@ -11606,6 +11608,34 @@ packages:
   file:projects/arm-dataprotection.tgz:
     resolution: {integrity: sha512-i3zZQlyVWbpv62xZMwVu3Ll7mZcigQd9EabNpYP2PP/0VsrV9qHEZUxRkpJ5Y4jqAH41B4ia0Izghuc5KtBxEQ==, tarball: file:projects/arm-dataprotection.tgz}
     name: '@rush-temp/arm-dataprotection'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.54
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      tslib: 2.6.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-defendereasm.tgz:
+    resolution: {integrity: sha512-fGM+nPmnoltNjxMXkzDBLuNARKF3jTFpgLRsILsM6swCAhw/3VtC4vewqlDEiZeVazMEV9/7NBKv2mA1fvFN9g==, tarball: file:projects/arm-defendereasm.tgz}
+    name: '@rush-temp/arm-defendereasm'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
