@@ -239,7 +239,7 @@ class SerializerImpl implements Serializer {
         responseBody = [];
       }
       // specifically check for undefined as default value can be a falsey value `0, "", false, null`
-      if (mapper.defaultValue !== undefined) {
+      if (mapper.required && mapper.defaultValue !== undefined) {
         responseBody = mapper.defaultValue;
       }
       return responseBody;
@@ -1001,7 +1001,11 @@ function deserializeCompositeType(
           }
         }
         instance = arrayInstance;
-      } else if (propertyInstance !== undefined || propertyMapper.defaultValue !== undefined) {
+      } else if (
+        propertyInstance !== undefined ||
+        ((propertyMapper.required || propertyMapper.isConstant) &&
+          propertyMapper.defaultValue !== undefined)
+      ) {
         serializedValue = serializer.deserialize(
           propertyMapper,
           propertyInstance,

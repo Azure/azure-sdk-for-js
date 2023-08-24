@@ -287,6 +287,7 @@ internalMappers.SimpleProduct = {
       },
       maxProductDisplayName: {
         serializedName: "details.max_product_display_name",
+        defaultValue: "testDisPlayName",
         type: {
           name: "String",
         },

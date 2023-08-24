@@ -74,6 +74,28 @@ describe("Serializer", function () {
       assert.deepEqual(serialized, expected);
     });
 
+    it.only("should not set default value for non-required properties", function () {
+      const expected = {
+        id: 1,
+        name: "testProduct",
+        details: {
+          max_product_capacity: "Large",
+        },
+      };
+
+      const serialized = Serializer.serialize(
+        Mappers.SimpleProduct,
+        {
+          id: 1,
+          name: "testProduct",
+        },
+        "SimpleProduct"
+      );
+
+      assert.deepEqual(serialized, expected);
+      assert.deepEqual(serialized.details.max_product_display_name, undefined);
+    });
+
     it("should correctly serialize a string if the type is 'any'", function () {
       const mapper: Mapper = {
         type: { name: "any" },
