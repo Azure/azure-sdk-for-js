@@ -11,6 +11,25 @@ import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
+// @public
+export interface AzureChatExtensionConfiguration {
+    parameters: Record<string, any>;
+    type: AzureChatExtensionType;
+}
+
+// @public
+export interface AzureChatExtensionsMessageContext {
+    messages?: ChatMessage[];
+}
+
+// @public
+export type AzureChatExtensionType = string;
+
+// @public
+export interface AzureExtensionsOptions {
+    extensions?: AzureChatExtensionConfiguration[];
+}
+
 export { AzureKeyCredential }
 
 // @public
@@ -49,12 +68,13 @@ export interface ChatCompletions {
     created: Date;
     id: string;
     promptFilterResults?: PromptFilterResult[];
-    usage: CompletionsUsage;
+    usage?: CompletionsUsage;
 }
 
 // @public
 export interface ChatMessage {
     content: string | null;
+    context?: AzureChatExtensionsMessageContext;
     functionCall?: FunctionCall;
     name?: string;
     role: ChatRole;
@@ -155,7 +175,7 @@ export type FunctionCallPreset = string;
 export interface FunctionDefinition {
     description?: string;
     name: string;
-    parameters?: any;
+    parameters?: Record<string, any>;
 }
 
 // @public
@@ -167,8 +187,9 @@ export interface FunctionName {
 export interface GetAzureBatchImageGenerationOperationStatusOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface GetChatCompletionsOptions extends OperationOptions {
+    azureExtensionOptions?: AzureExtensionsOptions;
     frequencyPenalty?: number;
     functionCall?: FunctionCallPreset | FunctionName;
     functions?: FunctionDefinition[];
@@ -247,7 +268,7 @@ export class OpenAIClient {
     getCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
     getEmbeddings(deploymentName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
     getImages(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerationResponse>;
-    listChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): AsyncIterable<Omit<ChatCompletions, "usage">>;
+    listChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): AsyncIterable<ChatCompletions>;
     listCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): AsyncIterable<Omit<Completions, "usage">>;
 }
 

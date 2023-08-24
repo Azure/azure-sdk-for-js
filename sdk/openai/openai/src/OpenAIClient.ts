@@ -10,18 +10,18 @@
  */
 
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { OpenAIClientOptions, createOpenAI } from "./api/OpenAIContext.js";
-import "./api/index.js";
 import {
-  ImageGenerationOptions,
+  OpenAIClientOptions,
+  OpenAIContext,
   beginAzureBatchImageGeneration,
+  createOpenAI,
   getAzureBatchImageGenerationOperationStatus,
   getChatCompletions,
   getCompletions,
   getEmbeddings,
   listChatCompletions,
   listCompletions,
-} from "./api/operations.js";
+} from "./api/index.js";
 import {
   ChatCompletions,
   ChatMessage,
@@ -31,11 +31,11 @@ import {
 } from "./models/models.js";
 import {
   GetAzureBatchImageGenerationOperationStatusOptions,
-  GetChatCompletionsOptions,
   GetCompletionsOptions,
   GetEmbeddingsOptions,
+  ImageGenerationOptions,
 } from "./models/options.js";
-import { OpenAIContext } from "./rest/clientDefinitions.js";
+import { GetChatCompletionsOptions } from "./api/models.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
@@ -198,7 +198,7 @@ export class OpenAIClient {
     deploymentName: string,
     messages: ChatMessage[],
     options: GetChatCompletionsOptions = { requestOptions: {} }
-  ): AsyncIterable<Omit<ChatCompletions, "usage">> {
+  ): AsyncIterable<ChatCompletions> {
     this.setModel(deploymentName, options);
     return listChatCompletions(this._client, messages, deploymentName, options);
   }
