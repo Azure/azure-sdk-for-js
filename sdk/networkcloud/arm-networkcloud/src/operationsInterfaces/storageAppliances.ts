@@ -22,10 +22,7 @@ import {
   StorageAppliancesDisableRemoteVendorManagementOptionalParams,
   StorageAppliancesDisableRemoteVendorManagementResponse,
   StorageAppliancesEnableRemoteVendorManagementOptionalParams,
-  StorageAppliancesEnableRemoteVendorManagementResponse,
-  StorageApplianceRunReadCommandsParameters,
-  StorageAppliancesRunReadCommandsOptionalParams,
-  StorageAppliancesRunReadCommandsResponse
+  StorageAppliancesEnableRemoteVendorManagementResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -202,35 +199,4 @@ export interface StorageAppliances {
     storageApplianceName: string,
     options?: StorageAppliancesEnableRemoteVendorManagementOptionalParams
   ): Promise<StorageAppliancesEnableRemoteVendorManagementResponse>;
-  /**
-   * Run and retrieve output from read only commands on the provided storage appliance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageApplianceName The name of the storage appliance.
-   * @param storageApplianceRunReadCommandsParameters The request body.
-   * @param options The options parameters.
-   */
-  beginRunReadCommands(
-    resourceGroupName: string,
-    storageApplianceName: string,
-    storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters,
-    options?: StorageAppliancesRunReadCommandsOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<StorageAppliancesRunReadCommandsResponse>,
-      StorageAppliancesRunReadCommandsResponse
-    >
-  >;
-  /**
-   * Run and retrieve output from read only commands on the provided storage appliance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageApplianceName The name of the storage appliance.
-   * @param storageApplianceRunReadCommandsParameters The request body.
-   * @param options The options parameters.
-   */
-  beginRunReadCommandsAndWait(
-    resourceGroupName: string,
-    storageApplianceName: string,
-    storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters,
-    options?: StorageAppliancesRunReadCommandsOptionalParams
-  ): Promise<StorageAppliancesRunReadCommandsResponse>;
 }

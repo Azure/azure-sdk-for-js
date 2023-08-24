@@ -2069,6 +2069,11 @@
       "packageName": "@azure/arm-resourcesdeploymentstacks",
       "projectFolder": "sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-defendereasm",
+      "projectFolder": "sdk/defendereasm/arm-defendereasm",
+      "versionPolicyName": "management"
     }
   ]
 }

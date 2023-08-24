@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a Target resource that extends a tracked regional resource.
  *
  * @summary Get a Target resource that extends a tracked regional resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/GetATarget.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-04-15-preview/examples/GetATarget.json
  */
 async function getATargetThatExtendsAVirtualMachineResource() {
   const subscriptionId =

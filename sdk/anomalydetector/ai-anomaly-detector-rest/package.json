@@ -102,7 +102,8 @@
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
     "nyc": "^15.0.0",
-    "csv-parse": "^5.0.3"
+    "csv-parse": "^5.0.3",
+    "ts-node": "^10.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector-rest/README.md",
   "//metadata": {

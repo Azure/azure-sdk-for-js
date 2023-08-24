@@ -87,7 +87,8 @@
     "typescript": "~5.0.0",
     "util": "^0.12.1",
     "sinon": "^15.0.0",
-    "@types/sinon": "^10.0.0"
+    "@types/sinon": "^10.0.0",
+    "ts-node": "^10.0.0"
   },
   "//metadata": {
     "sampleConfiguration": {
