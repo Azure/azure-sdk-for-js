@@ -14,6 +14,7 @@ import {
 import {
   Capability as CapabilityMapper,
   Experiment as ExperimentMapper,
+  ExperimentUpdate as ExperimentUpdateMapper,
   Target as TargetMapper
 } from "../models/mappers";
 
@@ -44,7 +45,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-10-01-preview",
+    defaultValue: "2023-04-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -262,6 +263,11 @@ export const experimentName: OperationURLParameter = {
 export const experiment: OperationParameter = {
   parameterPath: "experiment",
   mapper: ExperimentMapper
+};
+
+export const experiment1: OperationParameter = {
+  parameterPath: "experiment",
+  mapper: ExperimentUpdateMapper
 };
 
 export const statusId: OperationURLParameter = {

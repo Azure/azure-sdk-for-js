@@ -398,6 +398,10 @@
 /sdk/devspaces/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/defendereasm/arm-defendereasm/ @qiaozha @MaryGao
+/sdk/defendereasm/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/devtestlabs/arm-devtestlabs/ @qiaozha @MaryGao
 /sdk/devtestlabs/ci.mgmt.yml @qiaozha @MaryGao
 
@@ -616,6 +620,10 @@
 /sdk/network/ci.mgmt.yml       @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/networkcloud/arm-networkcloud/      @qiaozha @MaryGao
+/sdk/networkcloud/ci.mgmt.yml       @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/network/arm-network-profile-2019-03-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -705,6 +713,10 @@
 # PRLabel: %Mgmt
 /sdk/resourcegraph/arm-resourcegraph/ @qiaozha @MaryGao
 /sdk/resourcegraph/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/resourceconnector/arm-resourceconnector/ @qiaozha @MaryGao
+/sdk/resourceconnector/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/resourcehealth/arm-resourcehealth/ @qiaozha @MaryGao
@@ -899,6 +911,10 @@
 # PRLabel: %Mgmt
 /sdk/sphere/arm-sphere/ @qiaozha @MaryGao
 /sdk/sphere/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/chaos/arm-chaos/ @qiaozha @MaryGao
+/sdk/chaos/ci.mgmt.yml @qiaozha @MaryGao
 
 # ServiceLabel: %AAD %Service Attention
 #/<NotInRepo>/          @adamedx

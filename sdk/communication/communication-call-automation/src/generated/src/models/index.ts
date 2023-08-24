@@ -212,6 +212,8 @@ export interface PlayRequest {
   playOptions?: PlayOptionsInternal;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 export interface PlaySourceInternal {
@@ -274,6 +276,8 @@ export interface RecognizeRequest {
   recognizeOptions: RecognizeOptions;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 export interface RecognizeOptions {
@@ -324,6 +328,8 @@ export interface ContinuousDtmfRecognitionRequest {
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 export interface SendDtmfRequest {
@@ -333,6 +339,8 @@ export interface SendDtmfRequest {
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 export interface StartDialogRequest {
