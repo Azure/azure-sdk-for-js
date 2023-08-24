@@ -19,10 +19,10 @@ dotenv.config();
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 // Your Azure OpenAI API key
 const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
-// Your Azure Cognitive Search endpoint, key, and index name
+// Your Azure Cognitive Search endpoint, admin key, and index name
 const azureSearchEndpoint = process.env["AZURE_SEARCH_ENDPOINT"] || "<search endpoint>";
-const azureSearchKey = process.env["AZURE_SEARCH_KEY"] || "<search key>";
-const azureSearchIndex = process.env["AZURE_SEARCH_INDEX"] || "<search index>";
+const azureSearchAdminKey = process.env["AZURE_SEARCH_KEY"] || "<search key>";
+const azureSearchIndexName = process.env["AZURE_SEARCH_INDEX"] || "<search index>";
 
 const messages = [
   {
@@ -38,14 +38,20 @@ export async function main() {
   const deploymentId = "gpt-35-turbo";
   const events = client.listChatCompletions(deploymentId, messages, {
     maxTokens: 128,
+    /**
+     * The `azureExtensionOptions` property is used to configure the
+     * Azure-specific extensions. In this case, we are using the
+     * Azure Cognitive Search extension with a vector index to provide
+     * the model with additional context.
+     */
     azureExtensionOptions: {
       extensions: [
         {
           type: "AzureCognitiveSearch",
           parameters: {
             endpoint: azureSearchEndpoint,
-            key: azureSearchKey,
-            indexName: azureSearchIndex,
+            key: azureSearchAdminKey,
+            indexName: azureSearchIndexName,
           },
         },
       ],

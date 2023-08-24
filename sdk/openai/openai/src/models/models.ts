@@ -236,7 +236,7 @@ export interface FunctionDefinition {
    */
   description?: string;
   /** The parameters the functions accepts, described as a JSON Schema object. */
-  parameters?: any;
+  parameters?: Record<string, any>;
 }
 
 /**
@@ -264,7 +264,7 @@ export interface AzureChatExtensionConfiguration {
    *   extension being configured.
    *   Azure chat extensions are only compatible with Azure OpenAI.
    */
-  parameters: any;
+  parameters: Record<string, any>;
 }
 
 /**

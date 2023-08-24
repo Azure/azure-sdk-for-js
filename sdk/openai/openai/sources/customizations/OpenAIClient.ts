@@ -8,13 +8,7 @@ import {
   GetEmbeddingsOptions,
 } from "../generated/src/models/options.js";
 import { OpenAIClientOptions } from "../generated/src/index.js";
-import {
-  getChatCompletions,
-  listChatCompletions,
-  listCompletions,
-  ImageGenerationOptions,
-  GetChatCompletionsOptions,
-} from "./api/operations.js";
+import { getChatCompletions, listChatCompletions, listCompletions } from "./api/operations.js";
 import { ChatMessage, Completions, Embeddings } from "../generated/src/models/models.js";
 import {
   beginAzureBatchImageGeneration,
@@ -25,6 +19,8 @@ import {
 import { ChatCompletions, ImageGenerationResponse } from "./models/models.js";
 import { OpenAIContext } from "../generated/src/rest/index.js";
 import { createOpenAI } from "../generated/src/api/OpenAIContext.js";
+import { GetChatCompletionsOptions } from "./api/models.js";
+import { ImageGenerationOptions } from "./models/options.js";
 
 function createOpenAIEndpoint(version: number): string {
   return `https://api.openai.com/v${version}`;

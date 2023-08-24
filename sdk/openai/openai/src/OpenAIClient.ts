@@ -10,12 +10,7 @@
  */
 
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import {
-  GetChatCompletionsOptions,
-  ImageGenerationOptions,
-  listChatCompletions,
-  listCompletions,
-} from "./api/operations.js";
+import { listChatCompletions, listCompletions } from "../sources/customizations/api/operations.js";
 import {
   OpenAIClientOptions,
   OpenAIContext,
@@ -37,7 +32,9 @@ import {
   GetAzureBatchImageGenerationOperationStatusOptions,
   GetCompletionsOptions,
   GetEmbeddingsOptions,
+  ImageGenerationOptions,
 } from "./models/options.js";
+import { GetChatCompletionsOptions } from "./api/models.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 

@@ -45,8 +45,8 @@ export {
 export {
   GetEmbeddingsOptions,
   GetCompletionsOptions,
-  GetChatCompletionsOptions,
-  GetChatCompletionsWithAzureExtensionsOptions,
   GetAzureBatchImageGenerationOperationStatusOptions,
   BeginAzureBatchImageGenerationOptions,
+  ImageGenerationOptions,
 } from "./options.js";
+export { AzureExtensionsOptions, GetChatCompletionsOptions } from "../api/models.js";

@@ -13,7 +13,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AzureChatExtensionConfiguration {
-    parameters: any;
+    parameters: Record<string, any>;
     type: AzureChatExtensionType;
 }
 
@@ -175,7 +175,7 @@ export type FunctionCallPreset = string;
 export interface FunctionDefinition {
     description?: string;
     name: string;
-    parameters?: any;
+    parameters?: Record<string, any>;
 }
 
 // @public
@@ -187,7 +187,7 @@ export interface FunctionName {
 export interface GetAzureBatchImageGenerationOperationStatusOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface GetChatCompletionsOptions extends OperationOptions {
     azureExtensionOptions?: AzureExtensionsOptions;
     frequencyPenalty?: number;
