@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -1406,6 +1406,16 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/health-insights-cancerprofiling",
+      "projectFolder": "sdk/healthinsights/health-insights-cancerprofiling-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/health-insights-clinicalmatching",
+      "projectFolder": "sdk/healthinsights/health-insights-clinicalmatching-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-deploymentmanager",
       "projectFolder": "sdk/deploymentmanager/arm-deploymentmanager",
       "versionPolicyName": "management"
@@ -2053,6 +2063,11 @@
     {
       "packageName": "@azure/arm-sphere",
       "projectFolder": "sdk/sphere/arm-sphere",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-defendereasm",
+      "projectFolder": "sdk/defendereasm/arm-defendereasm",
       "versionPolicyName": "management"
     }
   ]

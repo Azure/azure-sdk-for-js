@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VirtualMachine,
   VirtualMachinesListNextOptionalParams,
@@ -195,14 +199,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     virtualMachineId: string,
     restrictMovement: VirtualMachineRestrictMovement,
     options?: VirtualMachinesRestrictMovementOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -235,9 +239,9 @@ export class VirtualMachinesImpl implements VirtualMachines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         clusterName,
@@ -245,10 +249,10 @@ export class VirtualMachinesImpl implements VirtualMachines {
         restrictMovement,
         options
       },
-      restrictMovementOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: restrictMovementOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -316,7 +320,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachinesList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -339,7 +343,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachine
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -364,7 +368,7 @@ const restrictMovementOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.restrictMovement,
@@ -389,7 +393,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachinesList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [

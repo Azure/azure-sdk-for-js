@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkloadNetwork,
   WorkloadNetworksListOptionalParams,
@@ -239,8 +239,8 @@ export interface WorkloadNetworks {
     workloadNetworkSegment: WorkloadNetworkSegment,
     options?: WorkloadNetworksCreateSegmentsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreateSegmentsResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateSegmentsResponse>,
       WorkloadNetworksCreateSegmentsResponse
     >
   >;
@@ -274,8 +274,8 @@ export interface WorkloadNetworks {
     workloadNetworkSegment: WorkloadNetworkSegment,
     options?: WorkloadNetworksUpdateSegmentsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdateSegmentsResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateSegmentsResponse>,
       WorkloadNetworksUpdateSegmentsResponse
     >
   >;
@@ -306,7 +306,7 @@ export interface WorkloadNetworks {
     privateCloudName: string,
     segmentId: string,
     options?: WorkloadNetworksDeleteSegmentOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a segment by id in a private cloud workload network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -348,8 +348,8 @@ export interface WorkloadNetworks {
     workloadNetworkDhcp: WorkloadNetworkDhcp,
     options?: WorkloadNetworksCreateDhcpOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreateDhcpResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateDhcpResponse>,
       WorkloadNetworksCreateDhcpResponse
     >
   >;
@@ -383,8 +383,8 @@ export interface WorkloadNetworks {
     workloadNetworkDhcp: WorkloadNetworkDhcp,
     options?: WorkloadNetworksUpdateDhcpOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdateDhcpResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateDhcpResponse>,
       WorkloadNetworksUpdateDhcpResponse
     >
   >;
@@ -415,7 +415,7 @@ export interface WorkloadNetworks {
     privateCloudName: string,
     dhcpId: string,
     options?: WorkloadNetworksDeleteDhcpOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete dhcp by id in a private cloud workload network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -472,8 +472,8 @@ export interface WorkloadNetworks {
     workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
     options?: WorkloadNetworksCreatePortMirroringOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreatePortMirroringResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreatePortMirroringResponse>,
       WorkloadNetworksCreatePortMirroringResponse
     >
   >;
@@ -509,8 +509,8 @@ export interface WorkloadNetworks {
     workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
     options?: WorkloadNetworksUpdatePortMirroringOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdatePortMirroringResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdatePortMirroringResponse>,
       WorkloadNetworksUpdatePortMirroringResponse
     >
   >;
@@ -543,7 +543,7 @@ export interface WorkloadNetworks {
     portMirroringId: string,
     privateCloudName: string,
     options?: WorkloadNetworksDeletePortMirroringOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a port mirroring profile by id in a private cloud workload network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -586,8 +586,8 @@ export interface WorkloadNetworks {
     workloadNetworkVMGroup: WorkloadNetworkVMGroup,
     options?: WorkloadNetworksCreateVMGroupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreateVMGroupResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateVMGroupResponse>,
       WorkloadNetworksCreateVMGroupResponse
     >
   >;
@@ -621,8 +621,8 @@ export interface WorkloadNetworks {
     workloadNetworkVMGroup: WorkloadNetworkVMGroup,
     options?: WorkloadNetworksUpdateVMGroupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdateVMGroupResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateVMGroupResponse>,
       WorkloadNetworksUpdateVMGroupResponse
     >
   >;
@@ -653,7 +653,7 @@ export interface WorkloadNetworks {
     vmGroupId: string,
     privateCloudName: string,
     options?: WorkloadNetworksDeleteVMGroupOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a vm group by id in a private cloud workload network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -708,8 +708,8 @@ export interface WorkloadNetworks {
     workloadNetworkDnsService: WorkloadNetworkDnsService,
     options?: WorkloadNetworksCreateDnsServiceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreateDnsServiceResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateDnsServiceResponse>,
       WorkloadNetworksCreateDnsServiceResponse
     >
   >;
@@ -743,8 +743,8 @@ export interface WorkloadNetworks {
     workloadNetworkDnsService: WorkloadNetworkDnsService,
     options?: WorkloadNetworksUpdateDnsServiceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdateDnsServiceResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateDnsServiceResponse>,
       WorkloadNetworksUpdateDnsServiceResponse
     >
   >;
@@ -775,7 +775,7 @@ export interface WorkloadNetworks {
     dnsServiceId: string,
     privateCloudName: string,
     options?: WorkloadNetworksDeleteDnsServiceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a DNS service by id in a private cloud workload network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -817,8 +817,8 @@ export interface WorkloadNetworks {
     workloadNetworkDnsZone: WorkloadNetworkDnsZone,
     options?: WorkloadNetworksCreateDnsZoneOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreateDnsZoneResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateDnsZoneResponse>,
       WorkloadNetworksCreateDnsZoneResponse
     >
   >;
@@ -852,8 +852,8 @@ export interface WorkloadNetworks {
     workloadNetworkDnsZone: WorkloadNetworkDnsZone,
     options?: WorkloadNetworksUpdateDnsZoneOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdateDnsZoneResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateDnsZoneResponse>,
       WorkloadNetworksUpdateDnsZoneResponse
     >
   >;
@@ -884,7 +884,7 @@ export interface WorkloadNetworks {
     dnsZoneId: string,
     privateCloudName: string,
     options?: WorkloadNetworksDeleteDnsZoneOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a DNS zone by id in a private cloud workload network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -928,8 +928,8 @@ export interface WorkloadNetworks {
     workloadNetworkPublicIP: WorkloadNetworkPublicIP,
     options?: WorkloadNetworksCreatePublicIPOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreatePublicIPResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreatePublicIPResponse>,
       WorkloadNetworksCreatePublicIPResponse
     >
   >;
@@ -962,7 +962,7 @@ export interface WorkloadNetworks {
     publicIPId: string,
     privateCloudName: string,
     options?: WorkloadNetworksDeletePublicIPOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Public IP Block by id in a private cloud workload network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

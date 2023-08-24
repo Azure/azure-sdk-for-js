@@ -589,6 +589,12 @@ export const PlayRequest: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -765,6 +771,12 @@ export const RecognizeRequest: coreClient.CompositeMapper = {
       },
       operationContext: {
         serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
         type: {
           name: "String"
         }
@@ -945,6 +957,12 @@ export const ContinuousDtmfRecognitionRequest: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -976,6 +994,12 @@ export const SendDtmfRequest: coreClient.CompositeMapper = {
       },
       operationContext: {
         serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
         type: {
           name: "String"
         }
