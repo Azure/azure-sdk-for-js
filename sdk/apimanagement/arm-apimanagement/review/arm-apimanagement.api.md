@@ -1895,9 +1895,12 @@ export interface ApiVersionSetContractDetails {
     id?: string;
     name?: string;
     versionHeaderName?: string;
-    versioningScheme?: VersioningScheme;
+    versioningScheme?: ApiVersionSetContractDetailsVersioningScheme;
     versionQueryName?: string;
 }
+
+// @public
+export type ApiVersionSetContractDetailsVersioningScheme = string;
 
 // @public
 export interface ApiVersionSetContractProperties extends ApiVersionSetEntityBase {
@@ -4877,6 +4880,13 @@ export enum KnownApiType {
     Http = "http",
     Soap = "soap",
     Websocket = "websocket"
+}
+
+// @public
+export enum KnownApiVersionSetContractDetailsVersioningScheme {
+    Header = "Header",
+    Query = "Query",
+    Segment = "Segment"
 }
 
 // @public

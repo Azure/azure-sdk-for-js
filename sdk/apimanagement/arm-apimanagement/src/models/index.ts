@@ -33,7 +33,7 @@ export interface ApiVersionSetContractDetails {
   /** Description of API Version Set. */
   description?: string;
   /** An value that determines where the API Version identifier will be located in a HTTP request. */
-  versioningScheme?: VersioningScheme;
+  versioningScheme?: ApiVersionSetContractDetailsVersioningScheme;
   /** Name of query parameter that indicates the API Version if versioningScheme is set to `query`. */
   versionQueryName?: string;
   /** Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`. */
@@ -5981,8 +5981,8 @@ export enum KnownProtocol {
  */
 export type Protocol = string;
 
-/** Known values of {@link VersioningScheme} that the service accepts. */
-export enum KnownVersioningScheme {
+/** Known values of {@link ApiVersionSetContractDetailsVersioningScheme} that the service accepts. */
+export enum KnownApiVersionSetContractDetailsVersioningScheme {
   /** The API Version is passed in a path segment. */
   Segment = "Segment",
   /** The API Version is passed in a query parameter. */
@@ -5992,15 +5992,15 @@ export enum KnownVersioningScheme {
 }
 
 /**
- * Defines values for VersioningScheme. \
- * {@link KnownVersioningScheme} can be used interchangeably with VersioningScheme,
+ * Defines values for ApiVersionSetContractDetailsVersioningScheme. \
+ * {@link KnownApiVersionSetContractDetailsVersioningScheme} can be used interchangeably with ApiVersionSetContractDetailsVersioningScheme,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Segment**: The API Version is passed in a path segment. \
  * **Query**: The API Version is passed in a query parameter. \
  * **Header**: The API Version is passed in a HTTP header.
  */
-export type VersioningScheme = string;
+export type ApiVersionSetContractDetailsVersioningScheme = string;
 
 /** Known values of {@link BearerTokenSendingMethods} that the service accepts. */
 export enum KnownBearerTokenSendingMethods {
@@ -6388,6 +6388,27 @@ export enum KnownExportResultFormat {
  * **openapi-link**: Export the API Definition in OpenAPI Specification 3.0 to Storage Blob.
  */
 export type ExportResultFormat = string;
+
+/** Known values of {@link VersioningScheme} that the service accepts. */
+export enum KnownVersioningScheme {
+  /** The API Version is passed in a path segment. */
+  Segment = "Segment",
+  /** The API Version is passed in a query parameter. */
+  Query = "Query",
+  /** The API Version is passed in a HTTP header. */
+  Header = "Header"
+}
+
+/**
+ * Defines values for VersioningScheme. \
+ * {@link KnownVersioningScheme} can be used interchangeably with VersioningScheme,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Segment**: The API Version is passed in a path segment. \
+ * **Query**: The API Version is passed in a query parameter. \
+ * **Header**: The API Version is passed in a HTTP header.
+ */
+export type VersioningScheme = string;
 
 /** Known values of {@link GrantType} that the service accepts. */
 export enum KnownGrantType {

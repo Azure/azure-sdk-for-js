@@ -65,8 +65,8 @@ async function apiManagementCreateAuthorizationAadClientCred() {
     authorizationType: "OAuth2",
     oAuth2GrantType: "AuthorizationCode",
     parameters: {
-      clientId: "",
-      clientSecret: ""
+      clientId: "53790925-fdd3-4b80-bc7a-4c3aaf25801d",
+      clientSecret: "FcJkQ3iPSaKAQRA7Ft8Q~fZ1X5vKmqzUAfJagcJ8"
     }
   };
   const credential = new DefaultAzureCredential();

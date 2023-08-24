@@ -1,6 +1,6 @@
 # Release History
 
-## 10.0.0 (2023-08-15)
+## 9.1.0 (2023-08-23)
 
 **Features**
 
@@ -254,11 +254,6 @@
 - Added Enum KnownPortalSettingsCspMode
 - Added Enum KnownTranslateRequiredQueryParametersConduct
 - Class ApiManagementClient has a new signature
-
-**Breaking Changes**
-
-- Type of parameter versioningScheme of interface ApiVersionSetContractDetails is changed from ApiVersionSetContractDetailsVersioningScheme to VersioningScheme
-- Removed Enum KnownApiVersionSetContractDetailsVersioningScheme
 
 ## 9.0.0 (2023-02-01)
 
