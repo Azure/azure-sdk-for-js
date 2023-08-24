@@ -55,8 +55,14 @@ import {
   LogsQueryResultStatus,
   LogsQuerySuccessfulResult,
 } from "../models/publicLogsModels";
-import { MetricsBatchResponse as GeneratedMetricsBatchResponse } from "../generated/metricBatch/src";
-import { MetricResultsResponseValuesItem } from "../models/publicBatchModels";
+import {
+  MetricsBatchResponse as GeneratedMetricsBatchResponse,
+  MetricsBatchOptionalParams as GeneratedMetricsBatchOptionalParams,
+} from "../generated/metricBatch/src";
+import {
+  MetricResultsResponseValuesItem,
+  MetricsBatchOptionalParams,
+} from "../models/publicBatchModels";
 
 /**
  * @internal
@@ -181,6 +187,23 @@ export function fixInvalidBatchQueryResponse(
   }
 
   return hadToFix;
+}
+
+/**
+ * @internal
+ */
+export function convertRequestForMetricsBatchQuery(
+  metricsBatchQueryOptions: MetricsBatchOptionalParams | undefined
+): GeneratedMetricsBatchOptionalParams {
+  if (!metricsBatchQueryOptions) {
+    return {};
+  }
+
+  return {
+    starttime: metricsBatchQueryOptions.startTime?.toISOString(),
+    endtime: metricsBatchQueryOptions.endTime?.toISOString(),
+    ...metricsBatchQueryOptions,
+  };
 }
 
 /**

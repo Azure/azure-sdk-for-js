@@ -684,6 +684,20 @@ export interface ManagedClusterAutoUpgradeProfile {
   nodeOSUpgradeChannel?: NodeOSUpgradeChannel;
 }
 
+/** Settings for upgrading a cluster. */
+export interface ClusterUpgradeSettings {
+  /** Settings for overrides. */
+  overrideSettings?: UpgradeOverrideSettings;
+}
+
+/** Settings for overrides when upgrading a cluster. */
+export interface UpgradeOverrideSettings {
+  /** Whether to force upgrade the cluster. Note that this option instructs upgrade operation to bypass upgrade protections such as checking for deprecated API usage. Enable this option only with caution. */
+  forceUpgrade?: boolean;
+  /** Until when the overrides are effective. Note that this only matches the start time of an upgrade, and the effectiveness won't change once an upgrade starts even if the `until` expires as upgrade proceeds. This field is not set by default. It must be set for the overrides to take effect. */
+  until?: Date;
+}
+
 /** Parameters to be applied to the cluster-autoscaler when enabled */
 export interface ManagedClusterPropertiesAutoScalerProfile {
   /** Valid values are 'true' and 'false' */
@@ -1556,6 +1570,8 @@ export interface ManagedCluster extends TrackedResource {
   aadProfile?: ManagedClusterAADProfile;
   /** The auto upgrade configuration. */
   autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
+  /** Settings for upgrading a cluster. */
+  upgradeSettings?: ClusterUpgradeSettings;
   /** Parameters to be applied to the cluster-autoscaler when enabled */
   autoScalerProfile?: ManagedClusterPropertiesAutoScalerProfile;
   /** The access profile for managed cluster API server. */

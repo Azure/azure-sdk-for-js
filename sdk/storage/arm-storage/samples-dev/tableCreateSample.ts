@@ -14,16 +14,20 @@ import {
   StorageManagementClient
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a new table with the specified table name, under the specified account.
  *
  * @summary Creates a new table with the specified table name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/TableOperationPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/TableOperationPut.json
  */
 async function tableOperationPut() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res3376";
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
   const accountName = "sto328";
   const tableName = "table6185";
   const credential = new DefaultAzureCredential();
@@ -36,17 +40,16 @@ async function tableOperationPut() {
   console.log(result);
 }
 
-tableOperationPut().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates a new table with the specified table name, under the specified account.
  *
  * @summary Creates a new table with the specified table name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/TableOperationPutOrPatchAcls.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/TableOperationPutOrPatchAcls.json
  */
 async function tableOperationPutOrPatchAcls() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res3376";
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
   const accountName = "sto328";
   const tableName = "table6185";
   const parameters: Table = {
@@ -81,4 +84,9 @@ async function tableOperationPutOrPatchAcls() {
   console.log(result);
 }
 
-tableOperationPutOrPatchAcls().catch(console.error);
+async function main() {
+  tableOperationPut();
+  tableOperationPutOrPatchAcls();
+}
+
+main().catch(console.error);

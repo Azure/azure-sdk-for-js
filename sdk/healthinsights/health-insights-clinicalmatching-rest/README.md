@@ -3,7 +3,13 @@
 [Health Insights](https://learn.microsoft.com/azure/azure-health-insights/overview?branch=main) is an Azure Applied AI Service built with the Azure Cognitive Services Framework, that leverages multiple Cognitive Services, Healthcare API services and other Azure resources.
 The [Clinical Matching model](https://learn.microsoft.com/azure/azure-health-insights/trial-matcher/overview) receives patients data and clinical trials protocols, and provides relevant clinical trials based on eligibility criteria.
 
-**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
+**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/tree/main/documentation/rest-clients.md) to use this library**
+
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-clinicalmatching-rest)
+- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/health-insights-clinicalmatching)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta)
 
 ## Getting started
 
@@ -191,13 +197,13 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-This code sample show common scenario operation with the Azure Health Insights Clinical Matching library. More samples can be found under the [samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/typescript/src/) directory.
+This code sample show common scenario operation with the Azure Health Insights Clinical Matching library. More samples can be found under the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/typescript/src/) directory.
 
-- Match Trials FHIR: [sample_match_trials_fhir.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/typescript/src/sample_match_trials_fhir.ts)
+- Match Trials FHIR: [sample_match_trials_fhir.ts](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/typescript/src/sample_match_trials_fhir.ts)
 
-- Match Trials Structured Coded Elements: [sample_match_trials_structured_coded_elements.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/typescript/src/sample_match_trials_structured_coded_elements.ts)
+- Match Trials Structured Coded Elements: [sample_match_trials_structured_coded_elements.ts](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/typescript/src/sample_match_trials_structured_coded_elements.ts)
 
-- Match Trials Unstructured Clinical Note: [sample_match_trials_unstructured_clinical_note.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/typescript/src/sample_match_trials_unstructured_clinical_note.ts)
+- Match Trials Unstructured Clinical Note: [sample_match_trials_unstructured_clinical_note.ts](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/typescript/src/sample_match_trials_unstructured_clinical_note.ts)
 
 
 ### Additional documentation

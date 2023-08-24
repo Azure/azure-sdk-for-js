@@ -46,13 +46,20 @@ An authenticated client is required to query Logs or Metrics. To authenticate, t
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, MetricsQueryClient } from "@azure/monitor-query";
+import { LogsQueryClient, MetricsQueryClient, MetricsBatchQueryClient } from "@azure/monitor-query";
 
 const credential = new DefaultAzureCredential();
 
-const logsQueryClient = new LogsQueryClient(credential);
+const logsQueryClient: LogsQueryClient = new LogsQueryClient(credential);
 // or
-const metricsQueryClient = new MetricsQueryClient(credential);
+const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(credential);
+// or
+const batchEndPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
+
+const metricsBatchQueryClient: MetricsBatchQueryClient = new MetricsBatchQueryClient(
+  batchEndPoint,
+  credential
+);
 ```
 
 #### Configure clients for non-public Azure clouds
@@ -110,6 +117,7 @@ Each set of metric values is a time series with the following characteristics:
 - [Metrics query](#metrics-query)
   - [Handle metrics query response](#handle-metrics-query-response)
   - [Example of handling response](#example-of-handling-response)
+- [Batch metrics query](#batch-metrics-query)
 
 ### Logs query
 
@@ -715,6 +723,32 @@ main().catch((err) => {
 ```
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts).
+
+### Batch metrics query
+
+The following example executes multiple metrics queries in a single request using the `MetricsBatchQueryClient.queryBatch` method:
+
+```ts
+let resourceIds: string[] = [
+  "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs",
+  "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs2",
+];
+let metricsNamespace: string = "<YOUR_METRICS_NAMESPACE>";
+let metricNames: string[] = ["requests", "count"];
+const batchEndPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
+
+const credential = new DefaultAzureCredential();
+const metricsBatchQueryClient: MetricsBatchQueryClient = new MetricsBatchQueryClient(
+  batchEndPoint,
+  credential
+);
+
+const result: MetricResultsResponseValuesItem[] = await metricsBatchQueryClient.queryBatch(
+  resourceIds,
+  metricsNamespace,
+  metricNames
+);
+```
 
 ## Troubleshooting
 

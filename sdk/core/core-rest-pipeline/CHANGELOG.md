@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Set `init.duplex` to `"half"` when streaming body via `fetch()` [PR #26890](https://github.com/Azure/azure-sdk-for-js/pull/26890)
+
 ## 1.12.0 (2023-08-08)
 
 ### Features Added

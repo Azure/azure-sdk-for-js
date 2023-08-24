@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a Capability that extends a Target resource.
  *
  * @summary Delete a Capability that extends a Target resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/DeleteACapability.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-04-15-preview/examples/DeleteACapability.json
  */
 async function deleteACapabilityThatExtendsAVirtualMachineTargetResource() {
   const subscriptionId =
