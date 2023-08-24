@@ -2,8 +2,6 @@
 
 ## 1.0.0-beta.2 (2023-08-25)
 
-### Features Added
-
 ### Breaking Changes
 
 - API update, removed AzureMonitorOpenTelemetryClient in favor of useAzureMonitor method.
@@ -12,10 +10,6 @@
 - Removed OTLP Exporters.
 - Removed Perf Counter Metrics.
 
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.0.0-beta.1 (2023-07-14)
 
