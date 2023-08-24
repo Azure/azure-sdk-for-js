@@ -116,6 +116,9 @@ export interface GetChatCompletionsOptions extends OperationOptions {
   azureExtensionOptions?: AzureExtensionsOptions;
 }
 
+/**
+ * Options for Azure OpenAI chat extensions.
+ */
 export interface AzureExtensionsOptions {
   /**
    *   The configuration entries for Azure OpenAI chat extensions that use them.

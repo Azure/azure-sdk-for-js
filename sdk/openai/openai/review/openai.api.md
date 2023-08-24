@@ -25,7 +25,7 @@ export interface AzureChatExtensionsMessageContext {
 // @public
 export type AzureChatExtensionType = string;
 
-// @public (undocumented)
+// @public
 export interface AzureExtensionsOptions {
     extensions?: AzureChatExtensionConfiguration[];
 }
