@@ -13,6 +13,7 @@ import {
   Typed,
   ReceiverEvents,
   Message as RheaMessage,
+  AmqpError,
 } from "rhea-promise";
 import {
   ConditionErrorNameMapper,
@@ -23,6 +24,7 @@ import {
   SendRequestOptions,
   RetryOptions,
   AmqpAnnotatedMessage,
+  ErrorNameConditionMapper,
 } from "@azure/core-amqp";
 import { ConnectionContext } from "../connectionContext";
 import {
@@ -403,6 +405,43 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     }
 
     try {
+      const { timeoutInMs } = sendRequestOptions;
+      let waitTimeForSendable = 1000;
+      if (
+        !this.link?.sender.sendable() &&
+        (timeoutInMs === undefined || timeoutInMs >= waitTimeForSendable)
+      ) {
+        internalLogger.verbose(
+          "%s Sender '%s', waiting for 1 second for sender to become sendable",
+          this.logPrefix,
+          this.name
+        );
+
+        await delay(waitTimeForSendable);
+
+        internalLogger.verbose(
+          "%s Sender '%s' after waiting for a second, credit: %d available: %d",
+          this.logPrefix,
+          this.name,
+          this.link?.sender.credit,
+          this.link?.session?.outgoing?.available()
+        );
+      } else {
+        waitTimeForSendable = 0;
+      }
+
+      if (!this.link?.sender.sendable()) {
+        const msg =
+          `[${this.logPrefix}] Sender "${this.name}", ` +
+          `cannot send the message right now. Please try later.`;
+        internalLogger.warning(msg);
+        const amqpError: AmqpError = {
+          condition: ErrorNameConditionMapper.SenderBusyError,
+          description: msg,
+        };
+        throw translateServiceBusError(amqpError);
+      }
+
       return await this.link!.sendRequest(request, sendRequestOptions);
     } catch (err: any) {
       const translatedError = translateServiceBusError(err);
