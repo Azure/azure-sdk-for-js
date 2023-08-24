@@ -10,7 +10,6 @@
  */
 
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { listChatCompletions, listCompletions } from "../sources/customizations/api/operations.js";
 import {
   OpenAIClientOptions,
   OpenAIContext,
@@ -20,6 +19,8 @@ import {
   getChatCompletions,
   getCompletions,
   getEmbeddings,
+  listChatCompletions,
+  listCompletions,
 } from "./api/index.js";
 import {
   ChatCompletions,
