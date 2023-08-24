@@ -20,7 +20,6 @@ import {
   BareMetalMachineRunCommandParameters as BareMetalMachineRunCommandParametersMapper,
   BareMetalMachineRunDataExtractsParameters as BareMetalMachineRunDataExtractsParametersMapper,
   BareMetalMachineRunReadCommandsParameters as BareMetalMachineRunReadCommandsParametersMapper,
-  BareMetalMachineValidateHardwareParameters as BareMetalMachineValidateHardwareParametersMapper,
   CloudServicesNetwork as CloudServicesNetworkMapper,
   CloudServicesNetworkPatchParameters as CloudServicesNetworkPatchParametersMapper,
   ClusterManager as ClusterManagerMapper,
@@ -41,12 +40,10 @@ import {
   StorageAppliance as StorageApplianceMapper,
   StorageAppliancePatchParameters as StorageAppliancePatchParametersMapper,
   StorageApplianceEnableRemoteVendorManagementParameters as StorageApplianceEnableRemoteVendorManagementParametersMapper,
-  StorageApplianceRunReadCommandsParameters as StorageApplianceRunReadCommandsParametersMapper,
   TrunkedNetwork as TrunkedNetworkMapper,
   TrunkedNetworkPatchParameters as TrunkedNetworkPatchParametersMapper,
   VirtualMachine as VirtualMachineMapper,
   VirtualMachinePatchParameters as VirtualMachinePatchParametersMapper,
-  VirtualMachineVolumeParameters as VirtualMachineVolumeParametersMapper,
   VirtualMachinePowerOffParameters as VirtualMachinePowerOffParametersMapper,
   Volume as VolumeMapper,
   VolumePatchParameters as VolumePatchParametersMapper,
@@ -89,7 +86,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-05-01-preview",
+    defaultValue: "2023-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -200,11 +197,6 @@ export const bareMetalMachineRunDataExtractsParameters: OperationParameter = {
 export const bareMetalMachineRunReadCommandsParameters: OperationParameter = {
   parameterPath: "bareMetalMachineRunReadCommandsParameters",
   mapper: BareMetalMachineRunReadCommandsParametersMapper
-};
-
-export const bareMetalMachineValidateHardwareParameters: OperationParameter = {
-  parameterPath: "bareMetalMachineValidateHardwareParameters",
-  mapper: BareMetalMachineValidateHardwareParametersMapper
 };
 
 export const cloudServicesNetworkName: OperationURLParameter = {
@@ -433,11 +425,6 @@ export const storageApplianceEnableRemoteVendorManagementParameters: OperationPa
   mapper: StorageApplianceEnableRemoteVendorManagementParametersMapper
 };
 
-export const storageApplianceRunReadCommandsParameters: OperationParameter = {
-  parameterPath: "storageApplianceRunReadCommandsParameters",
-  mapper: StorageApplianceRunReadCommandsParametersMapper
-};
-
 export const trunkedNetworkName: OperationURLParameter = {
   parameterPath: "trunkedNetworkName",
   mapper: {
@@ -484,16 +471,6 @@ export const virtualMachineParameters: OperationParameter = {
 export const virtualMachineUpdateParameters: OperationParameter = {
   parameterPath: ["options", "virtualMachineUpdateParameters"],
   mapper: VirtualMachinePatchParametersMapper
-};
-
-export const virtualMachineAttachVolumeParameters: OperationParameter = {
-  parameterPath: "virtualMachineAttachVolumeParameters",
-  mapper: VirtualMachineVolumeParametersMapper
-};
-
-export const virtualMachineDetachVolumeParameters: OperationParameter = {
-  parameterPath: "virtualMachineDetachVolumeParameters",
-  mapper: VirtualMachineVolumeParametersMapper
 };
 
 export const virtualMachinePowerOffParameters: OperationParameter = {

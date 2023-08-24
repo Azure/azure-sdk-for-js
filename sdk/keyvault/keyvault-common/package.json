@@ -77,6 +77,8 @@
     "puppeteer": "^19.2.2",
     "sinon": "^15.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.0.0"
+    "typescript": "~5.0.0",
+    "ts-node": "^10.0.0",
+    "@types/node": "^14.0.0"
   }
 }

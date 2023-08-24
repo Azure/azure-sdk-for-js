@@ -122,7 +122,8 @@
     "typescript": "~5.0.0",
     "util": "^0.12.1",
     "@types/uuid": "^8.0.0",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "ts-node": "^10.0.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure Remote Rendering",

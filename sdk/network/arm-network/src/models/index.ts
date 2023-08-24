@@ -2051,6 +2051,18 @@ export interface InboundNatRulePortMapping {
   readonly backendPort?: number;
 }
 
+/** The request for a migrateToIpBased API. */
+export interface MigrateLoadBalancerToIpBasedRequest {
+  /** A list of pool names that should be migrated from Nic based to IP based pool */
+  pools?: string[];
+}
+
+/** The response for a migrateToIpBased API. */
+export interface MigratedPools {
+  /** A list of pools migrated from Nic based to IP based pool */
+  migratedPools?: string[];
+}
+
 /** Response for ListNatGateways API service call. */
 export interface NatGatewayListResult {
   /** A list of Nat Gateways that exists in a resource group. */
@@ -6132,7 +6144,7 @@ export interface ApplicationGatewayProbe extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /** Custom port which will be used for probing the backend servers. The valid value ranges from 1 to 65535. In case not set, port from http settings will be used. This property is valid for Standard_v2 and WAF_v2 only. */
+  /** Custom port which will be used for probing the backend servers. The valid value ranges from 1 to 65535. In case not set, port from http settings will be used. This property is valid for Basic, Standard_v2 and WAF_v2 only. */
   port?: number;
 }
 
@@ -6664,6 +6676,8 @@ export interface BackendAddressPool extends SubResource {
   drainPeriodInSeconds?: number;
   /** A reference to a virtual network. */
   virtualNetwork?: SubResource;
+  /** Backend address synchronous mode for the backend pool */
+  syncMode?: SyncMode;
 }
 
 /** Inbound NAT rule of the load balancer. */
@@ -11679,7 +11693,9 @@ export enum KnownApplicationGatewaySkuName {
   /** StandardV2 */
   StandardV2 = "Standard_v2",
   /** WAFV2 */
-  WAFV2 = "WAF_v2"
+  WAFV2 = "WAF_v2",
+  /** Basic */
+  Basic = "Basic"
 }
 
 /**
@@ -11693,7 +11709,8 @@ export enum KnownApplicationGatewaySkuName {
  * **WAF_Medium** \
  * **WAF_Large** \
  * **Standard_v2** \
- * **WAF_v2**
+ * **WAF_v2** \
+ * **Basic**
  */
 export type ApplicationGatewaySkuName = string;
 
@@ -11706,7 +11723,9 @@ export enum KnownApplicationGatewayTier {
   /** StandardV2 */
   StandardV2 = "Standard_v2",
   /** WAFV2 */
-  WAFV2 = "WAF_v2"
+  WAFV2 = "WAF_v2",
+  /** Basic */
+  Basic = "Basic"
 }
 
 /**
@@ -11717,7 +11736,8 @@ export enum KnownApplicationGatewayTier {
  * **Standard** \
  * **WAF** \
  * **Standard_v2** \
- * **WAF_v2**
+ * **WAF_v2** \
+ * **Basic**
  */
 export type ApplicationGatewayTier = string;
 
@@ -12431,6 +12451,24 @@ export enum KnownLoadBalancerBackendAddressAdminState {
  * **Down**
  */
 export type LoadBalancerBackendAddressAdminState = string;
+
+/** Known values of {@link SyncMode} that the service accepts. */
+export enum KnownSyncMode {
+  /** Automatic */
+  Automatic = "Automatic",
+  /** Manual */
+  Manual = "Manual"
+}
+
+/**
+ * Defines values for SyncMode. \
+ * {@link KnownSyncMode} can be used interchangeably with SyncMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Automatic** \
+ * **Manual**
+ */
+export type SyncMode = string;
 
 /** Known values of {@link TransportProtocol} that the service accepts. */
 export enum KnownTransportProtocol {
@@ -18698,6 +18736,16 @@ export interface LoadBalancersListInboundNatRulePortMappingsOptionalParams
 
 /** Contains response data for the listInboundNatRulePortMappings operation. */
 export type LoadBalancersListInboundNatRulePortMappingsResponse = BackendAddressInboundNatRulePortMappings;
+
+/** Optional parameters. */
+export interface LoadBalancersMigrateToIpBasedOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameters supplied to the migrateToIpBased Api. */
+  parameters?: MigrateLoadBalancerToIpBasedRequest;
+}
+
+/** Contains response data for the migrateToIpBased operation. */
+export type LoadBalancersMigrateToIpBasedResponse = MigratedPools;
 
 /** Optional parameters. */
 export interface LoadBalancersListAllNextOptionalParams

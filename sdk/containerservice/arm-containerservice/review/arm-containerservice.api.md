@@ -237,6 +237,11 @@ export interface CloudErrorBody {
 }
 
 // @public
+export interface ClusterUpgradeSettings {
+    overrideSettings?: UpgradeOverrideSettings;
+}
+
+// @public
 export type Code = string;
 
 // @public
@@ -818,6 +823,7 @@ export interface ManagedCluster extends TrackedResource {
     sku?: ManagedClusterSKU;
     storageProfile?: ManagedClusterStorageProfile;
     supportPlan?: KubernetesSupportPlan;
+    upgradeSettings?: ClusterUpgradeSettings;
     windowsProfile?: ManagedClusterWindowsProfile;
     workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
 }
@@ -1919,6 +1925,12 @@ export type Type = string;
 
 // @public
 export type UpgradeChannel = string;
+
+// @public
+export interface UpgradeOverrideSettings {
+    forceUpgrade?: boolean;
+    until?: Date;
+}
 
 // @public
 export interface UserAssignedIdentity {

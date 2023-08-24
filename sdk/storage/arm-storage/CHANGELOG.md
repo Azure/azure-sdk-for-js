@@ -1,5 +1,15 @@
 # Release History
 
+## 18.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 18.2.0 (2023-08-08)
 
 **Features**

@@ -112,7 +112,8 @@
     "util": "^0.12.1",
     "@types/ws": "^7.4.5",
     "protobufjs-cli": "^1.1.1",
-    "copyfiles": "2.4.1"
+    "copyfiles": "2.4.1",
+    "ts-node": "^10.0.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub Client",
