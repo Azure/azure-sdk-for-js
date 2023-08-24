@@ -292,7 +292,7 @@ export interface ChatCompletions {
    */
   promptFilterResults?: PromptFilterResult[];
   /** Usage information for tokens processed and generated as part of this completions operation. */
-  usage: CompletionsUsage;
+  usage?: CompletionsUsage;
 }
 
 /**

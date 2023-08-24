@@ -68,7 +68,7 @@ export interface ChatCompletions {
     created: Date;
     id: string;
     promptFilterResults?: PromptFilterResult[];
-    usage: CompletionsUsage;
+    usage?: CompletionsUsage;
 }
 
 // @public
@@ -268,7 +268,7 @@ export class OpenAIClient {
     getCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
     getEmbeddings(deploymentName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
     getImages(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerationResponse>;
-    listChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): AsyncIterable<Omit<ChatCompletions, "usage">>;
+    listChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): AsyncIterable<ChatCompletions>;
     listCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): AsyncIterable<Omit<Completions, "usage">>;
 }
 

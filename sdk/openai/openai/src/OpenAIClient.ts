@@ -200,7 +200,7 @@ export class OpenAIClient {
     deploymentName: string,
     messages: ChatMessage[],
     options: GetChatCompletionsOptions = { requestOptions: {} }
-  ): AsyncIterable<Omit<ChatCompletions, "usage">> {
+  ): AsyncIterable<ChatCompletions> {
     this.setModel(deploymentName, options);
     return listChatCompletions(this._client, messages, deploymentName, options);
   }

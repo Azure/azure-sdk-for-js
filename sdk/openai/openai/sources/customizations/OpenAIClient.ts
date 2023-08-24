@@ -15,19 +15,14 @@ import {
   ImageGenerationOptions,
   GetChatCompletionsOptions,
 } from "./api/operations.js";
-import {
-  ChatCompletions,
-  ChatMessage,
-  Completions,
-  Embeddings,
-} from "../generated/src/models/models.js";
+import { ChatMessage, Completions, Embeddings } from "../generated/src/models/models.js";
 import {
   beginAzureBatchImageGeneration,
   getAzureBatchImageGenerationOperationStatus,
   getCompletions,
   getEmbeddings,
 } from "../generated/src/api/operations.js";
-import { ImageGenerationResponse } from "./models/models.js";
+import { ChatCompletions, ImageGenerationResponse } from "./models/models.js";
 import { OpenAIContext } from "../generated/src/rest/index.js";
 import { createOpenAI } from "../generated/src/api/OpenAIContext.js";
 
@@ -236,7 +231,7 @@ export class OpenAIClient {
     deploymentName: string,
     messages: ChatMessage[],
     options: GetChatCompletionsOptions = { requestOptions: {} }
-  ): AsyncIterable<Omit<ChatCompletions, "usage">> {
+  ): AsyncIterable<ChatCompletions> {
     this.setModel(deploymentName, options);
     return listChatCompletions(this._client, messages, deploymentName, options);
   }

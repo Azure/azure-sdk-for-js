@@ -3,7 +3,6 @@
 
 import {
   AzureChatExtensionConfiguration,
-  ChatCompletions,
   ChatMessage,
   Completions,
   FunctionCallPreset,
@@ -35,6 +34,7 @@ import {
   isUnexpected,
 } from "../../generated/src/rest/index.js";
 import { OperationOptions, StreamableMethod } from "@azure-rest/core-client";
+import { ChatCompletions } from "../models/models.js";
 
 export interface GetChatCompletionsOptions extends OperationOptions {
   /** A list of functions the model may generate JSON inputs for. */
@@ -217,7 +217,7 @@ export function listCompletions(
   return getOaiSSEs(response, getCompletionsResult);
 }
 
-function getChatCompletionsResult(body: Record<string, any>): Omit<ChatCompletions, "usage"> {
+function getChatCompletionsResult(body: Record<string, any>): ChatCompletions {
   return {
     id: body["id"],
     created: new Date(body["created"]),
@@ -314,7 +314,7 @@ export function listChatCompletions(
   messages: ChatMessage[],
   deploymentName: string,
   options: GetChatCompletionsOptions = { requestOptions: {} }
-): AsyncIterable<Omit<ChatCompletions, "usage">> {
+): AsyncIterable<ChatCompletions> {
   const response = _getChatCompletionsSendX(context, messages, deploymentName, {
     ...options,
     stream: true,
@@ -326,7 +326,7 @@ export async function _getChatCompletionsDeserialize(
   result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
@@ -397,11 +397,13 @@ export async function _getChatCompletionsDeserialize(
                 },
           },
     })),
-    usage: {
-      completionTokens: result.body.usage["completion_tokens"],
-      promptTokens: result.body.usage["prompt_tokens"],
-      totalTokens: result.body.usage["total_tokens"],
-    },
+    usage: !result.body.usage
+      ? undefined
+      : {
+          completionTokens: result.body.usage["completion_tokens"],
+          promptTokens: result.body.usage["prompt_tokens"],
+          totalTokens: result.body.usage["total_tokens"],
+        },
   };
 }
 
