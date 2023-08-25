@@ -2066,6 +2066,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-hdinsightcontainers",
+      "projectFolder": "sdk/hdinsight/arm-hdinsightcontainers",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-defendereasm",
       "projectFolder": "sdk/defendereasm/arm-defendereasm",
       "versionPolicyName": "management"
