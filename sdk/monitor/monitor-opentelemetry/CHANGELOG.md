@@ -1,14 +1,15 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
-
-### Features Added
+## 1.0.0-beta.2 (2023-08-25)
 
 ### Breaking Changes
 
-### Bugs Fixed
+- API update, removed AzureMonitorOpenTelemetryClient in favor of useAzureMonitor method.
+- OpenTelemetry API need to be used to retrieve TracerProvider, Tracer, MetricProvider, Meter, LogProvider and Logger.
+- Removed properties in AzureMonitorOpenTelemetryOptions.
+- Removed OTLP Exporters.
+- Removed Perf Counter Metrics.
 
-### Other Changes
 
 ## 1.0.0-beta.1 (2023-07-14)
 
