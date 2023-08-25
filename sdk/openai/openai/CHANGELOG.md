@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0-beta.5 (2023-08-25)
 
 ### Features Added
 
@@ -14,11 +14,7 @@
 ### Breaking Changes
 
 - Remove `beginAzureBatchImageGeneration` and `getAzureBatchImageGenerationOperationStatus` methods. 
-- `getImages` has been updated to return the image URLs/paylods directly, rather than requiring the user to call `getAzureBatchImageGenerationOperationStatus` to retrieve them.
-
-### Bugs Fixed
-
-### Other Changes
+- `getImages` has been updated to return the image URLs/payloads directly, rather than requiring the user to call `getAzureBatchImageGenerationOperationStatus` to retrieve them.
 
 ## 1.0.0-beta.4 (2023-08-09)
 
