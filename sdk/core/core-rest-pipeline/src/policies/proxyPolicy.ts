@@ -132,7 +132,7 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
 export function getProxyAgentOptions(
   proxySettings: ProxySettings,
   { headers, tlsSettings }: PipelineRequest
-): { proxyUrl: URL, proxyAgentOptions: HttpProxyAgentOptions<string> } {
+): { proxyUrl: URL; proxyAgentOptions: HttpProxyAgentOptions<string> } {
   let parsedProxyUrl: URL;
   try {
     parsedProxyUrl = new URL(proxySettings.host);

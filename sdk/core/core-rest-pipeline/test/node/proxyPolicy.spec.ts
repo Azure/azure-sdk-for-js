@@ -10,10 +10,7 @@ import {
   getDefaultProxySettings,
   proxyPolicy,
 } from "../../src/index.js";
-import {
-  globalNoProxyList,
-  loadNoProxy,
-} from "../../src/policies/proxyPolicy.js";
+import { globalNoProxyList, loadNoProxy } from "../../src/policies/proxyPolicy.js";
 
 describe("proxyPolicy (node)", function () {
   it("Sets proxy settings on the request", function () {

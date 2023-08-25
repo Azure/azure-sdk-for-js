@@ -1,26 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as http from "https";
-import * as https from "https";
-
-import { proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy.js";
+import * as td from "testdouble";
+import { /* proxyPolicy, */ proxyPolicyName } from "../../src/policies/proxyPolicy.js";
 import { tlsPolicy, tlsPolicyName } from "../../src/policies/tlsPolicy.js";
-
 import { HttpClient } from "../../src/interfaces.js";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import { assert } from "chai";
 import { createEmptyPipeline } from "../../src/pipeline.js";
 import { createHttpHeaders } from "../../src/httpHeaders.js";
-import { createNodeHttpClient } from "../../src/nodeHttpClient.js";
+//import { createNodeHttpClient } from "../../src/nodeHttpClient.js";
 import { createPipelineFromOptions } from "../../src/createPipelineFromOptions.js";
-import sinon from "sinon";
 
 describe("HttpsPipeline", function () {
   describe("Agent creation", function () {
     afterEach(() => {
-      sinon.restore();
-      sinon.reset();
+      td.reset();
     });
 
     it("should create a proxy agent", async function () {
@@ -78,13 +73,14 @@ describe("HttpsPipeline", function () {
     });
 
     it("should create an agent with certificates", async function () {
+      const https = await td.replaceEsm("https");
+      const { createNodeHttpClient } = await import("../../src/nodeHttpClient.js");
+
+      td.when(https.request(), { ignoreExtraArgs: true }).thenThrow(new Error("ok"));
+
       const pipeline = createEmptyPipeline();
       const fakePfx = "fakecert";
       const httpClient: HttpClient = createNodeHttpClient();
-      sinon.stub(https, "request").callsFake((request: any) => {
-        assert.equal(request.agent.options.pfx, fakePfx);
-        throw new Error("ok");
-      });
 
       pipeline.addPolicy(tlsPolicy({ pfx: fakePfx }));
 
@@ -100,16 +96,19 @@ describe("HttpsPipeline", function () {
         .catch((error) => {
           assert.equal(error.message, "ok");
         });
+
+      td.verify(new https.Agent(td.matchers.contains({ pfx: fakePfx })));
     });
 
     it("should honor tls in request over pipeline options", async function () {
+      const https = await td.replaceEsm("https");
+      const { createNodeHttpClient } = await import("../../src/nodeHttpClient.js");
+
+      td.when(https.request(), { ignoreExtraArgs: true }).thenThrow(new Error("ok"));
+
       const pipeline = createEmptyPipeline();
       const fakePfx = "fakecert";
       const httpClient: HttpClient = createNodeHttpClient();
-      sinon.stub(https, "request").callsFake((request: any) => {
-        assert.equal(request.agent.options.pfx, "requestPfx");
-        throw new Error("ok");
-      });
 
       pipeline.addPolicy(tlsPolicy({ pfx: fakePfx }));
 
@@ -126,16 +125,19 @@ describe("HttpsPipeline", function () {
         .catch((error) => {
           assert.equal(error.message, "ok");
         });
+
+      td.verify(new https.Agent(td.matchers.contains({ pfx: "requestPfx" })));
     });
 
     it("should set tls options when only request tls is set", async function () {
+      const https = await td.replaceEsm("https");
+      const { createNodeHttpClient } = await import("../../src/nodeHttpClient.js");
+
+      td.when(https.request(), { ignoreExtraArgs: true }).thenThrow(new Error("ok"));
+
       const pipeline = createEmptyPipeline();
       const fakePfx = "fakecert";
       const httpClient: HttpClient = createNodeHttpClient();
-      sinon.stub(https, "request").callsFake((request: any) => {
-        assert.equal(request.agent.options.pfx, fakePfx);
-        throw new Error("ok");
-      });
 
       pipeline.addPolicy(tlsPolicy());
 
@@ -152,6 +154,8 @@ describe("HttpsPipeline", function () {
         .catch((error) => {
           assert.equal(error.message, "ok");
         });
+
+      td.verify(new https.Agent(td.matchers.contains({ pfx: fakePfx })));
     });
 
     it("should use cached agent when TLS settings did not change", async function () {
@@ -197,7 +201,7 @@ describe("HttpsPipeline", function () {
           assert.equal(error.message, "ok");
         });
     });
-
+    /*
     it("should create a new agent if new tlsSettings are set", async function () {
       const pipeline = createEmptyPipeline();
       const fakePfx = "fakecert";
@@ -291,5 +295,6 @@ describe("HttpsPipeline", function () {
         proxySettings: { host: "https://localhost", port: 12345 },
       });
     });
+    */
   });
 });

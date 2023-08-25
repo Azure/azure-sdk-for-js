@@ -4961,7 +4961,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230718
+      typescript: 5.2.0-dev.20230723
     dev: false
 
   /duplexer3/0.1.5:
@@ -10702,8 +10702,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230718:
-    resolution: {integrity: sha512-ED1Vm+2UzdbtKui+0lVswEuAX94fQXeoghXyy/+aTNers8X/WB81r5sFg6nA4e43nVQ2MP/Qsa7/XJRFuHR+Cg==}
+  /typescript/5.2.0-dev.20230723:
+    resolution: {integrity: sha512-xC5i1s4sexgxAA4OYatFnu20Un4QfEVMs2nOhGbHZf1iNwt3zoQMeZYD2Z3OFvWFqfnMveROpOwiqaN8RvWPyQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18929,17 +18929,19 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-YIe7nDTdh5f+xwFb2UU3lYnWxpogwrK9YM5C2oGnqXUy+mMOaxwnJVIGpxEzElzFnN1USp2WV6EAw7sLj+EFdw==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-VFSDcndTquNtFrFtJ+VQvG8zVbg97SdmAMGLxeueEDV5GCksZGlBdTNYnswrU4+yT8Pd1S8gGFmIGmyterKaZA==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.2_@types+node@14.18.53
       '@opentelemetry/api': 1.4.1
+      '@sinonjs/fake-timers': 10.3.0
       '@types/chai': 4.3.5
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 10.0.1
       '@types/node': 14.18.53
       '@types/sinon': 10.0.15
+      '@types/sinonjs__fake-timers': 8.1.2
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
@@ -18966,6 +18968,7 @@ packages:
       rimraf: 5.0.1
       sinon: 15.2.0
       source-map-support: 0.5.21
+      testdouble: 3.18.0
       ts-node: 10.9.1_ozyin5stzrwwpdpivjxanfahiu
       tslib: 2.6.0
       typescript: 5.0.4
