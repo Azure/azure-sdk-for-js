@@ -4,9 +4,9 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { OpenAIClient } from "../../src/OpenAIClient.js";
+import { OpenAIClient } from "../../src/index.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
-
+import { ImageLocation } from "../../src/index.js";
 describe("README samples", () => {
   let recorder: Recorder;
   let client: OpenAIClient;
@@ -31,7 +31,7 @@ describe("README samples", () => {
       { role: "user", content: "What's the best way to train a parrot?" },
     ];
 
-    const events = await client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
+    const events = client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
     for await (const event of events) {
       for (const choice of event.choices) {
         const delta = choice.delta?.content;
@@ -87,5 +87,17 @@ describe("README samples", () => {
     const { choices } = await client.getCompletions(deploymentName, summarizationPrompt);
     const completion = choices[0].text;
     assert.isDefined(completion);
+  });
+
+  it("Generate Batch Image", async function () {
+    const prompt = "a monkey eating a banana";
+    const size = "256x256";
+    const n = 3;
+
+    const results = await client.getImages(prompt, { n, size });
+
+    for (const image of results.data as ImageLocation[]) {
+      assert.isString(image.url);
+    }
   });
 });

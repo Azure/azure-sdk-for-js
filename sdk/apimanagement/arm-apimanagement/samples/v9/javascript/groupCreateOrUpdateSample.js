@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or Updates a group.
  *
  * @summary Creates or Updates a group.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateGroup.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGroup.json
  */
 async function apiManagementCreateGroup() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -39,7 +39,7 @@ async function apiManagementCreateGroup() {
  * This sample demonstrates how to Creates or Updates a group.
  *
  * @summary Creates or Updates a group.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateGroupExternal.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGroupExternal.json
  */
 async function apiManagementCreateGroupExternal() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

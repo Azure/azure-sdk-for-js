@@ -9,5 +9,13 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-export * from "./OpenAIContext.js";
-export * from "./operations.js";
+export { OpenAIClientOptions, OpenAIContext, createOpenAI } from "./OpenAIContext.js";
+export {
+  getChatCompletions,
+  getChatCompletionsWithAzureExtensions,
+  getCompletions,
+  getEmbeddings,
+  listChatCompletions,
+  listCompletions,
+  getImages,
+} from "./operations.js";

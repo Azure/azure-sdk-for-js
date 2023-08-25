@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Remove relationship between Certificate Authority and Gateway entity.
  *
  * @summary Remove relationship between Certificate Authority and Gateway entity.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteGatewayCertificateAuthority.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteGatewayCertificateAuthority.json
  */
 async function apiManagementDeleteGatewayCertificateAuthority() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

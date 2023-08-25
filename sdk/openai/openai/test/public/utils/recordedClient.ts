@@ -17,8 +17,9 @@ const envSetupForPlayback: { [k: string]: string } = {
   AZURE_API_KEY: "azure_api_key",
   ENDPOINT: "https://endpoint/",
   SUBSCRIPTION_ID: "subscription_id",
-  RESOURCE_GROUP: "resource_group",
-  ACCOUNT_NAME: "account_name",
+  AZURE_SEARCH_ENDPOINT: "azure_search_endpoint",
+  AZURE_SEARCH_KEY: "azure_search_key",
+  AZURE_SEARCH_INDEX: "azure_search_index",
 };
 
 const recorderStartOptions: RecorderStartOptions = {

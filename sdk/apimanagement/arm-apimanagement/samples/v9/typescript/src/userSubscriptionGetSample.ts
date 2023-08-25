@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified Subscription entity associated with a particular user.
  *
  * @summary Gets the specified Subscription entity associated with a particular user.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetUserSubscription.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetUserSubscription.json
  */
 async function apiManagementGetUserSubscription() {
   const subscriptionId =

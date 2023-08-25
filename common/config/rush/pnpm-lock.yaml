@@ -19,6 +19,7 @@ specifiers:
   '@rush-temp/arm-advisor': file:./projects/arm-advisor.tgz
   '@rush-temp/arm-agrifood': file:./projects/arm-agrifood.tgz
   '@rush-temp/arm-analysisservices': file:./projects/arm-analysisservices.tgz
+  '@rush-temp/arm-apicenter': file:./projects/arm-apicenter.tgz
   '@rush-temp/arm-apimanagement': file:./projects/arm-apimanagement.tgz
   '@rush-temp/arm-appcomplianceautomation': file:./projects/arm-appcomplianceautomation.tgz
   '@rush-temp/arm-appconfiguration': file:./projects/arm-appconfiguration.tgz
@@ -107,6 +108,7 @@ specifiers:
   '@rush-temp/arm-hanaonazure': file:./projects/arm-hanaonazure.tgz
   '@rush-temp/arm-hardwaresecuritymodules': file:./projects/arm-hardwaresecuritymodules.tgz
   '@rush-temp/arm-hdinsight': file:./projects/arm-hdinsight.tgz
+  '@rush-temp/arm-hdinsightcontainers': file:./projects/arm-hdinsightcontainers.tgz
   '@rush-temp/arm-healthbot': file:./projects/arm-healthbot.tgz
   '@rush-temp/arm-healthcareapis': file:./projects/arm-healthcareapis.tgz
   '@rush-temp/arm-hybridcompute': file:./projects/arm-hybridcompute.tgz
@@ -189,6 +191,7 @@ specifiers:
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
   '@rush-temp/arm-resources-profile-2020-09-01-hybrid': file:./projects/arm-resources-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
+  '@rush-temp/arm-resourcesdeploymentstacks': file:./projects/arm-resourcesdeploymentstacks.tgz
   '@rush-temp/arm-scvmm': file:./projects/arm-scvmm.tgz
   '@rush-temp/arm-search': file:./projects/arm-search.tgz
   '@rush-temp/arm-security': file:./projects/arm-security.tgz
@@ -378,6 +381,7 @@ dependencies:
   '@rush-temp/arm-advisor': file:projects/arm-advisor.tgz
   '@rush-temp/arm-agrifood': file:projects/arm-agrifood.tgz
   '@rush-temp/arm-analysisservices': file:projects/arm-analysisservices.tgz
+  '@rush-temp/arm-apicenter': file:projects/arm-apicenter.tgz
   '@rush-temp/arm-apimanagement': file:projects/arm-apimanagement.tgz
   '@rush-temp/arm-appcomplianceautomation': file:projects/arm-appcomplianceautomation.tgz
   '@rush-temp/arm-appconfiguration': file:projects/arm-appconfiguration.tgz
@@ -466,6 +470,7 @@ dependencies:
   '@rush-temp/arm-hanaonazure': file:projects/arm-hanaonazure.tgz
   '@rush-temp/arm-hardwaresecuritymodules': file:projects/arm-hardwaresecuritymodules.tgz
   '@rush-temp/arm-hdinsight': file:projects/arm-hdinsight.tgz
+  '@rush-temp/arm-hdinsightcontainers': file:projects/arm-hdinsightcontainers.tgz
   '@rush-temp/arm-healthbot': file:projects/arm-healthbot.tgz
   '@rush-temp/arm-healthcareapis': file:projects/arm-healthcareapis.tgz
   '@rush-temp/arm-hybridcompute': file:projects/arm-hybridcompute.tgz
@@ -548,6 +553,7 @@ dependencies:
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
   '@rush-temp/arm-resources-profile-2020-09-01-hybrid': file:projects/arm-resources-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
+  '@rush-temp/arm-resourcesdeploymentstacks': file:projects/arm-resourcesdeploymentstacks.tgz
   '@rush-temp/arm-scvmm': file:projects/arm-scvmm.tgz
   '@rush-temp/arm-search': file:projects/arm-search.tgz
   '@rush-temp/arm-security': file:projects/arm-security.tgz
@@ -909,8 +915,8 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/communication-signaling/1.0.0-beta.16:
-    resolution: {integrity: sha512-EcwDgD7tmxY4rZif/T7YK1JMNjIfaBVrJvu2BBZDlnyRtBbhQbkzDH5wCm1c7mgsWAZTeR/BsCffUOSWFXw8JQ==}
+  /@azure/communication-signaling/1.0.0-beta.20:
+    resolution: {integrity: sha512-Vjsiv6lWiVFqTG51cKNOAwnhuUhKbb6oOsQ833NEaWl9MwlqEQtxSOMJPYsoSCjb+pnIYvbioC+hIHkKfkAxbQ==}
     engines: {node: '>=8.0.0'}
     dependencies:
       '@azure/core-http': 2.3.2
@@ -4086,7 +4092,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230823
+      typescript: 5.3.0-dev.20230825
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8649,14 +8655,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.6:
-    resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
+  /typescript/5.2.2:
+    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230823:
-    resolution: {integrity: sha512-IEFfTl67UgTTJzf+Ma4+0txDKzxzxtjNjyFjTm7c+yP5sff+atKe44mAjhCxX8wGjwRrFuhAUeHz1udmzBZ4ow==}
+  /typescript/5.3.0-dev.20230825:
+    resolution: {integrity: sha512-LbxxB17+nHqe7e6oA/240Ha1kOhtrgmLz98Dq3Nbm1sEdkqOnsv3j9XbI0tqd+RWtC/5pgnljHmZRHk/qUeKpQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9930,8 +9936,36 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-apicenter.tgz:
+    resolution: {integrity: sha512-lkLCjuv/Rq7+k320BOF2KajuNppG8Fq/PFn2DR/Fh00lUqzTPxO9WrX6l5SFIF9THdmLJGVz5g1T/gZT1LstSA==, tarball: file:projects/arm-apicenter.tgz}
+    name: '@rush-temp/arm-apicenter'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.54
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      tslib: 2.6.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-apimanagement.tgz:
-    resolution: {integrity: sha512-KoQydpxiBGI+d+QRthuqUgWdLncUqVtWhlzHOEzhwQQ+wDhhdFjF+Ghyw351FQmLnMYS0yBwd1ItDx5yLfRGlQ==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-gciAJMeJ94SRKgBGb0vLm1dXYMEL6aRIum2vBLyLWhs4xNdH5Z8oJAmC8Klxf4y4JSY6giayGc9pCdjhUrAAyQ==, tarball: file:projects/arm-apimanagement.tgz}
     name: '@rush-temp/arm-apimanagement'
     version: 0.0.0
     dependencies:
@@ -9945,8 +9979,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -12210,7 +12244,7 @@ packages:
     dev: false
 
   file:projects/arm-dynatrace.tgz:
-    resolution: {integrity: sha512-pIEarGG5yYFiCqJ+sCoL/0P3oV/LPFN8Z8VXNyfcNF1lyd9ybwBwe6JI+LCBBVg58el37BRCBkuWm1iRP5rH/Q==, tarball: file:projects/arm-dynatrace.tgz}
+    resolution: {integrity: sha512-EnaVD22V5vHh9qh5STxhvuQ1OmYtwFOq97xnGLAHNKebb2PGgTgJ5q+NQjkTDM3DS1OYdGASr+tw9V3n8FIL5A==, tarball: file:projects/arm-dynatrace.tgz}
     name: '@rush-temp/arm-dynatrace'
     version: 0.0.0
     dependencies:
@@ -12224,8 +12258,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -12645,6 +12679,37 @@ packages:
   file:projects/arm-hdinsight.tgz:
     resolution: {integrity: sha512-IlOJx5ke47zI8xWax+kUy39QFrncycW77stsL2kzTQYRigIzHOTcBJaqa/vSSc7TM7kFGQTfQ7aPBA3PBuBmIA==, tarball: file:projects/arm-hdinsight.tgz}
     name: '@rush-temp/arm-hdinsight'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.54
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
+      tslib: 2.6.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-hdinsightcontainers.tgz:
+    resolution: {integrity: sha512-zE/47UGK72bxsWWD6ApiVKf7bVMPwKw7UCalUjBL6uYdskLPXjXlYPC5BB/qijGXSF7q4clOKqYg/8F2iJ3NdA==, tarball: file:projects/arm-hdinsightcontainers.tgz}
+    name: '@rush-temp/arm-hdinsightcontainers'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
@@ -15205,6 +15270,37 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-resourcesdeploymentstacks.tgz:
+    resolution: {integrity: sha512-p16puIbqDXPmBD2qKJIWamOShrGypt1f474OMvs/dhlPs1gcFVq84e5SQnNH7rwwh78wmt7ZaWbNv2DobDugoQ==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
+    name: '@rush-temp/arm-resourcesdeploymentstacks'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.54
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
+      tslib: 2.6.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/arm-scvmm.tgz:
     resolution: {integrity: sha512-fIaEOvjvdHr0mm48Baa516AKY8eJMVC5T7Cvs5qWv3KEwIJBCE0iM2r3H54UbE1OS9zXW5Y2Ob9ZeelcqGoY3g==, tarball: file:projects/arm-scvmm.tgz}
     name: '@rush-temp/arm-scvmm'
@@ -16624,12 +16720,12 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-wp4HL14lnFtVns/1qmxpsw0kwnlIX9Yvb7oh9mu2C8XpH3F0jTuGuGQZBAmx4fF8sB+hewCXbwnDolvZKg+uiA==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-2lbV09MTvQOFhBj4wbaTLnBdu8R29yfzrZBFdGdk+DPG5SMG/nu3fl2CC3+rQp7sy+s8tGpjsPpcsAhnb1gRqw==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
       '@azure/communication-common': 2.2.1
-      '@azure/communication-signaling': 1.0.0-beta.16
+      '@azure/communication-signaling': 1.0.0-beta.20
       '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
@@ -17904,7 +18000,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/5.1.6
+      '@_ts/max': /typescript/5.2.2
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
@@ -19526,7 +19622,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-tNYiwuPfWJi5PgGlvJHvqixibWsjTsaFdN2DtuSybs69jV/Ov24tdnaCjtwjcSWOWOoBGfGKY1pVCPRr1vK9Qw==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-OOlMmgU6gPkdRvttRCTYFZgLQ0dV5LNLJ8YBG1lGBH1iLLzHSBGp+ooC3QXWIUjmFftC/uryZQFVyYiA/zu4WA==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
