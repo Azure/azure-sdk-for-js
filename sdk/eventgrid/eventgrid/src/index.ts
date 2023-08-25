@@ -251,4 +251,13 @@ export {
   ContainerServiceNodePoolRollingFailedEventData,
   ContainerServiceClusterSupportEventData,
   ContainerServiceNodePoolRollingEventData,
+  EventGridNamespaceMqttClientCreatedOrUpdatedEventData,
+  EventGridNamespaceMqttClientDeletedEventData,
+  EventGridNamespaceMqttClientSessionConnectedEventData,
+  EventGridNamespaceMqttClientSessionDisconnectedEventData,
+  EventGridNamespaceMqttClientEventData,
+  MqttClientState,
+  KnownMqttClientState,
+  MqttClientDisconnectionReason,
+  KnownMqttClientDisconnectionReason,
 } from "./generated/models";

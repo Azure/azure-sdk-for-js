@@ -1,14 +1,15 @@
 # Release History
 
-## 4.13.1 (Unreleased)
+## 4.14.0 (2023-08-28)
 
 ### Features Added
 
-### Breaking Changes
+- Added new System Events:
 
-### Bugs Fixed
-
-### Other Changes
+  - `Microsoft.EventGrid.MQTTClientCreatedOrUpdated`
+  - `Microsoft.EventGrid.MQTTClientDeleted`
+  - `Microsoft.EventGrid.MQTTClientSessionConnected`
+  - `Microsoft.EventGrid.MQTTClientSessionDisconnected`
 
 ## 4.13.0 (2023-06-08)
 

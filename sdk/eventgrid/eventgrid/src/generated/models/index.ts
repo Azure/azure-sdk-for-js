@@ -606,6 +606,16 @@ export interface SubscriptionDeletedEventData {
   readonly eventSubscriptionId: string;
 }
 
+/** Schema of the Data property of an EventGridEvent for MQTT Client Created Or Updated event. */
+export interface EventGridNamespaceMqttClientEventData {
+  /** Unique identifier for the MQTT client that the client presents to the service for authentication. This case-sensitive string can be up to 128 characters long, and supports UTF-8 characters. */
+  clientAuthenticationName: string;
+  /** Name of the client resource in the Event Grid namespace. */
+  clientName: string;
+  /** Name of the Event Grid namespace where the MQTT client was created or updated. */
+  namespaceName: string;
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.DataBox.CopyStarted event. */
 export interface DataBoxCopyStartedEventData {
   /** Serial Number of the device associated with the event. The list is comma separated if more than one serial number is associated. */
@@ -2515,6 +2525,39 @@ export interface HealthcareDicomImageDeletedEventData {
   sequenceNumber: number;
 }
 
+/** Event data for Microsoft.EventGrid.MQTTClientCreatedOrUpdated event. */
+export type EventGridNamespaceMqttClientCreatedOrUpdatedEventData = EventGridNamespaceMqttClientEventData & {
+  /** Configured state of the client. The value could be Enabled or Disabled */
+  state: MqttClientState;
+  /** Time the client resource is created based on the provider's UTC time. */
+  createdOn: string;
+  /** Time the client resource is last updated based on the provider's UTC time. If the client resource was never updated, this value is identical to the value of the 'createdOn' property. */
+  updatedOn: string;
+  /** The key-value attributes that are assigned to the client resource. */
+  attributes: { [propertyName: string]: string };
+};
+
+/** Event data for Microsoft.EventGrid.MQTTClientDeleted event. */
+export type EventGridNamespaceMqttClientDeletedEventData = EventGridNamespaceMqttClientEventData & {};
+
+/** Event data for Microsoft.EventGrid.MQTTClientSessionConnected event. */
+export type EventGridNamespaceMqttClientSessionConnectedEventData = EventGridNamespaceMqttClientEventData & {
+  /** Unique identifier for the MQTT client's session. This case-sensitive string can be up to 128 characters long, and supports UTF-8 characters. */
+  clientSessionName: string;
+  /** A number that helps indicate order of MQTT client session connected or disconnected events. Latest event will have a sequence number that is higher than the previous event. */
+  sequenceNumber: number;
+};
+
+/** Event data for Microsoft.EventGrid.MQTTClientSessionDisconnected event. */
+export type EventGridNamespaceMqttClientSessionDisconnectedEventData = EventGridNamespaceMqttClientEventData & {
+  /** Unique identifier for the MQTT client's session. This case-sensitive string can be up to 128 characters long, and supports UTF-8 characters. */
+  clientSessionName: string;
+  /** A number that helps indicate order of MQTT client session connected or disconnected events. Latest event will have a sequence number that is higher than the previous event. */
+  sequenceNumber: number;
+  /** Reason for the disconnection of the MQTT client's session. The value could be one of the values in the disconnection reasons table. */
+  disconnectionReason: MqttClientDisconnectionReason;
+};
+
 /** Event data for Microsoft.Devices.DeviceCreated event. */
 export type IotHubDeviceCreatedEventData = DeviceLifeCycleEvent & {};
 
@@ -2852,6 +2895,56 @@ export const enum KnownStorageTaskCompletedStatus {
  * **Failed**
  */
 export type StorageTaskCompletedStatus = string;
+
+/** Known values of {@link MqttClientState} that the service accepts. */
+export const enum KnownMqttClientState {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for MqttClientState. \
+ * {@link KnownMqttClientState} can be used interchangeably with MqttClientState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type MqttClientState = string;
+
+/** Known values of {@link MqttClientDisconnectionReason} that the service accepts. */
+export const enum KnownMqttClientDisconnectionReason {
+  ClientAuthenticationError = "ClientAuthenticationError",
+  ClientAuthorizationError = "ClientAuthorizationError",
+  ClientError = "ClientError",
+  ClientInitiatedDisconnect = "ClientInitiatedDisconnect",
+  ConnectionLost = "ConnectionLost",
+  IpForbidden = "IpForbidden",
+  QuotaExceeded = "QuotaExceeded",
+  ServerError = "ServerError",
+  ServerInitiatedDisconnect = "ServerInitiatedDisconnect",
+  SessionOverflow = "SessionOverflow",
+  SessionTakenOver = "SessionTakenOver"
+}
+
+/**
+ * Defines values for MqttClientDisconnectionReason. \
+ * {@link KnownMqttClientDisconnectionReason} can be used interchangeably with MqttClientDisconnectionReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ClientAuthenticationError** \
+ * **ClientAuthorizationError** \
+ * **ClientError** \
+ * **ClientInitiatedDisconnect** \
+ * **ConnectionLost** \
+ * **IpForbidden** \
+ * **QuotaExceeded** \
+ * **ServerError** \
+ * **ServerInitiatedDisconnect** \
+ * **SessionOverflow** \
+ * **SessionTakenOver**
+ */
+export type MqttClientDisconnectionReason = string;
 
 /** Known values of {@link DataBoxStageName} that the service accepts. */
 export const enum KnownDataBoxStageName {

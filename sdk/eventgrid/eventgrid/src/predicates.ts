@@ -159,6 +159,10 @@ import {
   ContainerServiceNodePoolRollingStartedEventData,
   ContainerServiceNodePoolRollingSucceededEventData,
   ContainerServiceNodePoolRollingFailedEventData,
+  EventGridNamespaceMqttClientCreatedOrUpdatedEventData,
+  EventGridNamespaceMqttClientDeletedEventData,
+  EventGridNamespaceMqttClientSessionConnectedEventData,
+  EventGridNamespaceMqttClientSessionDisconnectedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -487,6 +491,14 @@ export interface SystemEventNameToEventData {
   "Microsoft.ContainerService.NodePoolRollingSucceeded": ContainerServiceNodePoolRollingSucceededEventData;
   /** An interface for the event data of a "Microsoft.ContainerService.NodePoolRollingFailed" event. */
   "Microsoft.ContainerService.NodePoolRollingFailed": ContainerServiceNodePoolRollingFailedEventData;
+  /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientCreatedOrUpdated" event. */
+  "Microsoft.EventGrid.MQTTClientCreatedOrUpdated": EventGridNamespaceMqttClientCreatedOrUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientDeleted" event. */
+  "Microsoft.EventGrid.MQTTClientDeleted": EventGridNamespaceMqttClientDeletedEventData;
+  /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientSessionConnected" event. */
+  "Microsoft.EventGrid.MQTTClientSessionConnected": EventGridNamespaceMqttClientSessionConnectedEventData;
+  /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientSessionDisconnected" event. */
+  "Microsoft.EventGrid.MQTTClientSessionDisconnected": EventGridNamespaceMqttClientSessionDisconnectedEventData;
 }
 
 /**

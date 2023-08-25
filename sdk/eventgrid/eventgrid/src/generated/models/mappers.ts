@@ -1902,6 +1902,36 @@ export const SubscriptionDeletedEventData: coreClient.CompositeMapper = {
   }
 };
 
+export const EventGridNamespaceMqttClientEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventGridNamespaceMqttClientEventData",
+    modelProperties: {
+      clientAuthenticationName: {
+        serializedName: "clientAuthenticationName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientName: {
+        serializedName: "clientName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      namespaceName: {
+        serializedName: "namespaceName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DataBoxCopyStartedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7270,6 +7300,110 @@ export const HealthcareDicomImageDeletedEventData: coreClient.CompositeMapper = 
         required: true,
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const EventGridNamespaceMqttClientCreatedOrUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventGridNamespaceMqttClientCreatedOrUpdatedEventData",
+    modelProperties: {
+      ...EventGridNamespaceMqttClientEventData.type.modelProperties,
+      state: {
+        serializedName: "state",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdOn: {
+        serializedName: "createdOn",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      updatedOn: {
+        serializedName: "updatedOn",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      attributes: {
+        serializedName: "attributes",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const EventGridNamespaceMqttClientDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventGridNamespaceMqttClientDeletedEventData",
+    modelProperties: {
+      ...EventGridNamespaceMqttClientEventData.type.modelProperties
+    }
+  }
+};
+
+export const EventGridNamespaceMqttClientSessionConnectedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventGridNamespaceMqttClientSessionConnectedEventData",
+    modelProperties: {
+      ...EventGridNamespaceMqttClientEventData.type.modelProperties,
+      clientSessionName: {
+        serializedName: "clientSessionName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sequenceNumber: {
+        serializedName: "sequenceNumber",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const EventGridNamespaceMqttClientSessionDisconnectedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventGridNamespaceMqttClientSessionDisconnectedEventData",
+    modelProperties: {
+      ...EventGridNamespaceMqttClientEventData.type.modelProperties,
+      clientSessionName: {
+        serializedName: "clientSessionName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sequenceNumber: {
+        serializedName: "sequenceNumber",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      disconnectionReason: {
+        serializedName: "disconnectionReason",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }

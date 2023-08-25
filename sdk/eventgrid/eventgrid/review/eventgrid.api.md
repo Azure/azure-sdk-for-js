@@ -700,6 +700,39 @@ export interface EventGridEvent<T> {
 }
 
 // @public
+export type EventGridNamespaceMqttClientCreatedOrUpdatedEventData = EventGridNamespaceMqttClientEventData & {
+    state: MqttClientState;
+    createdOn: string;
+    updatedOn: string;
+    attributes: {
+        [propertyName: string]: string;
+    };
+};
+
+// @public
+export type EventGridNamespaceMqttClientDeletedEventData = EventGridNamespaceMqttClientEventData & {};
+
+// @public
+export interface EventGridNamespaceMqttClientEventData {
+    clientAuthenticationName: string;
+    clientName: string;
+    namespaceName: string;
+}
+
+// @public
+export type EventGridNamespaceMqttClientSessionConnectedEventData = EventGridNamespaceMqttClientEventData & {
+    clientSessionName: string;
+    sequenceNumber: number;
+};
+
+// @public
+export type EventGridNamespaceMqttClientSessionDisconnectedEventData = EventGridNamespaceMqttClientEventData & {
+    clientSessionName: string;
+    sequenceNumber: number;
+    disconnectionReason: MqttClientDisconnectionReason;
+};
+
+// @public
 export class EventGridPublisherClient<T extends InputSchema> {
     constructor(endpointUrl: string, inputSchema: T, credential: KeyCredential | SASCredential | TokenCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
@@ -956,6 +989,40 @@ export const enum KnownAsyncStatus {
     Completed = "Completed",
     Failed = "Failed",
     Started = "Started"
+}
+
+// @public
+export const enum KnownMqttClientDisconnectionReason {
+    // (undocumented)
+    ClientAuthenticationError = "ClientAuthenticationError",
+    // (undocumented)
+    ClientAuthorizationError = "ClientAuthorizationError",
+    // (undocumented)
+    ClientError = "ClientError",
+    // (undocumented)
+    ClientInitiatedDisconnect = "ClientInitiatedDisconnect",
+    // (undocumented)
+    ConnectionLost = "ConnectionLost",
+    // (undocumented)
+    IpForbidden = "IpForbidden",
+    // (undocumented)
+    QuotaExceeded = "QuotaExceeded",
+    // (undocumented)
+    ServerError = "ServerError",
+    // (undocumented)
+    ServerInitiatedDisconnect = "ServerInitiatedDisconnect",
+    // (undocumented)
+    SessionOverflow = "SessionOverflow",
+    // (undocumented)
+    SessionTakenOver = "SessionTakenOver"
+}
+
+// @public
+export const enum KnownMqttClientState {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1270,6 +1337,12 @@ export interface MicrosoftTeamsUserIdentifierModel {
     isAnonymous?: boolean;
     userId: string;
 }
+
+// @public
+export type MqttClientDisconnectionReason = string;
+
+// @public
+export type MqttClientState = string;
 
 // @public
 export interface PhoneNumberIdentifierModel {
@@ -1766,6 +1839,10 @@ export interface SystemEventNameToEventData {
     "Microsoft.Devices.DeviceDeleted": IotHubDeviceDeletedEventData;
     "Microsoft.Devices.DeviceDisconnected": IotHubDeviceDisconnectedEventData;
     "Microsoft.Devices.DeviceTelemetry": IotHubDeviceTelemetryEventData;
+    "Microsoft.EventGrid.MQTTClientCreatedOrUpdated": EventGridNamespaceMqttClientCreatedOrUpdatedEventData;
+    "Microsoft.EventGrid.MQTTClientDeleted": EventGridNamespaceMqttClientDeletedEventData;
+    "Microsoft.EventGrid.MQTTClientSessionConnected": EventGridNamespaceMqttClientSessionConnectedEventData;
+    "Microsoft.EventGrid.MQTTClientSessionDisconnected": EventGridNamespaceMqttClientSessionDisconnectedEventData;
     "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
     "Microsoft.EventGrid.SubscriptionValidationEvent": SubscriptionValidationEventData;
     "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
