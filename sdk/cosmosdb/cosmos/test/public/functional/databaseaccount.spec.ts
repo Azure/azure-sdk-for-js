@@ -21,7 +21,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
 
   describe("validate database account functionality", function () {
     it("nativeApi Should get database account successfully name based", async function () {
-      const { resource: databaseAccount, headers } = await client.getDatabaseAccount();
+      const { resource: databaseAccount, headers, statusCode } = await client.getDatabaseAccount();
       assert.equal(databaseAccount.DatabasesLink, "/dbs/");
       assert.equal(databaseAccount.MediaLink, "/media/");
       assert.equal(
@@ -33,6 +33,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         headers["x-ms-media-storage-usage-mb"]
       );
       assert(databaseAccount.ConsistencyPolicy !== undefined);
+      assert(statusCode !== undefined);
     });
   });
 });
