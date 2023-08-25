@@ -12,7 +12,7 @@ import { UserConfirmationPasswordSendOptionalParams } from "../models";
 export interface UserConfirmationPassword {
   /**
    * Sends confirmation
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all user groups.
  *
  * @summary Lists all user groups.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListUserGroups.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListUserGroups.json
  */
 async function apiManagementListUserGroups() {
   const subscriptionId =

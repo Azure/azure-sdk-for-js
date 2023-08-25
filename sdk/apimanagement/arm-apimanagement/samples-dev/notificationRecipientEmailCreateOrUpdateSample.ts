@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Adds the Email address to the list of Recipients for the Notification.
  *
  * @summary Adds the Email address to the list of Recipients for the Notification.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateNotificationRecipientEmail.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateNotificationRecipientEmail.json
  */
 async function apiManagementCreateNotificationRecipientEmail() {
   const subscriptionId =

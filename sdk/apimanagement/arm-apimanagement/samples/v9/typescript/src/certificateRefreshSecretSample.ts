@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to From KeyVault, Refresh the certificate being used for authentication with the backend.
  *
  * @summary From KeyVault, Refresh the certificate being used for authentication with the backend.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementRefreshCertificate.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementRefreshCertificate.json
  */
 async function apiManagementRefreshCertificate() {
   const subscriptionId =

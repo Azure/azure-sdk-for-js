@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes specific named value from the API Management service instance.
  *
  * @summary Deletes specific named value from the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteNamedValue.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteNamedValue.json
  */
 async function apiManagementDeleteNamedValue() {
   const subscriptionId =

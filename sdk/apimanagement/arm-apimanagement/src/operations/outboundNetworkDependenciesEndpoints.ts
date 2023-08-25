@@ -31,7 +31,7 @@ export class OutboundNetworkDependenciesEndpointsImpl
 
   /**
    * Gets the network endpoints of all outbound dependencies of a ApiManagement service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */

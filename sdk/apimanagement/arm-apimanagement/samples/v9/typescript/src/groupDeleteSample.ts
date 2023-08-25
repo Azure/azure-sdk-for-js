@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes specific group of the API Management service instance.
  *
  * @summary Deletes specific group of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteGroup.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteGroup.json
  */
 async function apiManagementDeleteGroup() {
   const subscriptionId =
