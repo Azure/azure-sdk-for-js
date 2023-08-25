@@ -2066,6 +2066,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-maintenance",
+      "projectFolder": "sdk/maintenance/arm-maintenance",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-resourcesdeploymentstacks",
       "projectFolder": "sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks",
       "versionPolicyName": "management"

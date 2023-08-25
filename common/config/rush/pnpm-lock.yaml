@@ -132,6 +132,7 @@ specifiers:
   '@rush-temp/arm-machinelearning': file:./projects/arm-machinelearning.tgz
   '@rush-temp/arm-machinelearningcompute': file:./projects/arm-machinelearningcompute.tgz
   '@rush-temp/arm-machinelearningexperimentation': file:./projects/arm-machinelearningexperimentation.tgz
+  '@rush-temp/arm-maintenance': file:./projects/arm-maintenance.tgz
   '@rush-temp/arm-managedapplications': file:./projects/arm-managedapplications.tgz
   '@rush-temp/arm-managednetworkfabric': file:./projects/arm-managednetworkfabric.tgz
   '@rush-temp/arm-managementgroups': file:./projects/arm-managementgroups.tgz
@@ -493,6 +494,7 @@ dependencies:
   '@rush-temp/arm-machinelearning': file:projects/arm-machinelearning.tgz
   '@rush-temp/arm-machinelearningcompute': file:projects/arm-machinelearningcompute.tgz
   '@rush-temp/arm-machinelearningexperimentation': file:projects/arm-machinelearningexperimentation.tgz
+  '@rush-temp/arm-maintenance': file:projects/arm-maintenance.tgz
   '@rush-temp/arm-managedapplications': file:projects/arm-managedapplications.tgz
   '@rush-temp/arm-managednetworkfabric': file:projects/arm-managednetworkfabric.tgz
   '@rush-temp/arm-managementgroups': file:projects/arm-managementgroups.tgz
@@ -13438,6 +13440,34 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-maintenance.tgz:
+    resolution: {integrity: sha512-i07OIams7Sxy9QKJUfC+PSRpBdUUZIEzno/4VVw4R7k/mreyPcqDQCeXiYSmGfKmup9ceGZWeU8wMnFxJrr2Jw==, tarball: file:projects/arm-maintenance.tgz}
+    name: '@rush-temp/arm-maintenance'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.54
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      tslib: 2.6.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
       - supports-color
     dev: false
 

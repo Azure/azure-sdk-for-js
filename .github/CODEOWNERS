@@ -918,6 +918,10 @@
 /sdk/sphere/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/maintenance/arm-maintenance/ @qiaozha @MaryGao
+/sdk/maintenance/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/chaos/arm-chaos/ @qiaozha @MaryGao
 /sdk/chaos/ci.mgmt.yml @qiaozha @MaryGao
 
