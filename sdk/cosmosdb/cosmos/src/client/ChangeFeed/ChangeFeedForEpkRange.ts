@@ -193,7 +193,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
           // This is done to fetch changes in breadth first manner and avoid starvation.
           this.queue.moveFirstElementToTheEnd();
           // check if there are new results for the given feed range.
-          if (result.count > 0) {
+          if (result.statusCode === StatusCodes.Ok) {
             result.headers[Constants.HttpHeaders.ContinuationToken] =
               this.generateContinuationToken();
             return result;
