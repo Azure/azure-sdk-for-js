@@ -48,16 +48,15 @@ async function iterateChangeFeedTillNow(container: Container): Promise<string> {
 
   const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
     maxItemCount: 1,
-    changeFeedStartFrom: ChangeFeedStartFrom.Beginning("sample1") //sample1 is the partition key value
+    changeFeedStartFrom: ChangeFeedStartFrom.Beginning("sample1"), //sample1 is the partition key value
   };
-  const feedIterator = await container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-
   let continuationToken: string = "";
 
-  while (feedIterator.hasMoreResults) {
-    // infinite loop to check for new results. hasMoreResults is always true.
+  for await (const result of container.items
+    .getChangeFeedIterator(changeFeedIteratorOptions)
+    .getAsyncIterator()) {
+    // infinite loop to check for new results.
     try {
-      const result = await feedIterator.readNext();
       if (result.statusCode === StatusCodes.NotModified) {
         // If no new results are found, break the loop and return the continuation token
         continuationToken = result.continuationToken;
@@ -94,18 +93,17 @@ async function run(): Promise<void> {
 
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 1,
-      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken)
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
     };
-    
-    const feedIterator = await container.items.getChangeFeedIterator(changeFeedIteratorOptions);
     // ingest some new data after fetching the continuation token
     await ingestData(container, 11, 21);
     let timeout = 0;
     console.log("Starting fetching changes from continuation token");
-    while (feedIterator.hasMoreResults) {
-      // infinite loop to check for new results. hasMoreResults is always true.
+    for await (const result of container.items
+      .getChangeFeedIterator(changeFeedIteratorOptions)
+      .getAsyncIterator()) {
+      // infinite loop to check for new results.
       try {
-        const result = await feedIterator.readNext();
         if (result.statusCode === StatusCodes.NotModified) {
           // if no new changes are found, wait for 5 seconds and try again
           console.log("No new results, waiting for 5 seconds");

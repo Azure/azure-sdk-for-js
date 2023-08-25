@@ -14,7 +14,7 @@ import {
   PartitionKeyDefinitionVersion,
   Container,
   StatusCodes,
-  PartitionKeyRange,
+  FeedRange,
   ChangeFeedIteratorOptions,
   ChangeFeedStartFrom,
 } from "@azure/cosmos";
@@ -46,22 +46,21 @@ const client = new CosmosClient({ endpoint, key });
 
 async function iterateChangeFeedTillNow(
   container: Container,
-  epkRange: PartitionKeyRange
+  feedRange: FeedRange
 ): Promise<string> {
   console.log("fetching changefeed until now");
 
   const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
     maxItemCount: 1,
-    changeFeedStartFrom: ChangeFeedStartFrom.Beginning(epkRange)
+    changeFeedStartFrom: ChangeFeedStartFrom.Beginning(feedRange),
   };
-  const feedIterator = await container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
   let continuationToken: string = "";
-
-  while (feedIterator.hasMoreResults) {
-    // infinite loop to check for new results. hasMoreResults is always true.
+  for await (const result of container.items
+    .getChangeFeedIterator(changeFeedIteratorOptions)
+    .getAsyncIterator()) {
+    // infinite loop to check for new results.
     try {
-      const result = await feedIterator.readNext();
       if (result.statusCode === StatusCodes.NotModified) {
         // If no new results are found, break the loop and return the continuation token
         continuationToken = result.continuationToken;
@@ -98,19 +97,19 @@ async function run(): Promise<void> {
 
     // fetch the continuation token, so that we can start from the same point in time
     const continuationToken = await iterateChangeFeedTillNow(container, feedRanges[0]);
-    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-      maxItemCount: 1,
-      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken)
-    };
-    const feedIterator = await container.items.getChangeFeedIterator(changeFeedIteratorOptions);
     // ingest some new data after fetching the continuation token
     await ingestData(container, 11, 21);
     let timeout = 0;
+    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+      maxItemCount: 1,
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+    };
     console.log("Starting fetching changes from continuation token");
-    while (feedIterator.hasMoreResults) {
-      // infinite loop to check for new results. hasMoreResults is always true.
+    for await (const result of container.items
+      .getChangeFeedIterator(changeFeedIteratorOptions)
+      .getAsyncIterator()) {
+      // infinite loop to check for new results.
       try {
-        const result = await feedIterator.readNext();
         if (result.statusCode === StatusCodes.NotModified) {
           // if no new changes are found, wait for 5 seconds and try again
           console.log("No new results, waiting for 5 seconds");
