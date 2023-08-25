@@ -51,7 +51,7 @@ import {
 export interface Tag {
   /**
    * Lists all Tags associated with the Operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -68,7 +68,7 @@ export interface Tag {
   ): PagedAsyncIterableIterator<TagContract>;
   /**
    * Lists all Tags associated with the API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -82,7 +82,7 @@ export interface Tag {
   ): PagedAsyncIterableIterator<TagContract>;
   /**
    * Lists all Tags associated with the Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -95,7 +95,7 @@ export interface Tag {
   ): PagedAsyncIterableIterator<TagContract>;
   /**
    * Lists a collection of tags defined within a service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -106,7 +106,7 @@ export interface Tag {
   ): PagedAsyncIterableIterator<TagContract>;
   /**
    * Gets the entity state version of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -125,7 +125,7 @@ export interface Tag {
   ): Promise<TagGetEntityStateByOperationResponse>;
   /**
    * Get tag associated with the Operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -144,7 +144,7 @@ export interface Tag {
   ): Promise<TagGetByOperationResponse>;
   /**
    * Assign tag to the Operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -163,7 +163,7 @@ export interface Tag {
   ): Promise<TagAssignToOperationResponse>;
   /**
    * Detach the tag from the Operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -182,7 +182,7 @@ export interface Tag {
   ): Promise<void>;
   /**
    * Gets the entity state version of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -198,7 +198,7 @@ export interface Tag {
   ): Promise<TagGetEntityStateByApiResponse>;
   /**
    * Get tag associated with the API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -214,7 +214,7 @@ export interface Tag {
   ): Promise<TagGetByApiResponse>;
   /**
    * Assign tag to the Api.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -230,7 +230,7 @@ export interface Tag {
   ): Promise<TagAssignToApiResponse>;
   /**
    * Detach the tag from the Api.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -246,7 +246,7 @@ export interface Tag {
   ): Promise<void>;
   /**
    * Gets the entity state version of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
@@ -261,7 +261,7 @@ export interface Tag {
   ): Promise<TagGetEntityStateByProductResponse>;
   /**
    * Get tag associated with the Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
@@ -276,7 +276,7 @@ export interface Tag {
   ): Promise<TagGetByProductResponse>;
   /**
    * Assign tag to the Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
@@ -291,7 +291,7 @@ export interface Tag {
   ): Promise<TagAssignToProductResponse>;
   /**
    * Detach the tag from the Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
@@ -306,7 +306,7 @@ export interface Tag {
   ): Promise<void>;
   /**
    * Gets the entity state version of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -319,7 +319,7 @@ export interface Tag {
   ): Promise<TagGetEntityStateResponse>;
   /**
    * Gets the details of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -332,7 +332,7 @@ export interface Tag {
   ): Promise<TagGetResponse>;
   /**
    * Creates a tag.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
    * @param parameters Create parameters.
@@ -347,7 +347,7 @@ export interface Tag {
   ): Promise<TagCreateOrUpdateResponse>;
   /**
    * Updates the details of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -365,7 +365,7 @@ export interface Tag {
   ): Promise<TagUpdateResponse>;
   /**
    * Deletes specific tag of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header

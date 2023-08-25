@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new Comment for the Issue in an API or updates an existing one.
  *
  * @summary Creates a new Comment for the Issue in an API or updates an existing one.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateApiIssueComment.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiIssueComment.json
  */
 async function apiManagementCreateApiIssueComment() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the specified comment from an Issue.
  *
  * @summary Deletes the specified comment from an Issue.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteApiIssueComment.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteApiIssueComment.json
  */
 async function apiManagementDeleteApiIssueComment() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

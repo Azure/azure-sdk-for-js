@@ -13,19 +13,21 @@ import {
   GetEmbeddingsOptions,
   GetCompletionsOptions,
   GetChatCompletionsOptions,
+  GetChatCompletionsWithAzureExtensionsOptions,
   GetAzureBatchImageGenerationOperationStatusOptions,
   BeginAzureBatchImageGenerationOptions,
 } from "./models/options.js";
-import "./api/index.js";
-import { OpenAIClientOptions, createOpenAI } from "./api/OpenAIContext.js";
 import {
+  createOpenAI,
+  OpenAIClientOptions,
+  OpenAIContext,
   getEmbeddings,
   getCompletions,
   getChatCompletions,
+  getChatCompletionsWithAzureExtensions,
   getAzureBatchImageGenerationOperationStatus,
   beginAzureBatchImageGeneration,
-} from "./api/operations.js";
-import { OpenAIContext } from "./rest/clientDefinitions.js";
+} from "./api/index.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
@@ -76,6 +78,26 @@ export class OpenAIClient {
     return getChatCompletions(this._client, messages, deploymentId, options);
   }
 
+  /**
+   * Gets chat completions for the provided chat messages.
+   * This is an Azure-specific version of chat completions that supports integration with configured data sources and
+   * other augmentations to the base chat completions capabilities.
+   */
+  getChatCompletionsWithAzureExtensions(
+    messages: ChatMessage[],
+    deploymentId: string,
+    options: GetChatCompletionsWithAzureExtensionsOptions = {
+      requestOptions: {},
+    }
+  ): Promise<ChatCompletions> {
+    return getChatCompletionsWithAzureExtensions(
+      this._client,
+      messages,
+      deploymentId,
+      options
+    );
+  }
+
   /** Returns the status of the images operation */
   getAzureBatchImageGenerationOperationStatus(
     operationId: string,
@@ -83,7 +105,11 @@ export class OpenAIClient {
       requestOptions: {},
     }
   ): Promise<BatchImageGenerationOperationResponse> {
-    return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
+    return getAzureBatchImageGenerationOperationStatus(
+      this._client,
+      operationId,
+      options
+    );
   }
 
   /** Starts the generation of a batch of images from a text caption */

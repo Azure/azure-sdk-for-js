@@ -22,7 +22,7 @@ import {
 export interface GroupUser {
   /**
    * Lists a collection of user entities associated with the group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -35,7 +35,7 @@ export interface GroupUser {
   ): PagedAsyncIterableIterator<UserContract>;
   /**
    * Checks that user entity specified by identifier is associated with the group entity.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
    * @param userId User identifier. Must be unique in the current API Management service instance.
@@ -50,7 +50,7 @@ export interface GroupUser {
   ): Promise<GroupUserCheckEntityExistsResponse>;
   /**
    * Add existing user to existing group
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
    * @param userId User identifier. Must be unique in the current API Management service instance.
@@ -65,7 +65,7 @@ export interface GroupUser {
   ): Promise<GroupUserCreateResponse>;
   /**
    * Remove existing user from existing group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
    * @param userId User identifier. Must be unique in the current API Management service instance.

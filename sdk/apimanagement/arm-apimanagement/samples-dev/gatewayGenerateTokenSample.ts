@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the Shared Access Authorization Token for the gateway.
  *
  * @summary Gets the Shared Access Authorization Token for the gateway.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGatewayGenerateToken.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGatewayGenerateToken.json
  */
 async function apiManagementGatewayGenerateToken() {
   const subscriptionId =

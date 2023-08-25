@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the developer portal's revision specified by its identifier.
  *
  * @summary Gets the developer portal's revision specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetPortalRevision.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetPortalRevision.json
  */
 async function apiManagementGetPortalRevision() {
   const subscriptionId =

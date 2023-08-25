@@ -2071,6 +2071,26 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-maintenance",
+      "projectFolder": "sdk/maintenance/arm-maintenance",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcesdeploymentstacks",
+      "projectFolder": "sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-apicenter",
+      "projectFolder": "sdk/apicenter/arm-apicenter",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hdinsightcontainers",
+      "projectFolder": "sdk/hdinsight/arm-hdinsightcontainers",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-defendereasm",
       "projectFolder": "sdk/defendereasm/arm-defendereasm",
       "versionPolicyName": "management"

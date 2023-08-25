@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the details of the API Operation specified by its identifier.
  *
  * @summary Gets the details of the API Operation specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetApiOperation.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiOperation.json
  */
 async function apiManagementGetApiOperation() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function apiManagementGetApiOperation() {
  * This sample demonstrates how to Gets the details of the API Operation specified by its identifier.
  *
  * @summary Gets the details of the API Operation specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetApiOperationPetStore.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiOperationPetStore.json
  */
 async function apiManagementGetApiOperationPetStore() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get tenant access information details without secrets.
  *
  * @summary Get tenant access information details without secrets.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetTenantAccess.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetTenantAccess.json
  */
 async function apiManagementGetTenantAccess() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -33,7 +33,7 @@ async function apiManagementGetTenantAccess() {
  * This sample demonstrates how to Get tenant access information details without secrets.
  *
  * @summary Get tenant access information details without secrets.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetTenantGitAccess.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetTenantGitAccess.json
  */
 async function apiManagementGetTenantGitAccess() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
