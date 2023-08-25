@@ -93,9 +93,9 @@ describe("README samples", () => {
     const prompt = "a monkey eating a banana";
     const size = "256x256";
     const n = 3;
-    
+
     const results = await client.getImages(prompt, { n, size });
-  
+
     for (const image of results.data as ImageLocation[]) {
       assert.isString(image.url);
     }
