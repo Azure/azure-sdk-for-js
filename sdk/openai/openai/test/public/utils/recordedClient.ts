@@ -24,6 +24,15 @@ const envSetupForPlayback: { [k: string]: string } = {
 
 const recorderStartOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  sanitizerOptions: {
+    generalSanitizers: [
+      {
+        regex: true,
+        target: `\\.png?[^"]+`,
+        value: ".png?sanitized",
+      },
+    ],
+  },
 };
 
 export type AuthMethod = "AzureAPIKey" | "OpenAIKey" | "AAD" | "DummyAPIKey";
