@@ -16,7 +16,7 @@ stages:
           Selection: sparse
           GenerateVMJobs: true
 
-      ${{ if not(contains(variables['Build.DefinitionName'], 'tests-weekly'))}}:
+      ${{ if not(contains(variables['Build.DefinitionName'], 'tests-weekly')) }}:
         # Due to the high cost of Managed HSMs, which keyvault-admin requires, we only want to run
         # the live tests weekly.
         MatrixFilters:
