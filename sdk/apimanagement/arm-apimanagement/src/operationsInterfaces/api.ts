@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ApiContract,
   ApiListByServiceOptionalParams,
@@ -31,7 +31,7 @@ import {
 export interface Api {
   /**
    * Lists all APIs of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -42,7 +42,7 @@ export interface Api {
   ): PagedAsyncIterableIterator<ApiContract>;
   /**
    * Lists a collection of apis associated with tags.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -53,7 +53,7 @@ export interface Api {
   ): PagedAsyncIterableIterator<TagResourceContract>;
   /**
    * Gets the entity state (Etag) version of the API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -67,7 +67,7 @@ export interface Api {
   ): Promise<ApiGetEntityTagResponse>;
   /**
    * Gets the details of the API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -81,7 +81,7 @@ export interface Api {
   ): Promise<ApiGetResponse>;
   /**
    * Creates new or updates existing specified API of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -95,14 +95,14 @@ export interface Api {
     parameters: ApiCreateOrUpdateParameter,
     options?: ApiCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApiCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ApiCreateOrUpdateResponse>,
       ApiCreateOrUpdateResponse
     >
   >;
   /**
    * Creates new or updates existing specified API of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -118,7 +118,7 @@ export interface Api {
   ): Promise<ApiCreateOrUpdateResponse>;
   /**
    * Updates the specified API of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -137,7 +137,7 @@ export interface Api {
   ): Promise<ApiUpdateResponse>;
   /**
    * Deletes the specified API of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.

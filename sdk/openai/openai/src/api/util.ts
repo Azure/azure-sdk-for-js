@@ -8,7 +8,6 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
-
 export function wrapError<T>(f: () => T, message: string): T {
   try {
     const result = f();

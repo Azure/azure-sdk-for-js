@@ -1,5 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export * from "./operations.js";
-export * from "../../generated/src/api/OpenAIContext.js";
+export { getChatCompletions, listChatCompletions, listCompletions } from "./operations.js";
+export {
+  getEmbeddings,
+  getCompletions,
+  beginAzureBatchImageGeneration,
+  getAzureBatchImageGenerationOperationStatus,
+} from "../../generated/src/api/operations.js";
+export {
+  createOpenAI,
+  OpenAIContext,
+  OpenAIClientOptions,
+} from "../../generated/src/api/OpenAIContext.js";

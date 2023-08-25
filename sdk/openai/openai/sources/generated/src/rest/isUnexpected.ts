@@ -8,6 +8,8 @@ import {
   GetCompletionsDefaultResponse,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
+  GetChatCompletionsWithAzureExtensions200Response,
+  GetChatCompletionsWithAzureExtensionsDefaultResponse,
   GetAzureBatchImageGenerationOperationStatus200Response,
   GetAzureBatchImageGenerationOperationStatusLogicalResponse,
   GetAzureBatchImageGenerationOperationStatusDefaultResponse,
@@ -20,6 +22,7 @@ const responseMap: Record<string, string[]> = {
   "POST /deployments/{deploymentId}/embeddings": ["200"],
   "POST /deployments/{deploymentId}/completions": ["200"],
   "POST /deployments/{deploymentId}/chat/completions": ["200"],
+  "POST /deployments/{deploymentId}/extensions/chat/completions": ["200"],
   "GET /operations/images/{operationId}": ["200"],
   "POST /images/generations:submit": ["202"],
   "GET /images/generations:submit": ["200", "202"],
@@ -34,6 +37,11 @@ export function isUnexpected(
 export function isUnexpected(
   response: GetChatCompletions200Response | GetChatCompletionsDefaultResponse
 ): response is GetChatCompletionsDefaultResponse;
+export function isUnexpected(
+  response:
+    | GetChatCompletionsWithAzureExtensions200Response
+    | GetChatCompletionsWithAzureExtensionsDefaultResponse
+): response is GetChatCompletionsWithAzureExtensionsDefaultResponse;
 export function isUnexpected(
   response:
     | GetAzureBatchImageGenerationOperationStatus200Response
@@ -54,6 +62,8 @@ export function isUnexpected(
     | GetCompletionsDefaultResponse
     | GetChatCompletions200Response
     | GetChatCompletionsDefaultResponse
+    | GetChatCompletionsWithAzureExtensions200Response
+    | GetChatCompletionsWithAzureExtensionsDefaultResponse
     | GetAzureBatchImageGenerationOperationStatus200Response
     | GetAzureBatchImageGenerationOperationStatusLogicalResponse
     | GetAzureBatchImageGenerationOperationStatusDefaultResponse
@@ -64,6 +74,7 @@ export function isUnexpected(
   | GetEmbeddingsDefaultResponse
   | GetCompletionsDefaultResponse
   | GetChatCompletionsDefaultResponse
+  | GetChatCompletionsWithAzureExtensionsDefaultResponse
   | GetAzureBatchImageGenerationOperationStatusDefaultResponse
   | BeginAzureBatchImageGenerationDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
@@ -98,17 +109,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || ""
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;

@@ -15,4 +15,4 @@
 export { AzureKeyCredential } from "@azure/core-auth";
 export { OpenAIClient } from "./OpenAIClient.js";
 export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";
-export { ImageGenerationOptions } from "./api/operations.js";
+export { AzureExtensionsOptions, GetChatCompletionsOptions } from "./api/models.js";

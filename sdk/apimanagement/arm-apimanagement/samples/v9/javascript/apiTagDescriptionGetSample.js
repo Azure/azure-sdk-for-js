@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get Tag description in scope of API
  *
  * @summary Get Tag description in scope of API
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetApiTagDescription.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiTagDescription.json
  */
 async function apiManagementGetApiTagDescription() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
