@@ -11,16 +11,14 @@ stages:
       # live tests against a single instance.
       Location: eastus2
       MatrixConfigs:
-        - Name: Keyvault_live_test_base
-          Path: sdk/keyvault/keyvault-admin/platform-matrix.json
-          Selection: sparse
-          GenerateVMJobs: true
-
-      ${{ if not(contains(variables['Build.DefinitionName'], 'tests-weekly'))}}:
         # Due to the high cost of Managed HSMs, which keyvault-admin requires, we only want to run
         # the live tests weekly.
-        MatrixFilters:
-          - ArmTemplateParameters=^(?!.*enableHsm.*true)
+        ${{ if not(contains(variables['Build.DefinitionName'], 'tests-weekly'))}}:
+          - Name: Keyvault_live_test_base
+            Path: sdk/keyvault/keyvault-admin/platform-matrix.json
+            Selection: sparse
+            GenerateVMJobs: true
+
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
