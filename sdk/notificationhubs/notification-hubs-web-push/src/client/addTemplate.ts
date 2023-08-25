@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 import { WebPushError } from "../errors.js";
-import type { JsonPatch, NotificationHubResponse, WebPushClientContext } from "../publicTypes.js";
 import { getInternalInstallation } from "../utils/lifecycleClient.js";
+import { updateInstallation } from "../utils/installationHttpClient.js";
+import type { JsonPatch, NotificationHubResponse, WebPushClientContext } from "../publicTypes.js";
 
 /**
  * Adds a Web Push template to the current installation.
@@ -15,7 +16,7 @@ import { getInternalInstallation } from "../utils/lifecycleClient.js";
 export async function addTemplate(
   clientContext: WebPushClientContext,
   templateName: string,
-  templateBody: string
+  templateBody: string,
 ): Promise<NotificationHubResponse> {
   if (!clientContext) {
     throw new WebPushError("clientContext is not properly initilized");
@@ -34,5 +35,5 @@ export async function addTemplate(
     },
   ];
 
-  return clientContext.lifecycle.updateInstallation(installation.installationId, updates);
+  return updateInstallation(clientContext, installation.installationId, updates);
 }

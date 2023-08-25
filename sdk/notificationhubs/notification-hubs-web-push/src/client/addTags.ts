@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 import { WebPushError } from "../errors.js";
-import type { JsonPatch, NotificationHubResponse, WebPushClientContext } from "../publicTypes.js";
 import { getInternalInstallation } from "../utils/lifecycleClient.js";
+import { updateInstallation } from "../utils/installationHttpClient.js";
+import type { JsonPatch, NotificationHubResponse, WebPushClientContext } from "../publicTypes.js";
 
 /**
  * Adds tags to the current installation.
@@ -13,7 +14,7 @@ import { getInternalInstallation } from "../utils/lifecycleClient.js";
  */
 export async function addTags(
   clientContext: WebPushClientContext,
-  tags: string[]
+  tags: string[],
 ): Promise<NotificationHubResponse> {
   if (!clientContext) {
     throw new WebPushError("clientContext is not properly initilized");
@@ -30,5 +31,5 @@ export async function addTags(
     value: tag,
   }));
 
-  return clientContext.lifecycle.updateInstallation(installation.installationId, updates);
+  return updateInstallation(clientContext, installation.installationId, updates);
 }

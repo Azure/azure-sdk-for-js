@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { createOrUpdateInstallation, deleteInstallation } from "./installationHttpClient.js";
 import { getDBRecord, putDBRecord, removeDBRecord } from "./dataStore.js";
-import type { WebPushChannel, WebPushClientContext, WebPushInstallation } from "../publicTypes.js";
 import { WebPushError } from "../errors.js";
+import type { WebPushChannel, WebPushClientContext, WebPushInstallation } from "../publicTypes.js";
 
 export async function deleteInternalInstallation(
-  clientContext: WebPushClientContext
+  clientContext: WebPushClientContext,
 ): Promise<boolean> {
   const applicationId = clientContext.applicationId;
 
   const installation = await getDBRecord(applicationId);
   if (installation) {
-    await clientContext.lifecycle.deleteInstallation(installation.installationId);
+    await deleteInstallation(clientContext, installation.installationId);
     await removeDBRecord(applicationId);
   }
 
@@ -25,7 +26,7 @@ export async function deleteInternalInstallation(
 }
 
 export async function getInternalInstallation(
-  clientContext: WebPushClientContext
+  clientContext: WebPushClientContext,
 ): Promise<WebPushInstallation> {
   if (!clientContext.serviceWorkerRegistration) {
     throw new WebPushError("The ServiceWorker requires registration");
@@ -37,7 +38,7 @@ export async function getInternalInstallation(
 
   const subscription = await getCurrentSubscription(
     clientContext.serviceWorkerRegistration,
-    clientContext.vapidPublicKey
+    clientContext.vapidPublicKey,
   );
 
   const subscriptionOptions: WebPushChannel = {
@@ -57,7 +58,7 @@ export async function getInternalInstallation(
     };
 
     installation = await putDBRecord(applicationId, installation);
-    await clientContext.lifecycle.createOrUpdateInstallation(installation);
+    await createOrUpdateInstallation(clientContext, installation);
   } else if (hasPushChannelChanged(subscriptionOptions, installation.pushChannel)) {
     // Details changed from VAPID, so delete and save a new installation
     await deleteInternalInstallation(clientContext);
@@ -72,7 +73,7 @@ export async function getInternalInstallation(
 
 async function getCurrentSubscription(
   serviceWorkerRegistration: ServiceWorkerRegistration,
-  vapidPublicKey: string
+  vapidPublicKey: string,
 ): Promise<PushSubscription> {
   const subscription = await serviceWorkerRegistration!.pushManager.getSubscription();
   if (subscription) {
@@ -104,7 +105,7 @@ function base64Encode(arrayBuffer: ArrayBuffer): string {
 
 function hasPushChannelChanged(
   currentChannel: WebPushChannel,
-  dbPushChannel: WebPushChannel
+  dbPushChannel: WebPushChannel,
 ): boolean {
   const isEndpointEqual = currentChannel.endpoint === dbPushChannel.endpoint;
   const isAuthEqual = currentChannel.auth === dbPushChannel.auth;

@@ -16,7 +16,7 @@ import { WebPushError } from "../errors.js";
  */
 export function onNotificationClick(
   clientContext: WebPushClientContext,
-  handler: NotificationClickHandler
+  handler: NotificationClickHandler,
 ): WebPushUnsubscribe {
   if (!clientContext) {
     throw new WebPushError("clientContext is not properly initilized");

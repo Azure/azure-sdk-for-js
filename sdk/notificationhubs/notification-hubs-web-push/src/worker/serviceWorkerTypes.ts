@@ -42,7 +42,7 @@ export interface ServiceWorkerGlobalScope {
   addEventListener<K extends keyof ServiceWorkerGlobalScopeEventMap>(
     type: K,
     listener: (this: ServiceWorkerGlobalScope, ev: ServiceWorkerGlobalScopeEventMap[K]) => any,
-    options?: boolean | AddEventListenerOptions
+    options?: boolean | AddEventListenerOptions,
   ): void;
 }
 

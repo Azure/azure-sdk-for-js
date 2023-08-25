@@ -30,7 +30,7 @@ function getDatabase(): Promise<IDBPDatabase<WebPushDBSchema>> {
 }
 
 export async function getDBRecord(
-  applicationUrl: string
+  applicationUrl: string,
 ): Promise<WebPushInstallation | undefined> {
   const db = await getDatabase();
   return db
@@ -41,7 +41,7 @@ export async function getDBRecord(
 
 export async function putDBRecord(
   applicationUrl: string,
-  installation: WebPushInstallation
+  installation: WebPushInstallation,
 ): Promise<WebPushInstallation> {
   const db = await getDatabase();
   const transaction = db.transaction(AZURE_OBJECT_STORE_NAME, "readwrite");

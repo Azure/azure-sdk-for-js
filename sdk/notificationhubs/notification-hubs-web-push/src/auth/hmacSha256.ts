@@ -10,7 +10,7 @@ export async function signString(key: string, toSign: string): Promise<string> {
     enc.encode(key),
     algorithm,
     false,
-    ["sign", "verify"]
+    ["sign", "verify"],
   );
   const signature = await self.crypto.subtle.sign(algorithm, extractedKey, enc.encode(toSign));
   const digest = btoa(String.fromCharCode(...new Uint8Array(signature)));

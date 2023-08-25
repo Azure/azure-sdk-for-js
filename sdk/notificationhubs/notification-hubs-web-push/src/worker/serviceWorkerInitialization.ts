@@ -45,7 +45,7 @@ export async function onPush(clientContext: WebPushClientContext, event: PushEve
 
 export async function onPushSubscriptionChange(
   clientContext: WebPushClientContext,
-  event: PushSubscriptionChangeEvent
+  event: PushSubscriptionChangeEvent,
 ): Promise<void> {
   const { newSubscription } = event;
   await deleteInternalInstallation(clientContext);
@@ -65,7 +65,7 @@ export async function onPushSubscriptionChange(
 
 export async function onNotificationClick(
   clientContext: WebPushClientContext,
-  event: NotificationEvent
+  event: NotificationEvent,
 ): Promise<void> {
   if (!clientContext) {
     return;

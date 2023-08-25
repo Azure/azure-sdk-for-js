@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AccessToken, TokenCredential } from "../publicTypes.js";
 import { signString } from "./hmacSha256.js";
 
 /**
@@ -19,47 +20,12 @@ export interface NamedKeyCredential {
 }
 
 /**
- * Represents an access token for a SAS Credential.
- */
-export interface AccessToken {
-  /**
-   * The SAS Token.
-   */
-  token: string;
-
-  /**
-   * The expiration time of the token.
-   */
-  expiresOnTimestamp: number;
-}
-
-/**
- * A SasTokenProvider provides an alternative to TokenCredential for providing an `AccessToken`.
- * @hidden
- */
-export interface SasTokenProvider {
-  /**
-   * Property used to distinguish SasTokenProvider from TokenCredential.
-   */
-  isSasTokenProvider: true;
-
-  /**
-   * Gets the token provided by this provider.
-   *
-   * This method is called automatically by Azure SDK client libraries.
-   *
-   * @param audience - The audience for which the token is desired.
-   */
-  getToken(audience: string): Promise<AccessToken>;
-}
-
-/**
  * Creates a token provider from the provided shared access data.
  * @param data - The sharedAccessKeyName/sharedAccessKey pair or the sharedAccessSignature.
  * @hidden
  */
-export function createSasTokenProvider(data: NamedKeyCredential): SasTokenProvider {
-  return new SasTokenProviderImpl(data);
+export function createSasTokenCredential(data: NamedKeyCredential): TokenCredential {
+  return new SasTokenCredential(data);
 }
 
 /**
@@ -68,14 +34,7 @@ export function createSasTokenProvider(data: NamedKeyCredential): SasTokenProvid
  *
  * @internal
  */
-export class SasTokenProviderImpl implements SasTokenProvider {
-  /**
-   * Property used to distinguish TokenProvider from TokenCredential.
-   */
-  get isSasTokenProvider(): true {
-    return true;
-  }
-
+export class SasTokenCredential implements TokenCredential {
   /**
    * The SASCredential containing the key name and secret key value.
    */
@@ -98,7 +57,7 @@ export class SasTokenProviderImpl implements SasTokenProvider {
       this._credential.sharedAccessKeyName,
       this._credential.sharedAccessKey,
       Math.floor(Date.now() / 1000) + 3600,
-      audience
+      audience,
     );
   }
 }
@@ -115,7 +74,7 @@ async function createToken(
   keyName: string,
   key: string,
   expiry: number,
-  audience: string
+  audience: string,
 ): Promise<AccessToken> {
   audience = encodeURIComponent(audience.toLowerCase());
   keyName = encodeURIComponent(keyName);

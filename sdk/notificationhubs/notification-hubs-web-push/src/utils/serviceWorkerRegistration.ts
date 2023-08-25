@@ -5,13 +5,13 @@ import type { WebPushClientContext } from "../publicTypes.js";
 import * as constants from "./constants.js";
 
 export async function createRegistration(
-  serviceWorkerUrl?: string
+  serviceWorkerUrl?: string,
 ): Promise<ServiceWorkerRegistration> {
   const registration = await navigator.serviceWorker.register(
     serviceWorkerUrl ?? constants.SERVICE_WORKER_PATH,
     {
       scope: constants.SERVICE_WORKER_SCOPE,
-    }
+    },
   );
 
   // Make update registration async
@@ -23,7 +23,7 @@ export async function createRegistration(
 
 export async function updateRegistration(
   clientContext: WebPushClientContext,
-  serviceWorkerRegistration?: ServiceWorkerRegistration
+  serviceWorkerRegistration?: ServiceWorkerRegistration,
 ): Promise<void> {
   if (!serviceWorkerRegistration && !clientContext.serviceWorkerRegistration) {
     clientContext.serviceWorkerRegistration = await createRegistration();

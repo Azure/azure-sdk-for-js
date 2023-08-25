@@ -19,7 +19,7 @@ import { updateRegistration } from "../utils/serviceWorkerRegistration.js";
 export async function getInstallation(
   clientContext: WebPushClientContext,
   vapidPublicKey: string,
-  options?: GetInstallationOptions
+  options?: GetInstallationOptions,
 ): Promise<WebPushInstallation> {
   if (!navigator) {
     throw new Error("window.navigator is not available");

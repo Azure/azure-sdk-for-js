@@ -3,7 +3,7 @@
   "version": "1.0.0-beta.1",
   "description": "Azure Notification Hubs Web Push Client SDK for JavaScript",
   "sdk-type": "client",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "type": "module",
   "exports": {
@@ -30,18 +30,11 @@
     ]
   },
   "types": "types/latest/notification-hubs-web-push.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "*": [
-        "types/3.1/notification-hubs-web-push.d.ts"
-      ]
-    }
-  },
   "scripts": {
-    "build:test": "npm run clean && tsc -p . && dev-tool run bundle",
-    "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build:output": "node scripts/renameOutput.mjs",
-    "build": "npm run build:test && api-extractor run --local && npm run build:types && npm run build:output",
+    "build:test:browser": "tsc -p . && rollup --bundleConfigAsCjs -c rollup.test.config.cjs 2>&1",
+    "build:test:node": "tsc -p . && dev-tool run bundle",
+    "build:test": "tsc -p . && rollup --bundleConfigAsCjs -c rollup.test.config.cjs 2>&1",
+    "build": "npm run build:test && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -56,8 +49,8 @@
     "test:browser": "npm run clean && npm run build:test && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "npm run integration-test:browser",
-    "unit-test:node": "npm run integration-test:node",
+    "unit-test:browser": "karma start karma.conf.cjs --single-run",
+    "unit-test:node": "mocha --exclude  \"test/**/browser/*.spec.ts\" \"test/internal/unit/{,!(browser)/**/}*.spec.ts\" \"test/public/unit/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -103,17 +96,27 @@
     "@types/chai": "^4.3.1",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",
-    "cross-env": "^7.0.3",
-    "downlevel-dts": "^0.10.0",
-    "eslint": "^8.16.0",
+    "eslint": "^8.47.0",
     "esm": "^3.2.25",
-    "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^2.0.2",
+    "karma": "^6.4.2",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-coverage": "^2.2.0",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^2.1.2",
+    "karma-json-preprocessor": "^0.3.3",
+    "karma-json-to-file-reporter": "^1.0.1",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-mocha": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-sourcemap-loader": "^0.3.8",
+    "mocha": "^10.0.2",
+    "mocha-junit-reporter": "^2.2.1",
     "prettier": "^3.0.2",
     "rimraf": "^5.0.1",
     "rollup": "^3.28.1",
     "rollup-plugin-shim": "^1.0.0",
     "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.1",
     "typescript": "~4.8.0",
     "util": "^0.12.5"
   },

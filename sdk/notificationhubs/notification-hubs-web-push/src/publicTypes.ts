@@ -2,19 +2,73 @@
 // Licensed under the MIT license.
 
 /**
+ * Represents an access token for a SAS Credential.
+ */
+export interface AccessToken {
+  /**
+   * The SAS Token.
+   */
+  token: string;
+
+  /**
+   * The expiration time of the token.
+   */
+  expiresOnTimestamp: number;
+}
+
+/**
+ * Represents a token credential.
+ */
+export interface TokenCredential {
+  /**
+   * Gets the token for the specified audience.
+   * @param audience - The audience for which the token is desired.
+   */
+  getToken(audience: string): Promise<AccessToken | null>;
+}
+
+/**
+ * The options for creating a Web Push client context.
+ */
+export interface WebPushClientContextOptions {
+  /**
+   * The Notification Hubs API version.
+   */
+  apiVersion?: string;
+}
+
+/**
  * Represents the Web Push client context.
  */
 export interface WebPushClientContext {
   /**
    * @internal
+   * The Notification Hubs namespace URL.
+   */
+  namespaceUrl: string;
+  /**
+   * The Notification Hubs hub name.
+   * @internal
+   */
+  hubName: string;
+
+  /**
+   * The Notification Hubs API version.
+   * @internal
+   */
+  apiVersion: string;
+
+  /**
+   * The Notification Hubs token credential.
+   * @internal
+   */
+  tokenCredential: TokenCredential;
+
+  /**
+   * @internal
    * The Web Push Application ID.
    */
   applicationId: string;
-  /**
-   * @internal
-   * The Web Push Installation lifecycle
-   */
-  lifecycle: WebPushContextLifecycle;
   /**
    * The ServiceWorkerRegistration for the Web Push.
    */
@@ -41,32 +95,6 @@ export interface WebPushClientContext {
    * The Web Push notification click handler.
    */
   onNotificationClick?: NotificationClickHandler;
-}
-
-/**
- * Represents the Web Push context lifecycle.
- */
-export interface WebPushContextLifecycle {
-  /**
-   * @internal
-   * Creates or updates a Web Push installation.
-   */
-  createOrUpdateInstallation(installation: WebPushInstallation): Promise<NotificationHubResponse>;
-
-  /**
-   * @internal
-   * Deletes a Web Push installation.
-   */
-  deleteInstallation(installationId: string): Promise<NotificationHubResponse>;
-
-  /**
-   * @internal
-   * Updates a Web Push installation.
-   */
-  updateInstallation(
-    installationId: string,
-    updates: JsonPatch[]
-  ): Promise<NotificationHubResponse>;
 }
 
 /**

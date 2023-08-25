@@ -3,6 +3,7 @@
 
 import { WebPushError } from "../errors.js";
 import { getInternalInstallation } from "../utils/lifecycleClient.js";
+import { updateInstallation } from "../utils/installationHttpClient.js";
 import type { JsonPatch, NotificationHubResponse, WebPushClientContext } from "../publicTypes.js";
 
 /**
@@ -13,7 +14,7 @@ import type { JsonPatch, NotificationHubResponse, WebPushClientContext } from ".
  */
 export async function removeTags(
   clientContext: WebPushClientContext,
-  tags: string[]
+  tags: string[],
 ): Promise<NotificationHubResponse> {
   if (!clientContext) {
     throw new WebPushError("clientContext is not properly initilized");
@@ -29,5 +30,5 @@ export async function removeTags(
     path: `/tags/${tag}`,
   }));
 
-  return clientContext.lifecycle.updateInstallation(installation.installationId, updates);
+  return updateInstallation(clientContext, installation.installationId, updates);
 }
