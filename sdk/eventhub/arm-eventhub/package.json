@@ -50,7 +50,8 @@
     "@azure/arm-network": "^26.0.0",
     "@azure/arm-storage": "^17.0.0",
     "@types/node": "^14.0.0",
-    "@azure/dev-tool": "^1.0.0"
+    "@azure/dev-tool": "^1.0.0",
+    "ts-node": "^10.0.0"
   },
   "repository": {
     "type": "git",

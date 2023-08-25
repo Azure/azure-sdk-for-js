@@ -52,7 +52,8 @@
     "@azure/arm-eventhub": "^5.0.0",
     "@azure/arm-logic": "^8.0.0",
     "@azure/arm-operationalinsights": "^8.0.0",
-    "@azure/arm-storage": "^17.0.0"
+    "@azure/arm-storage": "^17.0.0",
+    "ts-node": "^10.0.0"
   },
   "repository": {
     "type": "git",

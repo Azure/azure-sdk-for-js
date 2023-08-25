@@ -2,230 +2,36 @@
 // Licensed under the MIT license.
 
 import {
-  ChatCompletions,
   ChatMessage,
   Completions,
   ImageGenerations,
+  ImageLocation,
 } from "../../generated/src/models/models.js";
-import {
-  BeginAzureBatchImageGenerationOptions,
-  GetChatCompletionsOptions,
-  GetCompletionsOptions,
-} from "../../generated/src/models/options.js";
+import { GetCompletionsOptions } from "../../generated/src/models/options.js";
 import {
   _getCompletionsSend,
   _getChatCompletionsSend,
+  _getChatCompletionsWithAzureExtensionsSend,
   _beginAzureBatchImageGenerationSend,
 } from "../../generated/src/api/operations.js";
-import {
-  ChatChoiceOutput,
-  ChoiceOutput,
-  PromptFilterResultOutput,
-} from "../../generated/src/rest/outputModels.js";
 import { getOaiSSEs } from "./oaiSse.js";
 import {
   BeginAzureBatchImageGeneration202Response,
   BeginAzureBatchImageGenerationDefaultResponse,
   BeginAzureBatchImageGenerationLogicalResponse,
   OpenAIContext as Client,
+  GetChatCompletionsWithAzureExtensions200Response,
+  GetChatCompletionsWithAzureExtensionsDefaultResponse,
+  ImageGenerationsOutput,
+  ImagePayloadOutput,
   getLongRunningPoller,
   isUnexpected,
 } from "../../generated/src/rest/index.js";
-import { ImageGenerationsOutput } from "../../../src/rest/outputModels.js";
-import { isObjectWithProperties } from "@azure/core-util";
-import { ImageLocation } from "../../../src/models/models.js";
-
-function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usage"> {
-  return {
-    id: body["id"],
-    created: new Date(body["created"]),
-    promptFilterResults: (body["prompt_annotations"] ?? []).map((p: PromptFilterResultOutput) => ({
-      promptIndex: p["prompt_index"],
-      contentFilterResults: !p.content_filter_results
-        ? undefined
-        : {
-            sexual: !p.content_filter_results?.sexual
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.sexual?.["severity"],
-                  filtered: p.content_filter_results?.sexual?.["filtered"],
-                },
-            violence: !p.content_filter_results?.violence
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.violence?.["severity"],
-                  filtered: p.content_filter_results?.violence?.["filtered"],
-                },
-            hate: !p.content_filter_results?.hate
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.hate?.["severity"],
-                  filtered: p.content_filter_results?.hate?.["filtered"],
-                },
-            selfHarm: !p.content_filter_results?.self_harm
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.self_harm?.["severity"],
-                  filtered: p.content_filter_results?.self_harm?.["filtered"],
-                },
-          },
-    })),
-    choices: (body["choices"] ?? []).map((p: ChoiceOutput) => ({
-      text: p["text"],
-      index: p["index"],
-      contentFilterResults: !p.content_filter_results
-        ? undefined
-        : {
-            sexual: !p.content_filter_results?.sexual
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.sexual?.["severity"],
-                  filtered: p.content_filter_results?.sexual?.["filtered"],
-                },
-            violence: !p.content_filter_results?.violence
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.violence?.["severity"],
-                  filtered: p.content_filter_results?.violence?.["filtered"],
-                },
-            hate: !p.content_filter_results?.hate
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.hate?.["severity"],
-                  filtered: p.content_filter_results?.hate?.["filtered"],
-                },
-            selfHarm: !p.content_filter_results?.self_harm
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.self_harm?.["severity"],
-                  filtered: p.content_filter_results?.self_harm?.["filtered"],
-                },
-          },
-      logprobs:
-        p.logprobs === null
-          ? null
-          : {
-              tokens: p.logprobs["tokens"],
-              tokenLogprobs: p.logprobs["token_logprobs"],
-              topLogprobs: p.logprobs["top_logprobs"],
-              textOffset: p.logprobs["text_offset"],
-            },
-      finishReason: p["finish_reason"],
-    })),
-  };
-}
-
-function getChatCompletionsResult(body: Record<string, any>): Omit<ChatCompletions, "usage"> {
-  return {
-    id: body["id"],
-    created: new Date(body["created"]),
-    choices: (body["choices"] ?? []).map((p: ChatChoiceOutput) => ({
-      message: !p.message
-        ? undefined
-        : {
-            role: p.message?.["role"],
-            content: p.message?.["content"],
-            name: p.message?.["name"],
-            functionCall: !p.message?.function_call
-              ? undefined
-              : {
-                  name: p.message?.function_call?.["name"],
-                  arguments: p.message?.function_call?.["arguments"],
-                },
-          },
-      index: p["index"],
-      finishReason: p["finish_reason"],
-      delta: !p.delta
-        ? undefined
-        : {
-            role: p.delta?.["role"],
-            content: p.delta?.["content"],
-            name: p.delta?.["name"],
-            functionCall: !p.delta?.function_call
-              ? undefined
-              : {
-                  name: p.delta?.function_call?.["name"],
-                  arguments: p.delta?.function_call?.["arguments"],
-                },
-          },
-      contentFilterResults: !p.content_filter_results
-        ? undefined
-        : {
-            sexual: !p.content_filter_results?.sexual
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.sexual?.["severity"],
-                  filtered: p.content_filter_results?.sexual?.["filtered"],
-                },
-            violence: !p.content_filter_results?.violence
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.violence?.["severity"],
-                  filtered: p.content_filter_results?.violence?.["filtered"],
-                },
-            hate: !p.content_filter_results?.hate
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.hate?.["severity"],
-                  filtered: p.content_filter_results?.hate?.["filtered"],
-                },
-            selfHarm: !p.content_filter_results?.self_harm
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.self_harm?.["severity"],
-                  filtered: p.content_filter_results?.self_harm?.["filtered"],
-                },
-          },
-    })),
-    promptFilterResults: (body["prompt_annotations"] ?? []).map((p: PromptFilterResultOutput) => ({
-      promptIndex: p["prompt_index"],
-      contentFilterResults: !p.content_filter_results
-        ? undefined
-        : {
-            sexual: !p.content_filter_results?.sexual
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.sexual?.["severity"],
-                  filtered: p.content_filter_results?.sexual?.["filtered"],
-                },
-            violence: !p.content_filter_results?.violence
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.violence?.["severity"],
-                  filtered: p.content_filter_results?.violence?.["filtered"],
-                },
-            hate: !p.content_filter_results?.hate
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.hate?.["severity"],
-                  filtered: p.content_filter_results?.hate?.["filtered"],
-                },
-            selfHarm: !p.content_filter_results?.self_harm
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.self_harm?.["severity"],
-                  filtered: p.content_filter_results?.self_harm?.["filtered"],
-                },
-          },
-    })),
-  };
-}
-
-/** Convenience alias for BeginAzureBatchImageGenerationOptions */
-export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;
-
-export function listChatCompletions(
-  context: Client,
-  messages: ChatMessage[],
-  deploymentName: string,
-  options: GetChatCompletionsOptions = { requestOptions: {} }
-): AsyncIterable<Omit<ChatCompletions, "usage">> {
-  const response = _getChatCompletionsSend(context, messages, deploymentName, {
-    ...options,
-    stream: true,
-  });
-  return getOaiSSEs(response, getChatCompletionsResult);
-}
+import { StreamableMethod } from "@azure-rest/core-client";
+import { ChatCompletions } from "../models/models.js";
+import { getChatCompletionsResult, getCompletionsResult } from "./deserializers.js";
+import { GetChatCompletionsOptions } from "./models.js";
+import { ImageGenerationOptions } from "../models/options.js";
 
 export function listCompletions(
   context: Client,
@@ -256,7 +62,7 @@ export async function getImages(
     throw response.body.error;
   }
 
-  if ((response.status = "202")) {
+  if (response.status === "202") {
     const poller = await getLongRunningPoller(
       context,
       response as BeginAzureBatchImageGeneration202Response
@@ -268,28 +74,18 @@ export async function getImages(
   }
 }
 
-function isImageLocationOutputArray(object: unknown): object is ImageLocation[] {
-  return (
-    Array.isArray(object) &&
-    object.length > 0 &&
-    isObjectWithProperties(object[0], ["url"]) &&
-    typeof object[0].url === "string"
-  );
-}
-
-function convertResultTypes(input: ImageGenerationsOutput): ImageGenerations {
-  let data = input.data;
-  if (isImageLocationOutputArray(data)) {
+function convertResultTypes({ created, data }: ImageGenerationsOutput): ImageGenerations {
+  if (typeof (data[0] as ImageLocation).url === "string") {
     return {
-      created: new Date(input.created),
-      data,
+      created: new Date(created),
+      data: data as ImageLocation[],
     };
   } else {
     return {
-      created: new Date(input.created),
-      data: data.map((data) => {
+      created: new Date(created),
+      data: data.map((item) => {
         return {
-          base64Data: data.b64_json,
+          base64Data: (item as ImagePayloadOutput).b64_json,
         };
       }),
     };
@@ -307,4 +103,51 @@ function getImageResultsDeserialize(
   }
   const result = response.body.result;
   return convertResultTypes(result);
+}
+function _getChatCompletionsSendX(
+  context: Client,
+  messages: ChatMessage[],
+  deploymentName: string,
+  options: GetChatCompletionsOptions = { requestOptions: {} }
+): StreamableMethod<
+  | GetChatCompletionsWithAzureExtensions200Response
+  | GetChatCompletionsWithAzureExtensionsDefaultResponse
+> {
+  return options.azureExtensionOptions?.extensions
+    ? _getChatCompletionsWithAzureExtensionsSend(context, messages, deploymentName, {
+        ...options,
+        dataSources: options.azureExtensionOptions?.extensions,
+      })
+    : _getChatCompletionsSend(context, messages, deploymentName, options);
+}
+
+export function listChatCompletions(
+  context: Client,
+  messages: ChatMessage[],
+  deploymentName: string,
+  options: GetChatCompletionsOptions = { requestOptions: {} }
+): AsyncIterable<ChatCompletions> {
+  const response = _getChatCompletionsSendX(context, messages, deploymentName, {
+    ...options,
+    stream: true,
+  });
+  return getOaiSSEs(response, getChatCompletionsResult);
+}
+
+/**
+ * Gets chat completions for the provided chat messages.
+ * Completions support a wide variety of tasks and generate text that continues from or "completes"
+ * provided prompt data.
+ */
+export async function getChatCompletions(
+  context: Client,
+  messages: ChatMessage[],
+  deploymentId: string,
+  options: GetChatCompletionsOptions = { requestOptions: {} }
+): Promise<ChatCompletions> {
+  const result = await _getChatCompletionsSendX(context, messages, deploymentId, options);
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+  return getChatCompletionsResult(result.body);
 }

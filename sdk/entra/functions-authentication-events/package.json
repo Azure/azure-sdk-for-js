@@ -100,7 +100,8 @@
     "source-map-support": "^0.5.9",
     "typescript": "~5.0.0",
     "util": "^0.12.1",
-    "@azure/functions": "^3.2.0"
+    "@azure/functions": "^3.2.0",
+    "ts-node": "^10.0.0"
   },
   "//sampleConfiguration": {
     "skipFolder": false,

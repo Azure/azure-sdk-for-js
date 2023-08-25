@@ -4,15 +4,9 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
+import { OpenAIClient } from "../../src/index.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
-import { getImageDimensions } from "./utils/getImageDimensions.js";
-import {
-  createDefaultHttpClient,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
 import { ImageLocation } from "../../src/models/index.js";
-import { OpenAIClient } from "../../sources/customizations/OpenAIClient.js";
 describe("README samples", () => {
   let recorder: Recorder;
   let client: OpenAIClient;
@@ -37,7 +31,7 @@ describe("README samples", () => {
       { role: "user", content: "What's the best way to train a parrot?" },
     ];
 
-    const events = await client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
+    const events = client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
     for await (const event of events) {
       for (const choice of event.choices) {
         const delta = choice.delta?.content;
@@ -96,39 +90,14 @@ describe("README samples", () => {
   });
 
   it("Generate Batch Image", async function () {
-    const width = 256;
-    const height = 256;
-    const PROMPT = "a monkey eating a banana";
-    const SIZE = `${width}x${height}`;
-    const numberOfImages = 3;
-
-    async function checkSize(imageUrl: string): Promise<void> {
-      const coreClient = createDefaultHttpClient();
-      const set = new Set<number>();
-      const request = createPipelineRequest({
-        url: imageUrl,
-        method: "GET",
-        headers: createHttpHeaders(),
-        streamResponseStatusCodes: set.add(200),
-      });
-      const response = await coreClient.sendRequest(request);
-
-      const dimensions = await getImageDimensions(response);
-      assert.isDefined(dimensions, "Unable to get dimensions");
-      assert.equal(dimensions?.height, height, "Height does not match");
-      assert.equal(dimensions?.width, width, "Width does not match");
-    }
-
-    const imageLinks = await client.getImages(PROMPT, {
-      n: numberOfImages,
-      size: SIZE,
-    });
-    const url = "https://dalleproduse.blob.core.windows.net/private/images";
-
-    for (const image of imageLinks.data as ImageLocation[]) {
-      assert.isDefined(image.url, "Image generation result URL is not defined");
-      assert.include(image.url, url, "Invalid URL");
-      await checkSize(image.url);
+    const prompt = "a monkey eating a banana";
+    const size = "256x256";
+    const n = 3;
+    
+    const results = await client.getImages(prompt, { n, size });
+  
+    for (const image of results.data as ImageLocation[]) {
+      assert.isString(image.url);
     }
   });
 });

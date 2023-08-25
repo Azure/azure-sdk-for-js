@@ -13,7 +13,6 @@
  */
 
 export { AzureKeyCredential } from "@azure/core-auth";
+export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";
 export { OpenAIClient, OpenAIClientOptions } from "./OpenAIClient.js";
 export * from "./models/index.js";
-export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";
-export { ImageGenerationOptions } from "./api/operations.js";

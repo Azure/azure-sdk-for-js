@@ -2,30 +2,26 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
-import {
-  GetChatCompletionsOptions,
-  GetCompletionsOptions,
-  GetEmbeddingsOptions,
-} from "../generated/src/models/options.js";
+import { GetCompletionsOptions, GetEmbeddingsOptions } from "../generated/src/models/options.js";
 import { OpenAIClientOptions } from "../generated/src/index.js";
-import { getImages, listChatCompletions, listCompletions } from "./api/operations.js";
 import {
-  ChatCompletions,
+  getChatCompletions,
+  getImages,
+  listChatCompletions,
+  listCompletions,
+} from "./api/operations.js";
+import {
   ChatMessage,
   Completions,
   Embeddings,
   ImageGenerations,
 } from "../generated/src/models/models.js";
-import {
-  _getChatCompletionsSend,
-  _getCompletionsSend,
-  getChatCompletions,
-  getCompletions,
-  getEmbeddings,
-} from "../generated/src/api/operations.js";
-import { ImageGenerationOptions } from "./api/operations.js";
+import { getCompletions, getEmbeddings } from "../generated/src/api/operations.js";
+import { ChatCompletions } from "./models/models.js";
 import { OpenAIContext } from "../generated/src/rest/index.js";
 import { createOpenAI } from "../generated/src/api/OpenAIContext.js";
+import { GetChatCompletionsOptions } from "./api/models.js";
+import { ImageGenerationOptions } from "./models/options.js";
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
 
 function createOpenAIEndpoint(version: number): string {
@@ -223,7 +219,7 @@ export class OpenAIClient {
     deploymentName: string,
     messages: ChatMessage[],
     options: GetChatCompletionsOptions = { requestOptions: {} }
-  ): AsyncIterable<Omit<ChatCompletions, "usage">> {
+  ): AsyncIterable<ChatCompletions> {
     this.setModel(deploymentName, options);
     return listChatCompletions(this._client, messages, deploymentName, options);
   }
@@ -248,10 +244,9 @@ function getPolicy(): PipelinePolicy {
     sendRequest: (request, next) => {
       const obj = new URL(request.url);
       const parts = obj.pathname.split("/");
-      const [type] = parts.slice(-1);
-      switch (type) {
+      switch (parts[parts.length - 1]) {
         case "completions":
-          if (parts[-2] === "chat") {
+          if (parts[parts.length - 2] === "chat") {
             obj.pathname = `/${parts[1]}/chat/completions`;
           } else {
             obj.pathname = `/${parts[1]}/completions`;
