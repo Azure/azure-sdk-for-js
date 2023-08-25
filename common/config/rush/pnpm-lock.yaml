@@ -19,6 +19,7 @@ specifiers:
   '@rush-temp/arm-advisor': file:./projects/arm-advisor.tgz
   '@rush-temp/arm-agrifood': file:./projects/arm-agrifood.tgz
   '@rush-temp/arm-analysisservices': file:./projects/arm-analysisservices.tgz
+  '@rush-temp/arm-apicenter': file:./projects/arm-apicenter.tgz
   '@rush-temp/arm-apimanagement': file:./projects/arm-apimanagement.tgz
   '@rush-temp/arm-appcomplianceautomation': file:./projects/arm-appcomplianceautomation.tgz
   '@rush-temp/arm-appconfiguration': file:./projects/arm-appconfiguration.tgz
@@ -378,6 +379,7 @@ dependencies:
   '@rush-temp/arm-advisor': file:projects/arm-advisor.tgz
   '@rush-temp/arm-agrifood': file:projects/arm-agrifood.tgz
   '@rush-temp/arm-analysisservices': file:projects/arm-analysisservices.tgz
+  '@rush-temp/arm-apicenter': file:projects/arm-apicenter.tgz
   '@rush-temp/arm-apimanagement': file:projects/arm-apimanagement.tgz
   '@rush-temp/arm-appcomplianceautomation': file:projects/arm-appcomplianceautomation.tgz
   '@rush-temp/arm-appconfiguration': file:projects/arm-appconfiguration.tgz
@@ -4086,7 +4088,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230823
+      typescript: 5.3.0-dev.20230824
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8649,14 +8651,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.6:
-    resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
+  /typescript/5.2.2:
+    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230823:
-    resolution: {integrity: sha512-IEFfTl67UgTTJzf+Ma4+0txDKzxzxtjNjyFjTm7c+yP5sff+atKe44mAjhCxX8wGjwRrFuhAUeHz1udmzBZ4ow==}
+  /typescript/5.3.0-dev.20230824:
+    resolution: {integrity: sha512-iiUWxGibzrRHEBLDJfVymsvpPKflf3cMrw0oQTMQoguFS2ikNlVlfQWAsYeHqGpRQc77nSQkzsE9rAHNHqvIjw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9927,6 +9929,34 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-apicenter.tgz:
+    resolution: {integrity: sha512-lkLCjuv/Rq7+k320BOF2KajuNppG8Fq/PFn2DR/Fh00lUqzTPxO9WrX6l5SFIF9THdmLJGVz5g1T/gZT1LstSA==, tarball: file:projects/arm-apicenter.tgz}
+    name: '@rush-temp/arm-apicenter'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.54
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      tslib: 2.6.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
       - supports-color
     dev: false
 
@@ -17907,7 +17937,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/5.1.6
+      '@_ts/max': /typescript/5.2.2
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
@@ -19529,7 +19559,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-tNYiwuPfWJi5PgGlvJHvqixibWsjTsaFdN2DtuSybs69jV/Ov24tdnaCjtwjcSWOWOoBGfGKY1pVCPRr1vK9Qw==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-OOlMmgU6gPkdRvttRCTYFZgLQ0dV5LNLJ8YBG1lGBH1iLLzHSBGp+ooC3QXWIUjmFftC/uryZQFVyYiA/zu4WA==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:

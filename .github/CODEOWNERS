@@ -220,6 +220,10 @@
 /sdk/appcontainers/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/apicenter/arm-apicenter/ @qiaozha @MaryGao
+/sdk/apicenter/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/appconfiguration/arm-appconfiguration/ @qiaozha @MaryGao
 /sdk/appconfiguration/ci.mgmt.yml @qiaozha @MaryGao
 
