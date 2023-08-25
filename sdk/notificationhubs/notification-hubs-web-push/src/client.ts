@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { parseNotificationHubsConnectionString } from "./auth/connectionStringUtils.js";
-import { SasTokenCredential } from "./auth/sasTokenProvider.js";
+import { SasTokenCredential } from "./auth/sasTokenCredential.js";
 import type { WebPushClientContext, WebPushClientContextOptions } from "./publicTypes.js";
 
 const API_VERSION = "2020-06";

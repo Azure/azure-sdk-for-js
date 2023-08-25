@@ -5,13 +5,19 @@
 ```ts
 
 // @public
+export interface AccessToken {
+    expiresOnTimestamp: number;
+    token: string;
+}
+
+// @public
 export function addTags(clientContext: WebPushClientContext, tags: string[]): Promise<NotificationHubResponse>;
 
 // @public
 export function addTemplate(clientContext: WebPushClientContext, templateName: string, templateBody: string): Promise<NotificationHubResponse>;
 
 // @public
-export function createClientContext(connectionString: string, hubName: string): WebPushClientContext;
+export function createClientContext(connectionString: string, hubName: string, options?: WebPushClientContextOptions): WebPushClientContext;
 
 // @internal (undocumented)
 export function _getClientContextInstance(): WebPushClientContext | undefined;
@@ -55,6 +61,11 @@ export function removeTags(clientContext: WebPushClientContext, tags: string[]):
 export function removeTemplate(clientContext: WebPushClientContext, templateName: string): Promise<NotificationHubResponse>;
 
 // @public
+export interface TokenCredential {
+    getToken(scopes: string | string[]): Promise<AccessToken | null>;
+}
+
+// @public
 export interface WebPushChannel {
     auth: string;
     endpoint: string;
@@ -65,26 +76,27 @@ export interface WebPushChannel {
 // @public
 export interface WebPushClientContext {
     // @internal
+    apiVersion: string;
+    // @internal
     applicationId: string;
     // @internal
-    lifecycle: WebPushContextLifecycle;
+    hubName: string;
+    // @internal
+    namespaceUrl: string;
     // @internal
     onNotificationClick?: NotificationClickHandler;
     // @internal
     onPush?: WebPushNotificationHandler;
     serviceWorkerRegistration?: ServiceWorkerRegistration;
     serviceWorkerUrl?: string;
+    // @internal
+    tokenCredential: TokenCredential;
     vapidPublicKey?: string;
 }
 
 // @public
-export interface WebPushContextLifecycle {
-    // @internal
-    createOrUpdateInstallation(installation: WebPushInstallation): Promise<NotificationHubResponse>;
-    // @internal
-    deleteInstallation(installationId: string): Promise<NotificationHubResponse>;
-    // @internal
-    updateInstallation(installationId: string, updates: JsonPatch[]): Promise<NotificationHubResponse>;
+export interface WebPushClientContextOptions {
+    apiVersion?: string;
 }
 
 // @public

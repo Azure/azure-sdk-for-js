@@ -21,10 +21,10 @@ export interface AccessToken {
  */
 export interface TokenCredential {
   /**
-   * Gets the token for the specified audience.
-   * @param audience - The audience for which the token is desired.
+   * Gets the token for the specified scopes.
+   * @param scopes - The scope for which the token is desired.
    */
-  getToken(audience: string): Promise<AccessToken | null>;
+  getToken(scopes: string | string[]): Promise<AccessToken | null>;
 }
 
 /**

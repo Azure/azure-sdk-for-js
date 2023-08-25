@@ -52,7 +52,8 @@ export class SasTokenCredential implements TokenCredential {
    * Gets the sas token for the specified audience
    * @param audience - The audience for which the token is desired.
    */
-  async getToken(audience: string): Promise<AccessToken> {
+  async getToken(scopes: string | string[]): Promise<AccessToken> {
+    const audience = Array.isArray(scopes) ? scopes[0] : scopes;
     return createToken(
       this._credential.sharedAccessKeyName,
       this._credential.sharedAccessKey,
