@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates the specified API of the API Management service instance.
  *
  * @summary Updates the specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementUpdateApi.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateApi.json
  */
 async function apiManagementUpdateApi() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

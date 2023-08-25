@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates the certificate being used for authentication with the backend.
  *
  * @summary Creates or updates the certificate being used for authentication with the backend.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateCertificate.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateCertificate.json
  */
 async function apiManagementCreateCertificate() {
   const subscriptionId =
@@ -50,7 +50,7 @@ async function apiManagementCreateCertificate() {
  * This sample demonstrates how to Creates or updates the certificate being used for authentication with the backend.
  *
  * @summary Creates or updates the certificate being used for authentication with the backend.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateCertificateWithKeyVault.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateCertificateWithKeyVault.json
  */
 async function apiManagementCreateCertificateWithKeyVault() {
   const subscriptionId =

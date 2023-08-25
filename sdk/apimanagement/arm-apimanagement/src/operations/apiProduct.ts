@@ -36,7 +36,7 @@ export class ApiProductImpl implements ApiProduct {
 
   /**
    * Lists all Products, which the API is part of.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -129,7 +129,7 @@ export class ApiProductImpl implements ApiProduct {
 
   /**
    * Lists all Products, which the API is part of.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -148,7 +148,7 @@ export class ApiProductImpl implements ApiProduct {
 
   /**
    * ListByApisNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param nextLink The nextLink from the previous successful call to the ListByApis method.

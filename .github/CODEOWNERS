@@ -452,6 +452,7 @@
 
 # PRLabel: %Mgmt
 /sdk/hdinsight/arm-hdinsight/ @qiaozha @MaryGao
+/sdk/hdinsight/arm-hdinsightcontainers/ @qiaozha @MaryGao
 /sdk/hdinsight/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt

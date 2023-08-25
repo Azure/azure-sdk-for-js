@@ -32,7 +32,7 @@ import {
 export interface TenantAccess {
   /**
    * Returns list of access infos - for Git and Management endpoints.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -43,7 +43,7 @@ export interface TenantAccess {
   ): PagedAsyncIterableIterator<AccessInformationContract>;
   /**
    * Tenant access metadata
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param options The options parameters.
@@ -56,7 +56,7 @@ export interface TenantAccess {
   ): Promise<TenantAccessGetEntityTagResponse>;
   /**
    * Get tenant access information details without secrets.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param options The options parameters.
@@ -69,7 +69,7 @@ export interface TenantAccess {
   ): Promise<TenantAccessGetResponse>;
   /**
    * Update tenant access information details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -87,7 +87,7 @@ export interface TenantAccess {
   ): Promise<TenantAccessCreateResponse>;
   /**
    * Update tenant access information details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -105,7 +105,7 @@ export interface TenantAccess {
   ): Promise<TenantAccessUpdateResponse>;
   /**
    * Regenerate primary access key
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param options The options parameters.
@@ -118,7 +118,7 @@ export interface TenantAccess {
   ): Promise<void>;
   /**
    * Regenerate secondary access key
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param options The options parameters.
@@ -131,7 +131,7 @@ export interface TenantAccess {
   ): Promise<void>;
   /**
    * Get tenant access information details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param options The options parameters.

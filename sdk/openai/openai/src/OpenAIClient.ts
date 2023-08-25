@@ -10,32 +10,31 @@
  */
 
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { OpenAIClientOptions, createOpenAI } from "./api/OpenAIContext.js";
-import "./api/index.js";
+import { PipelinePolicy } from "@azure/core-rest-pipeline";
 import {
-  ImageGenerationOptions,
-  beginAzureBatchImageGeneration,
-  getAzureBatchImageGenerationOperationStatus,
+  OpenAIClientOptions,
+  OpenAIContext,
+  createOpenAI,
   getChatCompletions,
   getCompletions,
   getEmbeddings,
+  getImages,
   listChatCompletions,
   listCompletions,
-} from "./api/operations.js";
+} from "./api/index.js";
 import {
   ChatCompletions,
   ChatMessage,
   Completions,
   Embeddings,
-  ImageGenerationResponse,
+  ImageGenerations,
 } from "./models/models.js";
 import {
-  GetAzureBatchImageGenerationOperationStatusOptions,
-  GetChatCompletionsOptions,
   GetCompletionsOptions,
   GetEmbeddingsOptions,
+  ImageGenerationOptions,
 } from "./models/options.js";
-import { OpenAIContext } from "./rest/clientDefinitions.js";
+import { GetChatCompletionsOptions } from "./api/models.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
@@ -106,17 +105,7 @@ export class OpenAIClient {
               ...(opts.additionalPolicies ?? []),
               {
                 position: "perCall",
-                policy: {
-                  name: "openAiEndpoint",
-                  sendRequest: (request, next) => {
-                    const obj = new URL(request.url);
-                    const parts = obj.pathname.split("/");
-                    obj.pathname = `/${parts[1]}/${parts.slice(5).join("/")}`;
-                    obj.searchParams.delete("api-version");
-                    request.url = obj.toString();
-                    return next(request);
-                  },
-                },
+                policy: getPolicy(),
               },
             ],
           }),
@@ -198,27 +187,9 @@ export class OpenAIClient {
     deploymentName: string,
     messages: ChatMessage[],
     options: GetChatCompletionsOptions = { requestOptions: {} }
-  ): AsyncIterable<Omit<ChatCompletions, "usage">> {
+  ): AsyncIterable<ChatCompletions> {
     this.setModel(deploymentName, options);
     return listChatCompletions(this._client, messages, deploymentName, options);
-  }
-
-  /** Returns the status of the images operation */
-  getAzureBatchImageGenerationOperationStatus(
-    operationId: string,
-    options: GetAzureBatchImageGenerationOperationStatusOptions = {
-      requestOptions: {},
-    }
-  ): Promise<ImageGenerationResponse> {
-    return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
-  }
-
-  /** Starts the generation of a batch of images from a text caption */
-  beginAzureBatchImageGeneration(
-    prompt: string,
-    options: ImageGenerationOptions = { requestOptions: {} }
-  ): Promise<ImageGenerationResponse> {
-    return beginAzureBatchImageGeneration(this._client, prompt, options);
   }
 
   /**
@@ -230,8 +201,8 @@ export class OpenAIClient {
   getImages(
     prompt: string,
     options: ImageGenerationOptions = { requestOptions: {} }
-  ): Promise<ImageGenerationResponse> {
-    return beginAzureBatchImageGeneration(this._client, prompt, options);
+  ): Promise<ImageGenerations> {
+    return getImages(this._client, prompt, options);
   }
 
   private setModel(model: string, options: { model?: string }): void {
@@ -247,4 +218,32 @@ function createOpenAIEndpoint(version: number): string {
 
 function isCred(cred: Record<string, any>): cred is TokenCredential | KeyCredential {
   return isTokenCredential(cred) || cred.key !== undefined;
+}
+
+function getPolicy(): PipelinePolicy {
+  const policy: PipelinePolicy = {
+    name: "openAiEndpoint",
+    sendRequest: (request, next) => {
+      const obj = new URL(request.url);
+      const parts = obj.pathname.split("/");
+      switch (parts[parts.length - 1]) {
+        case "completions":
+          if (parts[parts.length - 2] === "chat") {
+            obj.pathname = `/${parts[1]}/chat/completions`;
+          } else {
+            obj.pathname = `/${parts[1]}/completions`;
+          }
+          break;
+        case "embeddings":
+          obj.pathname = `/${parts[1]}/embeddings`;
+          break;
+        case "generations:submit":
+          obj.pathname = `/${parts[1]}/images/generations`;
+      }
+      obj.searchParams.delete("api-version");
+      request.url = obj.toString();
+      return next(request);
+    },
+  };
+  return policy;
 }

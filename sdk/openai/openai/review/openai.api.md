@@ -11,6 +11,25 @@ import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
+// @public
+export interface AzureChatExtensionConfiguration {
+    parameters: Record<string, any>;
+    type: AzureChatExtensionType;
+}
+
+// @public
+export interface AzureChatExtensionsMessageContext {
+    messages?: ChatMessage[];
+}
+
+// @public
+export type AzureChatExtensionType = string;
+
+// @public
+export interface AzureExtensionsOptions {
+    extensions?: AzureChatExtensionConfiguration[];
+}
+
 export { AzureKeyCredential }
 
 // @public
@@ -24,14 +43,6 @@ export interface BatchImageGenerationOperationResponse {
     id: string;
     result?: ImageGenerations;
     status: AzureOpenAIOperationState;
-}
-
-// @public (undocumented)
-export interface BeginAzureBatchImageGenerationOptions extends OperationOptions {
-    n?: number;
-    responseFormat?: ImageGenerationResponseFormat;
-    size?: ImageSize;
-    user?: string;
 }
 
 // @public
@@ -49,12 +60,13 @@ export interface ChatCompletions {
     created: Date;
     id: string;
     promptFilterResults?: PromptFilterResult[];
-    usage: CompletionsUsage;
+    usage?: CompletionsUsage;
 }
 
 // @public
 export interface ChatMessage {
     content: string | null;
+    context?: AzureChatExtensionsMessageContext;
     functionCall?: FunctionCall;
     name?: string;
     role: ChatRole;
@@ -155,7 +167,7 @@ export type FunctionCallPreset = string;
 export interface FunctionDefinition {
     description?: string;
     name: string;
-    parameters?: any;
+    parameters?: Record<string, any>;
 }
 
 // @public
@@ -163,12 +175,9 @@ export interface FunctionName {
     name: string;
 }
 
-// @public (undocumented)
-export interface GetAzureBatchImageGenerationOperationStatusOptions extends OperationOptions {
-}
-
-// @public (undocumented)
+// @public
 export interface GetChatCompletionsOptions extends OperationOptions {
+    azureExtensionOptions?: AzureExtensionsOptions;
     frequencyPenalty?: number;
     functionCall?: FunctionCallPreset | FunctionName;
     functions?: FunctionDefinition[];
@@ -209,10 +218,12 @@ export interface GetEmbeddingsOptions extends OperationOptions {
 }
 
 // @public
-export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;
-
-// @public
-export type ImageGenerationResponse = BatchImageGenerationOperationResponse;
+export interface ImageGenerationOptions extends OperationOptions {
+    n?: number;
+    responseFormat?: ImageGenerationResponseFormat;
+    size?: ImageSize;
+    user?: string;
+}
 
 // @public
 export type ImageGenerationResponseFormat = string;
@@ -241,13 +252,11 @@ export class OpenAIClient {
     constructor(endpoint: string, credential: KeyCredential, options?: OpenAIClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: OpenAIClientOptions);
     constructor(openAiApiKey: KeyCredential, options?: OpenAIClientOptions);
-    beginAzureBatchImageGeneration(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerationResponse>;
-    getAzureBatchImageGenerationOperationStatus(operationId: string, options?: GetAzureBatchImageGenerationOperationStatusOptions): Promise<ImageGenerationResponse>;
     getChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
     getCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
     getEmbeddings(deploymentName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
-    getImages(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerationResponse>;
-    listChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): AsyncIterable<Omit<ChatCompletions, "usage">>;
+    getImages(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerations>;
+    listChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): AsyncIterable<ChatCompletions>;
     listCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): AsyncIterable<Omit<Completions, "usage">>;
 }
 
