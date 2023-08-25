@@ -6,7 +6,8 @@
   "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/api/getSSEs.js": "./dist-esm/src/api/getSSEs.browser.js"
+    "./dist-esm/src/api/getSSEs.js": "./dist-esm/src/api/getSSEs.browser.js",
+    "./dist-esm/test/public/utils/getImageDimensions.js": "./dist-esm/test/public/utils/getImageDimensions.browser.js"
   },
   "type": "module",
   "exports": {
@@ -99,6 +100,7 @@
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
+    "@azure/core-rest-pipeline": "^1.12.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",

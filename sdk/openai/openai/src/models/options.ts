@@ -11,8 +11,9 @@
 
 import { OperationOptions } from "@azure-rest/core-client";
 import {
-  AzureChatExtensionType,
+  AzureChatExtensionConfiguration,
   FunctionCallPreset,
+  FunctionDefinition,
   FunctionName,
   ImageGenerationResponseFormat,
   ImageSize,
@@ -277,9 +278,10 @@ export interface GetChatCompletionsWithAzureExtensionsOptions extends OperationO
   dataSources?: AzureChatExtensionConfiguration[];
 }
 
-export interface GetAzureBatchImageGenerationOperationStatusOptions extends OperationOptions {}
-
-export interface BeginAzureBatchImageGenerationOptions extends OperationOptions {
+/**
+ * Options to custom the images generation request
+ */
+export interface ImageGenerationOptions extends OperationOptions {
   /** The number of images to generate (defaults to 1). */
   n?: number;
   /** The desired size of the generated images. Must be one of 256x256, 512x512, or 1024x1024 (defaults to 1024x1024). */
@@ -292,38 +294,3 @@ export interface BeginAzureBatchImageGenerationOptions extends OperationOptions 
   /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
   user?: string;
 }
-
-/**
- *   A representation of configuration data for a single Azure OpenAI chat extension. This will be used by a chat
- *   completions request that should use Azure OpenAI chat extensions to augment the response behavior.
- *   The use of this configuration is compatible only with Azure OpenAI.
- */
-export interface AzureChatExtensionConfiguration {
-  /**
-   *   The label for the type of an Azure chat extension. This typically corresponds to a matching Azure resource.
-   *   Azure chat extensions are only compatible with Azure OpenAI.
-   */
-  type: AzureChatExtensionType;
-  /**
-   *   The configuration payload used for the Azure chat extension. The structure payload details are specific to the
-   *   extension being configured.
-   *   Azure chat extensions are only compatible with Azure OpenAI.
-   */
-  parameters: Record<string, any>;
-}
-
-/** The definition of a caller-specified function that chat completions may invoke in response to matching user input. */
-export interface FunctionDefinition {
-  /** The name of the function to be called. */
-  name: string;
-  /**
-   * A description of what the function does. The model will use this description when selecting the function and
-   * interpreting its parameters.
-   */
-  description?: string;
-  /** The parameters the functions accepts, described as a JSON Schema object. */
-  parameters?: Record<string, any>;
-}
-
-/** Convenience alias for BeginAzureBatchImageGenerationOptions */
-export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;

@@ -57,7 +57,7 @@ export async function _getEmbeddingsDeserialize(
   result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
 ): Promise<Embeddings> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
@@ -122,7 +122,7 @@ export async function _getCompletionsDeserialize(
   result: GetCompletions200Response | GetCompletionsDefaultResponse
 ): Promise<Completions> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
@@ -265,7 +265,7 @@ export async function _getChatCompletionsDeserialize(
   result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
@@ -566,7 +566,7 @@ export async function _getAzureBatchImageGenerationOperationStatusDeserialize(
     | GetAzureBatchImageGenerationOperationStatusLogicalResponse
 ): Promise<BatchImageGenerationOperationResponse> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
@@ -630,7 +630,7 @@ export async function _beginAzureBatchImageGenerationDeserialize(
     | BeginAzureBatchImageGenerationLogicalResponse
 ): Promise<BatchImageGenerationOperationResponse> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {

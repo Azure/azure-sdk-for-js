@@ -8,12 +8,13 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
+
 import { OperationOptions } from "@azure-rest/core-client";
 import {
   AzureChatExtensionConfiguration,
+  FunctionDefinition,
   FunctionCallPreset,
   FunctionName,
-  FunctionDefinition,
 } from "../models/models.js";
 
 /**

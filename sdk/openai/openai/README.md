@@ -18,6 +18,7 @@ Checkout the following examples:
 - [Multiple Completions](#generate-multiple-completions-with-subscription-key)
 - [Chatbot](#generate-chatbot-response)
 - [Summarize Text](#summarize-text-with-completion)
+- [Generate Images](#generate-images-with-dall-e-image-generation-models)
 - [Analyze Business Data](#analyze-business-data)
 
 Key links:
@@ -250,6 +251,29 @@ async function main(){
   const completion = choices[0].text;
   console.log(`Summarization: ${completion}`);
 }
+
+```
+### Generate images with DALL-E image generation models
+
+This example generates batch images from a given input prompt.
+
+```js
+const { OpenAIClient } = require("@azure/openai");
+
+async function main() {
+  const endpoint = "https://myaccount.openai.azure.com/";
+  const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
+
+  const prompt = "a monkey eating a banana";
+  const size = "256x256";
+  const n = 3;
+  
+  const results = await client.getImages(prompt, { n, size });
+
+  for (const image of results.data) {
+    console.log(`Image generation result URL: ${image.url}`);
+  }
+}
 ```
 
 ### Analyze Business Data
@@ -315,7 +339,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 <!-- LINKS -->
 [msdocs_openai_completion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/completions.js
 [msdocs_openai_chat_completion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/listChatCompletions.js
-[msdocs_openai_custom_data]: https://github.com/Azure/azure-sdk-for-js/blob/openai/azure-chat/sdk/openai/openai/samples-dev/bringYourOwnData.ts
+[msdocs_openai_custom_data]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples-dev/bringYourOwnData.ts
 [msdocs_openai_embedding]: https://learn.microsoft.com/azure/cognitive-services/openai/concepts/understand-embeddings
 [azure_openai_completions_docs]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/completions
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

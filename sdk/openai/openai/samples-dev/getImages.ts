@@ -19,29 +19,19 @@ const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 
 // The prompt to generate images from
-const PROMPT = "a monkey eating a banana";
-const SIZE = "256x256";
+const prompt = "a monkey eating a banana";
+const size = "256x256";
 
 // The number of images to generate
-const N = 3;
+const n = 3;
 
 export async function main() {
   console.log("== Batch Image Generation ==");
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
-  let operationState = await client.beginAzureBatchImageGeneration(PROMPT, { n: N, size: SIZE });
+  const results = await client.getImages(prompt, { n, size });
 
-  while (operationState.status === "notRunning" || operationState.status === "running") {
-    await delay(5000);
-    operationState = await client.getAzureBatchImageGenerationOperationStatus(operationState.id);
-  }
-
-  if (operationState.status !== "succeeded") {
-    throw new Error("Image generation failed");
-  }
-
-  console.log(`Image generation succeeded with id: ${operationState.id}`);
-  for (const image of operationState.result?.data as ImageLocation[]) {
+  for (const image of results.data as ImageLocation[]) {
     console.log(`Image generation result URL: ${image.url}`);
   }
 }
@@ -49,7 +39,3 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}

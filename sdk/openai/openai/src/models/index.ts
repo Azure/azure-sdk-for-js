@@ -40,13 +40,6 @@ export {
   AzureOpenAIOperationState,
   ImageSize,
   ImageGenerationResponseFormat,
-  ImageGenerationResponse,
 } from "./models.js";
-export {
-  GetEmbeddingsOptions,
-  GetCompletionsOptions,
-  GetAzureBatchImageGenerationOperationStatusOptions,
-  BeginAzureBatchImageGenerationOptions,
-  ImageGenerationOptions,
-} from "./options.js";
+export { GetEmbeddingsOptions, GetCompletionsOptions, ImageGenerationOptions } from "./options.js";
 export { AzureExtensionsOptions, GetChatCompletionsOptions } from "../api/models.js";

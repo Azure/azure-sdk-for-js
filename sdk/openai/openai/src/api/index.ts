@@ -11,12 +11,11 @@
 
 export { OpenAIClientOptions, OpenAIContext, createOpenAI } from "./OpenAIContext.js";
 export {
-  beginAzureBatchImageGeneration,
-  getAzureBatchImageGenerationOperationStatus,
   getChatCompletions,
   getChatCompletionsWithAzureExtensions,
   getCompletions,
   getEmbeddings,
   listChatCompletions,
   listCompletions,
+  getImages,
 } from "./operations.js";

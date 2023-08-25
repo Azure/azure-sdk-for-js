@@ -45,14 +45,6 @@ export interface BatchImageGenerationOperationResponse {
     status: AzureOpenAIOperationState;
 }
 
-// @public (undocumented)
-export interface BeginAzureBatchImageGenerationOptions extends OperationOptions {
-    n?: number;
-    responseFormat?: ImageGenerationResponseFormat;
-    size?: ImageSize;
-    user?: string;
-}
-
 // @public
 export interface ChatChoice {
     contentFilterResults?: ContentFilterResults;
@@ -183,10 +175,6 @@ export interface FunctionName {
     name: string;
 }
 
-// @public (undocumented)
-export interface GetAzureBatchImageGenerationOperationStatusOptions extends OperationOptions {
-}
-
 // @public
 export interface GetChatCompletionsOptions extends OperationOptions {
     azureExtensionOptions?: AzureExtensionsOptions;
@@ -230,10 +218,12 @@ export interface GetEmbeddingsOptions extends OperationOptions {
 }
 
 // @public
-export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;
-
-// @public
-export type ImageGenerationResponse = BatchImageGenerationOperationResponse;
+export interface ImageGenerationOptions extends OperationOptions {
+    n?: number;
+    responseFormat?: ImageGenerationResponseFormat;
+    size?: ImageSize;
+    user?: string;
+}
 
 // @public
 export type ImageGenerationResponseFormat = string;
@@ -262,12 +252,10 @@ export class OpenAIClient {
     constructor(endpoint: string, credential: KeyCredential, options?: OpenAIClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: OpenAIClientOptions);
     constructor(openAiApiKey: KeyCredential, options?: OpenAIClientOptions);
-    beginAzureBatchImageGeneration(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerationResponse>;
-    getAzureBatchImageGenerationOperationStatus(operationId: string, options?: GetAzureBatchImageGenerationOperationStatusOptions): Promise<ImageGenerationResponse>;
     getChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
     getCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
     getEmbeddings(deploymentName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
-    getImages(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerationResponse>;
+    getImages(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerations>;
     listChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): AsyncIterable<ChatCompletions>;
     listCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): AsyncIterable<Omit<Completions, "usage">>;
 }

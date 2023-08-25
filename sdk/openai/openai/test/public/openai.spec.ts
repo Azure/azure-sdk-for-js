@@ -4,7 +4,6 @@
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { assert, matrix } from "@azure/test-utils";
 import { Context } from "mocha";
-import { OpenAIClient } from "../../src/index.js";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient.js";
 import {
   assertChatCompletions,
@@ -20,6 +19,13 @@ import {
   withDeployment,
 } from "./utils/utils.js";
 import { logger } from "./utils/logger.js";
+import {
+  createDefaultHttpClient,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
+import { getImageDimensions } from "./utils/getImageDimensions.js";
+import { OpenAIClient, ImageLocation } from "../../src/index.js";
 
 describe("OpenAI", function () {
   let recorder: Recorder;
@@ -377,6 +383,44 @@ describe("OpenAI", function () {
           assert.isNotNull(embeddings.data[0].embedding);
           assert.equal(embeddings.data[0].embedding.length > 0, true);
           assert.isNotNull(embeddings.usage);
+        });
+      });
+
+      describe("getImages", function () {
+        it("get images test", async function () {
+          const prompt = "monkey eating banana";
+          const numberOfImages = 2;
+          const height = 256;
+          const width = 256;
+          const size = `${height}x${width}`;
+
+          async function checkSize(imageUrl: string): Promise<void> {
+            const coreClient = createDefaultHttpClient();
+            const set = new Set<number>();
+            const request = createPipelineRequest({
+              url: imageUrl,
+              method: "GET",
+              headers: createHttpHeaders(),
+              streamResponseStatusCodes: set.add(200),
+            });
+            const response = await coreClient.sendRequest(request);
+
+            const dimensions = await getImageDimensions(response);
+            assert.isDefined(dimensions, "Unable to get dimensions");
+            assert.equal(dimensions?.height, height, "Height does not match");
+            assert.equal(dimensions?.width, width, "Width does not match");
+          }
+          const imageLinks = await client.getImages(prompt, {
+            n: numberOfImages,
+            size: size,
+          });
+          assert.isNotNull(imageLinks);
+          assert.equal(imageLinks.data.length, numberOfImages);
+
+          for (const image of imageLinks.data as ImageLocation[]) {
+            assert.isDefined(image.url, "Image generation result URL is not defined");
+            await checkSize(image.url);
+          }
         });
       });
     });

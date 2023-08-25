@@ -3,14 +3,10 @@
 
 import {
   AzureChatExtensionType,
-  BatchImageGenerationOperationResponse,
   ChatChoice,
   CompletionsUsage,
   PromptFilterResult,
 } from "../../generated/src/models/models.js";
-
-/** Convenience alias for BatchImageGenerationOperationResponse */
-export type ImageGenerationResponse = BatchImageGenerationOperationResponse;
 
 /**
  * Representation of the response data from a chat completions request.

@@ -11,28 +11,25 @@
 
 import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import {
-  BatchImageGenerationOperationResponse,
   ChatCompletions,
   ChatMessage,
   Completions,
   Embeddings,
+  ImageGenerations,
+  ImageLocation,
 } from "../models/models.js";
 import {
-  BeginAzureBatchImageGenerationOptions,
-  GetAzureBatchImageGenerationOperationStatusOptions,
   GetChatCompletionsOptions as GeneratedGetChatCompletionsOptions,
   GetChatCompletionsWithAzureExtensionsOptions,
   GetCompletionsOptions,
   GetEmbeddingsOptions,
+  ImageGenerationOptions,
 } from "../models/options.js";
 import {
   BeginAzureBatchImageGeneration202Response,
   BeginAzureBatchImageGenerationDefaultResponse,
   BeginAzureBatchImageGenerationLogicalResponse,
   OpenAIContext as Client,
-  GetAzureBatchImageGenerationOperationStatus200Response,
-  GetAzureBatchImageGenerationOperationStatusDefaultResponse,
-  GetAzureBatchImageGenerationOperationStatusLogicalResponse,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
   GetChatCompletionsWithAzureExtensions200Response,
@@ -41,6 +38,9 @@ import {
   GetCompletionsDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
+  ImageGenerationsOutput,
+  ImagePayloadOutput,
+  getLongRunningPoller,
   isUnexpected,
 } from "../rest/index.js";
 import { getChatCompletionsResult, getCompletionsResult } from "./deserializers.js";
@@ -510,67 +510,10 @@ export async function getChatCompletionsWithAzureExtensions(
   return _getChatCompletionsWithAzureExtensionsDeserialize(result);
 }
 
-export function _getAzureBatchImageGenerationOperationStatusSend(
-  context: Client,
-  operationId: string,
-  options: GetAzureBatchImageGenerationOperationStatusOptions = {
-    requestOptions: {},
-  }
-): StreamableMethod<
-  | GetAzureBatchImageGenerationOperationStatus200Response
-  | GetAzureBatchImageGenerationOperationStatusDefaultResponse
-  | GetAzureBatchImageGenerationOperationStatusLogicalResponse
-> {
-  return context
-    .path("/operations/images/{operationId}", operationId)
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _getAzureBatchImageGenerationOperationStatusDeserialize(
-  result:
-    | GetAzureBatchImageGenerationOperationStatus200Response
-    | GetAzureBatchImageGenerationOperationStatusDefaultResponse
-    | GetAzureBatchImageGenerationOperationStatusLogicalResponse
-): Promise<BatchImageGenerationOperationResponse> {
-  if (isUnexpected(result)) {
-    throw result.body.error;
-  }
-
-  return {
-    id: result.body["id"],
-    created: new Date(result.body["created"]),
-    expires: result.body["expires"],
-    result: !result.body.result
-      ? undefined
-      : {
-          created: new Date(result.body.result?.["created"]),
-          data: result.body.result?.["data"] as any,
-        },
-    status: result.body["status"],
-    error: !result.body.error ? undefined : result.body.error,
-  };
-}
-
-/** Returns the status of the images operation */
-export async function getAzureBatchImageGenerationOperationStatus(
-  context: Client,
-  operationId: string,
-  options: GetAzureBatchImageGenerationOperationStatusOptions = {
-    requestOptions: {},
-  }
-): Promise<BatchImageGenerationOperationResponse> {
-  const result = await _getAzureBatchImageGenerationOperationStatusSend(
-    context,
-    operationId,
-    options
-  );
-  return _getAzureBatchImageGenerationOperationStatusDeserialize(result);
-}
-
 export function _beginAzureBatchImageGenerationSend(
   context: Client,
   prompt: string,
-  options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
+  options: ImageGenerationOptions = { requestOptions: {} }
 ): StreamableMethod<
   | BeginAzureBatchImageGeneration202Response
   | BeginAzureBatchImageGenerationDefaultResponse
@@ -588,41 +531,6 @@ export function _beginAzureBatchImageGenerationSend(
   });
 }
 
-export async function _beginAzureBatchImageGenerationDeserialize(
-  result:
-    | BeginAzureBatchImageGeneration202Response
-    | BeginAzureBatchImageGenerationDefaultResponse
-    | BeginAzureBatchImageGenerationLogicalResponse
-): Promise<BatchImageGenerationOperationResponse> {
-  if (isUnexpected(result)) {
-    throw result.body.error;
-  }
-
-  return {
-    id: result.body["id"],
-    created: new Date(result.body["created"]),
-    expires: result.body["expires"],
-    result: !result.body.result
-      ? undefined
-      : {
-          created: new Date(result.body.result?.["created"]),
-          data: result.body.result?.["data"] as any,
-        },
-    status: result.body["status"],
-    error: !result.body.error ? undefined : result.body.error,
-  };
-}
-
-/** Starts the generation of a batch of images from a text caption */
-export async function beginAzureBatchImageGeneration(
-  context: Client,
-  prompt: string,
-  options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
-): Promise<BatchImageGenerationOperationResponse> {
-  const result = await _beginAzureBatchImageGenerationSend(context, prompt, options);
-  return _beginAzureBatchImageGenerationDeserialize(result);
-}
-
 export function listCompletions(
   context: Client,
   prompt: string[],
@@ -636,11 +544,38 @@ export function listCompletions(
   return getOaiSSEs(response, getCompletionsResult);
 }
 
+export async function getImages(
+  context: Client,
+  prompt: string,
+  options: ImageGenerationOptions = { requestOptions: {} }
+): Promise<ImageGenerations> {
+  const response = await _beginAzureBatchImageGenerationSend(context, prompt, options);
+  if (isUnexpected(response)) {
+    // Check for response from OpenAI
+    const body = response.body as unknown as ImageGenerations;
+    if (body.created && body.data) {
+      return body;
+    }
+    throw response.body.error;
+  }
+
+  if (response.status === "202") {
+    const poller = await getLongRunningPoller(
+      context,
+      response as BeginAzureBatchImageGeneration202Response
+    );
+    const result = await poller.pollUntilDone();
+    return getImageResultsDeserialize(result);
+  } else {
+    return getImageResultsDeserialize(response);
+  }
+}
+
 export function listChatCompletions(
   context: Client,
   messages: ChatMessage[],
   deploymentName: string,
-  options: GeneratedGetChatCompletionsOptions = { requestOptions: {} }
+  options: GetChatCompletionsOptions = { requestOptions: {} }
 ): AsyncIterable<ChatCompletions> {
   const response = _getChatCompletionsSendX(context, messages, deploymentName, {
     ...options,
@@ -658,7 +593,7 @@ export async function getChatCompletions(
   context: Client,
   messages: ChatMessage[],
   deploymentId: string,
-  options: GeneratedGetChatCompletionsOptions = { requestOptions: {} }
+  options: GetChatCompletionsOptions = { requestOptions: {} }
 ): Promise<ChatCompletions> {
   const result = await _getChatCompletionsSendX(context, messages, deploymentId, options);
   if (isUnexpected(result)) {
@@ -666,6 +601,38 @@ export async function getChatCompletions(
   }
 
   return getChatCompletionsResult(result.body);
+}
+
+function convertResultTypes({ created, data }: ImageGenerationsOutput): ImageGenerations {
+  if (typeof (data[0] as ImageLocation).url === "string") {
+    return {
+      created: new Date(created),
+      data: data as ImageLocation[],
+    };
+  } else {
+    return {
+      created: new Date(created),
+      data: data.map((item) => {
+        return {
+          base64Data: (item as ImagePayloadOutput).b64_json,
+        };
+      }),
+    };
+  }
+}
+
+function getImageResultsDeserialize(
+  response:
+    | BeginAzureBatchImageGeneration202Response
+    | BeginAzureBatchImageGenerationDefaultResponse
+    | BeginAzureBatchImageGenerationLogicalResponse
+): ImageGenerations {
+  if (isUnexpected(response) || !response.body.result) {
+    throw response.body.error;
+  }
+
+  const result = response.body.result;
+  return convertResultTypes(result);
 }
 
 function _getChatCompletionsSendX(

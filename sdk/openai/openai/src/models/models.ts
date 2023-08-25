@@ -384,5 +384,3 @@ export type ImageSize = string;
 /** The format in which the generated images are returned. */
 /** "url", "b64_json" */
 export type ImageGenerationResponseFormat = string;
-/** Convenience alias for BatchImageGenerationOperationResponse */
-export type ImageGenerationResponse = BatchImageGenerationOperationResponse;
