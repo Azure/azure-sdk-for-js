@@ -387,7 +387,7 @@ describe("OpenAI", function () {
       });
 
       describe("getImages", function () {
-        it("get images test", async function () {
+        it("gets images with the expected dimensions", async function () {
           const prompt = "monkey eating banana";
           const numberOfImages = 2;
           const height = 256;
