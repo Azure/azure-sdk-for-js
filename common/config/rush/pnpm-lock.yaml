@@ -12210,7 +12210,7 @@ packages:
     dev: false
 
   file:projects/arm-dynatrace.tgz:
-    resolution: {integrity: sha512-pIEarGG5yYFiCqJ+sCoL/0P3oV/LPFN8Z8VXNyfcNF1lyd9ybwBwe6JI+LCBBVg58el37BRCBkuWm1iRP5rH/Q==, tarball: file:projects/arm-dynatrace.tgz}
+    resolution: {integrity: sha512-EnaVD22V5vHh9qh5STxhvuQ1OmYtwFOq97xnGLAHNKebb2PGgTgJ5q+NQjkTDM3DS1OYdGASr+tw9V3n8FIL5A==, tarball: file:projects/arm-dynatrace.tgz}
     name: '@rush-temp/arm-dynatrace'
     version: 0.0.0
     dependencies:
@@ -12224,8 +12224,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1

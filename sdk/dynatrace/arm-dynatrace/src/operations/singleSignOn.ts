@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DynatraceObservability } from "../dynatraceObservability";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DynatraceSingleSignOnResource,
   SingleSignOnListNextOptionalParams,
@@ -131,8 +135,8 @@ export class SingleSignOnImpl implements SingleSignOn {
     resource: DynatraceSingleSignOnResource,
     options?: SingleSignOnCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SingleSignOnCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SingleSignOnCreateOrUpdateResponse>,
       SingleSignOnCreateOrUpdateResponse
     >
   > {
@@ -142,7 +146,7 @@ export class SingleSignOnImpl implements SingleSignOn {
     ): Promise<SingleSignOnCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -175,15 +179,24 @@ export class SingleSignOnImpl implements SingleSignOn {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, monitorName, configurationName, resource, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        monitorName,
+        configurationName,
+        resource,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SingleSignOnCreateOrUpdateResponse,
+      OperationState<SingleSignOnCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -293,7 +306,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.resource4,
+  requestBody: Parameters.resource3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
