@@ -2066,6 +2066,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-resourcesdeploymentstacks",
+      "projectFolder": "sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-apicenter",
       "projectFolder": "sdk/apicenter/arm-apicenter",
       "versionPolicyName": "management"

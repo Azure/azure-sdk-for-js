@@ -724,6 +724,10 @@
 /sdk/resourcehealth/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks/ @qiaozha @MaryGao
+/sdk/resourcesdeploymentstacks/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/resourcemover/arm-resourcemover/ @qiaozha @MaryGao
 /sdk/resourcemover/ci.mgmt.yml @qiaozha @MaryGao
 

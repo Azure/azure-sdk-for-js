@@ -190,6 +190,7 @@ specifiers:
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
   '@rush-temp/arm-resources-profile-2020-09-01-hybrid': file:./projects/arm-resources-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
+  '@rush-temp/arm-resourcesdeploymentstacks': file:./projects/arm-resourcesdeploymentstacks.tgz
   '@rush-temp/arm-scvmm': file:./projects/arm-scvmm.tgz
   '@rush-temp/arm-search': file:./projects/arm-search.tgz
   '@rush-temp/arm-security': file:./projects/arm-security.tgz
@@ -550,6 +551,7 @@ dependencies:
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
   '@rush-temp/arm-resources-profile-2020-09-01-hybrid': file:projects/arm-resources-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
+  '@rush-temp/arm-resourcesdeploymentstacks': file:projects/arm-resourcesdeploymentstacks.tgz
   '@rush-temp/arm-scvmm': file:projects/arm-scvmm.tgz
   '@rush-temp/arm-search': file:projects/arm-search.tgz
   '@rush-temp/arm-security': file:projects/arm-security.tgz
@@ -4088,7 +4090,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230824
+      typescript: 5.3.0-dev.20230825
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8657,8 +8659,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230824:
-    resolution: {integrity: sha512-iiUWxGibzrRHEBLDJfVymsvpPKflf3cMrw0oQTMQoguFS2ikNlVlfQWAsYeHqGpRQc77nSQkzsE9rAHNHqvIjw==}
+  /typescript/5.3.0-dev.20230825:
+    resolution: {integrity: sha512-LbxxB17+nHqe7e6oA/240Ha1kOhtrgmLz98Dq3Nbm1sEdkqOnsv3j9XbI0tqd+RWtC/5pgnljHmZRHk/qUeKpQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15210,6 +15212,37 @@ packages:
   file:projects/arm-resources.tgz:
     resolution: {integrity: sha512-85gtgCY6fzVsQ4H8oYvP3ugvJIEr88K9G8R85XcCRfoow/FpUyOF6URbGujsXCOqoxBu5AAriaQL2FWkkoMIhA==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.54
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
+      tslib: 2.6.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-resourcesdeploymentstacks.tgz:
+    resolution: {integrity: sha512-p16puIbqDXPmBD2qKJIWamOShrGypt1f474OMvs/dhlPs1gcFVq84e5SQnNH7rwwh78wmt7ZaWbNv2DobDugoQ==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
+    name: '@rush-temp/arm-resourcesdeploymentstacks'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
