@@ -13,7 +13,8 @@
 
 ### Breaking Changes
 
-- Remove `beginAzureBatchImageGeneration` and `getAzureBatchImageGenerationOperationStatus` methods. For batch image generation, you can use `GetImages` convenience API, with support for `ImageGenerationOptions`. 
+- Remove `beginAzureBatchImageGeneration` and `getAzureBatchImageGenerationOperationStatus` methods. 
+- `getImages` has been updated to return the image URLs/paylods directly, rather than requiring the user to call `getAzureBatchImageGenerationOperationStatus` to retrieve them.
 
 ### Bugs Fixed
 

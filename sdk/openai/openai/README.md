@@ -339,7 +339,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 <!-- LINKS -->
 [msdocs_openai_completion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/completions.js
 [msdocs_openai_chat_completion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/listChatCompletions.js
-[msdocs_openai_custom_data]: https://github.com/Azure/azure-sdk-for-js/blob/openai/azure-chat/sdk/openai/openai/samples-dev/bringYourOwnData.ts
+[msdocs_openai_custom_data]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples-dev/bringYourOwnData.ts
 [msdocs_openai_embedding]: https://learn.microsoft.com/azure/cognitive-services/openai/concepts/understand-embeddings
 [azure_openai_completions_docs]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/completions
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
