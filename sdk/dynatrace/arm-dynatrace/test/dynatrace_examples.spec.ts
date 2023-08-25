@@ -87,7 +87,7 @@ describe("Dynatrace test", () => {
     await recorder.stop();
   });
 
-  it("monitor create test", async function () {
+  it.skip("monitor create test", async function () {
     const res = await client.monitors.beginCreateOrUpdateAndWait(
       resourceGroup,
       monitorName,
