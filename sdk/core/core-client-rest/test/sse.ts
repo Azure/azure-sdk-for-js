@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Client } from "@azure-rest/core-client";
-import { getSSEs } from "../../src/api/getSSEs.js";
+import { Client } from "../src";
 import {
   assertAsyncIterable,
   genChunks,
@@ -18,7 +17,7 @@ import {
   genLines,
   genStrs,
   createRetry,
-} from "./util.js";
+} from "./util";
 import { assert, matrix } from "@azure/test-utils";
 
 export function buildSseTests<StreamT>(
@@ -39,7 +38,7 @@ export function buildSseTests<StreamT>(
           );
           const iter = genStrs(count);
           await assertAsyncIterable(
-            await getSSEs(client.pathUnchecked("/foo").get()),
+            await client.pathUnchecked("/foo").get().asEvents(),
             count,
             (event) => {
               const { value, done } = iter.next();
@@ -61,7 +60,7 @@ export function buildSseTests<StreamT>(
         })
       );
       let resTxt = "";
-      await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 1, (event) => {
+      await assertAsyncIterable(await client.pathUnchecked("/foo").get().asEvents(), 1, (event) => {
         if (!resTxt) {
           resTxt = event.data;
         }
@@ -79,7 +78,7 @@ export function buildSseTests<StreamT>(
         })
       );
       let resTxt = "";
-      await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 1, (event) => {
+      await assertAsyncIterable(await client.pathUnchecked("/foo").get().asEvents(), 1, (event) => {
         if (!resTxt) {
           resTxt = event.data;
         }
@@ -96,7 +95,7 @@ export function buildSseTests<StreamT>(
           }
         })
       );
-      await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 0, () => {
+      await assertAsyncIterable(await client.pathUnchecked("/foo").get().asEvents(), 0, () => {
         assert.fail("should not have received any events");
       });
     });
@@ -114,7 +113,7 @@ export function buildSseTests<StreamT>(
       );
       const ids = ["1", ""];
       let i = 0;
-      await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 2, (event) => {
+      await assertAsyncIterable(await client.pathUnchecked("/foo").get().asEvents(), 2, (event) => {
         assert.equal(event.id, ids[i++]);
       });
     });
@@ -127,7 +126,7 @@ export function buildSseTests<StreamT>(
           write(encoder.encode("\n"));
         })
       );
-      await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 1, (event) => {
+      await assertAsyncIterable(await client.pathUnchecked("/foo").get().asEvents(), 1, (event) => {
         assert.equal(event.event, "foo");
       });
     });
@@ -140,7 +139,7 @@ export function buildSseTests<StreamT>(
           write(encoder.encode("\n\n"));
         })
       );
-      await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 1, (event) => {
+      await assertAsyncIterable(await client.pathUnchecked("/foo").get().asEvents(), 1, (event) => {
         assert.equal(event.retry, 1);
       });
     });
@@ -152,7 +151,7 @@ export function buildSseTests<StreamT>(
           write(createDataEvent(encoder.encode(str)));
         })
       );
-      await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 1, (event) => {
+      await assertAsyncIterable(await client.pathUnchecked("/foo").get().asEvents(), 1, (event) => {
         assert.equal(event.data, str);
       });
     });
@@ -163,7 +162,7 @@ export function buildSseTests<StreamT>(
           write(encoder.encode("foo"));
         })
       );
-      await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 0, () => {
+      await assertAsyncIterable(await client.pathUnchecked("/foo").get().asEvents(), 0, () => {
         assert.fail("should not have received any events");
       });
     });
@@ -174,7 +173,7 @@ export function buildSseTests<StreamT>(
           write(encoder.encode("foo: bar"));
         })
       );
-      await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 0, () => {
+      await assertAsyncIterable(await client.pathUnchecked("/foo").get().asEvents(), 0, () => {
         assert.fail("should not have received any events");
       });
     });
@@ -187,7 +186,7 @@ export function buildSseTests<StreamT>(
           write(encoder.encode("\n\n"));
         })
       );
-      await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 1, (event) => {
+      await assertAsyncIterable(await client.pathUnchecked("/foo").get().asEvents(), 1, (event) => {
         assert.isUndefined(event.retry);
       });
     });

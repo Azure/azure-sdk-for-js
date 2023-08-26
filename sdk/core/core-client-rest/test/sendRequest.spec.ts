@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { sendRequest } from "../src/sendRequest";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import {
   Pipeline,
   PipelineResponse,

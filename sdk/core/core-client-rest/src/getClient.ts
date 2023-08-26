@@ -12,8 +12,9 @@ import {
   RequestParameters,
   StreamableMethod,
 } from "./common";
-import { sendRequest, sendRequestAsStream } from "./sendRequest";
+import { sendRequest } from "./sendRequest";
 import { buildRequestUrl } from "./urlHelpers";
+import { getSSEs } from "./sse/getSSEs";
 
 /**
  * Creates a client with a default pipeline
@@ -174,22 +175,32 @@ function buildOperation(
       ).then(onFulfilled, onrejected);
     },
     async asBrowserStream() {
-      return sendRequestAsStream<HttpBrowserStreamResponse>(
+      return sendRequest(
         method,
         url,
         pipeline,
-        { ...options, allowInsecureConnection },
+        { ...options, allowInsecureConnection, responseAsStream: true },
         httpClient
-      );
+      ) as Promise<HttpBrowserStreamResponse>;
     },
     async asNodeStream() {
-      return sendRequestAsStream<HttpNodeStreamResponse>(
+      return sendRequest(
         method,
         url,
         pipeline,
-        { ...options, allowInsecureConnection },
+        { ...options, allowInsecureConnection, responseAsStream: true },
+        httpClient
+      ) as Promise<HttpNodeStreamResponse>;
+    },
+    async asEvents() {
+      const response = await sendRequest(
+        method,
+        url,
+        pipeline,
+        { ...options, allowInsecureConnection, responseAsStream: true },
         httpClient
       );
+      return getSSEs(response);
     },
   };
 }

@@ -10,14 +10,13 @@
  */
 
 import { StreamableMethod } from "@azure-rest/core-client";
-import { getSSEs } from "./getSSEs.js";
 import { wrapError } from "./util.js";
 
 export async function* getOaiSSEs<TEvent>(
   response: StreamableMethod<unknown>,
   toEvent: (obj: Record<string, any>) => TEvent
 ): AsyncIterable<TEvent> {
-  const stream = await getSSEs(response);
+  const stream = await response.asEvents();
   let isDone = false;
   for await (const event of stream) {
     if (isDone) {

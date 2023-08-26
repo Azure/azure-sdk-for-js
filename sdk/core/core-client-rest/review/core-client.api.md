@@ -77,6 +77,14 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface EventMessage {
+    data: string;
+    event: string;
+    id: string;
+    retry?: number;
+}
+
+// @public
 export interface FullOperationResponse extends PipelineResponse {
     parsedBody?: RequestBodyType;
     rawHeaders?: RawHttpHeaders;
@@ -186,6 +194,7 @@ export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>>
 export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
     asNodeStream: () => Promise<HttpNodeStreamResponse>;
     asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
+    asEvents: () => Promise<AsyncIterable<EventMessage>>;
 };
 
 ```

@@ -6,7 +6,6 @@
   "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/api/getSSEs.js": "./dist-esm/src/api/getSSEs.browser.js",
     "./dist-esm/test/public/utils/getImageDimensions.js": "./dist-esm/test/public/utils/getImageDimensions.browser.js"
   },
   "type": "module",

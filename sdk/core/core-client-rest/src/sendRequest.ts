@@ -8,7 +8,6 @@ import {
   Pipeline,
   PipelineRequest,
   PipelineResponse,
-  RawHttpHeaders,
   RequestBodyType,
   RestError,
   createHttpHeaders,
@@ -32,63 +31,27 @@ export async function sendRequest(
   method: HttpMethods,
   url: string,
   pipeline: Pipeline,
-  options: RequestParameters = {},
+  options: InternalRequestParameters = {},
   customHttpClient?: HttpClient
 ): Promise<HttpResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);
-
   const response = await pipeline.sendRequest(httpClient, request);
-
-  const rawHeaders: RawHttpHeaders = response.headers.toJSON();
-
-  const parsedBody: RequestBodyType | undefined = getResponseBody(response);
+  const headers = response.headers.toJSON();
+  const parsedBody = getResponseBody(response, {
+    stream: options.responseAsStream,
+  });
 
   if (options?.onResponse) {
-    options.onResponse({ ...response, request, rawHeaders, parsedBody });
+    options.onResponse({ ...response, request, rawHeaders: headers, parsedBody });
   }
 
   return {
     request,
-    headers: rawHeaders,
+    headers,
     status: `${response.status}`,
     body: parsedBody,
   };
-}
-
-/**
- * Helper function to send request used by the client
- * @param method - method to use to send the request
- * @param url - url to send the request to
- * @param pipeline - pipeline with the policies to run when sending the request
- * @param options - request options
- * @param customHttpClient - a custom HttpClient to use when making the request
- * @returns returns and HttpResponse
- */
-export async function sendRequestAsStream<
-  TResponse extends HttpResponse & {
-    body: NodeJS.ReadableStream | ReadableStream<Uint8Array> | undefined;
-  }
->(
-  method: HttpMethods,
-  url: string,
-  pipeline: Pipeline,
-  options: RequestParameters = {},
-  customHttpClient?: HttpClient
-): Promise<TResponse> {
-  const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
-  const request = buildPipelineRequest(method, url, { ...options, responseAsStream: true });
-  const response = await pipeline.sendRequest(httpClient, request);
-  const rawHeaders: RawHttpHeaders = response.headers.toJSON();
-
-  const parsedBody = response.browserStreamBody ?? response.readableStreamBody;
-
-  return {
-    request,
-    headers: rawHeaders,
-    status: `${response.status}`,
-    body: parsedBody,
-  } as TResponse;
 }
 
 /**
@@ -224,8 +187,16 @@ function processFormData(formData?: FormDataMap) {
 
 /**
  * Prepares the response body
+ * @param response - The received response
+ * @param coerceAs - The type to coerce the body as
  */
-function getResponseBody(response: PipelineResponse): RequestBodyType | undefined {
+function getResponseBody(
+  response: PipelineResponse,
+  coerceAs: { stream?: boolean } = {}
+): RequestBodyType | undefined {
+  if (coerceAs.stream) {
+    return response.browserStreamBody ?? response.readableStreamBody;
+  }
   // Set the default response type
   const contentType = response.headers.get("content-type") ?? "";
   const firstType = contentType.split(";")[0];

@@ -1,34 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
+import { EventMessage } from "../common";
 
 const enum ControlChars {
   NewLine = 10,
   CarriageReturn = 13,
   Space = 32,
   Colon = 58,
-}
-
-/**
- * Represents a message sent in an event stream
- * https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format
- */
-export interface EventMessage {
-  /** The event ID to set the EventSource object's last event ID value. */
-  id: string;
-  /** A string identifying the type of event described. */
-  event: string;
-  /** The event data */
-  data: string;
-  /** The reconnection interval (in milliseconds) to wait before retrying the connection */
-  retry?: number;
 }
 
 type PartialSome<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
