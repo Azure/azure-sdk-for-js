@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Adds `asEvents()` to `StreamableMethods` to allow for streaming of server-sent events.
+
 ### Breaking Changes
 
 ### Bugs Fixed
