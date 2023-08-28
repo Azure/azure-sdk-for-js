@@ -37,7 +37,7 @@ describe("OpenAI", function () {
     recorder = await startRecorder(this.currentTest);
     if (!deployments.length || !models.length) {
       deployments = await getDeployments(recorder);
-      models = await getModels();
+      models = await getModels(recorder);
     }
   });
 

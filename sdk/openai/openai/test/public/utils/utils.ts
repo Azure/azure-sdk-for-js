@@ -3,7 +3,11 @@
 
 import { assert } from "@azure/test-utils";
 import { logger } from "./logger.js";
-import { createDefaultHttpClient, createHttpHeaders } from "@azure/core-rest-pipeline";
+import {
+  createDefaultHttpClient,
+  createEmptyPipeline,
+  createHttpHeaders,
+} from "@azure/core-rest-pipeline";
 import { randomUUID } from "@azure/core-util";
 import { KeyCredential } from "@azure/core-auth";
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
@@ -46,9 +50,12 @@ export async function withDeployment<T>(
   return succeeded;
 }
 
-async function listOpenAIModels(cred: KeyCredential): Promise<string[]> {
+async function listOpenAIModels(cred: KeyCredential, recorder: Recorder): Promise<string[]> {
   const openaiClient = createDefaultHttpClient();
-  const response = await openaiClient.sendRequest({
+  const pipeline = createEmptyPipeline();
+  pipeline.addPolicy(recorder.configureClientOptions({}).additionalPolicies![0].policy);
+
+  const response = await pipeline.sendRequest(openaiClient, {
     url: "https://api.openai.com/v1/models",
     headers: createHttpHeaders({
       Authorization: cred.key,
@@ -58,6 +65,7 @@ async function listOpenAIModels(cred: KeyCredential): Promise<string[]> {
     withCredentials: false,
     requestId: randomUUID(),
   });
+
   const body = JSON.parse(response.bodyAsText as string);
   const models = body.data.map((model: { id: string }) => model.id);
   logger.verbose(`Available models (${models.length}): ${models.join(", ")}`);
@@ -132,8 +140,9 @@ export async function getDeployments(recorder: Recorder): Promise<string[]> {
   );
 }
 
-export async function getModels(): Promise<string[]> {
-  return isPlaybackMode()
-    ? ["gpt-3.5-turbo-0613", "text-davinci-003"]
-    : listOpenAIModels(new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY")));
+export async function getModels(recorder: Recorder): Promise<string[]> {
+  return listOpenAIModels(
+    new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY")),
+    recorder
+  );
 }
