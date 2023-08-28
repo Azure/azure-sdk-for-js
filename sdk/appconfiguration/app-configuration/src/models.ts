@@ -391,7 +391,7 @@ export interface ListSnapshots extends OptionalSnapshotFields {
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListSnapshotsOptions extends OperationOptions, ListSnapshots {}
+export interface ListSnapshotsOptions extends OperationOptions, ListSnapshots, OptionalSnapshotFields {}
 
 /**
  * An interface that tracks the settings for paged iteration
@@ -514,15 +514,11 @@ export interface UpdateSnapshotResponse extends SnapshotResponse {}
  */
 export interface CreateSnapshotResponse extends SnapshotResponse {}
 
-export { CompositionType, SnapshotStatus };
-
 /**
  * Fields that uniquely identify a snapshot
  */
 export interface SnapshotInfo {
-  /**
-   * The name for this snapshot
-   */
+  /** The name for this snapshot */
   name: string;
   /** A list of filters used to filter the key-values included in the snapshot. */
   filters: ConfigurationSettingsFilter[];
@@ -533,6 +529,7 @@ export interface SnapshotInfo {
   /** The tags of the snapshot. */
   tags?: { [propertyName: string]: string };
 }
+
 /**
  * Fields for the snapshot
  */
@@ -554,4 +551,8 @@ export {
   Snapshot,
   ConfigurationSettingsFilter,
   InnerError,
+  CompositionType,
+  KnownCompositionType,
+  KnownSnapshotStatus,
+  SnapshotStatus,
 } from "./generated/src";

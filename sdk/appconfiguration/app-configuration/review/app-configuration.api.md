@@ -198,6 +198,20 @@ export function isFeatureFlag(setting: ConfigurationSetting): setting is Configu
 export function isSecretReference(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
 // @public
+export enum KnownCompositionType {
+    Key = "key",
+    KeyLabel = "key_label"
+}
+
+// @public
+export enum KnownSnapshotStatus {
+    Archived = "archived",
+    Failed = "failed",
+    Provisioning = "provisioning",
+    Ready = "ready"
+}
+
+// @public
 export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
     items: ConfigurationSetting[];
 }
@@ -234,7 +248,7 @@ export interface ListSnapshots extends OptionalSnapshotFields {
 }
 
 // @public
-export interface ListSnapshotsOptions extends OperationOptions, ListSnapshots {
+export interface ListSnapshotsOptions extends OperationOptions, ListSnapshots, OptionalSnapshotFields {
 }
 
 // @public
