@@ -7,7 +7,7 @@ These sample programs show how to use the JavaScript client libraries for Monito
 | [logsQuery.js][logsquery]                                     | Demonstrates how to run a query against a Log Analytics workspace       |
 | [logsQueryBatch.js][logsquerybatch]                           | Demonstrates how to run a batch query against a Log Analytics workspace |
 | [logsQueryMultipleWorkspaces.js][logsquerymultipleworkspaces] | Demonstrates how to run a query against a Log Analytics workspace       |
-| [logsResourceCentricQuery.js][logsresourcecentricquery]       | Demonstrates how to run a Kusto query for an Azure resource.            |
+| [logsResourceCentricQuery.js][logsresourcecentricquery]       | Demonstrates how to run a query against a Log Analytics workspace, using an Azure resource ID            |
 | [metricsQuery.js][metricsquery]                               | Demonstrates how to query metrics using the MetricsClient.              |
 
 ## Prerequisites
