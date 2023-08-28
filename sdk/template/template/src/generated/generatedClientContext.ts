@@ -7,7 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import { GeneratedClientOptionalParams } from "./models";
+import { GeneratedClientOptionalParams } from "./models/index.js";
 
 /** @internal */
 export class GeneratedClientContext extends coreClient.ServiceClient {

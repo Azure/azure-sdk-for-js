@@ -8,7 +8,7 @@ import { assert } from "@azure/test-utils";
 
 // Import the internal function to be tested using the normal relative import
 // syntax.
-import { quoteETag } from "../../src/util";
+import { quoteETag } from "../../src/util.js";
 
 // Unit tests SHOULD appear inside of a `describe` block.  The hierarchical
 // oranization of tests within `describe` blocks will be reflected in our
