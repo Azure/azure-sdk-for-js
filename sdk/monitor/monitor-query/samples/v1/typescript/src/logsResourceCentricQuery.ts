@@ -26,7 +26,7 @@ export async function main() {
     throw new Error("LOGS_RESOURCE_ID must be set in the environment for this sample");
   }
 
-  const kustoQuery = `MyTable_CL | summarize count()`
+  const kustoQuery = `MyTable_CL | summarize count()`;
 
   console.log(`Running '${kustoQuery}' over the last One Hour`);
   const queryLogsOptions: LogsQueryOptions = {
