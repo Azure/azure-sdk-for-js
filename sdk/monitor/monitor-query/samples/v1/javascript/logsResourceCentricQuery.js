@@ -26,7 +26,7 @@ async function main() {
     // explicitly control the amount of time the server can spend processing the query.
     serverTimeoutInSeconds: 600,
     // optionally enable returning additional statistics about the query's execution.
-    // (by default this is off)
+    // (by default, this is off)
     includeQueryStatistics: true,
   };
 
