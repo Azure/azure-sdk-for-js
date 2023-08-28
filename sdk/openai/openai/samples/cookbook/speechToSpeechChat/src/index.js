@@ -1,13 +1,13 @@
 const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
 
 let SpeechSDK, speechKey, speechRegion, recognizer, client, statusDiv, useAzureSpeechSDK;
-const azureSpeechCheckbox = document.getElementsByClassName('useAzureSpeechSDK')[0];
+const azureSpeechCheckbox = document.getElementById('useAzureSpeechSDK');
 const speechKeyElement = document.getElementById("speechKey");
 const speechRegionElement = document.getElementById("speechRegion");
 azureSpeechCheckbox.addEventListener('change', function() {
   useAzureSpeechSDK = this.checked;
-  speechKeyElement.enabled = useAzureSpeechSDK;
-  speechRegionElement.enabled = useAzureSpeechSDK;
+  speechKeyElement.disabled = !useAzureSpeechSDK;
+  speechRegionElement.disabled = !useAzureSpeechSDK;
 });
 
 function startChatFromSpeech() {
