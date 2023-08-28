@@ -91,7 +91,7 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
       credentials: request.withCredentials ? "include" : "same-origin",
       cache: "no-store",
       // @ts-ignore
-      duplex: 'half'
+      // duplex: 'half'
     });
     // If we're uploading a blob, we need to fire the progress event manually
     if (isBlob(request.body) && request.onUploadProgress) {
@@ -203,7 +203,6 @@ function buildFetchHeaders(pipelineHeaders: PipelineHeaders) {
   for (const [name, value] of pipelineHeaders) {
     headers.append(name, value);
   }
-
   return headers;
 }
 

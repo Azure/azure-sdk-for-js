@@ -8,8 +8,8 @@ import {
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
 } from "../generated/src/models";
-import { ChatParticipant } from "./models";
-
+import { ChatAttachment, ChatParticipant } from "./models";
+import { TransferProgressEvent } from "@azure/core-rest-pipeline";
 export {
   RestListMessagesOptions,
   RestListChatThreadsOptions,
@@ -47,6 +47,8 @@ export interface SendMessageOptions extends OperationOptions {
   type?: ChatMessageType;
   /** Message metadata. */
   metadata?: Record<string, string>;
+  /** Chat attachments. */
+  attachments?: ChatAttachment[];
 }
 
 /**
@@ -57,6 +59,8 @@ export interface UpdateMessageOptions extends OperationOptions {
   content?: string;
   /** Message metadata. */
   metadata?: Record<string, string>;
+  /** Chat attachments. */
+  attachments?: ChatAttachment[];
 }
 
 /**
@@ -89,6 +93,8 @@ export interface UploadImageOptions extends OperationOptions {
   filename: string;
   /** file name. */
   size?: number;
+  /** Callback which fires upon upload progress. */
+  onUploadProgress?: (progress: TransferProgressEvent) => void
 }
 
 

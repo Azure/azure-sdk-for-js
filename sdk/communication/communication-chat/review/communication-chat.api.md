@@ -166,7 +166,7 @@ export class ChatThreadClient {
     readonly threadId: string;
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
-    uploadImage(blob: Blob_2, options?: UploadImageOptions, onUploadProgress?: (progress: TransferProgressEvent) => void): Promise<UploadImageResult>;
+    uploadImage(blob: Blob_2, options: UploadImageOptions): Promise<UploadImageResult>;
 }
 
 // @public
@@ -282,6 +282,7 @@ export interface SendChatMessageResult {
 
 // @public
 export interface SendMessageOptions extends OperationOptions {
+    attachments?: ChatAttachment[];
     metadata?: Record<string, string>;
     senderDisplayName?: string;
     type?: ChatMessageType;
@@ -309,6 +310,7 @@ export { TypingIndicatorReceivedEvent }
 
 // @public
 export interface UpdateMessageOptions extends OperationOptions {
+    attachments?: ChatAttachment[];
     content?: string;
     metadata?: Record<string, string>;
 }
@@ -323,6 +325,7 @@ export interface UploadImageOptions extends OperationOptions {
     attachmentType: AttachmentType_2;
     filename: string;
     mimeType: string;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
     size?: number;
 }
 
