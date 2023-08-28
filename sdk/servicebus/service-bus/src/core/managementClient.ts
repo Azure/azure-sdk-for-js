@@ -257,12 +257,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       this._initLock,
       async () => {
         managementClientLogger.verbose(
-          `{this._logPrefix} lock acquired for initializing replyTo address and link`
+          `${this.logPrefix} lock acquired for initializing replyTo address and link`
         );
         if (!this.isOpen()) {
           this.replyTo = generate_uuid();
           managementClientLogger.verbose(
-            `{this._logPrefix} new replyTo address: ${this.replyTo} generated`
+            `${this.logPrefix} new replyTo address: ${this.replyTo} generated`
           );
         }
         const { abortSignal } = options ?? {};

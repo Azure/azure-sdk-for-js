@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-- Check whether we can send messages before making management requests
+- Check whether we can send messages before making management requests. [PR #26927](https://github.com/Azure/azure-sdk-for-js/pull/26927)
 
 ## 7.9.0 (2023-04-11)
 
