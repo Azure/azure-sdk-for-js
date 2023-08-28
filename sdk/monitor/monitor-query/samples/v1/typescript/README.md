@@ -4,7 +4,7 @@ These sample programs show how to use the TypeScript client libraries for Monito
 
 | **File Name**                                                 | **Description**                                                         |
 | ------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| [logsQuery.ts][logsquery]                                     | Demonstrates how to run a query against a Log Analytics workspace       |
+| [logsQuery.ts][logsquery]                                     | Demonstrates how to run a query against a Log Analytics workspace, using a workspace ID      |
 | [logsQueryBatch.ts][logsquerybatch]                           | Demonstrates how to run a batch query against a Log Analytics workspace |
 | [logsQueryMultipleWorkspaces.ts][logsquerymultipleworkspaces] | Demonstrates how to run a query against a Log Analytics workspace       |
 | [logsResourceCentricQuery.ts][logsresourcecentricquery]       | Demonstrates how to run a query against a Log Analytics workspace, using an Azure resource ID            |
