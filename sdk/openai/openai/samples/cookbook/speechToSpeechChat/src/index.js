@@ -133,7 +133,16 @@ function speakText(text) {
         synthesizer = null;
       });
   } else {
-    console.log("To be implemented");
+
+    // Use Web Speech API
+    const synth = window.speechSynthesis;
+    const utterThis = new SpeechSynthesisUtterance(text);
+
+    const voices = synth.getVoices();
+    const defaultVoice = voices.find(voice => voice.default);
+    utterThis.voice = defaultVoice;
+    synth.speak(utterThis);
+    statusDiv.innerHTML += `\n\nsynthesis finished for [${text}].\n`;
   }
 }
 
