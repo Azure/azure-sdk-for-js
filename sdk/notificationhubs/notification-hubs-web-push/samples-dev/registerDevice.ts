@@ -60,9 +60,6 @@ async function removeTag(tag: string) {
 
 registerWebPush()
   .then(async () => {
-    // Register for Web Push
-    await registerWebPush();
-
     // Log the details
     console.log("Endpoint: ", endpoint);
     console.log("P256DH: ", p256dh);
