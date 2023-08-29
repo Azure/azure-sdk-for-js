@@ -4,16 +4,24 @@
 import { assert } from "@azure/test-utils";
 import { logger } from "./logger.js";
 import {
+  PipelineRequest,
+  PipelineResponse,
   createDefaultHttpClient,
   createEmptyPipeline,
   createHttpHeaders,
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { randomUUID } from "@azure/core-util";
 import { KeyCredential } from "@azure/core-auth";
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AuthMethod } from "./recordedClient.js";
-import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  assertEnvironmentVariable,
+  isLiveMode,
+  isPlaybackMode,
+} from "@azure-tools/test-recorder";
 import { OpenAIKeyCredential } from "../../../src/index.js";
 
 export async function withDeployment<T>(
@@ -50,12 +58,20 @@ export async function withDeployment<T>(
   return succeeded;
 }
 
-async function listOpenAIModels(cred: KeyCredential, recorder: Recorder): Promise<string[]> {
-  const openaiClient = createDefaultHttpClient();
+export async function sendRequestWithRecorder(
+  request: PipelineRequest,
+  recorder: Recorder
+): Promise<PipelineResponse> {
+  const client = createDefaultHttpClient();
   const pipeline = createEmptyPipeline();
-  pipeline.addPolicy(recorder.configureClientOptions({}).additionalPolicies![0].policy);
+  if (!isLiveMode()) {
+    pipeline.addPolicy(recorder.configureClientOptions({}).additionalPolicies![0].policy);
+  }
+  return pipeline.sendRequest(client, request);
+}
 
-  const response = await pipeline.sendRequest(openaiClient, {
+async function listOpenAIModels(cred: KeyCredential, recorder: Recorder): Promise<string[]> {
+  const request = createPipelineRequest({
     url: "https://api.openai.com/v1/models",
     headers: createHttpHeaders({
       Authorization: cred.key,
@@ -65,6 +81,7 @@ async function listOpenAIModels(cred: KeyCredential, recorder: Recorder): Promis
     withCredentials: false,
     requestId: randomUUID(),
   });
+  const response = await sendRequestWithRecorder(request, recorder);
 
   const body = JSON.parse(response.bodyAsText as string);
   const models = body.data.map((model: { id: string }) => model.id);
