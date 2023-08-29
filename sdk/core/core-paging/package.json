@@ -2,26 +2,16 @@
   "name": "@azure/core-paging",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "Core types for paging async iterable iterators",
-  "tags": [
-    "microsoft",
-    "clientruntime"
-  ],
-  "keywords": [
-    "microsoft",
-    "clientruntime",
-    "azure",
-    "cloud"
-  ],
-  "main": "dist/index.js",
+  "tags": ["microsoft", "clientruntime"],
+  "keywords": ["microsoft", "clientruntime", "azure", "cloud"],
+  "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "types": "./types/latest/core-paging.d.ts",
   "typesVersions": {
     "<3.6": {
-      "types/latest/*": [
-        "types/3.1/*"
-      ]
+      "types/latest/*": ["types/3.1/*"]
     }
   },
   "files": [
@@ -30,7 +20,9 @@
     "dist/",
     "dist-esm/src/",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "types/latest/src/",
+    "types/3.1/src/"
   ],
   "engines": {
     "node": ">=14.0.0"
@@ -61,8 +53,8 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 50000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
+    "unit-test:browser": "karma start karma.conf.cjs --single-run",
+    "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 50000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": true,
@@ -101,10 +93,25 @@
       "skipFolder": true,
       "disableDocsMs": true,
       "productName": "Azure SDK Core",
-      "productSlugs": [
-        "azure"
-      ]
+      "productSlugs": ["azure"]
     },
-    "migrationDate": "2023-03-08T18:36:03.000Z"
+    "migrationDate": "2023-05-23T21:35:34.784Z"
+  },
+  "type": "module",
+  "export": {
+    ".": {
+      "require": {
+        "types": "./types/latest/core-paging.d.ts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./types/src/index.d.ts",
+        "default": "./dist-esm/src/index.js"
+      }
+    }
+  },
+  "mocha": {
+    "require": "ts-node/register",
+    "loader": "ts-node/esm"
   }
 }

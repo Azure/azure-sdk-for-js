@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export * from "./models";
-export * from "./getPagedAsyncIterator";
+export * from "./models.js";
+export * from "./getPagedAsyncIterator.js";
