@@ -3,13 +3,25 @@
 
 import { assert } from "@azure/test-utils";
 import { logger } from "./logger.js";
-import { createDefaultHttpClient, createHttpHeaders } from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  createDefaultHttpClient,
+  createEmptyPipeline,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
 import { randomUUID } from "@azure/core-util";
 import { KeyCredential } from "@azure/core-auth";
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AuthMethod } from "./recordedClient.js";
-import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  assertEnvironmentVariable,
+  isLiveMode,
+  isPlaybackMode,
+} from "@azure-tools/test-recorder";
 import { OpenAIKeyCredential } from "../../../src/index.js";
 
 export async function withDeployment<T>(
@@ -46,9 +58,20 @@ export async function withDeployment<T>(
   return succeeded;
 }
 
-async function listOpenAIModels(cred: KeyCredential): Promise<string[]> {
-  const openaiClient = createDefaultHttpClient();
-  const response = await openaiClient.sendRequest({
+export async function sendRequestWithRecorder(
+  request: PipelineRequest,
+  recorder: Recorder
+): Promise<PipelineResponse> {
+  const client = createDefaultHttpClient();
+  const pipeline = createEmptyPipeline();
+  if (!isLiveMode()) {
+    pipeline.addPolicy(recorder.configureClientOptions({}).additionalPolicies![0].policy);
+  }
+  return pipeline.sendRequest(client, request);
+}
+
+async function listOpenAIModels(cred: KeyCredential, recorder: Recorder): Promise<string[]> {
+  const request = createPipelineRequest({
     url: "https://api.openai.com/v1/models",
     headers: createHttpHeaders({
       Authorization: cred.key,
@@ -58,6 +81,8 @@ async function listOpenAIModels(cred: KeyCredential): Promise<string[]> {
     withCredentials: false,
     requestId: randomUUID(),
   });
+  const response = await sendRequestWithRecorder(request, recorder);
+
   const body = JSON.parse(response.bodyAsText as string);
   const models = body.data.map((model: { id: string }) => model.id);
   logger.verbose(`Available models (${models.length}): ${models.join(", ")}`);
@@ -132,8 +157,9 @@ export async function getDeployments(recorder: Recorder): Promise<string[]> {
   );
 }
 
-export async function getModels(): Promise<string[]> {
-  return isPlaybackMode()
-    ? ["gpt-3.5-turbo-0613", "text-davinci-003"]
-    : listOpenAIModels(new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY")));
+export async function getModels(recorder: Recorder): Promise<string[]> {
+  return listOpenAIModels(
+    new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY")),
+    recorder
+  );
 }
