@@ -37,7 +37,7 @@ import {
 } from "../serviceBusMessage";
 import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
 import { managementClientLogger, receiverLogger, senderLogger, ServiceBusLogger } from "../log";
-import { toBuffer } from "../util/utils";
+import { toBuffer, waitForSendable } from "../util/utils";
 import {
   InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
@@ -257,12 +257,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       this._initLock,
       async () => {
         managementClientLogger.verbose(
-          `{this._logPrefix} lock acquired for initializing replyTo address and link`
+          `${this.logPrefix} lock acquired for initializing replyTo address and link`
         );
         if (!this.isOpen()) {
           this.replyTo = generate_uuid();
           managementClientLogger.verbose(
-            `{this._logPrefix} new replyTo address: ${this.replyTo} generated`
+            `${this.logPrefix} new replyTo address: ${this.replyTo} generated`
           );
         }
         const { abortSignal } = options ?? {};
@@ -403,6 +403,16 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     }
 
     try {
+      const { timeoutInMs } = sendRequestOptions;
+      await waitForSendable(
+        internalLogger,
+        this.logPrefix,
+        this.name,
+        timeoutInMs ?? Constants.defaultOperationTimeoutInMs,
+        this.link?.sender,
+        this.link?.session?.outgoing?.available()
+      );
+
       return await this.link!.sendRequest(request, sendRequestOptions);
     } catch (err: any) {
       const translatedError = translateServiceBusError(err);
