@@ -11,11 +11,11 @@ import {
   createSerializer,
   serializationPolicy,
 } from "@azure/core-client";
-import { ExtendedServiceClient, disableKeepAlivePolicyName } from "../src/index";
+import { ExtendedServiceClient, disableKeepAlivePolicyName } from "../src/index.js";
 import {
   pipelineContainsDisableKeepAlivePolicy,
   createDisableKeepAlivePolicy,
-} from "../src/policies/disableKeepAlivePolicy";
+} from "../src/policies/disableKeepAlivePolicy.js";
 
 describe("Extended Client", () => {
   it("should add the disable keep alive policy", () => {
