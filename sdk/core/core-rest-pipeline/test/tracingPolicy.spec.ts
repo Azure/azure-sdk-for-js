@@ -11,7 +11,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   tracingPolicy,
-} from "../src";
+} from "../src/index.js";
 import {
   Instrumenter,
   InstrumenterSpanOptions,

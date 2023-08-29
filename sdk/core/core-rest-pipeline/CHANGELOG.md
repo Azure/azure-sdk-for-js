@@ -1,6 +1,6 @@
 # Release History
 
-## 1.12.1 (Unreleased)
+## 1.13.0 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,9 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Migrate package to ESM and add conditional exports.
+
 
 - Set `init.duplex` to `"half"` when streaming body via `fetch()` [PR #26890](https://github.com/Azure/azure-sdk-for-js/pull/26890)
 

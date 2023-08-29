@@ -11,8 +11,8 @@ import {
   auxiliaryAuthenticationHeaderPolicy,
   createHttpHeaders,
   createPipelineRequest,
-} from "../src";
-import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler";
+} from "../src/index.js";
+import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 

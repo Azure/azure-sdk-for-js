@@ -8,11 +8,11 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   retryPolicy,
-} from "../src";
+} from "../src/index.js";
 import { AbortController } from "@azure/abort-controller";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 import { assert } from "chai";
-import { makeTestLogger } from "./util";
+import { makeTestLogger } from "./util.js";
 
 describe("retryPolicy", function () {
   afterEach(function () {

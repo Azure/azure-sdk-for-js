@@ -8,7 +8,7 @@ import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import * as https from "https";
 import * as http from "http";
 import { AbortController } from "@azure/abort-controller";
-import { createDefaultHttpClient, createPipelineRequest } from "../../src";
+import { createDefaultHttpClient, createPipelineRequest } from "../../src/index.js";
 
 class FakeResponse extends PassThrough {
   public statusCode?: number;
