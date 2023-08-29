@@ -269,7 +269,6 @@ main().catch((err) => {
   console.error("The sample encountered an error:", err);
   process.exit(1);
 });
-```
 #### Handle logs query response
 
 The `queryWorkspace` function of `LogsQueryClient` returns a `LogsQueryResult` object. The object type can be `LogsQuerySuccessfulResult` or `LogsQueryPartialResult`. Here's a hierarchy of the response:
