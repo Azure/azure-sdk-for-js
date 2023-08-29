@@ -169,7 +169,8 @@ async function processTables(tablesFromResult: LogsTable[]) {
 
 run().catch((err) => console.log("ERROR:", err));
 ```
-#### Resource-centric Logs Query
+
+#### Resource-centric logs query
 
 The following example demonstrates how to query logs directly from an Azure resource. Here, the `queryResource` method is used and an Azure resource ID is passed in (e.g. /subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}).
 
