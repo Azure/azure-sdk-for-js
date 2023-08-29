@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignal, AbortSignalLike, abortSignal } from "./AbortSignal";
+import { AbortSignal, AbortSignalLike, abortSignal } from "./AbortSignal.js";
 
 /**
  * This error is thrown when an asynchronous operation has been aborted.

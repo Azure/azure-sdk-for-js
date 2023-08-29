@@ -10,5 +10,5 @@
 // Potential changes to align with DOM Spec
 // * dispatchEvent on Signal
 
-export { AbortController, AbortError } from "./AbortController";
-export { AbortSignal, AbortSignalLike } from "./AbortSignal";
+export { AbortController, AbortError } from "./AbortController.js";
+export { AbortSignal, AbortSignalLike } from "./AbortSignal.js";
