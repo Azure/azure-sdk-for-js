@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import debug, { Debugger } from "../src/debug";
+import debug, { Debugger } from "../src/debug.js";
 import { assert } from "chai";
 import { stub } from "sinon";
 

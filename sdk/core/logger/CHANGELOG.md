@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.5 (Unreleased)
+## 1.1.0 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,9 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Migrate package to ESM and add conditional exports.
+
 
 ## 1.0.4 (2023-03-02)
 
