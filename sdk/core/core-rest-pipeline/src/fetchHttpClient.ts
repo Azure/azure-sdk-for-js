@@ -226,17 +226,7 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
   return responseHeaders;
 }
 
-type BuildRequestBodyResponse =
-  | string
-  | Blob
-  | ReadableStream<Uint8Array>
-  | ArrayBuffer
-  | ArrayBufferView
-  | FormData
-  | null
-  | undefined;
-
-function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
+function buildRequestBody(request: PipelineRequest) {
   const body = typeof request.body === "function" ? request.body() : request.body;
   if (isNodeReadableStream(body)) {
     throw new Error("Node streams are not supported in browser environment.");

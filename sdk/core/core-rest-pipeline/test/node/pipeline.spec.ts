@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as td from "testdouble";
-import { /* proxyPolicy, */ proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy.js";
+import { proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy.js";
 import { tlsPolicy, tlsPolicyName } from "../../src/policies/tlsPolicy.js";
 import { HttpClient } from "../../src/interfaces.js";
 import { HttpsProxyAgent } from "https-proxy-agent";

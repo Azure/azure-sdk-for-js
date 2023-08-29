@@ -1,63 +1,73 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as https from "https";
+import * as td from "testdouble";
 import { assert } from "chai";
-import { getClient } from "../../src/getClient.js";
-import sinon from "sinon";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { PassThrough } from "stream";
 
 const mockBaseUrl = "https://example.org";
 
 describe("[Node] Streams", () => {
-
   afterEach(() => {
-    sinon.restore();
-  });
-
-  let stubbedHttpsRequest: sinon.SinonStub;
-  beforeEach(function () {
-    stubbedHttpsRequest = sinon.stub(https, "request");
+    td.reset();
   });
 
   // TODO: Replace sinon with an ES Module mock or another HTTP response mocking library
-  it.skip("should get a JSON body response as a stream", async () => {
+  it("should get a JSON body response as a stream", async () => {
+    const https = await td.replaceEsm("https");
+    const { getClient } = await import("../../src/getClient.js");
+
     const client = getClient(mockBaseUrl);
     const expectedBody = { foo: "foo" };
     const clientRequest = createRequest();
-    stubbedHttpsRequest.returns(clientRequest);
+
+    td.when(
+      https.request(
+        td.matchers.anything(),
+        td.callback(createResponse(200, JSON.stringify(expectedBody)))
+      ),
+      { times: 1 }
+    ).thenReturn(clientRequest);
 
     const promise = client.pathUnchecked("/foo").get().asNodeStream();
-
-    stubbedHttpsRequest.yield(createResponse(200, JSON.stringify(expectedBody)));
 
     const response = await promise;
     const stringBody = await readStreamToBuffer(response.body!);
 
     assert.deepEqual(stringBody.toString(), JSON.stringify(expectedBody));
-    assert.isTrue(stubbedHttpsRequest.calledOnce);
   });
 
-  it.skip("should get a JSON body response", async () => {
+  it("should get a JSON body response", async () => {
+    const https = await td.replaceEsm("https");
+    const { getClient } = await import("../../src/getClient.js");
+
     const client = getClient(mockBaseUrl);
     const expectedBody = { foo: "foo" };
     const clientRequest = createRequest();
-    stubbedHttpsRequest.returns(clientRequest);
+
+    td.when(
+      https.request(
+        td.matchers.anything(),
+        td.callback(createResponse(200, JSON.stringify(expectedBody)))
+      ),
+      { times: 1 }
+    ).thenReturn(clientRequest);
 
     const promise = client.pathUnchecked("/foo").get();
-
-    stubbedHttpsRequest.yields(createResponse(200, JSON.stringify(expectedBody)));
-
     const response = await promise;
 
     assert.deepEqual(response.body, expectedBody);
-    assert.isTrue(stubbedHttpsRequest.calledOnce);
   });
 
-  it.skip("should be able to handle errors on normal response", async () => {
+  it("should be able to handle errors on normal response", async () => {
+    const https = await td.replaceEsm("https");
+    const { getClient } = await import("../../src/getClient.js");
+
     const client = getClient(mockBaseUrl);
-    stubbedHttpsRequest.throwsException(new Error("ExpectedException"));
+
+    td.when(https.request(), { ignoreExtraArgs: true }).thenThrow(new Error("ExpectedException"));
+
     try {
       await client.pathUnchecked("/foo").get();
     } catch (e: any) {
@@ -65,9 +75,14 @@ describe("[Node] Streams", () => {
     }
   });
 
-  it.skip("should be able to handle errors on streamed response", async () => {
+  it("should be able to handle errors on streamed response", async () => {
+    const https = await td.replaceEsm("https");
+    const { getClient } = await import("../../src/getClient.js");
+
     const client = getClient(mockBaseUrl);
-    stubbedHttpsRequest.throwsException(new Error("ExpectedException"));
+
+    td.when(https.request(), { ignoreExtraArgs: true }).thenThrow(new Error("ExpectedException"));
+
     try {
       await client.pathUnchecked("/foo").get().asNodeStream();
     } catch (e: any) {

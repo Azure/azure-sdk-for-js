@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isBrowser, isNode } from "../../../src";
-import { stringToUint8Array, uint8ArrayToString } from "../../../src/bytesEncoding";
+import { isBrowser, isNode } from "../../../src/index.js";
+import { stringToUint8Array, uint8ArrayToString } from "../../../src/bytesEncoding.js";
 import { assert } from "chai";
 
 describe("Base64", function () {
