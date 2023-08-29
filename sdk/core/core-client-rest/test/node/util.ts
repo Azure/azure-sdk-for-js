@@ -14,13 +14,16 @@ export function createStream(
   return stream;
 }
 
-export function createClient(cb: () => NodeJS.ReadableStream): Client {
+export function createClient(
+  cb: () => NodeJS.ReadableStream,
+  { status }: { status?: number } = {}
+): Client {
   return getClient("https://example.org", {
     httpClient: {
       sendRequest: (request) =>
         Promise.resolve({
           request,
-          status: 200,
+          status: status ?? 200,
           headers: createHttpHeaders(),
           readableStreamBody: cb(),
         }),

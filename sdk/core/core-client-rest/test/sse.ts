@@ -22,7 +22,7 @@ import { assert, matrix } from "@azure/test-utils";
 
 export function buildSseTests<StreamT>(
   rtName: string,
-  createClient: (cb: () => StreamT) => Client,
+  createClient: (cb: () => StreamT, options?: { status?: number }) => Client,
   createStream: (cb: (write: (chunk: Uint8Array) => void) => void) => StreamT
 ): Mocha.Suite {
   return describe(`[${rtName}] Server-sent Events`, () => {
@@ -189,6 +189,62 @@ export function buildSseTests<StreamT>(
       await assertAsyncIterable(await client.pathUnchecked("/foo").get().asEvents(), 1, (event) => {
         assert.isUndefined(event.retry);
       });
+    });
+
+    it("passes error response to onError", async function () {
+      const client = createClient(
+        () =>
+          createStream((write) => {
+            write(encoder.encode(JSON.stringify({ error: "foo" })));
+          }),
+        {
+          status: 400,
+        }
+      );
+      let ran = false;
+      await assertAsyncIterable(
+        await client
+          .pathUnchecked("/foo")
+          .get()
+          .asEvents({
+            onError: () => {
+              ran = true;
+            },
+          }),
+        0,
+        () => {
+          /** empty body */
+        }
+      );
+      assert.isTrue(ran);
+    });
+
+    it("doesn't call onError when a successful response is received", async function () {
+      const client = createClient(
+        () =>
+          createStream((write) => {
+            write(encoder.encode(JSON.stringify({ error: "foo" })));
+          }),
+        {
+          status: 200,
+        }
+      );
+      let ran = false;
+      await assertAsyncIterable(
+        await client
+          .pathUnchecked("/foo")
+          .get()
+          .asEvents({
+            onError: () => {
+              ran = true;
+            },
+          }),
+        0,
+        () => {
+          /** empty body */
+        }
+      );
+      assert.isFalse(ran);
     });
   });
 }

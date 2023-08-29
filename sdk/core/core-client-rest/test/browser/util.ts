@@ -13,13 +13,16 @@ export function createStream(cb: (write: (chunk: Uint8Array) => void) => void): 
   });
 }
 
-export function createClient(cb: () => ReadableStream): Client {
+export function createClient(
+  cb: () => ReadableStream,
+  { status }: { status?: number } = {}
+): Client {
   return getClient("https://example.org", {
     httpClient: {
       sendRequest: (request) =>
         Promise.resolve({
           request,
-          status: 200,
+          status: status ?? 200,
           headers: createHttpHeaders(),
           browserStreamBody: cb(),
         }),

@@ -3,7 +3,7 @@
 
 import { EventMessage } from "../common";
 
-const enum ControlChars {
+enum ControlChars {
   NewLine = 10,
   CarriageReturn = 13,
   Space = 32,

@@ -9,6 +9,7 @@ import {
   ClientOptions,
   HttpBrowserStreamResponse,
   HttpNodeStreamResponse,
+  HttpResponse,
   RequestParameters,
   StreamableMethod,
 } from "./common";
@@ -192,7 +193,7 @@ function buildOperation(
         httpClient
       ) as Promise<HttpNodeStreamResponse>;
     },
-    async asEvents() {
+    async asEvents({ onError }: { onError?: (error: HttpResponse) => void } = {}) {
       const response = await sendRequest(
         method,
         url,
@@ -200,6 +201,12 @@ function buildOperation(
         { ...options, allowInsecureConnection, responseAsStream: true },
         httpClient
       );
+      if (parseInt(response.status) >= 400) {
+        onError?.(response);
+        return (async function* () {
+          /** empty */
+        })();
+      }
       return getSSEs(response);
     },
   };

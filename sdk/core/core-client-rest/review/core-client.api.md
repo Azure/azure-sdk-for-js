@@ -86,7 +86,7 @@ export interface EventMessage {
 
 // @public
 export interface FullOperationResponse extends PipelineResponse {
-    parsedBody?: RequestBodyType;
+    parsedBody?: RequestBodyType | Record<string, any>;
     rawHeaders?: RawHttpHeaders;
     request: PipelineRequest;
 }
@@ -194,7 +194,9 @@ export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>>
 export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
     asNodeStream: () => Promise<HttpNodeStreamResponse>;
     asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
-    asEvents: () => Promise<AsyncIterable<EventMessage>>;
+    asEvents: (options?: {
+        onError: (error: HttpResponse) => void;
+    }) => Promise<AsyncIterable<EventMessage>>;
 };
 
 ```
