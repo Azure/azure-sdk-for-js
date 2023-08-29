@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /// <reference lib="dom"/>
-import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./xml.common";
+import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./xml.common.js";
 
 if (!document || !DOMParser || !Node || !XMLSerializer) {
   throw new Error(
