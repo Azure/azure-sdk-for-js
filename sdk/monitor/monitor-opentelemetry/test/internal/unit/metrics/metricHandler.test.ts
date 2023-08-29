@@ -21,8 +21,6 @@ describe("MetricHandler", () => {
 
   beforeEach(() => {
     originalEnv = process.env;
-    metrics.disable();
-    (MetricHandler["_instance"] as any) = null;
   });
 
   before(() => {
@@ -32,11 +30,12 @@ describe("MetricHandler", () => {
   afterEach(() => {
     process.env = originalEnv;
     handler.shutdown();
+    metrics.disable();
     sandbox.restore();
   });
 
   function createHandler() {
-    handler = MetricHandler.getInstance(_config, {
+    handler = new MetricHandler(_config, {
       collectionInterval: 100,
     });
     exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(

@@ -19,20 +19,12 @@ import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS } from "./types";
  * Azure Monitor OpenTelemetry Metric Handler
  */
 export class MetricHandler {
-  private static _instance: MetricHandler;
   private _collectionInterval = 60000; // 60 seconds
   private _meterProvider: MeterProvider;
   private _azureExporter: AzureMonitorMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
   private _standardMetrics?: StandardMetrics;
   private _config: InternalConfig;
-
-  public static getInstance(config: InternalConfig, options?: { collectionInterval: number }) {
-    if (!MetricHandler._instance) {
-      MetricHandler._instance = new MetricHandler(config, options);
-    }
-    return MetricHandler._instance;
-  }
 
   /**
    * Initializes a new instance of the MetricHandler class.
