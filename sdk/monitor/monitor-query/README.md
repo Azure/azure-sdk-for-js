@@ -119,7 +119,8 @@ The `LogsQueryClient` can be used to query a Log Analytics workspace using the [
 
 You can query logs by workspace ID or resource ID. The result is returned as a table with a collection of rows.
 
-#### Workspace-centric Logs Query
+#### Workspace-centric logs query
+
 To query by workspace ID, use the `LogsQueryClient.queryWorkspace` method:
 
 ```ts
