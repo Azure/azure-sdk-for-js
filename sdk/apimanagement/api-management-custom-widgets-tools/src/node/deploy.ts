@@ -38,7 +38,7 @@ export type DeployConfig = {
  * @param serviceInformation - service information for deployment
  * @param name - name of the widget to be deployed
  * @param fallbackConfigPath - local path to the config file (by default "./static/config.msapim.json")
- * @param config - optional config obj
+ * @param config - optional config object
  */
 async function deploy(
   serviceInformation: ServiceInformation,
