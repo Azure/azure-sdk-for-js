@@ -7,7 +7,7 @@
 - "parentLocation" object is being sent with "secrets" trough askForSecrets function call, it contains location info of the Developer Portal window - href, origin, pathname, search...
 - Node function "deploy" now accepts JSON config object with two options
   - interactiveBrowserCredentialOptions 
-    - config object for InteractiveBrowserCredential function from @azure/identity package, you can find the accepted values [here](https://learn.microsoft.com/en-us/javascript/api/@azure/identity/interactivebrowsercredentialnodeoptions?view=azure-node-latest)
+    - config object for InteractiveBrowserCredential function from @azure/identity package, you can find the accepted values [here](https://learn.microsoft.com/javascript/api/@azure/identity/interactivebrowsercredentialnodeoptions?view=azure-node-latest)
     - by default: { redirectUri: "http://localhost:1337" }
   - rootLocal 
     - relative path from where the script will load your local builded files
