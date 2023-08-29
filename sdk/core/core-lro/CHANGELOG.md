@@ -1,6 +1,6 @@
 # Release History
 
-## 2.5.5 (Unreleased)
+## 2.6.0 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,9 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Migrate package to ESM and add conditional exports.
+
 
 ## 2.5.4 (2023-07-24)
 

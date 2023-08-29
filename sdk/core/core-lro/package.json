@@ -2,17 +2,9 @@
   "name": "@azure/core-lro",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "2.5.5",
+  "version": "2.6.0",
   "description": "Isomorphic client library for supporting long-running operations in node.js and browser.",
-  "tags": [
-    "isomorphic",
-    "browser",
-    "javascript",
-    "node",
-    "microsoft",
-    "lro",
-    "polling"
-  ],
+  "tags": ["isomorphic", "browser", "javascript", "node", "microsoft", "lro", "polling"],
   "keywords": [
     "isomorphic",
     "browser",
@@ -24,7 +16,7 @@
     "azure",
     "cloud"
   ],
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "types": "./types/core-lro.d.ts",
   "files": [
@@ -32,7 +24,9 @@
     "dist-esm/src",
     "dist/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "types/latest/src/",
+    "types/3.1/src/"
   ],
   "engines": {
     "node": ">=14.0.0"
@@ -42,7 +36,7 @@
     "process": false
   },
   "react-native": {
-    "./dist/index.js": "./dist-esm/src/index.js"
+    "./dist/index.cjs": "./dist-esm/src/index.js"
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/README.md",
@@ -51,19 +45,9 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "nyc": {
-    "extension": [
-      ".ts"
-    ],
-    "exclude": [
-      "coverage/**/*",
-      "**/*.d.ts",
-      "**/*.js"
-    ],
-    "reporter": [
-      "text",
-      "html",
-      "cobertura"
-    ],
+    "extension": [".ts"],
+    "exclude": ["coverage/**/*", "**/*.d.ts", "**/*.js"],
+    "reporter": ["text", "html", "cobertura"],
     "all": true
   },
   "scripts": {
@@ -86,8 +70,8 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" nyc mocha -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\""
+    "unit-test:browser": "karma start karma.conf.cjs --single-run",
+    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" nyc mocha --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\""
   },
   "sideEffects": false,
   "dependencies": {
@@ -124,6 +108,23 @@
     "typescript": "~5.0.0"
   },
   "//metadata": {
-    "migrationDate": "2023-03-08T18:36:03.000Z"
+    "migrationDate": "2023-05-23T21:35:34.784Z"
+  },
+  "type": "module",
+  "export": {
+    ".": {
+      "require": {
+        "types": "./types/core-lro.d.ts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./types/src/index.d.ts",
+        "default": "./dist-esm/src/index.js"
+      }
+    }
+  },
+  "mocha": {
+    "require": "ts-node/register",
+    "loader": "ts-node/esm"
   }
 }

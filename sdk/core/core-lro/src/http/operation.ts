@@ -8,17 +8,17 @@ import {
   LroResponse,
   RawResponse,
   ResponseBody,
-} from "./models";
+} from "./models.js";
 import {
   LroError,
   OperationConfig,
   OperationStatus,
   RestorableOperationState,
   StateProxy,
-} from "../poller/models";
-import { initOperation, pollOperation } from "../poller/operation";
+} from "../poller/models.js";
+import { initOperation, pollOperation } from "../poller/operation.js";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { logger } from "../logger";
+import { logger } from "../logger.js";
 
 function getOperationLocationPollingUrl(inputs: {
   operationLocation?: string;

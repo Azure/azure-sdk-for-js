@@ -6,9 +6,9 @@ import {
   assertDivergentBehavior,
   assertError,
   createDoubleHeaders,
-} from "./utils/utils";
+} from "./utils/utils.js";
 import { assert, matrix } from "@azure/test-utils";
-import { createRunLroWith, createTestPoller } from "./utils/router";
+import { createRunLroWith, createTestPoller } from "./utils/router.js";
 import { AbortController } from "@azure/abort-controller";
 
 matrix(
