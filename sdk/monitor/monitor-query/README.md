@@ -500,7 +500,6 @@ async function processTables(tablesFromResult: LogsTable[]) {
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts).
 
-
 ### Advanced logs query scenarios
 
 #### Set logs query timeout
