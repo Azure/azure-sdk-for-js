@@ -150,13 +150,23 @@ export function buildOnChange<Values extends ValuesCommon>(): OnChange<Values> {
  */
 export type TargetModule = "app" | "editor";
 /**
- * Secrets needed for communication with Dev Portal back-end
+ * Secrets needed for communication with Dev Portal back-end and other runtime data
  */
 export type Secrets = {
   managementApiUrl: string;
   apiVersion: string;
   userId?: string;
   token?: string;
+  parentLocation: {
+    host: string;
+    hostname: string;
+    href: string;
+    origin: string;
+    pathname: string;
+    port: string;
+    protocol: string;
+    search: string;
+  };
 };
 
 /**

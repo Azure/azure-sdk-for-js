@@ -15,16 +15,12 @@ import {
   getDeployments,
   getModels,
   getSucceeded,
+  sendRequestWithRecorder,
   updateWithSucceeded,
   withDeployment,
 } from "./utils/utils.js";
 import { logger } from "./utils/logger.js";
-import {
-  createDefaultHttpClient,
-  createEmptyPipeline,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { getImageDimensions } from "./utils/getImageDimensions.js";
 import { OpenAIClient, ImageLocation } from "../../src/index.js";
 
@@ -37,7 +33,7 @@ describe("OpenAI", function () {
     recorder = await startRecorder(this.currentTest);
     if (!deployments.length || !models.length) {
       deployments = await getDeployments(recorder);
-      models = await getModels();
+      models = await getModels(recorder);
     }
   });
 
@@ -396,12 +392,6 @@ describe("OpenAI", function () {
           const size = `${height}x${width}`;
 
           async function checkSize(imageUrl: string): Promise<void> {
-            const coreClient = createDefaultHttpClient();
-            const pipeline = createEmptyPipeline();
-
-            // Inject the recorder pipeline policy so that the request for image size gets recorded
-            pipeline.addPolicy(recorder.configureClientOptions({}).additionalPolicies![0].policy);
-
             const set = new Set<number>();
             const request = createPipelineRequest({
               url: imageUrl,
@@ -410,8 +400,7 @@ describe("OpenAI", function () {
               streamResponseStatusCodes: set.add(200),
             });
 
-            const response = await pipeline.sendRequest(coreClient, request);
-
+            const response = await sendRequestWithRecorder(request, recorder);
             const dimensions = await getImageDimensions(response);
             assert.isDefined(dimensions, "Unable to get dimensions");
             assert.equal(dimensions?.height, height, "Height does not match");
