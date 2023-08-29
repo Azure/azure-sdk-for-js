@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { diag } from "@opentelemetry/api";
-import { ExportResult, ExportResultCode } from "@opentelemetry/core";
+import { context, diag } from "@opentelemetry/api";
+import { ExportResult, ExportResultCode, suppressTracing } from "@opentelemetry/core";
 import { AzureMonitorBaseExporter } from "./base";
 import { TelemetryItem as Envelope } from "../generated";
 import { logToEnvelope } from "../utils/logUtils";
@@ -56,7 +56,10 @@ export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements
         envelopes.push(envelope);
       }
     });
-    resultCallback(await this._sender.exportEnvelopes(envelopes));
+    // Supress tracing until OpenTelemetry Logs SDK support it
+    context.with(suppressTracing(context.active()), async () => {
+      resultCallback(await this._sender.exportEnvelopes(envelopes));
+    });
   }
 
   /**
