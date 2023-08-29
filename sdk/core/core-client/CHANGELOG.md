@@ -1,6 +1,6 @@
 # Release History
 
-## 1.7.4 (Unreleased)
+## 1.8.0 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,9 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Migrate package to ESM and add conditional exports.
+
 
 ## 1.7.3 (2023-06-01)
 

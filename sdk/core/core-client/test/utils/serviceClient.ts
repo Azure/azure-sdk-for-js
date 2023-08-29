@@ -9,7 +9,7 @@ import {
   ServiceClient,
   createSerializer,
   deserializationPolicy,
-} from "../../src";
+} from "../../src/index.js";
 import {
   HttpClient,
   HttpHeaders,
