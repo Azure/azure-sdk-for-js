@@ -101,10 +101,11 @@ Each set of metric values is a time series with the following characteristics:
 ## Examples
 
 - [Logs query](#logs-query)
+  - [Workspace-centric Logs Query](#workspace-centric-logs-query)
+  - [Resource-centric Logs Query](#resource-centric-logs-query)
   - [Handle logs query response](#handle-logs-query-response)
 - [Batch logs query](#batch-logs-query)
   - [Handle logs batch query response](#handle-logs-batch-query-response)
-- [Resource Logs Query](#resource-logs-query)
 - [Advanced logs query scenarios](#advanced-logs-query-scenarios)
   - [Set logs query timeout](#set-logs-query-timeout)
   - [Query multiple workspaces](#query-multiple-workspaces)
@@ -118,7 +119,7 @@ The `LogsQueryClient` can be used to query a Log Analytics workspace using the [
 
 You can query logs by workspace ID or resource ID. The result is returned as a table with a collection of rows.
 
-#### Workspace-centric logs query
+#### Workspace-centric Logs Query
 To query by workspace ID, use the `LogsQueryClient.queryWorkspace` method:
 
 ```ts
@@ -168,7 +169,7 @@ async function processTables(tablesFromResult: LogsTable[]) {
 
 run().catch((err) => console.log("ERROR:", err));
 ```
-### Resource Logs Query
+#### Resource-centric Logs Query
 
 The following example demonstrates how to query logs directly from an Azure resource. Here, the `queryResource` method is used and an Azure resource ID is passed in (e.g. /subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}).
 
