@@ -1,11 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { InteractiveBrowserCredential, InteractiveBrowserCredentialNodeOptions as IBCNOptions } from "@azure/identity";
+import {
+  InteractiveBrowserCredential,
+  InteractiveBrowserCredentialNodeOptions as IBCNOptions,
+} from "@azure/identity";
 import { ServiceInformation } from "./deploy";
 import { getClient } from "@azure-rest/core-client";
 
-async function getAccessToken(managementApiEndpoint: string, options?: IBCNOptions): Promise<string> {
+async function getAccessToken(
+  managementApiEndpoint: string,
+  options?: IBCNOptions
+): Promise<string> {
   const credentials = new InteractiveBrowserCredential(options);
   const scope = `${managementApiEndpoint}/user_impersonation`;
   const { token } = await credentials.getToken(scope);
@@ -17,7 +23,8 @@ async function getAccessToken(managementApiEndpoint: string, options?: IBCNOptio
  *
  * @returns storage SAS URL
  */
-async function getStorageSasUrl({
+async function getStorageSasUrl(
+  {
     managementApiEndpoint,
     resourceId,
     apiVersion = "2019-01-01",
@@ -32,7 +39,9 @@ async function getStorageSasUrl({
       headers: {
         "If-Match": "*",
         "Content-Type": "application/json",
-        Authorization: tokenOverride ?? (await getAccessToken(managementApiEndpoint, interactiveBrowserCredentialOptions))
+        Authorization:
+          tokenOverride ??
+          (await getAccessToken(managementApiEndpoint, interactiveBrowserCredentialOptions)),
       },
     });
 

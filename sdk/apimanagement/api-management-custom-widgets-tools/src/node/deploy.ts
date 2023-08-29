@@ -46,7 +46,7 @@ async function deploy(
   fallbackConfigPath = "./static/" + APIM_CONFIG_FILE_NAME,
   {
     rootLocal = "./dist/",
-    interactiveBrowserCredentialOptions = { redirectUri: "http://localhost:1337" }
+    interactiveBrowserCredentialOptions = { redirectUri: "http://localhost:1337" },
   }: DeployConfig = {}
 ): Promise<void> {
   console.log("\n\n");
