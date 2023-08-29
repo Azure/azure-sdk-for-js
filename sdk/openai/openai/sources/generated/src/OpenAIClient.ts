@@ -2,7 +2,32 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
-import "./api/index.js";
+import {
+  Embeddings,
+  Completions,
+  ChatMessage,
+  ChatCompletions,
+  BatchImageGenerationOperationResponse,
+} from "./models/models.js";
+import {
+  GetEmbeddingsOptions,
+  GetCompletionsOptions,
+  GetChatCompletionsOptions,
+  GetChatCompletionsWithAzureExtensionsOptions,
+  GetAzureBatchImageGenerationOperationStatusOptions,
+  BeginAzureBatchImageGenerationOptions,
+} from "./models/options.js";
+import {
+  createOpenAI,
+  OpenAIClientOptions,
+  OpenAIContext,
+  getEmbeddings,
+  getCompletions,
+  getChatCompletions,
+  getChatCompletionsWithAzureExtensions,
+  getAzureBatchImageGenerationOperationStatus,
+  beginAzureBatchImageGeneration,
+} from "./api/index.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
@@ -51,6 +76,26 @@ export class OpenAIClient {
     options: GetChatCompletionsOptions = { requestOptions: {} }
   ): Promise<ChatCompletions> {
     return getChatCompletions(this._client, messages, deploymentId, options);
+  }
+
+  /**
+   * Gets chat completions for the provided chat messages.
+   * This is an Azure-specific version of chat completions that supports integration with configured data sources and
+   * other augmentations to the base chat completions capabilities.
+   */
+  getChatCompletionsWithAzureExtensions(
+    messages: ChatMessage[],
+    deploymentId: string,
+    options: GetChatCompletionsWithAzureExtensionsOptions = {
+      requestOptions: {},
+    }
+  ): Promise<ChatCompletions> {
+    return getChatCompletionsWithAzureExtensions(
+      this._client,
+      messages,
+      deploymentId,
+      options
+    );
   }
 
   /** Returns the status of the images operation */

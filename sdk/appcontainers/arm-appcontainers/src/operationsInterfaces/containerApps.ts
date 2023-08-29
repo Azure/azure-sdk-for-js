@@ -24,7 +24,11 @@ import {
   ContainerAppsListSecretsOptionalParams,
   ContainerAppsListSecretsResponse,
   ContainerAppsGetAuthTokenOptionalParams,
-  ContainerAppsGetAuthTokenResponse
+  ContainerAppsGetAuthTokenResponse,
+  ContainerAppsStartOptionalParams,
+  ContainerAppsStartResponse,
+  ContainerAppsStopOptionalParams,
+  ContainerAppsStopResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -174,4 +178,58 @@ export interface ContainerApps {
     containerAppName: string,
     options?: ContainerAppsGetAuthTokenOptionalParams
   ): Promise<ContainerAppsGetAuthTokenResponse>;
+  /**
+   * Start a container app
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  beginStart(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsStartOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ContainerAppsStartResponse>,
+      ContainerAppsStartResponse
+    >
+  >;
+  /**
+   * Start a container app
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  beginStartAndWait(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsStartOptionalParams
+  ): Promise<ContainerAppsStartResponse>;
+  /**
+   * Stop a container app
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  beginStop(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsStopOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ContainerAppsStopResponse>,
+      ContainerAppsStopResponse
+    >
+  >;
+  /**
+   * Stop a container app
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  beginStopAndWait(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsStopOptionalParams
+  ): Promise<ContainerAppsStopResponse>;
 }

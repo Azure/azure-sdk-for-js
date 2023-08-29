@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates an Email Template.
  *
  * @summary Updates an Email Template.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateTemplate.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateTemplate.json
  */
 async function apiManagementCreateTemplate() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

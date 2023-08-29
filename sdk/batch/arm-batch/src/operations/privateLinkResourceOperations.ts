@@ -236,7 +236,6 @@ const listByBatchAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.maxresults],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

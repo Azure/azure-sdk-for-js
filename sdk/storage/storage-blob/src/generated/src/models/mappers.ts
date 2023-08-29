@@ -1322,7 +1322,8 @@ export const BlobPropertiesInternal: coreClient.CompositeMapper = {
           name: "Enum",
           allowedValues: [
             "rehydrate-pending-to-hot",
-            "rehydrate-pending-to-cool"
+            "rehydrate-pending-to-cool",
+            "rehydrate-pending-to-cold"
           ]
         }
       },

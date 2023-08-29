@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all Products, which the API is part of.
  *
  * @summary Lists all Products, which the API is part of.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListApiProducts.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiProducts.json
  */
 async function apiManagementListApiProducts() {
   const subscriptionId =

@@ -24,7 +24,7 @@ import {
 export interface ApiIssueComment {
   /**
    * Lists all comments for the Issue associated with the specified API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -39,7 +39,7 @@ export interface ApiIssueComment {
   ): PagedAsyncIterableIterator<IssueCommentContract>;
   /**
    * Gets the entity state (Etag) version of the issue Comment for an API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -56,7 +56,7 @@ export interface ApiIssueComment {
   ): Promise<ApiIssueCommentGetEntityTagResponse>;
   /**
    * Gets the details of the issue Comment for an API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -73,7 +73,7 @@ export interface ApiIssueComment {
   ): Promise<ApiIssueCommentGetResponse>;
   /**
    * Creates a new Comment for the Issue in an API or updates an existing one.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -92,7 +92,7 @@ export interface ApiIssueComment {
   ): Promise<ApiIssueCommentCreateOrUpdateResponse>;
   /**
    * Deletes the specified comment from an Issue.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.

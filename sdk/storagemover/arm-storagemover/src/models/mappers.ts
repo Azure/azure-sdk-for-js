@@ -243,6 +243,43 @@ export const StorageMoverList: coreClient.CompositeMapper = {
   }
 };
 
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
 export const SystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -282,36 +319,6 @@ export const SystemData: coreClient.CompositeMapper = {
         serializedName: "lastModifiedAt",
         type: {
           name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const Resource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -488,7 +495,19 @@ export const EndpointBaseUpdateProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EndpointBaseUpdateProperties",
+    uberParent: "EndpointBaseUpdateProperties",
+    polymorphicDiscriminator: {
+      serializedName: "endpointType",
+      clientName: "endpointType"
+    },
     modelProperties: {
+      endpointType: {
+        serializedName: "endpointType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       description: {
         serializedName: "description",
         type: {
@@ -671,6 +690,27 @@ export const JobRunError: coreClient.CompositeMapper = {
   }
 };
 
+export const Credentials: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Credentials",
+    uberParent: "Credentials",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -767,10 +807,77 @@ export const NfsMountEndpointProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const AzureStorageSmbFileShareEndpointProperties: coreClient.CompositeMapper = {
+  serializedName: "AzureStorageSmbFileShare",
+  type: {
+    name: "Composite",
+    className: "AzureStorageSmbFileShareEndpointProperties",
+    uberParent: "EndpointBaseProperties",
+    polymorphicDiscriminator:
+      EndpointBaseProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...EndpointBaseProperties.type.modelProperties,
+      storageAccountResourceId: {
+        serializedName: "storageAccountResourceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      fileShareName: {
+        serializedName: "fileShareName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SmbMountEndpointProperties: coreClient.CompositeMapper = {
+  serializedName: "SmbMount",
+  type: {
+    name: "Composite",
+    className: "SmbMountEndpointProperties",
+    uberParent: "EndpointBaseProperties",
+    polymorphicDiscriminator:
+      EndpointBaseProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...EndpointBaseProperties.type.modelProperties,
+      host: {
+        serializedName: "host",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      shareName: {
+        serializedName: "shareName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      credentials: {
+        serializedName: "credentials",
+        type: {
+          name: "Composite",
+          className: "AzureKeyVaultSmbCredentials"
+        }
+      }
+    }
+  }
+};
+
 export const AzureStorageBlobContainerEndpointUpdateProperties: coreClient.CompositeMapper = {
+  serializedName: "AzureStorageBlobContainer",
   type: {
     name: "Composite",
     className: "AzureStorageBlobContainerEndpointUpdateProperties",
+    uberParent: "EndpointBaseUpdateProperties",
+    polymorphicDiscriminator:
+      EndpointBaseUpdateProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...EndpointBaseUpdateProperties.type.modelProperties
     }
@@ -778,11 +885,75 @@ export const AzureStorageBlobContainerEndpointUpdateProperties: coreClient.Compo
 };
 
 export const NfsMountEndpointUpdateProperties: coreClient.CompositeMapper = {
+  serializedName: "NfsMount",
   type: {
     name: "Composite",
     className: "NfsMountEndpointUpdateProperties",
+    uberParent: "EndpointBaseUpdateProperties",
+    polymorphicDiscriminator:
+      EndpointBaseUpdateProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...EndpointBaseUpdateProperties.type.modelProperties
+    }
+  }
+};
+
+export const AzureStorageSmbFileShareEndpointUpdateProperties: coreClient.CompositeMapper = {
+  serializedName: "AzureStorageSmbFileShare",
+  type: {
+    name: "Composite",
+    className: "AzureStorageSmbFileShareEndpointUpdateProperties",
+    uberParent: "EndpointBaseUpdateProperties",
+    polymorphicDiscriminator:
+      EndpointBaseUpdateProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...EndpointBaseUpdateProperties.type.modelProperties
+    }
+  }
+};
+
+export const SmbMountEndpointUpdateProperties: coreClient.CompositeMapper = {
+  serializedName: "SmbMount",
+  type: {
+    name: "Composite",
+    className: "SmbMountEndpointUpdateProperties",
+    uberParent: "EndpointBaseUpdateProperties",
+    polymorphicDiscriminator:
+      EndpointBaseUpdateProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...EndpointBaseUpdateProperties.type.modelProperties,
+      credentials: {
+        serializedName: "credentials",
+        type: {
+          name: "Composite",
+          className: "AzureKeyVaultSmbCredentials"
+        }
+      }
+    }
+  }
+};
+
+export const AzureKeyVaultSmbCredentials: coreClient.CompositeMapper = {
+  serializedName: "AzureKeyVaultSmb",
+  type: {
+    name: "Composite",
+    className: "AzureKeyVaultSmbCredentials",
+    uberParent: "Credentials",
+    polymorphicDiscriminator: Credentials.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Credentials.type.modelProperties,
+      usernameUri: {
+        serializedName: "usernameUri",
+        type: {
+          name: "String"
+        }
+      },
+      passwordUri: {
+        serializedName: "passwordUri",
+        type: {
+          name: "String"
+        }
+      }
     }
   }
 };
@@ -793,13 +964,6 @@ export const StorageMover: coreClient.CompositeMapper = {
     className: "StorageMover",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
       description: {
         serializedName: "properties.description",
         type: {
@@ -823,13 +987,6 @@ export const Agent: coreClient.CompositeMapper = {
     className: "Agent",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
       description: {
         serializedName: "properties.description",
         type: {
@@ -929,13 +1086,6 @@ export const Endpoint: coreClient.CompositeMapper = {
           name: "Composite",
           className: "EndpointBaseProperties"
         }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
       }
     }
   }
@@ -947,13 +1097,6 @@ export const Project: coreClient.CompositeMapper = {
     className: "Project",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
       description: {
         serializedName: "properties.description",
         type: {
@@ -977,13 +1120,6 @@ export const JobDefinition: coreClient.CompositeMapper = {
     className: "JobDefinition",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
       description: {
         serializedName: "properties.description",
         type: {
@@ -1088,13 +1224,6 @@ export const JobRun: coreClient.CompositeMapper = {
     className: "JobRun",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
       status: {
         serializedName: "properties.status",
         readOnly: true,
@@ -1300,6 +1429,15 @@ export const JobRun: coreClient.CompositeMapper = {
 
 export let discriminators = {
   EndpointBaseProperties: EndpointBaseProperties,
+  EndpointBaseUpdateProperties: EndpointBaseUpdateProperties,
+  Credentials: Credentials,
   "EndpointBaseProperties.AzureStorageBlobContainer": AzureStorageBlobContainerEndpointProperties,
-  "EndpointBaseProperties.NfsMount": NfsMountEndpointProperties
+  "EndpointBaseProperties.NfsMount": NfsMountEndpointProperties,
+  "EndpointBaseProperties.AzureStorageSmbFileShare": AzureStorageSmbFileShareEndpointProperties,
+  "EndpointBaseProperties.SmbMount": SmbMountEndpointProperties,
+  "EndpointBaseUpdateProperties.AzureStorageBlobContainer": AzureStorageBlobContainerEndpointUpdateProperties,
+  "EndpointBaseUpdateProperties.NfsMount": NfsMountEndpointUpdateProperties,
+  "EndpointBaseUpdateProperties.AzureStorageSmbFileShare": AzureStorageSmbFileShareEndpointUpdateProperties,
+  "EndpointBaseUpdateProperties.SmbMount": SmbMountEndpointUpdateProperties,
+  "Credentials.AzureKeyVaultSmb": AzureKeyVaultSmbCredentials
 };

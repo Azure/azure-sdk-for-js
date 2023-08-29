@@ -345,6 +345,9 @@ export interface ListFilesAndDirectoriesSegmentResponse {
   directoryId?: string;
 }
 
+/** Defines values for AccessRight. */
+export type ShareFileHandleAccessRights = "Read" | "Write" | "Delete";
+
 /** A listed Azure Storage handle item. */
 export interface HandleItem {
   /** XSMB service handle ID */
@@ -363,6 +366,7 @@ export interface HandleItem {
   openTime: Date;
   /** Time handle was last connected to (UTC) */
   lastReconnectTime?: Date;
+  accessRightList?: ShareFileHandleAccessRights[];
 }
 
 /** An enumeration of handles. */

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the collection of subscriptions to the specified product.
  *
  * @summary Lists the collection of subscriptions to the specified product.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListProductSubscriptions.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListProductSubscriptions.json
  */
 async function apiManagementListProductSubscriptions() {
   const subscriptionId =

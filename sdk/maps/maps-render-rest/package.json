@@ -2,7 +2,7 @@
   "name": "@azure-rest/maps-render",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "A generated SDK for MapsRenderClient.",
   "keywords": [
     "node",
@@ -100,7 +100,8 @@
     "karma-source-map-support": "~1.4.0",
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
-    "nyc": "^15.0.0"
+    "nyc": "^15.0.0",
+    "ts-node": "^10.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest/README.md",
   "//metadata": {

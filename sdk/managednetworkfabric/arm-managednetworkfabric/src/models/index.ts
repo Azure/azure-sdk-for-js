@@ -14,10 +14,124 @@ export interface AnnotationResource {
   annotation?: string;
 }
 
+/** Access Control List Patch Properties defines the patchable resource properties. */
+export interface AccessControlListPatchableProperties {
+  /** Input method to configure Access Control List. */
+  configurationType?: ConfigurationType;
+  /** Access Control List file URL. */
+  aclsUrl?: string;
+  /** List of match configurations. */
+  matchConfigurations?: AccessControlListMatchConfiguration[];
+  /** List of dynamic match configurations. */
+  dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
+}
+
+/** Defines the match configuration that are supported to filter the traffic. */
+export interface AccessControlListMatchConfiguration {
+  /** The name of the match configuration. */
+  matchConfigurationName?: string;
+  /** Sequence Number of the match configuration. */
+  sequenceNumber?: number;
+  /** Type of IP Address. IPv4 or IPv6 */
+  ipAddressType?: IPAddressType;
+  /** List of the match conditions. */
+  matchConditions?: AccessControlListMatchCondition[];
+  /** List of actions that need to be performed for the matched conditions. */
+  actions?: AccessControlListAction[];
+}
+
+/** Port condition that needs to be matched. */
+export interface PortCondition {
+  /** Port type that needs to be matched. */
+  portType?: PortType;
+  /** Layer4 protocol type that needs to be matched. */
+  layer4Protocol: Layer4Protocol;
+  /** List of the Ports that need to be matched. */
+  ports?: string[];
+  /** List of the port Group Names that to be matched. */
+  portGroupNames?: string[];
+}
+
+/** Defines the common match conditions of the ACL and Network Tap Rule. */
+export interface CommonMatchConditions {
+  /** List of the protocols that need to be matched. */
+  protocolTypes?: string[];
+  /** Vlan match condition that needs to be matched. */
+  vlanMatchCondition?: VlanMatchCondition;
+  /** IP condition that needs to be matched. */
+  ipCondition?: IpMatchCondition;
+}
+
+/** The vlan match conditions that needs to be matched. */
+export interface VlanMatchCondition {
+  /** List of vlans that needs to be matched. */
+  vlans?: string[];
+  /** List of inner vlans that needs to be matched. */
+  innerVlans?: string[];
+  /** List of vlan group names that to be matched. */
+  vlanGroupNames?: string[];
+}
+
+/** Defines the condition that can be filtered using the selected IPs. */
+export interface IpMatchCondition {
+  /** IP Address type. */
+  type?: SourceDestinationType;
+  /** IP Prefix Type. */
+  prefixType?: PrefixType;
+  /** The list of IP Prefixes. */
+  ipPrefixValues?: string[];
+  /** The List of IP Group Names that need to be matched. */
+  ipGroupNames?: string[];
+}
+
+/** Action that need to performed. */
+export interface AccessControlListAction {
+  /** Type of actions that can be performed. */
+  type?: AclActionType;
+  /** Name of the counter block to get match count information. */
+  counterName?: string;
+}
+
+/** Dynamic match configuration object. */
+export interface CommonDynamicMatchConfiguration {
+  /** List of IP Groups. */
+  ipGroups?: IpGroupProperties[];
+  /** List of vlan groups. */
+  vlanGroups?: VlanGroupProperties[];
+  /** List of the port group. */
+  portGroups?: PortGroupProperties[];
+}
+
+/** IP Group properties. */
+export interface IpGroupProperties {
+  /** IP Group name. */
+  name?: string;
+  /** IP Address type. */
+  ipAddressType?: IPAddressType;
+  /** List of IP Prefixes. */
+  ipPrefixes?: string[];
+}
+
+/** Vlan group properties. */
+export interface VlanGroupProperties {
+  /** Vlan group name. */
+  name?: string;
+  /** List of vlans. */
+  vlans?: string[];
+}
+
+/** Port Group properties. */
+export interface PortGroupProperties {
+  /** The name of the port group. */
+  name?: string;
+  /** List of the ports that needs to be matched. */
+  ports?: string[];
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -103,89 +217,18 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** The AccessControlList patch resource definition. */
-export interface AccessControlListPatch {
+/** Base tracked resource type for PATCH updates. */
+export interface TagsUpdate {
   /** Resource tags */
   tags?: { [propertyName: string]: string };
-  /** Switch configuration description. */
-  annotation?: string;
-  /** IP address family. Example: ipv4 | ipv6. */
-  addressFamily?: AddressFamily;
-  /** Access Control List conditions. */
-  conditions?: AccessControlListConditionProperties[];
 }
 
-/** List of AccessControlLists. */
+/** List of Access Control Lists. */
 export interface AccessControlListsListResult {
-  /** List of AccessControlList resources. */
+  /** List of Access Control List resources. */
   value?: AccessControlList[];
   /** Url to follow for getting next page of resources. */
   nextLink?: string;
-}
-
-/** The IPCommunity patch resource definition. */
-export interface IpCommunityPatch {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-}
-
-/** List of IPCommunities. */
-export interface IpCommunitiesListResult {
-  /** List of IpCommunity resources. */
-  value?: IpCommunity[];
-  /** Url to follow for getting next page of resources. */
-  nextLink?: string;
-}
-
-/** The IpExtendedCommunities patch resource definition. */
-export interface IpExtendedCommunityPatch {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-}
-
-/** List of IpExtendedCommunities. */
-export interface IpExtendedCommunityListResult {
-  /** List of IpExtendedCommunities resources. */
-  value?: IpExtendedCommunity[];
-  /** Url to follow for getting next page of resources. */
-  nextLink?: string;
-}
-
-export interface IpPrefixPropertiesIpPrefixRulesItem {
-  /** Action to be taken on the configuration. Example: Permit | Deny. */
-  action: CommunityActionTypes;
-  /** Sequence to insert to/delete from existing route. Prefix lists are evaluated starting with the lowest sequence number and continue down the list until a match is made. Once a match is made, the permit or deny statement is applied to that network and the rest of the list is ignored. */
-  sequenceNumber: number;
-  /** Network Prefix specifying IPv4/IPv6 packets to be permitted or denied. Example: 1.1.1.0/24 | 3FFE:FFFF:0:CD30::/126 */
-  networkPrefix: string;
-  /** Specify prefix-list bounds. */
-  condition?: Condition;
-  /** SubnetMaskLength gives the minimum NetworkPrefix length to be matched.Possible values for IPv4 are 1 - 32. Possible values of IPv6 are 1 - 128. */
-  subnetMaskLength?: number;
-}
-
-/** The IPPrefix patch resource definition. */
-export interface IpPrefixPatch {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-}
-
-/** List of IpPrefixes. */
-export interface IpPrefixesListResult {
-  /** List of IPPrefix resources. */
-  value?: IpPrefix[];
-  /** Url to follow for getting next page of resources. */
-  nextLink?: string;
-}
-
-/** The L2IsolationDomain patch resource definition. */
-export interface L2IsolationDomainPatch {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-  /** Switch configuration description. */
-  annotation?: string;
-  /** maximum transmission unit. Default value is 1500. */
-  mtu?: number;
 }
 
 /** Update administrative state on list of resources. */
@@ -194,117 +237,170 @@ export interface EnableDisableOnResources {
   resourceIds?: string[];
 }
 
-/** Show ARP table entry properties */
-export interface ARPProperties {
-  /** Ipv4 or Ipv6 address */
-  address: string;
-  /** Duration in seconds. */
-  age: string;
-  /** Hardware address. */
-  macAddress: string;
-  /** Layer 2 interface name. */
-  interface: string;
-  /** ARP status */
-  state?: string;
+/** Internet Gateway Patchable Properties defines the patchable properties of the resource. */
+export interface InternetGatewayPatchableProperties {
+  /** ARM Resource ID of the Internet Gateway Rule. */
+  internetGatewayRuleId?: string;
 }
 
-/** List of L2IsolationDomains. */
+/** List of InternetGateways. */
+export interface InternetGatewaysListResult {
+  /** Displays list of Internet Gateway resources. */
+  value?: InternetGateway[];
+  /** Url to follow for getting next page of resources. */
+  nextLink?: string;
+}
+
+/** Rules for the InternetGateways */
+export interface RuleProperties {
+  /** Specify action. */
+  action: Action;
+  /** List of Addresses to be allowed or denied. */
+  addressList: string[];
+}
+
+/** List of Internet Gateway Rules. */
+export interface InternetGatewayRulesListResult {
+  /** List of Internet Gateway Rule resources. */
+  value?: InternetGatewayRule[];
+  /** Url to follow for getting next page of resources. */
+  nextLink?: string;
+}
+
+/** IP Community patchable properties. */
+export interface IpCommunityPatchableProperties {
+  /** List of IP Community Rules. */
+  ipCommunityRules?: IpCommunityRule[];
+}
+
+/** IP Community patchable properties. */
+export interface IpCommunityRule {
+  /** Action to be taken on the configuration. Example: Permit | Deny. */
+  action: CommunityActionTypes;
+  /** Sequence to insert to/delete from existing route. Prefix lists are evaluated starting with the lowest sequence number and continue down the list until a match is made. Once a match is made, the permit or deny statement is applied to that network and the rest of the list is ignored. */
+  sequenceNumber: number;
+  /** Supported well known Community List. */
+  wellKnownCommunities?: WellKnownCommunities[];
+  /** List the community members of IP Community. */
+  communityMembers: string[];
+}
+
+/** List of IP Communities. */
+export interface IpCommunitiesListResult {
+  /** List of IP Community resources. */
+  value?: IpCommunity[];
+  /** Url to follow for getting next page of resources. */
+  nextLink?: string;
+}
+
+/** IP Extended Community patchable properties. */
+export interface IpExtendedCommunityPatchableProperties {
+  /** List of IP Extended Community Rules. */
+  ipExtendedCommunityRules: IpExtendedCommunityRule[];
+}
+
+/** List of IP Extended Community Rules. */
+export interface IpExtendedCommunityRule {
+  /** Action to be taken on the configuration. Example: Permit | Deny. */
+  action: CommunityActionTypes;
+  /** Sequence to insert to/delete from existing route. Prefix lists are evaluated starting with the lowest sequence number and continue down the list until a match is made. Once a match is made, the permit or deny statement is applied to that network and the rest of the list is ignored. */
+  sequenceNumber: number;
+  /** Route Target List.The expected formats are ASN(plain):NN >> example 4294967294:50, ASN.ASN:NN >> example 65533.65333:40, IP-address:NN >> example 10.10.10.10:65535. The possible values of ASN,NN are in range of 0-65535, ASN(plain) is in range of 0-4294967295. */
+  routeTargets: string[];
+}
+
+/** List of IP Extended Communities. */
+export interface IpExtendedCommunityListResult {
+  /** List of IP Extended Communities resources. */
+  value?: IpExtendedCommunity[];
+  /** Url to follow for getting next page of resources. */
+  nextLink?: string;
+}
+
+/** IP Prefix patchable properties. */
+export interface IpPrefixPatchableProperties {
+  /** The list of IP Prefix Rules. */
+  ipPrefixRules?: IpPrefixRule[];
+}
+
+/** IP Prefix Rule properties. */
+export interface IpPrefixRule {
+  /** Action to be taken on the configuration. Example: Permit | Deny. */
+  action: CommunityActionTypes;
+  /** Sequence to insert to/delete from existing route. Prefix lists are evaluated starting with the lowest sequence number and continue down the list until a match is made. Once a match is made, the permit or deny statement is applied to that network and the rest of the list is ignored. */
+  sequenceNumber: number;
+  /** Network Prefix specifying IPv4/IPv6 packets to be permitted or denied. Example: 1.1.1.0/24 | 3FFE:FFFF:0:CD30::/126 */
+  networkPrefix: string;
+  /** Specify prefix-list bounds. */
+  condition?: Condition;
+  /** SubnetMaskLength gives the minimum NetworkPrefix length to be matched. Possible values for IPv4 are 1 - 32 . Possible values of IPv6 are 1 - 128. */
+  subnetMaskLength?: string;
+}
+
+/** List of IP Prefixes. */
+export interface IpPrefixesListResult {
+  /** List of IP Prefix resources. */
+  value?: IpPrefix[];
+  /** Url to follow for getting next page of resources. */
+  nextLink?: string;
+}
+
+/** List of L2 Isolation Domains. */
 export interface L2IsolationDomainsListResult {
-  /** Displays list of L2IsolationDomain resources. */
+  /** Displays list of L2 Isolation Domain resources. */
   value?: L2IsolationDomain[];
   /** Url to follow for getting next page of resources. */
   nextLink?: string;
 }
 
-/** L3IsolationDomainPatchProperties define the patch resource properties. */
-export interface L3IsolationDomainPatchProperties {
+/** L3 Isolation Domain Patch Properties defines the patchable properties of the resource. */
+export interface L3IsolationDomainPatchableProperties {
   /** Advertise Connected Subnets. Ex: "True" | "False". */
   redistributeConnectedSubnets?: RedistributeConnectedSubnets;
   /** Advertise Static Routes. Ex: "True" | "False". */
   redistributeStaticRoutes?: RedistributeStaticRoutes;
-  /** List of Ipv4 and Ipv6 route configurations. */
+  /** Aggregate route configurations. */
   aggregateRouteConfiguration?: AggregateRouteConfiguration;
-  /** L3 Isolation Domain description. */
-  description?: string;
   /** Connected Subnet RoutePolicy */
-  connectedSubnetRoutePolicy?: L3IsolationDomainPatchPropertiesConnectedSubnetRoutePolicy;
+  connectedSubnetRoutePolicy?: ConnectedSubnetRoutePolicy;
 }
 
-/** List of IPv4 and IPv6 route configurations. */
+/** List of IPv4 and IPv6 aggregate routes. */
 export interface AggregateRouteConfiguration {
   /** List of IPv4 Route prefixes. */
   ipv4Routes?: AggregateRoute[];
-  /** List of IPv6 Routes prefixes. */
+  /** List of Ipv6Routes prefixes. */
   ipv6Routes?: AggregateRoute[];
 }
 
-/** Aggregate Route properties. */
+/** aggregateIpv4Route model. */
 export interface AggregateRoute {
-  /** Prefix of the aggregate Route. */
-  prefix?: string;
+  /** IPv4 Prefix of the aggregate Ipv4Route. */
+  prefix: string;
 }
 
-/** Connected Subnet RoutePolicy */
-export interface L3IsolationDomainPatchPropertiesConnectedSubnetRoutePolicy {
-  /** exportRoutePolicyId value. */
+/** Connected Subnet Route Policy properties. */
+export interface ConnectedSubnetRoutePolicy {
+  /** ARM Resource ID of the Route Policy. This is used for the backward compatibility. */
   exportRoutePolicyId?: string;
-  /**
-   * Enabled/Disabled connected subnet route policy. Ex: Enabled | Disabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly administrativeState?: EnabledDisabledState;
+  /** Array of ARM Resource ID of the RoutePolicies. */
+  exportRoutePolicy?: L3ExportRoutePolicy;
 }
 
-/** The L3IsolationDomain patch resource definition. */
-export interface L3IsolationDomainPatch {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-  /** Advertise Connected Subnets. Ex: "True" | "False". */
-  redistributeConnectedSubnets?: RedistributeConnectedSubnets;
-  /** Advertise Static Routes. Ex: "True" | "False". */
-  redistributeStaticRoutes?: RedistributeStaticRoutes;
-  /** List of Ipv4 and Ipv6 route configurations. */
-  aggregateRouteConfiguration?: AggregateRouteConfiguration;
-  /** L3 Isolation Domain description. */
-  description?: string;
-  /** Connected Subnet RoutePolicy */
-  connectedSubnetRoutePolicy?: L3IsolationDomainPatchPropertiesConnectedSubnetRoutePolicy;
+/** Array of ARM Resource ID of the RoutePolicies. */
+export interface L3ExportRoutePolicy {
+  /** ARM Resource ID of the RoutePolicy. */
+  exportIpv4RoutePolicyId?: string;
+  /** ARM Resource ID of the RoutePolicy. */
+  exportIpv6RoutePolicyId?: string;
 }
 
-/** List of L3IsolationDomains. */
+/** List of L3 Isolation Domains. */
 export interface L3IsolationDomainsListResult {
-  /** List of L3IsolationDomain resources. */
+  /** List of L3 Isolation Domain resources. */
   value?: L3IsolationDomain[];
   /** Url to follow for getting next page of resources. */
   nextLink?: string;
-}
-
-/** The ExternalNetwork patchable properties. */
-export interface InternalNetworkPatchableProperties {
-  /** Maximum transmission unit. Default value is 1500. */
-  mtu?: number;
-  /** List with object connected IPv4 Subnets. */
-  connectedIPv4Subnets?: ConnectedSubnet[];
-  /** List with object connected IPv6 Subnets. */
-  connectedIPv6Subnets?: ConnectedSubnet[];
-  /** Static Route Configuration properties. */
-  staticRouteConfiguration?: StaticRouteConfiguration;
-  /** BGP configuration properties */
-  bgpConfiguration?: BgpConfiguration;
-  /** ARM resource ID of importRoutePolicy. */
-  importRoutePolicyId?: string;
-  /** ARM resource ID of importRoutePolicy. */
-  exportRoutePolicyId?: string;
-}
-
-/** staticRouteConfiguration model. */
-export interface StaticRouteConfiguration {
-  /** BFD configuration properties */
-  bfdConfiguration?: BfdConfiguration;
-  /** List with object IPv4Routes. */
-  ipv4Routes?: StaticRouteProperties[];
-  /** List with object IPv6Routes. */
-  ipv6Routes?: StaticRouteProperties[];
 }
 
 /** BFD configuration properties */
@@ -313,25 +409,11 @@ export interface BfdConfiguration {
    * Administrative state of the BfdConfiguration. Example: Enabled | Disabled.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly administrativeState?: EnabledDisabledState;
-  /**
-   * interval in milliseconds. Example: 300.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly interval?: number;
-  /**
-   * Multiplier for the Bfd Configuration. Example: 3.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly multiplier?: number;
-}
-
-/** Static Route properties. */
-export interface StaticRouteProperties {
-  /** IPv4 | IPv6 Prefix. */
-  prefix: string;
-  /** List of next hop IPv4 | IPv6 addresses. */
-  nextHop: string[];
+  readonly administrativeState?: BfdAdministrativeState;
+  /** Interval in milliseconds. Example: 300. */
+  intervalInMilliSeconds?: number;
+  /** Multiplier for the Bfd Configuration. Example: 5. */
+  multiplier?: number;
 }
 
 /** Neighbor Address properties. */
@@ -339,10 +421,74 @@ export interface NeighborAddress {
   /** IP Address. */
   address?: string;
   /**
-   * OperationalState of the NeighborAddress.
+   * Configuration state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly operationalState?: string;
+  readonly configurationState?: ConfigurationState;
+}
+
+/** Static Route Configuration properties. */
+export interface StaticRouteConfiguration {
+  /** BFD configuration properties */
+  bfdConfiguration?: BfdConfiguration;
+  /** List of IPv4 Routes. */
+  ipv4Routes?: StaticRouteProperties[];
+  /** List of IPv6 Routes. */
+  ipv6Routes?: StaticRouteProperties[];
+}
+
+/** Route Properties. */
+export interface StaticRouteProperties {
+  /** Prefix of the route. */
+  prefix: string;
+  /** List of next hop addresses. */
+  nextHop: string[];
+}
+
+/** Extension property. */
+export interface ExtensionEnumProperty {
+  /** Extension. Example: NoExtension | NPB. */
+  extension?: Extension;
+}
+
+/** The InternalNetwork patchable properties. */
+export interface InternalNetworkPatchableProperties {
+  /** Maximum transmission unit. Default value is 1500. */
+  mtu?: number;
+  /** List of Connected IPv4 Subnets. */
+  connectedIPv4Subnets?: ConnectedSubnet[];
+  /** List of connected IPv6 Subnets. */
+  connectedIPv6Subnets?: ConnectedSubnet[];
+  /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
+  importRoutePolicyId?: string;
+  /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
+  exportRoutePolicyId?: string;
+  /** Import Route Policy either IPv4 or IPv6. */
+  importRoutePolicy?: ImportRoutePolicy;
+  /** Export Route Policy either IPv4 or IPv6. */
+  exportRoutePolicy?: ExportRoutePolicy;
+  /** Ingress Acl. ARM resource ID of Access Control Lists. */
+  ingressAclId?: string;
+  /** Egress Acl. ARM resource ID of Access Control Lists. */
+  egressAclId?: string;
+  /** To check whether monitoring of internal network is enabled or not. */
+  isMonitoringEnabled?: IsMonitoringEnabled;
+}
+
+/** Import Route Policy either IPv4 or IPv6. */
+export interface ImportRoutePolicy {
+  /** ARM resource ID of RoutePolicy. */
+  importIpv4RoutePolicyId?: string;
+  /** ARM resource ID of RoutePolicy. */
+  importIpv6RoutePolicyId?: string;
+}
+
+/** Export Route Policy either IPv4 or IPv6. */
+export interface ExportRoutePolicy {
+  /** ARM resource ID of RoutePolicy. */
+  exportIpv4RoutePolicyId?: string;
+  /** ARM resource ID of RoutePolicy. */
+  exportIpv6RoutePolicyId?: string;
 }
 
 /** The InternalNetwork patch resource definition. */
@@ -351,87 +497,156 @@ export interface InternalNetworkPatch {
   annotation?: string;
   /** Maximum transmission unit. Default value is 1500. */
   mtu?: number;
-  /** List with object connected IPv4 Subnets. */
+  /** List of Connected IPv4 Subnets. */
   connectedIPv4Subnets?: ConnectedSubnet[];
-  /** List with object connected IPv6 Subnets. */
+  /** List of connected IPv6 Subnets. */
   connectedIPv6Subnets?: ConnectedSubnet[];
+  /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
+  importRoutePolicyId?: string;
+  /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
+  exportRoutePolicyId?: string;
+  /** Import Route Policy either IPv4 or IPv6. */
+  importRoutePolicy?: ImportRoutePolicy;
+  /** Export Route Policy either IPv4 or IPv6. */
+  exportRoutePolicy?: ExportRoutePolicy;
+  /** Ingress Acl. ARM resource ID of Access Control Lists. */
+  ingressAclId?: string;
+  /** Egress Acl. ARM resource ID of Access Control Lists. */
+  egressAclId?: string;
+  /** To check whether monitoring of internal network is enabled or not. */
+  isMonitoringEnabled?: IsMonitoringEnabled;
+  /** BGP configuration properties. */
+  bgpConfiguration?: BgpConfiguration;
   /** Static Route Configuration properties. */
   staticRouteConfiguration?: StaticRouteConfiguration;
-  /** BGP configuration properties */
-  bgpConfiguration?: BgpConfiguration;
-  /** ARM resource ID of importRoutePolicy. */
-  importRoutePolicyId?: string;
-  /** ARM resource ID of importRoutePolicy. */
-  exportRoutePolicyId?: string;
 }
 
-/** List of InternalNetworks. */
+/** List of Internal Networks. */
 export interface InternalNetworksList {
-  /** List of InternalNetworks resources. */
+  /** List of Internal Network resources. */
   value?: InternalNetwork[];
   /** Url to follow for getting next page of resources. */
   nextLink?: string;
 }
 
 /** Option B configuration. */
-export interface OptionBProperties {
-  /** Route Targets to be applied for incoming routes into CE. */
+export interface L3OptionBProperties {
+  /** RouteTargets to be applied. This is used for the backward compatibility. */
   importRouteTargets?: string[];
-  /** Route Targets to be applied for outgoing routes from CE. */
+  /** RouteTargets to be applied. This is used for the backward compatibility. */
   exportRouteTargets?: string[];
+  /** RouteTargets to be applied. */
+  routeTargets?: RouteTargetInformation;
 }
 
-/** Layer 3 primary and secondary ip address prefixes. */
+/** Route Target Configuration. */
+export interface RouteTargetInformation {
+  /** Route Targets to be applied for incoming routes into CE. */
+  importIpv4RouteTargets?: string[];
+  /** Route Targets to be applied for incoming routes from CE. */
+  importIpv6RouteTargets?: string[];
+  /** Route Targets to be applied for outgoing routes into CE. */
+  exportIpv4RouteTargets?: string[];
+  /** Route Targets to be applied for outgoing routes from CE. */
+  exportIpv6RouteTargets?: string[];
+}
+
+/** Layer 3 primary and secondary IP Address prefixes. */
 export interface Layer3IpPrefixProperties {
-  /** IPv4 Address Prefix of CE-PE interconnect links. Example: 172.31.0.0/31. The values can be specified at the time of creation or can be updated afterwards. Any update to the values post-provisioning may disrupt traffic. The 1st and 3rd IPs are to be configured on CE1 and CE2 for Option B interfaces. The 2nd and 4th IPs are to be configured on PE1 and PE2 for Option B interfaces. */
+  /** IPv4 Address Prefix. */
   primaryIpv4Prefix?: string;
-  /** IPv6 Address Prefix of CE-PE interconnect links. Example: 3FFE:FFFF:0:CD30::a0/126. The values can be specified at the time of creation or can be updated afterwards. Any update to the values post-provisioning may disrupt traffic. The 1st and 3rd IPs are to be configured on CE1 and CE2 for Option B interfaces. The 2nd and 4th IPs are to be configured on PE1 and PE2 for Option B interfaces. */
+  /** IPv6 Address Prefix. */
   primaryIpv6Prefix?: string;
-  /** Secondary IPv4 Address Prefix of CE-PE interconnect links. Example: 172.31.0.20/31. The values can be specified at the time of creation or can be updated afterwards. Any update to the values post-provisioning may disrupt traffic. The 1st and 3rd IPs are to be configured on CE1 and CE2 for Option B interfaces. The 2nd and 4th IPs are to be configured on PE1 and PE2 for Option B interfaces. */
+  /** Secondary IPv4 Address Prefix. */
   secondaryIpv4Prefix?: string;
-  /** Secondary IPv6 Address Prefix of CE-PE interconnect links. Example: 3FFE:FFFF:0:CD30::a4/126. The values can be specified at the time of creation or can be updated afterwards. Any update to the values post-provisioning may disrupt traffic. The 1st and 3rd IPs are to be configured on CE1 and CE2 for Option B interfaces. The 2nd and 4th IPs are to be configured on PE1 and PE2 for Option B interfaces. */
+  /** Secondary IPv6 Address Prefix. */
   secondaryIpv6Prefix?: string;
+}
+
+/** Peering optionA properties */
+export interface L3OptionAProperties {
+  /** MTU to use for option A peering. */
+  mtu?: number;
+  /** Vlan identifier. Example : 501 */
+  vlanId?: number;
+  /**
+   * Fabric ASN number. Example 65001
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fabricASN?: number;
+  /** Peer ASN number.Example : 28 */
+  peerASN?: number;
+  /** BFD configuration properties */
+  bfdConfiguration?: BfdConfiguration;
+  /** Ingress Acl. ARM resource ID of Access Control Lists. */
+  ingressAclId?: string;
+  /** Egress Acl. ARM resource ID of Access Control Lists. */
+  egressAclId?: string;
+}
+
+/** The ExternalNetwork patchable properties. */
+export interface ExternalNetworkPatchableProperties {
+  /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
+  importRoutePolicyId?: string;
+  /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
+  exportRoutePolicyId?: string;
+  /** Import Route Policy either IPv4 or IPv6. */
+  importRoutePolicy?: ImportRoutePolicy;
+  /** Export Route Policy either IPv4 or IPv6. */
+  exportRoutePolicy?: ExportRoutePolicy;
 }
 
 /** The ExternalNetwork patch resource definition. */
 export interface ExternalNetworkPatch {
   /** Switch configuration description. */
   annotation?: string;
+  /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
+  importRoutePolicyId?: string;
+  /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
+  exportRoutePolicyId?: string;
+  /** Import Route Policy either IPv4 or IPv6. */
+  importRoutePolicy?: ImportRoutePolicy;
+  /** Export Route Policy either IPv4 or IPv6. */
+  exportRoutePolicy?: ExportRoutePolicy;
   /** Peering option list. */
   peeringOption?: PeeringOption;
   /** option B properties object */
-  optionBProperties?: OptionBProperties;
+  optionBProperties?: L3OptionBProperties;
   /** option A properties object */
-  optionAProperties?: Layer3OptionAProperties;
-  /** ARM resource ID of importRoutePolicy. */
-  importRoutePolicyId?: string;
-  /** ARM resource ID of exportRoutePolicy. */
-  exportRoutePolicyId?: string;
+  optionAProperties?: ExternalNetworkPatchPropertiesOptionAProperties;
 }
 
-/** The ExternalNetwork patchable properties. */
-export interface ExternalNetworkPatchableProperties {
-  /** Peering option list. */
-  peeringOption?: PeeringOption;
-  /** option B properties object */
-  optionBProperties?: OptionBProperties;
-  /** option A properties object */
-  optionAProperties?: Layer3OptionAProperties;
-  /** ARM resource ID of importRoutePolicy. */
-  importRoutePolicyId?: string;
-  /** ARM resource ID of exportRoutePolicy. */
-  exportRoutePolicyId?: string;
-}
-
-/** List of ExternalNetworks. */
+/** List of External Networks. */
 export interface ExternalNetworksList {
-  /** List of ExternalNetworks resources. */
+  /** List of External Network resources. */
   value?: ExternalNetwork[];
   /** Url to follow for getting next page of resources. */
   nextLink?: string;
 }
 
-/** Network device supported version properties. */
+/** Neighbor Group Patchable Properties defines the patchable properties of the resource. */
+export interface NeighborGroupPatchableProperties {
+  /** An array of destination IPv4 Addresses or IPv6 Addresses. */
+  destination?: NeighborGroupDestination;
+}
+
+/** An array of destination IPv4 Addresses or IPv6 Addresses. */
+export interface NeighborGroupDestination {
+  /** Array of IPv4 Addresses. */
+  ipv4Addresses?: string[];
+  /** Array of IPv6 Addresses. */
+  ipv6Addresses?: string[];
+}
+
+/** List of Neighbor Group. */
+export interface NeighborGroupsListResult {
+  /** List of Neighbor Group resources. */
+  value?: NeighborGroup[];
+  /** Url to follow for getting next page of resources. */
+  nextLink?: string;
+}
+
+/** Supported version details of the network device. */
 export interface SupportedVersionProperties {
   /** Operating system and firmware combined versions. */
   version?: string;
@@ -439,26 +654,8 @@ export interface SupportedVersionProperties {
   vendorOsVersion?: string;
   /** Firmware version. */
   vendorFirmwareVersion?: string;
-  /** If the current version is in use. */
-  isCurrent?: IsCurrentVersion;
-  /** If the current version is a test version. */
-  isTest?: IsTestVersion;
-}
-
-/** Network device limits. */
-export interface DeviceLimits {
-  /** Maximum number of physical interfaces. */
-  physicalInterfaceCount?: number;
-  /** Maximum number of sub-interfaces. */
-  maxSubInterfaces?: number;
-  /** Maximum number of tunnel interfaces. */
-  maxTunnelInterfaces?: number;
-  /** Maximum number of virtual router functions. */
-  maxVirtualRouterFunctions?: number;
-  /** Maximum number of Border Gateway Protocol (BGP) peers. */
-  maxBorderGatewayProtocolPeers?: number;
-  /** Maximum number of Bidirectional Forwarding Detection (BFD) peers. */
-  maxBidirectionalForwardingDetectionPeers?: number;
+  /** If true newly provisioned Fabric will use this device version by default to bootstrap the network devices for the first time. */
+  isDefault?: BooleanEnumProperty;
 }
 
 /** Network device interface properties. */
@@ -473,37 +670,25 @@ export interface DeviceInterfaceProperties {
 
 /** Supported connector properties. */
 export interface SupportedConnectorProperties {
-  /** Connector type. Example: Optical. */
+  /** Type of connector used. Example: Optical. */
   connectorType?: string;
   /** Maximum speed of the connector in Mbps. */
   maxSpeedInMbps?: number;
 }
 
-/** List of NetworkDeviceSkus. */
+/** List of Network Device SKUs. */
 export interface NetworkDeviceSkusListResult {
-  /** List of NetworkDeviceSku resources. */
+  /** List of Network Device SKU resources. */
   value?: NetworkDeviceSku[];
   /** Url to follow for getting next page of resources. */
   nextLink?: string;
 }
 
-/** Network Device updatable properties */
+/** Network Device updatable properties. */
 export interface NetworkDevicePatchableProperties {
-  /** The host Name of the device. */
+  /** The host name of the device. */
   hostName?: string;
-  /** serialNumber of the format Make;Model;HardwareRevisionId;SerialNumber. Example: Arista;DCS-7280DR3-24;12.05;JPE21116969 */
-  serialNumber?: string;
-}
-
-/** The NetworkDevicePatchParameters resource definition. */
-export interface NetworkDevicePatchParameters {
-  /** Azure resource tags that will replace the existing ones. */
-  tags?: { [propertyName: string]: string };
-  /** Switch configuration description. */
-  annotation?: string;
-  /** The host Name of the device. */
-  hostName?: string;
-  /** serialNumber of the format Make;Model;HardwareRevisionId;SerialNumber. Example: Arista;DCS-7280DR3-24;12.05;JPE21116969 */
+  /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
   serialNumber?: string;
 }
 
@@ -529,84 +714,21 @@ export interface NetworkInterfacesList {
   nextLink?: string;
 }
 
-/** Generate support package post action properties. */
-export interface UpdateVersionProperties {
-  /** The supported version defined in network device SKU. */
-  skuVersion: string;
+/** Reboot properties. */
+export interface RebootProperties {
+  /** Type of reboot to be performed. Example: GracefulRebootWithZTP */
+  rebootType?: RebootType;
 }
 
-/** Generate support package post action properties. */
-export interface SupportPackageProperties {
-  /** The URL to fetch the generated support package from. */
-  supportPackageURL: string;
+/** Update version properties. */
+export interface UpdateVersion {
+  /** Specify the version. */
+  version?: string;
 }
 
-/** Update power cycle input properties. */
-export interface UpdatePowerCycleProperties {
-  /** Primary or Secondary power end. */
-  powerEnd: PowerEnd;
-  /** On or Off toggle state. */
-  state: State;
-}
-
-/** Get Device status response properties. */
-export interface GetDeviceStatusProperties {
-  /** Primary or Secondary power end. */
-  operationalStatus: OperationalStatus;
-  /** On or Off power cycle state. */
-  powerCycleState: PowerCycleState;
-  /** The serial number of the device */
-  serialNumber: string;
-}
-
-/** Get Device static interface maps as per topology. */
-export interface GetStaticInterfaceMapsPropertiesItem {
-  /** The interface name. */
-  name?: string;
-  /** The interface description. */
-  description?: string;
-  /** The interface identifier. */
-  identifier?: string;
-  /** The interface type. Example: Ethernet */
-  interfaceType?: string;
-  /** The physical cable connector type. Example: Optical */
-  connectorType?: string;
-  /** Connected to ARM resource or external interface */
-  connectedTo?: string;
-  /** The interface speed. Example: 100 */
-  speed?: number;
-  /** The port channel group id. */
-  channelGroupId?: number;
-}
-
-/** Interface running status properties */
-export interface InterfaceStatus {
-  /**
-   * The interface administrative state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly administrativeState?: EnabledDisabledState;
-  /** The interface operational status. */
-  operationalStatus?: string;
-  /** The physical status. */
-  phyStatus?: string;
-  /** The interface transceiver type. Example: up or down */
-  transceiverStatus?: string;
-  /** Connected to ARM resource or external interface */
-  connectedTo?: string;
-}
-
-/** InfrastructureServices IP ranges. */
-export interface InfrastructureServices {
+/** Network Fabric Controller services. */
+export interface ControllerServices {
   /** The IPv4 Address space is optional, if the value is not defined at the time of NFC creation, then the default value 10.0.0.0/19 is considered. The IPV4 address subnet is an optional attribute. */
-  ipv4AddressSpaces?: string[];
-  /** The IPv6 is not supported right now. */
-  ipv6AddressSpaces?: string[];
-}
-
-/** WorkloadServices IP ranges. */
-export interface WorkloadServices {
-  /** The IPv4 Address space is optional, if the value is defined at the time of NFC creation, then the default value 10.0.0.0/19 is considered. The IPV4 address subnet is an optional attribute. */
   ipv4AddressSpaces?: string[];
   /** The IPv6 is not supported right now. */
   ipv6AddressSpaces?: string[];
@@ -636,27 +758,17 @@ export interface ExpressRouteConnectionInformation {
   expressRouteAuthorizationKey: string;
 }
 
-/** The NetworkFabricControllerPatch payload definition. */
-export interface NetworkFabricControllerPatch {
-  /** Azure resource tags that will replace the existing ones. */
-  tags?: { [propertyName: string]: string };
-  /** As part of an update, the Infrastructure ExpressRoute CircuitID should be provided to create and Provision a NFC. This Express route is dedicated for Infrastructure services. (This is a Mandatory attribute) */
-  infrastructureExpressRouteConnections?: ExpressRouteConnectionInformation[];
-  /** As part of an update, the workload ExpressRoute CircuitID should be provided to create and Provision a NFC. This Express route is dedicated for Workload services. (This is a Mandatory attribute). */
-  workloadExpressRouteConnections?: ExpressRouteConnectionInformation[];
-}
-
-/** List of NetworkFabricControllers. */
+/** List of Network Fabric Controllers. */
 export interface NetworkFabricControllersListResult {
-  /** List of NetworkFabricController resources. */
+  /** List of Network Fabric Controller resources. */
   value?: NetworkFabricController[];
   /** Url to follow for getting next page of resources. */
   nextLink?: string;
 }
 
-/** List of NetworkFabricSkus. */
+/** List of Network Fabric SKUs. */
 export interface NetworkFabricSkusListResult {
-  /** List of NetworkFabricSku resources. */
+  /** List of Network Fabric SKU resources. */
   value?: NetworkFabricSku[];
   /** Url to follow for getting next page of resources. */
   nextLink?: string;
@@ -673,127 +785,139 @@ export interface TerminalServerPatchableProperties {
 }
 
 /** Configuration to be used to setup the management network. */
-export interface ManagementNetworkConfiguration {
-  /** Configuration for infrastructure vpn. */
+export interface ManagementNetworkConfigurationProperties {
+  /** VPN Configuration properties. */
   infrastructureVpnConfiguration: VpnConfigurationProperties;
-  /** Configuration for workload vpn. */
+  /** VPN Configuration properties. */
   workloadVpnConfiguration: VpnConfigurationProperties;
 }
 
-/** Configuration for infrastructure vpn. */
+/** Network and credential configuration currently applied on terminal server. */
 export interface VpnConfigurationProperties {
+  /** ARM Resource ID of the Network To Network Interconnect. */
+  networkToNetworkInterconnectId?: string;
   /**
-   * Indicates configuration state. Example: Enabled | Disabled.
+   * Administrative state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly administrativeState?: EnabledDisabledState;
-  /**
-   * Gets the networkToNetworkInterconnectId of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkToNetworkInterconnectId?: string;
+  readonly administrativeState?: AdministrativeState;
   /** Peering option list. */
   peeringOption: PeeringOption;
   /** option B properties */
-  optionBProperties?: OptionBPropertiesAutoGenerated;
+  optionBProperties?: OptionBProperties;
   /** option A properties */
-  optionAProperties?: OptionAProperties;
+  optionAProperties?: VpnConfigurationPropertiesOptionAProperties;
 }
 
-/** Option B configuration. */
-export interface OptionBPropertiesAutoGenerated {
-  /** Route Targets to be applied for incoming routes into CE. */
-  importRouteTargets: string[];
-  /** Route Targets to be applied for outgoing routes from CE. */
-  exportRouteTargets: string[];
+/** Option B configuration to be used for Management VPN. */
+export interface OptionBProperties {
+  /** Route Targets to be applied for incoming routes into CE. This is for backward compatibility. */
+  importRouteTargets?: string[];
+  /** Route Targets to be applied for outgoing routes from CE. This is for backward compatibility. */
+  exportRouteTargets?: string[];
+  /** Route Targets to be applied. */
+  routeTargets?: RouteTargetInformation;
 }
 
-/** BFD Configuration properties. */
-export interface FabricBfdConfiguration {
-  /**
-   * interval in seconds. Example: 300.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly interval?: number;
-  /**
-   * multiplier. Example: 3.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly multiplier?: number;
+/** Peering optionA properties */
+export interface OptionAProperties {
+  /** MTU to use for option A peering. */
+  mtu?: number;
+  /** Vlan Id.Example : 501 */
+  vlanId?: number;
+  /** Peer ASN number.Example : 28 */
+  peerASN?: number;
+  /** BFD Configuration properties. */
+  bfdConfiguration?: BfdConfiguration;
 }
 
-/** Network Fabric updatable properties */
+/** Network Fabric updatable properties. */
 export interface NetworkFabricPatchableProperties {
-  /**
-   * List of NetworkRack resource IDs under the Network Fabric. The number of racks allowed depends on the Network Fabric SKU.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly racks?: string[];
-  /**
-   * List of L2IsolationDomain resource IDs under the Network Fabric.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly l2IsolationDomains?: string[];
-  /**
-   * List of L3IsolationDomain resource IDs under the Network Fabric.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly l3IsolationDomains?: string[];
-}
-
-/** The NetworkFabric resource definition. */
-export interface NetworkFabricPatchParameters {
-  /** Azure resource tags that will replace the existing ones. */
-  tags?: { [propertyName: string]: string };
-  /** Switch configuration description. */
-  annotation?: string;
+  /** Number of compute racks associated to Network Fabric. */
+  rackCount?: number;
+  /** Number of servers.Possible values are from 1-16. */
+  serverCountPerRack?: number;
+  /** IPv4Prefix for Management Network. Example: 10.1.0.0/19. */
+  ipv4Prefix?: string;
+  /** IPv6Prefix for Management Network. Example: 3FFE:FFFF:0:CD40::/59. */
+  ipv6Prefix?: string;
+  /** ASN of CE devices for CE/PE connectivity. */
+  fabricASN?: number;
   /** Network and credentials configuration already applied to terminal server. */
-  terminalServerConfiguration?: TerminalServerPatchableProperties;
-  /**
-   * List of NetworkRack resource IDs under the Network Fabric. The number of racks allowed depends on the Network Fabric SKU.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly racks?: string[];
-  /**
-   * List of L2IsolationDomain resource IDs under the Network Fabric.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly l2IsolationDomains?: string[];
-  /**
-   * List of L3IsolationDomain resource IDs under the Network Fabric.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly l3IsolationDomains?: string[];
+  terminalServerConfiguration?: NetworkFabricPatchablePropertiesTerminalServerConfiguration;
+  /** Configuration to be used to setup the management network. */
+  managementNetworkConfiguration?: ManagementNetworkConfigurationPatchableProperties;
 }
 
-/** Terminal server patch parameters */
-export interface TerminalServerPatchParameters {
-  /** Network and credentials configuration already applied to terminal server. */
-  terminalServerConfiguration?: TerminalServerPatchableProperties;
+/** Configuration to be used to setup the management network. */
+export interface ManagementNetworkConfigurationPatchableProperties {
+  /** VPN Configuration properties. */
+  infrastructureVpnConfiguration?: VpnConfigurationPatchableProperties;
+  /** VPN Configuration properties. */
+  workloadVpnConfiguration?: VpnConfigurationPatchableProperties;
 }
 
-/** List of NetworkFabrics. */
+/** Network and credential configuration currently applied on terminal server. */
+export interface VpnConfigurationPatchableProperties {
+  /** ARM Resource ID of the Network To Network Interconnect. */
+  networkToNetworkInterconnectId?: string;
+  /** Peering option list. */
+  peeringOption?: PeeringOption;
+  /** option B properties */
+  optionBProperties?: OptionBProperties;
+  /** option A properties */
+  optionAProperties?: VpnConfigurationPatchablePropertiesOptionAProperties;
+}
+
+/** List of Network Fabrics. */
 export interface NetworkFabricsListResult {
-  /** List of NetworkFabric resources. */
+  /** List of Network Fabric resources. */
   value?: NetworkFabric[];
   /** Url to follow for getting next page of resources. */
   nextLink?: string;
 }
 
-/** layer2Configuration */
-export interface Layer2Configuration {
-  /** Number of ports connected between PE/CE. Maximum value depends on FabricSKU. */
-  portCount?: number;
-  /** MTU of the packets between PE & CE. */
-  mtu: number;
-  /**
-   * List of network device interfaces resource IDs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly interfaces?: string[];
+/** Validation configuration properties. */
+export interface ValidateConfigurationProperties {
+  /** Validate action that to be performed */
+  validateAction?: ValidateAction;
 }
 
-/** List of NetworkToNetworkInterconnects. */
+/** Common properties for Layer2 Configuration. */
+export interface Layer2Configuration {
+  /** MTU of the packets between PE & CE. */
+  mtu?: number;
+  /** List of network device interfaces resource IDs. */
+  interfaces?: string[];
+}
+
+/** NPB Static Route Configuration properties. */
+export interface NpbStaticRouteConfiguration {
+  /** BFD Configuration properties. */
+  bfdConfiguration?: BfdConfiguration;
+  /** List of IPv4 Routes. */
+  ipv4Routes?: StaticRouteProperties[];
+  /** List of IPv6 Routes. */
+  ipv6Routes?: StaticRouteProperties[];
+}
+
+/** Import Route Policy Configuration. */
+export interface ImportRoutePolicyInformation {
+  /** Import IPv4 Route Policy Id. */
+  importIpv4RoutePolicyId?: string;
+  /** Import IPv6 Route Policy Id. */
+  importIpv6RoutePolicyId?: string;
+}
+
+/** Export Route Policy Configuration. */
+export interface ExportRoutePolicyInformation {
+  /** Export IPv4 Route Policy Id. */
+  exportIpv4RoutePolicyId?: string;
+  /** Export IPv6 Route Policy Id. */
+  exportIpv6RoutePolicyId?: string;
+}
+
+/** List of Network To Network Interconnects. */
 export interface NetworkToNetworkInterconnectsList {
   /** List of NetworkToNetworkInterconnects resources. */
   value?: NetworkToNetworkInterconnect[];
@@ -801,36 +925,96 @@ export interface NetworkToNetworkInterconnectsList {
   nextLink?: string;
 }
 
-/** Network device properties / role for the Network Rack. */
-export interface NetworkDeviceRoleProperties {
-  /** Name of the associated Network Device SKU. */
-  networkDeviceSkuName?: string;
-  /** Role for the network device. */
-  roleType?: NetworkDeviceRackRoleType;
-  /** Rack slot for the network device. */
-  rackSlot?: number;
-}
-
-/** List of NetworkRackSkus. */
-export interface NetworkRackSkusListResult {
-  /** List of NetworkRackSku resources. */
-  value?: NetworkRackSku[];
+/** List of NetworkPacketBrokers. */
+export interface NetworkPacketBrokersListResult {
+  /** List of NetworkPacketBroker resources. */
+  value?: NetworkPacketBroker[];
   /** Url to follow for getting next page of resources. */
   nextLink?: string;
 }
 
-/** The NetworkRack patch resource definition. */
-export interface NetworkRackPatch {
-  /** Resource properties. */
-  properties?: Record<string, unknown>;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
+/** List of Network Racks. */
+export interface NetworkRacksListResult {
+  /** List of Network Rack resources. */
+  value?: NetworkRack[];
+  /** Url to follow for getting next page of resources. */
+  nextLink?: string;
 }
 
-/** List of NetworkRacks. */
-export interface NetworkRacksListResult {
-  /** List of NetworkRack resources. */
-  value?: NetworkRack[];
+/** Network Tap Rule updatable properties. */
+export interface NetworkTapRulePatchableProperties {
+  /** Input method to configure Network Tap Rule. */
+  configurationType?: ConfigurationType;
+  /** Network Tap Rules file URL. */
+  tapRulesUrl?: string;
+  /** List of match configurations. */
+  matchConfigurations?: NetworkTapRuleMatchConfiguration[];
+  /** List of dynamic match configurations. */
+  dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
+}
+
+/** Defines the match configuration that are supported to filter the traffic. */
+export interface NetworkTapRuleMatchConfiguration {
+  /** The name of the match configuration. */
+  matchConfigurationName?: string;
+  /** Sequence Number of the match configuration.. */
+  sequenceNumber?: number;
+  /** Type of IP Address. IPv4 or IPv6 */
+  ipAddressType?: IPAddressType;
+  /** List of the match conditions. */
+  matchConditions?: NetworkTapRuleMatchCondition[];
+  /** List of actions that need to be performed for the matched conditions. */
+  actions?: NetworkTapRuleAction[];
+}
+
+/** Action that need to performed. */
+export interface NetworkTapRuleAction {
+  /** Type of actions that can be performed. */
+  type?: TapRuleActionType;
+  /** Truncate. 0 indicates do not truncate. */
+  truncate?: string;
+  /** The parameter to enable or disable the timestamp. */
+  isTimestampEnabled?: BooleanEnumProperty;
+  /** Destination Id. The ARM resource Id may be either Network To Network Interconnect or NeighborGroup. */
+  destinationId?: string;
+  /** The name of the match configuration. This is used when Goto type is provided. If Goto type is selected and no match configuration name is provided. It goes to next configuration. */
+  matchConfigurationName?: string;
+}
+
+/** List of NetworkTapRules. */
+export interface NetworkTapRulesListResult {
+  /** List of NetworkTapRule resources. */
+  value?: NetworkTapRule[];
+  /** Url to follow for getting next page of resources. */
+  nextLink?: string;
+}
+
+/** The network tap destination properties. */
+export interface DestinationProperties {
+  /** Destination name. */
+  name?: string;
+  /** Type of destination. Input can be IsolationDomain or Direct. */
+  destinationType?: DestinationType;
+  /** The destination Id. ARM Resource ID of either NNI or Internal Networks. */
+  destinationId?: string;
+  /** Isolation Domain Properties. */
+  isolationDomainProperties?: IsolationDomainProperties;
+  /** ARM Resource ID of destination Tap Rule that contains match configurations. */
+  destinationTapRuleId?: string;
+}
+
+/** Isolation Domain Properties. */
+export interface IsolationDomainProperties {
+  /** Type of encapsulation. */
+  encapsulation?: Encapsulation;
+  /** List of Neighbor Group IDs. */
+  neighborGroupIds?: string[];
+}
+
+/** List of NetworkTaps. */
+export interface NetworkTapsListResult {
+  /** List of NetworkTap resources. */
+  value?: NetworkTap[];
   /** Url to follow for getting next page of resources. */
   nextLink?: string;
 }
@@ -899,6 +1083,12 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
+/** Route Policy patchable properties. */
+export interface RoutePolicyPatchableProperties {
+  /** Route Policy statements. */
+  statements?: RoutePolicyStatementProperties[];
+}
+
 /** IP Community ID list properties. */
 export interface IpCommunityIdList {
   /** List of IP Community resource IDs. */
@@ -913,10 +1103,10 @@ export interface IpExtendedCommunityIdList {
 
 /** Route policy action properties. */
 export interface StatementActionProperties {
-  /** localPreference of the route policy. */
+  /** Local Preference of the route policy. */
   localPreference?: number;
-  /** action. Example: Permit | Deny. */
-  actionType: CommunityActionTypes;
+  /** Action type. Example: Permit | Deny | Continue. */
+  actionType: RoutePolicyActionType;
   /** IP Community Properties. */
   ipCommunityProperties?: ActionIpCommunityProperties;
   /** IP Extended Community Properties. */
@@ -925,44 +1115,38 @@ export interface StatementActionProperties {
 
 /** IP Community add operation properties. */
 export interface IpCommunityAddOperationProperties {
-  /** IP Community ID list properties. */
+  /** List of IP Community IDs. */
   add?: IpCommunityIdList;
 }
 
 /** IP Community delete operation properties. */
 export interface IpCommunityDeleteOperationProperties {
-  /** IP Community ID list properties. */
+  /** List of IP Community IDs. */
   delete?: IpCommunityIdList;
 }
 
 /** IP Community set operation properties. */
 export interface IpCommunitySetOperationProperties {
-  /** IP Community ID list properties. */
+  /** List of IP Community IDs. */
   set?: IpCommunityIdList;
 }
 
 /** IP Extended Community add operation properties. */
 export interface IpExtendedCommunityAddOperationProperties {
-  /** IP Extended Community Id list properties. */
+  /** List of IP Extended Community IDs. */
   add?: IpExtendedCommunityIdList;
 }
 
 /** IP Extended Community delete operation properties. */
 export interface IpExtendedCommunityDeleteOperationProperties {
-  /** IP Extended Community Id list properties. */
+  /** List of IP Extended Community IDs. */
   delete?: IpExtendedCommunityIdList;
 }
 
 /** IP Extended Community set operation properties. */
 export interface IpExtendedCommunitySetOperationProperties {
-  /** IP Extended Community Id list properties. */
+  /** List of IP Extended Community IDs. */
   set?: IpExtendedCommunityIdList;
-}
-
-/** The RoutePolicy patch resource definition. */
-export interface RoutePolicyPatch {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
 }
 
 /** List of RoutePolicies. */
@@ -973,14 +1157,6 @@ export interface RoutePoliciesListResult {
   nextLink?: string;
 }
 
-/** ExpressRouteStatus defines the resource properties. */
-export interface ExpressRouteStatusDef {
-  /** The express route circuit Azure resource ID, must be of type Microsoft.Network/expressRouteCircuits/circuitName. */
-  expressRouteCircuitId?: string;
-  /** Express route connection state for the resource. */
-  expressRouteStatus?: ExpressRouteConnectionState;
-}
-
 /** The extended location. */
 export interface ExtendedLocation {
   /** The extended location type. */
@@ -989,149 +1165,209 @@ export interface ExtendedLocation {
   name?: string;
 }
 
-/** Access Control List condition model. */
-export interface AccessControlListConditionProperties
-  extends AnnotationResource {
-  /** sequenceNumber of the Access Control List. */
-  sequenceNumber: number;
-  /** action. Example: allow | deny. */
-  action: ConditionActionType;
-  /** destinationAddress. Example: any | 1.1.1.0/24 | 1.1.10.10 */
-  destinationAddress: string;
-  /** destinationPort. Example: any | 1253 */
-  destinationPort: string;
-  /** sourceAddress. Example: any | 1.1.1.0/24 | 1.1.10.10 */
-  sourceAddress: string;
-  /** sourcePort. Example: any | 1253 */
-  sourcePort: string;
-  /** TCP/IP protocol as defined in the list of IP protocol numbers. Example: 255 (any) | 0 | 1. */
-  protocol: number;
+/** Access Control List Properties defines the resource properties. */
+export interface AccessControlListProperties
+  extends AnnotationResource,
+    AccessControlListPatchableProperties {
+  /**
+   * The last synced timestamp.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastSyncedTime?: Date;
+  /**
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
-/** AccessControlListProperties define the resource properties. */
-export interface AccessControlListProperties extends AnnotationResource {
-  /** IP address family. Example: ipv4 | ipv6. */
-  addressFamily: AddressFamily;
-  /** Access Control List conditions. */
-  conditions: AccessControlListConditionProperties[];
+/** Access Control Lists patch properties. */
+export interface AccessControlListPatchProperties
+  extends AccessControlListPatchableProperties,
+    AnnotationResource {}
+
+/** Internet Gateway Properties defines the properties of the resource. */
+export interface InternetGatewayProperties
+  extends AnnotationResource,
+    InternetGatewayPatchableProperties {
   /**
-   * Gets the provisioning state of the resource.
+   * IPv4 Address of Internet Gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipv4Address?: string;
+  /**
+   * Port number of Internet Gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly port?: number;
+  /** Gateway Type of the resource. */
+  type: GatewayType;
+  /** ARM Resource ID of the Network Fabric Controller. */
+  networkFabricControllerId: string;
+  /**
+   * Provisioning state of resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
 }
 
-/** AccessControlListPatchProperties define the patchable resource properties. */
-export interface AccessControlListPatchProperties extends AnnotationResource {
-  /** IP address family. Example: ipv4 | ipv6. */
-  addressFamily?: AddressFamily;
-  /** Access Control List conditions. */
-  conditions?: AccessControlListConditionProperties[];
-}
-
-/** IpCommunityProperties define the resource properties. */
-export interface IpCommunityProperties extends AnnotationResource {
-  /** Action to be taken on the configuration. Example: Permit | Deny. */
-  action: CommunityActionTypes;
-  /** Supported well known Community List. */
-  wellKnownCommunities?: WellKnownCommunities[];
-  /** List the communityMembers of IP Community . */
-  communityMembers: string[];
+/** Internet Gateway Rule Properties defines the resource properties. */
+export interface InternetGatewayRuleProperties extends AnnotationResource {
+  /** Rules for the InternetGateways */
+  ruleProperties: RuleProperties;
   /**
-   * Gets the provisioning state of the resource.
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * List of Internet Gateway resource Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly internetGatewayIds?: string[];
 }
 
-/** IpExtendedCommunityProperties define the resource properties. */
-export interface IpExtendedCommunityProperties extends AnnotationResource {
-  /** Action to be taken on the configuration. Example: Permit | Deny. */
-  action: CommunityActionTypes;
-  /** Route Target List.The expected formats are ASN(plain):NN >> example 4294967294:50, ASN.ASN:NN >> example 65533.65333:40, IP-address:NN >> example 10.10.10.10:65535. The possible values of ASN,NN are in range of 0-65535, ASN(plain) is in range of 0-4294967295. */
-  routeTargets: string[];
+/** IP Community Properties defines the resource properties. */
+export interface IpCommunityProperties
+  extends AnnotationResource,
+    IpCommunityPatchableProperties {
   /**
-   * Gets the provisioning state of the resource.
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
-/** IpPrefixProperties define the resource properties. */
-export interface IpPrefixProperties extends AnnotationResource {
-  /** IpPrefix contains the list of IP PrefixRules objects. */
-  ipPrefixRules: IpPrefixPropertiesIpPrefixRulesItem[];
+/** IP Extended Community Properties defines the resource properties. */
+export interface IpExtendedCommunityProperties
+  extends AnnotationResource,
+    IpExtendedCommunityPatchableProperties {
   /**
-   * Gets the provisioning state of the resource.
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
-/** L2IsolationDomainProperties define the resource properties. */
+/** IP Extended Community patchable properties. */
+export interface IpExtendedCommunityPatchProperties
+  extends IpExtendedCommunityPatchableProperties,
+    AnnotationResource {}
+
+/** IP Prefix Properties defines the properties of the resource. */
+export interface IpPrefixProperties
+  extends AnnotationResource,
+    IpPrefixPatchableProperties {
+  /**
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
+}
+
+/** IP Prefix patchable properties. */
+export interface IpPrefixPatchProperties
+  extends AnnotationResource,
+    IpPrefixPatchableProperties {}
+
+/** L2Isolation Domain Properties defines the properties of the resource. */
 export interface L2IsolationDomainProperties extends AnnotationResource {
-  /** Network Fabric ARM resource id. */
+  /** ARM Resource ID of the Network Fabric. */
   networkFabricId: string;
-  /** vlanId. Example: 501. */
+  /** Vlan Identifier of the Network Fabric. Example: 501. */
   vlanId: number;
-  /** maximum transmission unit. Default value is 1500. */
+  /** Maximum transmission unit. Default value is 1500. */
   mtu?: number;
   /**
-   * List of resources the L2 Isolation Domain is disabled on. Can be either entire NetworkFabric or NetworkRack.
+   * Configuration state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly disabledOnResources?: string[];
+  readonly configurationState?: ConfigurationState;
   /**
-   * state. Example: Enabled | Disabled. It indicates administrative state of the isolationDomain, whether it is enabled or disabled. If enabled, the configuration is applied on the devices. If disabled, the configuration is removed from the devices
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly administrativeState?: EnabledDisabledState;
-  /**
-   * Gets the provisioning state of the resource.
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
-/** L2IsolationDomainPatchProperties define the patchable resource properties. */
+/** L2 Isolation Domain Patch Properties defines the patchable properties of the resource. */
 export interface L2IsolationDomainPatchProperties extends AnnotationResource {
-  /** maximum transmission unit. Default value is 1500. */
+  /** Maximum transmission unit. Default value is 1500. */
   mtu?: number;
 }
 
-/** L3IsolationDomainProperties define the resource properties. */
+/** L3 Isolation Domain Properties defines the properties of the resource. */
 export interface L3IsolationDomainProperties
   extends AnnotationResource,
-    L3IsolationDomainPatchProperties {
-  /** Network Fabric ARM resource id. */
+    L3IsolationDomainPatchableProperties {
+  /** ARM Resource ID of the Network Fabric. */
   networkFabricId: string;
   /**
-   * List of resources the L3 Isolation Domain is disabled on. Can be either entire NetworkFabric or NetworkRack.
+   * Configuration state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly disabledOnResources?: string[];
+  readonly configurationState?: ConfigurationState;
   /**
-   * Administrative state of the IsolationDomain. Example: Enabled | Disabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly administrativeState?: EnabledDisabledState;
-  /**
-   * List of resources the OptionB is disabled on. Can be either entire NetworkFabric or NetworkRack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly optionBDisabledOnResources?: string[];
-  /**
-   * Gets the provisioning state of the resource.
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
-/** Connected Subnet properties. */
-export interface ConnectedSubnet extends AnnotationResource {
-  /** Prefix of the connected Subnet. */
-  prefix?: string;
-}
+/** Resource properties. */
+export interface L3IsolationDomainPatchProperties
+  extends AnnotationResource,
+    L3IsolationDomainPatchableProperties {}
 
 /** BGP configuration properties */
 export interface BgpConfiguration extends AnnotationResource {
@@ -1149,100 +1385,132 @@ export interface BgpConfiguration extends AnnotationResource {
    */
   readonly fabricASN?: number;
   /** Peer ASN. Example: 65047. */
-  peerASN: number;
-  /** BGP Ipv4 ListenRange. */
+  peerASN?: number;
+  /** List of BGP IPv4 Listen Range prefixes. */
   ipv4ListenRangePrefixes?: string[];
-  /** BGP Ipv6 ListenRange. */
+  /** List of BGP IPv6 Listen Ranges prefixes. */
   ipv6ListenRangePrefixes?: string[];
-  /** List with stringified ipv4NeighborAddresses. */
+  /** List with stringified IPv4 Neighbor Addresses. */
   ipv4NeighborAddress?: NeighborAddress[];
   /** List with stringified IPv6 Neighbor Address. */
   ipv6NeighborAddress?: NeighborAddress[];
 }
 
-/** Internal Network Properties */
+/** Connected Subnet properties. */
+export interface ConnectedSubnet extends AnnotationResource {
+  /** Prefix of the Connected Subnet. */
+  prefix: string;
+}
+
+/** Internal Network Properties defines the properties of the resource. */
 export interface InternalNetworkProperties
   extends AnnotationResource,
-    InternalNetworkPatchableProperties {
+    InternalNetworkPatchableProperties,
+    ExtensionEnumProperty {
+  /** Vlan identifier. Example: 1001. */
+  vlanId: number;
+  /** BGP configuration properties. */
+  bgpConfiguration?: InternalNetworkPropertiesBgpConfiguration;
+  /** Static Route Configuration properties. */
+  staticRouteConfiguration?: InternalNetworkPropertiesStaticRouteConfiguration;
   /**
-   * List of resources the InternalNetwork is disabled on. Can be either entire NetworkFabric or NetworkRack.
+   * Configuration state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly disabledOnResources?: string[];
+  readonly configurationState?: ConfigurationState;
   /**
-   * Administrative state of the InternalNetwork. Example: Enabled | Disabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly administrativeState?: EnabledDisabledState;
-  /**
-   * List of resources the BGP is disabled on. Can be either entire NetworkFabric or NetworkRack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly bgpDisabledOnResources?: string[];
-  /**
-   * List of resources the BFD for BGP is disabled on. Can be either entire NetworkFabric or NetworkRack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly bfdDisabledOnResources?: string[];
-  /**
-   * List of resources the BFD of StaticRoutes is disabled on. Can be either entire NetworkFabric or NetworkRack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly bfdForStaticRoutesDisabledOnResources?: string[];
-  /**
-   * Gets the provisioning state of the resource.
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /** Vlan identifier. Example: 1001. */
-  vlanId: number;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
 /** InternalNetwork Patch properties. */
 export interface InternalNetworkPatchProperties
   extends AnnotationResource,
-    InternalNetworkPatchableProperties {}
+    InternalNetworkPatchableProperties {
+  /** BGP configuration properties. */
+  bgpConfiguration?: BgpConfiguration;
+  /** Static Route Configuration properties. */
+  staticRouteConfiguration?: StaticRouteConfiguration;
+}
 
 /** External Network Properties. */
-export interface ExternalNetworkProperties extends AnnotationResource {
+export interface ExternalNetworkProperties
+  extends AnnotationResource,
+    ExternalNetworkPatchableProperties {
   /**
    * Gets the networkToNetworkInterconnectId of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly networkToNetworkInterconnectId?: string;
-  /**
-   * List of resources the externalNetwork is disabled on. Can be either entire NetworkFabric or NetworkRack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly disabledOnResources?: string[];
-  /**
-   * AdministrativeState of the externalNetwork. Example: Enabled | Disabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly administrativeState?: EnabledDisabledState;
-  /**
-   * Gets the provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
   /** Peering option list. */
   peeringOption: PeeringOption;
   /** option B properties object */
-  optionBProperties?: OptionBProperties;
+  optionBProperties?: L3OptionBProperties;
   /** option A properties object */
   optionAProperties?: ExternalNetworkPropertiesOptionAProperties;
-  /** ARM resource ID of importRoutePolicy. */
-  importRoutePolicyId?: string;
-  /** ARM resource ID of exportRoutePolicy. */
-  exportRoutePolicyId?: string;
+  /**
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
 /** External Network Patch properties. */
 export interface ExternalNetworkPatchProperties
   extends AnnotationResource,
-    ExternalNetworkPatchableProperties {}
+    ExternalNetworkPatchableProperties {
+  /** Peering option list. */
+  peeringOption?: PeeringOption;
+  /** option B properties object */
+  optionBProperties?: L3OptionBProperties;
+  /** option A properties object */
+  optionAProperties?: ExternalNetworkPatchPropertiesOptionAProperties;
+}
 
-/** NetworkDeviceProperties define the resource properties. */
+/** Neighbor Group Properties defines the properties of the resource. */
+export interface NeighborGroupProperties
+  extends AnnotationResource,
+    NeighborGroupPatchableProperties {
+  /**
+   * List of NetworkTap IDs where neighbor group is associated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkTapIds?: string[];
+  /**
+   * List of Network Tap Rule IDs where neighbor group is associated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkTapRuleIds?: string[];
+  /**
+   * The provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Neighbor Group Patch properties. */
+export interface NeighborGroupPatchProperties
+  extends AnnotationResource,
+    NeighborGroupPatchableProperties {}
+
+/** Network Device Properties defines the properties of the resource. */
 export interface NetworkDeviceProperties
   extends AnnotationResource,
     NetworkDevicePatchableProperties {
@@ -1252,19 +1520,42 @@ export interface NetworkDeviceProperties
    */
   readonly version?: string;
   /** Network Device SKU name. */
-  networkDeviceSku: string;
-  /** networkDeviceRole is the device role: Example: CE | ToR. */
-  networkDeviceRole: NetworkDeviceRoleTypes;
+  networkDeviceSku?: string;
   /**
-   * Gets the provisioning state of the resource.
+   * NetworkDeviceRole is the device role: Example: CE | ToR.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ProvisioningState;
+  readonly networkDeviceRole?: NetworkDeviceRole;
   /**
    * Reference to network rack resource id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly networkRackId?: string;
+  /**
+   * Management IPv4 Address.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly managementIpv4Address?: string;
+  /**
+   * Management IPv6 Address.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly managementIpv6Address?: string;
+  /**
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
 /** Network Device Patch properties. */
@@ -1272,25 +1563,15 @@ export interface NetworkDevicePatchParametersProperties
   extends AnnotationResource,
     NetworkDevicePatchableProperties {}
 
-/** NetworkInterfaceProperties define the resource properties. */
+/** Network Interface Properties defines the properties of the resource. */
 export interface NetworkInterfaceProperties extends AnnotationResource {
   /**
-   * physicalIdentifier of the network interface.
+   * Physical Identifier of the network interface.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly physicalIdentifier?: string;
   /**
-   * administrativeState of the network interface. Example: Enabled | Disabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly administrativeState?: EnabledDisabledState;
-  /**
-   * Gets the provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The arm resource id of the interface or compute server its connected to.
+   * The ARM resource id of the interface or compute server its connected to.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly connectedTo?: string;
@@ -1300,21 +1581,31 @@ export interface NetworkInterfaceProperties extends AnnotationResource {
    */
   readonly interfaceType?: InterfaceType;
   /**
-   * ipv4Address.
+   * IPv4Address of the interface.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipv4Address?: string;
   /**
-   * ipv6Address.
+   * IPv6Address of the interface.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipv6Address?: string;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
 /** Network Interface Patch properties. */
 export interface NetworkInterfacePatchProperties extends AnnotationResource {}
 
-/** NetworkFabricControllerProperties define the resource properties. */
+/** NetworkFabricControllerProperties defines the resource properties. */
 export interface NetworkFabricControllerProperties
   extends AnnotationResource,
     NetworkFabricControllerPatchableProperties {
@@ -1322,12 +1613,12 @@ export interface NetworkFabricControllerProperties
    * InfrastructureServices IP ranges.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly infrastructureServices?: InfrastructureServices;
+  readonly infrastructureServices?: ControllerServices;
   /**
    * WorkloadServices IP ranges.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly workloadServices?: WorkloadServices;
+  readonly workloadServices?: ControllerServices;
   /** Managed Resource Group configuration properties. */
   managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
   /**
@@ -1336,19 +1627,23 @@ export interface NetworkFabricControllerProperties
    */
   readonly networkFabricIds?: string[];
   /**
-   * A workload management network is required for all the tenant (workload) traffic. This traffic is only dedicated for Tenant workloads which are required to access internet or any other MSFT/Public endpoints.
+   * A workload management network is required for all the tenant (workload) traffic. This traffic is only dedicated for Tenant workloads which are required to access internet or any other MSFT/Public endpoints. This is used for the backward compatibility.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly workloadManagementNetwork?: boolean;
+  /** A workload management network is required for all the tenant (workload) traffic. This traffic is only dedicated for Tenant workloads which are required to access internet or any other MSFT/Public endpoints. */
+  isWorkloadManagementNetworkEnabled?: IsWorkloadManagementNetworkEnabled;
+  /**
+   * List of tenant InternetGateway resource IDs
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantInternetGatewayIds?: string[];
   /** IPv4 Network Fabric Controller Address Space. */
   ipv4AddressSpace?: string;
   /** IPv6 Network Fabric Controller Address Space. */
   ipv6AddressSpace?: string;
-  /**
-   * The Operational Status would always be NULL. Look only in to the Provisioning state for the latest status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationalState?: NetworkFabricControllerOperationalState;
+  /** Network Fabric Controller SKU. */
+  nfcSku?: NfcSku;
   /**
    * Provides you the latest status of the NFC service, whether it is Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on the status of NFC provisioning.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1356,70 +1651,168 @@ export interface NetworkFabricControllerProperties
   readonly provisioningState?: ProvisioningState;
 }
 
-/** NetworkFabricProperties - define the resource properties. */
-export interface NetworkFabricProperties
-  extends AnnotationResource,
-    NetworkFabricPatchableProperties {
+/** Network Fabric Properties defines the properties of the resource. */
+export interface NetworkFabricProperties extends AnnotationResource {
   /** Supported Network Fabric SKU.Example: Compute / Aggregate racks. Once the user chooses a particular SKU, only supported racks can be added to the Network Fabric. The SKU determines whether it is a single / multi rack Network Fabric. */
   networkFabricSku: string;
-  /** Number of racks associated to Network Fabric.Possible values are from 2-8. */
-  rackCount: number;
+  /**
+   * The version of Network Fabric.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fabricVersion?: string;
+  /**
+   * Array of router IDs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly routerIds?: string[];
+  /** Azure resource ID for the NetworkFabricController the NetworkFabric belongs. */
+  networkFabricControllerId: string;
+  /** Number of compute racks associated to Network Fabric. */
+  rackCount?: number;
   /** Number of servers.Possible values are from 1-16. */
   serverCountPerRack: number;
   /** IPv4Prefix for Management Network. Example: 10.1.0.0/19. */
-  ipv4Prefix?: string;
-  /** IPv6Prefix for Management Network. Example: 3FFE:FFFF:0:CD40::/59. */
+  ipv4Prefix: string;
+  /** IPv6Prefix for Management Network. Example: 3FFE:FFFF:0:CD40::/59 */
   ipv6Prefix?: string;
-  /**
-   * Router Id of CE to be used for MP-BGP between PE and CE
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly routerId?: string;
   /** ASN of CE devices for CE/PE connectivity. */
   fabricASN: number;
-  /** Azure resource ID for the NetworkFabricController the NetworkFabric belongs. */
-  networkFabricControllerId: string;
   /** Network and credentials configuration currently applied to terminal server. */
   terminalServerConfiguration: TerminalServerConfiguration;
   /** Configuration to be used to setup the management network. */
-  managementNetworkConfiguration: ManagementNetworkConfiguration;
+  managementNetworkConfiguration: ManagementNetworkConfigurationProperties;
   /**
-   * Gets the operational state of the resource.
+   * List of NetworkRack resource IDs under the Network Fabric. The number of racks allowed depends on the Network Fabric SKU.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly operationalState?: NetworkFabricOperationalState;
+  readonly racks?: string[];
   /**
-   * Gets the provisioning state of the resource.
+   * List of L2 Isolation Domain resource IDs under the Network Fabric.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly l2IsolationDomains?: string[];
+  /**
+   * List of L3 Isolation Domain resource IDs under the Network Fabric.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly l3IsolationDomains?: string[];
+  /**
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provides you the latest status of the NFC service, whether it is Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on the status of NFC provisioning.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
 /** Network Fabric Patch properties. */
-export interface NetworkFabricPatchParametersProperties
+export interface NetworkFabricPatchProperties
   extends AnnotationResource,
-    TerminalServerPatchParameters,
     NetworkFabricPatchableProperties {}
 
-/** NetworkRackProperties define the resource properties. */
+/** Network Rack Properties defines the properties of the resource. */
 export interface NetworkRackProperties extends AnnotationResource {
   /** Network Rack SKU name. */
-  networkRackSku: string;
-  /** Network Fabric ARM resource id. */
+  networkRackType?: NetworkRackType;
+  /** ARM resource ID of the Network Fabric. */
   networkFabricId: string;
   /**
-   * List of network device ARM resource ids.
+   * List of network device ARM resource IDs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly networkDevices?: string[];
   /**
-   * Gets the provisioning state of the resource.
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
 }
 
-/** Route Policy Statement properties.. */
+/** Network Tap Rule Properties defines the resource properties. */
+export interface NetworkTapRuleProperties
+  extends AnnotationResource,
+    NetworkTapRulePatchableProperties {
+  /**
+   * The ARM resource Id of the NetworkTap.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkTapId?: string;
+  /** Polling interval in seconds. */
+  pollingIntervalInSeconds?: PollingIntervalInSeconds;
+  /**
+   * The last sync timestamp.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastSyncedTime?: Date;
+  /**
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
+}
+
+/** Network Tap Rule Patch properties. */
+export interface NetworkTapRulePatchProperties
+  extends AnnotationResource,
+    NetworkTapRulePatchableProperties {}
+
+/** Network Tap Properties defines the properties of the resource. */
+export interface NetworkTapProperties extends AnnotationResource {
+  /** ARM resource ID of the Network Packet Broker. */
+  networkPacketBrokerId: string;
+  /**
+   * Source Tap Rule Id. ARM Resource ID of the Network Tap Rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceTapRuleId?: string;
+  /** List of destinations to send the filter traffic. */
+  destinations: NetworkTapPropertiesDestinationsItem[];
+  /** Polling type. */
+  pollingType?: PollingType;
+  /**
+   * Gets the configurations state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provides you the latest status of the NFC service, whether it is Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on the status of Network Tap provisioning.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource. Example -Enabled/Disabled
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
+}
+
+/** The Network Tap resource patch definition. */
+export interface NetworkTapPatchableParameters extends AnnotationResource {
+  /** Polling type. */
+  pollingType?: PollingType;
+  /** List of destination properties to send the filter traffic. */
+  destinations?: NetworkTapPatchableParametersDestinationsItem[];
+}
+
+/** Route Policy Statement properties. */
 export interface RoutePolicyStatementProperties extends AnnotationResource {
   /** Sequence to insert to/delete from existing route. */
   sequenceNumber: number;
@@ -1429,15 +1822,59 @@ export interface RoutePolicyStatementProperties extends AnnotationResource {
   action: StatementActionProperties;
 }
 
-/** RoutePolicy Properties define the resource properties. */
-export interface RoutePolicyProperties extends AnnotationResource {
-  /** Route Policy statements. */
-  statements: RoutePolicyStatementProperties[];
+/** RoutePolicyProperties defines the resource properties. */
+export interface RoutePolicyProperties
+  extends AnnotationResource,
+    RoutePolicyPatchableProperties {
+  /** Arm Resource ID of Network Fabric. */
+  networkFabricId: string;
+  /** AddressFamilyType. This parameter decides whether the given ipv4 or ipv6 route policy. */
+  addressFamilyType?: AddressFamilyType;
   /**
-   * Gets the provisioning state of the resource.
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
+}
+
+/** Defines the port condition that needs to be matched. */
+export interface AccessControlListPortCondition extends PortCondition {
+  /** List of protocol flags that needs to be matched. */
+  flags?: string[];
+}
+
+/** Defines the match condition that is supported to filter the traffic. */
+export interface AccessControlListMatchCondition extends CommonMatchConditions {
+  /** List of ether type values that needs to be matched. */
+  etherTypes?: string[];
+  /** List of IP fragment packets that needs to be matched. */
+  fragments?: string[];
+  /** List of IP Lengths that needs to be matched. */
+  ipLengths?: string[];
+  /** List of TTL [Time To Live] values that needs to be matched. */
+  ttlValues?: string[];
+  /** List of DSCP Markings that needs to be matched. */
+  dscpMarkings?: string[];
+  /** Defines the port condition that needs to be matched. */
+  portCondition?: AccessControlListPortCondition;
+}
+
+/** Defines the match condition that is supported to filter the traffic. */
+export interface NetworkTapRuleMatchCondition extends CommonMatchConditions {
+  /** Encapsulation Type. */
+  encapsulationType?: EncapsulationType;
+  /** Defines the port condition that needs to be matched. */
+  portCondition?: PortCondition;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -1451,33 +1888,217 @@ export interface TrackedResource extends Resource {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
+/** Common response for the state updates. */
+export interface CommonPostActionResponseForStateUpdate extends ErrorResponse {
+  /**
+   * Gets the configuration state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+}
+
+/** The response of the action validate configuration. */
+export interface ValidateConfigurationResponse extends ErrorResponse {
+  /**
+   * Gets the configuration state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /** URL for the details of the response. */
+  url?: string;
+}
+
+/** Common response for device updates. */
+export interface CommonPostActionResponseForDeviceUpdate extends ErrorResponse {
+  /**
+   * Gets the configuration state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /** List of ARM Resource IDs for which the given action applied successfully. */
+  successfulDevices?: string[];
+  /** List of ARM Resource IDs for which the given action failed to apply. */
+  failedDevices?: string[];
+}
+
+/** The Access Control Lists patch resource definition. */
+export interface AccessControlListPatch extends TagsUpdate {
+  /** Input method to configure Access Control List. */
+  configurationType?: ConfigurationType;
+  /** Access Control List file URL. */
+  aclsUrl?: string;
+  /** List of match configurations. */
+  matchConfigurations?: AccessControlListMatchConfiguration[];
+  /** List of dynamic match configurations. */
+  dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
+  /** Switch configuration description. */
+  annotation?: string;
+}
+
+/** The Internet Gateway patch resource definition. */
+export interface InternetGatewayPatch extends TagsUpdate {
+  /** ARM Resource ID of the Internet Gateway Rule. */
+  internetGatewayRuleId?: string;
+}
+
+/** The Internet Gateway Rules patch resource definition. */
+export interface InternetGatewayRulePatch extends TagsUpdate {}
+
+/** The IP Community patch resource definition. */
+export interface IpCommunityPatch extends TagsUpdate {
+  /** List of IP Community Rules. */
+  ipCommunityRules?: IpCommunityRule[];
+}
+
+/** The IP Extended Communities patch resource definition. */
+export interface IpExtendedCommunityPatch extends TagsUpdate {
+  /** List of IP Extended Community Rules. */
+  ipExtendedCommunityRules?: IpExtendedCommunityRule[];
+  /** Switch configuration description. */
+  annotation?: string;
+}
+
+/** The IP Prefix patch resource definition. */
+export interface IpPrefixPatch extends TagsUpdate {
+  /** Switch configuration description. */
+  annotation?: string;
+  /** The list of IP Prefix Rules. */
+  ipPrefixRules?: IpPrefixRule[];
+}
+
+/** The L2 Isolation Domain patch resource definition. */
+export interface L2IsolationDomainPatch extends TagsUpdate {
+  /** Switch configuration description. */
+  annotation?: string;
+  /** Maximum transmission unit. Default value is 1500. */
+  mtu?: number;
+}
+
+/** The L3 Isolation Domain patch resource definition. */
+export interface L3IsolationDomainPatch extends TagsUpdate {
+  /** Switch configuration description. */
+  annotation?: string;
+  /** Advertise Connected Subnets. Ex: "True" | "False". */
+  redistributeConnectedSubnets?: RedistributeConnectedSubnets;
+  /** Advertise Static Routes. Ex: "True" | "False". */
+  redistributeStaticRoutes?: RedistributeStaticRoutes;
+  /** Aggregate route configurations. */
+  aggregateRouteConfiguration?: AggregateRouteConfiguration;
+  /** Connected Subnet RoutePolicy */
+  connectedSubnetRoutePolicy?: ConnectedSubnetRoutePolicy;
+}
+
+/** The Neighbor Group Patch definition. */
+export interface NeighborGroupPatch extends TagsUpdate {
+  /** Switch configuration description. */
+  annotation?: string;
+  /** An array of destination IPv4 Addresses or IPv6 Addresses. */
+  destination?: NeighborGroupDestination;
+}
+
+/** The Network Device Patch Parameters defines the patch parameters of the resource. */
+export interface NetworkDevicePatchParameters extends TagsUpdate {
+  /** Switch configuration description. */
+  annotation?: string;
+  /** The host name of the device. */
+  hostName?: string;
+  /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
+  serialNumber?: string;
+}
+
+/** The Network Fabric Controller Patch payload definition. */
+export interface NetworkFabricControllerPatch extends TagsUpdate {
+  /** As part of an update, the Infrastructure ExpressRoute CircuitID should be provided to create and Provision a NFC. This Express route is dedicated for Infrastructure services. (This is a Mandatory attribute) */
+  infrastructureExpressRouteConnections?: ExpressRouteConnectionInformation[];
+  /** As part of an update, the workload ExpressRoute CircuitID should be provided to create and Provision a NFC. This Express route is dedicated for Workload services. (This is a Mandatory attribute). */
+  workloadExpressRouteConnections?: ExpressRouteConnectionInformation[];
+}
+
+/** The Network Fabric resource definition. */
+export interface NetworkFabricPatch extends TagsUpdate {
+  /** Switch configuration description. */
+  annotation?: string;
+  /** Number of compute racks associated to Network Fabric. */
+  rackCount?: number;
+  /** Number of servers.Possible values are from 1-16. */
+  serverCountPerRack?: number;
+  /** IPv4Prefix for Management Network. Example: 10.1.0.0/19. */
+  ipv4Prefix?: string;
+  /** IPv6Prefix for Management Network. Example: 3FFE:FFFF:0:CD40::/59. */
+  ipv6Prefix?: string;
+  /** ASN of CE devices for CE/PE connectivity. */
+  fabricASN?: number;
+  /** Network and credentials configuration already applied to terminal server. */
+  terminalServerConfiguration?: NetworkFabricPatchablePropertiesTerminalServerConfiguration;
+  /** Configuration to be used to setup the management network. */
+  managementNetworkConfiguration?: ManagementNetworkConfigurationPatchableProperties;
+}
+
+/** The NetworkPacketBroker patch resource definition. */
+export interface NetworkPacketBrokerPatch extends TagsUpdate {}
+
+/** The NetworkTapRule resource definition. */
+export interface NetworkTapRulePatch extends TagsUpdate {
+  /** Switch configuration description. */
+  annotation?: string;
+  /** Input method to configure Network Tap Rule. */
+  configurationType?: ConfigurationType;
+  /** Network Tap Rules file URL. */
+  tapRulesUrl?: string;
+  /** List of match configurations. */
+  matchConfigurations?: NetworkTapRuleMatchConfiguration[];
+  /** List of dynamic match configurations. */
+  dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
+}
+
+/** The NetworkFabric resource definition. */
+export interface NetworkTapPatch extends TagsUpdate {
+  /** Switch configuration description. */
+  annotation?: string;
+  /** Polling type. */
+  pollingType?: PollingType;
+  /** List of destination properties to send the filter traffic. */
+  destinations?: NetworkTapPatchableParametersDestinationsItem[];
+}
+
+/** The Route Policy patch resource definition. */
+export interface RoutePolicyPatch extends TagsUpdate {
+  /** Route Policy statements. */
+  statements?: RoutePolicyStatementProperties[];
+}
+
 /** Update administrative state on list of resources. */
 export interface UpdateAdministrativeState extends EnableDisableOnResources {
   /** Administrative state. */
-  state?: AdministrativeState;
+  state?: EnableDisableState;
 }
 
-/** Peering optionA properties */
-export interface Layer3OptionAProperties extends Layer3IpPrefixProperties {
-  /** MTU to use for option A peering. */
-  mtu?: number;
-  /** Vlan identifier. Example : 501 */
-  vlanId?: number;
-  /**
-   * Fabric ASN number. Example 65001
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fabricASN?: number;
-  /** Peer ASN number.Example : 28 */
-  peerASN?: number;
-  /** BFD configuration properties */
-  bfdConfiguration?: BfdConfiguration;
+/** Update the administrative state on list of resources. */
+export interface UpdateDeviceAdministrativeState
+  extends EnableDisableOnResources {
+  /** Administrative state. */
+  state?: DeviceAdministrativeState;
 }
+
+/** Static Route Configuration properties. */
+export interface InternalNetworkPropertiesStaticRouteConfiguration
+  extends StaticRouteConfiguration,
+    ExtensionEnumProperty {}
+
+/** option A properties object */
+export interface ExternalNetworkPropertiesOptionAProperties
+  extends Layer3IpPrefixProperties,
+    L3OptionAProperties {}
+
+/** option A properties object */
+export interface ExternalNetworkPatchPropertiesOptionAProperties
+  extends Layer3IpPrefixProperties,
+    L3OptionAProperties {}
 
 /** Network and credentials configuration currently applied to terminal server. */
 export interface TerminalServerConfiguration
-  extends Layer3IpPrefixProperties,
-    TerminalServerPatchableProperties {
+  extends TerminalServerPatchableProperties,
+    Layer3IpPrefixProperties {
   /**
    * ARM Resource ID used for the NetworkDevice.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1485,24 +2106,23 @@ export interface TerminalServerConfiguration
   readonly networkDeviceId?: string;
 }
 
-/** Peering optionA properties */
-export interface OptionAProperties extends Layer3IpPrefixProperties {
-  /** MTU to use for option A peering. */
-  mtu?: number;
-  /** Vlan identifier. Example : 501 */
-  vlanId?: number;
-  /** Peer ASN number.Example : 28 */
-  peerASN?: number;
-  /** BFD Configuration properties. */
-  bfdConfiguration?: FabricBfdConfiguration;
-}
+/** option A properties */
+export interface VpnConfigurationPropertiesOptionAProperties
+  extends OptionAProperties,
+    Layer3IpPrefixProperties {}
 
-/** layer3Configuration */
-export interface Layer3Configuration extends Layer3IpPrefixProperties {
-  /** importRoutePolicyId */
-  importRoutePolicyId?: string;
-  /** exportRoutePolicyId */
-  exportRoutePolicyId?: string;
+/** Network and credentials configuration already applied to terminal server. */
+export interface NetworkFabricPatchablePropertiesTerminalServerConfiguration
+  extends TerminalServerPatchableProperties,
+    Layer3IpPrefixProperties {}
+
+/** option A properties */
+export interface VpnConfigurationPatchablePropertiesOptionAProperties
+  extends OptionAProperties,
+    Layer3IpPrefixProperties {}
+
+/** OptionB Layer3 Configuration properties. */
+export interface OptionBLayer3Configuration extends Layer3IpPrefixProperties {
   /** ASN of PE devices for CE/PE connectivity.Example : 28 */
   peerASN?: number;
   /** VLAN for CE/PE Layer 3 connectivity.Example : 501 */
@@ -1514,16 +2134,20 @@ export interface Layer3Configuration extends Layer3IpPrefixProperties {
   readonly fabricASN?: number;
 }
 
-/** Get Device static interface maps as per topology. */
-export interface GetDynamicInterfaceMapsPropertiesItem extends InterfaceStatus {
-  /** The interface name. */
-  name?: string;
-}
+/** Destination. */
+export interface NetworkTapPropertiesDestinationsItem
+  extends DestinationProperties {}
+
+/** Destination. */
+export interface NetworkTapPatchableParametersDestinationsItem
+  extends DestinationProperties {}
 
 /** Route policy statement condition properties. */
 export interface StatementConditionProperties
   extends IpCommunityIdList,
     IpExtendedCommunityIdList {
+  /** Type of the condition used. */
+  type?: RoutePolicyConditionType;
   /** Arm Resource Id of IpPrefix. */
   ipPrefixId?: string;
 }
@@ -1540,94 +2164,186 @@ export interface ActionIpExtendedCommunityProperties
     IpExtendedCommunityDeleteOperationProperties,
     IpExtendedCommunitySetOperationProperties {}
 
-/** The AccessControlList resource definition. */
+/** BGP configuration properties. */
+export interface InternalNetworkPropertiesBgpConfiguration
+  extends BgpConfiguration {}
+
+/** The Access Control List resource definition. */
 export interface AccessControlList extends TrackedResource {
   /** Switch configuration description. */
   annotation?: string;
-  /** IP address family. Example: ipv4 | ipv6. */
-  addressFamily: AddressFamily;
-  /** Access Control List conditions. */
-  conditions: AccessControlListConditionProperties[];
+  /** Input method to configure Access Control List. */
+  configurationType?: ConfigurationType;
+  /** Access Control List file URL. */
+  aclsUrl?: string;
+  /** List of match configurations. */
+  matchConfigurations?: AccessControlListMatchConfiguration[];
+  /** List of dynamic match configurations. */
+  dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
   /**
-   * Gets the provisioning state of the resource.
+   * The last synced timestamp.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastSyncedTime?: Date;
+  /**
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
+}
+
+/** The Internet Gateway resource definition. */
+export interface InternetGateway extends TrackedResource {
+  /** Switch configuration description. */
+  annotation?: string;
+  /** ARM Resource ID of the Internet Gateway Rule. */
+  internetGatewayRuleId?: string;
+  /**
+   * IPv4 Address of Internet Gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipv4Address?: string;
+  /**
+   * Port number of Internet Gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly port?: number;
+  /** Gateway Type of the resource. */
+  typePropertiesType: GatewayType;
+  /** ARM Resource ID of the Network Fabric Controller. */
+  networkFabricControllerId: string;
+  /**
+   * Provisioning state of resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
 }
 
-/** The IpCommunity resource definition. */
+/** The Internet Gateway Rule resource definition. */
+export interface InternetGatewayRule extends TrackedResource {
+  /** Switch configuration description. */
+  annotation?: string;
+  /** Rules for the InternetGateways */
+  ruleProperties: RuleProperties;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * List of Internet Gateway resource Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly internetGatewayIds?: string[];
+}
+
+/** The IP Community resource definition. */
 export interface IpCommunity extends TrackedResource {
   /** Switch configuration description. */
   annotation?: string;
-  /** Action to be taken on the configuration. Example: Permit | Deny. */
-  action?: CommunityActionTypes;
-  /** Supported well known Community List. */
-  wellKnownCommunities?: WellKnownCommunities[];
-  /** List the communityMembers of IP Community . */
-  communityMembers?: string[];
+  /** List of IP Community Rules. */
+  ipCommunityRules?: IpCommunityRule[];
   /**
-   * Gets the provisioning state of the resource.
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
-/** The IpExtendedCommunity resource definition. */
+/** The IP Extended Community resource definition. */
 export interface IpExtendedCommunity extends TrackedResource {
   /** Switch configuration description. */
   annotation?: string;
-  /** Action to be taken on the configuration. Example: Permit | Deny. */
-  action?: CommunityActionTypes;
-  /** Route Target List.The expected formats are ASN(plain):NN >> example 4294967294:50, ASN.ASN:NN >> example 65533.65333:40, IP-address:NN >> example 10.10.10.10:65535. The possible values of ASN,NN are in range of 0-65535, ASN(plain) is in range of 0-4294967295. */
-  routeTargets?: string[];
+  /** List of IP Extended Community Rules. */
+  ipExtendedCommunityRules: IpExtendedCommunityRule[];
   /**
-   * Gets the provisioning state of the resource.
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
-/** The IPPrefix resource definition. */
+/** The IP Prefix resource definition. */
 export interface IpPrefix extends TrackedResource {
   /** Switch configuration description. */
   annotation?: string;
-  /** IpPrefix contains the list of IP PrefixRules objects. */
-  ipPrefixRules: IpPrefixPropertiesIpPrefixRulesItem[];
+  /** The list of IP Prefix Rules. */
+  ipPrefixRules?: IpPrefixRule[];
   /**
-   * Gets the provisioning state of the resource.
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
-/** The L2IsolationDomain resource definition. */
+/** The L2 Isolation Domain resource definition. */
 export interface L2IsolationDomain extends TrackedResource {
   /** Switch configuration description. */
   annotation?: string;
-  /** Network Fabric ARM resource id. */
-  networkFabricId?: string;
-  /** vlanId. Example: 501. */
-  vlanId?: number;
-  /** maximum transmission unit. Default value is 1500. */
+  /** ARM Resource ID of the Network Fabric. */
+  networkFabricId: string;
+  /** Vlan Identifier of the Network Fabric. Example: 501. */
+  vlanId: number;
+  /** Maximum transmission unit. Default value is 1500. */
   mtu?: number;
   /**
-   * List of resources the L2 Isolation Domain is disabled on. Can be either entire NetworkFabric or NetworkRack.
+   * Configuration state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly disabledOnResources?: string[];
+  readonly configurationState?: ConfigurationState;
   /**
-   * state. Example: Enabled | Disabled. It indicates administrative state of the isolationDomain, whether it is enabled or disabled. If enabled, the configuration is applied on the devices. If disabled, the configuration is removed from the devices
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly administrativeState?: EnabledDisabledState;
-  /**
-   * Gets the provisioning state of the resource.
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
-/** The L3IsolationDomain resource definition. */
+/** The L3 Isolation Domain resource definition. */
 export interface L3IsolationDomain extends TrackedResource {
   /** Switch configuration description. */
   annotation?: string;
@@ -1635,43 +2351,59 @@ export interface L3IsolationDomain extends TrackedResource {
   redistributeConnectedSubnets?: RedistributeConnectedSubnets;
   /** Advertise Static Routes. Ex: "True" | "False". */
   redistributeStaticRoutes?: RedistributeStaticRoutes;
-  /** List of Ipv4 and Ipv6 route configurations. */
+  /** Aggregate route configurations. */
   aggregateRouteConfiguration?: AggregateRouteConfiguration;
-  /** L3 Isolation Domain description. */
-  description?: string;
   /** Connected Subnet RoutePolicy */
-  connectedSubnetRoutePolicy?: L3IsolationDomainPatchPropertiesConnectedSubnetRoutePolicy;
-  /** Network Fabric ARM resource id. */
-  networkFabricId?: string;
+  connectedSubnetRoutePolicy?: ConnectedSubnetRoutePolicy;
+  /** ARM Resource ID of the Network Fabric. */
+  networkFabricId: string;
   /**
-   * List of resources the L3 Isolation Domain is disabled on. Can be either entire NetworkFabric or NetworkRack.
+   * Configuration state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly disabledOnResources?: string[];
+  readonly configurationState?: ConfigurationState;
   /**
-   * Administrative state of the IsolationDomain. Example: Enabled | Disabled.
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly administrativeState?: EnabledDisabledState;
+  readonly provisioningState?: ProvisioningState;
   /**
-   * List of resources the OptionB is disabled on. Can be either entire NetworkFabric or NetworkRack.
+   * Administrative state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly optionBDisabledOnResources?: string[];
+  readonly administrativeState?: AdministrativeState;
+}
+
+/** Defines the Neighbor Group. */
+export interface NeighborGroup extends TrackedResource {
+  /** Switch configuration description. */
+  annotation?: string;
+  /** An array of destination IPv4 Addresses or IPv6 Addresses. */
+  destination?: NeighborGroupDestination;
   /**
-   * Gets the provisioning state of the resource.
+   * List of NetworkTap IDs where neighbor group is associated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkTapIds?: string[];
+  /**
+   * List of Network Tap Rule IDs where neighbor group is associated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkTapRuleIds?: string[];
+  /**
+   * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
 }
 
-/** The NetworkDevice resource definition. */
+/** The Network Device resource definition. */
 export interface NetworkDevice extends TrackedResource {
   /** Switch configuration description. */
   annotation?: string;
-  /** The host Name of the device. */
+  /** The host name of the device. */
   hostName?: string;
-  /** serialNumber of the format Make;Model;HardwareRevisionId;SerialNumber. Example: Arista;DCS-7280DR3-24;12.05;JPE21116969 */
+  /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
   serialNumber?: string;
   /**
    * Current version of the device as defined in SKU.
@@ -1680,21 +2412,44 @@ export interface NetworkDevice extends TrackedResource {
   readonly version?: string;
   /** Network Device SKU name. */
   networkDeviceSku?: string;
-  /** networkDeviceRole is the device role: Example: CE | ToR. */
-  networkDeviceRole?: NetworkDeviceRoleTypes;
   /**
-   * Gets the provisioning state of the resource.
+   * NetworkDeviceRole is the device role: Example: CE | ToR.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ProvisioningState;
+  readonly networkDeviceRole?: NetworkDeviceRole;
   /**
    * Reference to network rack resource id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly networkRackId?: string;
+  /**
+   * Management IPv4 Address.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly managementIpv4Address?: string;
+  /**
+   * Management IPv6 Address.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly managementIpv6Address?: string;
+  /**
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
-/** The NetworkFabricController resource definition. */
+/** The Network Fabric Controller resource definition. */
 export interface NetworkFabricController extends TrackedResource {
   /** Switch configuration description. */
   annotation?: string;
@@ -1706,12 +2461,12 @@ export interface NetworkFabricController extends TrackedResource {
    * InfrastructureServices IP ranges.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly infrastructureServices?: InfrastructureServices;
+  readonly infrastructureServices?: ControllerServices;
   /**
    * WorkloadServices IP ranges.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly workloadServices?: WorkloadServices;
+  readonly workloadServices?: ControllerServices;
   /** Managed Resource Group configuration properties. */
   managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
   /**
@@ -1720,19 +2475,23 @@ export interface NetworkFabricController extends TrackedResource {
    */
   readonly networkFabricIds?: string[];
   /**
-   * A workload management network is required for all the tenant (workload) traffic. This traffic is only dedicated for Tenant workloads which are required to access internet or any other MSFT/Public endpoints.
+   * A workload management network is required for all the tenant (workload) traffic. This traffic is only dedicated for Tenant workloads which are required to access internet or any other MSFT/Public endpoints. This is used for the backward compatibility.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly workloadManagementNetwork?: boolean;
+  /** A workload management network is required for all the tenant (workload) traffic. This traffic is only dedicated for Tenant workloads which are required to access internet or any other MSFT/Public endpoints. */
+  isWorkloadManagementNetworkEnabled?: IsWorkloadManagementNetworkEnabled;
+  /**
+   * List of tenant InternetGateway resource IDs
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantInternetGatewayIds?: string[];
   /** IPv4 Network Fabric Controller Address Space. */
   ipv4AddressSpace?: string;
   /** IPv6 Network Fabric Controller Address Space. */
   ipv6AddressSpace?: string;
-  /**
-   * The Operational Status would always be NULL. Look only in to the Provisioning state for the latest status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationalState?: NetworkFabricControllerOperationalState;
+  /** Network Fabric Controller SKU. */
+  nfcSku?: NfcSku;
   /**
    * Provides you the latest status of the NFC service, whether it is Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on the status of NFC provisioning.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1740,78 +2499,192 @@ export interface NetworkFabricController extends TrackedResource {
   readonly provisioningState?: ProvisioningState;
 }
 
-/** The NetworkFabric resource definition. */
+/** The Network Fabric resource definition. */
 export interface NetworkFabric extends TrackedResource {
   /** Switch configuration description. */
   annotation?: string;
+  /** Supported Network Fabric SKU.Example: Compute / Aggregate racks. Once the user chooses a particular SKU, only supported racks can be added to the Network Fabric. The SKU determines whether it is a single / multi rack Network Fabric. */
+  networkFabricSku: string;
+  /**
+   * The version of Network Fabric.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fabricVersion?: string;
+  /**
+   * Array of router IDs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly routerIds?: string[];
+  /** Azure resource ID for the NetworkFabricController the NetworkFabric belongs. */
+  networkFabricControllerId: string;
+  /** Number of compute racks associated to Network Fabric. */
+  rackCount?: number;
+  /** Number of servers.Possible values are from 1-16. */
+  serverCountPerRack: number;
+  /** IPv4Prefix for Management Network. Example: 10.1.0.0/19. */
+  ipv4Prefix: string;
+  /** IPv6Prefix for Management Network. Example: 3FFE:FFFF:0:CD40::/59 */
+  ipv6Prefix?: string;
+  /** ASN of CE devices for CE/PE connectivity. */
+  fabricASN: number;
+  /** Network and credentials configuration currently applied to terminal server. */
+  terminalServerConfiguration: TerminalServerConfiguration;
+  /** Configuration to be used to setup the management network. */
+  managementNetworkConfiguration: ManagementNetworkConfigurationProperties;
   /**
    * List of NetworkRack resource IDs under the Network Fabric. The number of racks allowed depends on the Network Fabric SKU.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly racks?: string[];
   /**
-   * List of L2IsolationDomain resource IDs under the Network Fabric.
+   * List of L2 Isolation Domain resource IDs under the Network Fabric.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly l2IsolationDomains?: string[];
   /**
-   * List of L3IsolationDomain resource IDs under the Network Fabric.
+   * List of L3 Isolation Domain resource IDs under the Network Fabric.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly l3IsolationDomains?: string[];
-  /** Supported Network Fabric SKU.Example: Compute / Aggregate racks. Once the user chooses a particular SKU, only supported racks can be added to the Network Fabric. The SKU determines whether it is a single / multi rack Network Fabric. */
-  networkFabricSku?: string;
-  /** Number of racks associated to Network Fabric.Possible values are from 2-8. */
-  rackCount?: number;
-  /** Number of servers.Possible values are from 1-16. */
-  serverCountPerRack?: number;
-  /** IPv4Prefix for Management Network. Example: 10.1.0.0/19. */
-  ipv4Prefix?: string;
-  /** IPv6Prefix for Management Network. Example: 3FFE:FFFF:0:CD40::/59. */
-  ipv6Prefix?: string;
   /**
-   * Router Id of CE to be used for MP-BGP between PE and CE
+   * Configuration state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly routerId?: string;
-  /** ASN of CE devices for CE/PE connectivity. */
-  fabricASN?: number;
-  /** Azure resource ID for the NetworkFabricController the NetworkFabric belongs. */
-  networkFabricControllerId?: string;
-  /** Network and credentials configuration currently applied to terminal server. */
-  terminalServerConfiguration?: TerminalServerConfiguration;
-  /** Configuration to be used to setup the management network. */
-  managementNetworkConfiguration?: ManagementNetworkConfiguration;
+  readonly configurationState?: ConfigurationState;
   /**
-   * Gets the operational state of the resource.
+   * Provides you the latest status of the NFC service, whether it is Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on the status of NFC provisioning.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly operationalState?: NetworkFabricOperationalState;
+  readonly provisioningState?: ProvisioningState;
   /**
-   * Gets the provisioning state of the resource.
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
+}
+
+/** The NetworkPacketBroker resource definition. */
+export interface NetworkPacketBroker extends TrackedResource {
+  /** ARM resource ID of the Network Fabric. */
+  networkFabricId: string;
+  /**
+   * List of ARM resource IDs of Network Devices [NPB].
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkDeviceIds?: string[];
+  /**
+   * List of network interfaces across NPB devices that are used to mirror source traffic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceInterfaceIds?: string[];
+  /**
+   * List of network Tap IDs configured on NPB.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkTapIds?: string[];
+  /**
+   * List of neighbor group IDs configured on NPB.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly neighborGroupIds?: string[];
+  /**
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
 }
 
-/** The NetworkRack resource definition. */
+/** The Network Rack resource definition. */
 export interface NetworkRack extends TrackedResource {
   /** Switch configuration description. */
   annotation?: string;
   /** Network Rack SKU name. */
-  networkRackSku: string;
-  /** Network Fabric ARM resource id. */
+  networkRackType?: NetworkRackType;
+  /** ARM resource ID of the Network Fabric. */
   networkFabricId: string;
   /**
-   * List of network device ARM resource ids.
+   * List of network device ARM resource IDs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly networkDevices?: string[];
   /**
-   * Gets the provisioning state of the resource.
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+}
+
+/** The NetworkTapRule resource definition. */
+export interface NetworkTapRule extends TrackedResource {
+  /** Switch configuration description. */
+  annotation?: string;
+  /** Input method to configure Network Tap Rule. */
+  configurationType?: ConfigurationType;
+  /** Network Tap Rules file URL. */
+  tapRulesUrl?: string;
+  /** List of match configurations. */
+  matchConfigurations?: NetworkTapRuleMatchConfiguration[];
+  /** List of dynamic match configurations. */
+  dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
+  /**
+   * The ARM resource Id of the NetworkTap.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkTapId?: string;
+  /** Polling interval in seconds. */
+  pollingIntervalInSeconds?: PollingIntervalInSeconds;
+  /**
+   * The last sync timestamp.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastSyncedTime?: Date;
+  /**
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
+}
+
+/** The Network Tap resource definition. */
+export interface NetworkTap extends TrackedResource {
+  /** Switch configuration description. */
+  annotation?: string;
+  /** ARM resource ID of the Network Packet Broker. */
+  networkPacketBrokerId: string;
+  /**
+   * Source Tap Rule Id. ARM Resource ID of the Network Tap Rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceTapRuleId?: string;
+  /** List of destinations to send the filter traffic. */
+  destinations: NetworkTapPropertiesDestinationsItem[];
+  /** Polling type. */
+  pollingType?: PollingType;
+  /**
+   * Gets the configurations state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provides you the latest status of the NFC service, whether it is Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on the status of Network Tap provisioning.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource. Example -Enabled/Disabled
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
 /** The RoutePolicy resource definition. */
@@ -1819,100 +2692,115 @@ export interface RoutePolicy extends TrackedResource {
   /** Switch configuration description. */
   annotation?: string;
   /** Route Policy statements. */
-  statements: RoutePolicyStatementProperties[];
+  statements?: RoutePolicyStatementProperties[];
+  /** Arm Resource ID of Network Fabric. */
+  networkFabricId: string;
+  /** AddressFamilyType. This parameter decides whether the given ipv4 or ipv6 route policy. */
+  addressFamilyType?: AddressFamilyType;
   /**
-   * Gets the provisioning state of the resource.
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
-/** Defines the InternalNetwork item. */
+/** Defines the Internal Network resource. */
 export interface InternalNetwork extends ProxyResource {
   /** Switch configuration description. */
   annotation?: string;
   /** Maximum transmission unit. Default value is 1500. */
   mtu?: number;
-  /** List with object connected IPv4 Subnets. */
+  /** List of Connected IPv4 Subnets. */
   connectedIPv4Subnets?: ConnectedSubnet[];
-  /** List with object connected IPv6 Subnets. */
+  /** List of connected IPv6 Subnets. */
   connectedIPv6Subnets?: ConnectedSubnet[];
-  /** Static Route Configuration properties. */
-  staticRouteConfiguration?: StaticRouteConfiguration;
-  /** BGP configuration properties */
-  bgpConfiguration?: BgpConfiguration;
-  /** ARM resource ID of importRoutePolicy. */
+  /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
   importRoutePolicyId?: string;
-  /** ARM resource ID of importRoutePolicy. */
+  /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
   exportRoutePolicyId?: string;
+  /** Import Route Policy either IPv4 or IPv6. */
+  importRoutePolicy?: ImportRoutePolicy;
+  /** Export Route Policy either IPv4 or IPv6. */
+  exportRoutePolicy?: ExportRoutePolicy;
+  /** Ingress Acl. ARM resource ID of Access Control Lists. */
+  ingressAclId?: string;
+  /** Egress Acl. ARM resource ID of Access Control Lists. */
+  egressAclId?: string;
+  /** To check whether monitoring of internal network is enabled or not. */
+  isMonitoringEnabled?: IsMonitoringEnabled;
+  /** Extension. Example: NoExtension | NPB. */
+  extension?: Extension;
+  /** Vlan identifier. Example: 1001. */
+  vlanId: number;
+  /** BGP configuration properties. */
+  bgpConfiguration?: InternalNetworkPropertiesBgpConfiguration;
+  /** Static Route Configuration properties. */
+  staticRouteConfiguration?: InternalNetworkPropertiesStaticRouteConfiguration;
   /**
-   * List of resources the InternalNetwork is disabled on. Can be either entire NetworkFabric or NetworkRack.
+   * Configuration state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly disabledOnResources?: string[];
+  readonly configurationState?: ConfigurationState;
   /**
-   * Administrative state of the InternalNetwork. Example: Enabled | Disabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly administrativeState?: EnabledDisabledState;
-  /**
-   * List of resources the BGP is disabled on. Can be either entire NetworkFabric or NetworkRack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly bgpDisabledOnResources?: string[];
-  /**
-   * List of resources the BFD for BGP is disabled on. Can be either entire NetworkFabric or NetworkRack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly bfdDisabledOnResources?: string[];
-  /**
-   * List of resources the BFD of StaticRoutes is disabled on. Can be either entire NetworkFabric or NetworkRack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly bfdForStaticRoutesDisabledOnResources?: string[];
-  /**
-   * Gets the provisioning state of the resource.
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /** Vlan identifier. Example: 1001. */
-  vlanId: number;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
-/** Defines the ExternalNetwork item. */
+/** Defines the External Network resource. */
 export interface ExternalNetwork extends ProxyResource {
   /** Switch configuration description. */
   annotation?: string;
+  /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
+  importRoutePolicyId?: string;
+  /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
+  exportRoutePolicyId?: string;
+  /** Import Route Policy either IPv4 or IPv6. */
+  importRoutePolicy?: ImportRoutePolicy;
+  /** Export Route Policy either IPv4 or IPv6. */
+  exportRoutePolicy?: ExportRoutePolicy;
   /**
    * Gets the networkToNetworkInterconnectId of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly networkToNetworkInterconnectId?: string;
-  /**
-   * List of resources the externalNetwork is disabled on. Can be either entire NetworkFabric or NetworkRack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly disabledOnResources?: string[];
-  /**
-   * AdministrativeState of the externalNetwork. Example: Enabled | Disabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly administrativeState?: EnabledDisabledState;
-  /**
-   * Gets the provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
   /** Peering option list. */
   peeringOption: PeeringOption;
   /** option B properties object */
-  optionBProperties?: OptionBProperties;
+  optionBProperties?: L3OptionBProperties;
   /** option A properties object */
   optionAProperties?: ExternalNetworkPropertiesOptionAProperties;
-  /** ARM resource ID of importRoutePolicy. */
-  importRoutePolicyId?: string;
-  /** ARM resource ID of exportRoutePolicy. */
-  exportRoutePolicyId?: string;
+  /**
+   * Configuration state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
 /** The NetworkDeviceSku resource definition. */
@@ -1921,16 +2809,14 @@ export interface NetworkDeviceSku extends ProxyResource {
   model: string;
   /** Manufacturer of the network device. */
   manufacturer?: string;
-  /** List of network device interfaces. */
+  /** List of supported version details of network device. */
   supportedVersions?: SupportedVersionProperties[];
-  /** Network device limits. */
-  limits?: DeviceLimits;
   /** Available roles for the network device. */
   supportedRoleTypes?: NetworkDeviceRoleName[];
   /** List of network device interfaces. */
   interfaces?: DeviceInterfaceProperties[];
   /**
-   * Gets the provisioning state of the resource.
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
@@ -1941,22 +2827,12 @@ export interface NetworkInterface extends ProxyResource {
   /** Switch configuration description. */
   annotation?: string;
   /**
-   * physicalIdentifier of the network interface.
+   * Physical Identifier of the network interface.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly physicalIdentifier?: string;
   /**
-   * administrativeState of the network interface. Example: Enabled | Disabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly administrativeState?: EnabledDisabledState;
-  /**
-   * Gets the provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The arm resource id of the interface or compute server its connected to.
+   * The ARM resource id of the interface or compute server its connected to.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly connectedTo?: string;
@@ -1966,94 +2842,181 @@ export interface NetworkInterface extends ProxyResource {
    */
   readonly interfaceType?: InterfaceType;
   /**
-   * ipv4Address.
+   * IPv4Address of the interface.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipv4Address?: string;
   /**
-   * ipv6Address.
+   * IPv6Address of the interface.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipv6Address?: string;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
 }
 
-/** The NetworkFabricSku resource definition. */
+/** The Network Fabric SKU resource definition. */
 export interface NetworkFabricSku extends ProxyResource {
   /**
-   * Type of Network Fabric Sku.
+   * Type of Network Fabric SKU.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly typePropertiesType?: string;
-  /** Maximum number of compute racks available for this Network Fabric SKU. */
+  readonly typePropertiesType?: FabricSkuType;
+  /** Maximum number of compute racks available for this Network Fabric SKU. The value of max count racks is 4 for 4 rack SKU and 8 for 8 rack SKU. */
   maxComputeRacks?: number;
+  /** Maximum number of servers available for this Network Fabric SKU. */
+  maximumServerCount?: number;
   /**
-   * Minimum supported version.
+   * List of supported Network Fabric SKU versions.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly minSupportedVer?: string;
+  readonly supportedVersions?: string[];
   /**
-   * Maximum supported version.
+   * URL providing detailed configuration of the fabric SKU.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly maxSupportedVer?: string;
+  readonly details?: string;
   /**
-   * The URI gives full details of sku.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly detailsUri?: string;
-  /**
-   * Gets the provisioning state of the resource.
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
 }
 
-/** The NetworkToNetworkInterconnect resource definition. */
+/** The Network To Network Interconnect resource definition. */
 export interface NetworkToNetworkInterconnect extends ProxyResource {
   /** Type of NNI used. Example: CE | NPB */
   nniType?: NniType;
+  /** Configuration to use NNI for Infrastructure Management. Example: True/False. */
+  isManagementType?: IsManagementType;
+  /** Based on this option layer3 parameters are mandatory. Example: True/False */
+  useOptionB: BooleanEnumProperty;
+  /** Common properties for Layer2 Configuration. */
+  layer2Configuration?: Layer2Configuration;
+  /** Common properties for Layer3Configuration. */
+  optionBLayer3Configuration?: NetworkToNetworkInterconnectPropertiesOptionBLayer3Configuration;
+  /** NPB Static Route Configuration properties. */
+  npbStaticRouteConfiguration?: NpbStaticRouteConfiguration;
+  /** Import Route Policy configuration. */
+  importRoutePolicy?: ImportRoutePolicyInformation;
+  /** Export Route Policy configuration. */
+  exportRoutePolicy?: ExportRoutePolicyInformation;
+  /** Egress Acl. ARM resource ID of Access Control Lists. */
+  egressAclId?: string;
+  /** Ingress Acl. ARM resource ID of Access Control Lists. */
+  ingressAclId?: string;
   /**
-   * Gets the administrativeState of the resource. Example -Enabled/Disabled
+   * Configuration state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly administrativeState?: EnabledDisabledState;
-  /** Configuration to use NNI for Infrastructure Management. Example: True/False. */
-  isManagementType?: BooleanEnumProperty;
-  /** Based on this parameter the layer2/layer3 is made as mandatory. Example: True/False */
-  useOptionB?: BooleanEnumProperty;
+  readonly configurationState?: ConfigurationState;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Administrative state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly administrativeState?: AdministrativeState;
+}
+
+/** The Network To Network Interconnect resource patch definition. */
+export interface NetworkToNetworkInterconnectPatch extends ProxyResource {
   /** Common properties for Layer2Configuration. */
   layer2Configuration?: Layer2Configuration;
   /** Common properties for Layer3Configuration. */
-  layer3Configuration?: Layer3Configuration;
-  /**
-   * Gets the provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
+  optionBLayer3Configuration?: OptionBLayer3Configuration;
+  /** NPB Static Route Configuration properties. */
+  npbStaticRouteConfiguration?: NpbStaticRouteConfiguration;
+  /** Import Route Policy information. */
+  importRoutePolicy?: ImportRoutePolicyInformation;
+  /** Export Route Policy information */
+  exportRoutePolicy?: ExportRoutePolicyInformation;
+  /** Egress Acl. ARM resource ID of Access Control Lists. */
+  egressAclId?: string;
+  /** Ingress Acl. ARM resource ID of Access Control Lists. */
+  ingressAclId?: string;
 }
 
-/** The NetworkRackSku resource definition. */
-export interface NetworkRackSku extends ProxyResource {
-  /** The role of the Network Rack: Aggregate or Compute. */
-  roleName: NetworkRackRoleName;
-  /** Maximum number of servers available for this SKU. */
-  maximumServerCount?: number;
-  /** Maximum number of storage devices available for this SKU. */
-  maximumStorageCount?: number;
-  /** Maximum number of network uplinks available for this SKU. */
-  maximumUplinks?: number;
-  /** List of network device properties / role for the Network Rack. */
-  networkDevices?: NetworkDeviceRoleProperties[];
-  /**
-   * Gets the provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
+/** Common properties for Layer3Configuration. */
+export interface NetworkToNetworkInterconnectPropertiesOptionBLayer3Configuration
+  extends OptionBLayer3Configuration {}
+
+/** Defines headers for AccessControlLists_create operation. */
+export interface AccessControlListsCreateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
 }
 
-/** option A properties object */
-export interface ExternalNetworkPropertiesOptionAProperties
-  extends Layer3OptionAProperties {}
+/** Defines headers for AccessControlLists_update operation. */
+export interface AccessControlListsUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for AccessControlLists_delete operation. */
+export interface AccessControlListsDeleteHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for AccessControlLists_updateAdministrativeState operation. */
+export interface AccessControlListsUpdateAdministrativeStateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for AccessControlLists_resync operation. */
+export interface AccessControlListsResyncHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for AccessControlLists_validateConfiguration operation. */
+export interface AccessControlListsValidateConfigurationHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for InternetGateways_create operation. */
+export interface InternetGatewaysCreateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for InternetGateways_update operation. */
+export interface InternetGatewaysUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for InternetGatewayRules_create operation. */
+export interface InternetGatewayRulesCreateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for InternetGatewayRules_update operation. */
+export interface InternetGatewayRulesUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for InternetGatewayRules_delete operation. */
+export interface InternetGatewayRulesDeleteHeaders {
+  /** Tracking URL for long running operation. */
+  azureAsyncOperation?: string;
+}
 
 /** Defines headers for IpCommunities_create operation. */
 export interface IpCommunitiesCreateHeaders {
@@ -2063,8 +3026,8 @@ export interface IpCommunitiesCreateHeaders {
 
 /** Defines headers for IpCommunities_update operation. */
 export interface IpCommunitiesUpdateHeaders {
-  /** Tracking URL for long running operation. */
-  azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for IpCommunities_delete operation. */
@@ -2081,8 +3044,8 @@ export interface IpExtendedCommunitiesCreateHeaders {
 
 /** Defines headers for IpExtendedCommunities_update operation. */
 export interface IpExtendedCommunitiesUpdateHeaders {
-  /** Tracking URL for long running operation. */
-  azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for IpExtendedCommunities_delete operation. */
@@ -2099,8 +3062,8 @@ export interface IpPrefixesCreateHeaders {
 
 /** Defines headers for IpPrefixes_update operation. */
 export interface IpPrefixesUpdateHeaders {
-  /** Tracking URL for long running operation. */
-  azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for IpPrefixes_delete operation. */
@@ -2111,8 +3074,8 @@ export interface IpPrefixesDeleteHeaders {
 
 /** Defines headers for L2IsolationDomains_update operation. */
 export interface L2IsolationDomainsUpdateHeaders {
-  /** Tracking URL for long running operation. */
-  azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for L2IsolationDomains_updateAdministrativeState operation. */
@@ -2121,28 +3084,22 @@ export interface L2IsolationDomainsUpdateAdministrativeStateHeaders {
   location?: string;
 }
 
-/** Defines headers for L2IsolationDomains_clearArpTable operation. */
-export interface L2IsolationDomainsClearArpTableHeaders {
+/** Defines headers for L2IsolationDomains_validateConfiguration operation. */
+export interface L2IsolationDomainsValidateConfigurationHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   location?: string;
 }
 
-/** Defines headers for L2IsolationDomains_clearNeighborTable operation. */
-export interface L2IsolationDomainsClearNeighborTableHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
-/** Defines headers for L2IsolationDomains_getArpEntries operation. */
-export interface L2IsolationDomainsGetArpEntriesHeaders {
+/** Defines headers for L2IsolationDomains_commitConfiguration operation. */
+export interface L2IsolationDomainsCommitConfigurationHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   location?: string;
 }
 
 /** Defines headers for L3IsolationDomains_update operation. */
 export interface L3IsolationDomainsUpdateHeaders {
-  /** Tracking URL for long running operation. */
-  azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for L3IsolationDomains_updateAdministrativeState operation. */
@@ -2151,20 +3108,20 @@ export interface L3IsolationDomainsUpdateAdministrativeStateHeaders {
   location?: string;
 }
 
-/** Defines headers for L3IsolationDomains_updateOptionBAdministrativeState operation. */
-export interface L3IsolationDomainsUpdateOptionBAdministrativeStateHeaders {
+/** Defines headers for L3IsolationDomains_validateConfiguration operation. */
+export interface L3IsolationDomainsValidateConfigurationHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   location?: string;
 }
 
-/** Defines headers for L3IsolationDomains_clearArpTable operation. */
-export interface L3IsolationDomainsClearArpTableHeaders {
+/** Defines headers for L3IsolationDomains_commitConfiguration operation. */
+export interface L3IsolationDomainsCommitConfigurationHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   location?: string;
 }
 
-/** Defines headers for L3IsolationDomains_clearNeighborTable operation. */
-export interface L3IsolationDomainsClearNeighborTableHeaders {
+/** Defines headers for InternalNetworks_update operation. */
+export interface InternalNetworksUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   location?: string;
 }
@@ -2181,26 +3138,14 @@ export interface InternalNetworksUpdateBgpAdministrativeStateHeaders {
   location?: string;
 }
 
-/** Defines headers for InternalNetworks_updateBfdForBgpAdministrativeState operation. */
-export interface InternalNetworksUpdateBfdForBgpAdministrativeStateHeaders {
+/** Defines headers for InternalNetworks_updateStaticRouteBfdAdministrativeState operation. */
+export interface InternalNetworksUpdateStaticRouteBfdAdministrativeStateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   location?: string;
 }
 
-/** Defines headers for InternalNetworks_clearIpv6Neighbors operation. */
-export interface InternalNetworksClearIpv6NeighborsHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
-/** Defines headers for InternalNetworks_clearArpEntries operation. */
-export interface InternalNetworksClearArpEntriesHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
-/** Defines headers for InternalNetworks_updateBfdForStaticRouteAdministrativeState operation. */
-export interface InternalNetworksUpdateBfdForStaticRouteAdministrativeStateHeaders {
+/** Defines headers for ExternalNetworks_update operation. */
+export interface ExternalNetworksUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   location?: string;
 }
@@ -2211,34 +3156,22 @@ export interface ExternalNetworksUpdateAdministrativeStateHeaders {
   location?: string;
 }
 
-/** Defines headers for ExternalNetworks_updateBgpAdministrativeState operation. */
-export interface ExternalNetworksUpdateBgpAdministrativeStateHeaders {
+/** Defines headers for ExternalNetworks_updateStaticRouteBfdAdministrativeState operation. */
+export interface ExternalNetworksUpdateStaticRouteBfdAdministrativeStateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   location?: string;
 }
 
-/** Defines headers for ExternalNetworks_updateBfdForBgpAdministrativeState operation. */
-export interface ExternalNetworksUpdateBfdForBgpAdministrativeStateHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
-/** Defines headers for ExternalNetworks_clearIpv6Neighbors operation. */
-export interface ExternalNetworksClearIpv6NeighborsHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
-/** Defines headers for ExternalNetworks_clearArpEntries operation. */
-export interface ExternalNetworksClearArpEntriesHeaders {
+/** Defines headers for NeighborGroups_update operation. */
+export interface NeighborGroupsUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   location?: string;
 }
 
 /** Defines headers for NetworkDevices_update operation. */
 export interface NetworkDevicesUpdateHeaders {
-  /** Tracking URL for long running operation. */
-  azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for NetworkDevices_reboot operation. */
@@ -2247,50 +3180,26 @@ export interface NetworkDevicesRebootHeaders {
   location?: string;
 }
 
-/** Defines headers for NetworkDevices_restoreConfig operation. */
-export interface NetworkDevicesRestoreConfigHeaders {
+/** Defines headers for NetworkDevices_refreshConfiguration operation. */
+export interface NetworkDevicesRefreshConfigurationHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   location?: string;
 }
 
-/** Defines headers for NetworkDevices_updateVersion operation. */
-export interface NetworkDevicesUpdateVersionHeaders {
+/** Defines headers for NetworkDevices_updateAdministrativeState operation. */
+export interface NetworkDevicesUpdateAdministrativeStateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   location?: string;
 }
 
-/** Defines headers for NetworkDevices_generateSupportPackage operation. */
-export interface NetworkDevicesGenerateSupportPackageHeaders {
+/** Defines headers for NetworkDevices_upgrade operation. */
+export interface NetworkDevicesUpgradeHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   location?: string;
 }
 
-/** Defines headers for NetworkDevices_updatePowerCycle operation. */
-export interface NetworkDevicesUpdatePowerCycleHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
-/** Defines headers for NetworkDevices_getStatus operation. */
-export interface NetworkDevicesGetStatusHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
-/** Defines headers for NetworkDevices_getStaticInterfaceMaps operation. */
-export interface NetworkDevicesGetStaticInterfaceMapsHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
-/** Defines headers for NetworkDevices_getDynamicInterfaceMaps operation. */
-export interface NetworkDevicesGetDynamicInterfaceMapsHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
-/** Defines headers for NetworkInterfaces_getStatus operation. */
-export interface NetworkInterfacesGetStatusHeaders {
+/** Defines headers for NetworkInterfaces_update operation. */
+export interface NetworkInterfacesUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   location?: string;
 }
@@ -2310,18 +3219,6 @@ export interface NetworkFabricControllersUpdateHeaders {
 /** Defines headers for NetworkFabricControllers_delete operation. */
 export interface NetworkFabricControllersDeleteHeaders {
   /** Tracking URL for long running operation. */
-  location?: string;
-}
-
-/** Defines headers for NetworkFabricControllers_enableWorkloadManagementNetwork operation. */
-export interface NetworkFabricControllersEnableWorkloadManagementNetworkHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
-/** Defines headers for NetworkFabricControllers_disableWorkloadManagementNetwork operation. */
-export interface NetworkFabricControllersDisableWorkloadManagementNetworkHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
   location?: string;
 }
 
@@ -2355,66 +3252,212 @@ export interface NetworkFabricsDeprovisionHeaders {
   location?: string;
 }
 
+/** Defines headers for NetworkFabrics_upgrade operation. */
+export interface NetworkFabricsUpgradeHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkFabrics_refreshConfiguration operation. */
+export interface NetworkFabricsRefreshConfigurationHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkFabrics_updateWorkloadManagementBfdConfiguration operation. */
+export interface NetworkFabricsUpdateWorkloadManagementBfdConfigurationHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkFabrics_updateInfraManagementBfdConfiguration operation. */
+export interface NetworkFabricsUpdateInfraManagementBfdConfigurationHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkFabrics_validateConfiguration operation. */
+export interface NetworkFabricsValidateConfigurationHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkFabrics_getTopology operation. */
+export interface NetworkFabricsGetTopologyHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkFabrics_commitConfiguration operation. */
+export interface NetworkFabricsCommitConfigurationHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkToNetworkInterconnects_update operation. */
+export interface NetworkToNetworkInterconnectsUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkToNetworkInterconnects_updateNpbStaticRouteBfdAdministrativeState operation. */
+export interface NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkToNetworkInterconnects_updateAdministrativeState operation. */
+export interface NetworkToNetworkInterconnectsUpdateAdministrativeStateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkPacketBrokers_update operation. */
+export interface NetworkPacketBrokersUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
 /** Defines headers for NetworkRacks_update operation. */
 export interface NetworkRacksUpdateHeaders {
-  /** Tracking URL for long running operation. */
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkTapRules_create operation. */
+export interface NetworkTapRulesCreateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
   azureAsyncOperation?: string;
+}
+
+/** Defines headers for NetworkTapRules_update operation. */
+export interface NetworkTapRulesUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkTapRules_delete operation. */
+export interface NetworkTapRulesDeleteHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkTapRules_updateAdministrativeState operation. */
+export interface NetworkTapRulesUpdateAdministrativeStateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkTapRules_resync operation. */
+export interface NetworkTapRulesResyncHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkTapRules_validateConfiguration operation. */
+export interface NetworkTapRulesValidateConfigurationHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkTaps_update operation. */
+export interface NetworkTapsUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkTaps_updateAdministrativeState operation. */
+export interface NetworkTapsUpdateAdministrativeStateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkTaps_resync operation. */
+export interface NetworkTapsResyncHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for RoutePolicies_update operation. */
 export interface RoutePoliciesUpdateHeaders {
-  /** Tracking URL for long running operation. */
-  azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
-/** Known values of {@link AddressFamily} that the service accepts. */
-export enum KnownAddressFamily {
-  /** Ipv4 */
-  Ipv4 = "ipv4",
-  /** Ipv6 */
-  Ipv6 = "ipv6"
+/** Defines headers for RoutePolicies_updateAdministrativeState operation. */
+export interface RoutePoliciesUpdateAdministrativeStateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for RoutePolicies_validateConfiguration operation. */
+export interface RoutePoliciesValidateConfigurationHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for RoutePolicies_commitConfiguration operation. */
+export interface RoutePoliciesCommitConfigurationHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Known values of {@link ConfigurationState} that the service accepts. */
+export enum KnownConfigurationState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Rejected */
+  Rejected = "Rejected",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Provisioned */
+  Provisioned = "Provisioned",
+  /** ErrorProvisioning */
+  ErrorProvisioning = "ErrorProvisioning",
+  /** Deprovisioning */
+  Deprovisioning = "Deprovisioning",
+  /** Deprovisioned */
+  Deprovisioned = "Deprovisioned",
+  /** ErrorDeprovisioning */
+  ErrorDeprovisioning = "ErrorDeprovisioning",
+  /** DeferredControl */
+  DeferredControl = "DeferredControl"
 }
 
 /**
- * Defines values for AddressFamily. \
- * {@link KnownAddressFamily} can be used interchangeably with AddressFamily,
+ * Defines values for ConfigurationState. \
+ * {@link KnownConfigurationState} can be used interchangeably with ConfigurationState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ipv4** \
- * **ipv6**
+ * **Succeeded** \
+ * **Failed** \
+ * **Rejected** \
+ * **Accepted** \
+ * **Provisioned** \
+ * **ErrorProvisioning** \
+ * **Deprovisioning** \
+ * **Deprovisioned** \
+ * **ErrorDeprovisioning** \
+ * **DeferredControl**
  */
-export type AddressFamily = string;
-
-/** Known values of {@link ConditionActionType} that the service accepts. */
-export enum KnownConditionActionType {
-  /** Allow */
-  Allow = "allow",
-  /** Deny */
-  Deny = "deny"
-}
-
-/**
- * Defines values for ConditionActionType. \
- * {@link KnownConditionActionType} can be used interchangeably with ConditionActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **allow** \
- * **deny**
- */
-export type ConditionActionType = string;
+export type ConfigurationState = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Accepted */
+  Accepted = "Accepted",
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Updating */
   Updating = "Updating",
-  /** Canceled */
-  Canceled = "Canceled",
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -2422,13 +3465,167 @@ export enum KnownProvisioningState {
  * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Accepted** \
  * **Succeeded** \
  * **Updating** \
- * **Canceled** \
  * **Deleting** \
- * **Failed**
+ * **Failed** \
+ * **Canceled**
  */
 export type ProvisioningState = string;
+
+/** Known values of {@link AdministrativeState} that the service accepts. */
+export enum KnownAdministrativeState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** MAT */
+  MAT = "MAT",
+  /** RMA */
+  RMA = "RMA"
+}
+
+/**
+ * Defines values for AdministrativeState. \
+ * {@link KnownAdministrativeState} can be used interchangeably with AdministrativeState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled** \
+ * **MAT** \
+ * **RMA**
+ */
+export type AdministrativeState = string;
+
+/** Known values of {@link ConfigurationType} that the service accepts. */
+export enum KnownConfigurationType {
+  /** File */
+  File = "File",
+  /** Inline */
+  Inline = "Inline"
+}
+
+/**
+ * Defines values for ConfigurationType. \
+ * {@link KnownConfigurationType} can be used interchangeably with ConfigurationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **File** \
+ * **Inline**
+ */
+export type ConfigurationType = string;
+
+/** Known values of {@link IPAddressType} that the service accepts. */
+export enum KnownIPAddressType {
+  /** IPv4 */
+  IPv4 = "IPv4",
+  /** IPv6 */
+  IPv6 = "IPv6"
+}
+
+/**
+ * Defines values for IPAddressType. \
+ * {@link KnownIPAddressType} can be used interchangeably with IPAddressType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv4** \
+ * **IPv6**
+ */
+export type IPAddressType = string;
+
+/** Known values of {@link PortType} that the service accepts. */
+export enum KnownPortType {
+  /** SourcePort */
+  SourcePort = "SourcePort",
+  /** DestinationPort */
+  DestinationPort = "DestinationPort"
+}
+
+/**
+ * Defines values for PortType. \
+ * {@link KnownPortType} can be used interchangeably with PortType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SourcePort** \
+ * **DestinationPort**
+ */
+export type PortType = string;
+
+/** Known values of {@link Layer4Protocol} that the service accepts. */
+export enum KnownLayer4Protocol {
+  /** TCP */
+  TCP = "TCP",
+  /** UDP */
+  UDP = "UDP"
+}
+
+/**
+ * Defines values for Layer4Protocol. \
+ * {@link KnownLayer4Protocol} can be used interchangeably with Layer4Protocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TCP** \
+ * **UDP**
+ */
+export type Layer4Protocol = string;
+
+/** Known values of {@link SourceDestinationType} that the service accepts. */
+export enum KnownSourceDestinationType {
+  /** SourceIP */
+  SourceIP = "SourceIP",
+  /** DestinationIP */
+  DestinationIP = "DestinationIP"
+}
+
+/**
+ * Defines values for SourceDestinationType. \
+ * {@link KnownSourceDestinationType} can be used interchangeably with SourceDestinationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SourceIP** \
+ * **DestinationIP**
+ */
+export type SourceDestinationType = string;
+
+/** Known values of {@link PrefixType} that the service accepts. */
+export enum KnownPrefixType {
+  /** Prefix */
+  Prefix = "Prefix",
+  /** LongestPrefix */
+  LongestPrefix = "LongestPrefix"
+}
+
+/**
+ * Defines values for PrefixType. \
+ * {@link KnownPrefixType} can be used interchangeably with PrefixType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Prefix** \
+ * **LongestPrefix**
+ */
+export type PrefixType = string;
+
+/** Known values of {@link AclActionType} that the service accepts. */
+export enum KnownAclActionType {
+  /** Drop */
+  Drop = "Drop",
+  /** Count */
+  Count = "Count",
+  /** Log */
+  Log = "Log"
+}
+
+/**
+ * Defines values for AclActionType. \
+ * {@link KnownAclActionType} can be used interchangeably with AclActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Drop** \
+ * **Count** \
+ * **Log**
+ */
+export type AclActionType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -2453,6 +3650,60 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link EnableDisableState} that the service accepts. */
+export enum KnownEnableDisableState {
+  /** Enable */
+  Enable = "Enable",
+  /** Disable */
+  Disable = "Disable"
+}
+
+/**
+ * Defines values for EnableDisableState. \
+ * {@link KnownEnableDisableState} can be used interchangeably with EnableDisableState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enable** \
+ * **Disable**
+ */
+export type EnableDisableState = string;
+
+/** Known values of {@link GatewayType} that the service accepts. */
+export enum KnownGatewayType {
+  /** Infrastructure */
+  Infrastructure = "Infrastructure",
+  /** Workload */
+  Workload = "Workload"
+}
+
+/**
+ * Defines values for GatewayType. \
+ * {@link KnownGatewayType} can be used interchangeably with GatewayType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Infrastructure** \
+ * **Workload**
+ */
+export type GatewayType = string;
+
+/** Known values of {@link Action} that the service accepts. */
+export enum KnownAction {
+  /** Allow */
+  Allow = "Allow",
+  /** Deny */
+  Deny = "Deny"
+}
+
+/**
+ * Defines values for Action. \
+ * {@link KnownAction} can be used interchangeably with Action,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow** \
+ * **Deny**
+ */
+export type Action = string;
 
 /** Known values of {@link CommunityActionTypes} that the service accepts. */
 export enum KnownCommunityActionTypes {
@@ -2506,7 +3757,9 @@ export enum KnownCondition {
   /** GreaterThanOrEqualTo */
   GreaterThanOrEqualTo = "GreaterThanOrEqualTo",
   /** LesserThanOrEqualTo */
-  LesserThanOrEqualTo = "LesserThanOrEqualTo"
+  LesserThanOrEqualTo = "LesserThanOrEqualTo",
+  /** Range */
+  Range = "Range"
 }
 
 /**
@@ -2516,45 +3769,10 @@ export enum KnownCondition {
  * ### Known values supported by the service
  * **EqualTo** \
  * **GreaterThanOrEqualTo** \
- * **LesserThanOrEqualTo**
+ * **LesserThanOrEqualTo** \
+ * **Range**
  */
 export type Condition = string;
-
-/** Known values of {@link EnabledDisabledState} that the service accepts. */
-export enum KnownEnabledDisabledState {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for EnabledDisabledState. \
- * {@link KnownEnabledDisabledState} can be used interchangeably with EnabledDisabledState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type EnabledDisabledState = string;
-
-/** Known values of {@link AdministrativeState} that the service accepts. */
-export enum KnownAdministrativeState {
-  /** Enable */
-  Enable = "Enable",
-  /** Disable */
-  Disable = "Disable"
-}
-
-/**
- * Defines values for AdministrativeState. \
- * {@link KnownAdministrativeState} can be used interchangeably with AdministrativeState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enable** \
- * **Disable**
- */
-export type AdministrativeState = string;
 
 /** Known values of {@link RedistributeConnectedSubnets} that the service accepts. */
 export enum KnownRedistributeConnectedSubnets {
@@ -2592,6 +3810,30 @@ export enum KnownRedistributeStaticRoutes {
  */
 export type RedistributeStaticRoutes = string;
 
+/** Known values of {@link BfdAdministrativeState} that the service accepts. */
+export enum KnownBfdAdministrativeState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** MAT */
+  MAT = "MAT",
+  /** RMA */
+  RMA = "RMA"
+}
+
+/**
+ * Defines values for BfdAdministrativeState. \
+ * {@link KnownBfdAdministrativeState} can be used interchangeably with BfdAdministrativeState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled** \
+ * **MAT** \
+ * **RMA**
+ */
+export type BfdAdministrativeState = string;
+
 /** Known values of {@link BooleanEnumProperty} that the service accepts. */
 export enum KnownBooleanEnumProperty {
   /** True */
@@ -2628,6 +3870,42 @@ export enum KnownAllowASOverride {
  */
 export type AllowASOverride = string;
 
+/** Known values of {@link Extension} that the service accepts. */
+export enum KnownExtension {
+  /** NoExtension */
+  NoExtension = "NoExtension",
+  /** NPB */
+  NPB = "NPB"
+}
+
+/**
+ * Defines values for Extension. \
+ * {@link KnownExtension} can be used interchangeably with Extension,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NoExtension** \
+ * **NPB**
+ */
+export type Extension = string;
+
+/** Known values of {@link IsMonitoringEnabled} that the service accepts. */
+export enum KnownIsMonitoringEnabled {
+  /** True */
+  True = "True",
+  /** False */
+  False = "False"
+}
+
+/**
+ * Defines values for IsMonitoringEnabled. \
+ * {@link KnownIsMonitoringEnabled} can be used interchangeably with IsMonitoringEnabled,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **True** \
+ * **False**
+ */
+export type IsMonitoringEnabled = string;
+
 /** Known values of {@link PeeringOption} that the service accepts. */
 export enum KnownPeeringOption {
   /** OptionA */
@@ -2645,42 +3923,6 @@ export enum KnownPeeringOption {
  * **OptionB**
  */
 export type PeeringOption = string;
-
-/** Known values of {@link IsCurrentVersion} that the service accepts. */
-export enum KnownIsCurrentVersion {
-  /** True */
-  True = "true",
-  /** False */
-  False = "false"
-}
-
-/**
- * Defines values for IsCurrentVersion. \
- * {@link KnownIsCurrentVersion} can be used interchangeably with IsCurrentVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **true** \
- * **false**
- */
-export type IsCurrentVersion = string;
-
-/** Known values of {@link IsTestVersion} that the service accepts. */
-export enum KnownIsTestVersion {
-  /** True */
-  True = "true",
-  /** False */
-  False = "false"
-}
-
-/**
- * Defines values for IsTestVersion. \
- * {@link KnownIsTestVersion} can be used interchangeably with IsTestVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **true** \
- * **false**
- */
-export type IsTestVersion = string;
 
 /** Known values of {@link NetworkDeviceRoleName} that the service accepts. */
 export enum KnownNetworkDeviceRoleName {
@@ -2709,8 +3951,8 @@ export enum KnownNetworkDeviceRoleName {
  */
 export type NetworkDeviceRoleName = string;
 
-/** Known values of {@link NetworkDeviceRoleTypes} that the service accepts. */
-export enum KnownNetworkDeviceRoleTypes {
+/** Known values of {@link NetworkDeviceRole} that the service accepts. */
+export enum KnownNetworkDeviceRole {
   /** CE */
   CE = "CE",
   /** ToR */
@@ -2724,8 +3966,8 @@ export enum KnownNetworkDeviceRoleTypes {
 }
 
 /**
- * Defines values for NetworkDeviceRoleTypes. \
- * {@link KnownNetworkDeviceRoleTypes} can be used interchangeably with NetworkDeviceRoleTypes,
+ * Defines values for NetworkDeviceRole. \
+ * {@link KnownNetworkDeviceRole} can be used interchangeably with NetworkDeviceRole,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **CE** \
@@ -2734,7 +3976,7 @@ export enum KnownNetworkDeviceRoleTypes {
  * **TS** \
  * **Management**
  */
-export type NetworkDeviceRoleTypes = string;
+export type NetworkDeviceRole = string;
 
 /** Known values of {@link InterfaceType} that the service accepts. */
 export enum KnownInterfaceType {
@@ -2754,134 +3996,131 @@ export enum KnownInterfaceType {
  */
 export type InterfaceType = string;
 
-/** Known values of {@link PowerEnd} that the service accepts. */
-export enum KnownPowerEnd {
-  /** Primary */
-  Primary = "Primary",
-  /** Secondary */
-  Secondary = "Secondary"
+/** Known values of {@link RebootType} that the service accepts. */
+export enum KnownRebootType {
+  /** GracefulRebootWithZTP */
+  GracefulRebootWithZTP = "GracefulRebootWithZTP",
+  /** GracefulRebootWithoutZTP */
+  GracefulRebootWithoutZTP = "GracefulRebootWithoutZTP",
+  /** UngracefulRebootWithZTP */
+  UngracefulRebootWithZTP = "UngracefulRebootWithZTP",
+  /** UngracefulRebootWithoutZTP */
+  UngracefulRebootWithoutZTP = "UngracefulRebootWithoutZTP"
 }
 
 /**
- * Defines values for PowerEnd. \
- * {@link KnownPowerEnd} can be used interchangeably with PowerEnd,
+ * Defines values for RebootType. \
+ * {@link KnownRebootType} can be used interchangeably with RebootType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Primary** \
- * **Secondary**
+ * **GracefulRebootWithZTP** \
+ * **GracefulRebootWithoutZTP** \
+ * **UngracefulRebootWithZTP** \
+ * **UngracefulRebootWithoutZTP**
  */
-export type PowerEnd = string;
+export type RebootType = string;
 
-/** Known values of {@link State} that the service accepts. */
-export enum KnownState {
-  /** On */
-  On = "On",
-  /** Off */
-  Off = "Off"
+/** Known values of {@link DeviceAdministrativeState} that the service accepts. */
+export enum KnownDeviceAdministrativeState {
+  /** RMA */
+  RMA = "RMA",
+  /** Resync */
+  Resync = "Resync",
+  /** GracefulQuarantine */
+  GracefulQuarantine = "GracefulQuarantine",
+  /** Quarantine */
+  Quarantine = "Quarantine"
 }
 
 /**
- * Defines values for State. \
- * {@link KnownState} can be used interchangeably with State,
+ * Defines values for DeviceAdministrativeState. \
+ * {@link KnownDeviceAdministrativeState} can be used interchangeably with DeviceAdministrativeState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **On** \
- * **Off**
+ * **RMA** \
+ * **Resync** \
+ * **GracefulQuarantine** \
+ * **Quarantine**
  */
-export type State = string;
+export type DeviceAdministrativeState = string;
 
-/** Known values of {@link OperationalStatus} that the service accepts. */
-export enum KnownOperationalStatus {
-  /** Booted */
-  Booted = "Booted",
-  /** BootPrompt */
-  BootPrompt = "BootPrompt",
-  /** Ztp */
-  Ztp = "Ztp"
+/** Known values of {@link IsWorkloadManagementNetworkEnabled} that the service accepts. */
+export enum KnownIsWorkloadManagementNetworkEnabled {
+  /** True */
+  True = "True",
+  /** False */
+  False = "False"
 }
 
 /**
- * Defines values for OperationalStatus. \
- * {@link KnownOperationalStatus} can be used interchangeably with OperationalStatus,
+ * Defines values for IsWorkloadManagementNetworkEnabled. \
+ * {@link KnownIsWorkloadManagementNetworkEnabled} can be used interchangeably with IsWorkloadManagementNetworkEnabled,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Booted** \
- * **BootPrompt** \
- * **Ztp**
+ * **True** \
+ * **False**
  */
-export type OperationalStatus = string;
+export type IsWorkloadManagementNetworkEnabled = string;
 
-/** Known values of {@link PowerCycleState} that the service accepts. */
-export enum KnownPowerCycleState {
-  /** On */
-  On = "On",
-  /** Off */
-  Off = "Off"
+/** Known values of {@link NfcSku} that the service accepts. */
+export enum KnownNfcSku {
+  /** Basic */
+  Basic = "Basic",
+  /** Standard */
+  Standard = "Standard",
+  /** HighPerformance */
+  HighPerformance = "HighPerformance"
 }
 
 /**
- * Defines values for PowerCycleState. \
- * {@link KnownPowerCycleState} can be used interchangeably with PowerCycleState,
+ * Defines values for NfcSku. \
+ * {@link KnownNfcSku} can be used interchangeably with NfcSku,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **On** \
- * **Off**
+ * **Basic** \
+ * **Standard** \
+ * **HighPerformance**
  */
-export type PowerCycleState = string;
+export type NfcSku = string;
 
-/** Known values of {@link NetworkFabricControllerOperationalState} that the service accepts. */
-export enum KnownNetworkFabricControllerOperationalState {
-  /** Configuring */
-  Configuring = "Configuring",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed"
+/** Known values of {@link FabricSkuType} that the service accepts. */
+export enum KnownFabricSkuType {
+  /** SingleRack */
+  SingleRack = "SingleRack",
+  /** MultiRack */
+  MultiRack = "MultiRack"
 }
 
 /**
- * Defines values for NetworkFabricControllerOperationalState. \
- * {@link KnownNetworkFabricControllerOperationalState} can be used interchangeably with NetworkFabricControllerOperationalState,
+ * Defines values for FabricSkuType. \
+ * {@link KnownFabricSkuType} can be used interchangeably with FabricSkuType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Configuring** \
- * **Succeeded** \
- * **Failed**
+ * **SingleRack** \
+ * **MultiRack**
  */
-export type NetworkFabricControllerOperationalState = string;
+export type FabricSkuType = string;
 
-/** Known values of {@link NetworkFabricOperationalState} that the service accepts. */
-export enum KnownNetworkFabricOperationalState {
-  /** Provisioning */
-  Provisioning = "Provisioning",
-  /** Provisioned */
-  Provisioned = "Provisioned",
-  /** ErrorProvisioning */
-  ErrorProvisioning = "ErrorProvisioning",
-  /** Deprovisioning */
-  Deprovisioning = "Deprovisioning",
-  /** Deprovisioned */
-  Deprovisioned = "Deprovisioned",
-  /** ErrorDeprovisioning */
-  ErrorDeprovisioning = "ErrorDeprovisioning",
-  /** DeferredControl */
-  DeferredControl = "DeferredControl"
+/** Known values of {@link ValidateAction} that the service accepts. */
+export enum KnownValidateAction {
+  /** Cabling */
+  Cabling = "Cabling",
+  /** Configuration */
+  Configuration = "Configuration",
+  /** Connectivity */
+  Connectivity = "Connectivity"
 }
 
 /**
- * Defines values for NetworkFabricOperationalState. \
- * {@link KnownNetworkFabricOperationalState} can be used interchangeably with NetworkFabricOperationalState,
+ * Defines values for ValidateAction. \
+ * {@link KnownValidateAction} can be used interchangeably with ValidateAction,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Provisioning** \
- * **Provisioned** \
- * **ErrorProvisioning** \
- * **Deprovisioning** \
- * **Deprovisioned** \
- * **ErrorDeprovisioning** \
- * **DeferredControl**
+ * **Cabling** \
+ * **Configuration** \
+ * **Connectivity**
  */
-export type NetworkFabricOperationalState = string;
+export type ValidateAction = string;
 
 /** Known values of {@link NniType} that the service accepts. */
 export enum KnownNniType {
@@ -2901,50 +4140,173 @@ export enum KnownNniType {
  */
 export type NniType = string;
 
-/** Known values of {@link NetworkRackRoleName} that the service accepts. */
-export enum KnownNetworkRackRoleName {
-  /** ComputeRack */
-  ComputeRack = "ComputeRack",
-  /** AggregateRack */
-  AggregateRack = "AggregateRack"
+/** Known values of {@link IsManagementType} that the service accepts. */
+export enum KnownIsManagementType {
+  /** True */
+  True = "True",
+  /** False */
+  False = "False"
 }
 
 /**
- * Defines values for NetworkRackRoleName. \
- * {@link KnownNetworkRackRoleName} can be used interchangeably with NetworkRackRoleName,
+ * Defines values for IsManagementType. \
+ * {@link KnownIsManagementType} can be used interchangeably with IsManagementType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ComputeRack** \
- * **AggregateRack**
+ * **True** \
+ * **False**
  */
-export type NetworkRackRoleName = string;
+export type IsManagementType = string;
 
-/** Known values of {@link NetworkDeviceRackRoleType} that the service accepts. */
-export enum KnownNetworkDeviceRackRoleType {
-  /** CE */
-  CE = "CE",
-  /** ToR */
-  ToR = "ToR",
-  /** NPB */
-  NPB = "NPB",
-  /** TS */
-  TS = "TS",
-  /** Management */
-  Management = "Management"
+/** Known values of {@link NetworkRackType} that the service accepts. */
+export enum KnownNetworkRackType {
+  /** Aggregate */
+  Aggregate = "Aggregate",
+  /** Compute */
+  Compute = "Compute",
+  /** Combined */
+  Combined = "Combined"
 }
 
 /**
- * Defines values for NetworkDeviceRackRoleType. \
- * {@link KnownNetworkDeviceRackRoleType} can be used interchangeably with NetworkDeviceRackRoleType,
+ * Defines values for NetworkRackType. \
+ * {@link KnownNetworkRackType} can be used interchangeably with NetworkRackType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **CE** \
- * **ToR** \
- * **NPB** \
- * **TS** \
- * **Management**
+ * **Aggregate** \
+ * **Compute** \
+ * **Combined**
  */
-export type NetworkDeviceRackRoleType = string;
+export type NetworkRackType = string;
+
+/** Known values of {@link PollingIntervalInSeconds} that the service accepts. */
+export enum KnownPollingIntervalInSeconds {
+  /** Thirty */
+  Thirty = 30,
+  /** Sixty */
+  Sixty = 60,
+  /** Ninety */
+  Ninety = 90,
+  /** OneHundredTwenty */
+  OneHundredTwenty = 120
+}
+
+/**
+ * Defines values for PollingIntervalInSeconds. \
+ * {@link KnownPollingIntervalInSeconds} can be used interchangeably with PollingIntervalInSeconds,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **30** \
+ * **60** \
+ * **90** \
+ * **120**
+ */
+export type PollingIntervalInSeconds = number;
+
+/** Known values of {@link EncapsulationType} that the service accepts. */
+export enum KnownEncapsulationType {
+  /** None */
+  None = "None",
+  /** GTPv1 */
+  GTPv1 = "GTPv1"
+}
+
+/**
+ * Defines values for EncapsulationType. \
+ * {@link KnownEncapsulationType} can be used interchangeably with EncapsulationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **GTPv1**
+ */
+export type EncapsulationType = string;
+
+/** Known values of {@link TapRuleActionType} that the service accepts. */
+export enum KnownTapRuleActionType {
+  /** Drop */
+  Drop = "Drop",
+  /** Count */
+  Count = "Count",
+  /** Log */
+  Log = "Log",
+  /** Replicate */
+  Replicate = "Replicate",
+  /** Goto */
+  Goto = "Goto",
+  /** Redirect */
+  Redirect = "Redirect",
+  /** Mirror */
+  Mirror = "Mirror"
+}
+
+/**
+ * Defines values for TapRuleActionType. \
+ * {@link KnownTapRuleActionType} can be used interchangeably with TapRuleActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Drop** \
+ * **Count** \
+ * **Log** \
+ * **Replicate** \
+ * **Goto** \
+ * **Redirect** \
+ * **Mirror**
+ */
+export type TapRuleActionType = string;
+
+/** Known values of {@link DestinationType} that the service accepts. */
+export enum KnownDestinationType {
+  /** IsolationDomain */
+  IsolationDomain = "IsolationDomain",
+  /** Direct */
+  Direct = "Direct"
+}
+
+/**
+ * Defines values for DestinationType. \
+ * {@link KnownDestinationType} can be used interchangeably with DestinationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IsolationDomain** \
+ * **Direct**
+ */
+export type DestinationType = string;
+
+/** Known values of {@link Encapsulation} that the service accepts. */
+export enum KnownEncapsulation {
+  /** None */
+  None = "None",
+  /** GRE */
+  GRE = "GRE"
+}
+
+/**
+ * Defines values for Encapsulation. \
+ * {@link KnownEncapsulation} can be used interchangeably with Encapsulation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **GRE**
+ */
+export type Encapsulation = string;
+
+/** Known values of {@link PollingType} that the service accepts. */
+export enum KnownPollingType {
+  /** Pull */
+  Pull = "Pull",
+  /** Push */
+  Push = "Push"
+}
+
+/**
+ * Defines values for PollingType. \
+ * {@link KnownPollingType} can be used interchangeably with PollingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pull** \
+ * **Push**
+ */
+export type PollingType = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
@@ -2982,105 +4344,71 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-/** Known values of {@link ExpressRouteConnectionState} that the service accepts. */
-export enum KnownExpressRouteConnectionState {
-  /** Connecting */
-  Connecting = "Connecting",
-  /** Connected */
-  Connected = "Connected",
-  /** Disconnected */
-  Disconnected = "Disconnected"
+/** Known values of {@link AddressFamilyType} that the service accepts. */
+export enum KnownAddressFamilyType {
+  /** IPv4 */
+  IPv4 = "IPv4",
+  /** IPv6 */
+  IPv6 = "IPv6"
 }
 
 /**
- * Defines values for ExpressRouteConnectionState. \
- * {@link KnownExpressRouteConnectionState} can be used interchangeably with ExpressRouteConnectionState,
+ * Defines values for AddressFamilyType. \
+ * {@link KnownAddressFamilyType} can be used interchangeably with AddressFamilyType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Connecting** \
- * **Connected** \
- * **Disconnected**
+ * **IPv4** \
+ * **IPv6**
  */
-export type ExpressRouteConnectionState = string;
+export type AddressFamilyType = string;
 
-/** Known values of {@link TerminalServerConnectivityState} that the service accepts. */
-export enum KnownTerminalServerConnectivityState {
-  /** Ipv4Reachable */
-  Ipv4Reachable = "Ipv4Reachable",
-  /** Ipv4Unreachable */
-  Ipv4Unreachable = "Ipv4Unreachable"
+/** Known values of {@link RoutePolicyConditionType} that the service accepts. */
+export enum KnownRoutePolicyConditionType {
+  /** Or */
+  Or = "Or",
+  /** And */
+  And = "And"
 }
 
 /**
- * Defines values for TerminalServerConnectivityState. \
- * {@link KnownTerminalServerConnectivityState} can be used interchangeably with TerminalServerConnectivityState,
+ * Defines values for RoutePolicyConditionType. \
+ * {@link KnownRoutePolicyConditionType} can be used interchangeably with RoutePolicyConditionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Ipv4Reachable** \
- * **Ipv4Unreachable**
+ * **Or** \
+ * **And**
  */
-export type TerminalServerConnectivityState = string;
+export type RoutePolicyConditionType = string;
 
-/** Known values of {@link OperationalState} that the service accepts. */
-export enum KnownOperationalState {
-  /** Configuring */
-  Configuring = "Configuring",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed"
+/** Known values of {@link RoutePolicyActionType} that the service accepts. */
+export enum KnownRoutePolicyActionType {
+  /** Permit */
+  Permit = "Permit",
+  /** Deny */
+  Deny = "Deny",
+  /** Continue */
+  Continue = "Continue"
 }
 
 /**
- * Defines values for OperationalState. \
- * {@link KnownOperationalState} can be used interchangeably with OperationalState,
+ * Defines values for RoutePolicyActionType. \
+ * {@link KnownRoutePolicyActionType} can be used interchangeably with RoutePolicyActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Configuring** \
- * **Succeeded** \
- * **Failed**
+ * **Permit** \
+ * **Deny** \
+ * **Continue**
  */
-export type OperationalState = string;
-
-/** Known values of {@link ReachabilityState} that the service accepts. */
-export enum KnownReachabilityState {
-  /** Reachable */
-  Reachable = "Reachable",
-  /** Unreachable */
-  Unreachable = "Unreachable"
-}
-
-/**
- * Defines values for ReachabilityState. \
- * {@link KnownReachabilityState} can be used interchangeably with ReachabilityState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Reachable** \
- * **Unreachable**
- */
-export type ReachabilityState = string;
-
-/** Known values of {@link FailedSucceededState} that the service accepts. */
-export enum KnownFailedSucceededState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed"
-}
-
-/**
- * Defines values for FailedSucceededState. \
- * {@link KnownFailedSucceededState} can be used interchangeably with FailedSucceededState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed**
- */
-export type FailedSucceededState = string;
+export type RoutePolicyActionType = string;
 
 /** Optional parameters. */
 export interface AccessControlListsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the create operation. */
 export type AccessControlListsCreateResponse = AccessControlList;
@@ -3094,14 +4422,27 @@ export type AccessControlListsGetResponse = AccessControlList;
 
 /** Optional parameters. */
 export interface AccessControlListsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the update operation. */
 export type AccessControlListsUpdateResponse = AccessControlList;
 
 /** Optional parameters. */
 export interface AccessControlListsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type AccessControlListsDeleteResponse = AccessControlListsDeleteHeaders;
 
 /** Optional parameters. */
 export interface AccessControlListsListByResourceGroupOptionalParams
@@ -3118,6 +4459,42 @@ export interface AccessControlListsListBySubscriptionOptionalParams
 export type AccessControlListsListBySubscriptionResponse = AccessControlListsListResult;
 
 /** Optional parameters. */
+export interface AccessControlListsUpdateAdministrativeStateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateAdministrativeState operation. */
+export type AccessControlListsUpdateAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
+
+/** Optional parameters. */
+export interface AccessControlListsResyncOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the resync operation. */
+export type AccessControlListsResyncResponse = CommonPostActionResponseForStateUpdate;
+
+/** Optional parameters. */
+export interface AccessControlListsValidateConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validateConfiguration operation. */
+export type AccessControlListsValidateConfigurationResponse = ValidateConfigurationResponse;
+
+/** Optional parameters. */
 export interface AccessControlListsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3130,6 +4507,145 @@ export interface AccessControlListsListBySubscriptionNextOptionalParams
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type AccessControlListsListBySubscriptionNextResponse = AccessControlListsListResult;
+
+/** Optional parameters. */
+export interface InternetGatewaysCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type InternetGatewaysCreateResponse = InternetGateway;
+
+/** Optional parameters. */
+export interface InternetGatewaysGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type InternetGatewaysGetResponse = InternetGateway;
+
+/** Optional parameters. */
+export interface InternetGatewaysUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type InternetGatewaysUpdateResponse = InternetGateway;
+
+/** Optional parameters. */
+export interface InternetGatewaysDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface InternetGatewaysListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type InternetGatewaysListByResourceGroupResponse = InternetGatewaysListResult;
+
+/** Optional parameters. */
+export interface InternetGatewaysListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type InternetGatewaysListBySubscriptionResponse = InternetGatewaysListResult;
+
+/** Optional parameters. */
+export interface InternetGatewaysListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type InternetGatewaysListByResourceGroupNextResponse = InternetGatewaysListResult;
+
+/** Optional parameters. */
+export interface InternetGatewaysListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type InternetGatewaysListBySubscriptionNextResponse = InternetGatewaysListResult;
+
+/** Optional parameters. */
+export interface InternetGatewayRulesCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type InternetGatewayRulesCreateResponse = InternetGatewayRule;
+
+/** Optional parameters. */
+export interface InternetGatewayRulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type InternetGatewayRulesGetResponse = InternetGatewayRule;
+
+/** Optional parameters. */
+export interface InternetGatewayRulesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type InternetGatewayRulesUpdateResponse = InternetGatewayRule;
+
+/** Optional parameters. */
+export interface InternetGatewayRulesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type InternetGatewayRulesDeleteResponse = InternetGatewayRulesDeleteHeaders;
+
+/** Optional parameters. */
+export interface InternetGatewayRulesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type InternetGatewayRulesListByResourceGroupResponse = InternetGatewayRulesListResult;
+
+/** Optional parameters. */
+export interface InternetGatewayRulesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type InternetGatewayRulesListBySubscriptionResponse = InternetGatewayRulesListResult;
+
+/** Optional parameters. */
+export interface InternetGatewayRulesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type InternetGatewayRulesListByResourceGroupNextResponse = InternetGatewayRulesListResult;
+
+/** Optional parameters. */
+export interface InternetGatewayRulesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type InternetGatewayRulesListBySubscriptionNextResponse = InternetGatewayRulesListResult;
 
 /** Optional parameters. */
 export interface IpCommunitiesCreateOptionalParams
@@ -3170,6 +4686,9 @@ export interface IpCommunitiesDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type IpCommunitiesDeleteResponse = IpCommunitiesDeleteHeaders;
 
 /** Optional parameters. */
 export interface IpCommunitiesListByResourceGroupOptionalParams
@@ -3239,6 +4758,9 @@ export interface IpExtendedCommunitiesDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type IpExtendedCommunitiesDeleteResponse = IpExtendedCommunitiesDeleteHeaders;
+
 /** Optional parameters. */
 export interface IpExtendedCommunitiesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
@@ -3306,6 +4828,9 @@ export interface IpPrefixesDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type IpPrefixesDeleteResponse = IpPrefixesDeleteHeaders;
 
 /** Optional parameters. */
 export interface IpPrefixesListByResourceGroupOptionalParams
@@ -3385,10 +4910,10 @@ export interface L2IsolationDomainsUpdateAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type L2IsolationDomainsUpdateAdministrativeStateResponse = L2IsolationDomainsUpdateAdministrativeStateHeaders;
+export type L2IsolationDomainsUpdateAdministrativeStateResponse = CommonPostActionResponseForDeviceUpdate;
 
 /** Optional parameters. */
-export interface L2IsolationDomainsClearArpTableOptionalParams
+export interface L2IsolationDomainsValidateConfigurationOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3396,11 +4921,11 @@ export interface L2IsolationDomainsClearArpTableOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the clearArpTable operation. */
-export type L2IsolationDomainsClearArpTableResponse = L2IsolationDomainsClearArpTableHeaders;
+/** Contains response data for the validateConfiguration operation. */
+export type L2IsolationDomainsValidateConfigurationResponse = ValidateConfigurationResponse;
 
 /** Optional parameters. */
-export interface L2IsolationDomainsClearNeighborTableOptionalParams
+export interface L2IsolationDomainsCommitConfigurationOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3408,22 +4933,8 @@ export interface L2IsolationDomainsClearNeighborTableOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the clearNeighborTable operation. */
-export type L2IsolationDomainsClearNeighborTableResponse = L2IsolationDomainsClearNeighborTableHeaders;
-
-/** Optional parameters. */
-export interface L2IsolationDomainsGetArpEntriesOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the getArpEntries operation. */
-export type L2IsolationDomainsGetArpEntriesResponse = L2IsolationDomainsGetArpEntriesHeaders & {
-  [propertyName: string]: ARPProperties;
-};
+/** Contains response data for the commitConfiguration operation. */
+export type L2IsolationDomainsCommitConfigurationResponse = CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface L2IsolationDomainsListByResourceGroupOptionalParams
@@ -3517,10 +5028,10 @@ export interface L3IsolationDomainsUpdateAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type L3IsolationDomainsUpdateAdministrativeStateResponse = L3IsolationDomainsUpdateAdministrativeStateHeaders;
+export type L3IsolationDomainsUpdateAdministrativeStateResponse = CommonPostActionResponseForDeviceUpdate;
 
 /** Optional parameters. */
-export interface L3IsolationDomainsUpdateOptionBAdministrativeStateOptionalParams
+export interface L3IsolationDomainsValidateConfigurationOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3528,11 +5039,11 @@ export interface L3IsolationDomainsUpdateOptionBAdministrativeStateOptionalParam
   resumeFrom?: string;
 }
 
-/** Contains response data for the updateOptionBAdministrativeState operation. */
-export type L3IsolationDomainsUpdateOptionBAdministrativeStateResponse = L3IsolationDomainsUpdateOptionBAdministrativeStateHeaders;
+/** Contains response data for the validateConfiguration operation. */
+export type L3IsolationDomainsValidateConfigurationResponse = ValidateConfigurationResponse;
 
 /** Optional parameters. */
-export interface L3IsolationDomainsClearArpTableOptionalParams
+export interface L3IsolationDomainsCommitConfigurationOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3540,20 +5051,8 @@ export interface L3IsolationDomainsClearArpTableOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the clearArpTable operation. */
-export type L3IsolationDomainsClearArpTableResponse = L3IsolationDomainsClearArpTableHeaders;
-
-/** Optional parameters. */
-export interface L3IsolationDomainsClearNeighborTableOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the clearNeighborTable operation. */
-export type L3IsolationDomainsClearNeighborTableResponse = L3IsolationDomainsClearNeighborTableHeaders;
+/** Contains response data for the commitConfiguration operation. */
+export type L3IsolationDomainsCommitConfigurationResponse = CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface L3IsolationDomainsListByResourceGroupNextOptionalParams
@@ -3610,11 +5109,11 @@ export interface InternalNetworksDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface InternalNetworksListOptionalParams
+export interface InternalNetworksListByL3IsolationDomainOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type InternalNetworksListResponse = InternalNetworksList;
+/** Contains response data for the listByL3IsolationDomain operation. */
+export type InternalNetworksListByL3IsolationDomainResponse = InternalNetworksList;
 
 /** Optional parameters. */
 export interface InternalNetworksUpdateAdministrativeStateOptionalParams
@@ -3626,7 +5125,7 @@ export interface InternalNetworksUpdateAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type InternalNetworksUpdateAdministrativeStateResponse = InternalNetworksUpdateAdministrativeStateHeaders;
+export type InternalNetworksUpdateAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface InternalNetworksUpdateBgpAdministrativeStateOptionalParams
@@ -3638,10 +5137,10 @@ export interface InternalNetworksUpdateBgpAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateBgpAdministrativeState operation. */
-export type InternalNetworksUpdateBgpAdministrativeStateResponse = InternalNetworksUpdateBgpAdministrativeStateHeaders;
+export type InternalNetworksUpdateBgpAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
-export interface InternalNetworksUpdateBfdForBgpAdministrativeStateOptionalParams
+export interface InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3649,51 +5148,15 @@ export interface InternalNetworksUpdateBfdForBgpAdministrativeStateOptionalParam
   resumeFrom?: string;
 }
 
-/** Contains response data for the updateBfdForBgpAdministrativeState operation. */
-export type InternalNetworksUpdateBfdForBgpAdministrativeStateResponse = InternalNetworksUpdateBfdForBgpAdministrativeStateHeaders;
+/** Contains response data for the updateStaticRouteBfdAdministrativeState operation. */
+export type InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
-export interface InternalNetworksClearIpv6NeighborsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the clearIpv6Neighbors operation. */
-export type InternalNetworksClearIpv6NeighborsResponse = InternalNetworksClearIpv6NeighborsHeaders;
-
-/** Optional parameters. */
-export interface InternalNetworksClearArpEntriesOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the clearArpEntries operation. */
-export type InternalNetworksClearArpEntriesResponse = InternalNetworksClearArpEntriesHeaders;
-
-/** Optional parameters. */
-export interface InternalNetworksUpdateBfdForStaticRouteAdministrativeStateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the updateBfdForStaticRouteAdministrativeState operation. */
-export type InternalNetworksUpdateBfdForStaticRouteAdministrativeStateResponse = InternalNetworksUpdateBfdForStaticRouteAdministrativeStateHeaders;
-
-/** Optional parameters. */
-export interface InternalNetworksListNextOptionalParams
+export interface InternalNetworksListByL3IsolationDomainNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listNext operation. */
-export type InternalNetworksListNextResponse = InternalNetworksList;
+/** Contains response data for the listByL3IsolationDomainNext operation. */
+export type InternalNetworksListByL3IsolationDomainNextResponse = InternalNetworksList;
 
 /** Optional parameters. */
 export interface ExternalNetworksCreateOptionalParams
@@ -3736,11 +5199,11 @@ export interface ExternalNetworksDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface ExternalNetworksListOptionalParams
+export interface ExternalNetworksListByL3IsolationDomainOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type ExternalNetworksListResponse = ExternalNetworksList;
+/** Contains response data for the listByL3IsolationDomain operation. */
+export type ExternalNetworksListByL3IsolationDomainResponse = ExternalNetworksList;
 
 /** Optional parameters. */
 export interface ExternalNetworksUpdateAdministrativeStateOptionalParams
@@ -3752,10 +5215,10 @@ export interface ExternalNetworksUpdateAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type ExternalNetworksUpdateAdministrativeStateResponse = ExternalNetworksUpdateAdministrativeStateHeaders;
+export type ExternalNetworksUpdateAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
-export interface ExternalNetworksUpdateBgpAdministrativeStateOptionalParams
+export interface ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3763,51 +5226,83 @@ export interface ExternalNetworksUpdateBgpAdministrativeStateOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the updateBgpAdministrativeState operation. */
-export type ExternalNetworksUpdateBgpAdministrativeStateResponse = ExternalNetworksUpdateBgpAdministrativeStateHeaders;
+/** Contains response data for the updateStaticRouteBfdAdministrativeState operation. */
+export type ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
-export interface ExternalNetworksUpdateBfdForBgpAdministrativeStateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the updateBfdForBgpAdministrativeState operation. */
-export type ExternalNetworksUpdateBfdForBgpAdministrativeStateResponse = ExternalNetworksUpdateBfdForBgpAdministrativeStateHeaders;
-
-/** Optional parameters. */
-export interface ExternalNetworksClearIpv6NeighborsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the clearIpv6Neighbors operation. */
-export type ExternalNetworksClearIpv6NeighborsResponse = ExternalNetworksClearIpv6NeighborsHeaders;
-
-/** Optional parameters. */
-export interface ExternalNetworksClearArpEntriesOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the clearArpEntries operation. */
-export type ExternalNetworksClearArpEntriesResponse = ExternalNetworksClearArpEntriesHeaders;
-
-/** Optional parameters. */
-export interface ExternalNetworksListNextOptionalParams
+export interface ExternalNetworksListByL3IsolationDomainNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listNext operation. */
-export type ExternalNetworksListNextResponse = ExternalNetworksList;
+/** Contains response data for the listByL3IsolationDomainNext operation. */
+export type ExternalNetworksListByL3IsolationDomainNextResponse = ExternalNetworksList;
+
+/** Optional parameters. */
+export interface NeighborGroupsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type NeighborGroupsCreateResponse = NeighborGroup;
+
+/** Optional parameters. */
+export interface NeighborGroupsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type NeighborGroupsGetResponse = NeighborGroup;
+
+/** Optional parameters. */
+export interface NeighborGroupsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type NeighborGroupsUpdateResponse = NeighborGroup;
+
+/** Optional parameters. */
+export interface NeighborGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface NeighborGroupsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type NeighborGroupsListByResourceGroupResponse = NeighborGroupsListResult;
+
+/** Optional parameters. */
+export interface NeighborGroupsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type NeighborGroupsListBySubscriptionResponse = NeighborGroupsListResult;
+
+/** Optional parameters. */
+export interface NeighborGroupsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type NeighborGroupsListByResourceGroupNextResponse = NeighborGroupsListResult;
+
+/** Optional parameters. */
+export interface NeighborGroupsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type NeighborGroupsListBySubscriptionNextResponse = NeighborGroupsListResult;
 
 /** Optional parameters. */
 export interface NetworkDeviceSkusGetOptionalParams
@@ -3894,10 +5389,10 @@ export interface NetworkDevicesRebootOptionalParams
 }
 
 /** Contains response data for the reboot operation. */
-export type NetworkDevicesRebootResponse = NetworkDevicesRebootHeaders;
+export type NetworkDevicesRebootResponse = CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
-export interface NetworkDevicesRestoreConfigOptionalParams
+export interface NetworkDevicesRefreshConfigurationOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3905,11 +5400,11 @@ export interface NetworkDevicesRestoreConfigOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the restoreConfig operation. */
-export type NetworkDevicesRestoreConfigResponse = NetworkDevicesRestoreConfigHeaders;
+/** Contains response data for the refreshConfiguration operation. */
+export type NetworkDevicesRefreshConfigurationResponse = CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
-export interface NetworkDevicesUpdateVersionOptionalParams
+export interface NetworkDevicesUpdateAdministrativeStateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3917,11 +5412,11 @@ export interface NetworkDevicesUpdateVersionOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the updateVersion operation. */
-export type NetworkDevicesUpdateVersionResponse = NetworkDevicesUpdateVersionHeaders;
+/** Contains response data for the updateAdministrativeState operation. */
+export type NetworkDevicesUpdateAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
-export interface NetworkDevicesGenerateSupportPackageOptionalParams
+export interface NetworkDevicesUpgradeOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3929,60 +5424,8 @@ export interface NetworkDevicesGenerateSupportPackageOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the generateSupportPackage operation. */
-export type NetworkDevicesGenerateSupportPackageResponse = NetworkDevicesGenerateSupportPackageHeaders &
-  SupportPackageProperties;
-
-/** Optional parameters. */
-export interface NetworkDevicesUpdatePowerCycleOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the updatePowerCycle operation. */
-export type NetworkDevicesUpdatePowerCycleResponse = NetworkDevicesUpdatePowerCycleHeaders;
-
-/** Optional parameters. */
-export interface NetworkDevicesGetStatusOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the getStatus operation. */
-export type NetworkDevicesGetStatusResponse = NetworkDevicesGetStatusHeaders &
-  GetDeviceStatusProperties;
-
-/** Optional parameters. */
-export interface NetworkDevicesGetStaticInterfaceMapsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the getStaticInterfaceMaps operation. */
-export type NetworkDevicesGetStaticInterfaceMapsResponse = NetworkDevicesGetStaticInterfaceMapsHeaders &
-  GetStaticInterfaceMapsPropertiesItem[];
-
-/** Optional parameters. */
-export interface NetworkDevicesGetDynamicInterfaceMapsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the getDynamicInterfaceMaps operation. */
-export type NetworkDevicesGetDynamicInterfaceMapsResponse = NetworkDevicesGetDynamicInterfaceMapsHeaders &
-  GetDynamicInterfaceMapsPropertiesItem[];
+/** Contains response data for the upgrade operation. */
+export type NetworkDevicesUpgradeResponse = CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkDevicesListByResourceGroupNextOptionalParams
@@ -4039,24 +5482,11 @@ export interface NetworkInterfacesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface NetworkInterfacesListOptionalParams
+export interface NetworkInterfacesListByNetworkDeviceOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type NetworkInterfacesListResponse = NetworkInterfacesList;
-
-/** Optional parameters. */
-export interface NetworkInterfacesGetStatusOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the getStatus operation. */
-export type NetworkInterfacesGetStatusResponse = NetworkInterfacesGetStatusHeaders &
-  InterfaceStatus;
+/** Contains response data for the listByNetworkDevice operation. */
+export type NetworkInterfacesListByNetworkDeviceResponse = NetworkInterfacesList;
 
 /** Optional parameters. */
 export interface NetworkInterfacesUpdateAdministrativeStateOptionalParams
@@ -4068,14 +5498,14 @@ export interface NetworkInterfacesUpdateAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type NetworkInterfacesUpdateAdministrativeStateResponse = NetworkInterfacesUpdateAdministrativeStateHeaders;
+export type NetworkInterfacesUpdateAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
-export interface NetworkInterfacesListNextOptionalParams
+export interface NetworkInterfacesListByNetworkDeviceNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listNext operation. */
-export type NetworkInterfacesListNextResponse = NetworkInterfacesList;
+/** Contains response data for the listByNetworkDeviceNext operation. */
+export type NetworkInterfacesListByNetworkDeviceNextResponse = NetworkInterfacesList;
 
 /** Optional parameters. */
 export interface NetworkFabricControllersCreateOptionalParams
@@ -4117,6 +5547,9 @@ export interface NetworkFabricControllersDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type NetworkFabricControllersDeleteResponse = NetworkFabricControllersDeleteHeaders;
+
 /** Optional parameters. */
 export interface NetworkFabricControllersListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
@@ -4130,30 +5563,6 @@ export interface NetworkFabricControllersListBySubscriptionOptionalParams
 
 /** Contains response data for the listBySubscription operation. */
 export type NetworkFabricControllersListBySubscriptionResponse = NetworkFabricControllersListResult;
-
-/** Optional parameters. */
-export interface NetworkFabricControllersEnableWorkloadManagementNetworkOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the enableWorkloadManagementNetwork operation. */
-export type NetworkFabricControllersEnableWorkloadManagementNetworkResponse = NetworkFabricControllersEnableWorkloadManagementNetworkHeaders;
-
-/** Optional parameters. */
-export interface NetworkFabricControllersDisableWorkloadManagementNetworkOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the disableWorkloadManagementNetwork operation. */
-export type NetworkFabricControllersDisableWorkloadManagementNetworkResponse = NetworkFabricControllersDisableWorkloadManagementNetworkHeaders;
 
 /** Optional parameters. */
 export interface NetworkFabricControllersListByResourceGroupNextOptionalParams
@@ -4230,6 +5639,9 @@ export interface NetworkFabricsDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type NetworkFabricsDeleteResponse = NetworkFabricsDeleteHeaders;
+
 /** Optional parameters. */
 export interface NetworkFabricsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
@@ -4254,7 +5666,7 @@ export interface NetworkFabricsProvisionOptionalParams
 }
 
 /** Contains response data for the provision operation. */
-export type NetworkFabricsProvisionResponse = NetworkFabricsProvisionHeaders;
+export type NetworkFabricsProvisionResponse = CommonPostActionResponseForDeviceUpdate;
 
 /** Optional parameters. */
 export interface NetworkFabricsDeprovisionOptionalParams
@@ -4266,7 +5678,91 @@ export interface NetworkFabricsDeprovisionOptionalParams
 }
 
 /** Contains response data for the deprovision operation. */
-export type NetworkFabricsDeprovisionResponse = NetworkFabricsDeprovisionHeaders;
+export type NetworkFabricsDeprovisionResponse = CommonPostActionResponseForDeviceUpdate;
+
+/** Optional parameters. */
+export interface NetworkFabricsUpgradeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the upgrade operation. */
+export type NetworkFabricsUpgradeResponse = CommonPostActionResponseForStateUpdate;
+
+/** Optional parameters. */
+export interface NetworkFabricsRefreshConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the refreshConfiguration operation. */
+export type NetworkFabricsRefreshConfigurationResponse = CommonPostActionResponseForStateUpdate;
+
+/** Optional parameters. */
+export interface NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateWorkloadManagementBfdConfiguration operation. */
+export type NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse = CommonPostActionResponseForStateUpdate;
+
+/** Optional parameters. */
+export interface NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateInfraManagementBfdConfiguration operation. */
+export type NetworkFabricsUpdateInfraManagementBfdConfigurationResponse = CommonPostActionResponseForStateUpdate;
+
+/** Optional parameters. */
+export interface NetworkFabricsValidateConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validateConfiguration operation. */
+export type NetworkFabricsValidateConfigurationResponse = ValidateConfigurationResponse;
+
+/** Optional parameters. */
+export interface NetworkFabricsGetTopologyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the getTopology operation. */
+export type NetworkFabricsGetTopologyResponse = ValidateConfigurationResponse;
+
+/** Optional parameters. */
+export interface NetworkFabricsCommitConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the commitConfiguration operation. */
+export type NetworkFabricsCommitConfigurationResponse = CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkFabricsListByResourceGroupNextOptionalParams
@@ -4302,6 +5798,18 @@ export interface NetworkToNetworkInterconnectsGetOptionalParams
 export type NetworkToNetworkInterconnectsGetResponse = NetworkToNetworkInterconnect;
 
 /** Optional parameters. */
+export interface NetworkToNetworkInterconnectsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type NetworkToNetworkInterconnectsUpdateResponse = NetworkToNetworkInterconnect;
+
+/** Optional parameters. */
 export interface NetworkToNetworkInterconnectsDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -4311,39 +5819,110 @@ export interface NetworkToNetworkInterconnectsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface NetworkToNetworkInterconnectsListOptionalParams
+export interface NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type NetworkToNetworkInterconnectsListResponse = NetworkToNetworkInterconnectsList;
+/** Contains response data for the listByNetworkFabric operation. */
+export type NetworkToNetworkInterconnectsListByNetworkFabricResponse = NetworkToNetworkInterconnectsList;
 
 /** Optional parameters. */
-export interface NetworkToNetworkInterconnectsListNextOptionalParams
+export interface NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateNpbStaticRouteBfdAdministrativeState operation. */
+export type NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
+
+/** Optional parameters. */
+export interface NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateAdministrativeState operation. */
+export type NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
+
+/** Optional parameters. */
+export interface NetworkToNetworkInterconnectsListByNetworkFabricNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listNext operation. */
-export type NetworkToNetworkInterconnectsListNextResponse = NetworkToNetworkInterconnectsList;
+/** Contains response data for the listByNetworkFabricNext operation. */
+export type NetworkToNetworkInterconnectsListByNetworkFabricNextResponse = NetworkToNetworkInterconnectsList;
 
 /** Optional parameters. */
-export interface NetworkRackSkusGetOptionalParams
+export interface NetworkPacketBrokersCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type NetworkPacketBrokersCreateResponse = NetworkPacketBroker;
+
+/** Optional parameters. */
+export interface NetworkPacketBrokersGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type NetworkRackSkusGetResponse = NetworkRackSku;
+export type NetworkPacketBrokersGetResponse = NetworkPacketBroker;
 
 /** Optional parameters. */
-export interface NetworkRackSkusListBySubscriptionOptionalParams
+export interface NetworkPacketBrokersUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type NetworkPacketBrokersUpdateResponse = NetworkPacketBroker;
+
+/** Optional parameters. */
+export interface NetworkPacketBrokersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface NetworkPacketBrokersListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type NetworkPacketBrokersListByResourceGroupResponse = NetworkPacketBrokersListResult;
+
+/** Optional parameters. */
+export interface NetworkPacketBrokersListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type NetworkRackSkusListBySubscriptionResponse = NetworkRackSkusListResult;
+export type NetworkPacketBrokersListBySubscriptionResponse = NetworkPacketBrokersListResult;
 
 /** Optional parameters. */
-export interface NetworkRackSkusListBySubscriptionNextOptionalParams
+export interface NetworkPacketBrokersListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type NetworkPacketBrokersListByResourceGroupNextResponse = NetworkPacketBrokersListResult;
+
+/** Optional parameters. */
+export interface NetworkPacketBrokersListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type NetworkRackSkusListBySubscriptionNextResponse = NetworkRackSkusListResult;
+export type NetworkPacketBrokersListBySubscriptionNextResponse = NetworkPacketBrokersListResult;
 
 /** Optional parameters. */
 export interface NetworkRacksCreateOptionalParams
@@ -4414,6 +5993,205 @@ export interface NetworkRacksListBySubscriptionNextOptionalParams
 export type NetworkRacksListBySubscriptionNextResponse = NetworkRacksListResult;
 
 /** Optional parameters. */
+export interface NetworkTapRulesCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type NetworkTapRulesCreateResponse = NetworkTapRule;
+
+/** Optional parameters. */
+export interface NetworkTapRulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type NetworkTapRulesGetResponse = NetworkTapRule;
+
+/** Optional parameters. */
+export interface NetworkTapRulesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type NetworkTapRulesUpdateResponse = NetworkTapRule;
+
+/** Optional parameters. */
+export interface NetworkTapRulesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type NetworkTapRulesDeleteResponse = NetworkTapRulesDeleteHeaders;
+
+/** Optional parameters. */
+export interface NetworkTapRulesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type NetworkTapRulesListByResourceGroupResponse = NetworkTapRulesListResult;
+
+/** Optional parameters. */
+export interface NetworkTapRulesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type NetworkTapRulesListBySubscriptionResponse = NetworkTapRulesListResult;
+
+/** Optional parameters. */
+export interface NetworkTapRulesUpdateAdministrativeStateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateAdministrativeState operation. */
+export type NetworkTapRulesUpdateAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
+
+/** Optional parameters. */
+export interface NetworkTapRulesResyncOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the resync operation. */
+export type NetworkTapRulesResyncResponse = CommonPostActionResponseForStateUpdate;
+
+/** Optional parameters. */
+export interface NetworkTapRulesValidateConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validateConfiguration operation. */
+export type NetworkTapRulesValidateConfigurationResponse = ValidateConfigurationResponse;
+
+/** Optional parameters. */
+export interface NetworkTapRulesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type NetworkTapRulesListByResourceGroupNextResponse = NetworkTapRulesListResult;
+
+/** Optional parameters. */
+export interface NetworkTapRulesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type NetworkTapRulesListBySubscriptionNextResponse = NetworkTapRulesListResult;
+
+/** Optional parameters. */
+export interface NetworkTapsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type NetworkTapsCreateResponse = NetworkTap;
+
+/** Optional parameters. */
+export interface NetworkTapsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type NetworkTapsGetResponse = NetworkTap;
+
+/** Optional parameters. */
+export interface NetworkTapsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type NetworkTapsUpdateResponse = NetworkTap;
+
+/** Optional parameters. */
+export interface NetworkTapsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface NetworkTapsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type NetworkTapsListByResourceGroupResponse = NetworkTapsListResult;
+
+/** Optional parameters. */
+export interface NetworkTapsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type NetworkTapsListBySubscriptionResponse = NetworkTapsListResult;
+
+/** Optional parameters. */
+export interface NetworkTapsUpdateAdministrativeStateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateAdministrativeState operation. */
+export type NetworkTapsUpdateAdministrativeStateResponse = CommonPostActionResponseForDeviceUpdate;
+
+/** Optional parameters. */
+export interface NetworkTapsResyncOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the resync operation. */
+export type NetworkTapsResyncResponse = CommonPostActionResponseForStateUpdate;
+
+/** Optional parameters. */
+export interface NetworkTapsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type NetworkTapsListByResourceGroupNextResponse = NetworkTapsListResult;
+
+/** Optional parameters. */
+export interface NetworkTapsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type NetworkTapsListBySubscriptionNextResponse = NetworkTapsListResult;
+
+/** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4480,6 +6258,42 @@ export interface RoutePoliciesListBySubscriptionOptionalParams
 
 /** Contains response data for the listBySubscription operation. */
 export type RoutePoliciesListBySubscriptionResponse = RoutePoliciesListResult;
+
+/** Optional parameters. */
+export interface RoutePoliciesUpdateAdministrativeStateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateAdministrativeState operation. */
+export type RoutePoliciesUpdateAdministrativeStateResponse = CommonPostActionResponseForDeviceUpdate;
+
+/** Optional parameters. */
+export interface RoutePoliciesValidateConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validateConfiguration operation. */
+export type RoutePoliciesValidateConfigurationResponse = ValidateConfigurationResponse;
+
+/** Optional parameters. */
+export interface RoutePoliciesCommitConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the commitConfiguration operation. */
+export type RoutePoliciesCommitConfigurationResponse = CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface RoutePoliciesListByResourceGroupNextOptionalParams

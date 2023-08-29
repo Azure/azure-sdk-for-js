@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates new or updates existing specified Schema of the API Management service instance.
  *
  * @summary Creates new or updates existing specified Schema of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateGlobalSchema1.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGlobalSchema1.json
  */
 async function apiManagementCreateSchema1() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -44,7 +44,7 @@ async function apiManagementCreateSchema1() {
  * This sample demonstrates how to Creates new or updates existing specified Schema of the API Management service instance.
  *
  * @summary Creates new or updates existing specified Schema of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateGlobalSchema2.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGlobalSchema2.json
  */
 async function apiManagementCreateSchema2() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

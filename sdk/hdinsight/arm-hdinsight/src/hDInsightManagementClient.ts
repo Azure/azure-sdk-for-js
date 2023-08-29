@@ -15,30 +15,30 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  ClustersImpl,
   ApplicationsImpl,
-  LocationsImpl,
+  ClustersImpl,
   ConfigurationsImpl,
   ExtensionsImpl,
+  LocationsImpl,
+  OperationsImpl,
+  PrivateEndpointConnectionsImpl,
+  PrivateLinkResourcesImpl,
   ScriptActionsImpl,
   ScriptExecutionHistoryImpl,
-  OperationsImpl,
-  VirtualMachinesImpl,
-  PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl
+  VirtualMachinesImpl
 } from "./operations";
 import {
-  Clusters,
   Applications,
-  Locations,
+  Clusters,
   Configurations,
   Extensions,
+  Locations,
+  Operations,
+  PrivateEndpointConnections,
+  PrivateLinkResources,
   ScriptActions,
   ScriptExecutionHistory,
-  Operations,
-  VirtualMachines,
-  PrivateEndpointConnections,
-  PrivateLinkResources
+  VirtualMachines
 } from "./operationsInterfaces";
 import { HDInsightManagementClientOptionalParams } from "./models";
 
@@ -75,7 +75,7 @@ export class HDInsightManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-hdinsight/1.2.2`;
+    const packageDetails = `azsdk-js-arm-hdinsight/1.3.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -128,18 +128,18 @@ export class HDInsightManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-01";
-    this.clusters = new ClustersImpl(this);
+    this.apiVersion = options.apiVersion || "2023-04-15-preview";
     this.applications = new ApplicationsImpl(this);
-    this.locations = new LocationsImpl(this);
+    this.clusters = new ClustersImpl(this);
     this.configurations = new ConfigurationsImpl(this);
     this.extensions = new ExtensionsImpl(this);
-    this.scriptActions = new ScriptActionsImpl(this);
-    this.scriptExecutionHistory = new ScriptExecutionHistoryImpl(this);
+    this.locations = new LocationsImpl(this);
     this.operations = new OperationsImpl(this);
-    this.virtualMachines = new VirtualMachinesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.scriptActions = new ScriptActionsImpl(this);
+    this.scriptExecutionHistory = new ScriptExecutionHistoryImpl(this);
+    this.virtualMachines = new VirtualMachinesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -171,15 +171,15 @@ export class HDInsightManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  clusters: Clusters;
   applications: Applications;
-  locations: Locations;
+  clusters: Clusters;
   configurations: Configurations;
   extensions: Extensions;
-  scriptActions: ScriptActions;
-  scriptExecutionHistory: ScriptExecutionHistory;
+  locations: Locations;
   operations: Operations;
-  virtualMachines: VirtualMachines;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
+  scriptActions: ScriptActions;
+  scriptExecutionHistory: ScriptExecutionHistory;
+  virtualMachines: VirtualMachines;
 }

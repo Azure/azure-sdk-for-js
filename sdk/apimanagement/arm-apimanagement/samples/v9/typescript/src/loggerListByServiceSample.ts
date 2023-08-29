@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists a collection of loggers in the specified service instance.
  *
  * @summary Lists a collection of loggers in the specified service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListLoggers.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListLoggers.json
  */
 async function apiManagementListLoggers() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an External Cache to be used in Api Management instance.
  *
  * @summary Creates or updates an External Cache to be used in Api Management instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateCache.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateCache.json
  */
 async function apiManagementCreateCache() {
   const subscriptionId =

@@ -354,7 +354,7 @@ async function runMigrations(pending: Migration[], project: ProjectInfo): Promis
 async function onMigrationSuccess(
   project: ProjectInfo,
   migration: Migration,
-  quiet: boolean = false
+  quiet: boolean = false // eslint-disable-line @typescript-eslint/no-inferrable-types
 ): Promise<void> {
   await updateMigrationDate(project, migration);
 
@@ -370,7 +370,7 @@ async function onMigrationSuccess(
 async function onMigrationSkipped(
   project: ProjectInfo,
   migration: Migration,
-  quiet: boolean = false
+  quiet: boolean = false // eslint-disable-line @typescript-eslint/no-inferrable-types
 ): Promise<void> {
   await updateMigrationDate(project, migration);
 
@@ -447,7 +447,10 @@ function printMigrationSuspendedWarning(migration: Migration, status: MigrationS
  * @param project - the working project
  * @returns true on success, otherwise false
  */
-async function abortMigration(project: ProjectInfo, quiet: boolean = false): Promise<boolean> {
+async function abortMigration(
+  project: ProjectInfo,
+  quiet: boolean = false // eslint-disable-line @typescript-eslint/no-inferrable-types
+): Promise<boolean> {
   const suspendedMigration = await validateSuspendedState(project);
   if (!suspendedMigration) return false;
 

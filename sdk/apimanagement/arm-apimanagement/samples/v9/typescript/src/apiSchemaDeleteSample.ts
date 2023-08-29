@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the schema configuration at the Api.
  *
  * @summary Deletes the schema configuration at the Api.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteApiSchema.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteApiSchema.json
  */
 async function apiManagementDeleteApiSchema() {
   const subscriptionId =

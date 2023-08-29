@@ -176,7 +176,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "a5d6aa74-b951-4d35-a383-a4789abe8ae5"
       },
-      "RequestBody": "scope=https%3A%2F%2Fgraph.microsoft.com%2F.default%20openid%20profile%20offline_access\u0026client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fgraph.microsoft.com%2F.default%20openid%20profile%20offline_access\u0026client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46",
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -212,7 +212,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "eea33921-3c42-4848-b2a1-756b73e187bb"
       },
-      "RequestBody": "scope=https%3A%2F%2Fgraph.microsoft.com%2F.default%20openid%20profile%20offline_access\u0026client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fgraph.microsoft.com%2F.default%20openid%20profile%20offline_access\u0026client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -252,7 +252,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "cdb6c728-fc1b-41ae-9ba3-1261b16a667f"
       },
-      "RequestBody": "scope=https%3A%2F%2Fgraph.microsoft.com%2F.default%20openid%20profile%20offline_access\u0026client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fgraph.microsoft.com%2F.default%20openid%20profile%20offline_access\u0026client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",

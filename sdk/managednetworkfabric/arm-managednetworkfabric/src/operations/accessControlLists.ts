@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricManagementServiceAPI";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   AccessControlList,
   AccessControlListsListByResourceGroupNextOptionalParams,
   AccessControlListsListByResourceGroupOptionalParams,
@@ -29,6 +35,14 @@ import {
   AccessControlListsUpdateOptionalParams,
   AccessControlListsUpdateResponse,
   AccessControlListsDeleteOptionalParams,
+  AccessControlListsDeleteResponse,
+  UpdateAdministrativeState,
+  AccessControlListsUpdateAdministrativeStateOptionalParams,
+  AccessControlListsUpdateAdministrativeStateResponse,
+  AccessControlListsResyncOptionalParams,
+  AccessControlListsResyncResponse,
+  AccessControlListsValidateConfigurationOptionalParams,
+  AccessControlListsValidateConfigurationResponse,
   AccessControlListsListByResourceGroupNextResponse,
   AccessControlListsListBySubscriptionNextResponse
 } from "../models";
@@ -172,26 +186,103 @@ export class AccessControlListsImpl implements AccessControlLists {
   /**
    * Implements Access Control List PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accessControlListName Name of the Access Control List
+   * @param accessControlListName Name of the Access Control List.
    * @param body Request payload.
    * @param options The options parameters.
    */
-  create(
+  async beginCreate(
+    resourceGroupName: string,
+    accessControlListName: string,
+    body: AccessControlList,
+    options?: AccessControlListsCreateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccessControlListsCreateResponse>,
+      AccessControlListsCreateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AccessControlListsCreateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accessControlListName, body, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AccessControlListsCreateResponse,
+      OperationState<AccessControlListsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Implements Access Control List PUT method.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginCreateAndWait(
     resourceGroupName: string,
     accessControlListName: string,
     body: AccessControlList,
     options?: AccessControlListsCreateOptionalParams
   ): Promise<AccessControlListsCreateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accessControlListName, body, options },
-      createOperationSpec
+    const poller = await this.beginCreate(
+      resourceGroupName,
+      accessControlListName,
+      body,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
    * Implements Access Control List GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accessControlListName Name of the Access Control List
+   * @param accessControlListName Name of the Access Control List.
    * @param options The options parameters.
    */
   get(
@@ -208,37 +299,188 @@ export class AccessControlListsImpl implements AccessControlLists {
   /**
    * API to update certain properties of the Access Control List resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accessControlListName Name of the Access Control List
+   * @param accessControlListName Name of the Access Control List.
    * @param body Access Control List properties to update.
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
+    resourceGroupName: string,
+    accessControlListName: string,
+    body: AccessControlListPatch,
+    options?: AccessControlListsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccessControlListsUpdateResponse>,
+      AccessControlListsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AccessControlListsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accessControlListName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AccessControlListsUpdateResponse,
+      OperationState<AccessControlListsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * API to update certain properties of the Access Control List resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param body Access Control List properties to update.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
     resourceGroupName: string,
     accessControlListName: string,
     body: AccessControlListPatch,
     options?: AccessControlListsUpdateOptionalParams
   ): Promise<AccessControlListsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accessControlListName, body, options },
-      updateOperationSpec
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      accessControlListName,
+      body,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
    * Implements Access Control List DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accessControlListName Name of the Access Control List
+   * @param accessControlListName Name of the Access Control List.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     accessControlListName: string,
     options?: AccessControlListsDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accessControlListName, options },
-      deleteOperationSpec
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccessControlListsDeleteResponse>,
+      AccessControlListsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AccessControlListsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accessControlListName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AccessControlListsDeleteResponse,
+      OperationState<AccessControlListsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Implements Access Control List DELETE method.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    accessControlListName: string,
+    options?: AccessControlListsDeleteOptionalParams
+  ): Promise<AccessControlListsDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      accessControlListName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -267,6 +509,284 @@ export class AccessControlListsImpl implements AccessControlLists {
       { options },
       listBySubscriptionOperationSpec
     );
+  }
+
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateAdministrativeState(
+    resourceGroupName: string,
+    accessControlListName: string,
+    body: UpdateAdministrativeState,
+    options?: AccessControlListsUpdateAdministrativeStateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccessControlListsUpdateAdministrativeStateResponse>,
+      AccessControlListsUpdateAdministrativeStateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AccessControlListsUpdateAdministrativeStateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accessControlListName, body, options },
+      spec: updateAdministrativeStateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AccessControlListsUpdateAdministrativeStateResponse,
+      OperationState<AccessControlListsUpdateAdministrativeStateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateAdministrativeStateAndWait(
+    resourceGroupName: string,
+    accessControlListName: string,
+    body: UpdateAdministrativeState,
+    options?: AccessControlListsUpdateAdministrativeStateOptionalParams
+  ): Promise<AccessControlListsUpdateAdministrativeStateResponse> {
+    const poller = await this.beginUpdateAdministrativeState(
+      resourceGroupName,
+      accessControlListName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param options The options parameters.
+   */
+  async beginResync(
+    resourceGroupName: string,
+    accessControlListName: string,
+    options?: AccessControlListsResyncOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccessControlListsResyncResponse>,
+      AccessControlListsResyncResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AccessControlListsResyncResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accessControlListName, options },
+      spec: resyncOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AccessControlListsResyncResponse,
+      OperationState<AccessControlListsResyncResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param options The options parameters.
+   */
+  async beginResyncAndWait(
+    resourceGroupName: string,
+    accessControlListName: string,
+    options?: AccessControlListsResyncOptionalParams
+  ): Promise<AccessControlListsResyncResponse> {
+    const poller = await this.beginResync(
+      resourceGroupName,
+      accessControlListName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param options The options parameters.
+   */
+  async beginValidateConfiguration(
+    resourceGroupName: string,
+    accessControlListName: string,
+    options?: AccessControlListsValidateConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccessControlListsValidateConfigurationResponse>,
+      AccessControlListsValidateConfigurationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AccessControlListsValidateConfigurationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accessControlListName, options },
+      spec: validateConfigurationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AccessControlListsValidateConfigurationResponse,
+      OperationState<AccessControlListsValidateConfigurationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param options The options parameters.
+   */
+  async beginValidateConfigurationAndWait(
+    resourceGroupName: string,
+    accessControlListName: string,
+    options?: AccessControlListsValidateConfigurationOptionalParams
+  ): Promise<AccessControlListsValidateConfigurationResponse> {
+    const poller = await this.beginValidateConfiguration(
+      resourceGroupName,
+      accessControlListName,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -310,6 +830,15 @@ const createOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
+      bodyMapper: Mappers.AccessControlList
+    },
+    201: {
+      bodyMapper: Mappers.AccessControlList
+    },
+    202: {
+      bodyMapper: Mappers.AccessControlList
+    },
+    204: {
       bodyMapper: Mappers.AccessControlList
     },
     default: {
@@ -358,6 +887,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.AccessControlList
     },
+    201: {
+      bodyMapper: Mappers.AccessControlList
+    },
+    202: {
+      bodyMapper: Mappers.AccessControlList
+    },
+    204: {
+      bodyMapper: Mappers.AccessControlList
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -379,8 +917,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.AccessControlListsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.AccessControlListsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.AccessControlListsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.AccessControlListsDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -430,6 +978,101 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}/updateAdministrativeState",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    201: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    202: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    204: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accessControlListName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const resyncOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}/resync",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    201: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    202: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    204: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accessControlListName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const validateConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}/validateConfiguration",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    201: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    202: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    204: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accessControlListName
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };

@@ -6,7 +6,7 @@ The Network Cloud APIs provide management of the on-premises clusters and their 
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/networkcloud/arm-networkcloud) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-networkcloud) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-networkcloud?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-networkcloud) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

@@ -183,10 +183,10 @@ export class CallConnection {
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
       operationContext: options.operationContext,
       customContext: {
-        sipHeaders: targetParticipant.sipHeaders,
-        voipHeaders: targetParticipant.voipHeaders,
+        sipHeaders: targetParticipant.customContext?.sipHeaders,
+        voipHeaders: targetParticipant.customContext?.voipHeaders,
       },
-      callbackUriOverride: options.callbackUrlOverride,
+      callbackUri: options.callbackUrl,
     };
     const optionsInternal = {
       ...options,
@@ -223,10 +223,11 @@ export class CallConnection {
       targetParticipant: communicationIdentifierModelConverter(targetParticipant),
       operationContext: options.operationContext,
       customContext: {
-        sipHeaders: options.sipHeaders,
-        voipHeaders: options.voipHeaders,
+        sipHeaders: options.customContext?.sipHeaders,
+        voipHeaders: options.customContext?.voipHeaders,
       },
-      callbackUriOverride: options.callbackUrlOverride,
+      callbackUri: options.callbackUrl,
+      transferee: options.transferee && communicationIdentifierModelConverter(options.transferee),
     };
     const optionsInternal = {
       ...options,
@@ -254,7 +255,7 @@ export class CallConnection {
     const removeParticipantRequest: RemoveParticipantRequest = {
       participantToRemove: communicationIdentifierModelConverter(participant),
       operationContext: options.operationContext,
-      callbackUriOverride: options.callbackUrlOverride,
+      callbackUri: options.callbackUrl,
     };
     const optionsInternal = {
       ...options,

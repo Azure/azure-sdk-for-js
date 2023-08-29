@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Regenerates the specified account key for the specified Cognitive Services account.
  *
  * @summary Regenerates the specified account key for the specified Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/RegenerateKey.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/RegenerateKey.json
  */
 async function regenerateKeys() {
   const subscriptionId =

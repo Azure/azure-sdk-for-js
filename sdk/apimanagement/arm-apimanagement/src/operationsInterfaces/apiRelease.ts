@@ -28,7 +28,7 @@ export interface ApiRelease {
    * Lists all releases of an API. An API release is created when making an API Revision current.
    * Releases are also used to rollback to previous revisions. Results will be paged and can be
    * constrained by the $top and $skip parameters.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -41,7 +41,7 @@ export interface ApiRelease {
   ): PagedAsyncIterableIterator<ApiReleaseContract>;
   /**
    * Returns the etag of an API release.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param releaseId Release identifier within an API. Must be unique in the current API Management
@@ -57,7 +57,7 @@ export interface ApiRelease {
   ): Promise<ApiReleaseGetEntityTagResponse>;
   /**
    * Returns the details of an API release.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param releaseId Release identifier within an API. Must be unique in the current API Management
@@ -73,7 +73,7 @@ export interface ApiRelease {
   ): Promise<ApiReleaseGetResponse>;
   /**
    * Creates a new Release for the API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param releaseId Release identifier within an API. Must be unique in the current API Management
@@ -91,7 +91,7 @@ export interface ApiRelease {
   ): Promise<ApiReleaseCreateOrUpdateResponse>;
   /**
    * Updates the details of the release of the API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param releaseId Release identifier within an API. Must be unique in the current API Management
@@ -112,7 +112,7 @@ export interface ApiRelease {
   ): Promise<ApiReleaseUpdateResponse>;
   /**
    * Deletes the specified release in the API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param releaseId Release identifier within an API. Must be unique in the current API Management
