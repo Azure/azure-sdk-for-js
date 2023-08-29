@@ -11,16 +11,16 @@ import {
   RetryOperationType,
   StandardAbortMessage,
   retry,
-} from "../src";
+} from "../src/index.js";
 import {
   DeferredPromiseWithCallback,
   getCodeDescriptionAndError,
   onMessageReceived,
-} from "../src/requestResponseLink";
+} from "../src/requestResponseLink.js";
 import { SinonSpy, fake, stub } from "sinon";
 import EventEmitter from "events";
 import { assert } from "chai";
-import { createConnectionStub } from "./utils/createConnectionStub";
+import { createConnectionStub } from "./utils/createConnectionStub.js";
 import { isError } from "@azure/core-util";
 
 const assertItemsLengthInResponsesMap = (

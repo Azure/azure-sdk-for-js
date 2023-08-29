@@ -3,7 +3,7 @@
 
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import chai from "chai";
-import { createSasTokenProvider } from "../src/index";
+import { createSasTokenProvider } from "../src/index.js";
 
 const should = chai.should();
 

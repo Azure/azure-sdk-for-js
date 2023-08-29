@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import * as chai from "chai";
-import { ConnectionConfig } from "../src";
-import { isSharedAccessSignature } from "../src/connectionConfig/connectionConfig";
+import { ConnectionConfig } from "../src/index.js";
+import { isSharedAccessSignature } from "../src/connectionConfig/connectionConfig.js";
 
 const should = chai.should();
 

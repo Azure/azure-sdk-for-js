@@ -3,10 +3,10 @@
 
 import * as chai from "chai";
 import { AbortController, AbortError } from "@azure/abort-controller";
-import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock";
+import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock.js";
 import { OperationTimeoutError } from "rhea-promise";
-import { delay } from "../src";
-import { settleAllTasks } from "./utils/utils";
+import { delay } from "../src/index.js";
+import { settleAllTasks } from "./utils/utils.js";
 
 const should = chai.should();
 

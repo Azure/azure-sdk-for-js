@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CONNREFUSED, TIMEOUT, resolve as dnsResolve } from "dns";
-import { logger } from "../log";
+import { logger } from "../log.js";
 
 /**
  * Checks whether a network connection is detected.
