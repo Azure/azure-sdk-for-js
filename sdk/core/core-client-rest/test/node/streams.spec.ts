@@ -3,7 +3,7 @@
 
 import * as https from "https";
 import { assert } from "chai";
-import { getClient } from "../../src/getClient";
+import { getClient } from "../../src/getClient.js";
 import sinon from "sinon";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { PassThrough } from "stream";

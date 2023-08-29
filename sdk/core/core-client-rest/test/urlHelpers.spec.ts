@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { buildBaseUrl, buildRequestUrl } from "../src/urlHelpers";
+import { buildBaseUrl, buildRequestUrl } from "../src/urlHelpers.js";
 import { assert } from "chai";
 
 describe("urlHelpers", () => {
