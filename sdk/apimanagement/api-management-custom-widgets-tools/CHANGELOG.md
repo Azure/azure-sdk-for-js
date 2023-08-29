@@ -10,7 +10,7 @@
     - config object for InteractiveBrowserCredential function from @azure/identity package, you can find the accepted values [here](https://learn.microsoft.com/javascript/api/@azure/identity/interactivebrowsercredentialnodeoptions?view=azure-node-latest)
     - by default: { redirectUri: "http://localhost:1337" }
   - rootLocal 
-    - relative path from where the script will load your local builded files
+    - relative path from where the script will load your local built files
     - by default: "./dist/"
 
 ### Breaking Changes
