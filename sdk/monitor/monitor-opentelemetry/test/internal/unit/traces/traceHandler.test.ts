@@ -29,14 +29,11 @@ describe("Library/TraceHandler", () => {
     sandbox = sinon.createSandbox();
   });
 
-  beforeEach(() => {
-    trace.disable();
-    metrics.disable();
-    (TraceHandler["_instance"] as any) = null;
-    (MetricHandler["_instance"] as any) = null;
-  });
-
   afterEach(() => {
+    metricHandler.shutdown();
+    handler.shutdown();
+    metrics.disable();
+    trace.disable();
     mockHttpServer.close();
     sandbox.restore();
     exportStub.resetHistory();
@@ -48,8 +45,8 @@ describe("Library/TraceHandler", () => {
 
   function createHandler(httpConfig: HttpInstrumentationConfig) {
     _config.instrumentationOptions.http = httpConfig;
-    metricHandler = MetricHandler.getInstance(_config);
-    handler = TraceHandler.getInstance(_config, metricHandler);
+    metricHandler = new MetricHandler(_config);
+    handler = new TraceHandler(_config, metricHandler);
     exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
       (spans: any, resultCallback: any) =>
         new Promise((resolve) => {
