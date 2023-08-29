@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new Private Endpoint Connection or updates an existing one.
  *
  * @summary Creates a new Private Endpoint Connection or updates an existing one.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementApproveOrRejectPrivateEndpointConnection.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementApproveOrRejectPrivateEndpointConnection.json
  */
 async function apiManagementApproveOrRejectPrivateEndpointConnection() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

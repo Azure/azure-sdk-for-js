@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified commitmentPlans associated with the Cognitive Services account.
  *
  * @summary Gets the specified commitmentPlans associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/GetCommitmentPlan.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/GetCommitmentPlan.json
  */
 async function getCommitmentPlan() {
   const subscriptionId =

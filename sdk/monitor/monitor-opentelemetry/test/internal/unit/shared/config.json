@@ -4,24 +4,7 @@
     "disableOfflineStorage": true,
     "storageDirectory": "testPath"
   },
-  "otlpTraceExporterConfig": {
-    "enabled": true,
-    "keepAlive": false,
-    "url": "someurlfortraces"
-  },
-  "otlpMetricExporterConfig": {
-    "enabled": true,
-    "keepAlive": true,
-    "url": "someurlformetrics"
-  },
-  "otlpLogExporterConfig": {
-    "enabled": true,
-    "keepAlive": true,
-    "url": "someurlforlogs"
-  },
   "samplingRatio": 0.3,
-  "enableAutoCollectPerformance": false,
-  "enableAutoCollectStandardMetrics": false,
   "instrumentationOptions": {
     "azureSdk": {
       "enabled": true

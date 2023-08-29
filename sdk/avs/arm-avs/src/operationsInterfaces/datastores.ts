@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Datastore,
   DatastoresListOptionalParams,
@@ -66,8 +66,8 @@ export interface Datastores {
     datastore: Datastore,
     options?: DatastoresCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatastoresCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatastoresCreateOrUpdateResponse>,
       DatastoresCreateOrUpdateResponse
     >
   >;
@@ -102,7 +102,7 @@ export interface Datastores {
     clusterName: string,
     datastoreName: string,
     options?: DatastoresDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a datastore in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

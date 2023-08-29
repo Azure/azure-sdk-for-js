@@ -188,6 +188,10 @@ export interface TransferToParticipantRequest {
   customContext?: CustomContext;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** Transferee is the participant who is transferring the call. */
+  transferee?: CommunicationIdentifierModel;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 /** The response payload for transferring the call. */
@@ -208,6 +212,8 @@ export interface PlayRequest {
   playOptions?: PlayOptionsInternal;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 export interface PlaySourceInternal {
@@ -270,6 +276,8 @@ export interface RecognizeRequest {
   recognizeOptions: RecognizeOptions;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 export interface RecognizeOptions {
@@ -320,6 +328,8 @@ export interface ContinuousDtmfRecognitionRequest {
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 export interface SendDtmfRequest {
@@ -329,6 +339,8 @@ export interface SendDtmfRequest {
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 export interface StartDialogRequest {
@@ -397,6 +409,8 @@ export interface AddParticipantRequest {
   operationContext?: string;
   /** Used by customer to send custom context to targets */
   customContext?: CustomContext;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 /** The response payload for adding participants to the call. */
@@ -413,6 +427,8 @@ export interface RemoveParticipantRequest {
   participantToRemove: CommunicationIdentifierModel;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 /** The response payload for removing participants of the call. */
@@ -601,6 +617,16 @@ export interface CallTransferAccepted {
   operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
+  /**
+   * Traffer target: the user that transferee will be transferred to
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transferTarget?: CommunicationIdentifierModel;
+  /**
+   * Transferee: the participant being transferred away
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transferee?: CommunicationIdentifierModel;
 }
 
 /** The call transfer failed event. */
@@ -1072,14 +1098,10 @@ export interface DialogSensitivityUpdate {
    */
   readonly dialogId?: string;
   /**
-   * SensitiveFlag data from the Conversation Conductor
+   * SensitiveMask
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly sensitiveFlag?: SensitiveFlag;
-}
-
-export interface SensitiveFlag {
-  recording?: number;
+  readonly sensitiveMask?: boolean;
 }
 
 export interface ContinuousDtmfRecognitionToneFailed {

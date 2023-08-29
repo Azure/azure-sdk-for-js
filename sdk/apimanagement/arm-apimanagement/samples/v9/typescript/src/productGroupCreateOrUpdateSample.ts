@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Adds the association between the specified developer group with the specified product.
  *
  * @summary Adds the association between the specified developer group with the specified product.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateProductGroup.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateProductGroup.json
  */
 async function apiManagementCreateProductGroup() {
   const subscriptionId =

@@ -24,7 +24,7 @@ import {
 export interface ApiIssueAttachment {
   /**
    * Lists all attachments for the Issue associated with the specified API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -39,7 +39,7 @@ export interface ApiIssueAttachment {
   ): PagedAsyncIterableIterator<IssueAttachmentContract>;
   /**
    * Gets the entity state (Etag) version of the issue Attachment for an API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -56,7 +56,7 @@ export interface ApiIssueAttachment {
   ): Promise<ApiIssueAttachmentGetEntityTagResponse>;
   /**
    * Gets the details of the issue Attachment for an API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -73,7 +73,7 @@ export interface ApiIssueAttachment {
   ): Promise<ApiIssueAttachmentGetResponse>;
   /**
    * Creates a new Attachment for the Issue in an API or updates an existing one.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -92,7 +92,7 @@ export interface ApiIssueAttachment {
   ): Promise<ApiIssueAttachmentCreateOrUpdateResponse>;
   /**
    * Deletes the specified comment from an Issue.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.

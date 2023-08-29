@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the details of the named value specified by its identifier.
  *
  * @summary Gets the details of the named value specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetNamedValue.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetNamedValue.json
  */
 async function apiManagementGetNamedValue() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function apiManagementGetNamedValue() {
  * This sample demonstrates how to Gets the details of the named value specified by its identifier.
  *
  * @summary Gets the details of the named value specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetNamedValueWithKeyVault.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetNamedValueWithKeyVault.json
  */
 async function apiManagementGetNamedValueWithKeyVault() {
   const subscriptionId =

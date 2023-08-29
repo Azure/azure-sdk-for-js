@@ -83,16 +83,29 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^10.0.1",
     "@types/node": "^14.0.0",
+<<<<<<< HEAD
     "@types/sinon": "^10.0.15",
     "cross-env": "^7.0.3",
     "eslint": "^8.43.0",
     "karma": "^6.4.2",
+=======
+    "@types/sinon": "^10.0.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^8.0.0",
+    "karma": "^6.2.0",
+>>>>>>> bee14349f858aae6ee55513422b4bd9f89d6062d
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
     "prettier": "^2.8.8",
     "rimraf": "^3.0.0",
+<<<<<<< HEAD
     "sinon": "^15.2.0",
     "typescript": "~5.0.0"
+=======
+    "sinon": "^15.0.0",
+    "typescript": "~5.0.0",
+    "ts-node": "^10.0.0"
+>>>>>>> bee14349f858aae6ee55513422b4bd9f89d6062d
   }
 }

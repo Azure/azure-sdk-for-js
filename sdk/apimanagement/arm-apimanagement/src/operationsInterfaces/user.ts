@@ -33,7 +33,7 @@ import {
 export interface User {
   /**
    * Lists a collection of registered users in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -44,7 +44,7 @@ export interface User {
   ): PagedAsyncIterableIterator<UserContract>;
   /**
    * Gets the entity state (Etag) version of the user specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -57,7 +57,7 @@ export interface User {
   ): Promise<UserGetEntityTagResponse>;
   /**
    * Gets the details of the user specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -70,7 +70,7 @@ export interface User {
   ): Promise<UserGetResponse>;
   /**
    * Creates or Updates a user.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param parameters Create or update parameters.
@@ -85,7 +85,7 @@ export interface User {
   ): Promise<UserCreateOrUpdateResponse>;
   /**
    * Updates the details of the user specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -103,7 +103,7 @@ export interface User {
   ): Promise<UserUpdateResponse>;
   /**
    * Deletes specific user.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -120,7 +120,7 @@ export interface User {
   /**
    * Retrieves a redirection URL containing an authentication token for signing a given user into the
    * developer portal.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -133,7 +133,7 @@ export interface User {
   ): Promise<UserGenerateSsoUrlResponse>;
   /**
    * Gets the Shared Access Authorization Token for the User.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param parameters Create Authorization Token parameters.

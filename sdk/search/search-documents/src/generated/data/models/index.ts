@@ -172,8 +172,8 @@ export interface SearchRequest {
   captions?: QueryCaptionType;
   /** The comma-separated list of field names used for semantic search. */
   semanticFields?: string;
-  /** The query parameters for vector and hybrid search queries. */
-  vector?: Vector;
+  /** The query parameters for multi-vector search queries. */
+  vectors?: Vector[];
 }
 
 /** The query parameters for vector and hybrid search queries. */

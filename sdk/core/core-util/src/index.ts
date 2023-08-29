@@ -17,3 +17,4 @@ export {
   isReactNative,
   isWebWorker,
 } from "./checkEnvironment.js";
+export { uint8ArrayToString, stringToUint8Array, EncodingType } from "./bytesEncoding.js";

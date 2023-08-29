@@ -41,7 +41,7 @@ export class GatewayApiImpl implements GatewayApi {
 
   /**
    * Lists a collection of the APIs associated with a gateway.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -135,7 +135,7 @@ export class GatewayApiImpl implements GatewayApi {
 
   /**
    * Lists a collection of the APIs associated with a gateway.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -155,7 +155,7 @@ export class GatewayApiImpl implements GatewayApi {
 
   /**
    * Checks that API entity specified by identifier is associated with the Gateway entity.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -177,7 +177,7 @@ export class GatewayApiImpl implements GatewayApi {
 
   /**
    * Adds an API to the specified Gateway.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -199,7 +199,7 @@ export class GatewayApiImpl implements GatewayApi {
 
   /**
    * Deletes the specified API from the specified Gateway.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -221,7 +221,7 @@ export class GatewayApiImpl implements GatewayApi {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -311,7 +311,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters36,
+  requestBody: Parameters.parameters45,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

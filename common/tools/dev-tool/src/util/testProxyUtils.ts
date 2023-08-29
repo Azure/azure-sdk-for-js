@@ -177,7 +177,7 @@ export async function runMigrationScript(
 ): Promise<void> {
   const migrationScriptLocation = path.join(
     await resolveRoot(),
-    "eng/common/testproxy/transition-scripts/generate-assets-json.ps1"
+    "eng/common/testproxy/onboarding/generate-assets-json.ps1"
   );
 
   const argv = [migrationScriptLocation, "-TestProxyExe", await getTestProxyExecutable()];

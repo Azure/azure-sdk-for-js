@@ -5,15 +5,9 @@ import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { isNode } from "@azure/core-util";
 import { KeyClient } from "../../src";
-import { assertThrowsAbortError, getServiceVersion } from "../public/utils/common";
+import { getServiceVersion } from "../public/utils/common";
 import { testPollerProperties } from "../public/utils/recorderUtils";
-import {
-  Recorder,
-  env,
-  isPlaybackMode,
-  isRecordMode,
-  isLiveMode,
-} from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { authenticate, envSetupForPlayback } from "../public/utils/testAuthentication";
 import TestClient from "../public/utils/testClient";
 import { RestoreKeyBackupPoller } from "../public/utils/lro/restore/poller";
@@ -89,17 +83,6 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can generate a backup of a key with requestOptions timeout", async function () {
-    if (!isLiveMode()) {
-      console.log("Timeout tests don't work on playback mode.");
-      this.skip();
-    }
-    await assertThrowsAbortError(async () => {
-      await client.backupKey("doesntmatter", { requestOptions: { timeout: 1 } });
-    });
-  });
-
   it("fails to generate a backup of a non-existing key", async function (this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let error;
@@ -142,23 +125,6 @@ describe("Keys client - restore keys and recover backups", () => {
       await testClient.flushKey(keyName);
     });
   }
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can restore a key with requestOptions timeout", async function (this: Context) {
-    if (!isLiveMode()) {
-      console.log("Timeout tests don't work on playback mode.");
-      this.skip();
-    }
-
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await client.createKey(keyName, "RSA");
-    const backup = await client.backupKey(keyName);
-    await testClient.flushKey(keyName);
-
-    await assertThrowsAbortError(async () => {
-      await client.restoreKeyBackup(backup!, { requestOptions: { timeout: 1 } });
-    });
-  });
 
   it("fails to restore a key with a malformed backup", async function () {
     const backup = new Uint8Array(8693);

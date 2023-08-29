@@ -20,7 +20,7 @@ import { NotificationHubJob, NotificationHubJobPoller } from "./models/notificat
 import { NotificationHubsClientContext, createClientContext } from "./api/clientContext.js";
 import { RegistrationDescription, RegistrationChannel } from "./models/registration.js";
 import { Notification } from "./models/notification.js";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { beginSubmitNotificationHubJob as beginSubmitNotificationHubJobMethod } from "./api/beginSubmitNotificationHubJob.js";
 import { cancelScheduledNotification as cancelScheduledNotificationMethod } from "./api/cancelScheduledNotification.js";

@@ -46,7 +46,7 @@ export class CacheImpl implements Cache {
 
   /**
    * Lists a collection of all external Caches in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -130,7 +130,7 @@ export class CacheImpl implements Cache {
 
   /**
    * Lists a collection of all external Caches in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -147,7 +147,7 @@ export class CacheImpl implements Cache {
 
   /**
    * Gets the entity state (Etag) version of the Cache specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param cacheId Identifier of the Cache entity. Cache identifier (should be either 'default' or valid
    *                Azure region identifier).
@@ -167,7 +167,7 @@ export class CacheImpl implements Cache {
 
   /**
    * Gets the details of the Cache specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param cacheId Identifier of the Cache entity. Cache identifier (should be either 'default' or valid
    *                Azure region identifier).
@@ -187,7 +187,7 @@ export class CacheImpl implements Cache {
 
   /**
    * Creates or updates an External Cache to be used in Api Management instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param cacheId Identifier of the Cache entity. Cache identifier (should be either 'default' or valid
    *                Azure region identifier).
@@ -209,7 +209,7 @@ export class CacheImpl implements Cache {
 
   /**
    * Updates the details of the cache specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param cacheId Identifier of the Cache entity. Cache identifier (should be either 'default' or valid
    *                Azure region identifier).
@@ -234,7 +234,7 @@ export class CacheImpl implements Cache {
 
   /**
    * Deletes specific Cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param cacheId Identifier of the Cache entity. Cache identifier (should be either 'default' or valid
    *                Azure region identifier).
@@ -257,7 +257,7 @@ export class CacheImpl implements Cache {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -363,7 +363,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters21,
+  requestBody: Parameters.parameters30,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -393,7 +393,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters22,
+  requestBody: Parameters.parameters31,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

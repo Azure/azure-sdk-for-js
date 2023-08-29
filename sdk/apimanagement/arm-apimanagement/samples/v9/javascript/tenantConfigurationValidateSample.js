@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to This operation validates the changes in the specified Git branch. This is a long running operation and could take several minutes to complete.
  *
  * @summary This operation validates the changes in the specified Git branch. This is a long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementTenantConfigurationValidate.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementTenantConfigurationValidate.json
  */
 async function apiManagementTenantConfigurationValidate() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

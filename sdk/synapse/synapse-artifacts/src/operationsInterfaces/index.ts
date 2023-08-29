@@ -7,6 +7,7 @@
  */
 
 export * from "./linkConnectionOperations";
+export * from "./runNotebook";
 export * from "./kqlScripts";
 export * from "./kqlScriptOperations";
 export * from "./metastore";

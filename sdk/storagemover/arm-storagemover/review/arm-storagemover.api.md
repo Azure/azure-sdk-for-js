@@ -26,7 +26,6 @@ export interface Agent extends ProxyResource {
     readonly memoryInMB?: number;
     readonly numberOfCores?: number;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
     readonly uptimeInSeconds?: number;
 }
 
@@ -101,7 +100,14 @@ export interface AgentUpdateParameters {
     description?: string;
 }
 
-// @public (undocumented)
+// @public
+export interface AzureKeyVaultSmbCredentials extends Credentials {
+    passwordUri?: string;
+    type: "AzureKeyVaultSmb";
+    usernameUri?: string;
+}
+
+// @public
 export interface AzureStorageBlobContainerEndpointProperties extends EndpointBaseProperties {
     blobContainerName: string;
     endpointType: "AzureStorageBlobContainer";
@@ -110,6 +116,19 @@ export interface AzureStorageBlobContainerEndpointProperties extends EndpointBas
 
 // @public (undocumented)
 export interface AzureStorageBlobContainerEndpointUpdateProperties extends EndpointBaseUpdateProperties {
+    endpointType: "AzureStorageBlobContainer";
+}
+
+// @public
+export interface AzureStorageSmbFileShareEndpointProperties extends EndpointBaseProperties {
+    endpointType: "AzureStorageSmbFileShare";
+    fileShareName: string;
+    storageAccountResourceId: string;
+}
+
+// @public
+export interface AzureStorageSmbFileShareEndpointUpdateProperties extends EndpointBaseUpdateProperties {
+    endpointType: "AzureStorageSmbFileShare";
 }
 
 // @public
@@ -119,30 +138,44 @@ export type CopyMode = string;
 export type CreatedByType = string;
 
 // @public
+export interface Credentials {
+    type: "AzureKeyVaultSmb";
+}
+
+// @public (undocumented)
+export type CredentialsUnion = Credentials | AzureKeyVaultSmbCredentials;
+
+// @public
+export type CredentialType = string;
+
+// @public
 export interface Endpoint extends ProxyResource {
     properties: EndpointBasePropertiesUnion;
-    readonly systemData?: SystemData;
 }
 
 // @public
 export interface EndpointBaseProperties {
     description?: string;
-    endpointType: "AzureStorageBlobContainer" | "NfsMount";
+    endpointType: "AzureStorageBlobContainer" | "NfsMount" | "AzureStorageSmbFileShare" | "SmbMount";
     readonly provisioningState?: ProvisioningState;
 }
 
 // @public (undocumented)
-export type EndpointBasePropertiesUnion = EndpointBaseProperties | AzureStorageBlobContainerEndpointProperties | NfsMountEndpointProperties;
+export type EndpointBasePropertiesUnion = EndpointBaseProperties | AzureStorageBlobContainerEndpointProperties | NfsMountEndpointProperties | AzureStorageSmbFileShareEndpointProperties | SmbMountEndpointProperties;
 
 // @public
 export interface EndpointBaseUpdateParameters {
-    properties?: EndpointBaseUpdateProperties;
+    properties?: EndpointBaseUpdatePropertiesUnion;
 }
 
 // @public
 export interface EndpointBaseUpdateProperties {
     description?: string;
+    endpointType: "AzureStorageBlobContainer" | "NfsMount" | "AzureStorageSmbFileShare" | "SmbMount";
 }
+
+// @public (undocumented)
+export type EndpointBaseUpdatePropertiesUnion = EndpointBaseUpdateProperties | AzureStorageBlobContainerEndpointUpdateProperties | NfsMountEndpointUpdateProperties | AzureStorageSmbFileShareEndpointUpdateProperties | SmbMountEndpointUpdateProperties;
 
 // @public
 export interface EndpointList {
@@ -240,7 +273,6 @@ export interface JobDefinition extends ProxyResource {
     sourceName: string;
     readonly sourceResourceId?: string;
     sourceSubpath?: string;
-    readonly systemData?: SystemData;
     targetName: string;
     readonly targetResourceId?: string;
     targetSubpath?: string;
@@ -353,7 +385,6 @@ export interface JobRun extends ProxyResource {
     readonly sourceProperties?: Record<string, unknown>;
     readonly sourceResourceId?: string;
     readonly status?: JobRunStatus;
-    readonly systemData?: SystemData;
     readonly targetName?: string;
     readonly targetProperties?: Record<string, unknown>;
     readonly targetResourceId?: string;
@@ -440,9 +471,16 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownCredentialType {
+    AzureKeyVaultSmb = "AzureKeyVaultSmb"
+}
+
+// @public
 export enum KnownEndpointType {
     AzureStorageBlobContainer = "AzureStorageBlobContainer",
-    NfsMount = "NfsMount"
+    AzureStorageSmbFileShare = "AzureStorageSmbFileShare",
+    NfsMount = "NfsMount",
+    SmbMount = "SmbMount"
 }
 
 // @public
@@ -483,7 +521,7 @@ export enum KnownProvisioningState {
     Succeeded = "Succeeded"
 }
 
-// @public (undocumented)
+// @public
 export interface NfsMountEndpointProperties extends EndpointBaseProperties {
     endpointType: "NfsMount";
     export: string;
@@ -493,6 +531,7 @@ export interface NfsMountEndpointProperties extends EndpointBaseProperties {
 
 // @public (undocumented)
 export interface NfsMountEndpointUpdateProperties extends EndpointBaseUpdateProperties {
+    endpointType: "NfsMount";
 }
 
 // @public
@@ -547,7 +586,6 @@ export type Origin = string;
 export interface Project extends ProxyResource {
     description?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -623,14 +661,28 @@ export interface ProxyResource extends Resource {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface SmbMountEndpointProperties extends EndpointBaseProperties {
+    credentials?: AzureKeyVaultSmbCredentials;
+    endpointType: "SmbMount";
+    host: string;
+    shareName: string;
+}
+
+// @public
+export interface SmbMountEndpointUpdateProperties extends EndpointBaseUpdateProperties {
+    credentials?: AzureKeyVaultSmbCredentials;
+    endpointType: "SmbMount";
 }
 
 // @public
 export interface StorageMover extends TrackedResource {
     description?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
 }
 
 // @public (undocumented)

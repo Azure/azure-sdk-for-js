@@ -520,6 +520,19 @@ export const TransferToParticipantRequest: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      transferee: {
+        serializedName: "transferee",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -573,6 +586,12 @@ export const PlayRequest: coreClient.CompositeMapper = {
       },
       operationContext: {
         serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
         type: {
           name: "String"
         }
@@ -755,6 +774,12 @@ export const RecognizeRequest: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -932,6 +957,12 @@ export const ContinuousDtmfRecognitionRequest: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -963,6 +994,12 @@ export const SendDtmfRequest: coreClient.CompositeMapper = {
       },
       operationContext: {
         serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
         type: {
           name: "String"
         }
@@ -1156,6 +1193,12 @@ export const AddParticipantRequest: coreClient.CompositeMapper = {
           name: "Composite",
           className: "CustomContext"
         }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1197,6 +1240,12 @@ export const RemoveParticipantRequest: coreClient.CompositeMapper = {
       },
       operationContext: {
         serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
         type: {
           name: "String"
         }
@@ -1711,6 +1760,20 @@ export const CallTransferAccepted: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ResultInformation"
+        }
+      },
+      transferTarget: {
+        serializedName: "transferTarget",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      transferee: {
+        serializedName: "transferee",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
         }
       }
     }
@@ -2784,26 +2847,11 @@ export const DialogSensitivityUpdate: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      sensitiveFlag: {
-        serializedName: "sensitiveFlag",
+      sensitiveMask: {
+        serializedName: "sensitiveMask",
+        readOnly: true,
         type: {
-          name: "Composite",
-          className: "SensitiveFlag"
-        }
-      }
-    }
-  }
-};
-
-export const SensitiveFlag: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SensitiveFlag",
-    modelProperties: {
-      recording: {
-        serializedName: "recording",
-        type: {
-          name: "Number"
+          name: "Boolean"
         }
       }
     }

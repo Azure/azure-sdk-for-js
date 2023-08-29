@@ -8,24 +8,26 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Dynatrace account API Key */
-export interface AccountInfoSecure {
-  /**
-   * Account Id of the account this environment is linked to
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accountId?: string;
-  /**
-   * API Key of the user account
-   * This value contains a credential. Consider obscuring before showing to users
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly apiKey?: string;
-  /**
-   * Region in which the account is created
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly regionId?: string;
+/** List of all the resources being monitored by Dynatrace monitor resource */
+export interface MonitoredResourceListResponse {
+  /** The items on this page */
+  value?: MonitoredResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Details of resource being monitored by Dynatrace monitor resource */
+export interface MonitoredResource {
+  /** The ARM id of the resource. */
+  id?: string;
+  /** Flag indicating if resource is sending metrics to Dynatrace. */
+  sendingMetrics?: SendingMetricsStatus;
+  /** Reason for why the resource is sending metrics (or why it is not sending). */
+  reasonForMetricsStatus?: string;
+  /** Flag indicating if resource is sending logs to Dynatrace. */
+  sendingLogs?: SendingLogsStatus;
+  /** Reason for why the resource is sending logs (or why it is not sending). */
+  reasonForLogsStatus?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -75,28 +77,6 @@ export interface ErrorAdditionalInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly info?: Record<string, unknown>;
-}
-
-/** List of all the resources being monitored by Dynatrace monitor resource */
-export interface MonitoredResourceListResponse {
-  /** The items on this page */
-  value?: MonitoredResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-/** Details of resource being monitored by Dynatrace monitor resource */
-export interface MonitoredResource {
-  /** The ARM id of the resource. */
-  id?: string;
-  /** Flag indicating if resource is sending metrics to Dynatrace. */
-  sendingMetrics?: SendingMetricsStatus;
-  /** Reason for why the resource is sending metrics (or why it is not sending). */
-  reasonForMetricsStatus?: string;
-  /** Flag indicating if resource is sending logs to Dynatrace. */
-  sendingLogs?: SendingLogsStatus;
-  /** Reason for why the resource is sending logs (or why it is not sending). */
-  reasonForLogsStatus?: string;
 }
 
 /** Response of payload to be passed while installing VM agent. */
@@ -247,16 +227,6 @@ export interface Resource {
 export interface MonitorResourceUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** Status of the monitor. */
-  monitoringStatus?: MonitoringStatus;
-  /** Marketplace subscription status. */
-  marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
-  /** Properties of the Dynatrace environment. */
-  dynatraceEnvironmentProperties?: DynatraceEnvironmentProperties;
-  /** User info. */
-  userInfo?: UserInfo;
-  /** Billing plan information. */
-  planData?: PlanData;
 }
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -358,16 +328,10 @@ export interface FilteringTag {
 
 /** Set of rules for sending metrics for the Monitor resource. */
 export interface MetricRules {
+  /** Flag specifying if metrics from Azure resources should be sent for the Monitor resource. */
+  sendingMetrics?: SendingMetricsStatus;
   /** List of filtering tags to be used for capturing metrics. If empty, all resources will be captured. If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags. */
   filteringTags?: FilteringTag[];
-}
-
-/** The updatable properties of the TagRule. */
-export interface TagRuleUpdate {
-  /** Set of rules for sending logs for the Monitor resource. */
-  logRules?: LogRules;
-  /** Set of rules for sending metrics for the Monitor resource. */
-  metricRules?: MetricRules;
 }
 
 /** The response of a TagRule list operation. */
@@ -376,6 +340,22 @@ export interface TagRuleListResult {
   value: TagRule[];
   /** The link to the next page of items */
   nextLink?: string;
+}
+
+/** Request for getting Marketplace SaaS resource details for a tenant Id */
+export interface MarketplaceSaaSResourceDetailsRequest {
+  /** Tenant Id */
+  tenantId: string;
+}
+
+/** Marketplace SaaS resource details linked to the given tenant Id */
+export interface MarketplaceSaaSResourceDetailsResponse {
+  /** Id of the Marketplace SaaS Resource */
+  marketplaceSaaSResourceId?: string;
+  /** Id of the plan */
+  planId?: string;
+  /** Marketplace subscription status */
+  marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
 }
 
 /** The response of a DynatraceSingleSignOnResource list operation. */
@@ -416,6 +396,12 @@ export interface VMInfo {
   hostName?: string;
 }
 
+/** Response of get metrics status operation */
+export interface MetricsStatusResponse {
+  /** Azure resource IDs */
+  azureResourceIds?: string[];
+}
+
 /** Response of a list App Services Operation. */
 export interface AppServiceListResponse {
   /** The items on this page */
@@ -449,7 +435,7 @@ export interface AppServiceInfo {
 /** Request for getting sso details for a user */
 export interface SSODetailsRequest {
   /** user principal id of the user */
-  userPrincipal?: string;
+  userPrincipal: string;
 }
 
 /** SSO details from the Dynatrace partner */
@@ -469,11 +455,11 @@ export interface SSODetailsResponse {
 /** Request for getting all the linkable environments for a user */
 export interface LinkableEnvironmentRequest {
   /** Tenant Id of the user in which they want to link the environment */
-  tenantId?: string;
+  tenantId: string;
   /** user principal id of the user */
-  userPrincipal?: string;
+  userPrincipal: string;
   /** Azure region in which we want to link the environment */
-  region?: string;
+  region: string;
 }
 
 /** Response for getting all the linkable environments */
@@ -1035,13 +1021,6 @@ export enum KnownSSOStatus {
 export type SSOStatus = string;
 
 /** Optional parameters. */
-export interface MonitorsGetAccountCredentialsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getAccountCredentials operation. */
-export type MonitorsGetAccountCredentialsResponse = AccountInfoSecure;
-
-/** Optional parameters. */
 export interface MonitorsListMonitoredResourcesOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1105,11 +1084,25 @@ export interface MonitorsListByResourceGroupOptionalParams
 export type MonitorsListByResourceGroupResponse = MonitorResourceListResult;
 
 /** Optional parameters. */
+export interface MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMarketplaceSaaSResourceDetails operation. */
+export type MonitorsGetMarketplaceSaaSResourceDetailsResponse = MarketplaceSaaSResourceDetailsResponse;
+
+/** Optional parameters. */
 export interface MonitorsListHostsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHosts operation. */
 export type MonitorsListHostsResponse = VMHostsListResponse;
+
+/** Optional parameters. */
+export interface MonitorsGetMetricStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMetricStatus operation. */
+export type MonitorsGetMetricStatusResponse = MetricsStatusResponse;
 
 /** Optional parameters. */
 export interface MonitorsListAppServicesOptionalParams
@@ -1209,13 +1202,6 @@ export interface TagRulesCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type TagRulesCreateOrUpdateResponse = TagRule;
-
-/** Optional parameters. */
-export interface TagRulesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type TagRulesUpdateResponse = TagRule;
 
 /** Optional parameters. */
 export interface TagRulesDeleteOptionalParams

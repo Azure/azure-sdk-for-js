@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all the Global Policy definitions of the Api Management service.
  *
  * @summary Lists all the Global Policy definitions of the Api Management service.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListPolicies.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListPolicies.json
  */
 async function apiManagementListPolicies() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

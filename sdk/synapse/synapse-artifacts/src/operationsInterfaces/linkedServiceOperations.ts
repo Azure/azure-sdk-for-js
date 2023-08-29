@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LinkedServiceResource,
   LinkedServiceGetLinkedServicesByWorkspaceOptionalParams,
@@ -41,8 +41,8 @@ export interface LinkedServiceOperations {
     linkedService: LinkedServiceResource,
     options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkedServiceCreateOrUpdateLinkedServiceResponse>,
+    SimplePollerLike<
+      OperationState<LinkedServiceCreateOrUpdateLinkedServiceResponse>,
       LinkedServiceCreateOrUpdateLinkedServiceResponse
     >
   >;
@@ -74,7 +74,7 @@ export interface LinkedServiceOperations {
   beginDeleteLinkedService(
     linkedServiceName: string,
     options?: LinkedServiceDeleteLinkedServiceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a linked service.
    * @param linkedServiceName The linked service name.
@@ -94,7 +94,7 @@ export interface LinkedServiceOperations {
     linkedServiceName: string,
     request: ArtifactRenameRequest,
     options?: LinkedServiceRenameLinkedServiceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a linked service.
    * @param linkedServiceName The linked service name.

@@ -3,10 +3,10 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 
 import { DeletedKey, KeyClient } from "../../src";
-import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
+import { getServiceVersion } from "./utils/common";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -91,24 +91,5 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
     assert.ok(resumePoller.getOperationState().isCompleted);
 
     await testClient.flushKey(keyName);
-  });
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can recover a deleted key with requestOptions timeout", async function (this: Context) {
-    if (!isLiveMode()) {
-      console.log("Timeout tests don't work on playback mode.");
-      this.skip();
-    }
-
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await client.createKey(keyName, "RSA");
-    const deletePoller = await client.beginDeleteKey(keyName, testPollerProperties);
-    await deletePoller.pollUntilDone();
-    await assertThrowsAbortError(async () => {
-      await client.beginRecoverDeletedKey(keyName, {
-        requestOptions: { timeout: 1 },
-        ...testPollerProperties,
-      });
-    });
   });
 });

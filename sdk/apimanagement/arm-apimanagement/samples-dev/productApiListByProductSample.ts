@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists a collection of the APIs associated with a product.
  *
  * @summary Lists a collection of the APIs associated with a product.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListProductApis.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListProductApis.json
  */
 async function apiManagementListProductApis() {
   const subscriptionId =

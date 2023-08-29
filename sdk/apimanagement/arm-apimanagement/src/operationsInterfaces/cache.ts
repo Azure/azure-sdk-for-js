@@ -27,7 +27,7 @@ import {
 export interface Cache {
   /**
    * Lists a collection of all external Caches in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -38,7 +38,7 @@ export interface Cache {
   ): PagedAsyncIterableIterator<CacheContract>;
   /**
    * Gets the entity state (Etag) version of the Cache specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param cacheId Identifier of the Cache entity. Cache identifier (should be either 'default' or valid
    *                Azure region identifier).
@@ -52,7 +52,7 @@ export interface Cache {
   ): Promise<CacheGetEntityTagResponse>;
   /**
    * Gets the details of the Cache specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param cacheId Identifier of the Cache entity. Cache identifier (should be either 'default' or valid
    *                Azure region identifier).
@@ -66,7 +66,7 @@ export interface Cache {
   ): Promise<CacheGetResponse>;
   /**
    * Creates or updates an External Cache to be used in Api Management instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param cacheId Identifier of the Cache entity. Cache identifier (should be either 'default' or valid
    *                Azure region identifier).
@@ -82,7 +82,7 @@ export interface Cache {
   ): Promise<CacheCreateOrUpdateResponse>;
   /**
    * Updates the details of the cache specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param cacheId Identifier of the Cache entity. Cache identifier (should be either 'default' or valid
    *                Azure region identifier).
@@ -101,7 +101,7 @@ export interface Cache {
   ): Promise<CacheUpdateResponse>;
   /**
    * Deletes specific Cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param cacheId Identifier of the Cache entity. Cache identifier (should be either 'default' or valid
    *                Azure region identifier).

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the configuration details of the identity Provider configured in specified service instance.
  *
  * @summary Gets the configuration details of the identity Provider configured in specified service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetIdentityProvider.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetIdentityProvider.json
  */
 async function apiManagementGetIdentityProvider() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

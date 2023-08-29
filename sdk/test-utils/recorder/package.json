@@ -88,8 +88,13 @@
     "@types/mocha": "^10.0.1",
     "@types/node": "^14.0.0",
     "@types/uuid": "^8.3.1",
+<<<<<<< HEAD
     "chai": "^4.3.7",
     "concurrently": "^7.1.0",
+=======
+    "chai": "^4.2.0",
+    "concurrently": "^8.2.0",
+>>>>>>> bee14349f858aae6ee55513422b4bd9f89d6062d
     "cross-env": "7.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",

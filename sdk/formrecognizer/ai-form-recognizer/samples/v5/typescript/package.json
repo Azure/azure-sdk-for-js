@@ -1,0 +1,41 @@
+{
+  "name": "@azure-samples/ai-form-recognizer-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure AI Document Intelligence client library samples for TypeScript",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/formrecognizer/ai-form-recognizer"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer",
+  "dependencies": {
+    "@azure/ai-form-recognizer": "latest",
+    "dotenv": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.0",
+    "typescript": "~5.0.0",
+    "rimraf": "latest"
+  }
+}

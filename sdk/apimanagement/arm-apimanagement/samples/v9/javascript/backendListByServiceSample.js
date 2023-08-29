@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists a collection of backends in the specified service instance.
  *
  * @summary Lists a collection of backends in the specified service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListBackends.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListBackends.json
  */
 async function apiManagementListBackends() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

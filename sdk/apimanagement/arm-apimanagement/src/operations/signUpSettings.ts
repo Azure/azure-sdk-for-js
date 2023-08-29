@@ -36,7 +36,7 @@ export class SignUpSettingsImpl implements SignUpSettings {
 
   /**
    * Gets the entity state (Etag) version of the SignUpSettings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -53,7 +53,7 @@ export class SignUpSettingsImpl implements SignUpSettings {
 
   /**
    * Get Sign Up Settings for the Portal
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -70,7 +70,7 @@ export class SignUpSettingsImpl implements SignUpSettings {
 
   /**
    * Update Sign-Up settings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    *                response of the GET request or it should be * for unconditional update.
@@ -92,7 +92,7 @@ export class SignUpSettingsImpl implements SignUpSettings {
 
   /**
    * Create or Update Sign-Up settings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Create or update parameters.
    * @param options The options parameters.
@@ -167,7 +167,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters50,
+  requestBody: Parameters.parameters61,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -195,7 +195,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters50,
+  requestBody: Parameters.parameters61,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

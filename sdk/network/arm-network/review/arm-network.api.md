@@ -74,6 +74,7 @@ export interface ActiveDefaultSecurityAdminRule extends ActiveBaseSecurityAdminR
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
 }
@@ -89,6 +90,7 @@ export interface ActiveSecurityAdminRule extends ActiveBaseSecurityAdminRule {
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
 }
@@ -124,6 +126,7 @@ export interface AdminRule extends BaseAdminRule {
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
 }
@@ -133,6 +136,7 @@ export interface AdminRuleCollection extends ChildResource {
     appliesToGroups?: NetworkManagerSecurityGroupItem[];
     description?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
 
@@ -254,6 +258,9 @@ export interface AdminRulesListOptionalParams extends coreClient.OperationOption
 export type AdminRulesListResponse = AdminRuleListResult;
 
 // @public
+export type AdminState = string;
+
+// @public
 export interface ApplicationGateway extends Resource {
     authenticationCertificates?: ApplicationGatewayAuthenticationCertificate[];
     autoscaleConfiguration?: ApplicationGatewayAutoscaleConfiguration;
@@ -261,6 +268,7 @@ export interface ApplicationGateway extends Resource {
     backendHttpSettingsCollection?: ApplicationGatewayBackendHttpSettings[];
     backendSettingsCollection?: ApplicationGatewayBackendSettings[];
     customErrorConfigurations?: ApplicationGatewayCustomError[];
+    readonly defaultPredefinedSslPolicy?: ApplicationGatewaySslPolicyName;
     enableFips?: boolean;
     enableHttp2?: boolean;
     readonly etag?: string;
@@ -1933,6 +1941,7 @@ export interface BackendAddressPool extends SubResource {
     readonly outboundRule?: SubResource;
     readonly outboundRules?: SubResource[];
     readonly provisioningState?: ProvisioningState;
+    syncMode?: SyncMode;
     tunnelInterfaces?: GatewayLoadBalancerTunnelInterface[];
     readonly type?: string;
     virtualNetwork?: SubResource;
@@ -2249,6 +2258,7 @@ export interface ConfigurationGroup {
     description?: string;
     id?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
 }
 
 // @public
@@ -2610,6 +2620,7 @@ export interface ConnectivityConfiguration extends ChildResource {
     hubs?: Hub[];
     isGlobal?: IsGlobal;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
 
@@ -3061,6 +3072,7 @@ export interface DefaultAdminRule extends BaseAdminRule {
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
 }
@@ -3287,6 +3299,7 @@ export interface EffectiveConnectivityConfiguration {
     id?: string;
     isGlobal?: IsGlobal;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
 }
 
 // @public
@@ -3301,6 +3314,7 @@ export interface EffectiveDefaultSecurityAdminRule extends EffectiveBaseSecurity
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
 }
@@ -3397,6 +3411,7 @@ export interface EffectiveSecurityAdminRule extends EffectiveBaseSecurityAdminRu
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
 }
@@ -5950,6 +5965,12 @@ export enum KnownAdminRuleKind {
 }
 
 // @public
+export enum KnownAdminState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownApplicationGatewayBackendHealthServerHealth {
     Down = "Down",
     Draining = "Draining",
@@ -5977,7 +5998,6 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
     HttpStatus404 = "HttpStatus404",
     HttpStatus405 = "HttpStatus405",
     HttpStatus408 = "HttpStatus408",
-    HttpStatus499 = "HttpStatus499",
     HttpStatus500 = "HttpStatus500",
     HttpStatus502 = "HttpStatus502",
     HttpStatus503 = "HttpStatus503",
@@ -6050,6 +6070,7 @@ export enum KnownApplicationGatewayRuleSetStatusOptions {
 
 // @public
 export enum KnownApplicationGatewaySkuName {
+    Basic = "Basic",
     StandardLarge = "Standard_Large",
     StandardMedium = "Standard_Medium",
     StandardSmall = "Standard_Small",
@@ -6117,6 +6138,7 @@ export enum KnownApplicationGatewaySslProtocol {
 
 // @public
 export enum KnownApplicationGatewayTier {
+    Basic = "Basic",
     Standard = "Standard",
     StandardV2 = "Standard_v2",
     WAF = "WAF",
@@ -7194,6 +7216,12 @@ export enum KnownSeverity {
 }
 
 // @public
+export enum KnownSyncMode {
+    Automatic = "Automatic",
+    Manual = "Manual"
+}
+
+// @public
 export enum KnownSyncRemoteAddressSpace {
     True = "true"
 }
@@ -7910,6 +7938,7 @@ export interface LoadBalancers {
     get(resourceGroupName: string, loadBalancerName: string, options?: LoadBalancersGetOptionalParams): Promise<LoadBalancersGetResponse>;
     list(resourceGroupName: string, options?: LoadBalancersListOptionalParams): PagedAsyncIterableIterator<LoadBalancer>;
     listAll(options?: LoadBalancersListAllOptionalParams): PagedAsyncIterableIterator<LoadBalancer>;
+    migrateToIpBased(groupName: string, loadBalancerName: string, options?: LoadBalancersMigrateToIpBasedOptionalParams): Promise<LoadBalancersMigrateToIpBasedResponse>;
     updateTags(resourceGroupName: string, loadBalancerName: string, parameters: TagsObject, options?: LoadBalancersUpdateTagsOptionalParams): Promise<LoadBalancersUpdateTagsResponse>;
 }
 
@@ -7984,6 +8013,14 @@ export interface LoadBalancersListOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type LoadBalancersListResponse = LoadBalancerListResult;
+
+// @public
+export interface LoadBalancersMigrateToIpBasedOptionalParams extends coreClient.OperationOptions {
+    parameters?: MigrateLoadBalancerToIpBasedRequest;
+}
+
+// @public
+export type LoadBalancersMigrateToIpBasedResponse = MigratedPools;
 
 // @public
 export interface LoadBalancersSwapPublicIpAddressesOptionalParams extends coreClient.OperationOptions {
@@ -8231,6 +8268,16 @@ export interface MetricSpecification {
 }
 
 // @public
+export interface MigratedPools {
+    migratedPools?: string[];
+}
+
+// @public
+export interface MigrateLoadBalancerToIpBasedRequest {
+    pools?: string[];
+}
+
+// @public
 export interface NatGateway extends Resource {
     readonly etag?: string;
     idleTimeoutInMinutes?: number;
@@ -8424,6 +8471,7 @@ export interface NetworkConfigurationDiagnosticResult {
 export interface NetworkGroup extends ChildResource {
     description?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
 
@@ -8912,6 +8960,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: NetworkManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: NetworkManagementClientOptionalParams);
     // (undocumented)
     adminRuleCollections: AdminRuleCollections;
     // (undocumented)
@@ -9131,7 +9180,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     subnets: Subnets;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     subscriptionNetworkManagerConnections: SubscriptionNetworkManagerConnections;
     supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: SupportedSecurityProvidersOptionalParams): Promise<SupportedSecurityProvidersResponse>;
@@ -9208,6 +9257,7 @@ export interface NetworkManager extends Resource {
     networkManagerScopeAccesses?: ConfigurationType[];
     networkManagerScopes?: NetworkManagerPropertiesNetworkManagerScopes;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
 
@@ -12038,6 +12088,7 @@ export interface SecurityAdminConfiguration extends ChildResource {
     applyOnNetworkIntentPolicyBasedServices?: NetworkIntentPolicyBasedService[];
     description?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
 
@@ -12868,6 +12919,9 @@ export interface SwapResourceProperties {
 }
 
 // @public
+export type SyncMode = string;
+
+// @public
 export type SyncRemoteAddressSpace = string;
 
 // @public
@@ -13583,6 +13637,7 @@ export type VirtualNetworkEncryptionEnforcement = string;
 // @public
 export interface VirtualNetworkGateway extends Resource {
     active?: boolean;
+    adminState?: AdminState;
     allowRemoteVnetTraffic?: boolean;
     allowVirtualWanTraffic?: boolean;
     bgpSettings?: BgpSettings;
