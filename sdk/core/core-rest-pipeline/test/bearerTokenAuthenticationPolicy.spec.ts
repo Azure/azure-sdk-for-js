@@ -30,7 +30,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const mockToken = "token";
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken = sinon.fake.returns(
-      Promise.resolve({ token: mockToken, expiresOn: new Date() })
+      Promise.resolve({ token: mockToken, expiresOnTimestamp: new Date().getTime() })
     );
     const mockCredential: TokenCredential = {
       getToken: fakeGetToken,

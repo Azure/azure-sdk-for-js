@@ -23,6 +23,7 @@ import {
   WebPubSubHubsImpl,
   WebPubSubPrivateEndpointConnectionsImpl,
   WebPubSubPrivateLinkResourcesImpl,
+  WebPubSubReplicasImpl,
   WebPubSubSharedPrivateLinkResourcesImpl
 } from "./operations";
 import {
@@ -34,6 +35,7 @@ import {
   WebPubSubHubs,
   WebPubSubPrivateEndpointConnections,
   WebPubSubPrivateLinkResources,
+  WebPubSubReplicas,
   WebPubSubSharedPrivateLinkResources
 } from "./operationsInterfaces";
 import { WebPubSubManagementClientOptionalParams } from "./models";
@@ -46,8 +48,7 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the WebPubSubManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Gets subscription Id which uniquely identify the Microsoft Azure subscription.
-   *                       The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -71,7 +72,7 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-webpubsub/1.1.1`;
+    const packageDetails = `azsdk-js-arm-webpubsub/2.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -124,7 +125,7 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-02-01";
+    this.apiVersion = options.apiVersion || "2023-06-01-preview";
     this.operations = new OperationsImpl(this);
     this.webPubSub = new WebPubSubImpl(this);
     this.usages = new UsagesImpl(this);
@@ -139,6 +140,7 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
     this.webPubSubPrivateLinkResources = new WebPubSubPrivateLinkResourcesImpl(
       this
     );
+    this.webPubSubReplicas = new WebPubSubReplicasImpl(this);
     this.webPubSubSharedPrivateLinkResources = new WebPubSubSharedPrivateLinkResourcesImpl(
       this
     );
@@ -181,5 +183,6 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
   webPubSubHubs: WebPubSubHubs;
   webPubSubPrivateEndpointConnections: WebPubSubPrivateEndpointConnections;
   webPubSubPrivateLinkResources: WebPubSubPrivateLinkResources;
+  webPubSubReplicas: WebPubSubReplicas;
   webPubSubSharedPrivateLinkResources: WebPubSubSharedPrivateLinkResources;
 }

@@ -41,17 +41,18 @@ export async function withAuth(
   await callback();
   async function createTask() {
     try {
-      await setupClaimNegotiation(context, audience, info, timeoutInMs, logger, options);
+      const info2 = await getTokenInfo(context.tokenCredential, audience);
+      await setupClaimNegotiation(context, audience, info2, timeoutInMs, logger, options);
       logger.verbose(
-        `next token renewal is in ${info.timeoutInMs} milliseconds @(${new Date(
-          Date.now() + info.timeoutInMs
+        `next token renewal is in ${info2.timeToLiveInMs} milliseconds @(${new Date(
+          Date.now() + info2.timeToLiveInMs
         ).toString()}).`
       );
     } catch (err) {
       logger.verbose(`an error occurred while renewing the token: ${logObj(err)}`);
     }
   }
-  const loop = createTimerLoop(info.timeoutInMs, createTask);
+  const loop = createTimerLoop(info.timeToLiveInMs, createTask);
   loop.start();
   return loop;
 }
@@ -88,7 +89,7 @@ interface TokenInfo {
   /** The type of the token */
   type: TokenType;
   /** The time duration after which the token should be refreshed */
-  timeoutInMs: number;
+  timeToLiveInMs: number;
 }
 
 async function getAadToken(cred: TokenCredential): Promise<TokenInfo> {
@@ -99,7 +100,7 @@ async function getAadToken(cred: TokenCredential): Promise<TokenInfo> {
   return {
     token,
     type: TokenType.CbsTokenTypeJwt,
-    timeoutInMs: token.expiresOnTimestamp - Date.now() - 2 * 60 * 1000,
+    timeToLiveInMs: token.expiresOnTimestamp - Date.now() - 2 * 60 * 1000,
   };
 }
 
@@ -107,7 +108,7 @@ function getSharedKeyBasedToken(cred: SasTokenProvider, audience: string): Token
   return {
     token: cred.getToken(audience),
     type: TokenType.CbsTokenTypeSas,
-    timeoutInMs: 45 * 60 * 1000,
+    timeToLiveInMs: 45 * 60 * 1000,
   };
 }
 

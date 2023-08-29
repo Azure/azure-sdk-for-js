@@ -4,7 +4,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { RouterAdministrationClient, RouterClient, RouterWorker } from "../../../src";
+import { JobRouterAdministrationClient, JobRouterClient, RouterWorker } from "../../../src";
 import {
   getDistributionPolicyRequest,
   getExceptionPolicyRequest,
@@ -14,9 +14,9 @@ import {
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { sleep, timeoutMs } from "../utils/constants";
 
-describe("RouterClient", function () {
-  let client: RouterClient;
-  let administrationClient: RouterAdministrationClient;
+describe("JobRouterClient", function () {
+  let client: JobRouterClient;
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-workers";
@@ -70,18 +70,35 @@ describe("RouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should update a worker", async function () {
-      const patch: RouterWorker = { ...workerRequest, totalCapacity: 1010 };
-      const result = await client.updateWorker(workerId, patch);
+      const updatePatch = {
+        ...workerRequest,
+        totalCapacity: 100,
+        labels: { label1: "label1value" },
+        tags: { tag1: "tag1value" },
+      };
+      const updateResult = await client.updateWorker(workerId, updatePatch);
 
-      assert.isDefined(result);
-      assert.isDefined(result?.id);
-      assert.equal(result.totalCapacity, patch.totalCapacity);
+      const removePatch = { ...workerRequest, tags: null! };
+      const removeResult = await client.updateWorker(workerId, removePatch);
+
+      assert.isDefined(updateResult);
+      assert.isDefined(updateResult?.id);
+      assert.isDefined(removeResult);
+      assert.isDefined(removeResult?.id);
+      assert.equal(updateResult.totalCapacity, updatePatch.totalCapacity);
+      assert.isEmpty(removeResult.tags);
     }).timeout(timeoutMs);
 
     it("should register and deregister a worker", async function () {
-      const registerResult = await client.registerWorker(workerId);
+      const registerResult = await client.updateWorker(workerId, {
+        ...workerRequest,
+        availableForOffers: true,
+      });
       await sleep(2000);
-      const deregisterResult = await client.deregisterWorker(workerId);
+      const deregisterResult = await client.updateWorker(workerId, {
+        ...workerRequest,
+        availableForOffers: false,
+      });
 
       assert.isDefined(registerResult);
       assert.isDefined(registerResult?.id);
@@ -95,7 +112,7 @@ describe("RouterClient", function () {
     it("should list workers", async function () {
       const result: RouterWorker[] = [];
       for await (const worker of client.listWorkers({ maxPageSize: 20 })) {
-        result.push(worker.routerWorker!);
+        result.push(worker.worker!);
       }
 
       assert.isNotEmpty(result);

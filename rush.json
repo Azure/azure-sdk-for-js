@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.89.0",
+  "rushVersion": "5.100.2",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -456,6 +456,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-tiering",
+      "projectFolder": "sdk/communication/communication-tiering",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-tools/communication-alpha-ids",
       "projectFolder": "sdk/communication/communication-alpha-ids",
       "versionPolicyName": "client"
@@ -647,11 +652,13 @@
     },
     {
       "packageName": "@azure-rest/maps-render",
-      "projectFolder": "sdk/maps/maps-render-rest"
+      "projectFolder": "sdk/maps/maps-render-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-rest/maps-geolocation",
-      "projectFolder": "sdk/maps/maps-geolocation-rest"
+      "projectFolder": "sdk/maps/maps-geolocation-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-rest/maps-search",
@@ -2006,6 +2013,36 @@
     {
       "packageName": "@azure/arm-qumulo",
       "projectFolder": "sdk/liftrqumulo/arm-qumulo",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerservicefleet",
+      "projectFolder": "sdk/containerservice/arm-containerservicefleet",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cosmosdbforpostgresql",
+      "projectFolder": "sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managednetworkfabric",
+      "projectFolder": "sdk/managednetworkfabric/arm-managednetworkfabric",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-iotfirmwaredefense",
+      "projectFolder": "sdk/iotfirmwaredefense/arm-iotfirmwaredefense",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-quantum",
+      "projectFolder": "sdk/quantum/arm-quantum",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sphere",
+      "projectFolder": "sdk/sphere/arm-sphere",
       "versionPolicyName": "management"
     }
   ]

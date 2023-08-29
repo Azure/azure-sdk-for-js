@@ -14,7 +14,7 @@ describe("SasTokenProvider", function (): void {
       const key = "importantValue";
       const tokenProvider = createSasTokenProvider(new AzureNamedKeyCredential(keyName, key));
       const expiry = Math.floor(Date.now() / 1000) + 3600;
-      const tokenInfo = tokenProvider.getToken("myaudience");
+      const tokenInfo = await tokenProvider.getToken("myaudience");
       tokenInfo.token.should.match(
         /SharedAccessSignature sr=myaudience&sig=(.*)&se=\d{10}&skn=myKeyName/g
       );
@@ -30,7 +30,7 @@ describe("SasTokenProvider", function (): void {
         sharedAccessKey: "sak",
       });
       const expiry = Math.floor(Date.now() / 1000) + 3600;
-      const tokenInfo = tokenProvider.getToken("sb://hostname.servicebus.windows.net/");
+      const tokenInfo = await tokenProvider.getToken("sb://hostname.servicebus.windows.net/");
       tokenInfo.token.should.match(
         /SharedAccessSignature sr=sb%3A%2F%2Fhostname.servicebus.windows.net%2F&sig=(.*)&se=\d{10}&skn=sakName/g
       );
@@ -44,7 +44,7 @@ describe("SasTokenProvider", function (): void {
     const sasTokenProvider = createSasTokenProvider(
       new AzureSASCredential("SharedAccessSignature se=<blah>")
     );
-    const accessToken = sasTokenProvider.getToken("audience isn't used");
+    const accessToken = await sasTokenProvider.getToken("audience isn't used");
 
     should.equal(
       accessToken.token,
@@ -62,7 +62,7 @@ describe("SasTokenProvider", function (): void {
   it("should work as expected with `sharedAccessSignature`", async function (): Promise<void> {
     // This is how createSasTokenProvider will be called if the shared access signature is passed through a connection string.
     const tokenProvider = createSasTokenProvider({ sharedAccessSignature: "<blah>" });
-    const tokenInfo = tokenProvider.getToken("sb://hostname.servicebus.windows.net/");
+    const tokenInfo = await tokenProvider.getToken("sb://hostname.servicebus.windows.net/");
     tokenInfo.token.should.match(/<blah>/g);
     tokenInfo.expiresOnTimestamp.should.equal(0);
   });

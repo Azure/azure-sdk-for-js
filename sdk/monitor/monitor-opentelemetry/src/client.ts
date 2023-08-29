@@ -1,10 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Meter, TracerProvider } from "@opentelemetry/api";
+import { LoggerProvider, Logger } from "@opentelemetry/sdk-logs";
+import { Tracer } from "@opentelemetry/sdk-trace-base";
+import { MeterProvider } from "@opentelemetry/sdk-metrics";
 import { AzureMonitorOpenTelemetryConfig } from "./shared/config";
 import { MetricHandler } from "./metrics";
 import { TraceHandler } from "./traces/handler";
-import { Logger } from "./shared/logging";
+import { Logger as InternalLogger } from "./shared/logging";
+import { AzureMonitorOpenTelemetryOptions } from "./shared/types";
+import { LogHandler } from "./logs";
+import {
+  AZURE_MONITOR_STATSBEAT_FEATURES,
+  StatsbeatFeature,
+  StatsbeatInstrumentation,
+} from "./types";
 
 /**
  * Azure Monitor OpenTelemetry Client
@@ -13,44 +24,60 @@ export class AzureMonitorOpenTelemetryClient {
   private _config: AzureMonitorOpenTelemetryConfig;
   private _traceHandler: TraceHandler;
   private _metricHandler: MetricHandler;
+  private _logHandler: LogHandler;
 
   /**
    * Initializes a new instance of the AzureMonitorOpenTelemetryClient class.
-   * @param config Configuration
+   * @param options Azure Monitor OpenTelemetry Options
    */
-  constructor(config?: AzureMonitorOpenTelemetryConfig) {
-    this._config = config || new AzureMonitorOpenTelemetryConfig();
-    if (
-      !this._config?.azureMonitorExporterConfig?.connectionString ||
-      this._config?.azureMonitorExporterConfig?.connectionString === ""
-    ) {
-      throw new Error(
-        "Connection String not found, please provide it before starting Azure Monitor OpenTelemetry Client."
-      );
-    }
+  constructor(options?: AzureMonitorOpenTelemetryOptions) {
+    this._config = new AzureMonitorOpenTelemetryConfig(options);
+    this._setStatsbeatFeatures();
     this._metricHandler = new MetricHandler(this._config);
-    this._traceHandler = new TraceHandler(this._config);
+    this._traceHandler = new TraceHandler(this._config, this._metricHandler);
+    this._logHandler = new LogHandler(this._config, this._metricHandler);
   }
 
   /**
-   *Get TraceHandler
+   *Get OpenTelemetry TracerProvider
    */
-  public getTraceHandler(): TraceHandler {
-    return this._traceHandler;
+  public getTracerProvider(): TracerProvider {
+    return this._traceHandler.getTracerProvider();
   }
 
   /**
-   *Get MetricHandler
+   *Get OpenTelemetry TracerProvider
    */
-  public getMetricHandler(): MetricHandler {
-    return this._metricHandler;
+  public getTracer(): Tracer {
+    return this._traceHandler.getTracer();
   }
 
   /**
-   *Get Configuration
+   *Get OpenTelemetry MeterProvider
    */
-  public getConfig(): AzureMonitorOpenTelemetryConfig {
-    return this._config;
+  public getMeterProvider(): MeterProvider {
+    return this._metricHandler.getMeterProvider();
+  }
+
+  /**
+   *Get OpenTelemetry Meter
+   */
+  public getMeter(): Meter {
+    return this._metricHandler.getMeter();
+  }
+
+  /**
+   *Get OpenTelemetry LoggerProvider
+   */
+  public getLoggerProvider(): LoggerProvider {
+    return this._logHandler.getLoggerProvider();
+  }
+
+  /**
+   *Get OpenTelemetry Logger
+   */
+  public getLogger(): Logger {
+    return this._logHandler.getLogger();
   }
 
   /**
@@ -60,8 +87,9 @@ export class AzureMonitorOpenTelemetryClient {
     try {
       await this._traceHandler.flush();
       await this._metricHandler.flush();
+      await this._logHandler.flush();
     } catch (err) {
-      Logger.getInstance().error("Failed to flush telemetry", err);
+      InternalLogger.getInstance().error("Failed to flush telemetry", err);
     }
   }
 
@@ -71,5 +99,37 @@ export class AzureMonitorOpenTelemetryClient {
   public async shutdown(): Promise<void> {
     this._traceHandler.shutdown();
     this._metricHandler.shutdown();
+    this._logHandler.shutdown();
+  }
+
+  private _setStatsbeatFeatures() {
+    let instrumentationBitMap = 0;
+    if (this._config.instrumentationOptions?.azureSdk?.enabled) {
+      instrumentationBitMap |= StatsbeatInstrumentation.AZURE_CORE_TRACING;
+    }
+    if (this._config.instrumentationOptions?.mongoDb?.enabled) {
+      instrumentationBitMap |= StatsbeatInstrumentation.MONGODB;
+    }
+    if (this._config.instrumentationOptions?.mySql?.enabled) {
+      instrumentationBitMap |= StatsbeatInstrumentation.MYSQL;
+    }
+    if (this._config.instrumentationOptions?.postgreSql?.enabled) {
+      instrumentationBitMap |= StatsbeatInstrumentation.POSTGRES;
+    }
+    if (this._config.instrumentationOptions?.redis?.enabled) {
+      instrumentationBitMap |= StatsbeatInstrumentation.REDIS;
+    }
+
+    let featureBitMap = 0;
+    featureBitMap |= StatsbeatFeature.DISTRO;
+
+    try {
+      process.env[AZURE_MONITOR_STATSBEAT_FEATURES] = JSON.stringify({
+        instrumentation: instrumentationBitMap,
+        feature: featureBitMap,
+      });
+    } catch (error) {
+      InternalLogger.getInstance().error("Failed call to JSON.stringify.", error);
+    }
   }
 }

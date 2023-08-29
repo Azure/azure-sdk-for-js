@@ -22,11 +22,12 @@ dotenv.config();
  * This sample demonstrates how to Patch the properties of the provided virtual machine console, or update the tags associated with the virtual machine console. Properties and tag updates can be done independently.
  *
  * @summary Patch the properties of the provided virtual machine console, or update the tags associated with the virtual machine console. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/Consoles_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-05-01-preview/examples/Consoles_Patch.json
  */
 async function patchVirtualMachineConsole() {
   const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "subscriptionId";
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
+    "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName =
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const virtualMachineName = "virtualMachineName";

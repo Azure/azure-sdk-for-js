@@ -16,10 +16,10 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of ElasticSans in a subscription
  *
  * @summary Gets a list of ElasticSans in a subscription
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/ElasticSans_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2022-12-01-preview/examples/ElasticSans_ListBySubscription_MaximumSet_Gen.json
  */
 async function elasticSansListBySubscriptionMaximumSetGen() {
-  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
@@ -33,10 +33,10 @@ async function elasticSansListBySubscriptionMaximumSetGen() {
  * This sample demonstrates how to Gets a list of ElasticSans in a subscription
  *
  * @summary Gets a list of ElasticSans in a subscription
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/ElasticSans_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2022-12-01-preview/examples/ElasticSans_ListBySubscription_MinimumSet_Gen.json
  */
 async function elasticSansListBySubscriptionMinimumSetGen() {
-  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();

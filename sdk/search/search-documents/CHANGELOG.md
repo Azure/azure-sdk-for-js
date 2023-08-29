@@ -1,14 +1,16 @@
 # Release History
 
-## 12.0.0-beta.2 (Unreleased)
+## 12.0.0-beta.2 (2023-07-11)
 
 ### Features Added
 
-### Breaking Changes
+- Add vector search. [#26069](https://github.com/Azure/azure-sdk-for-js/pull/26069)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix compiler errors when using `SearchClient` without defined model. [#25999](https://github.com/Azure/azure-sdk-for-js/pull/25999)
+- Fix all clients adding one or more duplicate user agents. [#26298](https://github.com/Azure/azure-sdk-for-js/pull/26298)
+- Fix serializerOptions and onResponse options for SearchClient methods. [#26327](https://github.com/Azure/azure-sdk-for-js/pull/26327)
 
 ## 12.0.0-beta.1 (2023-05-09)
 

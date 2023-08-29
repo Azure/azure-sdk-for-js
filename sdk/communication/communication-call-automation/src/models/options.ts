@@ -7,29 +7,61 @@ import {
   MediaStreamingConfiguration,
   CallRejectReason,
   FileSource,
+  TextSource,
+  SsmlSource,
   DtmfTone,
+  Choice,
   RecordingContent,
   RecordingChannel,
   RecordingFormat,
   CallLocator,
   ChannelAffinity,
+  CustomContext,
 } from "./models";
 
 /** Options to configure the recognize operation. */
 export interface CallMediaRecognizeOptions extends OperationOptions {
-  playPrompt?: FileSource;
+  playPrompt?: FileSource | TextSource | SsmlSource;
   interruptCallMediaOperation?: boolean;
   stopCurrentOperations?: boolean;
   operationContext?: string;
   interruptPrompt?: boolean;
   initialSilenceTimeoutInSeconds?: number;
+  speechModelEndpointId?: string;
 }
 
 /** The recognize configuration specific to Dtmf. */
 export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
+  /** Time to wait between DTMF inputs to stop recognizing. */
   interToneTimeoutInSeconds?: number;
+  /** List of tones that will stop recognizing. */
   stopDtmfTones?: DtmfTone[];
   readonly kind: "callMediaRecognizeDtmfOptions";
+}
+
+/** The recognize configuration specific to Choices. */
+export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptions {
+  /** The IvR choices for recognize. */
+  choices: Choice[];
+  readonly kind: "callMediaRecognizeChoiceOptions";
+}
+
+/** The recognize configuration specific to Speech. */
+export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptions {
+  /** The length of end silence when user stops speaking and cogservice send response. */
+  endSilenceTimeoutInMs?: number;
+  readonly kind: "callMediaRecognizeSpeechOptions";
+}
+
+/** The recognize configuration for Speech or Dtmf  */
+export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecognizeOptions {
+  /** The length of end silence when user stops speaking and cogservice send response. */
+  endSilenceTimeoutInMs?: number;
+  /** Time to wait between DTMF inputs to stop recognizing. */
+  interToneTimeoutInSeconds?: number;
+  /** List of tones that will stop recognizing. */
+  stopDtmfTones?: DtmfTone[];
+  readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";
 }
 
 /**
@@ -49,10 +81,8 @@ export interface CreateCallOptions extends OperationOptions {
   azureCognitiveServicesEndpointUrl?: string;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
-  /** Headers for SIP calls */
-  sipHeaders?: { [propertyName: string]: string };
-  /** Headers for VOIP calls */
-  voipHeaders?: { [propertyName: string]: string };
+  /** The Custom Context. */
+  customContext?: CustomContext;
 }
 
 /**
@@ -91,10 +121,12 @@ export interface RejectCallOptions extends OperationOptions {
 export interface TransferCallToParticipantOptions extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Custom context for PSTN. */
-  sipHeaders?: { [propertyName: string]: string };
-  /** Custom context for voip. */
-  voipHeaders?: { [propertyName: string]: string };
+  /** The Custom Context. */
+  customContext?: CustomContext;
+  /** Call back URI override for this request */
+  callbackUrlOverride?: string;
+  /** Participant that is being transferred away */
+  transferee?: CommunicationIdentifier;
 }
 
 /** Options to add participants. */
@@ -106,12 +138,24 @@ export interface AddParticipantOptions extends OperationOptions {
   invitationTimeoutInSeconds?: number;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** Call back URI override for this request */
+  callbackUrlOverride?: string;
 }
 
 /**
  * Options to remove participants.
  */
 export interface RemoveParticipantsOption extends OperationOptions {
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Call back URI override for this request */
+  callbackUrlOverride?: string;
+}
+
+/**
+ * Options to mute participants.
+ */
+export interface MuteParticipantsOption extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
 }

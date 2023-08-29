@@ -19,209 +19,28 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:13 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:30 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Content-Length": "5278",
+        "Content-Length": "20",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 22:07:13 GMT",
-        "MS-CV": "sEBSRDwl50aPzK7qNeY/gQ.0",
+        "Date": "Tue, 25 Jul 2023 18:04:30 GMT",
+        "MS-CV": "qo8P3C7qP06mf0yR9hLP6Q.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0ETltZAAAAADK\u002BKxGVfjlTbX6PJcGmozoREZXMzBFREdFMTYxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0rg7AZAAAAAA6DURroR1wT4r/ORSySph/REZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "792ms"
+        "X-Processing-Time": "484ms"
       },
       "ResponseBody": {
-        "programBriefs": [
-          {
-            "id": "7aacbe88-86de-42ea-9237-6e349475265b",
-            "status": "draft",
-            "costs": [
-              {
-                "amount": 650.0,
-                "currencyCode": "USD",
-                "billingFrequency": "once"
-              },
-              {
-                "amount": 1000.0,
-                "currencyCode": "USD",
-                "billingFrequency": "monthly"
-              }
-            ],
-            "statusUpdatedDate": "2023-05-07T23:06:24\u002B00:00",
-            "programDetails": {
-              "isVanity": false,
-              "numberType": "shortCode",
-              "isPoliticalCampaign": false,
-              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
-            },
-            "messageDetails": {
-              "supportedProtocol": "sms",
-              "recurrence": "subscription",
-              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
-              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
-              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
-              "optInAnswerFromUser": "Y",
-              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
-              "directionality": "twoWay",
-              "useCases": [
-                {
-                  "contentType": "accountNotificationInformationalAlerts",
-                  "customContentType": "",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
-                        },
-                        {
-                          "direction": "fromUser",
-                          "text": "Y"
-                        },
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "trafficDetails": {
-              "isSpiky": false
-            }
-          },
-          {
-            "id": "9df88de7-171b-4733-8ae8-4fe332d6b0f8",
-            "status": "draft",
-            "costs": [
-              {
-                "amount": 650.0,
-                "currencyCode": "USD",
-                "billingFrequency": "once"
-              },
-              {
-                "amount": 1000.0,
-                "currencyCode": "USD",
-                "billingFrequency": "monthly"
-              }
-            ],
-            "statusUpdatedDate": "2023-05-07T23:06:29\u002B00:00",
-            "programDetails": {
-              "isVanity": false,
-              "numberType": "shortCode",
-              "isPoliticalCampaign": false,
-              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
-            },
-            "messageDetails": {
-              "supportedProtocol": "sms",
-              "recurrence": "subscription",
-              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
-              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
-              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
-              "optInAnswerFromUser": "Y",
-              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
-              "directionality": "twoWay",
-              "useCases": [
-                {
-                  "contentType": "accountNotificationInformationalAlerts",
-                  "customContentType": "",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
-                        },
-                        {
-                          "direction": "fromUser",
-                          "text": "Y"
-                        },
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "trafficDetails": {
-              "isSpiky": false
-            }
-          },
-          {
-            "id": "64c97405-9cd6-46e8-8084-824d6cf74ddb",
-            "status": "draft",
-            "costs": [
-              {
-                "amount": 650.0,
-                "currencyCode": "USD",
-                "billingFrequency": "once"
-              },
-              {
-                "amount": 1000.0,
-                "currencyCode": "USD",
-                "billingFrequency": "monthly"
-              }
-            ],
-            "statusUpdatedDate": "2023-05-07T23:06:34\u002B00:00",
-            "programDetails": {
-              "isVanity": false,
-              "numberType": "shortCode",
-              "isPoliticalCampaign": false,
-              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
-            },
-            "messageDetails": {
-              "supportedProtocol": "sms",
-              "recurrence": "subscription",
-              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
-              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
-              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
-              "optInAnswerFromUser": "Y",
-              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
-              "directionality": "twoWay",
-              "useCases": [
-                {
-                  "contentType": "accountNotificationInformationalAlerts",
-                  "customContentType": "",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
-                        },
-                        {
-                          "direction": "fromUser",
-                          "text": "Y"
-                        },
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "trafficDetails": {
-              "isSpiky": false
-            }
-          }
-        ]
+        "programBriefs": []
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845?api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -239,31 +58,31 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:14 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:31 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Type": "application/json",
-        "Date": "Tue, 23 May 2023 22:07:14 GMT",
-        "MS-CV": "klluUSnheE6MuOuuWAKvRA.0",
+        "Date": "Tue, 25 Jul 2023 18:04:31 GMT",
+        "MS-CV": "z5CvFGsFhkeC5/hcT2cesA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0EjltZAAAAAAjmzbDLZiVTr3viM5Fj1c3REZXMzBFREdFMTYxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0rw7AZAAAAACylBknQeISRY/P1gXv8d1lREZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "563ms"
+        "X-Processing-Time": "284ms"
       },
       "ResponseBody": {
         "error": {
           "code": "NotFound",
-          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|2bea1a80-f9b6-11ed-99b8-8f89ee33b520\u0027"
+          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|067c798f-95e9-4645-9a2f-9435590e0845\u0027"
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845?api-version=2022-09-06",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -283,11 +102,11 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:15 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:31 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
-        "id": "2bea1a80-f9b6-11ed-99b8-8f89ee33b520",
+        "id": "067c798f-95e9-4645-9a2f-9435590e0845",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -380,32 +199,34 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Content-Length": "2245",
+        "Content-Length": "2283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 22:07:15 GMT",
-        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520",
-        "MS-CV": "a2iym8NvLUK3KvAzFMwtZQ.0",
+        "Date": "Tue, 25 Jul 2023 18:04:32 GMT",
+        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845",
+        "MS-CV": "74XttRCK70\u002B5IfCnHs1W6g.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0EzltZAAAAACU3ebq9XPcR6DOSPL1T5wYREZXMzBFREdFMTYxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0rw7AZAAAAACpzzSUo/utR6Sx0M\u002BGEInoREZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1121ms"
+        "X-Processing-Time": "958ms"
       },
       "ResponseBody": {
-        "id": "2bea1a80-f9b6-11ed-99b8-8f89ee33b520",
+        "id": "067c798f-95e9-4645-9a2f-9435590e0845",
         "status": "draft",
         "costs": [
           {
             "amount": 650.0,
             "currencyCode": "USD",
+            "countryCode": "US",
             "billingFrequency": "once"
           },
           {
             "amount": 1000.0,
             "currencyCode": "USD",
+            "countryCode": "US",
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2023-05-23T22:07:15\u002B00:00",
+        "statusUpdatedDate": "2023-07-25T18:04:32\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -497,7 +318,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments?skip=0\u0026top=100\u0026api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments?skip=0\u0026top=100\u0026api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -515,8 +336,8 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:16 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:32 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -524,19 +345,19 @@
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Length": "18",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 22:07:15 GMT",
-        "MS-CV": "i\u002BhBcrMWQkqwh0IDpMhigA.0",
+        "Date": "Tue, 25 Jul 2023 18:04:32 GMT",
+        "MS-CV": "Wh5omUZJPEyQXDrNZw4ZpQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0FDltZAAAAACe\u002BocqcrkCSLWevhZetAELREZXMzBFREdFMTYxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0sA7AZAAAAAD9ckq8nJMISowj5yJQbsCJREZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "159ms"
+        "X-Processing-Time": "137ms"
       },
       "ResponseBody": {
         "attachments": []
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments/2bea1a81-f9b6-11ed-99b8-8f89ee33b520?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments/a7cfba64-5dd0-4b3d-bc65-620abcb13cbc?api-version=2022-09-06",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -556,11 +377,11 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:16 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:32 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
-        "id": "2bea1a81-f9b6-11ed-99b8-8f89ee33b520",
+        "id": "a7cfba64-5dd0-4b3d-bc65-620abcb13cbc",
         "type": "callToAction",
         "fileName": "testFriendlyName",
         "fileType": "png",
@@ -571,16 +392,16 @@
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Length": "136",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 22:07:16 GMT",
-        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments/2bea1a81-f9b6-11ed-99b8-8f89ee33b520",
-        "MS-CV": "tWN56e9k902to0YGMiPznQ.0",
+        "Date": "Tue, 25 Jul 2023 18:04:33 GMT",
+        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments/a7cfba64-5dd0-4b3d-bc65-620abcb13cbc",
+        "MS-CV": "tBPuSODE80mOgrzpX5lx7w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0FDltZAAAAABfsge9DOWjQaNYddw26RIWREZXMzBFREdFMTYxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0sA7AZAAAAAApp5doGYE/Tr0\u002B9Gj0nd39REZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "967ms"
+        "X-Processing-Time": "916ms"
       },
       "ResponseBody": {
-        "id": "2bea1a81-f9b6-11ed-99b8-8f89ee33b520",
+        "id": "a7cfba64-5dd0-4b3d-bc65-620abcb13cbc",
         "type": "callToAction",
         "fileName": "testFriendlyName",
         "fileSizeInBytes": 142,
@@ -588,7 +409,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments/2bea1a81-f9b6-11ed-99b8-8f89ee33b520?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments/a7cfba64-5dd0-4b3d-bc65-620abcb13cbc?api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -606,8 +427,8 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:17 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:33 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -615,15 +436,15 @@
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Length": "136",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 22:07:16 GMT",
-        "MS-CV": "3vGDT1y/zEGFR3mNMB45ZQ.0",
+        "Date": "Tue, 25 Jul 2023 18:04:33 GMT",
+        "MS-CV": "RRGEC4QG9EesaKscqP\u002B42g.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0FTltZAAAAAD8Z0FCF0fXQrfrNiJIDPyvREZXMzBFREdFMTYxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0sQ7AZAAAAADSTUWhc4GLTocDhi2YS8U7REZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "169ms"
+        "X-Processing-Time": "129ms"
       },
       "ResponseBody": {
-        "id": "2bea1a81-f9b6-11ed-99b8-8f89ee33b520",
+        "id": "a7cfba64-5dd0-4b3d-bc65-620abcb13cbc",
         "type": "callToAction",
         "fileName": "testFriendlyName",
         "fileSizeInBytes": 142,
@@ -631,7 +452,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments/2bea1a82-f9b6-11ed-99b8-8f89ee33b520?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments/e97a7ec2-df16-45e1-9dce-17dec5efd126?api-version=2022-09-06",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -651,11 +472,11 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:16 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:32 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
-        "id": "2bea1a82-f9b6-11ed-99b8-8f89ee33b520",
+        "id": "e97a7ec2-df16-45e1-9dce-17dec5efd126",
         "type": "callToAction",
         "fileName": "testFriendlyName",
         "fileType": "png",
@@ -666,16 +487,16 @@
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Length": "136",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 22:07:17 GMT",
-        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments/2bea1a82-f9b6-11ed-99b8-8f89ee33b520",
-        "MS-CV": "hEoLopXtjUin6pHiFiXzGA.0",
+        "Date": "Tue, 25 Jul 2023 18:04:34 GMT",
+        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments/e97a7ec2-df16-45e1-9dce-17dec5efd126",
+        "MS-CV": "Kh3pkO4QqEOCbjSg6ANKdw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0FDltZAAAAAATF6y0RmlrR52fYWS5l2iCREZXMzBFREdFMTUxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0sQ7AZAAAAAAKHQN9ihdsQZqPDwXGnoI5REZXMzBFREdFMTUwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1643ms"
+        "X-Processing-Time": "1072ms"
       },
       "ResponseBody": {
-        "id": "2bea1a82-f9b6-11ed-99b8-8f89ee33b520",
+        "id": "e97a7ec2-df16-45e1-9dce-17dec5efd126",
         "type": "callToAction",
         "fileName": "testFriendlyName",
         "fileSizeInBytes": 142,
@@ -683,7 +504,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments/2bea1a82-f9b6-11ed-99b8-8f89ee33b520?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments/e97a7ec2-df16-45e1-9dce-17dec5efd126?api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -701,8 +522,8 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:18 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:34 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -710,15 +531,15 @@
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Length": "136",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 22:07:17 GMT",
-        "MS-CV": "ya836tOlsE2Xt7Lle3YHwA.0",
+        "Date": "Tue, 25 Jul 2023 18:04:34 GMT",
+        "MS-CV": "FCsEBZo9wUChIwPMQgUBWg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0FjltZAAAAADAO3VrEJKGTr\u002BVAw/FrpbTREZXMzBFREdFMTUxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0sg7AZAAAAACFD/QInwDDR71TxOp6JNshREZXMzBFREdFMTUwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "131ms"
+        "X-Processing-Time": "158ms"
       },
       "ResponseBody": {
-        "id": "2bea1a82-f9b6-11ed-99b8-8f89ee33b520",
+        "id": "e97a7ec2-df16-45e1-9dce-17dec5efd126",
         "type": "callToAction",
         "fileName": "testFriendlyName",
         "fileSizeInBytes": 142,
@@ -726,7 +547,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments?skip=0\u0026top=100\u0026api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments?skip=0\u0026top=100\u0026api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -744,8 +565,8 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:18 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:34 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -753,24 +574,24 @@
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Length": "291",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 22:07:18 GMT",
-        "MS-CV": "I9553V\u002Be90OwpTXAhjOB/w.0",
+        "Date": "Tue, 25 Jul 2023 18:04:34 GMT",
+        "MS-CV": "EVSbkgUzzUWxmqsioLgi8Q.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0FjltZAAAAAD1LPqb0\u002BRNTomfxJbACQM4REZXMzBFREdFMTUxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0sg7AZAAAAADC7MSxWuq7RoMu9lPb29VYREZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "126ms"
+        "X-Processing-Time": "131ms"
       },
       "ResponseBody": {
         "attachments": [
           {
-            "id": "2bea1a81-f9b6-11ed-99b8-8f89ee33b520",
+            "id": "a7cfba64-5dd0-4b3d-bc65-620abcb13cbc",
             "type": "callToAction",
             "fileName": "testFriendlyName",
             "fileSizeInBytes": 142,
             "fileType": "png"
           },
           {
-            "id": "2bea1a82-f9b6-11ed-99b8-8f89ee33b520",
+            "id": "e97a7ec2-df16-45e1-9dce-17dec5efd126",
             "type": "callToAction",
             "fileName": "testFriendlyName",
             "fileSizeInBytes": 142,
@@ -780,7 +601,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments?skip=0\u0026top=1\u0026api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments?skip=0\u0026top=1\u0026api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -798,8 +619,8 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:18 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:34 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -807,28 +628,28 @@
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Length": "291",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 22:07:17 GMT",
-        "MS-CV": "t0ZH\u002B\u002BvzTUeLuCrE4yOOsg.0",
+        "Date": "Tue, 25 Jul 2023 18:04:34 GMT",
+        "MS-CV": "b4XaEVbJgkyQwMYzsgqylA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0FjltZAAAAAAl6557AzLQQrqUmXFQAQExREZXMzBFREdFMTYxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0sg7AZAAAAAAqkwDzrTY/S5yY7ypLjEo0REZXMzBFREdFMTUwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "175ms"
+        "X-Processing-Time": "155ms"
       },
       "ResponseBody": {
         "attachments": [
           {
-            "id": "2bea1a81-f9b6-11ed-99b8-8f89ee33b520",
+            "id": "a7cfba64-5dd0-4b3d-bc65-620abcb13cbc",
             "type": "callToAction",
             "fileName": "testFriendlyName",
             "fileSizeInBytes": 142,
             "fileType": "png"
           }
         ],
-        "nextLink": "/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments?skip=1\u0026top=1\u0026api-version=2022-09-06"
+        "nextLink": "/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments?skip=1\u0026top=1\u0026api-version=2022-09-06"
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments?skip=1\u0026top=1\u0026api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments?skip=1\u0026top=1\u0026api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -846,8 +667,8 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:19 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:34 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -855,28 +676,28 @@
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Length": "291",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 22:07:18 GMT",
-        "MS-CV": "AFk/2rcxQEazBp5GW2apGA.0",
+        "Date": "Tue, 25 Jul 2023 18:04:35 GMT",
+        "MS-CV": "5jEli0ueAEiTzrySdQtARQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0FjltZAAAAADfbyMiHpnQSo52mq6AniYWREZXMzBFREdFMTYxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0sg7AZAAAAACrPzyKVp\u002BmQZCyPZw4ZZLWREZXMzBFREdFMTUwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "136ms"
+        "X-Processing-Time": "180ms"
       },
       "ResponseBody": {
         "attachments": [
           {
-            "id": "2bea1a82-f9b6-11ed-99b8-8f89ee33b520",
+            "id": "e97a7ec2-df16-45e1-9dce-17dec5efd126",
             "type": "callToAction",
             "fileName": "testFriendlyName",
             "fileSizeInBytes": 142,
             "fileType": "png"
           }
         ],
-        "nextLink": "/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments?skip=2\u0026top=1\u0026api-version=2022-09-06"
+        "nextLink": "/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments?skip=2\u0026top=1\u0026api-version=2022-09-06"
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments?skip=2\u0026top=1\u0026api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments?skip=2\u0026top=1\u0026api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -894,8 +715,8 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:19 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:34 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -903,19 +724,19 @@
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Length": "18",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 22:07:18 GMT",
-        "MS-CV": "H4nbpOgsBU2YPWf2TMXZhA.0",
+        "Date": "Tue, 25 Jul 2023 18:04:35 GMT",
+        "MS-CV": "N7FNbb8DAEWkDxTozU0EHw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0FjltZAAAAAAmoc1zcQ3QRZA96q/4X/nKREZXMzBFREdFMTYxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0sw7AZAAAAACx/U\u002Bg3ozvQaH\u002Bg31dyCkfREZXMzBFREdFMTUwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "146ms"
+        "X-Processing-Time": "147ms"
       },
       "ResponseBody": {
         "attachments": []
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments/2bea1a82-f9b6-11ed-99b8-8f89ee33b520?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments/a7cfba64-5dd0-4b3d-bc65-620abcb13cbc?api-version=2022-09-06",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -933,24 +754,24 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:19 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:35 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Date": "Tue, 23 May 2023 22:07:19 GMT",
-        "MS-CV": "8YlkQg2UY0\u002BTRdGhC\u002Bdwug.0",
+        "Date": "Tue, 25 Jul 2023 18:04:36 GMT",
+        "MS-CV": "nkZWuhql5kqWYx8DRAIIQw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0FzltZAAAAAD0oVoesYzJS6nWZWPrJkmWREZXMzBFREdFMTUxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0sw7AZAAAAAD7u\u002BW0iHOnRa5uMH8BUSgPREZXMzBFREdFMTUwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "861ms"
+        "X-Processing-Time": "691ms"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments/2bea1a81-f9b6-11ed-99b8-8f89ee33b520?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments/e97a7ec2-df16-45e1-9dce-17dec5efd126?api-version=2022-09-06",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -968,24 +789,24 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:19 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:35 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Date": "Tue, 23 May 2023 22:07:19 GMT",
-        "MS-CV": "UUkReOJMpUK6Lv7Xi2ao\u002Bw.0",
+        "Date": "Tue, 25 Jul 2023 18:04:36 GMT",
+        "MS-CV": "JrJk/DD\u002Br0CKGIhDjNpF3g.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0FzltZAAAAADq\u002B1CSXGtpTJIIjf6rgefkREZXMzBFREdFMTYxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0sw7AZAAAAACp6CRJxrmORaLC9tsZl/t1REZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1476ms"
+        "X-Processing-Time": "1511ms"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520/attachments?skip=0\u0026top=100\u0026api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845/attachments?skip=0\u0026top=100\u0026api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1003,8 +824,8 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:20 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:36 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -1012,19 +833,19 @@
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Length": "18",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 22:07:19 GMT",
-        "MS-CV": "f0kJdjI120aA\u002Br3sLDgsZA.0",
+        "Date": "Tue, 25 Jul 2023 18:04:36 GMT",
+        "MS-CV": "9lHG8NXmUEGJRnQFFoCdoQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0GDltZAAAAAAggr7ax/OIQrcKT4FoRLw6REZXMzBFREdFMTYxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0tQ7AZAAAAACrTys1WuMQTreAtAYBSU53REZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "123ms"
+        "X-Processing-Time": "134ms"
       },
       "ResponseBody": {
         "attachments": []
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845?api-version=2022-09-06",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1042,24 +863,24 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:21 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:36 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Date": "Tue, 23 May 2023 22:07:20 GMT",
-        "MS-CV": "532DvHh64UmZWo/Wfj6uLg.0",
+        "Date": "Tue, 25 Jul 2023 18:04:36 GMT",
+        "MS-CV": "4PU82uOkm0ShDEc6OtUBKA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0GDltZAAAAADIqjMaZRH0SZcbGo9EIvYjREZXMzBFREdFMTYxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0tQ7AZAAAAACd3fTv06wCQ4Rk4MMggovYREZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "205ms"
+        "X-Processing-Time": "233ms"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/2bea1a80-f9b6-11ed-99b8-8f89ee33b520?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/067c798f-95e9-4645-9a2f-9435590e0845?api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1077,33 +898,33 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 22:07:21 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:37 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Type": "application/json",
-        "Date": "Tue, 23 May 2023 22:07:20 GMT",
-        "MS-CV": "tIxeqx7n9ESqaa/m5qRbdQ.0",
+        "Date": "Tue, 25 Jul 2023 18:04:37 GMT",
+        "MS-CV": "L5IHZ\u002BymREaPwRByBpGvhA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0GTltZAAAAAAFVFr0xJZkToqpBIaoTSvwREZXMzBFREdFMTYxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0tQ7AZAAAAACtcKRAsY6iQKwtrJVTmPPVREZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "637ms"
+        "X-Processing-Time": "299ms"
       },
       "ResponseBody": {
         "error": {
           "code": "NotFound",
-          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|2bea1a80-f9b6-11ed-99b8-8f89ee33b520\u0027"
+          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|067c798f-95e9-4645-9a2f-9435590e0845\u0027"
         }
       }
     }
   ],
   "Variables": {
-    "attachment-var-0": "2bea1a81-f9b6-11ed-99b8-8f89ee33b520",
-    "attachment-var-1": "2bea1a82-f9b6-11ed-99b8-8f89ee33b520",
-    "pb-var": "2bea1a80-f9b6-11ed-99b8-8f89ee33b520"
+    "attachment-var-0": "a7cfba64-5dd0-4b3d-bc65-620abcb13cbc",
+    "attachment-var-1": "e97a7ec2-df16-45e1-9dce-17dec5efd126",
+    "pb-var": "067c798f-95e9-4645-9a2f-9435590e0845"
   }
 }

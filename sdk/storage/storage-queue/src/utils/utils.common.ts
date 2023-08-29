@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, URLBuilder } from "@azure/core-http";
+import { HttpHeaders, createHttpHeaders } from "@azure/core-rest-pipeline";
 import {
   HeaderConstants,
   URLConstants,
   DevelopmentConnectionString,
   PathStylePorts,
 } from "./constants";
-import { StorageClientContext } from "../generated/src/storageClientContext";
-import { Pipeline } from "../Pipeline";
+import { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 
 /**
  * Append a string to URL path. Will remove duplicated "/" in front of the string
@@ -20,15 +19,14 @@ import { Pipeline } from "../Pipeline";
  * @returns An updated URL string
  */
 export function appendToURLPath(url: string, name: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let path = urlParsed.getPath();
+  let path = urlParsed.pathname;
   path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
-  urlParsed.setPath(path);
+  urlParsed.pathname = path;
 
   return urlParsed.toString();
 }
-
 /**
  * Set URL parameter name and value. If name exists in URL parameters, old value
  * will be replaced by name key. If not provide value, the parameter will be deleted.
@@ -39,8 +37,28 @@ export function appendToURLPath(url: string, name: string): string {
  * @returns An updated URL string
  */
 export function setURLParameter(url: string, name: string, value?: string): string {
-  const urlParsed = URLBuilder.parse(url);
-  urlParsed.setQueryParameter(name, value);
+  const urlParsed = new URL(url);
+  const encodedName = encodeURIComponent(name);
+  const encodedValue = value ? encodeURIComponent(value) : undefined;
+  // mutating searchParams will change the encoding, so we have to do this ourselves
+  const searchString = urlParsed.search === "" ? "?" : urlParsed.search;
+
+  const searchPieces: string[] = [];
+
+  for (const pair of searchString.slice(1).split("&")) {
+    if (pair) {
+      const [key] = pair.split("=", 2);
+      if (key !== encodedName) {
+        searchPieces.push(pair);
+      }
+    }
+  }
+  if (encodedValue) {
+    searchPieces.push(`${encodedName}=${encodedValue}`);
+  }
+
+  urlParsed.search = searchPieces.length ? `?${searchPieces.join("&")}` : "";
+
   return urlParsed.toString();
 }
 
@@ -52,8 +70,8 @@ export function setURLParameter(url: string, name: string, value?: string): stri
  * @returns Parameter value(s) for the given parameter name.
  */
 export function getURLParameter(url: string, name: string): string | string[] | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getQueryParameterValue(name);
+  const urlParsed = new URL(url);
+  return urlParsed.searchParams.get(name) ?? undefined;
 }
 
 /**
@@ -64,8 +82,8 @@ export function getURLParameter(url: string, name: string): string | string[] | 
  * @returns An updated URL string
  */
 export function setURLHost(url: string, host: string): string {
-  const urlParsed = URLBuilder.parse(url);
-  urlParsed.setHost(host);
+  const urlParsed = new URL(url);
+  urlParsed.hostname = host;
   return urlParsed.toString();
 }
 
@@ -76,8 +94,12 @@ export function setURLHost(url: string, host: string): string {
  * @returns The path part of the given URL string.
  */
 export function getURLPath(url: string): string | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getPath();
+  try {
+    const urlParsed = new URL(url);
+    return urlParsed.pathname;
+  } catch (e) {
+    return undefined;
+  }
 }
 
 /**
@@ -87,13 +109,13 @@ export function getURLPath(url: string): string | undefined {
  * @returns query key value string pairs from the given URL string.
  */
 export function getURLQueries(url: string): { [key: string]: string } {
-  let queryString = URLBuilder.parse(url).getQuery();
+  let queryString = new URL(url).search;
   if (!queryString) {
     return {};
   }
 
   queryString = queryString.trim();
-  queryString = queryString.startsWith("?") ? queryString.substr(1) : queryString;
+  queryString = queryString.startsWith("?") ? queryString.substring(1) : queryString;
 
   let querySubStrings: string[] = queryString.split("&");
   querySubStrings = querySubStrings.filter((value: string) => {
@@ -237,7 +259,11 @@ export function extractConnectionStringParts(connectionString: string): Connecti
     // SAS connection string
 
     const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    const accountName = getAccountNameFromUrl(queueEndpoint);
+    let accountName = getValueInConnString(connectionString, "AccountName");
+    // if accountName is empty, try to read it from BlobEndpoint
+    if (!accountName) {
+      accountName = getAccountNameFromUrl(queueEndpoint);
+    }
     if (!queueEndpoint) {
       throw new Error("Invalid QueueEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
@@ -322,14 +348,14 @@ export function sanitizeURL(url: string): string {
  * @returns sanitized headers
  */
 export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
-  const headers: HttpHeaders = new HttpHeaders();
-  for (const header of originalHeader.headersArray()) {
-    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION) {
-      headers.set(header.name, "*****");
-    } else if (header.name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
-      headers.set(header.name, sanitizeURL(header.value));
+  const headers: HttpHeaders = createHttpHeaders();
+  for (const [name, value] of originalHeader) {
+    if (name.toLowerCase() === HeaderConstants.AUTHORIZATION) {
+      headers.set(name, "*****");
+    } else if (name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
+      headers.set(name, sanitizeURL(value));
     } else {
-      headers.set(header.name, header.value);
+      headers.set(name, value);
     }
   }
 
@@ -342,17 +368,17 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
  * @returns with the account name
  */
 export function getAccountNameFromUrl(url: string): string {
-  const parsedUrl: URLBuilder = URLBuilder.parse(url);
+  const parsedUrl = new URL(url);
   let accountName;
   try {
-    if (parsedUrl.getHost()!.split(".")[1] === "queue") {
+    if (parsedUrl.hostname.split(".")[1] === "queue") {
       // `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
-      accountName = parsedUrl.getHost()!.split(".")[0];
+      accountName = parsedUrl.hostname.split(".")[0];
     } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
       // .getPath() -> /devstoreaccount1/
-      accountName = parsedUrl.getPath()!.split("/")[1];
+      accountName = parsedUrl.pathname.split("/")[1];
     } else {
       // Custom domain case: "https://customdomain.com/containername/blob".
       accountName = "";
@@ -363,38 +389,19 @@ export function getAccountNameFromUrl(url: string): string {
   }
 }
 
-export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
-  if (parsedUrl.getHost() === undefined) {
-    return false;
-  }
-
-  const host =
-    parsedUrl.getHost()! + (parsedUrl.getPort() === undefined ? "" : ":" + parsedUrl.getPort());
+export function isIpEndpointStyle(parsedUrl: URL): boolean {
+  const host = parsedUrl.host;
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
-  // Case 2: localhost(:port), use broad regex to match port part.
+  // Case 2: localhost(:port) or host.docker.internal, use broad regex to match port part.
   // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
   return (
-    /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+    /^.*:.*:.*$|^(localhost|host.docker.internal)(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
       host
     ) ||
-    (parsedUrl.getPort() !== undefined && PathStylePorts.includes(parsedUrl.getPort()!))
+    (Boolean(parsedUrl.port) && PathStylePorts.includes(parsedUrl.port))
   );
-}
-
-/**
- * Gets a new StorageClientContext
- * @param url - Url used for the StorageClientContext
- * @param pipeline - a pipeline containing HTTP request policies
- * @returns new StorageClientContext
- */
-export function getStorageClientContext(url: string, pipeline: Pipeline): StorageClientContext {
-  const storageClientContext = new StorageClientContext(url, pipeline.toServiceClientOptions());
-
-  // Override protocol layer's default content-type
-  (storageClientContext as any).requestContentType = undefined;
-  return storageClientContext;
 }
 
 /**
@@ -405,15 +412,111 @@ export function getStorageClientContext(url: string, pipeline: Pipeline): Storag
  * @returns An updated URL string.
  */
 export function appendToURLQuery(url: string, queryParts: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let query = urlParsed.getQuery();
+  let query = urlParsed.search;
   if (query) {
     query += "&" + queryParts;
   } else {
     query = queryParts;
   }
 
-  urlParsed.setQuery(query);
+  urlParsed.search = query;
   return urlParsed.toString();
+}
+
+/**
+ * A representation of an HTTP response that
+ * includes a reference to the request that
+ * originated it.
+ */
+export interface HttpResponse {
+  /**
+   * The headers from the response.
+   */
+  headers: HttpHeadersLike;
+  /**
+   * The original request that resulted in this response.
+   */
+  request: WebResourceLike;
+  /**
+   * The HTTP status code returned from the service.
+   */
+  status: number;
+}
+
+/**
+ * An object with a _response property that has
+ * headers already parsed into a typed object.
+ */
+export interface ResponseWithHeaders<Headers> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: Headers;
+  };
+}
+
+/**
+ * An object with a _response property that has body
+ * and headers already parsed into known types.
+ */
+export interface ResponseWithBody<Headers, Body> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: Headers;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Body;
+  };
+}
+
+/**
+ * An object with a simple _response property.
+ */
+export interface ResponseLike {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse;
+}
+
+/**
+ * A type that represents an operation result with a known _response property.
+ */
+export type WithResponse<T, Headers = undefined, Body = undefined> = T &
+  (Body extends object
+    ? ResponseWithBody<Headers, Body>
+    : Headers extends object
+    ? ResponseWithHeaders<Headers>
+    : ResponseLike);
+
+/**
+ * A typesafe helper for ensuring that a given response object has
+ * the original _response attached.
+ * @param response - A response object from calling a client operation
+ * @returns The same object, but with known _response property
+ */
+export function assertResponse<T extends object, Headers = undefined, Body = undefined>(
+  response: T
+): WithResponse<T, Headers, Body> {
+  if (`_response` in response) {
+    return response as WithResponse<T, Headers, Body>;
+  }
+
+  throw new TypeError(`Unexpected response object ${response}`);
 }

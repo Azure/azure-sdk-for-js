@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update the association of the Cognitive Services commitment plan.
  *
  * @summary Create or update the association of the Cognitive Services commitment plan.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/CreateSharedCommitmentPlanAssociation.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/CreateSharedCommitmentPlanAssociation.json
  */
 async function putCommitmentPlan() {
   const subscriptionId =

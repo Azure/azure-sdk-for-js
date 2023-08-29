@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SqlScriptResource,
   SqlScriptGetSqlScriptsByWorkspaceOptionalParams,
@@ -41,8 +41,8 @@ export interface SqlScriptOperations {
     sqlScript: SqlScriptResource,
     options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlScriptCreateOrUpdateSqlScriptResponse>,
+    SimplePollerLike<
+      OperationState<SqlScriptCreateOrUpdateSqlScriptResponse>,
       SqlScriptCreateOrUpdateSqlScriptResponse
     >
   >;
@@ -74,7 +74,7 @@ export interface SqlScriptOperations {
   beginDeleteSqlScript(
     sqlScriptName: string,
     options?: SqlScriptDeleteSqlScriptOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Sql Script.
    * @param sqlScriptName The sql script name.
@@ -94,7 +94,7 @@ export interface SqlScriptOperations {
     sqlScriptName: string,
     request: ArtifactRenameRequest,
     options?: SqlScriptRenameSqlScriptOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a sqlScript.
    * @param sqlScriptName The sql script name.

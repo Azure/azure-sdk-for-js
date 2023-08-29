@@ -2,36 +2,41 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "@azure/test-utils";
+import { assert, isNode, matrix } from "@azure/test-utils";
 import { Context } from "mocha";
 import { OpenAIClient } from "../../src/OpenAIClient.js";
-import { createClient, startRecorder } from "./utils/recordedClient.js";
+import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient.js";
 
-describe("client", () => {
-  let recorder: Recorder;
-  let client: OpenAIClient;
+matrix([["AzureAPIKey", "AAD", "OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
+  describe(`[${authMethod}] Client`, () => {
+    let recorder: Recorder;
+    let client: OpenAIClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    recorder = await startRecorder(this.currentTest);
-    client = createClient("AzureAPIKey", { recorder });
-  });
+    beforeEach(async function (this: Context) {
+      if (!isNode && authMethod === "AAD") {
+        this.skip();
+      }
+      recorder = await startRecorder(this.currentTest);
+      client = createClient(authMethod, { recorder });
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+    afterEach(async function () {
+      if (recorder) {
+        await recorder.stop();
+      }
+    });
 
-  it("completions test", async function () {
-    const prompt = ["This is a test"];
-    const modelName = "text-davinci-003";
-    const completions = await client.getCompletions(modelName, prompt);
-    assert.isNotNull(completions.choices);
-    assert.equal(completions.choices?.length, 1);
-  });
+    it("completions test", async function () {
+      const prompt = ["This is a test"];
+      const modelName = "text-davinci-003";
+      const completions = await client.getCompletions(modelName, prompt);
+      assert.isNotNull(completions.choices);
+      assert.equal(completions.choices?.length, 1);
+    });
 
-  it("stream long completions", async function () {
-    const prompt = [
-      `##### Translate this code snippet into Python. Use Azure SDKs where possible.
+    it("stream long completions", async function () {
+      const prompt = [
+        `##### Translate this code snippet into Python. Use Azure SDKs where possible.
 \`\`\`
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -85,29 +90,30 @@ namespace Function1
 
 \`\`\`
 `,
-    ];
-    const modelName = "text-davinci-003";
-    const events = await client.listCompletions(modelName, prompt, {
-      maxTokens: 2048,
+      ];
+      const modelName = "text-davinci-003";
+      const events = await client.listCompletions(modelName, prompt, {
+        maxTokens: 2048,
+      });
+      for await (const event of events) {
+        if (!event?.choices) {
+          throw new Error("Expected choices in the response");
+        }
+        for (const choice of event.choices) {
+          assert.isDefined(choice.text);
+        }
+      }
     });
-    for await (const event of events) {
-      if (!event?.choices) {
-        throw new Error("Expected choices in the response");
-      }
-      for (const choice of event.choices) {
-        assert.isDefined(choice.text);
-      }
-    }
-  });
 
-  it("embeddings test", async function () {
-    const prompt = ["This is a test"];
-    const modelName = "text-embedding-ada-002-2";
-    const embeddings = await client.getEmbeddings(modelName, prompt);
-    assert.isNotNull(embeddings.data);
-    assert.equal(embeddings.data.length > 0, true);
-    assert.isNotNull(embeddings.data[0].embedding);
-    assert.equal(embeddings.data[0].embedding.length > 0, true);
-    assert.isNotNull(embeddings.usage);
+    it("embeddings test", async function () {
+      const prompt = ["This is a test"];
+      const modelName = "text-embedding-ada-002";
+      const embeddings = await client.getEmbeddings(modelName, prompt);
+      assert.isNotNull(embeddings.data);
+      assert.equal(embeddings.data.length > 0, true);
+      assert.isNotNull(embeddings.data[0].embedding);
+      assert.equal(embeddings.data[0].embedding.length > 0, true);
+      assert.isNotNull(embeddings.usage);
+    });
   });
 });

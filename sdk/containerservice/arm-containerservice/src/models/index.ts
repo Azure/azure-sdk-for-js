@@ -1009,6 +1009,74 @@ export interface TimeSpan {
   end?: Date;
 }
 
+/** Maintenance window used to configure scheduled auto-upgrade for a Managed Cluster. */
+export interface MaintenanceWindow {
+  /** Recurrence schedule for the maintenance window. */
+  schedule: Schedule;
+  /** Length of maintenance window range from 4 to 24 hours. */
+  durationHours: number;
+  /** The UTC offset in format +/-HH:mm. For example, '+05:30' for IST and '-07:00' for PST. If not specified, the default is '+00:00'. */
+  utcOffset?: string;
+  /** The date the maintenance window activates. If the current date is before this date, the maintenance window is inactive and will not be used for upgrades. If not specified, the maintenance window will be active right away. */
+  startDate?: Date;
+  /** The start time of the maintenance window. Accepted values are from '00:00' to '23:59'. 'utcOffset' applies to this field. For example: '02:00' with 'utcOffset: +02:00' means UTC time '00:00'. */
+  startTime: string;
+  /** Date ranges on which upgrade is not allowed. 'utcOffset' applies to this field. For example, with 'utcOffset: +02:00' and 'dateSpan' being '2022-12-23' to '2023-01-03', maintenance will be blocked from '2022-12-22 22:00' to '2023-01-03 22:00' in UTC time. */
+  notAllowedDates?: DateSpan[];
+}
+
+/** One and only one of the schedule types should be specified. Choose either 'daily', 'weekly', 'absoluteMonthly' or 'relativeMonthly' for your maintenance schedule. */
+export interface Schedule {
+  /** For schedules like: 'recur every day' or 'recur every 3 days'. */
+  daily?: DailySchedule;
+  /** For schedules like: 'recur every Monday' or 'recur every 3 weeks on Wednesday'. */
+  weekly?: WeeklySchedule;
+  /** For schedules like: 'recur every month on the 15th' or 'recur every 3 months on the 20th'. */
+  absoluteMonthly?: AbsoluteMonthlySchedule;
+  /** For schedules like: 'recur every month on the first Monday' or 'recur every 3 months on last Friday'. */
+  relativeMonthly?: RelativeMonthlySchedule;
+}
+
+/** For schedules like: 'recur every day' or 'recur every 3 days'. */
+export interface DailySchedule {
+  /** Specifies the number of days between each set of occurrences. */
+  intervalDays: number;
+}
+
+/** For schedules like: 'recur every Monday' or 'recur every 3 weeks on Wednesday'. */
+export interface WeeklySchedule {
+  /** Specifies the number of weeks between each set of occurrences. */
+  intervalWeeks: number;
+  /** Specifies on which day of the week the maintenance occurs. */
+  dayOfWeek: WeekDay;
+}
+
+/** For schedules like: 'recur every month on the 15th' or 'recur every 3 months on the 20th'. */
+export interface AbsoluteMonthlySchedule {
+  /** Specifies the number of months between each set of occurrences. */
+  intervalMonths: number;
+  /** The date of the month. */
+  dayOfMonth: number;
+}
+
+/** For schedules like: 'recur every month on the first Monday' or 'recur every 3 months on last Friday'. */
+export interface RelativeMonthlySchedule {
+  /** Specifies the number of months between each set of occurrences. */
+  intervalMonths: number;
+  /** Specifies on which week of the month the dayOfWeek applies. */
+  weekIndex: Type;
+  /** Specifies on which day of the week the maintenance occurs. */
+  dayOfWeek: WeekDay;
+}
+
+/** For example, between '2022-12-23' and '2023-01-05'. */
+export interface DateSpan {
+  /** The start date of the date span. */
+  start: Date;
+  /** The end date of the date span. */
+  end: Date;
+}
+
 /** Reference to another subresource. */
 export interface SubResource {
   /**
@@ -1286,6 +1354,8 @@ export interface MaintenanceConfiguration extends SubResource {
   timeInWeek?: TimeInWeek[];
   /** Time slots on which upgrade is not allowed. */
   notAllowedTime?: TimeSpan[];
+  /** Maintenance window for the maintenance configuration. */
+  maintenanceWindow?: MaintenanceWindow;
 }
 
 /** Agent Pool. */
@@ -2276,6 +2346,33 @@ export enum KnownWeekDay {
  * **Saturday**
  */
 export type WeekDay = string;
+
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** First week of the month. */
+  First = "First",
+  /** Second week of the month. */
+  Second = "Second",
+  /** Third week of the month. */
+  Third = "Third",
+  /** Fourth week of the month. */
+  Fourth = "Fourth",
+  /** Last week of the month. */
+  Last = "Last"
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **First**: First week of the month. \
+ * **Second**: Second week of the month. \
+ * **Third**: Third week of the month. \
+ * **Fourth**: Fourth week of the month. \
+ * **Last**: Last week of the month.
+ */
+export type Type = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {

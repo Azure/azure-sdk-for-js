@@ -10,8 +10,8 @@ import {
   ResourceType,
   StatusCodes,
 } from "../../common";
-import { PartitionKey } from "../../documents";
-import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
+import { PartitionKey, PartitionKeyInternal, convertToInternalPartitionKey } from "../../documents";
+import { extractPartitionKeys, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
 import { PatchRequestBody } from "../../utils/patch";
 import { readAndRecordPartitionKeyDefinition } from "../ClientUtils";
@@ -26,7 +26,7 @@ import { ItemResponse } from "./ItemResponse";
  * @see {@link Items} for operations on all items; see `container.items`.
  */
 export class Item {
-  private partitionKey: PartitionKey;
+  private partitionKey: PartitionKeyInternal;
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
@@ -43,10 +43,11 @@ export class Item {
   constructor(
     public readonly container: Container,
     public readonly id: string,
-    partitionKey: PartitionKey,
-    private readonly clientContext: ClientContext
+    private readonly clientContext: ClientContext,
+    partitionKey?: PartitionKey
   ) {
-    this.partitionKey = partitionKey;
+    this.partitionKey =
+      partitionKey === undefined ? undefined : convertToInternalPartitionKey(partitionKey);
   }
 
   /**
@@ -146,7 +147,7 @@ export class Item {
     let diagnosticContext: CosmosDiagnosticContext;
     if (this.partitionKey === undefined) {
       const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
-      this.partitionKey = extractPartitionKey(body, partitionKeyResponse.partitionKeyDefinition);
+      this.partitionKey = extractPartitionKeys(body, partitionKeyResponse.partitionKeyDefinition);
       diagnosticContext = partitionKeyResponse.diagnosticContext;
     }
 
@@ -231,7 +232,7 @@ export class Item {
     let diagnosticContext: CosmosDiagnosticContext;
     if (this.partitionKey === undefined) {
       const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
-      this.partitionKey = extractPartitionKey(body, partitionKeyResponse.partitionKeyDefinition);
+      this.partitionKey = extractPartitionKeys(body, partitionKeyResponse.partitionKeyDefinition);
       diagnosticContext = partitionKeyResponse.diagnosticContext;
     }
 
