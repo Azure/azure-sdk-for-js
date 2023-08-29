@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { bufferToHex } from "../../src/hex";
+import { bufferToHex } from "../../src/hex.js";
 
 function generateValidBytes(): Uint8Array {
   const bytes = new Uint8Array(256);

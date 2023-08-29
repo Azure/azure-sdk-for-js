@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { randomUUID as v4RandomUUID } from "crypto";
-import { generateUUID } from "./uuidUtils.native";
+import { generateUUID } from "./uuidUtils.native.js";
 
 interface Crypto {
   randomUUID(): string;
