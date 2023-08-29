@@ -165,13 +165,15 @@ describe("HttpsPipeline", function () {
       const fakePfx = "fakecert";
       const httpClient: HttpClient = createNodeHttpClient();
 
-      td.when(https.request(td.matchers.anything(), td.matchers.anything())).thenThrow(new Error("ok"));
+      td.when(https.request(td.matchers.anything(), td.matchers.anything())).thenThrow(
+        new Error("ok")
+      );
 
       td.when(new https.Agent(td.matchers.contains({ pfx: fakePfx })), { times: 1 }).thenReturn({
         options: {
           pfx: fakePfx,
           keepAlive: true,
-        }
+        },
       });
 
       pipeline.addPolicy(tlsPolicy({ pfx: fakePfx }));
@@ -212,19 +214,21 @@ describe("HttpsPipeline", function () {
       const newFakePfx = "newFakeCert";
 
       const httpClient: HttpClient = createNodeHttpClient();
-      td.when(https.request(td.matchers.anything(), td.matchers.anything())).thenThrow(new Error("ok"));
+      td.when(https.request(td.matchers.anything(), td.matchers.anything())).thenThrow(
+        new Error("ok")
+      );
 
       td.when(new https.Agent(td.matchers.contains({ pfx: fakePfx })), { times: 1 }).thenReturn({
         options: {
           pfx: fakePfx,
           keepAlive: true,
-        }
+        },
       });
       td.when(new https.Agent(td.matchers.contains({ pfx: newFakePfx })), { times: 1 }).thenReturn({
         options: {
           pfx: newFakePfx,
           keepAlive: true,
-        }
+        },
       });
 
       pipeline.addPolicy(tlsPolicy({ pfx: fakePfx }));
@@ -265,7 +269,7 @@ describe("HttpsPipeline", function () {
         maxSockets: 99,
         options: {
           keepAlive: true,
-        }
+        },
       });
 
       const pipeline = createEmptyPipeline();
@@ -297,7 +301,7 @@ describe("HttpsPipeline", function () {
         maxSockets: 99,
         options: {
           keepAlive: true,
-        }
+        },
       });
 
       const pipeline = createEmptyPipeline();
@@ -320,6 +324,5 @@ describe("HttpsPipeline", function () {
         proxySettings: { host: "https://localhost", port: 12345 },
       });
     });
-
   });
 });
