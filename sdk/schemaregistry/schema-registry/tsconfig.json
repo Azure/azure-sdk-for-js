@@ -3,10 +3,12 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "paths": {
-      "@azure/schema-registry": ["./src/index"]
-    },
-    "lib": ["dom"]
+    "paths": { "@azure/schema-registry": ["./src/index.js"] },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["esnext", "dom"],
+    "rootDir": "."
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "ts-node": { "esm": true },
+  "include": ["src/**/*.ts", "sources/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

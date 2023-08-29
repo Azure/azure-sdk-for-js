@@ -1,18 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+export { CustomPage, SchemaGroup, Version } from "./models.js";
 export {
-  SchemaRegistryClient,
-  SchemaRegistryClientOptions,
-} from "./SchemaRegistryClient.js";
-export {
-  CustomPage,
-  SchemaGroup,
-  Version,
   ListSchemaGroupsOptions,
   GetSchemaByIdOptions,
   ListSchemaVersionsOptions,
   GetSchemaByVersionOptions,
   GetSchemaIdByContentOptions,
   RegisterSchemaOptions,
-} from "./models/index.js";
+} from "./options.js";
