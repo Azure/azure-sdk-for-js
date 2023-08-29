@@ -101,8 +101,8 @@ Each set of metric values is a time series with the following characteristics:
 ## Examples
 
 - [Logs query](#logs-query)
-  - [Workspace-centric Logs Query](#workspace-centric-logs-query)
-  - [Resource-centric Logs Query](#resource-centric-logs-query)
+  - [Workspace-centric logs query](#workspace-centric-logs-query)
+  - [Resource-centric logs query](#resource-centric-logs-query)
   - [Handle logs query response](#handle-logs-query-response)
 - [Batch logs query](#batch-logs-query)
   - [Handle logs batch query response](#handle-logs-batch-query-response)
