@@ -4,6 +4,7 @@
 import {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
+  MicrosoftTeamsUserIdentifier,
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
 import { CallConnectionStateModel } from "../generated/src";
@@ -144,8 +145,11 @@ export enum RecognizeInputType {
 
 /** Call invitee details. */
 export interface CallInvite {
-  /** The Target's PhoneNumberIdentifier or CommunicationUserIdentifier. */
-  readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier;
+  /** The Target's PhoneNumberIdentifier, CommunicationUserIdentifier or MicrosoftTeamsUserIdentifier. */
+  readonly targetParticipant:
+    | PhoneNumberIdentifier
+    | CommunicationUserIdentifier
+    | MicrosoftTeamsUserIdentifier;
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
