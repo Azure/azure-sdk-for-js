@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfTest } from "../src";
+import { PerfTest } from "../src/index.js";
 import { delay } from "@azure/core-util";
 
 /**
@@ -42,7 +42,7 @@ export class LogTest extends PerfTest {
 
   public globalCleanup(): void {
     this.log(
-      `globalCleanup() - GlobalCompleted Operations: ${LogTest.loggedGlobalCompletedOperations}`
+      `globalCleanup() - GlobalCompleted Operations: ${LogTest.loggedGlobalCompletedOperations}`,
     );
   }
 

@@ -1,9 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfOptionDictionary } from "../../src";
-import { EventPerfTest } from "../../src/eventPerfTest";
-import { MockEventHubConsumerClient, Event, SubscribeOptions } from "./mockEventHubConsumerClient";
+import { PerfOptionDictionary } from "../../src/index.js";
+import { EventPerfTest } from "../../src/eventPerfTest.js";
+import {
+  MockEventHubConsumerClient,
+  Event,
+  SubscribeOptions,
+} from "./mockEventHubConsumerClient.js";
 
 export class MockEventHubConsumerClientTest extends EventPerfTest<SubscribeOptions> {
   public client: MockEventHubConsumerClient;
@@ -50,7 +54,7 @@ export class MockEventHubConsumerClientTest extends EventPerfTest<SubscribeOptio
         partitions: partitions?.value,
         maxBatchSize: maxBatchSize.value,
         maxEventsPerSecond: maxEventsPerSecond.value,
-      }
+      },
     );
   }
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BatchPerfTest, PerfOptionDictionary } from "../../src";
+import { BatchPerfTest, PerfOptionDictionary } from "../../src/index.js";
 
 interface MockReceiverOptions {
   "max-message-count": number;

@@ -51,7 +51,7 @@ export class MockEventReceiver {
 
   public subscribe(
     handlers: EventHandlers,
-    options?: SubscribeOptions
+    options?: SubscribeOptions,
   ): { close: () => Promise<void> } {
     this.internalSubscribe(handlers, options);
     return {
@@ -71,9 +71,12 @@ export class MockEventReceiver {
     }
     if (options?.raiseErrorAfterInSeconds) {
       promises.push(
-        this.processFuncWithDelay(async () => {
-          await handlers.processError(new Error(`new error ${randomUUID()}`));
-        }, options?.raiseErrorAfterInSeconds * 1000)
+        this.processFuncWithDelay(
+          async () => {
+            await handlers.processError(new Error(`new error ${randomUUID()}`));
+          },
+          options?.raiseErrorAfterInSeconds * 1000,
+        ),
       );
     }
 
@@ -84,14 +87,14 @@ export class MockEventReceiver {
     while (this.closeCalled === false) {
       await this.processFuncWithDelay(
         async () => processEvent({ body: randomUUID() }),
-        this.getRandomInteger(this.minDelay, this.maxDelay)
+        this.getRandomInteger(this.minDelay, this.maxDelay),
       );
     }
   }
 
   private async processFuncWithDelay(func: () => Promise<void>, delayInMilliseconds: number) {
     return new Promise<void>((resolve) =>
-      this.timers.push(setTimeout(async () => resolve(await func()), delayInMilliseconds))
+      this.timers.push(setTimeout(async () => resolve(await func()), delayInMilliseconds)),
     );
   }
 

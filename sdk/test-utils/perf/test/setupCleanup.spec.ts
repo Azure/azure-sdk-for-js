@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfTest, PerfOptionDictionary } from "../src";
+import { PerfTest, PerfOptionDictionary } from "../src/index.js";
 
 /**
  * Showcases and verifies some of the expected behaviors of the setup, globalSetup, cleanup and globalCleanup methods
@@ -37,12 +37,12 @@ export class SetupCleanupTest extends PerfTest {
     }
     if (this.state.setup !== this.parsedOptions.parallel.value) {
       throw new Error(
-        "setup() should be called exactly as many times as the parallel paramter says."
+        "setup() should be called exactly as many times as the parallel paramter says.",
       );
     }
     if (this.state.cleanup !== this.parsedOptions.parallel.value) {
       throw new Error(
-        "cleanup() should be called exactly as many times as the parallel paramter says."
+        "cleanup() should be called exactly as many times as the parallel paramter says.",
       );
     }
   }

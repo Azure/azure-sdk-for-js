@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { IncomingMessage, RequestOptions } from "http";
 import https from "https";
 import http from "http";
@@ -57,7 +58,7 @@ export async function drainStream(stream: NodeJS.ReadableStream): Promise<void> 
 export async function makeRequest(
   uri: string,
   requestOptions: RequestOptions,
-  insecure: boolean
+  insecure: boolean,
 ): Promise<IncomingMessage> {
   return new Promise<IncomingMessage>((resolve, reject) => {
     let req: http.ClientRequest;
@@ -68,7 +69,7 @@ export async function makeRequest(
           ...requestOptions,
           agent: getCachedHttpsAgent(insecure),
         },
-        resolve
+        resolve,
       );
     } else {
       req = http.request(uri, requestOptions, resolve);

@@ -1,10 +1,13 @@
-import { enterStage, exitStage } from "./barrier";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { enterStage, exitStage } from "./barrier.js";
 import { AbortController } from "@azure/abort-controller";
-import { multicoreUtils, WorkerData, WorkerMulticoreUtils } from "./multicore";
-import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
-import { PerfProgram } from "./program";
-import { DefaultPerfOptions, ParsedPerfOptions } from "./options";
-import { runWithCpuProfile } from "./utils/profiling";
+import { multicoreUtils, WorkerData, WorkerMulticoreUtils } from "./multicore.js";
+import { PerfTestBase, PerfTestConstructor } from "./perfTestBase.js";
+import { PerfProgram } from "./program.js";
+import { DefaultPerfOptions, ParsedPerfOptions } from "./options.js";
+import { runWithCpuProfile } from "./utils/profiling.js";
 
 export class WorkerPerfProgram implements PerfProgram {
   private testClass: PerfTestConstructor;

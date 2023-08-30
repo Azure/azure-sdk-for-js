@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfTest, PerfOptionDictionary } from "../src";
+import { PerfTest, PerfOptionDictionary } from "../src/index.js";
 
 import fetch from "node-fetch";
 import * as http from "http";

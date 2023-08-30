@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NoOp } from "./noop.spec";
-import { OptionsTest } from "./options.spec";
-import { SetupCleanupTest } from "./setupCleanup.spec";
-import { Exception } from "./exception.spec";
-import { SleepTest } from "./sleep.spec";
-import { NodeFetchTest } from "./nodeFetch.spec";
-import { MockReceiverTest } from "./batch/mockReceiverTest.spec";
-import { MockEventReceiverTest } from "./event/mockEventReceiverTest.spec";
-import { MockEventHubConsumerClientTest } from "./event/mockEventHubConsumerClientTest.spec";
-import { LogTest } from "./log.spec";
-import { PerfTestConstructor } from "../src";
+import { NoOp } from "./noop.spec.js";
+import { OptionsTest } from "./options.spec.js";
+import { SetupCleanupTest } from "./setupCleanup.spec.js";
+import { Exception } from "./exception.spec.js";
+import { SleepTest } from "./sleep.spec.js";
+import { NodeFetchTest } from "./nodeFetch.spec.js";
+import { MockReceiverTest } from "./batch/mockReceiverTest.spec.js";
+import { MockEventReceiverTest } from "./event/mockEventReceiverTest.spec.js";
+import { MockEventHubConsumerClientTest } from "./event/mockEventHubConsumerClientTest.spec.js";
+import { LogTest } from "./log.spec.js";
+import { PerfTestConstructor } from "../src/index.js";
 
 type NormalizedTestDefinition = { testClass: PerfTestConstructor; options?: string };
 
@@ -39,7 +39,7 @@ const tests: TestDefinition[] = [
 
 // Normalize everything in the array above for export.
 export const allTests: NormalizedTestDefinition[] = tests.map((test) =>
-  typeof test === "function" ? { testClass: test } : test
+  typeof test === "function" ? { testClass: test } : test,
 );
 
 // Exports all the test classes so that the index.spec.ts can pick them up

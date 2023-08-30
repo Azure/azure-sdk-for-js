@@ -1,17 +1,20 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { exec } from "child_process";
 import os from "os";
-import { performStage } from "./barrier";
+import { performStage } from "./barrier.js";
 import {
   ReportResultsMessage,
   StatusUpdateMessage,
   WorkerToManagerMessageWithId,
-} from "./messages";
-import { ManagerMulticoreUtils, multicoreUtils } from "./multicore";
-import { DefaultPerfOptions, ParsedPerfOptions } from "./options";
-import { Snapshot } from "./snapshot";
-import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
-import { PerfProgram } from "./program";
-import { formatDuration, formatNumber } from "./utils/utils";
+} from "./messages.js";
+import { ManagerMulticoreUtils, multicoreUtils } from "./multicore.js";
+import { DefaultPerfOptions, ParsedPerfOptions } from "./options.js";
+import { Snapshot } from "./snapshot.js";
+import { PerfTestBase, PerfTestConstructor } from "./perfTestBase.js";
+import { PerfProgram } from "./program.js";
+import { formatDuration, formatNumber } from "./utils/utils.js";
 
 /**
  * The manager program which is responsible for spawning workers which run the actual perf test.
@@ -98,7 +101,7 @@ export class ManagerPerfProgram implements PerfProgram {
         `operations in a weighted-average of ` +
         `${formatNumber(weightedAverage, 4)}s ` +
         `(${formatNumber(operationsPerSecond, 4)} ops/s, ` +
-        `${formatNumber(secondsPerOperation, 4)} s/op)`
+        `${formatNumber(secondsPerOperation, 4)} s/op)`,
     );
   }
 
@@ -111,7 +114,9 @@ export class ManagerPerfProgram implements PerfProgram {
     this.lastCompleted = totalCompleted;
 
     console.log(
-      `${elapsedTime}\t\t${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(2)}`
+      `${elapsedTime}\t\t${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(
+        2,
+      )}`,
     );
   }
 
@@ -161,7 +166,7 @@ export class ManagerPerfProgram implements PerfProgram {
     console.log(
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${
         millisecondsToLog / 1000
-      }s ===`
+      }s ===`,
     );
     console.log(`ElapsedTime\tCurrent\t\tTotal\t\tAverage`);
 
@@ -177,7 +182,7 @@ export class ManagerPerfProgram implements PerfProgram {
     this.managerUtils.getMessageFromAll((m) => m.tag === "statusUpdate").then(handleUpdate);
 
     const resultMessages = (await this.managerUtils.getMessageFromAll(
-      (m) => m.tag === "reportResults"
+      (m) => m.tag === "reportResults",
     )) as ReportResultsMessage[];
 
     // stop the handleUpdate part when it next gets a chance
@@ -232,7 +237,7 @@ export class ManagerPerfProgram implements PerfProgram {
     }
 
     await this.logPackageVersions(
-      this.parsedOptions["list-transitive-dependencies"].value ?? false
+      this.parsedOptions["list-transitive-dependencies"].value ?? false,
     );
 
     const options = this.dummyTestInstance.parsedOptions;
@@ -242,12 +247,12 @@ export class ManagerPerfProgram implements PerfProgram {
     this.createWorkers();
 
     console.log(
-      `=== Calling globalSetup() once per CPU for (all) the instance(s) of ${this.testName} ===`
+      `=== Calling globalSetup() once per CPU for (all) the instance(s) of ${this.testName} ===`,
     );
     await performStage("globalSetup");
 
     console.log(
-      `=== Calling setup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
+      `=== Calling setup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`,
     );
 
     await performStage("setup");
@@ -267,11 +272,11 @@ export class ManagerPerfProgram implements PerfProgram {
 
     if (!options["no-cleanup"].value) {
       console.log(
-        `=== Calling cleanup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
+        `=== Calling cleanup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`,
       );
       await performStage("cleanup");
       console.log(
-        `=== Calling globalCleanup() once per CPU for (all) the instance(s) of ${this.testName} ===`
+        `=== Calling globalCleanup() once per CPU for (all) the instance(s) of ${this.testName} ===`,
       );
       await performStage("globalCleanup");
     }

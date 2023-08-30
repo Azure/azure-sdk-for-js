@@ -3,8 +3,8 @@
 
 import { createPipelineRequest, PipelineRequest } from "@azure/core-rest-pipeline";
 import { ServiceClient } from "@azure/core-client";
-import { PerfTest, PerfOptionDictionary, drainStream } from "../src";
-import { getCachedHttpsAgent } from "../src/utils/utils";
+import { PerfTest, PerfOptionDictionary, drainStream } from "../src/index.js";
+import { getCachedHttpsAgent } from "../src/utils/utils.js";
 
 interface ServiceClientGetOptions {
   "first-run-extra-requests": number;

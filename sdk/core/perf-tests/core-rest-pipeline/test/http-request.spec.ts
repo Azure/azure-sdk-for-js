@@ -3,7 +3,7 @@
 
 import * as http from "http";
 import * as https from "https";
-import { BaseHttpTest } from "./baseHttpTest";
+import { BaseHttpTest } from "./baseHttpTest.js";
 
 export class HttpRequestTest extends BaseHttpTest {
   static httpAgent = new http.Agent({ keepAlive: true });
