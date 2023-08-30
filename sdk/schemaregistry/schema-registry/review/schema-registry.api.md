@@ -4,72 +4,66 @@
 
 ```ts
 
-import { CommonClientOptions } from '@azure/core-client';
-import { OperationOptions } from '@azure/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface GetSchemaOptions extends OperationOptions {
+export interface CustomPage {
+    nextLink?: string;
+    value: Version[];
 }
 
-// @public
-export interface GetSchemaPropertiesOptions extends OperationOptions {
+// @public (undocumented)
+export interface GetSchemaByIdOptions extends OperationOptions {
 }
 
-// @public
-export enum KnownSchemaFormats {
-    Avro = "Avro",
-    Custom = "Custom",
-    Json = "Json"
+// @public (undocumented)
+export interface GetSchemaByVersionOptions extends OperationOptions {
 }
 
-// @public
+// @public (undocumented)
+export interface GetSchemaIdByContentOptions extends OperationOptions {
+    contentType?: string;
+}
+
+// @public (undocumented)
+export interface ListSchemaGroupsOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface ListSchemaVersionsOptions extends OperationOptions {
+}
+
+// @public (undocumented)
 export interface RegisterSchemaOptions extends OperationOptions {
+    contentType?: string;
 }
 
 // @public
-export interface Schema {
-    definition: string;
-    properties: SchemaProperties;
+export interface SchemaGroup {
+    readonly groupName: string;
+}
+
+// @public (undocumented)
+export class SchemaRegistryClient {
+    constructor(endpoint: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
+    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Uint8Array>;
+    getSchemaByVersion(groupName: string, name: string, schemaVersion: number, options?: GetSchemaByVersionOptions): Promise<Uint8Array>;
+    getSchemaIdByContent(schemaContent: Uint8Array, groupName: string, name: string, options?: GetSchemaIdByContentOptions): Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "CustomPage_2" needs to be exported by the entry point index.d.ts
+    listSchemaGroups(options?: ListSchemaGroupsOptions): Promise<CustomPage_2>;
+    listSchemaVersions(groupName: string, name: string, options?: ListSchemaVersionsOptions): Promise<CustomPage>;
+    registerSchema(content: Uint8Array, groupName: string, name: string, options?: RegisterSchemaOptions): Promise<void>;
+}
+
+// @public (undocumented)
+export interface SchemaRegistryClientOptions extends ClientOptions {
 }
 
 // @public
-export interface SchemaDescription {
-    definition: string;
-    format: string;
-    groupName: string;
-    name: string;
-}
-
-// @public
-export interface SchemaProperties {
-    format: string;
-    groupName: string;
-    id: string;
-    name: string;
-    version: number;
-}
-
-// @public
-export interface SchemaRegistry {
-    getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
-    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
-    registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
-}
-
-// @public
-export class SchemaRegistryClient implements SchemaRegistry {
-    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
-    readonly fullyQualifiedNamespace: string;
-    getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
-    getSchema(name: string, groupName: string, version: number, options?: GetSchemaOptions): Promise<Schema>;
-    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
-    registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
-}
-
-// @public
-export interface SchemaRegistryClientOptions extends CommonClientOptions {
-    apiVersion?: string;
+export interface Version {
+    readonly schemaVersion: number;
 }
 
 // (No @packageDocumentation comment for this package)

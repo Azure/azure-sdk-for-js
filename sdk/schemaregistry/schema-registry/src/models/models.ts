@@ -16,7 +16,7 @@ export interface SchemaGroup {
 }
 
 /** Paged collection of Version items */
-export interface CustomPage {
+export interface CustomVersionPage {
   /** The Version items on this page */
   value: Version[];
   /** The link to the next page of items */

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CustomPage } from "../models/models.js";
+import { CustomPage, CustomVersionPage } from "../models/models.js";
 import {
   GetSchemaById200Response,
   GetSchemaByIdDefaultResponse,
@@ -17,6 +17,8 @@ import {
   RegisterSchema204Response,
   RegisterSchemaDefaultResponse,
   SchemaRegistryContext as Client,
+  SchemaGroupOutput,
+  VersionOutput,
 } from "../rest/index.js";
 import {
   StreamableMethod,
@@ -50,7 +52,7 @@ export async function _listSchemaGroupsDeserialize(
   }
 
   return {
-    value: (result.body["value"] ?? []).map((p) => ({
+    value: (result.body["value"] ?? []).map((p: SchemaGroupOutput) => ({
       groupName: p["groupName"],
     })),
     nextLink: result.body["nextLink"],
@@ -111,13 +113,13 @@ export function _listSchemaVersionsSend(
 
 export async function _listSchemaVersionsDeserialize(
   result: ListSchemaVersions200Response | ListSchemaVersionsDefaultResponse
-): Promise<CustomPage> {
+): Promise<CustomVersionPage> {
   if (isUnexpected(result)) {
     throw result.body;
   }
 
   return {
-    value: (result.body["value"] ?? []).map((p) => ({
+    value: (result.body["value"] ?? []).map((p:VersionOutput) => ({
       schemaVersion: p["schemaVersion"],
     })),
     nextLink: result.body["nextLink"],
@@ -130,7 +132,7 @@ export async function listSchemaVersions(
   groupName: string,
   name: string,
   options: ListSchemaVersionsOptions = { requestOptions: {} }
-): Promise<CustomPage> {
+): Promise<CustomVersionPage> {
   const result = await _listSchemaVersionsSend(
     context,
     groupName,

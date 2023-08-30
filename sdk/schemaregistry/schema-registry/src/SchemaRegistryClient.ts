@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-auth";
-import { CustomPage } from "./models/models.js";
+import { CustomPage, CustomVersionPage } from "./models/models.js";
 import {
   ListSchemaGroupsOptions,
   GetSchemaByIdOptions,
@@ -56,7 +56,7 @@ export class SchemaRegistryClient {
     groupName: string,
     name: string,
     options: ListSchemaVersionsOptions = { requestOptions: {} }
-  ): Promise<CustomPage> {
+  ): Promise<CustomVersionPage> {
     return listSchemaVersions(this._client, groupName, name, options);
   }
 
