@@ -147,7 +147,8 @@
     },
     "skip": [
       "purchasePhoneNumber.js",
-      "releasePhoneNumber.js"
+      "releasePhoneNumber.js",
+      "manageSipRoutingConfiguration.js"
     ]
   }
 }
