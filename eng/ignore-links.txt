@@ -31,3 +31,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-apicenter?view=azure-node-p
 https://docs.microsoft.com/javascript/api/@azure/arm-defendereasm?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-resourcesdeploymentstacks?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-hdinsightcontainers?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-hybridconnectivity?view=azure-node-preview
