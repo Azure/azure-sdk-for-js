@@ -178,8 +178,8 @@ The following example demonstrates how to query logs directly from an Azure reso
 To find the resource ID:
 
 1. Navigate to your resource's page in the Azure portal.
-2. From the Overview blade, select the JSON View link.
-3. In the resulting JSON, copy the value of the id property.
+2. From the **Overview** blade, select the **JSON View** link.
+3. In the resulting JSON, copy the value of the `id` property.
 
 ```ts
 /**
