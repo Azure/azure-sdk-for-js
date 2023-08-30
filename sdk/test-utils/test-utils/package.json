@@ -74,7 +74,6 @@
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
     "chai-exclude": "^2.1.0",
-    "mocha": "^10.2.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
@@ -90,6 +89,7 @@
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
+    "mocha": "^10.2.0",
     "prettier": "^2.8.8",
     "rimraf": "^3.0.0",
     "sinon": "^15.2.0",
