@@ -1,5 +1,11 @@
 # Release History
 
+## 1.1.0-beta.2 (2023-08-30)
+
+### Features Added
+
+- Add MicrosoftTeamsUserIdentifier to CallInvite model.
+
 ## 1.1.0-beta.1 (2023-08-17)
 
 ### Features Added
