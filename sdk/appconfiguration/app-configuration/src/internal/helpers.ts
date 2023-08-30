@@ -9,9 +9,9 @@ import {
   HttpResponseField,
   HttpResponseFields,
   ListRevisionsOptions,
+  ListSettingsOptions,
   ListSnapshotsOptions,
   OperationDetailsResponse,
-  SendConfigurationSettingsOptions,
   Snapshot,
   SnapshotResponse,
 } from "../models";
@@ -29,7 +29,19 @@ import {
 } from "../secretReference";
 import { isDefined } from "@azure/core-util";
 import { logger } from "../logger";
+import { OperationOptions } from "@azure/core-client";
 
+/**
+ * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
+ * Also provides `fields` which allows you to selectively choose which fields are populated in the
+ * result.
+ */
+export interface SendConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
+  /**
+ * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
+ */
+  snapshotName?: string;
+}
 /**
  * Entity with etag. Represent both ConfigurationSetting and Snapshot
  */
@@ -110,11 +122,18 @@ export function formatFiltersAndSelect(
   if (listConfigOptions.acceptDateTime) {
     acceptDatetime = listConfigOptions.acceptDateTime.toISOString();
   }
-
+  if (typeof (listConfigOptions as SendConfigurationSettingsOptions).snapshotName === "string"){
+    return {
+      key: listConfigOptions.keyFilter,
+      label: listConfigOptions.labelFilter,
+      snapshot: (listConfigOptions as SendConfigurationSettingsOptions).snapshotName,
+      acceptDatetime,
+      select: formatFieldsForSelect(listConfigOptions.fields),
+    };
+  }
   return {
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
-    snapshot: listConfigOptions.snapshotName,
     acceptDatetime,
     select: formatFieldsForSelect(listConfigOptions.fields),
   };

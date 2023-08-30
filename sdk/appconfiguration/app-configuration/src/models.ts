@@ -342,7 +342,7 @@ export interface ListSettingsOptions extends OptionalFields {
  * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
  * the accept date time header.
  */
-export interface ListSettingsSnapshotsOptions extends OperationOptions, OptionalFields {
+export interface ListConfigurationSettingsForSnapshotOptions extends OperationOptions, OptionalFields {
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
@@ -355,24 +355,6 @@ export interface ListSettingsSnapshotsOptions extends OperationOptions, Optional
  * result.
  */
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {}
-
-/**
- * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
- * the accept date time header.
- */
-export interface SendSettingsOptions extends ListSettingsOptions {
-  /**
-   * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
-   */
-  snapshotName?: string;
-}
-
-/**
- * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
- * Also provides `fields` which allows you to selectively choose which fields are populated in the
- * result.
- */
-export interface SendConfigurationSettingsOptions extends OperationOptions, SendSettingsOptions {}
 
 /**
  * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
@@ -432,7 +414,7 @@ export interface ListSnapshotsPage extends HttpResponseField<SyncTokenHeaderFiel
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListRevisionsOptions extends OperationOptions, SendSettingsOptions {}
+export interface ListRevisionsOptions extends OperationOptions, ListSettingsOptions {}
 
 /**
  * A page of configuration settings and the corresponding HTTP response

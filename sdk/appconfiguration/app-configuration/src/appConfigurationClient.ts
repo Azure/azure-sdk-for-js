@@ -22,14 +22,13 @@ import {
   GetSnapshotResponse,
   HttpResponseField,
   ListConfigurationSettingPage,
+  ListConfigurationSettingsForSnapshotOptions,
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
   ListRevisionsPage,
-  ListSettingsSnapshotsOptions,
   ListSnapshotsOptions,
   ListSnapshotsPage,
   PageSettings,
-  SendConfigurationSettingsOptions,
   SetConfigurationSettingOptions,
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
@@ -59,6 +58,7 @@ import {
 import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
+  SendConfigurationSettingsOptions,
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
@@ -364,7 +364,7 @@ export class AppConfigurationClient {
    */
   listConfigurationSettingsForSnapshot(
     snapshotName: string,
-    options: ListSettingsSnapshotsOptions = {}
+    options: ListConfigurationSettingsForSnapshotOptions = {}
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
       {

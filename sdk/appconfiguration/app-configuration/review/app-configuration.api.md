@@ -48,7 +48,7 @@ export class AppConfigurationClient {
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
     getSnapshot(name: string, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
-    listConfigurationSettingsForSnapshot(snapshotName: string, options?: ListSettingsSnapshotsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
+    listConfigurationSettingsForSnapshot(snapshotName: string, options?: ListConfigurationSettingsForSnapshotOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
     listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<Snapshot, ListSnapshotsPage, PageSettings>;
     recoverSnapshot(snapshotId: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
@@ -217,11 +217,16 @@ export interface ListConfigurationSettingPage extends HttpResponseField<SyncToke
 }
 
 // @public
+export interface ListConfigurationSettingsForSnapshotOptions extends OperationOptions, OptionalFields {
+    acceptDateTime?: Date;
+}
+
+// @public
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
 }
 
 // @public
-export interface ListRevisionsOptions extends OperationOptions, SendSettingsOptions {
+export interface ListRevisionsOptions extends OperationOptions, ListSettingsOptions {
 }
 
 // @public
@@ -234,11 +239,6 @@ export interface ListSettingsOptions extends OptionalFields {
     acceptDateTime?: Date;
     keyFilter?: string;
     labelFilter?: string;
-}
-
-// @public
-export interface ListSettingsSnapshotsOptions extends OperationOptions, OptionalFields {
-    acceptDateTime?: Date;
 }
 
 // @public
@@ -300,15 +300,6 @@ export const secretReferenceContentType = "application/vnd.microsoft.appconfig.k
 // @public
 export interface SecretReferenceValue {
     secretId: string;
-}
-
-// @public
-export interface SendConfigurationSettingsOptions extends OperationOptions, SendSettingsOptions {
-}
-
-// @public
-export interface SendSettingsOptions extends ListSettingsOptions {
-    snapshotName?: string;
 }
 
 // @public
