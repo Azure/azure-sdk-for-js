@@ -28,9 +28,11 @@ export class AwaitableQueue<T> {
   public shift(): Promise<T> {
     const item = this._items.shift();
     if (typeof item !== "undefined") {
+      console.log(`resolving AwaitableQueue.shift: item = ${item}`);
       return Promise.resolve(item);
     }
 
+    console.log(`AwaitableQueue.shift: this._resolvers.length = ${this._resolvers.length}`);
     return new Promise<T>((resolve) => this._resolvers.push(resolve));
   }
 

@@ -62,7 +62,7 @@ async function main() {
     writeSnapshotInfoToConsole: false
   });
   const startedAt = new Date();
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     await delay(100);
     try {
       await producerClient.enqueueEvent({

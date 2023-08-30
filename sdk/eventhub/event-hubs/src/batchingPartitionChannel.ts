@@ -47,8 +47,8 @@ export class BatchingPartitionChannel {
   private _flushState:
     | { isFlushing: false }
     | { isFlushing: true; currentPromise: Promise<void>; resolve: () => void } = {
-    isFlushing: false,
-  };
+      isFlushing: false,
+    };
   private _isRunning: boolean = false;
   private _lastBatchCreationTime: number = 0;
   private _loopAbortSignal: AbortSignalLike;
@@ -146,12 +146,16 @@ export class BatchingPartitionChannel {
     return readyPromise;
   }
 
+  private _startPublishLoopCount = 0
+  private _startPublishLoopEndCount = 0
   /**
    * Starts the loop that creates batches and sends them to the Event Hub.
    *
    * The loop will run until the `_loopAbortSignal` is aborted.
    */
   private async _startPublishLoop() {
+    this._startPublishLoopCount++;
+    console.log(`${(new Date()).toISOString()} _startPublishLoop: count = ${this._startPublishLoopCount}`);
     let batch: EventDataBatch | undefined;
     let futureEvent = this._eventQueue.shift();
     // `eventToAddToBatch` is used to keep track of an event that has been removed
@@ -159,7 +163,9 @@ export class BatchingPartitionChannel {
     // This prevents losing an event if a `sendBatch` or `createBatch` call fails
     // before the event is added to a batch.
     let eventToAddToBatch: EventData | AmqpAnnotatedMessage | undefined;
+    console.log("this._loopAbortSignal.aborted b: ", this._loopAbortSignal.aborted)
     while (!this._loopAbortSignal.aborted) {
+      console.log("this._loopAbortSignal.aborted in: ", this._loopAbortSignal.aborted)
       try {
         if (!isDefined(batch)) {
           batch = await this._createBatch();
@@ -169,11 +175,14 @@ export class BatchingPartitionChannel {
           ? Math.max(this._maxWaitTimeInMs - timeSinceLastBatchCreation, 0)
           : this._maxWaitTimeInMs;
 
+        console.log("maximumTimeToWaitForEvent: ", maximumTimeToWaitForEvent)
+        const delayPromise = delay<void>(maximumTimeToWaitForEvent).then(() => { console.log("delayPromise resolved") });
         const event =
           eventToAddToBatch ??
-          (await Promise.race([futureEvent, delay<void>(maximumTimeToWaitForEvent)]));
-
+          (await Promise.race([futureEvent, delayPromise]));
+        console.log("event from race: ", event)
         if (!event) {
+          console.log("event is undefined, batch.count: ", batch.count)
           // We didn't receive an event within the allotted time.
           // Send the existing batch if it has events in it.
           if (batch.count) {
@@ -181,8 +190,13 @@ export class BatchingPartitionChannel {
             this._reportSuccess();
             batch = await this._createBatch();
           }
+          //  else {
+          //   console.log(await delayPromise);
+          //   console.log(await futureEvent);
+          // }
           continue;
         } else if (!eventToAddToBatch) {
+          console.log("eventToAddToBatch is undefined")
           eventToAddToBatch = event;
           // We received an event, so get a promise for the next one.
           futureEvent = this._eventQueue.shift();
@@ -228,6 +242,10 @@ export class BatchingPartitionChannel {
         }
       }
     }
+    console.log("this._loopAbortSignal.aborted a: ", this._loopAbortSignal.aborted)
+
+    this._startPublishLoopEndCount++;
+    console.log(`${(new Date()).toISOString()} _startPublishLoop ended: count = ${this._startPublishLoopEndCount}`);
   }
 
   /**
