@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists a collection of tags defined within a service instance.
  *
  * @summary Lists a collection of tags defined within a service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListTags.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListTags.json
  */
 async function apiManagementListTags() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

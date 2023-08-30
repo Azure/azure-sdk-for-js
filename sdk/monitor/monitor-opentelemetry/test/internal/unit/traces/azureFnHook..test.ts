@@ -6,26 +6,29 @@ import * as sinon from "sinon";
 import { AzureFunctionsHook } from "../../../../src/traces/azureFnHook";
 import { TraceHandler } from "../../../../src/traces";
 import { Logger } from "../../../../src/shared/logging";
-import { AzureMonitorOpenTelemetryConfig } from "../../../../src/shared";
+import { InternalConfig } from "../../../../src/shared";
 import { MetricHandler } from "../../../../src/metrics";
+import { metrics, trace } from "@opentelemetry/api";
 
 describe("Library/AzureFunctionsHook", () => {
   let sandbox: sinon.SinonSandbox;
-  let traceHandler: TraceHandler;
   let metricHandler: MetricHandler;
+  let handler: TraceHandler;
 
   before(() => {
     sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
-    sandbox.restore();
-    if (traceHandler) {
-      traceHandler.shutdown();
-    }
     if (metricHandler) {
       metricHandler.shutdown();
     }
+    if (handler) {
+      handler.shutdown();
+    }
+    metrics.disable();
+    trace.disable();
+    sandbox.restore();
   });
 
   it("Hook not added if not running in Azure Functions", () => {
@@ -81,14 +84,11 @@ describe("Library/AzureFunctionsHook", () => {
     it("Pre Invokation Hook added if running in Azure Functions and context is propagated", () => {
       let Module = require("module");
       let preInvocationCalled = false;
-      let config = new AzureMonitorOpenTelemetryConfig({
-        enableAutoCollectPerformance: false,
-        enableAutoCollectStandardMetrics: false,
-      });
+      let config = new InternalConfig({});
       config.azureMonitorExporterConfig.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
       metricHandler = new MetricHandler(config);
-      traceHandler = new TraceHandler(config, metricHandler);
+      handler = new TraceHandler(config, metricHandler);
 
       Module.prototype.require = function () {
         if (arguments[0] === "@azure/functions-core") {
@@ -108,7 +108,7 @@ describe("Library/AzureFunctionsHook", () => {
                 let preInvocationContext: any = {
                   inputs: [],
                   functionCallback: () => {
-                    let span = traceHandler.getTracer().startSpan("test");
+                    let span = trace.getTracer("testTracer").startSpan("test");
                     // Context should be propagated here
                     assert.equal(
                       (span as any)["_spanContext"]["traceId"],

@@ -37,8 +37,8 @@ declare global {
         require?: string;
         types?: string;
         [extraTypes: `types@${string}`]: string;
-      }
-    },
+      };
+    };
     typesVersions?: {
       [k: string]: {
         [k: string]: string[];

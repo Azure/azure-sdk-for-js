@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Add existing user to existing group
  *
  * @summary Add existing user to existing group
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateGroupUser.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGroupUser.json
  */
 async function apiManagementCreateGroupUser() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

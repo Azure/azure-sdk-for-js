@@ -5,6 +5,7 @@
 ### Features Added
 
 - Exposed top/skip params to listUSProgramBriefs
+- Renamed "shortCodesCost" para to "costs"
 
 ### Breaking Changes
 

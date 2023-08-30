@@ -1921,7 +1921,7 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
   });
 
   it("exists", async () => {
-    assert.ok(dirClient.exists(), "The directory with trailing dot should exists");
+    assert.ok(await dirClient.exists(), "The directory with trailing dot should exists");
   });
 
   it("deleteIfExists", async () => {
@@ -2189,7 +2189,7 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
   });
 
   it("exists", async () => {
-    assert.ok(dirClient.exists(), "The directory with trailing dot should exists");
+    assert.ok(await dirClient.exists(), "The directory with trailing dot should exists");
   });
 
   it("deleteIfExists", async () => {

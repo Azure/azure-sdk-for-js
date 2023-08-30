@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import { RegistrationDescription } from "../models/registration.js";
 import { createOrUpdateRegistrationDescription } from "./internal/_createOrUpdateRegistrationDescription.js";
 import { tracingClient } from "../utils/tracing.js";

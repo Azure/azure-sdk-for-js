@@ -68,7 +68,6 @@ describe("EnvironmentCredential", function () {
     process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
     process.env.AZURE_CLIENT_CERTIFICATE_PATH =
       cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert.pem";
-
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 
     const token = await credential.getToken(scope);

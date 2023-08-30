@@ -27,7 +27,7 @@ export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, "ca
 
 // @public
 export interface AddParticipantOptions extends OperationOptions {
-    callbackUrlOverride?: string;
+    callbackUrl?: string;
     invitationTimeoutInSeconds?: number;
     operationContext?: string;
 }
@@ -133,16 +133,11 @@ export interface CallDisconnected extends Omit<RestCallDisconnected, "callConnec
 
 // @public
 export interface CallInvite {
-    readonly sipHeaders?: {
-        [propertyName: string]: string;
-    };
+    customContext?: CustomContext;
     readonly sourceCallIdNumber?: PhoneNumberIdentifier;
     // (undocumented)
     sourceDisplayName?: string;
     readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier;
-    readonly voipHeaders?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
@@ -186,6 +181,8 @@ export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions
 
 // @public
 export interface CallMediaRecognizeOptions extends OperationOptions {
+    // (undocumented)
+    callbackUrl?: string;
     // (undocumented)
     initialSilenceTimeoutInSeconds?: number;
     // (undocumented)
@@ -277,6 +274,7 @@ export interface Choice {
 
 // @public
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
+    callbackUrl?: string;
     operationContext?: string;
 }
 
@@ -314,20 +312,32 @@ export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuo
 // @public
 export interface CreateCallOptions extends OperationOptions {
     azureCognitiveServicesEndpointUrl?: string;
+    customContext?: CustomContext;
     mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
-    sipHeaders?: {
-        [propertyName: string]: string;
-    };
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
-    voipHeaders?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
 export type CreateCallResult = CallResult;
+
+// @public
+export class CustomContext {
+    constructor(sipHeaders: {
+        [key: string]: string;
+    }, voipHeaders: {
+        [key: string]: string;
+    });
+    // Warning: (ae-forgotten-export) The symbol "CustomContextHeader" needs to be exported by the entry point index.d.ts
+    add(header: CustomContextHeader): void;
+    sipHeaders: {
+        [key: string]: string;
+    };
+    voipHeaders: {
+        [key: string]: string;
+    };
+}
 
 // @public
 export type DeleteRecordingOptions = OperationOptions;
@@ -487,9 +497,8 @@ export interface PlayFailed extends Omit<RestPlayFailed, "callConnectionId" | "s
 
 // @public
 export interface PlayOptions extends OperationOptions {
-    // (undocumented)
+    callbackUrl?: string;
     loop?: boolean;
-    // (undocumented)
     operationContext?: string;
 }
 
@@ -593,7 +602,7 @@ export interface RemoveParticipantResult {
 
 // @public
 export interface RemoveParticipantsOption extends OperationOptions {
-    callbackUrlOverride?: string;
+    callbackUrl?: string;
     operationContext?: string;
 }
 
@@ -859,7 +868,26 @@ export interface SendDtmfFailed extends Omit<RestSendDtmfFailed, "callConnection
 
 // @public
 export interface SendDtmfOptions extends OperationOptions {
+    callbackUrl?: string;
     operationContext?: string;
+}
+
+// @public
+export interface SIPCustomHeader extends CustomContextHeader {
+}
+
+// @public
+export class SIPCustomHeader implements CustomContextHeader {
+    constructor(key: string, value: string);
+}
+
+// @public
+export interface SIPUserToUserHeader extends CustomContextHeader {
+}
+
+// @public
+export class SIPUserToUserHeader implements CustomContextHeader {
+    constructor(value: string);
 }
 
 // @public
@@ -915,15 +943,19 @@ export interface TransferCallResult {
 
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
-    callbackUrlOverride?: string;
+    callbackUrl?: string;
+    customContext?: CustomContext;
     operationContext?: string;
-    sipHeaders?: {
-        [propertyName: string]: string;
-    };
     transferee?: CommunicationIdentifier;
-    voipHeaders?: {
-        [propertyName: string]: string;
-    };
+}
+
+// @public
+export interface VoipHeader extends CustomContextHeader {
+}
+
+// @public
+export class VoipHeader implements CustomContextHeader {
+    constructor(key: string, value: string);
 }
 
 // (No @packageDocumentation comment for this package)

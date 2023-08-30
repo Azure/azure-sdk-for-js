@@ -51,7 +51,7 @@ export class TenantAccessImpl implements TenantAccess {
 
   /**
    * Returns list of access infos - for Git and Management endpoints.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -135,7 +135,7 @@ export class TenantAccessImpl implements TenantAccess {
 
   /**
    * Returns list of access infos - for Git and Management endpoints.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -152,7 +152,7 @@ export class TenantAccessImpl implements TenantAccess {
 
   /**
    * Tenant access metadata
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param options The options parameters.
@@ -171,7 +171,7 @@ export class TenantAccessImpl implements TenantAccess {
 
   /**
    * Get tenant access information details without secrets.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param options The options parameters.
@@ -190,7 +190,7 @@ export class TenantAccessImpl implements TenantAccess {
 
   /**
    * Update tenant access information details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -221,7 +221,7 @@ export class TenantAccessImpl implements TenantAccess {
 
   /**
    * Update tenant access information details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -252,7 +252,7 @@ export class TenantAccessImpl implements TenantAccess {
 
   /**
    * Regenerate primary access key
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param options The options parameters.
@@ -271,7 +271,7 @@ export class TenantAccessImpl implements TenantAccess {
 
   /**
    * Regenerate secondary access key
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param options The options parameters.
@@ -290,7 +290,7 @@ export class TenantAccessImpl implements TenantAccess {
 
   /**
    * Get tenant access information details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param options The options parameters.
@@ -309,7 +309,7 @@ export class TenantAccessImpl implements TenantAccess {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -411,7 +411,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters58,
+  requestBody: Parameters.parameters69,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -441,7 +441,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters59,
+  requestBody: Parameters.parameters70,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

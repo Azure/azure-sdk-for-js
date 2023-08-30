@@ -266,7 +266,7 @@ export interface AppendPositionAccessConditions {
 }
 
 // @public
-export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool";
+export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool" | "rehydrate-pending-to-cold";
 
 // @public
 export abstract class BaseRequestPolicy implements RequestPolicy {

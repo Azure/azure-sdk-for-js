@@ -190,8 +190,8 @@ export interface TransferToParticipantRequest {
   operationContext?: string;
   /** Transferee is the participant who is transferring the call. */
   transferee?: CommunicationIdentifierModel;
-  /** The callback URI override. */
-  callbackUriOverride?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 /** The response payload for transferring the call. */
@@ -212,6 +212,8 @@ export interface PlayRequest {
   playOptions?: PlayOptionsInternal;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 export interface PlaySourceInternal {
@@ -274,6 +276,8 @@ export interface RecognizeRequest {
   recognizeOptions: RecognizeOptions;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 export interface RecognizeOptions {
@@ -324,6 +328,8 @@ export interface ContinuousDtmfRecognitionRequest {
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 export interface SendDtmfRequest {
@@ -333,6 +339,8 @@ export interface SendDtmfRequest {
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 export interface StartDialogRequest {
@@ -401,8 +409,8 @@ export interface AddParticipantRequest {
   operationContext?: string;
   /** Used by customer to send custom context to targets */
   customContext?: CustomContext;
-  /** The callback URI override. */
-  callbackUriOverride?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 /** The response payload for adding participants to the call. */
@@ -419,8 +427,8 @@ export interface RemoveParticipantRequest {
   participantToRemove: CommunicationIdentifierModel;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** The callback URI override. */
-  callbackUriOverride?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 /** The response payload for removing participants of the call. */

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists a collection of API Version Sets in the specified service instance.
  *
  * @summary Lists a collection of API Version Sets in the specified service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListApiVersionSets.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiVersionSets.json
  */
 async function apiManagementListApiVersionSets() {
   const subscriptionId =

@@ -15,11 +15,24 @@ import { AzureKeyCredential } from "@azure/core-auth";
 const envSetupForPlayback: { [k: string]: string } = {
   OPENAI_API_KEY: "openai_api_key",
   AZURE_API_KEY: "azure_api_key",
-  ENDPOINT: "https://endpoint",
+  ENDPOINT: "https://endpoint/",
+  SUBSCRIPTION_ID: "subscription_id",
+  AZURE_SEARCH_ENDPOINT: "azure_search_endpoint",
+  AZURE_SEARCH_KEY: "azure_search_key",
+  AZURE_SEARCH_INDEX: "azure_search_index",
 };
 
 const recorderStartOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  sanitizerOptions: {
+    generalSanitizers: [
+      {
+        regex: true,
+        target: `\\.png?[^"]+`,
+        value: ".png?sanitized",
+      },
+    ],
+  },
 };
 
 export type AuthMethod = "AzureAPIKey" | "OpenAIKey" | "AAD" | "DummyAPIKey";

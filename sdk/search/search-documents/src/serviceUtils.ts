@@ -630,13 +630,17 @@ export function generatedSearchIndexerToPublicSearchIndexer(
 export function generatedSearchRequestToPublicSearchRequest<Model extends object>(
   request: GeneratedSearchRequest
 ): SearchRequest<Model> {
-  const { semanticErrorHandling, debug, vector, ...props } = request;
-  return {
+  const { semanticErrorHandling, debug, vectors, ...props } = request;
+  const publicRequest: SearchRequest<Model> = {
     semanticErrorHandlingMode: semanticErrorHandling as `${KnownSemanticErrorHandling}` | undefined,
     debugMode: debug as `${KnownQueryDebugMode}` | undefined,
-    vector: convertVectorToPublic<Model>(vector),
+    vectors: vectors
+      ?.map(convertVectorToPublic<Model>)
+      .filter((v): v is Vector<Model> => v !== undefined),
     ...props,
   };
+
+  return publicRequest;
 }
 
 export function publicDataSourceToGeneratedDataSource(

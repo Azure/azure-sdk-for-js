@@ -35,6 +35,13 @@ import {
   RoutePoliciesUpdateOptionalParams,
   RoutePoliciesUpdateResponse,
   RoutePoliciesDeleteOptionalParams,
+  UpdateAdministrativeState,
+  RoutePoliciesUpdateAdministrativeStateOptionalParams,
+  RoutePoliciesUpdateAdministrativeStateResponse,
+  RoutePoliciesValidateConfigurationOptionalParams,
+  RoutePoliciesValidateConfigurationResponse,
+  RoutePoliciesCommitConfigurationOptionalParams,
+  RoutePoliciesCommitConfigurationResponse,
   RoutePoliciesListByResourceGroupNextResponse,
   RoutePoliciesListBySubscriptionNextResponse
 } from "../models";
@@ -178,7 +185,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
   /**
    * Implements Route Policy PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param routePolicyName Name of the Route Policy
+   * @param routePolicyName Name of the Route Policy.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -252,7 +259,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
   /**
    * Implements Route Policy PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param routePolicyName Name of the Route Policy
+   * @param routePolicyName Name of the Route Policy.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -274,7 +281,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
   /**
    * Implements Route Policy GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param routePolicyName Name of the Route Policy
+   * @param routePolicyName Name of the Route Policy.
    * @param options The options parameters.
    */
   get(
@@ -291,7 +298,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
   /**
    * API to update certain properties of the Route Policy resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param routePolicyName Name of the Route Policy
+   * @param routePolicyName Name of the Route Policy.
    * @param body Route Policy properties to update.
    * @param options The options parameters.
    */
@@ -365,7 +372,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
   /**
    * API to update certain properties of the Route Policy resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param routePolicyName Name of the Route Policy
+   * @param routePolicyName Name of the Route Policy.
    * @param body Route Policy properties to update.
    * @param options The options parameters.
    */
@@ -387,7 +394,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
   /**
    * Implements Route Policy DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param routePolicyName Name of the Route Policy
+   * @param routePolicyName Name of the Route Policy.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -451,7 +458,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
   /**
    * Implements Route Policy DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param routePolicyName Name of the Route Policy
+   * @param routePolicyName Name of the Route Policy.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -493,6 +500,284 @@ export class RoutePoliciesImpl implements RoutePolicies {
       { options },
       listBySubscriptionOperationSpec
     );
+  }
+
+  /**
+   * Updated the admin state for this Route Policy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param routePolicyName Name of the Route Policy.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateAdministrativeState(
+    resourceGroupName: string,
+    routePolicyName: string,
+    body: UpdateAdministrativeState,
+    options?: RoutePoliciesUpdateAdministrativeStateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<RoutePoliciesUpdateAdministrativeStateResponse>,
+      RoutePoliciesUpdateAdministrativeStateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<RoutePoliciesUpdateAdministrativeStateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, routePolicyName, body, options },
+      spec: updateAdministrativeStateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RoutePoliciesUpdateAdministrativeStateResponse,
+      OperationState<RoutePoliciesUpdateAdministrativeStateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updated the admin state for this Route Policy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param routePolicyName Name of the Route Policy.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateAdministrativeStateAndWait(
+    resourceGroupName: string,
+    routePolicyName: string,
+    body: UpdateAdministrativeState,
+    options?: RoutePoliciesUpdateAdministrativeStateOptionalParams
+  ): Promise<RoutePoliciesUpdateAdministrativeStateResponse> {
+    const poller = await this.beginUpdateAdministrativeState(
+      resourceGroupName,
+      routePolicyName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Validates the configuration of the resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param routePolicyName Name of the Route Policy.
+   * @param options The options parameters.
+   */
+  async beginValidateConfiguration(
+    resourceGroupName: string,
+    routePolicyName: string,
+    options?: RoutePoliciesValidateConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<RoutePoliciesValidateConfigurationResponse>,
+      RoutePoliciesValidateConfigurationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<RoutePoliciesValidateConfigurationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, routePolicyName, options },
+      spec: validateConfigurationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RoutePoliciesValidateConfigurationResponse,
+      OperationState<RoutePoliciesValidateConfigurationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Validates the configuration of the resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param routePolicyName Name of the Route Policy.
+   * @param options The options parameters.
+   */
+  async beginValidateConfigurationAndWait(
+    resourceGroupName: string,
+    routePolicyName: string,
+    options?: RoutePoliciesValidateConfigurationOptionalParams
+  ): Promise<RoutePoliciesValidateConfigurationResponse> {
+    const poller = await this.beginValidateConfiguration(
+      resourceGroupName,
+      routePolicyName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Commits the configuration of the given resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param routePolicyName Name of the Route Policy.
+   * @param options The options parameters.
+   */
+  async beginCommitConfiguration(
+    resourceGroupName: string,
+    routePolicyName: string,
+    options?: RoutePoliciesCommitConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<RoutePoliciesCommitConfigurationResponse>,
+      RoutePoliciesCommitConfigurationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<RoutePoliciesCommitConfigurationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, routePolicyName, options },
+      spec: commitConfigurationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RoutePoliciesCommitConfigurationResponse,
+      OperationState<RoutePoliciesCommitConfigurationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Commits the configuration of the given resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param routePolicyName Name of the Route Policy.
+   * @param options The options parameters.
+   */
+  async beginCommitConfigurationAndWait(
+    resourceGroupName: string,
+    routePolicyName: string,
+    options?: RoutePoliciesCommitConfigurationOptionalParams
+  ): Promise<RoutePoliciesCommitConfigurationResponse> {
+    const poller = await this.beginCommitConfiguration(
+      resourceGroupName,
+      routePolicyName,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -551,7 +836,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body31,
+  requestBody: Parameters.body45,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -606,7 +891,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body32,
+  requestBody: Parameters.body46,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -676,6 +961,101 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}/updateAdministrativeState",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+    },
+    201: {
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+    },
+    202: {
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+    },
+    204: {
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.routePolicyName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const validateConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}/validateConfiguration",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    201: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    202: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    204: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.routePolicyName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const commitConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}/commitConfiguration",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    201: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    202: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    204: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.routePolicyName
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
