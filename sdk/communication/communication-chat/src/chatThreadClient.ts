@@ -52,7 +52,6 @@ import { ChatApiClient } from "./generated/src";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { tracingClient } from "./generated/src/tracing";
-import { Blob as JSBlob } from 'node:buffer';
 
 const minimumTypingIntervalInMilliSeconds: number = 8000;
 
@@ -117,13 +116,16 @@ export class ChatThreadClient {
    * Returns the chat thread.
    * @param options -  Operation options.
    */
-  public uploadImage(blob: JSBlob, options: UploadImageOptions): Promise<UploadImageResult> {
+  public uploadImage(blob: Blob, options: UploadImageOptions): Promise<UploadImageResult> {
     return tracingClient.withSpan("ChatClient-GetProperties", {}, async () => {
       console.log('size uploadImage: ', blob.size)
       const result = await this.client.chatThread.uploadImage(
-        blob, options?.size ?? 0, options.onUploadProgress
+        this.threadId,
+        blob,
+        blob.size,
+        options.onUploadProgress
       );
-      console.log('result----');
+      console.log('result2----');
       console.log(result);
       const response: UploadImageResult = {
         id: JSON.parse(result.bodyAsText ?? "{}")?.id ?? 'unknown_id',

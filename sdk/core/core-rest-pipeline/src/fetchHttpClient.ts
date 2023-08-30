@@ -91,7 +91,7 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
       credentials: request.withCredentials ? "include" : "same-origin",
       cache: "no-store",
       // @ts-ignore
-      // duplex: 'half'
+      duplex: 'half'
     });
     // If we're uploading a blob, we need to fire the progress event manually
     if (isBlob(request.body) && request.onUploadProgress) {
@@ -239,6 +239,7 @@ function buildBodyStream(
   // If the current browser supports pipeThrough we use a TransformStream
   // to report progress
   if (isTransformStreamSupported(readableStream)) {
+    console.log("isTransformStreamSupported");
     return readableStream.pipeThrough(
       new TransformStream({
         transform(chunk, controller) {
@@ -258,12 +259,18 @@ function buildBodyStream(
   } else {
     // If we can't use transform streams, wrap the original stream in a new readable stream
     // and use pull to enqueue each chunk and report progress.
+    console.log("isTransformStreamSupported ELSE");
+
     const reader = readableStream.getReader();
     return new ReadableStream({
       async pull(controller) {
+        console.log("isTransformStreamSupported ELSE pull");
+
         const { done, value } = await reader.read();
         // When no more data needs to be consumed, break the reading
         if (done || !value) {
+          console.log("isTransformStreamSupported ELSE DONE");
+
           // Close the stream
           controller.close();
           reader.releaseLock();
@@ -276,6 +283,8 @@ function buildBodyStream(
         controller.enqueue(value);
 
         if (onProgress) {
+          console.log("isTransformStreamSupported ON Progress");
+
           onProgress({ loadedBytes });
         }
       },

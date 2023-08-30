@@ -91,8 +91,6 @@ export interface UploadImageOptions extends OperationOptions {
   attachmentType: AttachmentType;
   /** file name. */
   filename: string;
-  /** file name. */
-  size?: number;
   /** Callback which fires upon upload progress. */
   onUploadProgress?: (progress: TransferProgressEvent) => void
 }

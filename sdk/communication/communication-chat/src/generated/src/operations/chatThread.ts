@@ -109,7 +109,12 @@ export class ChatThreadImpl implements ChatThread {
    * @param blob The Blob of the image
    * @param size Size of the image
    */
-  uploadImage(blob: Blob, size: number, onUploadProgress?: (progress: TransferProgressEvent) => void): Promise<PipelineResponse> {
+  async uploadImage(
+    chatThreadId: string,
+    blob: Blob,
+    size: number,
+    onUploadProgress?: (progress: TransferProgressEvent) => void
+  ): Promise<PipelineResponse> {
     // throw new Error("Method not implemented.");
     console.log('size', size)
     return tracingClient.withSpan(
@@ -117,33 +122,42 @@ export class ChatThreadImpl implements ChatThread {
       {},
       async () => {
         const req: PipelineRequest = {
-          url: 'http://localhost:27813/api/v1/images/binarysdk',
-          // url: 'https://f18b-4-154-115-109.ngrok.io/api/v1/images/binarysdk',
+          // using binarystream works for edge and firefox; chrome not sending request
+          // using binarysdk works for only edge
+          // - firefox: ReadableStream.pipeThrough: Cannot pipe from a locked stream.
+          // - chrome: net::ERR_H2_OR_QUIC_REQUIRED (chrome not sending request)
+          // url: 'http://localhost:27813/api/v1/images/binarybytearray',
+          // url: 'https://ad3e-4-154-115-110.ngrok-free.app/api/v1/images/binarysdk',
+          url: `https://global.chat.dev.communication.microsoft.com/chat/threads/${chatThreadId}/image?api-version=2023-07-01-preview`,
           method: "POST",
-          requestId: 'imageUpload',
+          requestId: 'imageUpload123',
           headers: createHttpHeaders({
             "Content-Length": size.toString(),
             "X-Content-Length": size.toString(),
             "Content-Type": "application/octet-stream",
             "Connection": "keep-alive",
             "Access-Control-Allow-Headers": true,
-            "ngrok-skip-browser-warning": "69420"
+            "ngrok-skip-browser-warning": "69420",
+            // "Accepts": "application/json"
           }),
           // @ts-ignore
           body: blob.stream(),
           timeout: 0,
           withCredentials: false,
-          // enableBrowserStreams: true,
+          enableBrowserStreams: true,
           // streamResponseStatusCodes: new Set([size]),
-          // streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
+          // streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]), // this will make it not work
           // @ts-ignore
           // duplex: 'half',
           onUploadProgress: onUploadProgress
         };
 
-        return this.client.sendRequest(
+        var result = this.client.sendRequest(
           req
         ) as Promise<PipelineResponse>;
+        console.log("---result");
+        console.log(result);
+        return result;
       }
     );
   }

@@ -4,10 +4,8 @@
 
 ```ts
 
-/// <reference types="node" />
 /// <reference lib="esnext.asynciterable" />
 
-import { Blob as Blob_2 } from 'node:buffer';
 import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
 import { ChatMessageEditedEvent } from '@azure/communication-signaling';
 import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
@@ -166,7 +164,7 @@ export class ChatThreadClient {
     readonly threadId: string;
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
-    uploadImage(blob: Blob_2, options: UploadImageOptions): Promise<UploadImageResult>;
+    uploadImage(blob: Blob, options: UploadImageOptions): Promise<UploadImageResult>;
 }
 
 // @public
@@ -326,7 +324,6 @@ export interface UploadImageOptions extends OperationOptions {
     filename: string;
     mimeType: string;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
-    size?: number;
 }
 
 // @public

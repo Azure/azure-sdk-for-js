@@ -214,10 +214,12 @@ export interface ChatThread {
   ): Promise<ChatThreadListChatParticipantsNextResponse>;
   /**
    * Sends a message to a thread.
+   * @param chatThreadId Id of the thread.
    * @param blob The Blob of the image.
    * @param size Size of the image.
    */
   uploadImage(
+    chatThreadId: string,
     blob: Blob,
     size: number,
     onUploadProgress?: (progress: TransferProgressEvent) => void
