@@ -35,7 +35,6 @@
     "@azure/event-hubs": "^5.8.0"
   },
   "devDependencies": {
-    "@types/ajv": "^1.0.0",
     "@types/node": "^14.0.0",
     "typescript": "~5.0.0",
     "rimraf": "latest"
