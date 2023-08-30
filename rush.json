@@ -2089,6 +2089,11 @@
       "packageName": "@azure/arm-defendereasm",
       "projectFolder": "sdk/defendereasm/arm-defendereasm",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hybridconnectivity",
+      "projectFolder": "sdk/hybridconnectivity/arm-hybridconnectivity",
+      "versionPolicyName": "management"
     }
   ]
 }
