@@ -100,6 +100,11 @@ async function main(){
   // Deserialize a message to value
   const deserializedValue = await serializer.deserialize(message);
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+
 ```
 
 The serializer doesn't check whether the deserialized value matches the schema 
