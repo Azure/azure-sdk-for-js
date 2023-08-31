@@ -30,6 +30,13 @@ import { readAndRecordPartitionKeyDefinition } from "../ClientUtils";
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import { PartitionKeyRangeCache } from "../../routing";
+import {
+  ChangeFeedPullModelIterator,
+  ChangeFeedIteratorOptions,
+  changeFeedIteratorBuilder,
+} from "../../client/ChangeFeed";
+import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
 
 /**
  * @hidden
@@ -44,15 +51,15 @@ function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
  * @see {@link Item} for reading, replacing, or deleting an existing container; use `.item(id)`.
  */
 export class Items {
+  private partitionKeyRangeCache: PartitionKeyRangeCache;
   /**
    * Create an instance of {@link Items} linked to the parent {@link Container}.
    * @param container - The parent container.
    * @hidden
    */
-  constructor(
-    public readonly container: Container,
-    private readonly clientContext: ClientContext
-  ) {}
+  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {
+    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
+  }
 
   /**
    * Queries all items.
@@ -217,6 +224,26 @@ export class Items {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
     return new ChangeFeedIterator<T>(this.clientContext, id, path, partitionKey, changeFeedOptions);
+  }
+
+  /**
+   * Returns an iterator to iterate over pages of changes. The iterator returned can be used to fetch changes for a single partition key, feed range or an entire container.
+   */
+  public getChangeFeedIterator<T>(
+    changeFeedIteratorOptions?: ChangeFeedIteratorOptions
+  ): ChangeFeedPullModelIterator<T> {
+    const diagnosticContext: CosmosDiagnosticContext = new CosmosDiagnosticContext();
+
+    const cfOptions = changeFeedIteratorOptions !== undefined ? changeFeedIteratorOptions : {};
+    validateChangeFeedIteratorOptions(cfOptions);
+    const iterator = changeFeedIteratorBuilder(
+      cfOptions,
+      this.clientContext,
+      this.container,
+      this.partitionKeyRangeCache,
+      diagnosticContext
+    );
+    return iterator;
   }
 
   /**

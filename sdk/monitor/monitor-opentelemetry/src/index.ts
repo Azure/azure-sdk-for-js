@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./shared/types";
-
+import { metrics, trace } from "@opentelemetry/api";
+import { logs } from "@opentelemetry/api-logs";
 import { InternalConfig } from "./shared/config";
 import { MetricHandler } from "./metrics";
 import { TraceHandler } from "./traces/handler";
@@ -15,20 +15,27 @@ import {
   StatsbeatInstrumentation,
 } from "./types";
 
+export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./shared/types";
+
 let metricHandler: MetricHandler;
 let traceHandler: TraceHandler;
 let logHandler: LogHandler;
 
 /**
- * Initializae Azure Monitor Distro
+ * Initialize Azure Monitor Distro
  * @param options Azure Monitor OpenTelemetry Options
  */
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   const config = new InternalConfig(options);
   _setStatsbeatFeatures(config);
-  metricHandler = MetricHandler.getInstance(config);
-  traceHandler = TraceHandler.getInstance(config, metricHandler);
-  logHandler = LogHandler.getInstance(config, metricHandler);
+  // Remove global providers in OpenTelemetry, these would be overriden if present
+  metrics.disable();
+  trace.disable();
+  logs.disable();
+  // Create internal handlers
+  metricHandler = new MetricHandler(config);
+  traceHandler = new TraceHandler(config, metricHandler);
+  logHandler = new LogHandler(config, metricHandler);
 }
 
 /**

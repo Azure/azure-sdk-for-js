@@ -39,7 +39,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   }
 
   /**
-   * Initializes a new instance of the AzureMonitorOpenTelemetryConfig class.
+   * Initializes a new instance of the AzureMonitorOpenTelemetryOptions class.
    */
   constructor(options?: AzureMonitorOpenTelemetryOptions) {
     // Default values

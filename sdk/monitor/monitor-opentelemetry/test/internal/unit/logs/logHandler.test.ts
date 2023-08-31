@@ -24,8 +24,8 @@ describe("LogHandler", () => {
 
   before(() => {
     sandbox = sinon.createSandbox();
-    metricHandler = MetricHandler.getInstance(_config);
-    handler = LogHandler.getInstance(_config, metricHandler);
+    metricHandler = new MetricHandler(_config);
+    handler = new LogHandler(_config, metricHandler);
     exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
       (logs: any, resultCallback: any) =>
         new Promise((resolve) => {
@@ -68,7 +68,7 @@ describe("LogHandler", () => {
     });
 
     it("tracing", (done) => {
-      TraceHandler.getInstance(_config, metricHandler);
+      new TraceHandler(_config, metricHandler);
       trace.getTracer("testTracer").startActiveSpan("test", () => {
         // Generate Log record
         const logRecord: APILogRecord = {
