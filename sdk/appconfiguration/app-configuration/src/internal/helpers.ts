@@ -38,8 +38,8 @@ import { OperationOptions } from "@azure/core-client";
  */
 export interface SendConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
   /**
- * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
- */
+   * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
+   */
   snapshotName?: string;
 }
 /**
@@ -115,21 +115,12 @@ export function checkAndFormatIfAndIfNoneMatch(
  * @internal
  */
 export function formatFiltersAndSelect(
-  listConfigOptions: SendConfigurationSettingsOptions | ListRevisionsOptions
-): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime" | "snapshot"> {
+  listConfigOptions: ListRevisionsOptions
+): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
   let acceptDatetime: string | undefined = undefined;
 
   if (listConfigOptions.acceptDateTime) {
     acceptDatetime = listConfigOptions.acceptDateTime.toISOString();
-  }
-  if (typeof (listConfigOptions as SendConfigurationSettingsOptions).snapshotName === "string"){
-    return {
-      key: listConfigOptions.keyFilter,
-      label: listConfigOptions.labelFilter,
-      snapshot: (listConfigOptions as SendConfigurationSettingsOptions).snapshotName,
-      acceptDatetime,
-      select: formatFieldsForSelect(listConfigOptions.fields),
-    };
   }
   return {
     key: listConfigOptions.keyFilter,
@@ -139,6 +130,24 @@ export function formatFiltersAndSelect(
   };
 }
 
+/**
+ * Transforms some of the key fields in SendConfigurationSettingsOptions
+ * so they can be added to a request using AppConfigurationGetKeyValuesOptionalParams.
+ * - `options.acceptDateTime` is converted into an ISO string
+ * - `select` is populated with the proper field names from `options.fields`
+ * - keyFilter, labelFilter, snapshotName are moved to key, label, and snapshot respectively.
+ *
+ * @internal
+ */
+export function formatConfigurationSettingsFiltersAndSelect(
+  listConfigOptions: SendConfigurationSettingsOptions
+): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime" | "snapshot"> {
+  const { snapshotName: snapshot, ...options } = listConfigOptions;
+  return {
+    ...formatFiltersAndSelect(options),
+    snapshot,
+  };
+}
 /**
  * Transforms some of the key fields in ListSnapshotsOptions
  * so they can be added to a request using AppConfigurationGetSnapshotsOptionalParams.

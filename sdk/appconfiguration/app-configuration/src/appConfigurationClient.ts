@@ -63,6 +63,7 @@ import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
+  formatConfigurationSettingsFiltersAndSelect,
   formatFieldsForSelect,
   formatFiltersAndSelect,
   formatSnapshotFiltersAndSelect,
@@ -402,7 +403,7 @@ export class AppConfigurationClient {
         const response = await this.client.getKeyValues({
           ...updatedOptions,
           ...formatAcceptDateTime(options),
-          ...formatFiltersAndSelect(options),
+          ...formatConfigurationSettingsFiltersAndSelect(options),
           after: pageLink,
         });
 

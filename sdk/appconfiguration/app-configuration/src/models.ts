@@ -342,7 +342,9 @@ export interface ListSettingsOptions extends OptionalFields {
  * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
  * the accept date time header.
  */
-export interface ListConfigurationSettingsForSnapshotOptions extends OperationOptions, OptionalFields {
+export interface ListConfigurationSettingsForSnapshotOptions
+  extends OperationOptions,
+    OptionalFields {
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
@@ -373,7 +375,10 @@ export interface ListSnapshots extends OptionalSnapshotFields {
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListSnapshotsOptions extends OperationOptions, ListSnapshots, OptionalSnapshotFields {}
+export interface ListSnapshotsOptions
+  extends OperationOptions,
+    ListSnapshots,
+    OptionalSnapshotFields {}
 
 /**
  * An interface that tracks the settings for paged iteration
