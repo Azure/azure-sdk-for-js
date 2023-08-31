@@ -52,6 +52,7 @@ export interface AddParticipantSucceeded extends Omit<RestAddParticipantSucceede
 // @public
 export interface AnswerCallOptions extends OperationOptions {
     cognitiveServicesEndpoint?: string;
+    mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
 }
 
@@ -112,6 +113,7 @@ export interface CallConnectionProperties {
     callConnectionId?: string;
     callConnectionState?: CallConnectionStateModel;
     correlationId?: string;
+    mediaSubscriptionId?: string;
     serverCallId?: string;
     source?: CommunicationIdentifier;
     sourceCallerIdNumber?: PhoneNumberIdentifier;
@@ -132,6 +134,7 @@ export interface CallDisconnected extends Omit<RestCallDisconnected, "callConnec
 
 // @public
 export interface CallInvite {
+    customContext?: CustomContext;
     readonly sourceCallIdNumber?: PhoneNumberIdentifier;
     // (undocumented)
     sourceDisplayName?: string;
@@ -182,11 +185,15 @@ export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions
 
 // @public
 export interface CallMediaRecognizeOptions extends OperationOptions {
+    // (undocumented)
+    callbackUrl?: string;
     initialSilenceTimeoutInSeconds?: number;
     interruptCallMediaOperation?: boolean;
     interruptPrompt?: boolean;
     operationContext?: string;
     playPrompt?: FileSource | TextSource | SsmlSource;
+    // (undocumented)
+    speechModelEndpointId?: string;
     // @deprecated (undocumented)
     stopCurrentOperations?: boolean;
 }
@@ -262,14 +269,6 @@ export interface ChannelAffinity {
 }
 
 // @public
-export interface Choice {
-    label: string;
-    phrases: string[];
-    // (undocumented)
-    tone?: DtmfTone;
-}
-
-// @public
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
     callbackUrl?: string;
     operationContext?: string;
@@ -309,6 +308,8 @@ export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuo
 // @public
 export interface CreateCallOptions extends OperationOptions {
     cognitiveServicesEndpoint?: string;
+    customContext?: CustomContext;
+    mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
@@ -376,12 +377,6 @@ export interface FileSource extends PlaySource {
 }
 
 // @public
-export enum Gender {
-    Female = "female",
-    Male = "male"
-}
-
-// @public
 export type GetCallConnectionPropertiesOptions = OperationOptions;
 
 // @public
@@ -401,10 +396,43 @@ export enum KnownCallRejectReason {
 }
 
 // @public
+export enum KnownMediaStreamingAudioChannelType {
+    Mixed = "mixed",
+    Unmixed = "unmixed"
+}
+
+// @public
+export enum KnownMediaStreamingContentType {
+    Audio = "audio"
+}
+
+// @public
+export enum KnownMediaStreamingTransportType {
+    Websocket = "websocket"
+}
+
+// @public
 export interface ListParticipantsResult {
     nextLink?: string;
     values?: CallParticipant[];
 }
+
+// @public
+export type MediaStreamingAudioChannelType = string;
+
+// @public
+export interface MediaStreamingConfiguration {
+    audioChannelType: MediaStreamingAudioChannelType;
+    contentType: MediaStreamingContentType;
+    transportType: MediaStreamingTransportType;
+    transportUrl: string;
+}
+
+// @public
+export type MediaStreamingContentType = string;
+
+// @public
+export type MediaStreamingTransportType = string;
 
 // @public
 export interface MuteParticipantOption extends OperationOptions {
@@ -413,16 +441,6 @@ export interface MuteParticipantOption extends OperationOptions {
 
 // @public
 export interface MuteParticipantResult {
-    operationContext?: string;
-}
-
-// @public
-export interface MuteParticipantsOption extends OperationOptions {
-    operationContext?: string;
-}
-
-// @public
-export interface MuteParticipantsResult {
     operationContext?: string;
 }
 
@@ -516,6 +534,7 @@ export interface RecognizeFailed extends Omit<RestRecognizeFailed, "callConnecti
 
 // @public
 export enum RecognizeInputType {
+    Choices = "choices",
     Dtmf = "dtmf"
 }
 
@@ -547,7 +566,17 @@ export interface RecordingStateResult {
 }
 
 // @public
-export type RedirectCallOptions = OperationOptions;
+export type RecordingStorage = "acs" | "blobStorage";
+
+// @public
+export interface RedirectCallOptions extends OperationOptions {
+    sipHeaders?: {
+        [propertyName: string]: string;
+    };
+    voipHeaders?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export interface RejectCallOptions extends OperationOptions {
@@ -719,6 +748,8 @@ export interface RestRecognizeCompleted {
     callConnectionId?: string;
     // Warning: (ae-forgotten-export) The symbol "ChoiceResult" needs to be exported by the entry point index.d.ts
     choiceResult?: ChoiceResult;
+    // Warning: (ae-forgotten-export) The symbol "CollectTonesResult" needs to be exported by the entry point index.d.ts
+    collectTonesResult?: CollectTonesResult;
     correlationId?: string;
     // Warning: (ae-forgotten-export) The symbol "DtmfResult" needs to be exported by the entry point index.d.ts
     dtmfResult?: DtmfResult;
@@ -835,12 +866,31 @@ export interface SendDtmfTonesFailed extends Omit<RestSendDtmfTonesFailed, "call
 
 // @public
 export interface SendDtmfTonesOptions extends OperationOptions {
+    callbackUrl?: string;
     operationContext?: string;
 }
 
 // @public
 export interface SendDtmfTonesResult {
     operationContext?: string;
+}
+
+// @public
+export interface SIPCustomHeader extends CustomContextHeader {
+}
+
+// @public
+export class SIPCustomHeader implements CustomContextHeader {
+    constructor(key: string, value: string);
+}
+
+// @public
+export interface SIPUserToUserHeader extends CustomContextHeader {
+}
+
+// @public
+export class SIPUserToUserHeader implements CustomContextHeader {
+    constructor(value: string);
 }
 
 // @public
@@ -899,12 +949,22 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
     callbackUrl?: string;
     customContext?: CustomContext;
     operationContext?: string;
+    transferee?: CommunicationIdentifier;
 }
 
 // @public
 export enum VoiceKind {
     Female = "female",
     Male = "male"
+}
+
+// @public
+export interface VoipHeader extends CustomContextHeader {
+}
+
+// @public
+export class VoipHeader implements CustomContextHeader {
+    constructor(key: string, value: string);
 }
 
 // (No @packageDocumentation comment for this package)

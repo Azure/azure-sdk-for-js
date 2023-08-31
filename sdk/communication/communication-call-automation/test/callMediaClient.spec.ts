@@ -14,7 +14,7 @@ import {
 
 // Parent directory imports
 import { CallMedia } from "../src/callMedia";
-import { FileSource, TextSource, SsmlSource, DtmfTone } from "../src/models/models";
+import { FileSource, TextSource, SsmlSource, DtmfTone, RecognitionChoice } from "../src/models/models";
 import {
   CallMediaRecognizeDtmfOptions,
   CallMediaRecognizeChoiceOptions,
@@ -105,7 +105,7 @@ describe("CallMedia Unit Tests", async function () {
 
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
 
-    await callMedia.play(playSource, playTo);
+    await callMedia.play([playSource], playTo);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
@@ -130,7 +130,7 @@ describe("CallMedia Unit Tests", async function () {
 
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
 
-    await callMedia.play(playSource, playTo);
+    await callMedia.play([playSource], playTo);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
@@ -190,7 +190,7 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const choice: Choice = {
+    const choice: RecognitionChoice = {
       label: "choice",
       phrases: ["test"],
     };
@@ -198,9 +198,8 @@ describe("CallMedia Unit Tests", async function () {
       choices: [choice],
       kind: "callMediaRecognizeChoiceOptions",
     };
-    const maxTonesToCollect = 5;
 
-    await callMedia.startRecognizing(targetParticipant, maxTonesToCollect, recognizeOptions);
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
@@ -219,9 +218,8 @@ describe("CallMedia Unit Tests", async function () {
       kind: "callMediaRecognizeSpeechOptions",
       speechModelEndpointId: "customModelEndpointId",
     };
-    const maxTonesToCollect = 5;
 
-    await callMedia.startRecognizing(targetParticipant, maxTonesToCollect, recognizeOptions);
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
