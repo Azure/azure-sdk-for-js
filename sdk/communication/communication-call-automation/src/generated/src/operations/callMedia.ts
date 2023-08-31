@@ -20,9 +20,8 @@ import {
   ContinuousDtmfRecognitionRequest,
   CallMediaStartContinuousDtmfRecognitionOptionalParams,
   CallMediaStopContinuousDtmfRecognitionOptionalParams,
-  SendDtmfTonesRequest,
-  CallMediaSendDtmfTonesOptionalParams,
-  CallMediaSendDtmfTonesResponse
+  SendDtmfRequest,
+  CallMediaSendDtmfOptionalParams
 } from "../models";
 
 /** Class containing CallMedia operations. */
@@ -123,17 +122,17 @@ export class CallMediaImpl implements CallMedia {
   /**
    * Send dtmf tones.
    * @param callConnectionId The call connection id
-   * @param sendDtmfTonesRequest The send dtmf tones request
+   * @param sendDtmfRequest The send dtmf request
    * @param options The options parameters.
    */
-  sendDtmfTones(
+  sendDtmf(
     callConnectionId: string,
-    sendDtmfTonesRequest: SendDtmfTonesRequest,
-    options?: CallMediaSendDtmfTonesOptionalParams
-  ): Promise<CallMediaSendDtmfTonesResponse> {
+    sendDtmfRequest: SendDtmfRequest,
+    options?: CallMediaSendDtmfOptionalParams
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { callConnectionId, sendDtmfTonesRequest, options },
-      sendDtmfTonesOperationSpec
+      { callConnectionId, sendDtmfRequest, options },
+      sendDtmfOperationSpec
     );
   }
 }
@@ -220,26 +219,19 @@ const stopContinuousDtmfRecognitionOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const sendDtmfTonesOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:sendDtmfTones",
+const sendDtmfOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:sendDtmf",
   httpMethod: "POST",
   responses: {
-    202: {
-      bodyMapper: Mappers.SendDtmfTonesResult
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.sendDtmfTonesRequest,
+  requestBody: Parameters.sendDtmfRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

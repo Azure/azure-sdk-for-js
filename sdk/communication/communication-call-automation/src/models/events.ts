@@ -24,8 +24,8 @@ import {
   ContinuousDtmfRecognitionToneReceived as RestContinuousDtmfRecognitionToneReceived,
   ContinuousDtmfRecognitionToneFailed as RestContinuousDtmfRecognitionToneFailed,
   ContinuousDtmfRecognitionStopped as RestContinuousDtmfRecognitionStopped,
-  SendDtmfTonesCompleted as RestSendDtmfTonesCompleted,
-  SendDtmfTonesFailed as RestSendDtmfTonesFailed,
+  SendDtmfCompleted as RestSendDtmfTonesCompleted,
+  SendDtmfFailed as RestSendDtmfTonesFailed,
   ToneInfo as RestToneInfo,
   Tone,
 } from "../generated/src/models";

@@ -34,6 +34,9 @@ import {
   MuteParticipantsRequest,
   CallConnectionMuteOptionalParams,
   CallConnectionMuteResponse,
+  UnmuteParticipantsRequest,
+  CallConnectionUnmuteOptionalParams,
+  CallConnectionUnmuteResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse,
   CallConnectionGetParticipantsNextResponse
@@ -91,7 +94,7 @@ export class CallConnectionImpl implements CallConnection {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._getParticipants(callConnectionId, options);
-      let page = result.value || [];
+      let page = result.values || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -103,7 +106,7 @@ export class CallConnectionImpl implements CallConnection {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      let page = result.values || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -122,7 +125,7 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * Get the detail properties of an ongoing call.
+   * Get call connection.
    * @param callConnectionId The call connection id.
    * @param options The options parameters.
    */
@@ -137,8 +140,7 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * Hang up call automation service from the call. This will make call automation service leave the
-   * call, but does not terminate if there are more than 1 caller in the call.
+   * Hangup the call.
    * @param callConnectionId The call connection id.
    * @param options The options parameters.
    */
@@ -200,7 +202,7 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * Add a participant to the call.
+   * Add participants to the call.
    * @param callConnectionId The call connection Id
    * @param addParticipantRequest The request payload for adding participant to the call.
    * @param options The options parameters.
@@ -217,7 +219,7 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * Remove a participant from the call using identifier.
+   * Remove participant from the call using identifier.
    * @param callConnectionId The call connection id.
    * @param removeParticipantRequest The participant to be removed from the call.
    * @param options The options parameters.
@@ -247,6 +249,23 @@ export class CallConnectionImpl implements CallConnection {
     return this.client.sendOperationRequest(
       { callConnectionId, muteParticipantsRequest, options },
       muteOperationSpec
+    );
+  }
+
+  /**
+   * Unmute participants from the call using identifier.
+   * @param callConnectionId The call connection id.
+   * @param unmuteParticipantsRequest The participants to be unmuted from the call.
+   * @param options The options parameters.
+   */
+  unmute(
+    callConnectionId: string,
+    unmuteParticipantsRequest: UnmuteParticipantsRequest,
+    options?: CallConnectionUnmuteOptionalParams
+  ): Promise<CallConnectionUnmuteResponse> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, unmuteParticipantsRequest, options },
+      unmuteOperationSpec
     );
   }
 
@@ -425,13 +444,36 @@ const muteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.MuteParticipantsResult
+      bodyMapper: Mappers.MuteParticipantsResponse
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   requestBody: Parameters.muteParticipantsRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestID,
+    Parameters.repeatabilityFirstSent
+  ],
+  mediaType: "json",
+  serializer
+};
+const unmuteOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/participants:unmute",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      bodyMapper: Mappers.UnmuteParticipantsResponse
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: Parameters.unmuteParticipantsRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [

@@ -173,15 +173,15 @@ export class CallAutomationClient {
       repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
-    const { callConnectionId, answeredBy, targets, sourceCallerIdNumber, source, ...result } =
+    const { callConnectionId, answeredByIdentifier, targets, sourceCallerIdNumber, sourceIdentity, ...result } =
       await this.callAutomationApiClient.createCall(request, optionsInternal);
 
     if (callConnectionId) {
       const callConnectionPropertiesDto: CallConnectionProperties = {
         ...result,
         callConnectionId: callConnectionId,
-        source: source ? communicationIdentifierConverter(source) : undefined,
-        answeredby: communicationUserIdentifierConverter(answeredBy),
+        source: sourceIdentity ? communicationIdentifierConverter(sourceIdentity) : undefined,
+        answeredby: communicationUserIdentifierConverter(answeredByIdentifier),
         targetParticipants: targets?.map((returnedTarget) =>
           communicationIdentifierConverter(returnedTarget)
         ),
@@ -216,11 +216,11 @@ export class CallAutomationClient {
     options: CreateCallOptions = {}
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
-      source: this.sourceIdentity,
+      sourceIdentity: this.sourceIdentity,
       targets: [communicationIdentifierModelConverter(targetParticipant.targetParticipant)],
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
-      cognitiveServicesEndpoint: options.cognitiveServicesEndpoint,
+      azureCognitiveServicesEndpointUrl: options.cognitiveServicesEndpoint,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
       customContext: {
         sipHeaders: targetParticipant.customContext?.sipHeaders,
@@ -247,11 +247,11 @@ export class CallAutomationClient {
     options: CreateCallOptions = {}
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
-      source: this.sourceIdentity,
+      sourceIdentity: this.sourceIdentity,
       targets: targetParticipants.map((target) => communicationIdentifierModelConverter(target)),
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
-      cognitiveServicesEndpoint: options.cognitiveServicesEndpoint,
+      azureCognitiveServicesEndpointUrl: options.cognitiveServicesEndpoint,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
       customContext: {
         sipHeaders: options.customContext?.sipHeaders,
@@ -284,25 +284,25 @@ export class CallAutomationClient {
     const request: AnswerCallRequest = {
       incomingCallContext,
       mediaStreamingConfiguration,
-      cognitiveServicesEndpoint,
+      azureCognitiveServicesEndpointUrl: cognitiveServicesEndpoint,
       operationContext,
       callbackUri: callbackUrl,
-      answeredBy: this.sourceIdentity,
+      answeredByIdentifier: this.sourceIdentity,
     };
     const optionsInternal = {
       ...operationOptions,
       repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
-    const { callConnectionId, targets, sourceCallerIdNumber, answeredBy, source, ...result } =
+    const { callConnectionId, targets, sourceCallerIdNumber, answeredByIdentifier, sourceIdentity, ...result } =
       await this.callAutomationApiClient.answerCall(request, optionsInternal);
 
     if (callConnectionId) {
       const callConnectionProperties: CallConnectionProperties = {
         ...result,
         callConnectionId: callConnectionId,
-        source: source ? communicationIdentifierConverter(source) : undefined,
-        answeredby: communicationUserIdentifierConverter(answeredBy),
+        source: sourceIdentity ? communicationIdentifierConverter(sourceIdentity) : undefined,
+        answeredby: communicationUserIdentifierConverter(answeredByIdentifier),
         targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
         sourceCallerIdNumber: sourceCallerIdNumber
           ? phoneNumberIdentifierConverter(sourceCallerIdNumber)

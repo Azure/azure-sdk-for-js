@@ -15,7 +15,7 @@ import {
   CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
   ContinuousDtmfRecognitionRequest,
-  SendDtmfTonesRequest,
+  SendDtmfRequest,
   Tone,
   SpeechOptions,
 } from "./generated/src";
@@ -71,22 +71,22 @@ export class CallMedia {
         uri: playSource.url,
       };
       return {
-        kind: KnownPlaySourceType.File,
-        file: fileSource,
-        playSourceCacheId: playSource.playsourcacheid,
+        sourceType: KnownPlaySourceType.File,
+        fileSource: fileSource,
+        playSourceId: playSource.playsourcacheid,
       };
     } else if (playSource.kind === "textSource") {
       const textSource: TextSourceInternal = {
         text: playSource.text,
         sourceLocale: playSource.sourceLocale,
-        voiceKind: playSource.voiceKind,
+        voiceGender: playSource.voiceKind,
         voiceName: playSource.voiceName,
         customVoiceEndpointId: playSource.customVoiceEndpointId,
       };
       return {
-        kind: KnownPlaySourceType.Text,
-        text: textSource,
-        playSourceCacheId: playSource.playsourcacheid,
+        sourceType: KnownPlaySourceType.Text,
+        textSource: textSource,
+        playSourceId: playSource.playsourcacheid,
       };
     } else if (playSource.kind === "ssmlSource") {
       const ssmlSource: SsmlSourceInternal = {
@@ -94,9 +94,9 @@ export class CallMedia {
         customVoiceEndpointId: playSource.customVoiceEndpointId,
       };
       return {
-        kind: KnownPlaySourceType.Ssml,
-        ssml: ssmlSource,
-        playSourceCacheId: playSource.playsourcacheid,
+        sourceType: KnownPlaySourceType.Ssml,
+        ssmlSource: ssmlSource,
+        playSourceId: playSource.playsourcacheid,
       };
     }
     throw new Error("Invalid play source");
@@ -115,7 +115,8 @@ export class CallMedia {
     playOptions: PlayOptions = { loop: false }
   ): Promise<void> {
     const playRequest: PlayRequest = {
-      playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
+      // Note: Fix this when we support multiple play sources
+      playSourceInfo: playSources.map((source) => this.createPlaySourceInternal(source))[0],
       playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
       playOptions: {
         loop: false,
@@ -142,7 +143,7 @@ export class CallMedia {
     playOptions: PlayOptions = { loop: false }
   ): Promise<void> {
     const playRequest: PlayRequest = {
-      playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
+      playSourceInfo: playSources.map((source) => this.createPlaySourceInternal(source))[0],
       playTo: [],
       playOptions: {
         loop: false,
@@ -191,103 +192,6 @@ export class CallMedia {
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
         callbackUri: recognizeOptions.callbackUrl,
-      };
-    } else if (recognizeOptions.kind === "callMediaRecognizeChoiceOptions") {
-      const recognizeOptionsInternal: RecognizeOptions = {
-        interruptPrompt: recognizeOptions.interruptPrompt,
-        initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds
-          ? recognizeOptions.initialSilenceTimeoutInSeconds
-          : 5,
-        targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-        choices: recognizeOptions.choices,
-      };
-      return {
-        recognizeInputType: KnownRecognizeInputType.Choices,
-        playPrompt: recognizeOptions.playPrompt
-          ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
-          : undefined,
-        interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
-        recognizeOptions: recognizeOptionsInternal,
-        operationContext: recognizeOptions.operationContext,
-        callbackUri: recognizeOptions.callbackUrl,
-      };
-    } else if (recognizeOptions.kind === "callMediaRecognizeSpeechOptions") {
-      const speechOptions: SpeechOptions = {
-        endSilenceTimeoutInMs: recognizeOptions.endSilenceTimeoutInMs
-          ? recognizeOptions.endSilenceTimeoutInMs
-          : 2,
-      };
-      const recognizeOptionsInternal: RecognizeOptions = {
-        interruptPrompt: recognizeOptions.interruptPrompt,
-        initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds
-          ? recognizeOptions.initialSilenceTimeoutInSeconds
-          : 5,
-        targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-        speechOptions: speechOptions,
-        speechRecognitionModelEndpointId: recognizeOptions.speechModelEndpointId,
-      };
-      return {
-        recognizeInputType: KnownRecognizeInputType.Speech,
-        playPrompt: recognizeOptions.playPrompt
-          ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
-          : undefined,
-        interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
-        recognizeOptions: recognizeOptionsInternal,
-        operationContext: recognizeOptions.operationContext,
-        callbackUri: recognizeOptions.callbackUrl,
-      };
-    } else if (recognizeOptions.kind === "callMediaRecognizeSpeechOrDtmfOptions") {
-      const dtmfOptionsInternal: DtmfOptions = {
-        interToneTimeoutInSeconds: recognizeOptions.interToneTimeoutInSeconds
-          ? recognizeOptions.interToneTimeoutInSeconds
-          : 2,
-        maxTonesToCollect: maxTonesToCollect,
-        stopTones: recognizeOptions.stopDtmfTones,
-      };
-      const speechOptions: SpeechOptions = {
-        endSilenceTimeoutInMs: recognizeOptions.endSilenceTimeoutInMs
-          ? recognizeOptions.endSilenceTimeoutInMs
-          : 2,
-      };
-      const recognizeOptionsInternal: RecognizeOptions = {
-        interruptPrompt: recognizeOptions.interruptPrompt,
-        initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds
-          ? recognizeOptions.initialSilenceTimeoutInSeconds
-          : 5,
-        targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-        speechOptions: speechOptions,
-        dtmfOptions: dtmfOptionsInternal,
-        speechRecognitionModelEndpointId: recognizeOptions.speechModelEndpointId,
-      };
-      return {
-        recognizeInputType: KnownRecognizeInputType.SpeechOrDtmf,
-        playPrompt: recognizeOptions.playPrompt
-          ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
-          : undefined,
-        interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
-        recognizeOptions: recognizeOptionsInternal,
-        operationContext: recognizeOptions.operationContext,
-        callbackUri: recognizeOptions.callbackUrl,
-      };
-    } else if (recognizeOptions.kind === "callMediaRecognizeChoiceOptions") {
-      const recognizeOptionsInternal: RecognizeOptions = {
-        interruptPrompt: recognizeOptions.interruptPrompt,
-        initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds
-          ? recognizeOptions.initialSilenceTimeoutInSeconds
-          : 5,
-        targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-        speechLanguage: recognizeOptions.speechLanguage,
-        speechRecognitionModelEndpointId: recognizeOptions.speechRecognitionModelEndpointId,
-        choices: recognizeOptions.choices,
-      };
-      return {
-        recognizeInputType: KnownRecognizeInputType.Choices,
-        playPrompt: recognizeOptions.playPrompt
-          ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
-          : undefined,
-        interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
-        recognizeOptions: recognizeOptionsInternal,
-        operationContext: recognizeOptions.operationContext,
       };
     } else if (recognizeOptions.kind === "callMediaRecognizeSpeechOptions") {
       const speechOptions: SpeechOptions = {
@@ -430,24 +334,24 @@ export class CallMedia {
     targetParticipant: CommunicationIdentifier,
     sendDtmfTonesOptions: SendDtmfTonesOptions = {}
   ): Promise<SendDtmfTonesResult> {
-    const sendDtmfTonesRequest: SendDtmfTonesRequest = {
+    const sendDtmfTonesRequest: SendDtmfRequest = {
       tones: tones,
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       operationContext: sendDtmfTonesOptions.operationContext,
-      callbackUri: sendDtmfOptions.callbackUrl,
+      callbackUri: sendDtmfTonesOptions.callbackUrl,
     };
     const optionsInternal = {
       ...sendDtmfTonesOptions,
       repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
-    const result = await this.callMedia.sendDtmfTones(
+    await this.callMedia.sendDtmf(
       this.callConnectionId,
       sendDtmfTonesRequest,
       optionsInternal
     );
+    // Note: fix this when we support sendDtmfTonesResult
     const sendDtmfTonesResult: SendDtmfTonesResult = {
-      ...result,
     };
     return sendDtmfTonesResult;
   }

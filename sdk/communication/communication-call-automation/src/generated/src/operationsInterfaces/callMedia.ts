@@ -15,9 +15,8 @@ import {
   ContinuousDtmfRecognitionRequest,
   CallMediaStartContinuousDtmfRecognitionOptionalParams,
   CallMediaStopContinuousDtmfRecognitionOptionalParams,
-  SendDtmfTonesRequest,
-  CallMediaSendDtmfTonesOptionalParams,
-  CallMediaSendDtmfTonesResponse
+  SendDtmfRequest,
+  CallMediaSendDtmfOptionalParams
 } from "../models";
 
 /** Interface representing a CallMedia. */
@@ -78,12 +77,12 @@ export interface CallMedia {
   /**
    * Send dtmf tones.
    * @param callConnectionId The call connection id
-   * @param sendDtmfTonesRequest The send dtmf tones request
+   * @param sendDtmfRequest The send dtmf request
    * @param options The options parameters.
    */
-  sendDtmfTones(
+  sendDtmf(
     callConnectionId: string,
-    sendDtmfTonesRequest: SendDtmfTonesRequest,
-    options?: CallMediaSendDtmfTonesOptionalParams
-  ): Promise<CallMediaSendDtmfTonesResponse>;
+    sendDtmfRequest: SendDtmfRequest,
+    options?: CallMediaSendDtmfOptionalParams
+  ): Promise<void>;
 }
