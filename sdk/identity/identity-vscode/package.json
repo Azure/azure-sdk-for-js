@@ -61,7 +61,7 @@
   "dependencies": {
     "@azure/identity": "^2.1.0",
     "keytar": "^7.6.0",
-    "tslib": "^2.2.0"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -70,23 +70,22 @@
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/jws": "^3.2.2",
-    "@types/mocha": "^7.0.2",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^14.0.0",
     "@types/qs": "^6.5.3",
-    "@types/sinon": "^10.0.0",
-    "@types/uuid": "^8.0.0",
+    "@types/sinon": "^10.0.16",
     "cross-env": "^7.0.2",
-    "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
-    "inherits": "^2.0.3",
-    "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^2.0.0",
-    "prettier": "^2.5.1",
-    "puppeteer": "^19.2.2",
-    "rimraf": "^3.0.0",
-    "sinon": "^15.0.0",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.48.0",
+    "inherits": "^2.0.4",
+    "mocha": "^10.2.0",
+    "mocha-junit-reporter": "^2.2.1",
+    "prettier": "^3.0.3",
+    "puppeteer": "^21.1.1",
+    "rimraf": "^5.0.1",
+    "sinon": "^15.2.0",
     "typescript": "~5.0.0",
-    "util": "^0.12.1",
-    "ts-node": "^10.0.0"
+    "util": "^0.12.5",
+    "ts-node": "^10.9.1"
   }
 }
