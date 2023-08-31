@@ -50,8 +50,8 @@ param(
 Set-StrictMode -Version 3
 
 $fullMetadata = Get-CSVMetadata
-$monikers = @("latest", "preview")
-foreach($moniker in $monikers) {
+$monikers = @("latest", "preview", "legacy")
+foreach ($moniker in $monikers) {
   # The onboarded packages return is key-value pair, which key is the package index, and value is the package info from {metadata}.json
   # E.g. 
   # Key as: @azure/storage-blob
@@ -73,10 +73,10 @@ foreach($moniker in $monikers) {
   $onboardedPackages = &$GetOnboardedDocsMsPackagesForMonikerFn `
     -DocRepoLocation $DocRepoLocation -moniker $moniker
   $csvMetadata = @()
-  foreach($metadataEntry in $fullMetadata) {
+  foreach ($metadataEntry in $fullMetadata) {
     if ($metadataEntry.Package -and $metadataEntry.Hide -ne 'true') {
       $pkgKey = GetPackageKey $metadataEntry
-      if($onboardedPackages.ContainsKey($pkgKey)) {
+      if ($onboardedPackages.ContainsKey($pkgKey)) {
         if ($onboardedPackages[$pkgKey] -and $onboardedPackages[$pkgKey].DirectoryPath) {
           if (!($metadataEntry.PSObject.Members.Name -contains "DirectoryPath")) {
             Add-Member -InputObject $metadataEntry `
