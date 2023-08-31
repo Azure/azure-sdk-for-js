@@ -47,8 +47,7 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
 
   /**
    * List all custom domains.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -124,8 +123,7 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
 
   /**
    * List all custom domains.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -142,8 +140,7 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
 
   /**
    * Get a custom domain.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param name Custom domain name.
    * @param options The options parameters.
@@ -162,8 +159,7 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
 
   /**
    * Create or update a custom domain.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param name Custom domain name.
    * @param parameters A custom domain
@@ -230,7 +226,8 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
       OperationState<SignalRCustomDomainsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -238,8 +235,7 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
 
   /**
    * Create or update a custom domain.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param name Custom domain name.
    * @param parameters A custom domain
@@ -264,8 +260,7 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
 
   /**
    * Delete a custom domain.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param name Custom domain name.
    * @param options The options parameters.
@@ -331,8 +326,7 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
 
   /**
    * Delete a custom domain.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param name Custom domain name.
    * @param options The options parameters.
@@ -354,8 +348,7 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.

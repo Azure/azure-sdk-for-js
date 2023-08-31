@@ -48,8 +48,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
 
   /**
    * List shared private link resources
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -125,8 +124,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
 
   /**
    * List shared private link resources
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -144,8 +142,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
   /**
    * Get the specified shared private link resource
    * @param sharedPrivateLinkResourceName The name of the shared private link resource
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -169,8 +166,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
   /**
    * Create or update a shared private link resource
    * @param sharedPrivateLinkResourceName The name of the shared private link resource
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters The shared private link resource
    * @param options The options parameters.
@@ -242,7 +238,8 @@ export class SignalRSharedPrivateLinkResourcesImpl
       OperationState<SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -251,8 +248,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
   /**
    * Create or update a shared private link resource
    * @param sharedPrivateLinkResourceName The name of the shared private link resource
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters The shared private link resource
    * @param options The options parameters.
@@ -277,8 +273,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
   /**
    * Delete the specified shared private link resource
    * @param sharedPrivateLinkResourceName The name of the shared private link resource
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -349,8 +344,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
   /**
    * Delete the specified shared private link resource
    * @param sharedPrivateLinkResourceName The name of the shared private link resource
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -371,8 +365,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -458,7 +451,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
