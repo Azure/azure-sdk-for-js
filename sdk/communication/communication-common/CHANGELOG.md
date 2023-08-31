@@ -1,14 +1,16 @@
 # Release History
 
-## 3.0.0-beta.2 (Unreleased)
-
-### Features Added
+## 3.0.0 (Unreleased)
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- Renamed Microsof Bot Identifier interfaces
+  - Renamed `MicrosoftBotIdentifier` interface to `MicrosoftTeamsAppIdentifier`
+  - Renamed `MicrosoftBotKind` interface to `MicrosoftTeamsAppKind`
+  - Renamed `isMicrosoftBotIdentifier` method to `isMicrosoftTeamsAppIdentifier`
+  - Renamed `microsoftBot` field to `microsoftTeamsApp`
+  - Renamed `botId` field to `teamsAppId`
+  - Removed `isResourceAccountConfigured` field
 
 ## 2.2.1 (2023-06-16)
 
