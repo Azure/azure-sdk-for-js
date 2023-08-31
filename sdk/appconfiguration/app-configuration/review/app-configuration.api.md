@@ -257,17 +257,6 @@ export interface ListSnapshotsPage extends HttpResponseField<SyncTokenHeaderFiel
 }
 
 // @public
-export interface OperationDetails {
-    error?: ErrorDetail;
-    id: string;
-    status: State;
-}
-
-// @public
-export interface OperationDetailsResponse extends OperationDetails {
-}
-
-// @public
 export interface OptionalFields {
     fields?: (keyof ConfigurationSetting)[];
 }

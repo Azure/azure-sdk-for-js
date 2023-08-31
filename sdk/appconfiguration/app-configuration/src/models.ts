@@ -8,7 +8,6 @@ import { SecretReferenceValue } from "./secretReference";
 import {
   CompositionType,
   ConfigurationSettingsFilter,
-  OperationDetails,
   Snapshot,
   SnapshotStatus,
 } from "./generated/src";
@@ -470,11 +469,6 @@ export interface CreateSnapshotOptions extends OperationOptions {}
 export interface SnapshotResponse extends Snapshot, SyncTokenHeaderField {}
 
 /**
- * Response from adding a Snapshot.
- */
-export interface OperationDetailsResponse extends OperationDetails {}
-
-/**
  * Options used when getting a Snapshot.
  */
 export interface GetSnapshotOptions
@@ -532,7 +526,6 @@ export interface SnapshotId {
 }
 
 export {
-  OperationDetails,
   State,
   ErrorDetail,
   Snapshot,

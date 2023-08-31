@@ -11,7 +11,6 @@ import {
   ListRevisionsOptions,
   ListSettingsOptions,
   ListSnapshotsOptions,
-  OperationDetailsResponse,
   Snapshot,
   SnapshotResponse,
 } from "../models";
@@ -20,7 +19,6 @@ import {
   GetKeyValuesOptionalParams,
   GetSnapshotsOptionalParams,
   KeyValue,
-  OperationDetails,
 } from "../generated/src/models";
 import {
   SecretReferenceHelper,
@@ -346,20 +344,6 @@ export function transformSnapshotResponse<T extends Snapshot>(snapshot: T): Snap
     });
   }
   return snapshot as any;
-}
-/**
- * @internal
- */
-export function transformOperationDetails<T extends OperationDetails>(
-  res: T
-): OperationDetailsResponse {
-  if (hasUnderscoreResponse(res)) {
-    Object.defineProperty(res, "_response", {
-      enumerable: false,
-      value: res._response,
-    });
-  }
-  return res as any;
 }
 
 /**
