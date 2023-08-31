@@ -21931,14 +21931,14 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-ic200avJ+VNtpSMdO5gNPWLP2WoWEjU3G5Rh3atYM33EXf8E85ql7wMuIItP5l32rz2igWqdyZ5Y8HJ0lSS8oA==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-II0oweHbGVvyQXsGlsILK6t0/scK9jVr2xxEV+xdvTOnO2ropbMDrhMJaBl4J8tE+bhQWWRUtnKe99HMUDB45A==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.36.4_@types+node@14.18.56
       '@types/chai': 4.3.5
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       chai: 4.3.8
       cross-env: 7.0.3
@@ -21957,11 +21957,11 @@ packages:
       karma-junit-reporter: 2.0.1_karma@6.4.2
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.4.2
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1_mocha@7.2.0
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1_mocha@10.2.0
       nyc: 15.1.0
-      prettier: 2.8.8
-      rimraf: 3.0.2
+      prettier: 3.0.3
+      rimraf: 5.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
       tslib: 2.6.2
