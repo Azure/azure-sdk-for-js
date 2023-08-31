@@ -20,7 +20,7 @@ export interface CreateCallRequest {
   /** Display name of the call if dialing out to a pstn number */
   sourceDisplayName?: string;
   /** The identifier of the source of the call */
-  sourceIdentity?: CommunicationUserIdentifierModel;
+  source?: CommunicationUserIdentifierModel;
   /** A customer set value used to track the answering of a call. */
   operationContext?: string;
   /** The callback URI. */
@@ -28,7 +28,7 @@ export interface CreateCallRequest {
   /** Media Streaming Configuration. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
   /** The identifier of the Cognitive Service resource assigned to this call. */
-  azureCognitiveServicesEndpointUrl?: string;
+  cognitiveServicesEndpoint?: string;
   /** Used by customer to send custom context to targets */
   customContext?: CustomContext;
 }
@@ -69,25 +69,6 @@ export interface MicrosoftTeamsUserIdentifierModel {
   cloud?: CommunicationCloudEnvironmentModel;
 }
 
-/** Configuration of Media streaming. */
-export interface MediaStreamingConfiguration {
-  /** Transport URL for media streaming */
-  transportUrl: string;
-  /** The type of transport to be used for media streaming, eg. Websocket */
-  transportType: MediaStreamingTransportType;
-  /** Content type to stream, eg. audio, audio/video */
-  contentType: MediaStreamingContentType;
-  /** Audio channel type to stream, eg. unmixed audio, mixed audio */
-  audioChannelType: MediaStreamingAudioChannelType;
-}
-
-export interface CustomContext {
-  /** Dictionary of <string> */
-  voipHeaders?: { [propertyName: string]: string };
-  /** Dictionary of <string> */
-  sipHeaders?: { [propertyName: string]: string };
-}
-
 /** Properties of a call connection */
 export interface CallConnectionPropertiesInternal {
   /** The call connection id. */
@@ -100,8 +81,6 @@ export interface CallConnectionPropertiesInternal {
   callConnectionState?: CallConnectionStateModel;
   /** The callback URI. */
   callbackUri?: string;
-  /** SubscriptionId for media streaming */
-  mediaSubscriptionId?: string;
   /**
    * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
    * Required only when calling a PSTN callee.
@@ -110,11 +89,11 @@ export interface CallConnectionPropertiesInternal {
   /** Display name of the call if dialing out to a pstn number. */
   sourceDisplayName?: string;
   /** Source identity. */
-  sourceIdentity?: CommunicationIdentifierModel;
+  source?: CommunicationIdentifierModel;
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
-  answeredByIdentifier?: CommunicationUserIdentifierModel;
+  answeredBy?: CommunicationUserIdentifierModel;
 }
 
 /** The Communication Services error. */
@@ -154,12 +133,10 @@ export interface AnswerCallRequest {
   callbackUri: string;
   /** A customer set value used to track the answering of a call. */
   operationContext?: string;
-  /** Media Streaming Configuration. */
-  mediaStreamingConfiguration?: MediaStreamingConfiguration;
   /** The endpoint URL of the Azure Cognitive Services resource attached */
-  azureCognitiveServicesEndpointUrl?: string;
+  cognitiveServicesEndpoint?: string;
   /** The identifier of the call automation entity which answers the call */
-  answeredByIdentifier?: CommunicationUserIdentifierModel;
+  answeredBy?: CommunicationUserIdentifierModel;
 }
 
 /** The request payload for redirecting the call. */
@@ -168,8 +145,6 @@ export interface RedirectCallRequest {
   incomingCallContext: string;
   /** The target identity to redirect the call to. */
   target: CommunicationIdentifierModel;
-  /** Used by customer to send custom context to targets */
-  customContext?: CustomContext;
 }
 
 /** The request payload for rejecting the call. */
@@ -184,8 +159,6 @@ export interface RejectCallRequest {
 export interface TransferToParticipantRequest {
   /** The identity of the target where call should be transferred to. */
   targetParticipant: CommunicationIdentifierModel;
-  /** Used by customer to send custom context to targets */
-  customContext?: CustomContext;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Transferee is the participant who is transferring the call. */
@@ -202,7 +175,7 @@ export interface TransferCallResponse {
 
 export interface PlayRequest {
   /** The source of the audio to be played. */
-  playSourceInfo: PlaySourceInternal;
+  playSources: PlaySourceInternal[];
   /**
    * The list of call participants play provided audio to.
    * Plays to everyone in the call when not provided.
@@ -218,15 +191,15 @@ export interface PlayRequest {
 
 export interface PlaySourceInternal {
   /** Defines the type of the play source */
-  sourceType: PlaySourceType;
+  kind: PlaySourceType;
   /** Defines the identifier to be used for caching related media */
-  playSourceId?: string;
+  playSourceCacheId?: string;
   /** Defines the file source info to be used for play */
-  fileSource?: FileSourceInternal;
+  file?: FileSourceInternal;
   /** Defines the text source info to be used for play */
-  textSource?: TextSourceInternal;
+  text?: TextSourceInternal;
   /** Defines the ssml(Speech Synthesis Markup Language) source info to be used for play */
-  ssmlSource?: SsmlSourceInternal;
+  ssml?: SsmlSourceInternal;
 }
 
 export interface FileSourceInternal {
@@ -242,8 +215,8 @@ export interface TextSourceInternal {
    * Refer to available locales here: <seealso href="https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=stt-tts" />
    */
   sourceLocale?: string;
-  /** Voice gender type */
-  voiceGender?: Gender;
+  /** Voice kind type */
+  voiceKind?: VoiceKind;
   /**
    * Voice name to be played
    * Refer to available Text-to-speech voices here: <seealso href="https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=stt-tts" />
@@ -332,10 +305,10 @@ export interface ContinuousDtmfRecognitionRequest {
   callbackUri?: string;
 }
 
-export interface SendDtmfRequest {
+export interface SendDtmfTonesRequest {
   /** List of tones to be sent to target participant. */
   tones: Tone[];
-  /** Target participant of send DTMF. */
+  /** Target participant of send Dtmf tones. */
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;
@@ -370,15 +343,20 @@ export interface DialogStateResponse {
   operationContext?: string;
 }
 
+export interface SendDtmfTonesResult {
+  /** The operation context provided by client. */
+  operationContext?: string;
+}
+
 /** The response payload for getting participants of the call. */
 export interface GetParticipantsResponse {
   /** List of the current participants in the call. */
-  values?: CallParticipantInternal[];
+  value: CallParticipantInternal[];
   /** Continue of the list of participants */
   nextLink?: string;
 }
 
-/** Contract model of an ACS call participant */
+/** A call participant. */
 export interface CallParticipantInternal {
   /** Communication identifier of the participant */
   identifier?: CommunicationIdentifierModel;
@@ -407,10 +385,6 @@ export interface AddParticipantRequest {
   invitationTimeoutInSeconds?: number;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Used by customer to send custom context to targets */
-  customContext?: CustomContext;
-  /** The callback URI to override the main callback URI. */
-  callbackUri?: string;
 }
 
 /** The response payload for adding participants to the call. */
@@ -448,25 +422,8 @@ export interface MuteParticipantsRequest {
   operationContext?: string;
 }
 
-/** The response payload for muting participants from the call. */
-export interface MuteParticipantsResponse {
-  /** The operation context provided by client. */
-  operationContext?: string;
-}
-
-/** The request payload for unmuting participant from the call. */
-export interface UnmuteParticipantsRequest {
-  /**
-   * Participants to be unmuted from the call.
-   * Only ACS Users are supported.
-   */
-  targetParticipants: CommunicationIdentifierModel[];
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-}
-
-/** The response payload for unmuting participants from the call. */
-export interface UnmuteParticipantsResponse {
+/** The result payload for muting participants from the call. */
+export interface MuteParticipantsResult {
   /** The operation context provided by client. */
   operationContext?: string;
 }
@@ -497,8 +454,6 @@ export interface StartCallRecordingRequest {
    * ///
    */
   channelAffinity?: ChannelAffinity[];
-  /** Optional property to specify location where recording will be stored */
-  externalStorage?: ExternalStorage;
 }
 
 /** The locator used for joining or taking action on a call. */
@@ -522,25 +477,12 @@ export interface ChannelAffinity {
   participant: CommunicationIdentifierModel;
 }
 
-export interface ExternalStorage {
-  /** Defines the type of external storage */
-  storageType: RecordingStorageType;
-  /** Defines the blob storage location where the recording will be stored */
-  blobStorage?: BlobStorage;
-}
-
-/** Used to specify Blob container url to recording storage */
-export interface BlobStorage {
-  /** Url of a container or a location within a container */
-  containerUri: string;
-}
-
 export interface RecordingStateResponse {
   recordingId?: string;
   recordingState?: RecordingState;
 }
 
-/** The failed to add participant event. */
+/** The failed to add participants event. */
 export interface AddParticipantFailed {
   /** Call connection ID. */
   callConnectionId?: string;
@@ -550,7 +492,7 @@ export interface AddParticipantFailed {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
   /** Participant */
   participant?: CommunicationIdentifierModel;
@@ -565,7 +507,7 @@ export interface ResultInformation {
   message?: string;
 }
 
-/** The participant successfully added event. */
+/** The participants successfully added event. */
 export interface AddParticipantSucceeded {
   /** Call connection ID. */
   callConnectionId?: string;
@@ -575,7 +517,7 @@ export interface AddParticipantSucceeded {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
   /** Participant */
   participant?: CommunicationIdentifierModel;
@@ -615,7 +557,7 @@ export interface CallTransferAccepted {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
   /**
    * Traffer target: the user that transferee will be transferred to
@@ -639,7 +581,7 @@ export interface CallTransferFailed {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
@@ -667,7 +609,7 @@ export interface RemoveParticipantSucceeded {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
   /** Participant */
   participant?: CommunicationIdentifierModel;
@@ -683,7 +625,7 @@ export interface RemoveParticipantFailed {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
   /** Participant */
   participant?: CommunicationIdentifierModel;
@@ -762,11 +704,6 @@ export interface RecognizeCompleted {
    * In case of cancel operation the this field is not set and is returned empty
    */
   recognitionType?: RecognitionType;
-  /**
-   * Defines the result for RecognitionType = Dtmf
-   * Would be replaced by DtmfResult after server sdk renewed
-   */
-  collectTonesResult?: CollectTonesResult;
   /** Defines the result for RecognitionType = Dtmf */
   dtmfResult?: DtmfResult;
   /** Defines the result for RecognitionType = Choices */
@@ -776,11 +713,6 @@ export interface RecognizeCompleted {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly speechResult?: SpeechResult;
-}
-
-export interface CollectTonesResult {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly tones?: Tone[];
 }
 
 export interface DtmfResult {
@@ -1152,7 +1084,7 @@ export interface ContinuousDtmfRecognitionStopped {
   resultInformation?: ResultInformation;
 }
 
-export interface SendDtmfCompleted {
+export interface SendDtmfTonesCompleted {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -1165,7 +1097,7 @@ export interface SendDtmfCompleted {
   resultInformation?: ResultInformation;
 }
 
-export interface SendDtmfFailed {
+export interface SendDtmfTonesFailed {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -1222,54 +1154,6 @@ export enum KnownCommunicationCloudEnvironmentModel {
  * **gcch**
  */
 export type CommunicationCloudEnvironmentModel = string;
-
-/** Known values of {@link MediaStreamingTransportType} that the service accepts. */
-export enum KnownMediaStreamingTransportType {
-  /** Websocket */
-  Websocket = "websocket"
-}
-
-/**
- * Defines values for MediaStreamingTransportType. \
- * {@link KnownMediaStreamingTransportType} can be used interchangeably with MediaStreamingTransportType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **websocket**
- */
-export type MediaStreamingTransportType = string;
-
-/** Known values of {@link MediaStreamingContentType} that the service accepts. */
-export enum KnownMediaStreamingContentType {
-  /** Audio */
-  Audio = "audio"
-}
-
-/**
- * Defines values for MediaStreamingContentType. \
- * {@link KnownMediaStreamingContentType} can be used interchangeably with MediaStreamingContentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **audio**
- */
-export type MediaStreamingContentType = string;
-
-/** Known values of {@link MediaStreamingAudioChannelType} that the service accepts. */
-export enum KnownMediaStreamingAudioChannelType {
-  /** Mixed */
-  Mixed = "mixed",
-  /** Unmixed */
-  Unmixed = "unmixed"
-}
-
-/**
- * Defines values for MediaStreamingAudioChannelType. \
- * {@link KnownMediaStreamingAudioChannelType} can be used interchangeably with MediaStreamingAudioChannelType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **mixed** \
- * **unmixed**
- */
-export type MediaStreamingAudioChannelType = string;
 
 /** Known values of {@link CallConnectionStateModel} that the service accepts. */
 export enum KnownCallConnectionStateModel {
@@ -1346,8 +1230,8 @@ export enum KnownPlaySourceType {
  */
 export type PlaySourceType = string;
 
-/** Known values of {@link Gender} that the service accepts. */
-export enum KnownGender {
+/** Known values of {@link VoiceKind} that the service accepts. */
+export enum KnownVoiceKind {
   /** Male */
   Male = "male",
   /** Female */
@@ -1355,14 +1239,14 @@ export enum KnownGender {
 }
 
 /**
- * Defines values for Gender. \
- * {@link KnownGender} can be used interchangeably with Gender,
+ * Defines values for VoiceKind. \
+ * {@link KnownVoiceKind} can be used interchangeably with VoiceKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **male** \
  * **female**
  */
-export type Gender = string;
+export type VoiceKind = string;
 
 /** Known values of {@link RecognizeInputType} that the service accepts. */
 export enum KnownRecognizeInputType {
@@ -1538,24 +1422,6 @@ export enum KnownRecordingFormatType {
  */
 export type RecordingFormatType = string;
 
-/** Known values of {@link RecordingStorageType} that the service accepts. */
-export enum KnownRecordingStorageType {
-  /** Acs */
-  Acs = "acs",
-  /** BlobStorage */
-  BlobStorage = "blobStorage"
-}
-
-/**
- * Defines values for RecordingStorageType. \
- * {@link KnownRecordingStorageType} can be used interchangeably with RecordingStorageType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **acs** \
- * **blobStorage**
- */
-export type RecordingStorageType = string;
-
 /** Known values of {@link RecordingState} that the service accepts. */
 export enum KnownRecordingState {
   /** Active */
@@ -1707,19 +1573,7 @@ export interface CallConnectionMuteOptionalParams
 }
 
 /** Contains response data for the mute operation. */
-export type CallConnectionMuteResponse = MuteParticipantsResponse;
-
-/** Optional parameters. */
-export interface CallConnectionUnmuteOptionalParams
-  extends coreClient.OperationOptions {
-  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
-  repeatabilityRequestID?: string;
-  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
-  repeatabilityFirstSent?: Date;
-}
-
-/** Contains response data for the unmute operation. */
-export type CallConnectionUnmuteResponse = UnmuteParticipantsResponse;
+export type CallConnectionMuteResponse = MuteParticipantsResult;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams
@@ -1756,8 +1610,16 @@ export interface CallMediaStopContinuousDtmfRecognitionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface CallMediaSendDtmfOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CallMediaSendDtmfTonesOptionalParams
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
+
+/** Contains response data for the sendDtmfTones operation. */
+export type CallMediaSendDtmfTonesResponse = SendDtmfTonesResult;
 
 /** Optional parameters. */
 export interface CallDialogStartDialogOptionalParams

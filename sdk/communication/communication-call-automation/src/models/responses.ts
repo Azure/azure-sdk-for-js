@@ -57,8 +57,8 @@ export interface RemoveParticipantResult {
   operationContext?: string;
 }
 
-/** The response payload for muting participants from the call. */
-export interface MuteParticipantsResult {
+/** The response payload for muting participant from the call. */
+export interface MuteParticipantResult {
   /** The operation context provided by client. */
   operationContext?: string;
 }
@@ -67,4 +67,10 @@ export interface MuteParticipantsResult {
 export interface RecordingStateResult {
   recordingId: string;
   recordingState: RecordingState;
+}
+
+/** The response payload for sending DTMF tones. */
+export interface SendDtmfTonesResult {
+  /** The operation context provided by client. */
+  operationContext?: string;
 }

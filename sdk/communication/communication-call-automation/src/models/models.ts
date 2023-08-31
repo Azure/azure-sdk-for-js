@@ -36,7 +36,7 @@ export interface CallConnectionProperties {
   /** Display name of the call if dialing out to a pstn number. */
   sourceDisplayName?: string;
   /** Source identity. */
-  sourceIdentity?: CommunicationIdentifier;
+  source?: CommunicationIdentifier;
   /** The targets of the call. */
   targetParticipants?: CommunicationIdentifier[];
   /** The state of the call connection. */
@@ -48,7 +48,7 @@ export interface CallConnectionProperties {
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
-  answeredByIdentifier?: CommunicationUserIdentifier;
+  answeredby?: CommunicationUserIdentifier;
 }
 
 /** Contract model of an ACS call participant */
@@ -65,8 +65,8 @@ export interface CallLocator {
   kind: CallLocatorType;
 }
 
-/** Defines values for Gender that the service accepts. */
-export enum Gender {
+/** Defines values for VoiceKind that the service accepts. */
+export enum VoiceKind {
   /** Male */
   Male = "male",
   /** Female */
@@ -75,7 +75,7 @@ export enum Gender {
 
 /** The PlaySource model. */
 export interface PlaySource {
-  playSourceId?: string;
+  playsourcacheid?: string;
 }
 
 /** The FileSource model. */
@@ -88,7 +88,7 @@ export interface FileSource extends PlaySource {
 export interface TextSource extends PlaySource {
   text: string;
   sourceLocale?: string;
-  voiceGender?: Gender;
+  voiceKind?: VoiceKind;
   voiceName?: string;
   customVoiceEndpointId?: string;
   readonly kind: "textSource";
@@ -137,8 +137,8 @@ export enum DtmfTone {
   Asterisk = "asterisk",
 }
 
-/** A Recognize Choice */
-export interface Choice {
+/** A Recognition Choice */
+export interface RecognitionChoice {
   /** Identifier for a given choice */
   label: string;
   /** List of phrases to recognize */

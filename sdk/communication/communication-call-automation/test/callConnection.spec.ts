@@ -15,7 +15,7 @@ import {
   AddParticipantResult,
   TransferCallResult,
   RemoveParticipantResult,
-  MuteParticipantsResult,
+  MuteParticipantResult,
 } from "../src";
 import Sinon, { SinonStubbedInstance } from "sinon";
 import { CALL_TARGET_ID, CALL_TARGET_ID_2 } from "./utils/connectionUtils";
@@ -250,23 +250,23 @@ describe("CallConnection Unit Tests", () => {
       .catch((error) => console.error(error));
   });
 
-  it("MuteParticipants", async () => {
+  it("MuteParticipant", async () => {
     // mocks
-    const muteParticipantsResultMock: MuteParticipantsResult = {};
-    callConnection.muteParticipants.returns(
+    const muteParticipantResultMock: MuteParticipantResult = {};
+    callConnection.muteParticipant.returns(
       new Promise((resolve) => {
-        resolve(muteParticipantsResultMock);
+        resolve(muteParticipantResultMock);
       })
     );
 
-    const promiseResult = callConnection.muteParticipants(target.targetParticipant);
+    const promiseResult = callConnection.muteParticipant(target.targetParticipant);
 
     // asserts
     promiseResult
-      .then((result: MuteParticipantsResult) => {
+      .then((result: MuteParticipantResult) => {
         assert.isNotNull(result);
-        assert.isTrue(callConnection.muteParticipants.calledWith(target.targetParticipant));
-        assert.equal(result, muteParticipantsResultMock);
+        assert.isTrue(callConnection.muteParticipant.calledWith(target.targetParticipant));
+        assert.equal(result, muteParticipantResultMock);
         return;
       })
       .catch((error) => console.error(error));
@@ -466,9 +466,10 @@ describe("CallConnection Live Tests", function () {
     );
     assert.isDefined(participantAddedEvent);
 
-    const muteResult = await callConnection.muteParticipants(testUser2);
+    const muteResult = await callConnection.muteParticipant(testUser2);
     assert.isDefined(muteResult);
 
+    await new Promise((resolve) => setTimeout(resolve, 10000));
     const participantsUpdatedEvent = await waitForEvent(
       "ParticipantsUpdated",
       callConnectionId,

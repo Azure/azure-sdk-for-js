@@ -26,9 +26,6 @@ import {
   MuteParticipantsRequest,
   CallConnectionMuteOptionalParams,
   CallConnectionMuteResponse,
-  UnmuteParticipantsRequest,
-  CallConnectionUnmuteOptionalParams,
-  CallConnectionUnmuteResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse
 } from "../models";
@@ -46,7 +43,7 @@ export interface CallConnection {
     options?: CallConnectionGetParticipantsOptionalParams
   ): PagedAsyncIterableIterator<CallParticipantInternal>;
   /**
-   * Get call connection.
+   * Get the detail properties of an ongoing call.
    * @param callConnectionId The call connection id.
    * @param options The options parameters.
    */
@@ -55,7 +52,8 @@ export interface CallConnection {
     options?: CallConnectionGetCallOptionalParams
   ): Promise<CallConnectionGetCallResponse>;
   /**
-   * Hangup the call.
+   * Hang up call automation service from the call. This will make call automation service leave the
+   * call, but does not terminate if there are more than 1 caller in the call.
    * @param callConnectionId The call connection id.
    * @param options The options parameters.
    */
@@ -84,7 +82,7 @@ export interface CallConnection {
     options?: CallConnectionTransferToParticipantOptionalParams
   ): Promise<CallConnectionTransferToParticipantResponse>;
   /**
-   * Add participants to the call.
+   * Add a participant to the call.
    * @param callConnectionId The call connection Id
    * @param addParticipantRequest The request payload for adding participant to the call.
    * @param options The options parameters.
@@ -95,7 +93,7 @@ export interface CallConnection {
     options?: CallConnectionAddParticipantOptionalParams
   ): Promise<CallConnectionAddParticipantResponse>;
   /**
-   * Remove participant from the call using identifier.
+   * Remove a participant from the call using identifier.
    * @param callConnectionId The call connection id.
    * @param removeParticipantRequest The participant to be removed from the call.
    * @param options The options parameters.
@@ -116,17 +114,6 @@ export interface CallConnection {
     muteParticipantsRequest: MuteParticipantsRequest,
     options?: CallConnectionMuteOptionalParams
   ): Promise<CallConnectionMuteResponse>;
-  /**
-   * Unmute participants from the call using identifier.
-   * @param callConnectionId The call connection id.
-   * @param unmuteParticipantsRequest The participants to be unmuted from the call.
-   * @param options The options parameters.
-   */
-  unmute(
-    callConnectionId: string,
-    unmuteParticipantsRequest: UnmuteParticipantsRequest,
-    options?: CallConnectionUnmuteOptionalParams
-  ): Promise<CallConnectionUnmuteResponse>;
   /**
    * Get participant from a call.
    * @param callConnectionId The call connection Id

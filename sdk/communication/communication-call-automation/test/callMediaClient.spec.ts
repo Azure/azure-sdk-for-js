@@ -14,7 +14,7 @@ import {
 
 // Parent directory imports
 import { CallMedia } from "../src/callMedia";
-import { FileSource, TextSource, SsmlSource, Choice, DtmfTone } from "../src/models/models";
+import { FileSource, TextSource, SsmlSource, DtmfTone } from "../src/models/models";
 import {
   CallMediaRecognizeDtmfOptions,
   CallMediaRecognizeChoiceOptions,
@@ -23,7 +23,7 @@ import {
   CallConnection,
   CallInvite,
   ContinuousDtmfRecognitionOptions,
-  SendDtmfOptions,
+  SendDtmfTonesOptions,
 } from "../src";
 
 // Current directory imports
@@ -72,10 +72,12 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const playSource: FileSource = {
-      url: MEDIA_UR_MP3,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: MEDIA_UR_MP3,
+        kind: "fileSource",
+      },
+    ];
 
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
 
@@ -84,8 +86,8 @@ describe("CallMedia Unit Tests", async function () {
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.playTo[0].rawId, CALL_TARGET_ID);
-    assert.equal(data.playSourceInfo.sourceType, "file");
-    assert.equal(data.playSourceInfo.fileSource.uri, playSource.url);
+    assert.equal(data.playSources[0].kind, "file");
+    assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
   });
 
@@ -144,10 +146,12 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const playSource: FileSource = {
-      url: MEDIA_URL_WAV,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: MEDIA_URL_WAV,
+        kind: "fileSource",
+      },
+    ];
 
     const playTo: CommunicationIdentifier[] = [];
 
@@ -155,8 +159,8 @@ describe("CallMedia Unit Tests", async function () {
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
-    assert.equal(data.playSourceInfo.sourceType, "file");
-    assert.equal(data.playSourceInfo.fileSource.uri, playSource.url);
+    assert.equal(data.playSources[0].kind, "file");
+    assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
   });
 
@@ -168,10 +172,10 @@ describe("CallMedia Unit Tests", async function () {
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const recognizeOptions: CallMediaRecognizeDtmfOptions = {
       kind: "callMediaRecognizeDtmfOptions",
+      maxTonesToCollect: 5,
     };
-    const maxTonesToCollect = 5;
 
-    await callMedia.startRecognizing(targetParticipant, maxTonesToCollect, recognizeOptions);
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
@@ -282,24 +286,24 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(request.method, "POST");
   });
 
-  it("makes successful SendDtmf request", async function () {
+  it("makes successful SendDtmfTones request", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const sendDtmfOptions: SendDtmfOptions = {
+    const sendDtmfTonesOptions: SendDtmfTonesOptions = {
       operationContext: "test_operation_context",
     };
     const tones = ["one", "two", "three", "pound"];
 
-    await callMedia.sendDtmf(tones, targetParticipant, sendDtmfOptions);
+    await callMedia.sendDtmfTones(tones, targetParticipant, sendDtmfTonesOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
     assert.deepEqual(data.tones, tones);
-    assert.equal(data.operationContext, sendDtmfOptions.operationContext);
+    assert.equal(data.operationContext, sendDtmfTonesOptions.operationContext);
     assert.equal(request.method, "POST");
   });
 });
@@ -368,10 +372,12 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource = {
-      url: fileSourceUrl,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: fileSourceUrl,
+        kind: "fileSource",
+      },
+    ];
 
     await callConnection.getCallMedia().play(playSource, [testUser2]);
     const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
@@ -405,10 +411,12 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource = {
-      url: fileSourceUrl,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: fileSourceUrl,
+        kind: "fileSource",
+      },
+    ];
 
     await callConnection.getCallMedia().playToAll(playSource);
 
@@ -444,10 +452,12 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource = {
-      url: fileSourceUrl,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: fileSourceUrl,
+        kind: "fileSource",
+      },
+    ];
 
     await callConnection.getCallMedia().playToAll(playSource);
     await callConnection.getCallMedia().cancelAllOperations();
@@ -506,9 +516,13 @@ describe("Call Media Client Live Tests", function () {
 
     await callConnection.getCallMedia().startContinuousDtmfRecognition(receiverPhoneUser);
 
-    await callConnection.getCallMedia().sendDtmf([DtmfTone.Pound], receiverPhoneUser);
-    const sendDtmfCompleted = await waitForEvent("SendDtmfCompleted", callConnectionId, 8000);
-    assert.isDefined(sendDtmfCompleted);
+    await callConnection.getCallMedia().sendDtmfTones([DtmfTone.Pound], receiverPhoneUser);
+    const sendDtmfTonesCompleted = await waitForEvent(
+      "SendDtmfTonesCompleted",
+      callConnectionId,
+      8000
+    );
+    assert.isDefined(sendDtmfTonesCompleted);
 
     const continuousDtmfRecognitionToneReceivedEvent = await waitForEvent(
       "ContinuousDtmfRecognitionToneReceived",

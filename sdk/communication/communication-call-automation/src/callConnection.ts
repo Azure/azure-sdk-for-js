@@ -21,7 +21,7 @@ import {
   GetCallConnectionPropertiesOptions,
   GetParticipantOptions,
   HangUpOptions,
-  MuteParticipantsOption,
+  MuteParticipantOption,
   RemoveParticipantsOption,
   TransferCallToParticipantOptions,
 } from "./models/options";
@@ -30,7 +30,7 @@ import {
   TransferCallResult,
   AddParticipantResult,
   RemoveParticipantResult,
-  MuteParticipantsResult,
+  MuteParticipantResult,
 } from "./models/responses";
 import {
   callParticipantConverter,
@@ -87,12 +87,12 @@ export class CallConnection {
   public async getCallConnectionProperties(
     options: GetCallConnectionPropertiesOptions = {}
   ): Promise<CallConnectionProperties> {
-    const { targets, sourceCallerIdNumber, answeredByIdentifier, sourceIdentity, ...result } =
+    const { targets, sourceCallerIdNumber, answeredBy, source, ...result } =
       await this.callConnection.getCall(this.callConnectionId, options);
     const callConnectionProperties: CallConnectionProperties = {
       ...result,
-      sourceIdentity: sourceIdentity ? communicationIdentifierConverter(sourceIdentity) : undefined,
-      answeredByIdentifier: communicationUserIdentifierConverter(answeredByIdentifier),
+      source: source ? communicationIdentifierConverter(source) : undefined,
+      answeredby: communicationUserIdentifierConverter(answeredBy),
       targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
       sourceCallerIdNumber: sourceCallerIdNumber
         ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
@@ -274,14 +274,15 @@ export class CallConnection {
   }
 
   /**
-   * Mute participants from the call.
+   * Mute participant from the call.
    *
    * @param participant - Participant to be muted from the call.
+   * @param options - Additional attributes for mute participant.
    */
-  public async muteParticipants(
+  public async muteParticipant(
     participant: CommunicationIdentifier,
-    options: MuteParticipantsOption = {}
-  ): Promise<MuteParticipantsResult> {
+    options: MuteParticipantOption = {}
+  ): Promise<MuteParticipantResult> {
     const muteParticipantsRequest: MuteParticipantsRequest = {
       targetParticipants: [communicationIdentifierModelConverter(participant)],
       operationContext: options.operationContext,
@@ -296,9 +297,9 @@ export class CallConnection {
       muteParticipantsRequest,
       optionsInternal
     );
-    const muteParticipantsResult: MuteParticipantsResult = {
+    const muteParticipantResult: MuteParticipantResult = {
       ...result,
     };
-    return muteParticipantsResult;
+    return muteParticipantResult;
   }
 }

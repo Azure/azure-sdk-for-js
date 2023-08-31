@@ -24,8 +24,8 @@ import {
   ContinuousDtmfRecognitionToneReceived as RestContinuousDtmfRecognitionToneReceived,
   ContinuousDtmfRecognitionToneFailed as RestContinuousDtmfRecognitionToneFailed,
   ContinuousDtmfRecognitionStopped as RestContinuousDtmfRecognitionStopped,
-  SendDtmfCompleted as RestSendDtmfCompleted,
-  SendDtmfFailed as RestSendDtmfFailed,
+  SendDtmfTonesCompleted as RestSendDtmfTonesCompleted,
+  SendDtmfTonesFailed as RestSendDtmfTonesFailed,
   ToneInfo as RestToneInfo,
   Tone,
 } from "../generated/src/models";
@@ -53,8 +53,8 @@ export type CallAutomationEvent =
   | ContinuousDtmfRecognitionToneReceived
   | ContinuousDtmfRecognitionToneFailed
   | ContinuousDtmfRecognitionStopped
-  | SendDtmfCompleted
-  | SendDtmfFailed;
+  | SendDtmfTonesCompleted
+  | SendDtmfTonesFailed;
 
 export {
   RestAddParticipantSucceeded,
@@ -77,8 +77,8 @@ export {
   RestContinuousDtmfRecognitionToneReceived,
   RestContinuousDtmfRecognitionToneFailed,
   RestContinuousDtmfRecognitionStopped,
-  RestSendDtmfCompleted,
-  RestSendDtmfFailed,
+  RestSendDtmfTonesCompleted,
+  RestSendDtmfTonesFailed,
   RestToneInfo,
 };
 
@@ -448,9 +448,9 @@ export interface ContinuousDtmfRecognitionStopped
 }
 
 /** Event sent when Dtmf tones send successfully. */
-export interface SendDtmfCompleted
+export interface SendDtmfTonesCompleted
   extends Omit<
-    RestSendDtmfCompleted,
+    RestSendDtmfTonesCompleted,
     "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"
   > {
   /** Call connection ID. */
@@ -464,13 +464,13 @@ export interface SendDtmfCompleted
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
-  kind: "SendDtmfCompleted";
+  kind: "SendDtmfTonesCompleted";
 }
 
 /** Event sent when Dtmf tones send failed. */
-export interface SendDtmfFailed
+export interface SendDtmfTonesFailed
   extends Omit<
-    RestSendDtmfFailed,
+    RestSendDtmfTonesFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"
   > {
   /** Call connection ID. */
@@ -484,5 +484,5 @@ export interface SendDtmfFailed
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
-  kind: "SendDtmfFailed";
+  kind: "SendDtmfTonesFailed";
 }
