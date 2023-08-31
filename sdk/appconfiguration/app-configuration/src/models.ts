@@ -529,7 +529,6 @@ export {
   State,
   Snapshot,
   ConfigurationSettingsFilter,
-  InnerError,
   CompositionType,
   KnownCompositionType,
   KnownSnapshotStatus,

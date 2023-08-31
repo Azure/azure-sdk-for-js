@@ -178,12 +178,6 @@ export interface HttpResponseFields {
 }
 
 // @public
-export interface InnerError {
-    code?: string;
-    innererror?: InnerError;
-}
-
-// @public
 export function isFeatureFlag(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
 // @public
