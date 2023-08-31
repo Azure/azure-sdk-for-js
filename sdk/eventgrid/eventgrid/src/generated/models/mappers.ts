@@ -1902,10 +1902,10 @@ export const SubscriptionDeletedEventData: coreClient.CompositeMapper = {
   }
 };
 
-export const EventGridNamespaceMqttClientEventData: coreClient.CompositeMapper = {
+export const EventGridMqttClientEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EventGridNamespaceMqttClientEventData",
+    className: "EventGridMqttClientEventData",
     modelProperties: {
       clientAuthenticationName: {
         serializedName: "clientAuthenticationName",
@@ -3897,6 +3897,36 @@ export const AppConfigurationKeyValueDeletedEventData: coreClient.CompositeMappe
       },
       label: {
         serializedName: "label",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      syncToken: {
+        serializedName: "syncToken",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppConfigurationSnapshotEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AppConfigurationSnapshotEventData",
+    modelProperties: {
+      name: {
+        serializedName: "name",
         required: true,
         type: {
           name: "String"
@@ -7306,12 +7336,12 @@ export const HealthcareDicomImageDeletedEventData: coreClient.CompositeMapper = 
   }
 };
 
-export const EventGridNamespaceMqttClientCreatedOrUpdatedEventData: coreClient.CompositeMapper = {
+export const EventGridMqttClientCreatedOrUpdatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EventGridNamespaceMqttClientCreatedOrUpdatedEventData",
+    className: "EventGridMqttClientCreatedOrUpdatedEventData",
     modelProperties: {
-      ...EventGridNamespaceMqttClientEventData.type.modelProperties,
+      ...EventGridMqttClientEventData.type.modelProperties,
       state: {
         serializedName: "state",
         required: true,
@@ -7345,22 +7375,22 @@ export const EventGridNamespaceMqttClientCreatedOrUpdatedEventData: coreClient.C
   }
 };
 
-export const EventGridNamespaceMqttClientDeletedEventData: coreClient.CompositeMapper = {
+export const EventGridMqttClientDeletedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EventGridNamespaceMqttClientDeletedEventData",
+    className: "EventGridMqttClientDeletedEventData",
     modelProperties: {
-      ...EventGridNamespaceMqttClientEventData.type.modelProperties
+      ...EventGridMqttClientEventData.type.modelProperties
     }
   }
 };
 
-export const EventGridNamespaceMqttClientSessionConnectedEventData: coreClient.CompositeMapper = {
+export const EventGridMqttClientSessionConnectedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EventGridNamespaceMqttClientSessionConnectedEventData",
+    className: "EventGridMqttClientSessionConnectedEventData",
     modelProperties: {
-      ...EventGridNamespaceMqttClientEventData.type.modelProperties,
+      ...EventGridMqttClientEventData.type.modelProperties,
       clientSessionName: {
         serializedName: "clientSessionName",
         required: true,
@@ -7379,12 +7409,12 @@ export const EventGridNamespaceMqttClientSessionConnectedEventData: coreClient.C
   }
 };
 
-export const EventGridNamespaceMqttClientSessionDisconnectedEventData: coreClient.CompositeMapper = {
+export const EventGridMqttClientSessionDisconnectedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EventGridNamespaceMqttClientSessionDisconnectedEventData",
+    className: "EventGridMqttClientSessionDisconnectedEventData",
     modelProperties: {
-      ...EventGridNamespaceMqttClientEventData.type.modelProperties,
+      ...EventGridMqttClientEventData.type.modelProperties,
       clientSessionName: {
         serializedName: "clientSessionName",
         required: true,
@@ -7717,6 +7747,26 @@ export const MapsGeofenceResultEventData: coreClient.CompositeMapper = {
     className: "MapsGeofenceResultEventData",
     modelProperties: {
       ...MapsGeofenceEvent.type.modelProperties
+    }
+  }
+};
+
+export const AppConfigurationSnapshotCreatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AppConfigurationSnapshotCreatedEventData",
+    modelProperties: {
+      ...AppConfigurationSnapshotEventData.type.modelProperties
+    }
+  }
+};
+
+export const AppConfigurationSnapshotModifiedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AppConfigurationSnapshotModifiedEventData",
+    modelProperties: {
+      ...AppConfigurationSnapshotEventData.type.modelProperties
     }
   }
 };

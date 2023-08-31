@@ -159,10 +159,12 @@ import {
   ContainerServiceNodePoolRollingStartedEventData,
   ContainerServiceNodePoolRollingSucceededEventData,
   ContainerServiceNodePoolRollingFailedEventData,
-  EventGridNamespaceMqttClientCreatedOrUpdatedEventData,
-  EventGridNamespaceMqttClientDeletedEventData,
-  EventGridNamespaceMqttClientSessionConnectedEventData,
-  EventGridNamespaceMqttClientSessionDisconnectedEventData,
+  EventGridMqttClientCreatedOrUpdatedEventData,
+  EventGridMqttClientDeletedEventData,
+  EventGridMqttClientSessionConnectedEventData,
+  EventGridMqttClientSessionDisconnectedEventData,
+  AppConfigurationSnapshotCreatedEventData,
+  AppConfigurationSnapshotModifiedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -492,13 +494,17 @@ export interface SystemEventNameToEventData {
   /** An interface for the event data of a "Microsoft.ContainerService.NodePoolRollingFailed" event. */
   "Microsoft.ContainerService.NodePoolRollingFailed": ContainerServiceNodePoolRollingFailedEventData;
   /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientCreatedOrUpdated" event. */
-  "Microsoft.EventGrid.MQTTClientCreatedOrUpdated": EventGridNamespaceMqttClientCreatedOrUpdatedEventData;
+  "Microsoft.EventGrid.MQTTClientCreatedOrUpdated": EventGridMqttClientCreatedOrUpdatedEventData;
   /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientDeleted" event. */
-  "Microsoft.EventGrid.MQTTClientDeleted": EventGridNamespaceMqttClientDeletedEventData;
+  "Microsoft.EventGrid.MQTTClientDeleted": EventGridMqttClientDeletedEventData;
   /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientSessionConnected" event. */
-  "Microsoft.EventGrid.MQTTClientSessionConnected": EventGridNamespaceMqttClientSessionConnectedEventData;
+  "Microsoft.EventGrid.MQTTClientSessionConnected": EventGridMqttClientSessionConnectedEventData;
   /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientSessionDisconnected" event. */
-  "Microsoft.EventGrid.MQTTClientSessionDisconnected": EventGridNamespaceMqttClientSessionDisconnectedEventData;
+  "Microsoft.EventGrid.MQTTClientSessionDisconnected": EventGridMqttClientSessionDisconnectedEventData;
+  /** An interface for the event data of a "Microsoft.AppConfiguration.SnapshotCreated" event. */
+  "Microsoft.AppConfiguration.SnapshotCreated": AppConfigurationSnapshotCreatedEventData;
+  /** An interface for the event data of a "Microsoft.AppConfiguration.SnapshotModified" event. */
+  "Microsoft.AppConfiguration.SnapshotModified": AppConfigurationSnapshotModifiedEventData;
 }
 
 /**
