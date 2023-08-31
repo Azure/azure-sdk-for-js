@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { StreamableMethod } from "@azure-rest/core-client";
-import { EventMessage, toSSE } from "./sse.js";
+import { EventMessage, toSSE } from "@azure/core-sse";
 
 async function getStream<TResponse>(
   response: StreamableMethod<TResponse>
