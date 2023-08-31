@@ -527,7 +527,6 @@ export interface SnapshotId {
 
 export {
   State,
-  ErrorDetail,
   Snapshot,
   ConfigurationSettingsFilter,
   InnerError,

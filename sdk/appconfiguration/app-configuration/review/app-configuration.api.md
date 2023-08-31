@@ -114,14 +114,6 @@ export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField
 }
 
 // @public
-export interface ErrorDetail {
-    code: string;
-    details?: ErrorDetail[];
-    innererror?: InnerError;
-    message: string;
-}
-
-// @public
 export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+json;charset=utf-8";
 
 // @public
