@@ -10,8 +10,7 @@ import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AbortError } from "@azure/abort-controller";
 import { MsalFlowOptions } from "./flows";
-import { isNode } from "@azure/core-util";
-import { v4 as uuidv4 } from "uuid";
+import { isNode, randomUUID } from "@azure/core-util";
 import { AzureLogLevel } from "@azure/logger";
 
 /**
@@ -155,7 +154,7 @@ export class MsalBaseUtilities {
    * Generates a UUID
    */
   generateUuid(): string {
-    return uuidv4();
+    return randomUUID();
   }
 
   /**
