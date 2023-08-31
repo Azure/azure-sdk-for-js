@@ -97,9 +97,8 @@ export function buildSseTests(
         write(encoder.encode("\n"));
       });
       const ids = ["1", ""];
-      let i = 0;
-      await assertAsyncIterable(stream, 2, (event) => {
-        assert.equal(event.id, ids[i++]);
+      await assertAsyncIterable(stream, 2, (event, i) => {
+        assert.equal(event.id, ids[i]);
       });
     });
 
