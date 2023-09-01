@@ -173,8 +173,14 @@ export class CallAutomationClient {
       repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
-    const { callConnectionId, answeredByIdentifier, targets, sourceCallerIdNumber, sourceIdentity, ...result } =
-      await this.callAutomationApiClient.createCall(request, optionsInternal);
+    const {
+      callConnectionId,
+      answeredByIdentifier,
+      targets,
+      sourceCallerIdNumber,
+      sourceIdentity,
+      ...result
+    } = await this.callAutomationApiClient.createCall(request, optionsInternal);
 
     if (callConnectionId) {
       const callConnectionPropertiesDto: CallConnectionProperties = {
@@ -294,8 +300,14 @@ export class CallAutomationClient {
       repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
-    const { callConnectionId, targets, sourceCallerIdNumber, answeredByIdentifier, sourceIdentity, ...result } =
-      await this.callAutomationApiClient.answerCall(request, optionsInternal);
+    const {
+      callConnectionId,
+      targets,
+      sourceCallerIdNumber,
+      answeredByIdentifier,
+      sourceIdentity,
+      ...result
+    } = await this.callAutomationApiClient.answerCall(request, optionsInternal);
 
     if (callConnectionId) {
       const callConnectionProperties: CallConnectionProperties = {

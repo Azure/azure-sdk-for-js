@@ -365,14 +365,9 @@ export class CallMedia {
       repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
-    await this.callMedia.sendDtmf(
-      this.callConnectionId,
-      sendDtmfTonesRequest,
-      optionsInternal
-    );
+    await this.callMedia.sendDtmf(this.callConnectionId, sendDtmfTonesRequest, optionsInternal);
     // Note: fix this when we support sendDtmfTonesResult
-    const sendDtmfTonesResult: SendDtmfTonesResult = {
-    };
+    const sendDtmfTonesResult: SendDtmfTonesResult = {};
     return sendDtmfTonesResult;
   }
 }
