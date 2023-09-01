@@ -19152,7 +19152,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-Muxxt07W0rqreW5cG8DExcvnh5w8cbc/t/pXkzqbggaAXDlduaO2ptg62K13xs5Cj4yIPh5GWg4vlPolVbWjjQ==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-z2tpz2giMPbtAtuWMR57c8yPtSC7BaaHq/KEQ2raFwnls5f9zmJiXJ7wFxeboyDorR/s0fdJy6NgAPEIZd26jQ==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -19160,7 +19160,7 @@ packages:
       '@azure/msal-node-extensions': 1.0.0-alpha.25
       '@microsoft/api-extractor': 7.36.4_@types+node@14.18.56
       '@types/jws': 3.2.5
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       '@types/qs': 6.9.7
       '@types/sinon': 10.0.16
@@ -19169,11 +19169,11 @@ packages:
       eslint: 8.48.0
       inherits: 2.0.4
       keytar: 7.9.0
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1_mocha@7.2.0
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1_mocha@10.2.0
       prettier: 2.8.8
-      puppeteer: 19.11.1_typescript@5.0.4
-      rimraf: 3.0.2
+      puppeteer: 21.1.1
+      rimraf: 5.0.1
       sinon: 15.2.0
       ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
       tslib: 2.6.2
