@@ -215,7 +215,8 @@ export const deserializeCommunicationIdentifier = (
 ): CommunicationIdentifierKind => {
   assertMaximumOneNestedModel(serializedIdentifier);
 
-  const { communicationUser, microsoftTeamsUser, microsoftTeamsApp, phoneNumber } = serializedIdentifier;
+  const { communicationUser, microsoftTeamsUser, microsoftTeamsApp, phoneNumber } =
+    serializedIdentifier;
   const kind = serializedIdentifier.kind ?? getKind(serializedIdentifier);
 
   if (kind === "communicationUser" && communicationUser) {

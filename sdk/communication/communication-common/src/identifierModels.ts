@@ -275,7 +275,7 @@ const buildMicrosoftTeamsAppIdentifier = (
   return {
     kind: "microsoftTeamsApp",
     teamsAppId,
-    cloud: cloud
+    cloud: cloud,
   };
 };
 

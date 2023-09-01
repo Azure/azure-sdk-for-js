@@ -252,7 +252,7 @@ describe("Identifier models", function () {
     });
     assertIdentifier("28:45ab2481-1c1c-4005-be24-0ffb879b1130", {
       id: "28:45ab2481-1c1c-4005-be24-0ffb879b1130",
-      kind: "unknown"
+      kind: "unknown",
     });
     assertIdentifier("28:gcch-global:01234567-89ab-cdef-0123-456789abcdef", {
       kind: "unknown",
