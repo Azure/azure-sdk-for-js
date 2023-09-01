@@ -107,7 +107,7 @@ export interface FullOperationResponse extends PipelineResponse {
   /**
    * The response body as parsed JSON.
    */
-  parsedBody?: RequestBodyType;
+  parsedBody?: RequestBodyType | Record<string, any>;
 
   /**
    * The request that generated the response.

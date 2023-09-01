@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { getClient } from "../../src/getClient";
 import sinon from "sinon";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
 function createResponse(statusCode: number, body = ""): Response {
   const stream = new ReadableStream({
@@ -81,5 +82,22 @@ describe("[Browser] Streams", () => {
     } catch (e: any) {
       assert.match(e.message, /ExpectedException/);
     }
+  });
+
+  it("should be able to return a stream for SSEs", async () => {
+    const client = getClient(mockBaseUrl, {
+      httpClient: {
+        sendRequest: async (request) => {
+          return {
+            headers: createHttpHeaders({ "content-type": "text/event-stream" }),
+            status: 200,
+            request,
+            browserStreamBody: new ReadableStream(),
+          };
+        },
+      },
+    });
+    const response = await client.pathUnchecked("/foo").get();
+    assert.isDefined(response.body!.getReader);
   });
 });

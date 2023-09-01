@@ -12,7 +12,7 @@ import {
   RequestParameters,
   StreamableMethod,
 } from "./common";
-import { sendRequest, sendRequestAsStream } from "./sendRequest";
+import { sendRequest } from "./sendRequest";
 import { buildRequestUrl } from "./urlHelpers";
 
 /**
@@ -59,8 +59,20 @@ export function getClient(
   }
 
   const { allowInsecureConnection, httpClient } = clientOptions;
-  const client = (path: string, ...args: Array<any>) => {
-    const getUrl = (requestOptions: RequestParameters) =>
+  const client = (
+    path: string,
+    ...args: Array<any>
+  ): {
+    get: (requestOptions?: RequestParameters) => StreamableMethod;
+    post: (requestOptions?: RequestParameters) => StreamableMethod;
+    put: (requestOptions?: RequestParameters) => StreamableMethod;
+    patch: (requestOptions?: RequestParameters) => StreamableMethod;
+    delete: (requestOptions?: RequestParameters) => StreamableMethod;
+    head: (requestOptions?: RequestParameters) => StreamableMethod;
+    options: (requestOptions?: RequestParameters) => StreamableMethod;
+    trace: (requestOptions?: RequestParameters) => StreamableMethod;
+  } => {
+    const getUrl = (requestOptions: RequestParameters): string =>
       buildRequestUrl(baseUrl, path, args, { allowInsecureConnection, ...requestOptions });
 
     return {
@@ -174,22 +186,22 @@ function buildOperation(
       ).then(onFulfilled, onrejected);
     },
     async asBrowserStream() {
-      return sendRequestAsStream<HttpBrowserStreamResponse>(
+      return sendRequest(
         method,
         url,
         pipeline,
-        { ...options, allowInsecureConnection },
+        { ...options, allowInsecureConnection, responseAsStream: true },
         httpClient
-      );
+      ) as Promise<HttpBrowserStreamResponse>;
     },
     async asNodeStream() {
-      return sendRequestAsStream<HttpNodeStreamResponse>(
+      return sendRequest(
         method,
         url,
         pipeline,
-        { ...options, allowInsecureConnection },
+        { ...options, allowInsecureConnection, responseAsStream: true },
         httpClient
-      );
+      ) as Promise<HttpNodeStreamResponse>;
     },
   };
 }

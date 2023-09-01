@@ -78,7 +78,7 @@ export interface ErrorResponse {
 
 // @public
 export interface FullOperationResponse extends PipelineResponse {
-    parsedBody?: RequestBodyType;
+    parsedBody?: RequestBodyType | Record<string, any>;
     rawHeaders?: RawHttpHeaders;
     request: PipelineRequest;
 }

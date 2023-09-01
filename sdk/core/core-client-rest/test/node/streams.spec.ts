@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 import * as https from "https";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { getClient } from "../../src/getClient";
 import sinon from "sinon";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { PassThrough } from "stream";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
 const mockBaseUrl = "https://example.org";
 
@@ -72,6 +73,23 @@ describe("[Node] Streams", () => {
       assert.equal(e.message, "ExpectedException");
     }
   });
+
+  it("should be able to return a stream for SSEs", async () => {
+    const client = getClient(mockBaseUrl, {
+      httpClient: {
+        sendRequest: async (request) => {
+          return {
+            headers: createHttpHeaders({ "content-type": "text/event-stream" }),
+            status: 200,
+            request,
+            readableStreamBody: new PassThrough(),
+          };
+        },
+      },
+    });
+    const response = await client.pathUnchecked("/foo").get();
+    assert.isDefined(response.body!.pipe);
+  });
 });
 
 function createRequest(): ClientRequest {
@@ -84,9 +102,13 @@ class FakeResponse extends PassThrough {
   public headers?: IncomingHttpHeaders;
 }
 
-function createResponse(statusCode: number, body = ""): IncomingMessage {
+function createResponse(
+  statusCode: number,
+  body = "",
+  headers: IncomingHttpHeaders = {}
+): IncomingMessage {
   const response = new FakeResponse();
-  response.headers = {};
+  response.headers = headers;
   response.statusCode = statusCode;
   response.write(body);
   response.end();

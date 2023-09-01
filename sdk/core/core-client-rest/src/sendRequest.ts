@@ -8,7 +8,6 @@ import {
   Pipeline,
   PipelineRequest,
   PipelineResponse,
-  RawHttpHeaders,
   RequestBodyType,
   RestError,
   createHttpHeaders,
@@ -32,63 +31,27 @@ export async function sendRequest(
   method: HttpMethods,
   url: string,
   pipeline: Pipeline,
-  options: RequestParameters = {},
+  options: InternalRequestParameters = {},
   customHttpClient?: HttpClient
 ): Promise<HttpResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);
-
   const response = await pipeline.sendRequest(httpClient, request);
-
-  const rawHeaders: RawHttpHeaders = response.headers.toJSON();
-
-  const parsedBody: RequestBodyType | undefined = getResponseBody(response);
+  const headers = response.headers.toJSON();
+  const parsedBody = await getResponseBody(response, {
+    stream: options.responseAsStream,
+  });
 
   if (options?.onResponse) {
-    options.onResponse({ ...response, request, rawHeaders, parsedBody });
+    options.onResponse({ ...response, request, rawHeaders: headers, parsedBody });
   }
 
   return {
     request,
-    headers: rawHeaders,
+    headers,
     status: `${response.status}`,
     body: parsedBody,
   };
-}
-
-/**
- * Helper function to send request used by the client
- * @param method - method to use to send the request
- * @param url - url to send the request to
- * @param pipeline - pipeline with the policies to run when sending the request
- * @param options - request options
- * @param customHttpClient - a custom HttpClient to use when making the request
- * @returns returns and HttpResponse
- */
-export async function sendRequestAsStream<
-  TResponse extends HttpResponse & {
-    body: NodeJS.ReadableStream | ReadableStream<Uint8Array> | undefined;
-  }
->(
-  method: HttpMethods,
-  url: string,
-  pipeline: Pipeline,
-  options: RequestParameters = {},
-  customHttpClient?: HttpClient
-): Promise<TResponse> {
-  const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
-  const request = buildPipelineRequest(method, url, { ...options, responseAsStream: true });
-  const response = await pipeline.sendRequest(httpClient, request);
-  const rawHeaders: RawHttpHeaders = response.headers.toJSON();
-
-  const parsedBody = response.browserStreamBody ?? response.readableStreamBody;
-
-  return {
-    request,
-    headers: rawHeaders,
-    status: `${response.status}`,
-    body: parsedBody,
-  } as TResponse;
 }
 
 /**
@@ -203,7 +166,7 @@ function isFormData(body: unknown): body is FormDataMap {
  * Checks if binary data is in Uint8Array format, if so decode it to a binary string
  * to send over the wire
  */
-function processFormData(formData?: FormDataMap) {
+function processFormData(formData?: FormDataMap): FormDataMap | undefined {
   if (!formData) {
     return formData;
   }
@@ -224,29 +187,57 @@ function processFormData(formData?: FormDataMap) {
 
 /**
  * Prepares the response body
+ * @param response - The received response
+ * @param coerceAs - The type to coerce the body as
  */
-function getResponseBody(response: PipelineResponse): RequestBodyType | undefined {
+async function getResponseBody(
+  response: PipelineResponse,
+  coerceAs: { stream?: boolean } = {}
+): Promise<RequestBodyType | Record<string, any> | string | undefined> {
   // Set the default response type
   const contentType = response.headers.get("content-type") ?? "";
   const firstType = contentType.split(";")[0];
-  const bodyToParse: string = response.bodyAsText ?? "";
+  const bodyToParse = response.bodyAsText;
+
+  if (
+    /**
+     * If the client is asking for a stream, return it directly.
+     */
+    coerceAs.stream ||
+    /**
+     * If the response is a server-sent event stream, the body stream
+     * is returned directly so that the client code can parse the chunks
+     * into events.
+     */
+    firstType === "text/event-stream"
+  ) {
+    return response.readableStreamBody ?? response.browserStreamBody;
+  }
 
   if (firstType === "text/plain") {
     return String(bodyToParse);
   }
   // Default to "application/json" and fallback to string;
+  return tryParse(bodyToParse, firstType !== "application/json", response);
+}
+
+function tryParse(
+  bodyAsText: PipelineResponse["bodyAsText"],
+  allowUnparsed: boolean,
+  response: PipelineResponse
+): Record<string, any> | string | undefined {
   try {
-    return bodyToParse ? JSON.parse(bodyToParse) : undefined;
-  } catch (error: any) {
+    return bodyAsText ? JSON.parse(bodyAsText) : undefined;
+  } catch (error) {
     // If we were supposed to get a JSON object and failed to
     // parse, throw a parse error
-    if (firstType === "application/json") {
+    if (!allowUnparsed) {
       throw createParseError(response, error);
     }
 
     // We are not sure how to handle the response so we return it as
     // plain text.
-    return String(bodyToParse);
+    return String(bodyAsText);
   }
 }
 
@@ -257,6 +248,6 @@ function createParseError(response: PipelineResponse, err: any): RestError {
     code: errCode,
     statusCode: response.status,
     request: response.request,
-    response: response,
+    response,
   });
 }

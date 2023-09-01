@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { binaryArrayToString } from "../src/helpers/getBinaryBody";
 
 describe("getBinaryBody", () => {

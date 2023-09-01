@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { buildBaseUrl, buildRequestUrl } from "../src/urlHelpers";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 
 describe("urlHelpers", () => {
   const mockBaseUrl = "https://example.org";
