@@ -1,6 +1,6 @@
 const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
 
-let SpeechSDK, speechKey, speechRegion, recognizer, client, statusDiv, useAzureSpeechSDK;
+let SpeechSDK, speechKey, speechRegion, client, statusDiv, useAzureSpeechSDK, stopRecognitionFunc;
 const azureSpeechCheckbox = document.getElementById('useAzureSpeechSDK');
 const speechKeyElement = document.getElementById("speechKey");
 const speechRegionElement = document.getElementById("speechRegion");
@@ -10,25 +10,19 @@ azureSpeechCheckbox.addEventListener('change', function() {
   speechRegionElement.disabled = !useAzureSpeechSDK;
 });
 
-function startChatFromSpeech() {
-  statusDiv = document.getElementById("statusDiv");
-  const promptInput = document.getElementById("promptInput");
-  statusDiv.innerHTML = "";
-  promptInput.innerHTML = "";
-
-  if (useAzureSpeechSDK) {
+function sendTextViaAzureSpeechSDK(sendTextFunc, promptInput) {
     speechKey = speechKeyElement.value;
     speechRegion = speechRegionElement.value;
     const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(speechKey, speechRegion);
     const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
-    recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+    const recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
 
     recognizer.recognized = (s, e) => {
       if (!!e && !!e.result && !!e.result.text) {
         statusDiv.innerHTML = "Sending input prompt to ChatGPT";
         promptInput.innerHTML = e.result.text;
         
-        sendTextToChatGPT(e.result.text);
+        sendTextFunc(e.result.text);
       }
     };
 
@@ -56,39 +50,66 @@ function startChatFromSpeech() {
     } catch (e) {
       console.log(e);
     }
-  } else {
-    // Use Web Speech API
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognizer = new SpeechRecognition();
-    recognizer.continuous = true;
-    recognizer.lang = "en-US";
-    recognizer.interimResults = false;
-    recognizer.maxAlternatives = 1;
 
-    recognizer.onresult = (e) => {
-      if (!!e?.results[0][0]?.transcript) {
-        statusDiv.innerHTML = "Sending input prompt to ChatGPT";
-        const inputPrompt = e.results[0][0].transcript;
-        promptInput.innerHTML = inputPrompt;
-        
-        sendTextToChatGPT(inputPrompt);
-      }
-    };
-
-    recognizer.onerror = (e) => {
-      statusDiv.innerHTML = `(Recognition Error): ${e.error}`;
-    };
-
-    try {
-      statusDiv.innerHTML = "Listening from microphone input for ChatGPT prompt";
-      recognizer.start();
-    } catch (e) {
-      console.log(e);
-      statusDiv.innerHTML += `(Error starting recognition): ${e}`;
+    const stopChatViaAzureSpeechSDK = () => {
+      recognizer.stopContinuousRecognitionAsync(
+        function () {
+          statusDiv.innerHTML = "Chat Stopped";
+          recognizer.close();
+          recognizer = null;
+        });
     }
 
+    return stopChatViaAzureSpeechSDK;
+}
+
+function sendTextViaWebSpeechAPI(sendTextFunc, promptInput) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognizer = new SpeechRecognition();
+  recognizer.continuous = true;
+  recognizer.lang = "en-US";
+  recognizer.interimResults = false;
+  recognizer.maxAlternatives = 1;
+
+  recognizer.onresult = (e) => {
+    if (!!e?.results[0][0]?.transcript) {
+      statusDiv.innerHTML = "Sending input prompt to ChatGPT";
+      const inputPrompt = e.results[0][0].transcript;
+      promptInput.innerHTML = inputPrompt;
+      
+      sendTextFunc(inputPrompt);
+    }
+  };
+
+  recognizer.onerror = (e) => {
+    statusDiv.innerHTML = `(Recognition Error): ${e.error}`;
+  };
+
+  try {
+    statusDiv.innerHTML = "Listening from microphone input for ChatGPT prompt";
+    recognizer.start();
+  } catch (e) {
+    console.log(e);
+    statusDiv.innerHTML += `(Error starting recognition): ${e}`;
+  }
+  const stopChatViaWebSpeechAPI = () =>{
+    recognizer.stop();
+    statusDiv.innerHTML = "Chat Stopped";
+    recognizer = null;
   }
 
+  return stopChatViaWebSpeechAPI;
+}
+
+function startChatFromSpeech() {
+  statusDiv = document.getElementById("statusDiv");
+  const promptInput = document.getElementById("promptInput");
+  statusDiv.innerHTML = "";
+  promptInput.innerHTML = "";
+
+  stopRecognitionFunc = useAzureSpeechSDK ? 
+    sendTextViaAzureSpeechSDK(sendTextToChatGPT, promptInput) :
+    sendTextViaWebSpeechAPI(sendTextToChatGPT, promptInput);
 }
 
 function sendTextToChatGPT(text) {
@@ -105,7 +126,7 @@ function sendTextToChatGPT(text) {
       const deploymentId = document.getElementById("deploymentId");
       const { choices } = await client.getCompletions(deploymentId.value, [text]);
       const gptResponseText = choices[0]?.text;
-      speakText(gptResponseText);
+      useAzureSpeechSDK ? speakTextViaAzureSpeechSDK(gptResponseText) : speakTextViaWebSpeechAPI(gptResponseText);
       const resultDiv = document.getElementById("resultDiv");
       resultDiv.innerHTML = gptResponseText;
     } catch (e) { 
@@ -116,70 +137,53 @@ function sendTextToChatGPT(text) {
   showResponseChoices();
 }
 
-function speakText(text) {
-  if (useAzureSpeechSDK) {
-    const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(speechKey, speechRegion);
-    const audioConfig = SpeechSDK.AudioConfig.fromDefaultSpeakerOutput();
-    let synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, audioConfig);
-    synthesizer.speakTextAsync(
-      text,
-      function (result) {
-        if (result.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) {
-          statusDiv.innerHTML += `\n\nsynthesis finished for [${text}].\n`;
-        } else if (result.reason === SpeechSDK.ResultReason.Canceled) {
-          statusDiv.innerHTML += `\n\nsynthesis failed. Error detail: ${result.errorDetails}\n`;
-        }
-      },
-      function (err) {
-        window.console.log(err);
-        statusDiv.innerHTML += `(Error calling SpeechSynthesizer.speakTextAsync): ${err}`;
-        synthesizer.close();
-        synthesizer = null;
-      });
-  } else {
-
-    // Use Web Speech API
-    const synth = window.speechSynthesis;
-    const utterThis = new SpeechSynthesisUtterance(text);
-
-    const voices = synth.getVoices();
-    const defaultVoice = voices.find(voice => voice.default);
-    utterThis.voice = defaultVoice;
-    synth.speak(utterThis);
-    statusDiv.innerHTML += `\n\nsynthesis finished for [${text}].\n`;
-  }
+function speakTextViaAzureSpeechSDK(text) {
+  const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(speechKey, speechRegion);
+  const audioConfig = SpeechSDK.AudioConfig.fromDefaultSpeakerOutput();
+  let synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, audioConfig);
+  synthesizer.speakTextAsync(
+    text,
+    function (result) {
+      if (result.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) {
+        statusDiv.innerHTML += `\n\nsynthesis finished for [${text}].\n`;
+      } else if (result.reason === SpeechSDK.ResultReason.Canceled) {
+        statusDiv.innerHTML += `\n\nsynthesis failed. Error detail: ${result.errorDetails}\n`;
+      }
+    },
+    function (err) {
+      window.console.log(err);
+      statusDiv.innerHTML += `(Error calling SpeechSynthesizer.speakTextAsync): ${err}`;
+      synthesizer.close();
+      synthesizer = null;
+    });
 }
 
-function stopChatFromSpeech() {
-  if (!!recognizer) {
-    if (useAzureSpeechSDK) {
-      recognizer.stopContinuousRecognitionAsync(
-        function () {
-          statusDiv.innerHTML = "Chat Stopped";
-          recognizer.close();
-          recognizer = null;
-        });
-    } else {
-      recognizer.stop();
-      statusDiv.innerHTML = "Chat Stopped";
-      recognizer = null;
-    }
-  }
+function speakTextViaWebSpeechAPI(text) {
+  const synth = window.speechSynthesis;
+  const utterThis = new SpeechSynthesisUtterance(text);
+
+  const voices = synth.getVoices();
+  const defaultVoice = voices.find(voice => voice.default);
+  utterThis.voice = defaultVoice;
+  synth.speak(utterThis);
+  statusDiv.innerHTML += `\n\nsynthesis finished for [${text}].\n`;
 }
 
 window.addEventListener("DOMContentLoaded", function () {
   if (!!window.SpeechSDK) {
     SpeechSDK = window.SpeechSDK;
   }
-  const startChat = document.getElementById("startChat");
 
+  const startChat = document.getElementById("startChat");
   startChat.addEventListener("click", function () {
     startChatFromSpeech();
   });
 
   const stopChat = document.getElementById("stopChat");
-
   stopChat.addEventListener("click", function () {
-    stopChatFromSpeech();
+    if (!!stopRecognitionFunc) {
+      stopRecognitionFunc();
+      stopRecognitionFunc = null;
+    }
   });
 });
