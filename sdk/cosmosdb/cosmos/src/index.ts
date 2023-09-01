@@ -56,6 +56,7 @@ export {
   PartitionKeyDefinition,
   PartitionKeyDefinitionVersion,
   PermissionMode,
+  PriorityLevel,
   TriggerOperation,
   TriggerType,
   UserDefinedFunctionType,
