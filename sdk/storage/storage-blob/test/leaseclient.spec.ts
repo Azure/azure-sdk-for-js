@@ -23,7 +23,7 @@ describe("LeaseClient from Container", () => {
         uriSanitizers,
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));

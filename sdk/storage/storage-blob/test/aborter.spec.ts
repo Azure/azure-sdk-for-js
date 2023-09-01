@@ -64,7 +64,7 @@ describe("Aborter", () => {
       const aborter = new AbortController();
       const childAborter = new AbortController(
         aborter.signal,
-        AbortController.timeout(10 * 60 * 1000)
+        AbortController.timeout(10 * 60 * 1000),
       );
       const response = containerClient.create({
         abortSignal: childAborter.signal,

@@ -12,7 +12,7 @@ import { BlobClient, BlobStartCopyFromURLOptions, BlobBeginCopyFromURLResponse }
 export type CopyPollerBlobClient = Pick<BlobClient, "abortCopyFromURL" | "getProperties"> & {
   startCopyFromURL(
     copySource: string,
-    options?: BlobStartCopyFromURLOptions
+    options?: BlobStartCopyFromURLOptions,
   ): Promise<BlobBeginCopyFromURLResponse>;
 };
 
@@ -129,7 +129,7 @@ export class BlobBeginCopyFromUrlPoller extends Poller<
  */
 const cancel: BlobBeginCopyFromURLPollOperation["cancel"] = async function cancel(
   this: BlobBeginCopyFromURLPollOperation,
-  options = {}
+  options = {},
 ) {
   const state = this.state;
   const { copyId } = state;
@@ -159,7 +159,7 @@ const cancel: BlobBeginCopyFromURLPollOperation["cancel"] = async function cance
  */
 const update: BlobBeginCopyFromURLPollOperation["update"] = async function update(
   this: BlobBeginCopyFromURLPollOperation,
-  options = {}
+  options = {},
 ): Promise<BlobBeginCopyFromURLPollOperation> {
   const state = this.state;
   const { blobClient, copySource, startCopyFromURLOptions } = state;
@@ -194,7 +194,7 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
         state.isCompleted = true;
       } else if (copyStatus === "failed") {
         state.error = new Error(
-          `Blob copy failed with reason: "${result.copyStatusDescription || "unknown"}"`
+          `Blob copy failed with reason: "${result.copyStatusDescription || "unknown"}"`,
         );
         state.isCompleted = true;
       }
@@ -214,7 +214,7 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
  * @hidden
  */
 const toString: BlobBeginCopyFromURLPollOperation["toString"] = function toString(
-  this: BlobBeginCopyFromURLPollOperation
+  this: BlobBeginCopyFromURLPollOperation,
 ) {
   return JSON.stringify({ state: this.state }, (key, value) => {
     // remove blobClient from serialized state since a client can't be hydrated from this info.
@@ -230,7 +230,7 @@ const toString: BlobBeginCopyFromURLPollOperation["toString"] = function toStrin
  * @hidden
  */
 function makeBlobBeginCopyFromURLPollOperation(
-  state: BlobBeginCopyFromUrlPollState
+  state: BlobBeginCopyFromUrlPollState,
 ): BlobBeginCopyFromURLPollOperation {
   return {
     state: { ...state },

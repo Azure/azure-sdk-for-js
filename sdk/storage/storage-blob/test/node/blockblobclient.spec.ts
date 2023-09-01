@@ -145,7 +145,7 @@ describe("BlockBlobClient Node.js only", () => {
     const newClient = new BlockBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
-      blobName
+      blobName,
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -164,7 +164,7 @@ describe("BlockBlobClient Node.js only", () => {
         retryOptions: {
           maxTries: 5,
         },
-      }
+      },
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -230,7 +230,7 @@ describe("syncUploadFromURL", () => {
           ],
         },
       },
-      ["playback", "record"]
+      ["playback", "record"],
     );
     const blobServiceClient = getBSU(recorder);
     const containerName = recorder.variable("container", getUniqueName("container"));
@@ -257,7 +257,7 @@ describe("syncUploadFromURL", () => {
         containerName,
         blobName: srcBlobName,
       },
-      sourceBlob.credential as StorageSharedKeyCredential
+      sourceBlob.credential as StorageSharedKeyCredential,
     );
     sourceBlobURLWithSAS = sourceBlob.url + "?" + sas;
   });
@@ -279,13 +279,13 @@ describe("syncUploadFromURL", () => {
       base64encode("1"),
       sourceBlobURLWithSAS,
       0,
-      content.length
+      content.length,
     );
     await tokenNewBlockBlobClient.stageBlockFromURL(
       base64encode("2"),
       sourceBlobURLWithSAS,
       0,
-      content.length
+      content.length,
     );
 
     await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")]);
@@ -304,7 +304,7 @@ describe("syncUploadFromURL", () => {
     const accessToken = await getStorageAccessTokenWithDefaultCredential();
 
     const newBlockBlobClient = containerClient.getBlockBlobClient(
-      recorder.variable("newblockblob", getUniqueName("newblockblob"))
+      recorder.variable("newblockblob", getUniqueName("newblockblob")),
     );
 
     await newBlockBlobClient.stageBlockFromURL(
@@ -317,7 +317,7 @@ describe("syncUploadFromURL", () => {
           scheme: "Bearer",
           value: accessToken!.token,
         },
-      }
+      },
     );
 
     await newBlockBlobClient.stageBlockFromURL(
@@ -330,7 +330,7 @@ describe("syncUploadFromURL", () => {
           scheme: "Bearer",
           value: accessToken!.token,
         },
-      }
+      },
     );
 
     await newBlockBlobClient.commitBlockList([base64encode("1"), base64encode("2")]);
@@ -365,7 +365,7 @@ describe("syncUploadFromURL", () => {
           scheme: "Bearer",
           value: accessToken!.token,
         },
-      }
+      },
     );
 
     await tokenNewBlockBlobClient.stageBlockFromURL(
@@ -378,7 +378,7 @@ describe("syncUploadFromURL", () => {
           scheme: "Bearer",
           value: accessToken!.token,
         },
-      }
+      },
     );
 
     await newBlockBlobClient.commitBlockList([base64encode("1"), base64encode("2")]);
@@ -411,7 +411,7 @@ describe("syncUploadFromURL", () => {
     const accessToken = await getStorageAccessTokenWithDefaultCredential();
 
     const newBlockBlobClient = containerClient.getBlockBlobClient(
-      recorder.variable("newblockblob", getUniqueName("newblockblob"))
+      recorder.variable("newblockblob", getUniqueName("newblockblob")),
     );
 
     await newBlockBlobClient.syncUploadFromURL(blockBlobClient.url, {
@@ -511,7 +511,7 @@ describe("syncUploadFromURL", () => {
         containerName: sourceBlob.containerName,
         blobName: sourceBlob.name,
       },
-      sourceBlob.credential as StorageSharedKeyCredential
+      sourceBlob.credential as StorageSharedKeyCredential,
     );
     const urlWithSAS = sourceBlob.url + "?" + sas;
     await blockBlobClient.syncUploadFromURL(urlWithSAS, { copySourceTags: "COPY" });

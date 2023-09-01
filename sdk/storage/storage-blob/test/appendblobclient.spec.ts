@@ -30,7 +30,7 @@ describe("AppendBlobClient", () => {
     // make sure we add the sanitizers on playback for SAS strings
     await recorder.addSanitizers(
       { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
@@ -115,7 +115,7 @@ describe("AppendBlobClient", () => {
     const newClient = new AppendBlobClient(
       getSASConnectionStringFromEnvironment(recorder),
       containerName,
-      blobName
+      blobName,
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -131,7 +131,7 @@ describe("AppendBlobClient", () => {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
-        "Error message is different than expected."
+        "Error message is different than expected.",
       );
     }
   });
@@ -145,7 +145,7 @@ describe("AppendBlobClient", () => {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
-        "Error message is different than expected."
+        "Error message is different than expected.",
       );
     }
   });
@@ -163,7 +163,7 @@ describe("AppendBlobClient", () => {
       if (
         err instanceof Error &&
         err.message.startsWith(
-          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server."
+          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server.",
         )
       ) {
         exceptionCaught = true;
@@ -172,7 +172,7 @@ describe("AppendBlobClient", () => {
       assert.equal(
         err.details.errorCode,
         "Crc64Mismatch",
-        "Error does not contain details property"
+        "Error does not contain details property",
       );
     }
 
@@ -199,7 +199,7 @@ describe("AppendBlobClient", () => {
     await appendBlobClient.seal();
 
     let destBlobClient = containerClient.getAppendBlobClient(
-      recorder.variable("copiedblob1", getUniqueName("copiedblob1"))
+      recorder.variable("copiedblob1", getUniqueName("copiedblob1")),
     );
     await (
       await destBlobClient.beginCopyFromURL(appendBlobClient.url, {
@@ -210,14 +210,14 @@ describe("AppendBlobClient", () => {
     assert.deepStrictEqual(properties.isSealed, undefined);
 
     destBlobClient = containerClient.getAppendBlobClient(
-      recorder.variable("copiedblob2", getUniqueName("copiedblob2"))
+      recorder.variable("copiedblob2", getUniqueName("copiedblob2")),
     );
     await (await destBlobClient.beginCopyFromURL(appendBlobClient.url, {})).pollUntilDone();
     properties = await destBlobClient.getProperties();
     assert.deepStrictEqual(properties.isSealed, true);
 
     destBlobClient = containerClient.getAppendBlobClient(
-      recorder.variable("copiedblob3", getUniqueName("copiedblob3"))
+      recorder.variable("copiedblob3", getUniqueName("copiedblob3")),
     );
     await (
       await destBlobClient.beginCopyFromURL(appendBlobClient.url, {

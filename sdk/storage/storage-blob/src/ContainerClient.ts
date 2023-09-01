@@ -623,7 +623,7 @@ export class ContainerClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   );
   /**
    * Creates an instance of ContainerClient.
@@ -649,7 +649,7 @@ export class ContainerClient extends StorageClient {
       | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   ) {
     let pipeline: PipelineLike;
     let url: string;
@@ -686,7 +686,7 @@ export class ContainerClient extends StorageClient {
         if (isNode) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
-            extractedCreds.accountKey
+            extractedCreds.accountKey,
           );
           url = appendToURLPath(extractedCreds.url, encodeURIComponent(containerName));
 
@@ -706,7 +706,7 @@ export class ContainerClient extends StorageClient {
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
-          "Connection string must be either an Account connection string or a SAS connection string"
+          "Connection string must be either an Account connection string or a SAS connection string",
         );
       }
     } else {
@@ -737,7 +737,7 @@ export class ContainerClient extends StorageClient {
   public async create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
     return tracingClient.withSpan("ContainerClient-create", options, async (updatedOptions) => {
       return assertResponse<ContainerCreateHeaders, ContainerCreateHeaders>(
-        await this.containerContext.create(updatedOptions)
+        await this.containerContext.create(updatedOptions),
       );
     });
   }
@@ -751,7 +751,7 @@ export class ContainerClient extends StorageClient {
    * @param options -
    */
   public async createIfNotExists(
-    options: ContainerCreateOptions = {}
+    options: ContainerCreateOptions = {},
   ): Promise<ContainerCreateIfNotExistsResponse> {
     return tracingClient.withSpan(
       "ContainerClient-createIfNotExists",
@@ -775,7 +775,7 @@ export class ContainerClient extends StorageClient {
             throw e;
           }
         }
-      }
+      },
     );
   }
 
@@ -865,7 +865,7 @@ export class ContainerClient extends StorageClient {
    * @param options - Options to Container Get Properties operation.
    */
   public async getProperties(
-    options: ContainerGetPropertiesOptions = {}
+    options: ContainerGetPropertiesOptions = {},
   ): Promise<ContainerGetPropertiesResponse> {
     if (!options.conditions) {
       options.conditions = {};
@@ -880,9 +880,9 @@ export class ContainerClient extends StorageClient {
             abortSignal: options.abortSignal,
             ...options.conditions,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
@@ -894,7 +894,7 @@ export class ContainerClient extends StorageClient {
    * @param options - Options to Container Delete operation.
    */
   public async delete(
-    options: ContainerDeleteMethodOptions = {}
+    options: ContainerDeleteMethodOptions = {},
   ): Promise<ContainerDeleteResponse> {
     if (!options.conditions) {
       options.conditions = {};
@@ -907,7 +907,7 @@ export class ContainerClient extends StorageClient {
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: options.conditions,
           tracingOptions: updatedOptions.tracingOptions,
-        })
+        }),
       );
     });
   }
@@ -920,7 +920,7 @@ export class ContainerClient extends StorageClient {
    * @param options - Options to Container Delete operation.
    */
   public async deleteIfExists(
-    options: ContainerDeleteMethodOptions = {}
+    options: ContainerDeleteMethodOptions = {},
   ): Promise<ContainerDeleteIfExistsResponse> {
     return tracingClient.withSpan(
       "ContainerClient-deleteIfExists",
@@ -943,7 +943,7 @@ export class ContainerClient extends StorageClient {
           }
           throw e;
         }
-      }
+      },
     );
   }
 
@@ -961,7 +961,7 @@ export class ContainerClient extends StorageClient {
    */
   public async setMetadata(
     metadata?: Metadata,
-    options: ContainerSetMetadataOptions = {}
+    options: ContainerSetMetadataOptions = {},
   ): Promise<ContainerSetMetadataResponse> {
     if (!options.conditions) {
       options.conditions = {};
@@ -969,7 +969,7 @@ export class ContainerClient extends StorageClient {
 
     if (options.conditions.ifUnmodifiedSince) {
       throw new RangeError(
-        "the IfUnmodifiedSince must have their default values because they are ignored by the blob service"
+        "the IfUnmodifiedSince must have their default values because they are ignored by the blob service",
       );
     }
 
@@ -984,9 +984,9 @@ export class ContainerClient extends StorageClient {
             metadata,
             modifiedAccessConditions: options.conditions,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
@@ -1002,7 +1002,7 @@ export class ContainerClient extends StorageClient {
    * @param options - Options to Container Get Access Policy operation.
    */
   public async getAccessPolicy(
-    options: ContainerGetAccessPolicyOptions = {}
+    options: ContainerGetAccessPolicyOptions = {},
   ): Promise<ContainerGetAccessPolicyResponse> {
     if (!options.conditions) {
       options.conditions = {};
@@ -1021,7 +1021,7 @@ export class ContainerClient extends StorageClient {
             abortSignal: options.abortSignal,
             leaseAccessConditions: options.conditions,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
 
         const res: ContainerGetAccessPolicyResponse = {
@@ -1060,7 +1060,7 @@ export class ContainerClient extends StorageClient {
         }
 
         return res;
-      }
+      },
     );
   }
 
@@ -1084,7 +1084,7 @@ export class ContainerClient extends StorageClient {
   public async setAccessPolicy(
     access?: PublicAccessType,
     containerAcl?: SignedIdentifier[],
-    options: ContainerSetAccessPolicyOptions = {}
+    options: ContainerSetAccessPolicyOptions = {},
   ): Promise<ContainerSetAccessPolicyResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan(
@@ -1115,9 +1115,9 @@ export class ContainerClient extends StorageClient {
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: options.conditions,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
@@ -1157,7 +1157,7 @@ export class ContainerClient extends StorageClient {
     blobName: string,
     body: HttpRequestBody,
     contentLength: number,
-    options: BlockBlobUploadOptions = {}
+    options: BlockBlobUploadOptions = {},
   ): Promise<{ blockBlobClient: BlockBlobClient; response: BlockBlobUploadResponse }> {
     return tracingClient.withSpan(
       "ContainerClient-uploadBlockBlob",
@@ -1169,7 +1169,7 @@ export class ContainerClient extends StorageClient {
           blockBlobClient,
           response,
         };
-      }
+      },
     );
   }
 
@@ -1186,7 +1186,7 @@ export class ContainerClient extends StorageClient {
    */
   public async deleteBlob(
     blobName: string,
-    options: ContainerDeleteBlobOptions = {}
+    options: ContainerDeleteBlobOptions = {},
   ): Promise<BlobDeleteResponse> {
     return tracingClient.withSpan("ContainerClient-deleteBlob", options, async (updatedOptions) => {
       let blobClient = this.getBlobClient(blobName);
@@ -1209,7 +1209,7 @@ export class ContainerClient extends StorageClient {
    */
   private async listBlobFlatSegment(
     marker?: string,
-    options: ContainerListBlobsSegmentOptions = {}
+    options: ContainerListBlobsSegmentOptions = {},
   ): Promise<ContainerListBlobFlatSegmentResponse> {
     return tracingClient.withSpan(
       "ContainerClient-listBlobFlatSegment",
@@ -1224,7 +1224,7 @@ export class ContainerClient extends StorageClient {
             marker,
             ...options,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
 
         const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
@@ -1241,7 +1241,7 @@ export class ContainerClient extends StorageClient {
                 name: BlobNameToString(blobItemInternal.name),
                 tags: toTags(blobItemInternal.blobTags),
                 objectReplicationSourceProperties: parseObjectReplicationRecord(
-                  blobItemInternal.objectReplicationMetadata
+                  blobItemInternal.objectReplicationMetadata,
                 ),
               };
               return blobItem;
@@ -1249,7 +1249,7 @@ export class ContainerClient extends StorageClient {
           },
         };
         return wrappedResponse;
-      }
+      },
     );
   }
 
@@ -1267,7 +1267,7 @@ export class ContainerClient extends StorageClient {
   private async listBlobHierarchySegment(
     delimiter: string,
     marker?: string,
-    options: ContainerListBlobsSegmentOptions = {}
+    options: ContainerListBlobsSegmentOptions = {},
   ): Promise<ContainerListBlobHierarchySegmentResponse> {
     return tracingClient.withSpan(
       "ContainerClient-listBlobHierarchySegment",
@@ -1282,7 +1282,7 @@ export class ContainerClient extends StorageClient {
             marker,
             ...options,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
 
         const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
@@ -1299,7 +1299,7 @@ export class ContainerClient extends StorageClient {
                 name: BlobNameToString(blobItemInternal.name),
                 tags: toTags(blobItemInternal.blobTags),
                 objectReplicationSourceProperties: parseObjectReplicationRecord(
-                  blobItemInternal.objectReplicationMetadata
+                  blobItemInternal.objectReplicationMetadata,
                 ),
               };
               return blobItem;
@@ -1314,7 +1314,7 @@ export class ContainerClient extends StorageClient {
           },
         };
         return wrappedResponse;
-      }
+      },
     );
   }
 
@@ -1332,7 +1332,7 @@ export class ContainerClient extends StorageClient {
    */
   private async *listSegments(
     marker?: string,
-    options: ContainerListBlobsSegmentOptions = {}
+    options: ContainerListBlobsSegmentOptions = {},
   ): AsyncIterableIterator<ContainerListBlobFlatSegmentResponse> {
     let listBlobsFlatSegmentResponse;
     if (!!marker || marker === undefined) {
@@ -1350,7 +1350,7 @@ export class ContainerClient extends StorageClient {
    * @param options - Options to list blobs operation.
    */
   private async *listItems(
-    options: ContainerListBlobsSegmentOptions = {}
+    options: ContainerListBlobsSegmentOptions = {},
   ): AsyncIterableIterator<BlobItem> {
     let marker: string | undefined;
     for await (const listBlobsFlatSegmentResponse of this.listSegments(marker, options)) {
@@ -1429,7 +1429,7 @@ export class ContainerClient extends StorageClient {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listBlobsFlat(
-    options: ContainerListBlobsOptions = {}
+    options: ContainerListBlobsOptions = {},
   ): PagedAsyncIterableIterator<BlobItem, ContainerListBlobFlatSegmentResponse> {
     const include: ListBlobsIncludeItem[] = [];
     if (options.includeCopy) {
@@ -1514,7 +1514,7 @@ export class ContainerClient extends StorageClient {
   private async *listHierarchySegments(
     delimiter: string,
     marker?: string,
-    options: ContainerListBlobsSegmentOptions = {}
+    options: ContainerListBlobsSegmentOptions = {},
   ): AsyncIterableIterator<ContainerListBlobHierarchySegmentResponse> {
     let listBlobsHierarchySegmentResponse;
     if (!!marker || marker === undefined) {
@@ -1522,7 +1522,7 @@ export class ContainerClient extends StorageClient {
         listBlobsHierarchySegmentResponse = await this.listBlobHierarchySegment(
           delimiter,
           marker,
-          options
+          options,
         );
         marker = listBlobsHierarchySegmentResponse.continuationToken;
         yield await listBlobsHierarchySegmentResponse;
@@ -1538,13 +1538,13 @@ export class ContainerClient extends StorageClient {
    */
   private async *listItemsByHierarchy(
     delimiter: string,
-    options: ContainerListBlobsSegmentOptions = {}
+    options: ContainerListBlobsSegmentOptions = {},
   ): AsyncIterableIterator<({ kind: "prefix" } & BlobPrefix) | ({ kind: "blob" } & BlobItem)> {
     let marker: string | undefined;
     for await (const listBlobsHierarchySegmentResponse of this.listHierarchySegments(
       delimiter,
       marker,
-      options
+      options,
     )) {
       const segment = listBlobsHierarchySegmentResponse.segment;
       if (segment.blobPrefixes) {
@@ -1641,7 +1641,7 @@ export class ContainerClient extends StorageClient {
    */
   public listBlobsByHierarchy(
     delimiter: string,
-    options: ContainerListBlobsOptions = {}
+    options: ContainerListBlobsOptions = {},
   ): PagedAsyncIterableIterator<
     ({ kind: "prefix" } & BlobPrefix) | ({ kind: "blob" } & BlobItem),
     ContainerListBlobHierarchySegmentResponse
@@ -1736,7 +1736,7 @@ export class ContainerClient extends StorageClient {
   private async findBlobsByTagsSegment(
     tagFilterSqlExpression: string,
     marker?: string,
-    options: ContainerFindBlobsByTagsSegmentOptions = {}
+    options: ContainerFindBlobsByTagsSegmentOptions = {},
   ): Promise<ContainerFindBlobsByTagsSegmentResponse> {
     return tracingClient.withSpan(
       "ContainerClient-findBlobsByTagsSegment",
@@ -1753,7 +1753,7 @@ export class ContainerClient extends StorageClient {
             marker,
             maxPageSize: options.maxPageSize,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
 
         const wrappedResponse: ContainerFindBlobsByTagsSegmentResponse = {
@@ -1768,7 +1768,7 @@ export class ContainerClient extends StorageClient {
           }),
         };
         return wrappedResponse;
-      }
+      },
     );
   }
 
@@ -1791,7 +1791,7 @@ export class ContainerClient extends StorageClient {
   private async *findBlobsByTagsSegments(
     tagFilterSqlExpression: string,
     marker?: string,
-    options: ContainerFindBlobsByTagsSegmentOptions = {}
+    options: ContainerFindBlobsByTagsSegmentOptions = {},
   ): AsyncIterableIterator<ContainerFindBlobsByTagsSegmentResponse> {
     let response;
     if (!!marker || marker === undefined) {
@@ -1815,13 +1815,13 @@ export class ContainerClient extends StorageClient {
    */
   private async *findBlobsByTagsItems(
     tagFilterSqlExpression: string,
-    options: ContainerFindBlobsByTagsSegmentOptions = {}
+    options: ContainerFindBlobsByTagsSegmentOptions = {},
   ): AsyncIterableIterator<FilterBlobItem> {
     let marker: string | undefined;
     for await (const segment of this.findBlobsByTagsSegments(
       tagFilterSqlExpression,
       marker,
-      options
+      options,
     )) {
       yield* segment.blobs;
     }
@@ -1906,7 +1906,7 @@ export class ContainerClient extends StorageClient {
    */
   public findBlobsByTags(
     tagFilterSqlExpression: string,
-    options: ContainerFindBlobByTagsOptions = {}
+    options: ContainerFindBlobByTagsOptions = {},
   ): PagedAsyncIterableIterator<FilterBlobItem, ContainerFindBlobsByTagsSegmentResponse> {
     // AsyncIterableIterator to iterate over blobs
     const listSegmentOptions: ContainerFindBlobsByTagsSegmentOptions = {
@@ -1994,7 +1994,7 @@ export class ContainerClient extends StorageClient {
     return new Promise((resolve) => {
       if (!(this.credential instanceof StorageSharedKeyCredential)) {
         throw new RangeError(
-          "Can only generate the SAS when the client is initialized with a shared key credential"
+          "Can only generate the SAS when the client is initialized with a shared key credential",
         );
       }
 
@@ -2003,7 +2003,7 @@ export class ContainerClient extends StorageClient {
           containerName: this._containerName,
           ...options,
         },
-        this.credential
+        this.credential,
       ).toString();
 
       resolve(appendToURLQuery(this.url, sas));

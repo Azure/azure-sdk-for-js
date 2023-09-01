@@ -48,7 +48,7 @@ export interface PageBlobGetPageRangesDiffResponse
  * @param response - Model PageBlob Range response
  */
 export function rangeResponseFromModel(
-  response: PageBlobGetPageRangesResponseModel | PageBlobGetPageRangesDiffResponseModel
+  response: PageBlobGetPageRangesResponseModel | PageBlobGetPageRangesDiffResponseModel,
 ): PageBlobGetPageRangesResponse | PageBlobGetPageRangesDiffResponse {
   const pageRange = (response._response.parsedBody.pageRange || []).map((x) => ({
     offset: x.start,

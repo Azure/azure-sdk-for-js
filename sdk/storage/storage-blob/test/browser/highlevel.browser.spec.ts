@@ -262,7 +262,7 @@ describe("Highlevel", () => {
     const downloadedBlob2 = await (await blockBlobClient.download()).blobBody!;
     await assertSameBlob(
       downloadedBlob2,
-      new Blob([uint8ArrayPartial], { type: "application/octet-stream" })
+      new Blob([uint8ArrayPartial], { type: "application/octet-stream" }),
     );
 
     const uint16Array = new Uint16Array(arrayBuf, 4, 2);
@@ -270,7 +270,7 @@ describe("Highlevel", () => {
     const downloadedBlob3 = await (await blockBlobClient.download()).blobBody!;
     await assertSameBlob(
       downloadedBlob3,
-      new Blob([uint16Array], { type: "application/octet-stream" })
+      new Blob([uint16Array], { type: "application/octet-stream" }),
     );
   });
 });

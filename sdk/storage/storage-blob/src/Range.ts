@@ -30,7 +30,7 @@ export function rangeToString(iRange: Range): string {
   }
   if (iRange.count && iRange.count <= 0) {
     throw new RangeError(
-      `Range.count must be larger than 0. Leave it undefined if you want a range from offset to the end.`
+      `Range.count must be larger than 0. Leave it undefined if you want a range from offset to the end.`,
     );
   }
   return iRange.count

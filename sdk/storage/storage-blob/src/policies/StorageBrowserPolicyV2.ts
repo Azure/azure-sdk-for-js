@@ -32,7 +32,7 @@ export function storageBrowserPolicy(): PipelinePolicy {
         request.url = setURLParameter(
           request.url,
           URLConstants.Parameters.FORCE_BROWSER_NO_CACHE,
-          new Date().getTime().toString()
+          new Date().getTime().toString(),
         );
       }
 

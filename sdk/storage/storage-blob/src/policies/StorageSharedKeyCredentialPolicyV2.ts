@@ -28,7 +28,7 @@ export interface StorageSharedKeyCredentialPolicyOptions {
  * storageSharedKeyCredentialPolicy handles signing requests using storage account keys.
  */
 export function storageSharedKeyCredentialPolicy(
-  options: StorageSharedKeyCredentialPolicyOptions
+  options: StorageSharedKeyCredentialPolicyOptions,
 ): PipelinePolicy {
   function signRequest(request: PipelineRequest): void {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
@@ -65,7 +65,7 @@ export function storageSharedKeyCredentialPolicy(
       .digest("base64");
     request.headers.set(
       HeaderConstants.AUTHORIZATION,
-      `SharedKey ${options.accountName}:${signature}`
+      `SharedKey ${options.accountName}:${signature}`,
     );
 
     // console.log(`[URL]:${request.url}`);

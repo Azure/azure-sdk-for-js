@@ -51,7 +51,7 @@ describe("Highlevel", () => {
           headersForRemoval: ["x-ms-encryption-key"],
         },
       },
-      ["playback", "record"]
+      ["playback", "record"],
     );
     blobServiceClient = getBSU(recorder, {
       keepAliveOptions: {
@@ -82,13 +82,13 @@ describe("Highlevel", () => {
     tempFileLarge = await createRandomLocalFileWithTotalSize(
       tempFolderPath,
       tempFileLargeLength,
-      MB
+      MB,
     );
     tempFileSmallLength = 4 * MB + 37; // First prime number after 4MB.
     tempFileSmall = await createRandomLocalFileWithTotalSize(
       tempFolderPath,
       tempFileSmallLength,
-      MB
+      MB,
     );
   });
 
@@ -129,7 +129,7 @@ describe("Highlevel", () => {
     const downloadResponse = await blockBlobClient.download(0);
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -172,7 +172,7 @@ describe("Highlevel", () => {
     const downloadResponse = await blockBlobClient.download(0);
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -194,7 +194,7 @@ describe("Highlevel", () => {
     const downloadResponse = await blockBlobClient.download(0);
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -288,7 +288,7 @@ describe("Highlevel", () => {
     const tempFile = await createRandomLocalFile(
       tempFolderPath,
       BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES / (1024 * 1024) + 1,
-      1024 * 1024
+      1024 * 1024,
     );
     try {
       await blockBlobClient.uploadFile(tempFile, {
@@ -313,7 +313,7 @@ describe("Highlevel", () => {
 
     const downloadFilePath = path.join(
       tempFolderPath,
-      recorder.variable("downloadFile", getUniqueName("downloadFile"))
+      recorder.variable("downloadFile", getUniqueName("downloadFile")),
     );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
 
@@ -414,7 +414,7 @@ describe("Highlevel", () => {
       const tempFile = await createRandomLocalFile(
         tempFolderPath,
         BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES / (1024 * 1024) + 1,
-        1024 * 1024
+        1024 * 1024,
       );
 
       const rs = fs.createReadStream(tempFile);
@@ -428,7 +428,7 @@ describe("Highlevel", () => {
       }
 
       fs.unlinkSync(tempFile);
-    }
+    },
   ).timeout(timeoutForLargeFileUploadingTest);
 
   it("downloadToBuffer should success - without passing the buffer", async function () {
@@ -459,7 +459,7 @@ describe("Highlevel", () => {
     }
     assert.ok(
       error.message.includes("Unable to allocate the buffer of size:"),
-      "Error is not thrown when the count(size provided in bytes) is too large."
+      "Error is not thrown when the count(size provided in bytes) is too large.",
     );
   });
 
@@ -613,7 +613,7 @@ describe("Highlevel", () => {
 
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -653,7 +653,7 @@ describe("Highlevel", () => {
 
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -695,7 +695,7 @@ describe("Highlevel", () => {
 
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -717,7 +717,7 @@ describe("Highlevel", () => {
 
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
@@ -757,7 +757,7 @@ describe("Highlevel", () => {
 
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
@@ -823,7 +823,7 @@ describe("Highlevel", () => {
     }
     const downloadedFilePath = recorder.variable(
       "downloadedtofile.",
-      getUniqueName("downloadedtofile.")
+      getUniqueName("downloadedtofile."),
     );
     const rs = fs.createReadStream(tempFileSmall);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
@@ -832,12 +832,12 @@ describe("Highlevel", () => {
 
     assert.ok(
       response.contentLength === tempFileSmallLength,
-      "response.contentLength doesn't match tempFileSmallLength"
+      "response.contentLength doesn't match tempFileSmallLength",
     );
     assert.equal(
       response.readableStreamBody,
       undefined,
-      "Expecting response.readableStreamBody to be undefined."
+      "Expecting response.readableStreamBody to be undefined.",
     );
 
     const localFileContent = fs.readFileSync(tempFileSmall);

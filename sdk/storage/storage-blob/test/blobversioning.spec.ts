@@ -42,7 +42,7 @@ describe("Blob versioning", () => {
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
-      ["playback", "record"]
+      ["playback", "record"],
     );
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
@@ -67,7 +67,7 @@ describe("Blob versioning", () => {
     const prefix = "blockblob";
     for (let i = 0; i < 2; i++) {
       const tmpBlobClient = containerClient.getBlobClient(
-        recorder.variable(`${prefix}/${i}`, getUniqueName(`${prefix}/${i}`))
+        recorder.variable(`${prefix}/${i}`, getUniqueName(`${prefix}/${i}`)),
       );
       const tmpBlockBlobClient = tmpBlobClient.getBlockBlobClient();
       await tmpBlockBlobClient.upload("", 0);
@@ -112,7 +112,7 @@ describe("Blob versioning", () => {
     }
     const downloadedFilePath = recorder.variable(
       "downloadedtofile",
-      getUniqueName("downloadedtofile")
+      getUniqueName("downloadedtofile"),
     );
     await blobClient.withVersion(uploadRes.versionId!).downloadToFile(downloadedFilePath);
     const downloadedFileContent = fs.readFileSync(downloadedFilePath);
@@ -184,7 +184,7 @@ describe("Blob versioning", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       await batchDeleteRequest.deleteBlob(
         blockBlobClients[i].withVersion(versions[i]!).url,
-        credential
+        credential,
       );
     }
 
@@ -202,7 +202,7 @@ describe("Blob versioning", () => {
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(
         resp.subResponses[i]._request.url,
-        blockBlobClients[i].withVersion(versions[i]!).url
+        blockBlobClients[i].withVersion(versions[i]!).url,
       );
     }
 
@@ -348,7 +348,7 @@ describe("Blob versioning", () => {
     const containerUploadRes = await containerClient.uploadBlockBlob(
       blobName,
       content,
-      content.length
+      content.length,
     );
     assert.ok(containerUploadRes.response.versionId);
 
@@ -360,7 +360,7 @@ describe("Blob versioning", () => {
 
   it("asynchorous copy return versionId", async function () {
     const newBlobClient = containerClient.getBlobClient(
-      recorder.variable("copiedblob", getUniqueName("copiedblob"))
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
     const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
     assert.ok(result.versionId);
@@ -388,7 +388,7 @@ describe("Blob versioning", () => {
       properties = await blobServiceClient.getProperties();
       assert.ok(
         properties.deleteRetentionPolicy!.enabled,
-        "deleteRetentionPolicy should be enabled."
+        "deleteRetentionPolicy should be enabled.",
       );
     }
 

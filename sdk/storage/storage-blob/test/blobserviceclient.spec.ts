@@ -445,7 +445,7 @@ describe("BlobServiceClient", () => {
     try {
       await containerClient.getProperties();
       assert.fail(
-        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+        "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
@@ -454,7 +454,7 @@ describe("BlobServiceClient", () => {
 
   it("can be created from a sas connection string", async function () {
     const newClient = BlobServiceClient.fromConnectionString(
-      getSASConnectionStringFromEnvironment(recorder)
+      getSASConnectionStringFromEnvironment(recorder),
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -556,7 +556,7 @@ describe("BlobServiceClient", () => {
     assert.deepStrictEqual(blobsWithTag2.length, 3);
 
     for await (const blob of blobServiceClient.findBlobsByTags(
-      `@container='${containerName}' AND ${key1}='${tags1[key1]}' AND ${key2}='default'`
+      `@container='${containerName}' AND ${key1}='${tags1[key1]}' AND ${key2}='default'`,
     )) {
       assert.deepStrictEqual(blob.containerName, containerName);
       assert.deepStrictEqual(blob.name, blobName1);
@@ -618,7 +618,7 @@ describe("BlobServiceClient", () => {
 
         const restoreRes = await blobServiceClient.undeleteContainer(
           containerName,
-          containerItem.version!
+          containerItem.version!,
         );
         assert.equal(restoreRes.containerClient.containerName, containerName);
         await restoreRes.containerClient.delete();

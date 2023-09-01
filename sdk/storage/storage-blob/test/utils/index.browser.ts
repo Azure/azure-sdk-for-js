@@ -17,7 +17,7 @@ export function getGenericBSU(
   recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
-  pipelineOptions: StoragePipelineOptions = {}
+  pipelineOptions: StoragePipelineOptions = {},
 ): BlobServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
@@ -27,7 +27,7 @@ export function getGenericBSU(
 
   if (!accountName || !accountSAS) {
     throw new Error(
-      `${accountNameEnvVar} and/or ${accountSASEnvVar} environment variables not specified.`
+      `${accountNameEnvVar} and/or ${accountSASEnvVar} environment variables not specified.`,
     );
   }
 
@@ -108,7 +108,7 @@ export function getImmutableContainerName(): string {
 
 export function getBSU(
   recorder: Recorder,
-  pipelineOptions: StoragePipelineOptions = {}
+  pipelineOptions: StoragePipelineOptions = {},
 ): BlobServiceClient {
   return getGenericBSU(recorder, "", undefined, pipelineOptions);
 }
@@ -129,7 +129,7 @@ export async function bodyToString(
     readableStreamBody?: NodeJS.ReadableStream;
     blobBody?: Promise<Blob>;
   },
-  _length?: number
+  _length?: number,
 ): Promise<string> {
   const blob = await response.blobBody!;
   return blobToString(blob);

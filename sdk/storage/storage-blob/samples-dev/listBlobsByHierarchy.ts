@@ -25,7 +25,7 @@ async function main() {
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = new ContainerClient(
     `https://${account}.blob.core.windows.net/${containerName}`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   const createContainerResponse = await containerClient.create();
@@ -57,7 +57,7 @@ async function main() {
       console.log(`\tBlobPrefix: ${item.name}`);
     } else {
       console.log(
-        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`
+        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`,
       );
     }
   }
@@ -70,7 +70,7 @@ async function main() {
       console.log(`\tBlobPrefix: ${item.name}`);
     } else {
       console.log(
-        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`
+        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`,
       );
     }
   }
@@ -87,7 +87,7 @@ async function main() {
     }
     for (const blob of page.segment.blobItems) {
       console.log(
-        `\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`
+        `\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`,
       );
     }
   }

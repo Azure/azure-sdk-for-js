@@ -29,30 +29,30 @@ describe("Utility Helpers Node.js only", () => {
     assert.equal(
       "AccountConnString",
       connectionStringParts.kind,
-      "extractConnectionStringParts().kind is different than expected."
+      "extractConnectionStringParts().kind is different than expected.",
     );
     assert.equal(
       blobEndpoint,
       connectionStringParts.url,
-      "extractConnectionStringParts().url is different than expected."
+      "extractConnectionStringParts().url is different than expected.",
     );
     assert.equal(
       accountName,
       connectionStringParts.accountName,
-      "extractConnectionStringParts().accountName is different than expected."
+      "extractConnectionStringParts().accountName is different than expected.",
     );
   }
 
   it("extractConnectionStringParts throws error when passed an invalid protocol in the connection string", async function () {
     try {
       extractConnectionStringParts(
-        "DefaultEndpointsProtocol=a;AccountName=b;AccountKey=c;EndpointSuffix=d"
+        "DefaultEndpointsProtocol=a;AccountName=b;AccountKey=c;EndpointSuffix=d",
       );
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.ok(
         error.message ===
-          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'",
       );
     }
   });
@@ -61,7 +61,7 @@ describe("Utility Helpers Node.js only", () => {
     try {
       extractConnectionStringParts(
         // Typo in the attributes
-        "DefaultEndpointsProtocol=https;Name=b;AccountKey=c;EndpointSuffix=d"
+        "DefaultEndpointsProtocol=https;Name=b;AccountKey=c;EndpointSuffix=d",
       );
 
       assert.fail("Expecting an thrown error but didn't get one.");
@@ -69,7 +69,7 @@ describe("Utility Helpers Node.js only", () => {
       assert.equal(
         "Invalid AccountName in the provided Connection String",
         error.message,
-        "Connection string error message is different than expected"
+        "Connection string error message is different than expected",
       );
     }
   });
@@ -77,14 +77,14 @@ describe("Utility Helpers Node.js only", () => {
   it("extractConnectionStringParts throws error with empty EndpointSuffix in the connection string", async function () {
     try {
       extractConnectionStringParts(
-        "DefaultEndpointsProtocol=https;AccountName=b;AccountKey=cdefg;EndpointSuffix="
+        "DefaultEndpointsProtocol=https;AccountName=b;AccountKey=cdefg;EndpointSuffix=",
       );
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.equal(
         "Invalid EndpointSuffix in the provided Connection String",
         error.message,
-        "Connection string error message is different than expected"
+        "Connection string error message is different than expected",
       );
     }
   });
@@ -92,14 +92,14 @@ describe("Utility Helpers Node.js only", () => {
   it("extractConnectionStringParts throws error with empty AccountKey in the connection string", async function () {
     try {
       extractConnectionStringParts(
-        "DefaultEndpointsProtocol=https;AccountName=b;AccountKey=;EndpointSuffix=d"
+        "DefaultEndpointsProtocol=https;AccountName=b;AccountKey=;EndpointSuffix=d",
       );
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.equal(
         "Invalid AccountKey in the provided Connection String",
         error.message,
-        "Connection string error message is different than expected"
+        "Connection string error message is different than expected",
       );
     }
   });
@@ -107,14 +107,14 @@ describe("Utility Helpers Node.js only", () => {
   it("extractConnectionStringParts throws error with empty AccountName in the connection string", async function () {
     try {
       extractConnectionStringParts(
-        "DefaultEndpointsProtocol=https;AccountName=;AccountKey=c;EndpointSuffix=d"
+        "DefaultEndpointsProtocol=https;AccountName=;AccountKey=c;EndpointSuffix=d",
       );
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.equal(
         "Invalid AccountName in the provided Connection String",
         error.message,
-        "Connection string error message is different than expected"
+        "Connection string error message is different than expected",
       );
     }
   });
@@ -122,14 +122,14 @@ describe("Utility Helpers Node.js only", () => {
   it("extractConnectionStringParts throws error with empty DefaultEndpointsProtocol in the connection string", async function () {
     try {
       extractConnectionStringParts(
-        "DefaultEndpointsProtocol=;AccountName=b;AccountKey=c;EndpointSuffix=d"
+        "DefaultEndpointsProtocol=;AccountName=b;AccountKey=c;EndpointSuffix=d",
       );
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.equal(
         "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'",
         error.message,
-        "Connection string error message is different than expected"
+        "Connection string error message is different than expected",
       );
     }
   });
@@ -142,7 +142,7 @@ describe("Utility Helpers Node.js only", () => {
           QueueEndpoint=myQueueEndpoint;
           TableEndpoint=myTableEndpoint;
           AccountName=${accountName};
-          AccountKey=${accountKey}`
+          AccountKey=${accountKey}`,
     );
   });
 
@@ -151,7 +151,7 @@ describe("Utility Helpers Node.js only", () => {
       `DefaultEndpointsProtocol=${protocol};
         BlobEndpoint=${blobEndpoint};
         AccountName=${accountName};
-        AccountKey=${accountKey}`
+        AccountKey=${accountKey}`,
     );
   });
 
@@ -160,7 +160,7 @@ describe("Utility Helpers Node.js only", () => {
       `DefaultEndpointsProtocol=${protocol};
         AccountName=${accountName};
         AccountKey=${accountKey};
-        EndpointSuffix=${endpointSuffix};`
+        EndpointSuffix=${endpointSuffix};`,
     );
   });
 
@@ -170,7 +170,7 @@ describe("Utility Helpers Node.js only", () => {
       constructor(
         private sizeInBytes: number,
         private errorInMiddle: boolean = false,
-        options?: ReadableOptions
+        options?: ReadableOptions,
       ) {
         super(options);
       }
@@ -206,7 +206,7 @@ describe("Utility Helpers Node.js only", () => {
       assert.equal(
         file.length,
         numBytes,
-        "Local file from readStreamToLocalFile is not the expected length."
+        "Local file from readStreamToLocalFile is not the expected length.",
       );
     });
 
@@ -222,7 +222,7 @@ describe("Utility Helpers Node.js only", () => {
         assert.equal(
           err.message,
           "Expected error.",
-          "readStreamToLocalFile should have rejected on readStream error"
+          "readStreamToLocalFile should have rejected on readStream error",
         );
       }
     });
@@ -258,7 +258,7 @@ describe("Utility Helpers Node.js only", () => {
         if (this._numBytesSent < this._buffer.length) {
           const bytesToSend = Math.min(
             this._bytesPerRead,
-            this._buffer.length - this._numBytesSent
+            this._buffer.length - this._numBytesSent,
           );
           this.push(this._buffer.slice(this._numBytesSent, this._numBytesSent + bytesToSend));
           this._numBytesSent += bytesToSend;
@@ -398,7 +398,7 @@ describe("RetriableReadableStream", () => {
     constructor(
       private _max: number = counterMax,
       public index: number = 0,
-      opt: ReadableOptions = {}
+      opt: ReadableOptions = {},
     ) {
       super(opt);
     }

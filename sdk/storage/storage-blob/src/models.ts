@@ -178,7 +178,7 @@ export enum PremiumPageBlobTier {
 }
 
 export function toAccessTier(
-  tier: BlockBlobTier | PremiumPageBlobTier | string | undefined
+  tier: BlockBlobTier | PremiumPageBlobTier | string | undefined,
 ): AccessTier | undefined {
   if (tier === undefined) {
     return undefined;
