@@ -15,6 +15,7 @@ export * from "./PartitionKeyDefinitionVersion";
 export * from "./PartitionKeyKind";
 export * from "./PartitionKeyDefinition";
 export * from "./PermissionMode";
+export * from "./PriorityLevel";
 export * from "./TriggerOperation";
 export * from "./TriggerType";
 export * from "./UserDefinedFunctionType";
