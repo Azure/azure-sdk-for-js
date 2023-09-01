@@ -49,6 +49,7 @@ function startChatFromSpeech() {
         () => {},
         function (err) {
           window.console.log(err);
+          statusDiv.innerHTML += `(Error calling SpeechRecognizer.startContinuousRecognitionAsync): ${err}`;
           recognizer.close();
           recognizer = null;
         });
@@ -83,6 +84,7 @@ function startChatFromSpeech() {
       recognizer.start();
     } catch (e) {
       console.log(e);
+      statusDiv.innerHTML += `(Error starting recognition): ${e}`;
     }
 
   }
@@ -108,6 +110,7 @@ function sendTextToChatGPT(text) {
       resultDiv.innerHTML = gptResponseText;
     } catch (e) { 
       console.log(e);
+      statusDiv.innerHTML += `(Error calling showResponseChoices): ${e}`;
     }
   }
   showResponseChoices();
@@ -129,6 +132,7 @@ function speakText(text) {
       },
       function (err) {
         window.console.log(err);
+        statusDiv.innerHTML += `(Error calling SpeechSynthesizer.speakTextAsync): ${err}`;
         synthesizer.close();
         synthesizer = null;
       });
