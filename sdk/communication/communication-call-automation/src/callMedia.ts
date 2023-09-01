@@ -193,6 +193,26 @@ export class CallMedia {
         operationContext: recognizeOptions.operationContext,
         callbackUri: recognizeOptions.callbackUrl,
       };
+    } else if (recognizeOptions.kind === "callMediaRecognizeChoiceOptions") {
+      const recognizeOptionsInternal: RecognizeOptions = {
+        interruptPrompt: recognizeOptions.interruptPrompt,
+        initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds
+          ? recognizeOptions.initialSilenceTimeoutInSeconds
+          : 5,
+        targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+        speechLanguage: recognizeOptions.speechLanguage,
+        speechRecognitionModelEndpointId: recognizeOptions.speechRecognitionModelEndpointId,
+        choices: recognizeOptions.choices,
+      };
+      return {
+        recognizeInputType: KnownRecognizeInputType.Choices,
+        playPrompt: recognizeOptions.playPrompt
+          ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
+          : undefined,
+        interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
+        recognizeOptions: recognizeOptionsInternal,
+        operationContext: recognizeOptions.operationContext,
+      };
     } else if (recognizeOptions.kind === "callMediaRecognizeSpeechOptions") {
       const speechOptions: SpeechOptions = {
         endSilenceTimeoutInMs: recognizeOptions.endSilenceTimeoutInSeconds

@@ -120,10 +120,10 @@ export function parseCallAutomationEvent(
         kind: "ContinuousDtmfRecognitionStopped",
       } as ContinuousDtmfRecognitionStopped;
       break;
-    case "Microsoft.Communication.SendDtmfTonesCompleted":
+    case "Microsoft.Communication.SendDtmfCompleted":
       callbackEvent = { kind: "SendDtmfTonesCompleted" } as SendDtmfTonesCompleted;
       break;
-    case "Microsoft.Communication.SendDtmfTonesFailed":
+    case "Microsoft.Communication.SendDtmfFailed":
       callbackEvent = { kind: "SendDtmfTonesFailed" } as SendDtmfTonesFailed;
       break;
     default:

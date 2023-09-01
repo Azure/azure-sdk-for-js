@@ -86,8 +86,8 @@ describe("CallMedia Unit Tests", async function () {
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.playTo[0].rawId, CALL_TARGET_ID);
-    assert.equal(data.playSources[0].kind, "file");
-    assert.equal(data.playSources[0].file.uri, playSource[0].url);
+    assert.equal(data.playSourceInfo.sourceType, "file");
+    assert.equal(data.playSourceInfo.fileSource.uri, playSource[0].url);
     assert.equal(request.method, "POST");
   });
 
@@ -159,8 +159,8 @@ describe("CallMedia Unit Tests", async function () {
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
-    assert.equal(data.playSources[0].kind, "file");
-    assert.equal(data.playSources[0].file.uri, playSource[0].url);
+    assert.equal(data.playSourceInfo.sourceType, "file");
+    assert.equal(data.playSourceInfo.fileSource.uri, playSource[0].url);
     assert.equal(request.method, "POST");
   });
 
@@ -224,7 +224,7 @@ describe("CallMedia Unit Tests", async function () {
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.recognizeInputType, "speech");
-    assert.equal(data.recognizeOptions.speechOptions.endSilenceTimeoutInMs, 2);
+    assert.equal(data.recognizeOptions.speechOptions.endSilenceTimeoutInMs, 2000);
     assert.equal(request.method, "POST");
   });
 
