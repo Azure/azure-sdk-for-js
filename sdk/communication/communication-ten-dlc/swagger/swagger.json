@@ -48,7 +48,7 @@
                     "default": {
                         "description": "Failure",
                         "schema": {
-                            "$ref": "../../../Common/stable/2021-03-07/common.json#/definitions/CommunicationErrorResponse"
+                            "$ref": "#/definitions/CommunicationErrorResponse"
                         }
                     }
                 },
@@ -110,7 +110,7 @@
                     "default": {
                         "description": "Failure",
                         "schema": {
-                            "$ref": "../../../Common/stable/2021-03-07/common.json#/definitions/CommunicationErrorResponse"
+                            "$ref": "#/definitions/CommunicationErrorResponse"
                         }
                     }
                 },
@@ -144,7 +144,7 @@
                     "default": {
                         "description": "Failure",
                         "schema": {
-                            "$ref": "../../../Common/stable/2021-03-07/common.json#/definitions/CommunicationErrorResponse"
+                            "$ref": "#/definitions/CommunicationErrorResponse"
                         }
                     }
                 },
@@ -187,7 +187,7 @@
                     "default": {
                         "description": "Failure",
                         "schema": {
-                            "$ref": "../../../Common/stable/2021-03-07/common.json#/definitions/CommunicationErrorResponse"
+                            "$ref": "#/definitions/CommunicationErrorResponse"
                         }
                     }
                 },
@@ -229,7 +229,7 @@
                     "default": {
                         "description": "Failure",
                         "schema": {
-                            "$ref": "../../../Common/stable/2021-03-07/common.json#/definitions/CommunicationErrorResponse"
+                            "$ref": "#/definitions/CommunicationErrorResponse"
                         }
                     }
                 },
@@ -264,7 +264,7 @@
                     "default": {
                         "description": "Failure",
                         "schema": {
-                            "$ref": "../../../Common/stable/2021-03-07/common.json#/definitions/CommunicationErrorResponse"
+                            "$ref": "#/definitions/CommunicationErrorResponse"
                         }
                     }
                 },
@@ -322,7 +322,7 @@
                     "default": {
                         "description": "Failure",
                         "schema": {
-                            "$ref": "../../../Common/stable/2021-03-07/common.json#/definitions/CommunicationErrorResponse"
+                            "$ref": "#/definitions/CommunicationErrorResponse"
                         }
                     }
                 },
@@ -356,7 +356,7 @@
                     "default": {
                         "description": "Failure",
                         "schema": {
-                            "$ref": "../../../Common/stable/2021-03-07/common.json#/definitions/CommunicationErrorResponse"
+                            "$ref": "#/definitions/CommunicationErrorResponse"
                         }
                     }
                 },
@@ -399,7 +399,7 @@
                     "default": {
                         "description": "Failure",
                         "schema": {
-                            "$ref": "../../../Common/stable/2021-03-07/common.json#/definitions/CommunicationErrorResponse"
+                            "$ref": "#/definitions/CommunicationErrorResponse"
                         }
                     }
                 },
@@ -441,7 +441,7 @@
                     "default": {
                         "description": "Failure",
                         "schema": {
-                            "$ref": "../../../Common/stable/2021-03-07/common.json#/definitions/CommunicationErrorResponse"
+                            "$ref": "#/definitions/CommunicationErrorResponse"
                         }
                     }
                 },
@@ -490,7 +490,7 @@
                     "default": {
                         "description": "Failure",
                         "schema": {
-                            "$ref": "../../../Common/stable/2021-03-07/common.json#/definitions/CommunicationErrorResponse"
+                            "$ref": "#/definitions/CommunicationErrorResponse"
                         }
                     }
                 },
@@ -1007,7 +1007,57 @@
                     }
                 }
             }
-        }
+        },
+        "CommunicationErrorResponse": {
+            "description": "The Communication Services error.",
+            "type": "object",
+            "required": [
+              "error"
+            ],
+            "properties": {
+              "error": {
+                "description": "The Communication Services error.",
+                "$ref": "#/definitions/CommunicationError"
+              }
+            }
+          },
+          "CommunicationError": {
+            "description": "The Communication Services error.",
+            "type": "object",
+            "required": [
+              "code",
+              "message"
+            ],
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "The error code."
+              },
+              "message": {
+                "type": "string",
+                "description": "The error message."
+              },
+              "target": {
+                "type": "string",
+                "readOnly": true,
+                "description": "The error target."
+              },
+              "details": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/CommunicationError"
+                },
+                "readOnly": true,
+                "description": "Further details about specific errors that led to this error."
+              },
+              "innererror": {
+                "x-ms-client-name": "innerError",
+                "readOnly": true,
+                "$ref": "#/definitions/CommunicationError",
+                "description": "The inner error if any."
+              }
+            }
+          }
     },
     "parameters": {
         "ApiVersionParameter": {
