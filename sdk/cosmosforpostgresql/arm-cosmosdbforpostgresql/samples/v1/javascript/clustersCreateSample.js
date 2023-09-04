@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  Cluster,
-  CosmosDBForPostgreSQL
-} from "@azure/arm-cosmosdbforpostgresql";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { CosmosDBForPostgreSQL } = require("@azure/arm-cosmosdbforpostgresql");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates a new cluster with servers.
@@ -25,17 +20,15 @@ dotenv.config();
  */
 async function createANewClusterAsAPointInTimeRestore() {
   const subscriptionId =
-    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
+    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
   const clusterName = "testcluster";
-  const parameters: Cluster = {
+  const parameters = {
     location: "westus",
     pointInTimeUTC: new Date("2017-12-14T00:00:37.467Z"),
     sourceLocation: "westus",
     sourceResourceId:
-      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/source-cluster"
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/source-cluster",
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
@@ -55,16 +48,14 @@ async function createANewClusterAsAPointInTimeRestore() {
  */
 async function createANewClusterAsAReadReplica() {
   const subscriptionId =
-    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
+    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
   const clusterName = "testcluster";
-  const parameters: Cluster = {
+  const parameters = {
     location: "westus",
     sourceLocation: "westus",
     sourceResourceId:
-      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/sourcecluster"
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/sourcecluster",
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
@@ -84,12 +75,10 @@ async function createANewClusterAsAReadReplica() {
  */
 async function createANewMultiNodeCluster() {
   const subscriptionId =
-    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
+    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
   const clusterName = "testcluster-multinode";
-  const parameters: Cluster = {
+  const parameters = {
     administratorLoginPassword: "password",
     citusVersion: "11.1",
     coordinatorEnablePublicIpAccess: true,
@@ -106,7 +95,7 @@ async function createANewMultiNodeCluster() {
     nodeVCores: 8,
     postgresqlVersion: "15",
     preferredPrimaryZone: "1",
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
@@ -126,12 +115,10 @@ async function createANewMultiNodeCluster() {
  */
 async function createANewSingleNodeBurstable1VCoreCluster() {
   const subscriptionId =
-    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
+    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
   const clusterName = "testcluster-burstablev1";
-  const parameters: Cluster = {
+  const parameters = {
     administratorLoginPassword: "password",
     citusVersion: "11.3",
     coordinatorEnablePublicIpAccess: true,
@@ -144,7 +131,7 @@ async function createANewSingleNodeBurstable1VCoreCluster() {
     nodeCount: 0,
     postgresqlVersion: "15",
     preferredPrimaryZone: "1",
-    tags: { owner: "JohnDoe" }
+    tags: { owner: "JohnDoe" },
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
@@ -164,12 +151,10 @@ async function createANewSingleNodeBurstable1VCoreCluster() {
  */
 async function createANewSingleNodeBurstable2VCoresCluster() {
   const subscriptionId =
-    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
+    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
   const clusterName = "testcluster-burstablev2";
-  const parameters: Cluster = {
+  const parameters = {
     administratorLoginPassword: "password",
     citusVersion: "11.3",
     coordinatorEnablePublicIpAccess: true,
@@ -182,7 +167,7 @@ async function createANewSingleNodeBurstable2VCoresCluster() {
     nodeCount: 0,
     postgresqlVersion: "15",
     preferredPrimaryZone: "1",
-    tags: { owner: "JohnDoe" }
+    tags: { owner: "JohnDoe" },
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
@@ -202,12 +187,10 @@ async function createANewSingleNodeBurstable2VCoresCluster() {
  */
 async function createANewSingleNodeCluster() {
   const subscriptionId =
-    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
+    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
   const clusterName = "testcluster-singlenode";
-  const parameters: Cluster = {
+  const parameters = {
     administratorLoginPassword: "password",
     citusVersion: "11.3",
     coordinatorEnablePublicIpAccess: true,
@@ -220,7 +203,7 @@ async function createANewSingleNodeCluster() {
     nodeCount: 0,
     postgresqlVersion: "15",
     preferredPrimaryZone: "1",
-    tags: { owner: "JohnDoe" }
+    tags: { owner: "JohnDoe" },
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
