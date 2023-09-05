@@ -7,10 +7,10 @@ import {
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
-import { isNode, randomUUID } from "@azure/core-util";
+import { isNode } from "@azure/core-util";
 import { PollOperationState } from "@azure/core-lro";
 import { Readable } from "stream";
-
+import { v4 as generateUuid } from "uuid";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { BlobQueryResponse } from "./BlobQueryResponse";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -4126,7 +4126,7 @@ export class BlockBlobClient extends BlobClient {
         }
 
         const blockList: string[] = [];
-        const blockIDPrefix = randomUUID();
+        const blockIDPrefix = generateUuid();
         let transferProgress: number = 0;
 
         const batch = new Batch(options.concurrency);
@@ -4231,7 +4231,7 @@ export class BlockBlobClient extends BlobClient {
       options,
       async (updatedOptions) => {
         let blockNum = 0;
-        const blockIDPrefix = randomUUID();
+        const blockIDPrefix = generateUuid();
         let transferProgress: number = 0;
         const blockList: string[] = [];
 

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+import { v4 as generateUuid } from "uuid";
 import { ContainerBreakLeaseOptionalParams } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Blob as StorageBlob, Container } from "./generated/src/operationsInterfaces";
@@ -16,7 +16,6 @@ import {
   ContainerBreakLeaseHeaders,
   ContainerReleaseLeaseHeaders,
 } from "./generated/src";
-import { randomUUID } from "@azure/core-util";
 
 /**
  * The details for a specific lease.
@@ -134,7 +133,7 @@ export class BlobLeaseClient {
     }
 
     if (!leaseId) {
-      leaseId = randomUUID();
+      leaseId = generateUuid();
     }
     this._leaseId = leaseId;
   }
