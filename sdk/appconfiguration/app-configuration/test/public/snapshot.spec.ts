@@ -11,7 +11,6 @@ import {
   createAppConfigurationClientForTests,
   startRecorder,
 } from "./utils/testHelpers";
-import { isNode } from "@azure/core-util";
 
 describe("AppConfigurationClient snapshot", () => {
   let client: AppConfigurationClient;
@@ -24,9 +23,6 @@ describe("AppConfigurationClient snapshot", () => {
   let newSnapshot: CreateSnapshotResponse;
 
   beforeEach(async function (this: Context) {
-    if (!isNode) {
-      this.skip();
-    }
     recorder = await startRecorder(this);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     key1 = recorder.variable("key1", `key1-${new Date().getTime()}`);
@@ -53,9 +49,6 @@ describe("AppConfigurationClient snapshot", () => {
   });
 
   afterEach(async function (this: Context) {
-    if (!isNode) {
-      this.skip();
-    }
     // delete a new setting for key1
     await client.deleteConfigurationSetting({ ...filter1 });
     // delete a new setting for key2

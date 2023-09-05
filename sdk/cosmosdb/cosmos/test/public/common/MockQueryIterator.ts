@@ -7,4 +7,9 @@ export class MockedQueryIterator {
   }> {
     return { resources: this.results };
   }
+  public async fetchAllInternal(): Promise<{
+    resources: unknown;
+  }> {
+    return { resources: this.results };
+  }
 }

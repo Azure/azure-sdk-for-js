@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Add support for parsing usage information in `getChatCompletions` method.
+
 ### Breaking Changes
 
 ### Bugs Fixed

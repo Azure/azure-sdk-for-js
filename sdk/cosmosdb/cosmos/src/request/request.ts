@@ -127,6 +127,10 @@ export async function getHeaders({
     headers[Constants.HttpHeaders.ConsistencyLevel] = options.consistencyLevel;
   }
 
+  if (options.priorityLevel) {
+    headers[Constants.HttpHeaders.PriorityLevel] = options.priorityLevel;
+  }
+
   if (options.maxIntegratedCacheStalenessInMs && resourceType === ResourceType.item) {
     if (typeof options.maxIntegratedCacheStalenessInMs === "number") {
       headers[Constants.HttpHeaders.DedicatedGatewayPerRequestCacheStaleness] =
