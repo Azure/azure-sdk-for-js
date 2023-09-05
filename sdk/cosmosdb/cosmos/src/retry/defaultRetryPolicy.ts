@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { OperationType } from "../common";
 import { ErrorResponse } from "../request";
 import { TimeoutErrorCode } from "../request/TimeoutError";
@@ -134,12 +135,16 @@ export class DefaultRetryPolicy implements RetryPolicy {
    * Determines whether the request should be retried or not.
    * @param err - Error returned by the request.
    */
-  public async shouldRetry(err: ErrorResponse): Promise<boolean> {
+  public async shouldRetry(
+    err: ErrorResponse,
+    diagnosticNode: DiagnosticNodeInternal
+  ): Promise<boolean> {
     if (err) {
       if (
         this.currentRetryAttemptCount < this.maxTries &&
         needsRetry(this.operationType, err.code)
       ) {
+        diagnosticNode.addData({ successfulRetryPolicy: "default" });
         this.currentRetryAttemptCount++;
         return true;
       }
