@@ -36,7 +36,7 @@ export class Item {
   }
 
   /**
-   * @hidden
+   * @internal
    * @param container - The parent {@link Container}.
    * @param id - The id of the given {@link Item}.
    * @param partitionKey - The primary key of the given {@link Item} (only for partitioned containers).

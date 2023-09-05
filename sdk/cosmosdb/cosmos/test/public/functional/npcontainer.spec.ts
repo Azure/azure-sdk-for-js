@@ -2,18 +2,13 @@
 // Licensed under the MIT license.
 /* eslint-disable no-unused-expressions */
 import assert from "assert";
-import {
-  CosmosClient,
-  Constants,
-  Container,
-  PluginConfig,
-  CosmosClientOptions,
-} from "../../../src";
+import { CosmosClient, Container, PluginConfig, CosmosClientOptions } from "../../../src";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { ResourceType, HTTPMethod, StatusCodes } from "../../../src";
 import { expect } from "chai";
+import { Constants } from "../../../src/common";
 
 const plugins: PluginConfig[] = [
   {

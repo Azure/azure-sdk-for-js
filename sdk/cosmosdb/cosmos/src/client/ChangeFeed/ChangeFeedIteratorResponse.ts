@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { CosmosDiagnostics } from "../../CosmosDiagnostics";
 import { Constants } from "../../common";
 import { CosmosHeaders } from "../../queryExecutionContext";
 
@@ -27,6 +28,10 @@ export class ChangeFeedIteratorResponse<T> {
      * Headers related to cosmos DB and change feed.
      */
     headers: CosmosHeaders,
+    /**
+     * Cosmos Diagnostic Object.
+     */
+    public readonly diagnostics: CosmosDiagnostics,
     /**
      * Gets the subStatusCodes of the response from Azure Cosmos DB. Useful in partition split or partition gone.
      */

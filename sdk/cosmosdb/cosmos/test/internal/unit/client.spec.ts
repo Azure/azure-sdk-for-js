@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Container,
-  CosmosClient,
-  PatchOperationType,
-  RequestContext,
-  ResourceType,
-} from "../../../src";
+import { Container, CosmosClient, PatchOperationType, ResourceType } from "../../../src";
 import assert from "assert";
 import { Suite } from "mocha";
 import Sinon, { SinonSandbox, SinonSpy } from "sinon";
@@ -17,6 +11,7 @@ import nock from "nock";
 import { RequestHandler } from "../../../src/request/RequestHandler";
 import { masterKey } from "../../public/common/_fakeTestSecrets";
 import { endpoint } from "../../public/common/_testConfig";
+import { RequestContext } from "../../../src/request";
 
 class MockCredential implements TokenCredential {
   constructor(public returnPromise: Promise<AccessToken | null>) {}

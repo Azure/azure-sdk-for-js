@@ -3,7 +3,6 @@
 import assert from "assert";
 import { Suite } from "mocha";
 import {
-  Constants,
   ContainerResponse,
   OperationType,
   PartitionKeyDefinition,
@@ -24,6 +23,7 @@ import {
 } from "../common/TestHelpers";
 import { SpatialType } from "../../../src";
 import { GeospatialType } from "../../../src";
+import { Constants } from "../../../src/common";
 
 describe("Containers", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

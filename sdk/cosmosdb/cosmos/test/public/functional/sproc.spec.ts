@@ -3,7 +3,6 @@
 import assert from "assert";
 import { Context } from "mocha";
 import { Suite } from "mocha";
-import { Constants } from "../../../src";
 import { Container, StoredProcedureDefinition } from "../../../src/";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
 import {
@@ -12,6 +11,7 @@ import {
   getTestDatabase,
   removeAllDatabases,
 } from "../common/TestHelpers";
+import { Constants } from "../../../src/common";
 
 // Used for sproc
 declare let getContext: any;

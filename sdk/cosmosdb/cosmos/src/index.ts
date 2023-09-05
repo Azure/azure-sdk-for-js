@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 export { DEFAULT_PARTITION_KEY_PATH } from "./common/partitionKeys";
 export { StatusCodes, StatusCodesType, PartitionKeyRangePropertiesNames } from "./common";
-export { extractPartitionKeys as extractPartitionKey } from "./extractPartitionKey";
 export { setAuthorizationTokenHeaderUsingMasterKey } from "./auth";
 export {
   Operation,
@@ -64,9 +63,40 @@ export {
 
 export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
 export { ContainerRequest } from "./client/Container/ContainerRequest";
-export { Constants, OperationType, ResourceType, HTTPMethod } from "./common";
+export { OperationType, ResourceType, HTTPMethod } from "./common";
 export { RetryOptions } from "./retry";
-export * from "./request";
+export {
+  ErrorResponse,
+  ErrorBody,
+  PartitionedQueryExecutionInfo,
+  QueryInfo,
+  QueryRange,
+  AggregateType,
+  GroupByExpressions,
+  GroupByAliasToAggregateType,
+  FeedOptions,
+  RequestOptions,
+  Response,
+  ResourceResponse,
+  SharedOptions,
+  StatusCode,
+  SubStatusCode,
+  FeedResponse,
+  TimeoutError,
+  RequestContext,
+} from "./request";
+
+// export {
+// } from "./ErrorResponse";
+// export { FeedOptions } from "./FeedOptions";
+// export { RequestOptions } from "./RequestOptions";
+// export { Response } from "./Response";
+// export { ResourceResponse } from "./ResourceResponse";
+// export { SharedOptions } from "./SharedOptions";
+// export { StatusCode, SubStatusCode } from "./StatusCodes";
+// export { FeedResponse } from "./FeedResponse";
+// export { RequestContext } from "./RequestContext";
+// export { TimeoutError } from "./TimeoutError";
 
 export {
   CosmosHeaders,
@@ -88,7 +118,6 @@ export { TokenProvider, RequestInfo } from "./auth";
 export { ChangeFeedIterator } from "./ChangeFeedIterator";
 export { ChangeFeedOptions } from "./ChangeFeedOptions";
 export { ChangeFeedResponse } from "./ChangeFeedResponse";
-export { ClientContext } from "./ClientContext";
 
 export {
   CosmosDiagnostics,
@@ -104,6 +133,12 @@ export {
 } from "./CosmosDiagnostics";
 
 export {
+  DiagnosticNodeInternal,
+  DiagnosticDataValue,
+  DiagnosticNodeType,
+} from "./diagnostics/DiagnosticNodeInternal";
+
+export {
   ChangeFeedPullModelIterator,
   ChangeFeedIteratorOptions,
   ChangeFeedIteratorResponse,
@@ -112,7 +147,6 @@ export {
 } from "./client/ChangeFeed";
 export { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 
-export { GlobalEndpointManager } from "./globalEndpointManager";
 export { SasTokenPermissionKind } from "./common/constants";
 export { createAuthorizationSasToken } from "./utils/SasToken";
 export { RestError } from "@azure/core-rest-pipeline";

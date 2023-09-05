@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 import { DatabaseAccount, ResourceResponse } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
-import { GlobalEndpointManager } from "../../../src";
 import { OperationType, ResourceType } from "../../../src";
 import * as fakeTimers from "@sinonjs/fake-timers";
 
 import assert from "assert";
 import { createDummyDiagnosticNode } from "../common/TestHelpers";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
+import { GlobalEndpointManager } from "../../../src/globalEndpointManager";
 
 const locationUnavailabilityExpiratationTime = 6 * 60 * 1000;
 const headers = {

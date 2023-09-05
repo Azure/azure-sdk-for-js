@@ -34,7 +34,7 @@ export class StoredProcedure {
    * Creates a new instance of {@link StoredProcedure} linked to the parent {@link Container}.
    * @param container - The parent {@link Container}.
    * @param id - The id of the given {@link StoredProcedure}.
-   * @hidden
+   * @internal
    */
   constructor(
     public readonly container: Container,

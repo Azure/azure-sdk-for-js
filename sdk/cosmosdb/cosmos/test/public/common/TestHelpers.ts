@@ -8,7 +8,6 @@ import {
   CosmosDiagnostics,
   Database,
   DatabaseDefinition,
-  extractPartitionKey,
   FailedRequestAttemptDiagnostic,
   GatewayStatistics,
   MetadataLookUpDiagnostic,
@@ -33,6 +32,7 @@ import {
 } from "../../../src/diagnostics/DiagnosticNodeInternal";
 import { ExtractPromise } from "../../../src/utils/diagnostics";
 import { getCurrentTimestampInMs } from "../../../src/utils/time";
+import { extractPartitionKeys } from "../../../src/extractPartitionKey";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
@@ -451,7 +451,7 @@ export async function bulkReadItems(
 ): Promise<void[]> {
   return Promise.all(
     documents.map(async (document) => {
-      const partitionKey = extractPartitionKey(document, partitionKeyDef);
+      const partitionKey = extractPartitionKeys(document, partitionKeyDef);
 
       // TODO: should we block or do all requests in parallel?
       const { resource: doc } = await container.item(document.id, partitionKey).read();
@@ -467,7 +467,7 @@ export async function bulkReplaceItems(
 ): Promise<any[]> {
   return Promise.all(
     documents.map(async (document) => {
-      const partitionKey = extractPartitionKey(document, partitionKeyDef);
+      const partitionKey = extractPartitionKeys(document, partitionKeyDef);
       const { resource: doc } = await container.item(document.id, partitionKey).replace(document);
       const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document; // eslint-disable-line @typescript-eslint/no-unused-vars
       const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc; // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -484,7 +484,7 @@ export async function bulkDeleteItems(
 ): Promise<void> {
   await Promise.all(
     documents.map(async (document) => {
-      const partitionKey = extractPartitionKey(document, partitionKeyDef);
+      const partitionKey = extractPartitionKeys(document, partitionKeyDef);
 
       await container.item(document.id, partitionKey).delete();
     })

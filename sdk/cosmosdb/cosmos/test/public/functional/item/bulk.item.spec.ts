@@ -3,7 +3,6 @@
 
 import assert from "assert";
 import {
-  Constants,
   BulkOptions,
   Container,
   ContainerRequest,
@@ -23,6 +22,7 @@ import {
 import { endpoint } from "../../common/_testConfig";
 import { masterKey } from "../../common/_fakeTestSecrets";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time";
+import { Constants } from "../../../../src/common";
 
 describe("test bulk operations", async function () {
   describe("Check size based splitting of batches", function () {

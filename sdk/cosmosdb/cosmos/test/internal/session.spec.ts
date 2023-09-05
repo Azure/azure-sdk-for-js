@@ -3,7 +3,8 @@
 /* eslint-disable no-unused-expressions */
 import assert from "assert";
 import { Suite } from "mocha";
-import { ClientContext, Container, PluginConfig, PluginOn } from "../../src";
+import { ClientContext } from "../../src/ClientContext";
+import { Container, PluginConfig, PluginOn } from "../../src";
 import { OperationType, ResourceType } from "../../src/common";
 import { ConsistencyLevel } from "../../src";
 import { CosmosClient } from "../../src";
@@ -11,9 +12,9 @@ import { SessionContainer } from "../../src/session/sessionContainer";
 import { endpoint } from "../public/common/_testConfig";
 import { masterKey } from "../public/common/_fakeTestSecrets";
 import { addEntropy, getTestDatabase, removeAllDatabases } from "../public/common/TestHelpers";
-import { RequestContext } from "../../src";
 import { Response } from "../../src/request/Response";
 import { expect } from "chai";
+import { RequestContext } from "../../src/request";
 
 describe("New session token", function () {
   it("preserves tokens", async function () {

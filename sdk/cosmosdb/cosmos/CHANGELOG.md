@@ -1,9 +1,10 @@
 # Release History
 
-## 3.17.4 (Unreleased)
+## 4.0.0 (Unreleased)
 
 ### Features Added
 - Added support for hierarchical partitions.
+- Added Diagnostics feature.
 
 ## 3.17.3 (2023-02-13)
 

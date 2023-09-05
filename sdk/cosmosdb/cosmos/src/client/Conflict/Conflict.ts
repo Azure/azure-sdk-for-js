@@ -25,7 +25,7 @@ export class Conflict {
     return `/${this.container.url}/${Constants.Path.ConflictsPathSegment}/${this.id}`;
   }
   /**
-   * @hidden
+   * @internal
    * @param container - The parent {@link Container}.
    * @param id - The id of the given {@link Conflict}.
    */

@@ -34,6 +34,9 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnost
  * do this once on application start up.
  */
 export class Containers {
+  /**
+   * @internal
+   */
   constructor(public readonly database: Database, private readonly clientContext: ClientContext) {}
 
   /**
@@ -119,7 +122,7 @@ export class Containers {
   }
 
   /**
-   * @hidden
+   * @internal
    */
   public async createInternal(
     diagnosticNode: DiagnosticNodeInternal,
@@ -216,6 +219,7 @@ export class Containers {
    *
    * @param body - Represents the body of the container.
    * @param options - Use to set options like response page size, continuation tokens, etc.
+   * @internal
    */
   public async createIfNotExists(
     body: ContainerRequest,

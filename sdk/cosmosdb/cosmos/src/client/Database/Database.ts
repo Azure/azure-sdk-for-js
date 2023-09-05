@@ -57,6 +57,7 @@ export class Database {
   /** Returns a new {@link Database} instance.
    *
    * Note: the intention is to get this object from {@link CosmosClient} via `client.database(id)`, not to instantiate it yourself.
+   * @internal
    */
   constructor(
     public readonly client: CosmosClient,
@@ -98,7 +99,7 @@ export class Database {
   }
 
   /**
-   * @hidden
+   * @internal
    */
   public async readInternal(
     diagnosticNode: DiagnosticNodeInternal,
@@ -155,7 +156,7 @@ export class Database {
           return this.readInternal(node);
         },
         diagnosticNode,
-        MetadataLookUpType.DatabaseAccountLookUp
+        MetadataLookUpType.DatabaseLookUp
       );
 
       const path = "/offers";

@@ -7,8 +7,8 @@ import { RequestOptions } from "./index";
 import { Constants } from "./common/constants";
 import { ResourceResponse } from "./request";
 import { MetadataLookUpType } from "./CosmosDiagnostics";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
-import { addDignosticChild, withMetadataDiagnostics } from "./utils/diagnostics";
+import { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
+import { withMetadataDiagnostics } from "./utils/diagnostics";
 
 /**
  * @hidden
@@ -36,6 +36,7 @@ export class GlobalEndpointManager {
 
   /**
    * @param options - The document client instance.
+   * @internal
    */
   constructor(
     options: CosmosClientOptions,
@@ -124,73 +125,62 @@ export class GlobalEndpointManager {
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
 
-    return addDignosticChild(
-      async (childNode: DiagnosticNodeInternal) => {
-        if (!this.options.connectionPolicy.enableEndpointDiscovery) {
-          childNode.addData({ readFromCache: true }, "default_endpoint");
-          childNode.recordEndpointResolution(this.defaultEndpoint);
-          return this.defaultEndpoint;
-        }
+    if (!this.options.connectionPolicy.enableEndpointDiscovery) {
+      diagnosticNode.addData({ readFromCache: true }, "default_endpoint");
+      diagnosticNode.recordEndpointResolution(this.defaultEndpoint);
+      return this.defaultEndpoint;
+    }
 
-        // If getting the database account, always use the user provided endpoint
-        if (resourceType === ResourceType.none) {
-          childNode.addData({ readFromCache: true }, "none_resource");
-          childNode.recordEndpointResolution(this.defaultEndpoint);
-          return this.defaultEndpoint;
-        }
+    // If getting the database account, always use the user provided endpoint
+    if (resourceType === ResourceType.none) {
+      diagnosticNode.addData({ readFromCache: true }, "none_resource");
+      diagnosticNode.recordEndpointResolution(this.defaultEndpoint);
+      return this.defaultEndpoint;
+    }
 
-        if (this.readableLocations.length === 0 || this.writeableLocations.length === 0) {
-          const resourceResponse = await withMetadataDiagnostics(
-            async (metadataNode: DiagnosticNodeInternal) => {
-              return this.readDatabaseAccount(metadataNode, {
-                urlConnection: this.defaultEndpoint,
-              });
-            },
-            diagnosticNode,
-            MetadataLookUpType.DatabaseAccountLookUp
-          );
-
-          this.writeableLocations = resourceResponse.resource.writableLocations;
-          this.readableLocations = resourceResponse.resource.readableLocations;
-        }
-
-        const locations = isReadRequest(operationType)
-          ? this.readableLocations
-          : this.writeableLocations;
-
-        let location;
-        // If we have preferred locations, try each one in order and use the first available one
-        if (this.preferredLocations && this.preferredLocations.length > 0) {
-          for (const preferredLocation of this.preferredLocations) {
-            location = locations.find(
-              (loc) =>
-                loc.unavailable !== true &&
-                normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation)
-            );
-            if (location) {
-              break;
-            }
-          }
-        }
-
-        // If no preferred locations or one did not match, just grab the first one that is available
-        if (!location) {
-          location = locations.find((loc) => {
-            return loc.unavailable !== true;
+    if (this.readableLocations.length === 0 || this.writeableLocations.length === 0) {
+      const resourceResponse = await withMetadataDiagnostics(
+        async (metadataNode: DiagnosticNodeInternal) => {
+          return this.readDatabaseAccount(metadataNode, {
+            urlConnection: this.defaultEndpoint,
           });
+        },
+        diagnosticNode,
+        MetadataLookUpType.DatabaseAccountLookUp
+      );
+
+      this.writeableLocations = resourceResponse.resource.writableLocations;
+      this.readableLocations = resourceResponse.resource.readableLocations;
+    }
+
+    const locations = isReadRequest(operationType)
+      ? this.readableLocations
+      : this.writeableLocations;
+
+    let location;
+    // If we have preferred locations, try each one in order and use the first available one
+    if (this.preferredLocations && this.preferredLocations.length > 0) {
+      for (const preferredLocation of this.preferredLocations) {
+        location = locations.find(
+          (loc) =>
+            loc.unavailable !== true &&
+            normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation)
+        );
+        if (location) {
+          break;
         }
-        location = location
-          ? location
-          : { name: "", databaseAccountEndpoint: this.defaultEndpoint };
-        childNode.recordEndpointResolution(location.databaseAccountEndpoint);
-        return location.databaseAccountEndpoint;
-      },
-      diagnosticNode,
-      DiagnosticNodeType.METADATA_REQUEST_NODE,
-      {
-        metadatOperationType: MetadataLookUpType.ServiceEndpointResolution,
       }
-    );
+    }
+
+    // If no preferred locations or one did not match, just grab the first one that is available
+    if (!location) {
+      location = locations.find((loc) => {
+        return loc.unavailable !== true;
+      });
+    }
+    location = location ? location : { name: "", databaseAccountEndpoint: this.defaultEndpoint };
+    diagnosticNode.recordEndpointResolution(location.databaseAccountEndpoint);
+    return location.databaseAccountEndpoint;
   }
 
   /**

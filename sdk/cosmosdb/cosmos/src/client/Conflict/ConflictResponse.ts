@@ -8,6 +8,9 @@ import { Conflict } from "./Conflict";
 import { ConflictDefinition } from "./ConflictDefinition";
 
 export class ConflictResponse extends ResourceResponse<ConflictDefinition & Resource> {
+  /**
+   * @internal
+   */
   constructor(
     resource: ConflictDefinition & Resource,
     headers: CosmosHeaders,

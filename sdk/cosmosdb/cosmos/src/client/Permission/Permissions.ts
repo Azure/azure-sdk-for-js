@@ -21,7 +21,7 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnost
  */
 export class Permissions {
   /**
-   * @hidden
+   * @internal
    * @param user - The parent {@link User}.
    */
   constructor(public readonly user: User, private readonly clientContext: ClientContext) {}

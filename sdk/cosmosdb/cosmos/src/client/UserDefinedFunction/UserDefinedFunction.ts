@@ -28,7 +28,7 @@ export class UserDefinedFunction {
     return createUserDefinedFunctionUri(this.container.database.id, this.container.id, this.id);
   }
   /**
-   * @hidden
+   * @internal
    * @param container - The parent {@link Container}.
    * @param id - The id of the given {@link UserDefinedFunction}.
    */

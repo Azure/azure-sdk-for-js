@@ -21,7 +21,7 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnost
 export class StoredProcedures {
   /**
    * @param container - The parent {@link Container}.
-   * @hidden
+   * @internal
    */
   constructor(
     public readonly container: Container,

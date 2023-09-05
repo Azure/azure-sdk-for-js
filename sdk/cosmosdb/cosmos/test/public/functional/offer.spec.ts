@@ -3,10 +3,11 @@
 import assert from "assert";
 import { Context } from "mocha";
 import { Suite } from "mocha";
-import { Constants, CosmosClient } from "../../../src";
+import { CosmosClient } from "../../../src";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import { Constants } from "../../../src/common";
 
 const client = new CosmosClient({
   endpoint,

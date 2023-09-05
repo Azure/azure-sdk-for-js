@@ -27,7 +27,7 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnost
  */
 export class Databases {
   /**
-   * @hidden
+   * @internal
    * @param client - The parent {@link CosmosClient} for the Database.
    */
   constructor(
@@ -108,7 +108,7 @@ export class Databases {
   }
 
   /**
-   * @hidden
+   * @internal
    */
   public async createInternal(
     diagnosticNode: DiagnosticNodeInternal,

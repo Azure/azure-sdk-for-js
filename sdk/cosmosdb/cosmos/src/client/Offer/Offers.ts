@@ -16,7 +16,7 @@ import { OfferDefinition } from "./OfferDefinition";
  */
 export class Offers {
   /**
-   * @hidden
+   * @internal
    * @param client - The parent {@link CosmosClient} for the offers.
    */
   constructor(

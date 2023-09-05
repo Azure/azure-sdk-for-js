@@ -29,7 +29,7 @@ export class Permission {
     return createPermissionUri(this.user.database.id, this.user.id, this.id);
   }
   /**
-   * @hidden
+   * @internal
    * @param user - The parent {@link User}.
    * @param id - The id of the given {@link Permission}.
    */

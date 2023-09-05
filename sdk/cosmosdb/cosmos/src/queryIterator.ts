@@ -25,7 +25,7 @@ import {
   withDiagnostics,
   withMetadataDiagnostics,
 } from "./utils/diagnostics";
-import { MetadataLookUpType } from ".";
+import { MetadataLookUpType } from "./CosmosDiagnostics";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -39,7 +39,7 @@ export class QueryIterator<T> {
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   private isInitialized: boolean;
   /**
-   * @hidden
+   * @internal
    */
   constructor(
     private clientContext: ClientContext,
@@ -134,7 +134,7 @@ export class QueryIterator<T> {
   }
 
   /**
-   * @hidden
+   * @internal
    */
   public async fetchAllInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>> {
     this.reset();

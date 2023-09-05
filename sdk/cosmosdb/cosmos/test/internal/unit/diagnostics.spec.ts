@@ -10,13 +10,10 @@ import {
 import { CosmosDbDiagnosticLevel } from "../../../src/diagnostics/CosmosDbDiagnosticLevel";
 import {
   ClientConfigDiagnostic,
-  ClientContext,
   ConsistencyLevel,
-  Constants,
   CosmosClient,
   CosmosClientOptions,
   ErrorResponse,
-  GlobalEndpointManager,
   ItemResponse,
   RequestOptions,
   Resource,
@@ -29,6 +26,9 @@ import {
 } from "../../../src/diagnostics/DiagnosticNodeInternal";
 import { getDiagnosticLevel, setDiagnosticLevel } from "../../../src/diagnostics";
 import { allowTracing } from "../../../src/diagnostics/diagnosticLevelComparator";
+import { ClientContext } from "../../../src/ClientContext";
+import { Constants } from "../../../src/common";
+import { GlobalEndpointManager } from "../../../src/globalEndpointManager";
 
 describe("Diagnostic Unit Tests", function (this: Suite) {
   let savedDiagnosticLevel: CosmosDbDiagnosticLevel;

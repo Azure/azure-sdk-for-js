@@ -37,7 +37,7 @@ export class User {
     return createUserUri(this.database.id, this.id);
   }
   /**
-   * @hidden
+   * @internal
    * @param database - The parent {@link Database}.
    */
   constructor(

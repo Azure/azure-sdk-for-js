@@ -29,7 +29,7 @@ export class Trigger {
   }
 
   /**
-   * @hidden
+   * @internal
    * @param container - The parent {@link Container}.
    * @param id - The id of the given {@link Trigger}.
    */

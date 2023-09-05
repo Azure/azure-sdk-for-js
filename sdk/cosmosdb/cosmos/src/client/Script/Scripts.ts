@@ -9,7 +9,7 @@ import { Container } from "../Container/Container";
 export class Scripts {
   /**
    * @param container - The parent {@link Container}.
-   * @hidden
+   * @internal
    */
   constructor(
     public readonly container: Container,

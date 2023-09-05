@@ -16,6 +16,9 @@ import { ConflictDefinition } from "./ConflictDefinition";
  * @see {@link Conflict} to read or delete a given {@link Conflict} by id.
  */
 export class Conflicts {
+  /**
+   * @internal
+   */
   constructor(
     public readonly container: Container,
     private readonly clientContext: ClientContext

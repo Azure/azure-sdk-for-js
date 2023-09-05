@@ -201,7 +201,7 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "3.17.4",
+  SDKVersion: "4.0.0",
 
   // Diagnostics
   CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",

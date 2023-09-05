@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import { Constants } from "../../../../src";
 import {
   Batch,
   BulkOperationType,
@@ -10,6 +9,7 @@ import {
   Operation,
   splitBatchBasedOnBodySize,
 } from "../../../../src/utils/batch";
+import { Constants } from "../../../../src/common";
 
 const operationSkeleton: Operation = {
   operationType: BulkOperationType.Create,

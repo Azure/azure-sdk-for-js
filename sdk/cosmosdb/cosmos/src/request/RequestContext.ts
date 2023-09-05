@@ -17,10 +17,16 @@ import { Pipeline } from "@azure/core-rest-pipeline";
 export interface RequestContext {
   path?: string;
   operationType?: OperationType;
+  /**
+   * @internal
+   */
   client?: ClientContext;
   retryCount?: number;
   resourceType?: ResourceType;
   resourceId?: string;
+  /**
+   * @internal
+   */
   globalEndpointManager: GlobalEndpointManager;
   connectionPolicy: ConnectionPolicy;
   requestAgent: Agent;

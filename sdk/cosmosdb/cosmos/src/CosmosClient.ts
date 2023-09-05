@@ -152,7 +152,7 @@ export class CosmosClient {
   }
 
   /**
-   * @hidden
+   * @internal
    */
   public async getDatabaseAccountInternal(
     diagnosticNode: DiagnosticNodeInternal,

@@ -20,7 +20,7 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnost
  */
 export class Users {
   /**
-   * @hidden
+   * @internal
    * @param database - The parent {@link Database}.
    */
   constructor(public readonly database: Database, private readonly clientContext: ClientContext) {}

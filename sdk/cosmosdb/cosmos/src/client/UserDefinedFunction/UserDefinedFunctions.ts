@@ -20,7 +20,7 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnost
  */
 export class UserDefinedFunctions {
   /**
-   * @hidden
+   * @internal
    * @param container - The parent {@link Container}.
    */
   constructor(

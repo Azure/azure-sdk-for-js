@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 /* eslint-disable no-unused-expressions */
 import { CosmosClient, CosmosClientOptions } from "../../../src";
-import { RequestContext } from "../../../src";
 import { Plugin, Next, PluginConfig } from "../../../src";
 
 import * as assert from "assert";
 import { DiagnosticNodeInternal } from "../../../src/diagnostics/DiagnosticNodeInternal";
 import { expect } from "chai";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
+import { RequestContext } from "../../../src/request";
 
 describe("Plugin", function () {
   it("should handle all requests", async function () {

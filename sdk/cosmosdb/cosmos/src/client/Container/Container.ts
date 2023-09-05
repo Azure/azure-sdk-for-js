@@ -97,7 +97,7 @@ export class Container {
    * Returns a container instance. Note: You should get this from `database.container(id)`, rather than creating your own object.
    * @param database - The parent {@link Database}.
    * @param id - The id of the given container.
-   * @hidden
+   * @internal
    */
   constructor(
     public readonly database: Database,
@@ -137,7 +137,7 @@ export class Container {
   }
 
   /**
-   * @hidden
+   * @internal
    */
   public async readInternal(
     diagnosticNode: DiagnosticNodeInternal,
@@ -228,7 +228,7 @@ export class Container {
 
   /**
    * Gets the partition key definition first by looking into the cache otherwise by reading the collection.
-   * @hidden
+   * @internal
    */
   public async readPartitionKeyDefinition(
     diagnosticNode: DiagnosticNodeInternal
@@ -318,15 +318,17 @@ export class Container {
    * @returns all the feed ranges for which changefeed could be fetched.
    */
   public async getFeedRanges(): Promise<ReadonlyArray<FeedRange>> {
-    const { resources } = await this.readPartitionKeyRanges().fetchAll();
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const { resources } = await this.readPartitionKeyRanges().fetchAllInternal(diagnosticNode);
 
-    const feedRanges: FeedRange[] = [];
-    for (const resource of resources) {
-      const feedRange = new FeedRangeInternal(resource.minInclusive, resource.maxExclusive);
-      Object.freeze(feedRange);
-      feedRanges.push(feedRange);
-    }
-    return Object.freeze(feedRanges);
+      const feedRanges: FeedRange[] = [];
+      for (const resource of resources) {
+        const feedRange = new FeedRangeInternal(resource.minInclusive, resource.maxExclusive);
+        Object.freeze(feedRange);
+        feedRanges.push(feedRange);
+      }
+      return Object.freeze(feedRanges);
+    }, this.clientContext);
   }
 
   /**

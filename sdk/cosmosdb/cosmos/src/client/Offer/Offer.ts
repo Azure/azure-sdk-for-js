@@ -22,7 +22,7 @@ export class Offer {
     return `/${Constants.Path.OffersPathSegment}/${this.id}`;
   }
   /**
-   * @hidden
+   * @internal
    * @param client - The parent {@link CosmosClient} for the Database Account.
    * @param id - The id of the given {@link Offer}.
    */

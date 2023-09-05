@@ -16,7 +16,7 @@ import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { addDignosticChild } from "../utils/diagnostics";
-import { MetadataLookUpType } from "..";
+import { MetadataLookUpType } from "../CosmosDiagnostics";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
