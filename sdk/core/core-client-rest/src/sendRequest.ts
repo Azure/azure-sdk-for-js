@@ -15,7 +15,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { getCachedDefaultHttpsClient } from "./clientHelpers";
 import { isReadableStream } from "./helpers/isReadableStream";
-import { HttpResponse, RequestParameters } from "./common";
+import { HttpResponse, RequestParameters, ResponseBodyType } from "./common";
 import { binaryArrayToString } from "./helpers/getBinaryBody";
 
 /**
@@ -38,9 +38,7 @@ export async function sendRequest(
   const request = buildPipelineRequest(method, url, options);
   const response = await pipeline.sendRequest(httpClient, request);
   const headers = response.headers.toJSON();
-  const parsedBody = await getResponseBody(response, {
-    stream: options.responseAsStream,
-  });
+  const parsedBody = await getResponseBody(response, options.responseAsStream);
 
   if (options?.onResponse) {
     options.onResponse({ ...response, request, rawHeaders: headers, parsedBody });
@@ -188,12 +186,12 @@ function processFormData(formData?: FormDataMap): FormDataMap | undefined {
 /**
  * Prepares the response body
  * @param response - The received response
- * @param coerceAs - The type to coerce the body as
+ * @param asStream - The type to coerce the body as
  */
 async function getResponseBody(
   response: PipelineResponse,
-  coerceAs: { stream?: boolean } = {}
-): Promise<RequestBodyType | Record<string, any> | string | undefined> {
+  asStream: boolean = false
+): Promise<ResponseBodyType | undefined> {
   // Set the default response type
   const contentType = response.headers.get("content-type") ?? "";
   const firstType = contentType.split(";")[0];
@@ -204,11 +202,9 @@ async function getResponseBody(
     /**
      * If the client is asking for a stream, return it directly.
      */
-    coerceAs.stream ||
+    asStream ||
     /**
-     * If the response is a server-sent event stream, the body stream
-     * is returned directly so that the client code can parse the chunks
-     * into events.
+     * If the response contains a stream, return it directly.
      */
     stream !== undefined
   ) {

@@ -78,7 +78,7 @@ export interface ErrorResponse {
 
 // @public
 export interface FullOperationResponse extends PipelineResponse {
-    parsedBody?: RequestBodyType | Record<string, any>;
+    parsedBody?: ResponseBodyType;
     rawHeaders?: RawHttpHeaders;
     request: PipelineRequest;
 }
@@ -181,6 +181,9 @@ export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>>
     put: (options?: RequestParameters) => TResponse;
     trace: (options?: RequestParameters) => TResponse;
 }
+
+// @public
+export type ResponseBodyType = RequestBodyType | Record<string, any>;
 
 // @public
 export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {

@@ -95,6 +95,13 @@ export type RequestParameters = {
 export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown) => void;
 
 /**
+ * Types of bodies supported on the response.
+ * NodeJS.ReadableStream and () =\> NodeJS.ReadableStream is Node only.
+ * Blob, ReadableStream<Uint8Array>, and () =\> ReadableStream<Uint8Array> are browser only.
+ */
+export type ResponseBodyType = RequestBodyType | Record<string, any>;
+
+/**
  * Wrapper object for http request and response. Deserialized object is stored in
  * the `parsedBody` property when the response body is received in JSON.
  */
@@ -107,7 +114,7 @@ export interface FullOperationResponse extends PipelineResponse {
   /**
    * The response body as parsed JSON.
    */
-  parsedBody?: RequestBodyType | Record<string, any>;
+  parsedBody?: ResponseBodyType;
 
   /**
    * The request that generated the response.
