@@ -317,6 +317,7 @@ export class ContainerResponse extends ResourceResponse<ContainerDefinition & Re
 // @public
 export class Containers {
     create(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
+    createIfNotExists(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
     // (undocumented)
     readonly database: Database;
     query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -544,7 +545,7 @@ export type DiagnosticDataValue = {
         operationType: OperationType;
         resourceType: ResourceType;
         headers: CosmosHeaders_2;
-        requstBody: any;
+        requestBody: any;
         responseBody: any;
         url: string;
     }>;
