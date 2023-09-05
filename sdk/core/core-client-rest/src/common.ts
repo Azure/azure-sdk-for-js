@@ -99,7 +99,7 @@ export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: u
  * NodeJS.ReadableStream and () =\> NodeJS.ReadableStream is Node only.
  * Blob, ReadableStream<Uint8Array>, and () =\> ReadableStream<Uint8Array> are browser only.
  */
-export type ResponseBodyType = RequestBodyType | Record<string, any>;
+export type ResponseBodyType = RequestBodyType | Record<string, unknown>;
 
 /**
  * Wrapper object for http request and response. Deserialized object is stored in

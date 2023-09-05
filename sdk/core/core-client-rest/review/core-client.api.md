@@ -183,7 +183,7 @@ export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>>
 }
 
 // @public
-export type ResponseBodyType = RequestBodyType | Record<string, any>;
+export type ResponseBodyType = RequestBodyType | Record<string, unknown>;
 
 // @public
 export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
