@@ -84,12 +84,12 @@ describe("[Browser] Streams", () => {
     }
   });
 
-  it("should be able to return a stream for SSEs", async () => {
+  it("should be able to return a stream if there is one", async () => {
     const client = getClient(mockBaseUrl, {
       httpClient: {
         sendRequest: async (request) => {
           return {
-            headers: createHttpHeaders({ "content-type": "text/event-stream" }),
+            headers: createHttpHeaders(),
             status: 200,
             request,
             browserStreamBody: new ReadableStream(),

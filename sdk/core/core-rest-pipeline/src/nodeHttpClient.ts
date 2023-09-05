@@ -19,6 +19,7 @@ import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
 import { IncomingMessage } from "http";
 import { logger } from "./log";
+import { isStream } from "./util/helpers";
 
 const DEFAULT_TLS_SETTINGS = {};
 
@@ -155,11 +156,7 @@ class NodeHttpClient implements HttpClient {
         responseStream = downloadReportStream;
       }
 
-      if (
-        // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
-        request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
-        request.streamResponseStatusCodes?.has(response.status)
-      ) {
+      if (isStream(response)) {
         response.readableStreamBody = responseStream;
       } else {
         response.bodyAsText = await streamToText(responseStream);

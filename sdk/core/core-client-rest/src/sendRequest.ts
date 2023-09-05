@@ -197,7 +197,8 @@ async function getResponseBody(
   // Set the default response type
   const contentType = response.headers.get("content-type") ?? "";
   const firstType = contentType.split(";")[0];
-  const bodyToParse = response.bodyAsText;
+  const text = response.bodyAsText;
+  const stream = response.readableStreamBody ?? response.browserStreamBody;
 
   if (
     /**
@@ -209,16 +210,16 @@ async function getResponseBody(
      * is returned directly so that the client code can parse the chunks
      * into events.
      */
-    firstType === "text/event-stream"
+    stream !== undefined
   ) {
-    return response.readableStreamBody ?? response.browserStreamBody;
+    return stream;
   }
 
   if (firstType === "text/plain") {
-    return String(bodyToParse);
+    return String(text);
   }
   // Default to "application/json" and fallback to string;
-  return tryParse(bodyToParse, firstType !== "application/json", response);
+  return tryParse(text, firstType !== "application/json", response);
 }
 
 function tryParse(

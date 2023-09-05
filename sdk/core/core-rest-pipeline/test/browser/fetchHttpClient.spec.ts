@@ -17,7 +17,12 @@ const streamBody = new ReadableStream({
   },
 });
 
-function createResponse(statusCode: number, body = "", chunkDelay = 0): Response {
+function createResponse(
+  statusCode: number,
+  body = "",
+  chunkDelay = 0,
+  headers: HeadersInit = {}
+): Response {
   const stream = new ReadableStream({
     async start(controller) {
       const encoder = new TextEncoder();
@@ -36,7 +41,7 @@ function createResponse(statusCode: number, body = "", chunkDelay = 0): Response
       }
     },
   });
-  return new Response(stream, { status: statusCode });
+  return new Response(stream, { status: statusCode, headers });
 }
 
 describe("FetchHttpClient", function () {
@@ -259,6 +264,31 @@ describe("FetchHttpClient", function () {
       allowInsecureConnection: true,
       method: "GET",
       streamResponseStatusCodes: new Set([200]),
+      onDownloadProgress: (ev) => {
+        assert.isNumber(ev.loadedBytes);
+        downloadCalled = true;
+      },
+    });
+    const response = await client.sendRequest(request);
+    assert.isDefined(response.blobBody);
+
+    const blob = await response.blobBody;
+    assert.isDefined(blob?.size);
+    assert.isTrue(downloadCalled, "no download progress");
+  });
+
+  it("should stream response body when receives SSE content type", async function () {
+    const client = createFetchHttpClient();
+    const responseText = "An appropriate response.";
+    fetchMock.returns(
+      createResponse(200, responseText, 0, { "content-type": "text/event-stream" })
+    );
+    const url = `http://localhost:3000/files/stream/nonempty`;
+    let downloadCalled = false;
+    const request = createPipelineRequest({
+      url,
+      allowInsecureConnection: true,
+      method: "GET",
       onDownloadProgress: (ev) => {
         assert.isNumber(ev.loadedBytes);
         downloadCalled = true;

@@ -3,6 +3,7 @@
 
 import { Client, getClient } from "@azure-rest/core-client";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { EventMessage, toSSE } from "../../../sources/customizations/api/sse.js";
 
 export function createStream(cb: (write: (chunk: Uint8Array) => void) => void): ReadableStream {
   return new ReadableStream({
@@ -25,4 +26,16 @@ export function createClient(cb: () => ReadableStream): Client {
         }),
     },
   });
+}
+
+export function createSSEStream(
+  cb: (write: (chunk: Uint8Array) => void) => void
+): AsyncIterable<EventMessage> {
+  const stream = new ReadableStream({
+    start(controller) {
+      cb((c) => controller.enqueue(c));
+      controller.close();
+    },
+  });
+  return toSSE(stream);
 }

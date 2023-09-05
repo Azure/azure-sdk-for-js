@@ -12,6 +12,10 @@ import { AuthMethod } from "./recordedClient.js";
 import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 import { OpenAIKeyCredential } from "../../../src/index.js";
 
+function toString(error: any): string {
+  return error instanceof Error ? error.toString() + "\n" + error.stack : JSON.stringify(error);
+}
+
 export async function withDeployment<T>(
   deployments: string[],
   run: (model: string) => Promise<T>
@@ -27,15 +31,16 @@ export async function withDeployment<T>(
     } catch (e) {
       const error = e as any;
       if (!e) continue;
+      const errorStr = toString(error);
       if (
         ["OperationNotSupported", "model_not_found", "rate_limit_exceeded"].includes(error.code) ||
         error.type === "invalid_request_error"
       ) {
-        logger.verbose(error.toString());
+        logger.verbose(errorStr);
         continue;
       }
-      logger.warning(`Error in deployment ${deployment}: ${error.toString()}`);
-      errors.push(error instanceof Error ? error.toString() : JSON.stringify(error));
+      logger.warning(`Error in deployment ${deployment}: ${errorStr}`);
+      errors.push(errorStr);
     }
   }
   if (errors.length > 0) {

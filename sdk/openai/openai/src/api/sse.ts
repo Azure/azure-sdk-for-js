@@ -33,8 +33,51 @@ export interface EventMessage {
 
 type PartialSome<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-export function toSSE(chunkIter: AsyncIterable<Uint8Array>): AsyncIterable<EventMessage> {
-  return toMessage(toLine(chunkIter));
+/**
+ * Processes a response stream into a stream of events.
+ * @param chunkIter - A stream of Uint8Array chunks
+ * @returns An async iterable of EventMessage objects
+ */
+export function toSSE(chunkIter: ReadableStream<Uint8Array>): AsyncIterable<EventMessage>;
+/**
+ * Processes a response stream into a stream of events.
+ * @param chunkIter - An async iterable of Uint8Array chunks
+ * @returns An async iterable of EventMessage objects
+ */
+export function toSSE(chunkIter: AsyncIterable<Uint8Array>): AsyncIterable<EventMessage>;
+export function toSSE(
+  chunkIter: AsyncIterable<Uint8Array> | NodeJS.ReadableStream | ReadableStream<Uint8Array>
+): AsyncIterable<EventMessage> {
+  return toMessage(
+    toLine(
+      isReadableStream(chunkIter) && (chunkIter as any)[Symbol.asyncIterator] === undefined
+        ? toAsyncIterable(chunkIter)
+        : (chunkIter as AsyncIterable<Uint8Array>)
+    )
+  );
+}
+
+function isReadableStream(body: unknown): body is ReadableStream {
+  return Boolean(
+    body &&
+      typeof (body as ReadableStream).getReader === "function" &&
+      typeof (body as ReadableStream).tee === "function"
+  );
+}
+
+async function* toAsyncIterable<T>(stream: ReadableStream<T>): AsyncIterable<T> {
+  const reader = stream.getReader();
+  try {
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) {
+        return;
+      }
+      yield value;
+    }
+  } finally {
+    reader.releaseLock();
+  }
 }
 
 function concatBuffer(a: Uint8Array, b: Uint8Array): Uint8Array {

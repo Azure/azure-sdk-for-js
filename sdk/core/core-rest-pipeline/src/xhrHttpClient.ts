@@ -11,6 +11,7 @@ import {
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
+import { isStreamHelper } from "./util/helpers";
 
 function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
@@ -116,11 +117,8 @@ function handleBlobResponse(
   xhr.addEventListener("readystatechange", () => {
     // Resolve as soon as headers are loaded
     if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
-      if (
-        // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
-        request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
-        request.streamResponseStatusCodes?.has(xhr.status)
-      ) {
+      const headers = parseHeaders(xhr);
+      if (isStreamHelper(request, xhr.status, headers.get("content-type") ?? "")) {
         const blobBody = new Promise<Blob>((resolve, reject) => {
           xhr.addEventListener("load", () => {
             resolve(xhr.response);
@@ -130,7 +128,7 @@ function handleBlobResponse(
         res({
           request,
           status: xhr.status,
-          headers: parseHeaders(xhr),
+          headers,
           blobBody,
         });
       } else {

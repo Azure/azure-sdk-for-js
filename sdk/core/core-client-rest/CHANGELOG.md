@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-- Return a stream when the response's content-type is `text/event-stream`.
+- Return a stream when the response contains a stream.
 
 ## 1.1.4 (2023-07-06)
 

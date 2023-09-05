@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { PipelineResponse } from "../interfaces";
+import { PipelineRequest, PipelineResponse } from "../interfaces";
 
 const StandardAbortMessage = "The operation was aborted.";
 
@@ -75,4 +75,35 @@ export function parseHeaderValueAsNumber(
   const valueAsNum = Number(value);
   if (Number.isNaN(valueAsNum)) return;
   return valueAsNum;
+}
+
+/**
+ * @param request - the request to check if it has a stream response status code specified
+ * @param status - the status code of the response
+ * @param contentType - the content type of the response
+ * @returns whether the response should be treated as a stream
+ */
+export function isStreamHelper(
+  request: PipelineRequest,
+  status: number,
+  contentType: string
+): boolean {
+  return (
+    // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
+    request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
+    request.streamResponseStatusCodes?.has(status) ||
+    contentType === "text/event-stream"
+  );
+}
+
+/**
+ * @param response - the response to check if it is a stream
+ * @returns whether the response should be treated as a stream
+ */
+export function isStream(response: PipelineResponse): boolean {
+  return isStreamHelper(
+    response.request,
+    response.status,
+    response.headers.get("Content-Type") || ""
+  );
 }

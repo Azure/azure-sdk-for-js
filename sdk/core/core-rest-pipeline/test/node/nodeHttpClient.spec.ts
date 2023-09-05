@@ -37,9 +37,13 @@ const httpRequestChecker = {
   },
 };
 
-function createResponse(statusCode: number, body = ""): IncomingMessage {
+function createResponse(
+  statusCode: number,
+  body = "",
+  headers: IncomingHttpHeaders = {}
+): IncomingMessage {
   const response = new FakeResponse();
-  response.headers = {};
+  response.headers = headers;
   response.statusCode = statusCode;
   response.write(body);
   response.end();
@@ -189,6 +193,20 @@ describe("NodeHttpClient", function () {
     });
     const promise = client.sendRequest(request);
     stubbedHttpsRequest.yield(createResponse(200, "body"));
+    const response = await promise;
+    assert.equal(response.bodyAsText, undefined);
+    assert.ok(response.readableStreamBody);
+  });
+
+  it("should stream response body on SSE content type", async function () {
+    const client = createDefaultHttpClient();
+    const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
+    const request = createPipelineRequest({
+      url: "https://example.com",
+    });
+    const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200, "body", { "content-type": "text/event-stream" }));
     const response = await promise;
     assert.equal(response.bodyAsText, undefined);
     assert.ok(response.readableStreamBody);

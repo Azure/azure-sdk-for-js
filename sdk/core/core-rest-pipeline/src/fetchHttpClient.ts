@@ -11,6 +11,7 @@ import {
 } from "./interfaces";
 import { RestError } from "./restError";
 import { createHttpHeaders } from "./httpHeaders";
+import { isStream } from "./util/helpers";
 
 /**
  * Checks if the body is a NodeReadable stream which is not supported in Browsers
@@ -126,11 +127,7 @@ async function buildPipelineResponse(httpResponse: Response, request: PipelineRe
     ? buildBodyStream(httpResponse.body, request.onDownloadProgress)
     : httpResponse.body;
 
-  if (
-    // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
-    request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
-    request.streamResponseStatusCodes?.has(response.status)
-  ) {
+  if (isStream(response)) {
     if (request.enableBrowserStreams) {
       response.browserStreamBody = bodyStream ?? undefined;
     } else {
