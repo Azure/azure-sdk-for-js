@@ -13,20 +13,12 @@ import { AzureLogRecordProcessor } from "./logRecordProcessor";
  * Azure Monitor OpenTelemetry Log Handler
  */
 export class LogHandler {
-  private static _instance: LogHandler;
   private _loggerProvider: LoggerProvider;
   private _azureExporter: AzureMonitorLogExporter;
   private _logRecordProcessor: BatchLogRecordProcessor;
   private _config: InternalConfig;
   private _metricHandler?: MetricHandler;
   private _azureLogProccessor: AzureLogRecordProcessor;
-
-  public static getInstance(config: InternalConfig, metricHandler: MetricHandler) {
-    if (!LogHandler._instance) {
-      LogHandler._instance = new LogHandler(config, metricHandler);
-    }
-    return LogHandler._instance;
-  }
 
   /**
    * Initializes a new instance of the TraceHandler class.

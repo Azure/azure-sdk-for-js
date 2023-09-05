@@ -8,17 +8,26 @@ import { TraceHandler } from "../../../../src/traces";
 import { Logger } from "../../../../src/shared/logging";
 import { InternalConfig } from "../../../../src/shared";
 import { MetricHandler } from "../../../../src/metrics";
-import { trace } from "@opentelemetry/api";
+import { metrics, trace } from "@opentelemetry/api";
 
 describe("Library/AzureFunctionsHook", () => {
   let sandbox: sinon.SinonSandbox;
   let metricHandler: MetricHandler;
+  let handler: TraceHandler;
 
   before(() => {
     sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
+    if (metricHandler) {
+      metricHandler.shutdown();
+    }
+    if (handler) {
+      handler.shutdown();
+    }
+    metrics.disable();
+    trace.disable();
     sandbox.restore();
   });
 
@@ -78,8 +87,8 @@ describe("Library/AzureFunctionsHook", () => {
       let config = new InternalConfig({});
       config.azureMonitorExporterConfig.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
-      metricHandler = MetricHandler.getInstance(config);
-      TraceHandler.getInstance(config, metricHandler);
+      metricHandler = new MetricHandler(config);
+      handler = new TraceHandler(config, metricHandler);
 
       Module.prototype.require = function () {
         if (arguments[0] === "@azure/functions-core") {

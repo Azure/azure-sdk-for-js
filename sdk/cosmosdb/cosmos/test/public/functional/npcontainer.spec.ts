@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/* eslint-disable no-unused-expressions */
 import assert from "assert";
 import {
   CosmosClient,
@@ -12,12 +13,14 @@ import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { ResourceType, HTTPMethod, StatusCodes } from "../../../src";
+import { expect } from "chai";
 
 const plugins: PluginConfig[] = [
   {
     on: "request",
-    plugin: (context, next) => {
+    plugin: (context, diagNode, next) => {
       // Intercepts the API request to create a non-partitioned container using an old API version
+      expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
       if (context.resourceType === ResourceType.container && context.method === HTTPMethod.post) {
         context.body = JSON.stringify({ id: JSON.parse(context.body).id });
       }

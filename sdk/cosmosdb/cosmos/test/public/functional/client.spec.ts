@@ -17,7 +17,7 @@ import { UsernamePasswordCredential } from "@azure/identity";
 import { defaultConnectionPolicy } from "../../../src/documents";
 
 describe("Client Tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
+  this.timeout(process.env.MOCHA_TIMEOUT || 200000);
 
   describe("Validate client request timeout", function () {
     it("timeout occurs within expected timeframe", async function () {

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   createPermissionUri,
   getIdFromLink,
@@ -13,6 +14,7 @@ import { User } from "../User";
 import { PermissionBody } from "./PermissionBody";
 import { PermissionDefinition } from "./PermissionDefinition";
 import { PermissionResponse } from "./PermissionResponse";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 
 /**
  * Use to read, replace, or delete a given {@link Permission} by id.
@@ -41,22 +43,25 @@ export class Permission {
    * Read the {@link PermissionDefinition} of the given {@link Permission}.
    */
   public async read(options?: RequestOptions): Promise<PermissionResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<PermissionDefinition & PermissionBody>({
-      path,
-      resourceType: ResourceType.permission,
-      resourceId: id,
-      options,
-    });
-    return new PermissionResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.read<PermissionDefinition & PermissionBody>({
+        path,
+        resourceType: ResourceType.permission,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new PermissionResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -67,49 +72,53 @@ export class Permission {
     body: PermissionDefinition,
     options?: RequestOptions
   ): Promise<PermissionResponse> {
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const err = {};
+      if (!isResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
-
-    const response = await this.clientContext.replace<PermissionDefinition & PermissionBody>({
-      body,
-      path,
-      resourceType: ResourceType.permission,
-      resourceId: id,
-      options,
-    });
-    return new PermissionResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
+      const response = await this.clientContext.replace<PermissionDefinition & PermissionBody>({
+        body,
+        path,
+        resourceType: ResourceType.permission,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new PermissionResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 
   /**
    * Delete the given {@link Permission}.
    */
   public async delete(options?: RequestOptions): Promise<PermissionResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
-
-    const response = await this.clientContext.delete<PermissionDefinition & PermissionBody>({
-      path,
-      resourceType: ResourceType.permission,
-      resourceId: id,
-      options,
-    });
-    return new PermissionResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
+      const response = await this.clientContext.delete<PermissionDefinition & PermissionBody>({
+        path,
+        resourceType: ResourceType.permission,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new PermissionResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 }

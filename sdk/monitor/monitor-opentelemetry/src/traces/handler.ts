@@ -32,7 +32,6 @@ import { Instrumentation } from "@opentelemetry/instrumentation";
  * Azure Monitor OpenTelemetry Trace Handler
  */
 export class TraceHandler {
-  private static _instance: TraceHandler;
   private _spanProcessor: BatchSpanProcessor;
   private _tracerProvider: NodeTracerProvider;
   private _azureExporter: AzureMonitorTraceExporter;
@@ -40,13 +39,6 @@ export class TraceHandler {
   private _config: InternalConfig;
   private _metricHandler: MetricHandler;
   private _azureFunctionsHook: AzureFunctionsHook;
-
-  public static getInstance(config: InternalConfig, metricHandler: MetricHandler) {
-    if (!TraceHandler._instance) {
-      TraceHandler._instance = new TraceHandler(config, metricHandler);
-    }
-    return TraceHandler._instance;
-  }
 
   /**
    * Initializes a new instance of the TraceHandler class.

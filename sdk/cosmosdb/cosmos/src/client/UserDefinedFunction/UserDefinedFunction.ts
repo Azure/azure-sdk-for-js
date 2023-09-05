@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   createUserDefinedFunctionUri,
   getIdFromLink,
@@ -12,6 +13,7 @@ import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
 import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 
 /**
  * Used to read, replace, or delete a specified User Definied Function by id.
@@ -40,22 +42,25 @@ export class UserDefinedFunction {
    * Read the {@link UserDefinedFunctionDefinition} for the given {@link UserDefinedFunction}.
    */
   public async read(options?: RequestOptions): Promise<UserDefinedFunctionResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<UserDefinedFunctionDefinition>({
-      path,
-      resourceType: ResourceType.udf,
-      resourceId: id,
-      options,
-    });
-    return new UserDefinedFunctionResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.read<UserDefinedFunctionDefinition>({
+        path,
+        resourceType: ResourceType.udf,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new UserDefinedFunctionResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -66,53 +71,59 @@ export class UserDefinedFunction {
     body: UserDefinedFunctionDefinition,
     options?: RequestOptions
   ): Promise<UserDefinedFunctionResponse> {
-    if (body.body) {
-      body.body = body.body.toString();
-    }
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (body.body) {
+        body.body = body.body.toString();
+      }
 
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
+      const err = {};
+      if (!isResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<UserDefinedFunctionDefinition>({
-      body,
-      path,
-      resourceType: ResourceType.udf,
-      resourceId: id,
-      options,
-    });
-    return new UserDefinedFunctionResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.replace<UserDefinedFunctionDefinition>({
+        body,
+        path,
+        resourceType: ResourceType.udf,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new UserDefinedFunctionResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 
   /**
    * Delete the given {@link UserDefined}.
    */
   public async delete(options?: RequestOptions): Promise<UserDefinedFunctionResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete({
-      path,
-      resourceType: ResourceType.udf,
-      resourceId: id,
-      options,
-    });
-    return new UserDefinedFunctionResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.delete({
+        path,
+        resourceType: ResourceType.udf,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new UserDefinedFunctionResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 }

@@ -1,12 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { InteractiveBrowserCredential } from "@azure/identity";
+import {
+  InteractiveBrowserCredential,
+  InteractiveBrowserCredentialNodeOptions as IBCNOptions,
+} from "@azure/identity";
 import { ServiceInformation } from "./deploy";
 import { getClient } from "@azure-rest/core-client";
 
-async function getAccessToken(managementApiEndpoint: string): Promise<string> {
-  const credentials = new InteractiveBrowserCredential();
+async function getAccessToken(
+  managementApiEndpoint: string,
+  options?: IBCNOptions
+): Promise<string> {
+  const credentials = new InteractiveBrowserCredential(options);
   const scope = `${managementApiEndpoint}/user_impersonation`;
   const { token } = await credentials.getToken(scope);
   return `Bearer ${token}`;
@@ -17,12 +23,15 @@ async function getAccessToken(managementApiEndpoint: string): Promise<string> {
  *
  * @returns storage SAS URL
  */
-async function getStorageSasUrl({
-  managementApiEndpoint,
-  resourceId,
-  apiVersion = "2019-01-01",
-  tokenOverride,
-}: ServiceInformation): Promise<string> {
+async function getStorageSasUrl(
+  {
+    managementApiEndpoint,
+    resourceId,
+    apiVersion = "2019-01-01",
+    tokenOverride,
+  }: ServiceInformation,
+  interactiveBrowserCredentialOptions?: IBCNOptions
+): Promise<string> {
   const httpClient = getClient(`${managementApiEndpoint}/${resourceId}`, { apiVersion });
   const response = await httpClient
     .pathUnchecked(`/portalSettings/mediaContent/listSecrets?apiVersion=${apiVersion}`) // TODO
@@ -30,7 +39,9 @@ async function getStorageSasUrl({
       headers: {
         "If-Match": "*",
         "Content-Type": "application/json",
-        Authorization: tokenOverride ?? (await getAccessToken(managementApiEndpoint)),
+        Authorization:
+          tokenOverride ??
+          (await getAccessToken(managementApiEndpoint, interactiveBrowserCredentialOptions)),
       },
     });
 
