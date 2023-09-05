@@ -111,6 +111,11 @@ export interface ContentFilterResultsOutput {
    * or damage one’s body, or kill oneself.
    */
   self_harm?: ContentFilterResultOutput;
+  /**
+   * Describes an error returned if the content filtering system is
+   * down or otherwise unable to complete the operation in time.
+   */
+  error?: ErrorModel;
 }
 
 /** Information about filtered content severity level and if it has been filtered or not. */

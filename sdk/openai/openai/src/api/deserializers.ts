@@ -162,5 +162,14 @@ function deserializeContentFilter(result: ContentFilterResultsOutput): ContentFi
             filtered: result.self_harm?.["filtered"],
           },
         }),
+    ...(!result.error
+      ? {}
+      : {
+          error: {
+            code: result.error?.code,
+            message: result.error?.message,
+            details: result.error?.details ?? []
+          },
+        }),
   };
 }
