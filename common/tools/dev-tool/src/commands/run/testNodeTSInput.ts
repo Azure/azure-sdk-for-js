@@ -34,7 +34,7 @@ export default leafCommand(commandInfo, async (options) => {
   const command = {
     command: isModuleProj
       ? `mocha ${defaultMochaArgs} ${mochaArgs}`
-      : `cross-env TS_NODE_COMPILER_OPTIONS='{"module":"commonjs"}' mocha ${defaultMochaArgs} ${mochaArgs}`,
+      : `cross-env TS_NODE_COMPILER_OPTIONS="{\\\"module\\\":\\\"commonjs\\\"}" mocha ${defaultMochaArgs} ${mochaArgs}`,
     name: "node-tests",
   };
 
