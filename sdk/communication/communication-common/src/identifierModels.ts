@@ -77,7 +77,7 @@ export interface MicrosoftTeamsAppIdentifier {
   /**
    * The cloud that the Microsoft Temas App belongs to. If missing, the cloud is "public".
    */
-  cloud?: "public";
+  cloud?: "public" | "dod" | "gcch";
 }
 
 /**
@@ -253,8 +253,14 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
       return `8:orgid:${microsoftTeamsUserId}`;
     }
     case "microsoftTeamsApp": {
-      const { teamsAppId, rawId } = identifierKind;
+      const { teamsAppId, rawId, cloud } = identifierKind;
       if (rawId) return rawId;
+      switch (cloud) {
+        case "dod":
+          return `28:dod:${teamsAppId}`;
+        case "gcch":
+          return `28:gcch:${teamsAppId}`;
+      }
       return `28:orgid:${teamsAppId}`;
     }
     case "phoneNumber": {
@@ -270,7 +276,7 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
 
 const buildMicrosoftTeamsAppIdentifier = (
   teamsAppId: string,
-  cloud: "public"
+  cloud: "public" | "dod" | "gcch"
 ): CommunicationIdentifierKind => {
   return {
     kind: "microsoftTeamsApp",
@@ -326,6 +332,10 @@ export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifie
       return { kind: "communicationUser", communicationUserId: rawId };
     case "28:orgid:":
       return buildMicrosoftTeamsAppIdentifier(suffix, "public");
+    case "28:gcch:":
+      return buildMicrosoftTeamsAppIdentifier(suffix, "gcch");
+    case "28:dod:":
+      return buildMicrosoftTeamsAppIdentifier(suffix, "dod");
   }
   return { kind: "unknown", id: rawId };
 };

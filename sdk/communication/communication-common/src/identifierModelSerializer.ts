@@ -93,7 +93,7 @@ export interface SerializedMicrosoftTeamsAppIdentifier {
   /**
    * The cloud that the Microsoft Teams App belongs to. By default 'public' if missing.
    */
-  cloud?: "public";
+  cloud?: SerializedCommunicationCloudEnvironment;
 }
 
 /**

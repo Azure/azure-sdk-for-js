@@ -96,7 +96,7 @@ export const isUnknownIdentifier: (identifier: CommunicationIdentifier) => ident
 
 // @public
 export interface MicrosoftTeamsAppIdentifier {
-    cloud?: "public";
+    cloud?: "public" | "dod" | "gcch";
     rawId?: string;
     teamsAppId: string;
 }
@@ -159,7 +159,7 @@ export interface SerializedCommunicationUserIdentifier {
 
 // @public
 export interface SerializedMicrosoftTeamsAppIdentifier {
-    cloud?: "public";
+    cloud?: SerializedCommunicationCloudEnvironment;
     teamsAppId: string;
 }
 

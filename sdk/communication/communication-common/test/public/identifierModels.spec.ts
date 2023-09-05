@@ -268,12 +268,14 @@ describe("Identifier models", function () {
       teamsAppId: "01234567-89ab-cdef-0123-456789abcdef",
     });
     assertIdentifier("28:gcch:01234567-89ab-cdef-0123-456789abcdef", {
-      kind: "unknown",
-      id: "28:gcch:01234567-89ab-cdef-0123-456789abcdef",
+      kind: "microsoftTeamsApp",
+      cloud: "gcch",
+      teamsAppId: "01234567-89ab-cdef-0123-456789abcdef",
     });
     assertIdentifier("28:dod:01234567-89ab-cdef-0123-456789abcdef", {
-      kind: "unknown",
-      id: "28:dod:01234567-89ab-cdef-0123-456789abcdef",
+      kind: "microsoftTeamsApp",
+      cloud: "dod",
+      teamsAppId: "01234567-89ab-cdef-0123-456789abcdef",
     });
     assertIdentifier("28:ag08-global:01234567-89ab-cdef-0123-456789abcdef", {
       id: "28:ag08-global:01234567-89ab-cdef-0123-456789abcdef",
