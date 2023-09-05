@@ -17,7 +17,7 @@ import { Snapshot } from "./snapshot.js";
  * Defines the behavior of the PerfTest constructor, to use the class as a value.
  */
 export interface PerfTestConstructor<
-  TOptions extends Record<string, unknown> = Record<string, unknown>,
+  TOptions extends Record<string, unknown> = Record<string, unknown>
 > {
   new (): PerfTestBase<TOptions>;
 }
@@ -90,7 +90,7 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
 
   public abstract runAll(
     durationMilliseconds: number,
-    abortController: AbortController,
+    abortController: AbortController
   ): Promise<void>;
 
   public getSnapshot(): Snapshot {
