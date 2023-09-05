@@ -5,7 +5,11 @@
     "outDir": "./dist-esm",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "lib": ["dom", "es5", "es6", "es7", "esnext"]
+    "lib": ["dom", "es5", "es6", "es7", "esnext"],
+    "rootDir": "."
+  },
+  "ts-node": {
+    "esm": true
   },
   "exclude": ["node_modules", "./samples/*"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]

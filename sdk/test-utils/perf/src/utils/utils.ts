@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
 /* eslint-disable-next-line @typescript-eslint/triple-slash-reference */
 /// <reference types="node" />
+
 import { IncomingMessage, RequestOptions } from "http";
 import https from "https";
 import http from "http";
@@ -46,7 +46,7 @@ export const getCachedHttpsAgent = (insecure: boolean): https.Agent => {
  * Reads a readable stream. Doesn't save to a buffer.
  *
  * @export
- * @param {NodeJS.ReadableStream} stream A Node.js Readable stream
+ * @param stream A Node.js Readable stream
  */
 export async function drainStream(stream: NodeJS.ReadableStream): Promise<void> {
   return new Promise((resolve, reject) => {
