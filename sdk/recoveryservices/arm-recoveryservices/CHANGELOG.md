@@ -1,15 +1,21 @@
 # Release History
+    
+## 5.4.0 (2023-08-29)
+    
+**Features**
 
-## 5.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface SoftDeleteSettings
+  - Added Type Alias MultiUserAuthorization
+  - Added Type Alias SecureScoreLevel
+  - Added Type Alias SoftDeleteState
+  - Interface SecuritySettings has a new optional parameter multiUserAuthorization
+  - Interface SecuritySettings has a new optional parameter softDeleteSettings
+  - Interface VaultProperties has a new optional parameter secureScore
+  - Added Enum KnownMultiUserAuthorization
+  - Added Enum KnownSecureScoreLevel
+  - Added Enum KnownSoftDeleteState
+    
+    
 ## 5.3.0 (2023-05-31)
     
 **Features**

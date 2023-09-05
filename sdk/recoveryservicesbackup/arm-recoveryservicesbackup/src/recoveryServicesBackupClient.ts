@@ -168,7 +168,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservicesbackup/10.1.1`;
+    const packageDetails = `azsdk-js-arm-recoveryservicesbackup/11.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -221,7 +221,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-02-01";
+    this.apiVersion = options.apiVersion || "2023-04-01";
     this.backupResourceStorageConfigsNonCRR = new BackupResourceStorageConfigsNonCRRImpl(
       this
     );
