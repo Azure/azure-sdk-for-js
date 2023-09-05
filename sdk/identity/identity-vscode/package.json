@@ -61,7 +61,7 @@
   "dependencies": {
     "@azure/identity": "^2.1.0",
     "keytar": "^7.6.0",
-    "tslib": "^2.6.2"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

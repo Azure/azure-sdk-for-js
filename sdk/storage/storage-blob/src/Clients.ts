@@ -9,8 +9,9 @@ import {
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-util";
 import { PollOperationState } from "@azure/core-lro";
-import { Readable } from "stream";
 import { v4 as generateUuid } from "uuid";
+import { Readable } from "stream";
+
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { BlobQueryResponse } from "./BlobQueryResponse";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";

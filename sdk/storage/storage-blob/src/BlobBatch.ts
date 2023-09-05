@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { v4 as generateUuid } from "uuid";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
@@ -11,7 +12,7 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { isNode, randomUUID } from "@azure/core-util";
+import { isNode } from "@azure/core-util";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./Clients";
 import { AccessTier } from "./generatedModels";
@@ -330,7 +331,7 @@ class InnerBatchRequest {
     this.operationCount = 0;
     this.body = "";
 
-    const tempGuid = randomUUID();
+    const tempGuid = generateUuid();
 
     // batch_{batchid}
     this.boundary = `batch_${tempGuid}`;

@@ -30,7 +30,7 @@ export async function createJWTTokenFromCertificate(
     },
     algorithm: "RS256",
     audience: audience,
-    jwtid:  uuid.v4(),
+    jwtid: uuid.v4(),
     expiresIn: ms("1 h"),
     subject: clientId,
     issuer: clientId,
