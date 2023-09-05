@@ -6,9 +6,11 @@ import { ChangeFeedResponse } from "./ChangeFeedResponse";
 import { Resource } from "./client";
 import { ClientContext } from "./ClientContext";
 import { Constants, ResourceType, StatusCodes } from "./common";
+import { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
 import { PartitionKey } from "./documents";
 import { FeedOptions } from "./request";
 import { Response } from "./request";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics";
 
 /**
  * Provides iterator for change feed.
@@ -82,13 +84,17 @@ export class ChangeFeedIterator<T> {
    * Read feed and retrieves the next page of results in Azure Cosmos DB.
    */
   public async fetchNext(): Promise<ChangeFeedResponse<Array<T & Resource>>> {
-    const response = await this.getFeedResponse();
-    this.lastStatusCode = response.statusCode;
-    this.nextIfNoneMatch = response.headers[Constants.HttpHeaders.ETag];
-    return response;
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const response = await this.getFeedResponse(diagnosticNode);
+      this.lastStatusCode = response.statusCode;
+      this.nextIfNoneMatch = response.headers[Constants.HttpHeaders.ETag];
+      return response;
+    }, this.clientContext);
   }
 
-  private async getFeedResponse(): Promise<ChangeFeedResponse<Array<T & Resource>>> {
+  private async getFeedResponse(
+    diagnosticNode: DiagnosticNodeInternal
+  ): Promise<ChangeFeedResponse<Array<T & Resource>>> {
     if (!this.isPartitionSpecified) {
       throw new Error(
         "Container is partitioned, but no partition key or partition key range id was specified."
@@ -123,13 +129,15 @@ export class ChangeFeedIterator<T> {
       query: undefined,
       options: feedOptions,
       partitionKey: this.partitionKey,
+      diagnosticNode: diagnosticNode,
     }) as Promise<any>); // TODO: some funky issues with query feed. Probably need to change it up.
 
     return new ChangeFeedResponse(
       response.result,
       response.result ? response.result.length : 0,
       response.code,
-      response.headers
+      response.headers,
+      getEmptyCosmosDiagnostics()
     );
   }
 }

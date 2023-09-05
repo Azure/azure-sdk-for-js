@@ -2435,6 +2435,10 @@ packages:
     resolution: {integrity: sha512-mEo1sAde+UCE6b2hxn332f1g1E8WfYRu6p5SvTKr2ZKC1f7gFJXk4h5PyGP9Dt6gCaG8y8XhwnXWC6Iy2cmBng==}
     dev: false
 
+  /@types/chai/4.3.6:
+    resolution: {integrity: sha512-VOVRLM1mBxIRxydiViqPcKn6MIxZytrbMpd6RJLIWKxUNr3zux8no0Oc7kJx0WAPIitgZ0gkrDS+btlqQpubpw==}
+    dev: false
+
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
@@ -4039,7 +4043,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230829
+      typescript: 5.3.0-dev.20230904
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8619,8 +8623,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230829:
-    resolution: {integrity: sha512-2bsH+jTfOtehS2ZMI6RteCCRFk2QTUUY3BijvnyS0+o0CB/xWJDu7+WRbpt/XEZgOcoTLf9evRm/tyGSlPyNgA==}
+  /typescript/5.3.0-dev.20230904:
+    resolution: {integrity: sha512-07NPNxXTmtOd0G5DnbDHee7Yh7VT6R8HzBiBkzx/PsyDIiD2/a14pbmex5xiDRvoLyUNJvNG1S6p48f+Qk0FMQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14858,7 +14862,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
-    resolution: {integrity: sha512-a8Cq753nPrK1y6h51IMcQfujG5+Go1m1xvPgWsgegyXa92eHLHfuwE6vkXUASo4+zRyz0/M284w8kwNFX1vbEA==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-4L8NYkm/daWgL3EVwMiQopbCGmSgvwBUMIwh2iDukmlkZyaJS/biJX+MSqqIR50Pc+rgS5dnQgnU6EXYkpFLsw==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
@@ -16820,7 +16824,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-2XT/HftYvN2/fg8w6fl0RYHvu3MhQdcnLgI5dncs+48sJcLosntwsk9tZcITm7kXu4sGUrOvIqGcuKZ4PYHsew==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-JG9T9VS1aWHfOQeT0jkuqWA8FaoOoFWn2T87HVTCl5Ryo+c+TId7mKGFFdLS20mPlam1lmBkF/t56dbZHmJ1Ww==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -17860,13 +17864,14 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-76eZIXGsWzW8wSfkQh+OMkhTgXYHKU4eDhk1H7ecna5F4bxhp+TBnGFeA5Ns9Ya1aFPFPXgCOhrnHvL+CyZzDw==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-z/LouYjcOiiykZssBYM+2ka4/pzMsA3FNUMrFYjN2a2jnj4hyUuXYKGi4HTKPKTcnRez3YSJDYsOeQDsPrV3tQ==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.36.4_@types+node@14.18.56
       '@sinonjs/fake-timers': 11.1.0
+      '@types/chai': 4.3.6
       '@types/debug': 4.1.8
       '@types/mocha': 7.0.2
       '@types/node': 14.18.56
@@ -17876,6 +17881,7 @@ packages:
       '@types/sinonjs__fake-timers': 8.1.2
       '@types/underscore': 1.11.8
       '@types/uuid': 8.3.4
+      chai: 4.3.8
       cross-env: 7.0.3
       debug: 4.3.4
       dotenv: 16.3.1
@@ -19431,7 +19437,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-txQ3DbyA7Wgxw1EsuU3mcah7TbeNjtEwuRsFdSZjaNathN/XmUqrBqKqF4NqflTwnvn7rsBVzL2KsYJmLZ3WZQ==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-ZmBBSL5cvKPPSAtyDrWMJtkBe5QJ/+T0m5O7OGiEcheKgp9OQBPTubpqF4a0yFfsCNvbATIiP2AdnnPgBHVYEw==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -19475,7 +19481,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-6YIUe9/df2jEBDFWghColdVxMimDSQAPJegJTMlXRntGWYb8j5M7ahirX/33kb7i+YWBONcaG4exDPtDulBASQ==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-W8as2SFRWqIP922vVA7UKQYBtTgSQPoTxlTBNjn5VQsC5Ed01PROVZY/KUr0sQYCv2MUtk5ATKYQccqRVkyUFQ==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -20477,7 +20483,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-json.tgz:
-    resolution: {integrity: sha512-/WChF8ihkoLN9gFKm6UkN6qKMsttGgzow7jcmzwccH5+i0vjhPGff/vg0giqwdMIw1pMkqwtzI2q53wqFnlKsA==, tarball: file:projects/schema-registry-json.tgz}
+    resolution: {integrity: sha512-7fuY0AN7Hvc3NlOTj4ieNZfvngaSyhFlbSyPCp8BSrJPEeX07zJUC3XQ21H6xaxk9Xd/kuOuq15a8YEosZHorw==, tarball: file:projects/schema-registry-json.tgz}
     name: '@rush-temp/schema-registry-json'
     version: 0.0.0
     dependencies:

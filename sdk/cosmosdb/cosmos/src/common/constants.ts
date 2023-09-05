@@ -176,6 +176,9 @@ export const Constants = {
 
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh",
+
+    // Priority Based throttling header
+    PriorityLevel: "x-ms-cosmos-priority-level",
   },
 
   // GlobalDB related constants
@@ -198,7 +201,10 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.0.0",
+  SDKVersion: "3.17.4",
+
+  // Diagnostics
+  CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",
 
   // Bulk Operations
   DefaultMaxBulkRequestBodySizeInBytes: 220201,
