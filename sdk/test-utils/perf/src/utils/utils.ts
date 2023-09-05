@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable-next-line @typescript-eslint/triple-slash-reference */
+/// <reference types="node" />
 import { IncomingMessage, RequestOptions } from "http";
 import https from "https";
 import http from "http";
