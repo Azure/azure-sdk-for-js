@@ -131,7 +131,7 @@ export class SimpleTokenCredential implements TokenCredential {
    */
   async getToken(
     _scopes: string | string[],
-    _options?: GetTokenOptions,
+    _options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     return {
       token: this.token,
@@ -148,7 +148,7 @@ export function getUniqueName(prefix: string): string {
   return `${prefix}${new Date().getTime()}${padStart(
     Math.floor(Math.random() * 10000).toString(),
     5,
-    "00000",
+    "00000"
   )}`;
 }
 
