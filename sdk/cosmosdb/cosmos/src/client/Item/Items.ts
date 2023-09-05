@@ -376,17 +376,17 @@ export class Items {
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      const partitionKeyDefinition = await readPartitionKeyDefinition(
-        diagnosticNode,
-        this.container
-      );
-      const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
-
       // Generate random document id if the id is missing in the payload and
       // options.disableAutomaticIdGeneration != true
       if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
         body.id = uuid();
       }
+
+      const partitionKeyDefinition = await readPartitionKeyDefinition(
+        diagnosticNode,
+        this.container
+      );
+      const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
       const err = {};
       if (!isItemResourceValid(body, err)) {
