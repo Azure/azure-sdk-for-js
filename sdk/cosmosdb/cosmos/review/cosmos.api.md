@@ -501,6 +501,7 @@ export const Constants: {
         BatchContinueOnError: string;
         DedicatedGatewayPerRequestCacheStaleness: string;
         ForceRefresh: string;
+        PriorityLevel: string;
     };
     WritableLocations: string;
     ReadableLocations: string;
@@ -1497,6 +1498,12 @@ export enum PluginOn {
 // @public
 export type PrimitivePartitionKeyValue = string | number | boolean | NullPartitionKeyType | NonePartitionKeyType;
 
+// @public
+export enum PriorityLevel {
+    High = "High",
+    Low = "Low"
+}
+
 // @public (undocumented)
 export interface QueryInfo {
     // (undocumented)
@@ -2021,6 +2028,7 @@ export interface SharedOptions {
     abortSignal?: AbortSignal_2;
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
+    priorityLevel?: PriorityLevel;
     sessionToken?: string;
 }
 
