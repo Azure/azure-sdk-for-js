@@ -30,23 +30,27 @@ type PartialSome<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
  * @param chunkIter - A stream of Uint8Array chunks
  * @returns An async iterable of EventMessage objects
  */
-export function toSSE(chunkIter: ReadableStream<Uint8Array>): AsyncIterable<EventMessage>;
+export function iterateSseStream(
+  chunkIter: ReadableStream<Uint8Array>
+): AsyncIterable<EventMessage>;
 /**
  * Processes a response stream into a stream of events.
  * @param chunkIter - An async iterable of Uint8Array chunks
  * @returns An async iterable of EventMessage objects
  */
-export function toSSE(chunkIter: AsyncIterable<Uint8Array>): AsyncIterable<EventMessage>;
-export function toSSE(
-  chunkIter: AsyncIterable<Uint8Array> | NodeJS.ReadableStream | ReadableStream<Uint8Array>
+export function iterateSseStream(chunkIter: AsyncIterable<Uint8Array>): AsyncIterable<EventMessage>;
+export function iterateSseStream(
+  chunkIter: AsyncIterable<Uint8Array> | ReadableStream<Uint8Array>
 ): AsyncIterable<EventMessage> {
-  return toMessage(
-    toLine(
-      isReadableStream(chunkIter) && (chunkIter as any)[Symbol.asyncIterator] === undefined
-        ? toAsyncIterable(chunkIter)
-        : (chunkIter as AsyncIterable<Uint8Array>)
-    )
-  );
+  return toMessage(toLine(ensureAsyncIterable(chunkIter)));
+}
+
+function ensureAsyncIterable(
+  chunkIter: AsyncIterable<Uint8Array> | ReadableStream<Uint8Array>
+): AsyncIterable<Uint8Array> {
+  return isReadableStream(chunkIter) && (chunkIter as any)[Symbol.asyncIterator] === undefined
+    ? toAsyncIterable(chunkIter)
+    : (chunkIter as AsyncIterable<Uint8Array>);
 }
 
 function isReadableStream(body: unknown): body is ReadableStream {

@@ -5,4 +5,4 @@ declare global {
   interface ReadableStream<R = any> {}
 }
 
-export { EventMessage, toSSE } from "./sse.js";
+export { EventMessage, iterateSseStream as toSSE } from "./sse.js";
