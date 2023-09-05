@@ -107,12 +107,6 @@ async function run(): Promise<void> {
   person.children.push(childDef);
   person.lastName = "Updated Family";
 
-  logStep("Query items witb index metrics enabled");
-  const { resources: resultsIndexMetrics, indexMetrics } = await container.items
-    .query(querySpec, { populateQueryMetrics: true })
-    .fetchAll();
-  console.log("IndexMetrics: ", indexMetrics);
-
   logStep("Replace item with id '" + item.id + "'");
   const { resource: updatedPerson } = await container.items.upsert(person);
 
@@ -239,6 +233,12 @@ async function run(): Promise<void> {
   }
   logStep("Delete item '" + item.id + "'");
   await item.delete();
+
+  logStep("Query items witb index metrics enabled");
+  const { resources: resultsIndexMetrics, indexMetrics } = await container.items
+    .query(querySpec, { populateQueryMetrics: true })
+    .fetchAll();
+  console.log("IndexMetrics: ", indexMetrics);
 
   await finish();
 }
