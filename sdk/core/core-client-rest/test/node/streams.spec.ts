@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as https from "https";
+import https from "https";
 import { assert } from "chai";
 import { getClient } from "../../src/getClient";
 import sinon from "sinon";
