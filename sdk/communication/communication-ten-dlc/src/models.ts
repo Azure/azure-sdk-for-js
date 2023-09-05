@@ -12,8 +12,8 @@ import {
   TenDLCGetCampaignsOptionalParams,
   TenDLCGetCostsOptionalParams,
   TenDLCSubmitBrandOptionalParams,
-  TenDLCSubmitCampaignOptionalParams
-} from ".";
+  TenDLCSubmitCampaignOptionalParams,
+} from "./generated/src/models";
 
 /**
  * Additional options for the Create or update brand request.
@@ -70,7 +70,6 @@ export interface SubmitBrandOptionalParams extends TenDLCSubmitBrandOptionalPara
  */
 export interface SubmitCampaignOptionalParams extends TenDLCSubmitCampaignOptionalParams {}
 
-
 export {
   TenDLCCreateOrUpdateBrandOptionalParams,
   TenDLCCreateOrUpdateCampaignOptionalParams,
@@ -82,5 +81,5 @@ export {
   TenDLCGetCampaignsOptionalParams,
   TenDLCGetCostsOptionalParams,
   TenDLCSubmitBrandOptionalParams,
-  TenDLCSubmitCampaignOptionalParams
+  TenDLCSubmitCampaignOptionalParams,
 } from "./generated/src/models/";

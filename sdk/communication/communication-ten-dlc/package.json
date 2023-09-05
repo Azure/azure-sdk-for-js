@@ -1,0 +1,65 @@
+{
+  "name": "@azure-tools/communication-ten-dlc",
+  "version": "1.0.0",
+  "description": "SDK for Azure Communication Services which facilitates ten dlc management.",
+  "sdk-type": "client",
+  "main": "index.js",
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
+    "build:autorest": "autorest --typescript ./swagger/README.md && rushx format",
+    "build:clean": "rush update --recheck && rush rebuild && npm run build",
+    "build:browser": "tsc -p . && dev-tool run bundle",
+    "build:node": "tsc -p . && dev-tool run bundle",
+    "build:samples": "dev-tool samples publish --force",
+    "build:test": "tsc -p . && dev-tool run bundle",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-* types *.tgz *.log",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "dev-tool run test:browser",
+    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 300000 'dist-esm/test/**/*.spec.js'",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
+    "pack": "npm pack 2>&1",
+    "test": "rimraf dist-test && npm run build:test && npm run unit-test && npm run integration-test",
+    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
+    "test:watch": "npm run test -- --watch --reporter min",
+    "unit-test:browser": "dev-tool run test:browser",
+    "unit-test:node": "dev-tool run test:node-ts-input -- --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
+  "files": [
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "azure",
+    "cloud",
+    "communication"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-ten-dlc/",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js\"/issues"
+  },
+  "dependencies": {
+    "@azure/communication-common": "^2.2.1",
+    "@azure/core-auth": "^1.5.0",
+    "@azure/core-client": "^1.7.3",
+    "@azure/core-paging": "^1.5.0",
+    "@azure/core-rest-pipeline": "^1.12.0",
+    "@azure/core-tracing": "^1.0.1",
+    "@azure/logger": "^1.0.4",
+    "@types/node": "^20.5.9",
+    "tslib": "^2.6.2"
+  }
+}

@@ -9,9 +9,9 @@ import {
 import { TenDLCClient as TenDlcGeneratedClient } from "./generated/src/tenDLCClient";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { tracingClient } from "./generated/src/tracing";
-import { logger } from "./utils";
+import { logger } from "./utils/logger";
 import { createTenDlcPagingPolicy } from "./utils/customPipelinePolicies";
-import { BrandDetails, CampaignDetails, LocalNumberCost } from "./generated/src/models";
+import { LocalNumberCost, USBrand, USBrands, USCampaign } from "./generated/src/models";
 import {
   CreateOrUpdateBrandOptions,
   CreateOrUpdateCampaignOptions,
@@ -75,15 +75,13 @@ export class TenDlcClient {
     brandId: string,
     id: string,
     options: CreateOrUpdateBrandOptions = {}
-  ): Promise<BrandDetails> {
+  ): Promise<USBrand> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "TenDlcClient-createOrUpdateBrand",
       options
     );
     try {
-      return tracingClient.withSpan(
-        this.client.tenDLC.createOrUpdateBrand(brandId, id, updatedOptions)
-      );
+      return this.client.tenDLC.createOrUpdateBrand(brandId, id, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -99,15 +97,13 @@ export class TenDlcClient {
     campaingId: string,
     id: string,
     options: CreateOrUpdateCampaignOptions = {}
-  ): Promise<BrandDetails> {
+  ): Promise<USBrand> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "TenDlcClient-createOrUpdateCampaign",
       options
     );
     try {
-      return tracingClient.withSpan(
-        this.client.tenDLC.createOrUpdateCampaign(campaingId, id, updatedOptions)
-      );
+      return this.client.tenDLC.createOrUpdateCampaign(campaingId, id, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -120,9 +116,9 @@ export class TenDlcClient {
   }
 
   public deleteBrand(brandId: string, options: DeleteBrandOptionalParams = {}): Promise<void> {
-    const { span, deleteOptions } = tracingClient.startSpan("TenDlcClient-deleteBrand", options);
+    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-deleteBrand", options);
     try {
-      return this.client.tenDLC.deleteBrand(brandId, deleteOptions);
+      return this.client.tenDLC.deleteBrand(brandId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -138,9 +134,12 @@ export class TenDlcClient {
     campaignId: string,
     options: DeleteCampaignOptionalParams = {}
   ): Promise<void> {
-    const { span, deleteOptions } = tracingClient.startSpan("TenDlcClient-deleteCampaign", options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "TenDlcClient-deleteCampaign",
+      options
+    );
     try {
-      return this.client.tenDLC.deleteCampaign(campaignId, deleteOptions);
+      return this.client.tenDLC.deleteCampaign(campaignId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -152,10 +151,10 @@ export class TenDlcClient {
     }
   }
 
-  public getBrand(brandId: string, options: GetBrandOptionalParams = {}): Promise<BrandDetails> {
-    const { span, getOptions } = tracingClient.startSpan("TenDlcClient-getBrand", options);
+  public getBrand(brandId: string, options: GetBrandOptionalParams = {}): Promise<USBrand> {
+    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-getBrand", options);
     try {
-      return tracingClient.withSpan(this.client.tenDLC.getBrand(brandId, getOptions));
+      return this.client.tenDLC.getBrand(brandId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -167,12 +166,10 @@ export class TenDlcClient {
     }
   }
 
-  public listBrands(
-    options: GetBrandsOptionalParams = {}
-  ): PagedAsyncIterableIterator<BrandDetails> {
-    const { span, getOptions } = tracingClient.startSpan("TenDlcClient-listBrands", options);
+  public listBrands(options: GetBrandsOptionalParams = {}): Promise<USBrands> {
+    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-listBrands", options);
     try {
-      return this.client.tenDLC.getBrands(getOptions);
+      return this.client.tenDLC.getBrands(updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -187,10 +184,10 @@ export class TenDlcClient {
   public getCampaign(
     campaignId: string,
     options: GetCampaignOptionalParams = {}
-  ): Promise<CampaignDetails> {
-    const { span, getOptions } = tracingClient.startSpan("TenDlcClient-getCampaign", options);
+  ): Promise<USCampaign> {
+    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-getCampaign", options);
     try {
-      return tracingClient.withSpan(this.client.tenDLC.getCampaign(campaignId, getOptions));
+      return this.client.tenDLC.getCampaign(campaignId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -204,10 +201,10 @@ export class TenDlcClient {
 
   public listCampaigns(
     options: ListCampaignsOptionalParams = {}
-  ): PagedAsyncIterableIterator<CampaignDetails> {
-    const { span, getOptions } = tracingClient.startSpan("TenDlcClient-listCampaigns", options);
+  ): PagedAsyncIterableIterator<USCampaign> {
+    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-listCampaigns", options);
     try {
-      return this.client.tenDLC.listCampaigns(getOptions);
+      return this.client.tenDLC.listCampaigns(updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -236,10 +233,7 @@ export class TenDlcClient {
     }
   }
 
-  public submitBrand(
-    brandId: string,
-    options: SubmitBrandOptionalParams = {}
-  ): Promise<BrandDetails> {
+  public submitBrand(brandId: string, options: SubmitBrandOptionalParams = {}): Promise<USBrand> {
     return tracingClient.withSpan("TenDlcClient-submitBrand", options, (submitOptions) => {
       return this.client.tenDLC.submitBrand(brandId, submitOptions);
     });
@@ -248,7 +242,7 @@ export class TenDlcClient {
   public submitCampaign(
     campaignId: string,
     options: SubmitCampaignOptionalParams = {}
-  ): Promise<CampaignDetails> {
+  ): Promise<USCampaign> {
     return tracingClient.withSpan("TenDlcClient-submitCampaign", options, (submitOptions) => {
       return this.client.tenDLC.submitCampaign(campaignId, submitOptions);
     });

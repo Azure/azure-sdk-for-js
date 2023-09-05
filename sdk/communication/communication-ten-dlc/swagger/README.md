@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-package-name: "@azure/communication-ten-dlc"
+package-name: "@azure-tools/communication-ten-dlc"
 description: 10 DLC management client
 package-version: 1.0.0
 license-header: MICROSOFT_MIT_NO_VERSION
@@ -29,4 +29,3 @@ typescript:
 ```
 
 ## Customizations
-
