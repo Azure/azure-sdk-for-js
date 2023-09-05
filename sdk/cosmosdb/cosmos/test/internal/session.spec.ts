@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+/* eslint-disable no-unused-expressions */
 import assert from "assert";
 import { Suite } from "mocha";
 import { ClientContext, Container, PluginConfig, PluginOn } from "../../src";
@@ -13,6 +13,7 @@ import { masterKey } from "../public/common/_fakeTestSecrets";
 import { addEntropy, getTestDatabase, removeAllDatabases } from "../public/common/TestHelpers";
 import { RequestContext } from "../../src";
 import { Response } from "../../src/request/Response";
+import { expect } from "chai";
 
 describe("New session token", function () {
   it("preserves tokens", async function () {
@@ -21,7 +22,8 @@ describe("New session token", function () {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context, next) => {
+        plugin: async (context, diagNode, next) => {
+          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           rqContext = context;
           response = await next(context);
           return response;
@@ -84,7 +86,8 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
     plugins: [
       {
         on: "request",
-        plugin: async (context, next) => {
+        plugin: async (context, diagNode, next) => {
+          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           if (
             context.resourceType === ResourceType.item &&
             context.operationType !== OperationType.Create
@@ -185,7 +188,8 @@ describe.skip("Session Token", function (this: Suite) {
       plugins: [
         {
           on: "request",
-          plugin: async (context, next) => {
+          plugin: async (context, diagNode, next) => {
+            expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
             // Simulate a "Session Not Found" error by manually making the client session token *way* ahead of any available session on the server
             // This is just a way to simulate the error. Getting this to happen in practice is difficult and only usually occurs cross region where there is significant replication lag
             if (context.headers["x-ms-session-token"]) {

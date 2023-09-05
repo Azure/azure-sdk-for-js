@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DeployConfigurationParameters,
   ConfigurationIdName,
@@ -26,7 +26,7 @@ export interface TenantConfiguration {
   /**
    * This operation applies changes from the specified Git branch to the configuration database. This is
    * a long running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Deploy Configuration parameters.
@@ -39,15 +39,15 @@ export interface TenantConfiguration {
     parameters: DeployConfigurationParameters,
     options?: TenantConfigurationDeployOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TenantConfigurationDeployResponse>,
+    SimplePollerLike<
+      OperationState<TenantConfigurationDeployResponse>,
       TenantConfigurationDeployResponse
     >
   >;
   /**
    * This operation applies changes from the specified Git branch to the configuration database. This is
    * a long running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Deploy Configuration parameters.
@@ -63,7 +63,7 @@ export interface TenantConfiguration {
   /**
    * This operation creates a commit with the current configuration snapshot to the specified branch in
    * the repository. This is a long running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Save Configuration parameters.
@@ -76,15 +76,15 @@ export interface TenantConfiguration {
     parameters: SaveConfigurationParameter,
     options?: TenantConfigurationSaveOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TenantConfigurationSaveResponse>,
+    SimplePollerLike<
+      OperationState<TenantConfigurationSaveResponse>,
       TenantConfigurationSaveResponse
     >
   >;
   /**
    * This operation creates a commit with the current configuration snapshot to the specified branch in
    * the repository. This is a long running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Save Configuration parameters.
@@ -100,7 +100,7 @@ export interface TenantConfiguration {
   /**
    * This operation validates the changes in the specified Git branch. This is a long running operation
    * and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Validate Configuration parameters.
@@ -113,15 +113,15 @@ export interface TenantConfiguration {
     parameters: DeployConfigurationParameters,
     options?: TenantConfigurationValidateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TenantConfigurationValidateResponse>,
+    SimplePollerLike<
+      OperationState<TenantConfigurationValidateResponse>,
       TenantConfigurationValidateResponse
     >
   >;
   /**
    * This operation validates the changes in the specified Git branch. This is a long running operation
    * and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Validate Configuration parameters.
@@ -137,7 +137,7 @@ export interface TenantConfiguration {
   /**
    * Gets the status of the most recent synchronization between the configuration database and the Git
    * repository.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param options The options parameters.

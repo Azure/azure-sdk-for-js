@@ -29,6 +29,13 @@ export interface GetChatCompletionsBodyParam {
 
 export type GetChatCompletionsParameters = GetChatCompletionsBodyParam &
   RequestParameters;
+
+export interface GetChatCompletionsWithAzureExtensionsBodyParam {
+  body?: ChatCompletionsOptions;
+}
+
+export type GetChatCompletionsWithAzureExtensionsParameters =
+  GetChatCompletionsWithAzureExtensionsBodyParam & RequestParameters;
 export type GetAzureBatchImageGenerationOperationStatusParameters =
   RequestParameters;
 

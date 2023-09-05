@@ -34,7 +34,7 @@ export class QuotaByPeriodKeysImpl implements QuotaByPeriodKeys {
   /**
    * Gets the value of the quota counter associated with the counter-key in the policy for the specific
    * period in service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param quotaCounterKey Quota counter key identifier.This is the result of expression defined in
    *                        counter-key attribute of the quota-by-key policy.For Example, if you specify counter-key="boo" in
@@ -64,7 +64,7 @@ export class QuotaByPeriodKeysImpl implements QuotaByPeriodKeys {
 
   /**
    * Updates an existing quota counter value in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param quotaCounterKey Quota counter key identifier.This is the result of expression defined in
    *                        counter-key attribute of the quota-by-key policy.For Example, if you specify counter-key="boo" in
@@ -134,7 +134,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters54,
+  requestBody: Parameters.parameters65,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

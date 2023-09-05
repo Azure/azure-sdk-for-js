@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create/Update tag description in scope of the Api.
  *
  * @summary Create/Update tag description in scope of the Api.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateApiTagDescription.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiTagDescription.json
  */
 async function apiManagementCreateApiTagDescription() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

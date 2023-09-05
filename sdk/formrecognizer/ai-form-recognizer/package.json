@@ -2,8 +2,8 @@
   "name": "@azure/ai-form-recognizer",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "description": "An isomorphic client library for the Azure Form Recognizer service.",
-  "version": "4.1.0-beta.1",
+  "description": "An isomorphic client library for the Azure Document Intelligence service.",
+  "version": "5.0.0",
   "keywords": [
     "node",
     "azure",
@@ -127,7 +127,8 @@
     "rollup": "^2.66.1",
     "sinon": "^15.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.0.0"
+    "typescript": "~5.0.0",
+    "ts-node": "^10.0.0"
   },
   "//sampleConfiguration": {
     "skip": [
@@ -140,7 +141,7 @@
       "getClassifier.js",
       "classifyDocument.js"
     ],
-    "productName": "Azure Form Recognizer",
+    "productName": "Azure AI Document Intelligence",
     "productSlugs": [
       "azure",
       "azure-cognitive-services",

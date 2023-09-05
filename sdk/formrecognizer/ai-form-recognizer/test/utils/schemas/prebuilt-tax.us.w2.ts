@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 // Model:       prebuilt-tax.us.w2
-// Description: Extract key information from IRS US W2 tax forms (year 2018-2021).
-// API Version: 2023-02-28-preview
-// Created:     Wed Apr 05 2023
+// Description: Extract key information from IRS US W2 tax forms (year 2018-current).
+// API Version: 2023-07-31
+// Created:     Tue Aug 01 2023
 
 import * as fr from "../../../src";
 
 /**
- * Extract key information from IRS US W2 tax forms (year 2018-2021).
+ * Extract key information from IRS US W2 tax forms (year 2018-current).
  */
 export const PrebuiltTaxUsW2Model = fr.createModelFromSchema(
   modelInfo()
@@ -267,9 +267,9 @@ export interface TaxUsW2LocalTaxInfosElement {
 function modelInfo() {
   return {
     modelId: "prebuilt-tax.us.w2",
-    description: "Extract key information from IRS US W2 tax forms (year 2018-2021).",
-    createdOn: "2023-02-28T00:00:00.000Z",
-    apiVersion: "2023-02-28-preview",
+    description: "Extract key information from IRS US W2 tax forms (year 2018-current).",
+    createdOn: "2023-07-31T00:00:00.000Z",
+    apiVersion: "2023-07-31",
     docTypes: {
       "tax.us.w2": {
         buildMode: "template",
@@ -448,12 +448,12 @@ function modelInfo() {
                   description: "Employer state ID number. Part of IRS W2 form field 15",
                   example: "1234567",
                 },
-                "StateWagesTipsEtc ": {
+                StateWagesTipsEtc: {
                   type: "number",
                   description: "State wages, tips, etc amount in USD. IRS W2 form field 16",
                   example: "1234567.89",
                 },
-                "StateIncomeTax ": {
+                StateIncomeTax: {
                   type: "number",
                   description: "State income tax amount in USD. IRS W2 form field 17",
                   example: "1234567.89",

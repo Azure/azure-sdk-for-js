@@ -4,7 +4,7 @@ import assert from "assert";
 import { ClientContext } from "../../../src/ClientContext";
 import { PartitionKeyRangeCache, QueryRange, SmartRoutingMapProvider } from "../../../src/routing";
 import { MockedClientContext } from "../../public/common/MockClientContext";
-import { CosmosDiagnosticContext } from "../../../src/CosmosDiagnosticsContext";
+import { createDummyDiagnosticNode } from "../../public/common/TestHelpers";
 
 describe("Smart Routing Map Provider OverlappingRanges", function () {
   const containerLink = "dbs/7JZZAA==/colls/7JZZAOS-JQA=/";
@@ -47,7 +47,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
       results1 = await smartRoutingMapProvider.getOverlappingRanges(
         containerLink,
         queryRanges,
-        new CosmosDiagnosticContext()
+        createDummyDiagnosticNode()
       );
     } catch (err: any) {
       err1 = err;
@@ -56,7 +56,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
       results2 = await partitionKeyRangeCache.getOverlappingRanges(
         containerLink,
         queryRanges,
-        new CosmosDiagnosticContext()
+        createDummyDiagnosticNode()
       );
     } catch (err: any) {
       err2 = err;
@@ -78,7 +78,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
       const results = await provider.getOverlappingRanges(
         containerLink,
         queryRanges,
-        new CosmosDiagnosticContext()
+        createDummyDiagnosticNode()
       );
       assert.deepEqual(results, expectedResults);
     } catch (err: any) {
@@ -153,7 +153,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
       results1 = await provider.getOverlappingRanges(
         containerLink,
         queryRanges1,
-        new CosmosDiagnosticContext()
+        createDummyDiagnosticNode()
       );
     } catch (err: any) {
       err1 = err;
@@ -162,7 +162,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
       results2 = await provider.getOverlappingRanges(
         containerLink,
         queryRanges2,
-        new CosmosDiagnosticContext()
+        createDummyDiagnosticNode()
       );
     } catch (err: any) {
       err2 = err;

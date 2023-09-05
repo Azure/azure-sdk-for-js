@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get tenant settings.
  *
  * @summary Get tenant settings.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetTenantSettings.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetTenantSettings.json
  */
 async function apiManagementGetTenantSettings() {
   const subscriptionId =

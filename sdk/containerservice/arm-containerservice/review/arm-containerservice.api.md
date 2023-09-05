@@ -211,6 +211,7 @@ export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
 
 // @public
 export interface AgentPoolUpgradeSettings {
+    drainTimeoutInMinutes?: number;
     maxSurge?: string;
 }
 
@@ -233,6 +234,11 @@ export interface CloudErrorBody {
     details?: CloudErrorBody[];
     message?: string;
     target?: string;
+}
+
+// @public
+export interface ClusterUpgradeSettings {
+    overrideSettings?: UpgradeOverrideSettings;
 }
 
 // @public
@@ -338,6 +344,14 @@ export interface DailySchedule {
 export interface DateSpan {
     end: Date;
     start: Date;
+}
+
+// @public
+export interface DelegatedResource {
+    location?: string;
+    referralResource?: string;
+    resourceId?: string;
+    tenantId?: string;
 }
 
 // @public
@@ -530,6 +544,13 @@ export enum KnownNetworkPolicy {
     Azure = "azure",
     Calico = "calico",
     Cilium = "cilium"
+}
+
+// @public
+export enum KnownNodeOSUpgradeChannel {
+    NodeImage = "NodeImage",
+    None = "None",
+    Unmanaged = "Unmanaged"
 }
 
 // @public
@@ -802,6 +823,7 @@ export interface ManagedCluster extends TrackedResource {
     sku?: ManagedClusterSKU;
     storageProfile?: ManagedClusterStorageProfile;
     supportPlan?: KubernetesSupportPlan;
+    upgradeSettings?: ClusterUpgradeSettings;
     windowsProfile?: ManagedClusterWindowsProfile;
     workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
 }
@@ -900,6 +922,7 @@ export interface ManagedClusterAPIServerAccessProfile {
 
 // @public
 export interface ManagedClusterAutoUpgradeProfile {
+    nodeOSUpgradeChannel?: NodeOSUpgradeChannel;
     upgradeChannel?: UpgradeChannel;
 }
 
@@ -930,6 +953,9 @@ export interface ManagedClusterHttpProxyConfig {
 
 // @public
 export interface ManagedClusterIdentity {
+    delegatedResources?: {
+        [propertyName: string]: DelegatedResource;
+    };
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
@@ -1462,10 +1488,16 @@ export interface ManagedClusterWindowsProfile {
 // @public
 export interface ManagedClusterWorkloadAutoScalerProfile {
     keda?: ManagedClusterWorkloadAutoScalerProfileKeda;
+    verticalPodAutoscaler?: ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler;
 }
 
 // @public
 export interface ManagedClusterWorkloadAutoScalerProfileKeda {
+    enabled: boolean;
+}
+
+// @public
+export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
     enabled: boolean;
 }
 
@@ -1489,6 +1521,9 @@ export type NetworkPluginMode = string;
 
 // @public
 export type NetworkPolicy = string;
+
+// @public
+export type NodeOSUpgradeChannel = string;
 
 // @public
 export interface OperationListResult {
@@ -1890,6 +1925,12 @@ export type Type = string;
 
 // @public
 export type UpgradeChannel = string;
+
+// @public
+export interface UpgradeOverrideSettings {
+    forceUpgrade?: boolean;
+    until?: Date;
+}
 
 // @public
 export interface UserAssignedIdentity {

@@ -4,7 +4,7 @@
 import { createRequest, sendRequest } from "./internal/_client.js";
 import { Installation } from "../models/installation.js";
 import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import { tracingClient } from "../utils/tracing.js";
 
 const OPERATION_NAME = "getInstallation";

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Assign tag to the Operation.
  *
  * @summary Assign tag to the Operation.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateApiOperationTag.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiOperationTag.json
  */
 async function apiManagementCreateApiOperationTag() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

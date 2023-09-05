@@ -22,7 +22,7 @@ import {
 export interface ProductApi {
   /**
    * Lists a collection of the APIs associated with a product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -35,7 +35,7 @@ export interface ProductApi {
   ): PagedAsyncIterableIterator<ApiContract>;
   /**
    * Checks that API entity specified by identifier is associated with the Product entity.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
@@ -51,7 +51,7 @@ export interface ProductApi {
   ): Promise<ProductApiCheckEntityExistsResponse>;
   /**
    * Adds an API to the specified product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
@@ -67,7 +67,7 @@ export interface ProductApi {
   ): Promise<ProductApiCreateOrUpdateResponse>;
   /**
    * Deletes the specified API from the specified product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.

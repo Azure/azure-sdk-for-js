@@ -1,6 +1,6 @@
 # Guide for migrating to @azure/keyvault-keys from azure-keyvault
 
-This guide is intended to assist in the migration to `@azure/keyvault-keys` from `azure-keyvault`. It will focus on side-by-side comparisons for similar operations between the two packages.
+This guide is intended to assist in the migration to `@azure/keyvault-keys` from the [deprecated] `azure-keyvault` package. It will focus on side-by-side comparisons for similar operations between the two packages.
 
 Familiarity with the `azure-keyvault` package is assumed. For those new to the Key Vault client libraries for JavaScript, please refer to the [README for @azure/keyvault-keys][kvk-npm] rather than this guide.
 
@@ -16,8 +16,11 @@ Familiarity with the `azure-keyvault` package is assumed. For those new to the K
   - [Delete a key](#delete-a-key)
   - [Perform cryptographic operations](#perform-cryptographic-operations)
 - [Additional samples](#additional-samples)
+- [Support](#support)
 
 ## Migration benefits
+
+> Note: `azure-keyvault` has been [deprecated]. Please migrate to `@azure/keyvault-keys` for continued support.
 
 A natural question to ask when considering whether or not to adopt a new version or library is what the benefits of doing so would be. As Azure has matured and been embraced by a more diverse group of developers, we have been focused on learning the patterns and practices to best support developer productivity and to understand the gaps that the JavaScript client libraries have.
 
@@ -177,7 +180,7 @@ console.log(keyVaultKey.properties.version);
 for await (let versionProperties of client.listPropertiesOfKeyVersions("MyKey")) {
   console.log("Name:", versionProperties.name, "Version:", versionProperties.version);
   const keyVaultKey = await client.getKey(versionProperties.name, {
-    version: versionProperties.version
+    version: versionProperties.version,
   });
   console.log(keyVaultKey.properties.version);
 }
@@ -233,7 +236,7 @@ const operationResult = await client.encrypt(
   keyName,
   "",
   "RSA1_5",
-  Buffer.from("plaintext")
+  Buffer.from("plaintext"),
 );
 console.log(operationResult.result);
 ```
@@ -254,6 +257,11 @@ console.log(operationResult.result);
 - [Key Vault keys samples for TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-keys/samples/v4/typescript)
 - [General Key Vault samples for TypeScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=typescript)
 
+## Support
+
+If you have migrated your code base and are experiencing errors, see our [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/TROUBLESHOOTING.md). For additional support, please search our [existing issues](https://github.com/Azure/azure-sdk-for-js/issues) or [open a new issue](https://github.com/Azure/azure-sdk-for-net/issues/new/choose). You may also find existing answers on community sites like [Stack Overflow](https://stackoverflow.com/questions/tagged/azure-keyvault+node.js).
+
+[deprecated]: https://aka.ms/azsdk/deprecated
 [kvk-npm]: https://www.npmjs.com/package/@azure/keyvault-keys
 [kvs-npm]: https://www.npmjs.com/package/@azure/keyvault-secrets
 [kvc-npm]: https://www.npmjs.com/package/@azure/keyvault-certificates

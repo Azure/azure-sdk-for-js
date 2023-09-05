@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Removes the email from the list of Notification.
  *
  * @summary Removes the email from the list of Notification.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteNotificationRecipientEmail.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteNotificationRecipientEmail.json
  */
 async function apiManagementDeleteNotificationRecipientEmail() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

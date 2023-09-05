@@ -49,7 +49,14 @@ async function createIndex(client, name) {
       },
       {
         type: "Collection(Edm.Single)",
-        name: "descriptionVector",
+        name: "descriptionVectorEn",
+        searchable: true,
+        vectorSearchDimensions: 1536,
+        vectorSearchConfiguration: "vector-search-configuration",
+      },
+      {
+        type: "Collection(Edm.Single)",
+        name: "descriptionVectorFr",
         searchable: true,
         vectorSearchDimensions: 1536,
         vectorSearchConfiguration: "vector-search-configuration",

@@ -256,9 +256,6 @@ export type BareMetalMachineDetailedStatus = string;
 export type BareMetalMachineEvacuate = string;
 
 // @public
-export type BareMetalMachineHardwareValidationCategory = string;
-
-// @public
 export type BareMetalMachineHardwareValidationResult = string;
 
 // @public
@@ -462,8 +459,6 @@ export interface BareMetalMachines {
     beginUncordonAndWait(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesUncordonOptionalParams): Promise<BareMetalMachinesUncordonResponse>;
     beginUpdate(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesUpdateResponse>, BareMetalMachinesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesUpdateOptionalParams): Promise<BareMetalMachinesUpdateResponse>;
-    beginValidateHardware(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineValidateHardwareParameters: BareMetalMachineValidateHardwareParameters, options?: BareMetalMachinesValidateHardwareOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesValidateHardwareResponse>, BareMetalMachinesValidateHardwareResponse>>;
-    beginValidateHardwareAndWait(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineValidateHardwareParameters: BareMetalMachineValidateHardwareParameters, options?: BareMetalMachinesValidateHardwareOptionalParams): Promise<BareMetalMachinesValidateHardwareResponse>;
     get(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesGetOptionalParams): Promise<BareMetalMachinesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: BareMetalMachinesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<BareMetalMachine>;
     listBySubscription(options?: BareMetalMachinesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<BareMetalMachine>;
@@ -482,7 +477,7 @@ export interface BareMetalMachinesCordonOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type BareMetalMachinesCordonResponse = BareMetalMachinesCordonHeaders;
+export type BareMetalMachinesCordonResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesCreateOrUpdateHeaders {
@@ -560,7 +555,7 @@ export interface BareMetalMachinesPowerOffOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type BareMetalMachinesPowerOffResponse = BareMetalMachinesPowerOffHeaders;
+export type BareMetalMachinesPowerOffResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesReimageHeaders {
@@ -574,7 +569,7 @@ export interface BareMetalMachinesReimageOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type BareMetalMachinesReimageResponse = BareMetalMachinesReimageHeaders;
+export type BareMetalMachinesReimageResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesReplaceHeaders {
@@ -589,7 +584,7 @@ export interface BareMetalMachinesReplaceOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type BareMetalMachinesReplaceResponse = BareMetalMachinesReplaceHeaders;
+export type BareMetalMachinesReplaceResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesRestartHeaders {
@@ -603,7 +598,7 @@ export interface BareMetalMachinesRestartOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type BareMetalMachinesRestartResponse = BareMetalMachinesRestartHeaders;
+export type BareMetalMachinesRestartResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesRunCommandHeaders {
@@ -617,7 +612,7 @@ export interface BareMetalMachinesRunCommandOptionalParams extends coreClient.Op
 }
 
 // @public
-export type BareMetalMachinesRunCommandResponse = BareMetalMachinesRunCommandHeaders;
+export type BareMetalMachinesRunCommandResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesRunDataExtractsHeaders {
@@ -631,7 +626,7 @@ export interface BareMetalMachinesRunDataExtractsOptionalParams extends coreClie
 }
 
 // @public
-export type BareMetalMachinesRunDataExtractsResponse = BareMetalMachinesRunDataExtractsHeaders;
+export type BareMetalMachinesRunDataExtractsResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesRunReadCommandsHeaders {
@@ -645,7 +640,7 @@ export interface BareMetalMachinesRunReadCommandsOptionalParams extends coreClie
 }
 
 // @public
-export type BareMetalMachinesRunReadCommandsResponse = BareMetalMachinesRunReadCommandsHeaders;
+export type BareMetalMachinesRunReadCommandsResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesStartHeaders {
@@ -659,7 +654,7 @@ export interface BareMetalMachinesStartOptionalParams extends coreClient.Operati
 }
 
 // @public
-export type BareMetalMachinesStartResponse = BareMetalMachinesStartHeaders;
+export type BareMetalMachinesStartResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesUncordonHeaders {
@@ -673,7 +668,7 @@ export interface BareMetalMachinesUncordonOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type BareMetalMachinesUncordonResponse = BareMetalMachinesUncordonHeaders;
+export type BareMetalMachinesUncordonResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesUpdateHeaders {
@@ -689,25 +684,6 @@ export interface BareMetalMachinesUpdateOptionalParams extends coreClient.Operat
 
 // @public
 export type BareMetalMachinesUpdateResponse = BareMetalMachine;
-
-// @public
-export interface BareMetalMachinesValidateHardwareHeaders {
-    location?: string;
-}
-
-// @public
-export interface BareMetalMachinesValidateHardwareOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type BareMetalMachinesValidateHardwareResponse = BareMetalMachinesValidateHardwareHeaders;
-
-// @public
-export interface BareMetalMachineValidateHardwareParameters {
-    validationCategory: BareMetalMachineHardwareValidationCategory;
-}
 
 // @public
 export type BfdEnabled = string;
@@ -1264,7 +1240,7 @@ export interface ClustersDeployOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type ClustersDeployResponse = ClustersDeployHeaders;
+export type ClustersDeployResponse = OperationStatusResult;
 
 // @public
 export interface ClustersGetOptionalParams extends coreClient.OperationOptions {
@@ -1328,7 +1304,7 @@ export interface ClustersUpdateVersionOptionalParams extends coreClient.Operatio
 }
 
 // @public
-export type ClustersUpdateVersionResponse = ClustersUpdateVersionHeaders;
+export type ClustersUpdateVersionResponse = OperationStatusResult;
 
 // @public
 export type ClusterType = string;
@@ -1672,11 +1648,6 @@ export enum KnownBareMetalMachineDetailedStatus {
 export enum KnownBareMetalMachineEvacuate {
     False = "False",
     True = "True"
-}
-
-// @public
-export enum KnownBareMetalMachineHardwareValidationCategory {
-    BasicValidation = "BasicValidation"
 }
 
 // @public
@@ -2437,7 +2408,7 @@ export interface KubernetesClustersRestartNodeOptionalParams extends coreClient.
 }
 
 // @public
-export type KubernetesClustersRestartNodeResponse = KubernetesClustersRestartNodeHeaders;
+export type KubernetesClustersRestartNodeResponse = OperationStatusResult;
 
 // @public
 export interface KubernetesClustersUpdateHeaders {
@@ -2970,6 +2941,19 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
+export interface OperationStatusResult {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    operations?: OperationStatusResult[];
+    percentComplete?: number;
+    readonly resourceId?: string;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
 export type Origin = string;
 
 // @public
@@ -3233,12 +3217,6 @@ export interface StorageAppliance extends TrackedResource {
 }
 
 // @public
-export interface StorageApplianceCommandSpecification {
-    arguments?: string[];
-    command: string;
-}
-
-// @public
 export interface StorageApplianceConfigurationData {
     adminCredentials: AdministrativeCredentials;
     rackSlot: number;
@@ -3272,12 +3250,6 @@ export interface StorageAppliancePatchParameters {
 export type StorageApplianceProvisioningState = string;
 
 // @public
-export interface StorageApplianceRunReadCommandsParameters {
-    commands: StorageApplianceCommandSpecification[];
-    limitTimeSeconds: number;
-}
-
-// @public
 export interface StorageAppliances {
     beginCreateOrUpdate(resourceGroupName: string, storageApplianceName: string, storageApplianceParameters: StorageAppliance, options?: StorageAppliancesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesCreateOrUpdateResponse>, StorageAppliancesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, storageApplianceName: string, storageApplianceParameters: StorageAppliance, options?: StorageAppliancesCreateOrUpdateOptionalParams): Promise<StorageAppliancesCreateOrUpdateResponse>;
@@ -3287,8 +3259,6 @@ export interface StorageAppliances {
     beginDisableRemoteVendorManagementAndWait(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDisableRemoteVendorManagementOptionalParams): Promise<StorageAppliancesDisableRemoteVendorManagementResponse>;
     beginEnableRemoteVendorManagement(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesEnableRemoteVendorManagementOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesEnableRemoteVendorManagementResponse>, StorageAppliancesEnableRemoteVendorManagementResponse>>;
     beginEnableRemoteVendorManagementAndWait(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesEnableRemoteVendorManagementOptionalParams): Promise<StorageAppliancesEnableRemoteVendorManagementResponse>;
-    beginRunReadCommands(resourceGroupName: string, storageApplianceName: string, storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters, options?: StorageAppliancesRunReadCommandsOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesRunReadCommandsResponse>, StorageAppliancesRunReadCommandsResponse>>;
-    beginRunReadCommandsAndWait(resourceGroupName: string, storageApplianceName: string, storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters, options?: StorageAppliancesRunReadCommandsOptionalParams): Promise<StorageAppliancesRunReadCommandsResponse>;
     beginUpdate(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesUpdateResponse>, StorageAppliancesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesUpdateOptionalParams): Promise<StorageAppliancesUpdateResponse>;
     get(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesGetOptionalParams): Promise<StorageAppliancesGetResponse>;
@@ -3333,7 +3303,7 @@ export interface StorageAppliancesDisableRemoteVendorManagementOptionalParams ex
 }
 
 // @public
-export type StorageAppliancesDisableRemoteVendorManagementResponse = StorageAppliancesDisableRemoteVendorManagementHeaders;
+export type StorageAppliancesDisableRemoteVendorManagementResponse = OperationStatusResult;
 
 // @public
 export interface StorageAppliancesEnableRemoteVendorManagementHeaders {
@@ -3348,7 +3318,7 @@ export interface StorageAppliancesEnableRemoteVendorManagementOptionalParams ext
 }
 
 // @public
-export type StorageAppliancesEnableRemoteVendorManagementResponse = StorageAppliancesEnableRemoteVendorManagementHeaders;
+export type StorageAppliancesEnableRemoteVendorManagementResponse = OperationStatusResult;
 
 // @public
 export interface StorageAppliancesGetOptionalParams extends coreClient.OperationOptions {
@@ -3391,20 +3361,6 @@ export interface StorageAppliancesListBySubscriptionOptionalParams extends coreC
 
 // @public
 export type StorageAppliancesListBySubscriptionResponse = StorageApplianceList;
-
-// @public
-export interface StorageAppliancesRunReadCommandsHeaders {
-    location?: string;
-}
-
-// @public
-export interface StorageAppliancesRunReadCommandsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type StorageAppliancesRunReadCommandsResponse = StorageAppliancesRunReadCommandsHeaders;
 
 // @public
 export interface StorageAppliancesUpdateHeaders {
@@ -3671,14 +3627,10 @@ export type VirtualMachineProvisioningState = string;
 
 // @public
 export interface VirtualMachines {
-    beginAttachVolume(resourceGroupName: string, virtualMachineName: string, virtualMachineAttachVolumeParameters: VirtualMachineVolumeParameters, options?: VirtualMachinesAttachVolumeOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesAttachVolumeResponse>, VirtualMachinesAttachVolumeResponse>>;
-    beginAttachVolumeAndWait(resourceGroupName: string, virtualMachineName: string, virtualMachineAttachVolumeParameters: VirtualMachineVolumeParameters, options?: VirtualMachinesAttachVolumeOptionalParams): Promise<VirtualMachinesAttachVolumeResponse>;
     beginCreateOrUpdate(resourceGroupName: string, virtualMachineName: string, virtualMachineParameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesCreateOrUpdateResponse>, VirtualMachinesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, virtualMachineName: string, virtualMachineParameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<VirtualMachinesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<void>;
-    beginDetachVolume(resourceGroupName: string, virtualMachineName: string, virtualMachineDetachVolumeParameters: VirtualMachineVolumeParameters, options?: VirtualMachinesDetachVolumeOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesDetachVolumeResponse>, VirtualMachinesDetachVolumeResponse>>;
-    beginDetachVolumeAndWait(resourceGroupName: string, virtualMachineName: string, virtualMachineDetachVolumeParameters: VirtualMachineVolumeParameters, options?: VirtualMachinesDetachVolumeOptionalParams): Promise<VirtualMachinesDetachVolumeResponse>;
     beginPowerOff(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesPowerOffOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesPowerOffResponse>, VirtualMachinesPowerOffResponse>>;
     beginPowerOffAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesPowerOffOptionalParams): Promise<VirtualMachinesPowerOffResponse>;
     beginReimage(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesReimageOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesReimageResponse>, VirtualMachinesReimageResponse>>;
@@ -3693,20 +3645,6 @@ export interface VirtualMachines {
     listByResourceGroup(resourceGroupName: string, options?: VirtualMachinesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
     listBySubscription(options?: VirtualMachinesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
 }
-
-// @public
-export interface VirtualMachinesAttachVolumeHeaders {
-    location?: string;
-}
-
-// @public
-export interface VirtualMachinesAttachVolumeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type VirtualMachinesAttachVolumeResponse = VirtualMachinesAttachVolumeHeaders;
 
 // @public
 export type VirtualMachineSchedulingExecution = string;
@@ -3735,20 +3673,6 @@ export interface VirtualMachinesDeleteOptionalParams extends coreClient.Operatio
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export interface VirtualMachinesDetachVolumeHeaders {
-    location?: string;
-}
-
-// @public
-export interface VirtualMachinesDetachVolumeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type VirtualMachinesDetachVolumeResponse = VirtualMachinesDetachVolumeHeaders;
 
 // @public
 export interface VirtualMachinesGetOptionalParams extends coreClient.OperationOptions {
@@ -3798,7 +3722,7 @@ export interface VirtualMachinesPowerOffOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type VirtualMachinesPowerOffResponse = VirtualMachinesPowerOffHeaders;
+export type VirtualMachinesPowerOffResponse = OperationStatusResult;
 
 // @public
 export interface VirtualMachinesReimageHeaders {
@@ -3812,7 +3736,7 @@ export interface VirtualMachinesReimageOptionalParams extends coreClient.Operati
 }
 
 // @public
-export type VirtualMachinesReimageResponse = VirtualMachinesReimageHeaders;
+export type VirtualMachinesReimageResponse = OperationStatusResult;
 
 // @public
 export interface VirtualMachinesRestartHeaders {
@@ -3826,7 +3750,7 @@ export interface VirtualMachinesRestartOptionalParams extends coreClient.Operati
 }
 
 // @public
-export type VirtualMachinesRestartResponse = VirtualMachinesRestartHeaders;
+export type VirtualMachinesRestartResponse = OperationStatusResult;
 
 // @public
 export interface VirtualMachinesStartHeaders {
@@ -3840,7 +3764,7 @@ export interface VirtualMachinesStartOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type VirtualMachinesStartResponse = VirtualMachinesStartHeaders;
+export type VirtualMachinesStartResponse = OperationStatusResult;
 
 // @public
 export interface VirtualMachinesUpdateHeaders {
@@ -3859,11 +3783,6 @@ export type VirtualMachinesUpdateResponse = VirtualMachine;
 
 // @public
 export type VirtualMachineVirtioInterfaceType = string;
-
-// @public
-export interface VirtualMachineVolumeParameters {
-    volumeId: string;
-}
 
 // @public
 export interface Volume extends TrackedResource {
