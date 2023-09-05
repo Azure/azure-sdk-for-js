@@ -115,7 +115,7 @@ This policy classifies jobs upon creation.
 ```js
 const classificationPolicy = await jobRouterAdministrationClient.createClassificationPolicy("default-classification-policy-id", {
   name: "Default Classification Policy",
-  fallbackQueueId: salesQueueResponse.Id,
+  fallbackQueueId: salesQueueResponse.id,
   queueSelectors: [{
     kind: "static",
     labelSelector: { key: "department", labelOperator: "equal", value: "xbox" }
@@ -126,7 +126,7 @@ const classificationPolicy = await jobRouterAdministrationClient.createClassific
   }],
   prioritizationRule: {
     kind: "expression-rule",
-    language: "powerFx";
+    language: "powerFx",
     expression: "If(job.department = \"xbox\", 2, 1)"
   }
 });
@@ -139,7 +139,7 @@ This queue offers jobs to workers according to our previously created distributi
 ```js
 const salesQueueResponse = await jobRouterAdministrationClient.createQueue("sales-queue-id", {
   name: "Sales",
-  distributionPolicyId: distributionPolicy.Id,
+  distributionPolicyId: distributionPolicy.id,
   labels: {
     department: "xbox",
   },
@@ -160,10 +160,10 @@ These workers are assigned to our previously created "Sales" queue and have some
     totalCapacity: 120,
     labels: {
       Xbox: 5,
-      german: 4
-      name: "Alice",
+      german: 4,
+      name: "Alice"
     },
-    queueAssignments: { [salesQueueResponse.Id]: {} },
+    queueAssignments: { [salesQueueResponse.id]: {} },
     availableForOffers: true
   });
 
@@ -173,10 +173,10 @@ const workerBobResponse = await jobRouterClient.createWorker(workerBobId, {
   totalCapacity: 100,
   labels: {
     xbox: 5,
-    english: 3
+    english: 3,
     name: "Bob"
   },
-  queueAssignments: { [salesQueueResponse]: {} },
+  queueAssignments: { [salesQueueResponse.id]: {} },
   availableForOffers: true
 });
 
@@ -196,7 +196,7 @@ const job = await jobRouterClient.createJob("job-id", {
   channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
   channelId: "voice",
   priority: 2,
-  queueId: salesQueueResponse.Id,
+  queueId: salesQueueResponse.id,
 });
 ```
 
@@ -205,11 +205,11 @@ const job = await jobRouterClient.createJob("job-id", {
 This job will be classified with our previously created classification policy. It also has a label.
 
 ```js
-const classificationJob = await JobRouterClient.createJob("classification-job-id", {
+const classificationJob = await jobRouterClient.createJob("classification-job-id", {
   // e.g. callId or chat threadId
   channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
   channelId: "voice",
-  classificationPolicyId: classificationPolicy.Id,
+  classificationPolicyId: classificationPolicy.id,
   labels: {
     department: "xbox",
   },
