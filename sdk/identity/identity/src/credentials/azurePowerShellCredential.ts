@@ -146,11 +146,13 @@ export class AzurePowerShellCredential implements TokenCredential {
       const results = await runCommands([
         [
           powerShellCommand,
+          "-NoProfile",
           "-Command",
           "Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru",
         ],
         [
           powerShellCommand,
+          "-NoProfile",
           "-Command",
           `Get-AzAccessToken ${tenantSection} -ResourceUrl "${resource}" | ConvertTo-Json`,
         ],
