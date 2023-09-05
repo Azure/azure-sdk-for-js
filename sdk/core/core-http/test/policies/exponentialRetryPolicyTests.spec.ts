@@ -23,10 +23,7 @@ describe("ExponentialRetryPolicy", () => {
   // Return response with the given status code on first sendRequest()
   class FailFirstRequestPolicy {
     public count = 0;
-    constructor(
-      private _response: HttpOperationResponse,
-      private statusCode: number,
-    ) {}
+    constructor(private _response: HttpOperationResponse, private statusCode: number) {}
     public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       this.count++;
       if (this.count === 1) {
@@ -49,7 +46,7 @@ describe("ExponentialRetryPolicy", () => {
   };
 
   function createDefaultExponentialRetryPolicy(
-    response?: HttpOperationResponse,
+    response?: HttpOperationResponse
   ): ExponentialRetryPolicy {
     if (!response) {
       response = defaultResponse;
@@ -103,7 +100,7 @@ describe("ExponentialRetryPolicy", () => {
           new RequestPolicyOptions(),
           3,
           10,
-          20,
+          20
         );
 
         const response = await policy.sendRequest(request);
@@ -128,7 +125,7 @@ describe("ExponentialRetryPolicy", () => {
           new RequestPolicyOptions(),
           3,
           10,
-          20,
+          20
         );
 
         const result = await policy.sendRequest(request);
@@ -159,7 +156,7 @@ describe("ExponentialRetryPolicy", () => {
           new RequestPolicyOptions(),
           3,
           10,
-          20,
+          20
         );
 
         const res = await policy.sendRequest(request);
@@ -183,7 +180,7 @@ describe("ExponentialRetryPolicy", () => {
         new RequestPolicyOptions(),
         3,
         10,
-        20,
+        20
       );
 
       try {

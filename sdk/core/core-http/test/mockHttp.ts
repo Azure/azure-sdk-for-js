@@ -19,7 +19,7 @@ export type MockResponseFunction = (
   url?: string,
   method?: string,
   body?: any,
-  headers?: any,
+  headers?: any
 ) => Promise<MockResponseData | void>;
 
 export type MockResponse = MockResponseData | MockResponseFunction;
@@ -135,7 +135,7 @@ export class BrowserHttpMock implements HttpMockFacade {
             req.url().toString(),
             req.method().toString(),
             req.body(),
-            req.headers(),
+            req.headers()
           )) || {};
         return res
           .status(result.status || 200)
