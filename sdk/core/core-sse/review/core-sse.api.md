@@ -13,10 +13,10 @@ export interface EventMessage {
 }
 
 // @public
-export function toSSE(chunkIter: ReadableStream<Uint8Array>): AsyncIterable<EventMessage>;
+export function iterateSseStream(chunkIter: ReadableStream<Uint8Array>): AsyncIterable<EventMessage>;
 
 // @public
-export function toSSE(chunkIter: AsyncIterable<Uint8Array>): AsyncIterable<EventMessage>;
+export function iterateSseStream(chunkIter: AsyncIterable<Uint8Array>): AsyncIterable<EventMessage>;
 
 // (No @packageDocumentation comment for this package)
 

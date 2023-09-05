@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PassThrough } from "stream";
-import { EventMessage, toSSE } from "../../src/index.js";
+import { EventMessage, iterateSseStream } from "../../src/index.js";
 
 export function createStream(
   cb: (write: (chunk: Uint8Array) => void) => void
@@ -10,5 +10,5 @@ export function createStream(
   const stream = new PassThrough();
   cb((c) => stream.write(c));
   stream.end();
-  return toSSE(stream);
+  return iterateSseStream(stream);
 }

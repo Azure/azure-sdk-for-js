@@ -4,7 +4,7 @@
 /**
  * @summary processes server-sent events.
  */
-import { toSSE } from "@azure/core-sse";
+import { iterateSseStream } from "@azure/core-sse";
 
 function* createChunkedEvent(str: string, chunkLen: number): Iterable<Uint8Array> {
   const encoder = new TextEncoder();
@@ -31,7 +31,7 @@ function createStream(txt: string, chunkLen: number) {
 
 async function main() {
   const stream = createStream("hello world", 2);
-  const events = toSSE(stream);
+  const events = iterateSseStream(stream);
   for await (const event of events) {
     console.log(event.data);
   }

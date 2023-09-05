@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventMessage, toSSE } from "../../src/index.js";
+import { EventMessage, iterateSseStream } from "../../src/index.js";
 
 export function createStream(
   cb: (write: (chunk: Uint8Array) => void) => void
@@ -12,5 +12,5 @@ export function createStream(
       controller.close();
     },
   });
-  return toSSE(stream);
+  return iterateSseStream(stream);
 }
