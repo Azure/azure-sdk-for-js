@@ -23,6 +23,7 @@ import {
   replaceOrUpsertItem,
   addEntropy,
   getTestContainer,
+  testForDiagnostics,
 } from "../../common/TestHelpers";
 import { endpoint } from "../../common/_testConfig";
 import { masterKey } from "../../common/_fakeTestSecrets";
@@ -32,6 +33,7 @@ import {
   PartitionKeyDefinitionVersion,
   PartitionKeyKind,
 } from "../../../../src/documents";
+import { getCurrentTimestampInMs } from "../../../../src/utils/time";
 
 /**
  * Tests Item api.
@@ -550,6 +552,111 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
       });
       assert.strictEqual(resource1.id, resource2.id);
     });
+  });
+
+  it("Test diagnostics for item CRUD", async function () {
+    const container = await getTestContainer("db1", undefined, {
+      throughput: 20000,
+      partitionKey: "/id",
+    });
+    // Test diagnostic for item create
+    const itemId = "2";
+    const startTimestamp = getCurrentTimestampInMs();
+    await testForDiagnostics(
+      async () => {
+        return container.items.create({ id: itemId });
+      },
+      {
+        requestStartTimeUTCInMsLowerLimit: startTimestamp,
+        requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+        retryCount: 0,
+        metadataCallCount: 5,
+        locationEndpointsContacted: 1,
+      }
+    );
+
+    // Test diagnostic for item read
+    const readTimestamp = getCurrentTimestampInMs();
+    await testForDiagnostics(
+      async () => {
+        return container.item(itemId, itemId).read();
+      },
+      {
+        requestStartTimeUTCInMsLowerLimit: readTimestamp,
+        requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+        retryCount: 0,
+        metadataCallCount: 2, // 2 calls for database account
+        locationEndpointsContacted: 1,
+      }
+    );
+
+    // Test diagnostic for item update
+    const upsertTimestamp = getCurrentTimestampInMs();
+    await testForDiagnostics(
+      async () => {
+        return container.items.upsert({
+          id: itemId,
+          value: "3",
+        });
+      },
+      {
+        requestStartTimeUTCInMsLowerLimit: upsertTimestamp,
+        requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+        retryCount: 0,
+        metadataCallCount: 2, // 2 call for database account.
+        locationEndpointsContacted: 1,
+      }
+    );
+
+    // Test diagnostic for item replace
+    const replaceTimestamp = getCurrentTimestampInMs();
+    await testForDiagnostics(
+      async () => {
+        return container.item(itemId, itemId).replace({
+          id: itemId,
+          value: "4",
+        });
+      },
+      {
+        requestStartTimeUTCInMsLowerLimit: replaceTimestamp,
+        requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+        retryCount: 0,
+        metadataCallCount: 2, // 2 call for database account.
+        locationEndpointsContacted: 1,
+      }
+    );
+
+    // Test diagnostic for item query fetchAll
+    const fetchAllTimestamp = getCurrentTimestampInMs();
+    await testForDiagnostics(
+      async () => {
+        return container.items.query("select * from c ").fetchAll();
+      },
+      {
+        requestStartTimeUTCInMsLowerLimit: fetchAllTimestamp,
+        requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+        retryCount: 0,
+        metadataCallCount: 11,
+        locationEndpointsContacted: 1,
+      },
+      true
+    );
+
+    // Test diagnostic for item query fetchAll
+    const fetchNextTimestamp = getCurrentTimestampInMs();
+    await testForDiagnostics(
+      async () => {
+        return container.items.query("select * from c ").fetchNext();
+      },
+      {
+        requestStartTimeUTCInMsLowerLimit: fetchNextTimestamp,
+        requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+        retryCount: 0,
+        metadataCallCount: 5,
+        locationEndpointsContacted: 1,
+      },
+      true
+    );
   });
 });
 
