@@ -219,7 +219,6 @@ export class Containers {
    *
    * @param body - Represents the body of the container.
    * @param options - Use to set options like response page size, continuation tokens, etc.
-   * @internal
    */
   public async createIfNotExists(
     body: ContainerRequest,
