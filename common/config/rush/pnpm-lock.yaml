@@ -248,6 +248,7 @@ specifiers:
   '@rush-temp/communication-short-codes': file:./projects/communication-short-codes.tgz
   '@rush-temp/communication-sms': file:./projects/communication-sms.tgz
   '@rush-temp/communication-tiering': file:./projects/communication-tiering.tgz
+  '@rush-temp/communication-ten-dlc': file:./projects/communication-ten-dlc.tgz
   '@rush-temp/communication-toll-free-verification': file:./projects/communication-toll-free-verification.tgz
   '@rush-temp/confidential-ledger': file:./projects/confidential-ledger.tgz
   '@rush-temp/container-registry': file:./projects/container-registry.tgz
