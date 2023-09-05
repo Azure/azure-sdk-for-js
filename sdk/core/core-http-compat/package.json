@@ -77,7 +77,7 @@
     "mocha": "^7.1.1",
     "eslint": "^8.44.0",
     "esm": "^3.2.25",
-    "rimraf": "^5.0.1",
+    "rimraf": "^3.0.0",
     "downlevel-dts": "^0.10.0",
     "prettier": "^2.5.1",
     "ts-node": "^10.9.1",

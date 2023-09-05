@@ -111,7 +111,7 @@
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^2.0.0",
     "prettier": "^2.5.1",
-    "rimraf": "^5.0.1",
+    "rimraf": "^3.0.0",
     "sinon": "^15.1.2",
     "typescript": "~5.0.0",
     "ts-node": "^10.9.1",

@@ -169,7 +169,7 @@
     "prettier": "^2.5.1",
     "puppeteer": "^21.1.1",
     "regenerator-runtime": "^0.13.3",
-    "rimraf": "^5.0.1",
+    "rimraf": "^3.0.0",
     "shx": "^0.3.2",
     "sinon": "^15.2.0",
     "ts-node": "^10.9.1",
