@@ -146,15 +146,12 @@ export class BatchingPartitionChannel {
     return readyPromise;
   }
 
-  private _startPublishLoopCount = 0
-  private _startPublishLoopEndCount = 0
   /**
    * Starts the loop that creates batches and sends them to the Event Hub.
    *
    * The loop will run until the `_loopAbortSignal` is aborted.
    */
   private async _startPublishLoop() {
-    this._startPublishLoopCount++;
     let batch: EventDataBatch | undefined;
     // `eventToAddToBatch` is used to keep track of an event that has been removed
     // from the queue, but has not yet been added to a batch.
@@ -244,7 +241,6 @@ export class BatchingPartitionChannel {
       }
     }
 
-    this._startPublishLoopEndCount++;
   }
 
   /**
