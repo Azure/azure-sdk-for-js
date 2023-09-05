@@ -34,18 +34,14 @@ export class AwaitableQueue<T> {
   }): Promise<T> {
     const item = this._items.shift();
     if (typeof item !== "undefined") {
-      console.log(`resolving AwaitableQueue.shift: item = ${item}`);
       return Promise.resolve(item);
     }
 
     return createAbortablePromise<T>((resolve) => {
-      console.log(`AwaitableQueue.shift: this._resolvers.length = ${this._resolvers.length}`);
       return this._resolvers.push(resolve);
     }, {
       ...options, cleanupBeforeAbort: () => {
-        console.log(`AwaitableQueue.shift before abort(pop) : this._resolvers.length = ${this._resolvers.length}`);
         this._resolvers.pop();
-        console.log(`AwaitableQueue.shift  after abort(pop) : this._resolvers.length = ${this._resolvers.length}`);
       }
     })
   }

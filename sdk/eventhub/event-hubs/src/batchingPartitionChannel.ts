@@ -155,16 +155,13 @@ export class BatchingPartitionChannel {
    */
   private async _startPublishLoop() {
     this._startPublishLoopCount++;
-    console.log(`${(new Date()).toISOString()} _startPublishLoop: count = ${this._startPublishLoopCount}`);
     let batch: EventDataBatch | undefined;
     // `eventToAddToBatch` is used to keep track of an event that has been removed
     // from the queue, but has not yet been added to a batch.
     // This prevents losing an event if a `sendBatch` or `createBatch` call fails
     // before the event is added to a batch.
     let eventToAddToBatch: EventData | AmqpAnnotatedMessage | undefined;
-    console.log("this._loopAbortSignal.aborted b: ", this._loopAbortSignal.aborted)
     while (!this._loopAbortSignal.aborted) {
-      console.log("this._loopAbortSignal.aborted in: ", this._loopAbortSignal.aborted)
       try {
         if (!isDefined(batch)) {
           batch = await this._createBatch();
@@ -174,7 +171,6 @@ export class BatchingPartitionChannel {
           ? Math.max(this._maxWaitTimeInMs - timeSinceLastBatchCreation, 0)
           : this._maxWaitTimeInMs;
 
-        console.log("maximumTimeToWaitForEvent: ", maximumTimeToWaitForEvent)
         const aborter = new AbortController();
         const abortListener = () => {
           aborter.abort();
@@ -189,14 +185,10 @@ export class BatchingPartitionChannel {
         const event =
           eventToAddToBatch ??
           (await Promise.race([futureEvent, delayPromise]).finally(() => {
-            console.log("after race, before abort .... size =", this._eventQueue.size())
             aborter.abort();
-            console.log("after race,  after abort .... size =", this._eventQueue.size())
             this._loopAbortSignal?.removeEventListener("abort", abortListener);
           }));
-        console.log("event from race: ", event)
         if (!event) {
-          console.log("event is undefined, batch.count: ", batch.count)
           // We didn't receive an event within the allotted time.
           // Send the existing batch if it has events in it.
           if (batch.count) {
@@ -206,7 +198,6 @@ export class BatchingPartitionChannel {
           }
           continue;
         } else if (!eventToAddToBatch) {
-          console.log("eventToAddToBatch is undefined")
           eventToAddToBatch = event;
           // We received an event, so get a promise for the next one.
           futureEvent = this._eventQueue.shift();
@@ -252,10 +243,8 @@ export class BatchingPartitionChannel {
         }
       }
     }
-    console.log("this._loopAbortSignal.aborted a: ", this._loopAbortSignal.aborted)
 
     this._startPublishLoopEndCount++;
-    console.log(`${(new Date()).toISOString()} _startPublishLoop ended: count = ${this._startPublishLoopEndCount}`);
   }
 
   /**
