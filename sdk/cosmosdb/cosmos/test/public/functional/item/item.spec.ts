@@ -819,11 +819,16 @@ describe("Item CRUD with priority", function (this: Suite) {
     // create database
     const database = await getTestDatabase("sample 中文 database");
     // create container
-    const { resource: containerdef } = await database.containers.create({ id: "sample container" }, { priorityLevel: PriorityLevel.Low });
+    const { resource: containerdef } = await database.containers.create(
+      { id: "sample container" },
+      { priorityLevel: PriorityLevel.Low }
+    );
     const container: Container = database.container(containerdef.id);
 
     // read items
-    const { resources: items } = await container.items.readAll( {priorityLevel: PriorityLevel.Low} ).fetchAll();
+    const { resources: items } = await container.items
+      .readAll({ priorityLevel: PriorityLevel.Low })
+      .fetchAll();
     assert(Array.isArray(items), "Value should be an array");
 
     // create an item
@@ -844,7 +849,9 @@ describe("Item CRUD with priority", function (this: Suite) {
     assert.equal(document.name, itemDefinition.name);
     assert(document.id !== undefined);
     // read documents after creation
-    const { resources: documents2 } = await container.items.readAll({ priorityLevel: PriorityLevel.Low }).fetchAll();
+    const { resources: documents2 } = await container.items
+      .readAll({ priorityLevel: PriorityLevel.Low })
+      .fetchAll();
     assert.equal(
       documents2.length,
       beforeCreateDocumentsCount + 1,
@@ -860,7 +867,9 @@ describe("Item CRUD with priority", function (this: Suite) {
         },
       ],
     };
-    const { resources: results } = await container.items.query(querySpec, { priorityLevel: PriorityLevel.Low }).fetchAll();
+    const { resources: results } = await container.items
+      .query(querySpec, { priorityLevel: PriorityLevel.Low })
+      .fetchAll();
     assert(results.length > 0, "number of results for the query should be > 0");
 
     // replace document
@@ -880,15 +889,21 @@ describe("Item CRUD with priority", function (this: Suite) {
     assert.equal(replacedDocument.foo, "not bar", "property should have changed");
     assert.equal(document.id, replacedDocument.id, "document id should stay the same");
     // read document
-    const response2 = await container.item(replacedDocument.id, undefined).read<TestItem>({ priorityLevel: PriorityLevel.Low });
+    const response2 = await container
+      .item(replacedDocument.id, undefined)
+      .read<TestItem>({ priorityLevel: PriorityLevel.Low });
     const document2 = response2.resource;
     assert.equal(replacedDocument.id, document2.id);
     assert.equal(typeof response2.requestCharge, "number");
     // delete document
-    await container.item(replacedDocument.id, undefined).delete({ priorityLevel: PriorityLevel.Low });
+    await container
+      .item(replacedDocument.id, undefined)
+      .delete({ priorityLevel: PriorityLevel.Low });
 
     // read documents after deletion
-    const response = await container.item(replacedDocument.id, undefined).read({ priorityLevel: PriorityLevel.Low });
+    const response = await container
+      .item(replacedDocument.id, undefined)
+      .read({ priorityLevel: PriorityLevel.Low });
     assert.equal(response.statusCode, 404, "response should return error code 404");
     assert.equal(response.resource, undefined);
   };

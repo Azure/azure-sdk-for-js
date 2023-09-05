@@ -36,9 +36,9 @@ export interface SharedOptions {
   maxIntegratedCacheStalenessInMs?: number;
 
   /**
-   * Priority Level (Low/High) for each request. 
-   * Low priority requests are always throttled before any high priority requests. 
-   * 
+   * Priority Level (Low/High) for each request.
+   * Low priority requests are always throttled before any high priority requests.
+   *
    * <p>Default value is null. By default all requests are of High priority</p>
    */
   priorityLevel?: PriorityLevel;
