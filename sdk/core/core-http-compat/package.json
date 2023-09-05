@@ -79,7 +79,7 @@
     "esm": "^3.2.25",
     "rimraf": "^5.0.1",
     "downlevel-dts": "^0.10.0",
-    "prettier": "^2.8.8",
+    "prettier": "^2.5.1",
     "ts-node":"^10.9.1",
     "typescript": "~5.0.0"
   },

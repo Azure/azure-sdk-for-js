@@ -110,7 +110,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^2.0.0",
-    "prettier": "^3.0.3",
+    "prettier": "^2.5.1",
     "rimraf": "^5.0.1",
     "sinon": "^15.1.2",
     "typescript": "~5.0.0",

@@ -80,7 +80,7 @@
     "inherits": "^2.0.4",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^2.2.1",
-    "prettier": "^3.0.3",
+    "prettier": "^2.5.1",
     "puppeteer": "^21.1.1",
     "rimraf": "^5.0.1",
     "sinon": "^15.2.0",

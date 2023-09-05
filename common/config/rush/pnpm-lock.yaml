@@ -7584,12 +7584,6 @@ packages:
     hasBin: true
     dev: false
 
-  /prettier/3.0.3:
-    resolution: {integrity: sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==}
-    engines: {node: '>=14'}
-    hasBin: true
-    dev: false
-
   /priorityqueuejs/1.0.0:
     resolution: {integrity: sha512-lg++21mreCEOuGWTbO5DnJKAdxfjrdN0S9ysoW9SzdSJvbkWpkaDdpG/cdsPCsEnoLUwmd9m3WcZhngW7yKA2g==}
     dev: false
@@ -17833,7 +17827,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-ZHHzIfjFWWqJTq99p5DyWSh+9QOJR2XSg7ukGiahxb85VOmsucrREyyAx9Z0FTewQXifRhSEscVYlwauI151xA==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-0P5pI8O+xf17owPwTt5DCZKSuB4oI1kU4Yhnza8Qb9hJIbsiH9cm5BnzLRJVcv7T2HMZtkAjsRZ2gdPWe2TqoA==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -17889,7 +17883,7 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-6dxEfvTMy7YDDJhKYHYD4M8msN/EzkAm31LU6kX8XPHoJIaFX2+q9ACawfHYFKixiCFSjRYvPtcNKhtkWQzbGA==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-QzuU0gSWhp4Vee1yUDCaWZ2LC2q/Gdqe9jkycOdzfXtwwRtq6ed3+sLtCt389hdN9huqH7+yw8hXlWEFNqQB5Q==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
@@ -17905,7 +17899,7 @@ packages:
       inherits: 2.0.4
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
-      prettier: 3.0.3
+      prettier: 2.8.8
       rimraf: 5.0.1
       ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
       tslib: 2.6.2
@@ -17918,7 +17912,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-03AkrBCCZWrroxa4BhU1CMLxG0e3EXtMQ2ifrZAibueHgoZxlc1wvBAzGDnL8Apy6irkgzbwCZ8Cqh+Tly/cCQ==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-fzpP5kcjO8tEvotW21xle6LgdpeAABW9OD03u1pRQowmMr7CK7g8Mv8NKyDoD4ic+3gHoy81iVyAbFfJcjQXRg==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -17944,7 +17938,7 @@ packages:
       karma-sourcemap-loader: 0.4.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
-      prettier: 3.0.3
+      prettier: 2.8.8
       rimraf: 5.0.1
       sinon: 15.2.0
       ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
@@ -17961,7 +17955,7 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-dD+y/ClVsLL0AesPsBoxuf1jcRPMzl8e7ie6nVZJs8CLgcd/5+IHOArftAAz13hX4L88viU/A5psCXi46RZguQ==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-pu60t8hiC4Xcd5bG21y11f8WgO/3CTPV0isBlx21w0ExMjB1w8IaLbh9i01IL2XGSw6li/U1285QhF2m3cqejw==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
@@ -18003,7 +17997,7 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-NIIC7I6M+QfQHi0ZKhZ1aYpr9xfUcZzbbMwUjFzt+ZdqLqIcvZbvUS5yyoPQCAz6h2F0H9BJve6haC2inuDZrA==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-nrbacjTXPoEuSb1YctYKq3V+I5ZF5iM7FykVbIMGzjYkKQz2RHyV1Wp+yjf506pGQj73KPM4gLFgCfSQ4ywhRA==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
@@ -18027,7 +18021,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-yPsRs32qQ9zhxBfWdDtnXxC7mxgQLqHnUzdujs1Kttu8ppyM2Nd4WIHzXJhHyFMUM3Qxm8DBoyjQ95LinAjgqg==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-iQVrXMeds55CPYWt2L4roWs+UDqGIdCK/390RruwLxdmu/O+KoJrOSrcpfxletEpiKDlWtyBlQL4lzIZz3DilA==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -18064,7 +18058,7 @@ packages:
       node-fetch: 2.7.0
       npm-run-all: 4.1.5
       nyc: 15.1.0
-      prettier: 3.0.3
+      prettier: 2.8.8
       process: 0.11.10
       puppeteer: 21.1.1
       regenerator-runtime: 0.13.11
@@ -18091,7 +18085,7 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-hTtfS/ASOqP1jCiswhkfRLthElYy9t4uQolKxE2SIa6lYNchmym+MVI/zT8pPElRUUrhKucNxCuz7+yEBBYRqg==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-Zu3jIKNeVKZ4/2FRENg9diEB6s0V5lLUPvATHjvuLzZtF9zie3Y4LzrQEgnkUjDXnGnfVvrsjXZWEV0ogQEuzA==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
@@ -18113,7 +18107,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 3.0.3
+      prettier: 2.8.8
       rimraf: 5.0.1
       ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
       tslib: 2.6.2
@@ -18128,7 +18122,7 @@ packages:
     dev: false
 
   file:projects/core-paging.tgz:
-    resolution: {integrity: sha512-SKphnIRCVnAtGzOBC1ujPVh7GwLjY4bTZevmj26pdJr+npFef5J+30AIdamtjRn3HjoAS2a+H62GffowxA3AbA==, tarball: file:projects/core-paging.tgz}
+    resolution: {integrity: sha512-2bOAhPGf2c1YjbX0FWkFBsCSW7WfJlhfx6j8TcVsxUVT4sD3XG8Sym9bMMmZ+rByoFkj/rbMXHiEsEiUq30e+A==, tarball: file:projects/core-paging.tgz}
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
@@ -18166,7 +18160,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-FC27sm+ZZcRUUz5q0FS3mpwdQRDTFg3v+ibjFIONMFnGkQNbRToKeasW0TNfSDUSGnyJ/Dry6itDNNt/CDvtPg==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-VKvzeHMMxWhyh9yUXoF54eHazG7YbhWm34QIpM773wX7F6876sWZMse1oyxpa1K0r3LklqWCsqdAYR6UyVrAqw==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -18200,7 +18194,7 @@ packages:
       karma-sourcemap-loader: 0.4.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
-      prettier: 3.0.3
+      prettier: 2.8.8
       puppeteer: 21.1.1
       rimraf: 5.0.1
       sinon: 15.2.0
@@ -18221,7 +18215,7 @@ packages:
     dev: false
 
   file:projects/core-tracing.tgz:
-    resolution: {integrity: sha512-+POXnGxtxIS0XNCetEKPNTY1cmQ/TinA57RwHYQ4MuaZbPzQugxoqX/mS7nr3LgVCRpuStbd3NlXqsBYsPFh9w==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-DtwXRgLzovoPC02LFuo8bM4E6bh5Xc7fip88FVstx3pDIY4v4DFT9r3DRF31suqtYIR/rkubM6NQTqCp/N+NnQ==, tarball: file:projects/core-tracing.tgz}
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
@@ -18246,7 +18240,7 @@ packages:
       karma-sourcemap-loader: 0.4.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
-      prettier: 3.0.3
+      prettier: 2.8.8
       rimraf: 5.0.1
       sinon: 15.2.0
       ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
@@ -18263,7 +18257,7 @@ packages:
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-29sPnKMaF0VIuzXorHnkPjAX6y1fd9PZSAofLIV8OXm2nFC+u7LILycmubhMGKqYJQpjEJkhhcsEZ4ESvhWuqw==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-cbzklQH/BG9rYr5Cc11bdJwNxp5fgPXcXmvKYVDyCf9rkiSl4QYIFX+nYj4mQLsOKLeprHEkhUtxKeVWdwTd2g==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
@@ -18291,7 +18285,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
-      prettier: 3.0.3
+      prettier: 2.8.8
       rimraf: 5.0.1
       sinon: 15.2.0
       ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
@@ -18308,7 +18302,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-VoVuP9kkd61eMaYc80TVkjGV8xExPcZrXGE48z1k7raQLsy2iVio7tIaemLcYGXuqmRuhenZWWducH63GYJEVg==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-4/xWeWpx4xhYQGlwqGpnj7Kmvo0KziF2UOSOZXGdPJR3NfuZp+WaWeQ4gCmEUxYfybuYSkhd3sanOhczz4vjmQ==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -18335,7 +18329,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
-      prettier: 3.0.3
+      prettier: 2.8.8
       rimraf: 5.0.1
       ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
       tslib: 2.6.2
@@ -19044,7 +19038,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-hHOYH9G0Htu5EfbFFLd9mnAlrUhTH01dKg1WzK0UxuaAOC65MeUMRfubxVuaEm1oSdsvqKRpxRR7ewHUix/jkA==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-z52jcIP0Dasm1CCGn5OQKPzheWSo6ggi8oWi48NXxkTrIPVdSPzkuTxZPQ0V8AXFf72V3kwd1FGJcAUgenfbpQ==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -19063,7 +19057,7 @@ packages:
       keytar: 7.9.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
-      prettier: 3.0.3
+      prettier: 2.8.8
       puppeteer: 21.1.1
       rimraf: 5.0.1
       sinon: 15.2.0
@@ -19081,7 +19075,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-kGnPrMWYMMsxgAMxIyz9NwGAelI49iIdlANmV6uyttnwHYRroezQhValVooL+c9anetDT6mFB+CtxdXB+72gkw==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-3bP0fwIXYpFdKz9r2pjrBi7UTQGS9C2xfcQpsp1iEZZvgenzuGkMNHu0kfGAo8tXjXZcAh9r+SCImhNq/108uw==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -19119,7 +19113,7 @@ packages:
       ms: 2.1.3
       nyc: 15.1.0
       open: 8.4.2
-      prettier: 3.0.3
+      prettier: 2.8.8
       puppeteer: 21.1.1
       rimraf: 5.0.1
       sinon: 15.2.0
@@ -19339,7 +19333,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-TRsVInQIslM03yp9/H6iMhPUgciEPULVFX8Sd9xPElthRoEA8RzXX/qXW7vOFsh62gBhI8yYNBJqRvUQ6zin4A==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-59V263qxBXpgLap8sVeSh9Jm4JMNQBDb5kvqzCuagVXT+nNzb143IApsV2VyNxhgCHW1ogbEzdP4mghKK45dWg==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -19368,7 +19362,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 3.0.3
+      prettier: 2.8.8
       puppeteer: 21.1.1
       rimraf: 5.0.1
       sinon: 15.2.0
@@ -20282,7 +20276,7 @@ packages:
     dev: false
 
   file:projects/perf-core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-0B1YkDwhqEFp5XTnTVDPWkkvZ3l5v6e81P8ZIMT3S4JMFcw5MOoIUyyjC34vI2RVG+JMwPJE4b72apWxQkChIQ==, tarball: file:projects/perf-core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-YeK0RKV6eAiCyRQYloEcd9p8XE+Qj82IY3slscxR7QFCKf84W0DhiyDjI0HxmqiKMLvnUHsLVTP1d/b41gnaVQ==, tarball: file:projects/perf-core-rest-pipeline.tgz}
     name: '@rush-temp/perf-core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -20293,7 +20287,7 @@ packages:
       dotenv: 16.3.1
       eslint: 8.48.0
       express: 4.18.2
-      prettier: 3.0.3
+      prettier: 2.8.8
       rimraf: 5.0.1
       ts-node: 10.9.1_zgm4hmdc4xf3424lp2tldotsje
       tslib: 2.6.2
@@ -21234,7 +21228,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-beA0V9Sxm1ljSvXjUAwy7AL94Tw/+tle+DvTGkR93dAXrkyJXTnsjBHdTqmfTxvI7nN4V3PhOygF2j9mUSbt4g==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-V/ziXa7x0T4/+yz5rAEs6c4vMxECrkBOUkGKPY43o6QBCGn0MZIDyEC+PSXZjxR4dlV1/QKYRko7cyE58sQPqw==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -21266,7 +21260,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 3.0.3
+      prettier: 2.8.8
       puppeteer: 21.1.1
       rimraf: 5.0.1
       source-map-support: 0.5.21
@@ -21786,7 +21780,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-flgkw3sgQ932edC+u7wblRRxBAnRRLvQnoSBURG6Il3UfLKxRwJ59FB5Tf6oiSa5Alk6sEMQAoTF6662qd70zg==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-BHcoS+z3z7avIClOU7bc35qGBFKzx9KcPJTwY/JkO/bW7rBj8SUGBoZ/+O1EeGGiZdJtlEbF6mWeA71QF0MFWA==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -21815,7 +21809,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 3.0.3
+      prettier: 2.8.8
       rimraf: 5.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
@@ -21896,7 +21890,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-W6Ox/nj+VCg/f1UKHITww3A7kUEyvxfs1CUgjCXXOLQMu2D/yHs/Tr8fCwh8NfFDI7PJ+aOvJ2FV9pAgyjgb6w==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-tSygNJ80pBEt8sknfK6xKOvwBNqpIoQQmhRs3c5ZCDVPsE/a4tImTzZR05dj52i22oU2eJghYR33jIib2W7uNQ==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
@@ -21912,7 +21906,7 @@ packages:
       karma-env-preprocessor: 0.1.1
       minimist: 1.2.8
       node-fetch: 3.3.2
-      prettier: 3.0.3
+      prettier: 2.8.8
       rimraf: 5.0.1
       ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
       tslib: 2.6.2
