@@ -1342,6 +1342,12 @@ export enum PluginOn {
 // @public
 export type PrimitivePartitionKeyValue = string | number | boolean | NullPartitionKeyType | NonePartitionKeyType;
 
+// @public
+export enum PriorityLevel {
+    High = "High",
+    Low = "Low"
+}
+
 // @public (undocumented)
 export interface QueryInfo {
     // (undocumented)
@@ -1611,7 +1617,6 @@ export interface RequestOptions extends SharedOptions {
     populateQuotaInfo?: boolean;
     postTriggerInclude?: string | string[];
     preTriggerInclude?: string | string[];
-    priorityLevel?: String;
     resourceTokenExpirySeconds?: number;
     urlConnection?: string;
 }
@@ -1867,6 +1872,7 @@ export interface SharedOptions {
     abortSignal?: AbortSignal_2;
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
+    priorityLevel?: PriorityLevel;
     sessionToken?: string;
 }
 
