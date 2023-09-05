@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the details of the Gateway specified by its identifier.
  *
  * @summary Gets the details of the Gateway specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetGateway.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetGateway.json
  */
 async function apiManagementGetGateway() {
   const subscriptionId =

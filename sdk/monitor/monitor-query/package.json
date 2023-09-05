@@ -110,7 +110,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/abort-controller": "^1.0.0",
     "@azure/identity": "^2.0.1",
-    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.14",
+    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.16",
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
@@ -144,7 +144,8 @@
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
     "typescript": "~5.0.0",
-    "@azure-tools/test-credential": "^1.0.0"
+    "@azure-tools/test-credential": "^1.0.0",
+    "ts-node": "^10.0.0"
   },
   "//sampleConfiguration": {
     "skipFolder": false,

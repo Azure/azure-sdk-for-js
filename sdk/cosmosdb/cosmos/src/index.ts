@@ -56,6 +56,7 @@ export {
   PartitionKeyDefinition,
   PartitionKeyDefinitionVersion,
   PermissionMode,
+  PriorityLevel,
   TriggerOperation,
   TriggerType,
   UserDefinedFunctionType,
@@ -91,13 +92,25 @@ export { ClientContext } from "./ClientContext";
 
 export {
   CosmosDiagnostics,
-  MetadataLookUpDiagnostics,
-  RetryDiagnostics,
   MetadataLookUpDiagnostic,
-  FailedRequestAttemptDiagnostic,
+  MetadataLookUpDiagnostics,
   MetadataLookUpType,
+  RetryDiagnostics,
+  FailedRequestAttemptDiagnostic,
+  GatewayStatistics,
   ClientSideRequestStatistics,
+  ClientConfigDiagnostic,
+  DiagnosticNode,
 } from "./CosmosDiagnostics";
+
+export {
+  ChangeFeedPullModelIterator,
+  ChangeFeedIteratorOptions,
+  ChangeFeedIteratorResponse,
+  ChangeFeedStartFrom,
+  FeedRange,
+} from "./client/ChangeFeed";
+export { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 
 export { GlobalEndpointManager } from "./globalEndpointManager";
 export { SasTokenPermissionKind } from "./common/constants";

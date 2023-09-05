@@ -33,7 +33,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -112,7 +112,8 @@
     "util": "^0.12.1",
     "@types/ws": "^7.4.5",
     "protobufjs-cli": "^1.1.1",
-    "copyfiles": "2.4.1"
+    "copyfiles": "2.4.1",
+    "ts-node": "^10.0.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub Client",

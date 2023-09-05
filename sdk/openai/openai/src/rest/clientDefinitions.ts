@@ -13,6 +13,7 @@ import {
   GetEmbeddingsParameters,
   GetCompletionsParameters,
   GetChatCompletionsParameters,
+  GetChatCompletionsWithAzureExtensionsParameters,
   GetAzureBatchImageGenerationOperationStatusParameters,
   BeginAzureBatchImageGenerationParameters,
 } from "./parameters.js";
@@ -23,6 +24,8 @@ import {
   GetCompletionsDefaultResponse,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
+  GetChatCompletionsWithAzureExtensions200Response,
+  GetChatCompletionsWithAzureExtensionsDefaultResponse,
   GetAzureBatchImageGenerationOperationStatus200Response,
   GetAzureBatchImageGenerationOperationStatusDefaultResponse,
   BeginAzureBatchImageGeneration202Response,
@@ -59,6 +62,20 @@ export interface GetChatCompletions {
   ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse>;
 }
 
+export interface GetChatCompletionsWithAzureExtensions {
+  /**
+   * Gets chat completions for the provided chat messages.
+   * This is an Azure-specific version of chat completions that supports integration with configured data sources and
+   * other augmentations to the base chat completions capabilities.
+   */
+  post(
+    options?: GetChatCompletionsWithAzureExtensionsParameters
+  ): StreamableMethod<
+    | GetChatCompletionsWithAzureExtensions200Response
+    | GetChatCompletionsWithAzureExtensionsDefaultResponse
+  >;
+}
+
 export interface GetAzureBatchImageGenerationOperationStatus {
   /** Returns the status of the images operation */
   get(
@@ -85,6 +102,11 @@ export interface Routes {
   (path: "/deployments/{deploymentId}/completions", deploymentId: string): GetCompletions;
   /** Resource for '/deployments/\{deploymentId\}/chat/completions' has methods for the following verbs: post */
   (path: "/deployments/{deploymentId}/chat/completions", deploymentId: string): GetChatCompletions;
+  /** Resource for '/deployments/\{deploymentId\}/extensions/chat/completions' has methods for the following verbs: post */
+  (
+    path: "/deployments/{deploymentId}/extensions/chat/completions",
+    deploymentId: string
+  ): GetChatCompletionsWithAzureExtensions;
   /** Resource for '/operations/images/\{operationId\}' has methods for the following verbs: get */
   (
     path: "/operations/images/{operationId}",

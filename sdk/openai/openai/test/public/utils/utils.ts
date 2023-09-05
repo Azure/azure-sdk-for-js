@@ -3,14 +3,26 @@
 
 import { assert } from "@azure/test-utils";
 import { logger } from "./logger.js";
-import { createDefaultHttpClient, createHttpHeaders } from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  createDefaultHttpClient,
+  createEmptyPipeline,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
 import { randomUUID } from "@azure/core-util";
 import { KeyCredential } from "@azure/core-auth";
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AuthMethod } from "./recordedClient.js";
-import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
-import { OpenAIKeyCredential } from "../../../src/OpenAIKeyCredential.js";
+import {
+  Recorder,
+  assertEnvironmentVariable,
+  isLiveMode,
+  isPlaybackMode,
+} from "@azure-tools/test-recorder";
+import { OpenAIKeyCredential } from "../../../src/index.js";
 
 export async function withDeployment<T>(
   deployments: string[],
@@ -26,28 +38,40 @@ export async function withDeployment<T>(
       succeeded.push(deployment);
     } catch (e) {
       const error = e as any;
+      if (!e) continue;
       if (
-        ["OperationNotSupported", "model_not_found"].includes(error.code) ||
+        ["OperationNotSupported", "model_not_found", "rate_limit_exceeded"].includes(error.code) ||
         error.type === "invalid_request_error"
       ) {
         logger.verbose(error.toString());
         continue;
       }
       logger.warning(`Error in deployment ${deployment}: ${error.toString()}`);
-      errors.push(error.toString());
+      errors.push(error instanceof Error ? error.toString() : JSON.stringify(error));
     }
   }
   if (errors.length > 0) {
-    throw new Error(errors.join("\n"));
+    throw new Error(`Errors list: ${errors.join("\n")}`);
   }
   assert.isNotEmpty(succeeded, "No deployments succeeded");
   logger.info(`Succeeded with (${succeeded.length}): ${succeeded.join(", ")}`);
   return succeeded;
 }
 
-async function listOpenAIModels(cred: KeyCredential): Promise<string[]> {
-  const openaiClient = createDefaultHttpClient();
-  const response = await openaiClient.sendRequest({
+export async function sendRequestWithRecorder(
+  request: PipelineRequest,
+  recorder: Recorder
+): Promise<PipelineResponse> {
+  const client = createDefaultHttpClient();
+  const pipeline = createEmptyPipeline();
+  if (!isLiveMode()) {
+    pipeline.addPolicy(recorder.configureClientOptions({}).additionalPolicies![0].policy);
+  }
+  return pipeline.sendRequest(client, request);
+}
+
+async function listOpenAIModels(cred: KeyCredential, recorder: Recorder): Promise<string[]> {
+  const request = createPipelineRequest({
     url: "https://api.openai.com/v1/models",
     headers: createHttpHeaders({
       Authorization: cred.key,
@@ -57,6 +81,8 @@ async function listOpenAIModels(cred: KeyCredential): Promise<string[]> {
     withCredentials: false,
     requestId: randomUUID(),
   });
+  const response = await sendRequestWithRecorder(request, recorder);
+
   const body = JSON.parse(response.bodyAsText as string);
   const models = body.data.map((model: { id: string }) => model.id);
   logger.verbose(`Available models (${models.length}): ${models.join(", ")}`);
@@ -66,10 +92,15 @@ async function listOpenAIModels(cred: KeyCredential): Promise<string[]> {
 async function listDeployments(
   subId: string,
   rgName: string,
-  accountName: string
+  accountName: string,
+  recorder: Recorder
 ): Promise<string[]> {
   const deployments: string[] = [];
-  const mgmtClient = new CognitiveServicesManagementClient(createTestCredential(), subId);
+  const mgmtClient = new CognitiveServicesManagementClient(
+    createTestCredential(),
+    subId,
+    recorder.configureClientOptions({})
+  );
   for await (const deployment of mgmtClient.deployments.list(rgName, accountName)) {
     const deploymentName = deployment.name;
     if (deploymentName) {
@@ -117,18 +148,18 @@ export function getSucceeded(
   }
 }
 
-export async function getDeployments(): Promise<string[]> {
-  return isPlaybackMode()
-    ? ["gpt-4", "text-davinci-003"]
-    : listDeployments(
-        assertEnvironmentVariable("SUBSCRIPTION_ID"),
-        assertEnvironmentVariable("RESOURCE_GROUP"),
-        assertEnvironmentVariable("ACCOUNT_NAME")
-      );
+export async function getDeployments(recorder: Recorder): Promise<string[]> {
+  return listDeployments(
+    assertEnvironmentVariable("SUBSCRIPTION_ID"),
+    isPlaybackMode() ? "openai-shared" : assertEnvironmentVariable("RESOURCE_GROUP"),
+    isPlaybackMode() ? "openai-shared" : assertEnvironmentVariable("ACCOUNT_NAME"),
+    recorder
+  );
 }
 
-export async function getModels(): Promise<string[]> {
-  return isPlaybackMode()
-    ? ["gpt-3.5-turbo-0613", "text-davinci-003"]
-    : listOpenAIModels(new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY")));
+export async function getModels(recorder: Recorder): Promise<string[]> {
+  return listOpenAIModels(
+    new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY")),
+    recorder
+  );
 }

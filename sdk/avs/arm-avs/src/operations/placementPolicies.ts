@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PlacementPolicy,
   PlacementPoliciesListNextOptionalParams,
@@ -202,8 +206,8 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
     placementPolicy: PlacementPolicy,
     options?: PlacementPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PlacementPoliciesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PlacementPoliciesCreateOrUpdateResponse>,
       PlacementPoliciesCreateOrUpdateResponse
     >
   > {
@@ -213,7 +217,7 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
     ): Promise<PlacementPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -246,9 +250,9 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         clusterName,
@@ -256,10 +260,13 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
         placementPolicy,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PlacementPoliciesCreateOrUpdateResponse,
+      OperationState<PlacementPoliciesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -313,8 +320,8 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
     placementPolicyUpdate: PlacementPolicyUpdate,
     options?: PlacementPoliciesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PlacementPoliciesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PlacementPoliciesUpdateResponse>,
       PlacementPoliciesUpdateResponse
     >
   > {
@@ -324,7 +331,7 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
     ): Promise<PlacementPoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -357,9 +364,9 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         clusterName,
@@ -367,10 +374,13 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
         placementPolicyUpdate,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PlacementPoliciesUpdateResponse,
+      OperationState<PlacementPoliciesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -421,14 +431,14 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
     clusterName: string,
     placementPolicyName: string,
     options?: PlacementPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -461,19 +471,19 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         clusterName,
         placementPolicyName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -539,7 +549,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PlacementPoliciesList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -562,7 +572,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PlacementPolicy
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -595,7 +605,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PlacementPolicy
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.placementPolicy,
@@ -630,7 +640,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PlacementPolicy
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.placementPolicyUpdate,
@@ -657,7 +667,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -680,7 +690,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PlacementPoliciesList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [

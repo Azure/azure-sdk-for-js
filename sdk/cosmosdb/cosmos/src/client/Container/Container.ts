@@ -24,8 +24,14 @@ import { PartitionKeyRange } from "./PartitionKeyRange";
 import { Offer, OfferDefinition } from "../Offer";
 import { OfferResponse } from "../Offer/OfferResponse";
 import { Resource } from "../Resource";
-import { getEmptyCosmosDiagnostics } from "../../CosmosDiagnostics";
-import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
+import { FeedRange, FeedRangeInternal } from "../ChangeFeed";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import {
+  getEmptyCosmosDiagnostics,
+  withDiagnostics,
+  withMetadataDiagnostics,
+} from "../../utils/diagnostics";
+import { MetadataLookUpType } from "../../CosmosDiagnostics";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -125,14 +131,26 @@ export class Container {
 
   /** Read the container's definition */
   public async read(options?: RequestOptions): Promise<ContainerResponse> {
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.readInternal(diagnosticNode, options);
+    }, this.clientContext);
+  }
+
+  /**
+   * @hidden
+   */
+  public async readInternal(
+    diagnosticNode: DiagnosticNodeInternal,
+    options?: RequestOptions
+  ): Promise<ContainerResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-
     const response = await this.clientContext.read<ContainerDefinition>({
       path,
       resourceType: ResourceType.container,
       resourceId: id,
       options,
+      diagnosticNode,
     });
     this.clientContext.partitionKeyDefinitionCache[this.url] = response.result.partitionKey;
     return new ContainerResponse(
@@ -140,7 +158,7 @@ export class Container {
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      getEmptyCosmosDiagnostics()
     );
   }
 
@@ -149,48 +167,53 @@ export class Container {
     body: ContainerDefinition,
     options?: RequestOptions
   ): Promise<ContainerResponse> {
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const err = {};
+      if (!isResourceValid(body, err)) {
+        throw err;
+      }
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
-
-    const response = await this.clientContext.replace<ContainerDefinition>({
-      body,
-      path,
-      resourceType: ResourceType.container,
-      resourceId: id,
-      options,
-    });
-    return new ContainerResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.replace<ContainerDefinition>({
+        body,
+        path,
+        resourceType: ResourceType.container,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new ContainerResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 
   /** Delete the container */
   public async delete(options?: RequestOptions): Promise<ContainerResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<ContainerDefinition>({
-      path,
-      resourceType: ResourceType.container,
-      resourceId: id,
-      options,
-    });
-    return new ContainerResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.delete<ContainerDefinition>({
+        path,
+        resourceType: ResourceType.container,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new ContainerResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -198,17 +221,22 @@ export class Container {
    * @deprecated This method has been renamed to readPartitionKeyDefinition.
    */
   public async getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>> {
-    return this.readPartitionKeyDefinition();
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.readPartitionKeyDefinition(diagnosticNode);
+    }, this.clientContext);
   }
 
   /**
    * Gets the partition key definition first by looking into the cache otherwise by reading the collection.
    * @hidden
    */
-  public async readPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>> {
+  public async readPartitionKeyDefinition(
+    diagnosticNode: DiagnosticNodeInternal
+  ): Promise<ResourceResponse<PartitionKeyDefinition>> {
     // $ISSUE-felixfan-2016-03-17: Make name based path and link based path use the same key
     // $ISSUE-felixfan-2016-03-17: Refresh partitionKeyDefinitionCache when necessary
     if (this.url in this.clientContext.partitionKeyDefinitionCache) {
+      diagnosticNode.addData({ readFromCache: true });
       return new ResourceResponse<PartitionKeyDefinition>(
         this.clientContext.partitionKeyDefinitionCache[this.url],
         {},
@@ -217,7 +245,14 @@ export class Container {
       );
     }
 
-    const { headers, statusCode, diagnostics } = await this.read();
+    const { headers, statusCode, diagnostics } = await withMetadataDiagnostics(
+      async (node: DiagnosticNodeInternal) => {
+        return this.readInternal(node);
+      },
+      diagnosticNode,
+      MetadataLookUpType.ContainerLookUp
+    );
+
     return new ResourceResponse<PartitionKeyDefinition>(
       this.clientContext.partitionKeyDefinitionCache[this.url],
       headers,
@@ -230,49 +265,68 @@ export class Container {
    * Gets offer on container. If none exists, returns an OfferResponse with undefined.
    */
   public async readOffer(options: RequestOptions = {}): Promise<OfferResponse> {
-    const { resource: container } = await this.read();
-    const path = "/offers";
-    const url = container._self;
-    const response = await this.clientContext.queryFeed<OfferDefinition & Resource[]>({
-      path,
-      resourceId: "",
-      resourceType: ResourceType.offer,
-      query: `SELECT * from root where root.resource = "${url}"`,
-      resultFn: (result) => result.Offers,
-      options,
-    });
-    const offer = response.result[0]
-      ? new Offer(this.database.client, response.result[0].id, this.clientContext)
-      : undefined;
-    return new OfferResponse(
-      response.result[0],
-      response.headers,
-      response.code,
-      response.diagnostics,
-      offer
-    );
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const { resource: container } = await this.read();
+      const path = "/offers";
+      const url = container._self;
+
+      const response = await this.clientContext.queryFeed<OfferDefinition & Resource[]>({
+        path,
+        resourceId: "",
+        resourceType: ResourceType.offer,
+        query: `SELECT * from root where root.resource = "${url}"`,
+        resultFn: (result) => result.Offers,
+        options,
+        diagnosticNode,
+      });
+      const offer = response.result[0]
+        ? new Offer(this.database.client, response.result[0].id, this.clientContext)
+        : undefined;
+      return new OfferResponse(
+        response.result[0],
+        response.headers,
+        response.code,
+        getEmptyCosmosDiagnostics(),
+        offer
+      );
+    }, this.clientContext);
   }
 
   public async getQueryPlan(
     query: string | SqlQuerySpec
   ): Promise<Response<PartitionedQueryExecutionInfo>> {
-    const path = getPathFromLink(this.url);
-    return this.clientContext.getQueryPlan(
-      path + "/docs",
-      ResourceType.item,
-      getIdFromLink(this.url),
-      query
-    );
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+
+      return this.clientContext.getQueryPlan(
+        path + "/docs",
+        ResourceType.item,
+        getIdFromLink(this.url),
+        query,
+        {},
+        diagnosticNode
+      );
+    }, this.clientContext);
   }
 
   public readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange> {
     feedOptions = feedOptions || {};
-    return this.clientContext.queryPartitionKeyRanges(
-      this.url,
-      new CosmosDiagnosticContext(),
-      undefined,
-      feedOptions
-    );
+    return this.clientContext.queryPartitionKeyRanges(this.url, undefined, feedOptions);
+  }
+  /**
+   *
+   * @returns all the feed ranges for which changefeed could be fetched.
+   */
+  public async getFeedRanges(): Promise<ReadonlyArray<FeedRange>> {
+    const { resources } = await this.readPartitionKeyRanges().fetchAll();
+
+    const feedRanges: FeedRange[] = [];
+    for (const resource of resources) {
+      const feedRange = new FeedRangeInternal(resource.minInclusive, resource.maxExclusive);
+      Object.freeze(feedRange);
+      feedRanges.push(feedRange);
+    }
+    return Object.freeze(feedRanges);
   }
 
   /**
@@ -283,23 +337,26 @@ export class Container {
     partitionKey: PartitionKey,
     options?: RequestOptions
   ): Promise<ContainerResponse> {
-    let path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
-    path = path + "/operations/partitionkeydelete";
-    const response = await this.clientContext.delete<ContainerDefinition>({
-      path,
-      resourceType: ResourceType.container,
-      resourceId: id,
-      options,
-      partitionKey: partitionKey,
-      method: HTTPMethod.post,
-    });
-    return new ContainerResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      let path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
+      path = path + "/operations/partitionkeydelete";
+      const response = await this.clientContext.delete<ContainerDefinition>({
+        path,
+        resourceType: ResourceType.container,
+        resourceId: id,
+        options,
+        partitionKey: partitionKey,
+        method: HTTPMethod.post,
+        diagnosticNode,
+      });
+      return new ContainerResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 }

@@ -39,7 +39,7 @@ export class ProductPolicyImpl implements ProductPolicy {
 
   /**
    * Get the policy configuration at the Product level.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -58,7 +58,7 @@ export class ProductPolicyImpl implements ProductPolicy {
 
   /**
    * Get the ETag of the policy configuration at the Product level.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param policyId The identifier of the Policy.
@@ -79,7 +79,7 @@ export class ProductPolicyImpl implements ProductPolicy {
 
   /**
    * Get the policy configuration at the Product level.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param policyId The identifier of the Policy.
@@ -100,7 +100,7 @@ export class ProductPolicyImpl implements ProductPolicy {
 
   /**
    * Creates or updates policy configuration for the Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param policyId The identifier of the Policy.
@@ -130,7 +130,7 @@ export class ProductPolicyImpl implements ProductPolicy {
 
   /**
    * Deletes the policy configuration at the Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param policyId The identifier of the Policy.

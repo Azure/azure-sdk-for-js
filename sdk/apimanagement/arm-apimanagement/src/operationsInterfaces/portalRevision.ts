@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PortalRevisionContract,
   PortalRevisionListByServiceOptionalParams,
@@ -26,7 +26,7 @@ import {
 export interface PortalRevision {
   /**
    * Lists developer portal's revisions.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -37,7 +37,7 @@ export interface PortalRevision {
   ): PagedAsyncIterableIterator<PortalRevisionContract>;
   /**
    * Gets the developer portal revision specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
    *                         service instance.
@@ -51,7 +51,7 @@ export interface PortalRevision {
   ): Promise<PortalRevisionGetEntityTagResponse>;
   /**
    * Gets the developer portal's revision specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
    *                         service instance.
@@ -66,7 +66,7 @@ export interface PortalRevision {
   /**
    * Creates a new developer portal's revision by running the portal's publishing. The `isCurrent`
    * property indicates if the revision is publicly accessible.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
    *                         service instance.
@@ -80,15 +80,15 @@ export interface PortalRevision {
     parameters: PortalRevisionContract,
     options?: PortalRevisionCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PortalRevisionCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PortalRevisionCreateOrUpdateResponse>,
       PortalRevisionCreateOrUpdateResponse
     >
   >;
   /**
    * Creates a new developer portal's revision by running the portal's publishing. The `isCurrent`
    * property indicates if the revision is publicly accessible.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
    *                         service instance.
@@ -104,7 +104,7 @@ export interface PortalRevision {
   ): Promise<PortalRevisionCreateOrUpdateResponse>;
   /**
    * Updates the description of specified portal revision or makes it current.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
    *                         service instance.
@@ -121,14 +121,14 @@ export interface PortalRevision {
     parameters: PortalRevisionContract,
     options?: PortalRevisionUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PortalRevisionUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PortalRevisionUpdateResponse>,
       PortalRevisionUpdateResponse
     >
   >;
   /**
    * Updates the description of specified portal revision or makes it current.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
    *                         service instance.

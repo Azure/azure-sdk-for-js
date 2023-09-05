@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getIdFromLink, getPathFromLink, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -38,16 +39,22 @@ export class Conflicts {
     const path = getPathFromLink(this.container.url, ResourceType.conflicts);
     const id = getIdFromLink(this.container.url);
 
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
-      return this.clientContext.queryFeed({
-        path,
-        resourceType: ResourceType.conflicts,
-        resourceId: id,
-        resultFn: (result) => result.Conflicts,
-        query,
-        options: innerOptions,
-      });
-    });
+    return new QueryIterator(
+      this.clientContext,
+      query,
+      options,
+      (diagNode: DiagnosticNodeInternal, innerOptions) => {
+        return this.clientContext.queryFeed({
+          path,
+          resourceType: ResourceType.conflicts,
+          resourceId: id,
+          resultFn: (result) => result.Conflicts,
+          query,
+          options: innerOptions,
+          diagnosticNode: diagNode,
+        });
+      }
+    );
   }
 
   /**

@@ -20,7 +20,7 @@ import {
 export interface TenantSettings {
   /**
    * Public settings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -31,7 +31,7 @@ export interface TenantSettings {
   ): PagedAsyncIterableIterator<TenantSettingsContract>;
   /**
    * Get tenant settings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param settingsType The identifier of the settings.
    * @param options The options parameters.

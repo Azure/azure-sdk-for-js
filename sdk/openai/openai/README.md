@@ -9,6 +9,7 @@ Use the client library for Azure OpenAI to:
 * [Create a completion for text][msdocs_openai_completion]
 * [Create a chat completion with ChatGPT][msdocs_openai_chat_completion]
 * [Create a text embedding for comparisons][msdocs_openai_embedding]
+* [Use your own data with Azure OpenAI][msdocs_openai_custom_data]
 
 Azure OpenAI is a managed service that allows developers to deploy, tune, and generate content from OpenAI models on Azure resources.
 
@@ -17,6 +18,8 @@ Checkout the following examples:
 - [Multiple Completions](#generate-multiple-completions-with-subscription-key)
 - [Chatbot](#generate-chatbot-response)
 - [Summarize Text](#summarize-text-with-completion)
+- [Generate Images](#generate-images-with-dall-e-image-generation-models)
+- [Analyze Business Data](#analyze-business-data)
 
 Key links:
 
@@ -122,7 +125,7 @@ const client = new OpenAIClient(new OpenAIKeyCredential("<API key>"));
 The main concept to understand is [Completions][azure_openai_completions_docs]. Briefly explained, completions provides its functionality in the form of a text prompt, which by using a specific [model](https://learn.microsoft.com/azure/cognitive-services/openai/concepts/models), will then attempt to match the context and patterns, providing an output text. The following code snippet provides a rough overview:
 
 ```javascript
-const { OpenAIClient } = require("@azure/openai");
+const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
 
 async function main(){
   const client = new OpenAIClient(
@@ -149,6 +152,7 @@ This example authenticates using a DefaultAzureCredential, then generates chat r
 
 ```javascript
 const { OpenAIClient } = require("@azure/openai");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main(){
   const endpoint = "https://myaccount.openai.azure.com/";
@@ -165,7 +169,7 @@ async function main(){
 
   console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
 
-  const events = await client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
+  const events = client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
   for await (const event of events) {
     for (const choice of event.choices) {
       const delta = choice.delta?.content;
@@ -182,7 +186,7 @@ async function main(){
 This example generates text responses to input prompts using an Azure subscription key
 
 ```javascript
-const { OpenAIClient } = require("@azure/openai");
+const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
 
 async function main(){
   // Replace with your Azure OpenAI key
@@ -216,6 +220,7 @@ This example generates a summarization of the given input prompt.
 
 ```javascript
 const { OpenAIClient } = require("@azure/openai");
+const { DefaultAzureCredential } = require("@azure/identity")
 
 async function main(){
   const endpoint = "https://myaccount.openai.azure.com/";
@@ -248,6 +253,76 @@ async function main(){
   const completion = choices[0].text;
   console.log(`Summarization: ${completion}`);
 }
+
+```
+### Generate images with DALL-E image generation models
+
+This example generates batch images from a given input prompt.
+
+```js
+const { OpenAIClient } = require("@azure/openai");
+
+async function main() {
+  const endpoint = "https://myaccount.openai.azure.com/";
+  const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
+
+  const prompt = "a monkey eating a banana";
+  const size = "256x256";
+  const n = 3;
+  
+  const results = await client.getImages(prompt, { n, size });
+
+  for (const image of results.data) {
+    console.log(`Image generation result URL: ${image.url}`);
+  }
+}
+```
+
+### Analyze Business Data
+
+This example generates chat responses to input chat questions about your business data. The business data is provided through an Azure Cognitive Search index. To learn more about how to setup an Azure Cognitive Search index as a data source, see [Quickstart: Chat with Azure OpenAI models using your own data][msdocs_quickstart_byod].
+
+
+```javascript
+const { OpenAIClient } = require("@azure/openai");
+const { DefaultAzureCredential } = require("@azure/identity")
+
+async function main(){
+  const endpoint = "https://myaccount.openai.azure.com/";
+  const client = new OpenAIClient(endpoint, new DefaultAzureCredential());
+
+  const deploymentId = "gpt-35-turbo";
+
+  const messages = [
+    { role: "user", content: "What's the most common customer feedback about our product?" },
+  ];
+
+  console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
+
+  const events = client.listChatCompletions(deploymentId, messages, { 
+    maxTokens: 128,
+    azureExtensionOptions: {
+      extensions: [
+        {
+          type: "AzureCognitiveSearch",
+          parameters: {
+            endpoint: "<Azure Cognitive Search endpoint>",
+            key: "<Azure Cognitive Search admin key>",
+            indexName: "<Azure Cognitive Search index name>",
+          },
+        },
+      ],
+    },
+  });
+  for await (const event of events) {
+    for (const choice of event.choices) {
+      const delta = choice.delta?.content;
+      if (delta !== undefined) {
+        console.log(`Chatbot: ${delta}`);
+      }
+    }
+  }
+}
 ```
 
 ## Troubleshooting
@@ -267,6 +342,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 <!-- LINKS -->
 [msdocs_openai_completion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/completions.js
 [msdocs_openai_chat_completion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/listChatCompletions.js
+[msdocs_openai_custom_data]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples-dev/bringYourOwnData.ts
 [msdocs_openai_embedding]: https://learn.microsoft.com/azure/cognitive-services/openai/concepts/understand-embeddings
 [azure_openai_completions_docs]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/completions
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
@@ -274,3 +350,4 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_portal]: https://portal.azure.com
+[msdocs_quickstart_byod]: https://learn.microsoft.com/azure/ai-services/openai/use-your-data-quickstart

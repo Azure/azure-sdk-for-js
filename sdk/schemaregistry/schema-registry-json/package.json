@@ -84,7 +84,6 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@rollup/plugin-commonjs": "^24.0.0",
     "@rollup/plugin-inject": "^5.0.0",
-    "@types/ajv": "^1.0.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^16.0.0",
     "ajv": "^8.12.0",
@@ -110,6 +109,7 @@
     "rimraf": "^3.0.0",
     "rollup": "^2.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.0.0"
+    "typescript": "~5.0.0",
+    "ts-node": "^10.0.0"
   }
 }

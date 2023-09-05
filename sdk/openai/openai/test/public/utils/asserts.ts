@@ -102,7 +102,7 @@ function assertIf(condition: boolean, val: any, check: (x: any) => void): void {
 
 function assertMessage(
   message: ChatMessage | undefined,
-  { functions, stream }: ChatCompletionTestOptions
+  { functions, stream }: ChatCompletionTestOptions = {}
 ): void {
   assert.isDefined(message);
   const msg = message as ChatMessage;
@@ -112,6 +112,9 @@ function assertMessage(
   assertIf(!stream, msg.role, assert.isString);
   ifDefined(msg.functionCall, (item) => assertFunctionCall(item, { stream }));
   ifDefined(msg.name, assert.isString);
+  ifDefined(msg.context, ({ messages }) => {
+    assertNonEmptyArray(messages, assertMessage);
+  });
 }
 
 function assertChatChoice(choice: ChatChoice, options: ChatCompletionTestOptions): void {
@@ -128,10 +131,12 @@ function assertChatChoice(choice: ChatChoice, options: ChatCompletionTestOptions
   ifDefined(choice.finishReason, assert.isString);
 }
 
-function assertUsage(usage: CompletionsUsage): void {
-  assert.isNumber(usage.completionTokens);
-  assert.isNumber(usage.promptTokens);
-  assert.isNumber(usage.totalTokens);
+function assertUsage(usage: CompletionsUsage | undefined): void {
+  assert.isDefined(usage);
+  const castUsage = usage as CompletionsUsage;
+  assert.isNumber(castUsage.completionTokens);
+  assert.isNumber(castUsage.promptTokens);
+  assert.isNumber(castUsage.totalTokens);
 }
 
 function assertCompletionsNoUsage(
@@ -147,7 +152,7 @@ function assertCompletionsNoUsage(
 }
 
 function assertChatCompletionsNoUsage(
-  completions: Omit<ChatCompletions, "usage">,
+  completions: ChatCompletions,
   { allowEmptyChoices, ...opts }: ChatCompletionTestOptions
 ): void {
   if (!allowEmptyChoices || completions.choices.length > 0) {
@@ -168,7 +173,7 @@ export function assertChatCompletions(
   options: ChatCompletionTestOptions = {}
 ): void {
   assertChatCompletionsNoUsage(completions, options);
-  assertUsage(completions.usage);
+  ifDefined(completions.usage, assertUsage);
 }
 
 export async function assertCompletionsStream(
@@ -179,7 +184,7 @@ export async function assertCompletionsStream(
 }
 
 export async function assertChatCompletionsStream(
-  stream: AsyncIterable<Omit<ChatCompletions, "usage">>,
+  stream: AsyncIterable<ChatCompletions>,
   options: ChatCompletionTestOptions = {}
 ): Promise<number> {
   return assertAsyncIterable(stream, (item) =>

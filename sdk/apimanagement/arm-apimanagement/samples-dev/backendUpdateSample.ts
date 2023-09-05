@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing backend.
  *
  * @summary Updates an existing backend.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementUpdateBackend.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateBackend.json
  */
 async function apiManagementUpdateBackend() {
   const subscriptionId =

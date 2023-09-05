@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes specific Api Version Set.
  *
  * @summary Deletes specific Api Version Set.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteApiVersionSet.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteApiVersionSet.json
  */
 async function apiManagementDeleteApiVersionSet() {
   const subscriptionId =

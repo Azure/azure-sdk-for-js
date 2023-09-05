@@ -22,14 +22,13 @@ import {
   GetSnapshotResponse,
   HttpResponseField,
   ListConfigurationSettingPage,
+  ListConfigurationSettingsForSnapshotOptions,
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
   ListRevisionsPage,
-  ListSettingsSnapshotsOptions,
   ListSnapshotsOptions,
   ListSnapshotsPage,
   PageSettings,
-  SendConfigurationSettingsOptions,
   SetConfigurationSettingOptions,
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
@@ -59,10 +58,12 @@ import {
 import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
+  SendConfigurationSettingsOptions,
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
+  formatConfigurationSettingsFiltersAndSelect,
   formatFieldsForSelect,
   formatFiltersAndSelect,
   formatSnapshotFiltersAndSelect,
@@ -364,7 +365,7 @@ export class AppConfigurationClient {
    */
   listConfigurationSettingsForSnapshot(
     snapshotName: string,
-    options: ListSettingsSnapshotsOptions = {}
+    options: ListConfigurationSettingsForSnapshotOptions = {}
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
       {
@@ -402,7 +403,7 @@ export class AppConfigurationClient {
         const response = await this.client.getKeyValues({
           ...updatedOptions,
           ...formatAcceptDateTime(options),
-          ...formatFiltersAndSelect(options),
+          ...formatConfigurationSettingsFiltersAndSelect(options),
           after: pageLink,
         });
 

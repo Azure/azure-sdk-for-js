@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClient } from "../apiManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DeployConfigurationParameters,
   ConfigurationIdName,
@@ -42,7 +46,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   /**
    * This operation applies changes from the specified Git branch to the configuration database. This is
    * a long running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Deploy Configuration parameters.
@@ -55,8 +59,8 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     parameters: DeployConfigurationParameters,
     options?: TenantConfigurationDeployOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TenantConfigurationDeployResponse>,
+    SimplePollerLike<
+      OperationState<TenantConfigurationDeployResponse>,
       TenantConfigurationDeployResponse
     >
   > {
@@ -66,7 +70,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     ): Promise<TenantConfigurationDeployResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -99,21 +103,24 @@ export class TenantConfigurationImpl implements TenantConfiguration {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         configurationName,
         parameters,
         options
       },
-      deployOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deployOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TenantConfigurationDeployResponse,
+      OperationState<TenantConfigurationDeployResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -122,7 +129,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   /**
    * This operation applies changes from the specified Git branch to the configuration database. This is
    * a long running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Deploy Configuration parameters.
@@ -148,7 +155,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   /**
    * This operation creates a commit with the current configuration snapshot to the specified branch in
    * the repository. This is a long running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Save Configuration parameters.
@@ -161,8 +168,8 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     parameters: SaveConfigurationParameter,
     options?: TenantConfigurationSaveOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TenantConfigurationSaveResponse>,
+    SimplePollerLike<
+      OperationState<TenantConfigurationSaveResponse>,
       TenantConfigurationSaveResponse
     >
   > {
@@ -172,7 +179,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     ): Promise<TenantConfigurationSaveResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -205,21 +212,24 @@ export class TenantConfigurationImpl implements TenantConfiguration {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         configurationName,
         parameters,
         options
       },
-      saveOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: saveOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TenantConfigurationSaveResponse,
+      OperationState<TenantConfigurationSaveResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -228,7 +238,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   /**
    * This operation creates a commit with the current configuration snapshot to the specified branch in
    * the repository. This is a long running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Save Configuration parameters.
@@ -254,7 +264,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   /**
    * This operation validates the changes in the specified Git branch. This is a long running operation
    * and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Validate Configuration parameters.
@@ -267,8 +277,8 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     parameters: DeployConfigurationParameters,
     options?: TenantConfigurationValidateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TenantConfigurationValidateResponse>,
+    SimplePollerLike<
+      OperationState<TenantConfigurationValidateResponse>,
       TenantConfigurationValidateResponse
     >
   > {
@@ -278,7 +288,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     ): Promise<TenantConfigurationValidateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -311,21 +321,24 @@ export class TenantConfigurationImpl implements TenantConfiguration {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         configurationName,
         parameters,
         options
       },
-      validateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: validateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TenantConfigurationValidateResponse,
+      OperationState<TenantConfigurationValidateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -334,7 +347,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   /**
    * This operation validates the changes in the specified Git branch. This is a long running operation
    * and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param parameters Validate Configuration parameters.
@@ -360,7 +373,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   /**
    * Gets the status of the most recent synchronization between the configuration database and the Git
    * repository.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param configurationName The identifier of the Git Configuration Operation.
    * @param options The options parameters.
@@ -401,7 +414,7 @@ const deployOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters60,
+  requestBody: Parameters.parameters71,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -435,7 +448,7 @@ const saveOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters61,
+  requestBody: Parameters.parameters72,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -469,7 +482,7 @@ const validateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters60,
+  requestBody: Parameters.parameters71,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

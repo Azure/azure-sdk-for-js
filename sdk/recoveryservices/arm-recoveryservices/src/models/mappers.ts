@@ -791,6 +791,13 @@ export const VaultProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className: "SecuritySettings"
         }
+      },
+      secureScore: {
+        serializedName: "secureScore",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1226,6 +1233,20 @@ export const SecuritySettings: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ImmutabilitySettings"
         }
+      },
+      softDeleteSettings: {
+        serializedName: "softDeleteSettings",
+        type: {
+          name: "Composite",
+          className: "SoftDeleteSettings"
+        }
+      },
+      multiUserAuthorization: {
+        serializedName: "multiUserAuthorization",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1240,6 +1261,27 @@ export const ImmutabilitySettings: coreClient.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SoftDeleteSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SoftDeleteSettings",
+    modelProperties: {
+      softDeleteState: {
+        serializedName: "softDeleteState",
+        type: {
+          name: "String"
+        }
+      },
+      softDeleteRetentionPeriodInDays: {
+        serializedName: "softDeleteRetentionPeriodInDays",
+        type: {
+          name: "Number"
         }
       }
     }

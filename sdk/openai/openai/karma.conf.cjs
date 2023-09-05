@@ -61,6 +61,9 @@ module.exports = function (config) {
       "SUBSCRIPTION_ID",
       "RESOURCE_GROUP",
       "ACCOUNT_NAME",
+      "AZURE_SEARCH_ENDPOINT",
+      "AZURE_SEARCH_KEY",
+      "AZURE_SEARCH_INDEX",
     ],
     // test results reporter to use
     // possible values: 'dots', 'progress'

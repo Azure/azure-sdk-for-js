@@ -220,6 +220,10 @@
 /sdk/appcontainers/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/apicenter/arm-apicenter/ @qiaozha @MaryGao
+/sdk/apicenter/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/appconfiguration/arm-appconfiguration/ @qiaozha @MaryGao
 /sdk/appconfiguration/ci.mgmt.yml @qiaozha @MaryGao
 
@@ -394,6 +398,10 @@
 /sdk/devspaces/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/defendereasm/arm-defendereasm/ @qiaozha @MaryGao
+/sdk/defendereasm/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/devtestlabs/arm-devtestlabs/ @qiaozha @MaryGao
 /sdk/devtestlabs/ci.mgmt.yml @qiaozha @MaryGao
 
@@ -444,6 +452,7 @@
 
 # PRLabel: %Mgmt
 /sdk/hdinsight/arm-hdinsight/ @qiaozha @MaryGao
+/sdk/hdinsight/arm-hdinsightcontainers/ @qiaozha @MaryGao
 /sdk/hdinsight/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -612,6 +621,10 @@
 /sdk/network/ci.mgmt.yml       @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/networkcloud/arm-networkcloud/      @qiaozha @MaryGao
+/sdk/networkcloud/ci.mgmt.yml       @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/network/arm-network-profile-2019-03-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -703,8 +716,16 @@
 /sdk/resourcegraph/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/resourceconnector/arm-resourceconnector/ @qiaozha @MaryGao
+/sdk/resourceconnector/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/resourcehealth/arm-resourcehealth/ @qiaozha @MaryGao
 /sdk/resourcehealth/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks/ @qiaozha @MaryGao
+/sdk/resourcesdeploymentstacks/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/resourcemover/arm-resourcemover/ @qiaozha @MaryGao
@@ -895,6 +916,10 @@
 # PRLabel: %Mgmt
 /sdk/sphere/arm-sphere/ @qiaozha @MaryGao
 /sdk/sphere/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/maintenance/arm-maintenance/ @qiaozha @MaryGao
+/sdk/maintenance/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/chaos/arm-chaos/ @qiaozha @MaryGao

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or Updates a backend.
  *
  * @summary Creates or Updates a backend.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateBackendProxyBackend.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateBackendProxyBackend.json
  */
 async function apiManagementCreateBackendProxyBackend() {
   const subscriptionId =
@@ -58,7 +58,7 @@ async function apiManagementCreateBackendProxyBackend() {
  * This sample demonstrates how to Creates or Updates a backend.
  *
  * @summary Creates or Updates a backend.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateBackendServiceFabric.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateBackendServiceFabric.json
  */
 async function apiManagementCreateBackendServiceFabric() {
   const subscriptionId =

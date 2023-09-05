@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets specific OpenID Connect Provider without secrets.
  *
  * @summary Gets specific OpenID Connect Provider without secrets.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetOpenIdConnectProvider.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetOpenIdConnectProvider.json
  */
 async function apiManagementGetOpenIdConnectProvider() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
