@@ -70,7 +70,7 @@ export interface MicrosoftTeamsAppIdentifier {
   rawId?: string;
 
   /**
-   * The unique Microsoft teams app ID.
+   * The unique Microsoft Teams app ID.
    */
   teamsAppId: string;
 
