@@ -35,10 +35,10 @@ export interface SpanConfig {
  * @param tracingOptions - The options for the underlying http request.
  */
 export function createSpanFunction(
-  args: SpanConfig
+  args: SpanConfig,
 ): <T extends OperationOptions>(
   operationName: string,
-  operationOptions: T
+  operationOptions: T,
 ) => { span: Span; updatedOptions: T } {
   return coreTracingCreateSpanFunction(args);
 }

@@ -38,7 +38,7 @@ describe("msrest (node)", function () {
       const deserializedSawshark = client.serializer.deserialize(
         mapper,
         responseBody,
-        "responseBody"
+        "responseBody",
       );
       deserializedSawshark.fishtype.should.equal("Fish");
       deserializedSawshark.siblings.length.should.equal(1);
@@ -86,12 +86,12 @@ describe("msrest (node)", function () {
       serializedSawshark.siblings[0]["fish.type"].should.equal("shark");
       serializedSawshark.siblings[0].age.should.equal(6);
       serializedSawshark.siblings[0].birthday.should.equal(
-        new Date("2012-01-05T01:00:00Z").toISOString()
+        new Date("2012-01-05T01:00:00Z").toISOString(),
       );
       serializedSawshark.siblings[1]["fish.type"].should.equal("sawshark");
       serializedSawshark.siblings[1].age.should.equal(105);
       serializedSawshark.siblings[1].birthday.should.equal(
-        new Date("1900-01-05T01:00:00Z").toISOString()
+        new Date("1900-01-05T01:00:00Z").toISOString(),
       );
       serializedSawshark.siblings[1].picture.should.equal("//////4=");
       serializedSawshark.picture.should.equal("//////4=");

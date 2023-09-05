@@ -105,7 +105,7 @@ export function generateUuid(): string {
  */
 export function executePromisesSequentially(
   promiseFactories: Array<any>,
-  kickstart: unknown
+  kickstart: unknown,
 ): Promise<any> {
   let result = Promise.resolve(kickstart);
   promiseFactories.forEach((promiseFactory) => {
@@ -129,7 +129,7 @@ export interface ServiceCallback<TResult> {
     err: Error | RestError | null,
     result?: TResult,
     request?: WebResourceLike,
-    response?: HttpOperationResponse
+    response?: HttpOperationResponse,
   ): void;
 }
 
@@ -164,7 +164,7 @@ export function promiseToCallback(promise: Promise<any>): (cb: Function) => void
  * @returns A function that takes the service callback (cb: ServiceCallback<T>): void
  */
 export function promiseToServiceCallback<T>(
-  promise: Promise<HttpOperationResponse>
+  promise: Promise<HttpOperationResponse>,
 ): (cb: ServiceCallback<T>) => void {
   if (typeof promise.then !== "function") {
     throw new Error("The provided input is not a Promise.");
@@ -184,7 +184,7 @@ export function prepareXMLRootList(
   obj: unknown,
   elementName: string,
   xmlNamespaceKey?: string,
-  xmlNamespace?: string
+  xmlNamespace?: string,
 ): { [s: string]: any } {
   if (!Array.isArray(obj)) {
     obj = [obj];
@@ -237,7 +237,7 @@ export function isDuration(value: string): boolean {
 export function replaceAll(
   value: string | undefined,
   searchValue: string,
-  replaceValue: string
+  replaceValue: string,
 ): string | undefined {
   return !value || !searchValue ? value : value.split(searchValue).join(replaceValue || "");
 }

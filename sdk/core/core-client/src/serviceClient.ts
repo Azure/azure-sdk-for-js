@@ -99,7 +99,7 @@ export class ServiceClient {
     this._endpoint = options.endpoint ?? options.baseUri;
     if (options.baseUri) {
       logger.warning(
-        "The baseUri option for SDK Clients has been deprecated, please use endpoint instead."
+        "The baseUri option for SDK Clients has been deprecated, please use endpoint instead.",
       );
     }
     this._allowInsecureConnection = options.allowInsecureConnection;
@@ -133,12 +133,12 @@ export class ServiceClient {
    */
   async sendOperationRequest<T>(
     operationArguments: OperationArguments,
-    operationSpec: OperationSpec
+    operationSpec: OperationSpec,
   ): Promise<T> {
     const endpoint: string | undefined = operationSpec.baseUrl || this._endpoint;
     if (!endpoint) {
       throw new Error(
-        "If operationSpec.baseUrl is not specified, then the ServiceClient must have a endpoint string property that contains the base URL to use."
+        "If operationSpec.baseUrl is not specified, then the ServiceClient must have a endpoint string property that contains the base URL to use.",
       );
     }
 
@@ -207,7 +207,7 @@ export class ServiceClient {
       const rawResponse = await this.sendRequest(request);
       const flatResponse = flattenResponse(
         rawResponse,
-        operationSpec.responses[rawResponse.status]
+        operationSpec.responses[rawResponse.status],
       ) as T;
       if (options?.onResponse) {
         options.onResponse(rawResponse, flatResponse);
@@ -218,7 +218,7 @@ export class ServiceClient {
         const rawResponse = error.response;
         const flatResponse = flattenResponse(
           rawResponse,
-          operationSpec.responses[error.statusCode] || operationSpec.responses["default"]
+          operationSpec.responses[error.statusCode] || operationSpec.responses["default"],
         );
         error.details = flatResponse;
         if (options?.onResponse) {
@@ -258,7 +258,7 @@ function getCredentialScopes(options: ServiceClientOptions): string | string[] |
 
   if (options.credential && !options.credentialScopes) {
     throw new Error(
-      `When using credentials, the ServiceClientOptions must contain either a endpoint or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`
+      `When using credentials, the ServiceClientOptions must contain either a endpoint or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`,
     );
   }
 

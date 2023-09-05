@@ -270,7 +270,7 @@ describe("defaultHttpClient (browser)", function () {
         undefined,
         0,
         (ev) => listener(upload, ev),
-        (ev) => listener(download, ev)
+        (ev) => listener(download, ev),
       );
 
       const client = new DefaultHttpClient();

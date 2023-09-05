@@ -15,7 +15,7 @@ import { WebResourceLike } from "../webResource";
  * @param requestIdHeaderName - The name of the header to use when assigning the unique id to the request.
  */
 export function generateClientRequestIdPolicy(
-  requestIdHeaderName = "x-ms-client-request-id"
+  requestIdHeaderName = "x-ms-client-request-id",
 ): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -28,7 +28,7 @@ export class GenerateClientRequestIdPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    private _requestIdHeaderName: string
+    private _requestIdHeaderName: string,
   ) {
     super(nextPolicy, options);
   }

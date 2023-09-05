@@ -51,7 +51,7 @@ describe("getRequestUrl", function () {
       "{url}",
       operationSpec,
       { table: "TestTable" },
-      { url: "https://test.com" }
+      { url: "https://test.com" },
     );
     assert.strictEqual(result, "https://test.com/Tables('TestTable')");
   });
@@ -61,7 +61,7 @@ describe("getRequestUrl", function () {
       "{url}",
       operationSpec,
       { table: "TestTable" },
-      { url: "https://test.com?superSecretKey=awesome" }
+      { url: "https://test.com?superSecretKey=awesome" },
     );
     assert.strictEqual(result, "https://test.com/Tables('TestTable')?superSecretKey=awesome");
   });
@@ -81,11 +81,11 @@ describe("getRequestUrl", function () {
       "{url}",
       specWithQueryParams,
       { table: "TestTable", extraValue: "%27blah%27" },
-      { url: "https://test.com?superSecretKey=Qai%2B4%2FIM%3D" }
+      { url: "https://test.com?superSecretKey=Qai%2B4%2FIM%3D" },
     );
     assert.strictEqual(
       result,
-      "https://test.com/Tables('TestTable')?superSecretKey=Qai%2B4%2FIM%3D&extraValue=%27blah%27"
+      "https://test.com/Tables('TestTable')?superSecretKey=Qai%2B4%2FIM%3D&extraValue=%27blah%27",
     );
   });
 
@@ -111,7 +111,7 @@ describe("getRequestUrl", function () {
         serializer,
       },
       {},
-      {}
+      {},
     );
     assert.strictEqual(result, "https://test.com/path?stringQuery=");
   });
@@ -139,7 +139,7 @@ describe("getRequestUrl", function () {
         ],
       },
       { nextLink: "/path?abc%3Ddef" },
-      {}
+      {},
     );
     assert.strictEqual(result, "https://test.com/path?abc%3Ddef");
   });
@@ -155,7 +155,7 @@ describe("getRequestUrl", function () {
 
     assert.strictEqual(
       res,
-      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01"
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01",
     );
   });
 
@@ -172,7 +172,7 @@ describe("getRequestUrl", function () {
 
     assert.strictEqual(
       res,
-      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01"
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01",
     );
   });
 
@@ -189,7 +189,7 @@ describe("getRequestUrl", function () {
 
     assert.strictEqual(
       res,
-      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01"
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01",
     );
   });
 
@@ -206,7 +206,7 @@ describe("getRequestUrl", function () {
 
     assert.strictEqual(
       res,
-      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01&api-version=2023-08-01"
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01&api-version=2023-08-01",
     );
   });
 
@@ -221,7 +221,7 @@ describe("getRequestUrl", function () {
 
     assert.strictEqual(
       res,
-      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01"
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01",
     );
   });
 
@@ -236,7 +236,7 @@ describe("getRequestUrl", function () {
 
     assert.strictEqual(
       res,
-      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2021-08-01"
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2021-08-01",
     );
   });
 
@@ -250,7 +250,7 @@ describe("getRequestUrl", function () {
     const res: string = appendQueryParams(url, queryParams, new Set<string>());
     assert.strictEqual(
       res,
-      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01"
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01",
     );
   });
 });

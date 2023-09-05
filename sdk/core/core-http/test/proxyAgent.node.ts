@@ -130,7 +130,7 @@ describe("proxyAgent", () => {
         fn.should.throw(
           testCase.expectInvalidHostError
             ? "Expecting a non-empty host in proxy settings."
-            : "Expecting a valid port number in the range of [0, 65535] in proxy settings."
+            : "Expecting a valid port number in the range of [0, 65535] in proxy settings.",
         );
         done();
       });

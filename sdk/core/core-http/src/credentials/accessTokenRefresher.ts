@@ -15,7 +15,7 @@ export class AccessTokenRefresher {
   constructor(
     private credential: TokenCredential,
     private scopes: string | string[],
-    private requiredMillisecondsBeforeNewRefresh: number = 30000
+    private requiredMillisecondsBeforeNewRefresh: number = 30000,
   ) {}
 
   /**

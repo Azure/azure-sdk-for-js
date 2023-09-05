@@ -124,7 +124,7 @@ export class Sanitizer {
 
         return value;
       },
-      2
+      2,
     );
   }
 
@@ -139,7 +139,7 @@ export class Sanitizer {
   private sanitizeObject(
     value: UnknownObject,
     allowedKeys: Set<string>,
-    accessor: (value: any, key: string) => any
+    accessor: (value: any, key: string) => any,
   ): UnknownObject {
     if (typeof value !== "object" || value === null) {
       return value;

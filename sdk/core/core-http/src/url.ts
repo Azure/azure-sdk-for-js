@@ -399,7 +399,10 @@ type URLTokenizerState = "SCHEME" | "SCHEME_OR_HOST" | "HOST" | "PORT" | "PATH" 
 type URLTokenType = "SCHEME" | "HOST" | "PORT" | "PATH" | "QUERY";
 
 export class URLToken {
-  public constructor(public readonly text: string, public readonly type: URLTokenType) {}
+  public constructor(
+    public readonly text: string,
+    public readonly type: URLTokenType,
+  ) {}
 
   public static scheme(text: string): URLToken {
     return new URLToken(text, "SCHEME");
@@ -444,7 +447,10 @@ export class URLTokenizer {
   _currentIndex: number;
   _currentToken: URLToken | undefined;
 
-  public constructor(readonly _text: string, state?: URLTokenizerState) {
+  public constructor(
+    readonly _text: string,
+    state?: URLTokenizerState,
+  ) {
     this._textLength = _text ? _text.length : 0;
     this._currentState = state !== undefined && state !== null ? state : "SCHEME_OR_HOST";
     this._currentIndex = 0;
@@ -584,7 +590,7 @@ function readWhileLetterOrDigit(tokenizer: URLTokenizer): string {
 function readUntilCharacter(tokenizer: URLTokenizer, ...terminatingCharacters: string[]): string {
   return readWhile(
     tokenizer,
-    (character: string) => terminatingCharacters.indexOf(character) === -1
+    (character: string) => terminatingCharacters.indexOf(character) === -1,
   );
 }
 

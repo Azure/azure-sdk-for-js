@@ -28,7 +28,7 @@ function assertLog(
   request: WebResource,
   expectedLog: string,
   doneCallback: Mocha.Done,
-  responseHeaders?: RawHttpHeaders
+  responseHeaders?: RawHttpHeaders,
 ): void {
   let output = "";
 
@@ -185,7 +185,7 @@ Headers: {
       {
         "api-version": "1.0",
         secret: fakeTestSecretPlaceholder,
-      }
+      },
     );
     delete (request as any).requestId;
     assertLog(request, expected, done);

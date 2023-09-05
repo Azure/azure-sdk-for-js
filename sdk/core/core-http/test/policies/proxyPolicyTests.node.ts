@@ -317,7 +317,7 @@ describe("getDefaultProxySettings", () => {
             proxySettings.host.should.equal(proxyUrl);
             proxySettings.port.should.equal(defaultPort);
           });
-        }
+        },
       );
     });
   });

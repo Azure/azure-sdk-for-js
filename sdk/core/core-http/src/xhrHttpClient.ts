@@ -99,7 +99,7 @@ export class XhrHttpClient implements HttpClient {
             status: xhr.status,
             headers: parseHeaders(xhr),
             bodyAsText: xhr.responseText,
-          })
+          }),
         );
         rejectOnTerminalEvent(request, xhr, reject);
       });
@@ -111,7 +111,7 @@ function handleBlobResponse(
   xhr: XMLHttpRequest,
   request: WebResourceLike,
   res: (value: HttpOperationResponse | PromiseLike<HttpOperationResponse>) => void,
-  rej: (reason?: any) => void
+  rej: (reason?: any) => void,
 ): void {
   xhr.addEventListener("readystatechange", () => {
     // Resolve as soon as headers are loaded
@@ -165,13 +165,13 @@ function handleBlobResponse(
 
 function addProgressListener(
   xhr: XMLHttpRequestEventTarget,
-  listener?: (progress: TransferProgressEvent) => void
+  listener?: (progress: TransferProgressEvent) => void,
 ): void {
   if (listener) {
     xhr.addEventListener("progress", (rawEvent) =>
       listener({
         loadedBytes: rawEvent.loaded,
-      })
+      }),
     );
   }
 }
@@ -195,7 +195,7 @@ export function parseHeaders(xhr: XMLHttpRequest): HttpHeadersLike {
 function rejectOnTerminalEvent(
   request: WebResourceLike,
   xhr: XMLHttpRequest,
-  reject: (err: any) => void
+  reject: (err: any) => void,
 ): void {
   xhr.addEventListener("error", () =>
     reject(
@@ -203,9 +203,9 @@ function rejectOnTerminalEvent(
         `Failed to send request to ${request.url}`,
         RestError.REQUEST_SEND_ERROR,
         undefined,
-        request
-      )
-    )
+        request,
+      ),
+    ),
   );
   const abortError = new AbortError("The operation was aborted.");
   xhr.addEventListener("abort", () => reject(abortError));

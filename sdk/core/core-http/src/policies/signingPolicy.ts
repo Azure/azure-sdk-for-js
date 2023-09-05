@@ -17,7 +17,7 @@ import { WebResourceLike } from "../webResource";
  * @returns An instance of the {@link SigningPolicy}.
  */
 export function signingPolicy(
-  authenticationProvider: ServiceClientCredentials
+  authenticationProvider: ServiceClientCredentials,
 ): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -33,7 +33,7 @@ export class SigningPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    public authenticationProvider: ServiceClientCredentials
+    public authenticationProvider: ServiceClientCredentials,
   ) {
     super(nextPolicy, options);
   }
@@ -44,7 +44,7 @@ export class SigningPolicy extends BaseRequestPolicy {
 
   public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     return this.signRequest(request).then((nextRequest) =>
-      this._nextPolicy.sendRequest(nextRequest)
+      this._nextPolicy.sendRequest(nextRequest),
     );
   }
 }

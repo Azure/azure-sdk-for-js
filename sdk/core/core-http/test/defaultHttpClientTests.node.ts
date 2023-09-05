@@ -225,7 +225,7 @@ describe("defaultHttpClient (node)", function () {
     assert.equal(response.readableStreamBody, undefined);
     assert.strictEqual(
       response.bodyAsText,
-      `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`
+      `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`,
     );
   });
 
@@ -330,7 +330,7 @@ describe("defaultHttpClient (node)", function () {
         undefined,
         0,
         (ev) => listener(upload, ev),
-        (ev) => listener(download, ev)
+        (ev) => listener(download, ev),
       );
 
       const client = getMockedHttpClient();
@@ -368,12 +368,10 @@ describe("defaultHttpClient (node)", function () {
     request2.proxySettings = proxySettings;
     const client = new DefaultHttpClient();
 
-    const requestInit1: Partial<RequestInit & { agent?: any }> = await client.prepareRequest(
-      request1
-    );
-    const requestInit2: Partial<RequestInit & { agent?: any }> = await client.prepareRequest(
-      request2
-    );
+    const requestInit1: Partial<RequestInit & { agent?: any }> =
+      await client.prepareRequest(request1);
+    const requestInit2: Partial<RequestInit & { agent?: any }> =
+      await client.prepareRequest(request2);
     assert.deepStrictEqual(requestInit1.agent, requestInit2.agent);
   });
 
@@ -394,18 +392,16 @@ describe("defaultHttpClient (node)", function () {
     };
     const client = new DefaultHttpClient();
 
-    const requestInit1: Partial<RequestInit & { agent?: any }> = await client.prepareRequest(
-      request1
-    );
-    const requestInit2: Partial<RequestInit & { agent?: any }> = await client.prepareRequest(
-      request2
-    );
+    const requestInit1: Partial<RequestInit & { agent?: any }> =
+      await client.prepareRequest(request1);
+    const requestInit2: Partial<RequestInit & { agent?: any }> =
+      await client.prepareRequest(request2);
     assert.notStrictEqual(requestInit1.agent, requestInit2.agent);
     assert.notEqual(requestInit1.agent.proxyOptions.host, requestInit2.agent.proxyOptions.host);
     assert.notEqual(requestInit1.agent.proxyOptions.port, requestInit2.agent.proxyOptions.port);
     assert.notEqual(
       requestInit1.agent.proxyOptions.proxyAuth,
-      requestInit2.agent.proxyOptions.proxyAuth
+      requestInit2.agent.proxyOptions.proxyAuth,
     );
   });
 
@@ -421,16 +417,14 @@ describe("defaultHttpClient (node)", function () {
     request2.proxySettings = { host: "host1", port: 8001 };
     const client = new DefaultHttpClient();
 
-    const requestInit1: Partial<RequestInit & { agent?: any }> = await client.prepareRequest(
-      request1
-    );
-    const requestInit2: Partial<RequestInit & { agent?: any }> = await client.prepareRequest(
-      request2
-    );
+    const requestInit1: Partial<RequestInit & { agent?: any }> =
+      await client.prepareRequest(request1);
+    const requestInit2: Partial<RequestInit & { agent?: any }> =
+      await client.prepareRequest(request2);
     assert.notStrictEqual(requestInit1.agent, requestInit2.agent);
     assert.notEqual(
       requestInit1.agent.proxyOptions.proxyAuth,
-      requestInit2.agent.proxyOptions.proxyAuth
+      requestInit2.agent.proxyOptions.proxyAuth,
     );
   });
 
@@ -460,7 +454,7 @@ describe("defaultHttpClient (node)", function () {
       undefined,
       undefined,
       undefined,
-      true
+      true,
     );
     request.abortSignal = ac.signal;
     const promise = client.sendRequest(request);

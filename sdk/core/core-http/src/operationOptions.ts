@@ -60,7 +60,7 @@ export interface OperationRequestOptions {
  * @param opts - OperationOptions object to convert to RequestOptionsBase
  */
 export function operationOptionsToRequestOptionsBase<T extends OperationOptions>(
-  opts: T
+  opts: T,
 ): RequestOptionsBase {
   const { requestOptions, tracingOptions, ...additionalOptions } = opts;
 

@@ -33,7 +33,7 @@ import { logger } from "../log";
 export function exponentialRetryPolicy(
   retryCount?: number,
   retryInterval?: number,
-  maxRetryInterval?: number
+  maxRetryInterval?: number,
 ): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -42,7 +42,7 @@ export function exponentialRetryPolicy(
         options,
         retryCount,
         retryInterval,
-        maxRetryInterval
+        maxRetryInterval,
       );
     },
   };
@@ -123,7 +123,7 @@ export class ExponentialRetryPolicy extends BaseRequestPolicy {
     options: RequestPolicyOptions,
     retryCount?: number,
     retryInterval?: number,
-    maxRetryInterval?: number
+    maxRetryInterval?: number,
   ) {
     super(nextPolicy, options);
     this.retryCount = isNumber(retryCount) ? retryCount : DEFAULT_CLIENT_RETRY_COUNT;
@@ -146,7 +146,7 @@ async function retry(
   request: WebResourceLike,
   response?: HttpOperationResponse,
   retryData?: RetryData,
-  requestError?: RetryError
+  requestError?: RetryError,
 ): Promise<HttpOperationResponse> {
   function shouldPolicyRetry(responseParam?: HttpOperationResponse): boolean {
     const statusCode = responseParam?.status;
@@ -172,7 +172,7 @@ async function retry(
       maxRetryInterval: policy.maxRetryInterval,
     },
     retryData,
-    requestError
+    requestError,
   );
 
   const isAborted: boolean | undefined = request.abortSignal && request.abortSignal.aborted;
@@ -194,7 +194,7 @@ async function retry(
         RestError.REQUEST_SEND_ERROR,
         response && response.status,
         response && response.request,
-        response
+        response,
       );
     throw err;
   } else {

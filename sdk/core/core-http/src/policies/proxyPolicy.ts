@@ -44,7 +44,7 @@ function loadEnvironmentProxyValue(): string | undefined {
 function isBypassed(
   uri: string,
   noProxyList: string[],
-  bypassedMap?: Map<string, boolean>
+  bypassedMap?: Map<string, boolean>,
 ): boolean | undefined {
   if (noProxyList.length === 0) {
     return false;
@@ -127,7 +127,7 @@ export function proxyPolicy(
   options?: {
     /** a list of patterns to override those loaded from NO_PROXY environment variable. */
     customNoProxyList?: string[];
-  }
+  },
 ): RequestPolicyFactory {
   if (!proxySettings) {
     proxySettings = getDefaultProxySettings();
@@ -141,7 +141,7 @@ export function proxyPolicy(
         nextPolicy,
         requestPolicyOptions,
         proxySettings!,
-        options?.customNoProxyList
+        options?.customNoProxyList,
       );
     },
   };
@@ -177,7 +177,7 @@ export class ProxyPolicy extends BaseRequestPolicy {
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
     public proxySettings: ProxySettings,
-    private customNoProxyList?: string[]
+    private customNoProxyList?: string[],
   ) {
     super(nextPolicy, options);
   }
@@ -188,7 +188,7 @@ export class ProxyPolicy extends BaseRequestPolicy {
       !isBypassed(
         request.url,
         this.customNoProxyList ?? globalNoProxyList,
-        this.customNoProxyList ? undefined : globalBypassedMap
+        this.customNoProxyList ? undefined : globalBypassedMap,
       )
     ) {
       request.proxySettings = this.proxySettings;

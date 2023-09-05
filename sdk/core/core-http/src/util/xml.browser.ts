@@ -5,7 +5,7 @@ import { SerializerOptions, XML_ATTRKEY, XML_CHARKEY } from "./serializer.common
 
 if (!self.document || !self.DOMParser || !self.Node || !self.XMLSerializer) {
   throw new Error(
-    `This library depends on the following DOM objects: ["document", "DOMParser", "Node", "XMLSerializer"] to parse XML, but some of these are undefined. You may provide a polyfill to make these globally available in order to support your environment. For more information, please refer to https://aka.ms/azsdk/js/web-workers. `
+    `This library depends on the following DOM objects: ["document", "DOMParser", "Node", "XMLSerializer"] to parse XML, but some of these are undefined. You may provide a polyfill to make these globally available in order to support your environment. For more information, please refer to https://aka.ms/azsdk/js/web-workers. `,
   );
 }
 
@@ -55,7 +55,7 @@ export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any
     };
     const dom = getParser().parseFromString(
       (ttPolicy?.createHTML(str) ?? str) as string,
-      "application/xml"
+      "application/xml",
     );
     throwIfError(dom);
 

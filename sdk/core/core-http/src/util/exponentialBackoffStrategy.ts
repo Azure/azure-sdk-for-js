@@ -38,7 +38,7 @@ export function shouldRetry(
   predicate: (response?: HttpOperationResponse, error?: RetryError) => boolean,
   retryData: RetryData,
   response?: HttpOperationResponse,
-  error?: RetryError
+  error?: RetryError,
 ): boolean {
   if (!predicate(response, error)) {
     return false;
@@ -58,7 +58,7 @@ export function shouldRetry(
 export function updateRetryData(
   retryOptions: { retryInterval: number; minRetryInterval: number; maxRetryInterval: number },
   retryData: RetryData = { retryCount: 0, retryInterval: 0 },
-  err?: RetryError
+  err?: RetryError,
 ): RetryData {
   if (err) {
     if (retryData.error) {
@@ -80,7 +80,7 @@ export function updateRetryData(
 
   retryData.retryInterval = Math.min(
     retryOptions.minRetryInterval + incrementDelta,
-    retryOptions.maxRetryInterval
+    retryOptions.maxRetryInterval,
   );
 
   return retryData;

@@ -56,7 +56,7 @@ export class TracingPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    tracingOptions: TracingPolicyOptions
+    tracingOptions: TracingPolicyOptions,
   ) {
     super(nextPolicy, options);
     this.userAgent = tracingOptions.userAgent;

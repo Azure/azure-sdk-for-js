@@ -34,7 +34,7 @@ describe("MsRestUserAgentPolicy (browser)", () => {
         const factory = userAgentPolicy();
         const browserUserAgentPolicy = factory.create(
           emptyRequestPolicy,
-          new RequestPolicyOptions()
+          new RequestPolicyOptions(),
         );
         const customUserAgent = "my custom user agent";
         const resource = new WebResource();
@@ -51,7 +51,7 @@ describe("MsRestUserAgentPolicy (browser)", () => {
         const factory = userAgentPolicy({ value: customUserAgent });
         const browserUserAgentPolicy = factory.create(
           emptyRequestPolicy,
-          new RequestPolicyOptions()
+          new RequestPolicyOptions(),
         );
         const resource = new WebResource();
         await browserUserAgentPolicy.sendRequest(resource);

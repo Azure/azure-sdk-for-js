@@ -86,7 +86,7 @@ export interface WebResourceLike {
    */
   operationResponseGetter?: (
     operationSpec: OperationSpec,
-    response: HttpOperationResponse
+    response: HttpOperationResponse,
   ) => undefined | OperationResponse;
   /**
    * Form data, used to build the request body.
@@ -230,7 +230,7 @@ export class WebResource implements WebResourceLike {
    */
   operationResponseGetter?: (
     operationSpec: OperationSpec,
-    response: HttpOperationResponse
+    response: HttpOperationResponse,
   ) => undefined | OperationResponse;
   /**
    * Form data, used to build the request body.
@@ -309,7 +309,7 @@ export class WebResource implements WebResourceLike {
     proxySettings?: ProxySettings,
     keepAlive?: boolean,
     decompressResponse?: boolean,
-    streamResponseStatusCodes?: Set<number>
+    streamResponseStatusCodes?: Set<number>,
   ) {
     this.streamResponseBody = streamResponseBody;
     this.streamResponseStatusCodes = streamResponseStatusCodes;
@@ -364,7 +364,7 @@ export class WebResource implements WebResourceLike {
 
     if (options.url && options.pathTemplate) {
       throw new Error(
-        "options.url and options.pathTemplate are mutually exclusive. Please provide exactly one of them."
+        "options.url and options.pathTemplate are mutually exclusive. Please provide exactly one of them.",
       );
     }
 
@@ -395,7 +395,7 @@ export class WebResource implements WebResourceLike {
           'The provided method "' +
             options.method +
             '" is invalid. Supported HTTP methods are: ' +
-            JSON.stringify(validMethods)
+            JSON.stringify(validMethods),
         );
       }
     }
@@ -419,7 +419,7 @@ export class WebResource implements WebResourceLike {
       if (segments && segments.length) {
         if (!pathParameters) {
           throw new Error(
-            `pathTemplate: ${pathTemplate} has been provided. Hence, options.pathParameters must also be provided.`
+            `pathTemplate: ${pathTemplate} has been provided. Hence, options.pathParameters must also be provided.`,
           );
         }
         segments.forEach(function (item) {
@@ -435,7 +435,7 @@ export class WebResource implements WebResourceLike {
               `pathTemplate: ${pathTemplate} contains the path parameter ${pathParamName}` +
                 ` however, it is not present in parameters: ${stringifiedPathParameters}.` +
                 `The value of the path parameter can either be a "string" of the form { ${pathParamName}: "some sample value" } or ` +
-                `it can be an "object" of the form { "${pathParamName}": { value: "some sample value", skipUrlEncoding: true } }.`
+                `it can be an "object" of the form { "${pathParamName}": { value: "some sample value", skipUrlEncoding: true } }.`,
             );
           }
 
@@ -446,7 +446,7 @@ export class WebResource implements WebResourceLike {
           if (typeof pathParam.valueOf() === "object") {
             if (!pathParam.value) {
               throw new Error(
-                `options.pathParameters[${pathParamName}] is of type "object" but it does not contain a "value" property.`
+                `options.pathParameters[${pathParamName}] is of type "object" but it does not contain a "value" property.`,
               );
             }
             if (pathParam.skipUrlEncoding) {
@@ -467,7 +467,7 @@ export class WebResource implements WebResourceLike {
         throw new Error(
           `options.queryParameters must be of type object. It should be a JSON object ` +
             `of "query-parameter-name" as the key and the "query-parameter-value" as the value. ` +
-            `The "query-parameter-value" may be fo type "string" or an "object" of the form { value: "query-parameter-value", skipUrlEncoding: true }.`
+            `The "query-parameter-value" may be fo type "string" or an "object" of the form { value: "query-parameter-value", skipUrlEncoding: true }.`,
         );
       }
       // append question mark if it is not present in the url
@@ -487,7 +487,7 @@ export class WebResource implements WebResourceLike {
           } else if (typeof queryParam === "object") {
             if (!queryParam.value) {
               throw new Error(
-                `options.queryParameters[${queryParamName}] is of type "object" but it does not contain a "value" property.`
+                `options.queryParameters[${queryParamName}] is of type "object" but it does not contain a "value" property.`,
               );
             }
             if (queryParam.skipUrlEncoding) {
@@ -541,7 +541,7 @@ export class WebResource implements WebResourceLike {
           this.body = new Serializer(options.mappers).serialize(
             options.serializationMapper,
             options.body,
-            "requestBody"
+            "requestBody",
           );
         }
         if (!options.disableJsonStringifyOnBody) {
@@ -585,7 +585,7 @@ export class WebResource implements WebResourceLike {
       this.proxySettings,
       this.keepAlive,
       this.decompressResponse,
-      this.streamResponseStatusCodes
+      this.streamResponseStatusCodes,
     );
 
     if (this.formData) {

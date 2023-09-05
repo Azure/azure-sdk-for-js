@@ -23,7 +23,7 @@ interface AgentCache {
 
 function getCachedAgent(
   isHttps: boolean,
-  agentCache: AgentCache
+  agentCache: AgentCache,
 ): http.Agent | https.Agent | undefined {
   return isHttps ? agentCache.httpsAgent : agentCache.httpAgent;
 }
@@ -111,7 +111,7 @@ export class NodeFetchHttpClient implements HttpClient {
   async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
     if (!httpRequest && typeof httpRequest !== "object") {
       throw new Error(
-        "'httpRequest' (WebResourceLike) cannot be null or undefined and must be of type object."
+        "'httpRequest' (WebResourceLike) cannot be null or undefined and must be of type object.",
       );
     }
 
@@ -172,7 +172,7 @@ export class NodeFetchHttpClient implements HttpClient {
         if (typeof requestForm.getBoundary === "function") {
           httpRequest.headers.set(
             "Content-Type",
-            `multipart/form-data; boundary=${requestForm.getBoundary()}`
+            `multipart/form-data; boundary=${requestForm.getBoundary()}`,
           );
         } else {
           // browser will automatically apply a suitable content-type header
@@ -198,9 +198,8 @@ export class NodeFetchHttpClient implements HttpClient {
       body = uploadReportStream;
     }
 
-    const platformSpecificRequestInit: Partial<RequestInit> = await this.prepareRequest(
-      httpRequest
-    );
+    const platformSpecificRequestInit: Partial<RequestInit> =
+      await this.prepareRequest(httpRequest);
 
     const requestInit: RequestInit = {
       body: body,
@@ -261,7 +260,7 @@ export class NodeFetchHttpClient implements HttpClient {
           fetchError.message,
           RestError.REQUEST_SEND_ERROR,
           undefined,
-          httpRequest
+          httpRequest,
         );
       } else if (fetchError.type === "aborted") {
         throw new AbortError("The operation was aborted.");
@@ -279,7 +278,7 @@ export class NodeFetchHttpClient implements HttpClient {
         if (isReadableStream(operationResponse?.readableStreamBody)) {
           downloadStreamDone = isStreamComplete(
             operationResponse!.readableStreamBody,
-            abortController
+            abortController,
           );
         }
 
@@ -320,7 +319,7 @@ export class NodeFetchHttpClient implements HttpClient {
       const tunnel: ProxyAgent = createProxyAgent(
         httpRequest.url,
         httpRequest.proxySettings,
-        httpRequest.headers
+        httpRequest.headers,
       );
 
       agent = tunnel.agent;
@@ -408,7 +407,7 @@ export class NodeFetchHttpClient implements HttpClient {
               } else {
                 resolve();
               }
-            }
+            },
           );
         });
       }

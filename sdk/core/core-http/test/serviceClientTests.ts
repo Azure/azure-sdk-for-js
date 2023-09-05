@@ -98,7 +98,7 @@ describe("ServiceClient", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          `When using credential, the ServiceClient must contain a baseUri or a credentialScopes in ServiceClientOptions. Unable to create a bearerTokenAuthenticationPolicy`
+          `When using credential, the ServiceClient must contain a baseUri or a credentialScopes in ServiceClientOptions. Unable to create a bearerTokenAuthenticationPolicy`,
         );
       }
     });
@@ -134,7 +134,7 @@ describe("ServiceClient", function () {
         constructor(
           credentials?: TokenCredential | ServiceClientCredentials,
           /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-          options?: ServiceClientOptions
+          options?: ServiceClientOptions,
         ) {
           super(credentials, options);
           this.baseUri = scope;
@@ -224,7 +224,7 @@ describe("ServiceClient", function () {
         responses: {
           200: {},
         },
-      }
+      },
     );
 
     assert(request!);
@@ -253,7 +253,7 @@ describe("ServiceClient", function () {
         responses: {
           200: {},
         },
-      }
+      },
     );
 
     assert(request!);
@@ -269,7 +269,7 @@ describe("ServiceClient", function () {
       ["1,2", "3,4", "5"],
       QueryCollectionFormat.Csv,
       true,
-      "?q=1,2,3,4,5"
+      "?q=1,2,3,4,5",
     );
   });
 
@@ -278,7 +278,7 @@ describe("ServiceClient", function () {
       ["1,2", "3,4", "5"],
       QueryCollectionFormat.Csv,
       false,
-      "?q=1%2C2,3%2C4,5"
+      "?q=1%2C2,3%2C4,5",
     );
   });
 
@@ -287,13 +287,13 @@ describe("ServiceClient", function () {
       ["1,2", undefined, "5"],
       QueryCollectionFormat.Csv,
       false,
-      "?q=1%2C2,,5"
+      "?q=1%2C2,,5",
     );
     await testSendOperationRequest(
       ["1,2", null, "5"],
       QueryCollectionFormat.Csv,
       false,
-      "?q=1%2C2,,5"
+      "?q=1%2C2,,5",
     );
   });
 
@@ -302,19 +302,19 @@ describe("ServiceClient", function () {
       ["1,2", undefined, "5"],
       QueryCollectionFormat.Tsv,
       false,
-      "?q=1%2C2%09%095"
+      "?q=1%2C2%09%095",
     );
     await testSendOperationRequest(
       ["1,2", null, "5"],
       QueryCollectionFormat.Tsv,
       false,
-      "?q=1%2C2%09%095"
+      "?q=1%2C2%09%095",
     );
     await testSendOperationRequest(
       ["1,2", "3", "5"],
       QueryCollectionFormat.Tsv,
       false,
-      "?q=1%2C2%093%095"
+      "?q=1%2C2%093%095",
     );
   });
 
@@ -323,19 +323,19 @@ describe("ServiceClient", function () {
       ["1,2", undefined, "5"],
       QueryCollectionFormat.Ssv,
       false,
-      "?q=1%2C2%20%205"
+      "?q=1%2C2%20%205",
     );
     await testSendOperationRequest(
       ["1,2", null, "5"],
       QueryCollectionFormat.Ssv,
       false,
-      "?q=1%2C2%20%205"
+      "?q=1%2C2%20%205",
     );
     await testSendOperationRequest(
       ["1,2", "3", "5"],
       QueryCollectionFormat.Ssv,
       false,
-      "?q=1%2C2%203%205"
+      "?q=1%2C2%203%205",
     );
   });
 
@@ -344,19 +344,19 @@ describe("ServiceClient", function () {
       ["1", "2", "3"],
       QueryCollectionFormat.Multi,
       false,
-      "?q=1&q=2&q=3"
+      "?q=1&q=2&q=3",
     );
     await testSendOperationRequest(
       ["1,2", "3,4", "5"],
       QueryCollectionFormat.Multi,
       false,
-      "?q=1%2C2&q=3%2C4&q=5"
+      "?q=1%2C2&q=3%2C4&q=5",
     );
     await testSendOperationRequest(
       ["1,2", "3,4", "5"],
       QueryCollectionFormat.Multi,
       true,
-      "?q=1,2&q=3,4&q=5"
+      "?q=1,2&q=3,4&q=5",
     );
   });
 
@@ -384,7 +384,7 @@ describe("ServiceClient", function () {
         httpMethod: "GET",
         baseUrl: "https://bin.org",
         responses: { 200: {} },
-      }
+      },
     );
 
     assert.strictEqual(request!.withCredentials, false);
@@ -401,7 +401,7 @@ describe("ServiceClient", function () {
         httpMethod: "GET",
         baseUrl: "https://bin.org",
         responses: { 200: {} },
-      }
+      },
     );
     assert.strictEqual(request!.withCredentials, true);
   });
@@ -445,7 +445,7 @@ describe("ServiceClient", function () {
             },
           },
         },
-      }
+      },
     );
 
     assert.strictEqual(res._response.status, 200);
@@ -472,7 +472,7 @@ describe("ServiceClient", function () {
         httpMethod: "GET",
         baseUrl: "https://bin.org",
         responses: {},
-      }
+      },
     );
 
     assert.strictEqual(response._response.status, 200);
@@ -499,7 +499,7 @@ describe("ServiceClient", function () {
         httpMethod: "GET",
         baseUrl: "https://bin.org",
         responses: {},
-      }
+      },
     );
 
     assert.strictEqual(response._response.status, 200);
@@ -525,13 +525,13 @@ describe("ServiceClient", function () {
         httpMethod: "GET",
         baseUrl: "https://bin.org",
         responses: {},
-      }
+      },
     );
 
     assert.strictEqual(response._response.status, 200);
     assert.strictEqual(
       response._response.request.headers.get(isNode ? "user-agent" : "x-ms-useragent"),
-      "blah blah"
+      "blah blah",
     );
   });
 
@@ -554,12 +554,12 @@ describe("ServiceClient", function () {
         httpMethod: "GET",
         baseUrl: "https://bin.org",
         responses: {},
-      }
+      },
     );
 
     assert.strictEqual(response._response.status, 200);
     const userAgentHeaderValue: string | undefined = response._response.request.headers.get(
-      isNode ? "user-agent" : "x-ms-useragent"
+      isNode ? "user-agent" : "x-ms-useragent",
     );
     assert(userAgentHeaderValue);
     assert(userAgentHeaderValue!.startsWith("core-http/"));
@@ -585,13 +585,13 @@ describe("ServiceClient", function () {
         httpMethod: "GET",
         baseUrl: "https://bin.org",
         responses: {},
-      }
+      },
     );
 
     assert.strictEqual(response._response.status, 200);
     assert.strictEqual(
       response._response.request.headers.get(isNode ? "user-agent" : "x-ms-useragent"),
-      "blah blah 2"
+      "blah blah 2",
     );
   });
 
@@ -618,7 +618,7 @@ describe("ServiceClient", function () {
           },
           responses: { 200: {} },
           serializer: new Serializer(),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, `"body value"`);
     });
@@ -650,11 +650,11 @@ describe("ServiceClient", function () {
           requestBody: Mappers.body,
           responses: { 200: {} },
           serializer: new Serializer(Mappers),
-        }
+        },
       );
       assert.strictEqual(
         httpRequest.body,
-        `[{"ver":1,"name":"Test","time":"2020-09-24T17:31:35.034Z","data":{"baseData":{"test":"Hello!","extraProp":"FooBar"}}}]`
+        `[{"ver":1,"name":"Test","time":"2020-09-24T17:31:35.034Z","data":{"baseData":{"test":"Hello!","extraProp":"FooBar"}}}]`,
       );
     });
 
@@ -682,7 +682,7 @@ describe("ServiceClient", function () {
           },
           responses: { 200: {} },
           serializer: new Serializer(),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, `"body value"`);
     });
@@ -709,7 +709,7 @@ describe("ServiceClient", function () {
           },
           responses: { 200: {} },
           serializer: new Serializer(),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, `"SmF2YXNjcmlwdA=="`);
     });
@@ -736,7 +736,7 @@ describe("ServiceClient", function () {
           },
           responses: { 200: {} },
           serializer: new Serializer(undefined, false /** isXML */),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, `"SmF2YXNjcmlwdA=="`);
     });
@@ -763,7 +763,7 @@ describe("ServiceClient", function () {
           },
           responses: { 200: {} },
           serializer: new Serializer(),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, "body value");
     });
@@ -791,7 +791,7 @@ describe("ServiceClient", function () {
           },
           responses: { 200: {} },
           serializer: new Serializer(),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, "body value");
     });
@@ -819,11 +819,11 @@ describe("ServiceClient", function () {
           responses: { 200: {} },
           serializer: new Serializer(),
           isXML: true,
-        }
+        },
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg>body value</bodyArg>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg>body value</bodyArg>`,
       );
     });
 
@@ -851,11 +851,11 @@ describe("ServiceClient", function () {
           responses: { 200: {} },
           serializer: new Serializer(undefined, true /** isXML*/),
           isXML: true,
-        }
+        },
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com">body value</bodyArg>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com">body value</bodyArg>`,
       );
     });
 
@@ -882,11 +882,11 @@ describe("ServiceClient", function () {
           responses: { 200: {} },
           serializer: new Serializer(undefined, true /** isXml */),
           isXML: true,
-        }
+        },
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg>SmF2YXNjcmlwdA==</bodyArg>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg>SmF2YXNjcmlwdA==</bodyArg>`,
       );
     });
 
@@ -921,11 +921,11 @@ describe("ServiceClient", function () {
           responses: { 200: {} },
           serializer: new Serializer(undefined, true /** isXml */),
           isXML: true,
-        }
+        },
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><metadata><alpha>hello</alpha><beta>world</beta></metadata>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><metadata><alpha>hello</alpha><beta>world</beta></metadata>`,
       );
     });
 
@@ -964,11 +964,11 @@ describe("ServiceClient", function () {
           responses: { 200: {} },
           serializer: new Serializer(undefined, true /** isXml */),
           isXML: true,
-        }
+        },
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><metadata xmlns:sample="https://microsoft.com"><alpha xmlns:el="https://microsoft.com/element">hello</alpha><beta xmlns:el="https://microsoft.com/element">world</beta></metadata>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><metadata xmlns:sample="https://microsoft.com"><alpha xmlns:el="https://microsoft.com/element">hello</alpha><beta xmlns:el="https://microsoft.com/element">world</beta></metadata>`,
       );
     });
 
@@ -1006,7 +1006,7 @@ describe("ServiceClient", function () {
           },
           responses: { 200: {} },
           serializer: new Serializer(),
-        }
+        },
       );
       assert.deepEqual(httpRequest.body, `{"alpha":"hello","beta":"world"}`);
     });
@@ -1034,7 +1034,7 @@ describe("ServiceClient", function () {
           },
           responses: { 200: {} },
           serializer: new Serializer(undefined, false /** isXML */),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, `"SmF2YXNjcmlwdA=="`);
     });
@@ -1063,11 +1063,11 @@ describe("ServiceClient", function () {
           responses: { 200: {} },
           serializer: new Serializer(undefined, true),
           isXML: true,
-        }
+        },
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com">SmF2YXNjcmlwdA==</bodyArg>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com">SmF2YXNjcmlwdA==</bodyArg>`,
       );
     });
 
@@ -1096,11 +1096,11 @@ describe("ServiceClient", function () {
           responses: { 200: {} },
           serializer: new Serializer(undefined, true),
           isXML: true,
-        }
+        },
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns:sample="https://microsoft.com">SmF2YXNjcmlwdA==</bodyArg>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns:sample="https://microsoft.com">SmF2YXNjcmlwdA==</bodyArg>`,
       );
     });
 
@@ -1124,11 +1124,11 @@ describe("ServiceClient", function () {
           responses: { 200: {} },
           serializer: new Serializer(undefined, true /** isXML */),
           isXML: true,
-        }
+        },
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated xmlns="http://www.w3.org/2005/Atom">2020-08-12T23:36:18.308Z</updated><content xmlns="http://www.w3.org/2005/Atom" type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"><MaxDeliveryCount xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">15</MaxDeliveryCount></QueueDescription></content></entry>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated xmlns="http://www.w3.org/2005/Atom">2020-08-12T23:36:18.308Z</updated><content xmlns="http://www.w3.org/2005/Atom" type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"><MaxDeliveryCount xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">15</MaxDeliveryCount></QueueDescription></content></entry>`,
       );
     });
 
@@ -1151,12 +1151,12 @@ describe("ServiceClient", function () {
           requestBody: Mappers.requestBody1,
           responses: { 200: {} },
           serializer: new Serializer(),
-        }
+        },
       );
 
       assert.deepEqual(
         httpRequest.body,
-        '{"updated":"2020-08-12T23:36:18.308Z","content":{"type":"application/xml","queueDescription":{"maxDeliveryCount":15}}}'
+        '{"updated":"2020-08-12T23:36:18.308Z","content":{"type":"application/xml","queueDescription":{"maxDeliveryCount":15}}}',
       );
     });
 
@@ -1189,11 +1189,11 @@ describe("ServiceClient", function () {
           responses: { 200: {} },
           serializer: new Serializer(undefined, true),
           isXML: true,
-        }
+        },
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com"><testItem xmlns="https://microsoft.com/element">Foo</testItem><testItem xmlns="https://microsoft.com/element">Bar</testItem></bodyArg>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com"><testItem xmlns="https://microsoft.com/element">Foo</testItem><testItem xmlns="https://microsoft.com/element">Bar</testItem></bodyArg>`,
       );
     });
 
@@ -1225,7 +1225,7 @@ describe("ServiceClient", function () {
           },
           responses: { 200: {} },
           serializer: new Serializer(),
-        }
+        },
       );
       assert.deepEqual(httpRequest.body, JSON.stringify(["Foo", "Bar"]));
     });
@@ -1284,11 +1284,11 @@ describe("ServiceClient", function () {
           responses: { 200: {} },
           serializer: new Serializer(undefined, true),
           isXML: true,
-        }
+        },
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com"><testItem xmlns="https://microsoft.com/element"><Foo xmlns="https://microsoft.com/foo">Foo1</Foo><Bar xmlns:bar="https://microsoft.com/bar">Bar1</Bar></testItem><testItem xmlns="https://microsoft.com/element"><Foo xmlns="https://microsoft.com/foo">Foo2</Foo><Bar xmlns:bar="https://microsoft.com/bar">Bar2</Bar></testItem><testItem xmlns="https://microsoft.com/element"><Foo xmlns="https://microsoft.com/foo">Foo3</Foo><Bar xmlns:bar="https://microsoft.com/bar">Bar3</Bar></testItem></bodyArg>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com"><testItem xmlns="https://microsoft.com/element"><Foo xmlns="https://microsoft.com/foo">Foo1</Foo><Bar xmlns:bar="https://microsoft.com/bar">Bar1</Bar></testItem><testItem xmlns="https://microsoft.com/element"><Foo xmlns="https://microsoft.com/foo">Foo2</Foo><Bar xmlns:bar="https://microsoft.com/bar">Bar2</Bar></testItem><testItem xmlns="https://microsoft.com/element"><Foo xmlns="https://microsoft.com/foo">Foo3</Foo><Bar xmlns:bar="https://microsoft.com/bar">Bar3</Bar></testItem></bodyArg>`,
       );
     });
 
@@ -1335,11 +1335,11 @@ describe("ServiceClient", function () {
           responses: { 200: {} },
           serializer: new Serializer(undefined, true),
           isXML: true,
-        }
+        },
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com"><Foo xmlns="https://microsoft.com/foo">Foo</Foo><Bar xmlns:bar="https://microsoft.com/bar">Bar</Bar></bodyArg>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com"><Foo xmlns="https://microsoft.com/foo">Foo</Foo><Bar xmlns:bar="https://microsoft.com/bar">Bar</Bar></bodyArg>`,
       );
     });
 
@@ -1366,7 +1366,7 @@ describe("ServiceClient", function () {
           responses: { 200: {} },
           serializer: new Serializer(),
           isXML: true,
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, "body value");
     });
@@ -1394,7 +1394,7 @@ describe("ServiceClient", function () {
           responses: { 200: {} },
           serializer: new Serializer(),
           isXML: true,
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, "body value");
     });
@@ -1437,11 +1437,11 @@ describe("ServiceClient", function () {
           responses: { 200: {} },
           serializer: new Serializer(undefined, true /** isXML */),
           isXML: true,
-        }
+        },
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry>pound value</entry>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry>pound value</entry>`,
       );
     });
 
@@ -1468,7 +1468,7 @@ describe("ServiceClient", function () {
           },
           responses: { 200: {} },
           serializer: new Serializer(),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, "body value");
     });
@@ -1496,7 +1496,7 @@ describe("ServiceClient", function () {
           },
           responses: { 200: {} },
           serializer: new Serializer(),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, "body value");
     });
@@ -1518,7 +1518,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       assert.strictEqual(parameterValue, undefined);
     });
@@ -1540,7 +1540,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       assert.strictEqual(parameterValue, undefined);
     });
@@ -1563,7 +1563,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       // tslint:disable-next-line:no-null-keyword
       assert.strictEqual(parameterValue, null);
@@ -1586,7 +1586,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       assert.strictEqual(parameterValue, 20);
     });
@@ -1610,7 +1610,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       assert.strictEqual(parameterValue, 1);
     });
@@ -1631,7 +1631,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       assert.strictEqual(parameterValue, 21);
     });
@@ -1654,7 +1654,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       assert.strictEqual(parameterValue, 22);
     });
@@ -1676,7 +1676,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       assert.strictEqual(parameterValue, 1);
     });
@@ -1704,7 +1704,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       assert.strictEqual(parameterValue, 4);
     });
@@ -1725,7 +1725,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       assert.strictEqual(parameterValue, undefined);
     });
@@ -1747,7 +1747,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       assert.strictEqual(parameterValue, 21);
     });
@@ -1773,7 +1773,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       assert.strictEqual(parameterValue, 21);
     });
@@ -1798,7 +1798,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       assert.strictEqual(parameterValue, undefined);
     });
@@ -1819,7 +1819,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       assert.strictEqual(parameterValue, 21);
     });
@@ -1840,7 +1840,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       assert.strictEqual(parameterValue, undefined);
     });
@@ -1864,7 +1864,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       // tslint:disable-next-line:no-null-keyword
       assert.strictEqual(parameterValue, null);
@@ -1887,7 +1887,7 @@ describe("ServiceClient", function () {
         operationArguments,
         parameterPath,
         parameterMapper,
-        new Serializer()
+        new Serializer(),
       );
       // tslint:disable-next-line:no-null-keyword
       assert.strictEqual(parameterValue, 5);
@@ -1989,7 +1989,7 @@ async function testSendOperationRequest(
   queryValue: any,
   queryCollectionFormat: QueryCollectionFormat,
   skipEncodingParameter: boolean,
-  expected: string
+  expected: string,
 ): Promise<void> {
   let request: WebResource;
   const client = new ServiceClient(undefined, {
@@ -2032,7 +2032,7 @@ async function testSendOperationRequest(
       responses: {
         200: {},
       },
-    }
+    },
   );
 
   assert(request!);

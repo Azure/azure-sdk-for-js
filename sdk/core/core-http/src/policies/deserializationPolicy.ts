@@ -51,7 +51,7 @@ export interface DeserializationContentTypes {
  */
 export function deserializationPolicy(
   deserializationContentTypes?: DeserializationContentTypes,
-  parsingOptions?: SerializerOptions
+  parsingOptions?: SerializerOptions,
 ): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -59,7 +59,7 @@ export function deserializationPolicy(
         nextPolicy,
         options,
         deserializationContentTypes,
-        parsingOptions
+        parsingOptions,
       );
     },
   };
@@ -88,7 +88,7 @@ export class DeserializationPolicy extends BaseRequestPolicy {
     nextPolicy: RequestPolicy,
     requestPolicyOptions: RequestPolicyOptions,
     deserializationContentTypes?: DeserializationContentTypes,
-    parsingOptions: SerializerOptions = {}
+    parsingOptions: SerializerOptions = {},
   ) {
     super(nextPolicy, requestPolicyOptions);
 
@@ -103,13 +103,13 @@ export class DeserializationPolicy extends BaseRequestPolicy {
     return this._nextPolicy.sendRequest(request).then((response: HttpOperationResponse) =>
       deserializeResponseBody(this.jsonContentTypes, this.xmlContentTypes, response, {
         xmlCharKey: this.xmlCharKey,
-      })
+      }),
     );
   }
 }
 
 function getOperationResponse(
-  parsedResponse: HttpOperationResponse
+  parsedResponse: HttpOperationResponse,
 ): undefined | OperationResponse {
   let result: OperationResponse | undefined;
   const request: WebResourceLike = parsedResponse.request;
@@ -119,7 +119,7 @@ function getOperationResponse(
       | undefined
       | ((
           operationSpec: OperationSpec,
-          response: HttpOperationResponse
+          response: HttpOperationResponse,
         ) => undefined | OperationResponse) = request.operationResponseGetter;
     if (!operationResponseGetter) {
       result = operationSpec.responses[parsedResponse.status];
@@ -156,7 +156,7 @@ export function deserializeResponseBody(
   jsonContentTypes: string[],
   xmlContentTypes: string[],
   response: HttpOperationResponse,
-  options: SerializerOptions = {}
+  options: SerializerOptions = {},
 ): Promise<HttpOperationResponse> {
   const updatedOptions: Required<SerializerOptions> = {
     rootName: options.rootName ?? "",
@@ -179,7 +179,7 @@ export function deserializeResponseBody(
       const { error, shouldReturnResponse } = handleErrorResponse(
         parsedResponse,
         operationSpec,
-        responseSpec
+        responseSpec,
       );
       if (error) {
         throw error;
@@ -203,7 +203,7 @@ export function deserializeResponseBody(
               responseSpec.bodyMapper,
               valueToDeserialize,
               "operationRes.parsedBody",
-              options
+              options,
             );
           } catch (innerError: any) {
             const restError = new RestError(
@@ -211,7 +211,7 @@ export function deserializeResponseBody(
               undefined,
               parsedResponse.status,
               parsedResponse.request,
-              parsedResponse
+              parsedResponse,
             );
             throw restError;
           }
@@ -225,13 +225,13 @@ export function deserializeResponseBody(
             responseSpec.headersMapper,
             parsedResponse.headers.toJson(),
             "operationRes.parsedHeaders",
-            options
+            options,
           );
         }
       }
 
       return parsedResponse;
-    }
+    },
   );
 }
 
@@ -246,7 +246,7 @@ function isOperationSpecEmpty(operationSpec: OperationSpec): boolean {
 function handleErrorResponse(
   parsedResponse: HttpOperationResponse,
   operationSpec: OperationSpec,
-  responseSpec: OperationResponse | undefined
+  responseSpec: OperationResponse | undefined,
 ): { error: RestError | null; shouldReturnResponse: boolean } {
   const isSuccessByStatus = 200 <= parsedResponse.status && parsedResponse.status < 300;
   const isExpectedStatusCode: boolean = isOperationSpecEmpty(operationSpec)
@@ -276,7 +276,7 @@ function handleErrorResponse(
     undefined,
     parsedResponse.status,
     parsedResponse.request,
-    parsedResponse
+    parsedResponse,
   );
 
   // If the item failed but there's no error spec or default spec to deserialize the error,
@@ -303,7 +303,7 @@ function handleErrorResponse(
         parsedError = operationSpec.serializer.deserialize(
           defaultBodyMapper,
           valueToDeserialize,
-          "error.response.parsedBody"
+          "error.response.parsedBody",
         );
       }
 
@@ -323,7 +323,7 @@ function handleErrorResponse(
       error.response!.parsedHeaders = operationSpec.serializer.deserialize(
         defaultHeadersMapper,
         parsedResponse.headers.toJson(),
-        "operationRes.parsedHeaders"
+        "operationRes.parsedHeaders",
       );
     }
   } catch (defaultError: any) {
@@ -337,7 +337,7 @@ function parse(
   jsonContentTypes: string[],
   xmlContentTypes: string[],
   operationResponse: HttpOperationResponse,
-  opts: Required<SerializerOptions>
+  opts: Required<SerializerOptions>,
 ): Promise<HttpOperationResponse> {
   const errorHandler = (err: Error & { code: string }): Promise<never> => {
     const msg = `Error "${err}" occurred while parsing the response body - ${operationResponse.bodyAsText}.`;
@@ -347,7 +347,7 @@ function parse(
       errCode,
       operationResponse.status,
       operationResponse.request,
-      operationResponse
+      operationResponse,
     );
     return Promise.reject(e);
   };
