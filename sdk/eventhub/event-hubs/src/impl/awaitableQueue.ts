@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortSignal } from "@azure/abort-controller";
+import { createAbortablePromise } from "@azure/core-util";
+
 /**
  * `AwaitableQueue` stores items in the order that they are received.
  *
@@ -25,15 +28,26 @@ export class AwaitableQueue<T> {
   /**
    * Returns a Promise that will resolve with the next item in the queue.
    */
-  public shift(): Promise<T> {
+  public shift(options?: {
+    abortSignal: AbortSignal;
+    abortErrorMsg: string;
+  }): Promise<T> {
     const item = this._items.shift();
     if (typeof item !== "undefined") {
       console.log(`resolving AwaitableQueue.shift: item = ${item}`);
       return Promise.resolve(item);
     }
 
-    console.log(`AwaitableQueue.shift: this._resolvers.length = ${this._resolvers.length}`);
-    return new Promise<T>((resolve) => this._resolvers.push(resolve));
+    return createAbortablePromise<T>((resolve) => {
+      console.log(`AwaitableQueue.shift: this._resolvers.length = ${this._resolvers.length}`);
+      return this._resolvers.push(resolve);
+    }, {
+      ...options, cleanupBeforeAbort: () => {
+        console.log(`AwaitableQueue.shift before abort(pop) : this._resolvers.length = ${this._resolvers.length}`);
+        this._resolvers.pop();
+        console.log(`AwaitableQueue.shift  after abort(pop) : this._resolvers.length = ${this._resolvers.length}`);
+      }
+    })
   }
 
   /**

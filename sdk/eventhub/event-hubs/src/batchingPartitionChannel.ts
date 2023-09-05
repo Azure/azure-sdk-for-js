@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AmqpAnnotatedMessage, delay } from "@azure/core-amqp";
+import { AmqpAnnotatedMessage, StandardAbortMessage, delay } from "@azure/core-amqp";
 import {
   EventData,
   EventDataBatch,
@@ -10,7 +10,7 @@ import {
   OperationOptions,
 } from "./index";
 import { isDefined, isObjectWithProperties } from "@azure/core-util";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike, AbortController } from "@azure/abort-controller";
 import { AwaitableQueue } from "./impl/awaitableQueue";
 import { getPromiseParts } from "./util/getPromiseParts";
 import { logger } from "./logger";
@@ -157,7 +157,6 @@ export class BatchingPartitionChannel {
     this._startPublishLoopCount++;
     console.log(`${(new Date()).toISOString()} _startPublishLoop: count = ${this._startPublishLoopCount}`);
     let batch: EventDataBatch | undefined;
-    let futureEvent = this._eventQueue.shift();
     // `eventToAddToBatch` is used to keep track of an event that has been removed
     // from the queue, but has not yet been added to a batch.
     // This prevents losing an event if a `sendBatch` or `createBatch` call fails
@@ -176,10 +175,25 @@ export class BatchingPartitionChannel {
           : this._maxWaitTimeInMs;
 
         console.log("maximumTimeToWaitForEvent: ", maximumTimeToWaitForEvent)
-        const delayPromise = delay<void>(maximumTimeToWaitForEvent).then(() => { console.log("delayPromise resolved") });
+        const aborter = new AbortController();
+        const abortListener = () => {
+          aborter.abort();
+        };
+        this._loopAbortSignal.addEventListener("abort", abortListener);
+        const updatedOptions = {
+          abortSignal: aborter.signal,
+          abortErrorMsg: StandardAbortMessage
+        };
+        let futureEvent = this._eventQueue.shift(updatedOptions);
+        const delayPromise = delay<void>(maximumTimeToWaitForEvent, updatedOptions.abortSignal, updatedOptions.abortErrorMsg)
         const event =
           eventToAddToBatch ??
-          (await Promise.race([futureEvent, delayPromise]));
+          (await Promise.race([futureEvent, delayPromise]).finally(() => {
+            console.log("after race, before abort .... size =", this._eventQueue.size())
+            aborter.abort();
+            console.log("after race,  after abort .... size =", this._eventQueue.size())
+            this._loopAbortSignal?.removeEventListener("abort", abortListener);
+          }));
         console.log("event from race: ", event)
         if (!event) {
           console.log("event is undefined, batch.count: ", batch.count)
@@ -190,10 +204,6 @@ export class BatchingPartitionChannel {
             this._reportSuccess();
             batch = await this._createBatch();
           }
-          //  else {
-          //   console.log(await delayPromise);
-          //   console.log(await futureEvent);
-          // }
           continue;
         } else if (!eventToAddToBatch) {
           console.log("eventToAddToBatch is undefined")
