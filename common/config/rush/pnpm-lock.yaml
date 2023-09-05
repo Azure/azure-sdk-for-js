@@ -18276,7 +18276,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-YG4bGonuiwYqhNugipWSj6NgsTsGVcbT/RBOkvw/0Ga4nBeQ86N7MVUKP/rdpjUIYTW9QnEnB+z0BrA1wKC3SQ==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-T3wphYpquczXfzzVd7sVSZiqP/NLeUJKwOqwG1pN5IOKsZABe3DnTDuA1Ta5b8iuqTRlvjc/LRczLFK+VZDKkA==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -18300,8 +18300,8 @@ packages:
       eslint-plugin-tsdoc: 0.2.17
       glob: 9.3.5
       json-schema: 0.4.0
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1_mocha@7.2.0
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1_mocha@10.2.0
       prettier: 2.8.8
       rimraf: 3.0.2
       source-map-support: 0.5.21
