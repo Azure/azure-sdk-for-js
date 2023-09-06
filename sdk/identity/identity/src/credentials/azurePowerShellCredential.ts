@@ -147,6 +147,7 @@ export class AzurePowerShellCredential implements TokenCredential {
         [
           powerShellCommand,
           "-NoProfile",
+          "-NonInteractive",
           "-Command",
           "Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru",
         ],
