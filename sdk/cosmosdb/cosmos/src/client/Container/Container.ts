@@ -318,15 +318,17 @@ export class Container {
    * @returns all the feed ranges for which changefeed could be fetched.
    */
   public async getFeedRanges(): Promise<ReadonlyArray<FeedRange>> {
-    const { resources } = await this.readPartitionKeyRanges().fetchAll();
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const { resources } = await this.readPartitionKeyRanges().fetchAllInternal(diagnosticNode);
 
-    const feedRanges: FeedRange[] = [];
-    for (const resource of resources) {
-      const feedRange = new FeedRangeInternal(resource.minInclusive, resource.maxExclusive);
-      Object.freeze(feedRange);
-      feedRanges.push(feedRange);
-    }
-    return Object.freeze(feedRanges);
+      const feedRanges: FeedRange[] = [];
+      for (const resource of resources) {
+        const feedRange = new FeedRangeInternal(resource.minInclusive, resource.maxExclusive);
+        Object.freeze(feedRange);
+        feedRanges.push(feedRange);
+      }
+      return feedRanges;
+    }, this.clientContext);
   }
 
   /**

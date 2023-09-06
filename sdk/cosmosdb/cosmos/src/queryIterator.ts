@@ -25,7 +25,7 @@ import {
   withDiagnostics,
   withMetadataDiagnostics,
 } from "./utils/diagnostics";
-import { MetadataLookUpType } from ".";
+import { MetadataLookUpType } from "./CosmosDiagnostics";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
