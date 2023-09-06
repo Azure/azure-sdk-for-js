@@ -30,9 +30,9 @@ async function run(): Promise<void> {
   const itemId = "itemId";
   const { database } = await accessingDiagnosticForDatabaseOperations(databaseId);
   const { container } = await accessingDiagnosticForContainerOperations(database);
-  await accessingDianosticForItemOperations(itemId, container);
-  await accessingDianosticForBatchOperations(container);
-  await accessingDianosticForQueryOperations(container);
+  await accessingDiagnosticForItemOperations(itemId, container);
+  await accessingDiagnosticForBatchOperations(container);
+  await accessingDiagnosticForQueryOperations(container);
   await finish();
 }
 
@@ -61,7 +61,7 @@ async function accessingDiagnosticForContainerOperations(
   };
 }
 
-async function accessingDianosticForItemOperations(itemId: string, container: Container) {
+async function accessingDiagnosticForItemOperations(itemId: string, container: Container) {
   const { item, diagnostics } = await container.items.create({
     id: itemId,
     key1: "A",
@@ -71,13 +71,13 @@ async function accessingDianosticForItemOperations(itemId: string, container: Co
   displayCosmosDiagnosticsObject(diagnostics, "Item create");
 }
 
-async function accessingDianosticForQueryOperations(container: Container) {
+async function accessingDiagnosticForQueryOperations(container: Container) {
   const queryIterator = container.items.query("select * from c");
   const { resources, diagnostics } = await queryIterator.fetchAll();
   displayCosmosDiagnosticsObject(diagnostics, "query, fetch all");
 }
 
-async function accessingDianosticForBatchOperations(container: Container) {
+async function accessingDiagnosticForBatchOperations(container: Container) {
   const createItemId = "batchItemCreate";
   const upsertItemId = "upsertItemId";
   const patchItemId = "patchItemId";
