@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventMessage } from "../../sources/customizations/api/sse.js";
+import { EventMessage } from "../src/index.js";
 import {
   assertAsyncIterable,
   genChunks,

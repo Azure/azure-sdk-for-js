@@ -4,16 +4,6 @@
 import { Client, getClient } from "@azure-rest/core-client";
 import { PassThrough } from "stream";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { EventMessage, toSSE } from "../../../sources/customizations/api/sse.js";
-
-export function createSSEStream(
-  cb: (write: (chunk: Uint8Array) => void) => void
-): AsyncIterable<EventMessage> {
-  const stream = new PassThrough();
-  cb((c) => stream.write(c));
-  stream.end();
-  return toSSE(stream);
-}
 
 export function createStream(
   cb: (write: (chunk: Uint8Array) => void) => void
