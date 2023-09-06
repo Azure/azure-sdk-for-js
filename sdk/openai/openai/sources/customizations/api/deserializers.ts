@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  ChatMessage,
-  ChatRole,
-  Completions,
-} from "../../generated/src/models/models.js";
+import { ChatMessage, ChatRole, Completions } from "../../generated/src/models/models.js";
 import {
   ChatChoiceOutput,
   ChatMessageOutput,

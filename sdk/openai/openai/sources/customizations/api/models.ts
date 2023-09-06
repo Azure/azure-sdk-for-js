@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { ErrorModel, OperationOptions } from "@azure-rest/core-client";
-import { ContentFilterResult, FunctionCallPreset, FunctionName } from "../../generated/src/index.js";
+import {
+  ContentFilterResult,
+  FunctionCallPreset,
+  FunctionName,
+} from "../../generated/src/index.js";
 import { AzureChatExtensionConfiguration, FunctionDefinition } from "../models/models.js";
 
 /**
@@ -101,7 +105,6 @@ export interface AzureExtensionsOptions {
    */
   extensions?: AzureChatExtensionConfiguration[];
 }
-
 
 /** Information about the content filtering category, if it has been detected. */
 export type ContentFilterResults = ContentFilterSuccessOutput | ContentFilterErrorOutput;

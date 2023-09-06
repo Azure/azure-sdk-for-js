@@ -70,9 +70,9 @@ function assertContentFilterResult(val: ContentFilterResult): void {
 }
 
 function assertContentFilterResults(cfr: ContentFilterResults): void {
-  if (cfr.error){
-    assert.isDefined(cfr.error.code)
-    assert.isDefined(cfr.error.message)
+  if (cfr.error) {
+    assert.isDefined(cfr.error.code);
+    assert.isDefined(cfr.error.message);
   } else {
     ifDefined(cfr.hate, assertContentFilterResult);
     ifDefined(cfr.selfHarm, assertContentFilterResult);
