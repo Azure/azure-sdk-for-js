@@ -10,3 +10,4 @@ export { computeSha256Hash, computeSha256Hmac } from "./sha256";
 export { isDefined, isObjectWithProperties, objectHasProperty } from "./typeGuards";
 export { randomUUID } from "./uuidUtils";
 export { isBrowser, isBun, isNode, isDeno, isReactNative, isWebWorker } from "./checkEnvironment";
+export { uint8ArrayToString, stringToUint8Array, EncodingType } from "./bytesEncoding";

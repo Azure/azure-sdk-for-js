@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a Gateway to be used in Api Management instance.
  *
  * @summary Creates or updates a Gateway to be used in Api Management instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateGateway.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGateway.json
  */
 async function apiManagementCreateGateway() {
   const subscriptionId =

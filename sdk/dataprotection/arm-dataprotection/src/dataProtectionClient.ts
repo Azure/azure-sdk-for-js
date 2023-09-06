@@ -59,7 +59,7 @@ import { DataProtectionClientOptionalParams } from "./models";
 export class DataProtectionClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the DataProtectionClient class.
@@ -71,12 +71,26 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: DataProtectionClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: DataProtectionClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: DataProtectionClientOptionalParams | string,
+    options?: DataProtectionClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -88,7 +102,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-dataprotection/1.1.0`;
+    const packageDetails = `azsdk-js-arm-dataprotection/1.2.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -141,7 +155,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-01-01";
+    this.apiVersion = options.apiVersion || "2023-05-01";
     this.backupVaults = new BackupVaultsImpl(this);
     this.operationResult = new OperationResultImpl(this);
     this.operationStatus = new OperationStatusImpl(this);

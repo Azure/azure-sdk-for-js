@@ -48,7 +48,8 @@
     "cross-env": "^7.0.2",
     "@types/node": "^14.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "ts-node": "^10.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appservice/arm-appservice-profile-2020-09-01-hybrid",
   "repository": {

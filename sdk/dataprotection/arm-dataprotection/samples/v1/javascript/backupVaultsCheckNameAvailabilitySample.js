@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to API to check for resource name availability
  *
  * @summary API to check for resource name availability
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/VaultCRUD/CheckBackupVaultsNameAvailability.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-05-01/examples/VaultCRUD/CheckBackupVaultsNameAvailability.json
  */
 async function checkBackupVaultsNameAvailability() {
   const subscriptionId =

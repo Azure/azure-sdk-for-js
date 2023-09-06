@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the details of the API specified by its identifier.
  *
  * @summary Gets the details of the API specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetApiContract.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiContract.json
  */
 async function apiManagementGetApiContract() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -33,7 +33,7 @@ async function apiManagementGetApiContract() {
  * This sample demonstrates how to Gets the details of the API specified by its identifier.
  *
  * @summary Gets the details of the API specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetApiRevision.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiRevision.json
  */
 async function apiManagementGetApiRevisionContract() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

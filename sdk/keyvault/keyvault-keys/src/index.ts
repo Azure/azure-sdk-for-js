@@ -942,8 +942,8 @@ export class KeyClient {
         async (updatedOptions) =>
           this.client.getKeyVersionsNext(
             this.vaultUrl,
-            continuationState.continuationToken!,
             name,
+            continuationState.continuationToken!,
             updatedOptions
           )
       );

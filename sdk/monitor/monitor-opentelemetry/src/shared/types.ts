@@ -5,7 +5,7 @@ import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-export
 import { InstrumentationConfig } from "@opentelemetry/instrumentation";
 import { Resource } from "@opentelemetry/resources";
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "0.0.0-beta.0";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.0.0-beta.3";
 export const DEFAULT_ROLE_NAME = "Web";
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 
@@ -20,16 +20,6 @@ export interface AzureMonitorOpenTelemetryOptions {
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   samplingRatio?: number;
   /**
-   * Sets the state of performance tracking (enabled by default)
-   * if true performance counters will be collected every second and sent to Azure Monitor
-   */
-  enableAutoCollectPerformance?: boolean;
-  /**
-   * Sets the state of standard metrics tracking (enabled by default)
-   * if true Standard metrics will be collected every minute and sent to Azure Monitor
-   */
-  enableAutoCollectStandardMetrics?: boolean;
-  /**
    * OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
   instrumentationOptions?: InstrumentationOptions;
@@ -40,17 +30,17 @@ export interface AzureMonitorOpenTelemetryOptions {
  */
 export interface InstrumentationOptions {
   /** Azure SDK Instrumentation Config */
-  azureSdk: InstrumentationConfig;
+  azureSdk?: InstrumentationConfig;
   /** HTTP Instrumentation Config */
-  http: InstrumentationConfig;
+  http?: InstrumentationConfig;
   /** MongoDB Instrumentation Config */
-  mongoDb: InstrumentationConfig;
+  mongoDb?: InstrumentationConfig;
   /** MySQL Instrumentation Config */
-  mySql: InstrumentationConfig;
+  mySql?: InstrumentationConfig;
   /** PostgreSql Instrumentation Config */
-  postgreSql: InstrumentationConfig;
+  postgreSql?: InstrumentationConfig;
   /** Redis Instrumentation Config */
-  redis: InstrumentationConfig;
+  redis?: InstrumentationConfig;
   /** Redis4 Instrumentation Config */
-  redis4: InstrumentationConfig;
+  redis4?: InstrumentationConfig;
 }

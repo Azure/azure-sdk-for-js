@@ -10,8 +10,12 @@ import {
   MetricAlertConfiguration,
   MetricsAdvisorAdministrationClient,
 } from "../../src";
-import { createRecordedAdminClient, makeCredential, testEnv } from "./util/recordedClients";
-import { Recorder } from "@azure-tools/test-recorder";
+import {
+  createRecordedAdminClient,
+  getRecorderUniqueVariable,
+  makeCredential,
+} from "./util/recordedClients";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { getYieldedValue, matrix } from "@azure/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
@@ -20,8 +24,8 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorAdministrationClient;
       let recorder: Recorder;
 
-      beforeEach(function (this: Context) {
-        ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
+      beforeEach(async function (this: Context) {
+        ({ recorder, client } = await createRecordedAdminClient(this, makeCredential(useAad)));
       });
 
       afterEach(async function () {
@@ -33,7 +37,7 @@ matrix([[true, false]] as const, async (useAad) => {
       describe("Ingestion", function () {
         it("lists ingestion status", async function () {
           const iterator = client.listDataFeedIngestionStatus(
-            testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
+            assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
             new Date(Date.UTC(2020, 9, 30)),
             new Date(Date.UTC(2021, 10, 1))
           );
@@ -45,7 +49,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         it("lists ingestion status with datetime strings", async function () {
           const iterator = client.listDataFeedIngestionStatus(
-            testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
+            assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
             "2020-08-30T00:00:00.000Z",
             "2021-11-01T00:00:00.000Z"
           );
@@ -58,7 +62,7 @@ matrix([[true, false]] as const, async (useAad) => {
         it("lists ingestion status by page", async function () {
           const iterator = client
             .listDataFeedIngestionStatus(
-              testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
+              assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
               new Date(Date.UTC(2020, 9, 30)),
               new Date(Date.UTC(2021, 10, 1))
             )
@@ -71,7 +75,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         it("gets ingestion progress", async function () {
           const result = await client.getDataFeedIngestionProgress(
-            testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID
+            assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID")
           );
 
           assert.ok(result.latestSuccessTimestamp, "Expecting valid latest success timestamp");
@@ -80,7 +84,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         it("refreshes ingesetion status", async function (this: Context) {
           const iterator = client.listDataFeedIngestionStatus(
-            testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
+            assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
             new Date(Date.UTC(2020, 9, 30)),
             new Date(Date.UTC(2020, 10, 1))
           );
@@ -88,13 +92,13 @@ matrix([[true, false]] as const, async (useAad) => {
 
           if (result.status === "Succeeded") {
             await client.refreshDataFeedIngestion(
-              testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
+              assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
               new Date(Date.UTC(2020, 9, 30)),
               new Date(Date.UTC(2020, 10, 1))
             );
 
             const iterator2 = client.listDataFeedIngestionStatus(
-              testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
+              assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
               new Date(Date.UTC(2020, 9, 30)),
               new Date(Date.UTC(2020, 10, 1))
             );
@@ -112,11 +116,11 @@ matrix([[true, false]] as const, async (useAad) => {
         let expectedDetectionConfigName: string;
 
         it("creates a detection configuration", async function () {
-          expectedDetectionConfigName = recorder.getUniqueName("js-detection-config-");
+          expectedDetectionConfigName = getRecorderUniqueVariable(recorder, "js-detection-config-");
           const expected: Omit<AnomalyDetectionConfiguration, "id"> = {
             name: expectedDetectionConfigName,
             description: "fresh detection",
-            metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
+            metricId: assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
             wholeSeriesDetectionCondition: {
               conditionOperator: "AND",
               changeThresholdCondition: {
@@ -244,7 +248,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         it("lists detection configurations", async function () {
           const iterator = client.listDetectionConfigs(
-            testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
+            assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1")
           );
           let result = getYieldedValue(await iterator.next());
           assert.ok(result.id, "Expecting first detection config");
@@ -254,7 +258,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
         it("lists detection configurations by page", async function () {
           const iterator = client
-            .listDetectionConfigs(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1)
+            .listDetectionConfigs(
+              assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1")
+            )
             .byPage();
           const result = await iterator.next();
           assert.ok(result.value.length > 1, "Expecting more than one entries in page");
@@ -262,7 +268,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         let expectedAlertConfigName: string;
         it("creates an alert configuration", async function () {
-          expectedAlertConfigName = recorder.getUniqueName("js-alert-config-");
+          expectedAlertConfigName = getRecorderUniqueVariable(recorder, "js-alert-config-");
           const metricAlertConfig: MetricAlertConfiguration = {
             detectionConfigurationId: createdDetectionConfigId,
             alertScope: {
@@ -339,7 +345,7 @@ matrix([[true, false]] as const, async (useAad) => {
         });
 
         it("lists alert configurations one by one and by pages", async function () {
-          const secondAlertConfigName = recorder.getUniqueName("js-alert-config2-");
+          const secondAlertConfigName = getRecorderUniqueVariable(recorder, "js-alert-config2-");
           // creating a second alert config for listing
           const metricAlertConfig: MetricAlertConfiguration = {
             detectionConfigurationId: createdDetectionConfigId,

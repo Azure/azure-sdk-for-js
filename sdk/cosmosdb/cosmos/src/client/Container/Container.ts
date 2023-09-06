@@ -26,6 +26,7 @@ import { OfferResponse } from "../Offer/OfferResponse";
 import { Resource } from "../Resource";
 import { getEmptyCosmosDiagnostics } from "../../CosmosDiagnostics";
 import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
+import { FeedRange, FeedRangeInternal } from "../ChangeFeed";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -273,6 +274,21 @@ export class Container {
       undefined,
       feedOptions
     );
+  }
+  /**
+   *
+   * @returns all the feed ranges for which changefeed could be fetched.
+   */
+  public async getFeedRanges(): Promise<ReadonlyArray<FeedRange>> {
+    const { resources } = await this.readPartitionKeyRanges().fetchAll();
+
+    const feedRanges: FeedRange[] = [];
+    for (const resource of resources) {
+      const feedRange = new FeedRangeInternal(resource.minInclusive, resource.maxExclusive);
+      Object.freeze(feedRange);
+      feedRanges.push(feedRange);
+    }
+    return Object.freeze(feedRanges);
   }
 
   /**

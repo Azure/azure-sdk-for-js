@@ -4,29 +4,7 @@
     "disableOfflineStorage": true,
     "storageDirectory": "testPath"
   },
-  "otlpTraceExporterConfig": {
-    "enabled": true,
-    "baseConfig": {
-      "keepAlive": false,
-      "url": "someurlfortraces"
-    }
-  },
-  "otlpMetricExporterConfig": {
-    "enabled": true,
-    "baseConfig": {
-      "keepAlive": true,
-      "url": "someurlformetrics"
-    }
-  },
   "samplingRatio": 0.3,
-  "enableAutoCollectExceptions": false,
-  "enableAutoCollectPerformance": false,
-  "enableAutoCollectStandardMetrics": false,
-  "extendedMetrics": {
-    "heap": true,
-    "gc": true,
-    "loop": true
-  },
   "instrumentationOptions": {
     "azureSdk": {
       "enabled": true
@@ -44,17 +22,6 @@
       "enabled": true
     },
     "redis4": {
-      "enabled": true
-    }
-  },
-  "logInstrumentations": {
-    "console": {
-      "enabled": true
-    },
-    "bunyan": {
-      "enabled": true
-    },
-    "winston": {
       "enabled": true
     }
   }

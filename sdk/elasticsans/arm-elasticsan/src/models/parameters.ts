@@ -17,7 +17,8 @@ import {
   VolumeGroup as VolumeGroupMapper,
   VolumeGroupUpdate as VolumeGroupUpdateMapper,
   Volume as VolumeMapper,
-  VolumeUpdate as VolumeUpdateMapper
+  VolumeUpdate as VolumeUpdateMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -47,7 +48,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-11-20-preview",
+    defaultValue: "2022-12-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -84,7 +85,6 @@ export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[-\\w\\._]*[0-9A-Za-z]$"),
       MaxLength: 90,
       MinLength: 1
     },
@@ -196,4 +196,20 @@ export const volumeName: OperationURLParameter = {
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: VolumeUpdateMapper
+};
+
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PrivateEndpointConnectionMapper
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Patch the specified capacity pool
  *
  * @summary Patch the specified capacity pool
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/Pools_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Pools_Update.json
  */
 async function poolsUpdate() {
   const subscriptionId =

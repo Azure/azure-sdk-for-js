@@ -49,6 +49,7 @@ module.exports = function (config) {
     envPreprocessor: [
       "ACCOUNT_NAME",
       "ACCOUNT_SAS",
+      "ACCOUNT_TOKEN",
       "SOFT_DELETE_ACCOUNT_NAME",
       "SOFT_DELETE_ACCOUNT_SAS",
       "PREMIUM_FILE_ACCOUNT_NAME",

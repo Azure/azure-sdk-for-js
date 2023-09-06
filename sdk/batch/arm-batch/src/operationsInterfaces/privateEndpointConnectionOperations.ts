@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionListByBatchAccountOptionalParams,
@@ -64,8 +64,8 @@ export interface PrivateEndpointConnectionOperations {
     parameters: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionUpdateResponse>,
       PrivateEndpointConnectionUpdateResponse
     >
   >;
@@ -100,8 +100,8 @@ export interface PrivateEndpointConnectionOperations {
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionDeleteResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionDeleteResponse>,
       PrivateEndpointConnectionDeleteResponse
     >
   >;

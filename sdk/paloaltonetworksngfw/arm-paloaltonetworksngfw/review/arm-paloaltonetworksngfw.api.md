@@ -431,6 +431,48 @@ export interface FirewallsSaveLogProfileOptionalParams extends coreClient.Operat
 }
 
 // @public
+export interface FirewallStatus {
+    get(resourceGroupName: string, firewallName: string, options?: FirewallStatusGetOptionalParams): Promise<FirewallStatusGetResponse>;
+    listByFirewalls(resourceGroupName: string, firewallName: string, options?: FirewallStatusListByFirewallsOptionalParams): PagedAsyncIterableIterator<FirewallStatusResource>;
+}
+
+// @public
+export interface FirewallStatusGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallStatusGetResponse = FirewallStatusResource;
+
+// @public
+export interface FirewallStatusListByFirewallsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallStatusListByFirewallsNextResponse = FirewallStatusResourceListResult;
+
+// @public
+export interface FirewallStatusListByFirewallsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallStatusListByFirewallsResponse = FirewallStatusResourceListResult;
+
+// @public
+export interface FirewallStatusResource extends ProxyResource {
+    readonly healthReason?: string;
+    readonly healthStatus?: HealthStatus;
+    readonly isPanoramaManaged?: BooleanEnum;
+    readonly panoramaStatus?: PanoramaStatus;
+    readonly provisioningState?: ReadOnlyProvisioningState;
+}
+
+// @public
+export interface FirewallStatusResourceListResult {
+    nextLink?: string;
+    value: FirewallStatusResource[];
+}
+
+// @public
 export interface FirewallsUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -763,6 +805,9 @@ export interface GlobalRulestackUpdateOptionalParams extends coreClient.Operatio
 export type GlobalRulestackUpdateResponse = GlobalRulestackResource;
 
 // @public
+export type HealthStatus = string;
+
+// @public
 export interface IPAddress {
     address?: string;
     resourceId?: string;
@@ -846,6 +891,14 @@ export enum KnownEnabledDNSType {
 }
 
 // @public
+export enum KnownHealthStatus {
+    Green = "GREEN",
+    Initializing = "INITIALIZING",
+    RED = "RED",
+    Yellow = "YELLOW"
+}
+
+// @public
 export enum KnownLogOption {
     IndividualDestination = "INDIVIDUAL_DESTINATION",
     SameDestination = "SAME_DESTINATION"
@@ -912,6 +965,13 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownReadOnlyProvisioningState {
+    Deleted = "Deleted",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownScopeType {
     Global = "GLOBAL",
     Local = "LOCAL"
@@ -925,6 +985,12 @@ export enum KnownSecurityServicesTypeEnum {
     FileBlocking = "fileBlocking",
     IpsVulnerability = "ipsVulnerability",
     UrlFiltering = "urlFiltering"
+}
+
+// @public
+export enum KnownServerStatus {
+    Down = "DOWN",
+    UP = "UP"
 }
 
 // @public
@@ -1382,6 +1448,7 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PaloAltoNetworksCloudngfwOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: PaloAltoNetworksCloudngfwOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -1390,6 +1457,8 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
     certificateObjectLocalRulestack: CertificateObjectLocalRulestack;
     // (undocumented)
     firewalls: Firewalls;
+    // (undocumented)
+    firewallStatus: FirewallStatus;
     // (undocumented)
     fqdnListGlobalRulestack: FqdnListGlobalRulestack;
     // (undocumented)
@@ -1411,7 +1480,7 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
     // (undocumented)
     preRules: PreRules;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
@@ -1431,6 +1500,12 @@ export interface PanoramaConfig {
     readonly panoramaServer2?: string;
     readonly tplName?: string;
     readonly vmAuthKey?: string;
+}
+
+// @public
+export interface PanoramaStatus {
+    readonly panoramaServer2Status?: ServerStatus;
+    readonly panoramaServerStatus?: ServerStatus;
 }
 
 // @public
@@ -1794,6 +1869,9 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export type ReadOnlyProvisioningState = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -1860,6 +1938,9 @@ export interface SecurityServicesTypeList {
     entry: NameDescriptionObject[];
     type?: string;
 }
+
+// @public
+export type ServerStatus = string;
 
 // @public
 export interface SourceAddr {

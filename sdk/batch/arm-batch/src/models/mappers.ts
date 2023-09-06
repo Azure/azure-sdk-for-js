@@ -1449,9 +1449,8 @@ export const ContainerConfiguration: coreClient.CompositeMapper = {
     className: "ContainerConfiguration",
     modelProperties: {
       type: {
-        defaultValue: "DockerCompatible",
-        isConstant: true,
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
@@ -1588,6 +1587,12 @@ export const VMExtension: coreClient.CompositeMapper = {
       },
       autoUpgradeMinorVersion: {
         serializedName: "autoUpgradeMinorVersion",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableAutomaticUpgrade: {
+        serializedName: "enableAutomaticUpgrade",
         type: {
           name: "Boolean"
         }
@@ -1832,6 +1837,12 @@ export const NetworkConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PublicIPAddressConfiguration"
+        }
+      },
+      enableAcceleratedNetworking: {
+        serializedName: "enableAcceleratedNetworking",
+        type: {
+          name: "Boolean"
         }
       }
     }

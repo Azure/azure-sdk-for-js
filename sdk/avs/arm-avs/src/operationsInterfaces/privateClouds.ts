@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateCloud,
   PrivateCloudsListOptionalParams,
@@ -69,8 +69,8 @@ export interface PrivateClouds {
     privateCloud: PrivateCloud,
     options?: PrivateCloudsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateCloudsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateCloudsCreateOrUpdateResponse>,
       PrivateCloudsCreateOrUpdateResponse
     >
   >;
@@ -100,8 +100,8 @@ export interface PrivateClouds {
     privateCloudUpdate: PrivateCloudUpdate,
     options?: PrivateCloudsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateCloudsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateCloudsUpdateResponse>,
       PrivateCloudsUpdateResponse
     >
   >;
@@ -128,7 +128,7 @@ export interface PrivateClouds {
     resourceGroupName: string,
     privateCloudName: string,
     options?: PrivateCloudsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -150,7 +150,7 @@ export interface PrivateClouds {
     resourceGroupName: string,
     privateCloudName: string,
     options?: PrivateCloudsRotateVcenterPasswordOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Rotate the vCenter password
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -172,7 +172,7 @@ export interface PrivateClouds {
     resourceGroupName: string,
     privateCloudName: string,
     options?: PrivateCloudsRotateNsxtPasswordOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Rotate the NSX-T Manager password
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

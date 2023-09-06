@@ -6,14 +6,48 @@
 
 import { AzureKeyCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
+import { ErrorModel } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface AzureChatExtensionConfiguration {
+    parameters: Record<string, any>;
+    type: AzureChatExtensionType;
+}
+
+// @public
+export interface AzureChatExtensionsMessageContext {
+    messages?: ChatMessage[];
+}
+
+// @public
+export type AzureChatExtensionType = string;
+
+// @public
+export interface AzureExtensionsOptions {
+    extensions?: AzureChatExtensionConfiguration[];
+}
 
 export { AzureKeyCredential }
 
 // @public
+export type AzureOpenAIOperationState = string;
+
+// @public
+export interface BatchImageGenerationOperationResponse {
+    created: Date;
+    error?: ErrorModel;
+    expires?: number;
+    id: string;
+    result?: ImageGenerations;
+    status: AzureOpenAIOperationState;
+}
+
+// @public
 export interface ChatChoice {
+    contentFilterResults?: ContentFilterResults;
     delta?: ChatMessage;
     finishReason: CompletionsFinishReason | null;
     index: number;
@@ -23,14 +57,18 @@ export interface ChatChoice {
 // @public
 export interface ChatCompletions {
     choices: ChatChoice[];
-    created: number;
+    created: Date;
     id: string;
-    usage: CompletionsUsage;
+    promptFilterResults?: PromptFilterResult[];
+    usage?: CompletionsUsage;
 }
 
 // @public
 export interface ChatMessage {
-    content?: string;
+    content: string | null;
+    context?: AzureChatExtensionsMessageContext;
+    functionCall?: FunctionCall;
+    name?: string;
     role: ChatRole;
 }
 
@@ -39,6 +77,7 @@ export type ChatRole = string;
 
 // @public
 export interface Choice {
+    contentFilterResults?: ContentFilterResults;
     finishReason: CompletionsFinishReason | null;
     index: number;
     logprobs: CompletionsLogProbabilityModel | null;
@@ -48,8 +87,9 @@ export interface Choice {
 // @public
 export interface Completions {
     choices: Choice[];
-    created: number;
+    created: Date;
     id: string;
+    promptFilterResults?: PromptFilterResult[];
     usage: CompletionsUsage;
 }
 
@@ -65,11 +105,36 @@ export interface CompletionsLogProbabilityModel {
 }
 
 // @public
+export interface CompletionsLogProbabilityModel {
+    textOffset: number[];
+    tokenLogprobs: (number | null)[];
+    tokens: string[];
+    topLogprobs: Record<string, number | null>[];
+}
+
+// @public
 export interface CompletionsUsage {
     completionTokens: number;
     promptTokens: number;
     totalTokens: number;
 }
+
+// @public
+export interface ContentFilterResult {
+    filtered: boolean;
+    severity: ContentFilterSeverity;
+}
+
+// @public
+export interface ContentFilterResults {
+    hate?: ContentFilterResult;
+    selfHarm?: ContentFilterResult;
+    sexual?: ContentFilterResult;
+    violence?: ContentFilterResult;
+}
+
+// @public
+export type ContentFilterSeverity = string;
 
 // @public
 export interface EmbeddingItem {
@@ -89,9 +154,33 @@ export interface EmbeddingsUsage {
     totalTokens: number;
 }
 
-// @public (undocumented)
-export interface GetChatCompletionsOptions extends RequestOptions {
+// @public
+export interface FunctionCall {
+    arguments: string;
+    name: string;
+}
+
+// @public
+export type FunctionCallPreset = string;
+
+// @public
+export interface FunctionDefinition {
+    description?: string;
+    name: string;
+    parameters?: Record<string, any>;
+}
+
+// @public
+export interface FunctionName {
+    name: string;
+}
+
+// @public
+export interface GetChatCompletionsOptions extends OperationOptions {
+    azureExtensionOptions?: AzureExtensionsOptions;
     frequencyPenalty?: number;
+    functionCall?: FunctionCallPreset | FunctionName;
+    functions?: FunctionDefinition[];
     logitBias?: Record<string, number>;
     maxTokens?: number;
     model?: string;
@@ -105,7 +194,7 @@ export interface GetChatCompletionsOptions extends RequestOptions {
 }
 
 // @public (undocumented)
-export interface GetCompletionsOptions extends RequestOptions {
+export interface GetCompletionsOptions extends OperationOptions {
     bestOf?: number;
     echo?: boolean;
     frequencyPenalty?: number;
@@ -123,21 +212,52 @@ export interface GetCompletionsOptions extends RequestOptions {
 }
 
 // @public (undocumented)
-export interface GetEmbeddingsOptions extends RequestOptions {
+export interface GetEmbeddingsOptions extends OperationOptions {
     model?: string;
     user?: string;
 }
 
 // @public
+export interface ImageGenerationOptions extends OperationOptions {
+    n?: number;
+    responseFormat?: ImageGenerationResponseFormat;
+    size?: ImageSize;
+    user?: string;
+}
+
+// @public
+export type ImageGenerationResponseFormat = string;
+
+// @public
+export interface ImageGenerations {
+    created: Date;
+    data: ImageLocation[] | ImagePayload[];
+}
+
+// @public
+export interface ImageLocation {
+    url: string;
+}
+
+// @public
+export interface ImagePayload {
+    base64Data: string;
+}
+
+// @public
+export type ImageSize = string;
+
+// @public (undocumented)
 export class OpenAIClient {
     constructor(endpoint: string, credential: KeyCredential, options?: OpenAIClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: OpenAIClientOptions);
     constructor(openAiApiKey: KeyCredential, options?: OpenAIClientOptions);
-    getChatCompletions(deploymentOrModelName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
-    getCompletions(deploymentOrModelName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
-    getEmbeddings(deploymentOrModelName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
-    listChatCompletions(deploymentOrModelName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<AsyncIterable<Omit<ChatCompletions, "usage">>>;
-    listCompletions(deploymentOrModelName: string, prompt: string[], options?: GetCompletionsOptions): Promise<AsyncIterable<Omit<Completions, "usage">>>;
+    getChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
+    getCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
+    getEmbeddings(deploymentName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
+    getImages(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerations>;
+    listChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): AsyncIterable<ChatCompletions>;
+    listCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): AsyncIterable<Omit<Completions, "usage">>;
 }
 
 // @public (undocumented)
@@ -151,14 +271,10 @@ export class OpenAIKeyCredential implements KeyCredential {
     update(newKey: string): void;
 }
 
-// @public (undocumented)
-export interface RequestOptions {
-    // (undocumented)
-    requestOptions?: {
-        headers?: RawHttpHeadersInput;
-        allowInsecureConnection?: boolean;
-        skipUrlEncoding?: boolean;
-    };
+// @public
+export interface PromptFilterResult {
+    contentFilterResults?: ContentFilterResults;
+    promptIndex: number;
 }
 
 ```

@@ -77,9 +77,11 @@
     "Fnhr",
     "Guids",
     "Hana",
+    "hnsw",
     "Idrg",
     "IDRG",
     "IMDS",
+    "OTLP",
     "Kubernetes",
     "kusto",
     "lcov",
@@ -140,7 +142,9 @@
     "USUK",
     "Vertica",
     "westus",
-    "Xiaomi"
+    "Xiaomi",
+    "Onco",
+    "oncophenotype"
   ],
   "allowCompoundWords": true,
   "overrides": [
@@ -331,7 +335,8 @@
     {
       "filename": "sdk/monitor/monitor-query/review/monitor-query.api.md",
       "words": [
-        "fourty"
+        "fourty",
+        "Milli"
       ]
     },
     {

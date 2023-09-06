@@ -8008,6 +8008,12 @@ export const GrantAccessData: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      fileFormat: {
+        serializedName: "fileFormat",
+        type: {
+          name: "String"
+        }
       }
     }
   }

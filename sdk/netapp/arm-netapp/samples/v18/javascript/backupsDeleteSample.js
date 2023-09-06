@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a backup of the volume
  *
  * @summary Delete a backup of the volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/Backups_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Backups_Delete.json
  */
 async function backupsDelete() {
   const subscriptionId =

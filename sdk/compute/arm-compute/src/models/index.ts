@@ -3010,6 +3010,8 @@ export interface GrantAccessData {
   durationInSeconds: number;
   /** Set this flag to true to get additional SAS for VM guest state */
   getSecureVMGuestStateSAS?: boolean;
+  /** Used to specify the file format when making request for SAS on a VHDX file format snapshot */
+  fileFormat?: FileFormat;
 }
 
 /** A disk access SAS uri. */
@@ -8556,6 +8558,24 @@ export enum KnownAccessLevel {
  * **Write**
  */
 export type AccessLevel = string;
+
+/** Known values of {@link FileFormat} that the service accepts. */
+export enum KnownFileFormat {
+  /** A VHD file is a disk image file in the Virtual Hard Disk file format. */
+  VHD = "VHD",
+  /** A VHDX file is a disk image file in the Virtual Hard Disk v2 file format. */
+  Vhdx = "VHDX"
+}
+
+/**
+ * Defines values for FileFormat. \
+ * {@link KnownFileFormat} can be used interchangeably with FileFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **VHD**: A VHD file is a disk image file in the Virtual Hard Disk file format. \
+ * **VHDX**: A VHDX file is a disk image file in the Virtual Hard Disk v2 file format.
+ */
+export type FileFormat = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {

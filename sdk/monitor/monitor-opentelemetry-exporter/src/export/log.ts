@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { diag } from "@opentelemetry/api";
-import { ExportResult, ExportResultCode } from "@opentelemetry/core";
+import { context, diag } from "@opentelemetry/api";
+import { ExportResult, ExportResultCode, suppressTracing } from "@opentelemetry/core";
 import { AzureMonitorBaseExporter } from "./base";
 import { TelemetryItem as Envelope } from "../generated";
 import { logToEnvelope } from "../utils/logUtils";
 import { AzureMonitorExporterOptions } from "../config";
 
 import type { ReadableLogRecord, LogRecordExporter } from "@opentelemetry/sdk-logs";
+import { HttpSender } from "../platform";
 
 /**
  * Azure Monitor OpenTelemetry Log Exporter.
@@ -17,6 +18,8 @@ export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements
    * Flag to determine if Exporter is shutdown.
    */
   private _isShutdown = false;
+  private readonly _sender: HttpSender;
+
   /**
    * Initializes a new instance of the AzureMonitorLogExporter class.
    * @param AzureExporterConfig - Exporter configuration.
@@ -24,6 +27,12 @@ export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements
 
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
+    this._sender = new HttpSender(
+      this.endpointUrl,
+      this.instrumentationKey,
+      this.trackStatsbeat,
+      options
+    );
     diag.debug("AzureMonitorLogExporter was successfully setup");
   }
 
@@ -42,12 +51,15 @@ export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements
 
     let envelopes: Envelope[] = [];
     logs.forEach((log) => {
-      let envelope = logToEnvelope(log, this._instrumentationKey);
+      let envelope = logToEnvelope(log, this.instrumentationKey);
       if (envelope) {
         envelopes.push(envelope);
       }
     });
-    resultCallback(await this._exportEnvelopes(envelopes));
+    // Supress tracing until OpenTelemetry Logs SDK support it
+    context.with(suppressTracing(context.active()), async () => {
+      resultCallback(await this._sender.exportEnvelopes(envelopes));
+    });
   }
 
   /**
@@ -56,6 +68,6 @@ export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements
   public async shutdown(): Promise<void> {
     this._isShutdown = true;
     diag.info("AzureMonitorLogExporter shutting down");
-    return this._shutdown();
+    return this._sender.shutdown();
   }
 }

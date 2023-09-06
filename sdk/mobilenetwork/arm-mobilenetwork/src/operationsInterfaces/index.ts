@@ -8,8 +8,10 @@
 
 export * from "./attachedDataNetworks";
 export * from "./dataNetworks";
+export * from "./diagnosticsPackages";
 export * from "./mobileNetworks";
 export * from "./operations";
+export * from "./packetCaptures";
 export * from "./packetCoreControlPlanes";
 export * from "./packetCoreControlPlaneVersions";
 export * from "./packetCoreDataPlanes";

@@ -44,6 +44,21 @@ export interface PipelineOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentPolicyOptions;
+
+  /**
+   * Options for setting common telemetry and tracing info to outgoing requests.
+   */
+  telemetryOptions?: TelemetryOptions;
+}
+
+/**
+ * Defines options that are used to configure common telemetry and tracing info
+ */
+export interface TelemetryOptions {
+  /**
+   * The name of the header to pass the request ID to.
+   */
+  clientRequestIdHeaderName?: string;
 }
 
 /**
@@ -74,7 +89,7 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
 
   pipeline.addPolicy(formDataPolicy());
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
-  pipeline.addPolicy(setClientRequestIdPolicy());
+  pipeline.addPolicy(setClientRequestIdPolicy(options.telemetryOptions?.clientRequestIdHeaderName));
   pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions), { afterPhase: "Retry" });
   if (isNode) {

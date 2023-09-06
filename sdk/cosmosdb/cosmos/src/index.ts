@@ -99,6 +99,14 @@ export {
   ClientSideRequestStatistics,
 } from "./CosmosDiagnostics";
 
+export {
+  ChangeFeedPullModelIterator,
+  ChangeFeedIteratorOptions,
+  ChangeFeedIteratorResponse,
+  ChangeFeedStartFrom,
+  FeedRange,
+} from "./client/ChangeFeed";
+
 export { GlobalEndpointManager } from "./globalEndpointManager";
 export { SasTokenPermissionKind } from "./common/constants";
 export { createAuthorizationSasToken } from "./utils/SasToken";

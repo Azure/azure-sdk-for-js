@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the operation status for an operation over a ResourceGroup's context.
  *
  * @summary Gets the operation status for an operation over a ResourceGroup's context.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/GetOperationStatusRGContext.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-05-01/examples/GetOperationStatusRGContext.json
  */
 async function getOperationStatus() {
   const subscriptionId =

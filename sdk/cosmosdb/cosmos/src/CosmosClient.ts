@@ -120,7 +120,8 @@ export class CosmosClient {
       response.result,
       response.headers,
       response.code,
-      response.diagnostics
+      response.diagnostics,
+      response.substatus
     );
   }
 

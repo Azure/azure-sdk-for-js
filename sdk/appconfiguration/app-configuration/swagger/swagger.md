@@ -4,7 +4,7 @@
 
 ```yaml
 package-name: app-configuration
-package-version: "1.4.1"
+package-version: "1.5.0-beta.2"
 title: AppConfiguration
 description: App Configuration client
 enable-xml: true
@@ -12,13 +12,12 @@ add-credentials: false
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/stable/1.0/appconfiguration.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/preview/2022-11-01-preview/appconfiguration.json
 model-date-time-as-string: false
 optional-response-headers: true
 sample-generation: false
 core-http-compat-mode: true
-use-extension:
-  "@autorest/typescript": "6.0.0-beta.16"
+typescript: true
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
@@ -100,4 +99,45 @@ directive:
       $["304"]["headers"]["Last-Modified"] = {};
       $["304"]["headers"]["Last-Modified"]["description"] = "A UTC datetime that specifies the last time the resource was modified.";
       $["304"]["headers"]["Last-Modified"]["type"] = "string";
+```
+
+### Rename Properties created -> createdOn, expires -> expiresOn, items_count -> itemCount
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Snapshot.properties
+    transform: >
+      $.created["x-ms-client-name"] = "createdOn";
+      $.items_count["x-ms-client-name"] = "itemCount";
+      $.expires["x-ms-client-name"] = "expiresOn";
+```
+
+### Rename KeyValueFilter -> ConfigurationSettingsFilter
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["KeyValueFilter"]
+    transform: >
+      $["x-ms-client-name"] = "ConfigurationSettingsFilter";
+```
+### Make .name a required field
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["Snapshot"]
+    transform: >
+      $.required = $.required || [];
+      $.required.push('name');
+```
+### Add description for snapshot
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["Snapshot"]
+    transform: >
+      $["description"] = "Snapshot details include name, filters, retentionPeriod, expiresOn, size, status, itemCount, and more";
+
 ```

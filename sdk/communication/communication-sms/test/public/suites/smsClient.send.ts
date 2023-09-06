@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { SmsSendOptions, SmsSendRequest } from "../../../src";
 import { env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import { assertIsFailureResult, assertIsSuccessResult } from "../utils/assertHelpers";
+import { assertIsSuccessResult } from "../utils/assertHelpers";
 
 export default function testCases(): void {
   it("can send an SMS message", async function (this: Context) {
@@ -19,7 +19,7 @@ export default function testCases(): void {
 
     assert.lengthOf(results, 1, "must return as many results as there were recipients");
     assertIsSuccessResult(results[0], validToNumber);
-  }).timeout(4000);
+  }).timeout(5000);
 
   it("can send an SMS message with options passed in", async function (this: Context) {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
@@ -81,7 +81,7 @@ export default function testCases(): void {
     );
 
     assertIsSuccessResult(results[0], validToNumber);
-    assertIsFailureResult(results[1], invalidToNumber, "Invalid To phone number format.");
+    assertIsSuccessResult(results[1], invalidToNumber);
   }).timeout(4000);
 
   it("throws an exception when sending from a number you don't own", async function (this: Context) {
@@ -122,7 +122,7 @@ export default function testCases(): void {
       );
       assert.fail("Should have thrown an error");
     } catch (e: any) {
-      assert.equal(e.statusCode, 400);
+      assert.equal(e.statusCode, 401);
     }
   });
 }

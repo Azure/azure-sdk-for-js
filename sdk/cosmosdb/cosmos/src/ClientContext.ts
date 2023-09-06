@@ -42,7 +42,7 @@ import { MetadataLookUpType } from "./CosmosDiagnostics";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
-
+const HttpHeaders = Constants.HttpHeaders;
 /**
  * @hidden
  * @hidden
@@ -136,6 +136,8 @@ export class ClientContext {
     partitionKeyRangeId,
     partitionKey,
     diagnosticContext,
+    startEpk,
+    endEpk,
   }: {
     path: string;
     resourceType: ResourceType;
@@ -146,6 +148,8 @@ export class ClientContext {
     partitionKeyRangeId?: string;
     partitionKey?: PartitionKey;
     diagnosticContext?: CosmosDiagnosticContext;
+    startEpk?: string | undefined;
+    endEpk?: string | undefined;
   }): Promise<Response<T & Resource>> {
     // Query operations will use ReadEndpoint even though it uses
     // GET(for queryFeed) and POST(for regular query operations)
@@ -172,9 +176,16 @@ export class ClientContext {
       request
     );
     request.headers = await this.buildHeaders(request);
+
+    if (startEpk !== undefined && endEpk !== undefined) {
+      request.headers[HttpHeaders.StartEpk] = startEpk;
+      request.headers[HttpHeaders.EndEpk] = endEpk;
+      request.headers[HttpHeaders.ReadFeedKeyType] = "EffectivePartitionKeyRange";
+    }
+
     if (query !== undefined) {
-      request.headers[Constants.HttpHeaders.IsQuery] = "true";
-      request.headers[Constants.HttpHeaders.ContentType] = QueryJsonContentType;
+      request.headers[HttpHeaders.IsQuery] = "true";
+      request.headers[HttpHeaders.ContentType] = QueryJsonContentType;
       if (typeof query === "string") {
         request.body = { query }; // Converts query text to query object.
       }
@@ -219,11 +230,11 @@ export class ClientContext {
       request
     );
     request.headers = await this.buildHeaders(request);
-    request.headers[Constants.HttpHeaders.IsQueryPlan] = "True";
-    request.headers[Constants.HttpHeaders.QueryVersion] = "1.4";
-    request.headers[Constants.HttpHeaders.SupportedQueryFeatures] =
+    request.headers[HttpHeaders.IsQueryPlan] = "True";
+    request.headers[HttpHeaders.QueryVersion] = "1.4";
+    request.headers[HttpHeaders.SupportedQueryFeatures] =
       "NonValueAggregate, Aggregate, Distinct, MultipleOrderBy, OffsetAndLimit, OrderBy, Top, CompositeAggregate, GroupBy, MultipleAggregates";
-    request.headers[Constants.HttpHeaders.ContentType] = QueryJsonContentType;
+    request.headers[HttpHeaders.ContentType] = QueryJsonContentType;
     if (typeof query === "string") {
       request.body = { query }; // Converts query text to query object.
     }
@@ -435,12 +446,12 @@ export class ClientContext {
   private applySessionToken(requestContext: RequestContext): void {
     const request = this.getSessionParams(requestContext.path);
 
-    if (requestContext.headers && requestContext.headers[Constants.HttpHeaders.SessionToken]) {
+    if (requestContext.headers && requestContext.headers[HttpHeaders.SessionToken]) {
       return;
     }
 
     const sessionConsistency: ConsistencyLevel = requestContext.headers[
-      Constants.HttpHeaders.ConsistencyLevel
+      HttpHeaders.ConsistencyLevel
     ] as ConsistencyLevel;
     if (!sessionConsistency) {
       return;
@@ -453,7 +464,7 @@ export class ClientContext {
     if (request.resourceAddress) {
       const sessionToken = this.sessionContainer.get(request);
       if (sessionToken) {
-        requestContext.headers[Constants.HttpHeaders.SessionToken] = sessionToken;
+        requestContext.headers[HttpHeaders.SessionToken] = sessionToken;
       }
     }
   }
@@ -537,7 +548,7 @@ export class ClientContext {
       };
 
       request.headers = await this.buildHeaders(request);
-      request.headers[Constants.HttpHeaders.IsUpsert] = true;
+      request.headers[HttpHeaders.IsUpsert] = true;
       this.applySessionToken(request);
 
       // upsert will use WriteEndpoint since it uses POST operation
@@ -620,7 +631,7 @@ export class ClientContext {
 
     request.headers = await this.buildHeaders(request);
     // await options.beforeOperation({ endpoint, request, headers: requestHeaders });
-    const { result, headers, diagnostics } = await executePlugins(
+    const { result, headers, code, substatus, diagnostics } = await executePlugins(
       request,
       RequestHandler.request,
       PluginOn.operation
@@ -628,7 +639,13 @@ export class ClientContext {
 
     const databaseAccount = new DatabaseAccount(result, headers);
 
-    return { result: databaseAccount, headers, diagnostics };
+    return {
+      result: databaseAccount,
+      headers,
+      diagnostics,
+      code: code,
+      substatus: substatus,
+    };
   }
 
   public getWriteEndpoint(): Promise<string> {
@@ -676,8 +693,8 @@ export class ClientContext {
       };
 
       request.headers = await this.buildHeaders(request);
-      request.headers[Constants.HttpHeaders.IsBatchRequest] = true;
-      request.headers[Constants.HttpHeaders.IsBatchAtomic] = true;
+      request.headers[HttpHeaders.IsBatchRequest] = true;
+      request.headers[HttpHeaders.IsBatchAtomic] = true;
 
       this.applySessionToken(request);
 
@@ -725,11 +742,10 @@ export class ClientContext {
       };
 
       request.headers = await this.buildHeaders(request);
-      request.headers[Constants.HttpHeaders.IsBatchRequest] = true;
-      request.headers[Constants.HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
-      request.headers[Constants.HttpHeaders.IsBatchAtomic] = false;
-      request.headers[Constants.HttpHeaders.BatchContinueOnError] =
-        bulkOptions.continueOnError || false;
+      request.headers[HttpHeaders.IsBatchRequest] = true;
+      request.headers[HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
+      request.headers[HttpHeaders.IsBatchAtomic] = false;
+      request.headers[HttpHeaders.BatchContinueOnError] = bulkOptions.continueOnError || false;
 
       this.applySessionToken(request);
 

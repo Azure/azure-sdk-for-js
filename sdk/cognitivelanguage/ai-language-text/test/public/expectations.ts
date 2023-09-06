@@ -360,10 +360,10 @@ export const expectation7: AnalyzeBatchResult[] = [
         entities: [
           {
             text: "111000025",
-            category: "PhoneNumber",
+            category: "NZSocialWelfareNumber",
             offset: 18,
             length: 9,
-            confidenceScore: 0.8,
+            confidenceScore: 0.65,
           },
           {
             text: "111000025",
@@ -374,10 +374,10 @@ export const expectation7: AnalyzeBatchResult[] = [
           },
           {
             text: "111000025",
-            category: "NZSocialWelfareNumber",
+            category: "PhoneNumber",
             offset: 18,
             length: 9,
-            confidenceScore: 0.65,
+            confidenceScore: 0.8,
           },
         ],
       },
@@ -388,8 +388,8 @@ export const expectation7: AnalyzeBatchResult[] = [
         entities: [],
       },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
 ];
 
@@ -847,7 +847,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'english'. Supported languages: ar,cs,da,fi,hu,nl,no,pl,ru,sv,tr,ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
+            "Invalid language code 'english'. Supported languages: ar,cs,da,fi,hu,no,nl,pl,ru,sv,tr,zh-Hans,ja,ko,en,es,de,fr,pt-PT,pt-BR,it. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       {
@@ -877,7 +877,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'english'. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
+            "Invalid language code 'english'. Supported languages: zh-Hans,ja,ko,en,es,de,fr,pt-PT,pt-BR,it. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       {
@@ -919,7 +919,7 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'english'. Supported languages: ar,cs,da,fi,hu,nl,no,pl,ru,sv,tr,ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
+            "Invalid language code 'english'. Supported languages: ar,cs,da,fi,hu,no,nl,pl,ru,sv,tr,zh-Hans,ja,ko,en,es,de,fr,pt-PT,pt-BR,it. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
@@ -936,7 +936,7 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'english'. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
+            "Invalid language code 'english'. Supported languages: zh-Hans,ja,ko,en,es,de,fr,pt-PT,pt-BR,it. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
@@ -1245,7 +1245,7 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'notalanguage'. Supported languages: ar,cs,da,fi,hu,nl,no,pl,ru,sv,tr,ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
+            "Invalid language code 'notalanguage'. Supported languages: ar,cs,da,fi,hu,no,nl,pl,ru,sv,tr,zh-Hans,ja,ko,en,es,de,fr,pt-PT,pt-BR,it. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
@@ -1260,7 +1260,7 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'notalanguage'. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
+            "Invalid language code 'notalanguage'. Supported languages: zh-Hans,ja,ko,en,es,de,fr,pt-PT,pt-BR,it. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
@@ -1995,10 +1995,10 @@ export const expectation24: AnalyzeBatchResult[] = [
           },
           {
             text: "111000025",
-            category: "PhoneNumber",
+            category: "NZSocialWelfareNumber",
             offset: 44,
             length: 9,
-            confidenceScore: 0.8,
+            confidenceScore: 0.65,
           },
           {
             text: "111000025",
@@ -2009,10 +2009,10 @@ export const expectation24: AnalyzeBatchResult[] = [
           },
           {
             text: "111000025",
-            category: "NZSocialWelfareNumber",
+            category: "PhoneNumber",
             offset: 44,
             length: 9,
-            confidenceScore: 0.65,
+            confidenceScore: 0.8,
           },
         ],
       },
@@ -2024,10 +2024,10 @@ export const expectation24: AnalyzeBatchResult[] = [
         entities: [
           {
             text: "111000025",
-            category: "PhoneNumber",
+            category: "NZSocialWelfareNumber",
             offset: 18,
             length: 9,
-            confidenceScore: 0.8,
+            confidenceScore: 0.65,
           },
           {
             text: "111000025",
@@ -2038,10 +2038,10 @@ export const expectation24: AnalyzeBatchResult[] = [
           },
           {
             text: "111000025",
-            category: "NZSocialWelfareNumber",
+            category: "PhoneNumber",
             offset: 18,
             length: 9,
-            confidenceScore: 0.65,
+            confidenceScore: 0.8,
           },
         ],
       },

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to UnlockDelete call for ResourceGuardProxy, executed before one can delete it
  *
  * @summary UnlockDelete call for ResourceGuardProxy, executed before one can delete it
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/ResourceGuardProxyCRUD/UnlockDeleteResourceGuardProxy.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-05-01/examples/ResourceGuardProxyCRUD/UnlockDeleteResourceGuardProxy.json
  */
 async function unlockDeleteResourceGuardProxy() {
   const subscriptionId =

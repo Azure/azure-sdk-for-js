@@ -12,6 +12,7 @@ export * from "./skus";
 export * from "./databases";
 export * from "./attachedDatabaseConfigurations";
 export * from "./managedPrivateEndpoints";
+export * from "./databaseOperations";
 export * from "./databasePrincipalAssignments";
 export * from "./scripts";
 export * from "./privateEndpointConnections";

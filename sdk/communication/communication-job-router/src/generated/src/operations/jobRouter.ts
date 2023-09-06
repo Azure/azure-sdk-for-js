@@ -600,6 +600,9 @@ const upsertJobOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.RouterJob
     },
+    201: {
+      bodyMapper: Mappers.RouterJob
+    },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
@@ -725,7 +728,7 @@ const closeJobActionOperationSpec: coreClient.OperationSpec = {
     parameterPath: {
       assignmentId: ["assignmentId"],
       dispositionCode: ["options", "dispositionCode"],
-      closeTime: ["options", "closeTime"],
+      closeAt: ["options", "closeAt"],
       note: ["options", "note"]
     },
     mapper: { ...Mappers.CloseJobRequest, required: true }
@@ -741,7 +744,7 @@ const listJobsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobCollection
+      bodyMapper: Mappers.RouterJobCollection
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -749,7 +752,7 @@ const listJobsOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.maxPageSize,
+    Parameters.maxpagesize,
     Parameters.status,
     Parameters.queueId,
     Parameters.channelId,
@@ -766,7 +769,7 @@ const getInQueuePositionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobPositionDetails
+      bodyMapper: Mappers.RouterJobPositionDetails
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -788,9 +791,11 @@ const unassignJobActionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
+  requestBody: Parameters.unassignJobRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id, Parameters.assignmentId2],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
+  mediaType: "json",
   serializer
 };
 const acceptJobActionOperationSpec: coreClient.OperationSpec = {
@@ -832,7 +837,7 @@ const getQueueStatisticsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QueueStatistics
+      bodyMapper: Mappers.RouterQueueStatistics
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -848,6 +853,9 @@ const upsertWorkerOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
+      bodyMapper: Mappers.RouterWorker
+    },
+    201: {
       bodyMapper: Mappers.RouterWorker
     },
     default: {
@@ -896,7 +904,7 @@ const listWorkersOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkerCollection
+      bodyMapper: Mappers.RouterWorkerCollection
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -904,10 +912,10 @@ const listWorkersOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.maxPageSize,
+    Parameters.maxpagesize,
     Parameters.queueId,
     Parameters.channelId,
-    Parameters.status1,
+    Parameters.state,
     Parameters.hasCapacity
   ],
   urlParameters: [Parameters.endpoint],
@@ -919,7 +927,7 @@ const listJobsNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobCollection
+      bodyMapper: Mappers.RouterJobCollection
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -934,7 +942,7 @@ const listWorkersNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkerCollection
+      bodyMapper: Mappers.RouterWorkerCollection
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse

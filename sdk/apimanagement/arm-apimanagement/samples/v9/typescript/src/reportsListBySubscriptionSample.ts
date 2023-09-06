@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists report records by subscription.
  *
  * @summary Lists report records by subscription.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetReportsBySubscription.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetReportsBySubscription.json
  */
 async function apiManagementGetReportsBySubscription() {
   const subscriptionId =

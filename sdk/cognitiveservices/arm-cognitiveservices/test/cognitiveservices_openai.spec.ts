@@ -48,7 +48,7 @@ describe("CognitiveServices OpenAI test", () => {
     client = new CognitiveServicesManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "West Europe";
     resourceGroup = "openai-shared";
-    accountName = "sdk-test-openai";
+    accountName = "sdk-test-openai-js";
     deploymentName = "text-davince-model";
   });
 
@@ -74,7 +74,6 @@ describe("CognitiveServices OpenAI test", () => {
     const deployment: Deployment = {
       properties: {
         model: { name: "text-davinci-003", version: "1", format: "OpenAI", },
-        scaleSettings: { scaleType: "Standard" }
       }
     };
 

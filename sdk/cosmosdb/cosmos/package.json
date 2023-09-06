@@ -116,7 +116,7 @@
     "@types/node": "^14.0.0",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
-    "@types/sinon": "^9.0.4",
+    "@types/sinon": "^10.0.0",
     "@types/underscore": "^1.8.8",
     "@types/uuid": "^8.0.0",
     "cross-env": "^7.0.2",
@@ -130,13 +130,13 @@
     "prettier": "^2.5.1",
     "requirejs": "^2.3.5",
     "rimraf": "^3.0.0",
-    "sinon": "^9.0.2",
+    "sinon": "^15.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
     "typescript": "~5.0.0",
     "nock": "^12.0.3",
     "@types/sinonjs__fake-timers": "~8.1.2",
-    "@sinonjs/fake-timers": "~10.0.2"
+    "@sinonjs/fake-timers": "^11.0.0"
   },
   "//sampleConfiguration": {
     "skip": [
@@ -152,7 +152,11 @@
       "QueryThroughput.ts",
       "SasTokenAuth.ts",
       "ServerSideScripts.ts",
-      "handleError.ts"
+      "handleError.ts",
+      "ChangeFeedIteratorEntireContainer.ts",
+      "ChangeFeedIteratorEpkRange.ts",
+      "ChangeFeedPartitionKey.ts",
+      "ChangeFeedHierarchicalPartitionKey.ts"
     ],
     "productName": "Azure Cosmos DB",
     "productSlugs": [

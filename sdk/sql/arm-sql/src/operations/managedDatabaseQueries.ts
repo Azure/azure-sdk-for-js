@@ -239,7 +239,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -262,7 +262,7 @@ const listByQueryOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion2,
     Parameters.startTime,
     Parameters.endTime,
     Parameters.interval

@@ -6,32 +6,11 @@
 
 import { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
 import { InstrumentationConfig } from '@opentelemetry/instrumentation';
-import { Logger } from '@opentelemetry/sdk-logs';
-import { LoggerProvider } from '@opentelemetry/sdk-logs';
-import { Meter } from '@opentelemetry/api';
-import { MeterProvider } from '@opentelemetry/sdk-metrics';
 import { Resource } from '@opentelemetry/resources';
-import { Tracer } from '@opentelemetry/sdk-trace-base';
-import { TracerProvider } from '@opentelemetry/api';
-
-// @public
-export class AzureMonitorOpenTelemetryClient {
-    constructor(options?: AzureMonitorOpenTelemetryOptions);
-    flush(): Promise<void>;
-    getLogger(): Logger;
-    getLoggerProvider(): LoggerProvider;
-    getMeter(): Meter;
-    getMeterProvider(): MeterProvider;
-    getTraceProvider(): TracerProvider;
-    getTracer(): Tracer;
-    shutdown(): Promise<void>;
-}
 
 // @public
 export interface AzureMonitorOpenTelemetryOptions {
     azureMonitorExporterConfig?: AzureMonitorExporterOptions;
-    enableAutoCollectPerformance?: boolean;
-    enableAutoCollectStandardMetrics?: boolean;
     instrumentationOptions?: InstrumentationOptions;
     resource?: Resource;
     samplingRatio?: number;
@@ -39,14 +18,20 @@ export interface AzureMonitorOpenTelemetryOptions {
 
 // @public
 export interface InstrumentationOptions {
-    azureSdk: InstrumentationConfig;
-    http: InstrumentationConfig;
-    mongoDb: InstrumentationConfig;
-    mySql: InstrumentationConfig;
-    postgreSql: InstrumentationConfig;
-    redis: InstrumentationConfig;
-    redis4: InstrumentationConfig;
+    azureSdk?: InstrumentationConfig;
+    http?: InstrumentationConfig;
+    mongoDb?: InstrumentationConfig;
+    mySql?: InstrumentationConfig;
+    postgreSql?: InstrumentationConfig;
+    redis?: InstrumentationConfig;
+    redis4?: InstrumentationConfig;
 }
+
+// @public
+export function shutdownAzureMonitor(): void;
+
+// @public
+export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void;
 
 // (No @packageDocumentation comment for this package)
 

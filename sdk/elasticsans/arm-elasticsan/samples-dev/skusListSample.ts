@@ -21,12 +21,12 @@ dotenv.config();
  * This sample demonstrates how to List all the available Skus in the region and information related to them
  *
  * @summary List all the available Skus in the region and information related to them
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/Skus_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2022-12-01-preview/examples/Skus_List_MaximumSet_Gen.json
  */
 async function skusListMaximumSetGen() {
   const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
-  const filter = "aaaa";
+    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
+  const filter = "dtycml";
   const options: SkusListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -41,11 +41,11 @@ async function skusListMaximumSetGen() {
  * This sample demonstrates how to List all the available Skus in the region and information related to them
  *
  * @summary List all the available Skus in the region and information related to them
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/Skus_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2022-12-01-preview/examples/Skus_List_MinimumSet_Gen.json
  */
 async function skusListMinimumSetGen() {
   const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();

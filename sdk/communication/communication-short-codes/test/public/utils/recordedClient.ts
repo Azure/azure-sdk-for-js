@@ -14,6 +14,7 @@ import { Context } from "mocha";
 import { ShortCodesClient } from "../../../src";
 import { isNode } from "@azure/test-utils";
 import { parseConnectionString } from "@azure/communication-common";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 
 if (isNode) {
   dotenv.config();
@@ -29,6 +30,7 @@ const envSetupForPlayback: { [k: string]: string } = {
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "SomeTenantId",
+  AZURE_USERAGENT_OVERRIDE: "fake-useragent",
 };
 
 export const recorderOptions: RecorderStartOptions = {
@@ -63,7 +65,14 @@ export async function createRecordedClient(
   return {
     client: new ShortCodesClient(
       assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({
+        additionalPolicies: [
+          {
+            policy: createMSUserAgentPolicy(),
+            position: "perCall",
+          },
+        ],
+      })
     ),
     recorder,
   };
@@ -95,7 +104,18 @@ export async function createRecordedClientWithToken(
 
     // casting is a workaround to enable min-max testing
     return {
-      client: new ShortCodesClient(endpoint, credential, recorder.configureClientOptions({})),
+      client: new ShortCodesClient(
+        endpoint,
+        credential,
+        recorder.configureClientOptions({
+          additionalPolicies: [
+            {
+              policy: createMSUserAgentPolicy(),
+              position: "perCall",
+            },
+          ],
+        })
+      ),
       recorder,
     };
   }
@@ -112,7 +132,18 @@ export async function createRecordedClientWithToken(
 
   // casting is a workaround to enable min-max testing
   return {
-    client: new ShortCodesClient(endpoint, credential, recorder.configureClientOptions({})),
+    client: new ShortCodesClient(
+      endpoint,
+      credential,
+      recorder.configureClientOptions({
+        additionalPolicies: [
+          {
+            policy: createMSUserAgentPolicy(),
+            position: "perCall",
+          },
+        ],
+      })
+    ),
     recorder,
   };
 }

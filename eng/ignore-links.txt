@@ -22,3 +22,12 @@ https://docs.microsoft.com/javascript/api/@azure/arm-qumulo?view=azure-node-prev
 https://docs.microsoft.com/javascript/api/@azure/arm-containerservicefleet?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-cosmosdbforpostgresql?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-cosmosdbforpostgresql
+https://docs.microsoft.com/javascript/api/@azure/arm-managednetworkfabric?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-iotfirmwaredefense?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-quantum?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-sphere?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-maintenance?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-apicenter?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-defendereasm?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-resourcesdeploymentstacks?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-hdinsightcontainers?view=azure-node-preview

@@ -18,13 +18,13 @@ import { augmentClasses } from "./classes";
 import { augmentInterfaces } from "./interfaces";
 import { sortSourceFileContents } from "./helpers/preformat";
 import { addHeaderToFiles } from "./helpers/addFileHeaders";
-import { resolveProject, resolveRoot } from "../resolveProject";
+import { resolveProject } from "../resolveProject";
 import { augmentTypeAliases } from "./aliases";
 import { setCustomizationState, resetCustomizationState } from "./state";
 import { getNewCustomFiles } from "./helpers/files";
 import { augmentImports } from "./imports";
 
-import * as prettier from "prettier";
+import { format } from "../prettier";
 
 let outputProject = new Project();
 let _originalFolderName = "generated";
@@ -54,7 +54,7 @@ export async function customize(originalDir: string, customDir: string, outDir: 
   await processDirectory(customDir, outDir);
 
   // Add file headers
-  await addHeaderToFiles(path.join(outDir, "src"));
+  await addHeaderToFiles(outDir);
 
   // reset the state at the end.
   resetCustomizationState();
@@ -96,13 +96,7 @@ export async function readFileContent(filepath: string): Promise<string> {
 }
 
 export async function writeFileContent(filepath: string, content: string): Promise<void> {
-  const root = await resolveRoot();
-  const prettierOptions: prettier.Options = (await import(path.join(root, ".prettierrc.json")))
-    .default;
-  const formattedContent = prettier.format(content, {
-    ...prettierOptions,
-    parser: "typescript",
-  });
+  const formattedContent = format(content, "typescript");
   return await writeFile(filepath, formattedContent);
 }
 

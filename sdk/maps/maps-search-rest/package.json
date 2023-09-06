@@ -2,7 +2,7 @@
   "name": "@azure-rest/maps-search",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "A generated SDK for MapsSearchClient.",
   "keywords": [
     "node",
@@ -101,7 +101,8 @@
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
     "nyc": "^15.0.0",
-    "@azure/test-utils": "~1.0.0"
+    "@azure/test-utils": "~1.0.0",
+    "ts-node": "^10.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-search-rest/README.md",
   "//metadata": {

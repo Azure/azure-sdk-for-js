@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all API Management services within an Azure subscription.
  *
  * @summary Lists all API Management services within an Azure subscription.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListServiceBySubscription.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListServiceBySubscription.json
  */
 async function apiManagementListServiceBySubscription() {
   const subscriptionId =

@@ -67,12 +67,39 @@ export class ChangeFeedIterator<T> {
 }
 
 // @public
+export interface ChangeFeedIteratorOptions {
+    changeFeedStartFrom?: ChangeFeedStartFrom;
+    maxItemCount?: number;
+    sessionToken?: string;
+}
+
+// @public
+export class ChangeFeedIteratorResponse<T> {
+    get activityId(): string;
+    get continuationToken(): string;
+    readonly count: number;
+    headers: CosmosHeaders;
+    get requestCharge(): number;
+    readonly result: T;
+    get sessionToken(): string;
+    readonly statusCode: number;
+    readonly subStatusCode?: number;
+}
+
+// @public
 export interface ChangeFeedOptions {
     continuation?: string;
     maxItemCount?: number;
     sessionToken?: string;
     startFromBeginning?: boolean;
     startTime?: Date;
+}
+
+// @public
+export interface ChangeFeedPullModelIterator<T> {
+    getAsyncIterator(): AsyncIterable<ChangeFeedIteratorResponse<Array<T & Resource>>>;
+    readonly hasMoreResults: boolean;
+    readNext(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>>;
 }
 
 // @public
@@ -86,6 +113,18 @@ export class ChangeFeedResponse<T> {
     readonly result: T;
     get sessionToken(): string;
     readonly statusCode: number;
+}
+
+// @public
+export abstract class ChangeFeedStartFrom {
+    // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartFromBeginning" needs to be exported by the entry point index.d.ts
+    static Beginning(cfResource?: PartitionKey | FeedRange): ChangeFeedStartFromBeginning;
+    // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartFromContinuation" needs to be exported by the entry point index.d.ts
+    static Continuation(continuationToken: string): ChangeFeedStartFromContinuation;
+    // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartFromNow" needs to be exported by the entry point index.d.ts
+    static Now(cfResource?: PartitionKey | FeedRange): ChangeFeedStartFromNow;
+    // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartFromTime" needs to be exported by the entry point index.d.ts
+    static Time(startTime: Date, cfResource?: PartitionKey | FeedRange): ChangeFeedStartFromTime;
 }
 
 // @public (undocumented)
@@ -166,7 +205,7 @@ export class ClientContext {
         diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey, diagnosticContext, }: {
+    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey, diagnosticContext, startEpk, endEpk, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -178,6 +217,8 @@ export class ClientContext {
         partitionKeyRangeId?: string;
         partitionKey?: PartitionKey;
         diagnosticContext?: CosmosDiagnosticContext;
+        startEpk?: string | undefined;
+        endEpk?: string | undefined;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     queryPartitionKeyRanges(collectionLink: string, diagnosticContext: CosmosDiagnosticContext, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
@@ -373,6 +414,7 @@ export const Constants: {
         SupportedQueryFeatures: string;
         QueryVersion: string;
         Continuation: string;
+        ContinuationToken: string;
         PageSize: string;
         ItemCount: string;
         ActivityId: string;
@@ -404,6 +446,9 @@ export const Constants: {
         OwnerId: string;
         PartitionKey: string;
         PartitionKeyRangeID: string;
+        StartEpk: string;
+        EndEpk: string;
+        ReadFeedKeyType: string;
         MaxEntityCount: string;
         CurrentEntityCount: string;
         CollectionQuotaInMb: string;
@@ -491,6 +536,8 @@ export class Container {
     readonly database: Database;
     delete(options?: RequestOptions): Promise<ContainerResponse>;
     deleteAllItemsForPartitionKey(partitionKey: PartitionKey, options?: RequestOptions): Promise<ContainerResponse>;
+    // (undocumented)
+    getFeedRanges(): Promise<ReadonlyArray<FeedRange>>;
     // @deprecated
     getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // (undocumented)
@@ -820,6 +867,12 @@ export interface FeedOptions extends SharedOptions {
 }
 
 // @public (undocumented)
+export interface FeedRange {
+    maxExclusive: string;
+    minInclusive: string;
+}
+
+// @public (undocumented)
 export class FeedResponse<TResource> {
     constructor(resources: TResource[], headers: CosmosHeaders, hasMoreResults: boolean, diagnostics: CosmosDiagnostics);
     // (undocumented)
@@ -977,6 +1030,7 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
+    getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
     query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;

@@ -4,6 +4,7 @@
 import {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
+  MicrosoftTeamsUserIdentifier,
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
 import { CallConnectionStateModel } from "../generated/src";
@@ -89,12 +90,14 @@ export interface TextSource extends PlaySource {
   sourceLocale?: string;
   voiceGender?: Gender;
   voiceName?: string;
+  customVoiceEndpointId?: string;
   readonly kind: "textSource";
 }
 
 /** The SsmlSource model. */
 export interface SsmlSource extends PlaySource {
   ssmlText: string;
+  customVoiceEndpointId?: string;
   readonly kind: "ssmlSource";
 }
 
@@ -151,17 +154,95 @@ export enum RecognizeInputType {
   Choices = "choices",
 }
 
+interface CustomContextHeader {
+  key: string;
+  value: string;
+}
+
+/** SIPCustomHeader */
+export interface SIPCustomHeader extends CustomContextHeader {}
+
+/** SIPUserToUserHeader */
+export interface SIPUserToUserHeader extends CustomContextHeader {}
+
+/** VoipHeader */
+export interface VoipHeader extends CustomContextHeader {}
+
+/** Custom Context SIP header */
+export class SIPCustomHeader implements CustomContextHeader {
+  // Create a new SIP custom header.
+  constructor(key: string, value: string) {
+    this.key = "X-MS-Custom-" + key;
+    this.value = value;
+  }
+}
+
+/** Custom Context SIP User-to-User header */
+export class SIPUserToUserHeader implements CustomContextHeader {
+  // Create a new SIP UUI header.
+  constructor(value: string) {
+    this.key = "User-to-User";
+    this.value = value;
+  }
+}
+
+/** Custom Context VOIP header */
+export class VoipHeader implements CustomContextHeader {
+  constructor(key: string, value: string) {
+    this.key = key;
+    this.value = value;
+  }
+}
+
+/** Custom Context */
+export class CustomContext {
+  /** Dictionary of VOIP headers. */
+  public voipHeaders: { [key: string]: string };
+
+  /** Dictionary of SIP headers. */
+  public sipHeaders: { [key: string]: string };
+
+  // Creates a new CustomContext.
+  constructor(sipHeaders: { [key: string]: string }, voipHeaders: { [key: string]: string }) {
+    this.sipHeaders = sipHeaders;
+    this.voipHeaders = voipHeaders;
+  }
+
+  /** Add a custom context sip or voip header. */
+  public add(header: CustomContextHeader): void {
+    if (header instanceof SIPUserToUserHeader) {
+      if (this.sipHeaders == null) {
+        throw new Error("Cannot add sip header, SipHeaders is null.");
+      }
+      this.sipHeaders[header.key] = header.value;
+    } else if (header instanceof SIPCustomHeader) {
+      if (this.sipHeaders == null) {
+        throw new Error("Cannot add sip header, SipHeaders is null.");
+      }
+      this.sipHeaders[header.key] = header.value;
+    } else if (header instanceof VoipHeader) {
+      if (this.voipHeaders == null) {
+        throw new Error("Cannot add voip header, VoipHeaders is null");
+      }
+      this.voipHeaders[header.key] = header.value;
+    } else {
+      throw new Error("Unknown custom context header type.");
+    }
+  }
+}
+
 /** Call invitee details. */
 export interface CallInvite {
-  /** The Target's PhoneNumberIdentifier or CommunicationUserIdentifier. */
-  readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier;
+  /** The Target's PhoneNumberIdentifier, CommunicationUserIdentifier or MicrosoftTeamsUserIdentifier. */
+  readonly targetParticipant:
+    | PhoneNumberIdentifier
+    | CommunicationUserIdentifier
+    | MicrosoftTeamsUserIdentifier;
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
-  /** Custom context for PSTN. */
-  readonly sipHeaders?: { [propertyName: string]: string };
-  /** Custom context for voipr. */
-  readonly voipHeaders?: { [propertyName: string]: string };
+  /** The Custom Context. */
+  customContext?: CustomContext;
 }
 
 /** The locator type of a call. */

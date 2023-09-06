@@ -1,14 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  LoggerProvider,
-  SimpleLogRecordProcessor,
-  Logger as OtelLogger,
-  ConsoleLogRecordExporter,
-} from "@opentelemetry/sdk-logs";
+import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
+import { logs } from "@opentelemetry/api-logs";
+import { LoggerProvider, BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { LoggerProviderConfig } from "@opentelemetry/sdk-logs/build/src/types";
-import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
+import { InternalConfig } from "../shared/config";
 import { MetricHandler } from "../metrics/handler";
 import { AzureLogRecordProcessor } from "./logRecordProcessor";
 
@@ -17,10 +14,9 @@ import { AzureLogRecordProcessor } from "./logRecordProcessor";
  */
 export class LogHandler {
   private _loggerProvider: LoggerProvider;
-  private _logger: OtelLogger;
-  private _exporter: ConsoleLogRecordExporter;
-  private _logRecordProcessor: SimpleLogRecordProcessor;
-  private _config: AzureMonitorOpenTelemetryConfig;
+  private _azureExporter: AzureMonitorLogExporter;
+  private _logRecordProcessor: BatchLogRecordProcessor;
+  private _config: InternalConfig;
   private _metricHandler?: MetricHandler;
   private _azureLogProccessor: AzureLogRecordProcessor;
 
@@ -29,33 +25,21 @@ export class LogHandler {
    * @param _config - Distro configuration.
    * @param _metricHandler - MetricHandler.
    */
-  constructor(config: AzureMonitorOpenTelemetryConfig, metricHandler: MetricHandler) {
+  constructor(config: InternalConfig, metricHandler: MetricHandler) {
     this._config = config;
     this._metricHandler = metricHandler;
     const loggerProviderConfig: LoggerProviderConfig = {
       resource: this._config.resource,
     };
     this._loggerProvider = new LoggerProvider(loggerProviderConfig);
-    this._exporter = new ConsoleLogRecordExporter();
-    this._logRecordProcessor = new SimpleLogRecordProcessor(this._exporter);
+    this._azureExporter = new AzureMonitorLogExporter(this._config.azureMonitorExporterConfig);
+    // Log Processor could be configured through env variables
+    // https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/#batch-logrecord-processor
+    this._logRecordProcessor = new BatchLogRecordProcessor(this._azureExporter);
     this._loggerProvider.addLogRecordProcessor(this._logRecordProcessor);
     this._azureLogProccessor = new AzureLogRecordProcessor(this._metricHandler);
     this._loggerProvider.addLogRecordProcessor(this._azureLogProccessor);
-    this._logger = this._loggerProvider.getLogger("AzureMonitorLogger", undefined) as OtelLogger;
-  }
-
-  /**
-   *Get OpenTelemetry LoggerProvider
-   */
-  public getLoggerProvider(): LoggerProvider {
-    return this._loggerProvider;
-  }
-
-  /**
-   *Get OpenTelemetry Logger
-   */
-  public getLogger(): OtelLogger {
-    return this._logger;
+    logs.setGlobalLoggerProvider(this._loggerProvider);
   }
 
   /**

@@ -15,8 +15,12 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   LibraryResource,
   LibraryListNextOptionalParams,
@@ -128,7 +132,7 @@ export class LibraryImpl implements Library {
   async beginFlush(
     libraryName: string,
     options?: LibraryFlushOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -141,7 +145,7 @@ export class LibraryImpl implements Library {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -174,13 +178,13 @@ export class LibraryImpl implements Library {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { libraryName, options },
-      flushOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { libraryName, options },
+      spec: flushOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -231,7 +235,7 @@ export class LibraryImpl implements Library {
   async beginDelete(
     libraryName: string,
     options?: LibraryDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -244,7 +248,7 @@ export class LibraryImpl implements Library {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -277,13 +281,13 @@ export class LibraryImpl implements Library {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { libraryName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { libraryName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -335,7 +339,7 @@ export class LibraryImpl implements Library {
   async beginCreate(
     libraryName: string,
     options?: LibraryCreateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -348,7 +352,7 @@ export class LibraryImpl implements Library {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -381,13 +385,13 @@ export class LibraryImpl implements Library {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { libraryName, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { libraryName, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -468,7 +472,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -485,7 +489,7 @@ const flushOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.libraryName],
   headerParameters: [Parameters.accept],
   serializer
@@ -504,7 +508,7 @@ const getOperationResultOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.operationId],
   headerParameters: [Parameters.accept],
   serializer
@@ -521,7 +525,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.libraryName],
   headerParameters: [Parameters.accept],
   serializer
@@ -538,7 +542,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.libraryName],
   headerParameters: [Parameters.accept],
   serializer
@@ -555,7 +559,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.libraryName],
   headerParameters: [Parameters.accept],
   serializer
@@ -570,7 +574,7 @@ const appendOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.content,
-  queryParameters: [Parameters.apiVersion4, Parameters.comp],
+  queryParameters: [Parameters.apiVersion5, Parameters.comp],
   urlParameters: [Parameters.endpoint, Parameters.libraryName],
   headerParameters: [
     Parameters.contentType1,

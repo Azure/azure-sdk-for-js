@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all Backups for a Netapp Account
  *
  * @summary List all Backups for a Netapp Account
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/Backups_Account_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Backups_Account_List.json
  */
 async function accountBackupsList() {
   const subscriptionId =

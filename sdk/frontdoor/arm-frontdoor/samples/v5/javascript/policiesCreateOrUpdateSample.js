@@ -107,13 +107,14 @@ async function createsSpecificPolicy() {
     policySettings: {
       customBlockResponseBody:
         "PGh0bWw+CjxoZWFkZXI+PHRpdGxlPkhlbGxvPC90aXRsZT48L2hlYWRlcj4KPGJvZHk+CkhlbGxvIHdvcmxkCjwvYm9keT4KPC9odG1sPg==",
-      customBlockResponseStatusCode: 499,
+      customBlockResponseStatusCode: 429,
       enabledState: "Enabled",
       mode: "Prevention",
       redirectUrl: "http://www.bing.com",
       requestBodyCheck: "Disabled",
     },
     sku: { name: "Classic_AzureFrontDoor" },
+    location: "WestUs",
   };
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);

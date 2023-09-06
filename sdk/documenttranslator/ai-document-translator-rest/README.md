@@ -124,7 +124,7 @@ the service documentation:
 
 - [Set up Azure Blob Storage containers][source_containers] with your documents
 - Optionally apply [glossaries][glossary] or a [custom model for translation][custom_model]
-- Generate [SAS tokens][sas_token] to your containers (or files) with the appropriate [permissions][sas_token_permissions]
+- Generate [SAS tokens][sas_token] to your containers (or files)
 
 ### DocumentTranslator
 
@@ -228,10 +228,9 @@ If you'd like to contribute to this library, please read the [contributing guide
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_cli_create_dt_resource]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account-cli?tabs=windows
-[azure_portal_get_endpoint]: https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/get-started-with-document-translation?tabs=csharp#get-your-custom-domain-name-and-subscription-key
-[source_containers]: https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/get-started-with-document-translation?tabs=csharp#create-your-azure-blob-storage-containers
+[azure_portal_get_endpoint]: https://learn.microsoft.com/azure/ai-services/translator/document-translation/quickstarts/document-translation-rest-api?pivots=programming-language-javascript#retrieve-your-key-and-document-translation-endpoint
+[source_containers]: https://learn.microsoft.com/azure/ai-services/translator/document-translation/quickstarts/document-translation-rest-api?pivots=programming-language-javascript#create-azure-blob-storage-containers
 [glossary]: https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/overview#supported-glossary-formats
 [custom_model]: https://docs.microsoft.com/azure/cognitive-services/translator/custom-translator/quickstart-build-deploy-custom-model
-[sas_token]: https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/create-sas-tokens?tabs=Containers#create-your-sas-tokens-with-azure-storage-explorer
-[sas_token_permissions]: https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/get-started-with-document-translation?tabs=csharp#create-sas-access-tokens-for-document-translation
+[sas_token]: https://learn.microsoft.com/azure/ai-services/translator/document-translation/how-to-guides/create-sas-tokens?tabs=Containers
 [supported_languages]: https://docs.microsoft.com/azure/cognitive-services/translator/language-support#translate

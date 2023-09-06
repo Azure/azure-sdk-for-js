@@ -21,9 +21,9 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   Console,
-  ConsolesListByResourceGroupNextOptionalParams,
-  ConsolesListByResourceGroupOptionalParams,
-  ConsolesListByResourceGroupResponse,
+  ConsolesListByVirtualMachineNextOptionalParams,
+  ConsolesListByVirtualMachineOptionalParams,
+  ConsolesListByVirtualMachineResponse,
   ConsolesGetOptionalParams,
   ConsolesGetResponse,
   ConsolesCreateOrUpdateOptionalParams,
@@ -31,7 +31,7 @@ import {
   ConsolesDeleteOptionalParams,
   ConsolesUpdateOptionalParams,
   ConsolesUpdateResponse,
-  ConsolesListByResourceGroupNextResponse
+  ConsolesListByVirtualMachineNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,17 +48,17 @@ export class ConsolesImpl implements Consoles {
   }
 
   /**
-   * Get a list of virtual machine consoles in the provided resource group.
+   * Get a list of consoles for the provided virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualMachineName The name of the virtual machine.
    * @param options The options parameters.
    */
-  public listByResourceGroup(
+  public listByVirtualMachine(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: ConsolesListByResourceGroupOptionalParams
+    options?: ConsolesListByVirtualMachineOptionalParams
   ): PagedAsyncIterableIterator<Console> {
-    const iter = this.listByResourceGroupPagingAll(
+    const iter = this.listByVirtualMachinePagingAll(
       resourceGroupName,
       virtualMachineName,
       options
@@ -74,7 +74,7 @@ export class ConsolesImpl implements Consoles {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
+        return this.listByVirtualMachinePagingPage(
           resourceGroupName,
           virtualMachineName,
           options,
@@ -84,16 +84,16 @@ export class ConsolesImpl implements Consoles {
     };
   }
 
-  private async *listByResourceGroupPagingPage(
+  private async *listByVirtualMachinePagingPage(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: ConsolesListByResourceGroupOptionalParams,
+    options?: ConsolesListByVirtualMachineOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<Console[]> {
-    let result: ConsolesListByResourceGroupResponse;
+    let result: ConsolesListByVirtualMachineResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(
+      result = await this._listByVirtualMachine(
         resourceGroupName,
         virtualMachineName,
         options
@@ -104,7 +104,7 @@ export class ConsolesImpl implements Consoles {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
+      result = await this._listByVirtualMachineNext(
         resourceGroupName,
         virtualMachineName,
         continuationToken,
@@ -117,12 +117,12 @@ export class ConsolesImpl implements Consoles {
     }
   }
 
-  private async *listByResourceGroupPagingAll(
+  private async *listByVirtualMachinePagingAll(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: ConsolesListByResourceGroupOptionalParams
+    options?: ConsolesListByVirtualMachineOptionalParams
   ): AsyncIterableIterator<Console> {
-    for await (const page of this.listByResourceGroupPagingPage(
+    for await (const page of this.listByVirtualMachinePagingPage(
       resourceGroupName,
       virtualMachineName,
       options
@@ -132,19 +132,19 @@ export class ConsolesImpl implements Consoles {
   }
 
   /**
-   * Get a list of virtual machine consoles in the provided resource group.
+   * Get a list of consoles for the provided virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualMachineName The name of the virtual machine.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  private _listByVirtualMachine(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: ConsolesListByResourceGroupOptionalParams
-  ): Promise<ConsolesListByResourceGroupResponse> {
+    options?: ConsolesListByVirtualMachineOptionalParams
+  ): Promise<ConsolesListByVirtualMachineResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualMachineName, options },
-      listByResourceGroupOperationSpec
+      listByVirtualMachineOperationSpec
     );
   }
 
@@ -433,7 +433,7 @@ export class ConsolesImpl implements Consoles {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -463,28 +463,28 @@ export class ConsolesImpl implements Consoles {
   }
 
   /**
-   * ListByResourceGroupNext
+   * ListByVirtualMachineNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualMachineName The name of the virtual machine.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param nextLink The nextLink from the previous successful call to the ListByVirtualMachine method.
    * @param options The options parameters.
    */
-  private _listByResourceGroupNext(
+  private _listByVirtualMachineNext(
     resourceGroupName: string,
     virtualMachineName: string,
     nextLink: string,
-    options?: ConsolesListByResourceGroupNextOptionalParams
-  ): Promise<ConsolesListByResourceGroupNextResponse> {
+    options?: ConsolesListByVirtualMachineNextOptionalParams
+  ): Promise<ConsolesListByVirtualMachineNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualMachineName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByVirtualMachineNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+const listByVirtualMachineOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/virtualMachines/{virtualMachineName}/consoles",
   httpMethod: "GET",
@@ -621,7 +621,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+const listByVirtualMachineNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

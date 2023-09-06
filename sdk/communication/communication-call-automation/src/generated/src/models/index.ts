@@ -33,11 +33,12 @@ export interface CreateCallRequest {
   customContext?: CustomContext;
 }
 
+/** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
 export interface CommunicationIdentifierModel {
-  /** Full ID of the identifier. */
-  rawId?: string;
-  /** Type of CommunicationIdentifierModel. */
+  /** The identifier kind. Only required in responses. */
   kind?: CommunicationIdentifierModelKind;
+  /** Raw Id of the identifier. Optional in requests, required in responses. */
+  rawId?: string;
   /** The communication user. */
   communicationUser?: CommunicationUserIdentifierModel;
   /** The phone number. */
@@ -46,17 +47,25 @@ export interface CommunicationIdentifierModel {
   microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
 }
 
+/** A user that got created with an Azure Communication Services resource. */
 export interface CommunicationUserIdentifierModel {
+  /** The Id of the communication user. */
   id: string;
 }
 
+/** A phone number. */
 export interface PhoneNumberIdentifierModel {
+  /** The phone number in E.164 format. */
   value: string;
 }
 
+/** A Microsoft Teams user. */
 export interface MicrosoftTeamsUserIdentifierModel {
+  /** The Id of the Microsoft Teams user. If not anonymous, this is the AAD object Id of the user. */
   userId: string;
+  /** True if the Microsoft Teams user is anonymous. By default false if missing. */
   isAnonymous?: boolean;
+  /** The cloud that the Microsoft Teams user belongs to. By default 'public' if missing. */
   cloud?: CommunicationCloudEnvironmentModel;
 }
 
@@ -108,17 +117,33 @@ export interface CallConnectionPropertiesInternal {
   answeredByIdentifier?: CommunicationUserIdentifierModel;
 }
 
-/** The Communication Services error response */
+/** The Communication Services error. */
 export interface CommunicationErrorResponse {
+  /** The Communication Services error. */
   error: CommunicationError;
 }
 
+/** The Communication Services error. */
 export interface CommunicationError {
-  code?: string;
-  message?: string;
-  target?: string;
-  details?: CommunicationError[];
-  innererror?: CommunicationError;
+  /** The error code. */
+  code: string;
+  /** The error message. */
+  message: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * Further details about specific errors that led to this error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: CommunicationError[];
+  /**
+   * The inner error if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly innerError?: CommunicationError;
 }
 
 /** The request payload for answering the call. */
@@ -163,6 +188,10 @@ export interface TransferToParticipantRequest {
   customContext?: CustomContext;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** Transferee is the participant who is transferring the call. */
+  transferee?: CommunicationIdentifierModel;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 /** The response payload for transferring the call. */
@@ -183,6 +212,8 @@ export interface PlayRequest {
   playOptions?: PlayOptionsInternal;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 export interface PlaySourceInternal {
@@ -218,11 +249,15 @@ export interface TextSourceInternal {
    * Refer to available Text-to-speech voices here: <seealso href="https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=stt-tts" />
    */
   voiceName?: string;
+  /** Endpoint where the custom voice was deployed. */
+  customVoiceEndpointId?: string;
 }
 
 export interface SsmlSourceInternal {
   /** Ssml string for the cognitive service to be played */
   ssmlText: string;
+  /** Endpoint where the custom voice was deployed. */
+  customVoiceEndpointId?: string;
 }
 
 export interface PlayOptionsInternal {
@@ -241,6 +276,8 @@ export interface RecognizeRequest {
   recognizeOptions: RecognizeOptions;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 export interface RecognizeOptions {
@@ -252,6 +289,8 @@ export interface RecognizeOptions {
   targetParticipant: CommunicationIdentifierModel;
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
   /** Defines configurations for DTMF. */
   dtmfOptions?: DtmfOptions;
   /** Defines Ivr choices for recognize. */
@@ -289,6 +328,8 @@ export interface ContinuousDtmfRecognitionRequest {
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 export interface SendDtmfRequest {
@@ -296,6 +337,35 @@ export interface SendDtmfRequest {
   tones: Tone[];
   /** Target participant of send DTMF. */
   targetParticipant: CommunicationIdentifierModel;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
+}
+
+export interface StartDialogRequest {
+  /** Defines options for dialog. */
+  dialogOptions: DialogOptions;
+  /** Determines the type of the dialog. */
+  dialogInputType: DialogInputType;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+export interface DialogOptions {
+  /** Bot identifier. */
+  botAppId: string;
+  /** Dialog context. */
+  dialogContext: { [propertyName: string]: Record<string, unknown> };
+}
+
+export interface DialogStateResponse {
+  /** The dialog ID. */
+  dialogId?: string;
+  /** Defines options for dialog. */
+  dialogOptions?: DialogOptions;
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
   /** The value to identify context of the operation. */
   operationContext?: string;
 }
@@ -339,6 +409,8 @@ export interface AddParticipantRequest {
   operationContext?: string;
   /** Used by customer to send custom context to targets */
   customContext?: CustomContext;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 /** The response payload for adding participants to the call. */
@@ -355,6 +427,8 @@ export interface RemoveParticipantRequest {
   participantToRemove: CommunicationIdentifierModel;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  callbackUri?: string;
 }
 
 /** The response payload for removing participants of the call. */
@@ -483,8 +557,11 @@ export interface AddParticipantFailed {
 }
 
 export interface ResultInformation {
+  /** Code of the current result. This can be helpful to Call Automation team to troubleshoot the issue if this result was unexpected. */
   code?: number;
+  /** Subcode of the current result. This can be helpful to Call Automation team to troubleshoot the issue if this result was unexpected. */
   subCode?: number;
+  /** Detail message that describes the current result. */
   message?: string;
 }
 
@@ -540,6 +617,16 @@ export interface CallTransferAccepted {
   operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
+  /**
+   * Traffer target: the user that transferee will be transferred to
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transferTarget?: CommunicationIdentifierModel;
+  /**
+   * Transferee: the participant being transferred away
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transferee?: CommunicationIdentifierModel;
 }
 
 /** The call transfer failed event. */
@@ -739,6 +826,282 @@ export interface RecognizeCanceled {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+}
+
+export interface DialogCompleted {
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /**
+   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: ResultInformation;
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
+  /**
+   * Dialog ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dialogId?: string;
+}
+
+export interface DialogFailed {
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /**
+   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: ResultInformation;
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
+  /**
+   * Dialog ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dialogId?: string;
+}
+
+export interface DialogConsent {
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /**
+   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: ResultInformation;
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
+  /**
+   * UserConsent data from the Conversation Conductor
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly userConsent?: UserConsent;
+  /**
+   * Dialog ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dialogId?: string;
+}
+
+export interface UserConsent {
+  recording?: number;
+}
+
+export interface DialogStarted {
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /**
+   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: ResultInformation;
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
+  /**
+   * Dialog ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dialogId?: string;
+}
+
+export interface DialogHangup {
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /**
+   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: ResultInformation;
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
+  /**
+   * Dialog ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dialogId?: string;
+  /**
+   * Ivr Context
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ivrContext?: Record<string, unknown>;
+}
+
+export interface DialogTransfer {
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /**
+   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: ResultInformation;
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
+  /**
+   * Dialog ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dialogId?: string;
+  /**
+   * Transfer type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transferType?: string;
+  /**
+   * Transfer destination
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transferDestination?: string;
+  /**
+   * IVR context
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ivrContext?: Record<string, unknown>;
+}
+
+export interface DialogLanguageChange {
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /**
+   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: ResultInformation;
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
+  /**
+   * Dialog ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dialogId?: string;
+  /**
+   * Selected Language
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly selectedLanguage?: string;
+  /**
+   * Ivr Context
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ivrContext?: Record<string, unknown>;
+}
+
+export interface DialogSensitivityUpdate {
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /**
+   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: ResultInformation;
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
+  /**
+   * Dialog ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dialogId?: string;
+  /**
+   * SensitiveMask
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sensitiveMask?: boolean;
 }
 
 export interface ContinuousDtmfRecognitionToneFailed {
@@ -1085,6 +1448,21 @@ export enum KnownTone {
  */
 export type Tone = string;
 
+/** Known values of {@link DialogInputType} that the service accepts. */
+export enum KnownDialogInputType {
+  /** PowerVirtualAgents */
+  PowerVirtualAgents = "powerVirtualAgents"
+}
+
+/**
+ * Defines values for DialogInputType. \
+ * {@link KnownDialogInputType} can be used interchangeably with DialogInputType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **powerVirtualAgents**
+ */
+export type DialogInputType = string;
+
 /** Known values of {@link CallLocatorKind} that the service accepts. */
 export enum KnownCallLocatorKind {
   /** GroupCallLocator */
@@ -1202,8 +1580,6 @@ export enum KnownRecognitionType {
   Dtmf = "dtmf",
   /** Speech */
   Speech = "speech",
-  /** SpeechOrDtmf */
-  SpeechOrDtmf = "speechOrDtmf",
   /** Choices */
   Choices = "choices"
 }
@@ -1215,7 +1591,6 @@ export enum KnownRecognitionType {
  * ### Known values supported by the service
  * **dtmf** \
  * **speech** \
- * **speechOrDtmf** \
  * **choices**
  */
 export type RecognitionType = string;
@@ -1225,7 +1600,7 @@ export interface CreateCallOptionalParams extends coreClient.OperationOptions {
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
   repeatabilityRequestID?: string;
   /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
-  repeatabilityFirstSent?: string;
+  repeatabilityFirstSent?: Date;
 }
 
 /** Contains response data for the createCall operation. */
@@ -1236,7 +1611,7 @@ export interface AnswerCallOptionalParams extends coreClient.OperationOptions {
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
   repeatabilityRequestID?: string;
   /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
-  repeatabilityFirstSent?: string;
+  repeatabilityFirstSent?: Date;
 }
 
 /** Contains response data for the answerCall operation. */
@@ -1248,7 +1623,7 @@ export interface RedirectCallOptionalParams
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
   repeatabilityRequestID?: string;
   /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
-  repeatabilityFirstSent?: string;
+  repeatabilityFirstSent?: Date;
 }
 
 /** Optional parameters. */
@@ -1256,7 +1631,7 @@ export interface RejectCallOptionalParams extends coreClient.OperationOptions {
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
   repeatabilityRequestID?: string;
   /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
-  repeatabilityFirstSent?: string;
+  repeatabilityFirstSent?: Date;
 }
 
 /** Optional parameters. */
@@ -1276,7 +1651,7 @@ export interface CallConnectionTerminateCallOptionalParams
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
   repeatabilityRequestID?: string;
   /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
-  repeatabilityFirstSent?: string;
+  repeatabilityFirstSent?: Date;
 }
 
 /** Optional parameters. */
@@ -1285,7 +1660,7 @@ export interface CallConnectionTransferToParticipantOptionalParams
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
   repeatabilityRequestID?: string;
   /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
-  repeatabilityFirstSent?: string;
+  repeatabilityFirstSent?: Date;
 }
 
 /** Contains response data for the transferToParticipant operation. */
@@ -1304,7 +1679,7 @@ export interface CallConnectionAddParticipantOptionalParams
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
   repeatabilityRequestID?: string;
   /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
-  repeatabilityFirstSent?: string;
+  repeatabilityFirstSent?: Date;
 }
 
 /** Contains response data for the addParticipant operation. */
@@ -1316,7 +1691,7 @@ export interface CallConnectionRemoveParticipantOptionalParams
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
   repeatabilityRequestID?: string;
   /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
-  repeatabilityFirstSent?: string;
+  repeatabilityFirstSent?: Date;
 }
 
 /** Contains response data for the removeParticipant operation. */
@@ -1328,7 +1703,7 @@ export interface CallConnectionMuteOptionalParams
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
   repeatabilityRequestID?: string;
   /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
-  repeatabilityFirstSent?: string;
+  repeatabilityFirstSent?: Date;
 }
 
 /** Contains response data for the mute operation. */
@@ -1340,7 +1715,7 @@ export interface CallConnectionUnmuteOptionalParams
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
   repeatabilityRequestID?: string;
   /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
-  repeatabilityFirstSent?: string;
+  repeatabilityFirstSent?: Date;
 }
 
 /** Contains response data for the unmute operation. */
@@ -1352,6 +1727,13 @@ export interface CallConnectionGetParticipantOptionalParams
 
 /** Contains response data for the getParticipant operation. */
 export type CallConnectionGetParticipantResponse = CallParticipantInternal;
+
+/** Optional parameters. */
+export interface CallConnectionGetParticipantsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getParticipantsNext operation. */
+export type CallConnectionGetParticipantsNextResponse = GetParticipantsResponse;
 
 /** Optional parameters. */
 export interface CallMediaPlayOptionalParams
@@ -1378,12 +1760,23 @@ export interface CallMediaSendDtmfOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
+export interface CallDialogStartDialogOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the startDialog operation. */
+export type CallDialogStartDialogResponse = DialogStateResponse;
+
+/** Optional parameters. */
+export interface CallDialogStopDialogOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface CallRecordingStartRecordingOptionalParams
   extends coreClient.OperationOptions {
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
   repeatabilityRequestID?: string;
   /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
-  repeatabilityFirstSent?: string;
+  repeatabilityFirstSent?: Date;
 }
 
 /** Contains response data for the startRecording operation. */

@@ -8,9 +8,10 @@ import {
   ClassificationPolicy,
   DistributionPolicy,
   ExceptionPolicy,
-  JobQueue,
+  RouterQueue,
   QueueLengthExceptionTrigger,
-  RouterAdministrationClient } from "@azure/communication-job-router";
+  JobRouterAdministrationClient,
+} from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -18,11 +19,11 @@ dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
-
 // Create an classification policy
 async function createClassificationPolicy(): Promise<void> {
   // Create the Router Client
-  const routerAdministrationClient: RouterAdministrationClient = new RouterAdministrationClient(connectionString);
+  const routerAdministrationClient: JobRouterAdministrationClient =
+    new JobRouterAdministrationClient(connectionString);
 
   const distributionPolicyId = "distribution-policy-123";
   const distributionPolicyRequest: DistributionPolicy = {
@@ -31,17 +32,20 @@ async function createClassificationPolicy(): Promise<void> {
       kind: "longest-idle",
       minConcurrentOffers: 1,
       maxConcurrentOffers: 1,
-      bypassSelectors: false
+      bypassSelectors: false,
     },
-    offerTtlSeconds: 15
+    offerExpiresAfterSeconds: 15,
   };
-  await routerAdministrationClient.createDistributionPolicy(distributionPolicyId, distributionPolicyRequest);
+  await routerAdministrationClient.createDistributionPolicy(
+    distributionPolicyId,
+    distributionPolicyRequest
+  );
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger: QueueLengthExceptionTrigger = {
     kind: "queue-length",
-    threshold: 100
-  }
+    threshold: 100,
+  };
 
   const exceptionPolicyId = "exception-policy-123";
   const exceptionPolicyRequest: ExceptionPolicy = {
@@ -54,23 +58,23 @@ async function createClassificationPolicy(): Promise<void> {
             kind: "reclassify",
             classificationPolicyId: "Main",
             labelsToUpsert: {
-              escalated: true
-            }
-          }
+              escalated: true,
+            },
+          },
         },
-        trigger: queueLengthExceptionTrigger
-      }
-    }
+        trigger: queueLengthExceptionTrigger,
+      },
+    },
   };
   await routerAdministrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
 
   const queueId = "queue-123";
-  const queueRequest: JobQueue = {
+  const queueRequest: RouterQueue = {
     id: "queue-123",
     distributionPolicyId: "distribution-policy-123",
     name: "Main",
     labels: {},
-    exceptionPolicyId: "exception-policy-123"
+    exceptionPolicyId: "exception-policy-123",
   };
   await routerAdministrationClient.createQueue(queueId, queueRequest);
 
@@ -82,28 +86,29 @@ async function createClassificationPolicy(): Promise<void> {
     queueSelectors: [
       {
         kind: "conditional",
-        labelSelectors: [
+        queueSelectors: [
           {
             key: "foo",
             labelOperator: "equal",
-            value: { "default": 10 }
-          }
-        ]
-      }
+            value: { default: 10 },
+          },
+        ],
+      },
     ],
     prioritizationRule: {
       kind: "static-rule",
-      value: { "default": 2 }
-    }
+      value: { default: 2 },
+    },
   };
-
 
   const request = classificationPolicyRequest;
 
-  const result = await routerAdministrationClient.createClassificationPolicy(classificationPolicyId, request);
+  const result = await routerAdministrationClient.createClassificationPolicy(
+    classificationPolicyId,
+    request
+  );
 
   console.log("classification policy: " + result);
-
-};
+}
 
 void createClassificationPolicy();

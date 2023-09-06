@@ -41,9 +41,22 @@ export {
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
   SearchIndexingBufferedSenderUploadDocumentsOptions,
   SearchPick,
+  SearchFieldArray,
+  SelectArray,
   SelectFields,
   SuggestNarrowedModel,
   UnionToIntersection,
+  SemanticPartialResponseReason,
+  SemanticPartialResponseType,
+  QueryDebugMode,
+  SemanticErrorHandlingMode,
+  SemanticFieldState,
+  Vector,
+  AnswersOptions,
+  DocumentDebugInfo,
+  SemanticDebugInfo,
+  QueryResultDocumentSemanticField,
+  Answers,
 } from "./indexModels";
 export { SearchIndexingBufferedSender, IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
@@ -129,6 +142,14 @@ export {
   GetAliasOptions,
   ListAliasesOptions,
   AliasIterator,
+  VectorSearchAlgorithmConfiguration,
+  VectorSearchAlgorithmMetric,
+  VectorSearch,
+  SearchIndexerCache,
+  SearchIndexerKnowledgeStore,
+  WebApiSkill,
+  HnswParameters,
+  HnswVectorSearchAlgorithmConfiguration,
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -144,7 +165,6 @@ export {
   QueryType,
   SearchMode,
   ScoringStatistics,
-  Answers,
   KnownAnswers,
   QueryLanguage,
   KnownQueryLanguage,
@@ -159,6 +179,7 @@ export {
   KnownQuerySpellerType,
   KnownQueryAnswerType,
   KnownQueryCaptionType,
+  QueryResultDocumentRerankerInput,
 } from "./generated/data/models";
 export {
   RegexFlags,
@@ -241,7 +262,6 @@ export {
   EntityLinkingSkill,
   SentimentSkillV3,
   TextTranslationSkill,
-  WebApiSkill,
   AzureMachineLearningSkill,
   SentimentSkillLanguage,
   KnownSentimentSkillLanguage,
@@ -323,7 +343,6 @@ export {
   CharFilterName,
   KnownCharFilterName,
   LexicalNormalizer as BaseLexicalNormalizer,
-  SearchIndexerKnowledgeStore,
   SearchIndexerKnowledgeStoreProjection,
   SearchIndexerKnowledgeStoreFileProjectionSelector,
   SearchIndexerKnowledgeStoreBlobProjectionSelector,
@@ -335,7 +354,6 @@ export {
   LineEnding,
   KnownLineEnding,
   SearchIndexerDataIdentity as BaseSearchIndexerDataIdentity,
-  SearchIndexerCache,
   IndexerState,
   IndexerExecutionStatusDetail,
   KnownIndexerExecutionStatusDetail,
@@ -346,6 +364,7 @@ export {
   PrioritizedFields,
   SemanticField,
   SearchAlias,
+  VectorSearchAlgorithmConfiguration as BaseVectorSearchAlgorithmConfiguration,
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
 export { createSynonymMapFromFile } from "./synonymMapHelper";

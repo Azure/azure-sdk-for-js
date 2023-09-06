@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   TagRule,
   TagRulesListOptionalParams,
@@ -15,9 +15,6 @@ import {
   TagRulesGetResponse,
   TagRulesCreateOrUpdateOptionalParams,
   TagRulesCreateOrUpdateResponse,
-  TagRuleUpdate,
-  TagRulesUpdateOptionalParams,
-  TagRulesUpdateResponse,
   TagRulesDeleteOptionalParams
 } from "../models";
 
@@ -63,8 +60,8 @@ export interface TagRules {
     resource: TagRule,
     options?: TagRulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TagRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TagRulesCreateOrUpdateResponse>,
       TagRulesCreateOrUpdateResponse
     >
   >;
@@ -84,21 +81,6 @@ export interface TagRules {
     options?: TagRulesCreateOrUpdateOptionalParams
   ): Promise<TagRulesCreateOrUpdateResponse>;
   /**
-   * Update a TagRule
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param ruleSetName Monitor resource name
-   * @param resource The resource properties to be updated.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    monitorName: string,
-    ruleSetName: string,
-    resource: TagRuleUpdate,
-    options?: TagRulesUpdateOptionalParams
-  ): Promise<TagRulesUpdateResponse>;
-  /**
    * Delete a TagRule
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
@@ -110,7 +92,7 @@ export interface TagRules {
     monitorName: string,
     ruleSetName: string,
     options?: TagRulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a TagRule
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

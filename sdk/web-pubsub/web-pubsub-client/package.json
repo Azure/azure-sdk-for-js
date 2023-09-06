@@ -33,7 +33,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -78,7 +78,7 @@
     "@types/jsonwebtoken": "^9.0.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",
-    "@types/sinon": "^9.0.4",
+    "@types/sinon": "^10.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
@@ -102,14 +102,15 @@
     "prettier": "^2.5.1",
     "puppeteer": "^19.2.2",
     "rimraf": "^3.0.0",
-    "sinon": "^9.0.2",
+    "sinon": "^15.0.0",
     "source-map-support": "^0.5.9",
     "typescript": "~5.0.0",
     "@azure/web-pubsub": "^1.1.0",
     "@azure/test-utils": "^1.0.0",
     "mock-socket": "^9.1.5",
     "util": "^0.12.1",
-    "@types/ws": "^7.4.5"
+    "@types/ws": "^7.4.5",
+    "ts-node": "^10.0.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub Client",

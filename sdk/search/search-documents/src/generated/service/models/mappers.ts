@@ -676,9 +676,7 @@ export const FieldMappingFunction: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -701,6 +699,13 @@ export const SearchIndexerCache: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Boolean"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "SearchIndexerDataIdentity"
         }
       }
     }
@@ -1324,6 +1329,13 @@ export const SearchIndexerKnowledgeStore: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "SearchIndexerDataIdentity"
+        }
       }
     }
   }
@@ -1672,6 +1684,13 @@ export const SearchIndex: coreClient.CompositeMapper = {
           className: "SemanticSettings"
         }
       },
+      vectorSearch: {
+        serializedName: "vectorSearch",
+        type: {
+          name: "Composite",
+          className: "VectorSearch"
+        }
+      },
       etag: {
         serializedName: "@odata\\.etag",
         type: {
@@ -1760,6 +1779,24 @@ export const SearchField: coreClient.CompositeMapper = {
       },
       normalizer: {
         serializedName: "normalizer",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      vectorSearchDimensions: {
+        constraints: {
+          InclusiveMaximum: 2048,
+          InclusiveMinimum: 2
+        },
+        serializedName: "dimensions",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      vectorSearchConfiguration: {
+        serializedName: "vectorSearchConfiguration",
         nullable: true,
         type: {
           name: "String"
@@ -2129,6 +2166,12 @@ export const SemanticSettings: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SemanticSettings",
     modelProperties: {
+      defaultConfiguration: {
+        serializedName: "defaultConfiguration",
+        type: {
+          name: "String"
+        }
+      },
       configurations: {
         serializedName: "configurations",
         type: {
@@ -2223,6 +2266,55 @@ export const SemanticField: coreClient.CompositeMapper = {
   }
 };
 
+export const VectorSearch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VectorSearch",
+    modelProperties: {
+      algorithmConfigurations: {
+        serializedName: "algorithmConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VectorSearchAlgorithmConfiguration"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VectorSearchAlgorithmConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VectorSearchAlgorithmConfiguration",
+    uberParent: "VectorSearchAlgorithmConfiguration",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind"
+    },
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ListIndexesResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2262,6 +2354,13 @@ export const GetIndexStatisticsResult: coreClient.CompositeMapper = {
       storageSize: {
         serializedName: "storageSize",
         required: true,
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      vectorIndexSize: {
+        serializedName: "vectorIndexSize",
         readOnly: true,
         type: {
           name: "Number"
@@ -2530,6 +2629,13 @@ export const ServiceCounters: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ResourceCounter"
         }
+      },
+      vectorIndexSizeCounter: {
+        serializedName: "vectorIndexSize",
+        type: {
+          name: "Composite",
+          className: "ResourceCounter"
+        }
       }
     }
   }
@@ -2589,6 +2695,58 @@ export const ServiceLimits: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const HnswParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HnswParameters",
+    modelProperties: {
+      m: {
+        defaultValue: 4,
+        constraints: {
+          InclusiveMaximum: 10,
+          InclusiveMinimum: 4
+        },
+        serializedName: "m",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      efConstruction: {
+        defaultValue: 400,
+        constraints: {
+          InclusiveMaximum: 1000,
+          InclusiveMinimum: 100
+        },
+        serializedName: "efConstruction",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      efSearch: {
+        defaultValue: 500,
+        constraints: {
+          InclusiveMaximum: 1000,
+          InclusiveMinimum: 100
+        },
+        serializedName: "efSearch",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      metric: {
+        serializedName: "metric",
+        nullable: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -3508,9 +3666,7 @@ export const DocumentExtractionSkill: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -3564,6 +3720,20 @@ export const WebApiSkill: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Number"
+        }
+      },
+      authResourceId: {
+        serializedName: "authResourceId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      authIdentity: {
+        serializedName: "authIdentity",
+        type: {
+          name: "Composite",
+          className: "SearchIndexerDataIdentity"
         }
       }
     }
@@ -5511,6 +5681,27 @@ export const BM25Similarity: coreClient.CompositeMapper = {
   }
 };
 
+export const HnswVectorSearchAlgorithmConfiguration: coreClient.CompositeMapper = {
+  serializedName: "hnsw",
+  type: {
+    name: "Composite",
+    className: "HnswVectorSearchAlgorithmConfiguration",
+    uberParent: "VectorSearchAlgorithmConfiguration",
+    polymorphicDiscriminator:
+      VectorSearchAlgorithmConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...VectorSearchAlgorithmConfiguration.type.modelProperties,
+      parameters: {
+        serializedName: "hnswParameters",
+        type: {
+          name: "Composite",
+          className: "HnswParameters"
+        }
+      }
+    }
+  }
+};
+
 export const SearchIndexerKnowledgeStoreObjectProjectionSelector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5544,6 +5735,7 @@ export let discriminators = {
   CharFilter: CharFilter,
   LexicalNormalizer: LexicalNormalizer,
   Similarity: Similarity,
+  VectorSearchAlgorithmConfiguration: VectorSearchAlgorithmConfiguration,
   "SearchIndexerDataIdentity.#Microsoft.Azure.Search.DataNoneIdentity": SearchIndexerDataNoneIdentity,
   "SearchIndexerDataIdentity.#Microsoft.Azure.Search.DataUserAssignedIdentity": SearchIndexerDataUserAssignedIdentity,
   "DataChangeDetectionPolicy.#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy": HighWaterMarkChangeDetectionPolicy,
@@ -5619,5 +5811,6 @@ export let discriminators = {
   "CharFilter.#Microsoft.Azure.Search.PatternReplaceCharFilter": PatternReplaceCharFilter,
   "LexicalNormalizer.#Microsoft.Azure.Search.CustomNormalizer": CustomNormalizer,
   "Similarity.#Microsoft.Azure.Search.ClassicSimilarity": ClassicSimilarity,
-  "Similarity.#Microsoft.Azure.Search.BM25Similarity": BM25Similarity
+  "Similarity.#Microsoft.Azure.Search.BM25Similarity": BM25Similarity,
+  "VectorSearchAlgorithmConfiguration.hnsw": HnswVectorSearchAlgorithmConfiguration
 };

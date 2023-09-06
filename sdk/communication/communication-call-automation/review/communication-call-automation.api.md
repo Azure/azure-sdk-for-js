@@ -11,6 +11,7 @@ import { CommunicationIdentifier } from '@azure/communication-common';
 import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
+import { MicrosoftTeamsUserIdentifier } from '@azure/communication-common';
 import { OperationOptions } from '@azure/core-client';
 import { PhoneNumberIdentifier } from '@azure/communication-common';
 import { TokenCredential } from '@azure/core-auth';
@@ -27,6 +28,7 @@ export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, "ca
 
 // @public
 export interface AddParticipantOptions extends OperationOptions {
+    callbackUrl?: string;
     invitationTimeoutInSeconds?: number;
     operationContext?: string;
 }
@@ -99,6 +101,7 @@ export class CallConnection {
     getParticipant(targetParticipant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
     hangUp(isForEveryone: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
+    muteParticipants(participant: CommunicationIdentifier, options?: MuteParticipantsOption): Promise<MuteParticipantsResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOption): Promise<RemoveParticipantResult>;
     transferCallToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
 }
@@ -131,16 +134,11 @@ export interface CallDisconnected extends Omit<RestCallDisconnected, "callConnec
 
 // @public
 export interface CallInvite {
-    readonly sipHeaders?: {
-        [propertyName: string]: string;
-    };
+    customContext?: CustomContext;
     readonly sourceCallIdNumber?: PhoneNumberIdentifier;
     // (undocumented)
     sourceDisplayName?: string;
-    readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier;
-    readonly voipHeaders?: {
-        [propertyName: string]: string;
-    };
+    readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier | MicrosoftTeamsUserIdentifier;
 }
 
 // @public
@@ -185,6 +183,8 @@ export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions
 // @public
 export interface CallMediaRecognizeOptions extends OperationOptions {
     // (undocumented)
+    callbackUrl?: string;
+    // (undocumented)
     initialSilenceTimeoutInSeconds?: number;
     // (undocumented)
     interruptCallMediaOperation?: boolean;
@@ -194,6 +194,8 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
     operationContext?: string;
     // (undocumented)
     playPrompt?: FileSource | TextSource | SsmlSource;
+    // (undocumented)
+    speechModelEndpointId?: string;
     // (undocumented)
     stopCurrentOperations?: boolean;
 }
@@ -238,12 +240,14 @@ export class CallRecording {
 export type CallRejectReason = string;
 
 // @public
-export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation" | "transferee" | "transferTarget"> {
     callConnectionId: string;
     correlationId: string;
     kind: "CallTransferAccepted";
     resultInformation?: ResultInformation;
     serverCallId: string;
+    transferee: CommunicationIdentifier;
+    transferTarget: CommunicationIdentifier;
 }
 
 // @public
@@ -271,6 +275,7 @@ export interface Choice {
 
 // @public
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
+    callbackUrl?: string;
     operationContext?: string;
 }
 
@@ -308,20 +313,32 @@ export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuo
 // @public
 export interface CreateCallOptions extends OperationOptions {
     azureCognitiveServicesEndpointUrl?: string;
+    customContext?: CustomContext;
     mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
-    sipHeaders?: {
-        [propertyName: string]: string;
-    };
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
-    voipHeaders?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
 export type CreateCallResult = CallResult;
+
+// @public
+export class CustomContext {
+    constructor(sipHeaders: {
+        [key: string]: string;
+    }, voipHeaders: {
+        [key: string]: string;
+    });
+    // Warning: (ae-forgotten-export) The symbol "CustomContextHeader" needs to be exported by the entry point index.d.ts
+    add(header: CustomContextHeader): void;
+    sipHeaders: {
+        [key: string]: string;
+    };
+    voipHeaders: {
+        [key: string]: string;
+    };
+}
 
 // @public
 export type DeleteRecordingOptions = OperationOptions;
@@ -429,6 +446,16 @@ export type MediaStreamingContentType = string;
 export type MediaStreamingTransportType = string;
 
 // @public
+export interface MuteParticipantsOption extends OperationOptions {
+    operationContext?: string;
+}
+
+// @public
+export interface MuteParticipantsResult {
+    operationContext?: string;
+}
+
+// @public
 export function parseCallAutomationEvent(encodedEvents: string | Record<string, unknown>): CallAutomationEvent;
 
 // @public
@@ -471,9 +498,8 @@ export interface PlayFailed extends Omit<RestPlayFailed, "callConnectionId" | "s
 
 // @public
 export interface PlayOptions extends OperationOptions {
-    // (undocumented)
+    callbackUrl?: string;
     loop?: boolean;
-    // (undocumented)
     operationContext?: string;
 }
 
@@ -577,6 +603,7 @@ export interface RemoveParticipantResult {
 
 // @public
 export interface RemoveParticipantsOption extends OperationOptions {
+    callbackUrl?: string;
     operationContext?: string;
 }
 
@@ -634,6 +661,8 @@ export interface RestCallTransferAccepted {
     operationContext?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
+    readonly transferee?: CommunicationIdentifierModel;
+    readonly transferTarget?: CommunicationIdentifierModel;
 }
 
 // @public
@@ -778,11 +807,8 @@ export interface RestRemoveParticipantSucceeded {
 
 // @public (undocumented)
 export interface RestResultInformation {
-    // (undocumented)
     code?: number;
-    // (undocumented)
     message?: string;
-    // (undocumented)
     subCode?: number;
 }
 
@@ -843,11 +869,32 @@ export interface SendDtmfFailed extends Omit<RestSendDtmfFailed, "callConnection
 
 // @public
 export interface SendDtmfOptions extends OperationOptions {
+    callbackUrl?: string;
     operationContext?: string;
 }
 
 // @public
+export interface SIPCustomHeader extends CustomContextHeader {
+}
+
+// @public
+export class SIPCustomHeader implements CustomContextHeader {
+    constructor(key: string, value: string);
+}
+
+// @public
+export interface SIPUserToUserHeader extends CustomContextHeader {
+}
+
+// @public
+export class SIPUserToUserHeader implements CustomContextHeader {
+    constructor(value: string);
+}
+
+// @public
 export interface SsmlSource extends PlaySource {
+    // (undocumented)
+    customVoiceEndpointId?: string;
     // (undocumented)
     readonly kind: "ssmlSource";
     // (undocumented)
@@ -870,6 +917,8 @@ export type StopRecordingOptions = OperationOptions;
 
 // @public
 export interface TextSource extends PlaySource {
+    // (undocumented)
+    customVoiceEndpointId?: string;
     // (undocumented)
     readonly kind: "textSource";
     // (undocumented)
@@ -895,13 +944,19 @@ export interface TransferCallResult {
 
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
+    callbackUrl?: string;
+    customContext?: CustomContext;
     operationContext?: string;
-    sipHeaders?: {
-        [propertyName: string]: string;
-    };
-    voipHeaders?: {
-        [propertyName: string]: string;
-    };
+    transferee?: CommunicationIdentifier;
+}
+
+// @public
+export interface VoipHeader extends CustomContextHeader {
+}
+
+// @public
+export class VoipHeader implements CustomContextHeader {
+    constructor(key: string, value: string);
 }
 
 // (No @packageDocumentation comment for this package)

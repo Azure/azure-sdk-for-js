@@ -23,7 +23,6 @@ import {
   Job as JobMapper,
   JobPatchProperties as JobPatchPropertiesMapper,
   JobExecutionTemplate as JobExecutionTemplateMapper,
-  JobExecutionNamesCollection as JobExecutionNamesCollectionMapper,
   ManagedEnvironment as ManagedEnvironmentMapper,
   ManagedCertificate as ManagedCertificateMapper,
   ManagedCertificatePatch as ManagedCertificatePatchMapper,
@@ -98,7 +97,7 @@ export const containerAppName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-11-01-preview",
+    defaultValue: "2023-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -250,63 +249,18 @@ export const customHostname: OperationQueryParameter = {
   }
 };
 
-export const jobName: OperationURLParameter = {
-  parameterPath: "jobName",
+export const containerAppName1: OperationURLParameter = {
+  parameterPath: "containerAppName",
   mapper: {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._\\(\\)]+$")
     },
-    serializedName: "jobName",
+    serializedName: "containerAppName",
     required: true,
     type: {
       name: "String"
     }
   }
-};
-
-export const jobEnvelope: OperationParameter = {
-  parameterPath: "jobEnvelope",
-  mapper: JobMapper
-};
-
-export const jobName1: OperationURLParameter = {
-  parameterPath: "jobName",
-  mapper: {
-    serializedName: "jobName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const jobEnvelope1: OperationParameter = {
-  parameterPath: "jobEnvelope",
-  mapper: JobPatchPropertiesMapper
-};
-
-export const template: OperationParameter = {
-  parameterPath: "template",
-  mapper: JobExecutionTemplateMapper
-};
-
-export const jobExecutionName: OperationURLParameter = {
-  parameterPath: "jobExecutionName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$")
-    },
-    serializedName: "jobExecutionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const jobExecutionName1: OperationParameter = {
-  parameterPath: "jobExecutionName",
-  mapper: JobExecutionNamesCollectionMapper
 };
 
 export const filter: OperationQueryParameter = {
@@ -356,6 +310,49 @@ export const environmentName: OperationURLParameter = {
   parameterPath: "environmentName",
   mapper: {
     serializedName: "environmentName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const jobName: OperationURLParameter = {
+  parameterPath: "jobName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$")
+    },
+    serializedName: "jobName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const jobEnvelope: OperationParameter = {
+  parameterPath: "jobEnvelope",
+  mapper: JobMapper
+};
+
+export const jobEnvelope1: OperationParameter = {
+  parameterPath: "jobEnvelope",
+  mapper: JobPatchPropertiesMapper
+};
+
+export const template: OperationParameter = {
+  parameterPath: ["options", "template"],
+  mapper: JobExecutionTemplateMapper
+};
+
+export const jobExecutionName: OperationURLParameter = {
+  parameterPath: "jobExecutionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$")
+    },
+    serializedName: "jobExecutionName",
     required: true,
     type: {
       name: "String"

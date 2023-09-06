@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
-import { Meter } from "@opentelemetry/api";
+import { metrics } from "@opentelemetry/api";
 import {
   MeterProvider,
   MeterProviderOptions,
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
-import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
-import { PerformanceCounterMetrics } from "./performanceCounters";
+import { InternalConfig } from "../shared/config";
 import { StandardMetrics } from "./standardMetrics";
 import { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
 import { LogRecord } from "@opentelemetry/sdk-logs";
+import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS } from "./types";
 
 /**
  * Azure Monitor OpenTelemetry Metric Handler
@@ -23,50 +23,31 @@ export class MetricHandler {
   private _meterProvider: MeterProvider;
   private _azureExporter: AzureMonitorMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
-  private _meter: Meter;
-  private _perfCounterMetrics?: PerformanceCounterMetrics;
   private _standardMetrics?: StandardMetrics;
-  private _config: AzureMonitorOpenTelemetryConfig;
+  private _config: InternalConfig;
 
   /**
    * Initializes a new instance of the MetricHandler class.
    * @param config - Distro configuration.
    * @param options - Metric Handler options.
    */
-  constructor(config: AzureMonitorOpenTelemetryConfig, options?: { collectionInterval: number }) {
+  constructor(config: InternalConfig, options?: { collectionInterval: number }) {
     this._config = config;
-    if (this._config.enableAutoCollectStandardMetrics) {
+    if (!process.env[APPLICATION_INSIGHTS_NO_STANDARD_METRICS]) {
       this._standardMetrics = new StandardMetrics(this._config);
-    }
-    if (this._config.enableAutoCollectPerformance) {
-      this._perfCounterMetrics = new PerformanceCounterMetrics(this._config);
     }
     const meterProviderConfig: MeterProviderOptions = {
       resource: this._config.resource,
     };
     this._meterProvider = new MeterProvider(meterProviderConfig);
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterConfig);
-    const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
+    let metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
       exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
     this._meterProvider.addMetricReader(this._metricReader);
-    this._meter = this._meterProvider.getMeter("AzureMonitorMeter");
-  }
-
-  /**
-   *Get OpenTelemetry MeterProvider
-   */
-  public getMeterProvider(): MeterProvider {
-    return this._meterProvider;
-  }
-
-  /**
-   *Get OpenTelemetry Meter
-   */
-  public getMeter(): Meter {
-    return this._meter;
+    metrics.setGlobalMeterProvider(this._meterProvider);
   }
 
   public markSpanAsProcessed(span: Span): void {
@@ -75,7 +56,6 @@ export class MetricHandler {
 
   public recordSpan(span: ReadableSpan): void {
     this._standardMetrics?.recordSpan(span);
-    this._perfCounterMetrics?.recordSpan(span);
   }
 
   public recordLog(logRecord: LogRecord): void {
@@ -87,7 +67,6 @@ export class MetricHandler {
    */
   public async shutdown(): Promise<void> {
     this._meterProvider.shutdown();
-    this._perfCounterMetrics?.shutdown();
     this._standardMetrics?.shutdown();
   }
 
@@ -96,7 +75,6 @@ export class MetricHandler {
    */
   public async flush(): Promise<void> {
     await this._meterProvider.forceFlush();
-    await this._perfCounterMetrics?.flush();
     await this._standardMetrics?.flush();
   }
 }

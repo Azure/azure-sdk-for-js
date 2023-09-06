@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { KustoManagementClient } from "../kustoManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ManagedPrivateEndpoint,
   ManagedPrivateEndpointsListOptionalParams,
@@ -45,7 +49,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
 
   /**
    * Returns the list of managed private endpoints.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
@@ -103,7 +107,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
 
   /**
    * Checks that the managed private endpoints resource name is valid and is not already in use.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
@@ -122,7 +126,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
 
   /**
    * Returns the list of managed private endpoints.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
@@ -139,7 +143,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
 
   /**
    * Gets a managed private endpoint.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param options The options parameters.
@@ -158,7 +162,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
 
   /**
    * Creates a managed private endpoint.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param parameters The managed private endpoint parameters.
@@ -171,8 +175,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     parameters: ManagedPrivateEndpoint,
     options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>,
       ManagedPrivateEndpointsCreateOrUpdateResponse
     >
   > {
@@ -182,7 +186,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     ): Promise<ManagedPrivateEndpointsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -215,20 +219,24 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         managedPrivateEndpointName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedPrivateEndpointsCreateOrUpdateResponse,
+      OperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -236,7 +244,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
 
   /**
    * Creates a managed private endpoint.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param parameters The managed private endpoint parameters.
@@ -261,7 +269,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
 
   /**
    * Updates a managed private endpoint.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param parameters The managed private endpoint parameters.
@@ -274,8 +282,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     parameters: ManagedPrivateEndpoint,
     options?: ManagedPrivateEndpointsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedPrivateEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagedPrivateEndpointsUpdateResponse>,
       ManagedPrivateEndpointsUpdateResponse
     >
   > {
@@ -285,7 +293,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     ): Promise<ManagedPrivateEndpointsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -318,20 +326,24 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         managedPrivateEndpointName,
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedPrivateEndpointsUpdateResponse,
+      OperationState<ManagedPrivateEndpointsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -339,7 +351,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
 
   /**
    * Updates a managed private endpoint.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param parameters The managed private endpoint parameters.
@@ -364,7 +376,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
 
   /**
    * Deletes a managed private endpoint.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param options The options parameters.
@@ -374,14 +386,14 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     clusterName: string,
     managedPrivateEndpointName: string,
     options?: ManagedPrivateEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -414,14 +426,20 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, managedPrivateEndpointName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        managedPrivateEndpointName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -429,7 +447,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
 
   /**
    * Deletes a managed private endpoint.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param options The options parameters.
@@ -461,7 +479,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CheckNameResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.resourceName2,
@@ -485,7 +503,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedPrivateEndpointListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -507,7 +525,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedPrivateEndpoint
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -539,7 +557,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedPrivateEndpoint
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters5,
@@ -573,7 +591,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedPrivateEndpoint
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters5,
@@ -599,7 +617,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

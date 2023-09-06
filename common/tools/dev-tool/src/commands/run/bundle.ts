@@ -70,7 +70,7 @@ export default leafCommand(commandInfo, async (options) => {
 
     try {
       const bundle = await rollup.rollup(baseConfig);
-      const cjsOutput = info.packageJson.main;
+      const cjsOutput = info.packageJson.main ?? info.packageJson.exports?.["."]?.require;
       if (!cjsOutput) {
         throw new Error("Expecting valid main entry");
       }

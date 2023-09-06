@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { OpenAIClient } from "../../src/OpenAIClient.js";
+import { OpenAIClient } from "../../src/index.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
-
-export const testPollingOptions = {
-  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
-};
-
+import { ImageLocation } from "../../src/index.js";
 describe("README samples", () => {
   let recorder: Recorder;
   let client: OpenAIClient;
@@ -34,14 +31,12 @@ describe("README samples", () => {
       { role: "user", content: "What's the best way to train a parrot?" },
     ];
 
-    console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
-
-    const events = await client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
+    const events = client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
     for await (const event of events) {
       for (const choice of event.choices) {
         const delta = choice.delta?.content;
         if (delta !== undefined) {
-          console.log(`Chatbot: ${delta}`);
+          assert.isDefined(delta);
         }
       }
     }
@@ -58,14 +53,12 @@ describe("README samples", () => {
 
     const deploymentName = "text-davinci-003";
 
-    let promptIndex = 0;
     const { choices } = await client.getCompletions(deploymentName, examplePrompts, {
       maxTokens: 64,
     });
     for (const choice of choices) {
       const completion = choice.text;
-      console.log(`Input: ${examplePrompts[promptIndex++]}`);
-      console.log(`Chatbot: ${completion}`);
+      assert.isDefined(completion);
     }
   });
 
@@ -89,12 +82,22 @@ describe("README samples", () => {
   `,
     ];
 
-    console.log(`Input: ${summarizationPrompt}`);
-
     const deploymentName = "text-davinci-003";
 
     const { choices } = await client.getCompletions(deploymentName, summarizationPrompt);
     const completion = choices[0].text;
-    console.log(`Summarization: ${completion}`);
+    assert.isDefined(completion);
+  });
+
+  it("Generate Batch Image", async function () {
+    const prompt = "a monkey eating a banana";
+    const size = "256x256";
+    const n = 3;
+
+    const results = await client.getImages(prompt, { n, size });
+
+    for (const image of results.data as ImageLocation[]) {
+      assert.isString(image.url);
+    }
   });
 });

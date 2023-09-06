@@ -37,10 +37,16 @@ export async function sendRequest(
 ): Promise<HttpResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);
+
   const response = await pipeline.sendRequest(httpClient, request);
+
   const rawHeaders: RawHttpHeaders = response.headers.toJSON();
 
   const parsedBody: RequestBodyType | undefined = getResponseBody(response);
+
+  if (options?.onResponse) {
+    options.onResponse({ ...response, request, rawHeaders, parsedBody });
+  }
 
   return {
     request,
@@ -127,6 +133,11 @@ function buildPipelineRequest(
     formData,
     headers,
     allowInsecureConnection: options.allowInsecureConnection,
+    tracingOptions: options.tracingOptions,
+    abortSignal: options.abortSignal,
+    onUploadProgress: options.onUploadProgress,
+    onDownloadProgress: options.onDownloadProgress,
+    timeout: options.timeout,
     enableBrowserStreams: true,
     streamResponseStatusCodes: options.responseAsStream
       ? new Set([Number.POSITIVE_INFINITY])

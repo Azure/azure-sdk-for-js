@@ -20,16 +20,6 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   /** Azure Monitor Exporter Configuration */
   public azureMonitorExporterConfig?: AzureMonitorExporterOptions;
   /**
-   * Sets the state of performance tracking (enabled by default)
-   * if true performance counters will be collected every second and sent to Azure Monitor
-   */
-  public enableAutoCollectPerformance?: boolean;
-  /**
-   * Sets the state of standard metrics tracking (enabled by default)
-   * if true Standard metrics will be collected every minute and sent to Azure Monitor
-   */
-  public enableAutoCollectStandardMetrics?: boolean;
-  /**
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
   public instrumentationOptions?: InstrumentationOptions;
@@ -81,8 +71,6 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
       const jsonConfig: AzureMonitorOpenTelemetryOptions = JSON.parse(jsonString);
       this.azureMonitorExporterConfig = jsonConfig.azureMonitorExporterConfig;
       this.samplingRatio = jsonConfig.samplingRatio;
-      this.enableAutoCollectPerformance = jsonConfig.enableAutoCollectPerformance;
-      this.enableAutoCollectStandardMetrics = jsonConfig.enableAutoCollectStandardMetrics;
       this.instrumentationOptions = jsonConfig.instrumentationOptions;
     } catch (err) {
       Logger.getInstance().info("Missing or invalid JSON config file: ", err);

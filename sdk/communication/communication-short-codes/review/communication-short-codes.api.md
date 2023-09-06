@@ -166,19 +166,18 @@ export interface ReviewNote {
 // @public
 export interface ShortCode {
     countryCode?: string;
-    number?: string;
-    numberType?: NumberType;
     programBriefIds?: string[];
     purchaseDate?: Date;
+    value?: string;
 }
 
 // @public
 export interface ShortCodeCost {
-    amount: number;
-    billingFrequency: BillingFrequency;
-    countryCode: string;
-    currencyCode: string;
-    isVanityShortCode: boolean;
+    amount?: number;
+    billingFrequency?: BillingFrequency;
+    countryCode?: string;
+    currencyCode?: string;
+    isVanityShortCode?: boolean;
 }
 
 // @public (undocumented)

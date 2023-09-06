@@ -1,14 +1,17 @@
 # Release History
 
-## 1.0.0-beta.13 (Unreleased)
+## 1.0.0-beta.13 (2023-07-26)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added `authenticationType` , `containerUri`, `sasUri` and `sasToken` properties to BlobService
+- Added `setSystemVariable` proprety to SetVariableActivityTypeProperties
+- Added `mongoDbAtlasDriverVersion` property to MongoDbAtlasLinkedServiceTypeProperties
+- Added `ActionOnExistingTargetTable` property for Synapse Link
+- Added `OutputColumn` Object For Office365Source outputColumns
+- Added `configurationType` , `targetSparkConfiguration` and `sparkConfig` properties for SynapseNotebookActivityTypeProperties
+- Added `credential` property for LinkedService
+- Added `isolationLevel` property for SQLServerSource
+- Added new apis of Create/Cancel/GetStatus/GetSnapshot for RunNotebook
 
 ## 1.0.0-beta.12 (2023-01-10)
 

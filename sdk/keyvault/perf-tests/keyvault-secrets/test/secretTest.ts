@@ -10,7 +10,7 @@ export abstract class SecretTest<TOptions = Record<string, unknown>> extends Per
     this.secretClient = new SecretClient(
       keyVaultUri,
       credential,
-      this.configureClientOptionsCoreV1({})
+      this.configureClientOptions({})
     );
   }
 

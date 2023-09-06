@@ -15,21 +15,11 @@ import { Logger } from "./logging";
 /**
  * Azure Monitor OpenTelemetry Client Configuration
  */
-export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetryOptions {
+export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   public samplingRatio: number;
   /** Azure Monitor Exporter Configuration */
   public azureMonitorExporterConfig: AzureMonitorExporterOptions;
-  /**
-   * Sets the state of performance tracking (enabled by default)
-   * if true performance counters will be collected every second and sent to Azure Monitor
-   */
-  public enableAutoCollectPerformance: boolean;
-  /**
-   * Sets the state of standard metrics tracking (enabled by default)
-   * if true Standard metrics will be collected every minute and sent to Azure Monitor
-   */
-  public enableAutoCollectStandardMetrics: boolean;
   /**
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
@@ -49,13 +39,11 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
   }
 
   /**
-   * Initializes a new instance of the AzureMonitorOpenTelemetryConfig class.
+   * Initializes a new instance of the AzureMonitorOpenTelemetryOptions class.
    */
   constructor(options?: AzureMonitorOpenTelemetryOptions) {
     // Default values
     this.azureMonitorExporterConfig = {};
-    this.enableAutoCollectPerformance = true;
-    this.enableAutoCollectStandardMetrics = true;
     this.samplingRatio = 1;
     this.instrumentationOptions = {
       http: { enabled: true },
@@ -72,85 +60,34 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
     // Check for explicitly passed options when instantiating client
     // This will take precedence over other settings
     if (options) {
-      this.azureMonitorExporterConfig =
-        options.azureMonitorExporterConfig || this.azureMonitorExporterConfig;
-      this.enableAutoCollectPerformance =
-        options.enableAutoCollectPerformance || this.enableAutoCollectPerformance;
-      this.enableAutoCollectStandardMetrics =
-        options.enableAutoCollectStandardMetrics || this.enableAutoCollectStandardMetrics;
+      // Merge default with provided options
+      this.azureMonitorExporterConfig = Object.assign(
+        this.azureMonitorExporterConfig,
+        options.azureMonitorExporterConfig
+      );
+      this.instrumentationOptions = Object.assign(
+        this.instrumentationOptions,
+        options.instrumentationOptions
+      );
+      this.resource = Object.assign(this.resource, options.resource);
       this.samplingRatio = options.samplingRatio || this.samplingRatio;
-      this.instrumentationOptions = options.instrumentationOptions || this.instrumentationOptions;
-      this.resource = options.resource || this.resource;
     }
   }
 
   private _mergeConfig() {
     try {
       const jsonConfig = JsonConfig.getInstance();
-      this.azureMonitorExporterConfig =
-        jsonConfig.azureMonitorExporterConfig !== undefined
-          ? jsonConfig.azureMonitorExporterConfig
-          : this.azureMonitorExporterConfig;
-      this.enableAutoCollectPerformance =
-        jsonConfig.enableAutoCollectPerformance !== undefined
-          ? jsonConfig.enableAutoCollectPerformance
-          : this.enableAutoCollectPerformance;
-      this.enableAutoCollectStandardMetrics =
-        jsonConfig.enableAutoCollectStandardMetrics !== undefined
-          ? jsonConfig.enableAutoCollectStandardMetrics
-          : this.enableAutoCollectStandardMetrics;
       this.samplingRatio =
         jsonConfig.samplingRatio !== undefined ? jsonConfig.samplingRatio : this.samplingRatio;
-      if (jsonConfig.instrumentationOptions) {
-        if (
-          jsonConfig.instrumentationOptions.azureSdk &&
-          jsonConfig.instrumentationOptions.azureSdk.enabled !== undefined
-        ) {
-          this.instrumentationOptions.azureSdk.enabled =
-            jsonConfig.instrumentationOptions.azureSdk.enabled;
-        }
-        if (
-          jsonConfig.instrumentationOptions.http &&
-          jsonConfig.instrumentationOptions.http.enabled !== undefined
-        ) {
-          this.instrumentationOptions.http.enabled = jsonConfig.instrumentationOptions.http.enabled;
-        }
-        if (
-          jsonConfig.instrumentationOptions.mongoDb &&
-          jsonConfig.instrumentationOptions.mongoDb.enabled !== undefined
-        ) {
-          this.instrumentationOptions.mongoDb.enabled =
-            jsonConfig.instrumentationOptions.mongoDb.enabled;
-        }
-        if (
-          jsonConfig.instrumentationOptions.mySql &&
-          jsonConfig.instrumentationOptions.mySql.enabled !== undefined
-        ) {
-          this.instrumentationOptions.mySql.enabled =
-            jsonConfig.instrumentationOptions.mySql.enabled;
-        }
-        if (
-          jsonConfig.instrumentationOptions.postgreSql &&
-          jsonConfig.instrumentationOptions.postgreSql.enabled !== undefined
-        ) {
-          this.instrumentationOptions.postgreSql.enabled =
-            jsonConfig.instrumentationOptions.postgreSql.enabled;
-        }
-        if (
-          jsonConfig.instrumentationOptions.redis4 &&
-          jsonConfig.instrumentationOptions.redis4.enabled !== undefined
-        ) {
-          this.instrumentationOptions.redis4.enabled =
-            jsonConfig.instrumentationOptions.redis4.enabled;
-        }
-        if (
-          jsonConfig.instrumentationOptions.redis &&
-          jsonConfig.instrumentationOptions.redis.enabled !== undefined
-        ) {
-          this.instrumentationOptions.redis.enabled =
-            jsonConfig.instrumentationOptions.redis.enabled;
-        }
-      }
+
+      this.azureMonitorExporterConfig = Object.assign(
+        this.azureMonitorExporterConfig,
+        jsonConfig.azureMonitorExporterConfig
+      );
+      this.instrumentationOptions = Object.assign(
+        this.instrumentationOptions,
+        jsonConfig.instrumentationOptions
+      );
     } catch (error) {
       Logger.getInstance().error("Failed to load JSON config file values.", error);
     }
