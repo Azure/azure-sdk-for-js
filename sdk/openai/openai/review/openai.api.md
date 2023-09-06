@@ -127,6 +127,7 @@ export interface ContentFilterResult {
 
 // @public
 export interface ContentFilterResults {
+    error?: ErrorModel;
     hate?: ContentFilterResult;
     selfHarm?: ContentFilterResult;
     sexual?: ContentFilterResult;

@@ -301,7 +301,7 @@ describe("deserializers", () => {
               error: {
                 code: "content_filter_error",
                 message: "The contents are not filtered",
-                details: []
+                details: [],
               },
             },
           },
@@ -318,7 +318,7 @@ describe("deserializers", () => {
               error: {
                 code: "content_filter_error",
                 message: "The contents are not filtered",
-                details: []
+                details: [],
               },
             },
           },

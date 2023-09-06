@@ -168,7 +168,7 @@ function deserializeContentFilter(result: ContentFilterResultsOutput): ContentFi
           error: {
             code: result.error?.code,
             message: result.error?.message,
-            details: result.error?.details ?? []
+            details: result.error?.details ?? [],
           },
         }),
   };
