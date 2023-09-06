@@ -195,7 +195,7 @@ async function getResponseBody(
   // Set the default response type
   const contentType = response.headers.get("content-type") ?? "";
   const firstType = contentType.split(";")[0];
-  const text = response.bodyAsText;
+  const text = response.bodyAsText ?? "";
   const stream = response.readableStreamBody ?? response.browserStreamBody;
 
   if (
