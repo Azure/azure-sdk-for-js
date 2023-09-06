@@ -3,6 +3,7 @@
 
 import { OperationOptions } from "@azure-rest/core-client";
 import {
+  AudioTranscriptionFormat,
   FunctionDefinition,
   FunctionCallPreset,
   FunctionName,
@@ -11,18 +12,168 @@ import {
   ImageGenerationResponseFormat,
 } from "./models.js";
 
-export interface GetEmbeddingsOptions extends OperationOptions {
+export interface GetAudioTranscriptionSimpleJsonOptions
+  extends OperationOptions {
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
   /**
-   * An identifier for the caller or end user of the operation. This may be used for tracking
-   * or rate-limiting purposes.
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
-  user?: string;
+  temperature?: number;
+  /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
+  language?: string;
+  /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
+  responseFormat?: AudioTranscriptionFormat;
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType?: string;
+}
+
+export interface GetAudioTranscriptionVerboseJsonOptions
+  extends OperationOptions {
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
   /**
-   * The model name to provide as part of this embeddings request.
-   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
-   * resource URI that's connected to.
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
-  model?: string;
+  temperature?: number;
+  /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
+  language?: string;
+  /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
+  responseFormat?: AudioTranscriptionFormat;
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType?: string;
+}
+
+export interface GetAudioTranscriptionPlainTextOptions
+  extends OperationOptions {
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
+  language?: string;
+  /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
+  responseFormat?: AudioTranscriptionFormat;
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType?: string;
+}
+
+export interface GetAudioTranscriptionSrtOptions extends OperationOptions {
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
+  language?: string;
+  /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
+  responseFormat?: AudioTranscriptionFormat;
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType?: string;
+}
+
+export interface GetAudioTranscriptionVttOptions extends OperationOptions {
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
+  language?: string;
+  /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
+  responseFormat?: AudioTranscriptionFormat;
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType?: string;
+}
+
+export interface GetAudioTranslationSimpleJsonOptions extends OperationOptions {
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
+  responseFormat?: AudioTranscriptionFormat;
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType?: string;
+}
+
+export interface GetAudioTranslationVerboseJsonOptions
+  extends OperationOptions {
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
+  responseFormat?: AudioTranscriptionFormat;
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType?: string;
+}
+
+export interface GetAudioTranslationPlainTextOptions extends OperationOptions {
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
+  responseFormat?: AudioTranscriptionFormat;
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType?: string;
+}
+
+export interface GetAudioTranslationSrtOptions extends OperationOptions {
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
+  responseFormat?: AudioTranscriptionFormat;
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType?: string;
+}
+
+export interface GetAudioTranslationVttOptions extends OperationOptions {
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
+  responseFormat?: AudioTranscriptionFormat;
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType?: string;
 }
 
 export interface GetCompletionsOptions extends OperationOptions {
@@ -269,6 +420,20 @@ export interface GetChatCompletionsWithAzureExtensionsOptions
    *   This additional specification is only compatible with Azure OpenAI.
    */
   dataSources?: AzureChatExtensionConfiguration[];
+}
+
+export interface GetEmbeddingsOptions extends OperationOptions {
+  /**
+   * An identifier for the caller or end user of the operation. This may be used for tracking
+   * or rate-limiting purposes.
+   */
+  user?: string;
+  /**
+   * The model name to provide as part of this embeddings request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
 }
 
 export interface GetAzureBatchImageGenerationOperationStatusOptions

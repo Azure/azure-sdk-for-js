@@ -2,14 +2,18 @@
 // Licensed under the MIT license.
 
 import {
-  GetEmbeddings200Response,
-  GetEmbeddingsDefaultResponse,
+  GetAudioTranscriptionSimpleJson200Response,
+  GetAudioTranscriptionSimpleJsonDefaultResponse,
+  GetAudioTranslationSimpleJson200Response,
+  GetAudioTranslationSimpleJsonDefaultResponse,
   GetCompletions200Response,
   GetCompletionsDefaultResponse,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
   GetChatCompletionsWithAzureExtensions200Response,
   GetChatCompletionsWithAzureExtensionsDefaultResponse,
+  GetEmbeddings200Response,
+  GetEmbeddingsDefaultResponse,
   GetAzureBatchImageGenerationOperationStatus200Response,
   GetAzureBatchImageGenerationOperationStatusLogicalResponse,
   GetAzureBatchImageGenerationOperationStatusDefaultResponse,
@@ -19,18 +23,27 @@ import {
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
-  "POST /deployments/{deploymentId}/embeddings": ["200"],
+  "POST /deployments/{deploymentId}/audio/transcriptions": ["200"],
+  "POST /deployments/{deploymentId}/audio/translations": ["200"],
   "POST /deployments/{deploymentId}/completions": ["200"],
   "POST /deployments/{deploymentId}/chat/completions": ["200"],
   "POST /deployments/{deploymentId}/extensions/chat/completions": ["200"],
+  "POST /deployments/{deploymentId}/embeddings": ["200"],
   "GET /operations/images/{operationId}": ["200"],
   "POST /images/generations:submit": ["202"],
   "GET /images/generations:submit": ["200", "202"],
 };
 
 export function isUnexpected(
-  response: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
-): response is GetEmbeddingsDefaultResponse;
+  response:
+    | GetAudioTranscriptionSimpleJson200Response
+    | GetAudioTranscriptionSimpleJsonDefaultResponse
+): response is GetAudioTranscriptionSimpleJsonDefaultResponse;
+export function isUnexpected(
+  response:
+    | GetAudioTranslationSimpleJson200Response
+    | GetAudioTranslationSimpleJsonDefaultResponse
+): response is GetAudioTranslationSimpleJsonDefaultResponse;
 export function isUnexpected(
   response: GetCompletions200Response | GetCompletionsDefaultResponse
 ): response is GetCompletionsDefaultResponse;
@@ -42,6 +55,9 @@ export function isUnexpected(
     | GetChatCompletionsWithAzureExtensions200Response
     | GetChatCompletionsWithAzureExtensionsDefaultResponse
 ): response is GetChatCompletionsWithAzureExtensionsDefaultResponse;
+export function isUnexpected(
+  response: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
+): response is GetEmbeddingsDefaultResponse;
 export function isUnexpected(
   response:
     | GetAzureBatchImageGenerationOperationStatus200Response
@@ -56,14 +72,18 @@ export function isUnexpected(
 ): response is BeginAzureBatchImageGenerationDefaultResponse;
 export function isUnexpected(
   response:
-    | GetEmbeddings200Response
-    | GetEmbeddingsDefaultResponse
+    | GetAudioTranscriptionSimpleJson200Response
+    | GetAudioTranscriptionSimpleJsonDefaultResponse
+    | GetAudioTranslationSimpleJson200Response
+    | GetAudioTranslationSimpleJsonDefaultResponse
     | GetCompletions200Response
     | GetCompletionsDefaultResponse
     | GetChatCompletions200Response
     | GetChatCompletionsDefaultResponse
     | GetChatCompletionsWithAzureExtensions200Response
     | GetChatCompletionsWithAzureExtensionsDefaultResponse
+    | GetEmbeddings200Response
+    | GetEmbeddingsDefaultResponse
     | GetAzureBatchImageGenerationOperationStatus200Response
     | GetAzureBatchImageGenerationOperationStatusLogicalResponse
     | GetAzureBatchImageGenerationOperationStatusDefaultResponse
@@ -71,10 +91,12 @@ export function isUnexpected(
     | BeginAzureBatchImageGenerationLogicalResponse
     | BeginAzureBatchImageGenerationDefaultResponse
 ): response is
-  | GetEmbeddingsDefaultResponse
+  | GetAudioTranscriptionSimpleJsonDefaultResponse
+  | GetAudioTranslationSimpleJsonDefaultResponse
   | GetCompletionsDefaultResponse
   | GetChatCompletionsDefaultResponse
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
+  | GetEmbeddingsDefaultResponse
   | GetAzureBatchImageGenerationOperationStatusDefaultResponse
   | BeginAzureBatchImageGenerationDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];

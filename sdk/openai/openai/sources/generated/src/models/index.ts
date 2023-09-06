@@ -2,9 +2,11 @@
 // Licensed under the MIT license.
 
 export {
-  Embeddings,
-  EmbeddingItem,
-  EmbeddingsUsage,
+  AudioTranscriptionFormat,
+  AudioTranscriptionSimpleJson,
+  AudioTranscriptionVerboseJson,
+  AudioTranscriptionTask,
+  AudioTranscriptionSegment,
   Completions,
   PromptFilterResult,
   ContentFilterResults,
@@ -25,6 +27,9 @@ export {
   AzureChatExtensionType,
   ChatCompletions,
   ChatChoice,
+  Embeddings,
+  EmbeddingItem,
+  EmbeddingsUsage,
   BatchImageGenerationOperationResponse,
   ImageGenerations,
   ImageLocation,
@@ -34,10 +39,20 @@ export {
   ImageGenerationResponseFormat,
 } from "./models.js";
 export {
-  GetEmbeddingsOptions,
+  GetAudioTranscriptionSimpleJsonOptions,
+  GetAudioTranscriptionVerboseJsonOptions,
+  GetAudioTranscriptionPlainTextOptions,
+  GetAudioTranscriptionSrtOptions,
+  GetAudioTranscriptionVttOptions,
+  GetAudioTranslationSimpleJsonOptions,
+  GetAudioTranslationVerboseJsonOptions,
+  GetAudioTranslationPlainTextOptions,
+  GetAudioTranslationSrtOptions,
+  GetAudioTranslationVttOptions,
   GetCompletionsOptions,
   GetChatCompletionsOptions,
   GetChatCompletionsWithAzureExtensionsOptions,
+  GetEmbeddingsOptions,
   GetAzureBatchImageGenerationOperationStatusOptions,
   BeginAzureBatchImageGenerationOptions,
 } from "./options.js";

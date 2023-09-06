@@ -1,31 +1,194 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * The configuration information for an embeddings request.
- * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
- * recommendations, and other similar scenarios.
- */
-export interface EmbeddingsOptions {
+/** Lorem ipsum */
+export interface AudioTranscriptionOptionsSimpleJson {
+  /** The audio file object to transcribe. */
+  file: string;
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
   /**
-   * An identifier for the caller or end user of the operation. This may be used for tracking
-   * or rate-limiting purposes.
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
-  user?: string;
+  temperature?: number;
+  /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
+  language?: string;
   /**
-   * The model name to provide as part of this embeddings request.
-   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
-   * resource URI that's connected to.
-   */
-  model?: string;
-  /**
-   * Input texts to get embeddings for, encoded as a an array of strings.
-   * Each input must not exceed 2048 tokens in length.
+   * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
    *
-   * Unless you are embedding code, we suggest replacing newlines (\n) in your input with a single space,
-   * as we have observed inferior results when newlines are present.
+   * Possible values: json, text, srt, verbose_json, vtt
    */
-  input: string[];
+  response_format?: string;
+}
+
+/** Lorem ipsum */
+export interface AudioTranscriptionOptionsVerboseJson {
+  /** The audio file object to transcribe. */
+  file: string;
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
+  language?: string;
+  /**
+   * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
+   *
+   * Possible values: json, text, srt, verbose_json, vtt
+   */
+  response_format?: string;
+}
+
+/** Lorem ipsum */
+export interface AudioTranscriptionOptionsPlainText {
+  /** The audio file object to transcribe. */
+  file: string;
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
+  language?: string;
+  /**
+   * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
+   *
+   * Possible values: json, text, srt, verbose_json, vtt
+   */
+  response_format?: string;
+}
+
+/** Lorem ipsum */
+export interface AudioTranscriptionOptionsSrt {
+  /** The audio file object to transcribe. */
+  file: string;
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
+  language?: string;
+  /**
+   * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
+   *
+   * Possible values: json, text, srt, verbose_json, vtt
+   */
+  response_format?: string;
+}
+
+/** Lorem ipsum */
+export interface AudioTranscriptionOptionsVtt {
+  /** The audio file object to transcribe. */
+  file: string;
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
+  language?: string;
+  /**
+   * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
+   *
+   * Possible values: json, text, srt, verbose_json, vtt
+   */
+  response_format?: string;
+}
+
+/** Lorem ipsum */
+export interface AudioTranslationOptionsSimpleJson {
+  /** The audio file object to transcribe. */
+  file: string;
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /**
+   * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
+   *
+   * Possible values: json, text, srt, verbose_json, vtt
+   */
+  response_format?: string;
+}
+
+/** Lorem ipsum */
+export interface AudioTranslationOptionsVerboseJson {
+  /** The audio file object to transcribe. */
+  file: string;
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /**
+   * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
+   *
+   * Possible values: json, text, srt, verbose_json, vtt
+   */
+  response_format?: string;
+}
+
+/** Lorem ipsum */
+export interface AudioTranslationOptionsPlainText {
+  /** The audio file object to transcribe. */
+  file: string;
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /**
+   * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
+   *
+   * Possible values: json, text, srt, verbose_json, vtt
+   */
+  response_format?: string;
+}
+
+/** Lorem ipsum */
+export interface AudioTranslationOptionsSrt {
+  /** The audio file object to transcribe. */
+  file: string;
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /**
+   * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
+   *
+   * Possible values: json, text, srt, verbose_json, vtt
+   */
+  response_format?: string;
 }
 
 /**
@@ -308,6 +471,33 @@ export interface AzureChatExtensionConfiguration {
    *   Azure chat extensions are only compatible with Azure OpenAI.
    */
   parameters: unknown;
+}
+
+/**
+ * The configuration information for an embeddings request.
+ * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
+ * recommendations, and other similar scenarios.
+ */
+export interface EmbeddingsOptions {
+  /**
+   * An identifier for the caller or end user of the operation. This may be used for tracking
+   * or rate-limiting purposes.
+   */
+  user?: string;
+  /**
+   * The model name to provide as part of this embeddings request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
+  /**
+   * Input texts to get embeddings for, encoded as a an array of strings.
+   * Each input must not exceed 2048 tokens in length.
+   *
+   * Unless you are embedding code, we suggest replacing newlines (\n) in your input with a single space,
+   * as we have observed inferior results when newlines are present.
+   */
+  input: string[];
 }
 
 /** Represents the request data used to generate images. */

@@ -2,16 +2,38 @@
 // Licensed under the MIT license.
 
 import {
-  Embeddings,
+  AudioTranscriptionSimpleJson,
+  AudioTranscriptionVerboseJson,
   Completions,
   ChatMessage,
   ChatCompletions,
+  Embeddings,
   BatchImageGenerationOperationResponse,
 } from "../models/models.js";
 import {
   BeginAzureBatchImageGeneration202Response,
   BeginAzureBatchImageGenerationDefaultResponse,
   BeginAzureBatchImageGenerationLogicalResponse,
+  GetAudioTranscriptionPlainText200Response,
+  GetAudioTranscriptionPlainTextDefaultResponse,
+  GetAudioTranscriptionSimpleJson200Response,
+  GetAudioTranscriptionSimpleJsonDefaultResponse,
+  GetAudioTranscriptionSrt200Response,
+  GetAudioTranscriptionSrtDefaultResponse,
+  GetAudioTranscriptionVerboseJson200Response,
+  GetAudioTranscriptionVerboseJsonDefaultResponse,
+  GetAudioTranscriptionVtt200Response,
+  GetAudioTranscriptionVttDefaultResponse,
+  GetAudioTranslationPlainText200Response,
+  GetAudioTranslationPlainTextDefaultResponse,
+  GetAudioTranslationSimpleJson200Response,
+  GetAudioTranslationSimpleJsonDefaultResponse,
+  GetAudioTranslationSrt200Response,
+  GetAudioTranslationSrtDefaultResponse,
+  GetAudioTranslationVerboseJson200Response,
+  GetAudioTranslationVerboseJsonDefaultResponse,
+  GetAudioTranslationVtt200Response,
+  GetAudioTranslationVttDefaultResponse,
   GetAzureBatchImageGenerationOperationStatus200Response,
   GetAzureBatchImageGenerationOperationStatusDefaultResponse,
   GetAzureBatchImageGenerationOperationStatusLogicalResponse,
@@ -31,61 +53,569 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 import {
-  GetEmbeddingsOptions,
+  GetAudioTranscriptionSimpleJsonOptions,
+  GetAudioTranscriptionVerboseJsonOptions,
+  GetAudioTranscriptionPlainTextOptions,
+  GetAudioTranscriptionSrtOptions,
+  GetAudioTranscriptionVttOptions,
+  GetAudioTranslationSimpleJsonOptions,
+  GetAudioTranslationVerboseJsonOptions,
+  GetAudioTranslationPlainTextOptions,
+  GetAudioTranslationSrtOptions,
+  GetAudioTranslationVttOptions,
   GetCompletionsOptions,
   GetChatCompletionsOptions,
   GetChatCompletionsWithAzureExtensionsOptions,
+  GetEmbeddingsOptions,
   GetAzureBatchImageGenerationOperationStatusOptions,
   BeginAzureBatchImageGenerationOptions,
 } from "../models/options.js";
 
-export function _getEmbeddingsSend(
+export function _getAudioTranscriptionSimpleJsonSend(
   context: Client,
-  input: string[],
+  file: Uint8Array,
   deploymentId: string,
-  options: GetEmbeddingsOptions = { requestOptions: {} }
-): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
+  options: GetAudioTranscriptionSimpleJsonOptions = { requestOptions: {} }
+): StreamableMethod<
+  | GetAudioTranscriptionSimpleJson200Response
+  | GetAudioTranscriptionSimpleJsonDefaultResponse
+> {
   return context
-    .path("/deployments/{deploymentId}/embeddings", deploymentId)
+    .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: { user: options?.user, model: options?.model, input: input },
+      contentType: (options.contentType as any) ?? "multipart/form-data",
+      body: {
+        file: file,
+        prompt: options?.prompt,
+        temperature: options?.temperature,
+        language: options?.language,
+        response_format: options?.responseFormat,
+      },
     });
 }
 
-export async function _getEmbeddingsDeserialize(
-  result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
-): Promise<Embeddings> {
+export async function _getAudioTranscriptionSimpleJsonDeserialize(
+  result:
+    | GetAudioTranscriptionSimpleJson200Response
+    | GetAudioTranscriptionSimpleJsonDefaultResponse
+): Promise<AudioTranscriptionSimpleJson> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw result.body;
   }
 
   return {
-    data: (result.body["data"] ?? []).map((p) => ({
-      embedding: p["embedding"],
-      index: p["index"],
-    })),
-    usage: {
-      promptTokens: result.body.usage["prompt_tokens"],
-      totalTokens: result.body.usage["total_tokens"],
-    },
+    text: result.body["text"],
   };
 }
 
-/** Return the embeddings for a given prompt. */
-export async function getEmbeddings(
+/** Transcribes audio into the input language. */
+export async function getAudioTranscriptionSimpleJson(
   context: Client,
-  input: string[],
+  file: Uint8Array,
   deploymentId: string,
-  options: GetEmbeddingsOptions = { requestOptions: {} }
-): Promise<Embeddings> {
-  const result = await _getEmbeddingsSend(
+  options: GetAudioTranscriptionSimpleJsonOptions = { requestOptions: {} }
+): Promise<AudioTranscriptionSimpleJson> {
+  const result = await _getAudioTranscriptionSimpleJsonSend(
     context,
-    input,
+    file,
     deploymentId,
     options
   );
-  return _getEmbeddingsDeserialize(result);
+  return _getAudioTranscriptionSimpleJsonDeserialize(result);
+}
+
+export function _getAudioTranscriptionVerboseJsonSend(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranscriptionVerboseJsonOptions = { requestOptions: {} }
+): StreamableMethod<
+  | GetAudioTranscriptionVerboseJson200Response
+  | GetAudioTranscriptionVerboseJsonDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: (options.contentType as any) ?? "multipart/form-data",
+      body: {
+        file: file,
+        prompt: options?.prompt,
+        temperature: options?.temperature,
+        language: options?.language,
+        response_format: options?.responseFormat,
+      },
+    });
+}
+
+export async function _getAudioTranscriptionVerboseJsonDeserialize(
+  result:
+    | GetAudioTranscriptionVerboseJson200Response
+    | GetAudioTranscriptionVerboseJsonDefaultResponse
+): Promise<AudioTranscriptionVerboseJson> {
+  if (isUnexpected(result)) {
+    throw result.body;
+  }
+
+  return {
+    task: result.body["task"],
+    language: result.body["language"],
+    duration: result.body["duration"],
+    segments: (result.body["segments"] ?? []).map((p) => ({
+      id: p["id"],
+      start: p["start"],
+      end: p["end"],
+      text: p["text"],
+      temperature: p["temperature"],
+      averageLogProb: p["avg_logprob"],
+      compressionRatio: p["compression_ratio"],
+      noSpeechProb: p["no_speech_prob"],
+      tokens: p["tokens"],
+      seek: p["seek"],
+    })),
+  };
+}
+
+/** Transcribes audio into the input language. */
+export async function getAudioTranscriptionVerboseJson(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranscriptionVerboseJsonOptions = { requestOptions: {} }
+): Promise<AudioTranscriptionVerboseJson> {
+  const result = await _getAudioTranscriptionVerboseJsonSend(
+    context,
+    file,
+    deploymentId,
+    options
+  );
+  return _getAudioTranscriptionVerboseJsonDeserialize(result);
+}
+
+export function _getAudioTranscriptionPlainTextSend(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranscriptionPlainTextOptions = { requestOptions: {} }
+): StreamableMethod<
+  | GetAudioTranscriptionPlainText200Response
+  | GetAudioTranscriptionPlainTextDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: (options.contentType as any) ?? "multipart/form-data",
+      body: {
+        file: file,
+        prompt: options?.prompt,
+        temperature: options?.temperature,
+        language: options?.language,
+        response_format: options?.responseFormat,
+      },
+    });
+}
+
+export async function _getAudioTranscriptionPlainTextDeserialize(
+  result:
+    | GetAudioTranscriptionPlainText200Response
+    | GetAudioTranscriptionPlainTextDefaultResponse
+): Promise<string> {
+  if (isUnexpected(result)) {
+    throw result.body;
+  }
+
+  return result.body;
+}
+
+/** Transcribes audio into the input language. */
+export async function getAudioTranscriptionPlainText(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranscriptionPlainTextOptions = { requestOptions: {} }
+): Promise<string> {
+  const result = await _getAudioTranscriptionPlainTextSend(
+    context,
+    file,
+    deploymentId,
+    options
+  );
+  return _getAudioTranscriptionPlainTextDeserialize(result);
+}
+
+export function _getAudioTranscriptionSrtSend(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranscriptionSrtOptions = { requestOptions: {} }
+): StreamableMethod<
+  GetAudioTranscriptionSrt200Response | GetAudioTranscriptionSrtDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: (options.contentType as any) ?? "multipart/form-data",
+      body: {
+        file: file,
+        prompt: options?.prompt,
+        temperature: options?.temperature,
+        language: options?.language,
+        response_format: options?.responseFormat,
+      },
+    });
+}
+
+export async function _getAudioTranscriptionSrtDeserialize(
+  result:
+    | GetAudioTranscriptionSrt200Response
+    | GetAudioTranscriptionSrtDefaultResponse
+): Promise<string> {
+  if (isUnexpected(result)) {
+    throw result.body;
+  }
+
+  return result.body;
+}
+
+/** Transcribes audio into the input language. */
+export async function getAudioTranscriptionSrt(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranscriptionSrtOptions = { requestOptions: {} }
+): Promise<string> {
+  const result = await _getAudioTranscriptionSrtSend(
+    context,
+    file,
+    deploymentId,
+    options
+  );
+  return _getAudioTranscriptionSrtDeserialize(result);
+}
+
+export function _getAudioTranscriptionVttSend(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranscriptionVttOptions = { requestOptions: {} }
+): StreamableMethod<
+  GetAudioTranscriptionVtt200Response | GetAudioTranscriptionVttDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: (options.contentType as any) ?? "multipart/form-data",
+      body: {
+        file: file,
+        prompt: options?.prompt,
+        temperature: options?.temperature,
+        language: options?.language,
+        response_format: options?.responseFormat,
+      },
+    });
+}
+
+export async function _getAudioTranscriptionVttDeserialize(
+  result:
+    | GetAudioTranscriptionVtt200Response
+    | GetAudioTranscriptionVttDefaultResponse
+): Promise<string> {
+  if (isUnexpected(result)) {
+    throw result.body;
+  }
+
+  return result.body;
+}
+
+/** Transcribes audio into the input language. */
+export async function getAudioTranscriptionVtt(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranscriptionVttOptions = { requestOptions: {} }
+): Promise<string> {
+  const result = await _getAudioTranscriptionVttSend(
+    context,
+    file,
+    deploymentId,
+    options
+  );
+  return _getAudioTranscriptionVttDeserialize(result);
+}
+
+export function _getAudioTranslationSimpleJsonSend(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranslationSimpleJsonOptions = { requestOptions: {} }
+): StreamableMethod<
+  | GetAudioTranslationSimpleJson200Response
+  | GetAudioTranslationSimpleJsonDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/audio/translations", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: (options.contentType as any) ?? "multipart/form-data",
+      body: {
+        file: file,
+        prompt: options?.prompt,
+        temperature: options?.temperature,
+        response_format: options?.responseFormat,
+      },
+    });
+}
+
+export async function _getAudioTranslationSimpleJsonDeserialize(
+  result:
+    | GetAudioTranslationSimpleJson200Response
+    | GetAudioTranslationSimpleJsonDefaultResponse
+): Promise<AudioTranscriptionSimpleJson> {
+  if (isUnexpected(result)) {
+    throw result.body;
+  }
+
+  return {
+    text: result.body["text"],
+  };
+}
+
+/** Transcribes and translates input audio into English text. */
+export async function getAudioTranslationSimpleJson(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranslationSimpleJsonOptions = { requestOptions: {} }
+): Promise<AudioTranscriptionSimpleJson> {
+  const result = await _getAudioTranslationSimpleJsonSend(
+    context,
+    file,
+    deploymentId,
+    options
+  );
+  return _getAudioTranslationSimpleJsonDeserialize(result);
+}
+
+export function _getAudioTranslationVerboseJsonSend(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranslationVerboseJsonOptions = { requestOptions: {} }
+): StreamableMethod<
+  | GetAudioTranslationVerboseJson200Response
+  | GetAudioTranslationVerboseJsonDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/audio/translations", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: (options.contentType as any) ?? "multipart/form-data",
+      body: {
+        file: file,
+        prompt: options?.prompt,
+        temperature: options?.temperature,
+        response_format: options?.responseFormat,
+      },
+    });
+}
+
+export async function _getAudioTranslationVerboseJsonDeserialize(
+  result:
+    | GetAudioTranslationVerboseJson200Response
+    | GetAudioTranslationVerboseJsonDefaultResponse
+): Promise<AudioTranscriptionVerboseJson> {
+  if (isUnexpected(result)) {
+    throw result.body;
+  }
+
+  return {
+    task: result.body["task"],
+    language: result.body["language"],
+    duration: result.body["duration"],
+    segments: (result.body["segments"] ?? []).map((p) => ({
+      id: p["id"],
+      start: p["start"],
+      end: p["end"],
+      text: p["text"],
+      temperature: p["temperature"],
+      averageLogProb: p["avg_logprob"],
+      compressionRatio: p["compression_ratio"],
+      noSpeechProb: p["no_speech_prob"],
+      tokens: p["tokens"],
+      seek: p["seek"],
+    })),
+  };
+}
+
+/** Transcribes and translates input audio into English text. */
+export async function getAudioTranslationVerboseJson(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranslationVerboseJsonOptions = { requestOptions: {} }
+): Promise<AudioTranscriptionVerboseJson> {
+  const result = await _getAudioTranslationVerboseJsonSend(
+    context,
+    file,
+    deploymentId,
+    options
+  );
+  return _getAudioTranslationVerboseJsonDeserialize(result);
+}
+
+export function _getAudioTranslationPlainTextSend(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranslationPlainTextOptions = { requestOptions: {} }
+): StreamableMethod<
+  | GetAudioTranslationPlainText200Response
+  | GetAudioTranslationPlainTextDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/audio/translations", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: (options.contentType as any) ?? "multipart/form-data",
+      body: {
+        file: file,
+        prompt: options?.prompt,
+        temperature: options?.temperature,
+        response_format: options?.responseFormat,
+      },
+    });
+}
+
+export async function _getAudioTranslationPlainTextDeserialize(
+  result:
+    | GetAudioTranslationPlainText200Response
+    | GetAudioTranslationPlainTextDefaultResponse
+): Promise<string> {
+  if (isUnexpected(result)) {
+    throw result.body;
+  }
+
+  return result.body;
+}
+
+/** Transcribes and translates input audio into English text. */
+export async function getAudioTranslationPlainText(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranslationPlainTextOptions = { requestOptions: {} }
+): Promise<string> {
+  const result = await _getAudioTranslationPlainTextSend(
+    context,
+    file,
+    deploymentId,
+    options
+  );
+  return _getAudioTranslationPlainTextDeserialize(result);
+}
+
+export function _getAudioTranslationSrtSend(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranslationSrtOptions = { requestOptions: {} }
+): StreamableMethod<
+  GetAudioTranslationSrt200Response | GetAudioTranslationSrtDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/audio/translations", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: (options.contentType as any) ?? "multipart/form-data",
+      body: {
+        file: file,
+        prompt: options?.prompt,
+        temperature: options?.temperature,
+        response_format: options?.responseFormat,
+      },
+    });
+}
+
+export async function _getAudioTranslationSrtDeserialize(
+  result:
+    | GetAudioTranslationSrt200Response
+    | GetAudioTranslationSrtDefaultResponse
+): Promise<string> {
+  if (isUnexpected(result)) {
+    throw result.body;
+  }
+
+  return result.body;
+}
+
+/** Transcribes and translates input audio into English text. */
+export async function getAudioTranslationSrt(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranslationSrtOptions = { requestOptions: {} }
+): Promise<string> {
+  const result = await _getAudioTranslationSrtSend(
+    context,
+    file,
+    deploymentId,
+    options
+  );
+  return _getAudioTranslationSrtDeserialize(result);
+}
+
+export function _getAudioTranslationVttSend(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranslationVttOptions = { requestOptions: {} }
+): StreamableMethod<
+  GetAudioTranslationVtt200Response | GetAudioTranslationVttDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/audio/translations", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: (options.contentType as any) ?? "multipart/form-data",
+      body: {
+        file: file,
+        prompt: options?.prompt,
+        temperature: options?.temperature,
+        response_format: options?.responseFormat,
+      },
+    });
+}
+
+export async function _getAudioTranslationVttDeserialize(
+  result:
+    | GetAudioTranslationVtt200Response
+    | GetAudioTranslationVttDefaultResponse
+): Promise<string> {
+  if (isUnexpected(result)) {
+    throw result.body;
+  }
+
+  return result.body;
+}
+
+/** Transcribes and translates input audio into English text. */
+export async function getAudioTranslationVtt(
+  context: Client,
+  file: Uint8Array,
+  deploymentId: string,
+  options: GetAudioTranslationVttOptions = { requestOptions: {} }
+): Promise<string> {
+  const result = await _getAudioTranslationVttSend(
+    context,
+    file,
+    deploymentId,
+    options
+  );
+  return _getAudioTranslationVttDeserialize(result);
 }
 
 export function _getCompletionsSend(
@@ -122,7 +652,7 @@ export async function _getCompletionsDeserialize(
   result: GetCompletions200Response | GetCompletionsDefaultResponse
 ): Promise<Completions> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw result.body;
   }
 
   return {
@@ -157,6 +687,9 @@ export async function _getCompletionsDeserialize(
                   severity: p.content_filter_results?.self_harm?.["severity"],
                   filtered: p.content_filter_results?.self_harm?.["filtered"],
                 },
+            error: !p.content_filter_results?.error
+              ? undefined
+              : p.content_filter_results?.error,
           },
     })),
     choices: (result.body["choices"] ?? []).map((p) => ({
@@ -189,6 +722,9 @@ export async function _getCompletionsDeserialize(
                   severity: p.content_filter_results?.self_harm?.["severity"],
                   filtered: p.content_filter_results?.self_harm?.["filtered"],
                 },
+            error: !p.content_filter_results?.error
+              ? undefined
+              : p.content_filter_results?.error,
           },
       logprobs:
         p.logprobs === null
@@ -265,7 +801,7 @@ export async function _getChatCompletionsDeserialize(
   result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw result.body;
   }
 
   return {
@@ -322,6 +858,9 @@ export async function _getChatCompletionsDeserialize(
                   severity: p.content_filter_results?.self_harm?.["severity"],
                   filtered: p.content_filter_results?.self_harm?.["filtered"],
                 },
+            error: !p.content_filter_results?.error
+              ? undefined
+              : p.content_filter_results?.error,
           },
     })),
     promptFilterResults: (result.body["prompt_annotations"] ?? []).map((p) => ({
@@ -353,6 +892,9 @@ export async function _getChatCompletionsDeserialize(
                   severity: p.content_filter_results?.self_harm?.["severity"],
                   filtered: p.content_filter_results?.self_harm?.["filtered"],
                 },
+            error: !p.content_filter_results?.error
+              ? undefined
+              : p.content_filter_results?.error,
           },
     })),
     usage: {
@@ -482,6 +1024,9 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
                   severity: p.content_filter_results?.self_harm?.["severity"],
                   filtered: p.content_filter_results?.self_harm?.["filtered"],
                 },
+            error: !p.content_filter_results?.error
+              ? undefined
+              : p.content_filter_results?.error,
           },
     })),
     promptFilterResults: (result.body["prompt_annotations"] ?? []).map((p) => ({
@@ -513,6 +1058,9 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
                   severity: p.content_filter_results?.self_harm?.["severity"],
                   filtered: p.content_filter_results?.self_harm?.["filtered"],
                 },
+            error: !p.content_filter_results?.error
+              ? undefined
+              : p.content_filter_results?.error,
           },
     })),
     usage: {
@@ -543,6 +1091,55 @@ export async function getChatCompletionsWithAzureExtensions(
   return _getChatCompletionsWithAzureExtensionsDeserialize(result);
 }
 
+export function _getEmbeddingsSend(
+  context: Client,
+  input: string[],
+  deploymentId: string,
+  options: GetEmbeddingsOptions = { requestOptions: {} }
+): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
+  return context
+    .path("/deployments/{deploymentId}/embeddings", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: { user: options?.user, model: options?.model, input: input },
+    });
+}
+
+export async function _getEmbeddingsDeserialize(
+  result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
+): Promise<Embeddings> {
+  if (isUnexpected(result)) {
+    throw result.body;
+  }
+
+  return {
+    data: (result.body["data"] ?? []).map((p) => ({
+      embedding: p["embedding"],
+      index: p["index"],
+    })),
+    usage: {
+      promptTokens: result.body.usage["prompt_tokens"],
+      totalTokens: result.body.usage["total_tokens"],
+    },
+  };
+}
+
+/** Return the embeddings for a given prompt. */
+export async function getEmbeddings(
+  context: Client,
+  input: string[],
+  deploymentId: string,
+  options: GetEmbeddingsOptions = { requestOptions: {} }
+): Promise<Embeddings> {
+  const result = await _getEmbeddingsSend(
+    context,
+    input,
+    deploymentId,
+    options
+  );
+  return _getEmbeddingsDeserialize(result);
+}
+
 export function _getAzureBatchImageGenerationOperationStatusSend(
   context: Client,
   operationId: string,
@@ -566,7 +1163,7 @@ export async function _getAzureBatchImageGenerationOperationStatusDeserialize(
     | GetAzureBatchImageGenerationOperationStatusLogicalResponse
 ): Promise<BatchImageGenerationOperationResponse> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw result.body;
   }
 
   return {
@@ -630,7 +1227,7 @@ export async function _beginAzureBatchImageGenerationDeserialize(
     | BeginAzureBatchImageGenerationLogicalResponse
 ): Promise<BatchImageGenerationOperationResponse> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw result.body;
   }
 
   return {

@@ -9,35 +9,51 @@ export interface DeploymentOutput {
   readonly deploymentId: string;
 }
 
-/**
- * Representation of the response data from an embeddings request.
- * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
- * recommendations, and other similar scenarios.
- */
-export interface EmbeddingsOutput {
-  /** Embedding values for the prompts submitted in the request. */
-  data: Array<EmbeddingItemOutput>;
-  /** Usage counts for tokens input using the embeddings API. */
-  usage: EmbeddingsUsageOutput;
+/** Lorem ipsum */
+export interface AudioTranscriptionSimpleJsonOutput {
+  /** Transcribed text. */
+  text: string;
 }
 
-/** Representation of a single embeddings relatedness comparison. */
-export interface EmbeddingItemOutput {
+/** Transcription response. */
+export interface AudioTranscriptionVerboseJsonOutput
+  extends AudioTranscriptionSimpleJsonOutput {
   /**
-   * List of embeddings value for the input prompt. These represent a measurement of the
-   * vector-based relatedness of the provided input.
+   * Audio transcription task.
+   *
+   * Possible values: transcribe, translate
    */
-  embedding: number[];
-  /** Index of the prompt to which the EmbeddingItem corresponds. */
-  index: number;
+  task: string;
+  /** Language detected in the source audio file. */
+  language: string;
+  /** Duration. */
+  duration: number;
+  /** Segments. */
+  segments: Array<AudioTranscriptionSegmentOutput>;
 }
 
-/** Measurement of the amount of tokens used in this request and response. */
-export interface EmbeddingsUsageOutput {
-  /** Number of tokens sent in the original request. */
-  prompt_tokens: number;
-  /** Total number of tokens transacted in this request/response. */
-  total_tokens: number;
+/** Transcription segment. */
+export interface AudioTranscriptionSegmentOutput {
+  /** Segment identifier. */
+  id: number;
+  /** Segment start offset. */
+  start: number;
+  /** Segment end offset. */
+  end: number;
+  /** Segment text. */
+  text: string;
+  /** Temperature. */
+  temperature: number;
+  /** Average log probability. */
+  avg_logprob: number;
+  /** Compression ratio. */
+  compression_ratio: number;
+  /** Probability of 'no speech'. */
+  no_speech_prob: number;
+  /** Tokens in this segment */
+  tokens: number[];
+  /** TODO */
+  seek: number;
 }
 
 /**
@@ -103,6 +119,11 @@ export interface ContentFilterResultsOutput {
    * or damage one’s body, or kill oneself.
    */
   self_harm?: ContentFilterResultOutput;
+  /**
+   * Describes an error returned if the content filtering system is
+   * down or otherwise unable to complete the operation in time.
+   */
+  error?: ErrorModel;
 }
 
 /** Information about filtered content severity level and if it has been filtered or not. */
@@ -268,6 +289,37 @@ export interface ChatChoiceOutput {
    * determines the intensity and risk level of harmful content) and if it has been filtered or not.
    */
   content_filter_results?: ContentFilterResultsOutput;
+}
+
+/**
+ * Representation of the response data from an embeddings request.
+ * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
+ * recommendations, and other similar scenarios.
+ */
+export interface EmbeddingsOutput {
+  /** Embedding values for the prompts submitted in the request. */
+  data: Array<EmbeddingItemOutput>;
+  /** Usage counts for tokens input using the embeddings API. */
+  usage: EmbeddingsUsageOutput;
+}
+
+/** Representation of a single embeddings relatedness comparison. */
+export interface EmbeddingItemOutput {
+  /**
+   * List of embeddings value for the input prompt. These represent a measurement of the
+   * vector-based relatedness of the provided input.
+   */
+  embedding: number[];
+  /** Index of the prompt to which the EmbeddingItem corresponds. */
+  index: number;
+}
+
+/** Measurement of the amount of tokens used in this request and response. */
+export interface EmbeddingsUsageOutput {
+  /** Number of tokens sent in the original request. */
+  prompt_tokens: number;
+  /** Total number of tokens transacted in this request/response. */
+  total_tokens: number;
 }
 
 /** A polling status update or final response payload for an image operation. */
