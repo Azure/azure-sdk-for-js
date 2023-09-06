@@ -98,7 +98,7 @@ const distributionPolicy = await jobRouterAdministrationClient.createDistributio
     name: "Default Distribution Policy",
     offerExpiresAfterSeconds: 30,
     mode: {
-      objectType: "longest-idle",
+      kind: "longest-idle",
       minConcurrentOffers: 1,
       maxConcurrentOffers: 3,
     },
