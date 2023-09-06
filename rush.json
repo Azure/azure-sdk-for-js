@@ -2094,6 +2094,11 @@
       "packageName": "@azure/arm-defendereasm",
       "projectFolder": "sdk/defendereasm/arm-defendereasm",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/ai-content-safety",
+      "projectFolder": "sdk/contentsafety/azure-ai-content-safety-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
