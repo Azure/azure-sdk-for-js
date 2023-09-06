@@ -10,13 +10,13 @@
  */
 
 import { StreamableMethod } from "@azure-rest/core-client";
-import { EventMessage, toSSE } from "./sse.js";
+import { EventMessage, iterateSseStream } from "@azure/core-sse";
 
 export async function getSSEs(
   response: StreamableMethod<unknown>
 ): Promise<AsyncIterable<EventMessage>> {
   const chunkIterator = await getStream(response);
-  return toSSE(chunkIterator);
+  return iterateSseStream(chunkIterator);
 }
 
 async function getStream<TResponse>(
