@@ -1339,6 +1339,20 @@ export interface PartitionedQueryExecutionInfo {
 // @public
 export type PartitionKey = PrimitivePartitionKeyValue | PrimitivePartitionKeyValue[];
 
+// @public
+export class PartitionKeyBuilder {
+    // (undocumented)
+    addNoneValue(): PartitionKeyBuilder;
+    // (undocumented)
+    addNullValue(): PartitionKeyBuilder;
+    // (undocumented)
+    addValue(value: string | boolean | number): PartitionKeyBuilder;
+    // (undocumented)
+    build(): PartitionKey;
+    // (undocumented)
+    readonly values: PrimitivePartitionKeyValue[];
+}
+
 // @public (undocumented)
 export interface PartitionKeyDefinition {
     kind?: PartitionKeyKind;

@@ -158,7 +158,9 @@
       "ChangeFeedIteratorEntireContainer.ts",
       "ChangeFeedIteratorEpkRange.ts",
       "ChangeFeedPartitionKey.ts",
-      "ChangeFeedHierarchicalPartitionKey.ts"
+      "ChangeFeedHierarchicalPartitionKey.ts",
+      "Diagnostics.ts",
+      "HierarchicalPartitioning.ts"
     ],
     "productName": "Azure Cosmos DB",
     "productSlugs": [
