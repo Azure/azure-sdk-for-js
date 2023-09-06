@@ -153,6 +153,7 @@ export class AzurePowerShellCredential implements TokenCredential {
         [
           powerShellCommand,
           "-NoProfile",
+          "-NonInteractive",
           "-Command",
           `Get-AzAccessToken ${tenantSection} -ResourceUrl "${resource}" | ConvertTo-Json`,
         ],
