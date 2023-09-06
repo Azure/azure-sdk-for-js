@@ -864,7 +864,7 @@ export type DiagnosticDataValue = {
         operationType: OperationType;
         resourceType: ResourceType;
         headers: CosmosHeaders_2;
-        requstBody: any;
+        requestBody: any;
         responseBody: any;
         url: string;
     }>;
