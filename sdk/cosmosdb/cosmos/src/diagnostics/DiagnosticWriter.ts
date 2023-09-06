@@ -19,7 +19,7 @@ export interface DiagnosticWriter {
 export class LogDiagnosticWriter implements DiagnosticWriter {
   private logger: AzureLogger = createClientLogger("CosmosDBDiagnostics");
   public async write(diagnosticsData: string): Promise<void> {
-    this.logger.verbose(diagnosticsData);
+    this.logger.warning(diagnosticsData);
   }
 }
 
