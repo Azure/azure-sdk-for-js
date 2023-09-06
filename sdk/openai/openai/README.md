@@ -125,7 +125,7 @@ const client = new OpenAIClient(new OpenAIKeyCredential("<API key>"));
 The main concept to understand is [Completions][azure_openai_completions_docs]. Briefly explained, completions provides its functionality in the form of a text prompt, which by using a specific [model](https://learn.microsoft.com/azure/cognitive-services/openai/concepts/models), will then attempt to match the context and patterns, providing an output text. The following code snippet provides a rough overview:
 
 ```javascript
-const { OpenAIClient } = require("@azure/openai");
+const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
 
 async function main(){
   const client = new OpenAIClient(
@@ -152,6 +152,7 @@ This example authenticates using a DefaultAzureCredential, then generates chat r
 
 ```javascript
 const { OpenAIClient } = require("@azure/openai");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main(){
   const endpoint = "https://myaccount.openai.azure.com/";
@@ -185,7 +186,7 @@ async function main(){
 This example generates text responses to input prompts using an Azure subscription key
 
 ```javascript
-const { OpenAIClient } = require("@azure/openai");
+const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
 
 async function main(){
   // Replace with your Azure OpenAI key
@@ -219,6 +220,7 @@ This example generates a summarization of the given input prompt.
 
 ```javascript
 const { OpenAIClient } = require("@azure/openai");
+const { DefaultAzureCredential } = require("@azure/identity")
 
 async function main(){
   const endpoint = "https://myaccount.openai.azure.com/";
@@ -283,6 +285,7 @@ This example generates chat responses to input chat questions about your busines
 
 ```javascript
 const { OpenAIClient } = require("@azure/openai");
+const { DefaultAzureCredential } = require("@azure/identity")
 
 async function main(){
   const endpoint = "https://myaccount.openai.azure.com/";

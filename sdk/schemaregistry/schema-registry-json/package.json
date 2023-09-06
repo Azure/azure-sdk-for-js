@@ -84,7 +84,6 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@rollup/plugin-commonjs": "^24.0.0",
     "@rollup/plugin-inject": "^5.0.0",
-    "@types/ajv": "^1.0.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^16.0.0",
     "ajv": "^8.12.0",

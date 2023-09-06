@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,16 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.3 (2023-08-30)
+
+### Features Added
+
+- Removed singleton in handlers to allow sending telemetry to multiple connection strings.
+
+### Bugs Fixed
+
+- Avoid dependency telemetry for ingestion endpoint calls.
 
 ## 1.0.0-beta.2 (2023-08-25)
 
@@ -20,20 +30,18 @@
 - Removed OTLP Exporters.
 - Removed Perf Counter Metrics.
 
-
 ## 1.0.0-beta.1 (2023-07-14)
 
 ### Features Added
 
-- Add OTLP Exporters 
+- Add OTLP Exporters
 - Use BatchLogRecordProcessor
-- Set MeterProvider in Instrumentations 
+- Set MeterProvider in Instrumentations
 - Add MeterProvider and LoggerProvider as global
 
 ### Bugs Fixed
 
-- Fix issue with connection string provided through env variable 
-
+- Fix issue with connection string provided through env variable
 
 ## 1.0.0-beta.0 (2023-07-06)
 

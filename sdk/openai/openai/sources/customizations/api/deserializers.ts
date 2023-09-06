@@ -79,6 +79,15 @@ export function getChatCompletionsResult(body: Record<string, any>): ChatComplet
                 }),
           })),
         }),
+    ...(!body["usage"]
+      ? {}
+      : {
+          usage: {
+            completionTokens: body["usage"].completion_tokens,
+            promptTokens: body["usage"].prompt_tokens,
+            totalTokens: body["usage"].total_tokens,
+          },
+        }),
   };
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "4.0.0",
+  "version": "3.17.4",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for NOSQL API",
   "sdk-type": "client",
   "keywords": [
@@ -136,7 +136,9 @@
     "typescript": "~5.0.0",
     "nock": "^12.0.3",
     "@types/sinonjs__fake-timers": "~8.1.2",
-    "@sinonjs/fake-timers": "^11.0.0"
+    "@sinonjs/fake-timers": "^11.0.0",
+    "chai": "~4.3.8",
+    "@types/chai": "~4.3.6"
   },
   "//sampleConfiguration": {
     "skip": [
@@ -152,7 +154,11 @@
       "QueryThroughput.ts",
       "SasTokenAuth.ts",
       "ServerSideScripts.ts",
-      "handleError.ts"
+      "handleError.ts",
+      "ChangeFeedIteratorEntireContainer.ts",
+      "ChangeFeedIteratorEpkRange.ts",
+      "ChangeFeedPartitionKey.ts",
+      "ChangeFeedHierarchicalPartitionKey.ts"
     ],
     "productName": "Azure Cosmos DB",
     "productSlugs": [

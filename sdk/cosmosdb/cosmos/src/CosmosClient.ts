@@ -7,10 +7,13 @@ import { parseConnectionString } from "./common";
 import { Constants } from "./common/constants";
 import { getUserAgent } from "./common/platform";
 import { CosmosClientOptions } from "./CosmosClientOptions";
+import { ClientConfigDiagnostic } from "./CosmosDiagnostics";
+import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
 import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { RequestOptions, ResourceResponse } from "./request";
 import { checkURL } from "./utils/checkURL";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -70,6 +73,9 @@ export class CosmosClient {
       throw new Error("Invalid endpoint specified");
     }
 
+    const clientConfig: ClientConfigDiagnostic =
+      this.initializeClientConfigDiagnostic(optionsOrConnectionString);
+
     optionsOrConnectionString.connectionPolicy = Object.assign(
       {},
       defaultConnectionPolicy,
@@ -91,9 +97,15 @@ export class CosmosClient {
 
     const globalEndpointManager = new GlobalEndpointManager(
       optionsOrConnectionString,
-      async (opts: RequestOptions) => this.getDatabaseAccount(opts)
+      async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) =>
+        this.getDatabaseAccountInternal(diagnosticNode, opts)
     );
-    this.clientContext = new ClientContext(optionsOrConnectionString, globalEndpointManager);
+
+    this.clientContext = new ClientContext(
+      optionsOrConnectionString,
+      globalEndpointManager,
+      clientConfig
+    );
     if (
       optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&
       optionsOrConnectionString.connectionPolicy?.enableBackgroundEndpointRefreshing
@@ -109,18 +121,49 @@ export class CosmosClient {
     this.offers = new Offers(this, this.clientContext);
   }
 
+  private initializeClientConfigDiagnostic(
+    optionsOrConnectionString: CosmosClientOptions
+  ): ClientConfigDiagnostic {
+    return {
+      endpoint: optionsOrConnectionString.endpoint,
+      resourceTokensConfigured: optionsOrConnectionString.resourceTokens === undefined,
+      tokenProviderConfigured: optionsOrConnectionString.tokenProvider === undefined,
+      aadCredentialsConfigured: optionsOrConnectionString.aadCredentials === undefined,
+      connectionPolicyConfigured: optionsOrConnectionString.connectionPolicy === undefined,
+      consistencyLevel: optionsOrConnectionString.consistencyLevel,
+      defaultHeaders: optionsOrConnectionString.defaultHeaders,
+      agentConfigured: optionsOrConnectionString.agent === undefined,
+      userAgentSuffix: optionsOrConnectionString.userAgentSuffix,
+      diagnosticLevel: optionsOrConnectionString.diagnosticLevel,
+      pluginsConfigured: optionsOrConnectionString.plugins === undefined,
+      sDKVersion: Constants.SDKVersion,
+    };
+  }
+
   /**
    * Get information about the current {@link DatabaseAccount} (including which regions are supported, etc.)
    */
   public async getDatabaseAccount(
     options?: RequestOptions
   ): Promise<ResourceResponse<DatabaseAccount>> {
-    const response = await this.clientContext.getDatabaseAccount(options);
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.getDatabaseAccountInternal(diagnosticNode, options);
+    }, this.clientContext);
+  }
+
+  /**
+   * @hidden
+   */
+  public async getDatabaseAccountInternal(
+    diagnosticNode: DiagnosticNodeInternal,
+    options?: RequestOptions
+  ): Promise<ResourceResponse<DatabaseAccount>> {
+    const response = await this.clientContext.getDatabaseAccount(diagnosticNode, options);
     return new ResourceResponse<DatabaseAccount>(
       response.result,
       response.headers,
       response.code,
-      response.diagnostics,
+      getEmptyCosmosDiagnostics(),
       response.substatus
     );
   }
@@ -130,8 +173,10 @@ export class CosmosClient {
    *
    * The url may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
    */
-  public getWriteEndpoint(): Promise<string> {
-    return this.clientContext.getWriteEndpoint();
+  public async getWriteEndpoint(): Promise<string> {
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.clientContext.getWriteEndpoint(diagnosticNode);
+    }, this.clientContext);
   }
 
   /**
@@ -139,8 +184,10 @@ export class CosmosClient {
    *
    * The url may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
    */
-  public getReadEndpoint(): Promise<string> {
-    return this.clientContext.getReadEndpoint();
+  public async getReadEndpoint(): Promise<string> {
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.clientContext.getReadEndpoint(diagnosticNode);
+    }, this.clientContext);
   }
 
   /**
@@ -202,7 +249,13 @@ export class CosmosClient {
   ) {
     this.endpointRefresher = setInterval(() => {
       try {
-        globalEndpointManager.refreshEndpointList();
+        return withDiagnostics(
+          async (diagnosticNode: DiagnosticNodeInternal) => {
+            return globalEndpointManager.refreshEndpointList(diagnosticNode);
+          },
+          this.clientContext,
+          DiagnosticNodeType.BACKGROUND_REFRESH_THREAD
+        );
       } catch (e: any) {
         console.warn("Failed to refresh endpoints", e);
       }
