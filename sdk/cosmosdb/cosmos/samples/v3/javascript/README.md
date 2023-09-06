@@ -11,26 +11,20 @@ urlFragment: cosmos-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Cosmos DB in some common scenarios.
 
-| **File Name**                                                                                                     | **Description**                                                                                     |
-| ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| [AADAuth.js][aadauth]                                                                                             | Uses AAD credentials to authenticate with the CosmosClient.                                         |
-| [AlterQueryThroughput.js][alterquerythroughput]                                                                   | Updates a container offer to change query throughput.                                               |
-| [Bulk.js][bulk]                                                                                                   | Shows a simple bulk call with each BulkOperation type.                                              |
-| [BulkUpdateWithSproc.js][bulkupdatewithsproc]                                                                     | Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior. |
-| [ChangeFeed.js][changefeed]                                                                                       | Demonstrates using a ChangeFeed.                                                                    |
-| [ContainerManagement.js][containermanagement]                                                                     | Demonstrates container create, read, delete and reading all containers belonging to a database.     |
-| [DatabaseManagement.js][databasemanagement]                                                                       | Demonstrates database create, read, delete and reading all databases.                               |
-| [Diagnostics.js][diagnostics]                                                                                     | Demonstrates usage of CosmosDiagnostic Object.                                                      |
-| [HierarchicalPartitioning.js][hierarchicalpartitioning]                                                           | Shows various operations on containers with Hierarchical Partitioning.                              |
-| [IndexManagement.js][indexmanagement]                                                                             | Shows various ways to manage indexing items or changing container index policies.                   |
-| [ItemManagement.js][itemmanagement]                                                                               | Demonstrates item creation, read, delete and reading all items belonging to a container.            |
-| [QueryThroughput.js][querythroughput]                                                                             | Demonstrates query throughput scenarios.                                                            |
-| [SasTokenAuth.js][sastokenauth]                                                                                   | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_      |
-| [ServerSideScripts.js][serversidescripts]                                                                         | Demonstrates using stored procedures for server side run functions                                  |
-| [ChangeFeedIterator\ChangeFeedHierarchicalPartitionKey.js][changefeediterator_changefeedhierarchicalpartitionkey] | Demonstrates using a ChangeFeed for a partition key                                                 |
-| [ChangeFeedIterator\ChangeFeedIteratorEntireContainer.js][changefeediterator_changefeediteratorentirecontainer]   | Demonstrates using a ChangeFeed for entire container                                                |
-| [ChangeFeedIterator\ChangeFeedIteratorEpkRange.js][changefeediterator_changefeediteratorepkrange]                 | Demonstrates using a ChangeFeed for an epk range                                                    |
-| [ChangeFeedIterator\ChangeFeedPartitionKey.js][changefeediterator_changefeedpartitionkey]                         | Demonstrates using a ChangeFeed for a partition key                                                 |
+| **File Name**                                   | **Description**                                                                                     |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| [AADAuth.js][aadauth]                           | Uses AAD credentials to authenticate with the CosmosClient.                                         |
+| [AlterQueryThroughput.js][alterquerythroughput] | Updates a container offer to change query throughput.                                               |
+| [Bulk.js][bulk]                                 | Shows a simple bulk call with each BulkOperation type.                                              |
+| [BulkUpdateWithSproc.js][bulkupdatewithsproc]   | Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior. |
+| [ChangeFeed.js][changefeed]                     | Demonstrates using a ChangeFeed.                                                                    |
+| [ContainerManagement.js][containermanagement]   | Demonstrates container create, read, delete and reading all containers belonging to a database.     |
+| [DatabaseManagement.js][databasemanagement]     | Demonstrates database create, read, delete and reading all databases.                               |
+| [IndexManagement.js][indexmanagement]           | Shows various ways to manage indexing items or changing container index policies.                   |
+| [ItemManagement.js][itemmanagement]             | Demonstrates item creation, read, delete and reading all items belonging to a container.            |
+| [QueryThroughput.js][querythroughput]           | Demonstrates query throughput scenarios.                                                            |
+| [SasTokenAuth.js][sastokenauth]                 | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_      |
+| [ServerSideScripts.js][serversidescripts]       | Demonstrates using stored procedures for server side run functions                                  |
 
 ## Prerequisites
 
@@ -79,17 +73,11 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [changefeed]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/javascript/ChangeFeed.js
 [containermanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/javascript/ContainerManagement.js
 [databasemanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/javascript/DatabaseManagement.js
-[diagnostics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/javascript/Diagnostics.js
-[hierarchicalpartitioning]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/javascript/HierarchicalPartitioning.js
 [indexmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/javascript/IndexManagement.js
 [itemmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/javascript/ItemManagement.js
 [querythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/javascript/QueryThroughput.js
 [sastokenauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/javascript/SasTokenAuth.js
 [serversidescripts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/javascript/ServerSideScripts.js
-[changefeediterator_changefeedhierarchicalpartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/javascript/ChangeFeedIterator\ChangeFeedHierarchicalPartitionKey.js
-[changefeediterator_changefeediteratorentirecontainer]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/javascript/ChangeFeedIterator\ChangeFeedIteratorEntireContainer.js
-[changefeediterator_changefeediteratorepkrange]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/javascript/ChangeFeedIterator\ChangeFeedIteratorEpkRange.js
-[changefeediterator_changefeedpartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/javascript/ChangeFeedIterator\ChangeFeedPartitionKey.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/cosmos
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecosmosdbaccount]: https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account
