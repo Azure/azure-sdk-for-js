@@ -118,7 +118,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
       requestData = {
         ...requestData,
         headers: this.sanitizeHeaders(requestContext.headers),
-        requstBody: requestContext.body,
+        requestBody: requestContext.body,
         responseBody: pipelineResponse.bodyAsText,
         url: url,
       };
@@ -291,7 +291,7 @@ export type DiagnosticDataValue = {
     operationType: OperationType;
     resourceType: ResourceType;
     headers: CosmosHeaders;
-    requstBody: any;
+    requestBody: any;
     responseBody: any;
     url: string;
   }>;
