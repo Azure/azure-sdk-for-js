@@ -2,6 +2,6 @@
 // Licensed under the MIT license.
 
 import { buildSseTests } from "../sse.js";
-import { createClient, createStream } from "./util.js";
+import { createStream } from "./util.js";
 
-buildSseTests("Node", createClient, createStream);
+buildSseTests("Browser", createStream);
