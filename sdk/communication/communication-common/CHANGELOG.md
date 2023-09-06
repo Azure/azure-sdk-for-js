@@ -5,9 +5,9 @@
 ### Features Added
 
 - Added support for a new communication identifier `MicrosoftTeamsAppIdentifier`.
-    - added a type `MicrosoftTeamsAppKind`
-    - added a method `isMicrosoftTeamsAppIdentifier` to check if the identifier is `MicrosoftTeamsAppIdentifier`.
-    - added a field `teamsAppId` to `MicrosoftTeamsAppIdentifier`
+    - Added a type `MicrosoftTeamsAppKind`.
+    - Added a method `isMicrosoftTeamsAppIdentifier` to check if the identifier is `MicrosoftTeamsAppIdentifier`.
+    - Added a field `teamsAppId` to `MicrosoftTeamsAppIdentifier`.
 
 ## 3.0.0-beta.2 (Unreleased)
 

@@ -280,7 +280,7 @@ const buildMicrosoftTeamsAppIdentifier = (
 ): CommunicationIdentifierKind => {
   return {
     kind: "microsoftTeamsApp",
-    teamsAppId,
+    teamsAppId: teamsAppId,
     cloud: cloud,
   };
 };
