@@ -79,7 +79,10 @@ export interface PromptFilterResult {
 }
 
 /** Information about the content filtering category, if it has been detected. */
-export interface ContentFilterResults {
+export type ContentFilterResults = ContentFilterSuccessOutput | ContentFilterErrorOutput;
+
+/** Information about the content filtering success result. */
+export interface ContentFilterSuccessOutput {
   /**
    * Describes language related to anatomical organs and genitals, romantic relationships,
    *  acts portrayed in erotic or affectionate terms, physical sexual acts, including
@@ -109,7 +112,16 @@ export interface ContentFilterResults {
    * Describes an error returned if the content filtering system is
    * down or otherwise unable to complete the operation in time.
    */
-  error?: ErrorModel;
+  error?: undefined;
+}
+
+/** Information about the content filtering error result. */
+export interface ContentFilterErrorOutput {
+  /**
+   * Describes an error returned if the content filtering system is
+   * down or otherwise unable to complete the operation in time.
+   */
+  error: ErrorModel;
 }
 
 /** Information about filtered content severity level and if it has been filtered or not. */

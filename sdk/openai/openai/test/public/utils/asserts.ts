@@ -70,10 +70,15 @@ function assertContentFilterResult(val: ContentFilterResult): void {
 }
 
 function assertContentFilterResults(cfr: ContentFilterResults): void {
-  ifDefined(cfr.hate, assertContentFilterResult);
-  ifDefined(cfr.selfHarm, assertContentFilterResult);
-  ifDefined(cfr.sexual, assertContentFilterResult);
-  ifDefined(cfr.violence, assertContentFilterResult);
+  if (cfr.error){
+    assert.isDefined(cfr.error.code)
+    assert.isDefined(cfr.error.message)
+  } else {
+    ifDefined(cfr.hate, assertContentFilterResult);
+    ifDefined(cfr.selfHarm, assertContentFilterResult);
+    ifDefined(cfr.sexual, assertContentFilterResult);
+    ifDefined(cfr.violence, assertContentFilterResult);
+  }
 }
 
 function assertChoice(choice: Choice): void {

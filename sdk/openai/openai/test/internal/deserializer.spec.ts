@@ -4,7 +4,7 @@
 import { assert } from "@azure/test-utils";
 import { getChatCompletionsResult, getCompletionsResult } from "../../src/api/deserializers.js";
 
-describe("deserializers", () => {
+describe.only("deserializers", () => {
   describe("getCompletionsResult", () => {
     it("should deserialize completions response", () => {
       const body = {

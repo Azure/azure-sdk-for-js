@@ -84,9 +84,8 @@ export interface PromptFilterResultOutput {
   content_filter_results?: ContentFilterResultsOutput;
 }
 
-export interface ContentFilterResultOutput extends ContentFilterSuccessOutput, ContentFilterErrorOutput {}
 /** Information about the content filtering category, if it has been detected. */
-export interface ContentFilterResultsSuccessOutput {
+export interface ContentFilterResultsOutput {
   /**
    * Describes language related to anatomical organs and genitals, romantic relationships,
    *  acts portrayed in erotic or affectionate terms, physical sexual acts, including
@@ -116,41 +115,7 @@ export interface ContentFilterResultsSuccessOutput {
    * Describes an error returned if the content filtering system is
    * down or otherwise unable to complete the operation in time.
    */
-  error?: undefined;
-}
-
-/** Information about the content filtering category, if it has been detected. */
-export interface ContentFilterErrorOutput {
-  /**
-   * Describes language related to anatomical organs and genitals, romantic relationships,
-   *  acts portrayed in erotic or affectionate terms, physical sexual acts, including
-   *  those portrayed as an assault or a forced sexual violent act against one’s will,
-   *  prostitution, pornography, and abuse.
-   */
-  sexual?: ContentFilterResultOutput;
-  /**
-   * Describes language related to physical actions intended to hurt, injure, damage, or
-   * kill someone or something; describes weapons, etc.
-   */
-  violence?: ContentFilterResultOutput;
-  /**
-   * Describes language attacks or uses that include pejorative or discriminatory language
-   * with reference to a person or identity group on the basis of certain differentiating
-   * attributes of these groups including but not limited to race, ethnicity, nationality,
-   * gender identity and expression, sexual orientation, religion, immigration status, ability
-   * status, personal appearance, and body size.
-   */
-  hate?: ContentFilterResultOutput;
-  /**
-   * Describes language related to physical actions intended to purposely hurt, injure,
-   * or damage one’s body, or kill oneself.
-   */
-  self_harm?: ContentFilterResultOutput;
-  /**
-   * Describes an error returned if the content filtering system is
-   * down or otherwise unable to complete the operation in time.
-   */
-  error: ErrorModel;
+  error?: ErrorModel;
 }
 
 /** Information about filtered content severity level and if it has been filtered or not. */

@@ -5,7 +5,6 @@ import {
   ChatMessage,
   ChatRole,
   Completions,
-  ContentFilterResults,
 } from "../../generated/src/models/models.js";
 import {
   ChatChoiceOutput,
@@ -15,7 +14,7 @@ import {
   PromptFilterResultOutput,
 } from "../../generated/src/rest/outputModels.js";
 import { ChatCompletions } from "../models/models.js";
-
+import { ContentFilterResults } from "./models.js";
 export function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usage"> {
   return {
     id: body["id"],
@@ -126,6 +125,15 @@ function _deserializeMessage(message: ChatMessageOutput): ChatMessage {
 }
 
 function deserializeContentFilter(result: ContentFilterResultsOutput): ContentFilterResults {
+  if (result.error) {
+    return {
+      error: {
+        code: result.error.code,
+        message: result.error.message,
+        details: result.error.details ?? [],
+      },
+    };
+  }
   return {
     ...(!result.sexual
       ? {}
@@ -157,15 +165,6 @@ function deserializeContentFilter(result: ContentFilterResultsOutput): ContentFi
           selfHarm: {
             severity: result.self_harm?.["severity"],
             filtered: result.self_harm?.["filtered"],
-          },
-        }),
-    ...(!result.error
-      ? {}
-      : {
-          error: {
-            code: result.error?.code,
-            message: result.error?.message,
-            details: result.error?.details ?? [],
           },
         }),
   };

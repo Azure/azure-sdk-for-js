@@ -120,22 +120,30 @@ export interface CompletionsUsage {
 }
 
 // @public
+export interface ContentFilterErrorOutput {
+    error: ErrorModel;
+}
+
+// @public
 export interface ContentFilterResult {
     filtered: boolean;
     severity: ContentFilterSeverity;
 }
 
 // @public
-export interface ContentFilterResults {
-    error?: ErrorModel;
+export type ContentFilterResults = ContentFilterSuccessOutput | ContentFilterErrorOutput;
+
+// @public
+export type ContentFilterSeverity = string;
+
+// @public
+export interface ContentFilterSuccessOutput {
+    error?: undefined;
     hate?: ContentFilterResult;
     selfHarm?: ContentFilterResult;
     sexual?: ContentFilterResult;
     violence?: ContentFilterResult;
 }
-
-// @public
-export type ContentFilterSeverity = string;
 
 // @public
 export interface EmbeddingItem {
