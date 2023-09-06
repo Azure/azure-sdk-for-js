@@ -2,17 +2,19 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to analyze text.
+ * @summary Demonstrates how to analyze image.
  */
 
 import ContentSafetyClient, {
-  AnalyzeTextParameters,
-  AnalyzeTextOptions,
-  isUnexpected
+  AnalyzeImageParameters,
+  AnalyzeImageOptions,
+  isUnexpected,
 } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
+import fs from "fs";
+import path from "path";
 
-// Load the .env file if it exists
+// Load the .env file if it exists  
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -23,11 +25,14 @@ async function main() {
   const credential = new AzureKeyCredential(key);
   const client = ContentSafetyClient(endpoint, credential);
 
-  const text = "You are an idiot";
-  const analyzeTextOption: AnalyzeTextOptions = { text: text };
-  const analyzeTextParameters: AnalyzeTextParameters = { body: analyzeTextOption };
+  const image_path = path.resolve(__dirname, "./sample_data/image.jpg");
 
-  const result = await client.path("/text:analyze").post(analyzeTextParameters);
+  const imageBuffer = fs.readFileSync(image_path);
+  const base64Image = imageBuffer.toString("base64");
+  const analyzeImageOption: AnalyzeImageOptions = { image: { content: base64Image } };
+  const analyzeImageParameters: AnalyzeImageParameters = { body: analyzeImageOption };
+
+  const result = await client.path("/image:analyze").post(analyzeImageParameters);
 
   if (isUnexpected(result)) {
     throw result;

@@ -21,9 +21,9 @@ async function main() {
 
   const text = "You are an idiot";
   const analyzeTextOption = { text: text };
-  const analyzeTextBodyParam = { body: analyzeTextOption };
+  const analyzeTextParameters = { body: analyzeTextOption };
 
-  const result = await client.path("/text:analyze").post(analyzeTextBodyParam);
+  const result = await client.path("/text:analyze").post(analyzeTextParameters);
 
   if (isUnexpected(result)) {
     throw result;

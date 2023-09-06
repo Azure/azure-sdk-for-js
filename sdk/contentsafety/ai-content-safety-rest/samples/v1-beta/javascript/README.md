@@ -2,9 +2,11 @@
 
 These sample programs show how to use the JavaScript client libraries for ContentSafety in some common scenarios.
 
-| **File Name**                             | **Description**                   |
-| ----------------------------------------- | --------------------------------- |
-| [sampleAnalyzeText.js][sampleanalyzetext] | Demonstrates how to analyze text. |
+| **File Name**                                     | **Description**                       |
+| ------------------------------------------------- | ------------------------------------- |
+| [sampleAnalyzeImage.js][sampleanalyzeimage]       | Demonstrates how to analyze image.    |
+| [sampleAnalyzeText.js][sampleanalyzetext]         | Demonstrates how to analyze text.     |
+| [sampleManageBlocklist.js][samplemanageblocklist] | Demonstrates how to manage blocklist. |
 
 ## Prerequisites
 
@@ -31,20 +33,22 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node sampleAnalyzeText.js
+node sampleAnalyzeImage.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env CONTENT_SAFETY_ENDPOINT="<content safety endpoint>" CONTENT_SAFETY_API_KEY="<content safety api key>" node sampleAnalyzeText.js
+npx cross-env CONTENT_SAFETY_ENDPOINT="<content safety endpoint>" CONTENT_SAFETY_API_KEY="<content safety api key>" node sampleAnalyzeImage.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[sampleanalyzeimage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety-rest/samples/v1-beta/javascript/sampleAnalyzeImage.js
 [sampleanalyzetext]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety-rest/samples/v1-beta/javascript/sampleAnalyzeText.js
+[samplemanageblocklist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety-rest/samples/v1-beta/javascript/sampleManageBlocklist.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentsafety/ai-content-safety-rest/README.md

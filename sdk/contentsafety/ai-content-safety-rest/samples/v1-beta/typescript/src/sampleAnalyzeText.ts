@@ -6,7 +6,7 @@
  */
 
 import ContentSafetyClient, {
-  AnalyzeTextBodyParam,
+  AnalyzeTextParameters,
   AnalyzeTextOptions,
   isUnexpected
 } from "@azure-rest/ai-content-safety";
@@ -25,9 +25,9 @@ async function main() {
 
   const text = "You are an idiot";
   const analyzeTextOption: AnalyzeTextOptions = { text: text };
-  const analyzeTextBodyParam: AnalyzeTextBodyParam = { body: analyzeTextOption };
+  const analyzeTextParameters: AnalyzeTextParameters = { body: analyzeTextOption };
 
-  const result = await client.path("/text:analyze").post(analyzeTextBodyParam);
+  const result = await client.path("/text:analyze").post(analyzeTextParameters);
 
   if (isUnexpected(result)) {
     throw result;
