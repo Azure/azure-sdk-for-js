@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Return `usage` information when available.
+- Return `error` information in `ContentFilterResults` when available.
 
 ### Other Changes
 
