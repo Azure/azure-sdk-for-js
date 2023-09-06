@@ -21,7 +21,7 @@ const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
-logSampleHeader("Demonstrating Usage of CosmosDB Diagnostics.");
+logSampleHeader("Demonstrating Usage of Hierarchical Partitioning.");
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
