@@ -231,7 +231,7 @@ async function run(): Promise<void> {
     }
   }
 
-  logStep("Query items witb index metrics enabled");
+  logStep("Query items with index metrics enabled");
   const { resources: resultsIndexMetrics, indexMetrics } = await container.items
     .query(querySpec, { populateIndexMetrics: true })
     .fetchAll();
