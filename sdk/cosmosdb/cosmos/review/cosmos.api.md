@@ -1012,10 +1012,10 @@ export interface FeedOptions extends SharedOptions {
     useIncrementalFeed?: boolean;
 }
 
-// @public (undocumented)
-export interface FeedRange {
-    maxExclusive: string;
-    minInclusive: string;
+// @public
+export abstract class FeedRange {
+    readonly maxExclusive: string;
+    readonly minInclusive: string;
 }
 
 // @public (undocumented)
