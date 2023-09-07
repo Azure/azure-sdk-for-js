@@ -1,9 +1,10 @@
 # Release History
 
-## 3.17.4 (Unreleased)
+## 4.0.0 (Unreleased)
 
 ### Features Added
 - Added support for hierarchical partitions.
+- Added Diagnostics to all response objects, i.e. ResourceResponse (parent class for ItemRespone, ContainerResponse etc.), FeedResponse, ChangeFeedIteratorResponse, ErrorResponse, BulkOperationResponse.
 
 ## 3.17.3 (2023-02-13)
 

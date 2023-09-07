@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { FeedOptions } from "../../../src";
+import { Container, FeedOptions } from "../../../src";
 import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 const doc = { id: "myId", pk: "pk" };
@@ -185,14 +185,55 @@ describe("aggregate query over null value", function (this: Suite) {
 
 describe("Test Index metrics", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
-  const collectionId = "testCollection3";
 
   beforeEach(async function () {
     await removeAllDatabases();
   });
 
-  it("validate that index metrics are correct for a single partition query", async function () {
-    const database = await getTestDatabase("index metrics test db");
+  it("validate that index metrics are correct", async function () {
+    const collectionId = "testCollection3";
+    const createdContainerSinglePartition = await setupContainer(
+      "index metrics test db",
+      collectionId,
+      4000
+    );
+    const createdContainerMultiPartition = await setupContainer(
+      "index metrics test db multipartioned",
+      collectionId,
+      12000
+    );
+
+    await validateIndexMetrics(createdContainerSinglePartition, collectionId);
+    await validateIndexMetrics(createdContainerMultiPartition, collectionId);
+  });
+
+  async function validateIndexMetrics(container: Container, collectionId: string) {
+    const doc1 = { id: "myId1", pk: "pk1", name: "test1" };
+    const doc2 = { id: "myId2", pk: "pk2", name: "test2" };
+    const doc3 = { id: "myId3", pk: "pk2", name: "test2" };
+    await container.items.create(doc1);
+    await container.items.create(doc2);
+    await container.items.create(doc3);
+    //  stremeable query
+    const query1 = "SELECT * from " + collectionId + " where " + collectionId + ".name = 'test2'";
+    //  aggregate query
+    const query2 = "SELECT * from " + collectionId + " order by " + collectionId + ".name";
+    const queryList = [query1, query2];
+    const queryOptions: FeedOptions = { populateIndexMetrics: true, maxItemCount: 1 };
+    for (const query of queryList) {
+      const queryIterator = container.items.query(query, queryOptions);
+      while (queryIterator.hasMoreResults()) {
+        const { resources: results, indexMetrics } = await queryIterator.fetchNext();
+
+        if (results === undefined) {
+          break;
+        }
+        assert.notEqual(indexMetrics, undefined);
+      }
+    }
+  }
+  async function setupContainer(datbaseName: string, collectionId: string, throughput?: number) {
+    const database = await getTestDatabase(datbaseName);
 
     const collectionDefinition = {
       id: collectionId,
@@ -200,31 +241,13 @@ describe("Test Index metrics", function (this: Suite) {
         paths: ["/pk"],
       },
     };
-    const collectionOptions = { offerThroughput: 4000 };
+    const collectionOptions = { offerThroughput: throughput };
 
     const { resource: createdCollectionDef } = await database.containers.create(
       collectionDefinition,
       collectionOptions
     );
     const createdContainer = database.container(createdCollectionDef.id);
-
-    const doc1 = { id: "myId1", pk: "pk1", name: "test1" };
-    const doc2 = { id: "myId2", pk: "pk2", name: "test2" };
-    const doc3 = { id: "myId3", pk: "pk2", name: "test2" };
-    await createdContainer.items.create(doc1);
-    await createdContainer.items.create(doc2);
-    await createdContainer.items.create(doc3);
-    const query = "SELECT * from " + collectionId + " where " + collectionId + ".name = 'test2'";
-    const queryOptions: FeedOptions = { populateIndexMetrics: true };
-    const queryIterator = createdContainer.items.query(query, queryOptions);
-
-    while (queryIterator.hasMoreResults()) {
-      const { resources: results, indexMetrics } = await queryIterator.fetchNext();
-
-      if (results === undefined) {
-        break;
-      }
-      assert.notEqual(indexMetrics, undefined);
-    }
-  });
+    return createdContainer;
+  }
 });

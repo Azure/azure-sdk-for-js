@@ -9,9 +9,6 @@ import {
 } from "../diagnostics/DiagnosticNodeInternal";
 import { ClientContext } from "../ClientContext";
 import { getCurrentTimestampInMs } from "./time";
-import { ResourceResponse } from "../request/ResourceResponse";
-import { ChangeFeedResponse } from "../ChangeFeedResponse";
-import { FeedResponse } from "../request/FeedResponse";
 import { v4 } from "uuid";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
 
@@ -83,7 +80,7 @@ export async function addDignosticChild<
  * A supporting utility wrapper function, to be used inside a diagnostic session started
  * by `withDiagnostics` function.
  * Treats requests originating in  provided `callback` as metadata calls.
- * To realise this, starts a temporary diagnostic session, after execution of callback is
+ * To realize this, starts a temporary diagnostic session, after execution of callback is
  * finished. Merges this temporary diagnostic session to the original diagnostic session
  * represented by the input parameter `node`.
  * @hidden
@@ -141,11 +138,7 @@ export async function withDiagnostics<
     const response: any = await callback(diagnosticNode);
     diagnosticNode.updateTimestamp();
     const diagnostics = diagnosticNode.toDiagnostic(clientContext.getClientConfig());
-    if (
-      response instanceof ResourceResponse ||
-      response instanceof ChangeFeedResponse ||
-      response instanceof FeedResponse
-    ) {
+    if (typeof response === "object" && response !== null) {
       (response as any).diagnostics = diagnostics;
     }
     clientContext.recordDiagnostics(diagnostics);
