@@ -115,7 +115,7 @@ export class QueryIterator<T> {
   }
 
   /**
-   * Determine if there are still remaining resources to processs based on the value of the continuation token or the
+   * Determine if there are still remaining resources to process based on the value of the continuation token or the
    * elements remaining on the current batch in the QueryIterator.
    * @returns true if there is other elements to process in the QueryIterator.
    */

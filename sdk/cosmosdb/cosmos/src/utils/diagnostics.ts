@@ -80,7 +80,7 @@ export async function addDignosticChild<
  * A supporting utility wrapper function, to be used inside a diagnostic session started
  * by `withDiagnostics` function.
  * Treats requests originating in  provided `callback` as metadata calls.
- * To realise this, starts a temporary diagnostic session, after execution of callback is
+ * To realize this, starts a temporary diagnostic session, after execution of callback is
  * finished. Merges this temporary diagnostic session to the original diagnostic session
  * represented by the input parameter `node`.
  * @hidden

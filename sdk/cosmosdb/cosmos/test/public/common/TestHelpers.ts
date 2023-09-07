@@ -154,17 +154,17 @@ export function validateDiagnostics(
 ): void {
   expect(diagnostics, "Diagnostics object should not be undefined or null").to.exist;
 
-  validateRequestStartTimeedForDiagnostics(spec, diagnostics);
+  validateRequestStartTimeForDiagnostics(spec, diagnostics);
 
-  validateRequestDurationedForDiagnostics(spec, diagnostics);
+  validateRequestDurationForDiagnostics(spec, diagnostics);
 
   validateRequestPayloadSizeForDiagnostics(diagnostics);
 
   validateRetriesForDiagnostics(spec, diagnostics, parallelExecutions);
 
-  validateMetadataCallsedForDiagnostics(spec, diagnostics, parallelExecutions);
+  validateMetadataCallsForDiagnostics(spec, diagnostics, parallelExecutions);
 
-  validateLocationEndpointsContactededForDiagnostics(spec, diagnostics);
+  validateLocationEndpointsContactedForDiagnostics(spec, diagnostics);
 
   validateGatewayStatisticsForDiagnostics(spec, diagnostics, parallelExecutions);
 
@@ -276,7 +276,7 @@ function verifyForOverlappingRanges(
   }
 }
 
-function validateLocationEndpointsContactededForDiagnostics(
+function validateLocationEndpointsContactedForDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
   diagnostics: CosmosDiagnostics
 ): void {
@@ -292,7 +292,7 @@ function validateLocationEndpointsContactededForDiagnostics(
   }
 }
 
-function validateMetadataCallsedForDiagnostics(
+function validateMetadataCallsForDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
   diagnostics: CosmosDiagnostics,
   parallelExecutions: boolean
@@ -366,7 +366,7 @@ function validateRequestPayloadSizeForDiagnostics(diagnostics: CosmosDiagnostics
   ).to.be.greaterThanOrEqual(totalRequestPayloadForGatewayRequests);
 }
 
-function validateRequestDurationedForDiagnostics(
+function validateRequestDurationForDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
   diagnostics: CosmosDiagnostics
 ): void {
@@ -387,7 +387,7 @@ function validateRequestDurationedForDiagnostics(
   }
 }
 
-function validateRequestStartTimeedForDiagnostics(
+function validateRequestStartTimeForDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
   diagnostics: CosmosDiagnostics
 ): void {
