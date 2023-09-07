@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about all public IP addresses on a virtual machine scale set level.
  *
  * @summary Gets information about all public IP addresses on a virtual machine scale set level.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-04-01/examples/VmssPublicIpListAll.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-05-01/examples/VmssPublicIpListAll.json
  */
 async function listVmssPublicIP() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

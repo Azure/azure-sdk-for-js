@@ -1,15 +1,21 @@
 # Release History
+    
+## 32.2.0 (2023-09-07)
+    
+**Features**
 
-## 32.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface BastionHostPropertiesFormatNetworkAcls
+  - Added Interface IPRule
+  - Added Interface VirtualNetworkGatewayAutoScaleBounds
+  - Added Interface VirtualNetworkGatewayAutoScaleConfiguration
+  - Interface BastionHost has a new optional parameter networkAcls
+  - Interface BastionHost has a new optional parameter virtualNetwork
+  - Interface FirewallPolicy has a new optional parameter size
+  - Interface FirewallPolicyRuleCollectionGroup has a new optional parameter size
+  - Interface Subnet has a new optional parameter defaultOutboundAccess
+  - Interface VirtualNetworkGateway has a new optional parameter autoScaleConfiguration
+    
+    
 ## 32.1.0 (2023-08-08)
     
 **Features**

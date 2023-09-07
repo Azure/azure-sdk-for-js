@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified peering from the specified express route circuit.
  *
  * @summary Deletes the specified peering from the specified express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-04-01/examples/ExpressRouteCircuitPeeringDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-05-01/examples/ExpressRouteCircuitPeeringDelete.json
  */
 async function deleteExpressRouteCircuitPeerings() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
