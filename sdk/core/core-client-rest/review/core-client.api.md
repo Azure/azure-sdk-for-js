@@ -18,7 +18,6 @@ import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import { RequestBodyType } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
@@ -183,7 +182,7 @@ export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>>
 }
 
 // @public
-export type ResponseBodyType = RequestBodyType | Record<string, unknown>;
+export type ResponseBodyType = Record<string, unknown> | string;
 
 // @public
 export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
