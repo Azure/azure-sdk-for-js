@@ -13,7 +13,7 @@ import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
 import { extractOverlappingRanges } from "./changeFeedUtils";
 import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { withDiagnostics } from "../../utils/diagnostics";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 /**
  * @hidden
  * Provides iterator for change feed for entire container or an epk range.
@@ -425,11 +425,19 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         response.result,
         response.result ? response.result.length : 0,
         response.code,
-        response.headers
+        response.headers,
+        getEmptyCosmosDiagnostics()
       );
     } catch (err) {
       // If any errors are encountered, eg. partition split or gone, handle it based on error code and not break the flow.
-      return new ChangeFeedIteratorResponse([], 0, err.code, err.headers, err.substatus);
+      return new ChangeFeedIteratorResponse(
+        [],
+        0,
+        err.code,
+        err.headers,
+        getEmptyCosmosDiagnostics(),
+        err.substatus
+      );
     }
   }
 }
