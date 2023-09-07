@@ -326,6 +326,68 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
+### Diagnostics
+
+Cosmos Diagnostics feature provides enhanced insights into all your client operations. A CosmosDiagnostics object is added to response of all client operations. such as 
+- Point look up operation reponses - `item.read()`, `containes.create()`, `database.delete()`
+- Query operation reponses -`queryIterator.fetchAll()`, 
+- Bulk and Batch operations -`item.batch()`.
+- Error/Exception response objects.
+
+A CosmosDiagnostics object is added to response of all client operations.
+There are 3 Cosmos Diagnostic levels, info, debug and debug-unsafe. Where only info is meant for production systems and debug and debug-unsafe are meant to be used during development and debugging, since they consume significantly higher resources. Cosmos Diagnostic level can be set in 2 ways
+- Programatically
+```js
+  const client = new CosmosClient({ endpoint, key, diagnosticLevel: CosmosDbDiagnosticLevel.debug });
+```
+- Using environment variables
+```bash
+  export AZURE_COSMOSDB_DIAGNOSTICS_LEVEL="debug"
+```
+
+Cosmos Diagnostic has three memebers
+- ClientSideRequestStatistics Type: Contains aggregates diagnostic details, including metadata lookups, retries, endpoints contacted, and request and response statistics like payload size and duration. (is always collected, can be used in production systems.) 
+
+- DiagnosticNode: Is a tree-like structure that captures detailed diagnostic information. Similar to `har` recording present in browsers. This feature is disabled by default and is intended for debugging non-production environments only. (collected at diagnostic level debug and debug-unsafe) 
+
+- ClientConfig: Captures essential information related to client's configuration settings during client initialization. (collected at diagnostic level debug and debug-unsafe) 
+
+Please make sure to never set diagnostic level to `debug-unsafe` in production environment, since it this level `CosmosDiagnostics` captures request and response payloads and if you choose to log it (it is by default logged by @auzre/logger at `verbose` level). These payloads might get captured in your log sinks.
+
+#### Consuming Diagnostics
+
+- Since `diagnostics` is added to all Response objects. You could programatically access `CosmosDiagnostic` as follows. 
+```js
+  // For point look up operations
+  const { container, diagnostics: containerCreateDiagnostic } =
+    await database.containers.createIfNotExists({
+      id: containerId,
+      partitionKey: {
+        paths: ["/key1"],
+      },
+  });
+
+  // For Batch operations
+   const operations: OperationInput[] = [
+    {
+      operationType: BulkOperationType.Create,
+      resourceBody: { id: 'A', key: "A", school: "high" },
+    },
+  ];
+  const response = await container.items.batch(operations, "A"); 
+  
+  // For query operations
+  const queryIterator = container.items.query("select * from c");
+  const { resources, diagnostics } = await queryIterator.fetchAll();
+
+  // While error handling
+  try {
+    // Some operation that might fail
+  } catch (err) {
+    const diagnostics = err.diagnostics
+  }
+```
+- You could also log `diagnostics` using `@azure/logger`, diagnostic is always logged using `@azure/logger` at `verbose` level. So if you set Diagnostic level to `debug` or `debug-unsafe` and `@azure/logger` level to `verbose`, `diagnostics` will be logged.
 ## Next steps
 
 ### More sample code
