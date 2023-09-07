@@ -39,7 +39,7 @@ export async function sendRequest(
   const response = await pipeline.sendRequest(httpClient, request);
   const headers = response.headers.toJSON();
   const stream = response.readableStreamBody ?? response.browserStreamBody;
-  const parsedBody = await getResponseBody(response);
+  const parsedBody = parseResponseBody(response);
   const body = options.responseAsStream || stream !== undefined ? stream : parsedBody;
 
   if (options?.onResponse) {
@@ -186,11 +186,10 @@ function processFormData(formData?: FormDataMap): FormDataMap | undefined {
 }
 
 /**
- * Prepares the response body
+ * Parses the response body based on the content-type
  * @param response - The received response
- * @param asStream - The type to coerce the body as
  */
-async function getResponseBody(response: PipelineResponse): Promise<ResponseBodyType> {
+function parseResponseBody(response: PipelineResponse): ResponseBodyType {
   // Set the default response type
   const contentType = response.headers.get("content-type") ?? "";
   const firstType = contentType.split(";")[0];
@@ -199,27 +198,19 @@ async function getResponseBody(response: PipelineResponse): Promise<ResponseBody
   if (firstType === "text/plain") {
     return String(text);
   }
-  // Default to "application/json" and fallback to string;
-  return tryParse(text, firstType !== "application/json", response);
-}
 
-function tryParse(
-  bodyAsText: PipelineResponse["bodyAsText"],
-  allowUnparsed: boolean,
-  response: PipelineResponse
-): ResponseBodyType {
   try {
-    return bodyAsText ? JSON.parse(bodyAsText) : undefined;
+    return JSON.parse(text);
   } catch (error) {
     // If we were supposed to get a JSON object and failed to
     // parse, throw a parse error
-    if (!allowUnparsed) {
+    if (firstType === "application/json") {
       throw createParseError(response, error);
     }
 
     // We are not sure how to handle the response so we return it as
     // plain text.
-    return String(bodyAsText);
+    return String(text);
   }
 }
 
