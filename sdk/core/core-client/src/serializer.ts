@@ -430,7 +430,8 @@ function serializeBasicTypes(typeName: string, objectName: string, value: any): 
       const objectType = typeof value;
       if (
         objectType !== "string" &&
-        typeof value.pipe !== "function" &&
+        typeof value.pipe !== "function" && // NodeJS.ReadableStream
+        typeof value.tee !== "function" &&  // browser ReadableStream
         !(value instanceof ArrayBuffer) &&
         !ArrayBuffer.isView(value) &&
         // File objects count as a type of Blob, so we want to use instanceof explicitly
