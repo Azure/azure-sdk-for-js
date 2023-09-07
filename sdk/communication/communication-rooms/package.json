@@ -46,7 +46,7 @@
     "@types/chai": "~4.3.1",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",
-    "@types/sinon": "~10.0.12",
+    "@types/sinon": "^10.0.0",
     "@types/uuid": "^8.3.4",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
@@ -59,8 +59,9 @@
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "sinon": "^9.0.2",
-    "typescript": "~5.0.0"
+    "sinon": "^15.0.0",
+    "typescript": "~5.0.0",
+    "ts-node": "^10.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms/",
   "repository": "github:Azure/azure-sdk-for-js",

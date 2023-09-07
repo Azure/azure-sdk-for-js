@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists developer portal's revisions.
  *
  * @summary Lists developer portal's revisions.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListPortalRevisions.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListPortalRevisions.json
  */
 async function apiManagementListPortalRevisions() {
   const subscriptionId =

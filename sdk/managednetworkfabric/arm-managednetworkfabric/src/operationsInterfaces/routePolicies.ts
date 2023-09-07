@@ -19,7 +19,14 @@ import {
   RoutePolicyPatch,
   RoutePoliciesUpdateOptionalParams,
   RoutePoliciesUpdateResponse,
-  RoutePoliciesDeleteOptionalParams
+  RoutePoliciesDeleteOptionalParams,
+  UpdateAdministrativeState,
+  RoutePoliciesUpdateAdministrativeStateOptionalParams,
+  RoutePoliciesUpdateAdministrativeStateResponse,
+  RoutePoliciesValidateConfigurationOptionalParams,
+  RoutePoliciesValidateConfigurationResponse,
+  RoutePoliciesCommitConfigurationOptionalParams,
+  RoutePoliciesCommitConfigurationResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +51,7 @@ export interface RoutePolicies {
   /**
    * Implements Route Policy PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param routePolicyName Name of the Route Policy
+   * @param routePolicyName Name of the Route Policy.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -62,7 +69,7 @@ export interface RoutePolicies {
   /**
    * Implements Route Policy PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param routePolicyName Name of the Route Policy
+   * @param routePolicyName Name of the Route Policy.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -75,7 +82,7 @@ export interface RoutePolicies {
   /**
    * Implements Route Policy GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param routePolicyName Name of the Route Policy
+   * @param routePolicyName Name of the Route Policy.
    * @param options The options parameters.
    */
   get(
@@ -86,7 +93,7 @@ export interface RoutePolicies {
   /**
    * API to update certain properties of the Route Policy resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param routePolicyName Name of the Route Policy
+   * @param routePolicyName Name of the Route Policy.
    * @param body Route Policy properties to update.
    * @param options The options parameters.
    */
@@ -104,7 +111,7 @@ export interface RoutePolicies {
   /**
    * API to update certain properties of the Route Policy resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param routePolicyName Name of the Route Policy
+   * @param routePolicyName Name of the Route Policy.
    * @param body Route Policy properties to update.
    * @param options The options parameters.
    */
@@ -117,7 +124,7 @@ export interface RoutePolicies {
   /**
    * Implements Route Policy DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param routePolicyName Name of the Route Policy
+   * @param routePolicyName Name of the Route Policy.
    * @param options The options parameters.
    */
   beginDelete(
@@ -128,7 +135,7 @@ export interface RoutePolicies {
   /**
    * Implements Route Policy DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param routePolicyName Name of the Route Policy
+   * @param routePolicyName Name of the Route Policy.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -136,4 +143,89 @@ export interface RoutePolicies {
     routePolicyName: string,
     options?: RoutePoliciesDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Updated the admin state for this Route Policy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param routePolicyName Name of the Route Policy.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  beginUpdateAdministrativeState(
+    resourceGroupName: string,
+    routePolicyName: string,
+    body: UpdateAdministrativeState,
+    options?: RoutePoliciesUpdateAdministrativeStateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<RoutePoliciesUpdateAdministrativeStateResponse>,
+      RoutePoliciesUpdateAdministrativeStateResponse
+    >
+  >;
+  /**
+   * Updated the admin state for this Route Policy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param routePolicyName Name of the Route Policy.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  beginUpdateAdministrativeStateAndWait(
+    resourceGroupName: string,
+    routePolicyName: string,
+    body: UpdateAdministrativeState,
+    options?: RoutePoliciesUpdateAdministrativeStateOptionalParams
+  ): Promise<RoutePoliciesUpdateAdministrativeStateResponse>;
+  /**
+   * Validates the configuration of the resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param routePolicyName Name of the Route Policy.
+   * @param options The options parameters.
+   */
+  beginValidateConfiguration(
+    resourceGroupName: string,
+    routePolicyName: string,
+    options?: RoutePoliciesValidateConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<RoutePoliciesValidateConfigurationResponse>,
+      RoutePoliciesValidateConfigurationResponse
+    >
+  >;
+  /**
+   * Validates the configuration of the resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param routePolicyName Name of the Route Policy.
+   * @param options The options parameters.
+   */
+  beginValidateConfigurationAndWait(
+    resourceGroupName: string,
+    routePolicyName: string,
+    options?: RoutePoliciesValidateConfigurationOptionalParams
+  ): Promise<RoutePoliciesValidateConfigurationResponse>;
+  /**
+   * Commits the configuration of the given resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param routePolicyName Name of the Route Policy.
+   * @param options The options parameters.
+   */
+  beginCommitConfiguration(
+    resourceGroupName: string,
+    routePolicyName: string,
+    options?: RoutePoliciesCommitConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<RoutePoliciesCommitConfigurationResponse>,
+      RoutePoliciesCommitConfigurationResponse
+    >
+  >;
+  /**
+   * Commits the configuration of the given resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param routePolicyName Name of the Route Policy.
+   * @param options The options parameters.
+   */
+  beginCommitConfigurationAndWait(
+    resourceGroupName: string,
+    routePolicyName: string,
+    options?: RoutePoliciesCommitConfigurationOptionalParams
+  ): Promise<RoutePoliciesCommitConfigurationResponse>;
 }

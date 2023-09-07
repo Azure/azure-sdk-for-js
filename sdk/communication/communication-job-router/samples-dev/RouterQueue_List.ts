@@ -23,7 +23,7 @@ async function listJobQueues(): Promise<void> {
   const receivedPagedItems: RouterQueueItem[] = [];
 
   for await (const page of routerAdministrationClient
-    .listQueues({ maxpagesize: maxPageSize })
+    .listQueues({ maxPageSize })
     .byPage()) {
     ++pagesCount;
     console.log("page: " + pagesCount);

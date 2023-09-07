@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List of all user identities.
  *
  * @summary List of all user identities.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListUserIdentities.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListUserIdentities.json
  */
 async function apiManagementListUserIdentities() {
   const subscriptionId =

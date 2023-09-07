@@ -11,7 +11,16 @@ import * as coreClient from "@azure/core-client";
 export type EndpointBasePropertiesUnion =
   | EndpointBaseProperties
   | AzureStorageBlobContainerEndpointProperties
-  | NfsMountEndpointProperties;
+  | NfsMountEndpointProperties
+  | AzureStorageSmbFileShareEndpointProperties
+  | SmbMountEndpointProperties;
+export type EndpointBaseUpdatePropertiesUnion =
+  | EndpointBaseUpdateProperties
+  | AzureStorageBlobContainerEndpointUpdateProperties
+  | NfsMountEndpointUpdateProperties
+  | AzureStorageSmbFileShareEndpointUpdateProperties
+  | SmbMountEndpointUpdateProperties;
+export type CredentialsUnion = Credentials | AzureKeyVaultSmbCredentials;
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
@@ -137,22 +146,6 @@ export interface StorageMoverList {
   readonly nextLink?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -170,6 +163,27 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** The Storage Mover resource. */
@@ -218,7 +232,11 @@ export interface EndpointList {
 /** The resource specific properties for the Storage Mover resource. */
 export interface EndpointBaseProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointType: "AzureStorageBlobContainer" | "NfsMount";
+  endpointType:
+    | "AzureStorageBlobContainer"
+    | "NfsMount"
+    | "AzureStorageSmbFileShare"
+    | "SmbMount";
   /** A description for the Endpoint. */
   description?: string;
   /**
@@ -231,11 +249,17 @@ export interface EndpointBaseProperties {
 /** The Endpoint resource. */
 export interface EndpointBaseUpdateParameters {
   /** The Endpoint resource, which contains information about file sources and targets. */
-  properties?: EndpointBaseUpdateProperties;
+  properties?: EndpointBaseUpdatePropertiesUnion;
 }
 
 /** The Endpoint resource, which contains information about file sources and targets. */
 export interface EndpointBaseUpdateProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType:
+    | "AzureStorageBlobContainer"
+    | "NfsMount"
+    | "AzureStorageSmbFileShare"
+    | "SmbMount";
   /** A description for the Endpoint. */
   description?: string;
 }
@@ -308,6 +332,12 @@ export interface JobRunError {
   target?: string;
 }
 
+/** The Credentials. */
+export interface Credentials {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureKeyVaultSmb";
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -319,6 +349,7 @@ export interface TrackedResource extends Resource {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
+/** The properties of Azure Storage blob container endpoint. */
 export interface AzureStorageBlobContainerEndpointProperties
   extends EndpointBaseProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -329,6 +360,7 @@ export interface AzureStorageBlobContainerEndpointProperties
   blobContainerName: string;
 }
 
+/** The properties of NFS share endpoint. */
 export interface NfsMountEndpointProperties extends EndpointBaseProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   endpointType: "NfsMount";
@@ -340,19 +372,69 @@ export interface NfsMountEndpointProperties extends EndpointBaseProperties {
   export: string;
 }
 
+/** The properties of Azure Storage SMB file share endpoint. */
+export interface AzureStorageSmbFileShareEndpointProperties
+  extends EndpointBaseProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "AzureStorageSmbFileShare";
+  /** The Azure Resource ID of the storage account. */
+  storageAccountResourceId: string;
+  /** The name of the Azure Storage file share. */
+  fileShareName: string;
+}
+
+/** The properties of SMB share endpoint. */
+export interface SmbMountEndpointProperties extends EndpointBaseProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "SmbMount";
+  /** The host name or IP address of the server exporting the file system. */
+  host: string;
+  /** The name of the SMB share being exported from the server. */
+  shareName: string;
+  /** The Azure Key Vault secret URIs which store the required credentials to access the SMB share. */
+  credentials?: AzureKeyVaultSmbCredentials;
+}
+
 export interface AzureStorageBlobContainerEndpointUpdateProperties
-  extends EndpointBaseUpdateProperties {}
+  extends EndpointBaseUpdateProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "AzureStorageBlobContainer";
+}
 
 export interface NfsMountEndpointUpdateProperties
-  extends EndpointBaseUpdateProperties {}
+  extends EndpointBaseUpdateProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "NfsMount";
+}
+
+/** The properties of Azure Storage SMB file share endpoint to update. */
+export interface AzureStorageSmbFileShareEndpointUpdateProperties
+  extends EndpointBaseUpdateProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "AzureStorageSmbFileShare";
+}
+
+/** The properties of SMB share endpoint to update. */
+export interface SmbMountEndpointUpdateProperties
+  extends EndpointBaseUpdateProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "SmbMount";
+  /** The Azure Key Vault secret URIs which store the required credentials to access the SMB share. */
+  credentials?: AzureKeyVaultSmbCredentials;
+}
+
+/** The Azure Key Vault secret URIs which store the credentials. */
+export interface AzureKeyVaultSmbCredentials extends Credentials {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureKeyVaultSmb";
+  /** The Azure Key Vault secret URI which stores the username. Use empty string to clean-up existing value. */
+  usernameUri?: string;
+  /** The Azure Key Vault secret URI which stores the password. Use empty string to clean-up existing value. */
+  passwordUri?: string;
+}
 
 /** The Storage Mover resource, which is a container for a group of Agents, Projects, and Endpoints. */
 export interface StorageMover extends TrackedResource {
-  /**
-   * Resource system metadata.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** A description for the Storage Mover. */
   description?: string;
   /**
@@ -364,11 +446,6 @@ export interface StorageMover extends TrackedResource {
 
 /** The Agent resource. */
 export interface Agent extends ProxyResource {
-  /**
-   * Resource system metadata.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** A description for the Agent. */
   description?: string;
   /**
@@ -423,20 +500,10 @@ export interface Agent extends ProxyResource {
 export interface Endpoint extends ProxyResource {
   /** The resource specific properties for the Storage Mover resource. */
   properties: EndpointBasePropertiesUnion;
-  /**
-   * Resource system metadata.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
 }
 
 /** The Project resource. */
 export interface Project extends ProxyResource {
-  /**
-   * Resource system metadata.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** A description for the Project. */
   description?: string;
   /**
@@ -448,11 +515,6 @@ export interface Project extends ProxyResource {
 
 /** The Job Definition resource. */
 export interface JobDefinition extends ProxyResource {
-  /**
-   * Resource system metadata.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** A description for the Job Definition. */
   description?: string;
   /** Strategy to use for copy. */
@@ -506,11 +568,6 @@ export interface JobDefinition extends ProxyResource {
 
 /** The Job Run resource. */
 export interface JobRun extends ProxyResource {
-  /**
-   * Resource system metadata.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /**
    * The state of the job execution.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -763,7 +820,11 @@ export enum KnownEndpointType {
   /** AzureStorageBlobContainer */
   AzureStorageBlobContainer = "AzureStorageBlobContainer",
   /** NfsMount */
-  NfsMount = "NfsMount"
+  NfsMount = "NfsMount",
+  /** AzureStorageSmbFileShare */
+  AzureStorageSmbFileShare = "AzureStorageSmbFileShare",
+  /** SmbMount */
+  SmbMount = "SmbMount"
 }
 
 /**
@@ -772,7 +833,9 @@ export enum KnownEndpointType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AzureStorageBlobContainer** \
- * **NfsMount**
+ * **NfsMount** \
+ * **AzureStorageSmbFileShare** \
+ * **SmbMount**
  */
 export type EndpointType = string;
 
@@ -871,6 +934,21 @@ export enum KnownNfsVersion {
  * **NFSv4**
  */
 export type NfsVersion = string;
+
+/** Known values of {@link CredentialType} that the service accepts. */
+export enum KnownCredentialType {
+  /** AzureKeyVaultSmb */
+  AzureKeyVaultSmb = "AzureKeyVaultSmb"
+}
+
+/**
+ * Defines values for CredentialType. \
+ * {@link KnownCredentialType} can be used interchangeably with CredentialType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureKeyVaultSmb**
+ */
+export type CredentialType = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

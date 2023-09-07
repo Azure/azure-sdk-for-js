@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new Release for the API.
  *
  * @summary Creates a new Release for the API.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateApiRelease.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiRelease.json
  */
 async function apiManagementCreateApiRelease() {
   const subscriptionId =

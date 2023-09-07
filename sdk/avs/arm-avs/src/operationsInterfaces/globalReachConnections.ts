@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   GlobalReachConnection,
   GlobalReachConnectionsListOptionalParams,
@@ -60,8 +60,8 @@ export interface GlobalReachConnections {
     globalReachConnection: GlobalReachConnection,
     options?: GlobalReachConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GlobalReachConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<GlobalReachConnectionsCreateOrUpdateResponse>,
       GlobalReachConnectionsCreateOrUpdateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface GlobalReachConnections {
     privateCloudName: string,
     globalReachConnectionName: string,
     options?: GlobalReachConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a global reach connection in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

@@ -9,11 +9,14 @@ This troubleshooting guide covers the following areas of the Azure Identity clie
 ## Table of contents
 
 - [Handle Azure Identity errors](#handle-azure-identity-errors)
-  - [AuthenticationRequiredError](#authenticationrequirederror)
-  - [CredentialUnavailableError](#credentialunavailableerror)
+  - [AggregateAuthenticationError](#aggregateauthenticationerror) 
   - [AuthenticationError](#authenticationerror)
+  - [AuthenticationRequiredError](#authenticationrequirederror) 
+  - [CredentialUnavailableError](#credentialunavailableerror)
 - [Find relevant information in error messages](#find-relevant-information-in-error-messages)
 - [Enable and configure logging](#enable-and-configure-logging)
+    - [Allow logging identifiers](#allow-logging-identifiers)
+    - [PII Logging](#pii-logging)
 - [Permission issues](#permission-issues)
 - [Troubleshoot default Azure credential authentication issues](#troubleshoot-default-azure-credential-authentication-issues)
 - [Troubleshoot environment credential authentication issues](#troubleshoot-environment-credential-authentication-issues)
@@ -30,6 +33,35 @@ This troubleshooting guide covers the following areas of the Azure Identity clie
 - [Troubleshoot multi-tenant authentication issues](#troubleshoot-multi-tenant-authentication-issues)
 
 ## Handle Azure Identity errors
+
+### AggregateAuthenticationError
+
+An `AggregateAuthenticationError` will be raised by `ChainedTokenCredential` with an `errors` field containing an array of errors from each credential in the chain.
+
+### AuthenticationError
+
+The `AuthenticationError` is used to indicate a failure to authenticate with Azure Active Directory (Azure AD). The `errorResponse` field contains more details about the specific failure.
+
+```ts
+import * from "@azure/identity";
+import * from "@azure/keyvault-secrets";
+
+async function main() {
+  // Create a key client using the DefaultAzureCredential
+  const keyVaultUrl = "https://key-vault-name.vault.azure.net";
+  const credential = new DefaultAzureCredential();
+  const client = new KeyClient(keyVaultUrl, credential);
+
+  try {
+    // Retrieving the properties of the existing keys in that specific Key Vault.
+    console.log(await client.listPropertiesOfKeys().next());
+  } catch (error) {
+    console.log("Azure Active Directory service response with error", error.errorResponse);
+  }
+}
+
+main();
+```
 
 ### AuthenticationRequiredError
 
@@ -62,31 +94,6 @@ main();
 
 The `CredentialUnavailableError` is used to indicate that the credential can't authenticate in the current environment due to lack of required configuration or setup. This error is also used as a signal to chained credential types, such as `DefaultAzureCredential` and `ChainedTokenCredential`, that the chained credential should continue to try other credential types later in the chain. In `ManagedIdentityCredential`, it can also trigger if the authentication endpoint (like the IMDS endpoint) is unavailable.
 
-### AuthenticationError
-
-The `AuthenticationError` is used to indicate a failure to authenticate with Azure Active Directory (Azure AD). The `errorResponse` field contains more details about the specific failure.
-
-```ts
-import * from "@azure/identity";
-import * from "@azure/keyvault-secrets";
-
-async function main() {
-  // Create a key client using the DefaultAzureCredential
-  const keyVaultUrl = "https://key-vault-name.vault.azure.net";
-  const credential = new DefaultAzureCredential();
-  const client = new KeyClient(keyVaultUrl, credential);
-
-  try {
-    // Retrieving the properties of the existing keys in that specific Key Vault.
-    console.log(await client.listPropertiesOfKeys().next());
-  } catch (error) {
-    console.log("Azure Active Directory service response with error", error.errorResponse);
-  }
-}
-
-main();
-```
-
 ## Find relevant information in error messages
 
 `AuthenticationRequiredError` is thrown when unexpected errors occurred while a credential is authenticating. This can include errors received from requests to the Azure AD Security Token Service (STS) and often contains information helpful to diagnosis. Consider the following `AuthenticationRequiredError` message:
@@ -117,6 +124,13 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
+Alternatively, you can set the `AZURE_LOG_LEVEL` environment variable to `info`. You can read this environment variable from the _.env_ file by explicitly specifying a file path:
+
+```ts
+import dotenv from "dotenv";
+dotenv.config({path: ".env"});
+```
+
 Consider a scenario in which you have the following environment variables set up either in your environment or _.env_ file:
 
 - `AZURE_TENANT_ID`
@@ -133,6 +147,44 @@ azure:identity:info EnvironmentCredential => Invoking ClientSecretCredential wit
 These logging statements indicate that the `EnvironmentCredential` is being used for authentication and `ClientSecretCredential` is invoked.
 
 > CAUTION: Requests and responses in the Azure Identity library contain sensitive information. Precaution must be taken to protect logs when customizing the output to avoid compromising account security.
+
+#### Allow logging identifiers
+
+In cases where the authentication code might be running in an environment with more than one credential available, the `@azure/identity` package offers a unique form of logging. On the optional parameters for every credential, developers can set `allowLoggingAccountIdentifiers` to `true` in the `loggingOptions` to log information specific to the authenticated account after each successful authentication, including the Client ID, the Tenant ID, the Object ID of the authenticated user, and, if possible, the User Principal Name.
+
+For example, using the `DefaultAzureCredential`:
+
+```ts
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+
+const credential = new DefaultAzureCredential({
+  loggingOptions: { allowLoggingAccountIdentifiers: true },
+});
+```
+
+Once that credential authenticates, the following message will appear in the logs (with the real information instead of `HIDDEN`):
+
+```
+azure:identity:info [Authenticated account] Client ID: HIDDEN. Tenant ID: HIDDEN. User Principal Name: HIDDEN. Object ID (user): HIDDEN
+```
+
+#### PII logging
+
+In cases where the user's [Personally Identifiable Information](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/PII) needs to be logged for customer support, developers can set `enableUnsafeSupportLogging` to `true` in the `loggingOptions`.
+
+For example, using the `DefaultAzureCredential`:
+
+```ts
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+
+const credential = new DefaultAzureCredential({
+  loggingOptions: { enableUnsafeSupportLogging: true },
+});
+```
 
 ## Permission issues
 

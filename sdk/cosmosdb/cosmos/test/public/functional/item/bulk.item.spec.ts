@@ -10,8 +10,9 @@ import {
   CosmosClient,
   OperationResponse,
   PatchOperationType,
+  CosmosDbDiagnosticLevel,
 } from "../../../../src";
-import { addEntropy, getTestContainer } from "../../common/TestHelpers";
+import { addEntropy, getTestContainer, testForDiagnostics } from "../../common/TestHelpers";
 import { BulkOperationType, OperationInput } from "../../../../src";
 import { generateOperationOfSize } from "../../../internal/unit/utils/batch.spec";
 import {
@@ -21,6 +22,7 @@ import {
 } from "../../../../src/documents";
 import { endpoint } from "../../common/_testConfig";
 import { masterKey } from "../../common/_fakeTestSecrets";
+import { getCurrentTimestampInMs } from "../../../../src/utils/time";
 
 describe("test bulk operations", async function () {
   describe("Check size based splitting of batches", function () {
@@ -31,7 +33,7 @@ describe("test bulk operations", async function () {
           paths: ["/key"],
           version: undefined,
         },
-        throughput: 400,
+        throughput: 5000,
       });
     });
     after(async () => {
@@ -324,7 +326,11 @@ describe("test bulk operations", async function () {
         operations: [],
       };
       async function runBulkTestDataSet(dataset: BulkTestDataSet) {
-        const client = new CosmosClient({ key: masterKey, endpoint });
+        const client = new CosmosClient({
+          key: masterKey,
+          endpoint,
+          diagnosticLevel: CosmosDbDiagnosticLevel.debug,
+        });
         const db = await client.databases.createIfNotExists({ id: dataset.dbName });
         const database = db.database;
         const { container } = await database.containers.createIfNotExists(dataset.containerRequest);
@@ -783,6 +789,7 @@ describe("test bulk operations", async function () {
         readItemId = addEntropy("item1");
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
+          dbName: addEntropy("respects order"),
           documentToCreate: [{ id: readItemId, key: "A", class: "2010" }],
           operations: [
             {
@@ -812,6 +819,7 @@ describe("test bulk operations", async function () {
       it("424 errors for operations after an error", async function () {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
+          dbName: addEntropy("424 errors"),
           documentToCreate: [],
           operations: [
             {
@@ -835,6 +843,7 @@ describe("test bulk operations", async function () {
       it("Continues after errors with continueOnError true", async function () {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
+          dbName: addEntropy("continueOnError"),
           documentToCreate: [],
           bulkOperationOptions: {
             continueOnError: true,
@@ -862,6 +871,7 @@ describe("test bulk operations", async function () {
       it("autogenerates IDs for Create operations", async function () {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
+          dbName: addEntropy("autogenerateIDs"),
           operations: [
             {
               description: "Operation should fail with invalid ttl.",
@@ -882,6 +892,7 @@ describe("test bulk operations", async function () {
         const item3Id = addEntropy("item2");
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
+          dbName: addEntropy("handle special partition keys"),
           documentToCreate: [
             { id: item1Id, key: null, class: "2010" },
             { id: item2Id, key: 0 },
@@ -963,6 +974,86 @@ describe("test bulk operations", async function () {
         const createResponse = await container.items.bulk(operations);
         assert.equal(createResponse[0].statusCode, 201);
       });
+    });
+  });
+  describe("test diagnostics for bulk", async function () {
+    let container: Container;
+    let readItemId: string;
+    let replaceItemId: string;
+    let deleteItemId: string;
+    before(async function () {
+      container = await getTestContainer("bulk container for diagnostics", undefined, {
+        partitionKey: {
+          paths: ["/key"],
+          version: undefined,
+        },
+        throughput: 12000,
+      });
+      readItemId = addEntropy("item1");
+      await container.items.create({
+        id: readItemId,
+        key: "A",
+        class: "2010",
+      });
+      deleteItemId = addEntropy("item2");
+      await container.items.create({
+        id: deleteItemId,
+        key: "A",
+        class: "2010",
+      });
+      replaceItemId = addEntropy("item3");
+      await container.items.create({
+        id: replaceItemId,
+        key: 5,
+        class: "2010",
+      });
+    });
+    after(async () => {
+      await container.database.delete();
+    });
+    it("test diagnostics for bulk", async function () {
+      const operations = [
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: { id: addEntropy("doc1"), name: "sample", key: "A" },
+        },
+        {
+          operationType: BulkOperationType.Upsert,
+          partitionKey: "A",
+          resourceBody: { id: addEntropy("doc2"), name: "other", key: "A" },
+        },
+        {
+          operationType: BulkOperationType.Read,
+          id: readItemId,
+          partitionKey: "A",
+        },
+        {
+          operationType: BulkOperationType.Delete,
+          id: deleteItemId,
+          partitionKey: "A",
+        },
+        {
+          operationType: BulkOperationType.Replace,
+          partitionKey: 5,
+          id: replaceItemId,
+          resourceBody: { id: replaceItemId, name: "nice", key: 5 },
+        },
+      ];
+      const startTimestamp = getCurrentTimestampInMs();
+      await testForDiagnostics(
+        async () => {
+          return container.items.bulk(operations);
+        },
+        {
+          requestStartTimeUTCInMsLowerLimit: startTimestamp,
+          requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+          retryCount: 0,
+          metadataCallCount: 4, // One call for database account + data query call.
+          locationEndpointsContacted: 1,
+          gatewayStatisticsTestSpec: [{}, {}], // Corresponding to two physical partitions
+        },
+        true // bulk operations happen in parallel.
+      );
     });
   });
 });

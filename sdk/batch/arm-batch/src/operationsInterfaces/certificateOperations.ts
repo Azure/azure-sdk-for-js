@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Certificate,
   CertificateListByBatchAccountOptionalParams,
@@ -93,7 +93,7 @@ export interface CertificateOperations {
     accountName: string,
     certificateName: string,
     options?: CertificateDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
    * [Azure KeyVault

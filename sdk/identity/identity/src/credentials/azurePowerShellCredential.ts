@@ -3,7 +3,7 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
+import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils";
 import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
 import {
@@ -146,11 +146,15 @@ export class AzurePowerShellCredential implements TokenCredential {
       const results = await runCommands([
         [
           powerShellCommand,
+          "-NoProfile",
+          "-NonInteractive",
           "-Command",
           "Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru",
         ],
         [
           powerShellCommand,
+          "-NoProfile",
+          "-NonInteractive",
           "-Command",
           `Get-AzAccessToken ${tenantSection} -ResourceUrl "${resource}" | ConvertTo-Json`,
         ],
@@ -185,11 +189,11 @@ export class AzurePowerShellCredential implements TokenCredential {
         this.additionallyAllowedTenantIds
       );
       const scope = typeof scopes === "string" ? scopes : scopes[0];
-      ensureValidScope(scope, logger);
-      logger.getToken.info(`Using the scope ${scope}`);
-      const resource = getScopeResource(scope);
 
       try {
+        ensureValidScopeForDevTimeCreds(scope, logger);
+        logger.getToken.info(`Using the scope ${scope}`);
+        const resource = getScopeResource(scope);
         const response = await this.getAzurePowerShellAccessToken(resource, tenantId, this.timeout);
         logger.getToken.info(formatSuccess(scopes));
         return {

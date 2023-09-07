@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ClusterMetricsConfiguration,
-  MetricsConfigurationsListByResourceGroupOptionalParams,
+  MetricsConfigurationsListByClusterOptionalParams,
   MetricsConfigurationsGetOptionalParams,
   MetricsConfigurationsGetResponse,
   MetricsConfigurationsCreateOrUpdateOptionalParams,
@@ -24,15 +24,15 @@ import {
 /** Interface representing a MetricsConfigurations. */
 export interface MetricsConfigurations {
   /**
-   * Get a list of metrics configurations of the clusters in the provided resource group.
+   * Get a list of metrics configurations for the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
    */
-  listByResourceGroup(
+  listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: MetricsConfigurationsListByResourceGroupOptionalParams
+    options?: MetricsConfigurationsListByClusterOptionalParams
   ): PagedAsyncIterableIterator<ClusterMetricsConfiguration>;
   /**
    * Get metrics configuration of the provided cluster.
@@ -48,7 +48,7 @@ export interface MetricsConfigurations {
     options?: MetricsConfigurationsGetOptionalParams
   ): Promise<MetricsConfigurationsGetResponse>;
   /**
-   * Update the metrics configuration of the provided cluster.
+   * Create new or update the existing metrics configuration of the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param metricsConfigurationName The name of the metrics configuration for the cluster.
@@ -68,7 +68,7 @@ export interface MetricsConfigurations {
     >
   >;
   /**
-   * Update the metrics configuration of the provided cluster.
+   * Create new or update the existing metrics configuration of the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param metricsConfigurationName The name of the metrics configuration for the cluster.

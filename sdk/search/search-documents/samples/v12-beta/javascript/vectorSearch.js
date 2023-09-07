@@ -14,7 +14,7 @@ const {
 const { createIndex, WAIT_TIME, delay } = require("./setup");
 
 const dotenv = require("dotenv");
-const { fancyStayVector, luxuryQueryVector } = require("./vectors");
+const { fancyStayEnVector, fancyStayFrVector, luxuryQueryVector } = require("./vectors");
 dotenv.config();
 
 /**
@@ -61,7 +61,9 @@ async function main() {
           longitude: -122.131577,
           latitude: 47.678581,
         }),
-        descriptionVector: fancyStayVector,
+        // Embeddings of the description text above
+        descriptionVectorEn: fancyStayEnVector,
+        descriptionVectorFr: fancyStayFrVector,
       },
     ]);
 
@@ -74,11 +76,20 @@ async function main() {
     await delay(WAIT_TIME);
 
     const searchResults = await searchClient.search("*", {
-      vector: {
-        fields: ["descriptionVector"],
-        kNearestNeighborsCount: 3,
-        value: luxuryQueryVector,
-      },
+      vectors: [
+        {
+          fields: ["descriptionVectorEn"],
+          kNearestNeighborsCount: 3,
+          // An embedding of the query "What are the most luxurious hotels?"
+          value: luxuryQueryVector,
+        },
+        // Multi-vector search is supported
+        {
+          fields: ["descriptionVectorFr"],
+          kNearestNeighborsCount: 3,
+          value: luxuryQueryVector,
+        },
+      ],
     });
 
     for await (const result of searchResults.results) {

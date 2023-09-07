@@ -11,6 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   LinkConnectionOperationsImpl,
+  RunNotebookImpl,
   KqlScriptsImpl,
   KqlScriptOperationsImpl,
   MetastoreImpl,
@@ -36,6 +37,7 @@ import {
 } from "./operations";
 import {
   LinkConnectionOperations,
+  RunNotebook,
   KqlScripts,
   KqlScriptOperations,
   Metastore,
@@ -145,6 +147,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     // Parameter assignments
     this.endpoint = endpoint;
     this.linkConnectionOperations = new LinkConnectionOperationsImpl(this);
+    this.runNotebook = new RunNotebookImpl(this);
     this.kqlScripts = new KqlScriptsImpl(this);
     this.kqlScriptOperations = new KqlScriptOperationsImpl(this);
     this.metastore = new MetastoreImpl(this);
@@ -174,6 +177,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
   }
 
   linkConnectionOperations: LinkConnectionOperations;
+  runNotebook: RunNotebook;
   kqlScripts: KqlScripts;
   kqlScriptOperations: KqlScriptOperations;
   metastore: Metastore;

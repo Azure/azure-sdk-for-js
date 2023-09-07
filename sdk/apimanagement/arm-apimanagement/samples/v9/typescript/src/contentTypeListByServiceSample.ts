@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the developer portal's content types. Content types describe content items' properties, validation rules, and constraints.
  *
  * @summary Lists the developer portal's content types. Content types describe content items' properties, validation rules, and constraints.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListContentTypes.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListContentTypes.json
  */
 async function apiManagementListContentTypes() {
   const subscriptionId =

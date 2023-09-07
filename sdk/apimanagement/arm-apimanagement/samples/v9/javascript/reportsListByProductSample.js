@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists report records by Product.
  *
  * @summary Lists report records by Product.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetReportsByProduct.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetReportsByProduct.json
  */
 async function apiManagementGetReportsByProduct() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

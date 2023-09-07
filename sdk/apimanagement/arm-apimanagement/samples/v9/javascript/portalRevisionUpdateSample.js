@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates the description of specified portal revision or makes it current.
  *
  * @summary Updates the description of specified portal revision or makes it current.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementUpdatePortalRevision.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdatePortalRevision.json
  */
 async function apiManagementUpdatePortalRevision() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

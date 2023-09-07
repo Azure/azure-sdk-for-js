@@ -14,7 +14,6 @@ import {
   OperationSummary,
   OperationDetails,
   DocumentClassifierDetails,
-  ClassifierDocumentTypeDetails,
 } from "./generated";
 import { accept1 } from "./generated/models/parameters";
 import {
@@ -48,6 +47,11 @@ import {
 } from "./options/BuildModelOptions";
 import { Mappers, SERIALIZER, makeServiceClient } from "./util";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import {
+  DocumentModelSource,
+  DocumentClassifierDocumentTypeSources,
+  AzureBlobSource,
+} from "./models";
 
 /**
  * A client for interacting with the Form Recognizer service's model management features, such as creating, reading,
@@ -202,8 +206,69 @@ export class DocumentModelAdministrationClient {
     modelId: string,
     containerUrl: string,
     buildMode: DocumentModelBuildMode,
+    options?: BeginBuildDocumentModelOptions
+  ): Promise<DocumentModelPoller>;
+
+  /**
+   * Build a new model with a given ID from a model content source.
+   *
+   * The Model ID can consist of any text, so long as it does not begin with "prebuilt-" (as these models refer to
+   * prebuilt Form Recognizer models that are common to all resources), and so long as it does not already exist within
+   * the resource.
+   *
+   * The content source describes the mechanism the service will use to read the input training data. See the
+   * {@link DocumentModelContentSource} type for more information.
+   *
+   * ### Example
+   *
+   * ```javascript
+   * const modelId = "aNewModel";
+   *
+   * const poller = await client.beginBuildDocumentModel(modelId, { containerUrl: "<SAS-encoded blob container URL>" }, {
+   *   // Optionally, a text description may be attached to the model
+   *   description: "This is an example model!"
+   * });
+   *
+   * // Model building, like all other model creation operations, returns a poller that eventually produces a ModelDetails
+   * // object
+   * const modelDetails = await poller.pollUntilDone();
+   *
+   * const {
+   *   modelId, // identical to the modelId given when creating the model
+   *   description, // identical to the description given when creating the model
+   *   createdOn, // the Date (timestamp) that the model was created
+   *   docTypes // information about the document types in the model and their field schemas
+   * } = modelDetails;
+   * ```
+   *
+   * @param modelId - the unique ID of the model to create
+   * @param contentSource - a content source that provides the training data for this model
+   * @param buildMode - the mode to use when building the model (see `DocumentModelBuildMode`)
+   * @param options - optional settings for the model build operation
+   * @returns a long-running operation (poller) that will eventually produce the created model information or an error
+   */
+  public async beginBuildDocumentModel(
+    modelId: string,
+    contentSource: DocumentModelSource,
+    buildMode: DocumentModelBuildMode,
+    options?: BeginBuildDocumentModelOptions
+  ): Promise<DocumentModelPoller>;
+
+  public async beginBuildDocumentModel(
+    modelId: string,
+    urlOrSource: string | DocumentModelSource,
+    buildMode: DocumentModelBuildMode,
     options: BeginBuildDocumentModelOptions = {}
   ): Promise<DocumentModelPoller> {
+    const sourceInfo =
+      typeof urlOrSource === "string"
+        ? ({
+            azureBlobSource: {
+              containerUrl: urlOrSource,
+            },
+          } as AzureBlobSource)
+        : urlOrSource;
+
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginBuildDocumentModel",
       options,
@@ -215,9 +280,7 @@ export class DocumentModelAdministrationClient {
               {
                 modelId,
                 description: finalOptions.description,
-                azureBlobSource: {
-                  containerUrl,
-                },
+                ...sourceInfo,
                 buildMode,
               },
               {
@@ -454,13 +517,14 @@ export class DocumentModelAdministrationClient {
    * ```
    *
    * @param classifierId - the unique ID of the classifier to create
-   * @param docTypes - the document types to include in the classifier (a map of document type names to `ClassifierDocumentTypeDetails`)
+   * @param docTypeSources - the document types to include in the classifier and their sources (a map of document type
+   *                         names to `ClassifierDocumentTypeDetails`)
    * @param options - optional settings for the classifier build operation
    * @returns a long-running operation (poller) that will eventually produce the created classifier details or an error
    */
   public async beginBuildDocumentClassifier(
     classifierId: string,
-    docTypes: { [docType: string]: ClassifierDocumentTypeDetails },
+    docTypeSources: DocumentClassifierDocumentTypeSources,
     options: BeginBuildDocumentClassifierOptions = {}
   ): Promise<DocumentClassifierPoller> {
     return this._tracing.withSpan(
@@ -474,7 +538,7 @@ export class DocumentModelAdministrationClient {
               {
                 classifierId,
                 description: finalOptions.description,
-                docTypes,
+                docTypes: docTypeSources,
               },
               finalOptions
             ),

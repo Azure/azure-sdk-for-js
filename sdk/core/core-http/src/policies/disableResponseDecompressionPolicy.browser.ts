@@ -13,9 +13,7 @@ import {
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
 
-const DisbleResponseDecompressionNotSupportedInBrowser = new Error(
-  "DisableResponseDecompressionPolicy is not supported in browser environment"
-);
+const errorMessage = "DisableResponseDecompressionPolicy is not supported in browser environment";
 
 /**
  * {@link DisableResponseDecompressionPolicy} is not supported in browser and attempting
@@ -24,7 +22,7 @@ const DisbleResponseDecompressionNotSupportedInBrowser = new Error(
 export function disableResponseDecompressionPolicy(): RequestPolicyFactory {
   return {
     create: (_nextPolicy: RequestPolicy, _options: RequestPolicyOptions) => {
-      throw DisbleResponseDecompressionNotSupportedInBrowser;
+      throw new Error(errorMessage);
     },
   };
 }
@@ -32,10 +30,10 @@ export function disableResponseDecompressionPolicy(): RequestPolicyFactory {
 export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
     super(nextPolicy, options);
-    throw DisbleResponseDecompressionNotSupportedInBrowser;
+    throw new Error(errorMessage);
   }
 
   public async sendRequest(_request: WebResource): Promise<HttpOperationResponse> {
-    throw DisbleResponseDecompressionNotSupportedInBrowser;
+    throw new Error(errorMessage);
   }
 }

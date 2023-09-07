@@ -1,5 +1,26 @@
 # Release History
 
+## 12.0.0-beta.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 12.0.0-beta.3 (2023-08-10)
+
+### Features Added
+
+- Add multi-vector search. [#26765](https://github.com/Azure/azure-sdk-for-js/pull/26765)
+
+### Breaking Changes
+
+- Change vector option `SearchOptions.vector` to array of vectors option 
+`SearchOptions.vectors`. [#26765](https://github.com/Azure/azure-sdk-for-js/pull/26765)
+
 ## 12.0.0-beta.2 (2023-07-11)
 
 ### Features Added

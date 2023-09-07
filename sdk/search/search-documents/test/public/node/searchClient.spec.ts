@@ -524,7 +524,35 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         const embedding = embeddings.data[0].embedding;
 
         const searchResults = await searchClient.search("*", {
-          vector: { value: embedding, kNearestNeighborsCount: 3, fields: ["vectorDescription"] },
+          vectors: [{ value: embedding, kNearestNeighborsCount: 3, fields: ["vectorDescription"] }],
+          top: 3,
+          select: ["hotelId"],
+        });
+
+        const resultIds = [];
+        for await (const result of searchResults.results) {
+          resultIds.push(result.document.hotelId);
+        }
+        assert.deepEqual(["1", "3", "4"], resultIds);
+      });
+
+      it("multi-vector search", async function () {
+        // This live test is disabled due to temporary limitations with the new OpenAI service
+        if (isLiveMode()) {
+          this.skip();
+        }
+        const embeddings = await openAIClient.getEmbeddings(
+          env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
+          ["What are the most luxurious hotels?"]
+        );
+
+        const embedding = embeddings.data[0].embedding;
+
+        const searchResults = await searchClient.search("*", {
+          vectors: [
+            { value: embedding, kNearestNeighborsCount: 3, fields: ["vectorDescription"] },
+            { value: embedding, kNearestNeighborsCount: 3, fields: ["vectorDescription"] },
+          ],
           top: 3,
           select: ["hotelId"],
         });

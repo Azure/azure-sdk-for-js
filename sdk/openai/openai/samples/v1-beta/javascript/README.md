@@ -13,13 +13,17 @@ urlFragment: openai-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure OpenAI in some common scenarios.
 
-| **File Name**                                 | **Description**                       |
-| --------------------------------------------- | ------------------------------------- |
-| [chatCompletions.js][chatcompletions]         | get chat completions.                 |
-| [completions.js][completions]                 | get completions.                      |
-| [listChatCompletions.js][listchatcompletions] | list chat completions.                |
-| [listCompletions.js][listcompletions]         | list completions.                     |
-| [openAi.js][openai]                           | get completions using the OpenAI API. |
+| **File Name**                                 | **Description**                                                          |
+| --------------------------------------------- | ------------------------------------------------------------------------ |
+| [bringYourOwnData.js][bringyourowndata]       | chat completions with your own data.                                     |
+| [chatCompletions.js][chatcompletions]         | get chat completions.                                                    |
+| [completions.js][completions]                 | get completions.                                                         |
+| [functions.js][functions]                     | get chat completions with functions.                                     |
+| [getImages.js][getimages]                     | generates images from prompts using Azure OpenAI Batch Image Generation. |
+| [listChatCompletions.js][listchatcompletions] | list chat completions.                                                   |
+| [listCompletions.js][listcompletions]         | list completions.                                                        |
+| [readableStream.js][readablestream]           | stream chat completions.                                                 |
+| [openAi.js][openai]                           | get completions using the OpenAI API.                                    |
 
 ## Prerequisites
 
@@ -48,25 +52,29 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node chatCompletions.js
+node bringYourOwnData.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" AZURE_API_KEY="<azure api key>" node chatCompletions.js
+npx cross-env ENDPOINT="<endpoint>" AZURE_API_KEY="<azure api key>" AZURE_SEARCH_ENDPOINT="<azure search endpoint>" AZURE_SEARCH_KEY="<azure search key>" AZURE_SEARCH_INDEX="<azure search index>" node bringYourOwnData.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[bringyourowndata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/bringYourOwnData.js
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/chatCompletions.js
 [completions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/completions.js
+[functions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/functions.js
+[getimages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/getImages.js
 [listchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/listChatCompletions.js
 [listcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/listCompletions.js
+[readablestream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/readableStream.js
 [openai]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/openAi.js
-[apiref]: https://learn.microsoft.com/azure/cognitive-services/openai/
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/openai
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/README.md

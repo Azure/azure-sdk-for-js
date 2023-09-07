@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { TokenCredential } from "@azure/core-auth";
 import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
 import { newPipeline } from "../../../storage-blob/src/Pipeline";
+import { ShareClientConfig } from "../../src/models";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
-import { configureStorageClient } from "./testutils.common";
+import { configureStorageClient, SimpleTokenCredential } from "./testutils.common";
 import { env, Recorder } from "@azure-tools/test-recorder";
 
 export * from "./testutils.common";
@@ -12,7 +14,8 @@ export * from "./testutils.common";
 export function getGenericBSU(
   recorder: Recorder,
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
+  config?: ShareClientConfig
 ): ShareServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
@@ -33,13 +36,45 @@ export function getGenericBSU(
   const credentials = new AnonymousCredential();
   const pipeline = newPipeline(credentials);
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net${accountSAS}`;
-  const client = new ShareServiceClient(filePrimaryURL, pipeline);
+  const client = new ShareServiceClient(filePrimaryURL, pipeline, config);
   configureStorageClient(recorder, client);
   return client;
 }
 
-export function getBSU(recorder: Recorder): ShareServiceClient {
-  return getGenericBSU(recorder, "");
+export function getTokenCredential(): TokenCredential {
+  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
+  const accountToken = env[accountTokenEnvVar];
+
+  if (!accountToken || accountToken === "") {
+    throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
+  }
+
+  return new SimpleTokenCredential(accountToken);
+}
+
+export function getTokenBSU(
+  recorder: Recorder,
+  accountType: string = "",
+  accountNameSuffix: string = "",
+  shareClientConfig?: ShareClientConfig
+): ShareServiceClient {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+
+  const accountName = env[accountNameEnvVar];
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  const credential = getTokenCredential();
+  const pipeline = newPipeline(credential);
+  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
+  const client = new ShareServiceClient(blobPrimaryURL, pipeline, shareClientConfig);
+  configureStorageClient(recorder, client);
+  return client;
+}
+
+export function getBSU(recorder: Recorder, config?: ShareClientConfig): ShareServiceClient {
+  return getGenericBSU(recorder, "", "", config);
 }
 
 export function getAlternateBSU(recorder: Recorder): ShareServiceClient {

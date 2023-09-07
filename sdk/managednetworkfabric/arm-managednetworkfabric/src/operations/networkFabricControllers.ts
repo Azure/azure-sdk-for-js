@@ -35,10 +35,7 @@ import {
   NetworkFabricControllersUpdateOptionalParams,
   NetworkFabricControllersUpdateResponse,
   NetworkFabricControllersDeleteOptionalParams,
-  NetworkFabricControllersEnableWorkloadManagementNetworkOptionalParams,
-  NetworkFabricControllersEnableWorkloadManagementNetworkResponse,
-  NetworkFabricControllersDisableWorkloadManagementNetworkOptionalParams,
-  NetworkFabricControllersDisableWorkloadManagementNetworkResponse,
+  NetworkFabricControllersDeleteResponse,
   NetworkFabricControllersListByResourceGroupNextResponse,
   NetworkFabricControllersListBySubscriptionNextResponse
 } from "../models";
@@ -182,7 +179,7 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
   /**
    * Creates a Network Fabric Controller.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the Network Fabric Controller
+   * @param networkFabricControllerName Name of the Network Fabric Controller.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -256,7 +253,7 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
   /**
    * Creates a Network Fabric Controller.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the Network Fabric Controller
+   * @param networkFabricControllerName Name of the Network Fabric Controller.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -278,7 +275,7 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
   /**
    * Shows the provisioning status of Network Fabric Controller.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the Network Fabric Controller
+   * @param networkFabricControllerName Name of the Network Fabric Controller.
    * @param options The options parameters.
    */
   get(
@@ -295,7 +292,7 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
   /**
    * Updates are currently not supported for the Network Fabric Controller resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the Network Fabric Controller
+   * @param networkFabricControllerName Name of the Network Fabric Controller.
    * @param body Network Fabric Controller properties to update.
    * @param options The options parameters.
    */
@@ -369,7 +366,7 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
   /**
    * Updates are currently not supported for the Network Fabric Controller resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the Network Fabric Controller
+   * @param networkFabricControllerName Name of the Network Fabric Controller.
    * @param body Network Fabric Controller properties to update.
    * @param options The options parameters.
    */
@@ -391,18 +388,23 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
   /**
    * Deletes the Network Fabric Controller resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the Network Fabric Controller
+   * @param networkFabricControllerName Name of the Network Fabric Controller.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     networkFabricControllerName: string,
     options?: NetworkFabricControllersDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkFabricControllersDeleteResponse>,
+      NetworkFabricControllersDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<NetworkFabricControllersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -443,7 +445,10 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
       args: { resourceGroupName, networkFabricControllerName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      NetworkFabricControllersDeleteResponse,
+      OperationState<NetworkFabricControllersDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -455,14 +460,14 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
   /**
    * Deletes the Network Fabric Controller resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the Network Fabric Controller
+   * @param networkFabricControllerName Name of the Network Fabric Controller.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkFabricControllerName: string,
     options?: NetworkFabricControllersDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<NetworkFabricControllersDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkFabricControllerName,
@@ -497,196 +502,6 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
       { options },
       listBySubscriptionOperationSpec
     );
-  }
-
-  /**
-   * Enables the workloadManagementNetwork (Tenant Network).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the networkFabricController.
-   * @param options The options parameters.
-   */
-  async beginEnableWorkloadManagementNetwork(
-    resourceGroupName: string,
-    networkFabricControllerName: string,
-    options?: NetworkFabricControllersEnableWorkloadManagementNetworkOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<
-        NetworkFabricControllersEnableWorkloadManagementNetworkResponse
-      >,
-      NetworkFabricControllersEnableWorkloadManagementNetworkResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<NetworkFabricControllersEnableWorkloadManagementNetworkResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, networkFabricControllerName, options },
-      spec: enableWorkloadManagementNetworkOperationSpec
-    });
-    const poller = await createHttpPoller<
-      NetworkFabricControllersEnableWorkloadManagementNetworkResponse,
-      OperationState<
-        NetworkFabricControllersEnableWorkloadManagementNetworkResponse
-      >
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Enables the workloadManagementNetwork (Tenant Network).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the networkFabricController.
-   * @param options The options parameters.
-   */
-  async beginEnableWorkloadManagementNetworkAndWait(
-    resourceGroupName: string,
-    networkFabricControllerName: string,
-    options?: NetworkFabricControllersEnableWorkloadManagementNetworkOptionalParams
-  ): Promise<NetworkFabricControllersEnableWorkloadManagementNetworkResponse> {
-    const poller = await this.beginEnableWorkloadManagementNetwork(
-      resourceGroupName,
-      networkFabricControllerName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Disables the workloadManagementNetwork (Tenant Network).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the networkFabricController.
-   * @param options The options parameters.
-   */
-  async beginDisableWorkloadManagementNetwork(
-    resourceGroupName: string,
-    networkFabricControllerName: string,
-    options?: NetworkFabricControllersDisableWorkloadManagementNetworkOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<
-        NetworkFabricControllersDisableWorkloadManagementNetworkResponse
-      >,
-      NetworkFabricControllersDisableWorkloadManagementNetworkResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<NetworkFabricControllersDisableWorkloadManagementNetworkResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, networkFabricControllerName, options },
-      spec: disableWorkloadManagementNetworkOperationSpec
-    });
-    const poller = await createHttpPoller<
-      NetworkFabricControllersDisableWorkloadManagementNetworkResponse,
-      OperationState<
-        NetworkFabricControllersDisableWorkloadManagementNetworkResponse
-      >
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Disables the workloadManagementNetwork (Tenant Network).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the networkFabricController.
-   * @param options The options parameters.
-   */
-  async beginDisableWorkloadManagementNetworkAndWait(
-    resourceGroupName: string,
-    networkFabricControllerName: string,
-    options?: NetworkFabricControllersDisableWorkloadManagementNetworkOptionalParams
-  ): Promise<NetworkFabricControllersDisableWorkloadManagementNetworkResponse> {
-    const poller = await this.beginDisableWorkloadManagementNetwork(
-      resourceGroupName,
-      networkFabricControllerName,
-      options
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -745,7 +560,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body24,
+  requestBody: Parameters.body30,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -800,7 +615,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body25,
+  requestBody: Parameters.body31,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -817,10 +632,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/{networkFabricControllerName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.NetworkFabricControllersDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.NetworkFabricControllersDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.NetworkFabricControllersDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.NetworkFabricControllersDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -870,76 +693,6 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const enableWorkloadManagementNetworkOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/{networkFabricControllerName}/enableWorkloadManagementNetwork",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper:
-        Mappers.NetworkFabricControllersEnableWorkloadManagementNetworkHeaders
-    },
-    201: {
-      headersMapper:
-        Mappers.NetworkFabricControllersEnableWorkloadManagementNetworkHeaders
-    },
-    202: {
-      headersMapper:
-        Mappers.NetworkFabricControllersEnableWorkloadManagementNetworkHeaders
-    },
-    204: {
-      headersMapper:
-        Mappers.NetworkFabricControllersEnableWorkloadManagementNetworkHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkFabricControllerName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const disableWorkloadManagementNetworkOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/{networkFabricControllerName}/disableWorkloadManagementNetwork",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper:
-        Mappers.NetworkFabricControllersDisableWorkloadManagementNetworkHeaders
-    },
-    201: {
-      headersMapper:
-        Mappers.NetworkFabricControllersDisableWorkloadManagementNetworkHeaders
-    },
-    202: {
-      headersMapper:
-        Mappers.NetworkFabricControllersDisableWorkloadManagementNetworkHeaders
-    },
-    204: {
-      headersMapper:
-        Mappers.NetworkFabricControllersDisableWorkloadManagementNetworkHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkFabricControllerName
-  ],
   headerParameters: [Parameters.accept],
   serializer
 };

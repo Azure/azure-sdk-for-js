@@ -22,14 +22,22 @@ describe("Classes", () => {
 
   beforeEach(() => {
     project = new Project({ useInMemoryFileSystem: true });
-    originalFile = project.createSourceFile("original.ts", "");
-    customFile = project.createSourceFile("custom.ts", "");
-    originalClass = originalFile.addClass({
-      name: "MyClass",
-    });
-    customClass = customFile.addClass({
-      name: "MyClass",
-    });
+
+    originalFile = project.createSourceFile("original.ts", `
+/**
+ * Original docs
+ */
+class MyClass {}
+`);
+    customFile = project.createSourceFile("custom.ts", `
+/**
+ * Custom docs
+ */
+class MyClass {}
+`)
+
+    originalClass = originalFile.getClassOrThrow("MyClass");
+    customClass = customFile.getClassOrThrow("MyClass");
   });
 
   afterEach(() => {
@@ -146,6 +154,7 @@ describe("Classes", () => {
       originalMethod = originalClass!.addMethod({
         name: "myMethod",
         returnType: "number",
+        docs: ["Original docs"],
         statements: ["console.log('original');", "return 1;"],
       });
 
@@ -153,6 +162,7 @@ describe("Classes", () => {
       customMethod = customClass.addMethod({
         name: "myMethod",
         returnType: "number",
+        docs: ["Customized docs"],
         statements: [
           "const originalNumber = this.___.myMethod();",
           "console.log('custom')",
@@ -173,8 +183,16 @@ describe("Classes", () => {
         ?.getBody()
         ?.getText();
 
+      const methodDocs = originalFile.getClass("MyClass")
+        ?.getMethod("myMethod")
+        ?.getJsDocs()
+        ?.map(x => x.getDescription());
+
       expect(methodBody).to.contain("return originalNumber;");
       expect(methodBody).to.not.contain("return 1;");
+
+      expect(methodDocs).to.have.lengthOf(1);
+      expect(methodDocs?.[0]).to.equal("Customized docs");
 
       expect(privateMethodBody).to.not.contain("return originalNumber;");
       expect(privateMethodBody).to.contain("return 1;");
@@ -184,7 +202,6 @@ describe("Classes", () => {
   });
 
   describe("augmentConstructor", () => {
-    let originalConstructor: ConstructorDeclaration | undefined;
     let customConstructor: ConstructorDeclaration | undefined;
 
     beforeEach(() => {
@@ -203,19 +220,19 @@ describe("Classes", () => {
       customConstructor = customClass.addConstructor({
         parameters: [{ name: "foo", type: "string" }],
       });
-      augmentConstructor(customConstructor, originalConstructor, originalClass!);
+      augmentConstructor(customConstructor, originalClass!);
 
       expect(originalFile.getClass("MyClass")?.getConstructors().length).to.equal(1);
     });
 
     it("should replace the original constructor with the custom constructor", () => {
-      originalConstructor = originalClass?.addConstructor({
+      originalClass?.addConstructor({
         parameters: [{ name: "bar", type: "never" }],
       });
       customConstructor = customClass.addConstructor({
         parameters: [{ name: "foo", type: "string" }],
       });
-      augmentConstructor(customConstructor, originalConstructor, originalClass!);
+      augmentConstructor(customConstructor, originalClass!);
 
       expect(originalFile.getClass("MyClass")?.getConstructors().length).to.equal(1);
       expect(originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("foo")).to.not.be
@@ -225,11 +242,12 @@ describe("Classes", () => {
     });
 
     it("should augment constructor with original constructor", () => {
-      originalConstructor = originalClass?.addConstructor({
+      originalClass?.addConstructor({
         parameters: [
           { name: "baseUrl", type: "string" },
           { name: "config", type: "Record<string, unknown>" },
         ],
+        docs: ["Original docs"],
         statements: ["console.log('original');", "console.log(baseUrl);", "console.log(config);"],
       });
       customConstructor = customClass.addConstructor({
@@ -237,6 +255,7 @@ describe("Classes", () => {
           { name: "endpoint", type: "string" },
           { name: "options", type: "Record<string, unknown>" },
         ],
+        docs: ["Customized docs"],
         statements: [
           "console.log(endpoint);",
           "console.log(options);",
@@ -249,13 +268,14 @@ describe("Classes", () => {
         ],
       });
 
-      augmentConstructor(customConstructor, originalConstructor, originalClass!);
+      augmentConstructor(customConstructor, originalClass!);
 
       expect(originalFile.getClass("MyClass")?.getConstructors().length).to.equal(1);
+      expect(originalFile.getClass("MyClass")?.getConstructors()[0].getJsDocs().length).to.equal(1);
+      expect(originalFile.getClass("MyClass")?.getConstructors()[0].getJsDocs()[0].getDescription()).to.equal("Customized docs");
       expect(originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("endpoint")).to.not
         .be.undefined;
       expect(originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("baseUrl")).to.be
-        .undefined;
       expect(originalFile.getClass("MyClass")?.getConstructors()[0].getText()).to.include(
         "console.log('custom');"
       );

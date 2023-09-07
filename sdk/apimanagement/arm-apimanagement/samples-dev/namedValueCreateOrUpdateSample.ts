@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates named value.
  *
  * @summary Creates or updates named value.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateNamedValue.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateNamedValue.json
  */
 async function apiManagementCreateNamedValue() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function apiManagementCreateNamedValue() {
  * This sample demonstrates how to Creates or updates named value.
  *
  * @summary Creates or updates named value.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateNamedValueWithKeyVault.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateNamedValueWithKeyVault.json
  */
 async function apiManagementCreateNamedValueWithKeyVault() {
   const subscriptionId =

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update tenant access information details.
  *
  * @summary Update tenant access information details.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateTenantAccess.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateTenantAccess.json
  */
 async function apiManagementCreateTenantAccess() {
   const subscriptionId =

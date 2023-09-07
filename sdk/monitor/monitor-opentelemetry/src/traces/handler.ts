@@ -7,15 +7,8 @@ import {
   ApplicationInsightsSampler,
   AzureMonitorTraceExporter,
 } from "@azure/monitor-opentelemetry-exporter";
-import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { NodeTracerProvider, NodeTracerConfig } from "@opentelemetry/sdk-trace-node";
-import {
-  BatchSpanProcessor,
-  BufferConfig,
-  SpanProcessor,
-  Tracer,
-} from "@opentelemetry/sdk-trace-base";
-import { Instrumentation } from "@opentelemetry/instrumentation";
+import { BatchSpanProcessor, BufferConfig } from "@opentelemetry/sdk-trace-base";
 import {
   HttpInstrumentation,
   HttpInstrumentationConfig,
@@ -27,11 +20,13 @@ import { PgInstrumentation } from "@opentelemetry/instrumentation-pg";
 import { RedisInstrumentation } from "@opentelemetry/instrumentation-redis";
 import { RedisInstrumentation as Redis4Instrumentation } from "@opentelemetry/instrumentation-redis-4";
 
-import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
+import { InternalConfig } from "../shared/config";
 import { MetricHandler } from "../metrics/handler";
 import { ignoreOutgoingRequestHook } from "../utils/common";
 import { AzureMonitorSpanProcessor } from "./spanProcessor";
 import { AzureFunctionsHook } from "./azureFnHook";
+import { metrics } from "@opentelemetry/api";
+import { Instrumentation } from "@opentelemetry/instrumentation";
 
 /**
  * Azure Monitor OpenTelemetry Trace Handler
@@ -39,18 +34,9 @@ import { AzureFunctionsHook } from "./azureFnHook";
 export class TraceHandler {
   private _spanProcessor: BatchSpanProcessor;
   private _tracerProvider: NodeTracerProvider;
-  private _tracer: Tracer;
   private _azureExporter: AzureMonitorTraceExporter;
-  private _otlpExporter?: OTLPTraceExporter;
   private _instrumentations: Instrumentation[];
-  private _httpInstrumentation?: Instrumentation;
-  private _azureSdkInstrumentation?: Instrumentation;
-  private _mongoDbInstrumentation?: Instrumentation;
-  private _mySqlInstrumentation?: Instrumentation;
-  private _postgressInstrumentation?: Instrumentation;
-  private _redisInstrumentation?: Instrumentation;
-  private _redis4Instrumentation?: Instrumentation;
-  private _config: AzureMonitorOpenTelemetryConfig;
+  private _config: InternalConfig;
   private _metricHandler: MetricHandler;
   private _azureFunctionsHook: AzureFunctionsHook;
 
@@ -59,7 +45,7 @@ export class TraceHandler {
    * @param _config - Configuration.
    * @param _metricHandler - MetricHandler.
    */
-  constructor(config: AzureMonitorOpenTelemetryConfig, metricHandler: MetricHandler) {
+  constructor(config: InternalConfig, metricHandler: MetricHandler) {
     this._config = config;
     this._metricHandler = metricHandler;
     this._instrumentations = [];
@@ -79,33 +65,11 @@ export class TraceHandler {
     };
     this._spanProcessor = new BatchSpanProcessor(this._azureExporter, bufferConfig);
     this._tracerProvider.addSpanProcessor(this._spanProcessor);
-
-    if (this._config.otlpTraceExporterConfig?.enabled) {
-      this._otlpExporter = new OTLPTraceExporter(config.otlpTraceExporterConfig);
-      let otlpSpanProcessor = new BatchSpanProcessor(this._otlpExporter, bufferConfig);
-      this._tracerProvider.addSpanProcessor(otlpSpanProcessor);
-    }
-
     this._tracerProvider.register();
-    this._tracer = this._tracerProvider.getTracer("AzureMonitorTracer");
     const azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
     this._tracerProvider.addSpanProcessor(azureSpanProcessor);
     this._azureFunctionsHook = new AzureFunctionsHook();
     this._initializeInstrumentations();
-  }
-
-  /**
-   *Get OpenTelemetry TracerProvider
-   */
-  public getTracerProvider(): NodeTracerProvider {
-    return this._tracerProvider;
-  }
-
-  /**
-   *Get OpenTelemetry Tracer
-   */
-  public getTracer(): Tracer {
-    return this._tracer;
   }
 
   /**
@@ -124,22 +88,6 @@ export class TraceHandler {
   }
 
   /**
-   * Add OpenTelemetry Span Processor
-   */
-  public addSpanProcessor(spanProcessor: SpanProcessor) {
-    this._tracerProvider.addSpanProcessor(spanProcessor);
-  }
-
-  /**
-   * Add OpenTelemetry Instrumentation, should be called before calling start
-   */
-  public addInstrumentation(instrumentation?: Instrumentation) {
-    if (instrumentation) {
-      this._instrumentations.push(instrumentation);
-    }
-  }
-
-  /**
    * Disable all OpenTelemetry Instrumentations
    */
   public disableInstrumentations() {
@@ -152,7 +100,7 @@ export class TraceHandler {
    * Start auto collection of telemetry
    */
   private _initializeInstrumentations() {
-    if (!this._httpInstrumentation) {
+    if (this._config.instrumentationOptions.http?.enabled) {
       const httpinstrumentationOptions = this._config.instrumentationOptions
         .http as HttpInstrumentationConfig;
       const providedIgnoreOutgoingRequestHook =
@@ -171,48 +119,43 @@ export class TraceHandler {
         return result;
       };
       httpinstrumentationOptions.ignoreOutgoingRequestHook = mergedIgnoreOutgoingRequestHook;
-      this._httpInstrumentation = new HttpInstrumentation(this._config.instrumentationOptions.http);
-      this.addInstrumentation(this._httpInstrumentation);
-    }
-    if (!this._azureSdkInstrumentation) {
-      this._azureSdkInstrumentation = createAzureSdkInstrumentation(
-        this._config.instrumentationOptions.azureSdk
-      ) as any;
-      this.addInstrumentation(this._azureSdkInstrumentation);
-    }
-    if (!this._mongoDbInstrumentation) {
-      this._mongoDbInstrumentation = new MongoDBInstrumentation(
-        this._config.instrumentationOptions.mongoDb
+      this._instrumentations.push(
+        new HttpInstrumentation(this._config.instrumentationOptions.http)
       );
-      this.addInstrumentation(this._mongoDbInstrumentation);
     }
-    if (!this._mySqlInstrumentation) {
-      this._mySqlInstrumentation = new MySQLInstrumentation(
-        this._config.instrumentationOptions.mySql
+    if (this._config.instrumentationOptions.azureSdk?.enabled) {
+      this._instrumentations.push(
+        createAzureSdkInstrumentation(this._config.instrumentationOptions.azureSdk)
       );
-      this.addInstrumentation(this._mySqlInstrumentation);
     }
-    if (!this._postgressInstrumentation) {
-      this._postgressInstrumentation = new PgInstrumentation(
-        this._config.instrumentationOptions.postgreSql
+    if (this._config.instrumentationOptions.mongoDb?.enabled) {
+      this._instrumentations.push(
+        new MongoDBInstrumentation(this._config.instrumentationOptions.mongoDb)
       );
-      this.addInstrumentation(this._postgressInstrumentation);
     }
-    if (!this._redisInstrumentation) {
-      this._redisInstrumentation = new RedisInstrumentation(
-        this._config.instrumentationOptions.redis
+    if (this._config.instrumentationOptions.mySql?.enabled) {
+      this._instrumentations.push(
+        new MySQLInstrumentation(this._config.instrumentationOptions.mySql)
       );
-      this.addInstrumentation(this._redisInstrumentation);
     }
-    if (!this._redis4Instrumentation) {
-      this._redis4Instrumentation = new Redis4Instrumentation(
-        this._config.instrumentationOptions.redis4
+    if (this._config.instrumentationOptions.postgreSql?.enabled) {
+      this._instrumentations.push(
+        new PgInstrumentation(this._config.instrumentationOptions.postgreSql)
       );
-      this.addInstrumentation(this._redis4Instrumentation);
+    }
+    if (this._config.instrumentationOptions.redis?.enabled) {
+      this._instrumentations.push(
+        new RedisInstrumentation(this._config.instrumentationOptions.redis)
+      );
+    }
+    if (this._config.instrumentationOptions.redis4?.enabled) {
+      this._instrumentations.push(
+        new Redis4Instrumentation(this._config.instrumentationOptions.redis4)
+      );
     }
     this._instrumentations.forEach((instrumentation) => {
       instrumentation.setTracerProvider(this._tracerProvider);
-      instrumentation.setMeterProvider(this._metricHandler.getMeterProvider());
+      instrumentation.setMeterProvider(metrics.getMeterProvider());
       if (instrumentation.getConfig().enabled) {
         instrumentation.enable();
       }

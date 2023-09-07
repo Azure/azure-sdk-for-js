@@ -7,7 +7,7 @@ import {
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
-import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
+import { InternalConfig } from "../shared/config";
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
 import { Attributes, Counter, Histogram, Meter, SpanKind, ValueType } from "@opentelemetry/api";
 import { ReadableSpan, Span, TimedEvent } from "@opentelemetry/sdk-trace-base";
@@ -28,7 +28,7 @@ import { Resource } from "@opentelemetry/resources";
  * @internal
  */
 export class StandardMetrics {
-  private _config: AzureMonitorOpenTelemetryConfig;
+  private _config: InternalConfig;
   private _collectionInterval = 60000; // 60 seconds
   private _meterProvider: MeterProvider;
   private _azureExporter: AzureMonitorMetricExporter;
@@ -44,7 +44,7 @@ export class StandardMetrics {
    * @param config - Distro configuration.
    * @param options - Standard Metrics options.
    */
-  constructor(config: AzureMonitorOpenTelemetryConfig, options?: { collectionInterval: number }) {
+  constructor(config: InternalConfig, options?: { collectionInterval: number }) {
     this._config = config;
     const meterProviderConfig: MeterProviderOptions = {
       resource: this._config.resource,
@@ -105,16 +105,14 @@ export class StandardMetrics {
    * @internal
    */
   public markSpanAsProcessed(span: Span): void {
-    if (this._config.enableAutoCollectStandardMetrics) {
-      if (span.kind === SpanKind.CLIENT) {
-        span.setAttributes({
-          "_MS.ProcessedByMetricExtractors": "(Name:'Dependencies', Ver:'1.1')",
-        });
-      } else if (span.kind === SpanKind.SERVER) {
-        span.setAttributes({
-          "_MS.ProcessedByMetricExtractors": "(Name:'Requests', Ver:'1.1')",
-        });
-      }
+    if (span.kind === SpanKind.CLIENT) {
+      span.setAttributes({
+        "_MS.ProcessedByMetricExtractors": "(Name:'Dependencies', Ver:'1.1')",
+      });
+    } else if (span.kind === SpanKind.SERVER) {
+      span.setAttributes({
+        "_MS.ProcessedByMetricExtractors": "(Name:'Requests', Ver:'1.1')",
+      });
     }
   }
 

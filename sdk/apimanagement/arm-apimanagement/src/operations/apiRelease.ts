@@ -47,7 +47,7 @@ export class ApiReleaseImpl implements ApiRelease {
    * Lists all releases of an API. An API release is created when making an API Revision current.
    * Releases are also used to rollback to previous revisions. Results will be paged and can be
    * constrained by the $top and $skip parameters.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -142,7 +142,7 @@ export class ApiReleaseImpl implements ApiRelease {
    * Lists all releases of an API. An API release is created when making an API Revision current.
    * Releases are also used to rollback to previous revisions. Results will be paged and can be
    * constrained by the $top and $skip parameters.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -161,7 +161,7 @@ export class ApiReleaseImpl implements ApiRelease {
 
   /**
    * Returns the etag of an API release.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param releaseId Release identifier within an API. Must be unique in the current API Management
@@ -183,7 +183,7 @@ export class ApiReleaseImpl implements ApiRelease {
 
   /**
    * Returns the details of an API release.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param releaseId Release identifier within an API. Must be unique in the current API Management
@@ -205,7 +205,7 @@ export class ApiReleaseImpl implements ApiRelease {
 
   /**
    * Creates a new Release for the API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param releaseId Release identifier within an API. Must be unique in the current API Management
@@ -229,7 +229,7 @@ export class ApiReleaseImpl implements ApiRelease {
 
   /**
    * Updates the details of the release of the API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param releaseId Release identifier within an API. Must be unique in the current API Management
@@ -264,7 +264,7 @@ export class ApiReleaseImpl implements ApiRelease {
 
   /**
    * Deletes the specified release in the API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param releaseId Release identifier within an API. Must be unique in the current API Management
@@ -289,7 +289,7 @@ export class ApiReleaseImpl implements ApiRelease {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.

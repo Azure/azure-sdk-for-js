@@ -7,7 +7,7 @@ import * as sinon from "sinon";
 import * as http from "http";
 import * as https from "https";
 
-import { AzureMonitorOpenTelemetryConfig } from "../../../../src/shared";
+import { InternalConfig } from "../../../../src/shared";
 import { JsonConfig } from "../../../../src/shared/jsonConfig";
 import { Resource } from "@opentelemetry/resources";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
@@ -37,7 +37,7 @@ describe("Library/Config", () => {
       );
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath; // Load JSON config
       process.env = env;
-      const config = new AzureMonitorOpenTelemetryConfig();
+      const config = new InternalConfig();
       assert.deepStrictEqual(
         config.azureMonitorExporterConfig.connectionString,
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
@@ -52,16 +52,6 @@ describe("Library/Config", () => {
         config.azureMonitorExporterConfig?.storageDirectory,
         "testPath",
         "Wrong storageDirectory"
-      );
-      assert.deepStrictEqual(
-        config.enableAutoCollectPerformance,
-        false,
-        "Wrong enableAutoCollectPerformance"
-      );
-      assert.deepStrictEqual(
-        config.enableAutoCollectStandardMetrics,
-        false,
-        "Wrong enableAutoCollectStandardMetrics"
       );
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
@@ -80,18 +70,8 @@ describe("Library/Config", () => {
     });
 
     it("Default config", () => {
-      const config = new AzureMonitorOpenTelemetryConfig();
+      const config = new InternalConfig();
       assert.deepStrictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
-      assert.deepStrictEqual(
-        config.enableAutoCollectPerformance,
-        true,
-        "Wrong enableAutoCollectPerformance"
-      );
-      assert.deepStrictEqual(
-        config.enableAutoCollectStandardMetrics,
-        true,
-        "Wrong enableAutoCollectStandardMetrics"
-      );
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
         false,
@@ -120,9 +100,6 @@ describe("Library/Config", () => {
         undefined,
         "Wrong storageDirectory"
       );
-      assert.deepStrictEqual(config.otlpTraceExporterConfig, {}, "Wrong otlpTraceExporterConfig ");
-      assert.deepStrictEqual(config.otlpMetricExporterConfig, {}, "Wrong otlpTraceExporterConfig ");
-      assert.deepStrictEqual(config.otlpLogExporterConfig, {}, "Wrong otlpTraceExporterConfig ");
     });
   });
 
@@ -133,7 +110,7 @@ describe("Library/Config", () => {
     });
 
     it("should initialize valid values", () => {
-      const config = new AzureMonitorOpenTelemetryConfig();
+      const config = new InternalConfig();
       config.azureMonitorExporterConfig.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
       assert.ok(typeof config.azureMonitorExporterConfig?.connectionString === "string");
@@ -142,7 +119,7 @@ describe("Library/Config", () => {
 
     it("instrumentation key validation-valid key passed", () => {
       const warnStub = sandbox.stub(console, "warn");
-      const config = new AzureMonitorOpenTelemetryConfig();
+      const config = new InternalConfig();
       config.azureMonitorExporterConfig.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
       assert.ok(warnStub.notCalled, "warning was not raised");
@@ -150,7 +127,7 @@ describe("Library/Config", () => {
 
     it("instrumentation key validation-invalid key passed", () => {
       const warnStub = sandbox.stub(console, "warn");
-      const config = new AzureMonitorOpenTelemetryConfig();
+      const config = new InternalConfig();
       config.azureMonitorExporterConfig.connectionString =
         "InstrumentationKey=1aa11111bbbb1ccc8dddeeeeffff3333";
       assert.ok(warnStub.calledOn, "warning was raised");
@@ -158,7 +135,7 @@ describe("Library/Config", () => {
 
     it("instrumentation key validation-invalid key passed", () => {
       const warnStub = sandbox.stub(console, "warn");
-      const config = new AzureMonitorOpenTelemetryConfig();
+      const config = new InternalConfig();
       config.azureMonitorExporterConfig.connectionString = "abc";
       assert.ok(warnStub.calledOn, "warning was raised");
     });
@@ -172,7 +149,7 @@ describe("OpenTelemetry Resource", () => {
     customAttributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID] = "testServiceInstanceId";
     customAttributes[SemanticResourceAttributes.CONTAINER_ID] = "testContainerId";
     let customResource = new Resource(customAttributes);
-    const config = new AzureMonitorOpenTelemetryConfig();
+    const config = new InternalConfig();
     config.resource = customResource;
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME],
@@ -189,7 +166,7 @@ describe("OpenTelemetry Resource", () => {
   });
 
   it("Default values", () => {
-    const config = new AzureMonitorOpenTelemetryConfig();
+    const config = new InternalConfig();
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_NAME],
       "opentelemetry"
@@ -217,7 +194,7 @@ describe("OpenTelemetry Resource", () => {
     env.OTEL_RESOURCE_ATTRIBUTES =
       "service.name=testServiceName,service.instance.id=testServiceInstance,k8s.cluster.name=testClusterName,k8s.node.name=testNodeName";
     process.env = env;
-    const config = new AzureMonitorOpenTelemetryConfig();
+    const config = new InternalConfig();
     process.env = originalEnv;
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME],

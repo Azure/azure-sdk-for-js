@@ -21,9 +21,9 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   BmcKeySet,
-  BmcKeySetsListByResourceGroupNextOptionalParams,
-  BmcKeySetsListByResourceGroupOptionalParams,
-  BmcKeySetsListByResourceGroupResponse,
+  BmcKeySetsListByClusterNextOptionalParams,
+  BmcKeySetsListByClusterOptionalParams,
+  BmcKeySetsListByClusterResponse,
   BmcKeySetsGetOptionalParams,
   BmcKeySetsGetResponse,
   BmcKeySetsCreateOrUpdateOptionalParams,
@@ -31,7 +31,7 @@ import {
   BmcKeySetsDeleteOptionalParams,
   BmcKeySetsUpdateOptionalParams,
   BmcKeySetsUpdateResponse,
-  BmcKeySetsListByResourceGroupNextResponse
+  BmcKeySetsListByClusterNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,18 +48,17 @@ export class BmcKeySetsImpl implements BmcKeySets {
   }
 
   /**
-   * Get a list of baseboard management controller key sets of the cluster in the provided resource
-   * group.
+   * Get a list of baseboard management controller key sets for the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
    */
-  public listByResourceGroup(
+  public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: BmcKeySetsListByResourceGroupOptionalParams
+    options?: BmcKeySetsListByClusterOptionalParams
   ): PagedAsyncIterableIterator<BmcKeySet> {
-    const iter = this.listByResourceGroupPagingAll(
+    const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
       options
@@ -75,7 +74,7 @@ export class BmcKeySetsImpl implements BmcKeySets {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
+        return this.listByClusterPagingPage(
           resourceGroupName,
           clusterName,
           options,
@@ -85,16 +84,16 @@ export class BmcKeySetsImpl implements BmcKeySets {
     };
   }
 
-  private async *listByResourceGroupPagingPage(
+  private async *listByClusterPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: BmcKeySetsListByResourceGroupOptionalParams,
+    options?: BmcKeySetsListByClusterOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<BmcKeySet[]> {
-    let result: BmcKeySetsListByResourceGroupResponse;
+    let result: BmcKeySetsListByClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(
+      result = await this._listByCluster(
         resourceGroupName,
         clusterName,
         options
@@ -105,7 +104,7 @@ export class BmcKeySetsImpl implements BmcKeySets {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
+      result = await this._listByClusterNext(
         resourceGroupName,
         clusterName,
         continuationToken,
@@ -118,12 +117,12 @@ export class BmcKeySetsImpl implements BmcKeySets {
     }
   }
 
-  private async *listByResourceGroupPagingAll(
+  private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: BmcKeySetsListByResourceGroupOptionalParams
+    options?: BmcKeySetsListByClusterOptionalParams
   ): AsyncIterableIterator<BmcKeySet> {
-    for await (const page of this.listByResourceGroupPagingPage(
+    for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
       options
@@ -133,20 +132,19 @@ export class BmcKeySetsImpl implements BmcKeySets {
   }
 
   /**
-   * Get a list of baseboard management controller key sets of the cluster in the provided resource
-   * group.
+   * Get a list of baseboard management controller key sets for the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: BmcKeySetsListByResourceGroupOptionalParams
-  ): Promise<BmcKeySetsListByResourceGroupResponse> {
+    options?: BmcKeySetsListByClusterOptionalParams
+  ): Promise<BmcKeySetsListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByResourceGroupOperationSpec
+      listByClusterOperationSpec
     );
   }
 
@@ -435,7 +433,7 @@ export class BmcKeySetsImpl implements BmcKeySets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -465,28 +463,28 @@ export class BmcKeySetsImpl implements BmcKeySets {
   }
 
   /**
-   * ListByResourceGroupNext
+   * ListByClusterNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param nextLink The nextLink from the previous successful call to the ListByCluster method.
    * @param options The options parameters.
    */
-  private _listByResourceGroupNext(
+  private _listByClusterNext(
     resourceGroupName: string,
     clusterName: string,
     nextLink: string,
-    options?: BmcKeySetsListByResourceGroupNextOptionalParams
-  ): Promise<BmcKeySetsListByResourceGroupNextResponse> {
+    options?: BmcKeySetsListByClusterNextOptionalParams
+  ): Promise<BmcKeySetsListByClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByClusterNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+const listByClusterOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bmcKeySets",
   httpMethod: "GET",
@@ -623,7 +621,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+const listByClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

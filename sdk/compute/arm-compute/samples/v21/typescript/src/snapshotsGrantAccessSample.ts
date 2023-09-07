@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Grants access to a snapshot.
  *
  * @summary Grants access to a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/snapshotExamples/Snapshot_BeginGetAccess.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/snapshotExamples/Snapshot_BeginGetAccess.json
  */
 async function getASasOnASnapshot() {
   const subscriptionId =
@@ -28,7 +28,8 @@ async function getASasOnASnapshot() {
   const snapshotName = "mySnapshot";
   const grantAccessData: GrantAccessData = {
     access: "Read",
-    durationInSeconds: 300
+    durationInSeconds: 300,
+    fileFormat: "VHDX"
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);

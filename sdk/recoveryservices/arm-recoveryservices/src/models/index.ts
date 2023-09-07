@@ -333,6 +333,11 @@ export interface VaultProperties {
   redundancySettings?: VaultPropertiesRedundancySettings;
   /** Security Settings of the vault */
   securitySettings?: SecuritySettings;
+  /**
+   * Secure Score of Recovery Services Vault
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secureScore?: SecureScoreLevel;
 }
 
 /** Details for upgrading vault. */
@@ -562,11 +567,25 @@ export interface VaultPropertiesRedundancySettings {
 export interface SecuritySettings {
   /** Immutability Settings of a vault */
   immutabilitySettings?: ImmutabilitySettings;
+  /** Soft delete Settings of a vault */
+  softDeleteSettings?: SoftDeleteSettings;
+  /**
+   * MUA Settings of a vault
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly multiUserAuthorization?: MultiUserAuthorization;
 }
 
 /** Immutability Settings of vault */
 export interface ImmutabilitySettings {
   state?: ImmutabilityState;
+}
+
+/** Soft delete Settings of vault */
+export interface SoftDeleteSettings {
+  softDeleteState?: SoftDeleteState;
+  /** Soft delete retention period in days */
+  softDeleteRetentionPeriodInDays?: number;
 }
 
 /** Identifies the unique system identifier for each Azure resource. */
@@ -1202,6 +1221,75 @@ export enum KnownImmutabilityState {
  * **Locked**
  */
 export type ImmutabilityState = string;
+
+/** Known values of {@link SoftDeleteState} that the service accepts. */
+export enum KnownSoftDeleteState {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** AlwaysON */
+  AlwaysON = "AlwaysON"
+}
+
+/**
+ * Defines values for SoftDeleteState. \
+ * {@link KnownSoftDeleteState} can be used interchangeably with SoftDeleteState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Enabled** \
+ * **Disabled** \
+ * **AlwaysON**
+ */
+export type SoftDeleteState = string;
+
+/** Known values of {@link MultiUserAuthorization} that the service accepts. */
+export enum KnownMultiUserAuthorization {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for MultiUserAuthorization. \
+ * {@link KnownMultiUserAuthorization} can be used interchangeably with MultiUserAuthorization,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type MultiUserAuthorization = string;
+
+/** Known values of {@link SecureScoreLevel} that the service accepts. */
+export enum KnownSecureScoreLevel {
+  /** None */
+  None = "None",
+  /** Minimum */
+  Minimum = "Minimum",
+  /** Adequate */
+  Adequate = "Adequate",
+  /** Maximum */
+  Maximum = "Maximum"
+}
+
+/**
+ * Defines values for SecureScoreLevel. \
+ * {@link KnownSecureScoreLevel} can be used interchangeably with SecureScoreLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Minimum** \
+ * **Adequate** \
+ * **Maximum**
+ */
+export type SecureScoreLevel = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {

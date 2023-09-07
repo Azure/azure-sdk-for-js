@@ -10,13 +10,13 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/0cfd102a6ecb172f04ec915732bd8ca6f6b2a7af/specification/search/data-plane/Azure.Search/preview/2023-07-01-Preview/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/9383e81389c2b1c64da07cc70c66f8c54b9ad4f5/specification/search/data-plane/Azure.Search/preview/2023-07-01-Preview/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
   "@autorest/typescript": "6.0.0-alpha.17.20220318.1"
 core-http-compat-mode: true
-package-version: 12.0.0-beta.2
+package-version: 12.0.0-beta.4
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
@@ -116,4 +116,15 @@ directive:
 - from: swagger-document
   where: $.definitions.QueryResultDocumentSemanticFieldState
   transform: $["x-ms-enum"].name = "SemanticFieldState";
+```
+
+### Remove `Vector` Property
+
+ Remove the `Vector` Property from `SearchRequest` in favor of the `Vectors` Array
+
+```yaml
+directive:
+- from: searchindex.json
+  where: $.definitions.SearchRequest
+  transform: delete $.properties.vector;
 ```

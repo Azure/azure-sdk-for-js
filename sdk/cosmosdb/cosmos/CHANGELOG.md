@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (Unreleased)
+## 3.17.4 (Unreleased)
 
 ### Features Added
 - Added support for hierarchical partitions.
