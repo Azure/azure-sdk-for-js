@@ -10,14 +10,13 @@
 
 ### Other Changes
 
-Return a stream when the response contains a stream.
+- Return a stream if the content type is text/event-stream.
 
 ## 1.12.1 (2023-09-07)
 
 ### Other Changes
 
 - Set `init.duplex` to `"half"` when streaming body via `fetch()` [PR #26890](https://github.com/Azure/azure-sdk-for-js/pull/26890)
-- Return a stream if the content type is text/event-stream.
 - Defer Error construction [PR #26897](https://github.com/Azure/azure-sdk-for-js/pull/26897) 
 
 ## 1.12.0 (2023-08-08)
