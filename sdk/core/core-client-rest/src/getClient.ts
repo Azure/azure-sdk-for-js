@@ -10,6 +10,7 @@ import {
   HttpBrowserStreamResponse,
   HttpNodeStreamResponse,
   RequestParameters,
+  ResourceMethods,
   StreamableMethod,
 } from "./common";
 import { sendRequest } from "./sendRequest";
@@ -59,19 +60,7 @@ export function getClient(
   }
 
   const { allowInsecureConnection, httpClient } = clientOptions;
-  const client = (
-    path: string,
-    ...args: Array<any>
-  ): {
-    get: (requestOptions?: RequestParameters) => StreamableMethod;
-    post: (requestOptions?: RequestParameters) => StreamableMethod;
-    put: (requestOptions?: RequestParameters) => StreamableMethod;
-    patch: (requestOptions?: RequestParameters) => StreamableMethod;
-    delete: (requestOptions?: RequestParameters) => StreamableMethod;
-    head: (requestOptions?: RequestParameters) => StreamableMethod;
-    options: (requestOptions?: RequestParameters) => StreamableMethod;
-    trace: (requestOptions?: RequestParameters) => StreamableMethod;
-  } => {
+  const client = (path: string, ...args: Array<any>): ResourceMethods<StreamableMethod> => {
     const getUrl = (requestOptions: RequestParameters): string =>
       buildRequestUrl(baseUrl, path, args, { allowInsecureConnection, ...requestOptions });
 
