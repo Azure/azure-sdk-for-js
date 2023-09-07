@@ -8,7 +8,7 @@
  * @azsdk-weight 100
  */
 
-import { OpenAIClient, AzureKeyCredential, ContentFilterResult } from "@azure/openai";
+import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -29,18 +29,28 @@ export async function main() {
 
   for (const choice of result.choices) {
     console.log(choice.text);
-    if (choice.contentFilterResults) {
-      if (choice.contentFilterResults.error){
-        console.log(
-          `Content filter ran into the error ${choice.contentFilterResults.error.code}: ${choice.contentFilterResults.error.message}`
-        )
-      }
-      else {
-        for (const [category, details] of Object.entries(choice.contentFilterResults)){
-          const filterResult = details as ContentFilterResult
-          console.log(`Category ${category} is filtered: ${filterResult.filtered} with ${filterResult.severity} severity`)
-        }
-      }
+    if (!choice.contentFilterResults) {
+      console.log("No content filter is found");
+      return;
+    }
+    if (choice.contentFilterResults.error) {
+      console.log(
+        `Content filter ran into the error ${choice.contentFilterResults.error.code}: ${choice.contentFilterResults.error.message}`
+      );
+    } else {
+      const result = choice.contentFilterResults;
+      console.log(
+        `Hate category is filtered: ${result.hate?.filtered} with ${result.hate?.severity} severity`
+      );
+      console.log(
+        `Sexual category is filtered: ${result.sexual?.filtered} with ${result.sexual?.severity} severity`
+      );
+      console.log(
+        `Self-harm category is filtered: ${result.selfHarm?.filtered} with ${result.selfHarm?.severity} severity`
+      );
+      console.log(
+        `Violence category is filtered: ${result.violence?.filtered} with ${result.violence?.severity} severity`
+      );
     }
   }
 }
