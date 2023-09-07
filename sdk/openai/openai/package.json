@@ -133,7 +133,7 @@
     "@azure/core-auth": "^1.4.0",
     "@azure/core-sse": "^1.0.0",
     "@azure/core-lro": "^2.5.3",
-    "@azure/core-rest-pipeline": "^1.12.1",
+    "@azure/core-rest-pipeline": "^1.12.2",
     "@azure/logger": "^1.0.3",
     "tslib": "^2.4.0"
   },
