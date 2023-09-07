@@ -15,11 +15,8 @@ export {
   EmbeddingsUsage,
   Completions,
   PromptFilterResult,
-  ContentFilterErrorOutput,
-  ContentFilterResults,
   ContentFilterResult,
   ContentFilterSeverity,
-  ContentFilterSuccessOutput,
   Choice,
   CompletionsLogProbabilityModel,
   CompletionsFinishReason,
@@ -44,4 +41,10 @@ export {
   ImageGenerationResponseFormat,
 } from "./models.js";
 export { GetEmbeddingsOptions, GetCompletionsOptions, ImageGenerationOptions } from "./options.js";
-export { AzureExtensionsOptions, GetChatCompletionsOptions } from "../api/models.js";
+export {
+  AzureExtensionsOptions,
+  GetChatCompletionsOptions,
+  ContentFilterErrorResults,
+  ContentFilterSuccessResults,
+  ContentFilterResults,
+} from "../api/models.js";

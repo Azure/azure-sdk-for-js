@@ -120,7 +120,7 @@ export interface CompletionsUsage {
 }
 
 // @public
-export interface ContentFilterErrorOutput {
+export interface ContentFilterErrorResults {
     error: ErrorModel;
 }
 
@@ -131,13 +131,13 @@ export interface ContentFilterResult {
 }
 
 // @public
-export type ContentFilterResults = ContentFilterSuccessOutput | ContentFilterErrorOutput;
+export type ContentFilterResults = ContentFilterSuccessResults | ContentFilterErrorResults;
 
 // @public
 export type ContentFilterSeverity = string;
 
 // @public
-export interface ContentFilterSuccessOutput {
+export interface ContentFilterSuccessResults {
     error?: undefined;
     hate?: ContentFilterResult;
     selfHarm?: ContentFilterResult;

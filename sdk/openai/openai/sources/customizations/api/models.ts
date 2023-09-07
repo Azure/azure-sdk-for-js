@@ -107,10 +107,10 @@ export interface AzureExtensionsOptions {
 }
 
 /** Information about the content filtering category, if it has been detected. */
-export type ContentFilterResults = ContentFilterSuccessOutput | ContentFilterErrorOutput;
+export type ContentFilterResults = ContentFilterSuccessResults | ContentFilterErrorResults;
 
 /** Information about the content filtering success result. */
-export interface ContentFilterSuccessOutput {
+export interface ContentFilterSuccessResults {
   /**
    * Describes language related to anatomical organs and genitals, romantic relationships,
    *  acts portrayed in erotic or affectionate terms, physical sexual acts, including
@@ -144,7 +144,7 @@ export interface ContentFilterSuccessOutput {
 }
 
 /** Information about the content filtering error result. */
-export interface ContentFilterErrorOutput {
+export interface ContentFilterErrorResults {
   /**
    * Describes an error returned if the content filtering system is
    * down or otherwise unable to complete the operation in time.
