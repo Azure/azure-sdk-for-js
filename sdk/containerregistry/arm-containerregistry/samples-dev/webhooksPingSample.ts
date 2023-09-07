@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Triggers a ping event to be sent to the webhook.
  *
  * @summary Triggers a ping event to be sent to the webhook.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2022-12-01/examples/WebhookPing.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/WebhookPing.json
  */
 async function webhookPing() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a scope map from a container registry.
  *
  * @summary Deletes a scope map from a container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2022-12-01/examples/ScopeMapDelete.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/ScopeMapDelete.json
  */
 async function scopeMapDelete() {
   const subscriptionId =

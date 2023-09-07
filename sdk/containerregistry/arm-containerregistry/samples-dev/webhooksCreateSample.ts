@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a webhook for a container registry with the specified parameters.
  *
  * @summary Creates a webhook for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2022-12-01/examples/WebhookCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/WebhookCreate.json
  */
 async function webhookCreate() {
   const subscriptionId =
@@ -33,9 +33,7 @@ async function webhookCreate() {
   const webhookName = "myWebhook";
   const webhookCreateParameters: WebhookCreateParameters = {
     actions: ["push"],
-    customHeaders: {
-      authorization: "******"
-    },
+    customHeaders: { authorization: "******" },
     location: "westus",
     scope: "myRepository",
     serviceUri: "http://myservice.com",

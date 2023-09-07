@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  ScopeMap,
+  CredentialSetUpdateParameters,
   ContainerRegistryManagementClient
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,24 +18,28 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Creates a scope map for a container registry with the specified parameters.
+ * This sample demonstrates how to Updates a credential set for a container registry with the specified parameters.
  *
- * @summary Creates a scope map for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/ScopeMapCreate.json
+ * @summary Updates a credential set for a container registry with the specified parameters.
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/CredentialSetUpdate.json
  */
-async function scopeMapCreate() {
+async function credentialSetUpdate() {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
-  const scopeMapName = "myScopeMap";
-  const scopeMapCreateParameters: ScopeMap = {
-    description: "Developer Scopes",
-    actions: [
-      "repositories/myrepository/contentWrite",
-      "repositories/myrepository/delete"
+  const credentialSetName = "myCredentialSet";
+  const credentialSetUpdateParameters: CredentialSetUpdateParameters = {
+    authCredentials: [
+      {
+        name: "Credential1",
+        passwordSecretIdentifier:
+          "https://myvault.vault.azure.net/secrets/password2",
+        usernameSecretIdentifier:
+          "https://myvault.vault.azure.net/secrets/username2"
+      }
     ]
   };
   const credential = new DefaultAzureCredential();
@@ -43,17 +47,17 @@ async function scopeMapCreate() {
     credential,
     subscriptionId
   );
-  const result = await client.scopeMaps.beginCreateAndWait(
+  const result = await client.credentialSets.beginUpdateAndWait(
     resourceGroupName,
     registryName,
-    scopeMapName,
-    scopeMapCreateParameters
+    credentialSetName,
+    credentialSetUpdateParameters
   );
   console.log(result);
 }
 
 async function main() {
-  scopeMapCreate();
+  credentialSetUpdate();
 }
 
 main().catch(console.error);

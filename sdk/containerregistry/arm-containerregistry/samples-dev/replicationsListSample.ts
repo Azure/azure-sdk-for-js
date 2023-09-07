@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the replications for the specified container registry.
  *
  * @summary Lists all the replications for the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2022-12-01/examples/ReplicationList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/ReplicationList.json
  */
 async function replicationList() {
   const subscriptionId =

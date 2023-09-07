@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists recent events for the specified webhook.
  *
  * @summary Lists recent events for the specified webhook.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2022-12-01/examples/WebhookListEvents.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/WebhookListEvents.json
  */
 async function webhookListEvents() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the container registries under the specified subscription.
  *
  * @summary Lists all the container registries under the specified subscription.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2022-12-01/examples/RegistryList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/RegistryList.json
  */
 async function registryList() {
   const subscriptionId =

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
  *
  * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2022-12-01/examples/ImportImageByManifestDigest.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/ImportImageByManifestDigest.json
  */
 async function importImageByManifestDigest() {
   const subscriptionId =
@@ -58,7 +58,7 @@ async function importImageByManifestDigest() {
  * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
  *
  * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2022-12-01/examples/ImportImageByTag.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/ImportImageByTag.json
  */
 async function importImageByTag() {
   const subscriptionId =
@@ -94,7 +94,7 @@ async function importImageByTag() {
  * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
  *
  * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2022-12-01/examples/ImportImageFromPublicRegistry.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/ImportImageFromPublicRegistry.json
  */
 async function importImageFromPublicRegistry() {
   const subscriptionId =

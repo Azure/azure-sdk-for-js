@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Tasks } from "../operationsInterfaces";
+import { CredentialSets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,30 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Task,
-  TasksListNextOptionalParams,
-  TasksListOptionalParams,
-  TasksListResponse,
-  TasksGetOptionalParams,
-  TasksGetResponse,
-  TasksCreateOptionalParams,
-  TasksCreateResponse,
-  TasksDeleteOptionalParams,
-  TaskUpdateParameters,
-  TasksUpdateOptionalParams,
-  TasksUpdateResponse,
-  TasksGetDetailsOptionalParams,
-  TasksGetDetailsResponse,
-  TasksListNextResponse
+  CredentialSet,
+  CredentialSetsListNextOptionalParams,
+  CredentialSetsListOptionalParams,
+  CredentialSetsListResponse,
+  CredentialSetsGetOptionalParams,
+  CredentialSetsGetResponse,
+  CredentialSetsCreateOptionalParams,
+  CredentialSetsCreateResponse,
+  CredentialSetsDeleteOptionalParams,
+  CredentialSetsDeleteResponse,
+  CredentialSetUpdateParameters,
+  CredentialSetsUpdateOptionalParams,
+  CredentialSetsUpdateResponse,
+  CredentialSetsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Tasks operations. */
-export class TasksImpl implements Tasks {
+/** Class containing CredentialSets operations. */
+export class CredentialSetsImpl implements CredentialSets {
   private readonly client: ContainerRegistryManagementClient;
 
   /**
-   * Initialize a new instance of the class Tasks class.
+   * Initialize a new instance of the class CredentialSets class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerRegistryManagementClient) {
@@ -51,16 +50,16 @@ export class TasksImpl implements Tasks {
   }
 
   /**
-   * Lists all the tasks for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Lists all credential set resources for the specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
-  ): PagedAsyncIterableIterator<Task> {
+    options?: CredentialSetsListOptionalParams
+  ): PagedAsyncIterableIterator<CredentialSet> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
       next() {
@@ -86,10 +85,10 @@ export class TasksImpl implements Tasks {
   private async *listPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams,
+    options?: CredentialSetsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Task[]> {
-    let result: TasksListResponse;
+  ): AsyncIterableIterator<CredentialSet[]> {
+    let result: CredentialSetsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, registryName, options);
@@ -115,8 +114,8 @@ export class TasksImpl implements Tasks {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
-  ): AsyncIterableIterator<Task> {
+    options?: CredentialSetsListOptionalParams
+  ): AsyncIterableIterator<CredentialSet> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
@@ -127,16 +126,16 @@ export class TasksImpl implements Tasks {
   }
 
   /**
-   * Lists all the tasks for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Lists all credential set resources for the specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
-  ): Promise<TasksListResponse> {
+    options?: CredentialSetsListOptionalParams
+  ): Promise<CredentialSetsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
       listOperationSpec
@@ -144,45 +143,48 @@ export class TasksImpl implements Tasks {
   }
 
   /**
-   * Get the properties of a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Gets the properties of the specified credential set resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
+   * @param credentialSetName The name of the credential set.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    options?: TasksGetOptionalParams
-  ): Promise<TasksGetResponse> {
+    credentialSetName: string,
+    options?: CredentialSetsGetOptionalParams
+  ): Promise<CredentialSetsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, taskName, options },
+      { resourceGroupName, registryName, credentialSetName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates a task for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Creates a credential set for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskCreateParameters The parameters for creating a task.
+   * @param credentialSetName The name of the credential set.
+   * @param credentialSetCreateParameters The parameters for creating a credential set.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    taskCreateParameters: Task,
-    options?: TasksCreateOptionalParams
+    credentialSetName: string,
+    credentialSetCreateParameters: CredentialSet,
+    options?: CredentialSetsCreateOptionalParams
   ): Promise<
-    SimplePollerLike<OperationState<TasksCreateResponse>, TasksCreateResponse>
+    SimplePollerLike<
+      OperationState<CredentialSetsCreateResponse>,
+      CredentialSetsCreateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<TasksCreateResponse> => {
+    ): Promise<CredentialSetsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -223,65 +225,71 @@ export class TasksImpl implements Tasks {
       args: {
         resourceGroupName,
         registryName,
-        taskName,
-        taskCreateParameters,
+        credentialSetName,
+        credentialSetCreateParameters,
         options
       },
       spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      TasksCreateResponse,
-      OperationState<TasksCreateResponse>
+      CredentialSetsCreateResponse,
+      OperationState<CredentialSetsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates a task for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Creates a credential set for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskCreateParameters The parameters for creating a task.
+   * @param credentialSetName The name of the credential set.
+   * @param credentialSetCreateParameters The parameters for creating a credential set.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    taskCreateParameters: Task,
-    options?: TasksCreateOptionalParams
-  ): Promise<TasksCreateResponse> {
+    credentialSetName: string,
+    credentialSetCreateParameters: CredentialSet,
+    options?: CredentialSetsCreateOptionalParams
+  ): Promise<CredentialSetsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
-      taskName,
-      taskCreateParameters,
+      credentialSetName,
+      credentialSetCreateParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Deletes a credential set from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
+   * @param credentialSetName The name of the credential set.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    options?: TasksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    credentialSetName: string,
+    options?: CredentialSetsDeleteOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CredentialSetsDeleteResponse>,
+      CredentialSetsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<CredentialSetsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -319,60 +327,67 @@ export class TasksImpl implements Tasks {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, registryName, taskName, options },
+      args: { resourceGroupName, registryName, credentialSetName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      CredentialSetsDeleteResponse,
+      OperationState<CredentialSetsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Deletes a credential set from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
+   * @param credentialSetName The name of the credential set.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    options?: TasksDeleteOptionalParams
-  ): Promise<void> {
+    credentialSetName: string,
+    options?: CredentialSetsDeleteOptionalParams
+  ): Promise<CredentialSetsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
-      taskName,
+      credentialSetName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates a task with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Updates a credential set for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskUpdateParameters The parameters for updating a task.
+   * @param credentialSetName The name of the credential set.
+   * @param credentialSetUpdateParameters The parameters for updating a credential set.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    taskUpdateParameters: TaskUpdateParameters,
-    options?: TasksUpdateOptionalParams
+    credentialSetName: string,
+    credentialSetUpdateParameters: CredentialSetUpdateParameters,
+    options?: CredentialSetsUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<OperationState<TasksUpdateResponse>, TasksUpdateResponse>
+    SimplePollerLike<
+      OperationState<CredentialSetsUpdateResponse>,
+      CredentialSetsUpdateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<TasksUpdateResponse> => {
+    ): Promise<CredentialSetsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -413,70 +428,52 @@ export class TasksImpl implements Tasks {
       args: {
         resourceGroupName,
         registryName,
-        taskName,
-        taskUpdateParameters,
+        credentialSetName,
+        credentialSetUpdateParameters,
         options
       },
       spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
-      TasksUpdateResponse,
-      OperationState<TasksUpdateResponse>
+      CredentialSetsUpdateResponse,
+      OperationState<CredentialSetsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Updates a task with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Updates a credential set for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskUpdateParameters The parameters for updating a task.
+   * @param credentialSetName The name of the credential set.
+   * @param credentialSetUpdateParameters The parameters for updating a credential set.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    taskUpdateParameters: TaskUpdateParameters,
-    options?: TasksUpdateOptionalParams
-  ): Promise<TasksUpdateResponse> {
+    credentialSetName: string,
+    credentialSetUpdateParameters: CredentialSetUpdateParameters,
+    options?: CredentialSetsUpdateOptionalParams
+  ): Promise<CredentialSetsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       registryName,
-      taskName,
-      taskUpdateParameters,
+      credentialSetName,
+      credentialSetUpdateParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Returns a task with extended information that includes all secrets.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param options The options parameters.
-   */
-  getDetails(
-    resourceGroupName: string,
-    registryName: string,
-    taskName: string,
-    options?: TasksGetDetailsOptionalParams
-  ): Promise<TasksGetDetailsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, taskName, options },
-      getDetailsOperationSpec
-    );
-  }
-
-  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -485,8 +482,8 @@ export class TasksImpl implements Tasks {
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: TasksListNextOptionalParams
-  ): Promise<TasksListNextResponse> {
+    options?: CredentialSetsListNextOptionalParams
+  ): Promise<CredentialSetsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
       listNextOperationSpec
@@ -498,78 +495,78 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskListResult
+      bodyMapper: Mappers.CredentialSetListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.registryName,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName,
+    Parameters.registryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CredentialSet
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.credentialSetName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CredentialSet
     },
     201: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CredentialSet
     },
     202: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CredentialSet
     },
     204: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CredentialSet
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.taskCreateParameters,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.credentialSetCreateParameters,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.credentialSetName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -577,83 +574,68 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.CredentialSetsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.CredentialSetsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.CredentialSetsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.CredentialSetsDeleteHeaders
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.credentialSetName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CredentialSet
     },
     201: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CredentialSet
     },
     202: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CredentialSet
     },
     204: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CredentialSet
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.taskUpdateParameters,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.credentialSetUpdateParameters,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.credentialSetName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const getDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}/listDetails",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Task
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -661,18 +643,18 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskListResult
+      bodyMapper: Mappers.CredentialSetListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink,
-    Parameters.resourceGroupName1
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

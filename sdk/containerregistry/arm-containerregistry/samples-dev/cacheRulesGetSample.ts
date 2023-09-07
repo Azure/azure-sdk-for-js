@@ -15,34 +15,34 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets the properties of the specified webhook.
+ * This sample demonstrates how to Gets the properties of the specified cache rule resource.
  *
- * @summary Gets the properties of the specified webhook.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/WebhookGet.json
+ * @summary Gets the properties of the specified cache rule resource.
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/CacheRuleGet.json
  */
-async function webhookGet() {
+async function cacheRuleGet() {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
-  const webhookName = "myWebhook";
+  const cacheRuleName = "myCacheRule";
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
     subscriptionId
   );
-  const result = await client.webhooks.get(
+  const result = await client.cacheRules.get(
     resourceGroupName,
     registryName,
-    webhookName
+    cacheRuleName
   );
   console.log(result);
 }
 
 async function main() {
-  webhookGet();
+  cacheRuleGet();
 }
 
 main().catch(console.error);

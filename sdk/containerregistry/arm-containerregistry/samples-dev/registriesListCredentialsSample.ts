@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the login credentials for the specified container registry.
  *
  * @summary Lists the login credentials for the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2022-12-01/examples/RegistryListCredentials.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/RegistryListCredentials.json
  */
 async function registryListCredentials() {
   const subscriptionId =

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a webhook with the specified parameters.
  *
  * @summary Updates a webhook with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2022-12-01/examples/WebhookUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/WebhookUpdate.json
  */
 async function webhookUpdate() {
   const subscriptionId =
@@ -33,9 +33,7 @@ async function webhookUpdate() {
   const webhookName = "myWebhook";
   const webhookUpdateParameters: WebhookUpdateParameters = {
     actions: ["push"],
-    customHeaders: {
-      authorization: "******"
-    },
+    customHeaders: { authorization: "******" },
     scope: "myRepository",
     serviceUri: "http://myservice.com",
     status: "enabled",

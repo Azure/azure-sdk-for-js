@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a container registry with the specified parameters.
  *
  * @summary Creates a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2022-12-01/examples/RegistryCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/RegistryCreate.json
  */
 async function registryCreate() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function registryCreate() {
  * This sample demonstrates how to Creates a container registry with the specified parameters.
  *
  * @summary Creates a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2022-12-01/examples/RegistryCreateZoneRedundant.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/RegistryCreateZoneRedundant.json
  */
 async function registryCreateZoneRedundant() {
   const subscriptionId =

@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Tasks } from "../operationsInterfaces";
+import { CacheRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,30 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Task,
-  TasksListNextOptionalParams,
-  TasksListOptionalParams,
-  TasksListResponse,
-  TasksGetOptionalParams,
-  TasksGetResponse,
-  TasksCreateOptionalParams,
-  TasksCreateResponse,
-  TasksDeleteOptionalParams,
-  TaskUpdateParameters,
-  TasksUpdateOptionalParams,
-  TasksUpdateResponse,
-  TasksGetDetailsOptionalParams,
-  TasksGetDetailsResponse,
-  TasksListNextResponse
+  CacheRule,
+  CacheRulesListNextOptionalParams,
+  CacheRulesListOptionalParams,
+  CacheRulesListResponse,
+  CacheRulesGetOptionalParams,
+  CacheRulesGetResponse,
+  CacheRulesCreateOptionalParams,
+  CacheRulesCreateResponse,
+  CacheRulesDeleteOptionalParams,
+  CacheRulesDeleteResponse,
+  CacheRuleUpdateParameters,
+  CacheRulesUpdateOptionalParams,
+  CacheRulesUpdateResponse,
+  CacheRulesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Tasks operations. */
-export class TasksImpl implements Tasks {
+/** Class containing CacheRules operations. */
+export class CacheRulesImpl implements CacheRules {
   private readonly client: ContainerRegistryManagementClient;
 
   /**
-   * Initialize a new instance of the class Tasks class.
+   * Initialize a new instance of the class CacheRules class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerRegistryManagementClient) {
@@ -51,16 +50,16 @@ export class TasksImpl implements Tasks {
   }
 
   /**
-   * Lists all the tasks for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Lists all cache rule resources for the specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
-  ): PagedAsyncIterableIterator<Task> {
+    options?: CacheRulesListOptionalParams
+  ): PagedAsyncIterableIterator<CacheRule> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
       next() {
@@ -86,10 +85,10 @@ export class TasksImpl implements Tasks {
   private async *listPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams,
+    options?: CacheRulesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Task[]> {
-    let result: TasksListResponse;
+  ): AsyncIterableIterator<CacheRule[]> {
+    let result: CacheRulesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, registryName, options);
@@ -115,8 +114,8 @@ export class TasksImpl implements Tasks {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
-  ): AsyncIterableIterator<Task> {
+    options?: CacheRulesListOptionalParams
+  ): AsyncIterableIterator<CacheRule> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
@@ -127,16 +126,16 @@ export class TasksImpl implements Tasks {
   }
 
   /**
-   * Lists all the tasks for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Lists all cache rule resources for the specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
-  ): Promise<TasksListResponse> {
+    options?: CacheRulesListOptionalParams
+  ): Promise<CacheRulesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
       listOperationSpec
@@ -144,45 +143,48 @@ export class TasksImpl implements Tasks {
   }
 
   /**
-   * Get the properties of a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Gets the properties of the specified cache rule resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
+   * @param cacheRuleName The name of the cache rule.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    options?: TasksGetOptionalParams
-  ): Promise<TasksGetResponse> {
+    cacheRuleName: string,
+    options?: CacheRulesGetOptionalParams
+  ): Promise<CacheRulesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, taskName, options },
+      { resourceGroupName, registryName, cacheRuleName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates a task for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Creates a cache rule for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskCreateParameters The parameters for creating a task.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleCreateParameters The parameters for creating a cache rule.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    taskCreateParameters: Task,
-    options?: TasksCreateOptionalParams
+    cacheRuleName: string,
+    cacheRuleCreateParameters: CacheRule,
+    options?: CacheRulesCreateOptionalParams
   ): Promise<
-    SimplePollerLike<OperationState<TasksCreateResponse>, TasksCreateResponse>
+    SimplePollerLike<
+      OperationState<CacheRulesCreateResponse>,
+      CacheRulesCreateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<TasksCreateResponse> => {
+    ): Promise<CacheRulesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -223,65 +225,71 @@ export class TasksImpl implements Tasks {
       args: {
         resourceGroupName,
         registryName,
-        taskName,
-        taskCreateParameters,
+        cacheRuleName,
+        cacheRuleCreateParameters,
         options
       },
       spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      TasksCreateResponse,
-      OperationState<TasksCreateResponse>
+      CacheRulesCreateResponse,
+      OperationState<CacheRulesCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates a task for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Creates a cache rule for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskCreateParameters The parameters for creating a task.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleCreateParameters The parameters for creating a cache rule.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    taskCreateParameters: Task,
-    options?: TasksCreateOptionalParams
-  ): Promise<TasksCreateResponse> {
+    cacheRuleName: string,
+    cacheRuleCreateParameters: CacheRule,
+    options?: CacheRulesCreateOptionalParams
+  ): Promise<CacheRulesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
-      taskName,
-      taskCreateParameters,
+      cacheRuleName,
+      cacheRuleCreateParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Deletes a cache rule resource from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
+   * @param cacheRuleName The name of the cache rule.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    options?: TasksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    cacheRuleName: string,
+    options?: CacheRulesDeleteOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CacheRulesDeleteResponse>,
+      CacheRulesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<CacheRulesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -319,60 +327,67 @@ export class TasksImpl implements Tasks {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, registryName, taskName, options },
+      args: { resourceGroupName, registryName, cacheRuleName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      CacheRulesDeleteResponse,
+      OperationState<CacheRulesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Deletes a cache rule resource from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
+   * @param cacheRuleName The name of the cache rule.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    options?: TasksDeleteOptionalParams
-  ): Promise<void> {
+    cacheRuleName: string,
+    options?: CacheRulesDeleteOptionalParams
+  ): Promise<CacheRulesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
-      taskName,
+      cacheRuleName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates a task with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Updates a cache rule for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskUpdateParameters The parameters for updating a task.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleUpdateParameters The parameters for updating a cache rule.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    taskUpdateParameters: TaskUpdateParameters,
-    options?: TasksUpdateOptionalParams
+    cacheRuleName: string,
+    cacheRuleUpdateParameters: CacheRuleUpdateParameters,
+    options?: CacheRulesUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<OperationState<TasksUpdateResponse>, TasksUpdateResponse>
+    SimplePollerLike<
+      OperationState<CacheRulesUpdateResponse>,
+      CacheRulesUpdateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<TasksUpdateResponse> => {
+    ): Promise<CacheRulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -413,70 +428,52 @@ export class TasksImpl implements Tasks {
       args: {
         resourceGroupName,
         registryName,
-        taskName,
-        taskUpdateParameters,
+        cacheRuleName,
+        cacheRuleUpdateParameters,
         options
       },
       spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
-      TasksUpdateResponse,
-      OperationState<TasksUpdateResponse>
+      CacheRulesUpdateResponse,
+      OperationState<CacheRulesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Updates a task with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Updates a cache rule for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskUpdateParameters The parameters for updating a task.
+   * @param cacheRuleName The name of the cache rule.
+   * @param cacheRuleUpdateParameters The parameters for updating a cache rule.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    taskUpdateParameters: TaskUpdateParameters,
-    options?: TasksUpdateOptionalParams
-  ): Promise<TasksUpdateResponse> {
+    cacheRuleName: string,
+    cacheRuleUpdateParameters: CacheRuleUpdateParameters,
+    options?: CacheRulesUpdateOptionalParams
+  ): Promise<CacheRulesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       registryName,
-      taskName,
-      taskUpdateParameters,
+      cacheRuleName,
+      cacheRuleUpdateParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Returns a task with extended information that includes all secrets.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param options The options parameters.
-   */
-  getDetails(
-    resourceGroupName: string,
-    registryName: string,
-    taskName: string,
-    options?: TasksGetDetailsOptionalParams
-  ): Promise<TasksGetDetailsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, taskName, options },
-      getDetailsOperationSpec
-    );
-  }
-
-  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -485,8 +482,8 @@ export class TasksImpl implements Tasks {
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: TasksListNextOptionalParams
-  ): Promise<TasksListNextResponse> {
+    options?: CacheRulesListNextOptionalParams
+  ): Promise<CacheRulesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
       listNextOperationSpec
@@ -498,78 +495,78 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskListResult
+      bodyMapper: Mappers.CacheRulesListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.registryName,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName,
+    Parameters.registryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CacheRule
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.cacheRuleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CacheRule
     },
     201: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CacheRule
     },
     202: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CacheRule
     },
     204: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CacheRule
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.taskCreateParameters,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.cacheRuleCreateParameters,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.cacheRuleName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -577,83 +574,68 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.CacheRulesDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.CacheRulesDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.CacheRulesDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.CacheRulesDeleteHeaders
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.cacheRuleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CacheRule
     },
     201: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CacheRule
     },
     202: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CacheRule
     },
     204: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.CacheRule
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.taskUpdateParameters,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.cacheRuleUpdateParameters,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.cacheRuleName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const getDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}/listDetails",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Task
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -661,18 +643,18 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskListResult
+      bodyMapper: Mappers.CacheRulesListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink,
-    Parameters.resourceGroupName1
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

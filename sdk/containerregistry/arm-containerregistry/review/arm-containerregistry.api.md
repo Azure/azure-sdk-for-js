@@ -136,6 +136,14 @@ export interface Argument {
 }
 
 // @public
+export interface AuthCredential {
+    readonly credentialHealth?: CredentialHealth;
+    name?: CredentialName;
+    passwordSecretIdentifier?: string;
+    usernameSecretIdentifier?: string;
+}
+
+// @public
 export interface AuthInfo {
     expiresIn?: number;
     refreshToken?: string;
@@ -187,6 +195,104 @@ export interface BaseImageTriggerUpdateParameters {
 }
 
 // @public
+export interface CacheRule extends ProxyResource {
+    readonly creationDate?: Date;
+    credentialSetResourceId?: string;
+    readonly provisioningState?: ProvisioningState;
+    sourceRepository?: string;
+    targetRepository?: string;
+}
+
+// @public
+export interface CacheRules {
+    beginCreate(resourceGroupName: string, registryName: string, cacheRuleName: string, cacheRuleCreateParameters: CacheRule, options?: CacheRulesCreateOptionalParams): Promise<SimplePollerLike<OperationState<CacheRulesCreateResponse>, CacheRulesCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, registryName: string, cacheRuleName: string, cacheRuleCreateParameters: CacheRule, options?: CacheRulesCreateOptionalParams): Promise<CacheRulesCreateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, cacheRuleName: string, options?: CacheRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<CacheRulesDeleteResponse>, CacheRulesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, cacheRuleName: string, options?: CacheRulesDeleteOptionalParams): Promise<CacheRulesDeleteResponse>;
+    beginUpdate(resourceGroupName: string, registryName: string, cacheRuleName: string, cacheRuleUpdateParameters: CacheRuleUpdateParameters, options?: CacheRulesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CacheRulesUpdateResponse>, CacheRulesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, registryName: string, cacheRuleName: string, cacheRuleUpdateParameters: CacheRuleUpdateParameters, options?: CacheRulesUpdateOptionalParams): Promise<CacheRulesUpdateResponse>;
+    get(resourceGroupName: string, registryName: string, cacheRuleName: string, options?: CacheRulesGetOptionalParams): Promise<CacheRulesGetResponse>;
+    list(resourceGroupName: string, registryName: string, options?: CacheRulesListOptionalParams): PagedAsyncIterableIterator<CacheRule>;
+}
+
+// @public
+export interface CacheRulesCreateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface CacheRulesCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CacheRulesCreateResponse = CacheRule;
+
+// @public
+export interface CacheRulesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface CacheRulesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CacheRulesDeleteResponse = CacheRulesDeleteHeaders;
+
+// @public
+export interface CacheRulesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CacheRulesGetResponse = CacheRule;
+
+// @public
+export interface CacheRulesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CacheRulesListNextResponse = CacheRulesListResult;
+
+// @public
+export interface CacheRulesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CacheRulesListResponse = CacheRulesListResult;
+
+// @public
+export interface CacheRulesListResult {
+    nextLink?: string;
+    value?: CacheRule[];
+}
+
+// @public
+export interface CacheRulesUpdateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface CacheRulesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CacheRulesUpdateResponse = CacheRule;
+
+// @public
+export interface CacheRuleUpdateParameters {
+    credentialSetResourceId?: string;
+}
+
+// @public
 export interface CallbackConfig {
     customHeaders?: {
         [propertyName: string]: string;
@@ -204,6 +310,10 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerRegistryManagementClientOptionalParams);
     // (undocumented)
     agentPools: AgentPools;
+    // (undocumented)
+    cacheRules: CacheRules;
+    // (undocumented)
+    credentialSets: CredentialSets;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -238,11 +348,123 @@ export interface ContainerRegistryManagementClientOptionalParams extends coreCli
 export type CreatedByType = string;
 
 // @public
+export interface CredentialHealth {
+    errorCode?: string;
+    errorMessage?: string;
+    status?: CredentialHealthStatus;
+}
+
+// @public
+export type CredentialHealthStatus = string;
+
+// @public
+export type CredentialName = string;
+
+// @public
 export interface Credentials {
     customRegistries?: {
         [propertyName: string]: CustomRegistryCredentials;
     };
     sourceRegistry?: SourceRegistryCredentials;
+}
+
+// @public
+export interface CredentialSet extends ProxyResource {
+    authCredentials?: AuthCredential[];
+    readonly creationDate?: Date;
+    identity?: IdentityProperties;
+    loginServer?: string;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface CredentialSetListResult {
+    nextLink?: string;
+    value?: CredentialSet[];
+}
+
+// @public
+export interface CredentialSets {
+    beginCreate(resourceGroupName: string, registryName: string, credentialSetName: string, credentialSetCreateParameters: CredentialSet, options?: CredentialSetsCreateOptionalParams): Promise<SimplePollerLike<OperationState<CredentialSetsCreateResponse>, CredentialSetsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, registryName: string, credentialSetName: string, credentialSetCreateParameters: CredentialSet, options?: CredentialSetsCreateOptionalParams): Promise<CredentialSetsCreateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, credentialSetName: string, options?: CredentialSetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<CredentialSetsDeleteResponse>, CredentialSetsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, credentialSetName: string, options?: CredentialSetsDeleteOptionalParams): Promise<CredentialSetsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, registryName: string, credentialSetName: string, credentialSetUpdateParameters: CredentialSetUpdateParameters, options?: CredentialSetsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CredentialSetsUpdateResponse>, CredentialSetsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, registryName: string, credentialSetName: string, credentialSetUpdateParameters: CredentialSetUpdateParameters, options?: CredentialSetsUpdateOptionalParams): Promise<CredentialSetsUpdateResponse>;
+    get(resourceGroupName: string, registryName: string, credentialSetName: string, options?: CredentialSetsGetOptionalParams): Promise<CredentialSetsGetResponse>;
+    list(resourceGroupName: string, registryName: string, options?: CredentialSetsListOptionalParams): PagedAsyncIterableIterator<CredentialSet>;
+}
+
+// @public
+export interface CredentialSetsCreateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface CredentialSetsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CredentialSetsCreateResponse = CredentialSet;
+
+// @public
+export interface CredentialSetsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface CredentialSetsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CredentialSetsDeleteResponse = CredentialSetsDeleteHeaders;
+
+// @public
+export interface CredentialSetsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CredentialSetsGetResponse = CredentialSet;
+
+// @public
+export interface CredentialSetsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CredentialSetsListNextResponse = CredentialSetListResult;
+
+// @public
+export interface CredentialSetsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CredentialSetsListResponse = CredentialSetListResult;
+
+// @public
+export interface CredentialSetsUpdateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface CredentialSetsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CredentialSetsUpdateResponse = CredentialSet;
+
+// @public
+export interface CredentialSetUpdateParameters {
+    authCredentials?: AuthCredential[];
+    identity?: IdentityProperties;
 }
 
 // @public
@@ -332,7 +554,27 @@ export interface EncryptionProperty {
 export type EncryptionStatus = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
 export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export interface ErrorResponseAutoGenerated {
     error?: ErrorResponseBody;
 }
 
@@ -450,11 +692,21 @@ export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface IdentityProperties {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: ResourceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserIdentityProperties;
+    };
+}
+
+// @public
+export interface IdentityPropertiesAutoGenerated {
     principalId?: string;
     tenantId?: string;
     type?: ResourceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: UserIdentityProperties;
+        [propertyName: string]: UserIdentityPropertiesAutoGenerated;
     };
 }
 
@@ -566,6 +818,17 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownCredentialHealthStatus {
+    Healthy = "Healthy",
+    Unhealthy = "Unhealthy"
+}
+
+// @public
+export enum KnownCredentialName {
+    Credential1 = "Credential1"
 }
 
 // @public
@@ -1802,7 +2065,7 @@ export interface Task extends Resource {
     agentPoolName?: string;
     readonly creationDate?: Date;
     credentials?: Credentials;
-    identity?: IdentityProperties;
+    identity?: IdentityPropertiesAutoGenerated;
     isSystemTask?: boolean;
     logTemplate?: string;
     platform?: PlatformProperties;
@@ -1822,7 +2085,7 @@ export interface TaskListResult {
 // @public
 export interface TaskRun extends ProxyResource {
     forceUpdateTag?: string;
-    identity?: IdentityProperties;
+    identity?: IdentityPropertiesAutoGenerated;
     location?: string;
     readonly provisioningState?: ProvisioningState;
     runRequest?: RunRequestUnion;
@@ -1910,7 +2173,7 @@ export type TaskRunsUpdateResponse = TaskRun;
 // @public
 export interface TaskRunUpdateParameters {
     forceUpdateTag?: string;
-    identity?: IdentityProperties;
+    identity?: IdentityPropertiesAutoGenerated;
     location?: string;
     runRequest?: RunRequestUnion;
     tags?: {
@@ -2012,7 +2275,7 @@ export interface TaskUpdateParameters {
     agentConfiguration?: AgentProperties;
     agentPoolName?: string;
     credentials?: Credentials;
-    identity?: IdentityProperties;
+    identity?: IdentityPropertiesAutoGenerated;
     logTemplate?: string;
     platform?: PlatformUpdateParameters;
     status?: TaskStatus;
@@ -2209,6 +2472,12 @@ export type UpdateTriggerPayloadType = string;
 
 // @public (undocumented)
 export interface UserIdentityProperties {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public (undocumented)
+export interface UserIdentityPropertiesAutoGenerated {
     clientId?: string;
     principalId?: string;
 }
