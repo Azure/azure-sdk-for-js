@@ -244,8 +244,8 @@ export async function assertThrowsAbortError(
 export function assertEqualSnapshot(snapshot1: Snapshot, snapshot2: Snapshot): void {
   assert.equal(snapshot1.name, snapshot2.name, "Unexpected name in result from getSnapshot().");
   assert.equal(
-    snapshot1.retentionPeriod,
-    snapshot2.retentionPeriod,
+    snapshot1.retentionPeriodInSeconds,
+    snapshot2.retentionPeriodInSeconds,
     "Unexpected retentionPeriod in result from getSnapshot()."
   );
   assert.deepEqual(

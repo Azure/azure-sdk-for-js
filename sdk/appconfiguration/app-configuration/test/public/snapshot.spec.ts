@@ -37,7 +37,7 @@ describe("AppConfigurationClient snapshot", () => {
     };
     snapshot1 = {
       name: recorder.variable("snapshot1", `snapshot-${new Date().getTime()}`),
-      retentionPeriod: 2592000,
+      retentionPeriodInSeconds: 2592000,
       filters: [filter1],
     };
 

@@ -619,8 +619,24 @@ export class AppConfigurationClient {
    * @param name - The name of the snapshot.
    * @param options - Optional parameters for the request.
    */
+  recoverSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
+
+  /**
+   * Recover an archived snapshot back to ready status
+   *
+   * Example usage:
+   * ```ts
+   * const result = await client.recoverSnapshot({name: "MySnapshot"});
+   * ```
+   * @param snapshotID - The ID of the snapshot, contains name and optional etag.
+   * @param options - Optional parameters for the request.
+   */
   recoverSnapshot(
-    snapshotId: SnapshotId,
+    snapshotID: SnapshotId,
+    options?: UpdateSnapshotOptions
+  ): Promise<UpdateSnapshotResponse>;
+  recoverSnapshot(
+    nameOrSnapshotID: string | SnapshotId,
     options: UpdateSnapshotOptions = {}
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(
@@ -628,12 +644,15 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         logger.info("[recoverSnapshot] Recover a snapshot");
+        const name =
+          typeof nameOrSnapshotID === "string" ? nameOrSnapshotID : nameOrSnapshotID.name;
+        const etag = typeof nameOrSnapshotID === "string" ? undefined : nameOrSnapshotID.etag;
         const originalResponse = await this.client.updateSnapshot(
-          snapshotId.name,
+          name,
           { status: "ready" },
           {
             ...updatedOptions,
-            ...checkAndFormatIfAndIfNoneMatch({ etag: snapshotId.etag }, options),
+            ...checkAndFormatIfAndIfNoneMatch({ etag }, options),
           }
         );
         const response = transformSnapshotResponse(originalResponse);
@@ -653,8 +672,23 @@ export class AppConfigurationClient {
    * @param name - The name of the snapshot.
    * @param options - Optional parameters for the request.
    */
+  archiveSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
+  /**
+   * Archive a ready snapshot
+   *
+   * Example usage:
+   * ```ts
+   * const result = await client.archiveSnapshot({name: "MySnapshot"});
+   * ```
+   * @param snapshotID - The ID of the snapshot, contains name and optional etag.
+   * @param options - Optional parameters for the request.
+   */
   archiveSnapshot(
-    snapshotId: SnapshotId,
+    snapshotID: SnapshotId,
+    options?: UpdateSnapshotOptions
+  ): Promise<UpdateSnapshotResponse>;
+  archiveSnapshot(
+    nameOrSnapshotID: string | SnapshotId,
     options: UpdateSnapshotOptions = {}
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(
@@ -662,12 +696,15 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         logger.info("[archiveSnapshot] Archive a snapshot");
+        const name =
+          typeof nameOrSnapshotID === "string" ? nameOrSnapshotID : nameOrSnapshotID.name;
+        const etag = typeof nameOrSnapshotID === "string" ? undefined : nameOrSnapshotID.etag;
         const originalResponse = await this.client.updateSnapshot(
-          snapshotId.name,
+          name,
           { status: "archived" },
           {
             ...updatedOptions,
-            ...checkAndFormatIfAndIfNoneMatch({ etag: snapshotId.etag }, options),
+            ...checkAndFormatIfAndIfNoneMatch({ etag }, options),
           }
         );
         const response = transformSnapshotResponse(originalResponse);

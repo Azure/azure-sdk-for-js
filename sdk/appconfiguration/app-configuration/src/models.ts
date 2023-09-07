@@ -406,7 +406,7 @@ export interface ListConfigurationSettingPage
 /**
  * A page of configuration settings and the corresponding HTTP response
  */
-export interface ListSnapshotsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+export interface ListSnapshotsPage extends SyncTokenHeaderField, PageSettings {
   /**
    * The configuration settings for this page of results.
    */
@@ -506,7 +506,7 @@ export interface SnapshotInfo {
   /** The composition type describes how the key-values within the snapshot are composed. The 'all' composition type includes all key-values. The 'group_by_key' composition type ensures there are no two key-values containing the same key. */
   compositionType?: CompositionType;
   /** The amount of time, in seconds, that a snapshot will remain in the archived state before expiring. This property is only writable during the creation of a snapshot. If not specified, the default lifetime of key-value revisions will be used. */
-  retentionPeriod?: number;
+  retentionPeriodInSeconds?: number;
   /** The tags of the snapshot. */
   tags?: { [propertyName: string]: string };
 }

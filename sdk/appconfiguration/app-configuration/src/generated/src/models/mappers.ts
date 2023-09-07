@@ -261,7 +261,7 @@ export const Snapshot: coreClient.CompositeMapper = {
           name: "DateTime"
         }
       },
-      retentionPeriod: {
+      retentionPeriodInSeconds: {
         constraints: {
           InclusiveMaximum: 7776000,
           InclusiveMinimum: 3600
@@ -271,7 +271,7 @@ export const Snapshot: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      size: {
+      sizeInBytes: {
         serializedName: "size",
         readOnly: true,
         type: {

@@ -101,7 +101,7 @@ directive:
       $["304"]["headers"]["Last-Modified"]["type"] = "string";
 ```
 
-### Rename Properties created -> createdOn, expires -> expiresOn, items_count -> itemCount
+### Rename Properties created -> createdOn, expires -> expiresOn, items_count -> itemCount, retention_eriod -> retentionPeriodInSeconds, size -> sizeInBytes
 
 ```yaml
 directive:
@@ -111,6 +111,8 @@ directive:
       $.created["x-ms-client-name"] = "createdOn";
       $.items_count["x-ms-client-name"] = "itemCount";
       $.expires["x-ms-client-name"] = "expiresOn";
+      $.retention_period["x-ms-client-name"] = "retentionPeriodInSeconds";
+      $.size["x-ms-client-name"] = "sizeInBytes";
 ```
 
 ### Rename KeyValueFilter -> ConfigurationSettingsFilter

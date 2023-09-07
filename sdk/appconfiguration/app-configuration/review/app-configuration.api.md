@@ -41,7 +41,8 @@ export class AppConfigurationClient {
     constructor(connectionString: string, options?: AppConfigurationClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
     addConfigurationSetting(configurationSetting: AddConfigurationSettingParam | AddConfigurationSettingParam<FeatureFlagValue> | AddConfigurationSettingParam<SecretReferenceValue>, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
-    archiveSnapshot(snapshotId: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
+    archiveSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
+    archiveSnapshot(snapshotID: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
     beginCreateSnapshot(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<SimplePollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>>;
     beginCreateSnapshotAndWait(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<CreateSnapshotResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
@@ -51,7 +52,8 @@ export class AppConfigurationClient {
     listConfigurationSettingsForSnapshot(snapshotName: string, options?: ListConfigurationSettingsForSnapshotOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
     listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<Snapshot, ListSnapshotsPage, PageSettings>;
-    recoverSnapshot(snapshotId: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
+    recoverSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
+    recoverSnapshot(snapshotID: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam | SetConfigurationSettingParam<FeatureFlagValue> | SetConfigurationSettingParam<SecretReferenceValue>, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
     updateSyncToken(syncToken: string): void;
@@ -238,7 +240,7 @@ export interface ListSnapshotsOptions extends OperationOptions, ListSnapshots, O
 }
 
 // @public
-export interface ListSnapshotsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+export interface ListSnapshotsPage extends SyncTokenHeaderField, PageSettings {
     items: Snapshot[];
 }
 
@@ -305,8 +307,8 @@ export interface Snapshot {
     filters: ConfigurationSettingsFilter[];
     readonly itemCount?: number;
     readonly name: string;
-    retentionPeriod?: number;
-    readonly size?: number;
+    retentionPeriodInSeconds?: number;
+    readonly sizeInBytes?: number;
     readonly status?: SnapshotStatus;
     tags?: {
         [propertyName: string]: string;
@@ -324,7 +326,7 @@ export interface SnapshotInfo {
     compositionType?: CompositionType;
     filters: ConfigurationSettingsFilter[];
     name: string;
-    retentionPeriod?: number;
+    retentionPeriodInSeconds?: number;
     tags?: {
         [propertyName: string]: string;
     };

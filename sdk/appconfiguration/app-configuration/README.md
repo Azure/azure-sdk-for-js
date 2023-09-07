@@ -256,6 +256,18 @@ console.log("Snapshot updated status is:", archivedSnapshot.status);
 let recoverSnapshot = await client.recoverSnapshot({name: "testsnapshot"});
 console.log("Snapshot updated status is:", recoverSnapshot.status);
 ```
+
+You can also use an overload that takes the name of the snapshot only.
+```javascript
+// Snapshot is in ready status
+let archivedSnapshot = await client.archiveSnapshot("testsnapshot");
+console.log("Snapshot updated status is:", archivedSnapshot.status);
+
+// Snapshot is in archive status
+let recoverSnapshot = await client.recoverSnapshot("testsnapshot");
+console.log("Snapshot updated status is:", recoverSnapshot.status);
+```
+
 ## Troubleshooting
 
 ### Logging
