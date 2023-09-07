@@ -71,6 +71,21 @@ export interface SubmitBrandOptionalParams extends TenDLCSubmitBrandOptionalPara
 export interface SubmitCampaignOptionalParams extends TenDLCSubmitCampaignOptionalParams {}
 
 export {
+  Address,
+  AlternateBusinessIdType,
+  BillingFrequency,
+  BrandDetails,
+  CampaignDetails,
+  CompanyVertical,
+  ContactInformation,
+  ContentType,
+  EntityType,
+  LocalNumberCost,
+  LocalNumberCostType,
+  MessageDetails,
+  Relationship,
+  StockExchange,
+  SubContentType,
   TenDLCCreateOrUpdateBrandOptionalParams,
   TenDLCCreateOrUpdateCampaignOptionalParams,
   TenDLCDeleteBrandOptionalParams,
@@ -82,4 +97,9 @@ export {
   TenDLCGetCostsOptionalParams,
   TenDLCSubmitBrandOptionalParams,
   TenDLCSubmitCampaignOptionalParams,
+  USBrand,
+  USBrands,
+  USCampaign,
+  USCampaigns,
+  UseCase
 } from "./generated/src/models/";

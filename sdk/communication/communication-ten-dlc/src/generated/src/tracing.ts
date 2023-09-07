@@ -10,6 +10,6 @@ import { createTracingClient } from "@azure/core-tracing";
 
 export const tracingClient = createTracingClient({
   namespace: "Microsoft.Communication",
-  packageName: "@azure-tools/communication-ten-dlc",
+  packageName: "@azure/communication-ten-dlc",
   packageVersion: "1.0.0"
 });

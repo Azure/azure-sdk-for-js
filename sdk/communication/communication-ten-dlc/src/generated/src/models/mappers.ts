@@ -568,7 +568,19 @@ export const UseCase: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
+              name: "Enum",
+              allowedValues: [
+                "twoFactorAuthentication",
+                "accountNotification",
+                "customerCare",
+                "deliveryNotification",
+                "fraudAlert",
+                "higherEducation",
+                "marketing",
+                "pollingVoting",
+                "publicServiceAnnouncement",
+                "securityAlert"
+              ]
             }
           }
         }

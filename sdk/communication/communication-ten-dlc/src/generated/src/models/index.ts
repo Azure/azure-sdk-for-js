@@ -221,416 +221,118 @@ export interface USCampaigns {
   nextLink?: string;
 }
 
-/** Known values of {@link LocalNumberCostType} that the service accepts. */
-export enum KnownLocalNumberCostType {
-  /** Brand */
-  Brand = "brand",
-  /** Campaign */
-  Campaign = "campaign"
-}
-
-/**
- * Defines values for LocalNumberCostType. \
- * {@link KnownLocalNumberCostType} can be used interchangeably with LocalNumberCostType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **brand** \
- * **campaign**
- */
-export type LocalNumberCostType = string;
-
-/** Known values of {@link BillingFrequency} that the service accepts. */
-export enum KnownBillingFrequency {
-  /** Monthly */
-  Monthly = "monthly",
-  /** Once */
-  Once = "once"
-}
-
-/**
- * Defines values for BillingFrequency. \
- * {@link KnownBillingFrequency} can be used interchangeably with BillingFrequency,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **monthly** \
- * **once**
- */
-export type BillingFrequency = string;
-
-/** Known values of {@link CompanyVertical} that the service accepts. */
-export enum KnownCompanyVertical {
-  /** Agriculture */
-  Agriculture = "Agriculture",
-  /** Communication */
-  Communication = "Communication",
-  /** Construction */
-  Construction = "Construction",
-  /** Education */
-  Education = "Education",
-  /** Energy */
-  Energy = "Energy",
-  /** Entertainment */
-  Entertainment = "Entertainment",
-  /** Financial */
-  Financial = "Financial",
-  /** Gambling */
-  Gambling = "Gambling",
-  /** Government */
-  Government = "Government",
-  /** Healthcare */
-  Healthcare = "Healthcare",
-  /** Hospitality */
-  Hospitality = "Hospitality",
-  /** HumanResources */
-  HumanResources = "HumanResources",
-  /** Insurance */
-  Insurance = "Insurance",
-  /** Legal */
-  Legal = "Legal",
-  /** Manufacturing */
-  Manufacturing = "Manufacturing",
-  /** Ngo */
-  Ngo = "Ngo",
-  /** Political */
-  Political = "Political",
-  /** Postal */
-  Postal = "Postal",
-  /** Professional */
-  Professional = "Professional",
-  /** RealEstate */
-  RealEstate = "RealEstate",
-  /** Retail */
-  Retail = "Retail",
-  /** Technology */
-  Technology = "Technology",
-  /** Transportation */
-  Transportation = "Transportation"
-}
-
-/**
- * Defines values for CompanyVertical. \
- * {@link KnownCompanyVertical} can be used interchangeably with CompanyVertical,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Agriculture** \
- * **Communication** \
- * **Construction** \
- * **Education** \
- * **Energy** \
- * **Entertainment** \
- * **Financial** \
- * **Gambling** \
- * **Government** \
- * **Healthcare** \
- * **Hospitality** \
- * **HumanResources** \
- * **Insurance** \
- * **Legal** \
- * **Manufacturing** \
- * **Ngo** \
- * **Political** \
- * **Postal** \
- * **Professional** \
- * **RealEstate** \
- * **Retail** \
- * **Technology** \
- * **Transportation**
- */
-export type CompanyVertical = string;
-
-/** Known values of {@link EntityType} that the service accepts. */
-export enum KnownEntityType {
-  /** PrivateProfit */
-  PrivateProfit = "PrivateProfit",
-  /** PublicProfit */
-  PublicProfit = "PublicProfit",
-  /** NonProfit */
-  NonProfit = "NonProfit",
-  /** Government */
-  Government = "Government"
-}
-
-/**
- * Defines values for EntityType. \
- * {@link KnownEntityType} can be used interchangeably with EntityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PrivateProfit** \
- * **PublicProfit** \
- * **NonProfit** \
- * **Government**
- */
-export type EntityType = string;
-
-/** Known values of {@link StockExchange} that the service accepts. */
-export enum KnownStockExchange {
-  /** Nasdaq */
-  Nasdaq = "Nasdaq",
-  /** Nyse */
-  Nyse = "Nyse",
-  /** Amex */
-  Amex = "Amex",
-  /** Amx */
-  Amx = "Amx",
-  /** Asx */
-  Asx = "Asx",
-  /** B3 */
-  B3 = "B3",
-  /** Bme */
-  Bme = "Bme",
-  /** Bse */
-  Bse = "Bse",
-  /** Fra */
-  Fra = "Fra",
-  /** Icex */
-  Icex = "Icex",
-  /** Jpx */
-  Jpx = "Jpx",
-  /** Jse */
-  Jse = "Jse",
-  /** Krx */
-  Krx = "Krx",
-  /** Lon */
-  Lon = "Lon",
-  /** Nse */
-  Nse = "Nse",
-  /** Omx */
-  Omx = "Omx",
-  /** Sehk */
-  Sehk = "Sehk",
-  /** Sgx */
-  Sgx = "Sgx",
-  /** Sse */
-  Sse = "Sse",
-  /** Sto */
-  Sto = "Sto",
-  /** Swx */
-  Swx = "Swx",
-  /** Szse */
-  Szse = "Szse",
-  /** Tsx */
-  Tsx = "Tsx",
-  /** Twse */
-  Twse = "Twse",
-  /** Vse */
-  Vse = "Vse",
-  /** Other */
-  Other = "Other"
-}
-
-/**
- * Defines values for StockExchange. \
- * {@link KnownStockExchange} can be used interchangeably with StockExchange,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Nasdaq** \
- * **Nyse** \
- * **Amex** \
- * **Amx** \
- * **Asx** \
- * **B3** \
- * **Bme** \
- * **Bse** \
- * **Fra** \
- * **Icex** \
- * **Jpx** \
- * **Jse** \
- * **Krx** \
- * **Lon** \
- * **Nse** \
- * **Omx** \
- * **Sehk** \
- * **Sgx** \
- * **Sse** \
- * **Sto** \
- * **Swx** \
- * **Szse** \
- * **Tsx** \
- * **Twse** \
- * **Vse** \
- * **Other**
- */
-export type StockExchange = string;
-
-/** Known values of {@link Relationship} that the service accepts. */
-export enum KnownRelationship {
-  /** BasicAccount */
-  BasicAccount = "BasicAccount",
-  /** SmallAccount */
-  SmallAccount = "SmallAccount",
-  /** MediumAccount */
-  MediumAccount = "MediumAccount",
-  /** LargeAccount */
-  LargeAccount = "LargeAccount",
-  /** KeyAccount */
-  KeyAccount = "KeyAccount"
-}
-
-/**
- * Defines values for Relationship. \
- * {@link KnownRelationship} can be used interchangeably with Relationship,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **BasicAccount** \
- * **SmallAccount** \
- * **MediumAccount** \
- * **LargeAccount** \
- * **KeyAccount**
- */
-export type Relationship = string;
-
-/** Known values of {@link AlternateBusinessIdType} that the service accepts. */
-export enum KnownAlternateBusinessIdType {
-  /** Duns */
-  Duns = "DUNS",
-  /** LEI */
-  LEI = "LEI",
-  /** Giin */
-  Giin = "GIIN"
-}
-
-/**
- * Defines values for AlternateBusinessIdType. \
- * {@link KnownAlternateBusinessIdType} can be used interchangeably with AlternateBusinessIdType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **DUNS** \
- * **LEI** \
- * **GIIN**
- */
-export type AlternateBusinessIdType = string;
-
-/** Known values of {@link ContentType} that the service accepts. */
-export enum KnownContentType {
-  /** TwoFactorAuthentication */
-  TwoFactorAuthentication = "TwoFactorAuthentication",
-  /** AccountNotification */
-  AccountNotification = "AccountNotification",
-  /** AgentsFranchises */
-  AgentsFranchises = "AgentsFranchises",
-  /** CarrierExempt */
-  CarrierExempt = "CarrierExempt",
-  /** Charity */
-  Charity = "Charity",
-  /** CustomerCare */
-  CustomerCare = "CustomerCare",
-  /** DeliveryNotification */
-  DeliveryNotification = "DeliveryNotification",
-  /** Emergency */
-  Emergency = "Emergency",
-  /** FraudAlert */
-  FraudAlert = "FraudAlert",
-  /** HigherEducation */
-  HigherEducation = "HigherEducation",
-  /** K12Education */
-  K12Education = "K12Education",
-  /** LowVolume */
-  LowVolume = "LowVolume",
-  /** M2M */
-  M2M = "M2M",
-  /** Marketing */
-  Marketing = "Marketing",
-  /** Mixed */
-  Mixed = "Mixed",
-  /** Political */
-  Political = "Political",
-  /** PollingVoting */
-  PollingVoting = "PollingVoting",
-  /** Proxy */
-  Proxy = "Proxy",
-  /** PublicServiceAnnouncement */
-  PublicServiceAnnouncement = "PublicServiceAnnouncement",
-  /** SecurityAlert */
-  SecurityAlert = "SecurityAlert",
-  /** Social */
-  Social = "Social",
-  /** SoleProprietor */
-  SoleProprietor = "SoleProprietor",
-  /** Sweepstake */
-  Sweepstake = "Sweepstake",
-  /** Trial */
-  Trial = "Trial",
-  /** UcaasHigh */
-  UcaasHigh = "UcaasHigh",
-  /** UcaasLow */
-  UcaasLow = "UcaasLow"
-}
-
-/**
- * Defines values for ContentType. \
- * {@link KnownContentType} can be used interchangeably with ContentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **TwoFactorAuthentication** \
- * **AccountNotification** \
- * **AgentsFranchises** \
- * **CarrierExempt** \
- * **Charity** \
- * **CustomerCare** \
- * **DeliveryNotification** \
- * **Emergency** \
- * **FraudAlert** \
- * **HigherEducation** \
- * **K12Education** \
- * **LowVolume** \
- * **M2M** \
- * **Marketing** \
- * **Mixed** \
- * **Political** \
- * **PollingVoting** \
- * **Proxy** \
- * **PublicServiceAnnouncement** \
- * **SecurityAlert** \
- * **Social** \
- * **SoleProprietor** \
- * **Sweepstake** \
- * **Trial** \
- * **UcaasHigh** \
- * **UcaasLow**
- */
-export type ContentType = string;
-
-/** Known values of {@link SubContentType} that the service accepts. */
-export enum KnownSubContentType {
-  /** TwoFactorAuthentication */
-  TwoFactorAuthentication = "twoFactorAuthentication",
-  /** AccountNotification */
-  AccountNotification = "accountNotification",
-  /** CustomerCare */
-  CustomerCare = "customerCare",
-  /** DeliveryNotification */
-  DeliveryNotification = "deliveryNotification",
-  /** FraudAlert */
-  FraudAlert = "fraudAlert",
-  /** HigherEducation */
-  HigherEducation = "higherEducation",
-  /** Marketing */
-  Marketing = "marketing",
-  /** PollingVoting */
-  PollingVoting = "pollingVoting",
-  /** PublicServiceAnnouncement */
-  PublicServiceAnnouncement = "publicServiceAnnouncement",
-  /** SecurityAlert */
-  SecurityAlert = "securityAlert"
-}
-
-/**
- * Defines values for SubContentType. \
- * {@link KnownSubContentType} can be used interchangeably with SubContentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **twoFactorAuthentication** \
- * **accountNotification** \
- * **customerCare** \
- * **deliveryNotification** \
- * **fraudAlert** \
- * **higherEducation** \
- * **marketing** \
- * **pollingVoting** \
- * **publicServiceAnnouncement** \
- * **securityAlert**
- */
-export type SubContentType = string;
+/** Defines values for LocalNumberCostType. */
+export type LocalNumberCostType = "brand" | "campaign";
+/** Defines values for BillingFrequency. */
+export type BillingFrequency = "monthly" | "once";
+/** Defines values for CompanyVertical. */
+export type CompanyVertical =
+  | "Agriculture"
+  | "Communication"
+  | "Construction"
+  | "Education"
+  | "Energy"
+  | "Entertainment"
+  | "Financial"
+  | "Gambling"
+  | "Government"
+  | "Healthcare"
+  | "Hospitality"
+  | "HumanResources"
+  | "Insurance"
+  | "Legal"
+  | "Manufacturing"
+  | "Ngo"
+  | "Political"
+  | "Postal"
+  | "Professional"
+  | "RealEstate"
+  | "Retail"
+  | "Technology"
+  | "Transportation";
+/** Defines values for EntityType. */
+export type EntityType =
+  | "PrivateProfit"
+  | "PublicProfit"
+  | "NonProfit"
+  | "Government";
+/** Defines values for StockExchange. */
+export type StockExchange =
+  | "Nasdaq"
+  | "Nyse"
+  | "Amex"
+  | "Amx"
+  | "Asx"
+  | "B3"
+  | "Bme"
+  | "Bse"
+  | "Fra"
+  | "Icex"
+  | "Jpx"
+  | "Jse"
+  | "Krx"
+  | "Lon"
+  | "Nse"
+  | "Omx"
+  | "Sehk"
+  | "Sgx"
+  | "Sse"
+  | "Sto"
+  | "Swx"
+  | "Szse"
+  | "Tsx"
+  | "Twse"
+  | "Vse"
+  | "Other";
+/** Defines values for Relationship. */
+export type Relationship =
+  | "BasicAccount"
+  | "SmallAccount"
+  | "MediumAccount"
+  | "LargeAccount"
+  | "KeyAccount";
+/** Defines values for AlternateBusinessIdType. */
+export type AlternateBusinessIdType = "DUNS" | "LEI" | "GIIN";
+/** Defines values for ContentType. */
+export type ContentType =
+  | "TwoFactorAuthentication"
+  | "AccountNotification"
+  | "AgentsFranchises"
+  | "CarrierExempt"
+  | "Charity"
+  | "CustomerCare"
+  | "DeliveryNotification"
+  | "Emergency"
+  | "FraudAlert"
+  | "HigherEducation"
+  | "K12Education"
+  | "LowVolume"
+  | "M2M"
+  | "Marketing"
+  | "Mixed"
+  | "Political"
+  | "PollingVoting"
+  | "Proxy"
+  | "PublicServiceAnnouncement"
+  | "SecurityAlert"
+  | "Social"
+  | "SoleProprietor"
+  | "Sweepstake"
+  | "Trial"
+  | "UcaasHigh"
+  | "UcaasLow";
+/** Defines values for SubContentType. */
+export type SubContentType =
+  | "twoFactorAuthentication"
+  | "accountNotification"
+  | "customerCare"
+  | "deliveryNotification"
+  | "fraudAlert"
+  | "higherEducation"
+  | "marketing"
+  | "pollingVoting"
+  | "publicServiceAnnouncement"
+  | "securityAlert";
 
 /** Optional parameters. */
 export interface TenDLCGetCostsOptionalParams

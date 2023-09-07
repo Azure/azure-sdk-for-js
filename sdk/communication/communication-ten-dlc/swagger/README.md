@@ -1,13 +1,13 @@
-# Azure Communication Services Short Codes Module
+# Azure Communication Services Alpha IDs Module
 
 > see https://aka.ms/autorest
 
 ## Configuration
 
 ```yaml
-package-name: "@azure-tools/communication-ten-dlc"
-description: 10 DLC management client
-package-version: 1.0.0
+package-name: "@azure/communication-ten-dlc"
+description: 10 DLC administration client
+package-version: "1.0.0"
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 input-file: ./swagger.json
@@ -29,3 +29,21 @@ typescript:
 ```
 
 ## Customizations
+
+### Disable extensible enums
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions[*].properties[*]["x-ms-enum"]
+    transform: >
+      if ($.modelAsString) {
+        $.modelAsString = false
+      }
+  - from: swagger-document
+    where: $.definitions[*].properties[*].items["x-ms-enum"]
+    transform: >
+      if ($.modelAsString) {
+        $.modelAsString = false
+      }    
+```
