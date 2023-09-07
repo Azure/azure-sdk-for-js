@@ -302,7 +302,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       if(err.statusCode === 403 && ManagedIdentityCredential.name === "imdsMsi" ){
         if(err.message.includes("A socket operation was attempted to an unreachable network")){
           const error = new CredentialUnavailableError(
-            `${ManagedIdentityCredential.name}: Unavailable. Message: ${err.message}`
+            `${ManagedIdentityCredential.name}: Unavailable. Network unreachable. Message: ${err.message}`
           );
   
           logger.getToken.info(formatError(scopes, error));
