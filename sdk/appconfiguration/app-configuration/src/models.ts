@@ -343,12 +343,7 @@ export interface ListSettingsOptions extends OptionalFields {
  */
 export interface ListConfigurationSettingsForSnapshotOptions
   extends OperationOptions,
-    OptionalFields {
-  /**
-   * Requests the server to respond with the state of the resource at the specified time.
-   */
-  acceptDateTime?: Date;
-}
+    OptionalFields {}
 
 /**
  * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
@@ -482,10 +477,19 @@ export interface GetSnapshotOptions
 export interface GetSnapshotResponse extends SnapshotResponse {}
 
 /**
- * Options used when upadting a Snapshot.
+ * Options used when updating a Snapshot.
  */
 export interface UpdateSnapshotOptions extends HttpOnlyIfUnchangedField, OperationOptions {}
 
+/**
+ * Options used when recovering a Snapshot.
+ */
+export type RecoverSnapshotOptions = UpdateSnapshotOptions;
+
+/**
+ * Options used when archiving a Snapshot.
+ */
+export type ArchiveSnapshotOptions = UpdateSnapshotOptions;
 /**
  * Response from updating a Snapshot.
  */

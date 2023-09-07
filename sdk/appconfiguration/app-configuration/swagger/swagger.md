@@ -101,7 +101,7 @@ directive:
       $["304"]["headers"]["Last-Modified"]["type"] = "string";
 ```
 
-### Rename Properties created -> createdOn, expires -> expiresOn, items_count -> itemCount, retention_eriod -> retentionPeriodInSeconds, size -> sizeInBytes
+### Rename Properties created -> createdOn, expires -> expiresOn, items_count -> itemCount, retention_period -> retentionPeriodInSeconds, size -> sizeInBytes
 
 ```yaml
 directive:

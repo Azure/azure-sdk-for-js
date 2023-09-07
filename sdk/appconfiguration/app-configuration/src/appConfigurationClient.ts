@@ -10,6 +10,7 @@ import {
   AddConfigurationSettingResponse,
   AppConfigurationApiVersion,
   AppConfigurationClientOptions,
+  ArchiveSnapshotOptions,
   ConfigurationSetting,
   ConfigurationSettingId,
   CreateSnapshotOptions,
@@ -29,6 +30,7 @@ import {
   ListSnapshotsOptions,
   ListSnapshotsPage,
   PageSettings,
+  RecoverSnapshotOptions,
   SetConfigurationSettingOptions,
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
@@ -619,7 +621,7 @@ export class AppConfigurationClient {
    * @param name - The name of the snapshot.
    * @param options - Optional parameters for the request.
    */
-  recoverSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
+  recoverSnapshot(name: string, options?: RecoverSnapshotOptions): Promise<UpdateSnapshotResponse>;
 
   /**
    * Recover an archived snapshot back to ready status
@@ -633,7 +635,7 @@ export class AppConfigurationClient {
    */
   recoverSnapshot(
     snapshotID: SnapshotId,
-    options?: UpdateSnapshotOptions
+    options?: RecoverSnapshotOptions
   ): Promise<UpdateSnapshotResponse>;
   recoverSnapshot(
     nameOrSnapshotID: string | SnapshotId,
@@ -672,7 +674,7 @@ export class AppConfigurationClient {
    * @param name - The name of the snapshot.
    * @param options - Optional parameters for the request.
    */
-  archiveSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
+  archiveSnapshot(name: string, options?: ArchiveSnapshotOptions): Promise<UpdateSnapshotResponse>;
   /**
    * Archive a ready snapshot
    *
@@ -685,7 +687,7 @@ export class AppConfigurationClient {
    */
   archiveSnapshot(
     snapshotID: SnapshotId,
-    options?: UpdateSnapshotOptions
+    options?: ArchiveSnapshotOptions
   ): Promise<UpdateSnapshotResponse>;
   archiveSnapshot(
     nameOrSnapshotID: string | SnapshotId,

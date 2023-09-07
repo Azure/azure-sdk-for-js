@@ -9,6 +9,9 @@
 
 ### Other Changes
 
+- Rename the properties `retentionPeriod` to `retentionPeriodInSeconds` and `size` to `sizeInBytes` for `Snapshot`
+- Add an overload for `recoverSnapshot` and `archiveSnapshot` to accept the name of the snapshot as the parameter
+
 ## 1.5.0-beta.1 (2023-07-14)
 
 ### Features Added
