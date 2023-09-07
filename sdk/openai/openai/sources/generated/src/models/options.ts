@@ -26,7 +26,10 @@ export interface GetAudioTranscriptionSimpleJsonOptions
   language?: string;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
   responseFormat?: AudioTranscriptionFormat;
-  /** The content type for the operation. Always multipart/form-data for this operation. */
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
   contentType?: string;
 }
 
@@ -44,7 +47,10 @@ export interface GetAudioTranscriptionVerboseJsonOptions
   language?: string;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
   responseFormat?: AudioTranscriptionFormat;
-  /** The content type for the operation. Always multipart/form-data for this operation. */
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
   contentType?: string;
 }
 
@@ -62,7 +68,10 @@ export interface GetAudioTranscriptionPlainTextOptions
   language?: string;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
   responseFormat?: AudioTranscriptionFormat;
-  /** The content type for the operation. Always multipart/form-data for this operation. */
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
   contentType?: string;
 }
 
@@ -79,7 +88,10 @@ export interface GetAudioTranscriptionSrtOptions extends OperationOptions {
   language?: string;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
   responseFormat?: AudioTranscriptionFormat;
-  /** The content type for the operation. Always multipart/form-data for this operation. */
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
   contentType?: string;
 }
 
@@ -96,7 +108,10 @@ export interface GetAudioTranscriptionVttOptions extends OperationOptions {
   language?: string;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
   responseFormat?: AudioTranscriptionFormat;
-  /** The content type for the operation. Always multipart/form-data for this operation. */
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
   contentType?: string;
 }
 
@@ -111,7 +126,10 @@ export interface GetAudioTranslationSimpleJsonOptions extends OperationOptions {
   temperature?: number;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
   responseFormat?: AudioTranscriptionFormat;
-  /** The content type for the operation. Always multipart/form-data for this operation. */
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
   contentType?: string;
 }
 
@@ -127,7 +145,10 @@ export interface GetAudioTranslationVerboseJsonOptions
   temperature?: number;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
   responseFormat?: AudioTranscriptionFormat;
-  /** The content type for the operation. Always multipart/form-data for this operation. */
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
   contentType?: string;
 }
 
@@ -142,7 +163,10 @@ export interface GetAudioTranslationPlainTextOptions extends OperationOptions {
   temperature?: number;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
   responseFormat?: AudioTranscriptionFormat;
-  /** The content type for the operation. Always multipart/form-data for this operation. */
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
   contentType?: string;
 }
 
@@ -157,7 +181,10 @@ export interface GetAudioTranslationSrtOptions extends OperationOptions {
   temperature?: number;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
   responseFormat?: AudioTranscriptionFormat;
-  /** The content type for the operation. Always multipart/form-data for this operation. */
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
   contentType?: string;
 }
 
@@ -172,7 +199,10 @@ export interface GetAudioTranslationVttOptions extends OperationOptions {
   temperature?: number;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
   responseFormat?: AudioTranscriptionFormat;
-  /** The content type for the operation. Always multipart/form-data for this operation. */
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
   contentType?: string;
 }
 

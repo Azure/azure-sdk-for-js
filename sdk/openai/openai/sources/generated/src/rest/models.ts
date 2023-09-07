@@ -191,6 +191,26 @@ export interface AudioTranslationOptionsSrt {
   response_format?: string;
 }
 
+/** Lorem ipsum */
+export interface AudioTranslationOptionsVtt {
+  /** The audio file object to transcribe. */
+  file: string;
+  /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /**
+   * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
+   *
+   * Possible values: json, text, srt, verbose_json, vtt
+   */
+  response_format?: string;
+}
+
 /**
  * The configuration information for a completions request.
  * Completions support a wide variety of tasks and generate text that continues from or "completes"

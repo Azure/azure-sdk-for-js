@@ -75,6 +75,7 @@ export function _getAudioTranscriptionSimpleJsonSend(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranscriptionSimpleJsonOptions = { requestOptions: {} }
 ): StreamableMethod<
   | GetAudioTranscriptionSimpleJson200Response
@@ -84,7 +85,10 @@ export function _getAudioTranscriptionSimpleJsonSend(
     .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: (options.contentType as any) ?? "multipart/form-data",
+      contentType:
+        (options.contentType as any) ??
+        "multipart/form-data; boundary=azure_openai",
+      headers: { "content-length": contentLength },
       body: {
         file: file,
         prompt: options?.prompt,
@@ -114,12 +118,14 @@ export async function getAudioTranscriptionSimpleJson(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranscriptionSimpleJsonOptions = { requestOptions: {} }
 ): Promise<AudioTranscriptionSimpleJson> {
   const result = await _getAudioTranscriptionSimpleJsonSend(
     context,
     file,
     deploymentId,
+    contentLength,
     options
   );
   return _getAudioTranscriptionSimpleJsonDeserialize(result);
@@ -129,6 +135,7 @@ export function _getAudioTranscriptionVerboseJsonSend(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranscriptionVerboseJsonOptions = { requestOptions: {} }
 ): StreamableMethod<
   | GetAudioTranscriptionVerboseJson200Response
@@ -138,7 +145,10 @@ export function _getAudioTranscriptionVerboseJsonSend(
     .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: (options.contentType as any) ?? "multipart/form-data",
+      contentType:
+        (options.contentType as any) ??
+        "multipart/form-data; boundary=azure_openai",
+      headers: { "content-length": contentLength },
       body: {
         file: file,
         prompt: options?.prompt,
@@ -182,12 +192,14 @@ export async function getAudioTranscriptionVerboseJson(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranscriptionVerboseJsonOptions = { requestOptions: {} }
 ): Promise<AudioTranscriptionVerboseJson> {
   const result = await _getAudioTranscriptionVerboseJsonSend(
     context,
     file,
     deploymentId,
+    contentLength,
     options
   );
   return _getAudioTranscriptionVerboseJsonDeserialize(result);
@@ -197,6 +209,7 @@ export function _getAudioTranscriptionPlainTextSend(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranscriptionPlainTextOptions = { requestOptions: {} }
 ): StreamableMethod<
   | GetAudioTranscriptionPlainText200Response
@@ -206,7 +219,10 @@ export function _getAudioTranscriptionPlainTextSend(
     .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: (options.contentType as any) ?? "multipart/form-data",
+      contentType:
+        (options.contentType as any) ??
+        "multipart/form-data; boundary=azure_openai",
+      headers: { "content-length": contentLength },
       body: {
         file: file,
         prompt: options?.prompt,
@@ -234,12 +250,14 @@ export async function getAudioTranscriptionPlainText(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranscriptionPlainTextOptions = { requestOptions: {} }
 ): Promise<string> {
   const result = await _getAudioTranscriptionPlainTextSend(
     context,
     file,
     deploymentId,
+    contentLength,
     options
   );
   return _getAudioTranscriptionPlainTextDeserialize(result);
@@ -249,6 +267,7 @@ export function _getAudioTranscriptionSrtSend(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranscriptionSrtOptions = { requestOptions: {} }
 ): StreamableMethod<
   GetAudioTranscriptionSrt200Response | GetAudioTranscriptionSrtDefaultResponse
@@ -257,7 +276,10 @@ export function _getAudioTranscriptionSrtSend(
     .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: (options.contentType as any) ?? "multipart/form-data",
+      contentType:
+        (options.contentType as any) ??
+        "multipart/form-data; boundary=azure_openai",
+      headers: { "content-length": contentLength },
       body: {
         file: file,
         prompt: options?.prompt,
@@ -285,12 +307,14 @@ export async function getAudioTranscriptionSrt(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranscriptionSrtOptions = { requestOptions: {} }
 ): Promise<string> {
   const result = await _getAudioTranscriptionSrtSend(
     context,
     file,
     deploymentId,
+    contentLength,
     options
   );
   return _getAudioTranscriptionSrtDeserialize(result);
@@ -300,6 +324,7 @@ export function _getAudioTranscriptionVttSend(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranscriptionVttOptions = { requestOptions: {} }
 ): StreamableMethod<
   GetAudioTranscriptionVtt200Response | GetAudioTranscriptionVttDefaultResponse
@@ -308,7 +333,10 @@ export function _getAudioTranscriptionVttSend(
     .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: (options.contentType as any) ?? "multipart/form-data",
+      contentType:
+        (options.contentType as any) ??
+        "multipart/form-data; boundary=azure_openai",
+      headers: { "content-length": contentLength },
       body: {
         file: file,
         prompt: options?.prompt,
@@ -336,12 +364,14 @@ export async function getAudioTranscriptionVtt(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranscriptionVttOptions = { requestOptions: {} }
 ): Promise<string> {
   const result = await _getAudioTranscriptionVttSend(
     context,
     file,
     deploymentId,
+    contentLength,
     options
   );
   return _getAudioTranscriptionVttDeserialize(result);
@@ -351,6 +381,7 @@ export function _getAudioTranslationSimpleJsonSend(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranslationSimpleJsonOptions = { requestOptions: {} }
 ): StreamableMethod<
   | GetAudioTranslationSimpleJson200Response
@@ -360,7 +391,10 @@ export function _getAudioTranslationSimpleJsonSend(
     .path("/deployments/{deploymentId}/audio/translations", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: (options.contentType as any) ?? "multipart/form-data",
+      contentType:
+        (options.contentType as any) ??
+        "multipart/form-data; boundary=azure_openai",
+      headers: { "content-length": contentLength },
       body: {
         file: file,
         prompt: options?.prompt,
@@ -389,12 +423,14 @@ export async function getAudioTranslationSimpleJson(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranslationSimpleJsonOptions = { requestOptions: {} }
 ): Promise<AudioTranscriptionSimpleJson> {
   const result = await _getAudioTranslationSimpleJsonSend(
     context,
     file,
     deploymentId,
+    contentLength,
     options
   );
   return _getAudioTranslationSimpleJsonDeserialize(result);
@@ -404,6 +440,7 @@ export function _getAudioTranslationVerboseJsonSend(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranslationVerboseJsonOptions = { requestOptions: {} }
 ): StreamableMethod<
   | GetAudioTranslationVerboseJson200Response
@@ -413,7 +450,10 @@ export function _getAudioTranslationVerboseJsonSend(
     .path("/deployments/{deploymentId}/audio/translations", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: (options.contentType as any) ?? "multipart/form-data",
+      contentType:
+        (options.contentType as any) ??
+        "multipart/form-data; boundary=azure_openai",
+      headers: { "content-length": contentLength },
       body: {
         file: file,
         prompt: options?.prompt,
@@ -456,12 +496,14 @@ export async function getAudioTranslationVerboseJson(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranslationVerboseJsonOptions = { requestOptions: {} }
 ): Promise<AudioTranscriptionVerboseJson> {
   const result = await _getAudioTranslationVerboseJsonSend(
     context,
     file,
     deploymentId,
+    contentLength,
     options
   );
   return _getAudioTranslationVerboseJsonDeserialize(result);
@@ -471,6 +513,7 @@ export function _getAudioTranslationPlainTextSend(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranslationPlainTextOptions = { requestOptions: {} }
 ): StreamableMethod<
   | GetAudioTranslationPlainText200Response
@@ -480,7 +523,10 @@ export function _getAudioTranslationPlainTextSend(
     .path("/deployments/{deploymentId}/audio/translations", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: (options.contentType as any) ?? "multipart/form-data",
+      contentType:
+        (options.contentType as any) ??
+        "multipart/form-data; boundary=azure_openai",
+      headers: { "content-length": contentLength },
       body: {
         file: file,
         prompt: options?.prompt,
@@ -507,12 +553,14 @@ export async function getAudioTranslationPlainText(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranslationPlainTextOptions = { requestOptions: {} }
 ): Promise<string> {
   const result = await _getAudioTranslationPlainTextSend(
     context,
     file,
     deploymentId,
+    contentLength,
     options
   );
   return _getAudioTranslationPlainTextDeserialize(result);
@@ -522,6 +570,7 @@ export function _getAudioTranslationSrtSend(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranslationSrtOptions = { requestOptions: {} }
 ): StreamableMethod<
   GetAudioTranslationSrt200Response | GetAudioTranslationSrtDefaultResponse
@@ -530,7 +579,10 @@ export function _getAudioTranslationSrtSend(
     .path("/deployments/{deploymentId}/audio/translations", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: (options.contentType as any) ?? "multipart/form-data",
+      contentType:
+        (options.contentType as any) ??
+        "multipart/form-data; boundary=azure_openai",
+      headers: { "content-length": contentLength },
       body: {
         file: file,
         prompt: options?.prompt,
@@ -557,12 +609,14 @@ export async function getAudioTranslationSrt(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranslationSrtOptions = { requestOptions: {} }
 ): Promise<string> {
   const result = await _getAudioTranslationSrtSend(
     context,
     file,
     deploymentId,
+    contentLength,
     options
   );
   return _getAudioTranslationSrtDeserialize(result);
@@ -572,6 +626,7 @@ export function _getAudioTranslationVttSend(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranslationVttOptions = { requestOptions: {} }
 ): StreamableMethod<
   GetAudioTranslationVtt200Response | GetAudioTranslationVttDefaultResponse
@@ -580,7 +635,10 @@ export function _getAudioTranslationVttSend(
     .path("/deployments/{deploymentId}/audio/translations", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: (options.contentType as any) ?? "multipart/form-data",
+      contentType:
+        (options.contentType as any) ??
+        "multipart/form-data; boundary=azure_openai",
+      headers: { "content-length": contentLength },
       body: {
         file: file,
         prompt: options?.prompt,
@@ -607,12 +665,14 @@ export async function getAudioTranslationVtt(
   context: Client,
   file: Uint8Array,
   deploymentId: string,
+  contentLength: number,
   options: GetAudioTranslationVttOptions = { requestOptions: {} }
 ): Promise<string> {
   const result = await _getAudioTranslationVttSend(
     context,
     file,
     deploymentId,
+    contentLength,
     options
   );
   return _getAudioTranslationVttDeserialize(result);

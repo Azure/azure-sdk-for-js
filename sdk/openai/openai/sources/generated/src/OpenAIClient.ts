@@ -69,12 +69,14 @@ export class OpenAIClient {
   getAudioTranscriptionSimpleJson(
     file: Uint8Array,
     deploymentId: string,
+    contentLength: number,
     options: GetAudioTranscriptionSimpleJsonOptions = { requestOptions: {} }
   ): Promise<AudioTranscriptionSimpleJson> {
     return getAudioTranscriptionSimpleJson(
       this._client,
       file,
       deploymentId,
+      contentLength,
       options
     );
   }
@@ -83,12 +85,14 @@ export class OpenAIClient {
   getAudioTranscriptionVerboseJson(
     file: Uint8Array,
     deploymentId: string,
+    contentLength: number,
     options: GetAudioTranscriptionVerboseJsonOptions = { requestOptions: {} }
   ): Promise<AudioTranscriptionVerboseJson> {
     return getAudioTranscriptionVerboseJson(
       this._client,
       file,
       deploymentId,
+      contentLength,
       options
     );
   }
@@ -97,12 +101,14 @@ export class OpenAIClient {
   getAudioTranscriptionPlainText(
     file: Uint8Array,
     deploymentId: string,
+    contentLength: number,
     options: GetAudioTranscriptionPlainTextOptions = { requestOptions: {} }
   ): Promise<string> {
     return getAudioTranscriptionPlainText(
       this._client,
       file,
       deploymentId,
+      contentLength,
       options
     );
   }
@@ -111,30 +117,46 @@ export class OpenAIClient {
   getAudioTranscriptionSrt(
     file: Uint8Array,
     deploymentId: string,
+    contentLength: number,
     options: GetAudioTranscriptionSrtOptions = { requestOptions: {} }
   ): Promise<string> {
-    return getAudioTranscriptionSrt(this._client, file, deploymentId, options);
+    return getAudioTranscriptionSrt(
+      this._client,
+      file,
+      deploymentId,
+      contentLength,
+      options
+    );
   }
 
   /** Transcribes audio into the input language. */
   getAudioTranscriptionVtt(
     file: Uint8Array,
     deploymentId: string,
+    contentLength: number,
     options: GetAudioTranscriptionVttOptions = { requestOptions: {} }
   ): Promise<string> {
-    return getAudioTranscriptionVtt(this._client, file, deploymentId, options);
+    return getAudioTranscriptionVtt(
+      this._client,
+      file,
+      deploymentId,
+      contentLength,
+      options
+    );
   }
 
   /** Transcribes and translates input audio into English text. */
   getAudioTranslationSimpleJson(
     file: Uint8Array,
     deploymentId: string,
+    contentLength: number,
     options: GetAudioTranslationSimpleJsonOptions = { requestOptions: {} }
   ): Promise<AudioTranscriptionSimpleJson> {
     return getAudioTranslationSimpleJson(
       this._client,
       file,
       deploymentId,
+      contentLength,
       options
     );
   }
@@ -143,12 +165,14 @@ export class OpenAIClient {
   getAudioTranslationVerboseJson(
     file: Uint8Array,
     deploymentId: string,
+    contentLength: number,
     options: GetAudioTranslationVerboseJsonOptions = { requestOptions: {} }
   ): Promise<AudioTranscriptionVerboseJson> {
     return getAudioTranslationVerboseJson(
       this._client,
       file,
       deploymentId,
+      contentLength,
       options
     );
   }
@@ -157,12 +181,14 @@ export class OpenAIClient {
   getAudioTranslationPlainText(
     file: Uint8Array,
     deploymentId: string,
+    contentLength: number,
     options: GetAudioTranslationPlainTextOptions = { requestOptions: {} }
   ): Promise<string> {
     return getAudioTranslationPlainText(
       this._client,
       file,
       deploymentId,
+      contentLength,
       options
     );
   }
@@ -171,18 +197,32 @@ export class OpenAIClient {
   getAudioTranslationSrt(
     file: Uint8Array,
     deploymentId: string,
+    contentLength: number,
     options: GetAudioTranslationSrtOptions = { requestOptions: {} }
   ): Promise<string> {
-    return getAudioTranslationSrt(this._client, file, deploymentId, options);
+    return getAudioTranslationSrt(
+      this._client,
+      file,
+      deploymentId,
+      contentLength,
+      options
+    );
   }
 
   /** Transcribes and translates input audio into English text. */
   getAudioTranslationVtt(
     file: Uint8Array,
     deploymentId: string,
+    contentLength: number,
     options: GetAudioTranslationVttOptions = { requestOptions: {} }
   ): Promise<string> {
-    return getAudioTranslationVtt(this._client, file, deploymentId, options);
+    return getAudioTranslationVtt(
+      this._client,
+      file,
+      deploymentId,
+      contentLength,
+      options
+    );
   }
 
   /**

@@ -1,266 +1,292 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
 import {
+  AudioTranscriptionOptionsSimpleJson,
+  AudioTranscriptionOptionsVerboseJson,
+  AudioTranscriptionOptionsPlainText,
+  AudioTranscriptionOptionsSrt,
+  AudioTranscriptionOptionsVtt,
+  AudioTranslationOptionsSimpleJson,
+  AudioTranslationOptionsVerboseJson,
+  AudioTranslationOptionsPlainText,
+  AudioTranslationOptionsSrt,
+  AudioTranslationOptionsVtt,
   CompletionsOptions,
   ChatCompletionsOptions,
   EmbeddingsOptions,
   ImageGenerationOptions,
 } from "./models.js";
 
-export interface GetAudioTranscriptionSimpleJsonBodyParam {
-  body: GetAudioTranscriptionSimpleJsonFormBody;
+export interface GetAudioTranscriptionSimpleJsonHeaders {
+  /** The content length of the operation. This needs to be provided by the caller. */
+  "content-length": number;
 }
 
-export interface GetAudioTranscriptionSimpleJsonFormBody {
-  file:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
-  prompt?: string;
-  temperature?: number;
-  language?: string;
-  responseFormat?: string;
+export interface GetAudioTranscriptionSimpleJsonBodyParam {
+  body?: AudioTranscriptionOptionsSimpleJson;
+}
+
+export interface GetAudioTranscriptionSimpleJsonHeaderParam {
+  headers: RawHttpHeadersInput & GetAudioTranscriptionSimpleJsonHeaders;
 }
 
 export interface GetAudioTranscriptionSimpleJsonMediaTypesParam {
-  /** The content type for the operation. Always multipart/form-data for this operation. */
-  contentType: "multipart/form-data";
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
+  contentType: "multipart/form-data; boundary=azure_openai";
 }
 
 export type GetAudioTranscriptionSimpleJsonParameters =
-  GetAudioTranscriptionSimpleJsonMediaTypesParam &
+  GetAudioTranscriptionSimpleJsonHeaderParam &
+    GetAudioTranscriptionSimpleJsonMediaTypesParam &
     GetAudioTranscriptionSimpleJsonBodyParam &
     RequestParameters;
 
-export interface GetAudioTranscriptionVerboseJsonBodyParam {
-  body: GetAudioTranscriptionVerboseJsonFormBody;
+export interface GetAudioTranscriptionVerboseJsonHeaders {
+  /** The content length of the operation. This needs to be provided by the caller. */
+  "content-length": number;
 }
 
-export interface GetAudioTranscriptionVerboseJsonFormBody {
-  file:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
-  prompt?: string;
-  temperature?: number;
-  language?: string;
-  responseFormat?: string;
+export interface GetAudioTranscriptionVerboseJsonBodyParam {
+  body?: AudioTranscriptionOptionsVerboseJson;
+}
+
+export interface GetAudioTranscriptionVerboseJsonHeaderParam {
+  headers: RawHttpHeadersInput & GetAudioTranscriptionVerboseJsonHeaders;
 }
 
 export interface GetAudioTranscriptionVerboseJsonMediaTypesParam {
-  /** The content type for the operation. Always multipart/form-data for this operation. */
-  contentType: "multipart/form-data";
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
+  contentType: "multipart/form-data; boundary=azure_openai";
 }
 
 export type GetAudioTranscriptionVerboseJsonParameters =
-  GetAudioTranscriptionVerboseJsonMediaTypesParam &
+  GetAudioTranscriptionVerboseJsonHeaderParam &
+    GetAudioTranscriptionVerboseJsonMediaTypesParam &
     GetAudioTranscriptionVerboseJsonBodyParam &
     RequestParameters;
 
-export interface GetAudioTranscriptionPlainTextBodyParam {
-  body: GetAudioTranscriptionPlainTextFormBody;
+export interface GetAudioTranscriptionPlainTextHeaders {
+  /** The content length of the operation. This needs to be provided by the caller. */
+  "content-length": number;
 }
 
-export interface GetAudioTranscriptionPlainTextFormBody {
-  file:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
-  prompt?: string;
-  temperature?: number;
-  language?: string;
-  responseFormat?: string;
+export interface GetAudioTranscriptionPlainTextBodyParam {
+  body?: AudioTranscriptionOptionsPlainText;
+}
+
+export interface GetAudioTranscriptionPlainTextHeaderParam {
+  headers: RawHttpHeadersInput & GetAudioTranscriptionPlainTextHeaders;
 }
 
 export interface GetAudioTranscriptionPlainTextMediaTypesParam {
-  /** The content type for the operation. Always multipart/form-data for this operation. */
-  contentType: "multipart/form-data";
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
+  contentType: "multipart/form-data; boundary=azure_openai";
 }
 
 export type GetAudioTranscriptionPlainTextParameters =
-  GetAudioTranscriptionPlainTextMediaTypesParam &
+  GetAudioTranscriptionPlainTextHeaderParam &
+    GetAudioTranscriptionPlainTextMediaTypesParam &
     GetAudioTranscriptionPlainTextBodyParam &
     RequestParameters;
 
-export interface GetAudioTranscriptionSrtBodyParam {
-  body: GetAudioTranscriptionSrtFormBody;
+export interface GetAudioTranscriptionSrtHeaders {
+  /** The content length of the operation. This needs to be provided by the caller. */
+  "content-length": number;
 }
 
-export interface GetAudioTranscriptionSrtFormBody {
-  file:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
-  prompt?: string;
-  temperature?: number;
-  language?: string;
-  responseFormat?: string;
+export interface GetAudioTranscriptionSrtBodyParam {
+  body?: AudioTranscriptionOptionsSrt;
+}
+
+export interface GetAudioTranscriptionSrtHeaderParam {
+  headers: RawHttpHeadersInput & GetAudioTranscriptionSrtHeaders;
 }
 
 export interface GetAudioTranscriptionSrtMediaTypesParam {
-  /** The content type for the operation. Always multipart/form-data for this operation. */
-  contentType: "multipart/form-data";
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
+  contentType: "multipart/form-data; boundary=azure_openai";
 }
 
 export type GetAudioTranscriptionSrtParameters =
-  GetAudioTranscriptionSrtMediaTypesParam &
+  GetAudioTranscriptionSrtHeaderParam &
+    GetAudioTranscriptionSrtMediaTypesParam &
     GetAudioTranscriptionSrtBodyParam &
     RequestParameters;
 
-export interface GetAudioTranscriptionVttBodyParam {
-  body: GetAudioTranscriptionVttFormBody;
+export interface GetAudioTranscriptionVttHeaders {
+  /** The content length of the operation. This needs to be provided by the caller. */
+  "content-length": number;
 }
 
-export interface GetAudioTranscriptionVttFormBody {
-  file:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
-  prompt?: string;
-  temperature?: number;
-  language?: string;
-  responseFormat?: string;
+export interface GetAudioTranscriptionVttBodyParam {
+  body?: AudioTranscriptionOptionsVtt;
+}
+
+export interface GetAudioTranscriptionVttHeaderParam {
+  headers: RawHttpHeadersInput & GetAudioTranscriptionVttHeaders;
 }
 
 export interface GetAudioTranscriptionVttMediaTypesParam {
-  /** The content type for the operation. Always multipart/form-data for this operation. */
-  contentType: "multipart/form-data";
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
+  contentType: "multipart/form-data; boundary=azure_openai";
 }
 
 export type GetAudioTranscriptionVttParameters =
-  GetAudioTranscriptionVttMediaTypesParam &
+  GetAudioTranscriptionVttHeaderParam &
+    GetAudioTranscriptionVttMediaTypesParam &
     GetAudioTranscriptionVttBodyParam &
     RequestParameters;
 
-export interface GetAudioTranslationSimpleJsonBodyParam {
-  body: GetAudioTranslationSimpleJsonFormBody;
+export interface GetAudioTranslationSimpleJsonHeaders {
+  /** The content length of the operation. This needs to be provided by the caller. */
+  "content-length": number;
 }
 
-export interface GetAudioTranslationSimpleJsonFormBody {
-  file:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
-  prompt?: string;
-  temperature?: number;
-  responseFormat?: string;
+export interface GetAudioTranslationSimpleJsonBodyParam {
+  body?: AudioTranslationOptionsSimpleJson;
+}
+
+export interface GetAudioTranslationSimpleJsonHeaderParam {
+  headers: RawHttpHeadersInput & GetAudioTranslationSimpleJsonHeaders;
 }
 
 export interface GetAudioTranslationSimpleJsonMediaTypesParam {
-  /** The content type for the operation. Always multipart/form-data for this operation. */
-  contentType: "multipart/form-data";
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
+  contentType: "multipart/form-data; boundary=azure_openai";
 }
 
 export type GetAudioTranslationSimpleJsonParameters =
-  GetAudioTranslationSimpleJsonMediaTypesParam &
+  GetAudioTranslationSimpleJsonHeaderParam &
+    GetAudioTranslationSimpleJsonMediaTypesParam &
     GetAudioTranslationSimpleJsonBodyParam &
     RequestParameters;
 
-export interface GetAudioTranslationVerboseJsonBodyParam {
-  body: GetAudioTranslationVerboseJsonFormBody;
+export interface GetAudioTranslationVerboseJsonHeaders {
+  /** The content length of the operation. This needs to be provided by the caller. */
+  "content-length": number;
 }
 
-export interface GetAudioTranslationVerboseJsonFormBody {
-  file:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
-  prompt?: string;
-  temperature?: number;
-  responseFormat?: string;
+export interface GetAudioTranslationVerboseJsonBodyParam {
+  body?: AudioTranslationOptionsVerboseJson;
+}
+
+export interface GetAudioTranslationVerboseJsonHeaderParam {
+  headers: RawHttpHeadersInput & GetAudioTranslationVerboseJsonHeaders;
 }
 
 export interface GetAudioTranslationVerboseJsonMediaTypesParam {
-  /** The content type for the operation. Always multipart/form-data for this operation. */
-  contentType: "multipart/form-data";
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
+  contentType: "multipart/form-data; boundary=azure_openai";
 }
 
 export type GetAudioTranslationVerboseJsonParameters =
-  GetAudioTranslationVerboseJsonMediaTypesParam &
+  GetAudioTranslationVerboseJsonHeaderParam &
+    GetAudioTranslationVerboseJsonMediaTypesParam &
     GetAudioTranslationVerboseJsonBodyParam &
     RequestParameters;
 
-export interface GetAudioTranslationPlainTextBodyParam {
-  body: GetAudioTranslationPlainTextFormBody;
+export interface GetAudioTranslationPlainTextHeaders {
+  /** The content length of the operation. This needs to be provided by the caller. */
+  "content-length": number;
 }
 
-export interface GetAudioTranslationPlainTextFormBody {
-  file:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
-  prompt?: string;
-  temperature?: number;
-  responseFormat?: string;
+export interface GetAudioTranslationPlainTextBodyParam {
+  body?: AudioTranslationOptionsPlainText;
+}
+
+export interface GetAudioTranslationPlainTextHeaderParam {
+  headers: RawHttpHeadersInput & GetAudioTranslationPlainTextHeaders;
 }
 
 export interface GetAudioTranslationPlainTextMediaTypesParam {
-  /** The content type for the operation. Always multipart/form-data for this operation. */
-  contentType: "multipart/form-data";
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
+  contentType: "multipart/form-data; boundary=azure_openai";
 }
 
 export type GetAudioTranslationPlainTextParameters =
-  GetAudioTranslationPlainTextMediaTypesParam &
+  GetAudioTranslationPlainTextHeaderParam &
+    GetAudioTranslationPlainTextMediaTypesParam &
     GetAudioTranslationPlainTextBodyParam &
     RequestParameters;
 
-export interface GetAudioTranslationSrtBodyParam {
-  body: GetAudioTranslationSrtFormBody;
+export interface GetAudioTranslationSrtHeaders {
+  /** The content length of the operation. This needs to be provided by the caller. */
+  "content-length": number;
 }
 
-export interface GetAudioTranslationSrtFormBody {
-  file:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
-  prompt?: string;
-  temperature?: number;
-  responseFormat?: string;
+export interface GetAudioTranslationSrtBodyParam {
+  body?: AudioTranslationOptionsSrt;
+}
+
+export interface GetAudioTranslationSrtHeaderParam {
+  headers: RawHttpHeadersInput & GetAudioTranslationSrtHeaders;
 }
 
 export interface GetAudioTranslationSrtMediaTypesParam {
-  /** The content type for the operation. Always multipart/form-data for this operation. */
-  contentType: "multipart/form-data";
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
+  contentType: "multipart/form-data; boundary=azure_openai";
 }
 
 export type GetAudioTranslationSrtParameters =
-  GetAudioTranslationSrtMediaTypesParam &
+  GetAudioTranslationSrtHeaderParam &
+    GetAudioTranslationSrtMediaTypesParam &
     GetAudioTranslationSrtBodyParam &
     RequestParameters;
 
-export interface GetAudioTranslationVttBodyParam {
-  body: GetAudioTranslationVttFormBody;
+export interface GetAudioTranslationVttHeaders {
+  /** The content length of the operation. This needs to be provided by the caller. */
+  "content-length": number;
 }
 
-export interface GetAudioTranslationVttFormBody {
-  file:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
-  prompt?: string;
-  temperature?: number;
-  responseFormat?: string;
+export interface GetAudioTranslationVttBodyParam {
+  body?: AudioTranslationOptionsVtt;
+}
+
+export interface GetAudioTranslationVttHeaderParam {
+  headers: RawHttpHeadersInput & GetAudioTranslationVttHeaders;
 }
 
 export interface GetAudioTranslationVttMediaTypesParam {
-  /** The content type for the operation. Always multipart/form-data for this operation. */
-  contentType: "multipart/form-data";
+  /**
+   * The content type for the operation. Always multipart/form-data for this operation.
+   * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
+   */
+  contentType: "multipart/form-data; boundary=azure_openai";
 }
 
 export type GetAudioTranslationVttParameters =
-  GetAudioTranslationVttMediaTypesParam &
+  GetAudioTranslationVttHeaderParam &
+    GetAudioTranslationVttMediaTypesParam &
     GetAudioTranslationVttBodyParam &
     RequestParameters;
 

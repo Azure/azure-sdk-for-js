@@ -3,12 +3,6 @@
 
 import { ErrorModel } from "@azure-rest/core-client";
 
-/** A specific deployment */
-export interface DeploymentOutput {
-  /** Specifies either the model deployment name (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request. */
-  readonly deploymentId: string;
-}
-
 /** Lorem ipsum */
 export interface AudioTranscriptionSimpleJsonOutput {
   /** Transcribed text. */
@@ -54,6 +48,12 @@ export interface AudioTranscriptionSegmentOutput {
   tokens: number[];
   /** TODO */
   seek: number;
+}
+
+/** A specific deployment */
+export interface DeploymentOutput {
+  /** Specifies either the model deployment name (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request. */
+  readonly deploymentId: string;
 }
 
 /**
