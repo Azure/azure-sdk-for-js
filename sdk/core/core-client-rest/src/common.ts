@@ -10,7 +10,6 @@ import {
   PipelineRequest,
   PipelineResponse,
   RawHttpHeaders,
-  RequestBodyType,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
@@ -96,10 +95,8 @@ export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: u
 
 /**
  * Types of bodies supported on the response.
- * NodeJS.ReadableStream and () =\> NodeJS.ReadableStream is Node only.
- * Blob, ReadableStream<Uint8Array>, and () =\> ReadableStream<Uint8Array> are browser only.
  */
-export type ResponseBodyType = RequestBodyType | Record<string, unknown>;
+export type ResponseBodyType = Record<string, unknown> | string;
 
 /**
  * Wrapper object for http request and response. Deserialized object is stored in

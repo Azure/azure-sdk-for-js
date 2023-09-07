@@ -38,7 +38,9 @@ export async function sendRequest(
   const request = buildPipelineRequest(method, url, options);
   const response = await pipeline.sendRequest(httpClient, request);
   const headers = response.headers.toJSON();
-  const parsedBody = await getResponseBody(response, options.responseAsStream);
+  const stream = response.readableStreamBody ?? response.browserStreamBody;
+  const parsedBody = await getResponseBody(response);
+  const body = options.responseAsStream || stream !== undefined ? stream : parsedBody;
 
   if (options?.onResponse) {
     options.onResponse({ ...response, request, rawHeaders: headers, parsedBody });
@@ -48,7 +50,7 @@ export async function sendRequest(
     request,
     headers,
     status: `${response.status}`,
-    body: parsedBody,
+    body,
   };
 }
 
@@ -188,28 +190,11 @@ function processFormData(formData?: FormDataMap): FormDataMap | undefined {
  * @param response - The received response
  * @param asStream - The type to coerce the body as
  */
-async function getResponseBody(
-  response: PipelineResponse,
-  asStream: boolean = false
-): Promise<ResponseBodyType | undefined> {
+async function getResponseBody(response: PipelineResponse): Promise<ResponseBodyType> {
   // Set the default response type
   const contentType = response.headers.get("content-type") ?? "";
   const firstType = contentType.split(";")[0];
   const text = response.bodyAsText ?? "";
-  const stream = response.readableStreamBody ?? response.browserStreamBody;
-
-  if (
-    /**
-     * If the client is asking for a stream, return it directly.
-     */
-    asStream ||
-    /**
-     * If the response contains a stream, return it directly.
-     */
-    stream !== undefined
-  ) {
-    return stream;
-  }
 
   if (firstType === "text/plain") {
     return String(text);
@@ -222,7 +207,7 @@ function tryParse(
   bodyAsText: PipelineResponse["bodyAsText"],
   allowUnparsed: boolean,
   response: PipelineResponse
-): Record<string, any> | string | undefined {
+): ResponseBodyType {
   try {
     return bodyAsText ? JSON.parse(bodyAsText) : undefined;
   } catch (error) {
