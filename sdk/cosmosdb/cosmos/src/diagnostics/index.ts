@@ -30,7 +30,7 @@ if (isNonEmptyString(diagnosticLevelFromEnv)) {
     console.error(
       `${
         Constants.CosmosDbDiagnosticLevelEnvVarName
-      } set to unknown diagnostic level '${diagnosticLevelFromEnv}'; Setting Cosmos Db diagnostic level to silent. Acceptable values: ${acceptableDiagnosticLevelValues.join(
+      } set to unknown diagnostic level '${diagnosticLevelFromEnv}'; Setting Cosmos Db diagnostic level to info. Acceptable values: ${acceptableDiagnosticLevelValues.join(
         ", "
       )}.`
     );

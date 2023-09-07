@@ -10,7 +10,7 @@ import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitio
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
 import { PartitionKey } from "../../documents";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { withDiagnostics } from "../../utils/diagnostics";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 /**
  * @hidden
  * Provides iterator for change feed for one partition key.
@@ -162,7 +162,8 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       response.result,
       response.result ? response.result.length : 0,
       response.code,
-      response.headers
+      response.headers,
+      getEmptyCosmosDiagnostics()
     );
   }
 }
