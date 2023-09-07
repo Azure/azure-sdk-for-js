@@ -439,7 +439,7 @@ function serializeBasicTypes(typeName: string, objectName: string, value: any): 
         objectType !== "function"
       ) {
         throw new Error(
-          `${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, NodeJS.ReadableStream, or () => NodeJS.ReadableStream.`
+          `${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, ReadableStream, or () => ReadableStream.`
         );
       }
     }
