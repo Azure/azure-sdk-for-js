@@ -16,7 +16,7 @@ import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { addDignosticChild } from "../utils/diagnostics";
-import { MetadataLookUpType } from "..";
+import { MetadataLookUpType } from "../CosmosDiagnostics";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -71,7 +71,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.partitionedQueryExecutionInfo = partitionedQueryExecutionInfo;
     this.diagnosticNodeWrapper = {
       consumed: false,
-      diagnosticNode: new DiagnosticNodeInternal(DiagnosticNodeType.PARALLEL_QUERY_NODE, null),
+      diagnosticNode: new DiagnosticNodeInternal(
+        clientContext.diagnosticLevel,
+        DiagnosticNodeType.PARALLEL_QUERY_NODE,
+        null
+      ),
     };
     this.diagnosticNodeWrapper.diagnosticNode.addData({ stateful: true });
     this.err = undefined;

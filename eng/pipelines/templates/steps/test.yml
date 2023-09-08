@@ -27,6 +27,7 @@ steps:
   - script: |
       node eng/tools/rush-runner.js build:test "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build test assets"
+    condition: and(succeeded(), eq(variables['TestType'], 'browser'))
 
   - template: ../steps/use-node-test-version.yml
 

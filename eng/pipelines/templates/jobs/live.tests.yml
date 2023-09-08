@@ -107,7 +107,7 @@ jobs:
       - script: |
           node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Build test assets"
-        condition: and(succeededOrFailed(),eq(variables['DependencyVersion'],''))
+        condition: and(succeededOrFailed(), eq(variables['TestType'], 'browser'), eq(variables['DependencyVersion'],''))
 
       - script: |
           npm install

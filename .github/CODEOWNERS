@@ -468,6 +468,10 @@
 /sdk/hybridcompute/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/hybridconnectivity/arm-hybridconnectivity/ @qiaozha @MaryGao
+/sdk/hybridconnectivity/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao
 /sdk/hybridkubernetes/ci.mgmt.yml @qiaozha @MaryGao
 

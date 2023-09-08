@@ -506,6 +506,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-sse",
+      "projectFolder": "sdk/core/core-sse",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-client",
       "projectFolder": "sdk/core/core-client",
       "versionPolicyName": "core"
@@ -2093,6 +2098,11 @@
     {
       "packageName": "@azure/arm-defendereasm",
       "projectFolder": "sdk/defendereasm/arm-defendereasm",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hybridconnectivity",
+      "projectFolder": "sdk/hybridconnectivity/arm-hybridconnectivity",
       "versionPolicyName": "management"
     }
   ]

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.12.1 (Unreleased)
+## 1.12.2 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,12 @@
 
 ### Other Changes
 
+## 1.12.1 (2023-09-07)
+
+### Other Changes
+
 - Set `init.duplex` to `"half"` when streaming body via `fetch()` [PR #26890](https://github.com/Azure/azure-sdk-for-js/pull/26890)
+- Defer Error construction [PR #26897](https://github.com/Azure/azure-sdk-for-js/pull/26897) 
 
 ## 1.12.0 (2023-08-08)
 

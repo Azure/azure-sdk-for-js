@@ -25,7 +25,7 @@ import {
   withDiagnostics,
   withMetadataDiagnostics,
 } from "./utils/diagnostics";
-import { MetadataLookUpType } from ".";
+import { MetadataLookUpType } from "./CosmosDiagnostics";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -82,7 +82,11 @@ export class QueryIterator<T> {
    */
   public async *getAsyncIterator(): AsyncIterable<FeedResponse<T>> {
     this.reset();
-    let diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST_NODE, null);
+    let diagnosticNode = new DiagnosticNodeInternal(
+      this.clientContext.diagnosticLevel,
+      DiagnosticNodeType.CLIENT_REQUEST_NODE,
+      null
+    );
     this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
@@ -107,7 +111,11 @@ export class QueryIterator<T> {
         this.queryExecutionContext.hasMoreResults(),
         diagnosticNode.toDiagnostic(this.clientContext.getClientConfig())
       );
-      diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST_NODE, null);
+      diagnosticNode = new DiagnosticNodeInternal(
+        this.clientContext.diagnosticLevel,
+        DiagnosticNodeType.CLIENT_REQUEST_NODE,
+        null
+      );
       if (response.result !== undefined) {
         yield feedResponse;
       }
@@ -115,7 +123,7 @@ export class QueryIterator<T> {
   }
 
   /**
-   * Determine if there are still remaining resources to processs based on the value of the continuation token or the
+   * Determine if there are still remaining resources to process based on the value of the continuation token or the
    * elements remaining on the current batch in the QueryIterator.
    * @returns true if there is other elements to process in the QueryIterator.
    */
