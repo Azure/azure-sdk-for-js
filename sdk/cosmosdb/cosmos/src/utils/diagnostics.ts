@@ -93,6 +93,7 @@ export async function withMetadataDiagnostics<
   type: MetadataLookUpType
 ): Promise<ExtractPromise<ReturnType<Callback>>> {
   const diagnosticNodeForMetadataCall = new DiagnosticNodeInternal(
+    node.diagnosticLevel,
     DiagnosticNodeType.METADATA_REQUEST_NODE,
     null
   );
@@ -133,7 +134,7 @@ export async function withDiagnostics<
   clientContext: ClientContext,
   type: DiagnosticNodeType = DiagnosticNodeType.CLIENT_REQUEST_NODE
 ): Promise<ExtractPromise<ReturnType<Callback>>> {
-  const diagnosticNode = new DiagnosticNodeInternal(type, null);
+  const diagnosticNode = new DiagnosticNodeInternal(clientContext.diagnosticLevel, type, null);
   try {
     const response: any = await callback(diagnosticNode);
     diagnosticNode.updateTimestamp();
@@ -144,6 +145,7 @@ export async function withDiagnostics<
     clientContext.recordDiagnostics(diagnostics);
     return response;
   } catch (e: any) {
+    diagnosticNode.updateTimestamp();
     diagnosticNode.addData({
       failure: true,
     });

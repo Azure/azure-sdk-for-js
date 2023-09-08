@@ -36,7 +36,7 @@ export class CosmosDiagnostics {
    */
   constructor(
     clientSideRequestStatistics: ClientSideRequestStatistics,
-    diagnosticNode: DiagnosticNode,
+    diagnosticNode?: DiagnosticNode,
     clientConfig?: ClientConfigDiagnostic
   ) {
     this.clientSideRequestStatistics = clientSideRequestStatistics;

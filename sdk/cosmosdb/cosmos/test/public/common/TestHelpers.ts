@@ -5,6 +5,7 @@ import assert from "assert";
 import {
   Container,
   CosmosClient,
+  CosmosDbDiagnosticLevel,
   CosmosDiagnostics,
   Database,
   DatabaseDefinition,
@@ -78,8 +79,10 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient): 
   }
 }
 
-export function createDummyDiagnosticNode(): DiagnosticNodeInternal {
-  return new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST_NODE, null);
+export function createDummyDiagnosticNode(
+  diagnosticLevel: CosmosDbDiagnosticLevel = CosmosDbDiagnosticLevel.info
+): DiagnosticNodeInternal {
+  return new DiagnosticNodeInternal(diagnosticLevel, DiagnosticNodeType.CLIENT_REQUEST_NODE, null);
 }
 
 /**
@@ -264,7 +267,11 @@ function verifyForOverlappingRanges(
   ranges: MetadataLookUpDiagnostic[] | FailedRequestAttemptDiagnostic[] | GatewayStatistics[],
   msg: string
 ): void {
-  ranges.sort((a, b) => a.startTimeUTCInMs - b.startTimeUTCInMs); // Sort ranges by start time
+  ranges.sort((a, b) =>
+    a.startTimeUTCInMs === b.startTimeUTCInMs
+      ? a.durationInMs - b.durationInMs
+      : a.startTimeUTCInMs - b.startTimeUTCInMs
+  ); // Sort ranges by start time
   for (let i = 1; i < ranges.length; i++) {
     expect(
       ranges[i].startTimeUTCInMs,

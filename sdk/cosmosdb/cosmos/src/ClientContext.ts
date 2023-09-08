@@ -44,7 +44,6 @@ import {
   NoOpDiagnosticWriter,
 } from "./diagnostics/DiagnosticWriter";
 import { DefaultDiagnosticFormatter, DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
-import { getDiagnosticLevel } from "./diagnostics";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { allowTracing } from "./diagnostics/diagnosticLevelComparator";
 
@@ -66,7 +65,8 @@ export class ClientContext {
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager,
-    private clientConfig: ClientConfigDiagnostic
+    private clientConfig: ClientConfigDiagnostic,
+    public diagnosticLevel: CosmosDbDiagnosticLevel
   ) {
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
@@ -91,7 +91,7 @@ export class ClientContext {
         })
       );
     }
-    this.initializeDiagnosticSettings();
+    this.initializeDiagnosticSettings(diagnosticLevel);
   }
   /** @hidden */
   public async read<T>({
@@ -882,8 +882,7 @@ export class ClientContext {
     this.diagnosticWriter.write(formatted);
   }
 
-  private initializeDiagnosticSettings(): void {
-    const diagnosticLevel = getDiagnosticLevel();
+  public initializeDiagnosticSettings(diagnosticLevel: CosmosDbDiagnosticLevel): void {
     this.diagnosticFormatter = new DefaultDiagnosticFormatter();
     switch (diagnosticLevel) {
       case CosmosDbDiagnosticLevel.info:
@@ -973,7 +972,7 @@ export class ClientContext {
   }
 
   public getClientConfig(): ClientConfigDiagnostic | undefined {
-    if (allowTracing(CosmosDbDiagnosticLevel.debug)) {
+    if (allowTracing(CosmosDbDiagnosticLevel.debug, this.diagnosticLevel)) {
       return this.clientConfig;
     } else {
       return undefined;
