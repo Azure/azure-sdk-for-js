@@ -1,18 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike, AbortController } from "@azure/abort-controller";
+
+export interface AbortOptions {
+  /**
+   * The abortSignal associated with containing operation.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * The abort error message associated with containing operation.
+   */
+  abortErrorMsg?: string;
+}
 
 /**
  * Options for the createAbortablePromise function.
  */
-export interface CreateAbortablePromiseOptions {
+export interface CreateAbortablePromiseOptions extends AbortOptions {
   /** A function to be called if the promise was aborted */
   cleanupBeforeAbort?: () => void;
-  /** An abort signal */
-  abortSignal?: AbortSignalLike;
-  /** An abort error message */
-  abortErrorMsg?: string;
 }
 
 /**
@@ -60,4 +67,25 @@ export function createAbortablePromise<T>(
     }
     abortSignal?.addEventListener("abort", onAbort);
   });
+}
+
+
+/**
+ * promise.race() implementation that aborts losers as soon as the first promise fulfills.
+ */
+export async function racePromisesAndAbortLosers<T>(
+  promises: ((abortOptions: AbortOptions) => Promise<T>)[],
+  aborter?: AbortSignalLike
+): Promise<T> {
+  const loserAborter = new AbortController();
+  const loserAbortListener = () => {
+    loserAborter.abort();
+  };
+  aborter?.addEventListener("abort", loserAbortListener);
+  const options = { abortSignal: loserAborter.signal, abortErrorMsg: "The operation was aborted." };
+
+  return Promise.race(promises.map((p) => p(options))).finally(() => {
+    loserAborter.abort();
+    aborter?.removeEventListener("abort", loserAbortListener);
+  })
 }

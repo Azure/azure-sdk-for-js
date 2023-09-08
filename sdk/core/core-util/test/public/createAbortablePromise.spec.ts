@@ -5,7 +5,7 @@ import * as sinon from "sinon";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { createAbortablePromise } from "../../src/createAbortablePromise";
+import { createAbortablePromise } from "../../src/aborterUtils";
 
 chai.use(chaiAsPromised);
 const { assert } = chai;
