@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/** Lorem ipsum */
+/** This format will return an JSON structure containing a single "text" with the transcription. */
 export interface AudioTranscriptionOptionsSimpleJson {
   /** The audio file object to transcribe. */
   file: string;
@@ -13,17 +13,23 @@ export interface AudioTranscriptionOptionsSimpleJson {
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
+  /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
   /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
   language?: string;
   /**
    * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
    *
-   * Possible values: json, text, srt, verbose_json, vtt
+   * Possible values: json, verbose_json, text, srt, vtt
    */
   response_format?: string;
 }
 
-/** Lorem ipsum */
+/** This format will return an JSON structure containing an enriched structure with the transcription. */
 export interface AudioTranscriptionOptionsVerboseJson {
   /** The audio file object to transcribe. */
   file: string;
@@ -35,17 +41,23 @@ export interface AudioTranscriptionOptionsVerboseJson {
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
+  /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
   /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
   language?: string;
   /**
    * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
    *
-   * Possible values: json, text, srt, verbose_json, vtt
+   * Possible values: json, verbose_json, text, srt, vtt
    */
   response_format?: string;
 }
 
-/** Lorem ipsum */
+/** This will make the response return the transcription as plain/text. */
 export interface AudioTranscriptionOptionsPlainText {
   /** The audio file object to transcribe. */
   file: string;
@@ -57,17 +69,23 @@ export interface AudioTranscriptionOptionsPlainText {
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
+  /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
   /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
   language?: string;
   /**
    * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
    *
-   * Possible values: json, text, srt, verbose_json, vtt
+   * Possible values: json, verbose_json, text, srt, vtt
    */
   response_format?: string;
 }
 
-/** Lorem ipsum */
+/** The transcription will be provided in SRT format (SubRip Text) in the form of plain/text. */
 export interface AudioTranscriptionOptionsSrt {
   /** The audio file object to transcribe. */
   file: string;
@@ -79,17 +97,23 @@ export interface AudioTranscriptionOptionsSrt {
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
+  /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
   /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
   language?: string;
   /**
    * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
    *
-   * Possible values: json, text, srt, verbose_json, vtt
+   * Possible values: json, verbose_json, text, srt, vtt
    */
   response_format?: string;
 }
 
-/** Lorem ipsum */
+/** The transcription will be provided in VTT format (Web Video Text Tracks) in the form of plain/text. */
 export interface AudioTranscriptionOptionsVtt {
   /** The audio file object to transcribe. */
   file: string;
@@ -101,17 +125,23 @@ export interface AudioTranscriptionOptionsVtt {
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
+  /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
   /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
   language?: string;
   /**
    * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
    *
-   * Possible values: json, text, srt, verbose_json, vtt
+   * Possible values: json, verbose_json, text, srt, vtt
    */
   response_format?: string;
 }
 
-/** Lorem ipsum */
+/** This format will return an JSON structure containing a single "text" with the translation. */
 export interface AudioTranslationOptionsSimpleJson {
   /** The audio file object to transcribe. */
   file: string;
@@ -124,14 +154,20 @@ export interface AudioTranslationOptionsSimpleJson {
    */
   temperature?: number;
   /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
+  /**
    * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
    *
-   * Possible values: json, text, srt, verbose_json, vtt
+   * Possible values: json, verbose_json, text, srt, vtt
    */
   response_format?: string;
 }
 
-/** Lorem ipsum */
+/** This format will return an JSON structure containing an enriched structure with the translation. */
 export interface AudioTranslationOptionsVerboseJson {
   /** The audio file object to transcribe. */
   file: string;
@@ -144,14 +180,20 @@ export interface AudioTranslationOptionsVerboseJson {
    */
   temperature?: number;
   /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
+  /**
    * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
    *
-   * Possible values: json, text, srt, verbose_json, vtt
+   * Possible values: json, verbose_json, text, srt, vtt
    */
   response_format?: string;
 }
 
-/** Lorem ipsum */
+/** This will make the response return the translation as plain/text. */
 export interface AudioTranslationOptionsPlainText {
   /** The audio file object to transcribe. */
   file: string;
@@ -164,14 +206,20 @@ export interface AudioTranslationOptionsPlainText {
    */
   temperature?: number;
   /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
+  /**
    * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
    *
-   * Possible values: json, text, srt, verbose_json, vtt
+   * Possible values: json, verbose_json, text, srt, vtt
    */
   response_format?: string;
 }
 
-/** Lorem ipsum */
+/** The translation will be provided in SRT format (SubRip Text) in the form of plain/text. */
 export interface AudioTranslationOptionsSrt {
   /** The audio file object to transcribe. */
   file: string;
@@ -184,14 +232,20 @@ export interface AudioTranslationOptionsSrt {
    */
   temperature?: number;
   /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
+  /**
    * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
    *
-   * Possible values: json, text, srt, verbose_json, vtt
+   * Possible values: json, verbose_json, text, srt, vtt
    */
   response_format?: string;
 }
 
-/** Lorem ipsum */
+/** The translation will be provided in VTT format (Web Video Text Tracks) in the form of plain/text. */
 export interface AudioTranslationOptionsVtt {
   /** The audio file object to transcribe. */
   file: string;
@@ -204,9 +258,15 @@ export interface AudioTranslationOptionsVtt {
    */
   temperature?: number;
   /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
+  /**
    * The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt.
    *
-   * Possible values: json, text, srt, verbose_json, vtt
+   * Possible values: json, verbose_json, text, srt, vtt
    */
   response_format?: string;
 }

@@ -22,6 +22,12 @@ export interface GetAudioTranscriptionSimpleJsonOptions
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
+  /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
   /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
   language?: string;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
@@ -43,6 +49,12 @@ export interface GetAudioTranscriptionVerboseJsonOptions
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
+  /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
   /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
   language?: string;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
@@ -64,6 +76,12 @@ export interface GetAudioTranscriptionPlainTextOptions
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
+  /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
   /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
   language?: string;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
@@ -84,6 +102,12 @@ export interface GetAudioTranscriptionSrtOptions extends OperationOptions {
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
+  /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
   /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
   language?: string;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
@@ -104,6 +128,12 @@ export interface GetAudioTranscriptionVttOptions extends OperationOptions {
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
+  /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
   /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
   language?: string;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
@@ -124,6 +154,12 @@ export interface GetAudioTranslationSimpleJsonOptions extends OperationOptions {
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
+  /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
   responseFormat?: AudioTranscriptionFormat;
   /**
@@ -143,6 +179,12 @@ export interface GetAudioTranslationVerboseJsonOptions
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
+  /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
   responseFormat?: AudioTranscriptionFormat;
   /**
@@ -161,6 +203,12 @@ export interface GetAudioTranslationPlainTextOptions extends OperationOptions {
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
+  /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
   responseFormat?: AudioTranscriptionFormat;
   /**
@@ -179,6 +227,12 @@ export interface GetAudioTranslationSrtOptions extends OperationOptions {
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
+  /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
   responseFormat?: AudioTranscriptionFormat;
   /**
@@ -197,6 +251,12 @@ export interface GetAudioTranslationVttOptions extends OperationOptions {
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
+  /**
+   * The model name to provide as part of this transcription request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
   /** The format of the transcription output, in one of these options: json, text, srt, verbose_json, or vtt. */
   responseFormat?: AudioTranscriptionFormat;
   /**

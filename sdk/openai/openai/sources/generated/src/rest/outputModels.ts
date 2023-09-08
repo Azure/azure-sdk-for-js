@@ -3,7 +3,7 @@
 
 import { ErrorModel } from "@azure-rest/core-client";
 
-/** Lorem ipsum */
+/** Transcription response containing only the transcribed text. */
 export interface AudioTranscriptionSimpleJsonOutput {
   /** Transcribed text. */
   text: string;

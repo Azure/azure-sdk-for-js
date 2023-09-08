@@ -3,10 +3,10 @@
 
 import { ErrorModel } from "@azure-rest/core-client";
 /** Defines the format of the output. */
-/** "json", "text", "srt", "verbose_json", "vtt" */
+/** "json", "verbose_json", "text", "srt", "vtt" */
 export type AudioTranscriptionFormat = string;
 
-/** Lorem ipsum */
+/** Transcription response containing only the transcribed text. */
 export interface AudioTranscriptionSimpleJson {
   /** Transcribed text. */
   text: string;
