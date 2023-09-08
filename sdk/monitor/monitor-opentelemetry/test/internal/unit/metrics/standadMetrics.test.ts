@@ -21,7 +21,7 @@ describe("#StandardMetricsHandler", () => {
 
   before(() => {
     const config = new InternalConfig();
-    config.azureMonitorExporterConfig.connectionString =
+    config.azureMonitorExporterOptions.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
     autoCollect = new StandardMetrics(config, { collectionInterval: 100 });
     exportStub = sinon.stub(autoCollect["_azureExporter"], "export").callsFake(
