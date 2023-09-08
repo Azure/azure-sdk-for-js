@@ -31,37 +31,7 @@ import { allowTracing } from "../../../src/diagnostics/diagnosticLevelComparator
 
 describe("Diagnostic Unit Tests", function (this: Suite) {
   describe("Test withDiagnostics utility function", function () {
-    const clientOps: CosmosClientOptions = {
-      endpoint: "",
-      diagnosticLevel: CosmosDbDiagnosticLevel.debugUnsafe,
-      connectionPolicy: {
-        enableEndpointDiscovery: false,
-        preferredLocations: ["https://localhhost"],
-      },
-    };
-    const globalEndpointManager = new GlobalEndpointManager(
-      clientOps,
-      async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => {
-        expect(opts).to.exist; // eslint-disable-line no-unused-expressions
-        const dummyAccount: any = diagnosticNode;
-        return dummyAccount;
-      }
-    );
-    const clientConfig: ClientConfigDiagnostic = {
-      endpoint: "",
-      resourceTokensConfigured: true,
-      tokenProviderConfigured: true,
-      aadCredentialsConfigured: true,
-      connectionPolicyConfigured: true,
-      consistencyLevel: ConsistencyLevel.BoundedStaleness,
-      defaultHeaders: {},
-      agentConfigured: true,
-      userAgentSuffix: "",
-      diagnosticLevel: CosmosDbDiagnosticLevel.info,
-      pluginsConfigured: true,
-      sDKVersion: Constants.SDKVersion,
-    };
-    const clientContext = new ClientContext(clientOps, globalEndpointManager, clientConfig);
+    const clientContext = createDummyClientContext({}, () => undefined);
 
     it("Test wrapped function's returned type is returned properly", async function () {
       const testValue = "testValue";
@@ -181,40 +151,92 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
       const clientConfigDiagnostic: ClientConfigDiagnostic = clientContext.getClientConfig();
       expect(clientConfigDiagnostic.endpoint).to.eq("https://localhost:8081/");
     });
+    it("Check initilization of diagnostic level", async function () {
+      const possibleDiagnosticLevels = [
+        CosmosDbDiagnosticLevel.info,
+        CosmosDbDiagnosticLevel.debug,
+        CosmosDbDiagnosticLevel.debugUnsafe,
+      ];
+
+      // Check by default info diagnostic level is set.
+      const clientContextAtDefaultLevel = createDummyClientContext({}, () => undefined);
+      expect(clientContextAtDefaultLevel.diagnosticLevel).to.eql(CosmosDbDiagnosticLevel.info);
+
+      // Check value set from environment variable get's priority.
+      possibleDiagnosticLevels.forEach((level) => {
+        const clientContext = createDummyClientContext({}, () => level);
+        expect(clientContext.diagnosticLevel).to.eql(level);
+      });
+
+      // Check value set using client options.
+      possibleDiagnosticLevels.forEach((level) => {
+        const clientContext = createDummyClientContext(
+          { diagnosticLevel: CosmosDbDiagnosticLevel.info },
+          () => undefined
+        );
+        expect(clientContext.diagnosticLevel).to.eql(level);
+      });
+    });
   });
 
   it("Test Ordering of Diagnostic Level", function () {
-    expect(allowTracing(CosmosDbDiagnosticLevel.info, CosmosDbDiagnosticLevel.info)).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(CosmosDbDiagnosticLevel.debug, CosmosDbDiagnosticLevel.info)).to.be.false; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(CosmosDbDiagnosticLevel.debugUnsafe, CosmosDbDiagnosticLevel.info)).to.be
-      .false; // eslint-disable-line no-unused-expressions
+    const info = CosmosDbDiagnosticLevel.info;
+    const debug = CosmosDbDiagnosticLevel.debug;
+    const debugUnsafe = CosmosDbDiagnosticLevel.debugUnsafe;
 
-    expect(allowTracing(CosmosDbDiagnosticLevel.info, CosmosDbDiagnosticLevel.debug)).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(CosmosDbDiagnosticLevel.debug, CosmosDbDiagnosticLevel.debug)).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(
-      allowTracing(
-        CosmosDbDiagnosticLevel.debugUnsafe, // eslint-disable-line no-unused-expressions
-        CosmosDbDiagnosticLevel.debug
-      )
-    ).to.be.false; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(info, info)).to.be.true; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(debug, info)).to.be.false; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(debugUnsafe, info)).to.be.false; // eslint-disable-line no-unused-expressions
 
-    expect(
-      allowTracing(
-        CosmosDbDiagnosticLevel.info, // eslint-disable-line no-unused-expressions
-        CosmosDbDiagnosticLevel.debugUnsafe
-      )
-    ).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(
-      allowTracing(
-        CosmosDbDiagnosticLevel.debug, // eslint-disable-line no-unused-expressions
-        CosmosDbDiagnosticLevel.debugUnsafe
-      )
-    ).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(
-      allowTracing(
-        CosmosDbDiagnosticLevel.debugUnsafe, // eslint-disable-line no-unused-expressions
-        CosmosDbDiagnosticLevel.debugUnsafe
-      )
-    ).to.be.true; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(info, debug)).to.be.true; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(debug, debug)).to.be.true; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(debugUnsafe, debug)).to.be.false; // eslint-disable-line no-unused-expressions
+
+    expect(allowTracing(info, debugUnsafe)).to.be.true; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(debug, debugUnsafe)).to.be.true; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(debugUnsafe, debugUnsafe)).to.be.true; // eslint-disable-line no-unused-expressions
   });
 });
+function createDummyClientContext(
+  options: Partial<CosmosClientOptions>,
+  getDiagnosticLevelFromEnvironment: () => CosmosDbDiagnosticLevel | undefined
+) {
+  const clientOps: CosmosClientOptions = {
+    endpoint: "",
+    diagnosticLevel: CosmosDbDiagnosticLevel.debugUnsafe,
+    connectionPolicy: {
+      enableEndpointDiscovery: false,
+      preferredLocations: ["https://localhhost"],
+    },
+    ...options,
+  };
+  const globalEndpointManager = new GlobalEndpointManager(
+    clientOps,
+    async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => {
+      expect(opts).to.exist; // eslint-disable-line no-unused-expressions
+      const dummyAccount: any = diagnosticNode;
+      return dummyAccount;
+    }
+  );
+  const clientConfig: ClientConfigDiagnostic = {
+    endpoint: "",
+    resourceTokensConfigured: true,
+    tokenProviderConfigured: true,
+    aadCredentialsConfigured: true,
+    connectionPolicyConfigured: true,
+    consistencyLevel: ConsistencyLevel.BoundedStaleness,
+    defaultHeaders: {},
+    agentConfigured: true,
+    userAgentSuffix: "",
+    diagnosticLevel: CosmosDbDiagnosticLevel.info,
+    pluginsConfigured: true,
+    sDKVersion: Constants.SDKVersion,
+  };
+  const clientContext = new ClientContext(
+    clientOps,
+    globalEndpointManager,
+    clientConfig,
+    getDiagnosticLevelFromEnvironment
+  );
+  return clientContext;
+}

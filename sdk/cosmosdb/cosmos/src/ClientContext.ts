@@ -44,7 +44,7 @@ import {
   NoOpDiagnosticWriter,
 } from "./diagnostics/DiagnosticWriter";
 import { DefaultDiagnosticFormatter, DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
-import { DefaultDiagnosticLevelValue, getDiagnosticLevelFromEnvironment } from "./diagnostics";
+import { DefaultDiagnosticLevelValue } from "./diagnostics";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { allowTracing } from "./diagnostics/diagnosticLevelComparator";
 
@@ -67,7 +67,8 @@ export class ClientContext {
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager,
-    private clientConfig: ClientConfigDiagnostic
+    private clientConfig: ClientConfigDiagnostic,
+    private getDiagnosticLevelFromEnvironment: () => CosmosDbDiagnosticLevel | undefined
   ) {
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
@@ -883,10 +884,10 @@ export class ClientContext {
     this.diagnosticWriter.write(formatted);
   }
 
-  private initializeDiagnosticSettings(
+  public initializeDiagnosticSettings(
     diagnosticLevelFromClientConfig: CosmosDbDiagnosticLevel
   ): void {
-    const diagnosticLevelFromEnvironment = getDiagnosticLevelFromEnvironment();
+    const diagnosticLevelFromEnvironment = this.getDiagnosticLevelFromEnvironment();
     const diagnosticLevelFromEnvOrClient =
       diagnosticLevelFromEnvironment ?? diagnosticLevelFromClientConfig; // Diagnostic Setting from environment gets first priority.
     const effectiveDiagnosticLevel = diagnosticLevelFromEnvOrClient ?? DefaultDiagnosticLevelValue; // Diagnostic Setting supplied in Client config gets second priority.

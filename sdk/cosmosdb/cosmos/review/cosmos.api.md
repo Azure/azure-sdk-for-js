@@ -150,7 +150,7 @@ export type ClientConfigDiagnostic = {
 
 // @public (undocumented)
 export class ClientContext {
-    constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic);
+    constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, getDiagnosticLevelFromEnvironment: () => CosmosDbDiagnosticLevel | undefined);
     // (undocumented)
     batch<T>({ body, path, partitionKey, resourceId, options, diagnosticNode, }: {
         body: T;
@@ -193,6 +193,8 @@ export class ClientContext {
         diagnosticNode: DiagnosticNodeInternal;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
+    diagnosticLevel: CosmosDbDiagnosticLevel;
+    // (undocumented)
     execute<T>({ sprocLink, params, options, partitionKey, diagnosticNode, }: {
         sprocLink: string;
         params?: any[];
@@ -213,6 +215,8 @@ export class ClientContext {
     getWriteEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getWriteEndpoints(): Promise<readonly string[]>;
+    // (undocumented)
+    initializeDiagnosticSettings(diagnosticLevelFromClientConfig: CosmosDbDiagnosticLevel): void;
     // (undocumented)
     partitionKeyDefinitionCache: {
         [containerUrl: string]: any;
@@ -894,6 +898,8 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     children: DiagnosticNodeInternal[];
     // (undocumented)
     data: Partial<DiagnosticDataValue>;
+    // (undocumented)
+    diagnosticLevel: CosmosDbDiagnosticLevel;
     // (undocumented)
     durationInMs: number;
     // (undocumented)

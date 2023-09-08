@@ -8,6 +8,7 @@ import { Constants } from "./common/constants";
 import { getUserAgent } from "./common/platform";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { ClientConfigDiagnostic } from "./CosmosDiagnostics";
+import { getDiagnosticLevelFromEnvironment } from "./diagnostics";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
 import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
@@ -104,7 +105,8 @@ export class CosmosClient {
     this.clientContext = new ClientContext(
       optionsOrConnectionString,
       globalEndpointManager,
-      clientConfig
+      clientConfig,
+      getDiagnosticLevelFromEnvironment
     );
     if (
       optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&

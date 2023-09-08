@@ -267,7 +267,11 @@ function verifyForOverlappingRanges(
   ranges: MetadataLookUpDiagnostic[] | FailedRequestAttemptDiagnostic[] | GatewayStatistics[],
   msg: string
 ): void {
-  ranges.sort((a, b) => a.startTimeUTCInMs - b.startTimeUTCInMs); // Sort ranges by start time
+  ranges.sort((a, b) =>
+    a.startTimeUTCInMs === b.startTimeUTCInMs
+      ? a.durationInMs - b.durationInMs
+      : a.startTimeUTCInMs - b.startTimeUTCInMs
+  ); // Sort ranges by start time
   for (let i = 1; i < ranges.length; i++) {
     expect(
       ranges[i].startTimeUTCInMs,
