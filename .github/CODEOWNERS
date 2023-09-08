@@ -535,22 +535,10 @@
 /sdk/logic/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/machinelearning/arm-commitmentplans/ @qiaozha @MaryGao
-/sdk/machinelearning/ci.mgmt.yml @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 /sdk/machinelearning/arm-webservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/machinelearning/arm-workspaces/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/machinelearningcompute/arm-machinelearningcompute/ @qiaozha @MaryGao
-/sdk/machinelearningcompute/ci.mgmt.yml @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/machinelearningexperimentation/arm-machinelearningexperimentation/ @qiaozha @MaryGao
-/sdk/machinelearningexperimentation/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/machinelearningservices/arm-machinelearningservices/ @qiaozha @MaryGao
@@ -641,10 +629,6 @@
 # PRLabel: %Mgmt
 /sdk/operationalinsights/arm-operationalinsights/ @qiaozha @MaryGao
 /sdk/operationalinsights/ci.mgmt.yml @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/operationsmanagement/arm-operations/ @qiaozha @MaryGao
-/sdk/operationsmanagement/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/peering/arm-peering/ @qiaozha @MaryGao
@@ -758,10 +742,6 @@
 /sdk/serialconsole/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/service-map/arm-servicemap/ @qiaozha @MaryGao
-/sdk/service-map/ci.mgmt.yml @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 /sdk/servicebus/arm-servicebus/ @qiaozha @MaryGao
 /sdk/servicebus/ci.mgmt.yml @qiaozha @MaryGao
 
@@ -769,10 +749,6 @@
 /sdk/servicefabric/arm-servicefabric/      @qiaozha @MaryGao
 /sdk/servicefabric/arm-servicefabric-rest/ @qiaozha @MaryGao
 /sdk/servicefabric/ci.mgmt.yml             @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/servicefabricmesh/arm-servicefabricmesh/ @qiaozha @MaryGao
-/sdk/servicefabricmesh/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/signalr/arm-signalr/ @qiaozha @MaryGao
@@ -845,10 +821,6 @@
 # PRLabel: %Mgmt
 /sdk/trafficmanager/arm-trafficmanager/ @qiaozha @MaryGao
 /sdk/trafficmanager/ci.mgmt.yml @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/visualstudio/arm-visualstudio/ @qiaozha @MaryGao
-/sdk/visualstudio/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/vmwarecloudsimple/arm-vmwarecloudsimple/ @qiaozha @MaryGao

@@ -50,7 +50,6 @@ specifiers:
   '@rush-temp/arm-cognitiveservices': file:./projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:./projects/arm-commerce.tgz
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid': file:./projects/arm-commerce-profile-2020-09-01-hybrid.tgz
-  '@rush-temp/arm-commitmentplans': file:./projects/arm-commitmentplans.tgz
   '@rush-temp/arm-communication': file:./projects/arm-communication.tgz
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
   '@rush-temp/arm-compute-1': file:./projects/arm-compute-1.tgz
@@ -131,8 +130,6 @@ specifiers:
   '@rush-temp/arm-locks-profile-2020-09-01-hybrid': file:./projects/arm-locks-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-logic': file:./projects/arm-logic.tgz
   '@rush-temp/arm-machinelearning': file:./projects/arm-machinelearning.tgz
-  '@rush-temp/arm-machinelearningcompute': file:./projects/arm-machinelearningcompute.tgz
-  '@rush-temp/arm-machinelearningexperimentation': file:./projects/arm-machinelearningexperimentation.tgz
   '@rush-temp/arm-maintenance': file:./projects/arm-maintenance.tgz
   '@rush-temp/arm-managedapplications': file:./projects/arm-managedapplications.tgz
   '@rush-temp/arm-managednetworkfabric': file:./projects/arm-managednetworkfabric.tgz
@@ -161,7 +158,6 @@ specifiers:
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:./projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:./projects/arm-operationalinsights.tgz
-  '@rush-temp/arm-operations': file:./projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:./projects/arm-orbital.tgz
   '@rush-temp/arm-paloaltonetworksngfw': file:./projects/arm-paloaltonetworksngfw.tgz
   '@rush-temp/arm-peering': file:./projects/arm-peering.tgz
@@ -203,9 +199,7 @@ specifiers:
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:./projects/arm-servicefabric.tgz
   '@rush-temp/arm-servicefabric-1': file:./projects/arm-servicefabric-1.tgz
-  '@rush-temp/arm-servicefabricmesh': file:./projects/arm-servicefabricmesh.tgz
   '@rush-temp/arm-servicelinker': file:./projects/arm-servicelinker.tgz
-  '@rush-temp/arm-servicemap': file:./projects/arm-servicemap.tgz
   '@rush-temp/arm-servicenetworking': file:./projects/arm-servicenetworking.tgz
   '@rush-temp/arm-signalr': file:./projects/arm-signalr.tgz
   '@rush-temp/arm-sphere': file:./projects/arm-sphere.tgz
@@ -227,7 +221,6 @@ specifiers:
   '@rush-temp/arm-templatespecs': file:./projects/arm-templatespecs.tgz
   '@rush-temp/arm-timeseriesinsights': file:./projects/arm-timeseriesinsights.tgz
   '@rush-temp/arm-trafficmanager': file:./projects/arm-trafficmanager.tgz
-  '@rush-temp/arm-visualstudio': file:./projects/arm-visualstudio.tgz
   '@rush-temp/arm-vmwarecloudsimple': file:./projects/arm-vmwarecloudsimple.tgz
   '@rush-temp/arm-voiceservices': file:./projects/arm-voiceservices.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
@@ -414,7 +407,6 @@ dependencies:
   '@rush-temp/arm-cognitiveservices': file:projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:projects/arm-commerce.tgz
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid': file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz
-  '@rush-temp/arm-commitmentplans': file:projects/arm-commitmentplans.tgz
   '@rush-temp/arm-communication': file:projects/arm-communication.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
   '@rush-temp/arm-compute-1': file:projects/arm-compute-1.tgz
@@ -495,8 +487,6 @@ dependencies:
   '@rush-temp/arm-locks-profile-2020-09-01-hybrid': file:projects/arm-locks-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-logic': file:projects/arm-logic.tgz
   '@rush-temp/arm-machinelearning': file:projects/arm-machinelearning.tgz
-  '@rush-temp/arm-machinelearningcompute': file:projects/arm-machinelearningcompute.tgz
-  '@rush-temp/arm-machinelearningexperimentation': file:projects/arm-machinelearningexperimentation.tgz
   '@rush-temp/arm-maintenance': file:projects/arm-maintenance.tgz
   '@rush-temp/arm-managedapplications': file:projects/arm-managedapplications.tgz
   '@rush-temp/arm-managednetworkfabric': file:projects/arm-managednetworkfabric.tgz
@@ -525,7 +515,6 @@ dependencies:
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:projects/arm-operationalinsights.tgz
-  '@rush-temp/arm-operations': file:projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:projects/arm-orbital.tgz
   '@rush-temp/arm-paloaltonetworksngfw': file:projects/arm-paloaltonetworksngfw.tgz
   '@rush-temp/arm-peering': file:projects/arm-peering.tgz
@@ -567,9 +556,7 @@ dependencies:
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:projects/arm-servicefabric.tgz
   '@rush-temp/arm-servicefabric-1': file:projects/arm-servicefabric-1.tgz
-  '@rush-temp/arm-servicefabricmesh': file:projects/arm-servicefabricmesh.tgz
   '@rush-temp/arm-servicelinker': file:projects/arm-servicelinker.tgz
-  '@rush-temp/arm-servicemap': file:projects/arm-servicemap.tgz
   '@rush-temp/arm-servicenetworking': file:projects/arm-servicenetworking.tgz
   '@rush-temp/arm-signalr': file:projects/arm-signalr.tgz
   '@rush-temp/arm-sphere': file:projects/arm-sphere.tgz
@@ -591,7 +578,6 @@ dependencies:
   '@rush-temp/arm-templatespecs': file:projects/arm-templatespecs.tgz
   '@rush-temp/arm-timeseriesinsights': file:projects/arm-timeseriesinsights.tgz
   '@rush-temp/arm-trafficmanager': file:projects/arm-trafficmanager.tgz
-  '@rush-temp/arm-visualstudio': file:projects/arm-visualstudio.tgz
   '@rush-temp/arm-vmwarecloudsimple': file:projects/arm-vmwarecloudsimple.tgz
   '@rush-temp/arm-voiceservices': file:projects/arm-voiceservices.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
@@ -4028,7 +4014,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230905
+      typescript: 5.3.0-dev.20230907
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8608,8 +8594,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230905:
-    resolution: {integrity: sha512-Nl9MoKWN0YYlCvQnw850L4ZgqdmqwVGCi9cAoQDw4PsqRGaWAi9HKizS9xu0q4qgKKsEKetWCZHT8dBtJTGaMg==}
+  /typescript/5.3.0-dev.20230907:
+    resolution: {integrity: sha512-8yegC0GyY5ug9184BxLq8fLDt08+g8jRfut0QSraLFoT13c39Z6fVoviDEeqJgbnIGVxzAEiNQLUslpKYCyUsg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10816,36 +10802,6 @@ packages:
   file:projects/arm-commerce.tgz:
     resolution: {integrity: sha512-k2xjzvcTskTbpqvxTxLacPskoUhzNu61gzeMM9MVKBESss26MAT25iQ2oE1ewbVBG9h2NB0YGIyEc5CWe3+Lmw==, tarball: file:projects/arm-commerce.tgz}
     name: '@rush-temp/arm-commerce'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.56
-      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.6
-      '@types/node': 14.18.56
-      chai: 4.3.8
-      cross-env: 7.0.3
-      mkdirp: 1.0.4
-      mocha: 7.2.0
-      rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_ucobf5wm57tspgeyqakc4keoiu
-      ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
-      tslib: 2.6.2
-      typescript: 5.0.4
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
-  file:projects/arm-commitmentplans.tgz:
-    resolution: {integrity: sha512-topD/nqveaWucZaeCXnBoEdymZnP6zAUs2F+AWdUyKBYDahgA5EjeLsZ8Fa0RkPJsha29SKsYYCz2+NWsBdfGQ==, tarball: file:projects/arm-commitmentplans.tgz}
-    name: '@rush-temp/arm-commitmentplans'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
@@ -13360,67 +13316,6 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/arm-machinelearningcompute.tgz:
-    resolution: {integrity: sha512-uuHSgzhT6RkN1d1JW9xtjwzDKd1hDN/OyAVbkVyBluE4QFtx5o3MCFu5mvEgwnQDryD2SDE41esBPN033VHE3w==, tarball: file:projects/arm-machinelearningcompute.tgz}
-    name: '@rush-temp/arm-machinelearningcompute'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.56
-      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.6
-      '@types/node': 14.18.56
-      chai: 4.3.8
-      cross-env: 7.0.3
-      mkdirp: 1.0.4
-      mocha: 7.2.0
-      rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_ucobf5wm57tspgeyqakc4keoiu
-      ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
-      tslib: 2.6.2
-      typescript: 5.0.4
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
-  file:projects/arm-machinelearningexperimentation.tgz:
-    resolution: {integrity: sha512-JtTwHuvBjfMgVzsUWcXK3wuotzGSOvnwFCOGLZZPpDGkL74IHjl9EiXdtvNcFaejG3PxYUfqKWyxlg4KC1Ypag==, tarball: file:projects/arm-machinelearningexperimentation.tgz}
-    name: '@rush-temp/arm-machinelearningexperimentation'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.56
-      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.6
-      '@types/node': 14.18.56
-      chai: 4.3.8
-      cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
-      mocha: 7.2.0
-      rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_ucobf5wm57tspgeyqakc4keoiu
-      ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
-      tslib: 2.6.2
-      typescript: 5.0.4
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
   file:projects/arm-maintenance.tgz:
     resolution: {integrity: sha512-i07OIams7Sxy9QKJUfC+PSRpBdUUZIEzno/4VVw4R7k/mreyPcqDQCeXiYSmGfKmup9ceGZWeU8wMnFxJrr2Jw==, tarball: file:projects/arm-maintenance.tgz}
     name: '@rush-temp/arm-maintenance'
@@ -14280,36 +14175,6 @@ packages:
       chai: 4.3.8
       cross-env: 7.0.3
       dotenv: 8.6.0
-      mkdirp: 1.0.4
-      mocha: 7.2.0
-      rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_ucobf5wm57tspgeyqakc4keoiu
-      ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
-      tslib: 2.6.2
-      typescript: 5.0.4
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
-  file:projects/arm-operations.tgz:
-    resolution: {integrity: sha512-0yco96qAn2dloIwbJF6IgHdJx7tLGK9p7Gzzj7nwnEBdUvqgo2kG4RFemtRJ5GfXV5W5DxzK7vuToPNVhDe1aw==, tarball: file:projects/arm-operations.tgz}
-    name: '@rush-temp/arm-operations'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.56
-      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.6
-      '@types/node': 14.18.56
-      chai: 4.3.8
-      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -15599,71 +15464,9 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/arm-servicefabricmesh.tgz:
-    resolution: {integrity: sha512-K9262N6RtxniHO8NKZDqIk5K6jWJQD+3uA7fad/jCV7AzbvPZ5kzBoaGijet3TffzARIaPsSICdYXycBPyy2+A==, tarball: file:projects/arm-servicefabricmesh.tgz}
-    name: '@rush-temp/arm-servicefabricmesh'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.56
-      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.6
-      '@types/node': 14.18.56
-      chai: 4.3.8
-      cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
-      mocha: 7.2.0
-      rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_ucobf5wm57tspgeyqakc4keoiu
-      ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
-      tslib: 2.6.2
-      typescript: 5.0.4
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
   file:projects/arm-servicelinker.tgz:
     resolution: {integrity: sha512-/1ifKFN+S0GhaBkJE59fmhk2QeVjrfiq/i+8G4Rxj2A2SnC+wbATsDRI243gZOStfZ8nncBw3k4VMqRYowo0GA==, tarball: file:projects/arm-servicelinker.tgz}
     name: '@rush-temp/arm-servicelinker'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.56
-      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.6
-      '@types/node': 14.18.56
-      chai: 4.3.8
-      cross-env: 7.0.3
-      dotenv: 16.3.1
-      mkdirp: 1.0.4
-      mocha: 7.2.0
-      rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_ucobf5wm57tspgeyqakc4keoiu
-      ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
-      tslib: 2.6.2
-      typescript: 5.0.4
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
-  file:projects/arm-servicemap.tgz:
-    resolution: {integrity: sha512-GNA4KJyqjT5XOAOjtb5oN7g//nLhBsv3e26oMH36JZm2E05SUoyH/pAPFheZbxauaIWr2g6Jf5BV28byZBwRzQ==, tarball: file:projects/arm-servicemap.tgz}
-    name: '@rush-temp/arm-servicemap'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
@@ -16323,36 +16126,6 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
-      mocha: 7.2.0
-      rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_ucobf5wm57tspgeyqakc4keoiu
-      ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
-      tslib: 2.6.2
-      typescript: 5.0.4
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
-  file:projects/arm-visualstudio.tgz:
-    resolution: {integrity: sha512-xvj2hpq5q3Q00Vy433dS5uzboyQ8bEZ/0mXGVgJaeSX1Z959ZzxejeYTdsLrF23zjWb0e6tEykbgzc+q7q1NBQ==, tarball: file:projects/arm-visualstudio.tgz}
-    name: '@rush-temp/arm-visualstudio'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.56
-      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.6
-      '@types/node': 14.18.56
-      chai: 4.3.8
-      cross-env: 7.0.3
-      mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
