@@ -6,7 +6,7 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-CN",
+        "Accept-Language": "en-US",
         "Connection": "keep-alive",
         "Content-Length": "49",
         "Content-Type": "application/json; charset=UTF-8",

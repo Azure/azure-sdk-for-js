@@ -6,7 +6,7 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-CN",
+        "Accept-Language": "en-US",
         "Connection": "keep-alive",
         "Content-Length": "22",
         "Content-Type": "application/merge-patch\u002Bjson",
@@ -49,7 +49,7 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-CN",
+        "Accept-Language": "en-US",
         "Connection": "keep-alive",
         "Content-Length": "116",
         "Content-Type": "application/json; charset=UTF-8",
@@ -110,7 +110,7 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-CN",
+        "Accept-Language": "en-US",
         "Connection": "keep-alive",
         "Content-Length": "106",
         "Content-Type": "application/json; charset=UTF-8",
@@ -188,7 +188,7 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-CN",
+        "Accept-Language": "en-US",
         "Connection": "keep-alive",
         "ocp-apim-subscription-key": "fake_key",
         "Referer": "http://localhost:9876/",
@@ -265,7 +265,7 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-CN",
+        "Accept-Language": "en-US",
         "Connection": "keep-alive",
         "ocp-apim-subscription-key": "fake_key",
         "Referer": "http://localhost:9876/",
@@ -303,7 +303,7 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-CN",
+        "Accept-Language": "en-US",
         "Connection": "keep-alive",
         "ocp-apim-subscription-key": "fake_key",
         "Referer": "http://localhost:9876/",
@@ -351,7 +351,7 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-CN",
+        "Accept-Language": "en-US",
         "Connection": "keep-alive",
         "ocp-apim-subscription-key": "fake_key",
         "Referer": "http://localhost:9876/",
@@ -390,7 +390,7 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-CN",
+        "Accept-Language": "en-US",
         "Connection": "keep-alive",
         "Content-Length": "57",
         "Content-Type": "application/json; charset=UTF-8",
@@ -429,7 +429,7 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-CN",
+        "Accept-Language": "en-US",
         "Connection": "keep-alive",
         "ocp-apim-subscription-key": "fake_key",
         "Referer": "http://localhost:9876/",
