@@ -57,3 +57,12 @@ function isCosmosDiagnosticLevel(
 ): diagnosticLevel is CosmosDbDiagnosticLevel {
   return acceptableDiagnosticLevelValues.includes(diagnosticLevel);
 }
+
+export function determineDiagnosticLevel(
+  diagnosticLevelFromClientConfig: CosmosDbDiagnosticLevel,
+  diagnosticLevelFromEnvironment: CosmosDbDiagnosticLevel
+): CosmosDbDiagnosticLevel {
+  const diagnosticLevelFromEnvOrClient =
+    diagnosticLevelFromEnvironment ?? diagnosticLevelFromClientConfig; // Diagnostic Setting from environment gets first priority.
+  return diagnosticLevelFromEnvOrClient ?? DefaultDiagnosticLevelValue; // Diagnostic Setting supplied in Client config gets second priority.
+}

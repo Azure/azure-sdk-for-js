@@ -28,7 +28,11 @@ import {
   DiagnosticNodeType,
 } from "../../../src/diagnostics/DiagnosticNodeInternal";
 import { allowTracing } from "../../../src/diagnostics/diagnosticLevelComparator";
-import { getDiagnosticLevelFromEnvironment, setDiagnosticLevel } from "../../../src/diagnostics";
+import {
+  determineDiagnosticLevel,
+  getDiagnosticLevelFromEnvironment,
+  setDiagnosticLevel,
+} from "../../../src/diagnostics";
 
 describe("Diagnostic Unit Tests", function (this: Suite) {
   describe("Test withDiagnostics utility function", function () {
@@ -155,7 +159,9 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
       const client = new CosmosClient(testEndpoint);
       const clientContext: ClientContext = (client as any).clientContext;
       const clientConfigDiagnostic: ClientConfigDiagnostic = clientContext.getClientConfig();
+
       expect(clientConfigDiagnostic.endpoint).to.eq("https://localhost:8081/");
+      expect(clientContext.diagnosticLevel).to.eq(CosmosDbDiagnosticLevel.info);
     });
     it("Check initilization of diagnostic level", async function () {
       const possibleDiagnosticLevels = [
@@ -164,20 +170,17 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
         CosmosDbDiagnosticLevel.debugUnsafe,
       ];
 
-      // Check by default info diagnostic level is set.
-      const clientContextAtDefaultLevel = createTestClientContext({}, undefined);
-      expect(clientContextAtDefaultLevel.diagnosticLevel).to.eql(CosmosDbDiagnosticLevel.info);
+      // Check default diagnostic level
+      expect(determineDiagnosticLevel(undefined, undefined)).to.eql(CosmosDbDiagnosticLevel.info);
 
       // Check value set from environment variable get's priority.
       possibleDiagnosticLevels.forEach((level) => {
-        const clientContext = createTestClientContext({}, level);
-        expect(clientContext.diagnosticLevel).to.eql(level);
+        expect(determineDiagnosticLevel(CosmosDbDiagnosticLevel.info, level)).to.eql(level);
       });
 
       // Check value set using client options.
       possibleDiagnosticLevels.forEach((level) => {
-        const clientContext = createTestClientContext({ diagnosticLevel: level }, undefined);
-        expect(clientContext.diagnosticLevel).to.eql(level);
+        expect(determineDiagnosticLevel(level, undefined)).to.eql(level);
       });
     });
   });

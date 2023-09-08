@@ -646,8 +646,6 @@ export class CosmosClient {
     constructor(options: CosmosClientOptions);
     database(id: string): Database;
     readonly databases: Databases;
-    // (undocumented)
-    determineDiagnosticLevel(diagnosticLevelFromClientConfig: CosmosDbDiagnosticLevel): CosmosDbDiagnosticLevel;
     dispose(): void;
     getDatabaseAccount(options?: RequestOptions): Promise<ResourceResponse<DatabaseAccount>>;
     // (undocumented)
