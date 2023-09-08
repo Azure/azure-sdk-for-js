@@ -76,7 +76,7 @@ export const isWebWorker: boolean;
 export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
 
 // @public
-export function racePromisesAndAbortLosers<T>(promises: ((abortOptions: AbortOptions) => Promise<T>)[], aborter?: AbortSignalLike): Promise<T>;
+export function racePromisesAndAbortLosers<T>(promises: ((abortOptions: AbortOptions) => Promise<T>)[], abortSignal?: AbortSignalLike): Promise<T>;
 
 // @public
 export function randomUUID(): string;
