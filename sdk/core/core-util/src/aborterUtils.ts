@@ -3,6 +3,9 @@
 
 import { AbortError, AbortSignalLike, AbortController } from "@azure/abort-controller";
 
+/**
+ * Options related to abort controller. 
+ */
 export interface AbortOptions {
   /**
    * The abortSignal associated with containing operation.
@@ -75,17 +78,17 @@ export function createAbortablePromise<T>(
  */
 export async function racePromisesAndAbortLosers<T>(
   promises: ((abortOptions: AbortOptions) => Promise<T>)[],
-  aborter?: AbortSignalLike
+  abortSignal?: AbortSignalLike
 ): Promise<T> {
   const loserAborter = new AbortController();
   const loserAbortListener = () => {
     loserAborter.abort();
   };
-  aborter?.addEventListener("abort", loserAbortListener);
+  abortSignal?.addEventListener("abort", loserAbortListener);
   const options = { abortSignal: loserAborter.signal, abortErrorMsg: "The operation was aborted." };
 
   return Promise.race(promises.map((p) => p(options))).finally(() => {
     loserAborter.abort();
-    aborter?.removeEventListener("abort", loserAbortListener);
+    abortSignal?.removeEventListener("abort", loserAbortListener);
   })
 }

@@ -7,6 +7,12 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 
 // @public
+export interface AbortOptions {
+    abortErrorMsg?: string;
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
 export function computeSha256Hash(content: string, encoding: "base64" | "hex"): Promise<string>;
 
 // @public
@@ -16,9 +22,7 @@ export function computeSha256Hmac(key: string, stringToSign: string, encoding: "
 export function createAbortablePromise<T>(buildPromise: (resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void, options?: CreateAbortablePromiseOptions): Promise<T>;
 
 // @public
-export interface CreateAbortablePromiseOptions {
-    abortErrorMsg?: string;
-    abortSignal?: AbortSignalLike;
+export interface CreateAbortablePromiseOptions extends AbortOptions {
     cleanupBeforeAbort?: () => void;
 }
 
@@ -26,9 +30,7 @@ export interface CreateAbortablePromiseOptions {
 export function delay(timeInMs: number, options?: DelayOptions): Promise<void>;
 
 // @public
-export interface DelayOptions {
-    abortErrorMsg?: string;
-    abortSignal?: AbortSignalLike;
+export interface DelayOptions extends AbortOptions {
 }
 
 // @public
@@ -72,6 +74,9 @@ export const isWebWorker: boolean;
 
 // @public
 export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
+
+// @public
+export function racePromisesAndAbortLosers<T>(promises: ((abortOptions: AbortOptions) => Promise<T>)[], aborter?: AbortSignalLike): Promise<T>;
 
 // @public
 export function randomUUID(): string;

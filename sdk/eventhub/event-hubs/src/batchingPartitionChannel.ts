@@ -9,12 +9,11 @@ import {
   EventHubProducerClient,
   OperationOptions,
 } from "./index";
-import { isDefined, isObjectWithProperties } from "@azure/core-util";
+import { isDefined, isObjectWithProperties, AbortOptions, racePromisesAndAbortLosers } from "@azure/core-util";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AwaitableQueue } from "./impl/awaitableQueue";
 import { getPromiseParts } from "./util/getPromiseParts";
 import { logger } from "./logger";
-import { AbortOptions, racePromisesAndAbortLosers } from "./util/utils";
 
 export interface BatchingPartitionChannelProps {
   loopAbortSignal: AbortSignalLike;
