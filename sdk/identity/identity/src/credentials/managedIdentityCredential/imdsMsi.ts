@@ -125,9 +125,9 @@ export const imdsMsi: MSI = {
         // returned quickly from the endpoint, proving its availability.
         const request = createPipelineRequest(requestOptions);
 
-        // Default to 300 if the default of 0 is used.
+        // Default to 1000 if the default of 0 is used.
         // Negative values can still be used to disable the timeout.
-        request.timeout = options.requestOptions?.timeout || 300;
+        request.timeout = options.requestOptions?.timeout || 1000;
 
         // This MSI uses the imdsEndpoint to get the token, which only uses http://
         request.allowInsecureConnection = true;
