@@ -170,10 +170,7 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
 
       // Check value set using client options.
       possibleDiagnosticLevels.forEach((level) => {
-        const clientContext = createDummyClientContext(
-          { diagnosticLevel: CosmosDbDiagnosticLevel.info },
-          () => undefined
-        );
+        const clientContext = createDummyClientContext({ diagnosticLevel: level }, () => undefined);
         expect(clientContext.diagnosticLevel).to.eql(level);
       });
     });
