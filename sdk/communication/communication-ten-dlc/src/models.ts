@@ -101,5 +101,5 @@ export {
   USBrands,
   USCampaign,
   USCampaigns,
-  UseCase
+  UseCase,
 } from "./generated/src/models/";
