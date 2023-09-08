@@ -8,7 +8,7 @@ const StandardAbortMessage = "The delay was aborted.";
 /**
  * Options for support abort functionality for the delay method
  */
-export interface DelayOptions extends AbortOptions { }
+export interface DelayOptions extends AbortOptions {}
 
 /**
  * A wrapper for setTimeout that resolves a promise after timeInMs milliseconds.

@@ -4,7 +4,7 @@
 import { AbortError, AbortSignalLike, AbortController } from "@azure/abort-controller";
 
 /**
- * Options related to abort controller. 
+ * Options related to abort controller.
  */
 export interface AbortOptions {
   /**
@@ -72,7 +72,6 @@ export function createAbortablePromise<T>(
   });
 }
 
-
 /**
  * promise.race() implementation that aborts losers as soon as the first promise fulfills.
  */
@@ -90,5 +89,5 @@ export async function racePromisesAndAbortLosers<T>(
   return Promise.race(promises.map((p) => p(options))).finally(() => {
     loserAborter.abort();
     abortSignal?.removeEventListener("abort", loserAbortListener);
-  })
+  });
 }

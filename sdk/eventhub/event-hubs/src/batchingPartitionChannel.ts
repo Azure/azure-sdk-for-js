@@ -9,7 +9,12 @@ import {
   EventHubProducerClient,
   OperationOptions,
 } from "./index";
-import { isDefined, isObjectWithProperties, AbortOptions, racePromisesAndAbortLosers } from "@azure/core-util";
+import {
+  isDefined,
+  isObjectWithProperties,
+  AbortOptions,
+  racePromisesAndAbortLosers,
+} from "@azure/core-util";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AwaitableQueue } from "./impl/awaitableQueue";
 import { getPromiseParts } from "./util/getPromiseParts";
@@ -47,8 +52,8 @@ export class BatchingPartitionChannel {
   private _flushState:
     | { isFlushing: false }
     | { isFlushing: true; currentPromise: Promise<void>; resolve: () => void } = {
-      isFlushing: false,
-    };
+    isFlushing: false,
+  };
   private _isRunning: boolean = false;
   private _lastBatchCreationTime: number = 0;
   private _loopAbortSignal: AbortSignalLike;
@@ -173,11 +178,12 @@ export class BatchingPartitionChannel {
           (await racePromisesAndAbortLosers<EventData | AmqpAnnotatedMessage | void>(
             [
               (abortOptions: AbortOptions) => this._eventQueue.shift(abortOptions),
-              (abortOptions: AbortOptions) => delay<void>(
-                maximumTimeToWaitForEvent,
-                abortOptions.abortSignal,
-                abortOptions.abortErrorMsg
-              ),
+              (abortOptions: AbortOptions) =>
+                delay<void>(
+                  maximumTimeToWaitForEvent,
+                  abortOptions.abortSignal,
+                  abortOptions.abortErrorMsg
+                ),
             ],
             this._loopAbortSignal
           ));

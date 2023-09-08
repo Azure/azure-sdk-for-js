@@ -70,7 +70,6 @@ export function createEventHubsProducerClient(
   return new EventHubProducerClient(connectionString, eventHubName, options);
 }
 
-
 export function createEventHubsBufferedProducerClient(
   options: EventHubBufferedProducerClientOptions
 ): EventHubBufferedProducerClient {
