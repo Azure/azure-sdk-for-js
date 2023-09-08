@@ -59,6 +59,8 @@ module.exports = function (config) {
       "AZURE_TENANT_ID",
       "SUBSCRIPTION_ID",
       "RECORDINGS_RELATIVE_PATH",
+      "CONTENT_SAFETY_ENDPOINT",
+      "CONTENT_SAFETY_API_KEY",
     ],
 
     // test results reporter to use
