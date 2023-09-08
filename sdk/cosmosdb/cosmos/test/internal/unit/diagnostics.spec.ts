@@ -161,7 +161,7 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
       const clientConfigDiagnostic: ClientConfigDiagnostic = clientContext.getClientConfig();
 
       expect(clientConfigDiagnostic.endpoint).to.eq("https://localhost:8081/");
-      expect(clientContext.diagnosticLevel).to.eq(CosmosDbDiagnosticLevel.info);
+      expect(clientContext.diagnosticLevel).to.eq(CosmosDbDiagnosticLevel.debug);
     });
     it("Check initilization of diagnostic level", async function () {
       const possibleDiagnosticLevels = [
