@@ -91,7 +91,7 @@ export class ClientContext {
         })
       );
     }
-    this.initializeDiagnosticSettings(clientConfig.diagnosticLevel);
+    this.initializeDiagnosticSettings(diagnosticLevel);
   }
   /** @hidden */
   public async read<T>({
