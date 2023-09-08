@@ -39,17 +39,17 @@ describe("Library/Config", () => {
       process.env = env;
       const config = new InternalConfig();
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig.connectionString,
+        config.azureMonitorExporterOptions.connectionString,
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
       );
       assert.deepStrictEqual(config.samplingRatio, 0.3, "Wrong samplingRatio");
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.disableOfflineStorage,
+        config.azureMonitorExporterOptions?.disableOfflineStorage,
         true,
         "Wrong disableOfflineStorage"
       );
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.storageDirectory,
+        config.azureMonitorExporterOptions?.storageDirectory,
         "testPath",
         "Wrong storageDirectory"
       );
@@ -91,12 +91,12 @@ describe("Library/Config", () => {
       assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, false, "Wrong redis");
       assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, false, "Wrong redis4");
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.disableOfflineStorage,
+        config.azureMonitorExporterOptions?.disableOfflineStorage,
         undefined,
         "Wrong disableOfflineStorage"
       );
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.storageDirectory,
+        config.azureMonitorExporterOptions?.storageDirectory,
         undefined,
         "Wrong storageDirectory"
       );
@@ -111,16 +111,16 @@ describe("Library/Config", () => {
 
     it("should initialize valid values", () => {
       const config = new InternalConfig();
-      config.azureMonitorExporterConfig.connectionString =
+      config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
-      assert.ok(typeof config.azureMonitorExporterConfig?.connectionString === "string");
+      assert.ok(typeof config.azureMonitorExporterOptions?.connectionString === "string");
       assert.ok(typeof config.samplingRatio === "number");
     });
 
     it("instrumentation key validation-valid key passed", () => {
       const warnStub = sandbox.stub(console, "warn");
       const config = new InternalConfig();
-      config.azureMonitorExporterConfig.connectionString =
+      config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
       assert.ok(warnStub.notCalled, "warning was not raised");
     });
@@ -128,7 +128,7 @@ describe("Library/Config", () => {
     it("instrumentation key validation-invalid key passed", () => {
       const warnStub = sandbox.stub(console, "warn");
       const config = new InternalConfig();
-      config.azureMonitorExporterConfig.connectionString =
+      config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111bbbb1ccc8dddeeeeffff3333";
       assert.ok(warnStub.calledOn, "warning was raised");
     });
@@ -136,7 +136,7 @@ describe("Library/Config", () => {
     it("instrumentation key validation-invalid key passed", () => {
       const warnStub = sandbox.stub(console, "warn");
       const config = new InternalConfig();
-      config.azureMonitorExporterConfig.connectionString = "abc";
+      config.azureMonitorExporterOptions.connectionString = "abc";
       assert.ok(warnStub.calledOn, "warning was raised");
     });
   });
