@@ -8,7 +8,8 @@ import { Constants } from "./common/constants";
 import { getUserAgent } from "./common/platform";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { ClientConfigDiagnostic } from "./CosmosDiagnostics";
-import { getDiagnosticLevelFromEnvironment } from "./diagnostics";
+import { DefaultDiagnosticLevelValue, getDiagnosticLevelFromEnvironment } from "./diagnostics";
+import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
 import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
@@ -106,7 +107,7 @@ export class CosmosClient {
       optionsOrConnectionString,
       globalEndpointManager,
       clientConfig,
-      getDiagnosticLevelFromEnvironment
+      this.determineDiagnosticLevel(optionsOrConnectionString.diagnosticLevel)
     );
     if (
       optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&
@@ -121,6 +122,15 @@ export class CosmosClient {
 
     this.databases = new Databases(this, this.clientContext);
     this.offers = new Offers(this, this.clientContext);
+  }
+
+  public determineDiagnosticLevel(
+    diagnosticLevelFromClientConfig: CosmosDbDiagnosticLevel
+  ): CosmosDbDiagnosticLevel {
+    const diagnosticLevelFromEnvironment = getDiagnosticLevelFromEnvironment();
+    const diagnosticLevelFromEnvOrClient =
+      diagnosticLevelFromEnvironment ?? diagnosticLevelFromClientConfig; // Diagnostic Setting from environment gets first priority.
+    return diagnosticLevelFromEnvOrClient ?? DefaultDiagnosticLevelValue; // Diagnostic Setting supplied in Client config gets second priority.
   }
 
   private initializeClientConfigDiagnostic(

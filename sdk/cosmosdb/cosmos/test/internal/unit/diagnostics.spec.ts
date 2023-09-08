@@ -32,7 +32,7 @@ import { getDiagnosticLevelFromEnvironment, setDiagnosticLevel } from "../../../
 
 describe("Diagnostic Unit Tests", function (this: Suite) {
   describe("Test withDiagnostics utility function", function () {
-    const clientContext = createTestClientContext({}, () => undefined);
+    const clientContext = createTestClientContext({}, undefined);
 
     it("Test wrapped function's returned type is returned properly", async function () {
       const testValue = "testValue";
@@ -165,18 +165,18 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
       ];
 
       // Check by default info diagnostic level is set.
-      const clientContextAtDefaultLevel = createTestClientContext({}, () => undefined);
+      const clientContextAtDefaultLevel = createTestClientContext({}, undefined);
       expect(clientContextAtDefaultLevel.diagnosticLevel).to.eql(CosmosDbDiagnosticLevel.info);
 
       // Check value set from environment variable get's priority.
       possibleDiagnosticLevels.forEach((level) => {
-        const clientContext = createTestClientContext({}, () => level);
+        const clientContext = createTestClientContext({}, level);
         expect(clientContext.diagnosticLevel).to.eql(level);
       });
 
       // Check value set using client options.
       possibleDiagnosticLevels.forEach((level) => {
-        const clientContext = createTestClientContext({ diagnosticLevel: level }, () => undefined);
+        const clientContext = createTestClientContext({ diagnosticLevel: level }, undefined);
         expect(clientContext.diagnosticLevel).to.eql(level);
       });
     });
@@ -202,7 +202,7 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
 });
 function createTestClientContext(
   options: Partial<CosmosClientOptions>,
-  getDiagnosticLevelFromEnvironmentHelper: () => CosmosDbDiagnosticLevel | undefined
+  diagnosticLevel: CosmosDbDiagnosticLevel
 ) {
   const clientOps: CosmosClientOptions = {
     endpoint: "",
@@ -238,7 +238,7 @@ function createTestClientContext(
     clientOps,
     globalEndpointManager,
     clientConfig,
-    getDiagnosticLevelFromEnvironmentHelper
+    diagnosticLevel
   );
   return clientContext;
 }

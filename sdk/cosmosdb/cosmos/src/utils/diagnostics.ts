@@ -145,6 +145,7 @@ export async function withDiagnostics<
     clientContext.recordDiagnostics(diagnostics);
     return response;
   } catch (e: any) {
+    diagnosticNode.updateTimestamp();
     diagnosticNode.addData({
       failure: true,
     });
