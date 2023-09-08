@@ -1,10 +1,10 @@
 {
-    "folders": [
-		{
+  "folders": [
+    {
       "name": "azure-sdk-for-js",
-			"path": "."
-		}
-	],
+      "path": "."
+    }
+  ],
   "settings": {
     "editor.detectIndentation": false,
     "editor.formatOnSave": true,
