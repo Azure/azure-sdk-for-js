@@ -261,10 +261,12 @@ describe("ManagedIdentityCredential", function () {
   });
 
   it("returns expected error when the Docker Desktop IMDS responds for unreachable network", async function () {
-  
-    const netError: RestError = new RestError("connecting to 169.254.169.254:80: connecting to 169.254.169.254:80: dial tcp 169.254.169.254:80: connectex: A socket operation was attempted to an unreachable network.", {
-      statusCode: 403,
-    });
+    const netError: RestError = new RestError(
+      "connecting to 169.254.169.254:80: connecting to 169.254.169.254:80: dial tcp 169.254.169.254:80: connectex: A socket operation was attempted to an unreachable network.",
+      {
+        statusCode: 403,
+      }
+    );
 
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
