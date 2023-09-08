@@ -1,6 +1,6 @@
 # Azure ContentSafety REST client library for JavaScript/TypeScript
 
-[Azure AI Content Safety](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/overview) detects harmful user-generated and AI-generated content in applications and services. Content Safety includes text and image APIs that allow you to detect material that is harmful.
+[Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview) detects harmful user-generated and AI-generated content in applications and services. Content Safety includes text and image APIs that allow you to detect material that is harmful.
 
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
@@ -20,7 +20,7 @@ Key links:
 ### Prerequisites
 
 - You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
-- An existing [Azure AI Content Safety](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/overview) instance.
+- An existing [Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview) instance.
 
 ### Install the `@azure-rest/ai-content-safety` package
 
@@ -33,7 +33,7 @@ npm install @azure-rest/ai-content-safety
 ### Create and authenticate a `ContentSafetyClient`
 
 #### Get the endpoint
-You can find the endpoint for your Azure AI Content Safety service resource using the [Azure Portal](https://ms.portal.azure.com/#home) or [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/cognitiveservices/account?view=azure-cli-latest#az-cognitiveservices-account-show):
+You can find the endpoint for your Azure AI Content Safety service resource using the [Azure Portal](https://ms.portal.azure.com/#home) or [Azure CLI](https://learn.microsoft.com/cli/azure/cognitiveservices/account?view=azure-cli-latest#az-cognitiveservices-account-show):
 
 ```bash
 # Get the endpoint for the Azure AI Content Safety service resource
@@ -42,7 +42,7 @@ az cognitiveservices account show --name "resource-name" --resource-group "resou
 
 #### Get the API key
 
-The API key can be found in the [Azure Portal](https://ms.portal.azure.com/#home) or by running the following [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/cognitiveservices/account?view=azure-cli-latest#az-cognitiveservices-account-show) command:
+The API key can be found in the [Azure Portal](https://ms.portal.azure.com/#home) or by running the following [Azure CLI](https://learn.microsoft.com/cli/azure/cognitiveservices/account?view=azure-cli-latest#az-cognitiveservices-account-show) command:
 
 ```bash
 az cognitiveservices account keys list --name "<resource-name>" --resource-group "<resource-group-name>"
@@ -458,7 +458,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ### Additional documentation
 
-For more extensive documentation on Azure Content Safety, see the [Azure AI Content Safety](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/overview) on docs.microsoft.com.
+For more extensive documentation on Azure Content Safety, see the [Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview) on docs.microsoft.com.
 
 ## Contributing
 
