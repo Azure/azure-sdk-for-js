@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { StreamableMethod } from "@azure-rest/core-client";
-import { EventMessage, toSSE } from "./sse.js";
+import { EventMessage, iterateSseStream } from "@azure/core-sse";
 
 async function getStream<TResponse>(
   response: StreamableMethod<TResponse>
@@ -16,5 +16,5 @@ export async function getSSEs(
   response: StreamableMethod<unknown>
 ): Promise<AsyncIterable<EventMessage>> {
   const chunkIterator = await getStream(response);
-  return toSSE(chunkIterator);
+  return iterateSseStream(chunkIterator);
 }

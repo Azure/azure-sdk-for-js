@@ -68,3 +68,5 @@ extends:
         safeName: azurelogger
       - name: azure-core-http-compat
         safeName: azurecorehttpcompat
+      - name: azure-core-sse
+        safeName: azurecoresse

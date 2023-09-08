@@ -1,14 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
 const enum ControlChars {
   NewLine = 10,
   CarriageReturn = 13,
@@ -33,8 +25,55 @@ export interface EventMessage {
 
 type PartialSome<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-export function toSSE(chunkIter: AsyncIterable<Uint8Array>): AsyncIterable<EventMessage> {
-  return toMessage(toLine(chunkIter));
+/**
+ * Processes a response stream into a stream of events.
+ * @param chunkIter - A stream of Uint8Array chunks
+ * @returns An async iterable of EventMessage objects
+ */
+export function iterateSseStream(
+  chunkIter: ReadableStream<Uint8Array>
+): AsyncIterable<EventMessage>;
+/**
+ * Processes a response stream into a stream of events.
+ * @param chunkIter - An async iterable of Uint8Array chunks
+ * @returns An async iterable of EventMessage objects
+ */
+export function iterateSseStream(chunkIter: AsyncIterable<Uint8Array>): AsyncIterable<EventMessage>;
+export function iterateSseStream(
+  chunkIter: AsyncIterable<Uint8Array> | ReadableStream<Uint8Array>
+): AsyncIterable<EventMessage> {
+  return toMessage(toLine(ensureAsyncIterable(chunkIter)));
+}
+
+function ensureAsyncIterable(
+  chunkIter: AsyncIterable<Uint8Array> | ReadableStream<Uint8Array>
+): AsyncIterable<Uint8Array> {
+  return isReadableStream(chunkIter) && (chunkIter as any)[Symbol.asyncIterator] === undefined
+    ? toAsyncIterable(chunkIter)
+    : (chunkIter as AsyncIterable<Uint8Array>);
+}
+
+function isReadableStream(body: unknown): body is ReadableStream {
+  return Boolean(
+    body &&
+      typeof (body as ReadableStream).getReader === "function" &&
+      typeof (body as ReadableStream).tee === "function"
+  );
+}
+
+async function* toAsyncIterable<T>(stream: ReadableStream<T>): AsyncIterable<T> {
+  const reader = stream.getReader();
+  try {
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) {
+        return;
+      }
+      yield value;
+    }
+  } finally {
+    reader.releaseLock();
+  }
 }
 
 function concatBuffer(a: Uint8Array, b: Uint8Array): Uint8Array {

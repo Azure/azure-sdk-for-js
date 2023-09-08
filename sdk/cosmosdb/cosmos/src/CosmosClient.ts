@@ -126,16 +126,16 @@ export class CosmosClient {
   ): ClientConfigDiagnostic {
     return {
       endpoint: optionsOrConnectionString.endpoint,
-      resourceTokensConfigured: optionsOrConnectionString.resourceTokens === undefined,
-      tokenProviderConfigured: optionsOrConnectionString.tokenProvider === undefined,
-      aadCredentialsConfigured: optionsOrConnectionString.aadCredentials === undefined,
-      connectionPolicyConfigured: optionsOrConnectionString.connectionPolicy === undefined,
+      resourceTokensConfigured: optionsOrConnectionString.resourceTokens !== undefined,
+      tokenProviderConfigured: optionsOrConnectionString.tokenProvider !== undefined,
+      aadCredentialsConfigured: optionsOrConnectionString.aadCredentials !== undefined,
+      connectionPolicyConfigured: optionsOrConnectionString.connectionPolicy !== undefined,
       consistencyLevel: optionsOrConnectionString.consistencyLevel,
       defaultHeaders: optionsOrConnectionString.defaultHeaders,
-      agentConfigured: optionsOrConnectionString.agent === undefined,
+      agentConfigured: optionsOrConnectionString.agent !== undefined,
       userAgentSuffix: optionsOrConnectionString.userAgentSuffix,
       diagnosticLevel: optionsOrConnectionString.diagnosticLevel,
-      pluginsConfigured: optionsOrConnectionString.plugins === undefined,
+      pluginsConfigured: optionsOrConnectionString.plugins !== undefined,
       sDKVersion: Constants.SDKVersion,
     };
   }
