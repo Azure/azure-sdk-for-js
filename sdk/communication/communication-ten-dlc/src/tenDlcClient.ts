@@ -1,4 +1,6 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {

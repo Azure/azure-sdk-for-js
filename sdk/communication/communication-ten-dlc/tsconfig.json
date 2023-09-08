@@ -1,8 +1,8 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "outDir": "./dist-esm/src",
-    "declarationDir": "./types/src",
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
     "paths": {
       "@azure-tools/communication-ten-dlc": ["./src/index"]
     }
