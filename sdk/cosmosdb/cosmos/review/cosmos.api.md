@@ -947,9 +947,9 @@ export class ErrorResponse extends Error {
     // (undocumented)
     body?: ErrorBody;
     // (undocumented)
-    code?: number;
+    code?: number | string;
     // (undocumented)
-    diagnostics: CosmosDiagnostics;
+    diagnostics?: CosmosDiagnostics;
     // (undocumented)
     headers?: CosmosHeaders;
     // (undocumented)
@@ -1076,9 +1076,11 @@ export class GlobalEndpointManager {
     markCurrentLocationUnavailableForRead(diagnosticNode: DiagnosticNodeInternal, endpoint: string): Promise<void>;
     // (undocumented)
     markCurrentLocationUnavailableForWrite(diagnosticNode: DiagnosticNodeInternal, endpoint: string): Promise<void>;
+    // (undocumented)
+    preferredLocationsCount: number;
     refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void>;
     // (undocumented)
-    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType): Promise<string>;
+    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number): Promise<string>;
 }
 
 // @public (undocumented)
