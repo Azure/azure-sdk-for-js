@@ -169,6 +169,7 @@ code-model-*
 # code workspaces
 *.code-workspace
 !/dataplane.code-workspace
+!/js.code-workspace
 
 # CPU profiles
 *.cpuprofile
