@@ -12,7 +12,6 @@ import {
   ClientConfigDiagnostic,
 } from "../CosmosDiagnostics";
 import { getCurrentTimestampInMs } from "../utils/time";
-import { getDiagnosticLevel } from "./index";
 import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { HttpHeaders, PipelineResponse } from "@azure/core-rest-pipeline";
@@ -33,11 +32,14 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
   public data: Partial<DiagnosticDataValue>;
   public startTimeUTCInMs: number;
   public durationInMs: number;
+  public diagnosticLevel: CosmosDbDiagnosticLevel;
   private diagnosticCtx: CosmosDiagnosticContext;
+
   /**
    * @internal
    */
   constructor(
+    diagnosticLevel: CosmosDbDiagnosticLevel,
     type: DiagnosticNodeType,
     parent: DiagnosticNodeInternal,
     data: Partial<DiagnosticDataValue> = {},
@@ -52,6 +54,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     this.durationInMs = 0;
     this.parent = parent;
     this.diagnosticCtx = ctx;
+    this.diagnosticLevel = diagnosticLevel;
   }
 
   /**
@@ -114,7 +117,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
       durationInMs: gatewayRequest.durationInMs,
     });
 
-    if (allowTracing(CosmosDbDiagnosticLevel.debugUnsafe)) {
+    if (allowTracing(CosmosDbDiagnosticLevel.debugUnsafe, this.diagnosticLevel)) {
       requestData = {
         ...requestData,
         headers: this.sanitizeHeaders(requestContext.headers),
@@ -171,7 +174,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
   public addData(
     data: Partial<DiagnosticDataValue>,
     msg?: string,
-    level: CosmosDbDiagnosticLevel = getDiagnosticLevel()
+    level: CosmosDbDiagnosticLevel = this.diagnosticLevel
   ): void {
     if (level !== CosmosDbDiagnosticLevel.info) {
       this.data = { ...this.data, ...data };
@@ -204,8 +207,9 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     level: CosmosDbDiagnosticLevel,
     data: Partial<DiagnosticDataValue> = {}
   ): DiagnosticNodeInternal {
-    if (allowTracing(level)) {
+    if (allowTracing(level, this.diagnosticLevel)) {
       const child = new DiagnosticNodeInternal(
+        this.diagnosticLevel,
         type,
         this,
         data,
@@ -223,7 +227,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
    * @internal
    */
   public recordQueryResult(resources: unknown, level: CosmosDbDiagnosticLevel): void {
-    if (allowTracing(level)) {
+    if (allowTracing(level, this.diagnosticLevel)) {
       const previousCount = this.data.queryRecordsRead ?? 0;
       if (Array.isArray(resources)) {
         this.data.queryRecordsRead = previousCount + resources.length;
@@ -252,9 +256,12 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
    */
   public toDiagnostic(clientConfig?: ClientConfigDiagnostic): CosmosDiagnostics {
     const rootNode = getRootNode(this);
+    const diagnostiNode = allowTracing(CosmosDbDiagnosticLevel.debug, this.diagnosticLevel)
+      ? rootNode.toDiagnosticNode()
+      : undefined;
     const cosmosDiagnostic = new CosmosDiagnostics(
       this.diagnosticCtx.getClientSideStats(),
-      rootNode.toDiagnosticNode(),
+      diagnostiNode,
       clientConfig
     );
     return cosmosDiagnostic;

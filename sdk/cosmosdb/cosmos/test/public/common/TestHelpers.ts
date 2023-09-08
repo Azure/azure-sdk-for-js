@@ -5,6 +5,7 @@ import assert from "assert";
 import {
   Container,
   CosmosClient,
+  CosmosDbDiagnosticLevel,
   CosmosDiagnostics,
   Database,
   DatabaseDefinition,
@@ -78,8 +79,10 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient): 
   }
 }
 
-export function createDummyDiagnosticNode(): DiagnosticNodeInternal {
-  return new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST_NODE, null);
+export function createDummyDiagnosticNode(
+  diagnosticLevel: CosmosDbDiagnosticLevel = CosmosDbDiagnosticLevel.info
+): DiagnosticNodeInternal {
+  return new DiagnosticNodeInternal(diagnosticLevel, DiagnosticNodeType.CLIENT_REQUEST_NODE, null);
 }
 
 /**

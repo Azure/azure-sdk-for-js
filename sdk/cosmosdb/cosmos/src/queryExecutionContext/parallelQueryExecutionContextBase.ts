@@ -71,7 +71,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.partitionedQueryExecutionInfo = partitionedQueryExecutionInfo;
     this.diagnosticNodeWrapper = {
       consumed: false,
-      diagnosticNode: new DiagnosticNodeInternal(DiagnosticNodeType.PARALLEL_QUERY_NODE, null),
+      diagnosticNode: new DiagnosticNodeInternal(
+        clientContext.diagnosticLevel,
+        DiagnosticNodeType.PARALLEL_QUERY_NODE,
+        null
+      ),
     };
     this.diagnosticNodeWrapper.diagnosticNode.addData({ stateful: true });
     this.err = undefined;

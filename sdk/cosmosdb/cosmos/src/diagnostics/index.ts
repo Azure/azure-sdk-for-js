@@ -8,7 +8,7 @@ import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel";
 export * from "./DiagnosticWriter";
 export * from "./DiagnosticFormatter";
 
-const DefaultDiagnosticLevelValue = CosmosDbDiagnosticLevel.info;
+export const DefaultDiagnosticLevelValue = CosmosDbDiagnosticLevel.info;
 
 const diagnosticLevelFromEnv =
   (typeof process !== "undefined" &&
@@ -35,11 +35,9 @@ if (isNonEmptyString(diagnosticLevelFromEnv)) {
       )}.`
     );
   }
-} else {
-  setDiagnosticLevel(DefaultDiagnosticLevelValue);
 }
 
-export function setDiagnosticLevel(level?: CosmosDbDiagnosticLevel): void {
+function setDiagnosticLevel(level?: CosmosDbDiagnosticLevel): void {
   if (level && !isCosmosDiagnosticLevel(level)) {
     throw new Error(
       `Unknown diagnostic level '${level}'. Acceptable values: ${acceptableDiagnosticLevelValues.join(
@@ -50,10 +48,7 @@ export function setDiagnosticLevel(level?: CosmosDbDiagnosticLevel): void {
   cosmosDiagnosticLevel = level;
 }
 
-/**
- * Retrieves the currently specified diagnostic level.
- */
-export function getDiagnosticLevel(): CosmosDbDiagnosticLevel {
+export function getDiagnosticLevelFromEnvironment(): CosmosDbDiagnosticLevel {
   return cosmosDiagnosticLevel;
 }
 

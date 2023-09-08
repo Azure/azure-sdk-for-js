@@ -27,17 +27,9 @@ import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
 } from "../../../src/diagnostics/DiagnosticNodeInternal";
-import { getDiagnosticLevel, setDiagnosticLevel } from "../../../src/diagnostics";
 import { allowTracing } from "../../../src/diagnostics/diagnosticLevelComparator";
 
 describe("Diagnostic Unit Tests", function (this: Suite) {
-  let savedDiagnosticLevel: CosmosDbDiagnosticLevel;
-  beforeEach(async function () {
-    savedDiagnosticLevel = getDiagnosticLevel();
-  });
-  afterEach(async function () {
-    setDiagnosticLevel(savedDiagnosticLevel);
-  });
   describe("Test withDiagnostics utility function", function () {
     const clientOps: CosmosClientOptions = {
       endpoint: "",
@@ -101,11 +93,11 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
   describe("Test addDignosticChild utility function", async function () {
     it("Test in case of exception, exception Diagnostic Node is marked failed and exception is rethrown.", async function () {
       const diagnosticNode = new DiagnosticNodeInternal(
+        CosmosDbDiagnosticLevel.debug,
         DiagnosticNodeType.CLIENT_REQUEST_NODE,
         null
       );
       const childNodeType = DiagnosticNodeType.METADATA_REQUEST_NODE;
-      setDiagnosticLevel(CosmosDbDiagnosticLevel.debug);
       // Ensure that addDignosticChild throws an exception by wrapping it in a function
       const wrapperFunction = async () => {
         await addDignosticChild(
@@ -126,18 +118,18 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
         expect(error.message).to.equal("Testing error handling in diagnostic child.");
       }
     });
-    it("Test in debug and debug-unsafe diagnostic level child diagnostic nodes are added.", async function () {
+    it("Test in case debug and debug-unsafe diagnostic level child diagnostic nodes are added.", async function () {
       const testValue = "testValue";
       // Ensure that addDignosticChild throws an exception by wrapping it in a function
       await Promise.all(
         [CosmosDbDiagnosticLevel.debug, CosmosDbDiagnosticLevel.debugUnsafe].map(
           async (diagnosticLevel) => {
             const diagnosticNode = new DiagnosticNodeInternal(
+              diagnosticLevel,
               DiagnosticNodeType.CLIENT_REQUEST_NODE,
               null
             );
             const childNodeType = DiagnosticNodeType.METADATA_REQUEST_NODE;
-            setDiagnosticLevel(diagnosticLevel);
             const testResponse = await addDignosticChild(
               async (childNode) => {
                 expect(childNode).to.exist; // eslint-disable-line no-unused-expressions
@@ -149,7 +141,6 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
 
             // Test the returned value matches.
             expect(testResponse).to.eql(testValue);
-
             // Test a child diagnostic Node is added.
             expect(diagnosticNode.children.length).to.equal(1);
             // Test a child diagnostic Node is for the correct type.
@@ -160,11 +151,11 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
     });
     it("Test in info diagnostic level child diagnostic nodes are not added.", async function () {
       const diagnosticNode = new DiagnosticNodeInternal(
+        CosmosDbDiagnosticLevel.info,
         DiagnosticNodeType.CLIENT_REQUEST_NODE,
         null
       );
       const childNodeType = DiagnosticNodeType.METADATA_REQUEST_NODE;
-      setDiagnosticLevel(CosmosDbDiagnosticLevel.info);
       // Ensure that addDignosticChild throws an exception by wrapping it in a function
       await addDignosticChild(
         async (childNode) => {
@@ -181,9 +172,11 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
 
   describe("Test ClientConfigDiagnostic initialization", function () {
     it("Check for endpoint", async function () {
-      setDiagnosticLevel(CosmosDbDiagnosticLevel.debug);
       const testEndpoint = "AccountEndpoint=https://localhost:8081/;AccountKey=key";
-      const client = new CosmosClient(testEndpoint);
+      const client = new CosmosClient({
+        endpoint: testEndpoint, 
+        diagnosticLevel: CosmosDbDiagnosticLevel.debug,
+      });
       const clientContext: ClientContext = (client as any).clientContext;
       const clientConfigDiagnostic: ClientConfigDiagnostic = clientContext.getClientConfig();
       expect(clientConfigDiagnostic.endpoint).to.eq("https://localhost:8081/");
@@ -191,19 +184,21 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
   });
 
   it("Test Ordering of Diagnostic Level", function () {
-    setDiagnosticLevel(CosmosDbDiagnosticLevel.info); // eslint-disable-line no-unused-expressions
-    expect(allowTracing(CosmosDbDiagnosticLevel.info)).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(CosmosDbDiagnosticLevel.debug)).to.be.false; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(CosmosDbDiagnosticLevel.debugUnsafe)).to.be.false; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(CosmosDbDiagnosticLevel.info, CosmosDbDiagnosticLevel.info)).to.be.true; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(CosmosDbDiagnosticLevel.debug, CosmosDbDiagnosticLevel.info)).to.be.false; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(CosmosDbDiagnosticLevel.debugUnsafe, CosmosDbDiagnosticLevel.info)).to.be
+      .false; // eslint-disable-line no-unused-expressions
 
-    setDiagnosticLevel(CosmosDbDiagnosticLevel.debug); // eslint-disable-line no-unused-expressions
-    expect(allowTracing(CosmosDbDiagnosticLevel.info)).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(CosmosDbDiagnosticLevel.debug)).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(CosmosDbDiagnosticLevel.debugUnsafe)).to.be.false; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(CosmosDbDiagnosticLevel.info, CosmosDbDiagnosticLevel.debug)).to.be.true; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(CosmosDbDiagnosticLevel.debug, CosmosDbDiagnosticLevel.debug)).to.be.true; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(CosmosDbDiagnosticLevel.debugUnsafe, CosmosDbDiagnosticLevel.debug)).to.be
+      .false; // eslint-disable-line no-unused-expressions
 
-    setDiagnosticLevel(CosmosDbDiagnosticLevel.debugUnsafe); // eslint-disable-line no-unused-expressions
-    expect(allowTracing(CosmosDbDiagnosticLevel.info)).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(CosmosDbDiagnosticLevel.debug)).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(CosmosDbDiagnosticLevel.debugUnsafe)).to.be.true; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(CosmosDbDiagnosticLevel.info, CosmosDbDiagnosticLevel.debugUnsafe)).to.be
+      .true; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(CosmosDbDiagnosticLevel.debug, CosmosDbDiagnosticLevel.debugUnsafe)).to.be
+      .true; // eslint-disable-line no-unused-expressions
+    expect(allowTracing(CosmosDbDiagnosticLevel.debugUnsafe, CosmosDbDiagnosticLevel.debugUnsafe))
+      .to.be.true; // eslint-disable-line no-unused-expressions
   });
 });

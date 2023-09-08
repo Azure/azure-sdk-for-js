@@ -44,7 +44,7 @@ import {
   NoOpDiagnosticWriter,
 } from "./diagnostics/DiagnosticWriter";
 import { DefaultDiagnosticFormatter, DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
-import { getDiagnosticLevel } from "./diagnostics";
+import { DefaultDiagnosticLevelValue, getDiagnosticLevelFromEnvironment } from "./diagnostics";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { allowTracing } from "./diagnostics/diagnosticLevelComparator";
 
@@ -62,6 +62,7 @@ export class ClientContext {
   private pipeline: Pipeline;
   private diagnosticWriter: DiagnosticWriter;
   private diagnosticFormatter: DiagnosticFormatter;
+  public diagnosticLevel: CosmosDbDiagnosticLevel;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
@@ -91,7 +92,7 @@ export class ClientContext {
         })
       );
     }
-    this.initializeDiagnosticSettings();
+    this.initializeDiagnosticSettings(clientConfig.diagnosticLevel);
   }
   /** @hidden */
   public async read<T>({
@@ -882,10 +883,16 @@ export class ClientContext {
     this.diagnosticWriter.write(formatted);
   }
 
-  private initializeDiagnosticSettings(): void {
-    const diagnosticLevel = getDiagnosticLevel();
+  private initializeDiagnosticSettings(
+    diagnosticLevelFromClientConfig: CosmosDbDiagnosticLevel
+  ): void {
+    const diagnosticLevelFromEnvironment = getDiagnosticLevelFromEnvironment();
+    const diagnosticLevelFromEnvOrClient =
+      diagnosticLevelFromEnvironment ?? diagnosticLevelFromClientConfig; // Diagnostic Setting from environment gets first priority.
+    const effectiveDiagnosticLevel = diagnosticLevelFromEnvOrClient ?? DefaultDiagnosticLevelValue; // Diagnostic Setting supplied in Client config gets second priority.
+    this.diagnosticLevel = effectiveDiagnosticLevel;
     this.diagnosticFormatter = new DefaultDiagnosticFormatter();
-    switch (diagnosticLevel) {
+    switch (effectiveDiagnosticLevel) {
       case CosmosDbDiagnosticLevel.info:
         this.diagnosticWriter = new NoOpDiagnosticWriter();
         break;
@@ -973,7 +980,7 @@ export class ClientContext {
   }
 
   public getClientConfig(): ClientConfigDiagnostic | undefined {
-    if (allowTracing(CosmosDbDiagnosticLevel.debug)) {
+    if (allowTracing(CosmosDbDiagnosticLevel.debug, this.diagnosticLevel)) {
       return this.clientConfig;
     } else {
       return undefined;
