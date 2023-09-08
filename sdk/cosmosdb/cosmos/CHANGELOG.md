@@ -5,6 +5,7 @@
 ### Features Added
 - Retries for system timeouts (Timeout error) and service unavailability (503). [#26039] (https://github.com/Azure/azure-sdk-for-js/pull/26039)
 - Added support for hierarchical partitions.
+- Added Diagnostics to all response objects, i.e. ResourceResponse (parent class for ItemRespone, ContainerResponse etc.), FeedResponse, ChangeFeedIteratorResponse, ErrorResponse, BulkOperationResponse.
 
 ### Breaking Changes
 

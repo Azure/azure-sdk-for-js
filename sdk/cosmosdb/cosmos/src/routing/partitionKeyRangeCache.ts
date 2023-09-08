@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { MetadataLookUpType } from "../CosmosDiagnostics";
 import { PartitionKeyRange } from "../client/Container/PartitionKeyRange";
 import { ClientContext } from "../ClientContext";
 import { getIdFromLink } from "../common/helper";
-import { CosmosDiagnosticContext } from "../CosmosDiagnosticsContext";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import { withMetadataDiagnostics } from "../utils/diagnostics";
 import { createCompleteRoutingMap } from "./CollectionRoutingMapFactory";
 import { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap";
 import { QueryRange } from "./QueryRange";
@@ -24,14 +26,14 @@ export class PartitionKeyRangeCache {
    */
   public async onCollectionRoutingMap(
     collectionLink: string,
-    diagnosticContext: CosmosDiagnosticContext,
+    diagnosticNode: DiagnosticNodeInternal,
     forceRefresh: boolean = false
   ): Promise<InMemoryCollectionRoutingMap> {
     const collectionId = getIdFromLink(collectionLink);
     if (this.collectionRoutingMapByCollectionId[collectionId] === undefined || forceRefresh) {
       this.collectionRoutingMapByCollectionId[collectionId] = this.requestCollectionRoutingMap(
         collectionLink,
-        diagnosticContext
+        diagnosticNode
       );
     }
     return this.collectionRoutingMapByCollectionId[collectionId];
@@ -44,20 +46,26 @@ export class PartitionKeyRangeCache {
   public async getOverlappingRanges(
     collectionLink: string,
     queryRange: QueryRange,
-    diagnosticContext: CosmosDiagnosticContext,
+    diagnosticNode: DiagnosticNodeInternal,
     forceRefresh: boolean = false
   ): Promise<PartitionKeyRange[]> {
-    const crm = await this.onCollectionRoutingMap(collectionLink, diagnosticContext, forceRefresh);
+    const crm = await this.onCollectionRoutingMap(collectionLink, diagnosticNode, forceRefresh);
     return crm.getOverlappingRanges(queryRange);
   }
 
   private async requestCollectionRoutingMap(
     collectionLink: string,
-    diagnosticContext: CosmosDiagnosticContext
+    diagnosticNode: DiagnosticNodeInternal
   ): Promise<InMemoryCollectionRoutingMap> {
-    const { resources } = await this.clientContext
-      .queryPartitionKeyRanges(collectionLink, diagnosticContext)
-      .fetchAll();
+    const { resources } = await withMetadataDiagnostics(
+      async (metadataDiagnostics: DiagnosticNodeInternal) => {
+        return this.clientContext
+          .queryPartitionKeyRanges(collectionLink)
+          .fetchAllInternal(metadataDiagnostics);
+      },
+      diagnosticNode,
+      MetadataLookUpType.PartitionKeyRangeLookUp
+    );
     return createCompleteRoutingMap(resources.map((r) => [r, true]));
   }
 }

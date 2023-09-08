@@ -4,8 +4,8 @@ import assert from "assert";
 import { CosmosClient, RequestContext } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { PluginOn } from "../../../src";
-import { getEmptyCosmosDiagnostics } from "../../../src/CosmosDiagnostics";
 import { TimeoutErrorCode } from "../../../src/request/TimeoutError";
+import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 

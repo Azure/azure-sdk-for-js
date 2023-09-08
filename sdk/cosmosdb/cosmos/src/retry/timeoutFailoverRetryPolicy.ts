@@ -9,6 +9,7 @@ import { RetryContext } from "./RetryContext";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { TimeoutErrorCode } from "../request/TimeoutError";
 import { ErrorResponse } from "../request";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 
 /**
  * This class TimeoutFailoverRetryPolicy handles retries for read operations
@@ -50,6 +51,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
 
   public async shouldRetry(
     err: ErrorResponse,
+    diagnosticNode: DiagnosticNodeInternal,
     retryContext?: RetryContext,
     locationEndpoint?: string
   ): Promise<boolean> {
@@ -89,6 +91,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     // Setting the retryLocationIndex to the next available location for retry.
     // The retryLocationIndex is determined based on the failoverRetryCount, starting from zero.
     retryContext.retryLocationServerIndex = await this.findEndpointIndex(this.failoverRetryCount);
+    diagnosticNode.addData({ successfulRetryPolicy: "timeout-failover" });
     return true;
   }
 
@@ -123,4 +126,3 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     return endpointIndex;
   }
 }
-

@@ -9,8 +9,9 @@ import { ResourceResponse } from "../../../src/request/ResourceResponse";
 import { ErrorResponse } from "../../../src/request/ErrorResponse";
 import { RetryContext } from "../../../src/retry/RetryContext";
 import { StatusCodes } from "../../../src/common/statusCodes";
-import { getEmptyCosmosDiagnostics } from "../../../src/CosmosDiagnostics";
 import { TimeoutError } from "../../../src/request/TimeoutError";
+import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
+import { createDummyDiagnosticNode } from "../../public/common/TestHelpers";
 
 describe("TimeoutFailoverRetryPolicy", function () {
   const databaseAccountBody: any = {
@@ -83,9 +84,25 @@ describe("TimeoutFailoverRetryPolicy", function () {
     const locationEndpoint: string | undefined = undefined;
 
     // retryContext, locationEndpoint are undefined
-    assert.equal(await retryPolicy.shouldRetry(err, retryContext, locationEndpoint), false);
+    assert.equal(
+      await retryPolicy.shouldRetry(
+        err,
+        createDummyDiagnosticNode(),
+        retryContext,
+        locationEndpoint
+      ),
+      false
+    );
     //  retryContext is undefined
-    assert.equal(await retryPolicy.shouldRetry(err, retryContext, "locationEndpoint"), false);
+    assert.equal(
+      await retryPolicy.shouldRetry(
+        err,
+        createDummyDiagnosticNode(),
+        retryContext,
+        "locationEndpoint"
+      ),
+      false
+    );
   });
   it("should not retry when timeout error but the request is not valid for timeout error", async function () {
     const retryPolicy_post = new TimeoutFailoverRetryPolicy(
@@ -97,7 +114,12 @@ describe("TimeoutFailoverRetryPolicy", function () {
       true
     );
     assert.equal(
-      await retryPolicy_post.shouldRetry(timeoutErr, retryCtx, "locationEndpoint"),
+      await retryPolicy_post.shouldRetry(
+        timeoutErr,
+        createDummyDiagnosticNode(),
+        retryCtx,
+        "locationEndpoint"
+      ),
       false
     );
   });
@@ -113,6 +135,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
     assert.equal(
       await retryPolicy_endpointDiscoveryDisabled.shouldRetry(
         timeoutErr,
+        createDummyDiagnosticNode(),
         retryCtx,
         "locationEndpoint"
       ),
@@ -128,12 +151,30 @@ describe("TimeoutFailoverRetryPolicy", function () {
     };
 
     //  valid case
-    assert.equal(await retryPolicy.shouldRetry(serviceUnavailableErr, retryCtx, locEndpoint), true);
+    assert.equal(
+      await retryPolicy.shouldRetry(
+        serviceUnavailableErr,
+        createDummyDiagnosticNode(),
+        retryCtx,
+        locEndpoint
+      ),
+      true
+    );
 
     //  test maxServiceUnavailableRetryCount exceeded
-    await retryPolicy.shouldRetry(serviceUnavailableErr, retryCtx, locEndpoint);
+    await retryPolicy.shouldRetry(
+      serviceUnavailableErr,
+      createDummyDiagnosticNode(),
+      retryCtx,
+      locEndpoint
+    );
     assert.equal(
-      await retryPolicy.shouldRetry(serviceUnavailableErr, retryCtx, locEndpoint),
+      await retryPolicy.shouldRetry(
+        serviceUnavailableErr,
+        createDummyDiagnosticNode(),
+        retryCtx,
+        locEndpoint
+      ),
       false
     );
   });
@@ -149,12 +190,22 @@ describe("TimeoutFailoverRetryPolicy", function () {
 
     for (let i = 0; i < 120; i++) {
       assert.equal(
-        await retryPolicy_maxRetryAttemptCount.shouldRetry(timeoutErr, retryCtx, locEndpoint),
+        await retryPolicy_maxRetryAttemptCount.shouldRetry(
+          timeoutErr,
+          createDummyDiagnosticNode(),
+          retryCtx,
+          locEndpoint
+        ),
         true
       );
     }
     assert.equal(
-      await retryPolicy_maxRetryAttemptCount.shouldRetry(timeoutErr, retryCtx, locEndpoint),
+      await retryPolicy_maxRetryAttemptCount.shouldRetry(
+        timeoutErr,
+        createDummyDiagnosticNode(),
+        retryCtx,
+        locEndpoint
+      ),
       false
     );
   });
@@ -191,6 +242,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
     assert.equal(
       await retryPolicy_multipleWriteLocationsDisabled.shouldRetry(
         timeoutErr,
+        createDummyDiagnosticNode(),
         retryCtx,
         locEndpoint
       ),
@@ -227,11 +279,16 @@ describe("TimeoutFailoverRetryPolicy", function () {
       true
     );
     //  initialising redable locations
-    await gem_test2.resolveServiceEndpoint(ResourceType.item, OperationType.Read);
+    await gem_test2.resolveServiceEndpoint(
+      createDummyDiagnosticNode(),
+      ResourceType.item,
+      OperationType.Read
+    );
     for (let i = 0; i < 120; i++) {
       assert.equal(
         await retryPolicy_preferedLocationsNotDefined.shouldRetry(
           timeoutErr,
+          createDummyDiagnosticNode(),
           retryCtx,
           locEndpoint
         ),
@@ -240,7 +297,12 @@ describe("TimeoutFailoverRetryPolicy", function () {
     }
     //  retry count breached as only 2 endpoints were available
     assert.equal(
-      await retryPolicy_preferedLocationsNotDefined.shouldRetry(timeoutErr, retryCtx, locEndpoint),
+      await retryPolicy_preferedLocationsNotDefined.shouldRetry(
+        timeoutErr,
+        createDummyDiagnosticNode(),
+        retryCtx,
+        locEndpoint
+      ),
       false
     );
   });

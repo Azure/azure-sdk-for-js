@@ -9,6 +9,8 @@ import { FeedOptions, Response, ErrorResponse } from "../../request";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
 import { PartitionKey } from "../../documents";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 /**
  * @hidden
  * Provides iterator for change feed for one partition key.
@@ -97,18 +99,22 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
    * Returns the result of change feed from Azure Cosmos DB.
    */
   public async readNext(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
-    if (!this.isInstantiated) {
-      await this.instantiateIterator();
-    }
-    const result = await this.fetchNext();
-    return result;
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (!this.isInstantiated) {
+        await this.instantiateIterator();
+      }
+      const result = await this.fetchNext(diagnosticNode);
+      return result;
+    }, this.clientContext);
   }
 
   /**
    * Read feed and retrieves the next set of results in Azure Cosmos DB.
    */
-  private async fetchNext(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
-    const response = await this.getFeedResponse();
+  private async fetchNext(
+    diagnosticNode: DiagnosticNodeInternal
+  ): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
+    const response = await this.getFeedResponse(diagnosticNode);
     this.continuationToken.Continuation = response.headers[Constants.HttpHeaders.ETag];
     response.headers[Constants.HttpHeaders.ContinuationToken] = JSON.stringify(
       this.continuationToken
@@ -116,7 +122,9 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
     return response;
   }
 
-  private async getFeedResponse(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
+  private async getFeedResponse(
+    diagnosticNode: DiagnosticNodeInternal
+  ): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
     const feedOptions: FeedOptions = { initialHeaders: {}, useIncrementalFeed: true };
 
     if (typeof this.changeFeedOptions.maxItemCount === "number") {
@@ -144,6 +152,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       resourceType: ResourceType.item,
       resourceId: this.resourceId,
       resultFn: (result) => (result ? result.Documents : []),
+      diagnosticNode,
       query: undefined,
       options: feedOptions,
       partitionKey: this.partitionKey,
@@ -153,7 +162,8 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       response.result,
       response.result ? response.result.length : 0,
       response.code,
-      response.headers
+      response.headers,
+      getEmptyCosmosDiagnostics()
     );
   }
 }
