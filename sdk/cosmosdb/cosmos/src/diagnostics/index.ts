@@ -37,7 +37,7 @@ if (isNonEmptyString(diagnosticLevelFromEnv)) {
   }
 }
 
-function setDiagnosticLevel(level?: CosmosDbDiagnosticLevel): void {
+export function setDiagnosticLevel(level?: CosmosDbDiagnosticLevel): void {
   if (level && !isCosmosDiagnosticLevel(level)) {
     throw new Error(
       `Unknown diagnostic level '${level}'. Acceptable values: ${acceptableDiagnosticLevelValues.join(
@@ -48,7 +48,7 @@ function setDiagnosticLevel(level?: CosmosDbDiagnosticLevel): void {
   cosmosDiagnosticLevel = level;
 }
 
-export function getDiagnosticLevelFromEnvironment(): CosmosDbDiagnosticLevel {
+export function getDiagnosticLevelFromEnvironment(): CosmosDbDiagnosticLevel | undefined {
   return cosmosDiagnosticLevel;
 }
 

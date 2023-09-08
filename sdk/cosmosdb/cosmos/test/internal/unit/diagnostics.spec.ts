@@ -28,10 +28,11 @@ import {
   DiagnosticNodeType,
 } from "../../../src/diagnostics/DiagnosticNodeInternal";
 import { allowTracing } from "../../../src/diagnostics/diagnosticLevelComparator";
+import { getDiagnosticLevelFromEnvironment, setDiagnosticLevel } from "../../../src/diagnostics";
 
 describe("Diagnostic Unit Tests", function (this: Suite) {
   describe("Test withDiagnostics utility function", function () {
-    const clientContext = createDummyClientContext({}, () => undefined);
+    const clientContext = createTestClientContext({}, () => undefined);
 
     it("Test wrapped function's returned type is returned properly", async function () {
       const testValue = "testValue";
@@ -141,12 +142,17 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
   });
 
   describe("Test ClientConfigDiagnostic initialization", function () {
+    let savedDiagnosticLevel: CosmosDbDiagnosticLevel | undefined;
+    beforeEach(async function () {
+      savedDiagnosticLevel = getDiagnosticLevelFromEnvironment();
+    });
+    afterEach(function () {
+      setDiagnosticLevel(savedDiagnosticLevel);
+    });
     it("Check for endpoint", async function () {
+      setDiagnosticLevel(CosmosDbDiagnosticLevel.debug);
       const testEndpoint = "AccountEndpoint=https://localhost:8081/;AccountKey=key";
-      const client = new CosmosClient({
-        endpoint: testEndpoint,
-        diagnosticLevel: CosmosDbDiagnosticLevel.debug,
-      });
+      const client = new CosmosClient(testEndpoint);
       const clientContext: ClientContext = (client as any).clientContext;
       const clientConfigDiagnostic: ClientConfigDiagnostic = clientContext.getClientConfig();
       expect(clientConfigDiagnostic.endpoint).to.eq("https://localhost:8081/");
@@ -159,18 +165,18 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
       ];
 
       // Check by default info diagnostic level is set.
-      const clientContextAtDefaultLevel = createDummyClientContext({}, () => undefined);
+      const clientContextAtDefaultLevel = createTestClientContext({}, () => undefined);
       expect(clientContextAtDefaultLevel.diagnosticLevel).to.eql(CosmosDbDiagnosticLevel.info);
 
       // Check value set from environment variable get's priority.
       possibleDiagnosticLevels.forEach((level) => {
-        const clientContext = createDummyClientContext({}, () => level);
+        const clientContext = createTestClientContext({}, () => level);
         expect(clientContext.diagnosticLevel).to.eql(level);
       });
 
       // Check value set using client options.
       possibleDiagnosticLevels.forEach((level) => {
-        const clientContext = createDummyClientContext({ diagnosticLevel: level }, () => undefined);
+        const clientContext = createTestClientContext({ diagnosticLevel: level }, () => undefined);
         expect(clientContext.diagnosticLevel).to.eql(level);
       });
     });
@@ -194,13 +200,12 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
     expect(allowTracing(debugUnsafe, debugUnsafe)).to.be.true; // eslint-disable-line no-unused-expressions
   });
 });
-function createDummyClientContext(
+function createTestClientContext(
   options: Partial<CosmosClientOptions>,
-  getDiagnosticLevelFromEnvironment: () => CosmosDbDiagnosticLevel | undefined
+  getDiagnosticLevelFromEnvironmentHelper: () => CosmosDbDiagnosticLevel | undefined
 ) {
   const clientOps: CosmosClientOptions = {
     endpoint: "",
-    diagnosticLevel: CosmosDbDiagnosticLevel.debugUnsafe,
     connectionPolicy: {
       enableEndpointDiscovery: false,
       preferredLocations: ["https://localhhost"],
@@ -225,15 +230,15 @@ function createDummyClientContext(
     defaultHeaders: {},
     agentConfigured: true,
     userAgentSuffix: "",
-    diagnosticLevel: CosmosDbDiagnosticLevel.info,
     pluginsConfigured: true,
     sDKVersion: Constants.SDKVersion,
+    ...options,
   };
   const clientContext = new ClientContext(
     clientOps,
     globalEndpointManager,
     clientConfig,
-    getDiagnosticLevelFromEnvironment
+    getDiagnosticLevelFromEnvironmentHelper
   );
   return clientContext;
 }
