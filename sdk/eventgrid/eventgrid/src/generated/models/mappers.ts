@@ -6374,6 +6374,13 @@ export const AcsEmailEngagementTrackingReportReceivedEventData: coreClient.Compo
           name: "String"
         }
       },
+      recipient: {
+        serializedName: "recipient",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       messageId: {
         serializedName: "messageId",
         required: true,

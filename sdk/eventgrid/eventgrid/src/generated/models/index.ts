@@ -606,7 +606,7 @@ export interface SubscriptionDeletedEventData {
   readonly eventSubscriptionId: string;
 }
 
-/** Schema of the Data property of an EventGridEvent for MQTT Client Created Or Updated event. */
+/** Schema of the Data property of an EventGridEvent for MQTT Client state changes. */
 export interface EventGridMqttClientEventData {
   /** Unique identifier for the MQTT client that the client presents to the service for authentication. This case-sensitive string can be up to 128 characters long, and supports UTF-8 characters. */
   clientAuthenticationName: string;
@@ -2205,6 +2205,8 @@ export interface AcsEmailDeliveryReportStatusDetails {
 export interface AcsEmailEngagementTrackingReportReceivedEventData {
   /** The Sender Email Address */
   sender: string;
+  /** The Recipient Email Address */
+  recipient: string;
   /** The Id of the email that has been sent */
   messageId: string;
   /** The time at which the user interacted with the email */

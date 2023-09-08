@@ -178,6 +178,7 @@ export interface AcsEmailEngagementTrackingReportReceivedEventData {
     engagement: AcsUserEngagement;
     engagementContext: string;
     messageId: string;
+    recipient: string;
     sender: string;
     userActionTimestamp: string;
     userAgent: string;
