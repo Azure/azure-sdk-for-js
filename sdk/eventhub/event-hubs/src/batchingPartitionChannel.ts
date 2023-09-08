@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AmqpAnnotatedMessage, StandardAbortMessage, delay } from "@azure/core-amqp";
+import { AmqpAnnotatedMessage, delay } from "@azure/core-amqp";
 import {
   EventData,
   EventDataBatch,
@@ -10,10 +10,11 @@ import {
   OperationOptions,
 } from "./index";
 import { isDefined, isObjectWithProperties } from "@azure/core-util";
-import { AbortSignalLike, AbortController } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { AwaitableQueue } from "./impl/awaitableQueue";
 import { getPromiseParts } from "./util/getPromiseParts";
 import { logger } from "./logger";
+import { AbortOptions, racePromisesAndAbortLosers } from "./util/utils";
 
 export interface BatchingPartitionChannelProps {
   loopAbortSignal: AbortSignalLike;
@@ -168,23 +169,20 @@ export class BatchingPartitionChannel {
           ? Math.max(this._maxWaitTimeInMs - timeSinceLastBatchCreation, 0)
           : this._maxWaitTimeInMs;
 
-        const aborter = new AbortController();
-        const abortListener = () => {
-          aborter.abort();
-        };
-        this._loopAbortSignal.addEventListener("abort", abortListener);
-        const updatedOptions = {
-          abortSignal: aborter.signal,
-          abortErrorMsg: StandardAbortMessage
-        };
-        let futureEvent = this._eventQueue.shift(updatedOptions);
-        const delayPromise = delay<void>(maximumTimeToWaitForEvent, updatedOptions.abortSignal, updatedOptions.abortErrorMsg)
         const event =
           eventToAddToBatch ??
-          (await Promise.race([futureEvent, delayPromise]).finally(() => {
-            aborter.abort();
-            this._loopAbortSignal?.removeEventListener("abort", abortListener);
-          }));
+          (await racePromisesAndAbortLosers<EventData | AmqpAnnotatedMessage | void>(
+            [
+              (abortOptions: AbortOptions) => this._eventQueue.shift(abortOptions),
+              (abortOptions: AbortOptions) => delay<void>(
+                maximumTimeToWaitForEvent,
+                abortOptions.abortSignal,
+                abortOptions.abortErrorMsg
+              ),
+            ],
+            this._loopAbortSignal
+          ));
+
         if (!event) {
           // We didn't receive an event within the allotted time.
           // Send the existing batch if it has events in it.
@@ -196,8 +194,6 @@ export class BatchingPartitionChannel {
           continue;
         } else if (!eventToAddToBatch) {
           eventToAddToBatch = event;
-          // We received an event, so get a promise for the next one.
-          futureEvent = this._eventQueue.shift();
         }
 
         const didAdd = batch.tryAdd(event);
@@ -240,7 +236,6 @@ export class BatchingPartitionChannel {
         }
       }
     }
-
   }
 
   /**
