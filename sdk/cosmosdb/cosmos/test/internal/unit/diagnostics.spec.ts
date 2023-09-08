@@ -174,7 +174,7 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
     it("Check for endpoint", async function () {
       const testEndpoint = "AccountEndpoint=https://localhost:8081/;AccountKey=key";
       const client = new CosmosClient({
-        endpoint: testEndpoint, 
+        endpoint: testEndpoint,
         diagnosticLevel: CosmosDbDiagnosticLevel.debug,
       });
       const clientContext: ClientContext = (client as any).clientContext;
@@ -191,14 +191,30 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
 
     expect(allowTracing(CosmosDbDiagnosticLevel.info, CosmosDbDiagnosticLevel.debug)).to.be.true; // eslint-disable-line no-unused-expressions
     expect(allowTracing(CosmosDbDiagnosticLevel.debug, CosmosDbDiagnosticLevel.debug)).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(CosmosDbDiagnosticLevel.debugUnsafe, CosmosDbDiagnosticLevel.debug)).to.be
-      .false; // eslint-disable-line no-unused-expressions
+    expect(
+      allowTracing(
+        CosmosDbDiagnosticLevel.debugUnsafe, // eslint-disable-line no-unused-expressions
+        CosmosDbDiagnosticLevel.debug
+      )
+    ).to.be.false; // eslint-disable-line no-unused-expressions
 
-    expect(allowTracing(CosmosDbDiagnosticLevel.info, CosmosDbDiagnosticLevel.debugUnsafe)).to.be
-      .true; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(CosmosDbDiagnosticLevel.debug, CosmosDbDiagnosticLevel.debugUnsafe)).to.be
-      .true; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(CosmosDbDiagnosticLevel.debugUnsafe, CosmosDbDiagnosticLevel.debugUnsafe))
-      .to.be.true; // eslint-disable-line no-unused-expressions
+    expect(
+      allowTracing(
+        CosmosDbDiagnosticLevel.info, // eslint-disable-line no-unused-expressions
+        CosmosDbDiagnosticLevel.debugUnsafe
+      )
+    ).to.be.true; // eslint-disable-line no-unused-expressions
+    expect(
+      allowTracing(
+        CosmosDbDiagnosticLevel.debug, // eslint-disable-line no-unused-expressions
+        CosmosDbDiagnosticLevel.debugUnsafe
+      )
+    ).to.be.true; // eslint-disable-line no-unused-expressions
+    expect(
+      allowTracing(
+        CosmosDbDiagnosticLevel.debugUnsafe, // eslint-disable-line no-unused-expressions
+        CosmosDbDiagnosticLevel.debugUnsafe
+      )
+    ).to.be.true; // eslint-disable-line no-unused-expressions
   });
 });
