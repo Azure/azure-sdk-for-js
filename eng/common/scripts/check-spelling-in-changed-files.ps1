@@ -207,7 +207,7 @@ function SetupTest($workingDirectory) {
 
     $configJsonContent = @"
 {
-    "version": "0.2",
+    "version": "0.1",
     "language": "en",
     "ignorePaths": [
         ".vscode/cspell.json",
