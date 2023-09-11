@@ -345,9 +345,6 @@ export interface SnapshotResponse extends Snapshot, SyncTokenHeaderField {
 export type SnapshotStatus = string;
 
 // @public
-export type State = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
-
-// @public
 export interface SyncTokenHeaderField {
     syncToken?: string;
 }

@@ -530,7 +530,6 @@ export interface SnapshotId {
 }
 
 export {
-  State,
   Snapshot,
   ConfigurationSettingsFilter,
   CompositionType,
