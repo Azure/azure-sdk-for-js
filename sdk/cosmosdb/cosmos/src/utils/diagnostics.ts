@@ -99,10 +99,10 @@ export async function withMetadataDiagnostics<
   );
   try {
     const response: any = await callback(diagnosticNodeForMetadataCall);
-    node.addChildNode(diagnosticNodeForMetadataCall, type);
+    node.addChildNode(diagnosticNodeForMetadataCall, CosmosDbDiagnosticLevel.debug, type);
     return response;
   } catch (e) {
-    node.addChildNode(diagnosticNodeForMetadataCall, type);
+    node.addChildNode(diagnosticNodeForMetadataCall, CosmosDbDiagnosticLevel.debug, type);
     throw e;
   }
 }
