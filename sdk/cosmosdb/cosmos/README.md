@@ -320,7 +320,7 @@ while (iterator.hasMoreResults) {
 ```
 Because the change feed is effectively an infinite list of items that encompasses all future writes and updates, the value of `hasMoreResults` is always `true`. When you try to read the change feed and there are no new changes available, you receive a response with `NotModified` status.
 
-More detailed usage guidelines and examples of change feed can be found [here](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/change-feed-pull-model?tabs=js).
+More detailed usage guidelines and examples of change feed can be found [here](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-pull-model?tabs=javascript).
 
 ## Error Handling
 
