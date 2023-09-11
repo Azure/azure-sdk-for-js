@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VCenter,
   ReplicationvCentersListByReplicationFabricsNextOptionalParams,
@@ -280,8 +284,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     addVCenterRequest: AddVCenterRequest,
     options?: ReplicationvCentersCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationvCentersCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationvCentersCreateResponse>,
       ReplicationvCentersCreateResponse
     >
   > {
@@ -291,7 +295,7 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     ): Promise<ReplicationvCentersCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -324,9 +328,9 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -334,10 +338,13 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
         addVCenterRequest,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationvCentersCreateResponse,
+      OperationState<ReplicationvCentersCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -388,14 +395,14 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     fabricName: string,
     vcenterName: string,
     options?: ReplicationvCentersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -428,13 +435,19 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, fabricName, vcenterName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceName,
+        resourceGroupName,
+        fabricName,
+        vcenterName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -485,8 +498,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     updateVCenterRequest: UpdateVCenterRequest,
     options?: ReplicationvCentersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationvCentersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationvCentersUpdateResponse>,
       ReplicationvCentersUpdateResponse
     >
   > {
@@ -496,7 +509,7 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     ): Promise<ReplicationvCentersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -529,9 +542,9 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -539,10 +552,13 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
         updateVCenterRequest,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationvCentersUpdateResponse,
+      OperationState<ReplicationvCentersUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
