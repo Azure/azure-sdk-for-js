@@ -1,4 +1,4 @@
-This is a browser page demonstrating speech to speech chat implementation using the Azure OpenAI JS SDK and Azure JS Speech SDK.
+This is a browser page demonstrating speech to speech chat implementation using the Azure OpenAI JS SDK and [Azure JS Speech SDK](https://github.com/microsoft/cognitive-services-speech-sdk-js) (or optionally the [Web Speech API](https://developer.mozilla.org/docs/Web/API/Web_Speech_API)).
 
 To run:
 1.

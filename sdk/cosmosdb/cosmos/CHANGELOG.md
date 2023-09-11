@@ -3,8 +3,20 @@
 ## 4.0.0 (Unreleased)
 
 ### Features Added
-- Added support for hierarchical partitions.
-- Added Diagnostics to all response objects, i.e. ResourceResponse (parent class for ItemRespone, ContainerResponse etc.), FeedResponse, ChangeFeedIteratorResponse, ErrorResponse, BulkOperationResponse.
+- Added Changefeed support for partition keys, feed ranges, and entire container. [#18062](https://github.com/Azure/azure-sdk-for-js/issues/18062)
+- Added Diagnostics to all response objects, i.e. ResourceResponse (parent class for ItemRespone, ContainerResponse etc.), FeedResponse, ChangeFeedIteratorResponse, 
+ErrorResponse, BulkOperationResponse. [#21177](https://github.com/Azure/azure-sdk-for-js/issues/21177)
+- Added support for hierarchical partitions. [#23416](https://github.com/Azure/azure-sdk-for-js/issues/23416)
+- Added support of index metrics. [#20194](https://github.com/Azure/azure-sdk-for-js/issues/20194)
+- Improved the retry utility to align with other language SDKs. Now, it automatically retries requests on the next available region when encountering HTTP 503 errors (Service Unavailable)
+ and handles HTTP timeouts more effectively, enhancing the SDK's reliability. [#23475](https://github.com/Azure/azure-sdk-for-js/issues/23475)
+- Added priority based throttling. [docs](https://devblogs.microsoft.com/cosmosdb/introducing-priority-based-execution-in-azure-cosmos-db-preview/) [#26393](https://github.com/Azure/azure-sdk-for-js/pull/26393/files)
+### Bugs Fixed
+- Updated response codes for the getDatabase() method. [#25932](https://github.com/Azure/azure-sdk-for-js/issues/25932)
+- Fix Upsert operation failing when partition key of container is `/id` and `/id` is missing in the document. [#21383](https://github.com/Azure/azure-sdk-for-js/issues/21383)
+
+### Breaking Changes
+- The definition of PartitionKey is changed, PartitionKeyDefinition is now a independent type. [#23416](https://github.com/Azure/azure-sdk-for-js/issues/23416)
 
 ## 3.17.3 (2023-02-13)
 

@@ -14,7 +14,7 @@ process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSIO
  */
 export interface AzureMonitorOpenTelemetryOptions {
   /** Azure Monitor Exporter Configuration */
-  azureMonitorExporterConfig?: AzureMonitorExporterOptions;
+  azureMonitorExporterOptions?: AzureMonitorExporterOptions;
   /** OpenTelemetry Resource */
   resource?: Resource;
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */

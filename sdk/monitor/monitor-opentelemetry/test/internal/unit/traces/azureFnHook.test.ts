@@ -85,7 +85,7 @@ describe("Library/AzureFunctionsHook", () => {
       let Module = require("module");
       let preInvocationCalled = false;
       let config = new InternalConfig({});
-      config.azureMonitorExporterConfig.connectionString =
+      config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
       metricHandler = new MetricHandler(config);
       handler = new TraceHandler(config, metricHandler);
@@ -105,7 +105,7 @@ describe("Library/AzureFunctionsHook", () => {
                     attributes: {},
                   },
                 };
-                let preInvocationContext: any = {
+                let testInvocationContext: any = {
                   inputs: [],
                   functionCallback: () => {
                     let span = trace.getTracer("testTracer").startSpan("test");
@@ -121,9 +121,9 @@ describe("Library/AzureFunctionsHook", () => {
                   invocationContext: ctx,
                 };
                 // Azure Functions should call preinvocation callback
-                callback(preInvocationContext);
+                callback(testInvocationContext);
                 // Azure Functions should call customer function callback
-                preInvocationContext.functionCallback(null, null);
+                testInvocationContext.functionCallback(null, null);
               }
             },
 

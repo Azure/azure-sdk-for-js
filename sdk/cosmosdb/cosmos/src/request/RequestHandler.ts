@@ -6,7 +6,7 @@ import {
   createHttpHeaders,
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
-import { trimSlashes } from "../common";
+import { prepareURL } from "../common";
 import { Constants } from "../common/constants";
 import { executePlugins, PluginOn } from "../plugins/Plugin";
 import * as RetryUtility from "../retry/retryUtility";
@@ -69,7 +69,7 @@ async function httpRequest(
   }
 
   const httpsClient = getCachedDefaultHttpClient();
-  const url = trimSlashes(requestContext.endpoint) + requestContext.path;
+  const url = prepareURL(requestContext.endpoint, requestContext.path);
   const reqHeaders = createHttpHeaders(requestContext.headers as any);
   const pipelineRequest = createPipelineRequest({
     url,
