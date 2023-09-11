@@ -9,7 +9,6 @@
 ### Bugs Fixed
 
 ### Other Changes
-- Updated to latest OTEL libraries
 
 ## 1.0.0-beta.3 (2023-08-30)
 
