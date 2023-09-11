@@ -1,5 +1,16 @@
 # Release History
 
+## 1.2.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+- Updated to latest OTEL libraries
+
 ## 1.2.0-beta.2 (2023-08-21)
 
 - Added `batchMetricsAuthScope` property to `MetricsBatchQueryClientOptions` object.
