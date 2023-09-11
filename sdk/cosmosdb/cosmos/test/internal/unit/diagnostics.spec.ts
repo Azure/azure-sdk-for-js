@@ -183,6 +183,31 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
         expect(determineDiagnosticLevel(level, undefined)).to.eql(level);
       });
     });
+    it("Check setting of diagnostic level", async function () {
+      // Testing scope of diagnostic level is limited to an instance of CosmosDB client.
+      const clientInfo = new CosmosClient({
+        endpoint: "https://localhost",
+        diagnosticLevel: CosmosDbDiagnosticLevel.info,
+      });
+      const clientDebug = new CosmosClient({
+        endpoint: "https://localhost",
+        diagnosticLevel: CosmosDbDiagnosticLevel.debug,
+      });
+      const clientDebugUnsafe = new CosmosClient({
+        endpoint: "https://localhost",
+        diagnosticLevel: CosmosDbDiagnosticLevel.debugUnsafe,
+      });
+
+      expect((clientInfo as any).clientContext.diagnosticLevel).to.be.eql(
+        CosmosDbDiagnosticLevel.info
+      );
+      expect((clientDebug as any).clientContext.diagnosticLevel).to.be.eql(
+        CosmosDbDiagnosticLevel.debug
+      );
+      expect((clientDebugUnsafe as any).clientContext.diagnosticLevel).to.be.eql(
+        CosmosDbDiagnosticLevel.debugUnsafe
+      );
+    });
   });
 
   it("Test Ordering of Diagnostic Level", function () {
