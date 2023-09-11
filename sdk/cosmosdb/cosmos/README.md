@@ -256,7 +256,7 @@ For more information on querying Cosmos DB databases using the SQL API, see [Que
 
 ### Change Feed Pull Model
 
-Change feed can be fetched for a partition key, a feed range or entire container.
+Change feed can be fetched for a partition key, a feed range or an entire container.
 
 To process the change feed, create an instance of `ChangeFeedPullModelIterator`. When you initially create `ChangeFeedPullModelIterator`, you must specify a required `changeFeedStartFrom` value inside the `ChangeFeedIteratorOptions` which consists of both the starting position for reading changes and the resource(a partition key or a FeedRange) for which changes are to be fetched. You can optionally use `maxItemCount` in `ChangeFeedIteratorOptions` to set the maximum number of items received per page.
 
@@ -318,7 +318,7 @@ while (iterator.hasMoreResults) {
   // process this response
 }
 ```
-Because the change feed is effectively an infinite list of items that encompass all future writes and updates, the value of `hasMoreResults` is always `true`. When you try to read the change feed and there are no new changes available, you receive a response with `NotModified` status.
+Because the change feed is effectively an infinite list of items that encompasses all future writes and updates, the value of `hasMoreResults` is always `true`. When you try to read the change feed and there are no new changes available, you receive a response with `NotModified` status.
 
 More detailed usage guidelines and examples of change feed can be found [here](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/change-feed-pull-model?tabs=js).
 
