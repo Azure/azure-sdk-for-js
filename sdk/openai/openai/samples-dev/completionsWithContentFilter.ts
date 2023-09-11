@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to get completions for the provided prompt and parse output for content filter result.
+ * Demonstrates how to get completions for the provided prompt and parse output for content filter 
  *
  * @summary get completions.
  * @azsdk-weight 100
@@ -38,18 +38,18 @@ export async function main() {
         `Content filter ran into the error ${choice.contentFilterResults.error.code}: ${choice.contentFilterResults.error.message}`
       );
     } else {
-      const result = choice.contentFilterResults;
+      const { hate, sexual, selfHarm, violence } = choice.contentFilterResults;
       console.log(
-        `Hate category is filtered: ${result.hate?.filtered} with ${result.hate?.severity} severity`
+        `Hate category is filtered: ${hate?.filtered} with ${hate?.severity} severity`
       );
       console.log(
-        `Sexual category is filtered: ${result.sexual?.filtered} with ${result.sexual?.severity} severity`
+        `Sexual category is filtered: ${sexual?.filtered} with ${sexual?.severity} severity`
       );
       console.log(
-        `Self-harm category is filtered: ${result.selfHarm?.filtered} with ${result.selfHarm?.severity} severity`
+        `Self-harm category is filtered: ${selfHarm?.filtered} with ${selfHarm?.severity} severity`
       );
       console.log(
-        `Violence category is filtered: ${result.violence?.filtered} with ${result.violence?.severity} severity`
+        `Violence category is filtered: ${violence?.filtered} with ${violence?.severity} severity`
       );
     }
   }
