@@ -5,7 +5,7 @@ import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-export
 import { InstrumentationConfig } from "@opentelemetry/instrumentation";
 import { Resource } from "@opentelemetry/resources";
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.0.0-beta.3";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.0.0";
 export const DEFAULT_ROLE_NAME = "Web";
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 

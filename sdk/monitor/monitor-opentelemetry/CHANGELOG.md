@@ -1,14 +1,13 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.0 (Unreleased)
 
 ### Bugs Fixed
+- Avoid dependency telemetry for ingestion endpoint calls
 
 ### Other Changes
+- Rename azureMonitorExporterConfig #27063
+- Remove singleton in handlers
 
 ## 1.0.0-beta.3 (2023-08-30)
 
