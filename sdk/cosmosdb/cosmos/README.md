@@ -340,7 +340,7 @@ There are 3 Cosmos Diagnostic levels, info, debug and debug-unsafe. Where only i
 ```js
   const client = new CosmosClient({ endpoint, key, diagnosticLevel: CosmosDbDiagnosticLevel.debug });
 ```
-- Using environment variables
+- Using environment variables. (Diagnostic level set by Environment variable has higher priority over setting it through client options.)
 ```bash
   export AZURE_COSMOSDB_DIAGNOSTICS_LEVEL="debug"
 ```
