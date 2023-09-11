@@ -3,6 +3,7 @@
 ## 4.0.0 (Unreleased)
 
 ### Features Added
+- Added Changefeed support for partition keys, feed ranges, and entire container. [#18062](https://github.com/Azure/azure-sdk-for-js/issues/18062)
 - Added Diagnostics to all response objects, i.e. ResourceResponse (parent class for ItemRespone, ContainerResponse etc.), FeedResponse, ChangeFeedIteratorResponse, 
 ErrorResponse, BulkOperationResponse. [#21177](https://github.com/Azure/azure-sdk-for-js/issues/21177)
 - Added support for hierarchical partitions. [#23416](https://github.com/Azure/azure-sdk-for-js/issues/23416)
