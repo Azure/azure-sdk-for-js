@@ -1,16 +1,5 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-- Updated to latest OTEL libraries
-
 ## 1.0.0-beta.5 (2023-08-09)
 
 ### Other Changes
