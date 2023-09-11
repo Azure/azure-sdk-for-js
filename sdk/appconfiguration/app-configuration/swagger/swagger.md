@@ -101,7 +101,7 @@ directive:
       $["304"]["headers"]["Last-Modified"]["type"] = "string";
 ```
 
-### Rename Properties created -> createdOn, expires -> expiresOn, items_count -> itemCount, retention_period -> retentionPeriodInSeconds, size -> sizeInBytes
+### Rename Properties created -> createdOn, expires -> expiresOn, items_count -> itemCount, retention_period -> retentionPeriodInSeconds, size -> sizeInBytes, composition_type -> snapshotComposition
 
 ```yaml
 directive:
@@ -113,6 +113,15 @@ directive:
       $.expires["x-ms-client-name"] = "expiresOn";
       $.retention_period["x-ms-client-name"] = "retentionPeriodInSeconds";
       $.size["x-ms-client-name"] = "sizeInBytes";
+      $.composition_type["x-ms-client-name"] = "snapshotComposition";
+```
+
+### Rename Snapshot -> ConfigurationSnapshot
+```yaml
+directive:
+  - rename-model:
+      from: Snapshot
+      to: ConfigurationSnapshot
 ```
 
 ### Rename KeyValueFilter -> ConfigurationSettingsFilter

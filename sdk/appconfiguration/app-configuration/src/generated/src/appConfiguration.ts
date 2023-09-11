@@ -46,7 +46,7 @@ import {
   CheckSnapshotsResponse,
   GetSnapshotOptionalParams,
   GetSnapshotResponse,
-  Snapshot,
+  ConfigurationSnapshot,
   CreateSnapshotOptionalParams,
   CreateSnapshotResponse,
   SnapshotUpdateParameters,
@@ -300,7 +300,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   async beginCreateSnapshot(
     name: string,
-    entity: Snapshot,
+    entity: ConfigurationSnapshot,
     options?: CreateSnapshotOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -371,7 +371,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   async beginCreateSnapshotAndWait(
     name: string,
-    entity: Snapshot,
+    entity: ConfigurationSnapshot,
     options?: CreateSnapshotOptionalParams
   ): Promise<CreateSnapshotResponse> {
     const poller = await this.beginCreateSnapshot(name, entity, options);
@@ -788,7 +788,7 @@ const getSnapshotOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Snapshot,
+      bodyMapper: Mappers.ConfigurationSnapshot,
       headersMapper: Mappers.AppConfigurationGetSnapshotHeaders
     },
     default: {
@@ -810,19 +810,19 @@ const createSnapshotOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Snapshot,
+      bodyMapper: Mappers.ConfigurationSnapshot,
       headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
     },
     201: {
-      bodyMapper: Mappers.Snapshot,
+      bodyMapper: Mappers.ConfigurationSnapshot,
       headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
     },
     202: {
-      bodyMapper: Mappers.Snapshot,
+      bodyMapper: Mappers.ConfigurationSnapshot,
       headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
     },
     204: {
-      bodyMapper: Mappers.Snapshot,
+      bodyMapper: Mappers.ConfigurationSnapshot,
       headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
     },
     default: {
@@ -845,7 +845,7 @@ const updateSnapshotOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Snapshot,
+      bodyMapper: Mappers.ConfigurationSnapshot,
       headersMapper: Mappers.AppConfigurationUpdateSnapshotHeaders
     },
     default: {

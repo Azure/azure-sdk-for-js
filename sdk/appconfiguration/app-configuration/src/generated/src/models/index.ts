@@ -69,18 +69,17 @@ export interface KeyValue {
 /** The result of a snapshot list request. */
 export interface SnapshotListResult {
   /** The collection value. */
-  items?: Snapshot[];
+  items?: ConfigurationSnapshot[];
   /** The URI that can be used to request the next set of paged results. */
   nextLink?: string;
 }
 
-/** Snapshot details include name, filters, retentionPeriod, expiresOn, size, status, itemCount, and more */
-export interface Snapshot {
+export interface ConfigurationSnapshot {
   /**
    * The name of the snapshot.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name: string;
+  readonly name?: string;
   /**
    * The current status of the snapshot.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -89,7 +88,7 @@ export interface Snapshot {
   /** A list of filters used to filter the key-values included in the snapshot. */
   filters: ConfigurationSettingsFilter[];
   /** The composition type describes how the key-values within the snapshot are composed. The 'key' composition type ensures there are no two key-values containing the same key. The 'key_label' composition type ensures there are no two key-values containing the same key and label. */
-  compositionType?: CompositionType;
+  snapshotComposition?: CompositionType;
   /**
    * The time that the snapshot was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -689,7 +688,8 @@ export interface GetSnapshotOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the getSnapshot operation. */
-export type GetSnapshotResponse = AppConfigurationGetSnapshotHeaders & Snapshot;
+export type GetSnapshotResponse = AppConfigurationGetSnapshotHeaders &
+  ConfigurationSnapshot;
 
 /** Optional parameters. */
 export interface CreateSnapshotOptionalParams
@@ -702,7 +702,7 @@ export interface CreateSnapshotOptionalParams
 
 /** Contains response data for the createSnapshot operation. */
 export type CreateSnapshotResponse = AppConfigurationCreateSnapshotHeaders &
-  Snapshot;
+  ConfigurationSnapshot;
 
 /** Optional parameters. */
 export interface UpdateSnapshotOptionalParams
@@ -715,7 +715,7 @@ export interface UpdateSnapshotOptionalParams
 
 /** Contains response data for the updateSnapshot operation. */
 export type UpdateSnapshotResponse = AppConfigurationUpdateSnapshotHeaders &
-  Snapshot;
+  ConfigurationSnapshot;
 
 /** Optional parameters. */
 export interface CheckSnapshotOptionalParams

@@ -663,18 +663,6 @@ export class AppConfigurationClient {
       }
     );
   }
-
-  /**
-   * Archive a ready snapshot
-   *
-   * Example usage:
-   * ```ts
-   * const result = await client.archiveSnapshot("MySnapshot");
-   * ```
-   * @param name - The name of the snapshot.
-   * @param options - Optional parameters for the request.
-   */
-  archiveSnapshot(name: string, options?: ArchiveSnapshotOptions): Promise<UpdateSnapshotResponse>;
   /**
    * Archive a ready snapshot
    *
@@ -686,11 +674,7 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   archiveSnapshot(
-    snapshotID: SnapshotId,
-    options?: ArchiveSnapshotOptions
-  ): Promise<UpdateSnapshotResponse>;
-  archiveSnapshot(
-    nameOrSnapshotID: string | SnapshotId,
+    name: string ,
     options: UpdateSnapshotOptions = {}
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(
@@ -698,15 +682,12 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         logger.info("[archiveSnapshot] Archive a snapshot");
-        const name =
-          typeof nameOrSnapshotID === "string" ? nameOrSnapshotID : nameOrSnapshotID.name;
-        const etag = typeof nameOrSnapshotID === "string" ? undefined : nameOrSnapshotID.etag;
         const originalResponse = await this.client.updateSnapshot(
           name,
           { status: "archived" },
           {
             ...updatedOptions,
-            ...checkAndFormatIfAndIfNoneMatch({ etag }, options),
+            ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, options),
           }
         );
         const response = transformSnapshotResponse(originalResponse);

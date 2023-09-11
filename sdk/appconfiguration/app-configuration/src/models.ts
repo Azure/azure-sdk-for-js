@@ -8,7 +8,7 @@ import { SecretReferenceValue } from "./secretReference";
 import {
   CompositionType,
   ConfigurationSettingsFilter,
-  Snapshot,
+  ConfigurationSnapshot,
   SnapshotStatus,
 } from "./generated/src";
 
@@ -205,7 +205,7 @@ export interface OptionalSnapshotFields {
   /**
    * Which fields to return for each ConfigurationSetting
    */
-  fields?: (keyof Snapshot)[];
+  fields?: (keyof ConfigurationSnapshot)[];
 }
 
 /**
@@ -405,7 +405,7 @@ export interface ListSnapshotsPage extends SyncTokenHeaderField, PageSettings {
   /**
    * The configuration settings for this page of results.
    */
-  items: Snapshot[];
+  items: ConfigurationSnapshot[];
 }
 
 /**
@@ -461,7 +461,7 @@ export interface CreateSnapshotOptions extends OperationOptions {}
 /**
  * Response from adding a Snapshot.
  */
-export interface SnapshotResponse extends Snapshot, SyncTokenHeaderField {}
+export interface SnapshotResponse extends ConfigurationSnapshot, SyncTokenHeaderField {}
 
 /**
  * Options used when getting a Snapshot.
@@ -479,7 +479,13 @@ export interface GetSnapshotResponse extends SnapshotResponse {}
 /**
  * Options used when updating a Snapshot.
  */
-export interface UpdateSnapshotOptions extends HttpOnlyIfUnchangedField, OperationOptions {}
+export interface UpdateSnapshotOptions extends HttpOnlyIfUnchangedField, OperationOptions {
+
+  /**
+   * The etag for this snapshot
+   */
+  etag?: string;
+}
 
 /**
  * Options used when recovering a Snapshot.
@@ -515,22 +521,8 @@ export interface SnapshotInfo {
   tags?: { [propertyName: string]: string };
 }
 
-/**
- * Fields for the snapshot
- */
-export interface SnapshotId {
-  /**
-   * The name for this snapshot
-   */
-  name: string;
-  /**
-   * The etag for this snapshot
-   */
-  etag?: string;
-}
-
 export {
-  Snapshot,
+  ConfigurationSnapshot,
   ConfigurationSettingsFilter,
   CompositionType,
   KnownCompositionType,

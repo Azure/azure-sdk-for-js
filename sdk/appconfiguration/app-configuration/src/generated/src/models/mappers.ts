@@ -188,7 +188,7 @@ export const SnapshotListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Snapshot"
+              className: "ConfigurationSnapshot"
             }
           }
         }
@@ -203,14 +203,13 @@ export const SnapshotListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const Snapshot: coreClient.CompositeMapper = {
+export const ConfigurationSnapshot: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Snapshot",
+    className: "ConfigurationSnapshot",
     modelProperties: {
       name: {
         serializedName: "name",
-        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -240,7 +239,7 @@ export const Snapshot: coreClient.CompositeMapper = {
           }
         }
       },
-      compositionType: {
+      snapshotComposition: {
         serializedName: "composition_type",
         type: {
           name: "String"

@@ -13,7 +13,7 @@ import {
 } from "@azure/core-client";
 import {
   KeyValue as KeyValueMapper,
-  Snapshot as SnapshotMapper,
+  ConfigurationSnapshot as ConfigurationSnapshotMapper,
   SnapshotUpdateParameters as SnapshotUpdateParametersMapper
 } from "../models/mappers";
 
@@ -296,7 +296,7 @@ export const contentType1: OperationParameter = {
 
 export const entity1: OperationParameter = {
   parameterPath: "entity",
-  mapper: SnapshotMapper
+  mapper: ConfigurationSnapshotMapper
 };
 
 export const name2: OperationURLParameter = {
