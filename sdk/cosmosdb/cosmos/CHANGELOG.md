@@ -9,7 +9,7 @@ ErrorResponse, BulkOperationResponse. [#21177](https://github.com/Azure/azure-sd
 - Added support of index metrics. [#20194](https://github.com/Azure/azure-sdk-for-js/issues/20194)
 - Improved the retry utility to align with other language SDKs. Now, it automatically retries requests on the next available region when encountering HTTP 503 errors (Service Unavailable)
  and handles HTTP timeouts more effectively, enhancing the SDK's reliability. [#23475](https://github.com/Azure/azure-sdk-for-js/issues/23475)
-
+- Added priority based throttling. [docs](https://devblogs.microsoft.com/cosmosdb/introducing-priority-based-execution-in-azure-cosmos-db-preview/) [#26393](https://github.com/Azure/azure-sdk-for-js/pull/26393/files)
 ### Bugs Fixed
 - Updated response codes for the getDatabase() method. [#25932](https://github.com/Azure/azure-sdk-for-js/issues/25932)
 - Fix Upsert operation failing when partition key of container is `/id` and `/id` is missing in the document. [#21383](https://github.com/Azure/azure-sdk-for-js/issues/21383)
