@@ -38,7 +38,7 @@ export interface GetAudioTranscriptionSimpleJsonMediaTypesParam {
    * The content type for the operation. Always multipart/form-data for this operation.
    * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
    */
-  contentType: "multipart/form-data; boundary=azure_openai";
+  contentType: "multipart/form-data;";
 }
 
 export type GetAudioTranscriptionSimpleJsonParameters =
@@ -65,7 +65,7 @@ export interface GetAudioTranscriptionVerboseJsonMediaTypesParam {
    * The content type for the operation. Always multipart/form-data for this operation.
    * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
    */
-  contentType: "multipart/form-data; boundary=azure_openai";
+  contentType: "multipart/form-data;";
 }
 
 export type GetAudioTranscriptionVerboseJsonParameters =
@@ -92,7 +92,7 @@ export interface GetAudioTranscriptionPlainTextMediaTypesParam {
    * The content type for the operation. Always multipart/form-data for this operation.
    * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
    */
-  contentType: "multipart/form-data; boundary=azure_openai";
+  contentType: "multipart/form-data;";
 }
 
 export type GetAudioTranscriptionPlainTextParameters =
@@ -119,7 +119,7 @@ export interface GetAudioTranscriptionSrtMediaTypesParam {
    * The content type for the operation. Always multipart/form-data for this operation.
    * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
    */
-  contentType: "multipart/form-data; boundary=azure_openai";
+  contentType: "multipart/form-data;";
 }
 
 export type GetAudioTranscriptionSrtParameters =
@@ -146,7 +146,7 @@ export interface GetAudioTranscriptionVttMediaTypesParam {
    * The content type for the operation. Always multipart/form-data for this operation.
    * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
    */
-  contentType: "multipart/form-data; boundary=azure_openai";
+  contentType: "multipart/form-data;";
 }
 
 export type GetAudioTranscriptionVttParameters =
@@ -173,7 +173,7 @@ export interface GetAudioTranslationSimpleJsonMediaTypesParam {
    * The content type for the operation. Always multipart/form-data for this operation.
    * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
    */
-  contentType: "multipart/form-data; boundary=azure_openai";
+  contentType: "multipart/form-data;";
 }
 
 export type GetAudioTranslationSimpleJsonParameters =
@@ -200,7 +200,7 @@ export interface GetAudioTranslationVerboseJsonMediaTypesParam {
    * The content type for the operation. Always multipart/form-data for this operation.
    * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
    */
-  contentType: "multipart/form-data; boundary=azure_openai";
+  contentType: "multipart/form-data;";
 }
 
 export type GetAudioTranslationVerboseJsonParameters =
@@ -227,7 +227,7 @@ export interface GetAudioTranslationPlainTextMediaTypesParam {
    * The content type for the operation. Always multipart/form-data for this operation.
    * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
    */
-  contentType: "multipart/form-data; boundary=azure_openai";
+  contentType: "multipart/form-data;";
 }
 
 export type GetAudioTranslationPlainTextParameters =
@@ -254,7 +254,7 @@ export interface GetAudioTranslationSrtMediaTypesParam {
    * The content type for the operation. Always multipart/form-data for this operation.
    * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
    */
-  contentType: "multipart/form-data; boundary=azure_openai";
+  contentType: "multipart/form-data;";
 }
 
 export type GetAudioTranslationSrtParameters =
@@ -281,7 +281,7 @@ export interface GetAudioTranslationVttMediaTypesParam {
    * The content type for the operation. Always multipart/form-data for this operation.
    * You need to set your content separtor with the boundary value hardcode here: "azure_openai"
    */
-  contentType: "multipart/form-data; boundary=azure_openai";
+  contentType: "multipart/form-data;";
 }
 
 export type GetAudioTranslationVttParameters =

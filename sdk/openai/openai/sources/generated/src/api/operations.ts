@@ -52,6 +52,7 @@ import {
   StreamableMethod,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import { uint8ArrayToString } from "@azure/core-util";
 import {
   GetAudioTranscriptionSimpleJsonOptions,
   GetAudioTranscriptionVerboseJsonOptions,
@@ -85,12 +86,10 @@ export function _getAudioTranscriptionSimpleJsonSend(
     .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType:
-        (options.contentType as any) ??
-        "multipart/form-data; boundary=azure_openai",
+      contentType: (options.contentType as any) ?? "multipart/form-data;",
       headers: { "content-length": contentLength },
       body: {
-        file: file,
+        file: uint8ArrayToString(file, "base64"),
         prompt: options?.prompt,
         temperature: options?.temperature,
         model: options?.model,
@@ -146,12 +145,10 @@ export function _getAudioTranscriptionVerboseJsonSend(
     .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType:
-        (options.contentType as any) ??
-        "multipart/form-data; boundary=azure_openai",
+      contentType: (options.contentType as any) ?? "multipart/form-data;",
       headers: { "content-length": contentLength },
       body: {
-        file: file,
+        file: uint8ArrayToString(file, "base64"),
         prompt: options?.prompt,
         temperature: options?.temperature,
         model: options?.model,
@@ -221,12 +218,10 @@ export function _getAudioTranscriptionPlainTextSend(
     .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType:
-        (options.contentType as any) ??
-        "multipart/form-data; boundary=azure_openai",
+      contentType: (options.contentType as any) ?? "multipart/form-data;",
       headers: { "content-length": contentLength },
       body: {
-        file: file,
+        file: uint8ArrayToString(file, "base64"),
         prompt: options?.prompt,
         temperature: options?.temperature,
         model: options?.model,
@@ -279,12 +274,10 @@ export function _getAudioTranscriptionSrtSend(
     .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType:
-        (options.contentType as any) ??
-        "multipart/form-data; boundary=azure_openai",
+      contentType: (options.contentType as any) ?? "multipart/form-data;",
       headers: { "content-length": contentLength },
       body: {
-        file: file,
+        file: uint8ArrayToString(file, "base64"),
         prompt: options?.prompt,
         temperature: options?.temperature,
         model: options?.model,
@@ -337,12 +330,10 @@ export function _getAudioTranscriptionVttSend(
     .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType:
-        (options.contentType as any) ??
-        "multipart/form-data; boundary=azure_openai",
+      contentType: (options.contentType as any) ?? "multipart/form-data;",
       headers: { "content-length": contentLength },
       body: {
-        file: file,
+        file: uint8ArrayToString(file, "base64"),
         prompt: options?.prompt,
         temperature: options?.temperature,
         model: options?.model,
@@ -396,12 +387,10 @@ export function _getAudioTranslationSimpleJsonSend(
     .path("/deployments/{deploymentId}/audio/translations", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType:
-        (options.contentType as any) ??
-        "multipart/form-data; boundary=azure_openai",
+      contentType: (options.contentType as any) ?? "multipart/form-data;",
       headers: { "content-length": contentLength },
       body: {
-        file: file,
+        file: uint8ArrayToString(file, "base64"),
         prompt: options?.prompt,
         temperature: options?.temperature,
         model: options?.model,
@@ -456,12 +445,10 @@ export function _getAudioTranslationVerboseJsonSend(
     .path("/deployments/{deploymentId}/audio/translations", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType:
-        (options.contentType as any) ??
-        "multipart/form-data; boundary=azure_openai",
+      contentType: (options.contentType as any) ?? "multipart/form-data;",
       headers: { "content-length": contentLength },
       body: {
-        file: file,
+        file: uint8ArrayToString(file, "base64"),
         prompt: options?.prompt,
         temperature: options?.temperature,
         model: options?.model,
@@ -530,12 +517,10 @@ export function _getAudioTranslationPlainTextSend(
     .path("/deployments/{deploymentId}/audio/translations", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType:
-        (options.contentType as any) ??
-        "multipart/form-data; boundary=azure_openai",
+      contentType: (options.contentType as any) ?? "multipart/form-data;",
       headers: { "content-length": contentLength },
       body: {
-        file: file,
+        file: uint8ArrayToString(file, "base64"),
         prompt: options?.prompt,
         temperature: options?.temperature,
         model: options?.model,
@@ -587,12 +572,10 @@ export function _getAudioTranslationSrtSend(
     .path("/deployments/{deploymentId}/audio/translations", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType:
-        (options.contentType as any) ??
-        "multipart/form-data; boundary=azure_openai",
+      contentType: (options.contentType as any) ?? "multipart/form-data;",
       headers: { "content-length": contentLength },
       body: {
-        file: file,
+        file: uint8ArrayToString(file, "base64"),
         prompt: options?.prompt,
         temperature: options?.temperature,
         model: options?.model,
@@ -644,12 +627,10 @@ export function _getAudioTranslationVttSend(
     .path("/deployments/{deploymentId}/audio/translations", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType:
-        (options.contentType as any) ??
-        "multipart/form-data; boundary=azure_openai",
+      contentType: (options.contentType as any) ?? "multipart/form-data;",
       headers: { "content-length": contentLength },
       body: {
-        file: file,
+        file: uint8ArrayToString(file, "base64"),
         prompt: options?.prompt,
         temperature: options?.temperature,
         model: options?.model,
@@ -848,8 +829,29 @@ export function _getChatCompletionsSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        messages: messages,
-        functions: options?.functions,
+        messages: (messages ?? []).map((p) => ({
+          role: p["role"],
+          content: p["content"],
+          name: p["name"],
+          function_call: !p.functionCall
+            ? undefined
+            : {
+                name: p.functionCall?.["name"],
+                arguments: p.functionCall?.["arguments"],
+              },
+          context: !p.context
+            ? undefined
+            : {
+                messages: !p.context?.messages
+                  ? undefined
+                  : (p.context?.messages as any),
+              },
+        })),
+        functions: (options?.functions ?? []).map((p) => ({
+          name: p["name"],
+          description: p["description"],
+          parameters: p["parameters"],
+        })),
         function_call: options?.functionCall,
         max_tokens: options?.maxTokens,
         temperature: options?.temperature,
@@ -862,7 +864,10 @@ export function _getChatCompletionsSend(
         frequency_penalty: options?.frequencyPenalty,
         stream: options?.stream,
         model: options?.model,
-        dataSources: options?.dataSources,
+        dataSources: (options?.dataSources ?? []).map((p) => ({
+          type: p["type"],
+          parameters: p["parameters"],
+        })),
       },
     });
 }
@@ -1012,8 +1017,29 @@ export function _getChatCompletionsWithAzureExtensionsSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        messages: messages,
-        functions: options?.functions,
+        messages: (messages ?? []).map((p) => ({
+          role: p["role"],
+          content: p["content"],
+          name: p["name"],
+          function_call: !p.functionCall
+            ? undefined
+            : {
+                name: p.functionCall?.["name"],
+                arguments: p.functionCall?.["arguments"],
+              },
+          context: !p.context
+            ? undefined
+            : {
+                messages: !p.context?.messages
+                  ? undefined
+                  : (p.context?.messages as any),
+              },
+        })),
+        functions: (options?.functions ?? []).map((p) => ({
+          name: p["name"],
+          description: p["description"],
+          parameters: p["parameters"],
+        })),
         function_call: options?.functionCall,
         max_tokens: options?.maxTokens,
         temperature: options?.temperature,
@@ -1026,7 +1052,10 @@ export function _getChatCompletionsWithAzureExtensionsSend(
         frequency_penalty: options?.frequencyPenalty,
         stream: options?.stream,
         model: options?.model,
-        dataSources: options?.dataSources,
+        dataSources: (options?.dataSources ?? []).map((p) => ({
+          type: p["type"],
+          parameters: p["parameters"],
+        })),
       },
     });
 }

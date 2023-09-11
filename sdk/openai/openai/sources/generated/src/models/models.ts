@@ -20,7 +20,7 @@ export interface AudioTranscriptionVerboseJson
   /** Language detected in the source audio file. */
   language: string;
   /** Duration. */
-  duration: string;
+  duration: number;
   /** Segments. */
   segments: AudioTranscriptionSegment[];
 }
