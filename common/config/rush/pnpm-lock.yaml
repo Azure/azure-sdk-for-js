@@ -321,6 +321,7 @@ specifiers:
   '@rush-temp/perf-keyvault-keys': file:./projects/perf-keyvault-keys.tgz
   '@rush-temp/perf-keyvault-secrets': file:./projects/perf-keyvault-secrets.tgz
   '@rush-temp/perf-monitor-ingestion': file:./projects/perf-monitor-ingestion.tgz
+  '@rush-temp/perf-monitor-opentelemetry-exporter': file:./projects/perf-monitor-opentelemetry-exporter.tgz
   '@rush-temp/perf-monitor-query': file:./projects/perf-monitor-query.tgz
   '@rush-temp/perf-schema-registry-avro': file:./projects/perf-schema-registry-avro.tgz
   '@rush-temp/perf-search-documents': file:./projects/perf-search-documents.tgz
@@ -685,6 +686,7 @@ dependencies:
   '@rush-temp/perf-keyvault-keys': file:projects/perf-keyvault-keys.tgz
   '@rush-temp/perf-keyvault-secrets': file:projects/perf-keyvault-secrets.tgz
   '@rush-temp/perf-monitor-ingestion': file:projects/perf-monitor-ingestion.tgz
+  '@rush-temp/perf-monitor-opentelemetry-exporter': file:projects/perf-monitor-opentelemetry-exporter.tgz
   '@rush-temp/perf-monitor-query': file:projects/perf-monitor-query.tgz
   '@rush-temp/perf-schema-registry-avro': file:projects/perf-schema-registry-avro.tgz
   '@rush-temp/perf-search-documents': file:projects/perf-search-documents.tgz
@@ -4028,7 +4030,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230905
+      typescript: 5.3.0-dev.20230911
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8608,8 +8610,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230905:
-    resolution: {integrity: sha512-Nl9MoKWN0YYlCvQnw850L4ZgqdmqwVGCi9cAoQDw4PsqRGaWAi9HKizS9xu0q4qgKKsEKetWCZHT8dBtJTGaMg==}
+  /typescript/5.3.0-dev.20230911:
+    resolution: {integrity: sha512-2iI2l7OuGvU668gBje+JQKE8bsf7SH8w8ScwUkENHCcrbaDpXa/Oqfuwq5gdFM7SfVfp5p6c8kHZRMvL+kabJg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -20042,6 +20044,31 @@ packages:
       ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
       tslib: 2.6.2
       typescript: 5.0.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/perf-monitor-opentelemetry-exporter.tgz:
+    resolution: {integrity: sha512-CDDNe4ttlbfjyQXhxDkpKVU7ufTIK4ALiF3hkfM4uOBKLDyySwM9tA36K2fwJ63iOaFTDRTSrTaq/9tm5iJpCw==, tarball: file:projects/perf-monitor-opentelemetry-exporter.tgz}
+    name: '@rush-temp/perf-monitor-opentelemetry-exporter'
+    version: 0.0.0
+    dependencies:
+      '@opentelemetry/api': 1.4.1
+      '@opentelemetry/resources': 1.15.2_@opentelemetry+api@1.4.1
+      '@opentelemetry/sdk-trace-base': 1.15.2_@opentelemetry+api@1.4.1
+      '@opentelemetry/semantic-conventions': 1.15.2
+      '@types/node': 14.18.56
+      '@types/uuid': 8.3.4
+      dotenv: 16.3.1
+      eslint: 8.48.0
+      prettier: 2.8.8
+      rimraf: 3.0.2
+      ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
+      tslib: 2.6.2
+      typescript: 5.0.4
+      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'

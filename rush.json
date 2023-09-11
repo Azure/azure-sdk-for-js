@@ -2099,6 +2099,11 @@
       "packageName": "@azure/arm-hybridconnectivity",
       "projectFolder": "sdk/hybridconnectivity/arm-hybridconnectivity",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-tests/perf-monitor-opentelemetry-exporter",
+      "projectFolder": "sdk/monitor/perf-tests/monitor-opentelemetry-exporter",
+      "versionPolicyName": "test"
     }
   ]
 }
