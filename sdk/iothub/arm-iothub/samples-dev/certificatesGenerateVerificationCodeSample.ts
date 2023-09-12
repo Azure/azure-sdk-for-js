@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Generates verification code for proof of possession flow. The verification code will be used to generate a leaf certificate.
  *
  * @summary Generates verification code for proof of possession flow. The verification code will be used to generate a leaf certificate.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_generateverificationcode.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_generateverificationcode.json
  */
 async function certificatesGenerateVerificationCode() {
   const subscriptionId =

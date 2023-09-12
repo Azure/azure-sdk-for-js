@@ -119,7 +119,7 @@ export class IotHubClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-11-15-preview";
+    this.apiVersion = options.apiVersion || "2023-06-30-preview";
     this.operations = new OperationsImpl(this);
     this.iotHubResource = new IotHubResourceImpl(this);
     this.resourceProviderCommon = new ResourceProviderCommonImpl(this);
