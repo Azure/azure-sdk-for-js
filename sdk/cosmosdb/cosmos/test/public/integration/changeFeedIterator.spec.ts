@@ -190,7 +190,7 @@ describe("Change Feed Iterator", function (this: Suite) {
         },
         {
           retryCount: 0,
-          metadataCallCount: 2,
+          metadataCallCount: 4,
           locationEndpointsContacted: 1,
           requestStartTimeUTCInMsLowerLimit: startTimestamp,
           requestDurationInMsUpperLimit: getCurrentTimestampInMs() - startTimestamp,

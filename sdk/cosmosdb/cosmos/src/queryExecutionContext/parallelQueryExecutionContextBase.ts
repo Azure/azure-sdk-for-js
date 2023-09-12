@@ -17,6 +17,7 @@ import { SqlQuerySpec } from "./SqlQuerySpec";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { addDignosticChild } from "../utils/diagnostics";
 import { MetadataLookUpType } from "../CosmosDiagnostics";
+import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -354,6 +355,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         if (!this.diagnosticNodeWrapper.consumed) {
           diagnosticNode.addChildNode(
             this.diagnosticNodeWrapper.diagnosticNode,
+            CosmosDbDiagnosticLevel.debug,
             MetadataLookUpType.QueryPlanLookUp
           );
           this.diagnosticNodeWrapper.diagnosticNode = undefined;
