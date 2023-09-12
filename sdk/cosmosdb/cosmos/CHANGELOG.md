@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (Unreleased)
+## 4.0.0 (2023-09-12)
 
 ### Features Added
 - Added Changefeed support for partition keys, feed ranges, and entire container. [#18062](https://github.com/Azure/azure-sdk-for-js/issues/18062)
