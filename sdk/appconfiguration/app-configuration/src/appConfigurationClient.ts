@@ -10,7 +10,6 @@ import {
   AddConfigurationSettingResponse,
   AppConfigurationApiVersion,
   AppConfigurationClientOptions,
-  ArchiveSnapshotOptions,
   ConfigurationSetting,
   ConfigurationSettingId,
   CreateSnapshotOptions,
@@ -30,13 +29,11 @@ import {
   ListSnapshotsOptions,
   ListSnapshotsPage,
   PageSettings,
-  RecoverSnapshotOptions,
   SetConfigurationSettingOptions,
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
   SetReadOnlyOptions,
   SetReadOnlyResponse,
-  SnapshotId,
   SnapshotInfo,
   UpdateSnapshotOptions,
   UpdateSnapshotResponse,
@@ -48,7 +45,7 @@ import {
   GetKeyValuesResponse,
   GetRevisionsResponse,
   GetSnapshotsResponse,
-  Snapshot,
+  ConfigurationSnapshot,
 } from "./generated/src/models";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
@@ -618,27 +615,11 @@ export class AppConfigurationClient {
    * ```ts
    * const result = await client.recoverSnapshot("MySnapshot");
    * ```
-   * @param name - The name of the snapshot.
-   * @param options - Optional parameters for the request.
-   */
-  recoverSnapshot(name: string, options?: RecoverSnapshotOptions): Promise<UpdateSnapshotResponse>;
-
-  /**
-   * Recover an archived snapshot back to ready status
-   *
-   * Example usage:
-   * ```ts
-   * const result = await client.recoverSnapshot({name: "MySnapshot"});
-   * ```
    * @param snapshotID - The ID of the snapshot, contains name and optional etag.
    * @param options - Optional parameters for the request.
-   */
+*/
   recoverSnapshot(
-    snapshotID: SnapshotId,
-    options?: RecoverSnapshotOptions
-  ): Promise<UpdateSnapshotResponse>;
-  recoverSnapshot(
-    nameOrSnapshotID: string | SnapshotId,
+    name: string,
     options: UpdateSnapshotOptions = {}
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(
@@ -646,15 +627,12 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         logger.info("[recoverSnapshot] Recover a snapshot");
-        const name =
-          typeof nameOrSnapshotID === "string" ? nameOrSnapshotID : nameOrSnapshotID.name;
-        const etag = typeof nameOrSnapshotID === "string" ? undefined : nameOrSnapshotID.etag;
         const originalResponse = await this.client.updateSnapshot(
           name,
           { status: "ready" },
           {
             ...updatedOptions,
-            ...checkAndFormatIfAndIfNoneMatch({ etag }, options),
+            ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, options),
           }
         );
         const response = transformSnapshotResponse(originalResponse);
@@ -708,7 +686,7 @@ export class AppConfigurationClient {
    */
   listSnapshots(
     options: ListSnapshotsOptions = {}
-  ): PagedAsyncIterableIterator<Snapshot, ListSnapshotsPage, PageSettings> {
+  ): PagedAsyncIterableIterator<ConfigurationSnapshot, ListSnapshotsPage, PageSettings> {
     const pagedResult: PagedResult<ListSnapshotsPage, PageSettings, string | undefined> = {
       firstPageLink: undefined,
       getPage: async (pageLink: string | undefined) => {

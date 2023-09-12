@@ -249,11 +249,11 @@ for await (const snapshot of snapshots) {
 ### Recover and archive the snapshot
 ```javascript
 // Snapshot is in ready status
-let archivedSnapshot = await client.archiveSnapshot({name: "testsnapshot", etag: "33a64df551425fcc55e4d42a148795d9f25f89d4"});
+let archivedSnapshot = await client.archiveSnapshot("testsnapshot");
 console.log("Snapshot updated status is:", archivedSnapshot.status);
 
 // Snapshot is in archive status
-let recoverSnapshot = await client.recoverSnapshot({name: "testsnapshot", etag: "33a64df551425fcc55e4d42a148795d9f25f89d4"});
+let recoverSnapshot = await client.recoverSnapshot("testsnapshot");
 console.log("Snapshot updated status is:", recoverSnapshot.status);
 ```
 

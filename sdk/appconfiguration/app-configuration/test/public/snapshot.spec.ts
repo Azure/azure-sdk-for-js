@@ -4,7 +4,7 @@ import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
-import { Snapshot, ConfigurationSettingsFilter, CreateSnapshotResponse } from "../../src/models";
+import { ConfigurationSnapshot, ConfigurationSettingsFilter, CreateSnapshotResponse } from "../../src/models";
 import {
   assertEqualSnapshot,
   assertThrowsAbortError,
@@ -17,7 +17,7 @@ describe("AppConfigurationClient snapshot", () => {
   let recorder: Recorder;
   let key1: string;
   let key2: string;
-  let snapshot1: Snapshot;
+  let snapshot1: ConfigurationSnapshot;
   let filter1: ConfigurationSettingsFilter;
   let filter2: ConfigurationSettingsFilter;
   let newSnapshot: CreateSnapshotResponse;
@@ -63,7 +63,7 @@ describe("AppConfigurationClient snapshot", () => {
       newSnapshot = await poller.pollUntilDone();
       assertEqualSnapshot(newSnapshot, snapshot1);
 
-      await client.archiveSnapshot(newSnapshot);
+      await client.archiveSnapshot(newSnapshot.name);
     });
 
     it("service throws error when tried to create a snapshot with same name", async () => {
@@ -87,7 +87,7 @@ describe("AppConfigurationClient snapshot", () => {
         assert.notEqual((err as { message: string }).message, "Test failure");
       }
 
-      await client.archiveSnapshot(newSnapshot);
+      await client.archiveSnapshot(newSnapshot.name);
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
@@ -122,7 +122,7 @@ describe("AppConfigurationClient snapshot", () => {
         assert.equal(setting.value, "value1", "Should not get the updated value of the setting");
       }
 
-      await client.archiveSnapshot(newSnapshot);
+      await client.archiveSnapshot(newSnapshot.name);
     });
   });
 
@@ -130,7 +130,7 @@ describe("AppConfigurationClient snapshot", () => {
     it("archive a snapshot", async () => {
       // creating a new snapshot
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
-      const archivedSnapshot = await client.archiveSnapshot(newSnapshot);
+      const archivedSnapshot = await client.archiveSnapshot(newSnapshot.name);
 
       assert.equal(
         archivedSnapshot.status,
@@ -142,7 +142,35 @@ describe("AppConfigurationClient snapshot", () => {
     it.skip("accepts operation options", async function () {
       if (isPlaybackMode()) this.skip();
       await assertThrowsAbortError(async () => {
-        await client.archiveSnapshot(newSnapshot, {
+        await client.archiveSnapshot(newSnapshot.name, {
+          requestOptions: {
+            timeout: 1,
+          },
+        });
+      });
+    });
+  });
+
+  describe("recoverSnapshot", () => {
+    it.only("recover a snapshot", async () => {
+      // creating a new snapshot
+      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
+      const archivedSnapshot = await client.archiveSnapshot(newSnapshot.name);
+
+      const unarchivedSnapshot = await client.recoverSnapshot(archivedSnapshot.name);
+      assert.equal(
+        unarchivedSnapshot.status,
+        "ready",
+        "Unexpected status in result from archiveSnapshot()."
+      );
+
+      await client.archiveSnapshot(newSnapshot.name);
+    });
+
+    it.skip("accepts operation options", async function () {
+      if (isPlaybackMode()) this.skip();
+      await assertThrowsAbortError(async () => {
+        await client.recoverSnapshot(newSnapshot.name, {
           requestOptions: {
             timeout: 1,
           },
@@ -159,7 +187,7 @@ describe("AppConfigurationClient snapshot", () => {
       const snapshot = await client.getSnapshot(newSnapshot.name);
       assertEqualSnapshot(snapshot, newSnapshot);
 
-      await client.archiveSnapshot(newSnapshot);
+      await client.archiveSnapshot(newSnapshot.name);
     });
 
     it.skip("accepts operation options", async function () {
@@ -174,7 +202,7 @@ describe("AppConfigurationClient snapshot", () => {
         });
       });
 
-      await client.archiveSnapshot(newSnapshot);
+      await client.archiveSnapshot(newSnapshot.name);
     });
   });
 
@@ -183,7 +211,7 @@ describe("AppConfigurationClient snapshot", () => {
     it("list all snapshots with ready filter", async function () {
       const list = client.listSnapshots();
       for await (const snapshot of list) {
-        await client.archiveSnapshot(snapshot);
+        await client.archiveSnapshot(snapshot.name);
       }
       const readyList = client.listSnapshots({ statusFilter: ["ready"] });
       let num = 0;
@@ -207,7 +235,7 @@ describe("AppConfigurationClient snapshot", () => {
       const listAfter = await client.listSnapshots({ statusFilter: ["ready"] });
       let total = 0;
       for await (const snapshot of listAfter) {
-        await client.archiveSnapshot(snapshot);
+        await client.archiveSnapshot(snapshot.name);
         total++;
       }
       assert.equal(total, 2, "Unexpected number of snapshots in result from listSnapshots().");

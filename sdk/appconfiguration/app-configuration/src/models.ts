@@ -488,15 +488,6 @@ export interface UpdateSnapshotOptions extends HttpOnlyIfUnchangedField, Operati
 }
 
 /**
- * Options used when recovering a Snapshot.
- */
-export type RecoverSnapshotOptions = UpdateSnapshotOptions;
-
-/**
- * Options used when archiving a Snapshot.
- */
-export type ArchiveSnapshotOptions = UpdateSnapshotOptions;
-/**
  * Response from updating a Snapshot.
  */
 export interface UpdateSnapshotResponse extends SnapshotResponse {}

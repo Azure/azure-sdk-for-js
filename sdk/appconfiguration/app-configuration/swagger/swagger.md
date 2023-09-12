@@ -116,14 +116,6 @@ directive:
       $.composition_type["x-ms-client-name"] = "snapshotComposition";
 ```
 
-### Rename Snapshot -> ConfigurationSnapshot
-```yaml
-directive:
-  - rename-model:
-      from: Snapshot
-      to: ConfigurationSnapshot
-```
-
 ### Rename KeyValueFilter -> ConfigurationSettingsFilter
 ```yaml
 directive:
@@ -132,8 +124,8 @@ directive:
     transform: >
       $["x-ms-client-name"] = "ConfigurationSettingsFilter";
 ```
-### Make .name a required field
 
+### Make .name a required field
 ```yaml
 directive:
   - from: swagger-document
@@ -142,6 +134,7 @@ directive:
       $.required = $.required || [];
       $.required.push('name');
 ```
+
 ### Add description for snapshot
 
 ```yaml
@@ -149,6 +142,14 @@ directive:
   - from: swagger-document
     where: $["definitions"]["Snapshot"]
     transform: >
-      $["description"] = "Snapshot details include name, filters, retentionPeriod, expiresOn, size, status, itemCount, and more";
+      $["description"] = "Snapshot details include name, filters, expiresOn, sizeInBytes, status, itemCount, and more";
 
+```
+
+### Rename Snapshot -> ConfigurationSnapshot
+```yaml
+directive:
+  - rename-model:
+      from: Snapshot
+      to: ConfigurationSnapshot
 ```

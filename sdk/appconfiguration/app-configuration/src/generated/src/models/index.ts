@@ -74,12 +74,13 @@ export interface SnapshotListResult {
   nextLink?: string;
 }
 
+/** Snapshot details include name, filters, expiresOn, sizeInBytes, status, itemCount, and more */
 export interface ConfigurationSnapshot {
   /**
    * The name of the snapshot.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly name: string;
   /**
    * The current status of the snapshot.
    * NOTE: This property will not be serialized. It can only be populated by the server.
