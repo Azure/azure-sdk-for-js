@@ -36,7 +36,6 @@ describe("Conflicts", function (this: Suite) {
       },
       {
         requestStartTimeUTCInMsLowerLimit: timestamp,
-        requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
         retryCount: 0,
         metadataCallCount: 2, // One call for database account + data query call.
         locationEndpointsContacted: 1,

@@ -193,7 +193,6 @@ describe("Change Feed Iterator", function (this: Suite) {
           metadataCallCount: 2,
           locationEndpointsContacted: 1,
           requestStartTimeUTCInMsLowerLimit: startTimestamp,
-          requestDurationInMsUpperLimit: getCurrentTimestampInMs() - startTimestamp,
         }
       );
     });

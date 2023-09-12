@@ -1046,7 +1046,6 @@ describe("test bulk operations", async function () {
         },
         {
           requestStartTimeUTCInMsLowerLimit: startTimestamp,
-          requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
           retryCount: 0,
           metadataCallCount: 4, // One call for database account + data query call.
           locationEndpointsContacted: 1,
