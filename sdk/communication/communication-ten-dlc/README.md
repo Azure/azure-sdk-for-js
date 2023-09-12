@@ -1,6 +1,6 @@
 # Azure Communication 10 DLC client library for JavaScript
 
-10DLC is a program, recently launched by mobile carriers in the United States, that enables A2P SMS messaging for Local numbers.
+10DLC is a program, recently launched by mobile carriers in the United States, that enables A2P SMS messaging for local numbers.
 
 ## Getting started
 
@@ -65,7 +65,7 @@ npm install @azure/identity
 The [`@azure/identity`][azure_identity] package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`][azure_identity_readme] provides more details and samples to get you started.
 
 ```javascript
-const { DefaultAzureCredential } = require ("@azure/identity");
+const { DefaultAzureCredential } = require("@azure/identity");
 const { TenDlcClient } = require("@azure-tools/communication-ten-dlc");
 
 let credential = new DefaultAzureCredential();
@@ -73,8 +73,6 @@ const client = new TenDlcClient("<endpoint-from-resource>", credential);
 ```
 
 ## Usage
-
-
 
 ## Troubleshooting
 
