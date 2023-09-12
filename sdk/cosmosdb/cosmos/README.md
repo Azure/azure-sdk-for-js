@@ -443,6 +443,7 @@ Please make sure to never set diagnostic level to `debug-unsafe` in production e
     },
   ];
   const response = await container.items.batch(operations, "A"); 
+  const diagnostic = response.diagnostics;
   
   // For query operations
   const queryIterator = container.items.query("select * from c");
