@@ -45,7 +45,6 @@ import {
 } from "./diagnostics/DiagnosticWriter";
 import { DefaultDiagnosticFormatter, DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
-import { allowTracing } from "./diagnostics/diagnosticLevelComparator";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -971,11 +970,7 @@ export class ClientContext {
     };
   }
 
-  public getClientConfig(): ClientConfigDiagnostic | undefined {
-    if (allowTracing(CosmosDbDiagnosticLevel.debug, this.diagnosticLevel)) {
-      return this.clientConfig;
-    } else {
-      return undefined;
-    }
+  public getClientConfig(): ClientConfigDiagnostic {
+    return this.clientConfig;
   }
 }
