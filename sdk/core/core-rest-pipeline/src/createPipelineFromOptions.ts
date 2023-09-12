@@ -11,7 +11,7 @@ import { ProxySettings } from ".";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
 import { defaultRetryPolicy } from "./policies/defaultRetryPolicy";
 import { formDataPolicy } from "./policies/formDataPolicy";
-import { isNode } from "@azure/core-util";
+import { isNode, isDeno } from "@azure/core-util";
 import { proxyPolicy } from "./policies/proxyPolicy";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
 import { tlsPolicy } from "./policies/tlsPolicy";
@@ -79,10 +79,11 @@ export interface InternalPipelineOptions extends PipelineOptions {
 export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline {
   const pipeline = createEmptyPipeline();
 
-  if (isNode) {
-    if (options.tlsOptions) {
-      pipeline.addPolicy(tlsPolicy(options.tlsOptions));
-    }
+  if (isNode && options.tlsOptions) {
+    pipeline.addPolicy(tlsPolicy(options.tlsOptions));
+  }
+
+  if (isNode || isDeno) {
     pipeline.addPolicy(proxyPolicy(options.proxyOptions));
     pipeline.addPolicy(decompressResponsePolicy());
   }
