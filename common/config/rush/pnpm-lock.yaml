@@ -1153,6 +1153,54 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/monitor-opentelemetry-exporter/1.0.0-beta.16:
+    resolution: {integrity: sha512-/VI6V4PDdnmOoYSsgu6+zP+PvQW2ZUdynfGgjR361gfKli7YKo3+2BZioPvAd3iQyccIaKpXHSKpKcL7bk15vA==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-rest-pipeline': 1.12.0
+      '@opentelemetry/api': 1.4.1
+      '@opentelemetry/api-logs': 0.41.2
+      '@opentelemetry/core': 1.15.2_@opentelemetry+api@1.4.1
+      '@opentelemetry/resources': 1.15.2_@opentelemetry+api@1.4.1
+      '@opentelemetry/sdk-logs': 0.41.2_kzqoqigr57nykehw3khqy6nqly
+      '@opentelemetry/sdk-metrics': 1.15.2_@opentelemetry+api@1.4.1
+      '@opentelemetry/sdk-trace-base': 1.15.2_@opentelemetry+api@1.4.1
+      '@opentelemetry/semantic-conventions': 1.15.2
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/monitor-opentelemetry/1.0.0-beta.3:
+    resolution: {integrity: sha512-u/x/8YLdpEp31CTUu8E67nuYMDSKH2JR2tgZz3nBZsOSCL8X9HziQscRnCkMdnDbMKJOCUGkctrJRbnLC0omAw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/functions': 3.5.1
+      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.16
+      '@azure/opentelemetry-instrumentation-azure-sdk': 1.0.0-beta.5
+      '@opentelemetry/api': 1.4.1
+      '@opentelemetry/api-logs': 0.41.2
+      '@opentelemetry/core': 1.15.2_@opentelemetry+api@1.4.1
+      '@opentelemetry/instrumentation': 0.41.2_@opentelemetry+api@1.4.1
+      '@opentelemetry/instrumentation-http': 0.41.2_@opentelemetry+api@1.4.1
+      '@opentelemetry/instrumentation-mongodb': 0.36.1_@opentelemetry+api@1.4.1
+      '@opentelemetry/instrumentation-mysql': 0.34.1_@opentelemetry+api@1.4.1
+      '@opentelemetry/instrumentation-pg': 0.36.1_@opentelemetry+api@1.4.1
+      '@opentelemetry/instrumentation-redis': 0.35.1_@opentelemetry+api@1.4.1
+      '@opentelemetry/instrumentation-redis-4': 0.35.1_@opentelemetry+api@1.4.1
+      '@opentelemetry/resources': 1.15.2_@opentelemetry+api@1.4.1
+      '@opentelemetry/sdk-logs': 0.41.2_kzqoqigr57nykehw3khqy6nqly
+      '@opentelemetry/sdk-metrics': 1.15.2_@opentelemetry+api@1.4.1
+      '@opentelemetry/sdk-trace-base': 1.15.2_@opentelemetry+api@1.4.1
+      '@opentelemetry/sdk-trace-node': 1.15.2_@opentelemetry+api@1.4.1
+      '@opentelemetry/semantic-conventions': 1.15.2
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/monitor-query/1.1.1:
     resolution: {integrity: sha512-cGZkX9Gn8jqSZIYtBXxBW+J6zg59k/0PBN89YgEwHzYcyEgT88SSsKSGdMXj6pMstxicurDJKojhdQsqy7q2Bg==}
     engines: {node: '>=14.0.0'}
@@ -1212,6 +1260,20 @@ packages:
       '@azure/core-auth': 1.5.0
       '@azure/core-rest-pipeline': 1.12.0
       '@azure/logger': 1.0.4
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/opentelemetry-instrumentation-azure-sdk/1.0.0-beta.5:
+    resolution: {integrity: sha512-fsUarKQDvjhmBO4nIfaZkfNSApm1hZBzcvpNbSrXdcUBxu7lRvKsV5DnwszX7cnhLyVOW9yl1uigtRQ1yDANjA==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/core-tracing': 1.0.1
+      '@azure/logger': 1.0.4
+      '@opentelemetry/api': 1.4.1
+      '@opentelemetry/core': 1.15.2_@opentelemetry+api@1.4.1
+      '@opentelemetry/instrumentation': 0.41.2_@opentelemetry+api@1.4.1
       tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
@@ -4030,7 +4092,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230911
+      typescript: 5.3.0-dev.20230912
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8610,8 +8672,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230911:
-    resolution: {integrity: sha512-2iI2l7OuGvU668gBje+JQKE8bsf7SH8w8ScwUkENHCcrbaDpXa/Oqfuwq5gdFM7SfVfp5p6c8kHZRMvL+kabJg==}
+  /typescript/5.3.0-dev.20230912:
+    resolution: {integrity: sha512-rf3Qmo6TE47cxy9yZqkjfJvt6ClU04leuTCKzklpOpqjGDO9tgTNE1XP1ReVR9tQs+RsXGbi+QudxIRAJQisBQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -20051,12 +20113,15 @@ packages:
     dev: false
 
   file:projects/perf-monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-CDDNe4ttlbfjyQXhxDkpKVU7ufTIK4ALiF3hkfM4uOBKLDyySwM9tA36K2fwJ63iOaFTDRTSrTaq/9tm5iJpCw==, tarball: file:projects/perf-monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-U0BN1/VreLg8G1Hu7F3Z5Ju0/hMDDPy17L1gFtg3kawX1AVFlWOfDBz8qXqeYIYZIbWPK6TyU6wBcPoW9UAdxQ==, tarball: file:projects/perf-monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/perf-monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
+      '@azure/monitor-opentelemetry': 1.0.0-beta.3
       '@opentelemetry/api': 1.4.1
+      '@opentelemetry/api-logs': 0.41.2
       '@opentelemetry/resources': 1.15.2_@opentelemetry+api@1.4.1
+      '@opentelemetry/sdk-logs': 0.41.2_kzqoqigr57nykehw3khqy6nqly
       '@opentelemetry/sdk-trace-base': 1.15.2_@opentelemetry+api@1.4.1
       '@opentelemetry/semantic-conventions': 1.15.2
       '@types/node': 14.18.56
