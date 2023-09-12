@@ -49,8 +49,8 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     this.isInstantiated = false;
   }
 
-  private async setIteratorRid(): Promise<void> {
-    const { resource } = await this.container.read();
+  private async setIteratorRid(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+    const { resource } = await this.container.readInternal(diagnosticNode);
     this.rId = resource._rid;
   }
 
@@ -156,13 +156,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
   public async *getAsyncIterator(): AsyncIterable<ChangeFeedIteratorResponse<Array<T & Resource>>> {
     do {
       const result = await this.readNext();
-      // filter out some empty 200 responses from backend.
-      if (
-        (result.count === 0 && result.statusCode === StatusCodes.NotModified) ||
-        (result.count > 0 && result.statusCode === StatusCodes.Ok)
-      ) {
-        yield result;
-      }
+      yield result;
     } while (this.hasMoreResults);
   }
 
@@ -177,7 +171,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       // validate if the internal queue is filled up with feed ranges.
       if (!this.isInstantiated) {
-        await this.setIteratorRid();
+        await this.setIteratorRid(diagnosticNode);
         await this.fillChangeFeedQueue(diagnosticNode);
       }
 
