@@ -2099,6 +2099,11 @@
       "packageName": "@azure/arm-hybridconnectivity",
       "projectFolder": "sdk/hybridconnectivity/arm-hybridconnectivity",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-playwrighttesting",
+      "projectFolder": "sdk/playwrighttesting/arm-playwrighttesting",
+      "versionPolicyName": "management"
     }
   ]
 }
