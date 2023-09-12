@@ -11,3 +11,4 @@ export { isDefined, isObjectWithProperties, objectHasProperty } from "./typeGuar
 export { randomUUID } from "./uuidUtils";
 export { isBrowser, isBun, isNode, isDeno, isReactNative, isWebWorker } from "./checkEnvironment";
 export { uint8ArrayToString, stringToUint8Array, EncodingType } from "./bytesEncoding";
+export { toOffsetDateTime } from "./datetime";

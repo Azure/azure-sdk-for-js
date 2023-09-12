@@ -79,6 +79,9 @@ export function randomUUID(): string;
 // @public
 export function stringToUint8Array(value: string, format: EncodingType): Uint8Array;
 
+// @public (undocumented)
+export function toISOStringWithTimezone(date: Date): string;
+
 // @public
 export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string;
 
