@@ -26,7 +26,9 @@ export class SpanExportTest extends MonitorOpenTelemetryExporterTest<MonitorOpen
     function doWork(parent: Span, tracer: Tracer) {
       const ctx = trace.setSpan(context.active(), parent);
       const span = tracer.startSpan("doWork", undefined, ctx);
-      for (let i = 0; i <= 1; i += 1) { }
+      for (let i = 0; i <= 1; i += 1) { 
+        continue;
+      }
       span.setAttribute("key", "value");
       span.addEvent("invoking doWork");
       span.end();
