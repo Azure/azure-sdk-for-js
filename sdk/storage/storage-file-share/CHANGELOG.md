@@ -1,5 +1,11 @@
 # Release History
 
+## 12.16.0 (2023-09-14)
+
+### Features Added
+
+- Added support for service version 2023-08-03.
+
 ## 12.15.0 (2023-07-12)
 
 ### Features Added
