@@ -20,7 +20,7 @@ disable-async-iterators: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210218.1"
-package-version: 12.15.0
+package-version: 12.16.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -889,6 +889,15 @@ directive:
     where: $["parameters"]["SourceAllowTrailingDot"]
     transform: >
       $["x-ms-parameter-location"] = "method";
+```
+
+### Update service version from "2023-01-03" to "2023-08-03"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2023-08-03" ];
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2Fswagger%2FREADME.png)
