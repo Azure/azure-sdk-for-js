@@ -105,7 +105,7 @@
 
 #### New Change feed Iterator
 
-The v4 SDK now supports [Change feed pull model](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/change-feed-pull-model?tabs=JavaScript). 
+The v4 SDK now supports [Change feed pull model](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-pull-model?tabs=JavaScript). 
 
 ***Note: There are no breaking changes, the old change feed iterator is still supported.***
 
