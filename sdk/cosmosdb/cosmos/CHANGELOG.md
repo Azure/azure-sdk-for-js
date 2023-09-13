@@ -1,16 +1,118 @@
 # Release History
 
 ## 4.0.0 (2023-09-12)
+🎉 v4 release! 🎉 Many new features, bug fixes, and a few breaking changes.
+- Summary of new added features 
+  - Diagnostics: has been added to response objects of api operations ie. point lookups, bulk & batch operations, query and error responses.
+  - Hierarchical Partitioning: Containers with hierarchical partitions are now supported.
+  - Index metrics: can be enabled to show both utilized indexed paths and recommended indexed paths.
+  - New Changefeed iterator: which can consume changes for a specific partition key, a feed range or an entire container.
+  - Priority based throttling is now supported.
 
-### Features Added
-- Added Changefeed support for partition keys, feed ranges, and entire container. [#18062](https://github.com/Azure/azure-sdk-for-js/issues/18062)
-- Added Diagnostics to all response objects, i.e. ResourceResponse (parent class for ItemRespone, ContainerResponse etc.), FeedResponse, ChangeFeedIteratorResponse, 
-ErrorResponse, BulkOperationResponse. [#21177](https://github.com/Azure/azure-sdk-for-js/issues/21177)
-- Added support for hierarchical partitions. [#23416](https://github.com/Azure/azure-sdk-for-js/issues/23416)
-- Added support of index metrics. [#20194](https://github.com/Azure/azure-sdk-for-js/issues/20194)
-- Improved the retry utility to align with other language SDKs. Now, it automatically retries requests on the next available region when encountering HTTP 503 errors (Service Unavailable)
- and handles HTTP timeouts more effectively, enhancing the SDK's reliability. [#23475](https://github.com/Azure/azure-sdk-for-js/issues/23475)
-- Added priority based throttling. [docs](https://devblogs.microsoft.com/cosmosdb/introducing-priority-based-execution-in-azure-cosmos-db-preview/) [#26393](https://github.com/Azure/azure-sdk-for-js/pull/26393/files)
+### Migration guide from depricated changes
+- [TODO: aman please add a note about depricated ChangeFeed iterator.]
+
+### New Features
+
+#### Diagnostics
+- Since `diagnostics` is added to all Response objects. You could programatically access `CosmosDiagnostic` as follows. 
+```js
+  // For point look up operations
+  const { container, diagnostics: containerCreateDiagnostic } =
+    await database.containers.createIfNotExists({
+      id: containerId,
+      partitionKey: {
+        paths: ["/key1"],
+      },
+  });
+
+  // For Batch operations
+   const operations: OperationInput[] = [
+    {
+      operationType: BulkOperationType.Create,
+      resourceBody: { id: 'A', key: "A", school: "high" },
+    },
+  ];
+  const response = await container.items.batch(operations, "A"); 
+  const diagnostics = response.diagnostics
+
+  // For Bulk operations
+   const operations: OperationInput[] = [
+    {
+      operationType: BulkOperationType.Create,
+      resourceBody: { id: 'A', key: "A", school: "high" },
+    },
+  ];
+  const response = await container.items.bulk(operations);; 
+  const diagnostics = response.diagnostics
+
+  // For query operations
+  const queryIterator = container.items.query("select * from c");
+  const { resources, diagnostics } = await queryIterator.fetchAll();
+
+  // While error handling
+  try {
+    // Some operation that might fail
+  } catch (err) {
+    const diagnostics = err.diagnostics
+  }
+```
+#### Hierarchical Partitioning
+- Here is a sampele for creating container with Hierarchical Partitions
+
+  ```js
+  const containerDefinition = {
+    id: "Test Database",
+    partitionKey: {
+      paths: ["/name", "/address/zip"],
+      version: PartitionKeyDefinitionVersion.V2,
+      kind: PartitionKeyKind.MultiHash,
+    },
+  }
+  const { container } = await database.containers.createIfNotExists(containerDefinition);
+  console.log(container.id);
+  ```
+- Definition of PartitionKey has been changed to support Hierarchical partitioning. Here is how to use the new definition.
+  - The operations for which PartitionKey can be derived from Request body, providing PartitionKey is optional as always i.e
+    ```js
+      const item = {
+        id: 1,
+        name: 'foo',
+        address: {
+          zip: 100
+        },
+        active: true
+      }
+      await container.items.create(item);
+    ```
+  - Here is sample for operations which require hierarchical partition to be passed.
+
+    ```js
+    await container.item("1", ["foo", 100]).read();
+    ```
+    OR
+    ```js
+    const partitionKey: PartitionKey = new PartitionKeyBuilder()
+      .addValue("foo")
+      .addValue(100)
+      .build();
+    await container.item("1", partitionKey).read();
+    ```
+  - If you are not using Hierarchical Partitioning feature, Definition of Partition Key is practically backward compatible.
+    ```js
+    await container.item("1", "1").read();
+    ```
+
+
+#### Index metrics
+[Manik]
+#### New Changefeed iterator
+[Aman]
+#### Priority Based throttling.
+[Manik]
+#### Improved Retry Utility
+[Manik]
+
 ### Bugs Fixed
 - Updated response codes for the getDatabase() method. [#25932](https://github.com/Azure/azure-sdk-for-js/issues/25932)
 - Fix Upsert operation failing when partition key of container is `/id` and `/id` is missing in the document. [#21383](https://github.com/Azure/azure-sdk-for-js/issues/21383)
