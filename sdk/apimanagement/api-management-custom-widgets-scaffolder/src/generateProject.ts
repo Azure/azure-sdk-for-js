@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  DeploymentConfig,
+  ServiceInformation,
   OVERRIDE_DEFAULT_PORT,
   OVERRIDE_PORT_KEY,
   Options,
@@ -26,10 +26,10 @@ const templateSuffix = ".mustache";
  */
 export async function generateProject(
   widgetConfig: WidgetConfig,
-  deploymentConfig: DeploymentConfig,
+  deploymentConfig: ServiceInformation,
   options: Options = {}
 ): Promise<void> {
-  const { openUrl } = options;
+  const { openUrl, configAdvancedTenantId, configAdvancedRedirectUri } = options;
   const openUrlParsed = openUrl ? new URL(openUrl) : null;
   if (openUrlParsed) {
     openUrlParsed.searchParams.append(OVERRIDE_PORT_KEY, String(OVERRIDE_DEFAULT_PORT));
@@ -41,6 +41,17 @@ export async function generateProject(
     open: openUrlParsed ? openUrlParsed.toString() : true,
   };
 
+  const configAdditional = {
+    interactiveBrowserCredentialOptions: { redirectUri: "http://localhost:1337" } as {
+      redirectUri: string;
+      tenantId?: string;
+    },
+  };
+  if (configAdvancedTenantId)
+    configAdditional.interactiveBrowserCredentialOptions.tenantId = configAdvancedTenantId;
+  if (configAdvancedRedirectUri)
+    configAdditional.interactiveBrowserCredentialOptions.redirectUri = configAdvancedRedirectUri;
+
   const renderTemplate = async (file: string): Promise<void> => {
     const isTemplate = file.endsWith(templateSuffix);
     const encoding = file.endsWith(".ttf") ? "binary" : "utf8";
@@ -51,6 +62,7 @@ export async function generateProject(
         displayName: widgetConfig.displayName,
         config: JSON.stringify({ ...widgetConfig, name }, null, "\t"),
         configDeploy: JSON.stringify(deploymentConfig, null, "\t"),
+        configAdditional: JSON.stringify(configAdditional, null, "\t"),
         serverSettings: JSON.stringify(serverSettings, null, "\t"),
       });
     }
