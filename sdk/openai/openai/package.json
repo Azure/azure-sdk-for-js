@@ -7,6 +7,7 @@
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/api/getSSEs.js": "./dist-esm/src/api/getSSEs.browser.js",
+    "./dist-esm/src/api/policies/formDataPolicy.js": "./dist-esm/src/api/policies/formDataPolicy.browser.js",
     "./dist-esm/test/public/utils/getImageDimensions.js": "./dist-esm/test/public/utils/getImageDimensions.browser.js"
   },
   "type": "module",
@@ -136,6 +137,8 @@
     "@azure/core-lro": "^2.5.3",
     "@azure/core-rest-pipeline": "^1.10.2",
     "@azure/logger": "^1.0.3",
+    "formdata-node": "^5.0.0",
+    "form-data-encoder": "^3.0.0",
     "tslib": "^2.4.0"
   },
   "//sampleConfiguration": {

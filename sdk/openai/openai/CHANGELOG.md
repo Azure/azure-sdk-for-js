@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Adds speech to text and translation capabilities for a wide variety of audio file formats.
+  - `getAudioTranscription` and `getAudioTranslation` methods for transcribing and translating audio files. The result can be either a simple JSON structure with just a `text` field or a more detailed JSON structure containing the text alongside additional information. In addition, VTT (Web Video Text Tracks), SRT (SubRip Text), and plain text formats are also supported. The type of the result depends on the `format` parameter if specified, otherwise, a simple JSON output is assumed. The methods could take as input an optional text prompt to guide the model's style or continue a previous audio segment. The language of the prompt should match that of the audio file.
+
 ### Breaking Changes
 
 ### Bugs Fixed

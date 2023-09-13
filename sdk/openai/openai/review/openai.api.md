@@ -12,6 +12,58 @@ import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type AudioResult<ResponseFormat extends AudioResultFormat> = {
+    json: AudioResultSimpleJson;
+    verbose_json: AudioResultVerboseJson;
+    vtt: string;
+    srt: string;
+    text: string;
+}[ResponseFormat];
+
+// @public
+export type AudioResultFormat =
+/** This format will return an JSON structure containing a single \"text\" with the transcription. */
+"json"
+/** This format will return an JSON structure containing an enriched structure with the transcription. */
+| "verbose_json"
+/** This will make the response return the transcription as plain/text. */
+| "text"
+/** The transcription will be provided in SRT format (SubRip Text) in the form of plain/text. */
+| "srt"
+/** The transcription will be provided in VTT format (Web Video Text Tracks) in the form of plain/text. */
+| "vtt";
+
+// @public
+export interface AudioResultSimpleJson {
+    text: string;
+}
+
+// @public
+export interface AudioResultVerboseJson extends AudioResultSimpleJson {
+    duration: number;
+    language: string;
+    segments: AudioSegment[];
+    task: AudioTranscriptionTask;
+}
+
+// @public
+export interface AudioSegment {
+    avgLogprob: number;
+    compressionRatio: number;
+    end: number;
+    id: number;
+    noSpeechProb: number;
+    seek: number;
+    start: number;
+    temperature: number;
+    text: string;
+    tokens: number[];
+}
+
+// @public
+export type AudioTranscriptionTask = string;
+
+// @public
 export interface AzureChatExtensionConfiguration {
     parameters: Record<string, any>;
     type: AzureChatExtensionType;
@@ -176,6 +228,21 @@ export interface FunctionName {
 }
 
 // @public
+export interface GetAudioTranscriptionOptions extends OperationOptions {
+    language?: string;
+    model?: string;
+    prompt?: string;
+    temperature?: number;
+}
+
+// @public
+export interface GetAudioTranslationOptions extends OperationOptions {
+    model?: string;
+    prompt?: string;
+    temperature?: number;
+}
+
+// @public
 export interface GetChatCompletionsOptions extends OperationOptions {
     azureExtensionOptions?: AzureExtensionsOptions;
     frequencyPenalty?: number;
@@ -252,6 +319,10 @@ export class OpenAIClient {
     constructor(endpoint: string, credential: KeyCredential, options?: OpenAIClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: OpenAIClientOptions);
     constructor(openAiApiKey: KeyCredential, options?: OpenAIClientOptions);
+    getAudioTranscription(deploymentName: string, fileContent: Uint8Array, options?: GetAudioTranscriptionOptions): Promise<AudioResultSimpleJson>;
+    getAudioTranscription<Format extends AudioResultFormat>(deploymentName: string, fileContent: Uint8Array, format: Format, options?: GetAudioTranscriptionOptions): Promise<AudioResult<Format>>;
+    getAudioTranslation(deploymentName: string, fileContent: Uint8Array, options?: GetAudioTranslationOptions): Promise<AudioResultSimpleJson>;
+    getAudioTranslation<Format extends AudioResultFormat>(deploymentName: string, fileContent: Uint8Array, format: Format, options?: GetAudioTranslationOptions): Promise<AudioResult<Format>>;
     getChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
     getCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
     getEmbeddings(deploymentName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;

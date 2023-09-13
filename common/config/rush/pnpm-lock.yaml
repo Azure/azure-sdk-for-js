@@ -4028,7 +4028,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230905
+      typescript: 5.3.0-dev.20230910
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -4814,6 +4814,11 @@ packages:
       signal-exit: 3.0.7
     dev: false
 
+  /form-data-encoder/3.0.0:
+    resolution: {integrity: sha512-qPautpoQvO/kTxjKawxHlBQ5KUHdJy8c3z5ddUaF589k5nJDY+AjnvsxtzLXlZmkNNu64bA7YOuvwWb32TMbJw==}
+    engines: {node: '>= 16.5'}
+    dev: false
+
   /form-data/3.0.1:
     resolution: {integrity: sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==}
     engines: {node: '>= 6'}
@@ -4830,6 +4835,14 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
+    dev: false
+
+  /formdata-node/5.0.1:
+    resolution: {integrity: sha512-8xnIjMYGKPj+rY2BTbAmpqVpi8der/2FT4d9f7J32FlsCpO5EzZPq3C/N56zdv8KweHzVF6TGijsS1JT6r1H2g==}
+    engines: {node: '>= 14.17'}
+    dependencies:
+      node-domexception: 1.0.0
+      web-streams-polyfill: 4.0.0-beta.3
     dev: false
 
   /forwarded/0.2.0:
@@ -6683,6 +6696,11 @@ packages:
 
   /node-addon-api/5.0.0:
     resolution: {integrity: sha512-CvkDw2OEnme7ybCykJpVcKH+uAOLV2qLqiyla128dN9TkEWfrYmxG6C2boDe5KcNQqZF3orkqzGgOMvZ/JNekA==}
+    dev: false
+
+  /node-domexception/1.0.0:
+    resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
+    engines: {node: '>=10.5.0'}
     dev: false
 
   /node-environment-flags/1.0.6:
@@ -8608,8 +8626,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230905:
-    resolution: {integrity: sha512-Nl9MoKWN0YYlCvQnw850L4ZgqdmqwVGCi9cAoQDw4PsqRGaWAi9HKizS9xu0q4qgKKsEKetWCZHT8dBtJTGaMg==}
+  /typescript/5.3.0-dev.20230910:
+    resolution: {integrity: sha512-ig1saY778M8pNhr99DhhgHKbFTCZCsRt95xv/ToPRevn4vttmcbs/Q/tSyBJSdPlkfQ5wO/XWU1kMI081iAmmw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -8780,6 +8798,11 @@ packages:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
     dependencies:
       defaults: 1.0.4
+    dev: false
+
+  /web-streams-polyfill/4.0.0-beta.3:
+    resolution: {integrity: sha512-QW95TCTaHmsYfHDybGMwO5IJIM93I/6vTRk+daHTWFPhwh+C8Cg7j7XyKrwrj8Ib6vYXe0ocYNrmzY4xAAN6ug==}
+    engines: {node: '>= 14'}
     dev: false
 
   /webidl-conversions/3.0.1:
@@ -19641,7 +19664,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-luHDHP3gBteO/aAH5xC4p3ULLuZ7CQDU1aQDHjEFvAgOz30WWi5dkTlSNyBkD57XRJSr9r/GCjktdIMg6SZKnw==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-/1v88qXDwz29Cq8VBKDOcwhoQ4YzAMIs/Otd9PhUzXR9ucsp0uCLhGZoKA3HKulQzOr3K2XPk2uigzj8uxomxw==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -19652,6 +19675,8 @@ packages:
       dotenv: 16.3.1
       eslint: 8.48.0
       esm: 3.2.25
+      form-data-encoder: 3.0.0
+      formdata-node: 5.0.1
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1

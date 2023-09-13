@@ -3,6 +3,11 @@
 
 import { assert } from "@azure/test-utils";
 import {
+  AudioResult,
+  AudioResultFormat,
+  AudioResultSimpleJson,
+  AudioResultVerboseJson,
+  AudioSegment,
   ChatChoice,
   ChatCompletions,
   ChatMessage,
@@ -153,13 +158,13 @@ function assertCompletionsNoUsage(
 
 function assertChatCompletionsNoUsage(
   completions: ChatCompletions,
-  { allowEmptyChoices, ...opts }: ChatCompletionTestOptions
+  { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions
 ): void {
   if (!allowEmptyChoices || completions.choices.length > 0) {
     assertNonEmptyArray(completions.choices, (choice) => assertChatChoice(choice, opts));
   }
   assert.instanceOf(completions.created, Date);
-  assert.isString(completions.id);
+  ifDefined(completions.id, assert.isString, { defined: !allowEmptyId });
   ifDefined(completions.promptFilterResults, assertContentFilterResults);
 }
 
@@ -192,6 +197,13 @@ export async function assertChatCompletionsStream(
   );
 }
 
+export function assertChatCompletionsList(
+  list: Array<ChatCompletions>,
+  options: ChatCompletionTestOptions = {}
+): void {
+  list.map((item) => assertChatCompletionsNoUsage(item, { ...options, stream: true }));
+}
+
 interface CompletionTestOptions {
   allowEmptyChoices?: boolean;
 }
@@ -201,4 +213,48 @@ interface ChatCompletionTestOptions {
   allowEmptyChoices?: boolean;
   functions?: boolean;
   allowEmptyStream?: boolean;
+  allowEmptyId?: boolean;
+}
+
+function assertSegment(segment: AudioSegment): void {
+  assert.isNumber(segment.start);
+  assert.isNumber(segment.end);
+  assert.isString(segment.text);
+  assert.isNumber(segment.id);
+  assert.isNumber(segment.avgLogprob);
+  assert.isNumber(segment.compressionRatio);
+  assert.isNumber(segment.noSpeechProb);
+  assert.isNumber(segment.seek);
+  assert.isNumber(segment.temperature);
+  assert.isArray(segment.tokens);
+  segment.tokens.forEach((item) => assert.isNumber(item));
+}
+
+function assertVerboseJson(result: AudioResultVerboseJson): void {
+  assert.isString(result.text);
+  assert.isNumber(result.duration);
+  assert.isString(result.language);
+  assert.isString(result.task);
+  assert.isArray(result.segments);
+  result.segments.forEach((item) => assertSegment(item));
+}
+
+export function assertAudioResult<Format extends AudioResultFormat>(
+  responseFormat: AudioResultFormat,
+  result: AudioResult<Format>
+): void {
+  switch (responseFormat) {
+    case "json":
+      assert.isObject(result);
+      assert.isString((result as AudioResultSimpleJson).text);
+      break;
+    case "verbose_json":
+      assertVerboseJson(result as AudioResultVerboseJson);
+      break;
+    case "srt":
+    case "vtt":
+    case "text":
+      assert.isString(result);
+      break;
+  }
 }
