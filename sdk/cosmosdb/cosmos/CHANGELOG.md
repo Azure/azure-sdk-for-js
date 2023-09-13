@@ -104,14 +104,34 @@
     ```
 
 
-#### Index metrics
-[Manik]
 #### New Changefeed iterator
 [Aman]
-#### Priority Based throttling.
-[Manik]
-#### Improved Retry Utility
-[Manik]
+#### Index Metrics [#20194](https://github.com/Azure/azure-sdk-for-js/issues/20194)
+
+Azure Cosmos DB provides indexing metrics for optimizing query performance, especially when you're unsure about adjusting the indexing policy.
+You can enable indexing metrics for a query by setting the PopulateIndexMetrics property to true(default=false).
+
+```js
+const { resources: resultsIndexMetrics, indexMetrics } = await container.items
+    .query(querySpec, { populateIndexMetrics: true })
+    .fetchAll();
+```
+
+We only recommend enabling the index metrics for troubleshooting query performance.
+
+#### Enhanced Retry Utility for Improved SDK Reliability [#23475](https://github.com/Azure/azure-sdk-for-js/issues/23475)
+
+Improved the retry utility to align with other language SDKs. Now, it automatically retries requests on the next available region when encountering HTTP 503 errors (Service Unavailable)
+and handles HTTP timeouts more effectively, enhancing the SDK's reliability.
+
+#### Priority based throttling [docs](https://devblogs.microsoft.com/cosmosdb/introducing-priority-based-execution-in-azure-cosmos-db-preview/) [#26393](https://github.com/Azure/azure-sdk-for-js/pull/26393/files)
+
+Priority-based execution is a capability which allows users to specify priority for the request sent to Azure Cosmos DB. Based on the priority specified by the user, if there are more requests than the configured RU/s in a second, then Azure Cosmos DB will throttle low priority requests to allow high priority requests to execute.
+You can enable priority based throttling by setting priorityLevel property.
+
+```js
+const response = await container.item(document.id).read<TestItem>({ priorityLevel: PriorityLevel.Low });
+```
 
 ### Bugs Fixed
 - Updated response codes for the getDatabase() method. [#25932](https://github.com/Azure/azure-sdk-for-js/issues/25932)
