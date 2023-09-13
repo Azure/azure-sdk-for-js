@@ -57,6 +57,8 @@ const fieldIdToName = {
     managementApiEndpoint: "Management API hostname",
     apiVersion: "Management API version",
     openUrl: "Developer portal URL",
+    configAdvancedTenantId: "Tenant ID",
+    configAdvancedRedirectUri: "Redirect URI",
 };
 const prefixUrlProtocol = (value) => /https?:\/\//.test(value) ? value : `https://${value}`;
 const validateRequired = (name, msg = `The “${name}” parameter is required.`) => (input) => (input != null && input !== "") || msg;
@@ -102,6 +104,14 @@ const validateMiscConfig = {
             return true;
         return validateUrl(fieldIdToName.openUrl)(input);
     },
+    configAdvancedTenantId: () => {
+        return true;
+    },
+    configAdvancedRedirectUri: (input) => {
+        if (!input)
+            return true;
+        return validateUrl(fieldIdToName.openUrl)(input);
+    },
 };
 const promptWidgetConfig = (partial) => inquirer__default["default"].prompt([
     {
@@ -121,7 +131,7 @@ const promptWidgetConfig = (partial) => inquirer__default["default"].prompt([
         ],
     },
 ], partial);
-const promptDeployConfig = (partial) => inquirer__default["default"].prompt([
+const promptServiceInformation = (partial) => inquirer__default["default"].prompt([
     {
         name: "resourceId",
         type: "input",
@@ -156,6 +166,18 @@ const promptMiscConfig = (partial) => inquirer__default["default"].prompt([
         message: fieldIdToName.openUrl +
             " for widget development and testing (optional; e.g., https://contoso.developer.azure-api.net/ or http://localhost:8080)",
         transformer: prefixUrlProtocol,
+        validate: validateMiscConfig.openUrl,
+    },
+    {
+        name: "configAdvancedTenantId",
+        type: "input",
+        message: fieldIdToName.configAdvancedTenantId + " to be used in Azure Identity InteractiveBrowserCredential class (optional)",
+        validate: validateMiscConfig.openUrl,
+    },
+    {
+        name: "configAdvancedRedirectUri",
+        type: "input",
+        message: fieldIdToName.configAdvancedRedirectUri + " to be used in Azure Identity InteractiveBrowserCredential class (optional; default is http://localhost:1337)",
         validate: validateMiscConfig.openUrl,
     },
 ], partial);
@@ -851,7 +873,7 @@ const templateSuffix = ".mustache";
  * @param options - JSON object with other data, which will not be stored in the DevPortal.
  */
 async function generateProject(widgetConfig, deploymentConfig, options = {}) {
-    const { openUrl } = options;
+    const { openUrl, configAdvancedTenantId, configAdvancedRedirectUri } = options;
     const openUrlParsed = openUrl ? new URL(openUrl) : null;
     if (openUrlParsed) {
         openUrlParsed.searchParams.append(OVERRIDE_PORT_KEY, String(OVERRIDE_DEFAULT_PORT));
@@ -861,6 +883,13 @@ async function generateProject(widgetConfig, deploymentConfig, options = {}) {
         port: OVERRIDE_DEFAULT_PORT,
         open: openUrlParsed ? openUrlParsed.toString() : true,
     };
+    const configAdditional = {
+        interactiveBrowserCredentialOptions: { redirectUri: "http://localhost:1337" }
+    };
+    if (configAdvancedTenantId)
+        configAdditional.interactiveBrowserCredentialOptions.tenantId = configAdvancedTenantId;
+    if (configAdvancedRedirectUri)
+        configAdditional.interactiveBrowserCredentialOptions.redirectUri = configAdvancedRedirectUri;
     const renderTemplate = async (file) => {
         const isTemplate = file.endsWith(templateSuffix);
         const encoding = file.endsWith(".ttf") ? "binary" : "utf8";
@@ -871,6 +900,7 @@ async function generateProject(widgetConfig, deploymentConfig, options = {}) {
                 displayName: widgetConfig.displayName,
                 config: JSON.stringify(Object.assign(Object.assign({}, widgetConfig), { name }), null, "\t"),
                 configDeploy: JSON.stringify(deploymentConfig, null, "\t"),
+                configAdditional: JSON.stringify(configAdditional, null, "\t"),
                 serverSettings: JSON.stringify(serverSettings, null, "\t"),
             });
         }
@@ -905,23 +935,23 @@ async function main() {
     white("Specify the custom widget configuration.");
     const widgetConfig = await getConfig(promptWidgetConfig, validateWidgetConfig);
     white("Specify the Azure API Management service configuration.");
-    const deployConfig = await getConfig(promptDeployConfig, validateDeployConfig);
+    const serviceInformation = await getConfig(promptServiceInformation, validateDeployConfig);
     white("Specify other options");
     const miscConfig = await getConfig(promptMiscConfig, validateMiscConfig);
-    if (deployConfig.resourceId[0] === "/") {
-        deployConfig.resourceId = deployConfig.resourceId.slice(1);
+    if (serviceInformation.resourceId[0] === "/") {
+        serviceInformation.resourceId = serviceInformation.resourceId.slice(1);
     }
-    if (deployConfig.resourceId.slice(-1) === "/") {
-        deployConfig.resourceId = deployConfig.resourceId.slice(0, -1);
+    if (serviceInformation.resourceId.slice(-1) === "/") {
+        serviceInformation.resourceId = serviceInformation.resourceId.slice(0, -1);
     }
-    if (deployConfig.apiVersion === "") {
-        delete deployConfig.apiVersion;
+    if (serviceInformation.apiVersion === "") {
+        delete serviceInformation.apiVersion;
     }
-    deployConfig.managementApiEndpoint = prefixUrlProtocol(deployConfig.managementApiEndpoint);
+    serviceInformation.managementApiEndpoint = prefixUrlProtocol(serviceInformation.managementApiEndpoint);
     miscConfig.openUrl = miscConfig.openUrl
         ? prefixUrlProtocol(miscConfig.openUrl)
         : miscConfig.openUrl;
-    return generateProject(widgetConfig, deployConfig, miscConfig)
+    return generateProject(widgetConfig, serviceInformation, miscConfig)
         .then(() => green("\nThe custom widget’s code scaffold has been successfully generated.\n"))
         .catch(console.error);
 }
