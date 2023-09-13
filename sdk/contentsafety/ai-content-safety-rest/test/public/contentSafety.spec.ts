@@ -4,9 +4,11 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder, createClient } from "./utils/recordedClient";
-import { imageBase64Str } from "./utils/image";
 import { Context } from "mocha";
 import { ContentSafetyClient, isUnexpected } from "../../src";
+import fs from "fs";
+import path from "path";
+import { isBrowser } from "@azure/core-util";
 
 describe("Content Safety Client Test", () => {
   let recorder: Recorder;
@@ -40,10 +42,30 @@ describe("Content Safety Client Test", () => {
   });
 
   it("analyze image", async function () {
+    let base64Image: string;
+    if (isBrowser) {
+      const imagePath = "http://localhost:9876/base/samples-dev/example-data/image.png";
+      const response = await fetch(imagePath);
+      const buffer = await response.arrayBuffer();
+      const binary = new Uint8Array(buffer);
+      const chunkSize = 0x8000;
+      const chunks = [];
+      for (let i = 0; i < binary.length; i += chunkSize) {
+        chunks.push(binary.slice(i, i + chunkSize));
+      }
+      const stringChunks = chunks.map((chunk) =>
+        String.fromCharCode.apply(null, Array.from(chunk))
+      );
+      base64Image = btoa(stringChunks.join(""));
+    } else {
+      const imagePath = path.join("samples-dev", "example-data", "image.png");
+      const buffer = fs.readFileSync(imagePath);
+      base64Image = buffer.toString("base64");
+    }
     const response = await client.path("/image:analyze").post({
       body: {
         image: {
-          content: imageBase64Str,
+          content: base64Image,
         },
         categories: ["Sexual"],
       },

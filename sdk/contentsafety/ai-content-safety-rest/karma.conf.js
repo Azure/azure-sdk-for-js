@@ -37,6 +37,12 @@ module.exports = function (config) {
         included: false,
         served: true,
       },
+      {
+        pattern: "./samples-dev/example-data/*.png",
+        watched: false,
+        included: false,
+        served: true,
+      },
     ],
 
     // list of files / patterns to exclude

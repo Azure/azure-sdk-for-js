@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types",
+    "lib": ["es6", "dom"],
     "paths": {
       "@azure-rest/ai-content-safety": ["./src/index"]
     }
