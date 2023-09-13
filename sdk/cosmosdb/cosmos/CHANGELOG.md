@@ -3,7 +3,7 @@
 ## 4.0.0 (2023-09-12)
 🎉 v4 release! 🎉 Many new features, bug fixes, and a few breaking changes.
 - Summary of new added features 
-  - Diagnostics: has been added to response objects of api operations ie. point lookups, bulk & batch operations, query and error responses.
+  - Diagnostics: A diagnostic object has been added to responses of api operations ie. point lookups, bulk & batch operations, query and error responses, which contains information related to metadata lookups, retries, request and reponse latencies and payload siezes.
   - Hierarchical Partitioning: Containers with hierarchical partitions are now supported.
   - Index metrics: can be enabled to show both utilized indexed paths and recommended indexed paths.
   - New Changefeed iterator: which can consume changes for a specific partition key, a feed range or an entire container.
