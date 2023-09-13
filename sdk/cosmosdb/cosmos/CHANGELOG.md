@@ -9,9 +9,6 @@
   - New Changefeed iterator: which can consume changes for a specific partition key, a feed range or an entire container. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-pull-model?tabs=JavaScript)
   - Priority based throttling is now supported. [docs](https://devblogs.microsoft.com/cosmosdb/introducing-priority-based-execution-in-azure-cosmos-db-preview/)
 
-### Migration guide from depricated changes
-- [TODO: aman please add a note about depricated ChangeFeed iterator.]
-
 ### New Features
 
 #### Diagnostics
