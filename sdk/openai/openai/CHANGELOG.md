@@ -1,19 +1,17 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
+## 1.0.0-beta.6 (2023-09-21)
 
 ### Features Added
 
-- Adds speech to text and translation capabilities for a wide variety of audio file formats.
-  - `getAudioTranscription` and `getAudioTranslation` methods for transcribing and translating audio files. The result can be either a simple JSON structure with just a `text` field or a more detailed JSON structure containing the text alongside additional information. In addition, VTT (Web Video Text Tracks), SRT (SubRip Text), and plain text formats are also supported. The type of the result depends on the `format` parameter if specified, otherwise, a simple JSON output is assumed. The methods could take as input an optional text prompt to guide the model's style or continue a previous audio segment. The language of the prompt should match that of the audio file.
-
-### Breaking Changes
+- Introduces speech to text and translation capabilities for a wide variety of audio file formats.
+  - Adds `getAudioTranscription` and `getAudioTranslation` methods for transcribing and translating audio files. The result can be either a simple JSON structure with just a `text` field or a more detailed JSON structure containing the text alongside additional information. In addition, VTT (Web Video Text Tracks), SRT (SubRip Text), and plain text formats are also supported. The type of the result depends on the `format` parameter if specified, otherwise, a simple JSON output is assumed. The methods could take as input an optional text prompt to guide the model's style or continue a previous audio segment. The language of the prompt should match that of the audio file.
+  - The available model at the time of this release supports the following list of audio file formats: m4a, mp3, wav, ogg, flac, webm, mp4, mpga, mpeg, and oga.
 
 ### Bugs Fixed
 
-- Return `usage` information when available.
-
-### Other Changes
+- Returns `usage` information when available.
+- Fixes a bug where errors weren't properly being thrown from the streaming methods.
 
 ## 1.0.0-beta.5 (2023-08-25)
 

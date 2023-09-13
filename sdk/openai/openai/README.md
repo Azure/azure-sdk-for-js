@@ -11,7 +11,7 @@ Use the client library for Azure OpenAI to:
 * [Create a text embedding for comparisons][msdocs_openai_embedding]
 * [Use your own data with Azure OpenAI][byod_sample]
 * [Generate images](get_images_sample)
-* [Transcribe and Translate audio files](transcribe_audio_sample)
+* [Transcribe and Translate audio files][transcribe_audio_sample]
 
 Azure OpenAI is a managed service that allows developers to deploy, tune, and generate content from OpenAI models on Azure resources.
 

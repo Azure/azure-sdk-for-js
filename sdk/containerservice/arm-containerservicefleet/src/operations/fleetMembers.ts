@@ -279,17 +279,103 @@ export class FleetMembersImpl implements FleetMembers {
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
+    resourceGroupName: string,
+    fleetName: string,
+    fleetMemberName: string,
+    properties: FleetMemberUpdate,
+    options?: FleetMembersUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<FleetMembersUpdateResponse>,
+      FleetMembersUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<FleetMembersUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        fleetName,
+        fleetMemberName,
+        properties,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      FleetMembersUpdateResponse,
+      OperationState<FleetMembersUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update a FleetMember
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param fleetName The name of the Fleet resource.
+   * @param fleetMemberName The name of the Fleet member resource.
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
     resourceGroupName: string,
     fleetName: string,
     fleetMemberName: string,
     properties: FleetMemberUpdate,
     options?: FleetMembersUpdateOptionalParams
   ): Promise<FleetMembersUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, fleetName, fleetMemberName, properties, options },
-      updateOperationSpec
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      fleetName,
+      fleetMemberName,
+      properties,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -492,6 +578,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
+      bodyMapper: Mappers.FleetMember
+    },
+    201: {
+      bodyMapper: Mappers.FleetMember
+    },
+    202: {
+      bodyMapper: Mappers.FleetMember
+    },
+    204: {
       bodyMapper: Mappers.FleetMember
     },
     default: {

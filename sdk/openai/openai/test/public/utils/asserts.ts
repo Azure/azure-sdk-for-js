@@ -201,6 +201,7 @@ export function assertChatCompletionsList(
   list: Array<ChatCompletions>,
   options: ChatCompletionTestOptions = {}
 ): void {
+  assert.isNotEmpty(list);
   list.map((item) => assertChatCompletionsNoUsage(item, { ...options, stream: true }));
 }
 

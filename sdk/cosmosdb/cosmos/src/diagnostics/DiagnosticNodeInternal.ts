@@ -15,7 +15,7 @@ import { getCurrentTimestampInMs } from "../utils/time";
 import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { HttpHeaders, PipelineResponse } from "@azure/core-rest-pipeline";
-import { Constants, OperationType, ResourceType } from "../common";
+import { Constants, OperationType, ResourceType, prepareURL } from "../common";
 import { allowTracing } from "./diagnosticLevelComparator";
 
 /**
@@ -110,12 +110,6 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
       resourceType: gatewayRequest.resourceType,
       requestPayloadLengthInBytes: gatewayRequest.requestPayloadLengthInBytes,
     };
-    this.addData({
-      requestPayloadLengthInBytes: gatewayRequest.requestPayloadLengthInBytes,
-      responsePayloadLengthInBytes: gatewayRequest.responsePayloadLengthInBytes,
-      startTimeUTCInMs: gatewayRequest.startTimeUTCInMs,
-      durationInMs: gatewayRequest.durationInMs,
-    });
 
     if (allowTracing(CosmosDbDiagnosticLevel.debugUnsafe, this.diagnosticLevel)) {
       requestData = {
@@ -125,10 +119,14 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
         responseBody: pipelineResponse.bodyAsText,
         url: url,
       };
-      this.addData({
-        requestData,
-      });
     }
+    this.addData({
+      requestPayloadLengthInBytes: gatewayRequest.requestPayloadLengthInBytes,
+      responsePayloadLengthInBytes: gatewayRequest.responsePayloadLengthInBytes,
+      startTimeUTCInMs: gatewayRequest.startTimeUTCInMs,
+      durationInMs: gatewayRequest.durationInMs,
+      requestData,
+    });
     this.diagnosticCtx.recordNetworkCall(gatewayRequest);
   }
 
@@ -144,6 +142,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     responseHeaders: CosmosHeaders
   ): void {
     this.addData({ failedAttempty: true });
+    const requestPayloadLengthInBytes = calculateRequestPayloadLength(requestContext);
     this.diagnosticCtx.recordFailedAttempt(
       {
         activityId: responseHeaders[Constants.HttpHeaders.ActivityId] as string,
@@ -151,13 +150,30 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
         durationInMs: getCurrentTimestampInMs() - startTimeUTCInMs,
         statusCode,
         subStatusCode: substatusCode,
-        requestPayloadLengthInBytes: calculateRequestPayloadLength(requestContext),
+        requestPayloadLengthInBytes,
         responsePayloadLengthInBytes: 0,
         operationType: requestContext.operationType,
         resourceType: requestContext.resourceType,
       },
       retryAttemptNumber
     );
+    let requestData: any = {
+      OperationType: requestContext.operationType,
+      resourceType: requestContext.resourceType,
+      requestPayloadLengthInBytes,
+    };
+    if (allowTracing(CosmosDbDiagnosticLevel.debugUnsafe, this.diagnosticLevel)) {
+      requestData = {
+        ...requestData,
+        headers: this.sanitizeHeaders(requestContext.headers),
+        requestBody: requestContext.body,
+        url: prepareURL(requestContext.endpoint, requestContext.path),
+      };
+    }
+    this.addData({
+      failedAttempty: true,
+      requestData,
+    });
   }
 
   /**
@@ -191,11 +207,14 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
    */
   public addChildNode(
     child: DiagnosticNodeInternal,
+    level: CosmosDbDiagnosticLevel,
     metadataType?: MetadataLookUpType
   ): DiagnosticNodeInternal {
     this.diagnosticCtx.mergeDiagnostics(child.diagnosticCtx, metadataType);
-    child.parent = this;
-    this.children.push(child);
+    if (allowTracing(level, this.diagnosticLevel)) {
+      child.parent = this;
+      this.children.push(child);
+    }
     return child;
   }
 
@@ -254,10 +273,13 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
    * Convert to CosmosDiagnostics
    * @internal
    */
-  public toDiagnostic(clientConfig?: ClientConfigDiagnostic): CosmosDiagnostics {
+  public toDiagnostic(clientConfigDiagnostic: ClientConfigDiagnostic): CosmosDiagnostics {
     const rootNode = getRootNode(this);
     const diagnostiNode = allowTracing(CosmosDbDiagnosticLevel.debug, this.diagnosticLevel)
       ? rootNode.toDiagnosticNode()
+      : undefined;
+    const clientConfig = allowTracing(CosmosDbDiagnosticLevel.debug, this.diagnosticLevel)
+      ? clientConfigDiagnostic
       : undefined;
     const cosmosDiagnostic = new CosmosDiagnostics(
       this.diagnosticCtx.getClientSideStats(),
