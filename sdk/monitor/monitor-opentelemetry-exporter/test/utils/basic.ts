@@ -29,7 +29,7 @@ function delay<T>(t: number, value?: T): Promise<T | void> {
 }
 
 const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
-  instrumentationKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",
+  instrumentationKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
   sampleRate: 100,
 };
 
