@@ -47,10 +47,12 @@ export async function generateProject(
       tenantId?: string;
     },
   };
-  if (configAdvancedTenantId)
+  if (configAdvancedTenantId) {
     configAdditional.interactiveBrowserCredentialOptions.tenantId = configAdvancedTenantId;
-  if (configAdvancedRedirectUri)
+  }
+  if (configAdvancedRedirectUri) {
     configAdditional.interactiveBrowserCredentialOptions.redirectUri = configAdvancedRedirectUri;
+  }
 
   const renderTemplate = async (file: string): Promise<void> => {
     const isTemplate = file.endsWith(templateSuffix);
