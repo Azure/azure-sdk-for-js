@@ -3,8 +3,7 @@
 
 import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { MonitorOpenTelemetryExporterTest } from "./monitorOpenTelemetryExporter.spec";
-import * as opentelemetry from "@opentelemetry/api";
-import { trace } from "@opentelemetry/api";
+import { trace, Span, Tracer, context } from "@opentelemetry/api";
 
 type MonitorOpenTelemetryExporterTestOptions = Record<string, unknown>;
 
@@ -24,8 +23,8 @@ export class SpanExportTest extends MonitorOpenTelemetryExporterTest<MonitorOpen
       parentSpan.end();
     }
 
-    function doWork(parent: opentelemetry.Span, tracer: opentelemetry.Tracer) {
-      const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), parent);
+    function doWork(parent: Span, tracer: Tracer) {
+      const ctx = trace.setSpan(context.active(), parent);
       const span = tracer.startSpan("doWork", undefined, ctx);
       for (let i = 0; i <= 1; i += 1) { }
       span.setAttribute("key", "value");
