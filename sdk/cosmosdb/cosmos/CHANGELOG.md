@@ -103,9 +103,29 @@
     await container.item("1", "1").read();
     ```
 
+#### New Change feed Iterator
 
-#### New Changefeed iterator
-[Aman]
+The v4 SDK now supports [Change feed pull model](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/change-feed-pull-model?tabs=JavaScript). 
+
+***Note: There are no breaking changes, the old change feed iterator is still supported.***
+
+Major Differences:
+- The new iterator allows fetching change feed for a partition key, a feed range, or an entire container, compared to the older iterator, which was limited to fetching change feed for a partition key only.
+ 
+- The new implementation is effectively an infinite list of items that encompasses all future writes and updates. The `hasMoreResults` property  now always returns `true`, unlike the older implementation, which returned `false` when a `NotModified` status code was received from the backend.
+
+Here is an example of creating and using the new change feed iterator:
+```js
+const changeFeedOptions = {
+    changeFeedStartFrom : ChangeFeedStartFrom.Beginning("partition key or feed range"),
+    maxItemCount: 10
+} 
+const iterator = container.items.getChangeFeedIterator(changeFeedOptions);
+while(iterator.hasMoreResults) {
+    const res = await iterator.readNext();
+    // process res
+}
+```
 #### Index Metrics [#20194](https://github.com/Azure/azure-sdk-for-js/issues/20194)
 
 Azure Cosmos DB provides indexing metrics for optimizing query performance, especially when you're unsure about adjusting the indexing policy.
