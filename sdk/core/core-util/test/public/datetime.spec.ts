@@ -8,7 +8,6 @@ describe("utcDateTime with timezone offset", function () {
   describe("work in +08:00 timezone", function () {
     it("the timezone offset should be correct", function () {
       const date = new Date("2022-01-05T19:08:10.000Z");
-      console.log(toOffsetDateTime(date));
       assert.strictEqual(Date.parse(toOffsetDateTime(date)) - Date.parse(date.toISOString()), 0);
     });
   });
