@@ -1,6 +1,6 @@
 # Release History
 
-## 6.3.0-beta.3 (2023-09-12)
+## 6.3.0-beta.3 (2023-09-13)
 
 **Features**
 
