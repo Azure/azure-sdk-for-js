@@ -27,7 +27,9 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     endpointUrl: "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com",
   };
 
- const exportOptions = { connectionString: `InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333` };
+  const exportOptions = {
+    connectionString: `InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333`,
+  };
 
   describe("Export/Statsbeat", () => {
     let scope: nock.Interceptor;
