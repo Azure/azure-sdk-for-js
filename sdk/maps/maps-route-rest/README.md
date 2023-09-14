@@ -96,8 +96,8 @@ const routeDirectionsResult = await client.path("/route/directions/{format}", "j
 });
 
 // You can use the helper function `toColonDelimitedLatLonString` to compose the query string.
-const { toColonDelimitedLatLonString } = require("@azure-rest/maps-route");
-const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
+const { toColonDelimitedLatLonString, isUnexpected } = require("@azure-rest/maps-route");
+let routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: toColonDelimitedLatLonString([
       // Origin:
@@ -137,6 +137,7 @@ routeDirectionsResult.body.routes.forEach(({ summary, legs }) => {
 The service supports commercial vehicle routing, covering commercial trucks routing. The APIs consider specified limits. Such as, the height and weight of the vehicle, and if the vehicle is carrying hazardous cargo. For example, if a vehicle is carrying flammable, the routing engine avoid certain tunnels that are near residential areas.
 
 ```javascript
+const { toColonDelimitedLatLonString, isUnexpected } = require("@azure-rest/maps-route");
 const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: toColonDelimitedLatLonString([
@@ -188,6 +189,7 @@ For multi-stop routing, up to 150 waypoints may be specified in a single route r
 If you want to optimize the best order to visit the given waypoints, then you need to specify `computeBestWaypointOrder=true`. This scenario is also known as the traveling salesman optimization problem.
 
 ```javascript
+const { toColonDelimitedLatLonString, isUnexpected } = require("@azure-rest/maps-route");
 const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: toColonDelimitedLatLonString([
@@ -200,7 +202,7 @@ const routeDirectionsResult = await client.path("/route/directions/{format}", "j
       // Destination:
       [41.385426, -0.128929],
     ]),
-    computeBestWaypointOrder: true,
+    computeBestOrder: true,
     routeType: "shortest",
   },
 });
@@ -209,7 +211,7 @@ if (isUnexpected(routeDirectionsResult)) {
   throw routeDirectionsResult.body.error;
 }
 
-const { summary } = routeDirectionsResult.body.routes;
+const { summary } = routeDirectionsResult.body.routes[0]; 
 console.log(
   `The optimized distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
 );
