@@ -4,11 +4,11 @@
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- added options to specify tenant ID and redirect URI for InteractiveBrowserCredential of Azure Identity
 
 ### Other Changes
+
+- updated "tools" package version
 
 ## 1.0.0-beta.2 (2022-08-26)
 

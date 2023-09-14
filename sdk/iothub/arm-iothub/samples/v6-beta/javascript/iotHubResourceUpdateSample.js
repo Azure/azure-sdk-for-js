@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update an existing IoT Hub tags. to update other fields use the CreateOrUpdate method
  *
  * @summary Update an existing IoT Hub tags. to update other fields use the CreateOrUpdate method
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_patch.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_patch.json
  */
 async function iotHubResourceUpdate() {
   const subscriptionId =

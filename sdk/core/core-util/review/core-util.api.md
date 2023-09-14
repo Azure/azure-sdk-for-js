@@ -73,14 +73,15 @@ export const isWebWorker: boolean;
 // @public
 export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
 
+// @public (undocumented)
+export type OffsetMillisecondsPrecision = 0 | 1 | 2 | 3;
+
 // @public
 export function randomUUID(): string;
 
 // @public
 export function stringToUint8Array(value: string, format: EncodingType): Uint8Array;
 
-// Warning: (ae-forgotten-export) The symbol "OffsetMillisecondsPrecision" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export function toOffsetDateTime(date: Date, precision?: OffsetMillisecondsPrecision): string;
 

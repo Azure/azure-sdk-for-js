@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a Fleet
  *
  * @summary Update a Fleet
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/examples/Fleets_PatchTags.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-06-15-preview/examples/Fleets_PatchTags.json
  */
 async function updateAFleet() {
   const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
@@ -27,7 +27,12 @@ async function updateAFleet() {
   const options = { ifMatch };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  const result = await client.fleets.update(resourceGroupName, fleetName, properties, options);
+  const result = await client.fleets.beginUpdateAndWait(
+    resourceGroupName,
+    fleetName,
+    properties,
+    options
+  );
   console.log(result);
 }
 
