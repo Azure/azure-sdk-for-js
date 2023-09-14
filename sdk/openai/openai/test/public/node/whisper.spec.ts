@@ -37,11 +37,10 @@ describe("OpenAI", function () {
         }
       });
 
-      // To-do: add tests for ['webm', 'mp4', 'mpga', 'mpeg', 'oga']"
       matrix(
         [
           ["json", "verbose_json", "srt", "vtt", "text"],
-          ["m4a", "mp3", "wav", "ogg", "flac"],
+          ["m4a", "mp3", "wav", "ogg", "flac", "webm", "mp4", "mpeg", "oga"],
         ] as const,
         async function (format: AudioResultFormat, extension: string) {
           describe("getAudioTranscription", function () {
