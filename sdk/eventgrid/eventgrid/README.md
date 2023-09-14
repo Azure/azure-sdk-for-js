@@ -212,16 +212,22 @@ const client = new EventGridPublisherClient(
   new AzureKeyCredential("<API key>")
 );
 
-await client.send([
-  {
-    eventType: "Azure.Sdk.SampleEvent",
-    subject: "Event Subject",
-    dataVersion: "1.0",
-    data: {
-      hello: "world"
+async function main(){
+  await client.send([
+    {
+      eventType: "Azure.Sdk.SampleEvent",
+      subject: "Event Subject",
+      dataVersion: "1.0",
+      data: {
+        hello: "world"
+      }
     }
-  }
-]);
+  ]);
+}
+
+main().catch((err) => {
+    console.log(err);
+})
 ```
 
 ### Publish a Custom Event to a Topic in an Event Grid Domain using the Event Grid Schema
@@ -237,17 +243,23 @@ const client = new EventGridPublisherClient(
   new AzureKeyCredential("<API key>")
 );
 
-await client.send([
-  {
-    topic: "my-sample-topic",
-    eventType: "Azure.Sdk.SampleEvent",
-    subject: "Event Subject",
-    dataVersion: "1.0",
-    data: {
-      hello: "world"
+async function main(){
+  await client.send([
+    {
+      topic: "my-sample-topic",
+      eventType: "Azure.Sdk.SampleEvent",
+      subject: "Event Subject",
+      dataVersion: "1.0",
+      data: {
+        hello: "world"
+      }
     }
-  }
-]);
+  ]);
+}
+
+main().catch((err) => {
+    console.log(err);
+})
 ```
 
 ### Deserializing an Event
