@@ -2,9 +2,9 @@
 
 These sample programs show how to use the TypeScript client libraries for Azure SDK Core in some common scenarios.
 
-| **File Name**     | **Description**               |
-| ----------------- | ----------------------------- |
-| [toSSE.ts][tosse] | processes server-sent events. |
+| **File Name**                           | **Description**               |
+| --------------------------------------- | ----------------------------- |
+| [iterateSseStream.ts][iteratessestream] | processes server-sent events. |
 
 ## Prerequisites
 
@@ -43,21 +43,21 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/toSSE.js
+node dist/iterateSseStream.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/toSSE.js
+npx cross-env  node dist/iterateSseStream.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[tosse]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-sse/samples/v1/typescript/src/toSSE.ts
-[apiref]: https://docs.microsoft.com/javascript/api
+[iteratessestream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-sse/samples/v1/typescript/src/iterateSseStream.ts
+[apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-sse/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

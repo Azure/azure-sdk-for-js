@@ -56,7 +56,7 @@ export class TraceHandler {
       forceFlushTimeoutMillis: 30000,
     };
     this._tracerProvider = new NodeTracerProvider(tracerConfig);
-    this._azureExporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterConfig);
+    this._azureExporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterOptions);
     const bufferConfig: BufferConfig = {
       maxExportBatchSize: 512,
       scheduledDelayMillis: 5000,

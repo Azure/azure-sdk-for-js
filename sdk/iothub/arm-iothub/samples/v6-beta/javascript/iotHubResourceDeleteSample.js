@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete an IoT hub.
  *
  * @summary Delete an IoT hub.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_delete.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_delete.json
  */
 async function iotHubResourceDelete() {
   const subscriptionId =

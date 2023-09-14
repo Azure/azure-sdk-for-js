@@ -606,6 +606,16 @@ export interface SubscriptionDeletedEventData {
   readonly eventSubscriptionId: string;
 }
 
+/** Schema of the Data property of an EventGridEvent for MQTT Client state changes. */
+export interface EventGridMqttClientEventData {
+  /** Unique identifier for the MQTT client that the client presents to the service for authentication. This case-sensitive string can be up to 128 characters long, and supports UTF-8 characters. */
+  clientAuthenticationName: string;
+  /** Name of the client resource in the Event Grid namespace. */
+  clientName: string;
+  /** Name of the Event Grid namespace where the MQTT client was created or updated. */
+  namespaceName: string;
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.DataBox.CopyStarted event. */
 export interface DataBoxCopyStartedEventData {
   /** Serial Number of the device associated with the event. The list is comma separated if more than one serial number is associated. */
@@ -1415,6 +1425,16 @@ export interface AppConfigurationKeyValueDeletedEventData {
   syncToken: string;
 }
 
+/** Schema of common properties of snapshot events */
+export interface AppConfigurationSnapshotEventData {
+  /** The name of the snapshot. */
+  name: string;
+  /** The etag representing the new state of the snapshot. */
+  etag: string;
+  /** The sync token representing the server state after the event. */
+  syncToken: string;
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.SignalRService.ClientConnectionConnected event. */
 export interface SignalRServiceClientConnectionConnectedEventData {
   /** The time at which the event occurred. */
@@ -2185,6 +2205,8 @@ export interface AcsEmailDeliveryReportStatusDetails {
 export interface AcsEmailEngagementTrackingReportReceivedEventData {
   /** The Sender Email Address */
   sender: string;
+  /** The Recipient Email Address */
+  recipient: string;
   /** The Id of the email that has been sent */
   messageId: string;
   /** The time at which the user interacted with the email */
@@ -2515,6 +2537,39 @@ export interface HealthcareDicomImageDeletedEventData {
   sequenceNumber: number;
 }
 
+/** Event data for Microsoft.EventGrid.MQTTClientCreatedOrUpdated event. */
+export type EventGridMqttClientCreatedOrUpdatedEventData = EventGridMqttClientEventData & {
+  /** Configured state of the client. The value could be Enabled or Disabled */
+  state: EventGridMqttClientState;
+  /** Time the client resource is created based on the provider's UTC time. */
+  createdOn: string;
+  /** Time the client resource is last updated based on the provider's UTC time. If the client resource was never updated, this value is identical to the value of the 'createdOn' property. */
+  updatedOn: string;
+  /** The key-value attributes that are assigned to the client resource. */
+  attributes: { [propertyName: string]: string };
+};
+
+/** Event data for Microsoft.EventGrid.MQTTClientDeleted event. */
+export type EventGridMqttClientDeletedEventData = EventGridMqttClientEventData & {};
+
+/** Event data for Microsoft.EventGrid.MQTTClientSessionConnected event. */
+export type EventGridMqttClientSessionConnectedEventData = EventGridMqttClientEventData & {
+  /** Unique identifier for the MQTT client's session. This case-sensitive string can be up to 128 characters long, and supports UTF-8 characters. */
+  clientSessionName: string;
+  /** A number that helps indicate order of MQTT client session connected or disconnected events. Latest event will have a sequence number that is higher than the previous event. */
+  sequenceNumber: number;
+};
+
+/** Event data for Microsoft.EventGrid.MQTTClientSessionDisconnected event. */
+export type EventGridMqttClientSessionDisconnectedEventData = EventGridMqttClientEventData & {
+  /** Unique identifier for the MQTT client's session. This case-sensitive string can be up to 128 characters long, and supports UTF-8 characters. */
+  clientSessionName: string;
+  /** A number that helps indicate order of MQTT client session connected or disconnected events. Latest event will have a sequence number that is higher than the previous event. */
+  sequenceNumber: number;
+  /** Reason for the disconnection of the MQTT client's session. The value could be one of the values in the disconnection reasons table. */
+  disconnectionReason: EventGridMqttClientDisconnectionReason;
+};
+
 /** Event data for Microsoft.Devices.DeviceCreated event. */
 export type IotHubDeviceCreatedEventData = DeviceLifeCycleEvent & {};
 
@@ -2603,6 +2658,12 @@ export type MapsGeofenceExitedEventData = MapsGeofenceEvent & {};
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Maps.GeofenceResult event. */
 export type MapsGeofenceResultEventData = MapsGeofenceEvent & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AppConfiguration.SnapshotCreated event. */
+export type AppConfigurationSnapshotCreatedEventData = AppConfigurationSnapshotEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AppConfiguration.SnapshotModified event. */
+export type AppConfigurationSnapshotModifiedEventData = AppConfigurationSnapshotEventData & {};
 
 /** Schema of common properties of all chat message events */
 export type AcsChatMessageEventBase = AcsChatEventBase & {
@@ -2852,6 +2913,67 @@ export const enum KnownStorageTaskCompletedStatus {
  * **Failed**
  */
 export type StorageTaskCompletedStatus = string;
+
+/** Known values of {@link EventGridMqttClientState} that the service accepts. */
+export const enum KnownEventGridMqttClientState {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for EventGridMqttClientState. \
+ * {@link KnownEventGridMqttClientState} can be used interchangeably with EventGridMqttClientState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type EventGridMqttClientState = string;
+
+/** Known values of {@link EventGridMqttClientDisconnectionReason} that the service accepts. */
+export const enum KnownEventGridMqttClientDisconnectionReason {
+  /** The client got disconnected for any authentication reasons (for example, certificate expired, client got disabled, or client configuration changed). */
+  ClientAuthenticationError = "ClientAuthenticationError",
+  /** The client got disconnected for any authorization reasons (for example, because of a change in the configuration of topic spaces, permission bindings, or client groups). */
+  ClientAuthorizationError = "ClientAuthorizationError",
+  /** The client sent a bad request or used one of the unsupported features that resulted in a connection termination by the service. */
+  ClientError = "ClientError",
+  /** The client initiates a graceful disconnect through a DISCONNECT packet for MQTT or a close frame for MQTT over WebSocket. */
+  ClientInitiatedDisconnect = "ClientInitiatedDisconnect",
+  /** The client-server connection is lost. (EXCHANGE ONLINE PROTECTION). */
+  ConnectionLost = "ConnectionLost",
+  /** The client's IP address is blocked by IP filter or Private links configuration. */
+  IpForbidden = "IpForbidden",
+  /** The client exceeded one or more of the throttling limits that resulted in a connection termination by the service. */
+  QuotaExceeded = "QuotaExceeded",
+  /** The connection got terminated due to an unexpected server error. */
+  ServerError = "ServerError",
+  /** The server initiates a graceful disconnect for any operational reason. */
+  ServerInitiatedDisconnect = "ServerInitiatedDisconnect",
+  /** The client's queue for unacknowledged QoS1 messages reached its limit, which resulted in a connection termination by the server. */
+  SessionOverflow = "SessionOverflow",
+  /** The client reconnected with the same authentication name, which resulted in the termination of the previous connection. */
+  SessionTakenOver = "SessionTakenOver"
+}
+
+/**
+ * Defines values for EventGridMqttClientDisconnectionReason. \
+ * {@link KnownEventGridMqttClientDisconnectionReason} can be used interchangeably with EventGridMqttClientDisconnectionReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ClientAuthenticationError**: The client got disconnected for any authentication reasons (for example, certificate expired, client got disabled, or client configuration changed). \
+ * **ClientAuthorizationError**: The client got disconnected for any authorization reasons (for example, because of a change in the configuration of topic spaces, permission bindings, or client groups). \
+ * **ClientError**: The client sent a bad request or used one of the unsupported features that resulted in a connection termination by the service. \
+ * **ClientInitiatedDisconnect**: The client initiates a graceful disconnect through a DISCONNECT packet for MQTT or a close frame for MQTT over WebSocket. \
+ * **ConnectionLost**: The client-server connection is lost. (EXCHANGE ONLINE PROTECTION). \
+ * **IpForbidden**: The client's IP address is blocked by IP filter or Private links configuration. \
+ * **QuotaExceeded**: The client exceeded one or more of the throttling limits that resulted in a connection termination by the service. \
+ * **ServerError**: The connection got terminated due to an unexpected server error. \
+ * **ServerInitiatedDisconnect**: The server initiates a graceful disconnect for any operational reason. \
+ * **SessionOverflow**: The client's queue for unacknowledged QoS1 messages reached its limit, which resulted in a connection termination by the server. \
+ * **SessionTakenOver**: The client reconnected with the same authentication name, which resulted in the termination of the previous connection.
+ */
+export type EventGridMqttClientDisconnectionReason = string;
 
 /** Known values of {@link DataBoxStageName} that the service accepts. */
 export const enum KnownDataBoxStageName {
