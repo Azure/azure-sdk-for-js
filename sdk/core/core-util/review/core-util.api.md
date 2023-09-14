@@ -79,8 +79,10 @@ export function randomUUID(): string;
 // @public
 export function stringToUint8Array(value: string, format: EncodingType): Uint8Array;
 
+// Warning: (ae-forgotten-export) The symbol "OffsetMillisecondsPrecision" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
-export function toOffsetDateTime(date: Date): string;
+export function toOffsetDateTime(date: Date, precision?: OffsetMillisecondsPrecision): string;
 
 // @public
 export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string;
