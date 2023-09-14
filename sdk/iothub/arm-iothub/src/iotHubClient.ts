@@ -66,7 +66,7 @@ export class IotHubClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-iothub/6.3.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-iothub/6.3.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
