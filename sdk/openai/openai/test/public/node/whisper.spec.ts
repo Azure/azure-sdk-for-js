@@ -40,7 +40,7 @@ describe("OpenAI", function () {
       matrix(
         [
           ["json", "verbose_json", "srt", "vtt", "text"],
-          ["m4a", "mp3", "wav", "ogg", "flac", "webm", "mp4", "mpeg", "oga"],
+          ["m4a", "mp3", "wav", "ogg", "flac", "webm", "mp4", "mpeg", "oga", "mpga"],
         ] as const,
         async function (format: AudioResultFormat, extension: string) {
           describe("getAudioTranscription", function () {

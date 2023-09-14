@@ -43,8 +43,8 @@ import {
 } from "./models/audio.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";
 import { formDataPolicyName } from "@azure/core-rest-pipeline";
-import { createFile, formDataWithFileUploadPolicy } from "./api/policies/formDataPolicy.js";
-import { renameKeysToCamelCase } from "./api/util.js";
+import { formDataWithFileUploadPolicy } from "./api/policies/formDataPolicy.js";
+import { getAudioTranscription, getAudioTranslation } from "./api/operations.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
@@ -220,7 +220,7 @@ export class OpenAIClient {
   /**
    * Returns the transcription of an audio file in a simple JSON format.
    * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-   * @param file - The content of the audio file to transcribe.
+   * @param fileContent - The content of the audio file to transcribe.
    * @param options - The options for this audio transcription request.
    * @returns The audio transcription result in a simple JSON format.
    */
@@ -232,7 +232,7 @@ export class OpenAIClient {
   /**
    * Returns the transcription of an audio file.
    * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-   * @param file - The content of the audio file to transcribe.
+   * @param fileContent - The content of the audio file to transcribe.
    * @param format - The format of the result object. See {@link AudioResultFormat} for possible values.
    * @param options - The options for this audio transcription request.
    * @returns The audio transcription result in a format of your choice.
@@ -254,33 +254,24 @@ export class OpenAIClient {
       inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
     const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
     this.setModel(deploymentName, options);
-    const { temperature, language, prompt, model, ...rest } = options;
-    const { body, status } = await this._client
-      .pathUnchecked("deployments/{deploymentId}/audio/transcriptions", deploymentName)
-      .post({
-        body: {
-          file: createFile(fileContent),
-          ...(response_format && { response_format }),
-          ...(language && { language }),
-          ...(temperature !== undefined ? { temperature } : {}),
-          ...(prompt && { prompt }),
-          ...(model && { model }),
-        },
-        ...rest,
-        contentType: "multipart/form-data",
-      });
-    if (status !== "200") {
-      throw body.error;
+    if (response_format === undefined) {
+      return getAudioTranscription(this._client, deploymentName, fileContent, options) as Promise<
+        AudioResult<Format>
+      >;
     }
-    return response_format !== "verbose_json"
-      ? body
-      : (renameKeysToCamelCase(body) as AudioResult<Format>);
+    return getAudioTranscription(
+      this._client,
+      deploymentName,
+      fileContent,
+      response_format,
+      options
+    );
   }
 
   /**
    * Returns the translation of an audio file.
    * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-   * @param file - The content of the audio file to translate.
+   * @param fileContent - The content of the audio file to translate.
    * @param options - The options for this audio translation request.
    * @returns The audio translation result.
    */
@@ -292,7 +283,7 @@ export class OpenAIClient {
   /**
    * Returns the translation of an audio file.
    * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-   * @param file - The content of the audio file to translate.
+   * @param fileContent - The content of the audio file to translate.
    * @param format - The format of the result object. See {@link AudioResultFormat} for possible values.
    * @param options - The options for this audio translation request.
    * @returns The audio translation result.
@@ -303,14 +294,7 @@ export class OpenAIClient {
     format: Format,
     options?: GetAudioTranslationOptions
   ): Promise<AudioResult<Format>>;
-  /**
-   * Returns the translation of an audio file.
-   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-   * @param formatOrOptions - The format of the result object. See {@link AudioResultFormat} for possible values.
-   * @param file - The content of the audio file to translate.
-   * @param options - The options for this audio translation request.
-   * @returns The audio translation result.
-   */
+  // implementation
   async getAudioTranslation<Format extends AudioResultFormat>(
     deploymentName: string,
     fileContent: Uint8Array,
@@ -321,26 +305,12 @@ export class OpenAIClient {
       inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
     const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
     this.setModel(deploymentName, options);
-    const { temperature, prompt, model, ...rest } = options;
-    const { body, status } = await this._client
-      .pathUnchecked("deployments/{deploymentId}/audio/translations", deploymentName)
-      .post({
-        body: {
-          file: createFile(fileContent),
-          ...(response_format && { response_format }),
-          ...(temperature !== undefined ? { temperature } : {}),
-          ...(prompt && { prompt }),
-          ...(model && { model }),
-        },
-        ...rest,
-        contentType: "multipart/form-data",
-      });
-    if (status !== "200") {
-      throw body.error;
+    if (response_format === undefined) {
+      return getAudioTranslation(this._client, deploymentName, fileContent, options) as Promise<
+        AudioResult<Format>
+      >;
     }
-    return response_format !== "verbose_json"
-      ? body
-      : (renameKeysToCamelCase(body) as AudioResult<Format>);
+    return getAudioTranslation(this._client, deploymentName, fileContent, response_format, options);
   }
 
   private setModel(model: string, options: { model?: string }): void {
