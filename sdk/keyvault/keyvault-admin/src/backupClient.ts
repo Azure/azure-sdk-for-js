@@ -148,7 +148,7 @@ export class KeyVaultBackupClient {
    *
    * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
    * const sasToken = "<sas-token>";
-   * const poller = await client.beginBackup(blobStorageUri, sasToken);
+   * const poller = await client.beginBackup(blobStorageUri);
    *
    * // Serializing the poller
    * //
@@ -156,7 +156,7 @@ export class KeyVaultBackupClient {
    * //
    * // A new poller can be created with:
    * //
-   * //   await client.beginBackup(blobStorageUri, sasToken, { resumeFrom: serialized });
+   * //   await client.beginBackup(blobStorageUri, { resumeFrom: serialized });
    * //
    *
    * // Waiting until it's done
