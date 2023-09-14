@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ActionType } from "./generated";
 import {
   DeletedKeyBundle,
   DeletedKeyItem,
@@ -122,6 +123,20 @@ export function getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
   return resultObject;
 }
 
+const actionTypeCaseInsensitiveMapping: Record<string, string> = {
+  rotate: "Rotate",
+  notify: "Notify",
+};
+
+function getNormalizedActionType(caseInsensitiveActionType: string): ActionType {
+  const result = actionTypeCaseInsensitiveMapping[caseInsensitiveActionType.toLowerCase()];
+  if (result) {
+    return result as ActionType;
+  }
+
+  throw new Error(`Unrecognized action type: ${caseInsensitiveActionType}`);
+}
+
 /**
  * @internal
  */
@@ -160,7 +175,7 @@ export const keyRotationTransformations = {
       expiresIn: generated.attributes?.expiryTime,
       lifetimeActions: generated.lifetimeActions?.map((action) => {
         return {
-          action: action.action!.type!,
+          action: getNormalizedActionType(action.action!.type!),
           timeAfterCreate: action.trigger?.timeAfterCreate,
           timeBeforeExpiry: action.trigger?.timeBeforeExpiry,
         };
