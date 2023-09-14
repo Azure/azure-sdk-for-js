@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Verifies the certificate's private key possession by providing the leaf cert issued by the verifying pre uploaded certificate.
  *
  * @summary Verifies the certificate's private key possession by providing the leaf cert issued by the verifying pre uploaded certificate.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_certverify.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_certverify.json
  */
 async function certificatesVerify() {
   const subscriptionId =

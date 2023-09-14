@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a consumer group from the Event Hub-compatible device-to-cloud endpoint for an IoT hub.
  *
  * @summary Get a consumer group from the Event Hub-compatible device-to-cloud endpoint for an IoT hub.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_getconsumergroup.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_getconsumergroup.json
  */
 async function iotHubResourceListEventHubConsumerGroups() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns the certificate.
  *
  * @summary Returns the certificate.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_getcertificate.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_getcertificate.json
  */
 async function certificatesGet() {
   const subscriptionId =
