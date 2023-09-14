@@ -1170,7 +1170,7 @@ export interface RouteProperties {
 // @public
 export interface RoutingCosmosDBSqlApiProperties {
     authenticationType?: AuthenticationType;
-    collectionName: string;
+    containerName: string;
     databaseName: string;
     endpointUri: string;
     id?: string;
@@ -1186,7 +1186,7 @@ export interface RoutingCosmosDBSqlApiProperties {
 
 // @public
 export interface RoutingEndpoints {
-    cosmosDBSqlCollections?: RoutingCosmosDBSqlApiProperties[];
+    cosmosDBSqlContainers?: RoutingCosmosDBSqlApiProperties[];
     eventHubs?: RoutingEventHubProperties[];
     serviceBusQueues?: RoutingServiceBusQueueEndpointProperties[];
     serviceBusTopics?: RoutingServiceBusTopicEndpointProperties[];

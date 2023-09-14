@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the available IoT Hub REST API operations.
  *
  * @summary Lists all of the available IoT Hub REST API operations.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_operations.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_operations.json
  */
 async function operationsList() {
   const subscriptionId =
