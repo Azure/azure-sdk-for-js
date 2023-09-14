@@ -9,17 +9,17 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "fake_key",
         "User-Agent": "azsdk-js-ai-content-safety-rest/1.0.0-beta.1 core-rest-pipeline/1.12.1 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "83864bb5-b040-4b1c-b7c1-5ed534f5f630"
+        "x-ms-client-request-id": "b3d9b448-a55e-49fa-9d34-565eda892ff3"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
-        "apim-request-id": "72263213-f4bc-4b5a-bc46-98b05f680a69",
-        "Date": "Thu, 14 Sep 2023 03:23:02 GMT",
+        "apim-request-id": "2715c882-cd6f-4549-9347-0762af64eb76",
+        "Date": "Thu, 14 Sep 2023 13:42:43 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "46",
+        "x-envoy-upstream-service-time": "22",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": null

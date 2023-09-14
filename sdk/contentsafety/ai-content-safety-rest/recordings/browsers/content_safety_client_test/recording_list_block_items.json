@@ -17,31 +17,36 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "1157826b-5581-4c86-a602-354ffdd7a019",
+        "x-ms-client-request-id": "8ae81a50-997d-46eb-9bdf-8a4aedadba14",
         "x-ms-useragent": "azsdk-js-ai-content-safety-rest/1.0.0-beta.1 core-rest-pipeline/1.12.1 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "3096685e-2678-40ac-9a81-8ac1b06d20c3",
+        "apim-request-id": "4aa9c61f-bbba-4292-8450-5eb40c7144e5",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 14 Sep 2023 03:25:18 GMT",
+        "Date": "Thu, 14 Sep 2023 13:43:25 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "20",
+        "x-envoy-upstream-service-time": "21",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
         "value": [
           {
-            "blockItemId": "3548d2cd-6b27-48e6-8ff0-935400fa9d04",
+            "blockItemId": "869ec784-6d8c-4e6e-b5c2-ba26951e0a93",
             "description": "Test block item 2",
             "text": "h*te"
           },
           {
-            "blockItemId": "8353a8ff-08ed-41cf-81bb-101792ef8d2b",
+            "blockItemId": "f8cb4686-cea8-4600-a016-38b4c406e157",
+            "description": "Test block item 3",
+            "text": "d*mn"
+          },
+          {
+            "blockItemId": "a45d88fc-b4d2-4bcb-9d13-ba3102081117",
             "description": "Test block item 1",
             "text": "k*ll"
           }

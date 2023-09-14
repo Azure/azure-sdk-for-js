@@ -17,15 +17,16 @@ describe("Content Safety Client Test", () => {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
   function uint8ArrayToBase64(binary: Uint8Array) {
-    let binaryString = '';
+    let binaryString = "";
     binary.forEach((byte) => {
       binaryString += String.fromCharCode(byte);
     });
-    return window.btoa(binaryString);
+    return self.btoa(binaryString);
   }
   const blocklistName = "TestBlocklist";
   const blockItemText1 = "k*ll";
   const blockItemText2 = "h*te";
+  const blockItemText3 = "d*mn";
   let blockItemId: string;
 
   beforeEach(async function (this: Context) {
@@ -111,6 +112,10 @@ describe("Content Safety Client Test", () => {
               description: "Test block item 2",
               text: blockItemText2,
             },
+            {
+              description: "Test block item 3",
+              text: blockItemText3,
+            },
           ],
         },
       });
@@ -168,7 +173,28 @@ describe("Content Safety Client Test", () => {
     }
     assert.strictEqual(listBlockItemsResponse.status, "200");
     assert.isArray(listBlockItemsResponse.body.value);
-    blockItemId = listBlockItemsResponse.body.value[0].blockItemId;
+    blockItemId = listBlockItemsResponse.body.value[1].blockItemId;
+  });
+
+  it("list block items with pagination", async function () {
+    const listBlockItemsResponse = await client
+      .path("/text/blocklists/{blocklistName}/blockItems", blocklistName)
+      .get({
+        queryParameters: {
+          top: 10,
+          skip: 1,
+          maxpagesize: 1,
+        },
+      });
+    if (isUnexpected(listBlockItemsResponse)) {
+      throw new Error(listBlockItemsResponse.body?.error.message);
+    }
+    assert.strictEqual(listBlockItemsResponse.status, "200");
+    assert.equal(listBlockItemsResponse.body.value.length, 1);
+    assert.equal(listBlockItemsResponse.body.value[0].blockItemId, blockItemId);
+    const nextLink = listBlockItemsResponse.body.nextLink;
+    const skip = nextLink?.split("skip=")[1].split("&")[0];
+    assert.equal(skip, "2");
   });
 
   it("get block item", async function () {

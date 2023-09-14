@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/contentsafety/text/blocklists/TestBlocklist/blockItems/c0766894-572a-4c26-b7da-7d174e6e1e9a?api-version=2023-04-30-preview",
+      "RequestUri": "https://endpoint/contentsafety/text/blocklists/TestBlocklist/blockItems?top=10\u0026skip=1\u0026maxpagesize=1\u0026api-version=2023-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,25 +9,30 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "fake_key",
         "User-Agent": "azsdk-js-ai-content-safety-rest/1.0.0-beta.1 core-rest-pipeline/1.12.1 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "b95c5974-972d-45d9-962a-205d8ab883dd"
+        "x-ms-client-request-id": "96452c1d-5a71-424e-9e3c-50d05478139b"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "e7538519-b2a4-44aa-b41b-e4b3af1c6632",
+        "apim-request-id": "7e19e6e2-c5c1-4a35-bf80-5bc328a25d36",
         "Content-Type": "application/json; charset=utf-8",
         "Date": "Thu, 14 Sep 2023 13:42:42 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "15",
+        "x-envoy-upstream-service-time": "47",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "blockItemId": "c0766894-572a-4c26-b7da-7d174e6e1e9a",
-        "description": "Test block item 2",
-        "text": "h*te"
+        "value": [
+          {
+            "blockItemId": "c0766894-572a-4c26-b7da-7d174e6e1e9a",
+            "description": "Test block item 2",
+            "text": "h*te"
+          }
+        ],
+        "nextLink": "https://endpoint:443/contentsafety/text/blocklists/TestBlocklist/blockItems?top=1\u0026skip=2\u0026maxpagesize=1\u0026api-version=2023-04-30-preview"
       }
     }
   ],

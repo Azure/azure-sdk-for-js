@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "16f32477-9301-4506-8c0e-49554a3c8608",
+        "x-ms-client-request-id": "a5a5a7df-c5a1-43ff-a56d-34cfa3c1a303",
         "x-ms-useragent": "azsdk-js-ai-content-safety-rest/1.0.0-beta.1 core-rest-pipeline/1.12.1 OS"
       },
       "RequestBody": {
@@ -31,15 +31,15 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2022-12-30-preview,2023-04-30-preview,2023-05-30-preview,2023-10-01",
-        "apim-request-id": "266f198a-ddb2-4646-a105-73e498df21a4",
+        "apim-request-id": "0f55fcab-678a-4985-86fd-121c4c3fa08a",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.ContentSafety.Text:Analyze=1",
-        "Date": "Thu, 14 Sep 2023 03:23:11 GMT",
+        "Date": "Thu, 14 Sep 2023 13:42:49 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "45",
+        "x-envoy-upstream-service-time": "59",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
