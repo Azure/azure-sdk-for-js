@@ -1,15 +1,13 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/contentsafety/text:analyze?api-version=2023-04-30-preview",
-      "RequestMethod": "POST",
+      "RequestUri": "https://endpoint/contentsafety/text/blocklists/TestBlocklist?api-version=2023-04-30-preview",
+      "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "en-US",
         "Connection": "keep-alive",
-        "Content-Length": "49",
-        "Content-Type": "application/json; charset=UTF-8",
         "ocp-apim-subscription-key": "fake_key",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
@@ -19,35 +17,25 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "16f32477-9301-4506-8c0e-49554a3c8608",
+        "x-ms-client-request-id": "18fc0df0-271a-40cf-9858-eb998b47c398",
         "x-ms-useragent": "azsdk-js-ai-content-safety-rest/1.0.0-beta.1 core-rest-pipeline/1.12.1 OS"
       },
-      "RequestBody": {
-        "text": "You are an idiot",
-        "categories": [
-          "Hate"
-        ]
-      },
+      "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2022-12-30-preview,2023-04-30-preview,2023-05-30-preview,2023-10-01",
-        "apim-request-id": "266f198a-ddb2-4646-a105-73e498df21a4",
+        "apim-request-id": "61c46b31-8043-4a05-9da1-dc811d554760",
         "Content-Type": "application/json; charset=utf-8",
-        "csp-billing-usage": "CognitiveServices.ContentSafety.Text:Analyze=1",
-        "Date": "Thu, 14 Sep 2023 03:23:11 GMT",
+        "Date": "Thu, 14 Sep 2023 03:25:17 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "45",
+        "x-envoy-upstream-service-time": "41",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "blocklistsMatchResults": [],
-        "hateResult": {
-          "category": "Hate",
-          "severity": 2
-        }
+        "blocklistName": "TestBlocklist",
+        "description": "test"
       }
     }
   ],

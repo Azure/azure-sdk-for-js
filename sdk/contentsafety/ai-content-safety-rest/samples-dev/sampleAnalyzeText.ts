@@ -33,10 +33,10 @@ async function main() {
     throw result;
   }
 
-  console.log("Hate severity: ", result.body.hateResult?.severity ?? 0);
-  console.log("SelfHarm severity: ", result.body.selfHarmResult?.severity ?? 0);
-  console.log("Sexual severity: ", result.body.sexualResult?.severity ?? 0);
-  console.log("Violence severity: ", result.body.violenceResult?.severity ?? 0);
+  console.log("Hate severity: ", result.body.hateResult?.severity ?? "undefined");
+  console.log("SelfHarm severity: ", result.body.selfHarmResult?.severity ?? "undefined");
+  console.log("Sexual severity: ", result.body.sexualResult?.severity ?? "undefined");
+  console.log("Violence severity: ", result.body.violenceResult?.severity ?? "undefined");
 }
 
 main().catch((err) => {

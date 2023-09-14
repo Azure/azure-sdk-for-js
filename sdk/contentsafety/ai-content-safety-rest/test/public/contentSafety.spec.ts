@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isRecordMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder, createClient } from "./utils/recordedClient";
 import { Context } from "mocha";
@@ -16,6 +16,17 @@ describe("Content Safety Client Test", () => {
   function sleep(time: number): Promise<NodeJS.Timer> {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
+  function uint8ArrayToBase64(binary: Uint8Array) {
+    let binaryString = '';
+    binary.forEach((byte) => {
+      binaryString += String.fromCharCode(byte);
+    });
+    return window.btoa(binaryString);
+  }
+  const blocklistName = "TestBlocklist";
+  const blockItemText1 = "k*ll";
+  const blockItemText2 = "h*te";
+  let blockItemId: string;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
@@ -44,19 +55,11 @@ describe("Content Safety Client Test", () => {
   it("analyze image", async function () {
     let base64Image: string;
     if (isBrowser) {
-      const imagePath = "http://localhost:9876/base/samples-dev/example-data/image.png";
+      const imagePath = "/base/samples-dev/example-data/image.png";
       const response = await fetch(imagePath);
       const buffer = await response.arrayBuffer();
       const binary = new Uint8Array(buffer);
-      const chunkSize = 0x8000;
-      const chunks = [];
-      for (let i = 0; i < binary.length; i += chunkSize) {
-        chunks.push(binary.slice(i, i + chunkSize));
-      }
-      const stringChunks = chunks.map((chunk) =>
-        String.fromCharCode.apply(null, Array.from(chunk))
-      );
-      base64Image = btoa(stringChunks.join(""));
+      base64Image = uint8ArrayToBase64(binary);
     } else {
       const imagePath = path.join("samples-dev", "example-data", "image.png");
       const buffer = fs.readFileSync(imagePath);
@@ -78,12 +81,7 @@ describe("Content Safety Client Test", () => {
     assert.notExists(response.body.violenceResult);
   });
 
-  it("manage blocklist", async function () {
-    const blocklistName = "TestBlocklist";
-    const blockItemText1 = "k*ll";
-    const blockItemText2 = "h*te";
-
-    // create blocklist
+  it("create blocklist", async function () {
     const createBlockListResponse = await client
       .path("/text/blocklists/{blocklistName}", blocklistName)
       .patch({
@@ -97,8 +95,9 @@ describe("Content Safety Client Test", () => {
     }
     assert.strictEqual(createBlockListResponse.status, "201");
     assert.equal(createBlockListResponse.body.blocklistName, blocklistName);
+  });
 
-    // add block items
+  it("add block items", async function () {
     const addBlockItemsResponse = await client
       .path("/text/blocklists/{blocklistName}:addBlockItems", blocklistName)
       .post({
@@ -121,10 +120,12 @@ describe("Content Safety Client Test", () => {
     assert.strictEqual(addBlockItemsResponse.status, "200");
     assert.isArray(addBlockItemsResponse.body.value);
 
-    // sleep 30s to wait for block items to be ready
-    await sleep(30000);
+    if (isRecordMode()) {
+      await sleep(30000);
+    }
+  });
 
-    // analyze text with blocklist
+  it("analyze text with blocklist", async function () {
     const analyzeTextResponse = await client.path("/text:analyze").post({
       body: {
         text: "I h*te you and I want to k*ll you.",
@@ -136,16 +137,18 @@ describe("Content Safety Client Test", () => {
       throw new Error(analyzeTextResponse.body?.error.message);
     }
     assert.strictEqual(analyzeTextResponse.status, "200");
+  });
 
-    // list text blocklists
+  it("list text blocklists", async function () {
     const listTextBlocklistsResponse = await client.path("/text/blocklists").get();
     if (isUnexpected(listTextBlocklistsResponse)) {
       throw new Error(listTextBlocklistsResponse.body?.error.message);
     }
     assert.strictEqual(listTextBlocklistsResponse.status, "200");
     assert.isArray(listTextBlocklistsResponse.body.value);
+  });
 
-    // get text blocklist
+  it("get text blocklist", async function () {
     const getTextBlocklistResponse = await client
       .path("/text/blocklists/{blocklistName}", blocklistName)
       .get();
@@ -154,8 +157,9 @@ describe("Content Safety Client Test", () => {
     }
     assert.strictEqual(getTextBlocklistResponse.status, "200");
     assert.equal(getTextBlocklistResponse.body.blocklistName, blocklistName);
+  });
 
-    // list block items
+  it("list block items", async function () {
     const listBlockItemsResponse = await client
       .path("/text/blocklists/{blocklistName}/blockItems", blocklistName)
       .get();
@@ -164,9 +168,10 @@ describe("Content Safety Client Test", () => {
     }
     assert.strictEqual(listBlockItemsResponse.status, "200");
     assert.isArray(listBlockItemsResponse.body.value);
-    const blockItemId = listBlockItemsResponse.body.value[0].blockItemId;
+    blockItemId = listBlockItemsResponse.body.value[0].blockItemId;
+  });
 
-    // get block item
+  it("get block item", async function () {
     const getBlockItemResponse = await client
       .path("/text/blocklists/{blocklistName}/blockItems/{blockItemId}", blocklistName, blockItemId)
       .get();
@@ -175,8 +180,9 @@ describe("Content Safety Client Test", () => {
     }
     assert.strictEqual(getBlockItemResponse.status, "200");
     assert.equal(getBlockItemResponse.body.blockItemId, blockItemId);
+  });
 
-    // remove block item
+  it("remove block item", async function () {
     const removeBlockItemResponse = await client
       .path("/text/blocklists/{blocklistName}:removeBlockItems", blocklistName)
       .post({
@@ -188,8 +194,9 @@ describe("Content Safety Client Test", () => {
       throw new Error(removeBlockItemResponse.body?.error.message);
     }
     assert.strictEqual(removeBlockItemResponse.status, "204");
+  });
 
-    // delete blocklist
+  it("delete blocklist", async function () {
     const deleteBlockListResponse = await client
       .path("/text/blocklists/{blocklistName}", blocklistName)
       .delete();

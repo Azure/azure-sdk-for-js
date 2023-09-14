@@ -7,37 +7,65 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "49",
+        "Content-Length": "106",
         "Content-Type": "application/json; charset=UTF-8",
         "Ocp-Apim-Subscription-Key": "fake_key",
         "User-Agent": "azsdk-js-ai-content-safety-rest/1.0.0-beta.1 core-rest-pipeline/1.12.1 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "466a5a31-71a0-4ec2-8268-4b6e5e3c1e08"
+        "x-ms-client-request-id": "afee81a2-1ebe-4e24-999d-24a721363b26"
       },
       "RequestBody": {
-        "text": "You are an idiot",
-        "categories": [
-          "Hate"
-        ]
+        "text": "I h*te you and I want to k*ll you.",
+        "blocklistNames": [
+          "TestBlocklist"
+        ],
+        "breakByBlocklists": false
       },
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2022-12-30-preview,2023-04-30-preview,2023-05-30-preview,2023-10-01",
-        "apim-request-id": "98883d5c-6c56-49ba-a3f8-5834c5d814fc",
+        "apim-request-id": "b56f9d22-3b5f-4613-8593-bb3cbfd41375",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.ContentSafety.Text:Analyze=1",
-        "Date": "Thu, 14 Sep 2023 03:22:06 GMT",
+        "Date": "Thu, 14 Sep 2023 03:22:56 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "55",
+        "x-envoy-upstream-service-time": "63",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
-        "blocklistsMatchResults": [],
+        "blocklistsMatchResults": [
+          {
+            "blocklistName": "TestBlocklist",
+            "blockItemId": "157e1e58-bacd-40d6-a261-c5a6a6ae59f3",
+            "blockItemText": "h*te",
+            "offset": 2,
+            "length": 4
+          },
+          {
+            "blocklistName": "TestBlocklist",
+            "blockItemId": "e46f1eb4-9815-4cca-a209-f1412c209899",
+            "blockItemText": "k*ll",
+            "offset": 25,
+            "length": 4
+          }
+        ],
         "hateResult": {
           "category": "Hate",
-          "severity": 2
+          "severity": 4
+        },
+        "selfHarmResult": {
+          "category": "SelfHarm",
+          "severity": 0
+        },
+        "sexualResult": {
+          "category": "Sexual",
+          "severity": 6
+        },
+        "violenceResult": {
+          "category": "Violence",
+          "severity": 4
         }
       }
     }
