@@ -17,9 +17,7 @@ export class SpanExportTest extends MonitorOpenTelemetryExporterTest<MonitorOpen
     async function main() {
       const tracer = trace.getTracer("testTracer");
       const parentSpan = tracer.startSpan("main");
-      for (let i = 0; i < 1; i += 1) {
-        doWork(parentSpan, tracer);
-      }
+      doWork(parentSpan, tracer);
       parentSpan.end();
     }
 
