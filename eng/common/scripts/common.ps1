@@ -29,13 +29,11 @@ if (Test-Path $EngScriptsLanguageSettings) {
   . $EngScriptsLanguageSettings
 }
 
-if (!(Get-Variable -Name "LanguageShort" -ValueOnly -ErrorAction "Ignore"))
-{
+if (!(Get-Variable -Name "LanguageShort" -ValueOnly -ErrorAction "Ignore")) {
   $LanguageShort = $Language
 }
 
-if (!(Get-Variable -Name "LanguageDisplayName" -ValueOnly -ErrorAction "Ignore"))
-{
+if (!(Get-Variable -Name "LanguageDisplayName" -ValueOnly -ErrorAction "Ignore")) {
   $LanguageDisplayName = $Language
 }
 
@@ -60,8 +58,8 @@ $GetPackageLevelReadmeFn = "Get-${Language}-PackageLevelReadme"
 $GetRepositoryLinkFn = "Get-${Language}-RepositoryLink"
 $GetEmitterAdditionalOptionsFn = "Get-${Language}-EmitterAdditionalOptions"
 $GetEmitterNameFn = "Get-${Language}-EmitterName"
-$GetEmitterPackageJsonPathFn = "Get-${Language}-EmitterPackageJsonPath"
-$GetEmitterPackageLockPathFn = "Get-${Language}-EmitterPackageLockPath"
+$GetFoldersForGenerationFn = "Get-${Language}-FoldersForGeneration"
+$UpdateGeneratedSdksFn = "Update-${Language}-GeneratedSdks"
 
 # Expected to be set in eng/scripts/docs/Docs-Onboarding.ps1
 $SetDocsPackageOnboarding = "Set-${Language}-DocsPackageOnboarding"
