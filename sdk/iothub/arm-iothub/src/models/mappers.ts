@@ -763,8 +763,8 @@ export const RoutingEndpoints: coreClient.CompositeMapper = {
           }
         }
       },
-      cosmosDBSqlCollections: {
-        serializedName: "cosmosDBSqlCollections",
+      cosmosDBSqlContainers: {
+        serializedName: "cosmosDBSqlContainers",
         type: {
           name: "Sequence",
           element: {
@@ -1171,8 +1171,8 @@ export const RoutingCosmosDBSqlApiProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      collectionName: {
-        serializedName: "collectionName",
+      containerName: {
+        serializedName: "containerName",
         required: true,
         type: {
           name: "String"

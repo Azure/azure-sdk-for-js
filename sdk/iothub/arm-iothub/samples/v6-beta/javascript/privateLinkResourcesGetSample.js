@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the specified private link resource for the given IotHub
  *
  * @summary Get the specified private link resource for the given IotHub
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_getprivatelinkresources.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_getprivatelinkresources.json
  */
 async function privateLinkResourcesList() {
   const subscriptionId =

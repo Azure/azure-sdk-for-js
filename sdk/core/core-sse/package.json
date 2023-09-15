@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-sse",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Implementation of the Server-sent events protocol for Node.js and browsers.",
   "sdk-type": "client",
   "main": "dist/index.cjs",

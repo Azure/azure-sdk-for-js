@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Check if an IoT hub name is available.
  *
  * @summary Check if an IoT hub name is available.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/checkNameAvailability.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/checkNameAvailability.json
  */
 async function iotHubResourceCheckNameAvailability() {
   const subscriptionId =

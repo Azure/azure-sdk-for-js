@@ -32,6 +32,7 @@ import {
   InternalClientPipelineOptions,
   OperationOptions,
   ServiceClient,
+  ServiceClientOptions,
 } from "@azure/core-client";
 import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import {
@@ -232,10 +233,10 @@ export class TableClient {
     this.clientOptions = (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
     this.allowInsecureConnection = this.clientOptions.allowInsecureConnection ?? false;
-    this.clientOptions.endpoint = this.clientOptions.endpoint || this.url;
 
-    const internalPipelineOptions: InternalClientPipelineOptions = {
+    const internalPipelineOptions: ServiceClientOptions & InternalClientPipelineOptions = {
       ...this.clientOptions,
+      endpoint: this.clientOptions.endpoint || this.url,
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames],
