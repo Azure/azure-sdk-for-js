@@ -11,9 +11,9 @@ description: Call Automation Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: V2023-06-15-preview
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/c88c6a0414c55167f15a4851167c03240480932e/specification/communication/data-plane/CallAutomation/preview/2023-06-15-preview/communicationservicescallautomation.json
-package-version: 1.1.0-beta.2
+tag: V2023-10-15
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/f97b5a33604873c440f582bb2b35a1b6849e034c/specification/communication/data-plane/CallAutomation/stable/2023-10-15/communicationservicescallautomation.json
+package-version: 1.1.0
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
