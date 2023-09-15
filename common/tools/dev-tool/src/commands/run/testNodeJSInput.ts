@@ -15,15 +15,17 @@ export const commandInfo = makeCommandInfo(
       shortName: "ntp",
       kind: "boolean",
       default: false,
-      description: "whether to run with test-proxy"
+      description: "whether to run with test-proxy",
     },
   }
 );
 
 export default leafCommand(commandInfo, async (options) => {
   const defaultMochaArgs = `${
-    (await isModuleProject()) ? "" : "-r esm "
-  } --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`;
+    (await isModuleProject())
+      ? "-r source-map-support/register.js"
+      : "-r ../../../common/tools/esm-workaround -r esm -r source-map-support/register"
+  } --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt
   );
