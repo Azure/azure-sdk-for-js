@@ -410,6 +410,8 @@ export class LogBasicScenario implements Scenario {
 
   cleanup(): void {
     opentelemetry.trace.disable();
+    opentelemetry.metrics.disable();
+    logs.disable();
   }
 
   flush(): Promise<void> {
