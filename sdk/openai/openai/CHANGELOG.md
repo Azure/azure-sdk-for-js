@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Return `usage` information when available.
+- Parse `functionCall` for `ChatMessage`
 
 ### Other Changes
 
