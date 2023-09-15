@@ -8,6 +8,7 @@ import { Constants } from "./common/constants";
 import { getUserAgent } from "./common/platform";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { ClientConfigDiagnostic } from "./CosmosDiagnostics";
+import { determineDiagnosticLevel, getDiagnosticLevelFromEnvironment } from "./diagnostics";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
 import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
@@ -104,7 +105,11 @@ export class CosmosClient {
     this.clientContext = new ClientContext(
       optionsOrConnectionString,
       globalEndpointManager,
-      clientConfig
+      clientConfig,
+      determineDiagnosticLevel(
+        optionsOrConnectionString.diagnosticLevel,
+        getDiagnosticLevelFromEnvironment()
+      )
     );
     if (
       optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&
@@ -126,16 +131,16 @@ export class CosmosClient {
   ): ClientConfigDiagnostic {
     return {
       endpoint: optionsOrConnectionString.endpoint,
-      resourceTokensConfigured: optionsOrConnectionString.resourceTokens === undefined,
-      tokenProviderConfigured: optionsOrConnectionString.tokenProvider === undefined,
-      aadCredentialsConfigured: optionsOrConnectionString.aadCredentials === undefined,
-      connectionPolicyConfigured: optionsOrConnectionString.connectionPolicy === undefined,
+      resourceTokensConfigured: optionsOrConnectionString.resourceTokens !== undefined,
+      tokenProviderConfigured: optionsOrConnectionString.tokenProvider !== undefined,
+      aadCredentialsConfigured: optionsOrConnectionString.aadCredentials !== undefined,
+      connectionPolicyConfigured: optionsOrConnectionString.connectionPolicy !== undefined,
       consistencyLevel: optionsOrConnectionString.consistencyLevel,
       defaultHeaders: optionsOrConnectionString.defaultHeaders,
-      agentConfigured: optionsOrConnectionString.agent === undefined,
+      agentConfigured: optionsOrConnectionString.agent !== undefined,
       userAgentSuffix: optionsOrConnectionString.userAgentSuffix,
       diagnosticLevel: optionsOrConnectionString.diagnosticLevel,
-      pluginsConfigured: optionsOrConnectionString.plugins === undefined,
+      pluginsConfigured: optionsOrConnectionString.plugins !== undefined,
       sDKVersion: Constants.SDKVersion,
     };
   }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the private link resources possible under disk access resource
  *
  * @summary Gets the private link resources possible under disk access resource
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskAccessExamples/DiskAccessPrivateLinkResources_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskAccessExamples/DiskAccessPrivateLinkResources_Get.json
  */
 async function listAllPossiblePrivateLinkResourcesUnderDiskAccessResource() {
   const subscriptionId =

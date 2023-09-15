@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Add a consumer group to an Event Hub-compatible endpoint in an IoT hub.
  *
  * @summary Add a consumer group to an Event Hub-compatible endpoint in an IoT hub.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_createconsumergroup.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_createconsumergroup.json
  */
 async function iotHubResourceCreateEventHubConsumerGroup() {
   const subscriptionId =
