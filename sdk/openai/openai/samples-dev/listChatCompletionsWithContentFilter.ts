@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to get completions for the provided prompt and parse output for content filter 
+ * Demonstrates how to get completions for the provided prompt and parse output for content filter
  *
  * @summary get completions.
  * @azsdk-weight 100
@@ -45,9 +45,7 @@ export async function main() {
         );
       } else {
         const { hate, sexual, selfHarm, violence } = choice.contentFilterResults;
-        console.log(
-          `Hate category is filtered: ${hate?.filtered} with ${hate?.severity} severity`
-        );
+        console.log(`Hate category is filtered: ${hate?.filtered} with ${hate?.severity} severity`);
         console.log(
           `Sexual category is filtered: ${sexual?.filtered} with ${sexual?.severity} severity`
         );
