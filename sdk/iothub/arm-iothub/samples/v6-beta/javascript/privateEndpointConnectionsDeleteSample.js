@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete private endpoint connection with the specified name
  *
  * @summary Delete private endpoint connection with the specified name
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_deleteprivateendpointconnection.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_deleteprivateendpointconnection.json
  */
 async function privateEndpointConnectionDelete() {
   const subscriptionId =

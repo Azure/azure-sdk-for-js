@@ -228,6 +228,7 @@ async function main(){
 main().catch((err) => {
     console.log(err);
 })
+
 ```
 
 ### Publish a Custom Event to a Topic in an Event Grid Domain using the Event Grid Schema
@@ -301,7 +302,7 @@ receiver.subscribe({
   processError: async (err) => {
     console.error(err);
   },
-  processMessage
+  processMessage,
 });
 ```
 
@@ -317,7 +318,7 @@ const { setLogLevel } = require("@azure/logger");
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+For more detailed instructions on how to enable the logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 

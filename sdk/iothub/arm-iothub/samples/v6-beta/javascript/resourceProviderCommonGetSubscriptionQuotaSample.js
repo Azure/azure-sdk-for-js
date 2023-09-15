@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the number of free and paid iot hubs in the subscription
  *
  * @summary Get the number of free and paid iot hubs in the subscription
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_usages.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_usages.json
  */
 async function resourceProviderCommonGetSubscriptionQuota() {
   const subscriptionId =
