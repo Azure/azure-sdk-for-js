@@ -150,7 +150,7 @@ export type ClientConfigDiagnostic = {
 
 // @public (undocumented)
 export class ClientContext {
-    constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic);
+    constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, diagnosticLevel: CosmosDbDiagnosticLevel);
     // (undocumented)
     batch<T>({ body, path, partitionKey, resourceId, options, diagnosticNode, }: {
         body: T;
@@ -193,6 +193,8 @@ export class ClientContext {
         diagnosticNode: DiagnosticNodeInternal;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
+    diagnosticLevel: CosmosDbDiagnosticLevel;
+    // (undocumented)
     execute<T>({ sprocLink, params, options, partitionKey, diagnosticNode, }: {
         sprocLink: string;
         params?: any[];
@@ -201,7 +203,7 @@ export class ClientContext {
         diagnosticNode: DiagnosticNodeInternal;
     }): Promise<Response_2<T>>;
     // (undocumented)
-    getClientConfig(): ClientConfigDiagnostic | undefined;
+    getClientConfig(): ClientConfigDiagnostic;
     getDatabaseAccount(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<Response_2<DatabaseAccount>>;
     // (undocumented)
     getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options: FeedOptions, diagnosticNode: DiagnosticNodeInternal): Promise<Response_2<PartitionedQueryExecutionInfo>>;
@@ -213,6 +215,8 @@ export class ClientContext {
     getWriteEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getWriteEndpoints(): Promise<readonly string[]>;
+    // (undocumented)
+    initializeDiagnosticSettings(diagnosticLevel: CosmosDbDiagnosticLevel): void;
     // (undocumented)
     partitionKeyDefinitionCache: {
         [containerUrl: string]: any;
@@ -895,6 +899,8 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     // (undocumented)
     data: Partial<DiagnosticDataValue>;
     // (undocumented)
+    diagnosticLevel: CosmosDbDiagnosticLevel;
+    // (undocumented)
     durationInMs: number;
     // (undocumented)
     id: string;
@@ -947,9 +953,9 @@ export class ErrorResponse extends Error {
     // (undocumented)
     body?: ErrorBody;
     // (undocumented)
-    code?: number;
+    code?: number | string;
     // (undocumented)
-    diagnostics: CosmosDiagnostics;
+    diagnostics?: CosmosDiagnostics;
     // (undocumented)
     headers?: CosmosHeaders;
     // (undocumented)
@@ -1076,9 +1082,11 @@ export class GlobalEndpointManager {
     markCurrentLocationUnavailableForRead(diagnosticNode: DiagnosticNodeInternal, endpoint: string): Promise<void>;
     // (undocumented)
     markCurrentLocationUnavailableForWrite(diagnosticNode: DiagnosticNodeInternal, endpoint: string): Promise<void>;
+    // (undocumented)
+    preferredLocationsCount: number;
     refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void>;
     // (undocumented)
-    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType): Promise<string>;
+    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number): Promise<string>;
 }
 
 // @public (undocumented)

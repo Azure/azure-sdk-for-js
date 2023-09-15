@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an existing X509 certificate or does nothing if it does not exist.
  *
  * @summary Deletes an existing X509 certificate or does nothing if it does not exist.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_certificatesdelete.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_certificatesdelete.json
  */
 async function certificatesDelete() {
   const subscriptionId =

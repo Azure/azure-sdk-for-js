@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Adds new or replaces existing certificate.
  *
  * @summary Adds new or replaces existing certificate.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_certificatescreateorupdate.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_certificatescreateorupdate.json
  */
 async function certificatesCreateOrUpdate() {
   const subscriptionId =

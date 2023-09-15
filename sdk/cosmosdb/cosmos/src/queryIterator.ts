@@ -82,7 +82,11 @@ export class QueryIterator<T> {
    */
   public async *getAsyncIterator(): AsyncIterable<FeedResponse<T>> {
     this.reset();
-    let diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST_NODE, null);
+    let diagnosticNode = new DiagnosticNodeInternal(
+      this.clientContext.diagnosticLevel,
+      DiagnosticNodeType.CLIENT_REQUEST_NODE,
+      null
+    );
     this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
@@ -107,7 +111,11 @@ export class QueryIterator<T> {
         this.queryExecutionContext.hasMoreResults(),
         diagnosticNode.toDiagnostic(this.clientContext.getClientConfig())
       );
-      diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST_NODE, null);
+      diagnosticNode = new DiagnosticNodeInternal(
+        this.clientContext.diagnosticLevel,
+        DiagnosticNodeType.CLIENT_REQUEST_NODE,
+        null
+      );
       if (response.result !== undefined) {
         yield feedResponse;
       }

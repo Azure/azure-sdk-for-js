@@ -34,6 +34,7 @@ export class GlobalEndpointManager {
   private unavailableReadableLocations: Location[] = [];
   private unavailableWriteableLocations: Location[] = [];
 
+  public preferredLocationsCount: number;
   /**
    * @param options - The document client instance.
    * @internal
@@ -50,6 +51,7 @@ export class GlobalEndpointManager {
     this.enableEndpointDiscovery = options.connectionPolicy.enableEndpointDiscovery;
     this.isRefreshing = false;
     this.preferredLocations = this.options.connectionPolicy.preferredLocations;
+    this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
   }
 
   /**
@@ -121,7 +123,8 @@ export class GlobalEndpointManager {
   public async resolveServiceEndpoint(
     diagnosticNode: DiagnosticNodeInternal,
     resourceType: ResourceType,
-    operationType: OperationType
+    operationType: OperationType,
+    startServiceEndpointIndex: number = 0 // Represents the starting index for selecting servers.
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
 
@@ -159,8 +162,13 @@ export class GlobalEndpointManager {
 
     let location;
     // If we have preferred locations, try each one in order and use the first available one
-    if (this.preferredLocations && this.preferredLocations.length > 0) {
-      for (const preferredLocation of this.preferredLocations) {
+    if (
+      this.preferredLocations &&
+      this.preferredLocations.length > 0 &&
+      startServiceEndpointIndex < this.preferredLocations.length
+    ) {
+      for (let i = startServiceEndpointIndex; i < this.preferredLocations.length; i++) {
+        const preferredLocation = this.preferredLocations[i];
         location = locations.find(
           (loc) =>
             loc.unavailable !== true &&
@@ -174,10 +182,16 @@ export class GlobalEndpointManager {
 
     // If no preferred locations or one did not match, just grab the first one that is available
     if (!location) {
-      location = locations.find((loc) => {
+      const startIndexValid =
+        startServiceEndpointIndex >= 0 && startServiceEndpointIndex < locations.length;
+      const locationsToSearch = startIndexValid
+        ? locations.slice(startServiceEndpointIndex)
+        : locations;
+      location = locationsToSearch.find((loc) => {
         return loc.unavailable !== true;
       });
     }
+
     location = location ? location : { name: "", databaseAccountEndpoint: this.defaultEndpoint };
     diagnosticNode.recordEndpointResolution(location.databaseAccountEndpoint);
     return location.databaseAccountEndpoint;
