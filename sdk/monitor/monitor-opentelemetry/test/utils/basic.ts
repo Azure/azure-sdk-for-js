@@ -20,7 +20,8 @@ function delay<T>(t: number, value?: T): Promise<T | void> {
 }
 
 const COMMON_ENVELOPE_PARAMS: any = {
-  instrumentationKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+  instrumentationKey:
+    process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
   sampleRate: 100,
 };
 
