@@ -59,7 +59,7 @@
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && rollup -c rollup.test.config.js 2>&1 && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" nyc --reporter=lcov --reporter=text-summary --reporter=cobertura mocha -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js  --timeout 50000  --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
+    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" mocha -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js  --timeout 50000  --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "engines": {

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List private endpoint connection properties
  *
  * @summary List private endpoint connection properties
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_listprivateendpointconnections.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_listprivateendpointconnections.json
  */
 async function privateEndpointConnectionsList() {
   const subscriptionId =

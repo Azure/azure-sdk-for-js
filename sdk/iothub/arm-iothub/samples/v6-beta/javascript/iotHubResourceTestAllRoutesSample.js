@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Test all routes configured in this Iot Hub
  *
  * @summary Test all routes configured in this Iot Hub
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_testallroutes.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_testallroutes.json
  */
 async function iotHubResourceTestAllRoutes() {
   const subscriptionId =

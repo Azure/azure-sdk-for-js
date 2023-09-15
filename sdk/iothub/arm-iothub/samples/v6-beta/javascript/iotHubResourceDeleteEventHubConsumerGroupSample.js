@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a consumer group from an Event Hub-compatible endpoint in an IoT hub.
  *
  * @summary Delete a consumer group from an Event Hub-compatible endpoint in an IoT hub.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_deleteconsumergroup.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_deleteconsumergroup.json
  */
 async function iotHubResourceDeleteEventHubConsumerGroup() {
   const subscriptionId =
