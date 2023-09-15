@@ -7,11 +7,9 @@ import {
   ImageGenerations,
   ImageLocation,
 } from "../../generated/src/models/models.js";
-import { GetCompletionsOptions } from "../../generated/src/models/options.js";
+import { GetChatCompletionsWithAzureExtensionsOptions, GetCompletionsOptions, GetChatCompletionsOptions as GeneratedGetChatCompletionsOptions} from "../../generated/src/models/options.js";
 import {
   _getCompletionsSend,
-  _getChatCompletionsSend,
-  _getChatCompletionsWithAzureExtensionsSend,
   _beginAzureBatchImageGenerationSend,
 } from "../../generated/src/api/operations.js";
 import { getOaiSSEs } from "./oaiSse.js";
@@ -20,14 +18,17 @@ import {
   BeginAzureBatchImageGenerationDefaultResponse,
   BeginAzureBatchImageGenerationLogicalResponse,
   OpenAIContext as Client,
+  GetChatCompletions200Response,
+  GetChatCompletionsDefaultResponse,
   GetChatCompletionsWithAzureExtensions200Response,
   GetChatCompletionsWithAzureExtensionsDefaultResponse,
   ImageGenerationsOutput,
   ImagePayloadOutput,
   getLongRunningPoller,
-  isUnexpected,
+  isUnexpected, 
+  ChatMessage as GeneratedChatMessage
 } from "../../generated/src/rest/index.js";
-import { StreamableMethod } from "@azure-rest/core-client";
+import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { ChatCompletions } from "../models/models.js";
 import { getChatCompletionsResult, getCompletionsResult } from "./deserializers.js";
 import { GetChatCompletionsOptions } from "./models.js";
@@ -150,4 +151,83 @@ export async function getChatCompletions(
     throw result.body.error;
   }
   return getChatCompletionsResult(result.body);
+}
+
+export function _getChatCompletionsWithAzureExtensionsSend(
+  context: Client,
+  messages: ChatMessage[],
+  deploymentId: string,
+  options: GetChatCompletionsWithAzureExtensionsOptions = { requestOptions: {} }
+): StreamableMethod<
+  | GetChatCompletionsWithAzureExtensions200Response
+  | GetChatCompletionsWithAzureExtensionsDefaultResponse
+> {
+  return context
+    .path(
+      "/deployments/{deploymentId}/extensions/chat/completions",
+      deploymentId
+    )
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        messages: parseChatMessage(messages),
+        functions: options?.functions,
+        function_call: options?.functionCall,
+        max_tokens: options?.maxTokens,
+        temperature: options?.temperature,
+        top_p: options?.topP,
+        logit_bias: options?.logitBias,
+        user: options?.user,
+        n: options?.n,
+        stop: options?.stop,
+        presence_penalty: options?.presencePenalty,
+        frequency_penalty: options?.frequencyPenalty,
+        stream: options?.stream,
+        model: options?.model,
+        dataSources: options?.dataSources,
+      },
+    });
+}
+
+
+export function _getChatCompletionsSend(
+  context: Client,
+  messages: ChatMessage[],
+  deploymentId: string,
+  options: GeneratedGetChatCompletionsOptions = { requestOptions: {} }
+): StreamableMethod<
+  GetChatCompletions200Response | GetChatCompletionsDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/chat/completions", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        messages: parseChatMessage(messages),
+        functions: options?.functions,
+        function_call: options?.functionCall,
+        max_tokens: options?.maxTokens,
+        temperature: options?.temperature,
+        top_p: options?.topP,
+        logit_bias: options?.logitBias,
+        user: options?.user,
+        n: options?.n,
+        stop: options?.stop,
+        presence_penalty: options?.presencePenalty,
+        frequency_penalty: options?.frequencyPenalty,
+        stream: options?.stream,
+        model: options?.model,
+        dataSources: options?.dataSources,
+      },
+    });
+}
+
+function parseChatMessage(messages: ChatMessage[]): GeneratedChatMessage[] {
+  return messages.map((p: ChatMessage) => ({
+    role: p.role,
+    content: p.content ?? null,
+    name: p.name,
+    function_call: p.functionCall,
+    context: p.context,
+  }))
 }

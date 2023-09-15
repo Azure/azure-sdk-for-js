@@ -29,6 +29,7 @@ import {
   BeginAzureBatchImageGeneration202Response,
   BeginAzureBatchImageGenerationDefaultResponse,
   BeginAzureBatchImageGenerationLogicalResponse,
+  ChatMessage as GeneratedChatMessage,
   OpenAIContext as Client,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
@@ -232,7 +233,7 @@ export function _getChatCompletionsSend(
   return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
     ...operationOptionsToRequestParameters(options),
     body: {
-      messages: messages,
+      messages: parseChatMessage(messages),
       functions: options?.functions,
       function_call: options?.functionCall,
       max_tokens: options?.maxTokens,
@@ -367,7 +368,7 @@ export function _getChatCompletionsWithAzureExtensionsSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        messages: messages,
+        messages: parseChatMessage(messages),
         functions: options?.functions,
         function_call: options?.functionCall,
         max_tokens: options?.maxTokens,
@@ -650,4 +651,14 @@ function _getChatCompletionsSendX(
         dataSources: options.azureExtensionOptions?.extensions,
       })
     : _getChatCompletionsSend(context, messages, deploymentName, options);
+}
+
+function parseChatMessage(messages: ChatMessage[]): GeneratedChatMessage[] {
+  return messages.map((p: ChatMessage) => ({
+    role: p.role,
+    content: p.content ?? null,
+    name: p.name,
+    function_call: p.functionCall,
+    context: p.context,
+  }))
 }
