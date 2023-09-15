@@ -57,7 +57,7 @@
     "generate:client": "autorest --typescript swagger/README.md",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 180000 --exclude \"dist-esm/**/*.browser.spec.js\" \"dist-esm/**/*.spec.js\"",
-    "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace \"dist-esm/**/*.spec.js\"",
+    "integration-test:node:no-timeout": "mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace \"dist-esm/**/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json src --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src --ext .ts",

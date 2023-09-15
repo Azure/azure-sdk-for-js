@@ -33,7 +33,7 @@ export default leafCommand(commandInfo, async (options) => {
     ? updatedArgs?.join(" ")
     : '--timeout 5000000 "dist-esm/test/{,!(browser)/**/}/*.spec.js"';
   const command = {
-    command: `nyc mocha ${defaultMochaArgs} ${mochaArgs}`,
+    command: `mocha ${defaultMochaArgs} ${mochaArgs}`,
     name: "node-tests",
   };
 
