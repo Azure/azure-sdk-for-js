@@ -99,7 +99,7 @@ export interface AnalyzeImageDefaultResponse extends HttpResponse {
 // @public
 export interface AnalyzeImageOptions {
     categories?: string[];
-    image: ImageData;
+    image: ImageData_2;
 }
 
 // @public
@@ -337,10 +337,11 @@ export interface ImageAnalyzeSeverityResultOutput {
 }
 
 // @public
-export interface ImageData {
+interface ImageData_2 {
     blobUrl?: string;
     content?: string;
 }
+export { ImageData_2 as ImageData }
 
 // @public
 export interface ImageDataOutput {
