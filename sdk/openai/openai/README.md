@@ -143,6 +143,10 @@ async function main(){
     console.log(choice.text);
   }
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ## Examples
@@ -182,6 +186,10 @@ async function main(){
     }
   }
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ### Generate Multiple Completions With Subscription Key
@@ -215,6 +223,10 @@ async function main(){
     console.log(`Chatbot: ${completion}`);
   }
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ### Summarize Text with Completion
@@ -257,6 +269,9 @@ async function main(){
   console.log(`Summarization: ${completion}`);
 }
 
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 ### Generate images with DALL-E image generation models
 
@@ -279,6 +294,10 @@ async function main() {
     console.log(`Image generation result URL: ${image.url}`);
   }
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ### Analyze Business Data
@@ -326,6 +345,10 @@ async function main(){
     }
   }
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ### Transcribe and translate audio files
@@ -349,7 +372,9 @@ async function main() {
   console.log(`Transcription: ${result.text}`);
 }
 
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ## Troubleshooting

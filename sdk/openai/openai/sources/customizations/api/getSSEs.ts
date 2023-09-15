@@ -4,6 +4,7 @@
 import { StreamableMethod } from "@azure-rest/core-client";
 import { EventMessage, iterateSseStream } from "@azure/core-sse";
 import { RestError } from "@azure/core-rest-pipeline";
+import { wrapError } from "./util.js";
 
 export async function getSSEs(
   response: StreamableMethod<unknown>
@@ -18,7 +19,7 @@ async function getStream<TResponse>(
   const { body, status } = await response.asNodeStream();
   if (status !== "200" && body !== undefined) {
     const text = await streamToText(body);
-    throw JSON.parse(text).error;
+    throw wrapError(() => JSON.parse(text).error, "Error parsing response body");
   }
   if (!body) throw new Error("No stream found in response. Did you enable the stream option?");
   return body as AsyncIterable<Uint8Array>;

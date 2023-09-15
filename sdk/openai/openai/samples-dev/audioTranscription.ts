@@ -9,10 +9,10 @@
  */
 
 import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
-import * as fs from "fs/promises";
+import { readFile } from "fs/promises";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
@@ -24,7 +24,7 @@ export async function main() {
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentName = "whisper-deployment";
-  const audio = await fs.readFile("./assets/audio/countdown.wav");
+  const audio = await readFile("./assets/audio/countdown.wav");
   const result = await client.getAudioTranscription(deploymentName, audio);
 
   console.log(`Transcription: ${result.text}`);
