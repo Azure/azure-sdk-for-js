@@ -12,6 +12,9 @@
 
 - Returns `usage` information when available.
 - Fixes a bug where errors weren't properly being thrown from the streaming methods.
+- Returns `error` information in `ContentFilterResults` when available.
+
+### Other Changes
 
 ## 1.0.0-beta.5 (2023-08-25)
 
