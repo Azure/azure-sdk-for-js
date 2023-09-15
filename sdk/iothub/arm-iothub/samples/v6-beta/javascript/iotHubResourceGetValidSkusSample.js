@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the list of valid SKUs for an IoT hub.
  *
  * @summary Get the list of valid SKUs for an IoT hub.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_getskus.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2023-06-30-preview/examples/iothub_getskus.json
  */
 async function iotHubResourceGetValidSkus() {
   const subscriptionId =

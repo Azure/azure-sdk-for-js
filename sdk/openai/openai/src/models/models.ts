@@ -10,6 +10,7 @@
  */
 
 import { ErrorModel } from "@azure-rest/core-client";
+import { ContentFilterResults } from "../api/models.js";
 
 /**
  * Representation of the response data from an embeddings request.
@@ -76,35 +77,6 @@ export interface PromptFilterResult {
   promptIndex: number;
   /** Content filtering results for this prompt */
   contentFilterResults?: ContentFilterResults;
-}
-
-/** Information about the content filtering category, if it has been detected. */
-export interface ContentFilterResults {
-  /**
-   * Describes language related to anatomical organs and genitals, romantic relationships,
-   *  acts portrayed in erotic or affectionate terms, physical sexual acts, including
-   *  those portrayed as an assault or a forced sexual violent act against one’s will,
-   *  prostitution, pornography, and abuse.
-   */
-  sexual?: ContentFilterResult;
-  /**
-   * Describes language related to physical actions intended to hurt, injure, damage, or
-   * kill someone or something; describes weapons, etc.
-   */
-  violence?: ContentFilterResult;
-  /**
-   * Describes language attacks or uses that include pejorative or discriminatory language
-   * with reference to a person or identity group on the basis of certain differentiating
-   * attributes of these groups including but not limited to race, ethnicity, nationality,
-   * gender identity and expression, sexual orientation, religion, immigration status, ability
-   * status, personal appearance, and body size.
-   */
-  hate?: ContentFilterResult;
-  /**
-   * Describes language related to physical actions intended to purposely hurt, injure,
-   * or damage one’s body, or kill oneself.
-   */
-  selfHarm?: ContentFilterResult;
 }
 
 /** Information about filtered content severity level and if it has been filtered or not. */

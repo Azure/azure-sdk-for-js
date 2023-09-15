@@ -92,7 +92,22 @@ export interface Fleets {
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
+    resourceGroupName: string,
+    fleetName: string,
+    properties: FleetPatch,
+    options?: FleetsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<OperationState<FleetsUpdateResponse>, FleetsUpdateResponse>
+  >;
+  /**
+   * Update a Fleet
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param fleetName The name of the Fleet resource.
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     fleetName: string,
     properties: FleetPatch,
