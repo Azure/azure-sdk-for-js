@@ -22,7 +22,7 @@ import {
 import { logger } from "./utils/logger.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { getImageDimensions } from "./utils/getImageDimensions.js";
-import { OpenAIClient, ImageLocation } from "../../src/index.js";
+import { OpenAIClient, ImageLocation, ChatMessage } from "../../src/index.js";
 
 describe("OpenAI", function () {
   let recorder: Recorder;
@@ -158,7 +158,7 @@ describe("OpenAI", function () {
               "What's the most common feedback we received from our customers about the product?",
           },
         ];
-        const weatherMessages = [{ role: "user", content: "What's the weather like in Boston?" }];
+        const weatherMessages: ChatMessage[] = [{ role: "user", content: "What's the weather like in Boston?" }];
         const getCurrentWeather = {
           name: "get_current_weather",
           description: "Get the current weather in a given location",
@@ -217,7 +217,26 @@ describe("OpenAI", function () {
                     .getChatCompletions(deploymentName, weatherMessages, {
                       functions: [getCurrentWeather],
                     })
-                    .then((c) => assertChatCompletions(c, { functions: true }))
+                    .then((result) => {
+                      assertChatCompletions(result, { functions: true })
+                      const responseMessage = result.choices[0].message;
+                      if (responseMessage?.functionCall) {
+                        const functionArgs = JSON.parse(responseMessage.functionCall.arguments);
+                        weatherMessages.push(responseMessage)
+                        weatherMessages.push({
+                          "role": "function",
+                          "name": responseMessage.functionCall.name,
+                          "content": JSON.stringify({
+                            "location": functionArgs.location,
+                            "temperature": "72",
+                            "unit": functionArgs.unit,
+                            "forecast": ["sunny", "windy"],
+                          })
+                        })
+                      }
+                      client.getChatCompletions(deploymentName, weatherMessages)
+                      .then((c) => assertChatCompletions(c, {functions: true}))
+                    })
               ),
               chatCompletionDeployments,
               chatCompletionModels,
