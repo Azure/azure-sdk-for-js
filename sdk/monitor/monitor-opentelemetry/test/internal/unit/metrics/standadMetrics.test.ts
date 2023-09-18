@@ -179,4 +179,10 @@ describe("#StandardMetricsHandler", () => {
     await new Promise((resolve) => setTimeout(resolve, 120));
     assert.ok(exportStub.notCalled);
   });
+
+  it("should calculate even if telemetry is sampled out", async () => {
+    autoCollect.shutdown();
+    await new Promise((resolve) => setTimeout(resolve, 120));
+    assert.ok(exportStub.notCalled);
+  });
 });
