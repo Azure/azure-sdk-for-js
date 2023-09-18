@@ -1093,6 +1093,7 @@ dependencies:
     version: file:projects/web-pubsub-express.tgz
   path-scurry:
     specifier: 1.6.3
+    version: 1.6.3
     
 packages:
 
