@@ -9,7 +9,8 @@
 ### Bugs Fixed
 
 - Return `usage` information when available.
-- Parse `functionCall` for `ChatMessage`
+- Return `error` information in `ContentFilterResults` when available.
+- Fixes parsing of `functionCall` in `ChatMessage` objects.
 
 ### Other Changes
 

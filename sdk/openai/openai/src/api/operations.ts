@@ -600,7 +600,6 @@ export async function getChatCompletions(
   if (isUnexpected(result)) {
     throw result.body.error;
   }
-
   return getChatCompletionsResult(result.body);
 }
 
