@@ -7,7 +7,11 @@ import {
   ImageGenerations,
   ImageLocation,
 } from "../../generated/src/models/models.js";
-import { GetChatCompletionsWithAzureExtensionsOptions, GetCompletionsOptions, GetChatCompletionsOptions as GeneratedGetChatCompletionsOptions} from "../../generated/src/models/options.js";
+import {
+  GetChatCompletionsWithAzureExtensionsOptions,
+  GetCompletionsOptions,
+  GetChatCompletionsOptions as GeneratedGetChatCompletionsOptions,
+} from "../../generated/src/models/options.js";
 import {
   _getCompletionsSend,
   _beginAzureBatchImageGenerationSend,
@@ -25,8 +29,8 @@ import {
   ImageGenerationsOutput,
   ImagePayloadOutput,
   getLongRunningPoller,
-  isUnexpected, 
-  ChatMessage as GeneratedChatMessage
+  isUnexpected,
+  ChatMessage as GeneratedChatMessage,
 } from "../../generated/src/rest/index.js";
 import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { ChatCompletions } from "../models/models.js";
@@ -163,10 +167,7 @@ export function _getChatCompletionsWithAzureExtensionsSend(
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
 > {
   return context
-    .path(
-      "/deployments/{deploymentId}/extensions/chat/completions",
-      deploymentId
-    )
+    .path("/deployments/{deploymentId}/extensions/chat/completions", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
@@ -189,37 +190,32 @@ export function _getChatCompletionsWithAzureExtensionsSend(
     });
 }
 
-
 export function _getChatCompletionsSend(
   context: Client,
   messages: ChatMessage[],
   deploymentId: string,
   options: GeneratedGetChatCompletionsOptions = { requestOptions: {} }
-): StreamableMethod<
-  GetChatCompletions200Response | GetChatCompletionsDefaultResponse
-> {
-  return context
-    .path("/deployments/{deploymentId}/chat/completions", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        messages: parseChatMessage(messages),
-        functions: options?.functions,
-        function_call: options?.functionCall,
-        max_tokens: options?.maxTokens,
-        temperature: options?.temperature,
-        top_p: options?.topP,
-        logit_bias: options?.logitBias,
-        user: options?.user,
-        n: options?.n,
-        stop: options?.stop,
-        presence_penalty: options?.presencePenalty,
-        frequency_penalty: options?.frequencyPenalty,
-        stream: options?.stream,
-        model: options?.model,
-        dataSources: options?.dataSources,
-      },
-    });
+): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
+  return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      messages: parseChatMessage(messages),
+      functions: options?.functions,
+      function_call: options?.functionCall,
+      max_tokens: options?.maxTokens,
+      temperature: options?.temperature,
+      top_p: options?.topP,
+      logit_bias: options?.logitBias,
+      user: options?.user,
+      n: options?.n,
+      stop: options?.stop,
+      presence_penalty: options?.presencePenalty,
+      frequency_penalty: options?.frequencyPenalty,
+      stream: options?.stream,
+      model: options?.model,
+      dataSources: options?.dataSources,
+    },
+  });
 }
 
 function parseChatMessage(messages: ChatMessage[]): GeneratedChatMessage[] {
@@ -229,5 +225,5 @@ function parseChatMessage(messages: ChatMessage[]): GeneratedChatMessage[] {
     name: p.name,
     function_call: p.functionCall,
     context: p.context,
-  }))
+  }));
 }

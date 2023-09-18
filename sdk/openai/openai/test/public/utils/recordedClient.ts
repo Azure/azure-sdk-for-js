@@ -34,13 +34,13 @@ const recorderStartOptions: RecorderStartOptions = {
       {
         regex: true,
         target: `resourceGroups/[\\w-]+/`,
-        value: "resourceGroups/openai-shared/"
+        value: "resourceGroups/openai-shared/",
       },
       {
         regex: true,
         target: `accounts/[\\w-]+/`,
-        value: "accounts/openai-shared/"
-      }
+        value: "accounts/openai-shared/",
+      },
     ],
   },
 };

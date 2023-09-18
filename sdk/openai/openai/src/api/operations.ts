@@ -659,5 +659,5 @@ function parseChatMessage(messages: ChatMessage[]): GeneratedChatMessage[] {
     name: p.name,
     function_call: p.functionCall,
     context: p.context,
-  }))
+  }));
 }
