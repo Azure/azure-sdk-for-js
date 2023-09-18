@@ -46,11 +46,17 @@ export interface BrandDetails {
     url?: string;
 }
 
+// @public
+export type BrandStatus = "Draft" | "Submitted" | "Denied" | "Approved";
+
 // @public (undocumented)
 export interface CampaignDetails {
     callToAction?: string;
     description?: string;
 }
+
+// @public
+export type CampaignStatus = "Draft" | "Submitted" | "Denied" | "Approved";
 
 // @public
 export type CompanyVertical = "Agriculture" | "Communication" | "Construction" | "Education" | "Energy" | "Entertainment" | "Financial" | "Gambling" | "Government" | "Healthcare" | "Hospitality" | "HumanResources" | "Insurance" | "Legal" | "Manufacturing" | "Ngo" | "Political" | "Postal" | "Professional" | "RealEstate" | "Retail" | "Technology" | "Transportation";
@@ -142,6 +148,12 @@ export interface MessageDetails {
 export type Relationship = "BasicAccount" | "SmallAccount" | "MediumAccount" | "LargeAccount" | "KeyAccount";
 
 // @public
+export interface ReviewNote {
+    date?: Date;
+    message?: string;
+}
+
+// @public
 export type StockExchange = "Nasdaq" | "Nyse" | "Amex" | "Amx" | "Asx" | "B3" | "Bme" | "Bse" | "Fra" | "Icex" | "Jpx" | "Jse" | "Krx" | "Lon" | "Nse" | "Omx" | "Sehk" | "Sgx" | "Sse" | "Sto" | "Swx" | "Szse" | "Tsx" | "Twse" | "Vse" | "Other";
 
 // @public
@@ -173,7 +185,7 @@ export class TenDlcClient {
     // (undocumented)
     getCampaign(campaignId: string, options?: GetCampaignOptionalParams): Promise<USCampaign>;
     // (undocumented)
-    listBrands(options?: GetBrandsOptionalParams): Promise<USBrands>;
+    listBrands(options?: GetBrandsOptionalParams): PagedAsyncIterableIterator<USBrand>;
     // (undocumented)
     listCampaigns(options?: ListCampaignsOptionalParams): PagedAsyncIterableIterator<USCampaign>;
     // (undocumented)
@@ -192,7 +204,11 @@ export interface TenDlcClientOptions extends CommonClientOptions {
 export interface TenDLCCreateOrUpdateBrandOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     brandDetails?: BrandDetails;
-    status?: string;
+    costs?: LocalNumberCost[];
+    reviewNotes?: ReviewNote[];
+    status?: BrandStatus;
+    statusUpdatedDate?: Date;
+    submissionDate?: Date;
 }
 
 // @public
@@ -200,9 +216,12 @@ export interface TenDLCCreateOrUpdateCampaignOptionalParams extends coreClient.O
     brandId?: string;
     // (undocumented)
     campaignDetails?: CampaignDetails;
+    costs?: LocalNumberCost[];
     // (undocumented)
     messageDetails?: MessageDetails;
-    status?: string;
+    phoneNumberCount?: number;
+    reviewNotes?: ReviewNote[];
+    status?: CampaignStatus;
 }
 
 // @public
@@ -219,6 +238,8 @@ export interface TenDLCGetBrandOptionalParams extends coreClient.OperationOption
 
 // @public
 export interface TenDLCGetBrandsOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
 }
 
 // @public
@@ -227,6 +248,8 @@ export interface TenDLCGetCampaignOptionalParams extends coreClient.OperationOpt
 
 // @public
 export interface TenDLCGetCampaignsOptionalParams extends coreClient.OperationOptions {
+    // (undocumented)
+    filter?: string;
     skip?: number;
     top?: number;
 }
@@ -249,11 +272,12 @@ export interface TenDLCSubmitCampaignOptionalParams extends coreClient.Operation
 export interface USBrand {
     // (undocumented)
     brandDetails?: BrandDetails;
+    costs?: LocalNumberCost[];
     id: string;
-    readonly reviewNotes?: string;
-    status?: string;
-    readonly statusUpdatedDate?: string;
-    readonly submissionDate?: string;
+    reviewNotes?: ReviewNote[];
+    status?: BrandStatus;
+    statusUpdatedDate?: Date;
+    submissionDate?: Date;
 }
 
 // @public
@@ -267,14 +291,15 @@ export interface USCampaign {
     brandId?: string;
     // (undocumented)
     campaignDetails?: CampaignDetails;
+    costs?: LocalNumberCost[];
     id: string;
     // (undocumented)
     messageDetails?: MessageDetails;
-    readonly nextLink?: string;
-    readonly reviewNotes?: string;
-    status?: string;
-    readonly statusUpdatedDate?: string;
-    readonly submissionDate?: string;
+    phoneNumberCount?: number;
+    reviewNotes?: ReviewNote[];
+    status?: CampaignStatus;
+    readonly statusUpdatedDate?: Date;
+    readonly submissionDate?: Date;
 }
 
 // @public

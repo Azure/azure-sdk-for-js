@@ -13,7 +13,13 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { tracingClient } from "./generated/src/tracing";
 import { logger } from "./utils/logger";
 import { createTenDlcPagingPolicy } from "./utils/customPipelinePolicies";
-import { LocalNumberCost, USBrand, USBrands, USCampaign } from "./generated/src/models";
+import {
+  LocalNumberCost,
+  TenDLCSubmitBrandOptionalParams,
+  TenDLCSubmitCampaignOptionalParams,
+  USBrand,
+  USCampaign,
+} from "./generated/src/models";
 import {
   CreateOrUpdateBrandOptions,
   CreateOrUpdateCampaignOptions,
@@ -168,10 +174,10 @@ export class TenDlcClient {
     }
   }
 
-  public listBrands(options: GetBrandsOptionalParams = {}): Promise<USBrands> {
+  public listBrands(options: GetBrandsOptionalParams = {}): PagedAsyncIterableIterator<USBrand> {
     const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-listBrands", options);
     try {
-      return this.client.tenDLC.getBrands(updatedOptions);
+      return this.client.tenDLC.listBrands(updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -236,17 +242,25 @@ export class TenDlcClient {
   }
 
   public submitBrand(brandId: string, options: SubmitBrandOptionalParams = {}): Promise<USBrand> {
-    return tracingClient.withSpan("TenDlcClient-submitBrand", options, (submitOptions) => {
-      return this.client.tenDLC.submitBrand(brandId, submitOptions);
-    });
+    return tracingClient.withSpan(
+      "TenDlcClient-submitBrand",
+      options,
+      (submitOptions: TenDLCSubmitBrandOptionalParams | undefined) => {
+        return this.client.tenDLC.submitBrand(brandId, submitOptions);
+      }
+    );
   }
 
   public submitCampaign(
     campaignId: string,
     options: SubmitCampaignOptionalParams = {}
   ): Promise<USCampaign> {
-    return tracingClient.withSpan("TenDlcClient-submitCampaign", options, (submitOptions) => {
-      return this.client.tenDLC.submitCampaign(campaignId, submitOptions);
-    });
+    return tracingClient.withSpan(
+      "TenDlcClient-submitCampaign",
+      options,
+      (submitOptions: TenDLCSubmitCampaignOptionalParams | undefined) => {
+        return this.client.tenDLC.submitCampaign(campaignId, submitOptions);
+      }
+    );
   }
 }
