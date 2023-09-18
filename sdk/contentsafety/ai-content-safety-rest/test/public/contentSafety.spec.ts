@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isRecordMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder, createClient } from "./utils/recordedClient";
 import { Context } from "mocha";
@@ -125,7 +125,7 @@ describe("Content Safety Client Test", () => {
     assert.strictEqual(addBlockItemsResponse.status, "200");
     assert.isArray(addBlockItemsResponse.body.value);
 
-    if (isRecordMode()) {
+    if (!isPlaybackMode()) {
       await sleep(30000);
     }
   });
