@@ -10,6 +10,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   LocalNumberCost,
   TenDLCGetCostsOptionalParams,
+  USBrand,
+  TenDLCGetBrandsOptionalParams,
   USCampaign,
   TenDLCGetCampaignsOptionalParams,
   TenDLCCreateOrUpdateBrandOptionalParams,
@@ -19,8 +21,6 @@ import {
   TenDLCGetBrandResponse,
   TenDLCSubmitBrandOptionalParams,
   TenDLCSubmitBrandResponse,
-  TenDLCGetBrandsOptionalParams,
-  TenDLCGetBrandsResponse,
   TenDLCCreateOrUpdateCampaignOptionalParams,
   TenDLCCreateOrUpdateCampaignResponse,
   TenDLCDeleteCampaignOptionalParams,
@@ -40,6 +40,10 @@ export interface TenDLC {
   listCosts(
     options?: TenDLCGetCostsOptionalParams
   ): PagedAsyncIterableIterator<LocalNumberCost>;
+  /** @param options The options parameters. */
+  listBrands(
+    options?: TenDLCGetBrandsOptionalParams
+  ): PagedAsyncIterableIterator<USBrand>;
   /** @param options The options parameters. */
   listCampaigns(
     options?: TenDLCGetCampaignsOptionalParams
@@ -78,10 +82,6 @@ export interface TenDLC {
     brandId: string,
     options?: TenDLCSubmitBrandOptionalParams
   ): Promise<TenDLCSubmitBrandResponse>;
-  /** @param options The options parameters. */
-  getBrands(
-    options?: TenDLCGetBrandsOptionalParams
-  ): Promise<TenDLCGetBrandsResponse>;
   /**
    * @param campaignId
    * @param id Unique identifier that corresponds to a campaign

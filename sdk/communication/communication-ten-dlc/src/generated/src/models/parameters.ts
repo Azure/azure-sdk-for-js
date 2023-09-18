@@ -91,8 +91,28 @@ export const id: OperationParameter = {
   mapper: USBrandMapper
 };
 
+export const statusUpdatedDate: OperationParameter = {
+  parameterPath: ["options", "statusUpdatedDate"],
+  mapper: USBrandMapper
+};
+
 export const status: OperationParameter = {
   parameterPath: ["options", "status"],
+  mapper: USBrandMapper
+};
+
+export const costs: OperationParameter = {
+  parameterPath: ["options", "costs"],
+  mapper: USBrandMapper
+};
+
+export const submissionDate: OperationParameter = {
+  parameterPath: ["options", "submissionDate"],
+  mapper: USBrandMapper
+};
+
+export const reviewNotes: OperationParameter = {
+  parameterPath: ["options", "reviewNotes"],
   mapper: USBrandMapper
 };
 
@@ -127,6 +147,21 @@ export const status1: OperationParameter = {
   mapper: USCampaignMapper
 };
 
+export const costs1: OperationParameter = {
+  parameterPath: ["options", "costs"],
+  mapper: USCampaignMapper
+};
+
+export const reviewNotes1: OperationParameter = {
+  parameterPath: ["options", "reviewNotes"],
+  mapper: USCampaignMapper
+};
+
+export const phoneNumberCount: OperationParameter = {
+  parameterPath: ["options", "phoneNumberCount"],
+  mapper: USCampaignMapper
+};
+
 export const campaignDetails: OperationParameter = {
   parameterPath: ["options", "campaignDetails"],
   mapper: USCampaignMapper
@@ -144,6 +179,16 @@ export const campaignId: OperationURLParameter = {
     required: true,
     type: {
       name: "Uuid"
+    }
+  }
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "filter",
+    type: {
+      name: "String"
     }
   }
 };

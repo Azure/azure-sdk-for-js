@@ -19,6 +19,10 @@ import {
   TenDLCGetCostsNextOptionalParams,
   TenDLCGetCostsOptionalParams,
   TenDLCGetCostsResponse,
+  USBrand,
+  TenDLCGetBrandsNextOptionalParams,
+  TenDLCGetBrandsOptionalParams,
+  TenDLCGetBrandsResponse,
   USCampaign,
   TenDLCGetCampaignsNextOptionalParams,
   TenDLCGetCampaignsOptionalParams,
@@ -30,8 +34,6 @@ import {
   TenDLCGetBrandResponse,
   TenDLCSubmitBrandOptionalParams,
   TenDLCSubmitBrandResponse,
-  TenDLCGetBrandsOptionalParams,
-  TenDLCGetBrandsResponse,
   TenDLCCreateOrUpdateCampaignOptionalParams,
   TenDLCCreateOrUpdateCampaignResponse,
   TenDLCDeleteCampaignOptionalParams,
@@ -40,6 +42,7 @@ import {
   TenDLCSubmitCampaignOptionalParams,
   TenDLCSubmitCampaignResponse,
   TenDLCGetCostsNextResponse,
+  TenDLCGetBrandsNextResponse,
   TenDLCGetCampaignsNextResponse
 } from "../models";
 
@@ -106,6 +109,57 @@ export class TenDLCImpl implements TenDLC {
     options?: TenDLCGetCostsOptionalParams
   ): AsyncIterableIterator<LocalNumberCost> {
     for await (const page of this.getCostsPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /** @param options The options parameters. */
+  public listBrands(
+    options?: TenDLCGetBrandsOptionalParams
+  ): PagedAsyncIterableIterator<USBrand> {
+    const iter = this.getBrandsPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getBrandsPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *getBrandsPagingPage(
+    options?: TenDLCGetBrandsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<USBrand[]> {
+    let result: TenDLCGetBrandsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getBrands(options);
+      let page = result.brands || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._getBrandsNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.brands || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *getBrandsPagingAll(
+    options?: TenDLCGetBrandsOptionalParams
+  ): AsyncIterableIterator<USBrand> {
+    for await (const page of this.getBrandsPagingPage(options)) {
       yield* page;
     }
   }
@@ -263,11 +317,11 @@ export class TenDLCImpl implements TenDLC {
   }
 
   /** @param options The options parameters. */
-  async getBrands(
+  private async _getBrands(
     options?: TenDLCGetBrandsOptionalParams
   ): Promise<TenDLCGetBrandsResponse> {
     return tracingClient.withSpan(
-      "TenDLCClient.getBrands",
+      "TenDLCClient._getBrands",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
@@ -398,6 +452,27 @@ export class TenDLCImpl implements TenDLC {
   }
 
   /**
+   * GetBrandsNext
+   * @param nextLink The nextLink from the previous successful call to the GetBrands method.
+   * @param options The options parameters.
+   */
+  private async _getBrandsNext(
+    nextLink: string,
+    options?: TenDLCGetBrandsNextOptionalParams
+  ): Promise<TenDLCGetBrandsNextResponse> {
+    return tracingClient.withSpan(
+      "TenDLCClient._getBrandsNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getBrandsNextOperationSpec
+        ) as Promise<TenDLCGetBrandsNextResponse>;
+      }
+    );
+  }
+
+  /**
    * GetCampaignsNext
    * @param nextLink The nextLink from the previous successful call to the GetCampaigns method.
    * @param options The options parameters.
@@ -454,7 +529,11 @@ const createOrUpdateBrandOperationSpec: coreClient.OperationSpec = {
   requestBody: {
     parameterPath: {
       id: ["id"],
+      statusUpdatedDate: ["options", "statusUpdatedDate"],
       status: ["options", "status"],
+      costs: ["options", "costs"],
+      submissionDate: ["options", "submissionDate"],
+      reviewNotes: ["options", "reviewNotes"],
       brandDetails: ["options", "brandDetails"]
     },
     mapper: { ...Mappers.USBrand, required: true }
@@ -496,7 +575,7 @@ const getBrandOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const submitBrandOperationSpec: coreClient.OperationSpec = {
-  path: "/localNumbers/countries/US/brands/{brandId}/:submit",
+  path: "/localNumbers/countries/US/brands/{brandId}:submit",
   httpMethod: "POST",
   responses: {
     200: {
@@ -522,7 +601,7 @@ const getBrandsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.skip, Parameters.top, Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -546,6 +625,9 @@ const createOrUpdateCampaignOperationSpec: coreClient.OperationSpec = {
       id: ["id"],
       brandId: ["options", "brandId"],
       status: ["options", "status"],
+      costs: ["options", "costs"],
+      reviewNotes: ["options", "reviewNotes"],
+      phoneNumberCount: ["options", "phoneNumberCount"],
       campaignDetails: ["options", "campaignDetails"],
       messageDetails: ["options", "messageDetails"]
     },
@@ -588,7 +670,7 @@ const getCampaignOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const submitCampaignOperationSpec: coreClient.OperationSpec = {
-  path: "/localNumbers/countries/US/campaigns/{campaignId}/:submit",
+  path: "/localNumbers/countries/US/campaigns/{campaignId}:submit",
   httpMethod: "POST",
   responses: {
     200: {
@@ -614,7 +696,12 @@ const getCampaignsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.skip, Parameters.top, Parameters.apiVersion],
+  queryParameters: [
+    Parameters.skip,
+    Parameters.top,
+    Parameters.apiVersion,
+    Parameters.filter
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -625,6 +712,21 @@ const getCostsNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.LocalNumberCosts
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getBrandsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.USBrands
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse

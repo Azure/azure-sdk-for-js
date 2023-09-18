@@ -154,9 +154,8 @@ export const USBrand: coreClient.CompositeMapper = {
       },
       statusUpdatedDate: {
         serializedName: "statusUpdatedDate",
-        readOnly: true,
         type: {
-          name: "String"
+          name: "DateTime"
         }
       },
       status: {
@@ -165,18 +164,34 @@ export const USBrand: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      costs: {
+        serializedName: "costs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LocalNumberCost"
+            }
+          }
+        }
+      },
       submissionDate: {
         serializedName: "submissionDate",
-        readOnly: true,
         type: {
-          name: "String"
+          name: "DateTime"
         }
       },
       reviewNotes: {
         serializedName: "reviewNotes",
-        readOnly: true,
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReviewNote"
+            }
+          }
         }
       },
       brandDetails: {
@@ -184,6 +199,27 @@ export const USBrand: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "BrandDetails"
+        }
+      }
+    }
+  }
+};
+
+export const ReviewNote: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReviewNote",
+    modelProperties: {
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -406,21 +442,44 @@ export const USCampaign: coreClient.CompositeMapper = {
         serializedName: "statusUpdatedDate",
         readOnly: true,
         type: {
-          name: "String"
+          name: "DateTime"
+        }
+      },
+      costs: {
+        serializedName: "costs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LocalNumberCost"
+            }
+          }
         }
       },
       submissionDate: {
         serializedName: "submissionDate",
         readOnly: true,
         type: {
-          name: "String"
+          name: "DateTime"
         }
       },
       reviewNotes: {
         serializedName: "reviewNotes",
-        readOnly: true,
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReviewNote"
+            }
+          }
+        }
+      },
+      phoneNumberCount: {
+        serializedName: "phoneNumberCount",
+        type: {
+          name: "Number"
         }
       },
       campaignDetails: {
@@ -435,13 +494,6 @@ export const USCampaign: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "MessageDetails"
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       }
     }
