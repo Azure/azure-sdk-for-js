@@ -251,9 +251,7 @@ describe("Content Safety Client Test", () => {
     assert.strictEqual(listBlockItemsResponse.status, "200");
     assert.equal(listBlockItemsResponse.body.value.length, 3);
     assert.equal(listBlockItemsResponse.body.value[1].blockItemId, blockItemId);
-    // const nextLink = listBlockItemsResponse.body.nextLink;
-    // const skip = nextLink?.split("skip=")[1].split("&")[0];
-    // assert.equal(skip, "2");
+    assert.notExists(listBlockItemsResponse.body.nextLink);
   });
 
   it("get block item", async function () {
