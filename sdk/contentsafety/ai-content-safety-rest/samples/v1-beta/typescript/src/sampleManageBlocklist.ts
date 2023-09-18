@@ -149,36 +149,64 @@ async function listBlockItems() {
 
 async function getBlockItem() {
   const blocklistName = "TestBlocklist";
-  const blockItemText1 = "k*ll";
+  const blockItemText = "k*ll";
+  const addBlockItemsParameters: AddBlockItemsParameters = {
+    body: {
+      blockItems: [
+        {
+          description: "Test block item 1",
+          text: blockItemText
+        }
+      ]
+    }
+  };
+  const result = await client.path("/text/blocklists/{blocklistName}:addBlockItems", blocklistName).post(addBlockItemsParameters);
+  if (isUnexpected(result) || result.body.value === undefined) {
+    throw new Error("Block item not added.");
+  }
+  const blockItemId = result.body.value[0].blockItemId;
 
-  const result = await client.path("/text/blocklists/{blocklistName}/blockItems/{blockItemId}", blocklistName, blockItemText1).get();
+  const blockItem = await client.path("/text/blocklists/{blocklistName}/blockItems/{blockItemId}", blocklistName, blockItemId).get();
 
-  if (isUnexpected(result)) {
-    throw result;
+  if (isUnexpected(blockItem)) {
+    throw blockItem;
   }
 
   console.log("Get blockitem: ");
-  console.log("BlockItemId: ", result.body.blockItemId, ", Text: ", result.body.text, ", Description: ", result.body.description);
+  console.log("BlockItemId: ", blockItem.body.blockItemId, ", Text: ", blockItem.body.text, ", Description: ", blockItem.body.description);
 }
 
 async function removeBlockItems() {
   const blocklistName = "TestBlocklist";
-  const blockItemText1 = "k*ll";
-  const removeBlockItemsParameters: RemoveBlockItemsParameters = {
+  const blockItemText = "k*ll";
+  const addBlockItemsParameters: AddBlockItemsParameters = {
     body: {
-      blockItemIds: [
-        blockItemText1
+      blockItems: [
+        {
+          description: "Test block item 1",
+          text: blockItemText
+        }
       ]
     }
   };
+  const result = await client.path("/text/blocklists/{blocklistName}:addBlockItems", blocklistName).post(addBlockItemsParameters);
+  if (isUnexpected(result) || result.body.value === undefined) {
+    throw new Error("Block item not added.");
+  }
+  const blockItemId = result.body.value[0].blockItemId;
 
-  const result = await client.path("/text/blocklists/{blocklistName}:removeBlockItems", blocklistName).post(removeBlockItemsParameters);
+  const removeBlockItemsParameters: RemoveBlockItemsParameters = {
+    body: {
+      blockItemIds: [blockItemId]
+    }
+  };
+  const removeBlockItem = await client.path("/text/blocklists/{blocklistName}:removeBlockItems", blocklistName).post(removeBlockItemsParameters);
 
-  if (isUnexpected(result)) {
-    throw result;
+  if (isUnexpected(removeBlockItem)) {
+    throw removeBlockItem;
   }
 
-  console.log("Removed blockItem: ", blockItemText1);
+  console.log("Removed blockItem: ", blockItemText);
 }
 
 async function deleteBlocklist() {
