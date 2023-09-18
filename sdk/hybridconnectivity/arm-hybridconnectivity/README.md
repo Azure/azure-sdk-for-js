@@ -6,7 +6,7 @@ REST API for Hybrid Connectivity
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridconnectivity/arm-hybridconnectivity) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-hybridconnectivity) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-hybridconnectivity?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-hybridconnectivity) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -63,8 +63,8 @@ const client = new HybridConnectivityManagementAPI(new DefaultAzureCredential())
 // const client = new HybridConnectivityManagementAPI(credential);
 ```
 
-### JavaScript Bundle
 
+### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts

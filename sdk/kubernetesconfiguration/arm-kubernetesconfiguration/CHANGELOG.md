@@ -1,15 +1,19 @@
 # Release History
+    
+## 6.1.0 (2023-09-06)
+    
+**Features**
 
-## 6.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface PostBuildDefinition
+  - Added Interface SubstituteFromDefinition
+  - Interface FluxConfiguration has a new optional parameter reconciliationWaitDuration
+  - Interface FluxConfiguration has a new optional parameter waitForReconciliation
+  - Interface KustomizationDefinition has a new optional parameter postBuild
+  - Interface KustomizationDefinition has a new optional parameter wait
+  - Interface KustomizationPatchDefinition has a new optional parameter postBuild
+  - Interface KustomizationPatchDefinition has a new optional parameter wait
+    
+    
 ## 6.0.0 (2023-05-11)
     
 **Features**

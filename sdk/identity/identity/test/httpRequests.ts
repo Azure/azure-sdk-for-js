@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as http from "http";
-import * as https from "https";
+import http from "http";
+import https from "https";
 import { AccessToken, GetTokenOptions, TokenCredential } from "../src";
 import { AzureLogLevel, AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";

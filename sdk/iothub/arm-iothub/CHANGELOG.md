@@ -1,64 +1,17 @@
 # Release History
-
-## 6.3.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 6.3.0-beta.2 (2023-04-06)
+    
+## 6.3.0 (2023-09-15)
     
 **Features**
 
-  - Added Interface EncryptionPropertiesDescription
   - Added Interface IotHubManualFailoverHeaders
-  - Added Interface IotHubPropertiesDeviceStreams
-  - Added Interface IotHubResourceCreateOrUpdateHeaders
   - Added Interface IotHubResourceDeleteHeaders
-  - Added Interface IotHubResourceUpdateHeaders
-  - Added Interface KeyVaultKeyProperties
   - Added Interface PrivateEndpointConnectionsDeleteHeaders
-  - Added Interface PrivateEndpointConnectionsUpdateHeaders
-  - Added Interface RootCertificateProperties
   - Added Interface RoutingCosmosDBSqlApiProperties
-  - Added Type Alias IpVersion
-  - Interface IotHubProperties has a new optional parameter deviceStreams
-  - Interface IotHubProperties has a new optional parameter encryption
-  - Interface IotHubProperties has a new optional parameter ipVersion
-  - Interface IotHubProperties has a new optional parameter rootCertificate
-  - Interface RoutingEndpoints has a new optional parameter cosmosDBSqlCollections
-  - Add parameters of IotHubResourceUpdateHeaders to TypeAlias IotHubResourceUpdateResponse
-  - Added Enum KnownIpVersion
-  - Enum KnownRoutingSource has a new value DigitalTwinChangeEvents
-  - Enum KnownRoutingSource has a new value MqttBrokerMessages
+  - Interface RoutingEndpoints has a new optional parameter cosmosDBSqlContainers
   - Added function getContinuationToken
     
-## 6.3.0-beta.1 (2022-12-06)
     
-**Features**
-
-  - Added Interface EncryptionPropertiesDescription
-  - Added Interface IotHubPropertiesDeviceStreams
-  - Added Interface IotHubResourceCreateOrUpdateHeaders
-  - Added Interface IotHubResourceDeleteHeaders
-  - Added Interface IotHubResourceUpdateHeaders
-  - Added Interface KeyVaultKeyProperties
-  - Added Interface PrivateEndpointConnectionsDeleteHeaders
-  - Added Interface PrivateEndpointConnectionsUpdateHeaders
-  - Added Interface RootCertificateProperties
-  - Added Interface RoutingCosmosDBSqlApiProperties
-  - Interface IotHubProperties has a new optional parameter deviceStreams
-  - Interface IotHubProperties has a new optional parameter encryption
-  - Interface IotHubProperties has a new optional parameter rootCertificate
-  - Interface RoutingEndpoints has a new optional parameter cosmosDBSqlCollections
-  - Add parameters of IotHubResourceUpdateHeaders to TypeAlias IotHubResourceUpdateResponse
-  - Enum KnownRoutingSource has a new value DigitalTwinChangeEvents
-  - Enum KnownRoutingSource has a new value MqttBrokerMessages
-  
 ## 6.2.0 (2022-08-18)
     
 **Features**

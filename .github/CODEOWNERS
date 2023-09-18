@@ -343,6 +343,7 @@
 
 # PRLabel: %Mgmt
 /sdk/containerservice/arm-containerservice/      @qiaozha @MaryGao
+/sdk/containerservice/arm-containerservicefleet/      @qiaozha @MaryGao
 /sdk/containerservice/arm-containerservice-rest/ @qiaozha @MaryGao
 /sdk/containerservice/ci.mgmt.yml                @qiaozha @MaryGao
 
