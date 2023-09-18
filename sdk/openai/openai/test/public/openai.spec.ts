@@ -158,7 +158,6 @@ describe("OpenAI", function () {
               "What's the most common feedback we received from our customers about the product?",
           },
         ];
-        const weatherMessages: ChatMessage[] = [{ role: "user", content: "What's the weather like in Boston?" }];
         const getCurrentWeather = {
           name: "get_current_weather",
           description: "Get the current weather in a given location",
@@ -212,31 +211,31 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) =>
-                  client
-                    .getChatCompletions(deploymentName, weatherMessages, {
+                async (deploymentName) => {
+                  const weatherMessages: ChatMessage[] = [{ role: "user", content: "What's the weather like in Boston?" }];
+                  const result = await client.getChatCompletions(deploymentName, weatherMessages, {
                       functions: [getCurrentWeather],
                     })
-                    .then((result) => {
-                      assertChatCompletions(result, { functions: true })
-                      const responseMessage = result.choices[0].message;
-                      if (responseMessage?.functionCall) {
-                        const functionArgs = JSON.parse(responseMessage.functionCall.arguments);
-                        weatherMessages.push(responseMessage)
-                        weatherMessages.push({
-                          "role": "function",
-                          "name": responseMessage.functionCall.name,
-                          "content": JSON.stringify({
-                            "location": functionArgs.location,
-                            "temperature": "72",
-                            "unit": functionArgs.unit,
-                            "forecast": ["sunny", "windy"],
-                          })
-                        })
-                      }
-                      client.getChatCompletions(deploymentName, weatherMessages)
-                      .then((c) => assertChatCompletions(c, {functions: true}))
+                  assertChatCompletions(result, { functions: true })
+                  const responseMessage = result.choices[0].message;
+                  if (responseMessage?.functionCall) {
+                    const functionArgs = JSON.parse(responseMessage.functionCall.arguments);
+                    weatherMessages.push(responseMessage)
+                    weatherMessages.push({
+                      "role": "function",
+                      "name": responseMessage.functionCall.name,
+                      "content": JSON.stringify({
+                        "location": functionArgs.location,
+                        "temperature": "72",
+                        "unit": functionArgs.unit,
+                        "forecast": ["sunny", "windy"],
+                      })
                     })
+                  }
+                  
+                  const updatedResult = await client.getChatCompletions(deploymentName, weatherMessages);
+                  assertChatCompletions(updatedResult, { functions: true })
+                  }
               ),
               chatCompletionDeployments,
               chatCompletionModels,
@@ -324,6 +323,7 @@ describe("OpenAI", function () {
                   chatCompletionModels
                 ),
                 async (deploymentName) => {
+                  const weatherMessages: ChatMessage[] = [{ role: "user", content: "What's the weather like in Boston?" }];
                   const count = await assertChatCompletionsStream(
                     client.listChatCompletions(deploymentName, weatherMessages, {
                       functions: [getCurrentWeather],
