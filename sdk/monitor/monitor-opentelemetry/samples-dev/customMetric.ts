@@ -26,7 +26,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
 useAzureMonitor(options);
 
 export async function main() {
-  // Ge Meter and create custom metric
+  // Get Meter and create custom metric
   const meter = metrics.getMeter("testMeter");
   const customCounter = meter.createCounter("TestCounter");
   customCounter.add(1);
