@@ -29,12 +29,6 @@
 - Added Type Alias SignalRReplicasRestartResponse
 - Added Type Alias SignalRReplicasUpdateResponse
 - Added Type Alias SignalRRestartResponse
-- Interface Resource has a new optional parameter systemData
-- Interface CustomCertificate no longer has parameter systemData
-- Interface CustomDomain no longer has parameter systemData
-- Interface PrivateEndpointConnection no longer has parameter systemData
-- Interface SharedPrivateLinkResource no longer has parameter systemData
-- Interface SignalRResource no longer has parameter systemData
 
 **Breaking Changes**
 
