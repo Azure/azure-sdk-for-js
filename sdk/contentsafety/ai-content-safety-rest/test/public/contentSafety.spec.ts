@@ -186,9 +186,9 @@ describe("Content Safety Client Test", () => {
     }
     const iter = paginate(client, dataSources);
     const items: TextBlockItemOutput[] = [];
-    for await (const item of <PagedAsyncIterableIterator<TextBlockItemOutput, TextBlockItemOutput[], PageSettings>>(
-      iter
-    )) {
+    for await (const item of <
+      PagedAsyncIterableIterator<TextBlockItemOutput, TextBlockItemOutput[], PageSettings>
+    >iter) {
       items.push(item);
     }
     assert.equal(items[1].blockItemId, blockItemId);
