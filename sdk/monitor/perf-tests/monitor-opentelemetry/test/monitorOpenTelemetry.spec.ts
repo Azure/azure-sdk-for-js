@@ -13,7 +13,7 @@ export abstract class MonitorOpenTelemetryTest<TOptions> extends PerfTest<TOptio
     const options: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString:
-          "InstrumentationKey=b59d565e-da91-4140-8671-6c79b6938b4d;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/",
+          process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
       },
     };
     useAzureMonitor(options);
