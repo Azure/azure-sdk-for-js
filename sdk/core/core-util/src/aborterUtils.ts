@@ -73,7 +73,7 @@ export function createAbortablePromise<T>(
 }
 
 /**
- * promise.race() implementation that aborts losers as soon as the first promise fulfills.
+ * promise.race() wrapper that aborts rest of promises as soon as the first promise settles.
  */
 export async function racePromisesAndAbortLosers<T>(
   promises: ((abortOptions: AbortOptions) => Promise<T>)[],
