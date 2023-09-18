@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a snapshot.
  *
  * @summary Creates or updates a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/snapshotExamples/Snapshot_Create_ByImportingAnUnmanagedBlobFromADifferentSubscription.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/snapshotExamples/Snapshot_Create_ByImportingAnUnmanagedBlobFromADifferentSubscription.json
  */
 async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription() {
   const subscriptionId =
@@ -50,7 +50,7 @@ async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscripti
  * This sample demonstrates how to Creates or updates a snapshot.
  *
  * @summary Creates or updates a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/snapshotExamples/Snapshot_Create_ByImportingAnUnmanagedBlobFromTheSameSubscription.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/snapshotExamples/Snapshot_Create_ByImportingAnUnmanagedBlobFromTheSameSubscription.json
  */
 async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription() {
   const subscriptionId =
@@ -80,7 +80,37 @@ async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(
  * This sample demonstrates how to Creates or updates a snapshot.
  *
  * @summary Creates or updates a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/snapshotExamples/Snapshot_Create_FromAnExistingSnapshotInDifferentRegion.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/snapshotExamples/Snapshot_Create_FromAnElasticSanVolumeSnapshot.json
+ */
+async function createASnapshotFromAnElasticSanVolumeSnapshot() {
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const snapshotName = "mySnapshot";
+  const snapshot: Snapshot = {
+    creationData: {
+      createOption: "CopyFromSanSnapshot",
+      sourceResourceId:
+        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.ElasticSan/elasticSans/myElasticSan/volumegroups/myElasticSanVolumeGroup/snapshots/myElasticSanVolumeSnapshot"
+    },
+    location: "West US"
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.snapshots.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    snapshotName,
+    snapshot
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates or updates a snapshot.
+ *
+ * @summary Creates or updates a snapshot.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/snapshotExamples/Snapshot_Create_FromAnExistingSnapshotInDifferentRegion.json
  */
 async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion() {
   const subscriptionId =
@@ -110,7 +140,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
  * This sample demonstrates how to Creates or updates a snapshot.
  *
  * @summary Creates or updates a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/snapshotExamples/Snapshot_Create_FromAnExistingSnapshot.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/snapshotExamples/Snapshot_Create_FromAnExistingSnapshot.json
  */
 async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription() {
   const subscriptionId =
@@ -139,6 +169,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
 async function main() {
   createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription();
   createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription();
+  createASnapshotFromAnElasticSanVolumeSnapshot();
   createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion();
   createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription();
 }
