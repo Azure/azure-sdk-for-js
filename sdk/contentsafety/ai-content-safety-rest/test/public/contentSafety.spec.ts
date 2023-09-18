@@ -5,7 +5,8 @@ import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder, createClient } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { ContentSafetyClient, isUnexpected } from "../../src";
+import { ContentSafetyClient, isUnexpected, paginate, TextBlockItemOutput } from "../../src";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import fs from "fs";
 import path from "path";
 import { isBrowser } from "@azure/core-util";
@@ -41,7 +42,7 @@ describe("Content Safety Client Test", () => {
   it("analyze text", async function () {
     const response = await client.path("/text:analyze").post({
       body: {
-        text: "You are an idiot",
+        text: "This is a sample text",
         categories: ["Hate"],
       },
     });
@@ -176,7 +177,44 @@ describe("Content Safety Client Test", () => {
     blockItemId = listBlockItemsResponse.body.value[1].blockItemId;
   });
 
-  it("list block items with pagination", async function () {
+  it("list block items with pagination helper", async function () {
+    const dataSources = await client
+      .path("/text/blocklists/{blocklistName}/blockItems", blocklistName)
+      .get();
+    if (isUnexpected(dataSources)) {
+      throw new Error(dataSources.body?.error.message);
+    }
+    const iter = paginate(client, dataSources);
+    const items: TextBlockItemOutput[] = [];
+    for await (const item of <PagedAsyncIterableIterator<TextBlockItemOutput, TextBlockItemOutput[], PageSettings>>(
+      iter
+    )) {
+      items.push(item);
+    }
+    assert.equal(items[1].blockItemId, blockItemId);
+  });
+
+  it("list block items with pagination 1", async function () {
+    const listBlockItemsResponse = await client
+      .path("/text/blocklists/{blocklistName}/blockItems", blocklistName)
+      .get({
+        queryParameters: {
+          top: 10,
+          skip: 0,
+          maxpagesize: 1,
+        },
+      });
+    if (isUnexpected(listBlockItemsResponse)) {
+      throw new Error(listBlockItemsResponse.body?.error.message);
+    }
+    assert.strictEqual(listBlockItemsResponse.status, "200");
+    assert.equal(listBlockItemsResponse.body.value.length, 1);
+    const nextLink = listBlockItemsResponse.body.nextLink;
+    const skip = nextLink?.split("skip=")[1].split("&")[0];
+    assert.equal(skip, "1");
+  });
+
+  it("list block items with pagination 2", async function () {
     const listBlockItemsResponse = await client
       .path("/text/blocklists/{blocklistName}/blockItems", blocklistName)
       .get({
@@ -195,6 +233,27 @@ describe("Content Safety Client Test", () => {
     const nextLink = listBlockItemsResponse.body.nextLink;
     const skip = nextLink?.split("skip=")[1].split("&")[0];
     assert.equal(skip, "2");
+  });
+
+  it("list block items with pagination 3", async function () {
+    const listBlockItemsResponse = await client
+      .path("/text/blocklists/{blocklistName}/blockItems", blocklistName)
+      .get({
+        queryParameters: {
+          top: 10,
+          skip: 0,
+          maxpagesize: 3,
+        },
+      });
+    if (isUnexpected(listBlockItemsResponse)) {
+      throw new Error(listBlockItemsResponse.body?.error.message);
+    }
+    assert.strictEqual(listBlockItemsResponse.status, "200");
+    assert.equal(listBlockItemsResponse.body.value.length, 3);
+    assert.equal(listBlockItemsResponse.body.value[1].blockItemId, blockItemId);
+    // const nextLink = listBlockItemsResponse.body.nextLink;
+    // const skip = nextLink?.split("skip=")[1].split("&")[0];
+    // assert.equal(skip, "2");
   });
 
   it("get block item", async function () {

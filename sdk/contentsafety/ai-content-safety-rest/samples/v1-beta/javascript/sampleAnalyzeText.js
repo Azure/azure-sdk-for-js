@@ -19,7 +19,7 @@ async function main() {
   const credential = new AzureKeyCredential(key);
   const client = ContentSafetyClient(endpoint, credential);
 
-  const text = "You are an idiot";
+  const text = "This is a sample text";
   const analyzeTextOption = { text: text };
   const analyzeTextParameters = { body: analyzeTextOption };
 

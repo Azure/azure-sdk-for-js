@@ -1,8 +1,8 @@
-# Azure ContentSafety REST client library for JavaScript/TypeScript
+# Azure AI Content Safety REST client library for JavaScript/TypeScript
 
 [Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview) detects harmful user-generated and AI-generated content in applications and services. Content Safety includes text and image APIs that allow you to detect material that is harmful.
 
-**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
+**Please rely on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
 Key links:
 
@@ -19,12 +19,12 @@ Key links:
 
 ### Prerequisites
 
-- You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
+- You need an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
 - An existing [Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview) instance.
 
 ### Install the `@azure-rest/ai-content-safety` package
 
-Install the Azure ContentSafety REST client REST client library for JavaScript with `npm`:
+Install the Azure AI Content Safety REST client REST client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/ai-content-safety
@@ -125,7 +125,7 @@ const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
-const text = "You are an idiot";
+const text = "This is a sample text";
 const analyzeTextOption: AnalyzeTextOptions = { text: text };
 const analyzeTextParameters: AnalyzeTextParameters = { body: analyzeTextOption };
 
