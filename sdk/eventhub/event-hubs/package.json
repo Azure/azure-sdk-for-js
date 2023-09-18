@@ -60,7 +60,7 @@
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate-certs": "node ./scripts/generateCerts.js",
     "integration-test:browser": "cross-env TEST_TARGET=live DISABLE_MULTI_VERSION_TESTING=true karma start --single-run",
-    "integration-test:node": "cross-env TEST_TARGET=live DISABLE_MULTI_VERSION_TESTING=true nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 600000 --full-trace \"dist-esm/test/internal/*.spec.js\" \"dist-esm/test/public/*.spec.js\" \"dist-esm/test/public/**/*.spec.js\" \"dist-esm/test/internal/**/*.spec.js\"",
+    "integration-test:node": "cross-env TEST_TARGET=live DISABLE_MULTI_VERSION_TESTING=true mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 600000 --full-trace \"dist-esm/test/internal/*.spec.js\" \"dist-esm/test/public/*.spec.js\" \"dist-esm/test/public/**/*.spec.js\" \"dist-esm/test/internal/**/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
