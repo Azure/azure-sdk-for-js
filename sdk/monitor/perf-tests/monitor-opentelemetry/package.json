@@ -1,5 +1,5 @@
 {
-  "name": "@azure-tests/perf-monitor-opentelemetry-exporter",
+  "name": "@azure-tests/perf-monitor-opentelemetry",
   "sdk-type": "perf-test",
   "version": "1.0.0",
   "description": "",

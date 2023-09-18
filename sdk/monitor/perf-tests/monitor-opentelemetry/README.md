@@ -1,6 +1,6 @@
 ### Guide
 
-1. Build the monitor-opentelemetry-exporter perf tests package `rush build -t perf-monitor-opentelemetry-exporter`.
+1. Build the monitor-opentelemetry perf tests package `rush build -t perf-monitor-opentelemetry`.
 2. Copy the `sample.env` file and name it as `.env`.
 3. Create an Application Insights resource and populate the `.env` file with connectionString.
 4. Run the tests as follows:

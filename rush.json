@@ -2101,8 +2101,8 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure-tests/perf-monitor-opentelemetry-exporter",
-      "projectFolder": "sdk/monitor/perf-tests/monitor-opentelemetry-exporter",
+      "packageName": "@azure-tests/perf-monitor-opentelemetry",
+      "projectFolder": "sdk/monitor/perf-tests/monitor-opentelemetry",
       "versionPolicyName": "test"
     }
   ]

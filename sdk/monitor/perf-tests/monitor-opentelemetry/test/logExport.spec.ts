@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { PerfOptionDictionary } from "@azure/test-utils-perf";
-import { MonitorOpenTelemetryExporterTest } from "./monitorOpenTelemetryExporter.spec";
+import { MonitorOpenTelemetryTest } from "./monitorOpenTelemetry.spec";
 import { logs, SeverityNumber } from "@opentelemetry/api-logs";
 
-type MonitorOpenTelemetryExporterTestOptions = Record<string, unknown>;
+type MonitorOpenTelemetryTestOptions = Record<string, unknown>;
 
-export class LogExportTest extends MonitorOpenTelemetryExporterTest<MonitorOpenTelemetryExporterTestOptions> {
-  public options: PerfOptionDictionary<MonitorOpenTelemetryExporterTestOptions> = {};
+export class LogExportTest extends MonitorOpenTelemetryTest<MonitorOpenTelemetryTestOptions> {
+  public options: PerfOptionDictionary<MonitorOpenTelemetryTestOptions> = {};
   constructor() {
     super();
   }

@@ -7,13 +7,13 @@ import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "@azure/monito
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export abstract class MonitorOpenTelemetryExporterTest<TOptions> extends PerfTest<TOptions> {  
+export abstract class MonitorOpenTelemetryTest<TOptions> extends PerfTest<TOptions> {  
   constructor() {
     super();
     const options: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString:
-          process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+          "InstrumentationKey=b59d565e-da91-4140-8671-6c79b6938b4d;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/",
       },
     };
     useAzureMonitor(options);
