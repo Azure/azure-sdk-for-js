@@ -94,8 +94,8 @@ async function main() {
     await delay(100000);
     hundredSecondsCounter++;
     if (hundredSecondsCounter % 36 === 0) {
-      hundredSecondsCounter++
       generateHeapSnapshot("check-memLeak-" + (hundredSecondsCounter / 36), process.env.DEBUG_SHARE);
+      hundredSecondsCounter++
     }
   }
 }
