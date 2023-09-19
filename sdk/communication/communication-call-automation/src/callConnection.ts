@@ -305,28 +305,30 @@ export class CallConnection {
     return muteParticipantsResult;
   }
 
-  // public async cancelAddParticipant(
-  //   invitationId: string,
-  //   options: CancelAddParticipantOptions = {}
-  // ): Promise<CancelAddParticipantResult> {
-  //   const cancelAddParticipantRequest: CancelAddParticipantRequest = {
-  //     operationContext: options.operationContext,
-  //     callbackUri: options.callbackUrl,
-  //   };
-  //   const optionsInternal = {
-  //     ...options,
-  //     repeatabilityFirstSent: new Date(),
-  //     repeatabilityRequestID: uuidv4(),
-  //   };
-  //   const result = await this.callConnection.cancelAddParticipant(
-  //     this.callConnectionId,
-  //     cancelAddParticipantRequest,
-  //     optionsInternal
-  //   );
-  //   const removeParticipantsResult: RemoveParticipantResult = {
-  //     ...result,
-  //   };
+  /** Cancel add participant request.
+   * 
+   * @param invitationId - Invitation ID used to cancel the add participant request.
+   */
+  public cancelAddParticipant(
+    invitationId: string,
+    options: CancelAddParticipantOptions = {}
+  ): Promise<CancelAddParticipantResult> {
+    const { operationContext, callbackUrl: callbackUri, ...operationOptions } = options;
+    const cancelAddParticipantRequest = {
+      invitationId,
+      operationContext,
+      callbackUri,
+    };
+    const optionsInternal = {
+      ...operationOptions,
+      repeatabilityFirstSent: new Date(),
+      repeatabilityRequestID: uuidv4(),
+    };
 
-  //   return removeParticipantsResult;
-  // }
+    return this.callConnection.cancelAddParticipant(
+      this.callConnectionId,
+      cancelAddParticipantRequest,
+      optionsInternal
+    ) as Promise<CancelAddParticipantResult>;
+  }
 }
