@@ -47,6 +47,7 @@ describe("README samples", () => {
           });
           console.log("finish call to list chat complete")
           for await (const event of events) {
+            console.log("getting events")
             for (const choice of event.choices) {
               const delta = choice.delta?.content;
               if (delta !== undefined) {
@@ -54,6 +55,7 @@ describe("README samples", () => {
               }
             }
           }
+          console.log("finished message", this.currentMessage)
           return this.currentMessage;
         } catch (error) {
           console.error(error);
@@ -81,7 +83,7 @@ describe("README samples", () => {
     Promise.all([new Promise((resolve) => {
       setTimeout(() => {
         resolve(testClient.abortChatCompletion())
-      }, 100)
+      }, 10000)
     }), new Promise((resolve) => {
       setTimeout(() => { resolve(testClient.createChatCompletion(messages))}, 10)
     })]).then((values) => {
