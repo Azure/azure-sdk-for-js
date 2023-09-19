@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates a container registry with the specified parameters.
  *
  * @summary Updates a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/RegistryUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/RegistryUpdate.json
  */
 async function registryUpdate() {
   const subscriptionId =

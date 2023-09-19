@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the quota usages for the specified container registry.
  *
  * @summary Gets the quota usages for the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/RegistryListUsages.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/RegistryListUsages.json
  */
 async function registryListUsages() {
   const subscriptionId =

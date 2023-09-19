@@ -1,12 +1,42 @@
 # Release History
     
-## 11.0.0-beta.1 (2023-09-07)
+## 11.0.0-beta.2 (2023-09-19)
     
 **Features**
 
+  - Added operation group Archives
+  - Added operation group ArchiveVersions
   - Added operation group CacheRules
+  - Added operation group ConnectedRegistries
   - Added operation group CredentialSets
+  - Added operation group ExportPipelines
+  - Added operation group ImportPipelines
+  - Added operation group PipelineRuns
+  - Added Interface ActivationProperties
+  - Added Interface Archive
+  - Added Interface ArchiveListResult
+  - Added Interface ArchivePackageSourceProperties
+  - Added Interface ArchiveProperties
+  - Added Interface ArchivesCreateHeaders
+  - Added Interface ArchivesCreateOptionalParams
+  - Added Interface ArchivesDeleteHeaders
+  - Added Interface ArchivesDeleteOptionalParams
+  - Added Interface ArchivesGetOptionalParams
+  - Added Interface ArchivesListNextOptionalParams
+  - Added Interface ArchivesListOptionalParams
+  - Added Interface ArchivesUpdateOptionalParams
+  - Added Interface ArchiveUpdateParameters
+  - Added Interface ArchiveVersion
+  - Added Interface ArchiveVersionListResult
+  - Added Interface ArchiveVersionsCreateHeaders
+  - Added Interface ArchiveVersionsCreateOptionalParams
+  - Added Interface ArchiveVersionsDeleteHeaders
+  - Added Interface ArchiveVersionsDeleteOptionalParams
+  - Added Interface ArchiveVersionsGetOptionalParams
+  - Added Interface ArchiveVersionsListNextOptionalParams
+  - Added Interface ArchiveVersionsListOptionalParams
   - Added Interface AuthCredential
+  - Added Interface AzureADAuthenticationAsArmPolicy
   - Added Interface CacheRule
   - Added Interface CacheRulesCreateHeaders
   - Added Interface CacheRulesCreateOptionalParams
@@ -19,6 +49,20 @@
   - Added Interface CacheRulesUpdateHeaders
   - Added Interface CacheRulesUpdateOptionalParams
   - Added Interface CacheRuleUpdateParameters
+  - Added Interface ConnectedRegistriesCreateHeaders
+  - Added Interface ConnectedRegistriesCreateOptionalParams
+  - Added Interface ConnectedRegistriesDeactivateHeaders
+  - Added Interface ConnectedRegistriesDeactivateOptionalParams
+  - Added Interface ConnectedRegistriesDeleteHeaders
+  - Added Interface ConnectedRegistriesDeleteOptionalParams
+  - Added Interface ConnectedRegistriesGetOptionalParams
+  - Added Interface ConnectedRegistriesListNextOptionalParams
+  - Added Interface ConnectedRegistriesListOptionalParams
+  - Added Interface ConnectedRegistriesUpdateHeaders
+  - Added Interface ConnectedRegistriesUpdateOptionalParams
+  - Added Interface ConnectedRegistry
+  - Added Interface ConnectedRegistryListResult
+  - Added Interface ConnectedRegistryUpdateParameters
   - Added Interface CredentialHealth
   - Added Interface CredentialSet
   - Added Interface CredentialSetListResult
@@ -32,15 +76,86 @@
   - Added Interface CredentialSetsUpdateHeaders
   - Added Interface CredentialSetsUpdateOptionalParams
   - Added Interface CredentialSetUpdateParameters
+  - Added Interface DebianArchivePackageSourceProperties
+  - Added Interface DebianArchiveProperties
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
   - Added Interface ErrorResponseForContainerRegistry
+  - Added Interface ExportPipeline
+  - Added Interface ExportPipelineListResult
+  - Added Interface ExportPipelinesCreateHeaders
+  - Added Interface ExportPipelinesCreateOptionalParams
+  - Added Interface ExportPipelinesDeleteHeaders
+  - Added Interface ExportPipelinesDeleteOptionalParams
+  - Added Interface ExportPipelinesGetOptionalParams
+  - Added Interface ExportPipelinesListNextOptionalParams
+  - Added Interface ExportPipelinesListOptionalParams
+  - Added Interface ExportPipelineTargetProperties
+  - Added Interface ImportPipeline
+  - Added Interface ImportPipelineListResult
+  - Added Interface ImportPipelinesCreateHeaders
+  - Added Interface ImportPipelinesCreateOptionalParams
+  - Added Interface ImportPipelinesDeleteHeaders
+  - Added Interface ImportPipelinesDeleteOptionalParams
+  - Added Interface ImportPipelinesGetOptionalParams
+  - Added Interface ImportPipelinesListNextOptionalParams
+  - Added Interface ImportPipelinesListOptionalParams
+  - Added Interface ImportPipelineSourceProperties
+  - Added Interface LoggingProperties
+  - Added Interface LoginServerProperties
+  - Added Interface ParentProperties
+  - Added Interface PipelineRun
+  - Added Interface PipelineRunListResult
+  - Added Interface PipelineRunRequest
+  - Added Interface PipelineRunResponse
+  - Added Interface PipelineRunsCreateHeaders
+  - Added Interface PipelineRunsCreateOptionalParams
+  - Added Interface PipelineRunsDeleteHeaders
+  - Added Interface PipelineRunsDeleteOptionalParams
+  - Added Interface PipelineRunsGetOptionalParams
+  - Added Interface PipelineRunsListNextOptionalParams
+  - Added Interface PipelineRunsListOptionalParams
+  - Added Interface PipelineRunSourceProperties
+  - Added Interface PipelineRunTargetProperties
+  - Added Interface PipelineSourceTriggerDescriptor
+  - Added Interface PipelineSourceTriggerProperties
+  - Added Interface PipelineTriggerDescriptor
+  - Added Interface PipelineTriggerProperties
+  - Added Interface ProgressProperties
+  - Added Interface SoftDeletePolicy
+  - Added Interface StatusDetailProperties
+  - Added Interface SyncProperties
+  - Added Interface SyncUpdateProperties
+  - Added Interface TlsCertificateProperties
+  - Added Interface TlsProperties
+  - Added Type Alias ActivationStatus
+  - Added Type Alias ArchivesCreateResponse
+  - Added Type Alias ArchivesDeleteResponse
+  - Added Type Alias ArchivesGetResponse
+  - Added Type Alias ArchivesListNextResponse
+  - Added Type Alias ArchivesListResponse
+  - Added Type Alias ArchivesUpdateResponse
+  - Added Type Alias ArchiveVersionsCreateResponse
+  - Added Type Alias ArchiveVersionsDeleteResponse
+  - Added Type Alias ArchiveVersionsGetResponse
+  - Added Type Alias ArchiveVersionsListNextResponse
+  - Added Type Alias ArchiveVersionsListResponse
+  - Added Type Alias AuditLogStatus
+  - Added Type Alias AzureADAuthenticationAsArmPolicyStatus
   - Added Type Alias CacheRulesCreateResponse
   - Added Type Alias CacheRulesDeleteResponse
   - Added Type Alias CacheRulesGetResponse
   - Added Type Alias CacheRulesListNextResponse
   - Added Type Alias CacheRulesListResponse
   - Added Type Alias CacheRulesUpdateResponse
+  - Added Type Alias CertificateType
+  - Added Type Alias ConnectedRegistriesCreateResponse
+  - Added Type Alias ConnectedRegistriesGetResponse
+  - Added Type Alias ConnectedRegistriesListNextResponse
+  - Added Type Alias ConnectedRegistriesListResponse
+  - Added Type Alias ConnectedRegistriesUpdateResponse
+  - Added Type Alias ConnectedRegistryMode
+  - Added Type Alias ConnectionState
   - Added Type Alias CredentialHealthStatus
   - Added Type Alias CredentialName
   - Added Type Alias CredentialSetsCreateResponse
@@ -49,8 +164,44 @@
   - Added Type Alias CredentialSetsListNextResponse
   - Added Type Alias CredentialSetsListResponse
   - Added Type Alias CredentialSetsUpdateResponse
+  - Added Type Alias ExportPipelinesCreateResponse
+  - Added Type Alias ExportPipelinesGetResponse
+  - Added Type Alias ExportPipelinesListNextResponse
+  - Added Type Alias ExportPipelinesListResponse
+  - Added Type Alias ImportPipelinesCreateResponse
+  - Added Type Alias ImportPipelinesGetResponse
+  - Added Type Alias ImportPipelinesListNextResponse
+  - Added Type Alias ImportPipelinesListResponse
+  - Added Type Alias LogLevel
+  - Added Type Alias PackageSourceType
+  - Added Type Alias PipelineOptions
+  - Added Type Alias PipelineRunsCreateResponse
+  - Added Type Alias PipelineRunsGetResponse
+  - Added Type Alias PipelineRunsListNextResponse
+  - Added Type Alias PipelineRunsListResponse
+  - Added Type Alias PipelineRunSourceType
+  - Added Type Alias PipelineRunTargetType
+  - Added Type Alias PipelineSourceType
+  - Added Type Alias TlsStatus
+  - Interface Policies has a new optional parameter azureADAuthenticationAsArmPolicy
+  - Interface Policies has a new optional parameter softDeletePolicy
+  - Interface Registry has a new optional parameter anonymousPullEnabled
+  - Interface RegistryUpdateParameters has a new optional parameter anonymousPullEnabled
+  - Added Enum KnownActivationStatus
+  - Added Enum KnownAuditLogStatus
+  - Added Enum KnownAzureADAuthenticationAsArmPolicyStatus
+  - Added Enum KnownCertificateType
+  - Added Enum KnownConnectedRegistryMode
+  - Added Enum KnownConnectionState
   - Added Enum KnownCredentialHealthStatus
   - Added Enum KnownCredentialName
+  - Added Enum KnownLogLevel
+  - Added Enum KnownPackageSourceType
+  - Added Enum KnownPipelineOptions
+  - Added Enum KnownPipelineRunSourceType
+  - Added Enum KnownPipelineRunTargetType
+  - Added Enum KnownPipelineSourceType
+  - Added Enum KnownTlsStatus
 
 **Breaking Changes**
 
