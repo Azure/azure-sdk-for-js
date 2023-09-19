@@ -1,13 +1,21 @@
 # Release History
 
-## 1.0.0 (Unreleased)
+## 1.0.0 (2023-09-20)
+
+### Features Added
+
+- Add support for Azure Functions programming model v4.
 
 ### Bugs Fixed
-- Avoid dependency telemetry for ingestion endpoint calls
+- Avoid dependency telemetry for ingestion endpoint calls.
+- Add custom AI Sampler to maintain data reliability in Standard Metrics.
 
 ### Other Changes
-- Rename azureMonitorExporterConfig #27063
-- Remove singleton in handlers
+- Update to latest OpenTelemetry dependencies.
+- Rename azureMonitorExporterConfig.
+- Remove singleton in handlers.
+- Adding Functional Tests.
+
 
 ## 1.0.0-beta.3 (2023-08-30)
 
