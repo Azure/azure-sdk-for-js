@@ -9,11 +9,7 @@ import {
   EventHubProducerClient,
   OperationOptions,
 } from "./index";
-import {
-  isDefined,
-  isObjectWithProperties,
-  AbortOptions,
-} from "@azure/core-util";
+import { isDefined, isObjectWithProperties, AbortOptions } from "@azure/core-util";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AwaitableQueue } from "./impl/awaitableQueue";
 import { getPromiseParts } from "./util/getPromiseParts";

@@ -75,7 +75,9 @@ export function createAbortablePromise<T>(
 /**
  * Represents a function that returns a promise that can be aborted.
  */
-export type AbortablePromiseBuilder<T> = ((abortOptions: { abortSignal?: AbortSignalLike }) => Promise<T>);
+export type AbortablePromiseBuilder<T> = (abortOptions: {
+  abortSignal?: AbortSignalLike;
+}) => Promise<T>;
 // Can add more overloads as needed
 /**
  * promise.race() wrapper that aborts rest of promises as soon as the first promise settles.
@@ -83,20 +85,24 @@ export type AbortablePromiseBuilder<T> = ((abortOptions: { abortSignal?: AbortSi
 export function cancelablePromiseRace<T1, T2>(
   abortablePromiseBuilders: (AbortablePromiseBuilder<T1> | AbortablePromiseBuilder<T2>)[],
   options?: { abortSignal?: AbortSignalLike }
-): Promise<T1 | T2>
+): Promise<T1 | T2>;
 /**
  * promise.race() wrapper that aborts rest of promises as soon as the first promise settles.
  */
 export function cancelablePromiseRace<T1, T2, T3>(
-  abortablePromiseBuilders: (AbortablePromiseBuilder<T1> | AbortablePromiseBuilder<T2> | AbortablePromiseBuilder<T3>)[],
+  abortablePromiseBuilders: (
+    | AbortablePromiseBuilder<T1>
+    | AbortablePromiseBuilder<T2>
+    | AbortablePromiseBuilder<T3>
+  )[],
   options?: { abortSignal?: AbortSignalLike }
-): Promise<T1 | T2 | T3>
+): Promise<T1 | T2 | T3>;
 
 /**
  * promise.race() wrapper that aborts rest of promises as soon as the first promise settles.
  */
 export async function cancelablePromiseRace(
-  abortablePromiseBuilders: (AbortablePromiseBuilder<any>)[],
+  abortablePromiseBuilders: AbortablePromiseBuilder<any>[],
   options?: { abortSignal?: AbortSignalLike }
 ): Promise<any> {
   const aborter = new AbortController();
@@ -105,7 +111,9 @@ export async function cancelablePromiseRace(
     options?.abortSignal?.removeEventListener("abort", () => aborter.abort());
   });
   try {
-    return await Promise.race(abortablePromiseBuilders.map((p) => p({ abortSignal: aborter.signal })));
+    return await Promise.race(
+      abortablePromiseBuilders.map((p) => p({ abortSignal: aborter.signal }))
+    );
   } finally {
     aborter.abort();
   }
