@@ -83,7 +83,6 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.0.0",
     "@azure/logger": "^1.0.0",
-    "autorest": "^3.6.3",
     "esm": "^3.2.25",
     "events": "^3.0.0",
     "tslib": "^2.2.0",
