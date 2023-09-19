@@ -436,7 +436,7 @@ export interface AddParticipantResponse {
   /** The operation context provided by client. */
   operationContext?: string;
   /** Invitation ID used to add a participant. */
-  invitiationId?: string;
+  invitationId?: string;
 }
 
 /** The remove participant by identifier request. */
@@ -491,7 +491,7 @@ export interface UnmuteParticipantsResponse {
 
 export interface CancelAddParticipantRequest {
   /** Invitation ID used to add a participant. */
-  invitiationId: string;
+  invitationId: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** The callback URI to override the main callback URI. */
@@ -737,7 +737,7 @@ export interface AddParticipantCancelled {
   /** Participant that has been cancelled. */
   participant?: CommunicationIdentifierModel;
   /** Invitation ID used to cancel the request. */
-  invitiationId?: string;
+  invitationId?: string;
 }
 
 /** Failed cancel add participant event. */
@@ -753,7 +753,7 @@ export interface CancelAddParticipantFailed {
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** Invitation ID used to cancel the request. */
-  invitiationId?: string;
+  invitationId?: string;
 }
 
 export interface RecordingStateChanged {

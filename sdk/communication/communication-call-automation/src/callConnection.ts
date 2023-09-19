@@ -10,6 +10,7 @@ import {
   AddParticipantRequest,
   CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
+  CancelAddParticipantRequest,
   MuteParticipantsRequest,
   RemoveParticipantRequest,
   TransferToParticipantRequest,
@@ -18,6 +19,7 @@ import { CallConnectionImpl } from "./generated/src/operations";
 import { CallConnectionProperties, CallInvite, CallParticipant } from "./models/models";
 import {
   AddParticipantOptions,
+  CancelAddParticipantOptions,
   GetCallConnectionPropertiesOptions,
   GetParticipantOptions,
   HangUpOptions,
@@ -31,6 +33,7 @@ import {
   AddParticipantResult,
   RemoveParticipantResult,
   MuteParticipantsResult,
+  CancelAddParticipantResult,
 } from "./models/responses";
 import {
   callParticipantConverter,
@@ -301,4 +304,29 @@ export class CallConnection {
     };
     return muteParticipantsResult;
   }
+
+  // public async cancelAddParticipant(
+  //   invitationId: string,
+  //   options: CancelAddParticipantOptions = {}
+  // ): Promise<CancelAddParticipantResult> {
+  //   const cancelAddParticipantRequest: CancelAddParticipantRequest = {
+  //     operationContext: options.operationContext,
+  //     callbackUri: options.callbackUrl,
+  //   };
+  //   const optionsInternal = {
+  //     ...options,
+  //     repeatabilityFirstSent: new Date(),
+  //     repeatabilityRequestID: uuidv4(),
+  //   };
+  //   const result = await this.callConnection.cancelAddParticipant(
+  //     this.callConnectionId,
+  //     cancelAddParticipantRequest,
+  //     optionsInternal
+  //   );
+  //   const removeParticipantsResult: RemoveParticipantResult = {
+  //     ...result,
+  //   };
+
+  //   return removeParticipantsResult;
+  // }
 }

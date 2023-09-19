@@ -68,3 +68,11 @@ export interface RecordingStateResult {
   recordingId: string;
   recordingState: RecordingState;
 }
+
+/** The response payload for cancelling add participant request. */
+export interface CancelAddParticipantResult {
+  /** the invitation ID used to cancel the add participant request. */
+  invitationId: string;
+  /** The operation context provided by client. */
+  operationContext?: string;
+}

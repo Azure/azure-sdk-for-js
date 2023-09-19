@@ -1273,8 +1273,8 @@ export const AddParticipantResponse: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      invitiationId: {
-        serializedName: "invitiationId",
+      invitationId: {
+        serializedName: "invitationId",
         type: {
           name: "String"
         }
@@ -1417,8 +1417,8 @@ export const CancelAddParticipantRequest: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CancelAddParticipantRequest",
     modelProperties: {
-      invitiationId: {
-        serializedName: "invitiationId",
+      invitationId: {
+        serializedName: "invitationId",
         required: true,
         type: {
           name: "String"
@@ -2107,8 +2107,8 @@ export const AddParticipantCancelled: coreClient.CompositeMapper = {
           className: "CommunicationIdentifierModel"
         }
       },
-      invitiationId: {
-        serializedName: "invitiationId",
+      invitationId: {
+        serializedName: "invitationId",
         type: {
           name: "String"
         }
@@ -2153,8 +2153,8 @@ export const CancelAddParticipantFailed: coreClient.CompositeMapper = {
           className: "ResultInformation"
         }
       },
-      invitiationId: {
-        serializedName: "invitiationId",
+      invitationId: {
+        serializedName: "invitationId",
         type: {
           name: "String"
         }
