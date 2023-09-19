@@ -9,7 +9,7 @@ export {
   ChatMessageType,
   ChatThreadItem,
   ChatError,
-  SendChatMessageResult,
+  SendChatMessageResult
 } from "../generated/src/models";
 
 /** Chat thread. */
@@ -60,6 +60,8 @@ export interface ChatMessageContent {
   topic?: string;
   /** Chat message content for messages of types participantAdded or participantRemoved. */
   participants?: ChatParticipant[];
+  /** List of attachments for this message */
+  attachments?: ChatAttachment[];
   /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
   initiator?: CommunicationIdentifierKind;
 }
@@ -104,4 +106,39 @@ export interface ListPageSettings {
    * enforces pagination.
    */
   continuationToken?: string;
+}
+
+/** Type of Supported Attachments. */
+export type AttachmentType = "teamsInlineImage" | "teamsImage" | "file";
+
+/** An attachment in a chat message. */
+export interface ChatAttachment {
+  /** Id of the attachment */
+  id: string;
+  /** The type of attachment. */
+  attachmentType: AttachmentType;
+  /** The type of content of the attachment, if available */
+  contentType?: string;
+  /** The name of the attachment content. */
+  name?: string;
+  /** The URL where the attachment can be downloaded */
+  url: string;
+  /** The URL where the preview of attachment can be downloaded */
+  previewUrl?: string;
+}
+
+/** Result of the upload image operation. */
+export interface UploadImageResult {
+  /** A server-generated image id. */
+  id: string;
+  /** Attachment type: Inline or attached. */
+  attachmentType?: AttachmentType;
+  /** File extension. */
+  contentType?: string,
+  /** Image name. */
+  name?: string;
+  /** Server generated image url. */
+  url?: string;
+  /** Server generated image preview url. */
+  previewUrl?: string;
 }

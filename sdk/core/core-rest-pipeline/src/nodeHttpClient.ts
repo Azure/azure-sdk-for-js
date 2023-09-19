@@ -73,6 +73,7 @@ class NodeHttpClient implements HttpClient {
    * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+    console.log('nodeHttpClient');
     const abortController = new AbortController();
     let abortListener: ((event: any) => void) | undefined;
     if (request.abortSignal) {

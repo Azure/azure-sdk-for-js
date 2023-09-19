@@ -148,8 +148,8 @@ const createChatThreadOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
+    Parameters.accept1,
+    Parameters.contentType1,
     Parameters.repeatabilityRequestId
   ],
   mediaType: "json",
@@ -180,12 +180,12 @@ const listChatThreadsOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.maxPageSize,
     Parameters.apiVersion,
+    Parameters.maxPageSize,
     Parameters.startTime
   ],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const deleteChatThreadOperationSpec: coreClient.OperationSpec = {
@@ -212,7 +212,7 @@ const deleteChatThreadOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const listChatThreadsNextOperationSpec: coreClient.OperationSpec = {
@@ -239,12 +239,7 @@ const listChatThreadsNextOperationSpec: coreClient.OperationSpec = {
       isError: true
     }
   },
-  queryParameters: [
-    Parameters.maxPageSize,
-    Parameters.apiVersion,
-    Parameters.startTime
-  ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };

@@ -8,6 +8,118 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const UploadChatImageResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UploadChatImageResponse",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      attachmentType: {
+        serializedName: "attachmentType",
+        type: {
+          name: "any"
+        }
+      },
+      contentType: {
+        serializedName: "contentType",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        serializedName: "url",
+        type: {
+          name: "String"
+        }
+      },
+      previewUrl: {
+        serializedName: "previewUrl",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CommunicationErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ChatError"
+        }
+      }
+    }
+  }
+};
+
+export const ChatError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChatError",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ChatError"
+            }
+          }
+        }
+      },
+      innerError: {
+        serializedName: "innererror",
+        type: {
+          name: "Composite",
+          className: "ChatError"
+        }
+      }
+    }
+  }
+};
+
 export const ChatMessageReadReceiptsCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -72,6 +184,12 @@ export const CommunicationIdentifierModel: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CommunicationIdentifierModel",
     modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
       rawId: {
         serializedName: "rawId",
         type: {
@@ -163,72 +281,6 @@ export const MicrosoftTeamsUserIdentifierModel: coreClient.CompositeMapper = {
   }
 };
 
-export const CommunicationErrorResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CommunicationErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ChatError"
-        }
-      }
-    }
-  }
-};
-
-export const ChatError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ChatError",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ChatError"
-            }
-          }
-        }
-      },
-      innerError: {
-        serializedName: "innererror",
-        type: {
-          name: "Composite",
-          className: "ChatError"
-        }
-      }
-    }
-  }
-};
-
 export const SendReadReceiptRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -281,6 +333,66 @@ export const SendChatMessageRequest: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      },
+      attachments: {
+        serializedName: "attachments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ChatAttachment"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ChatAttachment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChatAttachment",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      attachmentType: {
+        serializedName: "attachmentType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentType: {
+        serializedName: "contentType",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        serializedName: "url",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      previewUrl: {
+        serializedName: "previewUrl",
+        type: {
+          name: "String"
         }
       }
     }
@@ -451,6 +563,18 @@ export const ChatMessageContent: coreClient.CompositeMapper = {
           }
         }
       },
+      attachments: {
+        serializedName: "attachments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ChatAttachment"
+            }
+          }
+        }
+      },
       initiatorCommunicationIdentifier: {
         serializedName: "initiatorCommunicationIdentifier",
         type: {
@@ -485,6 +609,13 @@ export const ChatParticipant: coreClient.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -506,6 +637,18 @@ export const UpdateChatMessageRequest: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      },
+      attachments: {
+        serializedName: "attachments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ChatAttachment"
+            }
+          }
         }
       }
     }
@@ -608,6 +751,13 @@ export const CreateChatThreadRequest: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -679,6 +829,13 @@ export const ChatThreadProperties: coreClient.CompositeMapper = {
         serializedName: "deletedOn",
         type: {
           name: "DateTime"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -759,6 +916,13 @@ export const UpdateChatThreadRequest: coreClient.CompositeMapper = {
         serializedName: "topic",
         type: {
           name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }

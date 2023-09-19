@@ -6,7 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
+  ChatThreadUploadChatImageOptionalParams,
+  ChatThreadUploadChatImageResponse,
   ChatThreadListChatReadReceiptsOptionalParams,
   ChatThreadListChatReadReceiptsResponse,
   SendReadReceiptRequest,
@@ -43,6 +46,22 @@ import {
 
 /** Interface representing a ChatThread. */
 export interface ChatThread {
+  /**
+   * upload an image in a thread, on behalf of a user.
+   * @param contentType The content type of the request. currently we only support
+   *                    application/octet-stream
+   * @param xContentLength The content length of the image body.
+   * @param chatThreadId Thread id where the uploaded image belongs to.
+   * @param uploadChatImage Read receipt details.
+   * @param options The options parameters.
+   */
+  uploadChatImage(
+    contentType: string,
+    xContentLength: string,
+    chatThreadId: string,
+    uploadChatImage: coreRestPipeline.RequestBodyType,
+    options?: ChatThreadUploadChatImageOptionalParams
+  ): Promise<ChatThreadUploadChatImageResponse>;
   /**
    * Gets chat message read receipts for a thread.
    * @param chatThreadId Thread id to get the chat message read receipts for.

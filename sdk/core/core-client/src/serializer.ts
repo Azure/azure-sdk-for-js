@@ -431,6 +431,7 @@ function serializeBasicTypes(typeName: string, objectName: string, value: any): 
       if (
         objectType !== "string" &&
         typeof value.pipe !== "function" &&
+        typeof value.tee !== "function" &&
         !(value instanceof ArrayBuffer) &&
         !ArrayBuffer.isView(value) &&
         // File objects count as a type of Blob, so we want to use instanceof explicitly

@@ -48,6 +48,7 @@ class FetchHttpClient implements HttpClient {
    * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+    console.log('fetchHttpClient');
     const url = new URL(request.url);
     const isInsecure = url.protocol !== "https:";
 

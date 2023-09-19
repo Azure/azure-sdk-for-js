@@ -22,6 +22,17 @@ import {
   CreateChatThreadRequest as CreateChatThreadRequestMapper
 } from "../models/mappers";
 
+export const uploadChatImage: OperationParameter = {
+  parameterPath: "uploadChatImage",
+  mapper: {
+    serializedName: "uploadChatImage",
+    required: true,
+    type: {
+      name: "Stream"
+    }
+  }
+};
+
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -46,11 +57,77 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const contentType: OperationParameter = {
+  parameterPath: "contentType",
+  mapper: {
+    serializedName: "content-type",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const xContentLength: OperationParameter = {
+  parameterPath: "xContentLength",
+  mapper: {
+    serializedName: "x-content-length",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const xPostFilename: OperationParameter = {
+  parameterPath: ["options", "xPostFilename"],
+  mapper: {
+    serializedName: "x-post-filename",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const xPostSharingMode: OperationParameter = {
+  parameterPath: ["options", "xPostSharingMode"],
+  mapper: {
+    serializedName: "x-post-sharing-mode",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const chatThreadId: OperationURLParameter = {
   parameterPath: "chatThreadId",
   mapper: {
     serializedName: "chatThreadId",
     required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-07-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
     type: {
       name: "String"
     }
@@ -77,19 +154,7 @@ export const skip: OperationQueryParameter = {
   }
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-09-07",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType: OperationParameter = {
+export const contentType1: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
     defaultValue: "application/json",
@@ -132,7 +197,7 @@ export const chatMessageId: OperationURLParameter = {
   }
 };
 
-export const contentType1: OperationParameter = {
+export const contentType2: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
     defaultValue: "application/merge-patch+json",

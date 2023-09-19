@@ -9,10 +9,13 @@
 import { tracingClient } from "../tracing";
 import { ChatThread } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ChatApiClient } from "../chatApiClient";
 import {
+  ChatThreadUploadChatImageOptionalParams,
+  ChatThreadUploadChatImageResponse,
   ChatThreadListChatReadReceiptsOptionalParams,
   ChatThreadListChatReadReceiptsResponse,
   SendReadReceiptRequest,
@@ -57,6 +60,40 @@ export class ChatThreadImpl implements ChatThread {
    */
   constructor(client: ChatApiClient) {
     this.client = client;
+  }
+
+  /**
+   * upload an image in a thread, on behalf of a user.
+   * @param contentType The content type of the request. currently we only support
+   *                    application/octet-stream
+   * @param xContentLength The content length of the image body.
+   * @param chatThreadId Thread id where the uploaded image belongs to.
+   * @param uploadChatImage Read receipt details.
+   * @param options The options parameters.
+   */
+  async uploadChatImage(
+    contentType: string,
+    xContentLength: string,
+    chatThreadId: string,
+    uploadChatImage: coreRestPipeline.RequestBodyType,
+    options?: ChatThreadUploadChatImageOptionalParams
+  ): Promise<ChatThreadUploadChatImageResponse> {
+    return tracingClient.withSpan(
+      "ChatApiClient.uploadChatImage",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          {
+            contentType,
+            xContentLength,
+            chatThreadId,
+            uploadChatImage,
+            options
+          },
+          uploadChatImageOperationSpec
+        ) as Promise<ChatThreadUploadChatImageResponse>;
+      }
+    );
   }
 
   /**
@@ -422,6 +459,43 @@ export class ChatThreadImpl implements ChatThread {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const uploadChatImageOperationSpec: coreClient.OperationSpec = {
+  path: "/chat/threads/{chatThreadId}/image",
+  httpMethod: "POST",
+  responses: {
+    201: {
+      bodyMapper: Mappers.UploadChatImageResponse
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    429: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    503: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.uploadChatImage,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.xContentLength,
+    Parameters.xPostFilename,
+    Parameters.xPostSharingMode
+  ],
+  mediaType: "binary",
+  serializer
+};
 const listChatReadReceiptsOperationSpec: coreClient.OperationSpec = {
   path: "/chat/threads/{chatThreadId}/readReceipts",
   httpMethod: "GET",
@@ -447,12 +521,12 @@ const listChatReadReceiptsOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.maxPageSize,
-    Parameters.skip,
-    Parameters.apiVersion
+    Parameters.skip
   ],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const sendChatReadReceiptOperationSpec: coreClient.OperationSpec = {
@@ -480,7 +554,7 @@ const sendChatReadReceiptOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.sendReadReceiptRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.accept1, Parameters.contentType1],
   mediaType: "json",
   serializer
 };
@@ -511,7 +585,7 @@ const sendChatMessageOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.sendChatMessageRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.accept1, Parameters.contentType1],
   mediaType: "json",
   serializer
 };
@@ -540,12 +614,12 @@ const listChatMessagesOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.maxPageSize,
     Parameters.apiVersion,
+    Parameters.maxPageSize,
     Parameters.startTime
   ],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const getChatMessageOperationSpec: coreClient.OperationSpec = {
@@ -578,7 +652,7 @@ const getChatMessageOperationSpec: coreClient.OperationSpec = {
     Parameters.chatThreadId,
     Parameters.chatMessageId
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const updateChatMessageOperationSpec: coreClient.OperationSpec = {
@@ -610,7 +684,7 @@ const updateChatMessageOperationSpec: coreClient.OperationSpec = {
     Parameters.chatThreadId,
     Parameters.chatMessageId
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType1],
+  headerParameters: [Parameters.accept1, Parameters.contentType2],
   mediaType: "json",
   serializer
 };
@@ -642,7 +716,7 @@ const deleteChatMessageOperationSpec: coreClient.OperationSpec = {
     Parameters.chatThreadId,
     Parameters.chatMessageId
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const listChatParticipantsOperationSpec: coreClient.OperationSpec = {
@@ -670,12 +744,12 @@ const listChatParticipantsOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.maxPageSize,
-    Parameters.skip,
-    Parameters.apiVersion
+    Parameters.skip
   ],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const removeChatParticipantOperationSpec: coreClient.OperationSpec = {
@@ -703,7 +777,7 @@ const removeChatParticipantOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.participantCommunicationIdentifier,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.accept1, Parameters.contentType1],
   mediaType: "json",
   serializer
 };
@@ -734,7 +808,7 @@ const addChatParticipantsOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.addChatParticipantsRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.accept1, Parameters.contentType1],
   mediaType: "json",
   serializer
 };
@@ -763,7 +837,7 @@ const updateChatThreadPropertiesOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.updateChatThreadRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
-  headerParameters: [Parameters.accept, Parameters.contentType1],
+  headerParameters: [Parameters.accept1, Parameters.contentType2],
   mediaType: "json",
   serializer
 };
@@ -793,7 +867,7 @@ const getChatThreadPropertiesOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const sendTypingNotificationOperationSpec: coreClient.OperationSpec = {
@@ -821,7 +895,7 @@ const sendTypingNotificationOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.sendTypingNotificationRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.accept1, Parameters.contentType1],
   mediaType: "json",
   serializer
 };
@@ -849,17 +923,12 @@ const listChatReadReceiptsNextOperationSpec: coreClient.OperationSpec = {
       isError: true
     }
   },
-  queryParameters: [
-    Parameters.maxPageSize,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
   urlParameters: [
     Parameters.endpoint,
     Parameters.chatThreadId,
     Parameters.nextLink
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const listChatMessagesNextOperationSpec: coreClient.OperationSpec = {
@@ -886,17 +955,12 @@ const listChatMessagesNextOperationSpec: coreClient.OperationSpec = {
       isError: true
     }
   },
-  queryParameters: [
-    Parameters.maxPageSize,
-    Parameters.apiVersion,
-    Parameters.startTime
-  ],
   urlParameters: [
     Parameters.endpoint,
     Parameters.chatThreadId,
     Parameters.nextLink
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const listChatParticipantsNextOperationSpec: coreClient.OperationSpec = {
@@ -923,16 +987,11 @@ const listChatParticipantsNextOperationSpec: coreClient.OperationSpec = {
       isError: true
     }
   },
-  queryParameters: [
-    Parameters.maxPageSize,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
   urlParameters: [
     Parameters.endpoint,
     Parameters.chatThreadId,
     Parameters.nextLink
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
