@@ -14,5 +14,5 @@ RUN npm install ../azure-core-util-1.5.0.tgz
 RUN npm install ../azure-event-hubs-5.11.2.tgz 
 RUN npm run build
 RUN ls
-ENV DEBUG=azure*,rhea*
+# ENV DEBUG=azure*,rhea*
 ENTRYPOINT ["node"];

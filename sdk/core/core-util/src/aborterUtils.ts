@@ -73,21 +73,40 @@ export function createAbortablePromise<T>(
 }
 
 /**
+ * Represents a function that returns a promise that can be aborted.
+ */
+export type AbortablePromiseBuilder<T> = ((abortOptions: { abortSignal?: AbortSignalLike }) => Promise<T>);
+// Can add more overloads as needed
+/**
  * promise.race() implementation that aborts losers as soon as the first promise fulfills.
  */
-export async function racePromisesAndAbortLosers<T>(
-  promises: ((abortOptions: AbortOptions) => Promise<T>)[],
-  abortSignal?: AbortSignalLike
-): Promise<T> {
-  const loserAborter = new AbortController();
-  const loserAbortListener = () => {
-    loserAborter.abort();
-  };
-  abortSignal?.addEventListener("abort", loserAbortListener);
-  const options = { abortSignal: loserAborter.signal, abortErrorMsg: "The operation was aborted." };
+export function cancelablePromiseRace<T1, T2>(
+  abortablePromiseBuilders: (AbortablePromiseBuilder<T1> | AbortablePromiseBuilder<T2>)[],
+  options?: { abortSignal?: AbortSignalLike }
+): Promise<T1 | T2>
+/**
+ * promise.race() implementation that aborts losers as soon as the first promise fulfills.
+ */
+export function cancelablePromiseRace<T1, T2, T3>(
+  abortablePromiseBuilders: (AbortablePromiseBuilder<T1> | AbortablePromiseBuilder<T2> | AbortablePromiseBuilder<T3>)[],
+  options?: { abortSignal?: AbortSignalLike }
+): Promise<T1 | T2 | T3>
 
-  return Promise.race(promises.map((p) => p(options))).finally(() => {
-    loserAborter.abort();
-    abortSignal?.removeEventListener("abort", loserAbortListener);
+/**
+ * promise.race() implementation that aborts losers as soon as the first promise fulfills.
+ */
+export async function cancelablePromiseRace(
+  abortablePromiseBuilders: (AbortablePromiseBuilder<any>)[],
+  options?: { abortSignal?: AbortSignalLike }
+): Promise<any> {
+  const aborter = new AbortController();
+  options?.abortSignal?.addEventListener("abort", () => {
+    aborter.abort();
+    options?.abortSignal?.removeEventListener("abort", () => aborter.abort());
   });
+  try {
+    return await Promise.race(abortablePromiseBuilders.map((p) => p({ abortSignal: aborter.signal })));
+  } finally {
+    aborter.abort();
+  }
 }

@@ -2,7 +2,7 @@
 
 import { OnSendEventsErrorContext } from "@azure/event-hubs";
 import { EventHubsStressTester, defaultClientAppInsights } from "./eventHubsStressTester";
-import { createEventHubsBufferedProducerClient } from "./utils";
+import { createEventHubsBufferedProducerClient, generateHeapSnapshot } from "./utils";
 import parsedArgs from "minimist";
 import { delay } from "@azure/core-util";
 
@@ -86,10 +86,17 @@ async function main() {
     }
   }
 
+  generateHeapSnapshot("check-memLeak-0", process.env.DEBUG_SHARE);
   console.log("Sending done. Waiting for test to complete...");
+  let hundredSecondsCounter = 0;
   while (new Date().valueOf() - startedAt.valueOf() < testDurationInMs) {
     console.log("Waiting for 100 seconds...");
     await delay(100000);
+    hundredSecondsCounter++;
+    if (hundredSecondsCounter % 36 === 0) {
+      hundredSecondsCounter++
+      generateHeapSnapshot("check-memLeak-" + (hundredSecondsCounter / 36), process.env.DEBUG_SHARE);
+    }
   }
 }
 

@@ -6,7 +6,8 @@ export {
   createAbortablePromise,
   CreateAbortablePromiseOptions,
   AbortOptions,
-  racePromisesAndAbortLosers,
+  cancelablePromiseRace,
+  AbortablePromiseBuilder
 } from "./aborterUtils";
 export { getRandomIntegerInclusive } from "./random";
 export { isObject, UnknownObject } from "./object";

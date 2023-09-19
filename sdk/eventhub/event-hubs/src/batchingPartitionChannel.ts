@@ -13,12 +13,12 @@ import {
   isDefined,
   isObjectWithProperties,
   AbortOptions,
-  racePromisesAndAbortLosers,
 } from "@azure/core-util";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AwaitableQueue } from "./impl/awaitableQueue";
 import { getPromiseParts } from "./util/getPromiseParts";
 import { logger } from "./logger";
+import { cancelablePromiseRace } from "@azure/core-util";
 
 export interface BatchingPartitionChannelProps {
   loopAbortSignal: AbortSignalLike;
@@ -52,8 +52,8 @@ export class BatchingPartitionChannel {
   private _flushState:
     | { isFlushing: false }
     | { isFlushing: true; currentPromise: Promise<void>; resolve: () => void } = {
-    isFlushing: false,
-  };
+      isFlushing: false,
+    };
   private _isRunning: boolean = false;
   private _lastBatchCreationTime: number = 0;
   private _loopAbortSignal: AbortSignalLike;
@@ -175,7 +175,7 @@ export class BatchingPartitionChannel {
 
         const event =
           eventToAddToBatch ??
-          (await racePromisesAndAbortLosers<EventData | AmqpAnnotatedMessage | void>(
+          (await cancelablePromiseRace<EventData | AmqpAnnotatedMessage, void>(
             [
               (abortOptions: AbortOptions) => this._eventQueue.shift(abortOptions),
               (abortOptions: AbortOptions) =>
@@ -185,7 +185,7 @@ export class BatchingPartitionChannel {
                   abortOptions.abortErrorMsg
                 ),
             ],
-            this._loopAbortSignal
+            { abortSignal: this._loopAbortSignal }
           ));
 
         if (!event) {

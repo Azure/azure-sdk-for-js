@@ -7,10 +7,25 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 
 // @public
+export type AbortablePromiseBuilder<T> = ((abortOptions: {
+    abortSignal?: AbortSignalLike;
+}) => Promise<T>);
+
+// @public
 export interface AbortOptions {
     abortErrorMsg?: string;
     abortSignal?: AbortSignalLike;
 }
+
+// @public
+export function cancelablePromiseRace<T1, T2>(abortablePromiseBuilders: (AbortablePromiseBuilder<T1> | AbortablePromiseBuilder<T2>)[], options?: {
+    abortSignal?: AbortSignalLike;
+}): Promise<T1 | T2>;
+
+// @public
+export function cancelablePromiseRace<T1, T2, T3>(abortablePromiseBuilders: (AbortablePromiseBuilder<T1> | AbortablePromiseBuilder<T2> | AbortablePromiseBuilder<T3>)[], options?: {
+    abortSignal?: AbortSignalLike;
+}): Promise<T1 | T2 | T3>;
 
 // @public
 export function computeSha256Hash(content: string, encoding: "base64" | "hex"): Promise<string>;
@@ -74,9 +89,6 @@ export const isWebWorker: boolean;
 
 // @public
 export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
-
-// @public
-export function racePromisesAndAbortLosers<T>(promises: ((abortOptions: AbortOptions) => Promise<T>)[], abortSignal?: AbortSignalLike): Promise<T>;
 
 // @public
 export function randomUUID(): string;

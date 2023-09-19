@@ -5,15 +5,15 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p .",
-    "test": "npm run build && node --inspect dist/src/scenarioSending.js --testDurationInMs=600000"
+    "test": "npm run build && node --expose-gc dist/src/scenarioSending.js --testDurationInMs=60000"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@azure/core-amqp": "3.2.0",
-    "@azure/core-util": "file:../azure-core-util-1.5.0.tgz",
-    "@azure/event-hubs": "file:../azure-event-hubs-5.11.2.tgz",
+    "@azure/core-util": "latest",
+    "@azure/event-hubs": "latest",
     "@azure/eventhubs-checkpointstore-blob": "1.0.1",
     "@azure/storage-blob": "latest",
     "applicationinsights": "^1.8.8",

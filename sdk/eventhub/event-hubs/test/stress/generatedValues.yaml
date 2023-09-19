@@ -1,7 +1,7 @@
 scenarios:
-- Scenario: node18-sending
+- memory: 1.5Gi
   testTarget: scenarioSending
   image: Dockerfile
-  memory: 1.5Gi
-  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshan-sep-5-mem-leak-fix-potential/jseh/dockerfile:harshanalluru
+  Scenario: node18-sending
+  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshan-sep-18-fix/jseh/dockerfile:harshanalluru
 
