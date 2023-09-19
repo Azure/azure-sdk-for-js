@@ -335,7 +335,7 @@ interface Hotel {
   rooms?: Array<{
     beds?: number | null;
     description?: string | null;
-  } | null>
+  } | null>;
 }
 
 const client = new SearchClient<Hotel>(
