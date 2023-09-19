@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves the current status of IDPS signatures for the relevant policy
  *
  * @summary Retrieves the current status of IDPS signatures for the relevant policy
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-04-01/examples/FirewallPolicyQuerySignatureOverrides.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-05-01/examples/FirewallPolicyQuerySignatureOverrides.json
  */
 async function querySignatureOverrides() {
   const subscriptionId =
