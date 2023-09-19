@@ -1,0 +1,68 @@
+Found configuration in /home/codespace/workspace/rush.json
+
+[1mRush Multi-Project Build Tool 5.106.0[22m - Node.js 16.20.1 (LTS)
+> "npm run clean && tsc -p . && npm run integration-test:node"
+
+
+> @azure/openai@1.0.0-beta.6 clean
+> rimraf dist dist-* temp types *.tgz *.log
+
+
+> @azure/openai@1.0.0-beta.6 integration-test:node
+> dev-tool run test:node-js-input -- --timeout 5000000 "dist-esm/test/public/{,!(browser)/**/}/*.spec.js"
+
+[test-info] ===TEST_MODE="live"===
+[node-tests] (node:2498) ExperimentalWarning: Custom ESM Loaders is an experimental feature. This feature could change at any time
+[node-tests] (Use `node --trace-warnings ...` to show where the warning was created)
+[node-tests] 
+[node-tests] 
+[node-tests]   README samples
+[node-tests]     ✔ Abort signal test
+[node-tests] 
+[node-tests]   README samples
+[node-tests]     ✔ Abort signal test
+[node-tests] 
+[node-tests] 
+[node-tests]   2 passing (6ms)
+[node-tests] 
+[node-tests] finish call to list chat complete
+[node-tests] finish list
+[node-tests] check abort controller null or not: false
+[node-tests] abort
+[node-tests] AbortError: The operation was aborted.
+[node-tests]     at AbortSignal.<anonymous> (/home/codespace/workspace/sdk/core/core-rest-pipeline/src/nodeHttpClient.ts:228:28)
+[node-tests]     at /home/codespace/workspace/sdk/core/abort-controller/src/AbortSignal.ts:162:16
+[node-tests]     at Array.forEach (<anonymous>)
+[node-tests]     at abortSignal (/home/codespace/workspace/sdk/core/abort-controller/src/AbortSignal.ts:161:23)
+[node-tests]     at AbortController.abort (/home/codespace/workspace/sdk/core/abort-controller/src/AbortController.ts:117:5)
+[node-tests]     at AbortSignal.abortListener (/home/codespace/workspace/sdk/core/core-rest-pipeline/src/nodeHttpClient.ts:85:27)
+[node-tests]     at AbortSignal.[nodejs.internal.kHybridDispatch] (node:internal/event_target:736:20)
+[node-tests]     at AbortSignal.dispatchEvent (node:internal/event_target:678:26)
+[node-tests]     at abortSignal (node:internal/abort_controller:292:10)
+[node-tests]     at AbortController.abort (node:internal/abort_controller:323:5)
+[node-tests]     at AzureClient.abortChatCompletion (file:///home/codespace/workspace/sdk/openai/openai/test/public/abortsignal.spec.ts:74:27)
+[node-tests]     at Timeout._onTimeout (file:///home/codespace/workspace/sdk/openai/openai/test/public/abortsignal.spec.ts:83:28)
+[node-tests]     at listOnTimeout (node:internal/timers:559:17)
+[node-tests]     at processTimers (node:internal/timers:502:7)
+[node-tests] Request aborted
+[node-tests] [ undefined, 'ABORTED' ]
+[node-tests] check abort controller false
+[node-tests] abort
+[node-tests] AbortError: The operation was aborted.
+[node-tests]     at AbortSignal.<anonymous> (/home/codespace/workspace/sdk/core/core-rest-pipeline/src/nodeHttpClient.ts:228:28)
+[node-tests]     at /home/codespace/workspace/sdk/core/abort-controller/src/AbortSignal.ts:162:16
+[node-tests]     at Array.forEach (<anonymous>)
+[node-tests]     at abortSignal (/home/codespace/workspace/sdk/core/abort-controller/src/AbortSignal.ts:161:23)
+[node-tests]     at AbortController.abort (/home/codespace/workspace/sdk/core/abort-controller/src/AbortController.ts:117:5)
+[node-tests]     at AbortSignal.abortListener (/home/codespace/workspace/sdk/core/core-rest-pipeline/src/nodeHttpClient.ts:85:27)
+[node-tests]     at AbortSignal.[nodejs.internal.kHybridDispatch] (node:internal/event_target:736:20)
+[node-tests]     at AbortSignal.dispatchEvent (node:internal/event_target:678:26)
+[node-tests]     at abortSignal (node:internal/abort_controller:292:10)
+[node-tests]     at AbortController.abort (node:internal/abort_controller:323:5)
+[node-tests]     at AzureClient.abortChatCompletion (file:///home/codespace/workspace/sdk/openai/openai/test/public/samples.spec.ts:163:27)
+[node-tests]     at Timeout._onTimeout (file:///home/codespace/workspace/sdk/openai/openai/test/public/samples.spec.ts:172:28)
+[node-tests]     at listOnTimeout (node:internal/timers:559:17)
+[node-tests]     at processTimers (node:internal/timers:502:7)
+[node-tests] Request aborted
+[node-tests] [ undefined, 'ABORTED' ]
+[node-tests] mocha -r source-map-support/register.js --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --timeout 5000000 "dist-esm/test/public/{,!(browser)/**/}/*.spec.js" exited with code 0
