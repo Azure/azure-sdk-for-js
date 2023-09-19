@@ -9,8 +9,8 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
+import type { FormDataEncoder } from "../../../node_modules/form-data-encoder/@type/index.d.ts";
 import { FormData, File } from "formdata-node";
-import { FormDataEncoder } from "form-data-encoder";
 import {
   FormDataMap,
   PipelinePolicy,
@@ -38,7 +38,7 @@ export function formDataWithFileUploadPolicy(boundary?: string): PipelinePolicy 
           request.body = wwwFormUrlEncode(request.formData);
           request.formData = undefined;
         } else {
-          prepareFormData(request.formData, request, boundary);
+          await prepareFormData(request.formData, request, boundary);
         }
       }
       return next(request);
@@ -60,7 +60,11 @@ function wwwFormUrlEncode(formData: FormDataMap): string {
   return urlSearchParams.toString();
 }
 
-function prepareFormData(formData: FormDataMap, request: PipelineRequest, boundary?: string): void {
+async function prepareFormData(
+  formData: FormDataMap,
+  request: PipelineRequest,
+  boundary?: string
+): Promise<void> {
   const requestForm = new FormData();
   for (const formKey of Object.keys(formData)) {
     const formValue = formData[formKey];
@@ -72,8 +76,11 @@ function prepareFormData(formData: FormDataMap, request: PipelineRequest, bounda
       requestForm.append(formKey, formValue);
     }
   }
+  // This library doesn't define `type` entries in the exports section of its package.json.
+  // See https://github.com/microsoft/TypeScript/issues/52363
+  const { FormDataEncoder } = await import("form-data-encoder" as any);
 
-  const encoder = boundary
+  const encoder: FormDataEncoder = boundary
     ? new FormDataEncoder(requestForm, boundary)
     : new FormDataEncoder(requestForm);
   const body = Readable.from(encoder.encode());

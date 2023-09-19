@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import type { FormDataEncoder } from "../../../../node_modules/form-data-encoder/@type/index.d.ts";
 import { FormData, File } from "formdata-node";
-import { FormDataEncoder } from "form-data-encoder";
 import {
   FormDataMap,
   PipelinePolicy,
@@ -30,7 +30,7 @@ export function formDataWithFileUploadPolicy(): PipelinePolicy {
           request.body = wwwFormUrlEncode(request.formData);
           request.formData = undefined;
         } else {
-          prepareFormData(request.formData, request);
+          await prepareFormData(request.formData, request);
         }
       }
       return next(request);
@@ -52,7 +52,7 @@ function wwwFormUrlEncode(formData: FormDataMap): string {
   return urlSearchParams.toString();
 }
 
-function prepareFormData(formData: FormDataMap, request: PipelineRequest): void {
+async function prepareFormData(formData: FormDataMap, request: PipelineRequest): Promise<void> {
   const requestForm = new FormData();
   for (const formKey of Object.keys(formData)) {
     const formValue = formData[formKey];
@@ -65,7 +65,10 @@ function prepareFormData(formData: FormDataMap, request: PipelineRequest): void 
     }
   }
 
-  const encoder = new FormDataEncoder(requestForm);
+  // This library doesn't define `type` entries in the exports section of its package.json.
+  // See https://github.com/microsoft/TypeScript/issues/52363
+  const { FormDataEncoder } = await import("form-data-encoder" as any);
+  const encoder: FormDataEncoder = new FormDataEncoder(requestForm);
   const body = Readable.from(encoder.encode());
   request.body = body;
   request.formData = undefined;

@@ -4449,7 +4449,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230915
+      typescript: 5.3.0-dev.20230919
     dev: false
 
   /ecdsa-sig-formatter@1.0.11:
@@ -5230,9 +5230,8 @@ packages:
       signal-exit: 3.0.7
     dev: false
 
-  /form-data-encoder@3.0.0:
-    resolution: {integrity: sha512-qPautpoQvO/kTxjKawxHlBQ5KUHdJy8c3z5ddUaF589k5nJDY+AjnvsxtzLXlZmkNNu64bA7YOuvwWb32TMbJw==}
-    engines: {node: '>= 16.5'}
+  /form-data-encoder@1.7.2:
+    resolution: {integrity: sha512-qfqtYan3rxrnCk1VYaA4H+Ms9xdpPqvLZa6xmMgFvhO32x7/3J/ExcTd6qpxM0vH2GdMI+poehyBZvqfMTto8A==}
     dev: false
 
   /form-data@4.0.0:
@@ -5244,9 +5243,9 @@ packages:
       mime-types: 2.1.35
     dev: false
 
-  /formdata-node@5.0.1:
-    resolution: {integrity: sha512-8xnIjMYGKPj+rY2BTbAmpqVpi8der/2FT4d9f7J32FlsCpO5EzZPq3C/N56zdv8KweHzVF6TGijsS1JT6r1H2g==}
-    engines: {node: '>= 14.17'}
+  /formdata-node@4.4.1:
+    resolution: {integrity: sha512-0iirZp3uVDjVGt9p49aTaqjk84TrglENEDuqfdlZQ1roC9CWlPk6Avf8EEnZNcAqPonwkG35x4n3ww/1THYAeQ==}
+    engines: {node: '>= 12.20'}
     dependencies:
       node-domexception: 1.0.0
       web-streams-polyfill: 4.0.0-beta.3
@@ -9108,8 +9107,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20230915:
-    resolution: {integrity: sha512-GQr8dkpN44ywddczAzV80zSPckUfqUbxmCi2SXJ0SvOMOk7TXMUrcptoHQm7HqFggTUS41AUEr+a8RmyPApw4Q==}
+  /typescript@5.3.0-dev.20230919:
+    resolution: {integrity: sha512-FU6DZhzId38aY/dX2gHp7phaYkbNJkCx8G//VVs0nVzZv0qjWGggLkMXoMipphO8Hv0TvZu30Zwdt6nzFIbcBQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -20181,7 +20180,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-l5LbnaWdqquhRfqmd7eN+w+pE3/Paoc1lQKC5ZYvPqEOkIpcT+Ht6EGHYMtK2lDrRrNvMQga/K4iWalDHJDgZw==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-WRV1j/1aVnIgMm/N3idnFRuT3yBlsIHTD89SNhEkeYwD5LWtt4+HJCbflVkrOBkdN/zDUARQ8BEpOyHGrUIYAg==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -20192,8 +20191,8 @@ packages:
       dotenv: 16.3.1
       eslint: 8.49.0
       esm: 3.2.25
-      form-data-encoder: 3.0.0
-      formdata-node: 5.0.1
+      form-data-encoder: 1.7.2
+      formdata-node: 4.4.1
       karma: 6.4.2(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
