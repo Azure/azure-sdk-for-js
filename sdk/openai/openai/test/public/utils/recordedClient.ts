@@ -31,16 +31,6 @@ const recorderStartOptions: RecorderStartOptions = {
         target: `\\.png?[^"]+`,
         value: ".png?sanitized",
       },
-      {
-        regex: true,
-        target: `resourceGroups/[\\w-]+/`,
-        value: "resourceGroups/openai-shared/",
-      },
-      {
-        regex: true,
-        target: `accounts/[\\w-]+/`,
-        value: "accounts/openai-shared/",
-      },
     ],
   },
 };

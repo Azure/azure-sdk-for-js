@@ -220,6 +220,7 @@ describe("OpenAI", function () {
                   });
                   assertChatCompletions(result, { functions: true });
                   const responseMessage = result.choices[0].message;
+                  assert.isDefined(responseMessage?.functionCall, "functionCall is undefined");
                   if (responseMessage?.functionCall) {
                     const functionArgs = JSON.parse(responseMessage.functionCall.arguments);
                     weatherMessages.push(responseMessage);
