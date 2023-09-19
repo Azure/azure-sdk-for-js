@@ -10,7 +10,6 @@ import {
   AddParticipantRequest,
   CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
-  CancelAddParticipantRequest,
   MuteParticipantsRequest,
   RemoveParticipantRequest,
   TransferToParticipantRequest,
