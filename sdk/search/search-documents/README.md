@@ -404,7 +404,7 @@ Text embeddings can be queried using the `vector` search parameter.
 ```js
 const { SearchClient, AzureKeyCredential, odata } = require("@azure/search-documents");
 
-const client = new SearchClient("<endpoint>", "<indexName>", new AzureKeyCredential("<apiKey>"));
+const searchClient = new SearchClient("<endpoint>", "<indexName>", new AzureKeyCredential("<apiKey>"));
 
 async function main() {
   const queryVector = [...]
