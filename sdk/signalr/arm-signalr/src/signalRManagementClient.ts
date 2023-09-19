@@ -22,6 +22,7 @@ import {
   SignalRCustomDomainsImpl,
   SignalRPrivateEndpointConnectionsImpl,
   SignalRPrivateLinkResourcesImpl,
+  SignalRReplicasImpl,
   SignalRSharedPrivateLinkResourcesImpl
 } from "./operations";
 import {
@@ -32,6 +33,7 @@ import {
   SignalRCustomDomains,
   SignalRPrivateEndpointConnections,
   SignalRPrivateLinkResources,
+  SignalRReplicas,
   SignalRSharedPrivateLinkResources
 } from "./operationsInterfaces";
 import { SignalRManagementClientOptionalParams } from "./models";
@@ -44,8 +46,7 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the SignalRManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Gets subscription Id which uniquely identify the Microsoft Azure subscription.
-   *                       The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -69,7 +70,7 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-signalr/5.2.1`;
+    const packageDetails = `azsdk-js-arm-signalr/6.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -122,7 +123,7 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-02-01";
+    this.apiVersion = options.apiVersion || "2023-06-01-preview";
     this.operations = new OperationsImpl(this);
     this.signalR = new SignalRImpl(this);
     this.usages = new UsagesImpl(this);
@@ -134,6 +135,7 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
     this.signalRPrivateLinkResources = new SignalRPrivateLinkResourcesImpl(
       this
     );
+    this.signalRReplicas = new SignalRReplicasImpl(this);
     this.signalRSharedPrivateLinkResources = new SignalRSharedPrivateLinkResourcesImpl(
       this
     );
@@ -175,5 +177,6 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
   signalRCustomDomains: SignalRCustomDomains;
   signalRPrivateEndpointConnections: SignalRPrivateEndpointConnections;
   signalRPrivateLinkResources: SignalRPrivateLinkResources;
+  signalRReplicas: SignalRReplicas;
   signalRSharedPrivateLinkResources: SignalRSharedPrivateLinkResources;
 }
