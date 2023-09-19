@@ -500,3 +500,59 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
 
   return $true
 }
+
+function Update-javascript-GeneratedSdks([string]$PackageFoldersFile) {
+  $moduleFolders = Get-Content $PackageFoldersFile | ConvertFrom-Json
+  
+  $foldersWithErrors = @()
+
+  foreach ($folder in $moduleFolders) {
+    Write-Host 'Generating projects under folder ' -ForegroundColor Green -NoNewline
+    Write-Host "$folder" -ForegroundColor Yellow
+    
+    $moduleFolder = "$RepoRoot/sdk/$folder"
+
+    if (!(Test-Path $moduleFolder)) {
+      Write-Host "Module folder not found: $moduleFolder"
+      continue
+    }
+
+    $swaggerFolder = "$moduleFolder/swagger"
+    $tspLocation = "$moduleFolder/tsp-location.yaml"
+
+    if (Test-Path $tspLocation) {
+      Push-Location "$RepoRoot/sdk/$folder"
+      try {
+        Invoke-LoggedCommand "npx autorest --typescript ./README.md"
+      }
+      catch {
+        $foldersWithErrors += $folder
+      }
+      finally {
+        Pop-Location
+      }
+    }
+    elseif (Test-Path $swaggerFolder) {
+      Push-Location $swaggerFolder
+      try {
+        Invoke-LoggedCommand "npx tsp compile . --emit=@azure-tools/typespec-ts --output-dir=."
+      }
+      catch {
+        $foldersWithErrors += $folder
+      }
+      finally {
+        Pop-Location
+      }
+    }
+    else {
+      Write-Host "No swagger folder or tsp-location.yaml found in $folder"
+    }
+  }
+
+  if ($foldersWithErrors.Count -gt 0) {
+    Write-Host "##[error]Generation errors found in $($foldersWithErrors.Count) folders:"
+    foreach ($folder in $foldersWithErrors) {
+      Write-Host "  $folder"
+    }
+  }
+}
