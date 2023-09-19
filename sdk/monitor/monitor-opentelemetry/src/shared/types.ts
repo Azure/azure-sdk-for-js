@@ -5,7 +5,6 @@ import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-export
 import { InstrumentationConfig } from "@opentelemetry/instrumentation";
 import { Resource } from "@opentelemetry/resources";
 
-
 /**
  * Azure Monitor OpenTelemetry Options
  */
