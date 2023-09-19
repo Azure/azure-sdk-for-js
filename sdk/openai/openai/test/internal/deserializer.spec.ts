@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import {
-  getChatCompletionsResult,
-  getCompletionsResult,
-} from "../../sources/customizations/api/deserializers.js";
+import { getChatCompletionsResult, getCompletionsResult } from "../../src/api/deserializers.js";
 
 describe("deserializers", () => {
   describe("getCompletionsResult", () => {
@@ -195,6 +192,7 @@ describe("deserializers", () => {
             },
           },
         ],
+        usage: { completion_tokens: 135, prompt_tokens: 68, total_tokens: 203 },
       };
 
       const result = getChatCompletionsResult(body);
@@ -253,6 +251,79 @@ describe("deserializers", () => {
             },
           },
         ],
+        usage: { completionTokens: 135, promptTokens: 68, totalTokens: 203 },
+      });
+    });
+
+    it("should deserialize error in content filter", () => {
+      const body = {
+        id: "123",
+        created: "2022-01-01T00:00:00.000Z",
+        prompt_annotations: [
+          {
+            prompt_index: 0,
+            content_filter_results: {
+              error: {
+                code: "content_filter_error",
+                message: "The contents are not filtered",
+              },
+            },
+          },
+        ],
+        choices: [
+          {
+            message: {
+              role: "bot",
+              content: "Hello",
+            },
+            index: 0,
+            finish_reason: "stop",
+            content_filter_results: {
+              error: {
+                code: "content_filter_error",
+                message: "The contents are not filtered",
+              },
+            },
+          },
+        ],
+        usage: { completion_tokens: 135, prompt_tokens: 68, total_tokens: 203 },
+      };
+
+      const result = getChatCompletionsResult(body);
+
+      assert.deepStrictEqual(result, {
+        id: "123",
+        created: new Date("2022-01-01T00:00:00.000Z"),
+        promptFilterResults: [
+          {
+            promptIndex: 0,
+            contentFilterResults: {
+              error: {
+                code: "content_filter_error",
+                message: "The contents are not filtered",
+                details: [],
+              },
+            },
+          },
+        ],
+        choices: [
+          {
+            message: {
+              role: "bot",
+              content: "Hello",
+            },
+            index: 0,
+            finishReason: "stop",
+            contentFilterResults: {
+              error: {
+                code: "content_filter_error",
+                message: "The contents are not filtered",
+                details: [],
+              },
+            },
+          },
+        ],
+        usage: { completionTokens: 135, promptTokens: 68, totalTokens: 203 },
       });
     });
   });

@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  ChatMessage,
-  ChatRole,
-  Completions,
-  ContentFilterResults,
-} from "../../generated/src/models/models.js";
+import { ChatMessage, ChatRole, Completions } from "../../generated/src/models/models.js";
 import {
   ChatChoiceOutput,
   ChatMessageOutput,
@@ -15,7 +10,7 @@ import {
   PromptFilterResultOutput,
 } from "../../generated/src/rest/outputModels.js";
 import { ChatCompletions } from "../models/models.js";
-
+import { ContentFilterResults } from "./models.js";
 export function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usage"> {
   return {
     id: body["id"],
@@ -126,6 +121,15 @@ function _deserializeMessage(message: ChatMessageOutput): ChatMessage {
 }
 
 function deserializeContentFilter(result: ContentFilterResultsOutput): ContentFilterResults {
+  if (result.error) {
+    return {
+      error: {
+        code: result.error.code,
+        message: result.error.message,
+        details: result.error.details ?? [],
+      },
+    };
+  }
   return {
     ...(!result.sexual
       ? {}

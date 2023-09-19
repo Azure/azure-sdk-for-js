@@ -21,7 +21,7 @@ async function createSkillset(skillsetName, client) {
     description: `Skillset description`,
     skills: [
       {
-        odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
+        odatatype: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill",
         inputs: [
           {
             name: "text",

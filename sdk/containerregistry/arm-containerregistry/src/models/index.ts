@@ -25,6 +25,189 @@ export type TaskStepUpdateParametersUnion =
   | FileTaskStepUpdateParameters
   | EncodedTaskStepUpdateParameters;
 
+/** The result of a request to list cache rules for a container registry. */
+export interface CacheRulesListResult {
+  /** The list of cache rules. */
+  value?: CacheRule[];
+  /** If provided, client must use NextLink URI to request next list of cache rules. */
+  nextLink?: string;
+}
+
+/** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags. */
+export interface ProxyResource {
+  /**
+   * The resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: LastModifiedByType;
+  /** The timestamp of resource modification (UTC). */
+  lastModifiedAt?: Date;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** The parameters for updating a cache rule. */
+export interface CacheRuleUpdateParameters {
+  /** The ARM resource ID of the credential store which is associated with the Cache rule. */
+  credentialSetResourceId?: string;
+}
+
+/** The result of a request to list credential sets for a container registry. */
+export interface CredentialSetListResult {
+  /** The list of credential sets. Since this list may be incomplete, the nextLink field should be used to request the next list of credential sets. */
+  value?: CredentialSet[];
+  /** The URI that can be used to request the next list of credential sets. */
+  nextLink?: string;
+}
+
+/** Managed identity for the resource. */
+export interface IdentityProperties {
+  /**
+   * The principal ID of resource identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The identity type. */
+  type?: ResourceIdentityType;
+  /**
+   * The list of user identities associated with the resource. The user identity
+   * dictionary key references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
+   *     providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
+}
+
+export interface UserIdentityProperties {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Authentication credential stored for an upstream. */
+export interface AuthCredential {
+  /** The name of the credential. */
+  name?: CredentialName;
+  /** KeyVault Secret URI for accessing the username. */
+  usernameSecretIdentifier?: string;
+  /** KeyVault Secret URI for accessing the password. */
+  passwordSecretIdentifier?: string;
+  /**
+   * This provides data pertaining to the health of the auth credential.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly credentialHealth?: CredentialHealth;
+}
+
+/** The health of the auth credential. */
+export interface CredentialHealth {
+  /** The health status of credential. */
+  status?: CredentialHealthStatus;
+  /** Error code representing the health check error. */
+  errorCode?: string;
+  /** Descriptive message representing the health check error. */
+  errorMessage?: string;
+}
+
+/** The parameters for updating a credential set */
+export interface CredentialSetUpdateParameters {
+  /** Identities associated with the resource. This is used to access the KeyVault secrets. */
+  identity?: IdentityProperties;
+  /**
+   * List of authentication credentials stored for an upstream.
+   * Usually consists of a primary and an optional secondary credential.
+   */
+  authCredentials?: AuthCredential[];
+}
+
 export interface ImportImageParameters {
   /** The source of the image. */
   source: ImportSource;
@@ -172,46 +355,6 @@ export interface PrivateLinkServiceConnectionState {
   actionsRequired?: ActionsRequired;
 }
 
-/** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags. */
-export interface ProxyResource {
-  /**
-   * The resource ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: LastModifiedByType;
-  /** The timestamp of resource modification (UTC). */
-  lastModifiedAt?: Date;
-}
-
 /** The result of a request to list container registries. */
 export interface RegistryListResult {
   /** The list of container registries. Since this list may be incomplete, the nextLink field should be used to request the next list of container registries. */
@@ -229,30 +372,6 @@ export interface Sku {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tier?: SkuTier;
-}
-
-/** Managed identity for the resource. */
-export interface IdentityProperties {
-  /** The principal ID of resource identity. */
-  principalId?: string;
-  /** The tenant ID of resource. */
-  tenantId?: string;
-  /** The identity type. */
-  type?: ResourceIdentityType;
-  /**
-   * The list of user identities associated with the resource. The user identity
-   * dictionary key references will be ARM resource ids in the form:
-   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-   *     providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-   */
-  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
-}
-
-export interface UserIdentityProperties {
-  /** The principal id of user assigned identity. */
-  principalId?: string;
-  /** The client id of user assigned identity. */
-  clientId?: string;
 }
 
 /** The status of an Azure resource at the time the operation was called. */
@@ -459,34 +578,6 @@ export interface PrivateLinkResource {
   requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-}
-
-/** An error response from the Azure Container Registry service. */
-export interface ErrorResponse {
-  /** Azure container registry build API error body. */
-  error?: ErrorResponseBody;
-}
-
-/** An error response from the Azure Container Registry service. */
-export interface ErrorResponseBody {
-  /** error code. */
-  code: string;
-  /** error message. */
-  message: string;
-  /** target of the particular error. */
-  target?: string;
-  /** an array of additional nested error response info objects, as described by this contract. */
-  details?: InnerErrorDescription[];
-}
-
-/** inner error. */
-export interface InnerErrorDescription {
-  /** error code. */
-  code: string;
-  /** error message. */
-  message: string;
-  /** target of the particular error. */
-  target?: string;
 }
 
 /** The response from the ListCredentials operation. */
@@ -773,6 +864,34 @@ export interface CallbackConfig {
   serviceUri: string;
   /** Custom headers that will be added to the webhook notifications. */
   customHeaders?: { [propertyName: string]: string };
+}
+
+/** An error response from the Azure Container Registry service. */
+export interface ErrorResponseForContainerRegistry {
+  /** Azure container registry build API error body. */
+  error?: ErrorResponseBody;
+}
+
+/** An error response from the Azure Container Registry service. */
+export interface ErrorResponseBody {
+  /** error code. */
+  code: string;
+  /** error message. */
+  message: string;
+  /** target of the particular error. */
+  target?: string;
+  /** an array of additional nested error response info objects, as described by this contract. */
+  details?: InnerErrorDescription[];
+}
+
+/** inner error. */
+export interface InnerErrorDescription {
+  /** error code. */
+  code: string;
+  /** error message. */
+  message: string;
+  /** target of the particular error. */
+  target?: string;
 }
 
 /** The parameters for updating an agent pool. */
@@ -1305,6 +1424,52 @@ export interface OverrideTaskStepProperties {
   updateTriggerToken?: string;
 }
 
+/** An object that represents a cache rule for a container registry. */
+export interface CacheRule extends ProxyResource {
+  /** The ARM resource ID of the credential store which is associated with the cache rule. */
+  credentialSetResourceId?: string;
+  /** Source repository pulled from upstream. */
+  sourceRepository?: string;
+  /**
+   * Target repository specified in docker pull command.
+   * Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag}
+   */
+  targetRepository?: string;
+  /**
+   * The creation date of the cache rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creationDate?: Date;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** An object that represents a credential set resource for a container registry. */
+export interface CredentialSet extends ProxyResource {
+  /** Identities associated with the resource. This is used to access the KeyVault secrets. */
+  identity?: IdentityProperties;
+  /** The credentials are stored for this upstream or login server. */
+  loginServer?: string;
+  /**
+   * List of authentication credentials stored for an upstream.
+   * Usually consists of a primary and an optional secondary credential.
+   */
+  authCredentials?: AuthCredential[];
+  /**
+   * The creation date of credential store resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creationDate?: Date;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
 /** An object that represents a private endpoint connection for a container registry. */
 export interface PrivateEndpointConnection extends ProxyResource {
   /** The resource of private endpoint. */
@@ -1775,6 +1940,36 @@ export interface EncodedTaskStepUpdateParameters
   values?: SetValue[];
 }
 
+/** Defines headers for CacheRules_create operation. */
+export interface CacheRulesCreateHeaders {
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for CacheRules_delete operation. */
+export interface CacheRulesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for CacheRules_update operation. */
+export interface CacheRulesUpdateHeaders {
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for CredentialSets_create operation. */
+export interface CredentialSetsCreateHeaders {
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for CredentialSets_delete operation. */
+export interface CredentialSetsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for CredentialSets_update operation. */
+export interface CredentialSetsUpdateHeaders {
+  azureAsyncOperation?: string;
+}
+
 /** Defines headers for Registries_importImage operation. */
 export interface RegistriesImportImageHeaders {
   location?: string;
@@ -1870,66 +2065,6 @@ export interface WebhooksUpdateHeaders {
   azureAsyncOperation?: string;
 }
 
-/** Known values of {@link ImportMode} that the service accepts. */
-export enum KnownImportMode {
-  /** NoForce */
-  NoForce = "NoForce",
-  /** Force */
-  Force = "Force"
-}
-
-/**
- * Defines values for ImportMode. \
- * {@link KnownImportMode} can be used interchangeably with ImportMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NoForce** \
- * **Force**
- */
-export type ImportMode = string;
-
-/** Known values of {@link ConnectionStatus} that the service accepts. */
-export enum KnownConnectionStatus {
-  /** Approved */
-  Approved = "Approved",
-  /** Pending */
-  Pending = "Pending",
-  /** Rejected */
-  Rejected = "Rejected",
-  /** Disconnected */
-  Disconnected = "Disconnected"
-}
-
-/**
- * Defines values for ConnectionStatus. \
- * {@link KnownConnectionStatus} can be used interchangeably with ConnectionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Approved** \
- * **Pending** \
- * **Rejected** \
- * **Disconnected**
- */
-export type ConnectionStatus = string;
-
-/** Known values of {@link ActionsRequired} that the service accepts. */
-export enum KnownActionsRequired {
-  /** None */
-  None = "None",
-  /** Recreate */
-  Recreate = "Recreate"
-}
-
-/**
- * Defines values for ActionsRequired. \
- * {@link KnownActionsRequired} can be used interchangeably with ActionsRequired,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Recreate**
- */
-export type ActionsRequired = string;
-
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
   /** Creating */
@@ -2007,6 +2142,99 @@ export enum KnownLastModifiedByType {
  * **Key**
  */
 export type LastModifiedByType = string;
+
+/** Known values of {@link CredentialName} that the service accepts. */
+export enum KnownCredentialName {
+  /** Credential1 */
+  Credential1 = "Credential1"
+}
+
+/**
+ * Defines values for CredentialName. \
+ * {@link KnownCredentialName} can be used interchangeably with CredentialName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Credential1**
+ */
+export type CredentialName = string;
+
+/** Known values of {@link CredentialHealthStatus} that the service accepts. */
+export enum KnownCredentialHealthStatus {
+  /** Healthy */
+  Healthy = "Healthy",
+  /** Unhealthy */
+  Unhealthy = "Unhealthy"
+}
+
+/**
+ * Defines values for CredentialHealthStatus. \
+ * {@link KnownCredentialHealthStatus} can be used interchangeably with CredentialHealthStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Healthy** \
+ * **Unhealthy**
+ */
+export type CredentialHealthStatus = string;
+
+/** Known values of {@link ImportMode} that the service accepts. */
+export enum KnownImportMode {
+  /** NoForce */
+  NoForce = "NoForce",
+  /** Force */
+  Force = "Force"
+}
+
+/**
+ * Defines values for ImportMode. \
+ * {@link KnownImportMode} can be used interchangeably with ImportMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NoForce** \
+ * **Force**
+ */
+export type ImportMode = string;
+
+/** Known values of {@link ConnectionStatus} that the service accepts. */
+export enum KnownConnectionStatus {
+  /** Approved */
+  Approved = "Approved",
+  /** Pending */
+  Pending = "Pending",
+  /** Rejected */
+  Rejected = "Rejected",
+  /** Disconnected */
+  Disconnected = "Disconnected"
+}
+
+/**
+ * Defines values for ConnectionStatus. \
+ * {@link KnownConnectionStatus} can be used interchangeably with ConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Approved** \
+ * **Pending** \
+ * **Rejected** \
+ * **Disconnected**
+ */
+export type ConnectionStatus = string;
+
+/** Known values of {@link ActionsRequired} that the service accepts. */
+export enum KnownActionsRequired {
+  /** None */
+  None = "None",
+  /** Recreate */
+  Recreate = "Recreate"
+}
+
+/**
+ * Defines values for ActionsRequired. \
+ * {@link KnownActionsRequired} can be used interchangeably with ActionsRequired,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Recreate**
+ */
+export type ActionsRequired = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
@@ -2663,6 +2891,120 @@ export type ResourceIdentityType =
   | "None";
 /** Defines values for PasswordName. */
 export type PasswordName = "password" | "password2";
+
+/** Optional parameters. */
+export interface CacheRulesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type CacheRulesListResponse = CacheRulesListResult;
+
+/** Optional parameters. */
+export interface CacheRulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CacheRulesGetResponse = CacheRule;
+
+/** Optional parameters. */
+export interface CacheRulesCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type CacheRulesCreateResponse = CacheRule;
+
+/** Optional parameters. */
+export interface CacheRulesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type CacheRulesDeleteResponse = CacheRulesDeleteHeaders;
+
+/** Optional parameters. */
+export interface CacheRulesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type CacheRulesUpdateResponse = CacheRule;
+
+/** Optional parameters. */
+export interface CacheRulesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type CacheRulesListNextResponse = CacheRulesListResult;
+
+/** Optional parameters. */
+export interface CredentialSetsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type CredentialSetsListResponse = CredentialSetListResult;
+
+/** Optional parameters. */
+export interface CredentialSetsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CredentialSetsGetResponse = CredentialSet;
+
+/** Optional parameters. */
+export interface CredentialSetsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type CredentialSetsCreateResponse = CredentialSet;
+
+/** Optional parameters. */
+export interface CredentialSetsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type CredentialSetsDeleteResponse = CredentialSetsDeleteHeaders;
+
+/** Optional parameters. */
+export interface CredentialSetsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type CredentialSetsUpdateResponse = CredentialSet;
+
+/** Optional parameters. */
+export interface CredentialSetsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type CredentialSetsListNextResponse = CredentialSetListResult;
 
 /** Optional parameters. */
 export interface RegistriesImportImageOptionalParams
