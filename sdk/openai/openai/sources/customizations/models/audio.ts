@@ -15,7 +15,7 @@ export type AudioResultFormat =
   /** The transcription will be provided in VTT format (Web Video Text Tracks) in the form of plain/text. */
   | "vtt";
 
-/** Lorem ipsum */
+/** Simple transcription response */
 export interface AudioResultSimpleJson {
   /** Transcribed text. */
   text: string;
