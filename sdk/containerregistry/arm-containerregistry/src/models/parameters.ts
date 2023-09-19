@@ -12,6 +12,10 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  CacheRule as CacheRuleMapper,
+  CacheRuleUpdateParameters as CacheRuleUpdateParametersMapper,
+  CredentialSet as CredentialSetMapper,
+  CredentialSetUpdateParameters as CredentialSetUpdateParametersMapper,
   ImportImageParameters as ImportImageParametersMapper,
   RegistryNameCheckRequest as RegistryNameCheckRequestMapper,
   Registry as RegistryMapper,
@@ -37,21 +41,16 @@ import {
   TaskUpdateParameters as TaskUpdateParametersMapper
 } from "../models/mappers";
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
+export const accept: OperationParameter = {
+  parameterPath: "accept",
   mapper: {
     defaultValue: "application/json",
     isConstant: true,
-    serializedName: "Content-Type",
+    serializedName: "Accept",
     type: {
       name: "String"
     }
   }
-};
-
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ImportImageParametersMapper
 };
 
 export const $host: OperationURLParameter = {
@@ -69,7 +68,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-12-01",
+    defaultValue: "2023-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -120,21 +119,90 @@ export const registryName: OperationURLParameter = {
   }
 };
 
-export const registryNameCheckRequest: OperationParameter = {
-  parameterPath: "registryNameCheckRequest",
-  mapper: RegistryNameCheckRequestMapper
-};
-
-export const accept: OperationParameter = {
-  parameterPath: "accept",
+export const cacheRuleName: OperationURLParameter = {
+  parameterPath: "cacheRuleName",
   mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
+      MaxLength: 50,
+      MinLength: 5
+    },
+    serializedName: "cacheRuleName",
+    required: true,
     type: {
       name: "String"
     }
   }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const cacheRuleCreateParameters: OperationParameter = {
+  parameterPath: "cacheRuleCreateParameters",
+  mapper: CacheRuleMapper
+};
+
+export const cacheRuleUpdateParameters: OperationParameter = {
+  parameterPath: "cacheRuleUpdateParameters",
+  mapper: CacheRuleUpdateParametersMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
+export const credentialSetName: OperationURLParameter = {
+  parameterPath: "credentialSetName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
+      MaxLength: 50,
+      MinLength: 5
+    },
+    serializedName: "credentialSetName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const credentialSetCreateParameters: OperationParameter = {
+  parameterPath: "credentialSetCreateParameters",
+  mapper: CredentialSetMapper
+};
+
+export const credentialSetUpdateParameters: OperationParameter = {
+  parameterPath: "credentialSetUpdateParameters",
+  mapper: CredentialSetUpdateParametersMapper
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ImportImageParametersMapper
+};
+
+export const registryNameCheckRequest: OperationParameter = {
+  parameterPath: "registryNameCheckRequest",
+  mapper: RegistryNameCheckRequestMapper
 };
 
 export const registry: OperationParameter = {
@@ -197,18 +265,6 @@ export const apiVersion1: OperationQueryParameter = {
       name: "String"
     }
   }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
