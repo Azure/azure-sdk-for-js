@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ContainerRegistryManagementClient.",
-  "version": "11.0.0-beta.1",
+  "version": "11.0.0-beta.2",
   "engines": {
     "node": ">=14.0.0"
   },
