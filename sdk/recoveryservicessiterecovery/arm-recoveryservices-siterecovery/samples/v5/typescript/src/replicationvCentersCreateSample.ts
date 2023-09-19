@@ -13,17 +13,23 @@ import {
   SiteRecoveryManagementClient
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to create a vCenter object..
  *
  * @summary The operation to create a vCenter object..
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationvCenters_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationvCenters_Create.json
  */
 async function addVCenter() {
-  const subscriptionId = "7c943c1b-5122-4097-90c8-861411bdd574";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "7c943c1b-5122-4097-90c8-861411bdd574";
   const resourceName = "MadhaviVault";
-  const resourceGroupName = "MadhaviVRG";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "MadhaviVRG";
   const fabricName = "MadhaviFabric";
   const vcenterName = "esx-78";
   const addVCenterRequest: AddVCenterRequest = {
@@ -47,4 +53,8 @@ async function addVCenter() {
   console.log(result);
 }
 
-addVCenter().catch(console.error);
+async function main() {
+  addVCenter();
+}
+
+main().catch(console.error);

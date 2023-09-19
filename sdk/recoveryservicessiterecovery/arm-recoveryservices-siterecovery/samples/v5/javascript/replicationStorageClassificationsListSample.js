@@ -10,17 +10,21 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists the storage classifications in the vault.
  *
  * @summary Lists the storage classifications in the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationStorageClassifications_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationStorageClassifications_List.json
  */
 async function getsTheListOfStorageClassificationObjectsUnderAVault() {
-  const subscriptionId = "9112a37f-0f3e-46ec-9c00-060c6edca071";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "9112a37f-0f3e-46ec-9c00-060c6edca071";
   const resourceName = "vault1";
-  const resourceGroupName = "resourceGroupPS1";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "resourceGroupPS1";
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -33,4 +37,8 @@ async function getsTheListOfStorageClassificationObjectsUnderAVault() {
   console.log(resArray);
 }
 
-getsTheListOfStorageClassificationObjectsUnderAVault().catch(console.error);
+async function main() {
+  getsTheListOfStorageClassificationObjectsUnderAVault();
+}
+
+main().catch(console.error);
