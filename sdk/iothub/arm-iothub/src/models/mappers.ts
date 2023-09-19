@@ -306,24 +306,10 @@ export const IotHubProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      deviceStreams: {
-        serializedName: "deviceStreams",
-        type: {
-          name: "Composite",
-          className: "IotHubPropertiesDeviceStreams"
-        }
-      },
       features: {
         serializedName: "features",
         type: {
           name: "String"
-        }
-      },
-      encryption: {
-        serializedName: "encryption",
-        type: {
-          name: "Composite",
-          className: "EncryptionPropertiesDescription"
         }
       },
       locations: {
@@ -343,19 +329,6 @@ export const IotHubProperties: coreClient.CompositeMapper = {
         serializedName: "enableDataResidency",
         type: {
           name: "Boolean"
-        }
-      },
-      rootCertificate: {
-        serializedName: "rootCertificate",
-        type: {
-          name: "Composite",
-          className: "RootCertificateProperties"
-        }
-      },
-      ipVersion: {
-        serializedName: "ipVersion",
-        type: {
-          name: "String"
         }
       }
     }
@@ -1116,6 +1089,7 @@ export const RoutingCosmosDBSqlApiProperties: coreClient.CompositeMapper = {
       },
       id: {
         serializedName: "id",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -1474,75 +1448,6 @@ export const FeedbackProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const IotHubPropertiesDeviceStreams: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IotHubPropertiesDeviceStreams",
-    modelProperties: {
-      streamingEndpoints: {
-        serializedName: "streamingEndpoints",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const EncryptionPropertiesDescription: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EncryptionPropertiesDescription",
-    modelProperties: {
-      keySource: {
-        serializedName: "keySource",
-        type: {
-          name: "String"
-        }
-      },
-      keyVaultProperties: {
-        serializedName: "keyVaultProperties",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "KeyVaultKeyProperties"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const KeyVaultKeyProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyVaultKeyProperties",
-    modelProperties: {
-      keyIdentifier: {
-        serializedName: "keyIdentifier",
-        type: {
-          name: "String"
-        }
-      },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "ManagedIdentity"
-        }
-      }
-    }
-  }
-};
-
 export const IotHubLocationDescription: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1558,28 +1463,6 @@ export const IotHubLocationDescription: coreClient.CompositeMapper = {
         serializedName: "role",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RootCertificateProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RootCertificateProperties",
-    modelProperties: {
-      enableRootCertificateV2: {
-        serializedName: "enableRootCertificateV2",
-        type: {
-          name: "Boolean"
-        }
-      },
-      lastUpdatedTimeUtc: {
-        serializedName: "lastUpdatedTimeUtc",
-        readOnly: true,
-        type: {
-          name: "DateTime"
         }
       }
     }
@@ -3273,36 +3156,6 @@ export const IotHubDescription: coreClient.CompositeMapper = {
   }
 };
 
-export const IotHubResourceCreateOrUpdateHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IotHubResourceCreateOrUpdateHeaders",
-    modelProperties: {
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const IotHubResourceUpdateHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IotHubResourceUpdateHeaders",
-    modelProperties: {
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const IotHubResourceDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3310,6 +3163,12 @@ export const IotHubResourceDeleteHeaders: coreClient.CompositeMapper = {
     modelProperties: {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }
@@ -3339,21 +3198,6 @@ export const IotHubManualFailoverHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const PrivateEndpointConnectionsUpdateHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateEndpointConnectionsUpdateHeaders",
-    modelProperties: {
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3361,6 +3205,12 @@ export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper
     modelProperties: {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }

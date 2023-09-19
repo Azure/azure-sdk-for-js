@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all private endpoints in a subscription.
  *
  * @summary Gets all private endpoints in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-04-01/examples/PrivateEndpointListAll.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-05-01/examples/PrivateEndpointListAll.json
  */
 async function listAllPrivateEndpoints() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

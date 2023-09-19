@@ -400,7 +400,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RunListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry
     }
   },
   queryParameters: [Parameters.apiVersion1, Parameters.filter, Parameters.top],
@@ -422,7 +422,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Run
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry
     }
   },
   queryParameters: [Parameters.apiVersion1],
@@ -454,7 +454,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Run
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry
     }
   },
   requestBody: Parameters.runUpdateParameters,
@@ -466,7 +466,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName1,
     Parameters.runId
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -479,7 +479,7 @@ const getLogSasUrlOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RunGetLogResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry
     }
   },
   queryParameters: [Parameters.apiVersion1],
@@ -503,7 +503,7 @@ const cancelOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry
     }
   },
   queryParameters: [Parameters.apiVersion1],
@@ -525,15 +525,15 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RunListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry
     }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer

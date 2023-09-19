@@ -10,6 +10,8 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  CacheRulesImpl,
+  CredentialSetsImpl,
   RegistriesImpl,
   OperationsImpl,
   PrivateEndpointConnectionsImpl,
@@ -23,6 +25,8 @@ import {
   TasksImpl
 } from "./operations";
 import {
+  CacheRules,
+  CredentialSets,
   Registries,
   Operations,
   PrivateEndpointConnections,
@@ -68,7 +72,7 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-containerregistry/10.1.1`;
+    const packageDetails = `azsdk-js-arm-containerregistry/11.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -121,6 +125,8 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.cacheRules = new CacheRulesImpl(this);
+    this.credentialSets = new CredentialSetsImpl(this);
     this.registries = new RegistriesImpl(this);
     this.operations = new OperationsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -134,6 +140,8 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     this.tasks = new TasksImpl(this);
   }
 
+  cacheRules: CacheRules;
+  credentialSets: CredentialSets;
   registries: Registries;
   operations: Operations;
   privateEndpointConnections: PrivateEndpointConnections;
