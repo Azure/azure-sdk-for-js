@@ -172,5 +172,9 @@ code-model-*
 
 # CPU profiles
 *.cpuprofile
+
 # Temp typespec files
 TempTypeSpecFiles/
+
+# CI generated artifacts
+/artifacts
