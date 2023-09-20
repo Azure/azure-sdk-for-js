@@ -25,9 +25,9 @@ describe("Content Safety Client Test", () => {
     return self.btoa(binaryString);
   }
   const blocklistName = "TestBlocklist";
-  const blockItemText1 = "k*ll";
-  const blockItemText2 = "h*te";
-  const blockItemText3 = "d*mn";
+  const blockItemText1 = "sample";
+  const blockItemText2 = "text";
+  const blockItemText3 = "image";
   let blockItemId: string;
 
   beforeEach(async function (this: Context) {
@@ -134,7 +134,7 @@ describe("Content Safety Client Test", () => {
   it("analyze text with blocklist", async function () {
     const analyzeTextResponse = await client.path("/text:analyze").post({
       body: {
-        text: "I h*te you and I want to k*ll you.",
+        text: "This is a sample to test text with blocklist.",
         blocklistNames: [blocklistName],
         breakByBlocklists: false,
       },
