@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of servers in a resource groups.
  *
  * @summary Gets a list of servers in a resource groups.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerListByResourceGroup.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ServerListByResourceGroup.json
  */
 async function listServersByResourceGroup() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function listServersByResourceGroup() {
  * This sample demonstrates how to Gets a list of servers in a resource groups.
  *
  * @summary Gets a list of servers in a resource groups.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerListByResourceGroupWithExpandEqualsAdministrators.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ServerListByResourceGroupWithExpandEqualsAdministrators.json
  */
 async function listServersByResourceGroupWithExpandAdministratorsOrActivedirectory() {
   const subscriptionId =
