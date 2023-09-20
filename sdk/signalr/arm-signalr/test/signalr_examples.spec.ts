@@ -128,7 +128,7 @@ describe("signalr test", () => {
 
   it("signalr delete test", async function () {
     const resArray = new Array();
-    const res = await client.signalR.beginDeleteAndWait(resourceGroup, resourceName)
+    const res = await client.signalR.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions)
     for await (let item of client.signalR.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
