@@ -513,16 +513,18 @@ function Update-javascript-GeneratedSdks([string]$PackageFoldersFile) {
       Write-Host 'Generating project under folder ' -ForegroundColor Green -NoNewline
       Write-Host "$folder" -ForegroundColor Yellow
 
-      Push-Location "$moduleFolder"
-      try {
-        Write-Host "Calling TypeSpec-Project-Generate.ps1 from $folder"
-        & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1
-      }
-      catch {
+      Write-Host "Calling TypeSpec-Project-Sync.ps1 for $folder"
+      & $RepoRoot/eng/common/scripts/TypeSpec-Project-Sync.ps1 $moduleFolder
+      if ($LASTEXITCODE) {
         $foldersWithErrors += $folder
+        continue
       }
-      finally {
-        Pop-Location
+
+      Write-Host "Calling TypeSpec-Project-Generate.ps1 for $folder"
+      & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1 $moduleFolder
+      if ($LASTEXITCODE) {
+        $foldersWithErrors += $folder
+        continue
       }
     }
     else {
