@@ -18,4 +18,6 @@ export {
   listChatCompletions,
   listCompletions,
   getImages,
+  getAudioTranscription,
+  getAudioTranslation,
 } from "./operations.js";

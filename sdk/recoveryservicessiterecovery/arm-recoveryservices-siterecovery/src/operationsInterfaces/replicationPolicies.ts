@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Policy,
   ReplicationPoliciesListOptionalParams,
@@ -67,8 +67,8 @@ export interface ReplicationPolicies {
     input: CreatePolicyInput,
     options?: ReplicationPoliciesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationPoliciesCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationPoliciesCreateResponse>,
       ReplicationPoliciesCreateResponse
     >
   >;
@@ -101,7 +101,7 @@ export interface ReplicationPolicies {
     resourceGroupName: string,
     policyName: string,
     options?: ReplicationPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete a replication policy.
    * @param resourceName The name of the recovery services vault.
@@ -132,8 +132,8 @@ export interface ReplicationPolicies {
     input: UpdatePolicyInput,
     options?: ReplicationPoliciesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationPoliciesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationPoliciesUpdateResponse>,
       ReplicationPoliciesUpdateResponse
     >
   >;
