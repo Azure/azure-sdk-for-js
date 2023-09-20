@@ -27,7 +27,7 @@ export default function createClient(
   options: ClientOptions = {}
 ): OpenAIContext {
   const baseUrl = options.baseUrl ?? `${endpoint}/openai`;
-  options.apiVersion = options.apiVersion ?? "2023-08-01-preview";
+  options.apiVersion = options.apiVersion ?? "2023-09-01-preview";
   options = {
     ...options,
     credentials: {

@@ -32,7 +32,7 @@ export class LogHandler {
       resource: this._config.resource,
     };
     this._loggerProvider = new LoggerProvider(loggerProviderConfig);
-    this._azureExporter = new AzureMonitorLogExporter(this._config.azureMonitorExporterConfig);
+    this._azureExporter = new AzureMonitorLogExporter(this._config.azureMonitorExporterOptions);
     // Log Processor could be configured through env variables
     // https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/#batch-logrecord-processor
     this._logRecordProcessor = new BatchLogRecordProcessor(this._azureExporter);

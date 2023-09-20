@@ -12,11 +12,10 @@ import {
   ClientConfigDiagnostic,
 } from "../CosmosDiagnostics";
 import { getCurrentTimestampInMs } from "../utils/time";
-import { getDiagnosticLevel } from "./index";
 import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { HttpHeaders, PipelineResponse } from "@azure/core-rest-pipeline";
-import { Constants, OperationType, ResourceType } from "../common";
+import { Constants, OperationType, ResourceType, prepareURL } from "../common";
 import { allowTracing } from "./diagnosticLevelComparator";
 
 /**
@@ -33,11 +32,14 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
   public data: Partial<DiagnosticDataValue>;
   public startTimeUTCInMs: number;
   public durationInMs: number;
+  public diagnosticLevel: CosmosDbDiagnosticLevel;
   private diagnosticCtx: CosmosDiagnosticContext;
+
   /**
    * @internal
    */
   constructor(
+    diagnosticLevel: CosmosDbDiagnosticLevel,
     type: DiagnosticNodeType,
     parent: DiagnosticNodeInternal,
     data: Partial<DiagnosticDataValue> = {},
@@ -52,6 +54,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     this.durationInMs = 0;
     this.parent = parent;
     this.diagnosticCtx = ctx;
+    this.diagnosticLevel = diagnosticLevel;
   }
 
   /**
@@ -107,14 +110,8 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
       resourceType: gatewayRequest.resourceType,
       requestPayloadLengthInBytes: gatewayRequest.requestPayloadLengthInBytes,
     };
-    this.addData({
-      requestPayloadLengthInBytes: gatewayRequest.requestPayloadLengthInBytes,
-      responsePayloadLengthInBytes: gatewayRequest.responsePayloadLengthInBytes,
-      startTimeUTCInMs: gatewayRequest.startTimeUTCInMs,
-      durationInMs: gatewayRequest.durationInMs,
-    });
 
-    if (allowTracing(CosmosDbDiagnosticLevel.debugUnsafe)) {
+    if (allowTracing(CosmosDbDiagnosticLevel.debugUnsafe, this.diagnosticLevel)) {
       requestData = {
         ...requestData,
         headers: this.sanitizeHeaders(requestContext.headers),
@@ -122,10 +119,14 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
         responseBody: pipelineResponse.bodyAsText,
         url: url,
       };
-      this.addData({
-        requestData,
-      });
     }
+    this.addData({
+      requestPayloadLengthInBytes: gatewayRequest.requestPayloadLengthInBytes,
+      responsePayloadLengthInBytes: gatewayRequest.responsePayloadLengthInBytes,
+      startTimeUTCInMs: gatewayRequest.startTimeUTCInMs,
+      durationInMs: gatewayRequest.durationInMs,
+      requestData,
+    });
     this.diagnosticCtx.recordNetworkCall(gatewayRequest);
   }
 
@@ -141,6 +142,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     responseHeaders: CosmosHeaders
   ): void {
     this.addData({ failedAttempty: true });
+    const requestPayloadLengthInBytes = calculateRequestPayloadLength(requestContext);
     this.diagnosticCtx.recordFailedAttempt(
       {
         activityId: responseHeaders[Constants.HttpHeaders.ActivityId] as string,
@@ -148,13 +150,30 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
         durationInMs: getCurrentTimestampInMs() - startTimeUTCInMs,
         statusCode,
         subStatusCode: substatusCode,
-        requestPayloadLengthInBytes: calculateRequestPayloadLength(requestContext),
+        requestPayloadLengthInBytes,
         responsePayloadLengthInBytes: 0,
         operationType: requestContext.operationType,
         resourceType: requestContext.resourceType,
       },
       retryAttemptNumber
     );
+    let requestData: any = {
+      OperationType: requestContext.operationType,
+      resourceType: requestContext.resourceType,
+      requestPayloadLengthInBytes,
+    };
+    if (allowTracing(CosmosDbDiagnosticLevel.debugUnsafe, this.diagnosticLevel)) {
+      requestData = {
+        ...requestData,
+        headers: this.sanitizeHeaders(requestContext.headers),
+        requestBody: requestContext.body,
+        url: prepareURL(requestContext.endpoint, requestContext.path),
+      };
+    }
+    this.addData({
+      failedAttempty: true,
+      requestData,
+    });
   }
 
   /**
@@ -171,7 +190,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
   public addData(
     data: Partial<DiagnosticDataValue>,
     msg?: string,
-    level: CosmosDbDiagnosticLevel = getDiagnosticLevel()
+    level: CosmosDbDiagnosticLevel = this.diagnosticLevel
   ): void {
     if (level !== CosmosDbDiagnosticLevel.info) {
       this.data = { ...this.data, ...data };
@@ -188,11 +207,14 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
    */
   public addChildNode(
     child: DiagnosticNodeInternal,
+    level: CosmosDbDiagnosticLevel,
     metadataType?: MetadataLookUpType
   ): DiagnosticNodeInternal {
     this.diagnosticCtx.mergeDiagnostics(child.diagnosticCtx, metadataType);
-    child.parent = this;
-    this.children.push(child);
+    if (allowTracing(level, this.diagnosticLevel)) {
+      child.parent = this;
+      this.children.push(child);
+    }
     return child;
   }
 
@@ -204,8 +226,9 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     level: CosmosDbDiagnosticLevel,
     data: Partial<DiagnosticDataValue> = {}
   ): DiagnosticNodeInternal {
-    if (allowTracing(level)) {
+    if (allowTracing(level, this.diagnosticLevel)) {
       const child = new DiagnosticNodeInternal(
+        this.diagnosticLevel,
         type,
         this,
         data,
@@ -223,7 +246,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
    * @internal
    */
   public recordQueryResult(resources: unknown, level: CosmosDbDiagnosticLevel): void {
-    if (allowTracing(level)) {
+    if (allowTracing(level, this.diagnosticLevel)) {
       const previousCount = this.data.queryRecordsRead ?? 0;
       if (Array.isArray(resources)) {
         this.data.queryRecordsRead = previousCount + resources.length;
@@ -250,11 +273,17 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
    * Convert to CosmosDiagnostics
    * @internal
    */
-  public toDiagnostic(clientConfig?: ClientConfigDiagnostic): CosmosDiagnostics {
+  public toDiagnostic(clientConfigDiagnostic: ClientConfigDiagnostic): CosmosDiagnostics {
     const rootNode = getRootNode(this);
+    const diagnostiNode = allowTracing(CosmosDbDiagnosticLevel.debug, this.diagnosticLevel)
+      ? rootNode.toDiagnosticNode()
+      : undefined;
+    const clientConfig = allowTracing(CosmosDbDiagnosticLevel.debug, this.diagnosticLevel)
+      ? clientConfigDiagnostic
+      : undefined;
     const cosmosDiagnostic = new CosmosDiagnostics(
       this.diagnosticCtx.getClientSideStats(),
-      rootNode.toDiagnosticNode(),
+      diagnostiNode,
       clientConfig
     );
     return cosmosDiagnostic;

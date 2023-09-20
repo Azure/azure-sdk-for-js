@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as http from "https";
-import * as https from "https";
+import http from "https";
+import https from "https";
 
 import { proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy";
 import { tlsPolicy, tlsPolicyName } from "../../src/policies/tlsPolicy";

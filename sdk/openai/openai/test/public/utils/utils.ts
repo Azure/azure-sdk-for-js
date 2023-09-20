@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { logger } from "./logger.js";
 import {
   PipelineRequest,
   PipelineResponse,
@@ -20,41 +19,50 @@ import {
   Recorder,
   assertEnvironmentVariable,
   isLiveMode,
-  isPlaybackMode,
+  isRecordMode,
 } from "@azure-tools/test-recorder";
 import { OpenAIKeyCredential } from "../../../src/index.js";
 
-export async function withDeployment<T>(
+function toString(error: any): string {
+  return error instanceof Error ? error.toString() + "\n" + error.stack : JSON.stringify(error);
+}
+
+export async function withDeployments<T>(
   deployments: string[],
-  run: (model: string) => Promise<T>
+  run: (model: string) => Promise<T>,
+  validate: (result: T) => void
 ): Promise<string[]> {
   const errors = [];
   const succeeded = [];
   assert.isNotEmpty(deployments, "No deployments found");
   for (const deployment of deployments) {
     try {
-      logger.verbose(`testing with ${deployment}`);
-      await run(deployment);
+      console.log(`testing with ${deployment}`);
+      const res = await run(deployment);
+      if (!isRecordMode()) {
+        validate(res);
+      }
       succeeded.push(deployment);
     } catch (e) {
       const error = e as any;
       if (!e) continue;
+      const errorStr = toString(error);
       if (
         ["OperationNotSupported", "model_not_found", "rate_limit_exceeded"].includes(error.code) ||
         error.type === "invalid_request_error"
       ) {
-        logger.verbose(error.toString());
+        console.log(`Handled error: ${errorStr}`);
         continue;
       }
-      logger.warning(`Error in deployment ${deployment}: ${error.toString()}`);
-      errors.push(error instanceof Error ? error.toString() : JSON.stringify(error));
+      console.warn(`Error in deployment ${deployment}: ${errorStr}`);
+      errors.push(errorStr);
     }
   }
   if (errors.length > 0) {
     throw new Error(`Errors list: ${errors.join("\n")}`);
   }
   assert.isNotEmpty(succeeded, "No deployments succeeded");
-  logger.info(`Succeeded with (${succeeded.length}): ${succeeded.join(", ")}`);
+  console.log(`Succeeded with (${succeeded.length}): ${succeeded.join(", ")}`);
   return succeeded;
 }
 
@@ -85,7 +93,7 @@ async function listOpenAIModels(cred: KeyCredential, recorder: Recorder): Promis
 
   const body = JSON.parse(response.bodyAsText as string);
   const models = body.data.map((model: { id: string }) => model.id);
-  logger.verbose(`Available models (${models.length}): ${models.join(", ")}`);
+  console.log(`Available models (${models.length}): ${models.join(", ")}`);
   return models;
 }
 
@@ -107,7 +115,7 @@ async function listDeployments(
       deployments.push(deploymentName);
     }
   }
-  logger.verbose(`Available deployments (${deployments.length}): ${deployments.join(", ")}`);
+  console.log(`Available deployments (${deployments.length}): ${deployments.join(", ")}`);
   return deployments;
 }
 
@@ -151,8 +159,8 @@ export function getSucceeded(
 export async function getDeployments(recorder: Recorder): Promise<string[]> {
   return listDeployments(
     assertEnvironmentVariable("SUBSCRIPTION_ID"),
-    isPlaybackMode() ? "openai-shared" : assertEnvironmentVariable("RESOURCE_GROUP"),
-    isPlaybackMode() ? "openai-shared" : assertEnvironmentVariable("ACCOUNT_NAME"),
+    assertEnvironmentVariable("RESOURCE_GROUP"),
+    assertEnvironmentVariable("ACCOUNT_NAME"),
     recorder
   );
 }
@@ -162,4 +170,12 @@ export async function getModels(recorder: Recorder): Promise<string[]> {
     new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY")),
     recorder
   );
+}
+
+export async function bufferAsyncIterable<T>(iter: AsyncIterable<T>): Promise<T[]> {
+  const result: T[] = [];
+  for await (const item of iter) {
+    result.push(item);
+  }
+  return result;
 }

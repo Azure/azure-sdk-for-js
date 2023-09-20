@@ -58,6 +58,11 @@ export abstract class AzureMonitorBaseExporter {
       diag.error(message);
       throw new Error(message);
     }
+    if (!ConnectionStringParser.validateInstrumentationKey(this.instrumentationKey)) {
+      const message = "Invalid instrumentation key was provided to the Azure Monitor Exporter";
+      diag.error(message);
+      throw new Error(message);
+    }
     this.trackStatsbeat = !this._isStatsbeatExporter && !process.env[ENV_DISABLE_STATSBEAT];
 
     diag.debug("AzureMonitorExporter was successfully setup");

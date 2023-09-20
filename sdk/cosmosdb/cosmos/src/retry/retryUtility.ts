@@ -6,6 +6,7 @@ import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { Response } from "../request";
 import { RequestContext } from "../request/RequestContext";
+import { TimeoutErrorCode } from "../request/TimeoutError";
 import { addDignosticChild } from "../utils/diagnostics";
 import { getCurrentTimestampInMs } from "../utils/time";
 import { DefaultRetryPolicy } from "./defaultRetryPolicy";
@@ -14,6 +15,7 @@ import { ResourceThrottleRetryPolicy } from "./resourceThrottleRetryPolicy";
 import { RetryContext } from "./RetryContext";
 import { RetryPolicy } from "./RetryPolicy";
 import { SessionRetryPolicy } from "./sessionRetryPolicy";
+import { TimeoutFailoverRetryPolicy } from "./timeoutFailoverRetryPolicy";
 
 /**
  * @hidden
@@ -37,6 +39,7 @@ interface RetryPolicies {
   resourceThrottleRetryPolicy: ResourceThrottleRetryPolicy;
   sessionReadRetryPolicy: SessionRetryPolicy;
   defaultRetryPolicy: DefaultRetryPolicy;
+  timeoutFailoverRetryPolicy: TimeoutFailoverRetryPolicy;
 }
 
 /**
@@ -71,17 +74,34 @@ export async function execute({
             requestContext.connectionPolicy
           ),
           defaultRetryPolicy: new DefaultRetryPolicy(requestContext.operationType),
+          timeoutFailoverRetryPolicy: new TimeoutFailoverRetryPolicy(
+            requestContext.globalEndpointManager,
+            requestContext.headers,
+            requestContext.method,
+            requestContext.resourceType,
+            requestContext.operationType,
+            requestContext.connectionPolicy.enableEndpointDiscovery
+          ),
         };
       }
       if (retryContext && retryContext.clearSessionTokenNotAvailable) {
         requestContext.client.clearSessionToken(requestContext.path);
         delete requestContext.headers["x-ms-session-token"];
       }
-      requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
-        localDiagnosticNode,
-        requestContext.resourceType,
-        requestContext.operationType
-      );
+      if (retryContext && retryContext.retryLocationServerIndex) {
+        requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
+          localDiagnosticNode,
+          requestContext.resourceType,
+          requestContext.operationType,
+          retryContext.retryLocationServerIndex
+        );
+      } else {
+        requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
+          localDiagnosticNode,
+          requestContext.resourceType,
+          requestContext.operationType
+        );
+      }
       const startTimeUTCInMs = getCurrentTimestampInMs();
       try {
         const response = await executeRequest(localDiagnosticNode, requestContext);
@@ -109,6 +129,8 @@ export async function execute({
           err.substatus === SubStatusCodes.ReadSessionNotAvailable
         ) {
           retryPolicy = retryPolicies.sessionReadRetryPolicy;
+        } else if (err.code === StatusCodes.ServiceUnavailable || err.code === TimeoutErrorCode) {
+          retryPolicy = retryPolicies.timeoutFailoverRetryPolicy;
         } else {
           retryPolicy = retryPolicies.defaultRetryPolicy;
         }

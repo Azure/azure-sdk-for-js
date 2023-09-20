@@ -93,6 +93,8 @@
     "src/retry/RetryPolicy.ts",
     "src/retry/retryUtility.ts",
     "src/retry/sessionRetryPolicy.ts",
+    "src/retry/timeoutFailoverRetryPolicy.ts",
+    "src/retry/RetryContext.ts",
     "src/routing/CollectionRoutingMapFactory.ts",
     "src/routing/inMemoryCollectionRoutingMap.ts",
     "src/routing/partitionKeyRangeCache.ts",
@@ -161,6 +163,7 @@
     "test/internal/unit/utils/checkURL.spec.ts",
     "test/internal/unit/utils/offer.spec.ts",
     "test/internal/unit/client.spec.ts",
+    "test/internal/unit/timeoutFailoverRetryPolicy.spec.ts",
     "test/public/common/BaselineTest.PathParser.ts",
     "test/public/common/TestData.ts",
     "test/public/common/setup.ts",
@@ -202,6 +205,7 @@
     "test/public/integration/split.spec.ts",
     "test/public/integration/sslVerification.spec.ts",
     "test/public/integration/timeout.spec.ts",
-    "test/public/integration/aggregates/groupBy.spec.ts"
+    "test/public/integration/aggregates/groupBy.spec.ts",
+    "test/public/integration/client.retry.spec.ts"
   ]
 }

@@ -10,12 +10,15 @@ import { Logger as InternalLogger } from "./shared/logging";
 import { AzureMonitorOpenTelemetryOptions } from "./shared/types";
 import { LogHandler } from "./logs";
 import {
+  AZURE_MONITOR_OPENTELEMETRY_VERSION,
   AZURE_MONITOR_STATSBEAT_FEATURES,
   StatsbeatFeature,
   StatsbeatInstrumentation,
 } from "./types";
 
 export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./shared/types";
+
+process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 
 let metricHandler: MetricHandler;
 let traceHandler: TraceHandler;
