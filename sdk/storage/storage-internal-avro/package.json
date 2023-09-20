@@ -63,13 +63,13 @@
     "docs": "echo Skipped."
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
-    "@azure/core-paging": "^1.1.1",
+    "@azure/abort-controller": "workspace:^1.0.0",
+    "@azure/core-paging": "workspace:^1.1.1",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^3.0.0",
+    "@azure/dev-tool": "workspace:^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",

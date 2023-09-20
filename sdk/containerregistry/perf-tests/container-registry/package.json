@@ -7,8 +7,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/container-registry": "^1.1.0-beta.1",
-    "@azure/test-utils-perf": "^1.0.0",
+    "@azure/container-registry": "workspace:^1.1.0-beta.1",
+    "@azure/test-utils-perf": "workspace:^1.0.0",
     "dotenv": "^16.0.0"
   },
   "devDependencies": {

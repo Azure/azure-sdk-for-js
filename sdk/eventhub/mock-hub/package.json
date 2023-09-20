@@ -50,8 +50,8 @@
   ],
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/mock-hub/README.md",
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "workspace:^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^3.0.0",
     "@types/node": "^14.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
@@ -61,7 +61,7 @@
     "ts-node": "^10.0.0"
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "workspace:^1.0.0",
     "rhea": "^3.0.0",
     "tslib": "^2.2.0"
   },

@@ -513,6 +513,7 @@
     {
       "packageName": "@azure/core-http",
       "projectFolder": "sdk/core/core-http",
+      "decoupledLocalDependencies": ["@azure/core-tracing"],
       "versionPolicyName": "core"
     },
     {

@@ -56,11 +56,11 @@
   "sideEffects": false,
   "dependencies": {
     "tslib": "^2.2.0",
-    "@azure/logger": "^1.0.0"
+    "@azure/logger": "workspace:^1.0.0"
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "workspace:^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/express": "^4.16.0",

@@ -61,12 +61,12 @@
   "sideEffects": false,
   "autoPublish": false,
   "dependencies": {
-    "@azure/core-auth": "^1.3.0",
-    "@azure-rest/core-client": "1.0.0-beta.10",
-    "@azure/core-rest-pipeline": "^1.8.0",
+    "@azure/core-auth": "workspace:^1.3.0",
+    "@azure-rest/core-client": "workspace:^1.0.0",
+    "@azure/core-rest-pipeline": "workspace:^1.8.0",
     "tslib": "^2.2.0",
-    "@azure/core-lro": "^2.2.0",
-    "@azure/maps-common": "1.0.0-beta.2"
+    "@azure/core-lro": "workspace:^2.2.0",
+    "@azure/maps-common": "workspace:*"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
@@ -79,11 +79,11 @@
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
     "typescript": "~5.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure-tools/test-credential": "^1.0.0",
-    "@azure/identity": "^2.0.1",
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure/dev-tool": "workspace:^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^3.0.0",
+    "@azure-tools/test-credential": "workspace:^1.0.0",
+    "@azure/identity": "workspace:^3.3.0",
+    "@azure-tools/test-recorder": "workspace:^3.0.0",
     "mocha": "^7.1.1",
     "@types/mocha": "^7.0.2",
     "mocha-junit-reporter": "^1.18.0",
@@ -101,7 +101,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
     "nyc": "^15.0.0",
-    "@azure/test-utils": "~1.0.0",
+    "@azure/test-utils": "workspace:~1.0.0",
     "ts-node": "^10.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-search-rest/README.md",

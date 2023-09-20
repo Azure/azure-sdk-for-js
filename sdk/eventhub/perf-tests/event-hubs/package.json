@@ -8,9 +8,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/event-hubs": "^5.6.0",
-    "@azure/core-amqp": "^3.0.0",
-    "@azure/test-utils-perf": "^1.0.0",
+    "@azure/event-hubs": "workspace:^5.6.0",
+    "@azure/core-amqp": "workspace:^4.0.0",
+    "@azure/test-utils-perf": "workspace:^1.0.0",
     "dotenv": "^16.0.0",
     "moment": "^2.24.0",
     "uuid": "^8.3.0"

@@ -8,9 +8,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/core-rest-pipeline": "^1.1.0",
-    "@azure/core-auth": "^1.3.0",
-    "@azure/test-utils-perf": "^1.0.0",
+    "@azure/core-rest-pipeline": "workspace:^1.1.0",
+    "@azure/core-auth": "workspace:^1.3.0",
+    "@azure/test-utils-perf": "workspace:^1.0.0",
     "dotenv": "^16.0.0",
     "undici": "^5.0.0"
   },

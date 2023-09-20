@@ -8,8 +8,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/eventgrid": "^4.10.0-beta",
-    "@azure/test-utils-perf": "^1.0.0",
+    "@azure/eventgrid": "workspace:^4.10.0-beta",
+    "@azure/test-utils-perf": "workspace:^1.0.0",
     "dotenv": "^16.0.0"
   },
   "devDependencies": {

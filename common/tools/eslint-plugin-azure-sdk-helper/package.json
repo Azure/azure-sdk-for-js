@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@typescript-eslint/experimental-utils": "~5.57.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^3.0.0",
     "typescript": "~5.0.0"
   },
   "scripts": {

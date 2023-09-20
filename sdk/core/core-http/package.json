@@ -117,11 +117,11 @@
     "migrationDate": "2023-03-08T18:36:03.000Z"
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
-    "@azure/core-auth": "^1.3.0",
+    "@azure/abort-controller": "workspace:^1.0.0",
+    "@azure/core-auth": "workspace:^1.3.0",
     "@azure/core-tracing": "1.0.0-preview.13",
-    "@azure/core-util": "^1.1.1",
-    "@azure/logger": "^1.0.0",
+    "@azure/core-util": "workspace:^1.1.1",
+    "@azure/logger": "workspace:^1.0.0",
     "@types/node-fetch": "^2.5.0",
     "@types/tunnel": "^0.0.3",
     "form-data": "^4.0.0",
@@ -134,10 +134,10 @@
     "xml2js": "^0.5.0"
   },
   "devDependencies": {
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^3.0.0",
+    "@azure/dev-tool": "workspace:^1.0.0",
     "@azure/logger-js": "^1.0.2",
-    "@azure/test-utils": "^1.0.0",
+    "@azure/test-utils": "workspace:^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@opentelemetry/api": "^1.4.1",
     "@types/chai": "^4.1.6",
