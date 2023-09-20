@@ -515,6 +515,7 @@ function Update-javascript-GeneratedSdks([string]$PackageFoldersFile) {
 
       Push-Location "$moduleFolder"
       try {
+        Write-Host "Calling TypeSpec-Project-Generate.ps1 from $folder"
         & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1
       }
       catch {
