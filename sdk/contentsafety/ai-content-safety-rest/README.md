@@ -151,7 +151,7 @@ const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
 const blocklistName = "TestBlocklist";
-const inputText = "I h*te you and I want to k*ll you.";
+const inputText = "This is a sample to test text with blocklist.";
 const analyzeTextParameters: AnalyzeTextParameters = {
   body: {
     text: inputText,
@@ -306,8 +306,8 @@ const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
 const blocklistName = "TestBlocklist";
-const blockItemText1 = "k*ll";
-const blockItemText2 = "h*te";
+const blockItemText1 = "sample";
+const blockItemText2 = "text";
 const addBlockItemsParameters: AddBlockItemsParameters = {
   body: {
     blockItems: [
@@ -372,7 +372,7 @@ const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
 const blocklistName = "TestBlocklist";
-const blockItemText = "k*ll";
+const blockItemText = "sample";
 const addBlockItemsParameters: AddBlockItemsParameters = {
   body: {
     blockItems: [
@@ -409,7 +409,7 @@ const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
 const blocklistName = "TestBlocklist";
-const blockItemText = "k*ll";
+const blockItemText = "sample";
 const addBlockItemsParameters: AddBlockItemsParameters = {
   body: {
     blockItems: [
