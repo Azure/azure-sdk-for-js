@@ -10,16 +10,6 @@
     - Added a field `teamsAppId` to `MicrosoftTeamsAppIdentifier`.
     - With this version, any rawId starting with `28:` will map to MicrosoftTeamsAppIdentifier. Previously it mapped to `UnknownIdentifier`.
 
-## 3.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 2.2.1 (2023-06-16)
 
 ### Bugs Fixed
