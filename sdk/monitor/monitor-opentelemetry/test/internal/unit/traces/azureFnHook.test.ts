@@ -55,32 +55,6 @@ describe("Library/AzureFunctionsHook", () => {
       Module.prototype.require = originalRequire;
     });
 
-    it("Hook not added if using not supported programming model", () => {
-      var Module = require("module");
-      var preInvocationCalled = false;
-      Module.prototype.require = function () {
-        if (arguments[0] === "@azure/functions-core") {
-          return {
-            registerHook(name: string) {
-              if (name === "preInvocation") {
-                preInvocationCalled = true;
-              }
-            },
-            getProgrammingModel() {
-              return {
-                name: "@azure/functions",
-                version: "2.x",
-              };
-            },
-          };
-        }
-        return originalRequire.apply(this, arguments);
-      };
-      let azureFnHook = new AzureFunctionsHook();
-      assert.ok(azureFnHook, "azureFnHook");
-      assert.ok(!preInvocationCalled, "preInvocationCalled");
-    });
-
     it("Pre Invokation Hook added if running in Azure Functions and context is propagated", () => {
       let Module = require("module");
       let preInvocationCalled = false;

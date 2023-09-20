@@ -5274,6 +5274,10 @@ packages:
       signal-exit: 4.1.0
     dev: false
 
+  /form-data-encoder@1.7.2:
+    resolution: {integrity: sha512-qfqtYan3rxrnCk1VYaA4H+Ms9xdpPqvLZa6xmMgFvhO32x7/3J/ExcTd6qpxM0vH2GdMI+poehyBZvqfMTto8A==}
+    dev: false
+
   /form-data@3.0.1:
     resolution: {integrity: sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==}
     engines: {node: '>= 6'}
@@ -5290,6 +5294,14 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
+    dev: false
+
+  /formdata-node@4.4.1:
+    resolution: {integrity: sha512-0iirZp3uVDjVGt9p49aTaqjk84TrglENEDuqfdlZQ1roC9CWlPk6Avf8EEnZNcAqPonwkG35x4n3ww/1THYAeQ==}
+    engines: {node: '>= 12.20'}
+    dependencies:
+      node-domexception: 1.0.0
+      web-streams-polyfill: 4.0.0-beta.3
     dev: false
 
   /forwarded@0.2.0:
@@ -7206,6 +7218,11 @@ packages:
 
   /node-addon-api@5.0.0:
     resolution: {integrity: sha512-CvkDw2OEnme7ybCykJpVcKH+uAOLV2qLqiyla128dN9TkEWfrYmxG6C2boDe5KcNQqZF3orkqzGgOMvZ/JNekA==}
+    dev: false
+
+  /node-domexception@1.0.0:
+    resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
+    engines: {node: '>=10.5.0'}
     dev: false
 
   /node-environment-flags@1.0.6:
@@ -9352,6 +9369,11 @@ packages:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
     dependencies:
       defaults: 1.0.4
+    dev: false
+
+  /web-streams-polyfill@4.0.0-beta.3:
+    resolution: {integrity: sha512-QW95TCTaHmsYfHDybGMwO5IJIM93I/6vTRk+daHTWFPhwh+C8Cg7j7XyKrwrj8Ib6vYXe0ocYNrmzY4xAAN6ug==}
+    engines: {node: '>= 14'}
     dev: false
 
   /webidl-conversions@3.0.1:
@@ -14576,7 +14598,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-oq6h2+foMLWcZQb9rCJQR5ld706OO7wW2php935hUnBu9kBmoezXz1h7No9rt/Q/rGu6tfwI4OnKvz16UxfSVQ==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-krnhaHsVug4HjfB3CFwoVubbrmkUx6COSb3lv+fyQZ94bbT+idufoLYjlu2GFewn3YhU4WxaXlFmysS5UOnFjw==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -16325,7 +16347,7 @@ packages:
     dev: false
 
   file:projects/arm-signalr.tgz:
-    resolution: {integrity: sha512-SKOZUTWRwQ29Ktb+EW5udQKUdlxJO0BB5eATI1RotLCAaMZ8JEjhHM+av1tFf5R+hBUJXL1rWnQVxwwsLelKXQ==, tarball: file:projects/arm-signalr.tgz}
+    resolution: {integrity: sha512-2TXX2h1vcbLy91DuJgaXAYhjLtjvRmTzysxsEPSafLYRiB5vcE+Lqr+gt38SbIaqBg1w55L0l7BNfvyI7eVY1w==, tarball: file:projects/arm-signalr.tgz}
     name: '@rush-temp/arm-signalr'
     version: 0.0.0
     dependencies:
@@ -20246,7 +20268,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-uBRK5mKYQiYiMYOjUbXVuBqsr/CFWrRA4LzmSYAn+faoFA3T7MVfwAb773U+lNqOzo9xMaoyWOL9s7pp582pkA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-WRV1j/1aVnIgMm/N3idnFRuT3yBlsIHTD89SNhEkeYwD5LWtt4+HJCbflVkrOBkdN/zDUARQ8BEpOyHGrUIYAg==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -20257,6 +20279,8 @@ packages:
       dotenv: 16.3.1
       eslint: 8.48.0
       esm: 3.2.25
+      form-data-encoder: 1.7.2
+      formdata-node: 4.4.1
       karma: 6.4.2(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
