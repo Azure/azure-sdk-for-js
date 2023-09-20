@@ -8,11 +8,7 @@ import {
   EventHubConsumerClient,
   EventHubClientOptions,
   EventHubProducerClient,
-  EventHubBufferedProducerClientOptions,
-  EventHubBufferedProducerClient,
 } from "@azure/event-hubs";
-const fs = require("fs");
-const v8 = require("v8");
 
 export interface SnapshotOptions {
   /**
@@ -70,30 +66,4 @@ export function createEventHubsProducerClient(
   }
 
   return new EventHubProducerClient(connectionString, eventHubName, options);
-}
-
-export function createEventHubsBufferedProducerClient(
-  options: EventHubBufferedProducerClientOptions
-): EventHubBufferedProducerClient {
-  const eventHubName = process.env.EVENTHUB_NAME;
-  const connectionString = process.env.EVENTHUBS_CONNECTION_STRING;
-
-  if (!connectionString || !eventHubName) {
-    throw new Error(
-      "EVENTHUBS_CONNECTION_STRING and EVENTHUB_NAME have to be populated in the environment and are not!"
-    );
-  }
-
-  return new EventHubBufferedProducerClient(connectionString, eventHubName, options);
-}
-
-export function generateHeapSnapshot(fileName: string, folderName?: string) {
-  const snapshotStream = v8.getHeapSnapshot();
-  // It's important that the filename end with `.heapsnapshot`,
-  // otherwise Chrome DevTools won't open it.
-  const folder = folderName ?? "./heapSnapshots";
-  if (!fs.existsSync(folderName)) fs.mkdirSync(folder, { recursive: true });
-  const completePath = `${folderName}${fileName}.heapsnapshot`;
-  const fileStream = fs.createWriteStream(completePath);
-  snapshotStream.pipe(fileStream);
 }
