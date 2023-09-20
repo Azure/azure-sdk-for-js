@@ -352,6 +352,10 @@
 /sdk/cosmosdb/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/cosmosdbforpostgresql/arm-cosmosdbforpostgresql/ @qiaozha @MaryGao
+/sdk/cosmosdbforpostgresql/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/customer-insights/arm-customerinsights/ @qiaozha @MaryGao
 /sdk/customer-insights/ci.mgmt.yml @qiaozha @MaryGao
 

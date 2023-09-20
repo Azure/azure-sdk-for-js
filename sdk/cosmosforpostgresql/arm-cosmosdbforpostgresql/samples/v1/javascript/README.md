@@ -1,11 +1,11 @@
-# client library samples for JavaScript (Beta)
+# client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for in some common scenarios.
 
 | **File Name**                                                                                       | **Description**                                                                                                                                                                                                                                                                                                                                                                                 |
 | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [clustersCheckNameAvailabilitySample.js][clusterschecknameavailabilitysample]                       | Checks availability of a cluster name. Cluster names should be globally unique; at least 3 characters and at most 40 characters long; they must only contain lowercase letters, numbers, and hyphens; and must not start or end with a hyphen. x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/CheckNameAvailability.json |
-| [clustersCreateSample.js][clusterscreatesample]                                                     | Creates a new cluster with servers. x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterCreate.json                                                                                                                                                                                                                    |
+| [clustersCreateSample.js][clusterscreatesample]                                                     | Creates a new cluster with servers. x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterCreatePITR.json                                                                                                                                                                                                                |
 | [clustersDeleteSample.js][clustersdeletesample]                                                     | Deletes a cluster together with servers in it. x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterDelete.json                                                                                                                                                                                                         |
 | [clustersGetSample.js][clustersgetsample]                                                           | Gets information about a cluster such as compute and storage configuration and cluster lifecycle metadata such as cluster creation date and time. x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterGet.json                                                                                                         |
 | [clustersListByResourceGroupSample.js][clusterslistbyresourcegroupsample]                           | Lists all clusters in a resource group. x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterListByResourceGroup.json                                                                                                                                                                                                   |
@@ -78,41 +78,41 @@ npx cross-env COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID="<cosmosforpostgresql subscrip
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[clusterschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/clustersCheckNameAvailabilitySample.js
-[clusterscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/clustersCreateSample.js
-[clustersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/clustersDeleteSample.js
-[clustersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/clustersGetSample.js
-[clusterslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/clustersListByResourceGroupSample.js
-[clusterslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/clustersListSample.js
-[clusterspromotereadreplicasample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/clustersPromoteReadReplicaSample.js
-[clustersrestartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/clustersRestartSample.js
-[clustersstartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/clustersStartSample.js
-[clustersstopsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/clustersStopSample.js
-[clustersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/clustersUpdateSample.js
-[configurationsgetcoordinatorsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/configurationsGetCoordinatorSample.js
-[configurationsgetnodesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/configurationsGetNodeSample.js
-[configurationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/configurationsGetSample.js
-[configurationslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/configurationsListByClusterSample.js
-[configurationslistbyserversample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/configurationsListByServerSample.js
-[configurationsupdateoncoordinatorsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/configurationsUpdateOnCoordinatorSample.js
-[configurationsupdateonnodesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/configurationsUpdateOnNodeSample.js
-[firewallrulescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/firewallRulesCreateOrUpdateSample.js
-[firewallrulesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/firewallRulesDeleteSample.js
-[firewallrulesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/firewallRulesGetSample.js
-[firewallruleslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/firewallRulesListByClusterSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/operationsListSample.js
-[privateendpointconnectionscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/privateEndpointConnectionsCreateOrUpdateSample.js
-[privateendpointconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/privateEndpointConnectionsDeleteSample.js
-[privateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/privateEndpointConnectionsGetSample.js
-[privateendpointconnectionslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/privateEndpointConnectionsListByClusterSample.js
-[privatelinkresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/privateLinkResourcesGetSample.js
-[privatelinkresourceslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/privateLinkResourcesListByClusterSample.js
-[rolescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/rolesCreateSample.js
-[rolesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/rolesDeleteSample.js
-[rolesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/rolesGetSample.js
-[roleslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/rolesListByClusterSample.js
-[serversgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/serversGetSample.js
-[serverslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1-beta/javascript/serversListByClusterSample.js
+[clusterschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/clustersCheckNameAvailabilitySample.js
+[clusterscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/clustersCreateSample.js
+[clustersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/clustersDeleteSample.js
+[clustersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/clustersGetSample.js
+[clusterslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/clustersListByResourceGroupSample.js
+[clusterslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/clustersListSample.js
+[clusterspromotereadreplicasample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/clustersPromoteReadReplicaSample.js
+[clustersrestartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/clustersRestartSample.js
+[clustersstartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/clustersStartSample.js
+[clustersstopsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/clustersStopSample.js
+[clustersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/clustersUpdateSample.js
+[configurationsgetcoordinatorsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/configurationsGetCoordinatorSample.js
+[configurationsgetnodesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/configurationsGetNodeSample.js
+[configurationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/configurationsGetSample.js
+[configurationslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/configurationsListByClusterSample.js
+[configurationslistbyserversample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/configurationsListByServerSample.js
+[configurationsupdateoncoordinatorsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/configurationsUpdateOnCoordinatorSample.js
+[configurationsupdateonnodesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/configurationsUpdateOnNodeSample.js
+[firewallrulescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/firewallRulesCreateOrUpdateSample.js
+[firewallrulesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/firewallRulesDeleteSample.js
+[firewallrulesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/firewallRulesGetSample.js
+[firewallruleslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/firewallRulesListByClusterSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/operationsListSample.js
+[privateendpointconnectionscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/privateEndpointConnectionsCreateOrUpdateSample.js
+[privateendpointconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/privateEndpointConnectionsDeleteSample.js
+[privateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/privateEndpointConnectionsGetSample.js
+[privateendpointconnectionslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/privateEndpointConnectionsListByClusterSample.js
+[privatelinkresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/privateLinkResourcesGetSample.js
+[privatelinkresourceslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/privateLinkResourcesListByClusterSample.js
+[rolescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/rolesCreateSample.js
+[rolesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/rolesDeleteSample.js
+[rolesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/rolesGetSample.js
+[roleslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/rolesListByClusterSample.js
+[serversgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/serversGetSample.js
+[serverslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/serversListByClusterSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-cosmosdbforpostgresql?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/README.md
