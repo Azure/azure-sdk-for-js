@@ -135,6 +135,7 @@ const client = new SipRoutingClient("<endpoint-from-resource>", credential);
 The following sections provide code snippets that cover some of the common tasks using the Azure Communication Services Phone Numbers client. The scenarios that are covered here consist of:
 
 PhoneNumbersClient
+
 - [Search for available phone numbers](#search-for-available-phone-numbers)
 - [Purchase phone numbers from a search](#purchase-phone-numbers-from-a-search)
 - [Release a purchased phone number](#release-a-purchased-phone-number)
@@ -143,6 +144,7 @@ PhoneNumbersClient
 - [List purchased phone numbers](#list-purchased-phone-numbers)
 
 SipRoutingClient
+
 - [Retrieve SIP trunks and routes](#retrieve-sip-trunks-and-routes)
 - [Replace SIP trunks and routes](#replace-sip-trunks-and-routes)
 - [Retrieve single trunk](#retrieve-single-trunk)
@@ -160,7 +162,7 @@ Use the `beginSearchAvailablePhoneNumbers` method to search for phone numbers an
 ```typescript
 import {
   PhoneNumbersClient,
-  SearchAvailablePhoneNumbersRequest
+  SearchAvailablePhoneNumbersRequest,
 } from "@azure/communication-phone-numbers";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
@@ -173,9 +175,9 @@ async function main() {
     assignmentType: "application",
     capabilities: {
       sms: "outbound",
-      calling: "none"
+      calling: "none",
     },
-    quantity: 1
+    quantity: 1,
   };
 
   const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
@@ -196,21 +198,24 @@ Use the `beginPurchasePhoneNumbers` method to purchase the phone numbers from yo
 `beginPurchasePhoneNumbers` is a long running operation and returns a poller.
 
 ```typescript
-import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "@azure/communication-phone-numbers";
+import {
+  PhoneNumbersClient,
+  SearchAvailablePhoneNumbersRequest,
+} from "@azure/communication-phone-numbers";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
 
 async function main() {
-  const searchRequest:SearchAvailablePhoneNumbersRequest  = {
+  const searchRequest: SearchAvailablePhoneNumbersRequest = {
     countryCode: "US",
     phoneNumberType: "tollFree",
     assignmentType: "application",
     capabilities: {
       sms: "outbound",
-      calling: "none"
+      calling: "none",
     },
-    quantity: 1
+    quantity: 1,
   };
 
   const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
@@ -262,7 +267,7 @@ Use the `beginUpdatePhoneNumberCapabilities` method to update the capabilities o
 ```typescript
 import {
   PhoneNumbersClient,
-  PhoneNumberCapabilitiesRequest
+  PhoneNumberCapabilitiesRequest,
 } from "@azure/communication-phone-numbers";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
@@ -274,7 +279,7 @@ async function main() {
   // This will update phone number to send and receive sms, but only send calls.
   const updateRequest: PhoneNumberCapabilitiesRequest = {
     sms: "inbound+outbound",
-    calling: "outbound"
+    calling: "outbound",
   };
 
   const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
@@ -322,7 +327,7 @@ import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
 
-async main function() {
+async function main() {
   const phoneNumbers = await client.listPurchasedPhoneNumbers();
 
   for await (const phoneNumber of phoneNumbers) {
@@ -349,11 +354,11 @@ const client = new SipRoutingClient(connectionString);
 async function main() {
   const trunks = await client.listTrunks();
   const routes = await client.listRoutes();
-  for await(const trunk of trunks) {
+  for await (const trunk of trunks) {
     console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
   }
-  
-  for await(const route of routes) {
+
+  for await (const route of routes) {
     console.log(`Route ${route.name} with pattern ${route.numberPattern}`);
     console.log(`Route's trunks: ${route.trunks?.join()}`);
   }
@@ -375,26 +380,28 @@ const client = new SipRoutingClient(connectionString);
 async function main() {
   await client.setTrunks([
     {
-      fqdn: 'sbc.one.domain.com',
-      sipSignalingPort: 1234
-    },{
-      fqdn: 'sbc.two.domain.com',
-      sipSignalingPort: 1234
-    }
+      fqdn: "sbc.one.domain.com",
+      sipSignalingPort: 1234,
+    },
+    {
+      fqdn: "sbc.two.domain.com",
+      sipSignalingPort: 1234,
+    },
   ]);
 
   await client.setRoutes([
     {
       name: "First Route",
       description: "route's description",
-      numberPattern: "^\+[1-9][0-9]{3,23}$",
-      trunks: [ 'sbc.one.domain.com' ]
-    },{
+      numberPattern: "^+[1-9][0-9]{3,23}$",
+      trunks: ["sbc.one.domain.com"],
+    },
+    {
       name: "Second Route",
       description: "route's description",
       numberPattern: "^.*$",
-      trunks: [ 'sbc.two.domain.com', 'sbc.one.domain.com' ]
-    }
+      trunks: ["sbc.two.domain.com", "sbc.one.domain.com"],
+    },
   ]);
 }
 
@@ -410,11 +417,11 @@ const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new SipRoutingClient(connectionString);
 
 async function main() {
-  const trunk = await client.getTrunk('sbc.one.domain.com');
+  const trunk = await client.getTrunk("sbc.one.domain.com");
   if (trunk) {
     console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
   } else {
-      console.log('Trunk not found')
+    console.log("Trunk not found");
   }
 }
 
@@ -431,8 +438,8 @@ const client = new SipRoutingClient(connectionString);
 
 async function main() {
   await client.setTrunk({
-    fqdn: 'sbc.one.domain.com',
-    sipSignalingPort: 4321
+    fqdn: "sbc.one.domain.com",
+    sipSignalingPort: 4321,
   });
 }
 
@@ -448,7 +455,7 @@ const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new SipRoutingClient(connectionString);
 
 async function main() {
-  await client.deleteTrunk('sbc.one.domain.com');
+  await client.deleteTrunk("sbc.one.domain.com");
 }
 
 main();

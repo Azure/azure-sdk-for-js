@@ -2872,6 +2872,34 @@ export interface A2AExtendedLocationDetails {
   recoveryExtendedLocation?: ExtendedLocation;
 }
 
+/** ExtendedLocation details data. */
+export interface A2AFabricSpecificLocationDetails {
+  /** The initial source zone info. */
+  initialPrimaryZone?: string;
+  /** The initial target zone info. */
+  initialRecoveryZone?: string;
+  /** The initial primary ExtendedLocation. */
+  initialPrimaryExtendedLocation?: ExtendedLocation;
+  /** The initial recovery ExtendedLocation. */
+  initialRecoveryExtendedLocation?: ExtendedLocation;
+  /** Initial primary fabric location info. */
+  initialPrimaryFabricLocation?: string;
+  /** The initial recovery fabric location info. */
+  initialRecoveryFabricLocation?: string;
+  /** Source zone info. */
+  primaryZone?: string;
+  /** The target zone info. */
+  recoveryZone?: string;
+  /** The primary ExtendedLocation. */
+  primaryExtendedLocation?: ExtendedLocation;
+  /** The recovery ExtendedLocation. */
+  recoveryExtendedLocation?: ExtendedLocation;
+  /** Primary fabric location info. */
+  primaryFabricLocation?: string;
+  /** The recovery fabric location info. */
+  recoveryFabricLocation?: string;
+}
+
 /** A2A protected disk details. */
 export interface A2AProtectedDiskDetails {
   /** The disk uri. */
@@ -3147,6 +3175,83 @@ export interface AgentDiskDetails {
   readonly lunId?: number;
 }
 
+/** Appliance details of the migration item. */
+export interface ApplianceMonitoringDetails {
+  /**
+   * The appliance CPU details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpuDetails?: ApplianceResourceDetails;
+  /**
+   * The appliance RAM details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ramDetails?: ApplianceResourceDetails;
+  /**
+   * The appliance datastore snapshot details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly datastoreSnapshot?: DataStoreUtilizationDetails[];
+  /**
+   * The disk replication details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly disksReplicationDetails?: ApplianceResourceDetails;
+  /**
+   * The ESXi NFC buffer details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly esxiNfcBuffer?: ApplianceResourceDetails;
+  /**
+   * The appliance network bandwidth details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkBandwidth?: ApplianceResourceDetails;
+}
+
+/** Details of the appliance resource. */
+export interface ApplianceResourceDetails {
+  /**
+   * A value indicating the total capacity of appliance resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capacity?: number;
+  /**
+   * A value indicating the utilization percentage by gateway agent on appliance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly processUtilization?: number;
+  /**
+   * A value indicating the total utilization percentage for all processes on the appliance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalUtilization?: number;
+  /**
+   * A value indicating the status of appliance resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+}
+
+/** Details of the appliance resource. */
+export interface DataStoreUtilizationDetails {
+  /**
+   * The total count of snapshots supported by the datastore.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalSnapshotsSupported?: number;
+  /**
+   * The total snapshots created for server migration in the datastore.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalSnapshotsCreated?: number;
+  /**
+   * The datastore name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataStoreName?: string;
+}
+
 /** Query parameter to get appliance. */
 export interface ApplianceQueryParameter {
   /** The providerType to be used for fetching appliance details. */
@@ -3296,6 +3401,10 @@ export interface EventQueryParameter {
 export interface FabricQueryParameter {
   /** A value indicating whether the zone to zone mappings are to be returned. */
   zoneToZoneMappings?: string;
+  /** A value indicating whether the Extended Location mappings are to be returned. */
+  extendedLocationMappings?: string;
+  /** A value indicating whether the location details are to be returned. */
+  locationDetails?: string;
   /** A value indicating whether the agent details are to be fetched. */
   fetchAgentDetails?: string;
   /** The BIOS Id to be used for fetching agent details. */
@@ -3344,6 +3453,50 @@ export interface FailoverReplicationProtectedItemDetails {
   recoveryPointId?: string;
   /** The recovery point time. */
   recoveryPointTime?: Date;
+}
+
+/** Details of the gateway operation. */
+export interface GatewayOperationDetails {
+  /**
+   * A value indicating the state of gateway operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: string;
+  /**
+   * A value indicating the progress percentage of gateway operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly progressPercentage?: number;
+  /**
+   * A value indicating the time elapsed for the operation in milliseconds.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeElapsed?: number;
+  /**
+   * A value indicating the time remaining for the operation in milliseconds.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeRemaining?: number;
+  /**
+   * A value indicating the upload speed in bytes per second.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uploadSpeed?: number;
+  /**
+   * A value indicating the ESXi host name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostName?: string;
+  /**
+   * A value indicating the datastore collection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataStores?: string[];
+  /**
+   * A value indicating the VMware read throughput in bytes per second.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmwareReadThroughput?: number;
 }
 
 /** Hyper-V host details. */
@@ -3411,6 +3564,20 @@ export interface OSDetails {
   oSMajorVersion?: string;
   /** The OS Minor Version. */
   oSMinorVersion?: string;
+}
+
+/** Supported OS upgrade versions. */
+export interface OSUpgradeSupportedVersions {
+  /**
+   * The source OS version name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportedSourceOsVersion?: string;
+  /**
+   * The target OS version names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportedTargetOsVersions?: string[];
 }
 
 /** Disk input for update. */
@@ -5064,6 +5231,20 @@ export interface VMwareCbtDiskInput {
   diskEncryptionSetId?: string;
 }
 
+/** VMwareCbt security profile input. */
+export interface VMwareCbtSecurityProfileProperties {
+  /** The target VM security type. */
+  targetVmSecurityType?: SecurityType;
+  /** A value indicating whether secure boot to be enabled. */
+  isTargetVmSecureBootEnabled?: string;
+  /** A value indicating whether trusted platform module to be enabled. */
+  isTargetVmTpmEnabled?: string;
+  /** A value indicating whether integrity monitoring to be enabled. */
+  isTargetVmIntegrityMonitoringEnabled?: string;
+  /** A value indicating whether confidential compute encryption to be enabled. */
+  isTargetVmConfidentialEncryptionEnabled?: string;
+}
+
 /** VMwareCbt protected disk details. */
 export interface VMwareCbtProtectedDiskDetails {
   /**
@@ -5130,6 +5311,11 @@ export interface VMwareCbtProtectedDiskDetails {
   readonly targetBlobUri?: string;
   /** The name for the target managed disk. */
   targetDiskName?: string;
+  /**
+   * A value indicating the gateway operation details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly gatewayOperationDetails?: GatewayOperationDetails;
 }
 
 /** VMwareCbt NIC details. */
@@ -5574,6 +5760,8 @@ export interface AzureFabricSpecificDetails extends FabricSpecificDetails {
   zones?: A2AZoneDetails[];
   /** The ExtendedLocations. */
   extendedLocations?: A2AExtendedLocationDetails[];
+  /** The location details. */
+  locationDetails?: A2AFabricSpecificLocationDetails[];
 }
 
 /** HyperVSite fabric specific details. */
@@ -5928,6 +6116,11 @@ export interface VMwareCbtMigrationDetails
    */
   readonly osType?: string;
   /**
+   * The name of the OS on the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly osName?: string;
+  /**
    * The firmware type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -5973,6 +6166,10 @@ export interface VMwareCbtMigrationDetails
   targetAvailabilityZone?: string;
   /** The target proximity placement group Id. */
   targetProximityPlacementGroupId?: string;
+  /** The confidential VM key vault Id for ADE installation. */
+  confidentialVmKeyVaultId?: string;
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: VMwareCbtSecurityProfileProperties;
   /** The target boot diagnostics storage account ARM Id. */
   targetBootDiagnosticsStorageAccountId?: string;
   /** The target VM tags. */
@@ -6023,6 +6220,16 @@ export interface VMwareCbtMigrationDetails
    */
   readonly resumeProgressPercentage?: number;
   /**
+   * The delta sync progress percentage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deltaSyncProgressPercentage?: number;
+  /**
+   * A value indicating whether checksum resync cycle is in progress.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isCheckSumResyncCycle?: string;
+  /**
    * The initial seeding retry count.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -6037,6 +6244,11 @@ export interface VMwareCbtMigrationDetails
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resumeRetryCount?: number;
+  /**
+   * The delta sync retry count.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deltaSyncRetryCount?: number;
   /**
    * A value indicating whether resync is required.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6053,6 +6265,23 @@ export interface VMwareCbtMigrationDetails
   seedDiskTags?: { [propertyName: string]: string };
   /** The tags for the target disks. */
   targetDiskTags?: { [propertyName: string]: string };
+  /** A value indicating the inplace OS Upgrade version. */
+  supportedOSVersions?: string[];
+  /**
+   * A value indicating the appliance monitoring details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceMonitoringDetails?: ApplianceMonitoringDetails;
+  /**
+   * A value indicating the gateway operation details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly gatewayOperationDetails?: GatewayOperationDetails;
+  /**
+   * A value indicating the SRS operation name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationName?: string;
 }
 
 /** VMwareCbt specific enable migration input. */
@@ -6094,6 +6323,10 @@ export interface VMwareCbtEnableMigrationInput
   targetAvailabilityZone?: string;
   /** The target proximity placement group ARM Id. */
   targetProximityPlacementGroupId?: string;
+  /** The confidential VM key vault Id for ADE installation. */
+  confidentialVmKeyVaultId?: string;
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: VMwareCbtSecurityProfileProperties;
   /** The target boot diagnostics storage account ARM Id. */
   targetBootDiagnosticsStorageAccountId?: string;
   /** A value indicating whether auto resync is to be done. */
@@ -6155,6 +6388,8 @@ export interface VMwareCbtMigrateInput extends MigrateProviderSpecificInput {
   instanceType: "VMwareCbt";
   /** A value indicating whether VM is to be shutdown. */
   performShutdown: string;
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string;
 }
 
 /** VMwareCbt specific resume replication input. */
@@ -6185,6 +6420,8 @@ export interface VMwareCbtTestMigrateInput
   networkId: string;
   /** The list of NIC details. */
   vmNics?: VMwareCbtNicInput[];
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string;
 }
 
 /** Single Host fabric provider specific VM settings. */
@@ -6392,6 +6629,11 @@ export interface A2AReplicationDetails
   recoveryVirtualMachineScaleSetId?: string;
   /** The recovery capacity reservation group Id. */
   recoveryCapacityReservationGroupId?: string;
+  /**
+   * A value indicating the churn option selected by user.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly churnOptionSelected?: ChurnOptionSelected;
 }
 
 /** Hyper V Replica Azure provider specific settings. */
@@ -6468,6 +6710,8 @@ export interface HyperVReplicaAzureReplicationDetails
   targetNicTags?: { [propertyName: string]: string };
   /** The list of protected managed disks. */
   protectedManagedDisks?: HyperVReplicaAzureManagedDiskDetails[];
+  /** A value indicating all available inplace OS Upgrade configurations. */
+  allAvailableOSUpgradeConfigurations?: OSUpgradeSupportedVersions[];
 }
 
 /** Hyper V replica provider specific settings base class. */
@@ -6675,6 +6919,15 @@ export interface InMageAzureV2ReplicationDetails
   switchProviderBlockingErrorDetails?: InMageAzureV2SwitchProviderBlockingErrorDetails[];
   /** The switch provider blocking error information. */
   switchProviderDetails?: InMageAzureV2SwitchProviderDetails;
+  /** A value indicating the inplace OS Upgrade version. */
+  supportedOSVersions?: string[];
+  /** A value indicating all available inplace OS Upgrade configurations. */
+  allAvailableOSUpgradeConfigurations?: OSUpgradeSupportedVersions[];
+  /**
+   * The name of the OS on the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly osName?: string;
 }
 
 /** InMageRcmFailback provider specific details. */
@@ -7551,6 +7804,8 @@ export interface HyperVReplicaAzurePlannedFailoverProviderInput
   secondaryKekCertificatePfx?: string;
   /** The recovery point id to be passed to failover to a particular recovery point. In case of latest recovery point, null should be passed. */
   recoveryPointId?: string;
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string;
 }
 
 /** Provider specific input for InMageRcmFailback failover. */
@@ -7758,6 +8013,8 @@ export interface HyperVReplicaAzureTestFailoverInput
   secondaryKekCertificatePfx?: string;
   /** The recovery point id to be passed to test failover to a particular recovery point. In case of latest recovery point, null should be passed. */
   recoveryPointId?: string;
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string;
 }
 
 /** InMageAzureV2 provider specific input for test failover. */
@@ -7767,6 +8024,8 @@ export interface InMageAzureV2TestFailoverInput
   instanceType: "InMageAzureV2";
   /** The recovery point id to be passed to test failover to a particular recovery point. In case of latest recovery point, null should be passed. */
   recoveryPointId?: string;
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string;
 }
 
 /** InMageRcm provider specific input for test failover. */
@@ -7822,6 +8081,8 @@ export interface InMageAzureV2UnplannedFailoverInput
   instanceType: "InMageAzureV2";
   /** The recovery point id to be passed to failover to a particular recovery point. In case of latest recovery point, null should be passed. */
   recoveryPointId?: string;
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string;
 }
 
 /** InMageRcm provider specific input for unplanned failover. */
@@ -7924,6 +8185,8 @@ export interface VMwareCbtProtectionContainerMappingDetails
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly roleSizeToNicCountMap?: { [propertyName: string]: number };
+  /** The SKUs to be excluded. */
+  excludedSkus?: string[];
 }
 
 /** A2A container mapping input. */
@@ -9518,6 +9781,24 @@ export enum KnownVmEncryptionType {
  */
 export type VmEncryptionType = string;
 
+/** Known values of {@link ChurnOptionSelected} that the service accepts. */
+export enum KnownChurnOptionSelected {
+  /** Normal */
+  Normal = "Normal",
+  /** High */
+  High = "High"
+}
+
+/**
+ * Defines values for ChurnOptionSelected. \
+ * {@link KnownChurnOptionSelected} can be used interchangeably with ChurnOptionSelected,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Normal** \
+ * **High**
+ */
+export type ChurnOptionSelected = string;
+
 /** Known values of {@link DiskAccountType} that the service accepts. */
 export enum KnownDiskAccountType {
   /** StandardLRS */
@@ -10024,6 +10305,27 @@ export enum KnownRecoveryPlanPointType {
  * **LatestProcessed**
  */
 export type RecoveryPlanPointType = string;
+
+/** Known values of {@link SecurityType} that the service accepts. */
+export enum KnownSecurityType {
+  /** None */
+  None = "None",
+  /** TrustedLaunch */
+  TrustedLaunch = "TrustedLaunch",
+  /** ConfidentialVM */
+  ConfidentialVM = "ConfidentialVM"
+}
+
+/**
+ * Defines values for SecurityType. \
+ * {@link KnownSecurityType} can be used interchangeably with SecurityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **TrustedLaunch** \
+ * **ConfidentialVM**
+ */
+export type SecurityType = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

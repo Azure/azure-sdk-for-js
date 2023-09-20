@@ -45,7 +45,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * List all the private endpoint connections associated with the redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param options The options parameters.
    */
@@ -103,7 +103,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * List all the private endpoint connections associated with the redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param options The options parameters.
    */
@@ -120,7 +120,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Gets the specified private endpoint connection associated with the redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
    *                                      Azure resource
@@ -140,7 +140,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Update the state of specified private endpoint connection associated with the redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
    *                                      Azure resource
@@ -222,7 +222,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Update the state of specified private endpoint connection associated with the redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
    *                                      Azure resource
@@ -248,7 +248,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Deletes the specified private endpoint connection associated with the redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
    *                                      Azure resource
