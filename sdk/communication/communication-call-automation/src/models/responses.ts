@@ -40,7 +40,7 @@ export interface ListParticipantsResult {
 /** The response payload for adding participants to the call. */
 export interface AddParticipantResult {
   /** invitation ID used to add the participant. */
-  invitationId?: string
+  invitationId?: string;
   /** List of current participants in the call. */
   participant?: CallParticipant;
   /** The operation context provided by client. */

@@ -305,7 +305,7 @@ export class CallConnection {
   }
 
   /** Cancel add participant request.
-   * 
+   *
    * @param invitationId - Invitation ID used to cancel the add participant request.
    */
   public cancelAddParticipant(

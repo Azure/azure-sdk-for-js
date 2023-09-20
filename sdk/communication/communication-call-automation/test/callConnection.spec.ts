@@ -282,7 +282,8 @@ describe("CallConnection Unit Tests", () => {
       })
     );
 
-    callConnection.cancelAddParticipant(invitationId)
+    callConnection
+      .cancelAddParticipant(invitationId)
       .then((result: CancelAddParticipantResult) => {
         assert.isNotNull(result);
         assert.isTrue(callConnection.cancelAddParticipant.calledWith(invitationId));

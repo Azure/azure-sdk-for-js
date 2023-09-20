@@ -497,7 +497,12 @@ export interface SendDtmfFailed
 export interface AddParticipantCancelled
   extends Omit<
     RestAddParticipantCancelled,
-    "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "invitationId" | "operationContext"
+    | "callConnectionId"
+    | "serverCallId"
+    | "correlationId"
+    | "participant"
+    | "invitationId"
+    | "operationContext"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -519,7 +524,12 @@ export interface AddParticipantCancelled
 export interface CancelAddParticipantFailed
   extends Omit<
     RestCancelAddParticipantFailed,
-    "callConnectionId" | "serverCallId" | "correlationId" | "invitationId" | "operationContext" | "resultInformation"
+    | "callConnectionId"
+    | "serverCallId"
+    | "correlationId"
+    | "invitationId"
+    | "operationContext"
+    | "resultInformation"
   > {
   /** Call connection ID. */
   callConnectionId: string;
