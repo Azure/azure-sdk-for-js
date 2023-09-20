@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0 (Unreleased)
+## 2.3.0 (Unreleased)
 
 ### Features Added
 
@@ -8,16 +8,7 @@
     - Added a type `MicrosoftTeamsAppKind`.
     - Added a method `isMicrosoftTeamsAppIdentifier` to check if the identifier is `MicrosoftTeamsAppIdentifier`.
     - Added a field `teamsAppId` to `MicrosoftTeamsAppIdentifier`.
-
-## 3.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+    - With this version, any rawId starting with `28:` will map to MicrosoftTeamsAppIdentifier. Previously it mapped to `UnknownIdentifier`.
 
 ## 2.2.1 (2023-06-16)
 
