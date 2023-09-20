@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -353,6 +353,11 @@
     {
       "packageName": "@azure-rest/ai-anomaly-detector",
       "projectFolder": "sdk/anomalydetector/ai-anomaly-detector-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/ai-content-safety",
+      "projectFolder": "sdk/contentsafety/ai-content-safety-rest",
       "versionPolicyName": "client"
     },
     {
