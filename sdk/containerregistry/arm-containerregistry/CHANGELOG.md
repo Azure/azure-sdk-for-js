@@ -1,306 +1,360 @@
 # Release History
-    
+
 ## 11.0.0-beta.2 (2023-09-19)
-    
+
 **Features**
 
-  - Added operation group Archives
-  - Added operation group ArchiveVersions
-  - Added operation group CacheRules
-  - Added operation group ConnectedRegistries
-  - Added operation group CredentialSets
-  - Added operation group ExportPipelines
-  - Added operation group ImportPipelines
-  - Added operation group PipelineRuns
-  - Added Interface ActivationProperties
-  - Added Interface Archive
-  - Added Interface ArchiveListResult
-  - Added Interface ArchivePackageSourceProperties
-  - Added Interface ArchiveProperties
-  - Added Interface ArchivesCreateHeaders
-  - Added Interface ArchivesCreateOptionalParams
-  - Added Interface ArchivesDeleteHeaders
-  - Added Interface ArchivesDeleteOptionalParams
-  - Added Interface ArchivesGetOptionalParams
-  - Added Interface ArchivesListNextOptionalParams
-  - Added Interface ArchivesListOptionalParams
-  - Added Interface ArchivesUpdateOptionalParams
-  - Added Interface ArchiveUpdateParameters
-  - Added Interface ArchiveVersion
-  - Added Interface ArchiveVersionListResult
-  - Added Interface ArchiveVersionsCreateHeaders
-  - Added Interface ArchiveVersionsCreateOptionalParams
-  - Added Interface ArchiveVersionsDeleteHeaders
-  - Added Interface ArchiveVersionsDeleteOptionalParams
-  - Added Interface ArchiveVersionsGetOptionalParams
-  - Added Interface ArchiveVersionsListNextOptionalParams
-  - Added Interface ArchiveVersionsListOptionalParams
-  - Added Interface AuthCredential
-  - Added Interface AzureADAuthenticationAsArmPolicy
-  - Added Interface CacheRule
-  - Added Interface CacheRulesCreateHeaders
-  - Added Interface CacheRulesCreateOptionalParams
-  - Added Interface CacheRulesDeleteHeaders
-  - Added Interface CacheRulesDeleteOptionalParams
-  - Added Interface CacheRulesGetOptionalParams
-  - Added Interface CacheRulesListNextOptionalParams
-  - Added Interface CacheRulesListOptionalParams
-  - Added Interface CacheRulesListResult
-  - Added Interface CacheRulesUpdateHeaders
-  - Added Interface CacheRulesUpdateOptionalParams
-  - Added Interface CacheRuleUpdateParameters
-  - Added Interface ConnectedRegistriesCreateHeaders
-  - Added Interface ConnectedRegistriesCreateOptionalParams
-  - Added Interface ConnectedRegistriesDeactivateHeaders
-  - Added Interface ConnectedRegistriesDeactivateOptionalParams
-  - Added Interface ConnectedRegistriesDeleteHeaders
-  - Added Interface ConnectedRegistriesDeleteOptionalParams
-  - Added Interface ConnectedRegistriesGetOptionalParams
-  - Added Interface ConnectedRegistriesListNextOptionalParams
-  - Added Interface ConnectedRegistriesListOptionalParams
-  - Added Interface ConnectedRegistriesUpdateHeaders
-  - Added Interface ConnectedRegistriesUpdateOptionalParams
-  - Added Interface ConnectedRegistry
-  - Added Interface ConnectedRegistryListResult
-  - Added Interface ConnectedRegistryUpdateParameters
-  - Added Interface CredentialHealth
-  - Added Interface CredentialSet
-  - Added Interface CredentialSetListResult
-  - Added Interface CredentialSetsCreateHeaders
-  - Added Interface CredentialSetsCreateOptionalParams
-  - Added Interface CredentialSetsDeleteHeaders
-  - Added Interface CredentialSetsDeleteOptionalParams
-  - Added Interface CredentialSetsGetOptionalParams
-  - Added Interface CredentialSetsListNextOptionalParams
-  - Added Interface CredentialSetsListOptionalParams
-  - Added Interface CredentialSetsUpdateHeaders
-  - Added Interface CredentialSetsUpdateOptionalParams
-  - Added Interface CredentialSetUpdateParameters
-  - Added Interface DebianArchivePackageSourceProperties
-  - Added Interface DebianArchiveProperties
-  - Added Interface ErrorAdditionalInfo
-  - Added Interface ErrorDetail
-  - Added Interface ErrorResponseForContainerRegistry
-  - Added Interface ExportPipeline
-  - Added Interface ExportPipelineListResult
-  - Added Interface ExportPipelinesCreateHeaders
-  - Added Interface ExportPipelinesCreateOptionalParams
-  - Added Interface ExportPipelinesDeleteHeaders
-  - Added Interface ExportPipelinesDeleteOptionalParams
-  - Added Interface ExportPipelinesGetOptionalParams
-  - Added Interface ExportPipelinesListNextOptionalParams
-  - Added Interface ExportPipelinesListOptionalParams
-  - Added Interface ExportPipelineTargetProperties
-  - Added Interface ImportPipeline
-  - Added Interface ImportPipelineListResult
-  - Added Interface ImportPipelinesCreateHeaders
-  - Added Interface ImportPipelinesCreateOptionalParams
-  - Added Interface ImportPipelinesDeleteHeaders
-  - Added Interface ImportPipelinesDeleteOptionalParams
-  - Added Interface ImportPipelinesGetOptionalParams
-  - Added Interface ImportPipelinesListNextOptionalParams
-  - Added Interface ImportPipelinesListOptionalParams
-  - Added Interface ImportPipelineSourceProperties
-  - Added Interface LoggingProperties
-  - Added Interface LoginServerProperties
-  - Added Interface ParentProperties
-  - Added Interface PipelineRun
-  - Added Interface PipelineRunListResult
-  - Added Interface PipelineRunRequest
-  - Added Interface PipelineRunResponse
-  - Added Interface PipelineRunsCreateHeaders
-  - Added Interface PipelineRunsCreateOptionalParams
-  - Added Interface PipelineRunsDeleteHeaders
-  - Added Interface PipelineRunsDeleteOptionalParams
-  - Added Interface PipelineRunsGetOptionalParams
-  - Added Interface PipelineRunsListNextOptionalParams
-  - Added Interface PipelineRunsListOptionalParams
-  - Added Interface PipelineRunSourceProperties
-  - Added Interface PipelineRunTargetProperties
-  - Added Interface PipelineSourceTriggerDescriptor
-  - Added Interface PipelineSourceTriggerProperties
-  - Added Interface PipelineTriggerDescriptor
-  - Added Interface PipelineTriggerProperties
-  - Added Interface ProgressProperties
-  - Added Interface SoftDeletePolicy
-  - Added Interface StatusDetailProperties
-  - Added Interface SyncProperties
-  - Added Interface SyncUpdateProperties
-  - Added Interface TlsCertificateProperties
-  - Added Interface TlsProperties
-  - Added Type Alias ActivationStatus
-  - Added Type Alias ArchivesCreateResponse
-  - Added Type Alias ArchivesDeleteResponse
-  - Added Type Alias ArchivesGetResponse
-  - Added Type Alias ArchivesListNextResponse
-  - Added Type Alias ArchivesListResponse
-  - Added Type Alias ArchivesUpdateResponse
-  - Added Type Alias ArchiveVersionsCreateResponse
-  - Added Type Alias ArchiveVersionsDeleteResponse
-  - Added Type Alias ArchiveVersionsGetResponse
-  - Added Type Alias ArchiveVersionsListNextResponse
-  - Added Type Alias ArchiveVersionsListResponse
-  - Added Type Alias AuditLogStatus
-  - Added Type Alias AzureADAuthenticationAsArmPolicyStatus
-  - Added Type Alias CacheRulesCreateResponse
-  - Added Type Alias CacheRulesDeleteResponse
-  - Added Type Alias CacheRulesGetResponse
-  - Added Type Alias CacheRulesListNextResponse
-  - Added Type Alias CacheRulesListResponse
-  - Added Type Alias CacheRulesUpdateResponse
-  - Added Type Alias CertificateType
-  - Added Type Alias ConnectedRegistriesCreateResponse
-  - Added Type Alias ConnectedRegistriesGetResponse
-  - Added Type Alias ConnectedRegistriesListNextResponse
-  - Added Type Alias ConnectedRegistriesListResponse
-  - Added Type Alias ConnectedRegistriesUpdateResponse
-  - Added Type Alias ConnectedRegistryMode
-  - Added Type Alias ConnectionState
-  - Added Type Alias CredentialHealthStatus
-  - Added Type Alias CredentialName
-  - Added Type Alias CredentialSetsCreateResponse
-  - Added Type Alias CredentialSetsDeleteResponse
-  - Added Type Alias CredentialSetsGetResponse
-  - Added Type Alias CredentialSetsListNextResponse
-  - Added Type Alias CredentialSetsListResponse
-  - Added Type Alias CredentialSetsUpdateResponse
-  - Added Type Alias ExportPipelinesCreateResponse
-  - Added Type Alias ExportPipelinesGetResponse
-  - Added Type Alias ExportPipelinesListNextResponse
-  - Added Type Alias ExportPipelinesListResponse
-  - Added Type Alias ImportPipelinesCreateResponse
-  - Added Type Alias ImportPipelinesGetResponse
-  - Added Type Alias ImportPipelinesListNextResponse
-  - Added Type Alias ImportPipelinesListResponse
-  - Added Type Alias LogLevel
-  - Added Type Alias PackageSourceType
-  - Added Type Alias PipelineOptions
-  - Added Type Alias PipelineRunsCreateResponse
-  - Added Type Alias PipelineRunsGetResponse
-  - Added Type Alias PipelineRunsListNextResponse
-  - Added Type Alias PipelineRunsListResponse
-  - Added Type Alias PipelineRunSourceType
-  - Added Type Alias PipelineRunTargetType
-  - Added Type Alias PipelineSourceType
-  - Added Type Alias TlsStatus
-  - Interface Policies has a new optional parameter azureADAuthenticationAsArmPolicy
-  - Interface Policies has a new optional parameter softDeletePolicy
-  - Interface Registry has a new optional parameter anonymousPullEnabled
-  - Interface RegistryUpdateParameters has a new optional parameter anonymousPullEnabled
-  - Added Enum KnownActivationStatus
-  - Added Enum KnownAuditLogStatus
-  - Added Enum KnownAzureADAuthenticationAsArmPolicyStatus
-  - Added Enum KnownCertificateType
-  - Added Enum KnownConnectedRegistryMode
-  - Added Enum KnownConnectionState
-  - Added Enum KnownCredentialHealthStatus
-  - Added Enum KnownCredentialName
-  - Added Enum KnownLogLevel
-  - Added Enum KnownPackageSourceType
-  - Added Enum KnownPipelineOptions
-  - Added Enum KnownPipelineRunSourceType
-  - Added Enum KnownPipelineRunTargetType
-  - Added Enum KnownPipelineSourceType
-  - Added Enum KnownTlsStatus
+- Added operation group Archives
+- Added operation group ArchiveVersions
+- Added operation group CacheRules
+- Added operation group ConnectedRegistries
+- Added operation group CredentialSets
+- Added operation group ExportPipelines
+- Added operation group ImportPipelines
+- Added operation group PipelineRuns
+- Added Interface ActivationProperties
+- Added Interface Archive
+- Added Interface ArchiveListResult
+- Added Interface ArchivePackageSourceProperties
+- Added Interface ArchiveProperties
+- Added Interface ArchivesCreateHeaders
+- Added Interface ArchivesCreateOptionalParams
+- Added Interface ArchivesDeleteHeaders
+- Added Interface ArchivesDeleteOptionalParams
+- Added Interface ArchivesGetOptionalParams
+- Added Interface ArchivesListNextOptionalParams
+- Added Interface ArchivesListOptionalParams
+- Added Interface ArchivesUpdateOptionalParams
+- Added Interface ArchiveUpdateParameters
+- Added Interface ArchiveVersion
+- Added Interface ArchiveVersionListResult
+- Added Interface ArchiveVersionsCreateHeaders
+- Added Interface ArchiveVersionsCreateOptionalParams
+- Added Interface ArchiveVersionsDeleteHeaders
+- Added Interface ArchiveVersionsDeleteOptionalParams
+- Added Interface ArchiveVersionsGetOptionalParams
+- Added Interface ArchiveVersionsListNextOptionalParams
+- Added Interface ArchiveVersionsListOptionalParams
+- Added Interface AuthCredential
+- Added Interface AzureADAuthenticationAsArmPolicy
+- Added Interface CacheRule
+- Added Interface CacheRulesCreateHeaders
+- Added Interface CacheRulesCreateOptionalParams
+- Added Interface CacheRulesDeleteHeaders
+- Added Interface CacheRulesDeleteOptionalParams
+- Added Interface CacheRulesGetOptionalParams
+- Added Interface CacheRulesListNextOptionalParams
+- Added Interface CacheRulesListOptionalParams
+- Added Interface CacheRulesListResult
+- Added Interface CacheRulesUpdateHeaders
+- Added Interface CacheRulesUpdateOptionalParams
+- Added Interface CacheRuleUpdateParameters
+- Added Interface ConnectedRegistriesCreateHeaders
+- Added Interface ConnectedRegistriesCreateOptionalParams
+- Added Interface ConnectedRegistriesDeactivateHeaders
+- Added Interface ConnectedRegistriesDeactivateOptionalParams
+- Added Interface ConnectedRegistriesDeleteHeaders
+- Added Interface ConnectedRegistriesDeleteOptionalParams
+- Added Interface ConnectedRegistriesGetOptionalParams
+- Added Interface ConnectedRegistriesListNextOptionalParams
+- Added Interface ConnectedRegistriesListOptionalParams
+- Added Interface ConnectedRegistriesUpdateHeaders
+- Added Interface ConnectedRegistriesUpdateOptionalParams
+- Added Interface ConnectedRegistry
+- Added Interface ConnectedRegistryListResult
+- Added Interface ConnectedRegistryUpdateParameters
+- Added Interface CredentialHealth
+- Added Interface CredentialSet
+- Added Interface CredentialSetListResult
+- Added Interface CredentialSetsCreateHeaders
+- Added Interface CredentialSetsCreateOptionalParams
+- Added Interface CredentialSetsDeleteHeaders
+- Added Interface CredentialSetsDeleteOptionalParams
+- Added Interface CredentialSetsGetOptionalParams
+- Added Interface CredentialSetsListNextOptionalParams
+- Added Interface CredentialSetsListOptionalParams
+- Added Interface CredentialSetsUpdateHeaders
+- Added Interface CredentialSetsUpdateOptionalParams
+- Added Interface CredentialSetUpdateParameters
+- Added Interface DebianArchivePackageSourceProperties
+- Added Interface DebianArchiveProperties
+- Added Interface ErrorAdditionalInfo
+- Added Interface ErrorDetail
+- Added Interface ErrorResponseForContainerRegistry
+- Added Interface ExportPipeline
+- Added Interface ExportPipelineListResult
+- Added Interface ExportPipelinesCreateHeaders
+- Added Interface ExportPipelinesCreateOptionalParams
+- Added Interface ExportPipelinesDeleteHeaders
+- Added Interface ExportPipelinesDeleteOptionalParams
+- Added Interface ExportPipelinesGetOptionalParams
+- Added Interface ExportPipelinesListNextOptionalParams
+- Added Interface ExportPipelinesListOptionalParams
+- Added Interface ExportPipelineTargetProperties
+- Added Interface ImportPipeline
+- Added Interface ImportPipelineListResult
+- Added Interface ImportPipelinesCreateHeaders
+- Added Interface ImportPipelinesCreateOptionalParams
+- Added Interface ImportPipelinesDeleteHeaders
+- Added Interface ImportPipelinesDeleteOptionalParams
+- Added Interface ImportPipelinesGetOptionalParams
+- Added Interface ImportPipelinesListNextOptionalParams
+- Added Interface ImportPipelinesListOptionalParams
+- Added Interface ImportPipelineSourceProperties
+- Added Interface LoggingProperties
+- Added Interface LoginServerProperties
+- Added Interface ParentProperties
+- Added Interface PipelineRun
+- Added Interface PipelineRunListResult
+- Added Interface PipelineRunRequest
+- Added Interface PipelineRunResponse
+- Added Interface PipelineRunsCreateHeaders
+- Added Interface PipelineRunsCreateOptionalParams
+- Added Interface PipelineRunsDeleteHeaders
+- Added Interface PipelineRunsDeleteOptionalParams
+- Added Interface PipelineRunsGetOptionalParams
+- Added Interface PipelineRunsListNextOptionalParams
+- Added Interface PipelineRunsListOptionalParams
+- Added Interface PipelineRunSourceProperties
+- Added Interface PipelineRunTargetProperties
+- Added Interface PipelineSourceTriggerDescriptor
+- Added Interface PipelineSourceTriggerProperties
+- Added Interface PipelineTriggerDescriptor
+- Added Interface PipelineTriggerProperties
+- Added Interface ProgressProperties
+- Added Interface SoftDeletePolicy
+- Added Interface StatusDetailProperties
+- Added Interface SyncProperties
+- Added Interface SyncUpdateProperties
+- Added Interface TlsCertificateProperties
+- Added Interface TlsProperties
+- Added Type Alias ActivationStatus
+- Added Type Alias ArchivesCreateResponse
+- Added Type Alias ArchivesDeleteResponse
+- Added Type Alias ArchivesGetResponse
+- Added Type Alias ArchivesListNextResponse
+- Added Type Alias ArchivesListResponse
+- Added Type Alias ArchivesUpdateResponse
+- Added Type Alias ArchiveVersionsCreateResponse
+- Added Type Alias ArchiveVersionsDeleteResponse
+- Added Type Alias ArchiveVersionsGetResponse
+- Added Type Alias ArchiveVersionsListNextResponse
+- Added Type Alias ArchiveVersionsListResponse
+- Added Type Alias AuditLogStatus
+- Added Type Alias AzureADAuthenticationAsArmPolicyStatus
+- Added Type Alias CacheRulesCreateResponse
+- Added Type Alias CacheRulesDeleteResponse
+- Added Type Alias CacheRulesGetResponse
+- Added Type Alias CacheRulesListNextResponse
+- Added Type Alias CacheRulesListResponse
+- Added Type Alias CacheRulesUpdateResponse
+- Added Type Alias CertificateType
+- Added Type Alias ConnectedRegistriesCreateResponse
+- Added Type Alias ConnectedRegistriesGetResponse
+- Added Type Alias ConnectedRegistriesListNextResponse
+- Added Type Alias ConnectedRegistriesListResponse
+- Added Type Alias ConnectedRegistriesUpdateResponse
+- Added Type Alias ConnectedRegistryMode
+- Added Type Alias ConnectionState
+- Added Type Alias CredentialHealthStatus
+- Added Type Alias CredentialName
+- Added Type Alias CredentialSetsCreateResponse
+- Added Type Alias CredentialSetsDeleteResponse
+- Added Type Alias CredentialSetsGetResponse
+- Added Type Alias CredentialSetsListNextResponse
+- Added Type Alias CredentialSetsListResponse
+- Added Type Alias CredentialSetsUpdateResponse
+- Added Type Alias ExportPipelinesCreateResponse
+- Added Type Alias ExportPipelinesGetResponse
+- Added Type Alias ExportPipelinesListNextResponse
+- Added Type Alias ExportPipelinesListResponse
+- Added Type Alias ImportPipelinesCreateResponse
+- Added Type Alias ImportPipelinesGetResponse
+- Added Type Alias ImportPipelinesListNextResponse
+- Added Type Alias ImportPipelinesListResponse
+- Added Type Alias LogLevel
+- Added Type Alias PackageSourceType
+- Added Type Alias PipelineOptions
+- Added Type Alias PipelineRunsCreateResponse
+- Added Type Alias PipelineRunsGetResponse
+- Added Type Alias PipelineRunsListNextResponse
+- Added Type Alias PipelineRunsListResponse
+- Added Type Alias PipelineRunSourceType
+- Added Type Alias PipelineRunTargetType
+- Added Type Alias PipelineSourceType
+- Added Type Alias TlsStatus
+- Interface Policies has a new optional parameter azureADAuthenticationAsArmPolicy
+- Interface Policies has a new optional parameter softDeletePolicy
+- Interface Registry has a new optional parameter anonymousPullEnabled
+- Interface RegistryUpdateParameters has a new optional parameter anonymousPullEnabled
+- Added Enum KnownActivationStatus
+- Added Enum KnownAuditLogStatus
+- Added Enum KnownAzureADAuthenticationAsArmPolicyStatus
+- Added Enum KnownCertificateType
+- Added Enum KnownConnectedRegistryMode
+- Added Enum KnownConnectionState
+- Added Enum KnownCredentialHealthStatus
+- Added Enum KnownCredentialName
+- Added Enum KnownLogLevel
+- Added Enum KnownPackageSourceType
+- Added Enum KnownPipelineOptions
+- Added Enum KnownPipelineRunSourceType
+- Added Enum KnownPipelineRunTargetType
+- Added Enum KnownPipelineSourceType
+- Added Enum KnownTlsStatus
 
 **Breaking Changes**
 
-  - Type of parameter error of interface ErrorResponse is changed from ErrorResponseBody to ErrorDetail
-    
-    
-## 10.1.0 (2023-03-21)
-    
+- Type of parameter error of interface ErrorResponse is changed from ErrorResponseBody to ErrorDetail
+
+## 11.0.0-beta.1 (2023-09-07)
+
 **Features**
 
-  - Added operation group ScopeMaps
-  - Added operation group Tokens
-  - Added operation Registries.beginGenerateCredentials
-  - Added operation Registries.beginGenerateCredentialsAndWait
-  - Added Interface ActiveDirectoryObject
-  - Added Interface AgentPool
-  - Added Interface DockerBuildRequest
-  - Added Interface DockerBuildStep
-  - Added Interface DockerBuildStepUpdateParameters
-  - Added Interface EncodedTaskRunRequest
-  - Added Interface EncodedTaskStep
-  - Added Interface EncodedTaskStepUpdateParameters
-  - Added Interface Event_2
-  - Added Interface FileTaskRunRequest
-  - Added Interface FileTaskStep
-  - Added Interface FileTaskStepUpdateParameters
-  - Added Interface GenerateCredentialsParameters
-  - Added Interface GenerateCredentialsResult
-  - Added Interface PrivateEndpointConnection
-  - Added Interface PrivateEndpointConnectionsCreateOrUpdateHeaders
-  - Added Interface PrivateEndpointConnectionsDeleteHeaders
-  - Added Interface RegistriesCreateHeaders
-  - Added Interface RegistriesDeleteHeaders
-  - Added Interface RegistriesGenerateCredentialsHeaders
-  - Added Interface RegistriesGenerateCredentialsOptionalParams
-  - Added Interface RegistriesImportImageHeaders
-  - Added Interface RegistriesUpdateHeaders
-  - Added Interface Registry
-  - Added Interface Replication
-  - Added Interface ReplicationsCreateHeaders
-  - Added Interface ReplicationsDeleteHeaders
-  - Added Interface ReplicationsUpdateHeaders
-  - Added Interface Run
-  - Added Interface ScopeMap
-  - Added Interface ScopeMapListResult
-  - Added Interface ScopeMapsCreateHeaders
-  - Added Interface ScopeMapsCreateOptionalParams
-  - Added Interface ScopeMapsDeleteHeaders
-  - Added Interface ScopeMapsDeleteOptionalParams
-  - Added Interface ScopeMapsGetOptionalParams
-  - Added Interface ScopeMapsListNextOptionalParams
-  - Added Interface ScopeMapsListOptionalParams
-  - Added Interface ScopeMapsUpdateHeaders
-  - Added Interface ScopeMapsUpdateOptionalParams
-  - Added Interface ScopeMapUpdateParameters
-  - Added Interface Task
-  - Added Interface TaskRun
-  - Added Interface TaskRunRequest
-  - Added Interface Token
-  - Added Interface TokenCertificate
-  - Added Interface TokenCredentialsProperties
-  - Added Interface TokenListResult
-  - Added Interface TokenPassword
-  - Added Interface TokensCreateHeaders
-  - Added Interface TokensCreateOptionalParams
-  - Added Interface TokensDeleteHeaders
-  - Added Interface TokensDeleteOptionalParams
-  - Added Interface TokensGetOptionalParams
-  - Added Interface TokensListNextOptionalParams
-  - Added Interface TokensListOptionalParams
-  - Added Interface TokensUpdateHeaders
-  - Added Interface TokensUpdateOptionalParams
-  - Added Interface TokenUpdateParameters
-  - Added Interface Webhook
-  - Added Interface WebhooksCreateHeaders
-  - Added Interface WebhooksDeleteHeaders
-  - Added Interface WebhooksUpdateHeaders
-  - Added Type Alias RegistriesGenerateCredentialsResponse
-  - Added Type Alias ScopeMapsCreateResponse
-  - Added Type Alias ScopeMapsGetResponse
-  - Added Type Alias ScopeMapsListNextResponse
-  - Added Type Alias ScopeMapsListResponse
-  - Added Type Alias ScopeMapsUpdateResponse
-  - Added Type Alias TokenCertificateName
-  - Added Type Alias TokenPasswordName
-  - Added Type Alias TokensCreateResponse
-  - Added Type Alias TokensGetResponse
-  - Added Type Alias TokensListNextResponse
-  - Added Type Alias TokensListResponse
-  - Added Type Alias TokenStatus
-  - Added Type Alias TokensUpdateResponse
-  - Added Enum KnownTokenCertificateName
-  - Added Enum KnownTokenPasswordName
-  - Added Enum KnownTokenStatus
-  - Added function getContinuationToken
-  - Interface RunsListNextOptionalParams no longer has parameter filter
-  - Interface RunsListNextOptionalParams no longer has parameter top
-    
-    
+- Added operation group CacheRules
+- Added operation group CredentialSets
+- Added Interface AuthCredential
+- Added Interface CacheRule
+- Added Interface CacheRulesCreateHeaders
+- Added Interface CacheRulesCreateOptionalParams
+- Added Interface CacheRulesDeleteHeaders
+- Added Interface CacheRulesDeleteOptionalParams
+- Added Interface CacheRulesGetOptionalParams
+- Added Interface CacheRulesListNextOptionalParams
+- Added Interface CacheRulesListOptionalParams
+- Added Interface CacheRulesListResult
+- Added Interface CacheRulesUpdateHeaders
+- Added Interface CacheRulesUpdateOptionalParams
+- Added Interface CacheRuleUpdateParameters
+- Added Interface CredentialHealth
+- Added Interface CredentialSet
+- Added Interface CredentialSetListResult
+- Added Interface CredentialSetsCreateHeaders
+- Added Interface CredentialSetsCreateOptionalParams
+- Added Interface CredentialSetsDeleteHeaders
+- Added Interface CredentialSetsDeleteOptionalParams
+- Added Interface CredentialSetsGetOptionalParams
+- Added Interface CredentialSetsListNextOptionalParams
+- Added Interface CredentialSetsListOptionalParams
+- Added Interface CredentialSetsUpdateHeaders
+- Added Interface CredentialSetsUpdateOptionalParams
+- Added Interface CredentialSetUpdateParameters
+- Added Interface ErrorAdditionalInfo
+- Added Interface ErrorDetail
+- Added Interface ErrorResponseForContainerRegistry
+- Added Type Alias CacheRulesCreateResponse
+- Added Type Alias CacheRulesDeleteResponse
+- Added Type Alias CacheRulesGetResponse
+- Added Type Alias CacheRulesListNextResponse
+- Added Type Alias CacheRulesListResponse
+- Added Type Alias CacheRulesUpdateResponse
+- Added Type Alias CredentialHealthStatus
+- Added Type Alias CredentialName
+- Added Type Alias CredentialSetsCreateResponse
+- Added Type Alias CredentialSetsDeleteResponse
+- Added Type Alias CredentialSetsGetResponse
+- Added Type Alias CredentialSetsListNextResponse
+- Added Type Alias CredentialSetsListResponse
+- Added Type Alias CredentialSetsUpdateResponse
+- Added Enum KnownCredentialHealthStatus
+- Added Enum KnownCredentialName
+
+**Breaking Changes**
+
+- Type of parameter error of interface ErrorResponse is changed from ErrorResponseBody to ErrorDetail
+
+## 10.1.0 (2023-03-21)
+
+**Features**
+
+- Added operation group ScopeMaps
+- Added operation group Tokens
+- Added operation Registries.beginGenerateCredentials
+- Added operation Registries.beginGenerateCredentialsAndWait
+- Added Interface ActiveDirectoryObject
+- Added Interface AgentPool
+- Added Interface DockerBuildRequest
+- Added Interface DockerBuildStep
+- Added Interface DockerBuildStepUpdateParameters
+- Added Interface EncodedTaskRunRequest
+- Added Interface EncodedTaskStep
+- Added Interface EncodedTaskStepUpdateParameters
+- Added Interface Event_2
+- Added Interface FileTaskRunRequest
+- Added Interface FileTaskStep
+- Added Interface FileTaskStepUpdateParameters
+- Added Interface GenerateCredentialsParameters
+- Added Interface GenerateCredentialsResult
+- Added Interface PrivateEndpointConnection
+- Added Interface PrivateEndpointConnectionsCreateOrUpdateHeaders
+- Added Interface PrivateEndpointConnectionsDeleteHeaders
+- Added Interface RegistriesCreateHeaders
+- Added Interface RegistriesDeleteHeaders
+- Added Interface RegistriesGenerateCredentialsHeaders
+- Added Interface RegistriesGenerateCredentialsOptionalParams
+- Added Interface RegistriesImportImageHeaders
+- Added Interface RegistriesUpdateHeaders
+- Added Interface Registry
+- Added Interface Replication
+- Added Interface ReplicationsCreateHeaders
+- Added Interface ReplicationsDeleteHeaders
+- Added Interface ReplicationsUpdateHeaders
+- Added Interface Run
+- Added Interface ScopeMap
+- Added Interface ScopeMapListResult
+- Added Interface ScopeMapsCreateHeaders
+- Added Interface ScopeMapsCreateOptionalParams
+- Added Interface ScopeMapsDeleteHeaders
+- Added Interface ScopeMapsDeleteOptionalParams
+- Added Interface ScopeMapsGetOptionalParams
+- Added Interface ScopeMapsListNextOptionalParams
+- Added Interface ScopeMapsListOptionalParams
+- Added Interface ScopeMapsUpdateHeaders
+- Added Interface ScopeMapsUpdateOptionalParams
+- Added Interface ScopeMapUpdateParameters
+- Added Interface Task
+- Added Interface TaskRun
+- Added Interface TaskRunRequest
+- Added Interface Token
+- Added Interface TokenCertificate
+- Added Interface TokenCredentialsProperties
+- Added Interface TokenListResult
+- Added Interface TokenPassword
+- Added Interface TokensCreateHeaders
+- Added Interface TokensCreateOptionalParams
+- Added Interface TokensDeleteHeaders
+- Added Interface TokensDeleteOptionalParams
+- Added Interface TokensGetOptionalParams
+- Added Interface TokensListNextOptionalParams
+- Added Interface TokensListOptionalParams
+- Added Interface TokensUpdateHeaders
+- Added Interface TokensUpdateOptionalParams
+- Added Interface TokenUpdateParameters
+- Added Interface Webhook
+- Added Interface WebhooksCreateHeaders
+- Added Interface WebhooksDeleteHeaders
+- Added Interface WebhooksUpdateHeaders
+- Added Type Alias RegistriesGenerateCredentialsResponse
+- Added Type Alias ScopeMapsCreateResponse
+- Added Type Alias ScopeMapsGetResponse
+- Added Type Alias ScopeMapsListNextResponse
+- Added Type Alias ScopeMapsListResponse
+- Added Type Alias ScopeMapsUpdateResponse
+- Added Type Alias TokenCertificateName
+- Added Type Alias TokenPasswordName
+- Added Type Alias TokensCreateResponse
+- Added Type Alias TokensGetResponse
+- Added Type Alias TokensListNextResponse
+- Added Type Alias TokensListResponse
+- Added Type Alias TokenStatus
+- Added Type Alias TokensUpdateResponse
+- Added Enum KnownTokenCertificateName
+- Added Enum KnownTokenPasswordName
+- Added Enum KnownTokenStatus
+- Added function getContinuationToken
+- Interface RunsListNextOptionalParams no longer has parameter filter
+- Interface RunsListNextOptionalParams no longer has parameter top
+
 ## 10.0.0 (2021-12-28)
 
 The package of @azure/arm-containerregistry is using our next generation design principles since version 10.0.0, which contains breaking changes.
