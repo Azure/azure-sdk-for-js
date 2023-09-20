@@ -1,6 +1,6 @@
 # Release History
 
-## 11.0.0-beta.2 (2023-09-19)
+## 11.0.0-beta.2 (2023-09-20)
 
 **Features**
 
