@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the properties of the specified cache rule resource.
  *
  * @summary Gets the properties of the specified cache rule resource.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/CacheRuleGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/CacheRuleGet.json
  */
 async function cacheRuleGet() {
   const subscriptionId =

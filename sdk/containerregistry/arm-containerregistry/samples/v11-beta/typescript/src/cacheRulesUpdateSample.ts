@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a cache rule for a container registry with the specified parameters.
  *
  * @summary Updates a cache rule for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/CacheRuleUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/CacheRuleUpdate.json
  */
 async function cacheRuleUpdate() {
   const subscriptionId =

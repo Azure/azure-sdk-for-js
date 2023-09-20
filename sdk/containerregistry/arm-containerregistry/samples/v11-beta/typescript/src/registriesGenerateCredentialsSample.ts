@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Generate keys for a token of a specified container registry.
  *
  * @summary Generate keys for a token of a specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/RegistryGenerateCredentials.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/RegistryGenerateCredentials.json
  */
 async function registryGenerateCredentials() {
   const subscriptionId =

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Regenerates one of the login credentials for the specified container registry.
  *
  * @summary Regenerates one of the login credentials for the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/examples/RegistryRegenerateCredential.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/RegistryRegenerateCredential.json
  */
 async function registryRegenerateCredential() {
   const subscriptionId =
