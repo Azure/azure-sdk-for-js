@@ -537,5 +537,6 @@ function Update-javascript-GeneratedSdks([string]$PackageFoldersFile) {
     foreach ($folder in $foldersWithErrors) {
       Write-Host "  $folder"
     }
+    exit 1
   }
 }
