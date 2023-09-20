@@ -19,7 +19,7 @@ function getModel(authMethod: AuthMethod): string {
 }
 
 describe("OpenAI", function () {
-  matrix([["AzureAPIKey", "OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
+  matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
       let recorder: Recorder;
       let client: OpenAIClient;
