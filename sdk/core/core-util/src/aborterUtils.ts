@@ -54,7 +54,6 @@ export async function cancelablePromiseRace(
   const aborter = new AbortController();
   options?.abortSignal?.addEventListener("abort", () => {
     aborter.abort();
-    options?.abortSignal?.removeEventListener("abort", () => aborter.abort());
   });
   try {
     return await Promise.race(
@@ -62,5 +61,6 @@ export async function cancelablePromiseRace(
     );
   } finally {
     aborter.abort();
+    options?.abortSignal?.removeEventListener("abort", () => aborter.abort());
   }
 }
