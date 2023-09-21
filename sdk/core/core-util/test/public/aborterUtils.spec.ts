@@ -58,7 +58,7 @@ describe("cancelablePromiseRace", function () {
   let function3Done = false;
   const function1Delay = 100;
   let function2Delay = 200;
-  const function3Delay = 2000;
+  const function3Delay = 2000; // Default: function1Delay < function2Delay < function3Delay
   const function2Message = "function 2 is rejected";
 
   const function1 = async (abortOptions: { abortSignal?: AbortSignalLike }): Promise<number> => {
@@ -118,7 +118,7 @@ describe("cancelablePromiseRace", function () {
   });
 
   it("should reject with the first promise that rejects, abort the rest", async function () {
-    function2Delay = 50;
+    function2Delay = function1Delay / 2;
     const startTime = Date.now();
     assert.strictEqual(
       await cancelablePromiseRace<number, string, void>([function1, function2, function3]),
