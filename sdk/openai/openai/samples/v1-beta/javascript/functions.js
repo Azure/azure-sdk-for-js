@@ -41,7 +41,7 @@ async function main() {
   console.log("== Chat Completions Sample With Functions ==");
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
-  const deploymentId = "gpt-4-0613";
+  const deploymentId = "gpt-4";
   const result = await client.getChatCompletions(deploymentId, messages, {
     functions: [getCurrentWeather],
   });

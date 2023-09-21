@@ -22,7 +22,7 @@ async function main() {
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentName = "whisper-deployment";
-  const audio = await readFile("../../../assets/audio/countdown.wav");
+  const audio = await readFile("./assets/audio/countdown.wav");
   const result = await client.getAudioTranscription(deploymentName, audio);
 
   console.log(`Transcription: ${result.text}`);
