@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createAbortablePromise, AbortOptions } from "./aborterUtils";
+import { AbortOptions } from "./aborterUtils";
+import { createAbortablePromise } from "./createAbortablePromise";
 
 const StandardAbortMessage = "The delay was aborted.";
 

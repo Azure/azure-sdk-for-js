@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 export { delay, DelayOptions } from "./delay";
-export {
-  AbortOptions,
-  cancelablePromiseRace,
-  AbortablePromiseBuilder,
-} from "./aborterUtils";
+export { AbortOptions, cancelablePromiseRace, AbortablePromiseBuilder } from "./aborterUtils";
 export { createAbortablePromise, CreateAbortablePromiseOptions } from "./createAbortablePromise";
 export { getRandomIntegerInclusive } from "./random";
 export { isObject, UnknownObject } from "./object";
