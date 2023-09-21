@@ -34,9 +34,7 @@ export class AwaitableQueue<T> {
     }
 
     return createAbortablePromise<T>(
-      (resolve) => {
-        return this._resolvers.push(resolve);
-      },
+      (resolve) => this._resolvers.push(resolve),
       {
         ...options,
         cleanupBeforeAbort: () => {
