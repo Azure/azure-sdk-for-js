@@ -34,7 +34,7 @@ export async function main() {
   console.log("== Bring Your Own Data Sample ==");
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
-  const deploymentId = "gpt-35-turbo";
+  const deploymentId = "gpt-4";
   const events = client.listChatCompletions(deploymentId, messages, {
     maxTokens: 128,
     /**
