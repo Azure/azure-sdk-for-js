@@ -109,7 +109,7 @@ describe("cancelablePromiseRace", function () {
 
   it("should resolve with the first promise that resolves, abort the rest", async function () {
     const startTime = Date.now();
-    await cancelablePromiseRace<number, string, void>([function1, function2, function3]); // 1 finishes first, 2&3 are aborted
+    await cancelablePromiseRace<[number, string, void]>([function1, function2, function3]); // 1 finishes first, 2&3 are aborted
     assert.isFalse(function1Aborted); // checks 1 is not aborted
     assert.isTrue(function2Aborted); // checks 2 is aborted
     assert.isTrue(function3Done); // checks 3 is done
@@ -121,7 +121,7 @@ describe("cancelablePromiseRace", function () {
     function2Delay = function1Delay / 2;
     const startTime = Date.now();
     assert.strictEqual(
-      await cancelablePromiseRace<number, string, void>([function1, function2, function3]),
+      await cancelablePromiseRace<[number, string, void]>([function1, function2, function3]),
       function2Message
     ); // 2 rejects and finishes first, 1&3 are aborted
     assert.isTrue(function1Aborted); // checks 1 is aborted
@@ -137,7 +137,7 @@ describe("cancelablePromiseRace", function () {
     setTimeout(() => aborter.abort(), function1Delay / 2);
     let errorThrown = false;
     try {
-      await cancelablePromiseRace<number, string, void>([function1, function2, function3], {
+      await cancelablePromiseRace<[number, string, void]>([function1, function2, function3], {
         abortSignal: aborter.signal,
       }); // all are aborted
     } catch (error) {
