@@ -65,6 +65,10 @@ export class EventHubsStressTester {
   }
 
   public async snapshot(): Promise<void> {
+    if (global.gc) {
+      global.gc();
+    }
+
     const elapsedTimeInSeconds = (new Date().valueOf() - this.startedAt.valueOf()) / 1000;
 
     this.eventProperties["elapsedTimeInSeconds"] = elapsedTimeInSeconds;
