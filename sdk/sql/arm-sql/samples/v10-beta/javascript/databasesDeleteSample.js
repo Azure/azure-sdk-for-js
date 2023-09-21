@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the database.
  *
  * @summary Deletes the database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DeleteDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/DeleteDatabase.json
  */
 async function deletesADatabase() {
   const subscriptionId =

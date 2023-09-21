@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateVCoreDatabaseByServiceObjective.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateVCoreDatabaseByServiceObjective.json
  */
 async function createsAVCoreDatabaseBySpecifyingServiceObjectiveName() {
   const subscriptionId =
@@ -47,7 +47,7 @@ async function createsAVCoreDatabaseBySpecifyingServiceObjectiveName() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateVCoreDatabaseBySkuNameCapacity.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateVCoreDatabaseBySkuNameCapacity.json
  */
 async function createsAVCoreDatabaseBySpecifyingSkuNameAndCapacity() {
   const subscriptionId =
@@ -76,7 +76,7 @@ async function createsAVCoreDatabaseBySpecifyingSkuNameAndCapacity() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDwDatabaseCrossSubscriptionRestore.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDwDatabaseCrossSubscriptionRestore.json
  */
 async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromABackupOfADroppedDatabase() {
   const subscriptionId =
@@ -107,7 +107,7 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromABack
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDwDatabaseCrossSubscriptionRecovery.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDwDatabaseCrossSubscriptionRecovery.json
  */
 async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromAGeoBackup() {
   const subscriptionId =
@@ -138,7 +138,7 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromAGeoB
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDwDatabaseCrossSubscriptionPITR.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDwDatabaseCrossSubscriptionPITR.json
  */
 async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromARestorePointOfAnExistingDatabase() {
   const subscriptionId =
@@ -170,7 +170,7 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromARest
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDatabaseCopyMode.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseCopyMode.json
  */
 async function createsADatabaseAsACopy() {
   const subscriptionId =
@@ -202,7 +202,7 @@ async function createsADatabaseAsACopy() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDatabaseStandbyMode.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseStandbyMode.json
  */
 async function createsADatabaseAsAStandbySecondary() {
   const subscriptionId =
@@ -235,7 +235,7 @@ async function createsADatabaseAsAStandbySecondary() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDatabaseSecondaryMode.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseSecondaryMode.json
  */
 async function createsADatabaseAsAnOnLineSecondary() {
   const subscriptionId =
@@ -268,7 +268,7 @@ async function createsADatabaseAsAnOnLineSecondary() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDatabaseNamedReplica.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseNamedReplica.json
  */
 async function createsADatabaseAsNamedReplicaSecondary() {
   const subscriptionId =
@@ -301,7 +301,7 @@ async function createsADatabaseAsNamedReplicaSecondary() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDatabasePITRMode.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabasePITRMode.json
  */
 async function createsADatabaseFromPointInTimeRestore() {
   const subscriptionId =
@@ -333,7 +333,7 @@ async function createsADatabaseFromPointInTimeRestore() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDatabaseDefaultEnclave.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseDefaultEnclave.json
  */
 async function createsADatabaseWithDefaultEnclaveType() {
   const subscriptionId =
@@ -362,7 +362,7 @@ async function createsADatabaseWithDefaultEnclaveType() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDatabaseVBSEnclave.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseVBSEnclave.json
  */
 async function createsADatabaseWithVbsEnclaveType() {
   const subscriptionId =
@@ -391,7 +391,7 @@ async function createsADatabaseWithVbsEnclaveType() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDatabaseWithAvailabilityZone.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseWithAvailabilityZone.json
  */
 async function createsADatabaseWithAvailabilityZoneSpecified() {
   const subscriptionId =
@@ -424,7 +424,7 @@ async function createsADatabaseWithAvailabilityZoneSpecified() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDatabaseDefaultModeWithKeysAndEncryptionProtector.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseDefaultModeWithKeysAndEncryptionProtector.json
  */
 async function createsADatabaseWithDatabaseLevelCustomerManagedKeys() {
   const subscriptionId =
@@ -468,7 +468,7 @@ async function createsADatabaseWithDatabaseLevelCustomerManagedKeys() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDatabaseDefaultMode.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseDefaultMode.json
  */
 async function createsADatabaseWithDefaultMode() {
   const subscriptionId =
@@ -500,7 +500,7 @@ async function createsADatabaseWithDefaultMode() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDatabaseLedger.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseLedger.json
  */
 async function createsADatabaseWithLedgerOn() {
   const subscriptionId =
@@ -526,7 +526,7 @@ async function createsADatabaseWithLedgerOn() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDatabaseMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseMin.json
  */
 async function createsADatabaseWithMinimumNumberOfParameters() {
   const subscriptionId =
@@ -552,7 +552,7 @@ async function createsADatabaseWithMinimumNumberOfParameters() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDatabaseMaintenanceConfiguration.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseMaintenanceConfiguration.json
  */
 async function createsADatabaseWithPreferredMaintenanceWindow() {
   const subscriptionId =
@@ -586,7 +586,7 @@ async function createsADatabaseWithPreferredMaintenanceWindow() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateDatabaseConfiguredBackupStorageRedundancy.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseConfiguredBackupStorageRedundancy.json
  */
 async function createsADatabaseWithSpecifiedBackupStorageRedundancy() {
   const subscriptionId =
@@ -615,7 +615,7 @@ async function createsADatabaseWithSpecifiedBackupStorageRedundancy() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/UpdateDatabaseHyperscaleMigrationWithManualCutover.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/UpdateDatabaseHyperscaleMigrationWithManualCutover.json
  */
 async function updatesADatabaseToHyperscaleSloWithManualCutover() {
   const subscriptionId =
@@ -652,7 +652,7 @@ async function updatesADatabaseToHyperscaleSloWithManualCutover() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/UpdateDatabaseHyperscaleMigrationPerformCutover.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/UpdateDatabaseHyperscaleMigrationPerformCutover.json
  */
 async function updatesADatabaseToHyperscaleTierByTriggeringManualCutoverDuringMigrationWorkflow() {
   const subscriptionId =
