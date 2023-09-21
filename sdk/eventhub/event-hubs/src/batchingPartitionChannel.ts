@@ -171,7 +171,7 @@ export class BatchingPartitionChannel {
 
         const event =
           eventToAddToBatch ??
-          (await cancelablePromiseRace<EventData | AmqpAnnotatedMessage, void>(
+          (await cancelablePromiseRace<[EventData | AmqpAnnotatedMessage, void]>(
             [
               (abortOptions: AbortOptions) => this._eventQueue.shift(abortOptions),
               (abortOptions: AbortOptions) =>

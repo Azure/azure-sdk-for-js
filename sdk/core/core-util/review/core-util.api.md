@@ -18,14 +18,9 @@ export interface AbortOptions {
 }
 
 // @public
-export function cancelablePromiseRace<T1, T2>(abortablePromiseBuilders: (AbortablePromiseBuilder<T1> | AbortablePromiseBuilder<T2>)[], options?: {
+export function cancelablePromiseRace<T extends unknown[]>(abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[], options?: {
     abortSignal?: AbortSignalLike;
-}): Promise<T1 | T2>;
-
-// @public
-export function cancelablePromiseRace<T1, T2, T3>(abortablePromiseBuilders: (AbortablePromiseBuilder<T1> | AbortablePromiseBuilder<T2> | AbortablePromiseBuilder<T3>)[], options?: {
-    abortSignal?: AbortSignalLike;
-}): Promise<T1 | T2 | T3>;
+}): Promise<T[number]>;
 
 // @public
 export function computeSha256Hash(content: string, encoding: "base64" | "hex"): Promise<string>;
