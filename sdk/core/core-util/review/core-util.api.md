@@ -7,9 +7,9 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 
 // @public
-export type AbortablePromiseBuilder<T> = ((abortOptions: {
+export type AbortablePromiseBuilder<T> = (abortOptions: {
     abortSignal?: AbortSignalLike;
-}) => Promise<T>);
+}) => Promise<T>;
 
 // @public
 export interface AbortOptions {
