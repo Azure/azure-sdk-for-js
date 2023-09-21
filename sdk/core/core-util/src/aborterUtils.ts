@@ -32,13 +32,16 @@ export async function cancelablePromiseRace<T extends unknown[]>(
   options?: { abortSignal?: AbortSignalLike }
 ): Promise<T[number]> {
   const aborter = new AbortController();
-  options?.abortSignal?.addEventListener("abort", () => aborter.abort());
+  function abortHandler(): void {
+    aborter.abort();
+  }
+  options?.abortSignal?.addEventListener("abort", abortHandler);
   try {
     return await Promise.race(
       abortablePromiseBuilders.map((p) => p({ abortSignal: aborter.signal }))
     );
   } finally {
     aborter.abort();
-    options?.abortSignal?.removeEventListener("abort", () => aborter.abort());
+    options?.abortSignal?.removeEventListener("abort", abortHandler);
   }
 }
