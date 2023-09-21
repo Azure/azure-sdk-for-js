@@ -70,8 +70,7 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "tslib": "^2.2.0",
-    "fast-xml-parser": "^4.2.4",
-    "@azure/core-util": "^1.4.0"
+    "fast-xml-parser": "^4.2.4"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
