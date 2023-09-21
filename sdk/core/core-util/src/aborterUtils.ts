@@ -52,9 +52,7 @@ export async function cancelablePromiseRace(
   options?: { abortSignal?: AbortSignalLike }
 ): Promise<any> {
   const aborter = new AbortController();
-  options?.abortSignal?.addEventListener("abort", () => {
-    aborter.abort();
-  });
+  options?.abortSignal?.addEventListener("abort", () => aborter.abort());
   try {
     return await Promise.race(
       abortablePromiseBuilders.map((p) => p({ abortSignal: aborter.signal }))
