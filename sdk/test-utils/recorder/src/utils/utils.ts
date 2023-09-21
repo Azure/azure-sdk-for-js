@@ -369,4 +369,4 @@ export function assertEnvironmentVariable(variable: string): string {
  */
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
-}
+};
