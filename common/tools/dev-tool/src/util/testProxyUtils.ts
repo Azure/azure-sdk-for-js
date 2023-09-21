@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ChildProcess, spawn, SpawnOptions } from "child_process";
+import { ChildProcess, exec, spawn, SpawnOptions } from "child_process";
 import { createPrinter } from "./printer";
-import { ProjectInfo, resolveRoot } from "./resolveProject";
+import { ProjectInfo, resolveProject, resolveRoot } from "./resolveProject";
 import fs from "fs-extra";
 import path from "path";
 import axios from "axios";
 import decompress from "decompress";
 import envPaths from "env-paths";
+import { promisify } from "util";
 
 const log = createPrinter("test-proxy");
 const downloadLocation = path.join(envPaths("azsdk-dev-tool").cache, "test-proxy");
@@ -105,10 +106,16 @@ async function downloadTestProxy(downloadLocation: string, downloadUrl: string):
   await decompress(Buffer.from(data), downloadLocation);
 }
 
+let cachedTestProxyExecutableLocation: string | undefined;
+
 /**
  * Gets the path to the test-proxy executable. If the test-proxy executable has not been downloaded already, it will first be downloaded.
  */
 export async function getTestProxyExecutable(): Promise<string> {
+  if (cachedTestProxyExecutableLocation) {
+    return cachedTestProxyExecutableLocation;
+  }
+
   const targetVersion = await getTargetVersion();
   const binary = await getTestProxyBinary();
 
@@ -132,6 +139,7 @@ export async function getTestProxyExecutable(): Promise<string> {
     await fs.chmod(executableLocation, 0o755);
   }
 
+  cachedTestProxyExecutableLocation = executableLocation;
   return executableLocation;
 }
 
@@ -164,11 +172,56 @@ function runCommand(executable: string, argv: string[], options: SpawnOptions = 
 }
 
 export async function runTestProxyCommand(argv: string[]): Promise<void> {
-  return runCommand(await getTestProxyExecutable(), argv, { stdio: "inherit" }).result;
+  const result = runCommand(await getTestProxyExecutable(), argv, { stdio: "inherit" }).result;
+  if (await fs.pathExists("assets.json")) {
+    await linkRecordingsDirectory();
+  }
+
+  return result;
 }
 
 export function createAssetsJson(project: ProjectInfo): Promise<void> {
   return runMigrationScript(project, false);
+}
+
+const execPromise = promisify(exec);
+
+async function getRecordingsDirectory(project: ProjectInfo): Promise<string> {
+  const { stdout } = await execPromise(`${await getTestProxyExecutable()} config locate -a assets.json`, { cwd: project.path });
+  const lines = stdout.split("\n");
+
+  // the directory is the second-to-last line of output (there's some other log output that comes out from the test proxy first, and the last line is empty)
+  return lines[lines.length - 2].trim();
+}
+
+export async function linkRecordingsDirectory() {
+  const project = await resolveProject();
+  const root = await resolveRoot();
+  const recordingsDirectory = await getRecordingsDirectory(project);
+  const projectRelativeToRoot = path.relative(root, project.path);
+
+  const trueRecordingsDirectory = path.join(recordingsDirectory, projectRelativeToRoot, 'recordings/');
+  const relativeRecordingsDirectory = path.relative(project.path, trueRecordingsDirectory);
+
+  const symlinkLocation = path.join(project.path, "_recordings");
+
+  if (await fs.pathExists(symlinkLocation)) {
+    const stat = await fs.lstat(symlinkLocation);
+    if (stat.isSymbolicLink()) {
+      await fs.unlink(symlinkLocation);
+    } else {
+      log.warn("Could not create symbolic link to recordings directory: a file exists at _recordings already.");
+      return;
+    }
+  }
+
+  // Try and create a symlink but fail gracefully if it doesn't work
+  try {
+    await fs.symlink(relativeRecordingsDirectory, symlinkLocation);
+  } catch (e) {
+    log.warn("Could not create symbolic link to recordings directory");
+    log.warn(e);
+  }
 }
 
 export async function runMigrationScript(
@@ -219,8 +272,7 @@ export async function isProxyToolActive(): Promise<boolean> {
     await axios.get(`http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`);
 
     log.info(
-      `Proxy tool seems to be active at http://localhost:${
-        process.env.TEST_PROXY_HTTP_PORT ?? 5000
+      `Proxy tool seems to be active at http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000
       }\n`
     );
     return true;
