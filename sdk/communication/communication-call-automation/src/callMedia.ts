@@ -18,6 +18,8 @@ import {
   SendDtmfRequest,
   Tone,
   SpeechOptions,
+  StartHoldMusicRequest,
+  StopHoldMusicRequest,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -358,5 +360,47 @@ export class CallMedia {
       callbackUri: sendDtmfOptions.callbackUrl,
     };
     return this.callMedia.sendDtmf(this.callConnectionId, sendDtmfRequest, {});
+  }
+
+  /**
+   * Put participant on hold while playing audio.
+   *
+   * @param targetParticipant - The targets to play to.
+   * @param playSource - A PlaySource representing the source to play.
+   * @param loop - To play the audio continously until stopped.
+   * @param operationContext - Operation Context.
+   */
+  public async startHoldMusic(
+    targetParticipant: CommunicationIdentifier,
+    playSource: FileSource | TextSource | SsmlSource,
+    loop: boolean = true,
+    operationContext: string | undefined = undefined
+  ): Promise<void> {
+    const holdRequest: StartHoldMusicRequest = {
+      participantToHold: serializeCommunicationIdentifier(targetParticipant),
+      playSourceInfo: this.createPlaySourceInternal(playSource),
+      loop: loop,
+      operationContext: operationContext
+    };
+
+    return this.callMedia.startHoldMusic(this.callConnectionId, holdRequest);
+  }
+
+  /**
+   * Remove participant from hold.
+   *
+   * @param targetParticipant - The targets to play to.
+   * @param operationContext - Operation Context.
+   */
+  public async stopHoldMusic(
+    targetParticipant: CommunicationIdentifier,
+    operationContext: string | undefined = undefined
+  ): Promise<void> {
+    const unholdRequest: StopHoldMusicRequest = {
+      participantToUnhold: serializeCommunicationIdentifier(targetParticipant),
+      operationContext: operationContext
+    };
+
+    return this.callMedia.stopHoldMusic(this.callConnectionId, unholdRequest);
   }
 }
