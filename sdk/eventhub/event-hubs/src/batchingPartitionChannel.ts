@@ -48,8 +48,8 @@ export class BatchingPartitionChannel {
   private _flushState:
     | { isFlushing: false }
     | { isFlushing: true; currentPromise: Promise<void>; resolve: () => void } = {
-      isFlushing: false,
-    };
+    isFlushing: false,
+  };
   private _isRunning: boolean = false;
   private _lastBatchCreationTime: number = 0;
   private _loopAbortSignal: AbortSignalLike;
