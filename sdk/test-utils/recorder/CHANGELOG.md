@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Fixed a bug where environment variables were not being sanitized correctly when one's original value is a substring of another. [#27187](https://github.com/Azure/azure-sdk-for-js/pull/27187)
+
 ### Other Changes
 
 - Improved some error messages: [#26094](https://github.com/Azure/azure-sdk-for-js/pull/26094)

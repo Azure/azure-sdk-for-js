@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getDiagnosticLevel } from ".";
 import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel";
 
 /**
@@ -16,9 +15,12 @@ export const CosmosDbDiagnosticLevelOrder = [
 /**
  * @hidden
  */
-export function allowTracing(levelToCheck: CosmosDbDiagnosticLevel): boolean {
+export function allowTracing(
+  levelToCheck: CosmosDbDiagnosticLevel,
+  clientDiagnosticLevel: CosmosDbDiagnosticLevel
+): boolean {
   const indexOfDiagnosticLevelToCheck = CosmosDbDiagnosticLevelOrder.indexOf(levelToCheck);
-  const indexOfClientDiagnosticLevel = CosmosDbDiagnosticLevelOrder.indexOf(getDiagnosticLevel());
+  const indexOfClientDiagnosticLevel = CosmosDbDiagnosticLevelOrder.indexOf(clientDiagnosticLevel);
   if (indexOfDiagnosticLevelToCheck === -1 || indexOfClientDiagnosticLevel === -1) {
     return false;
   }

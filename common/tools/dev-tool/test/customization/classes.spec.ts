@@ -23,18 +23,24 @@ describe("Classes", () => {
   beforeEach(() => {
     project = new Project({ useInMemoryFileSystem: true });
 
-    originalFile = project.createSourceFile("original.ts", `
+    originalFile = project.createSourceFile(
+      "original.ts",
+      `
 /**
  * Original docs
  */
 class MyClass {}
-`);
-    customFile = project.createSourceFile("custom.ts", `
+`
+    );
+    customFile = project.createSourceFile(
+      "custom.ts",
+      `
 /**
  * Custom docs
  */
 class MyClass {}
-`)
+`
+    );
 
     originalClass = originalFile.getClassOrThrow("MyClass");
     customClass = customFile.getClassOrThrow("MyClass");
@@ -183,10 +189,11 @@ class MyClass {}
         ?.getBody()
         ?.getText();
 
-      const methodDocs = originalFile.getClass("MyClass")
+      const methodDocs = originalFile
+        .getClass("MyClass")
         ?.getMethod("myMethod")
         ?.getJsDocs()
-        ?.map(x => x.getDescription());
+        ?.map((x) => x.getDescription());
 
       expect(methodBody).to.contain("return originalNumber;");
       expect(methodBody).to.not.contain("return 1;");
@@ -272,10 +279,12 @@ class MyClass {}
 
       expect(originalFile.getClass("MyClass")?.getConstructors().length).to.equal(1);
       expect(originalFile.getClass("MyClass")?.getConstructors()[0].getJsDocs().length).to.equal(1);
-      expect(originalFile.getClass("MyClass")?.getConstructors()[0].getJsDocs()[0].getDescription()).to.equal("Customized docs");
+      expect(
+        originalFile.getClass("MyClass")?.getConstructors()[0].getJsDocs()[0].getDescription()
+      ).to.equal("Customized docs");
       expect(originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("endpoint")).to.not
         .be.undefined;
-      expect(originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("baseUrl")).to.be
+      expect(originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("baseUrl")).to.be;
       expect(originalFile.getClass("MyClass")?.getConstructors()[0].getText()).to.include(
         "console.log('custom');"
       );

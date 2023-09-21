@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a server.
  *
  * @summary Creates or updates a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerCreate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ServerCreate.json
  */
 async function createServer() {
   const subscriptionId =
@@ -37,6 +37,7 @@ async function createServer() {
       sid: "00000011-1111-2222-2222-123456789111",
       tenantId: "00000011-1111-2222-2222-123456789111"
     },
+    isIPv6Enabled: "Enabled",
     location: "Japan East",
     publicNetworkAccess: "Enabled",
     restrictOutboundNetworkAccess: "Enabled"

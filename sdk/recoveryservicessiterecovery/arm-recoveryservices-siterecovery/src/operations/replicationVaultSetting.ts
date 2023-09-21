@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VaultSetting,
   ReplicationVaultSettingListNextOptionalParams,
@@ -172,8 +176,8 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
     input: VaultSettingCreationInput,
     options?: ReplicationVaultSettingCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationVaultSettingCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationVaultSettingCreateResponse>,
       ReplicationVaultSettingCreateResponse
     >
   > {
@@ -183,7 +187,7 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
     ): Promise<ReplicationVaultSettingCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -216,13 +220,22 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, vaultSettingName, input, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceName,
+        resourceGroupName,
+        vaultSettingName,
+        input,
+        options
+      },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationVaultSettingCreateResponse,
+      OperationState<ReplicationVaultSettingCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

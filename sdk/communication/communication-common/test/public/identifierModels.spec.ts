@@ -251,40 +251,31 @@ describe("Identifier models", function () {
       kind: "phoneNumber",
     });
     assertIdentifier("28:45ab2481-1c1c-4005-be24-0ffb879b1130", {
-      isResourceAccountConfigured: false,
-      cloud: "public",
-      kind: "microsoftBot",
-      botId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+      id: "28:45ab2481-1c1c-4005-be24-0ffb879b1130",
+      kind: "unknown",
     });
     assertIdentifier("28:gcch-global:01234567-89ab-cdef-0123-456789abcdef", {
-      isResourceAccountConfigured: false,
-      cloud: "gcch",
-      kind: "microsoftBot",
-      botId: "01234567-89ab-cdef-0123-456789abcdef",
+      kind: "unknown",
+      id: "28:gcch-global:01234567-89ab-cdef-0123-456789abcdef",
     });
     assertIdentifier("28:dod-global:01234567-89ab-cdef-0123-456789abcdef", {
-      isResourceAccountConfigured: false,
-      cloud: "dod",
-      kind: "microsoftBot",
-      botId: "01234567-89ab-cdef-0123-456789abcdef",
+      kind: "unknown",
+      id: "28:dod-global:01234567-89ab-cdef-0123-456789abcdef",
     });
     assertIdentifier("28:orgid:01234567-89ab-cdef-0123-456789abcdef", {
-      isResourceAccountConfigured: true,
       cloud: "public",
-      kind: "microsoftBot",
-      botId: "01234567-89ab-cdef-0123-456789abcdef",
+      kind: "microsoftTeamsApp",
+      teamsAppId: "01234567-89ab-cdef-0123-456789abcdef",
     });
     assertIdentifier("28:gcch:01234567-89ab-cdef-0123-456789abcdef", {
-      isResourceAccountConfigured: true,
+      kind: "microsoftTeamsApp",
       cloud: "gcch",
-      kind: "microsoftBot",
-      botId: "01234567-89ab-cdef-0123-456789abcdef",
+      teamsAppId: "01234567-89ab-cdef-0123-456789abcdef",
     });
     assertIdentifier("28:dod:01234567-89ab-cdef-0123-456789abcdef", {
-      isResourceAccountConfigured: true,
+      kind: "microsoftTeamsApp",
       cloud: "dod",
-      kind: "microsoftBot",
-      botId: "01234567-89ab-cdef-0123-456789abcdef",
+      teamsAppId: "01234567-89ab-cdef-0123-456789abcdef",
     });
     assertIdentifier("28:ag08-global:01234567-89ab-cdef-0123-456789abcdef", {
       id: "28:ag08-global:01234567-89ab-cdef-0123-456789abcdef",

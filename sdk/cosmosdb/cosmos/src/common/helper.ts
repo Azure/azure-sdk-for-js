@@ -106,6 +106,13 @@ export function getContainerLink(link: string): string {
 /**
  * @hidden
  */
+export function prepareURL(endpoint: string, path: string): string {
+  return trimSlashes(endpoint) + path;
+}
+
+/**
+ * @hidden
+ */
 export function trimSlashes(source: string): string {
   return source.replace(trimLeftSlashes, "").replace(trimRightSlashes, "");
 }

@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix an error when serializing browser ReadableStream [PR #27052](https://github.com/Azure/azure-sdk-for-js/pull/27052)
+
 ### Other Changes
 
 ## 1.7.3 (2023-06-01)

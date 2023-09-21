@@ -21,7 +21,7 @@ describe("#StandardMetricsHandler", () => {
 
   before(() => {
     const config = new InternalConfig();
-    config.azureMonitorExporterConfig.connectionString =
+    config.azureMonitorExporterOptions.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
     autoCollect = new StandardMetrics(config, { collectionInterval: 100 });
     exportStub = sinon.stub(autoCollect["_azureExporter"], "export").callsFake(
@@ -175,6 +175,12 @@ describe("#StandardMetricsHandler", () => {
   });
 
   it("should not collect when disabled", async () => {
+    autoCollect.shutdown();
+    await new Promise((resolve) => setTimeout(resolve, 120));
+    assert.ok(exportStub.notCalled);
+  });
+
+  it("should calculate even if telemetry is sampled out", async () => {
     autoCollect.shutdown();
     await new Promise((resolve) => setTimeout(resolve, 120));
     assert.ok(exportStub.notCalled);

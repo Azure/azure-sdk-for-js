@@ -14,8 +14,8 @@ describe("MetricHandler", () => {
   let handler: MetricHandler;
   let exportStub: sinon.SinonStub;
   const _config = new InternalConfig();
-  if (_config.azureMonitorExporterConfig) {
-    _config.azureMonitorExporterConfig.connectionString =
+  if (_config.azureMonitorExporterOptions) {
+    _config.azureMonitorExporterOptions.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
   }
 

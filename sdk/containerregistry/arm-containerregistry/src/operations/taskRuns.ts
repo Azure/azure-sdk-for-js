@@ -505,7 +505,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TaskRun
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry
     }
   },
   queryParameters: [Parameters.apiVersion1],
@@ -537,7 +537,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TaskRun
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry
     }
   },
   requestBody: Parameters.taskRun,
@@ -549,7 +549,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName1,
     Parameters.taskRunName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -563,7 +563,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry
     }
   },
   queryParameters: [Parameters.apiVersion1],
@@ -595,7 +595,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TaskRun
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry
     }
   },
   requestBody: Parameters.updateParameters1,
@@ -607,7 +607,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName1,
     Parameters.taskRunName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -620,7 +620,7 @@ const getDetailsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TaskRun
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry
     }
   },
   queryParameters: [Parameters.apiVersion1],
@@ -643,7 +643,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TaskRunListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry
     }
   },
   queryParameters: [Parameters.apiVersion1],
@@ -664,15 +664,15 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TaskRunListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry
     }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer
