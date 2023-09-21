@@ -48,8 +48,8 @@ export class BatchingPartitionChannel {
   private _flushState:
     | { isFlushing: false }
     | { isFlushing: true; currentPromise: Promise<void>; resolve: () => void } = {
-    isFlushing: false,
-  };
+      isFlushing: false,
+    };
   private _isRunning: boolean = false;
   private _lastBatchCreationTime: number = 0;
   private _loopAbortSignal: AbortSignalLike;
@@ -171,7 +171,7 @@ export class BatchingPartitionChannel {
 
         const event =
           eventToAddToBatch ??
-          (await cancelablePromiseRace<EventData | AmqpAnnotatedMessage, void>(
+          (await cancelablePromiseRace<[EventData | AmqpAnnotatedMessage, void]>(
             [
               (abortOptions: AbortOptions) => this._eventQueue.shift(abortOptions),
               (abortOptions: AbortOptions) =>
