@@ -101,7 +101,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
     "nyc": "^15.0.0",
-    "@azure/core-util": "1.4.1"
+    "@azure/core-util": "^1.4.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentsafety/ai-content-safety-rest/README.md",
   "//metadata": {
