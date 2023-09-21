@@ -25,8 +25,8 @@ function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
 function isReadableStream(body: unknown): body is ReadableStream {
   return Boolean(
     body &&
-      typeof (body as ReadableStream).getReader === "function" &&
-      typeof (body as ReadableStream).tee === "function"
+    typeof (body as ReadableStream).getReader === "function" &&
+    typeof (body as ReadableStream).tee === "function"
   );
 }
 
@@ -72,49 +72,42 @@ class FetchHttpClient implements HttpClient {
  */
 async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> {
   const { abortController, abortControllerCleanup } = setupAbortSignal(request);
+  const headers = buildFetchHeaders(request.headers);
+  const { streaming, body: requestBody } = buildRequestBody(request);
+  const requestInit: RequestInit = {
+    body: requestBody,
+    method: request.method,
+    headers: headers,
+    signal: abortController.signal,
+    credentials: request.withCredentials ? "include" : "same-origin",
+    cache: "no-store",
+  };
 
-  try {
-    const headers = buildFetchHeaders(request.headers);
-    const { streaming, body: requestBody } = buildRequestBody(request);
-    const requestInit: RequestInit = {
-      body: requestBody,
-      method: request.method,
-      headers: headers,
-      signal: abortController.signal,
-      credentials: request.withCredentials ? "include" : "same-origin",
-      cache: "no-store",
-    };
-
-    // According to https://fetch.spec.whatwg.org/#fetch-method,
-    // init.duplex must be set when body is a ReadableStream object.
-    // currently "half" is the only valid value.
-    if (streaming) {
-      (requestInit as any).duplex = "half";
-    }
-
-    /**
-     * Developers of the future:
-     * Do not set redirect: "manual" as part
-     * of request options.
-     * It will not work as you expect.
-     */
-    const response = await fetch(request.url, requestInit);
-    // If we're uploading a blob, we need to fire the progress event manually
-    if (isBlob(request.body) && request.onUploadProgress) {
-      request.onUploadProgress({ loadedBytes: request.body.size });
-    }
-    return buildPipelineResponse(response, request);
-  } finally {
-    if (abortControllerCleanup) {
-      abortControllerCleanup();
-    }
+  // According to https://fetch.spec.whatwg.org/#fetch-method,
+  // init.duplex must be set when body is a ReadableStream object.
+  // currently "half" is the only valid value.
+  if (streaming) {
+    (requestInit as any).duplex = "half";
   }
+
+  /**
+   * Developers of the future:
+   * Do not set redirect: "manual" as part
+   * of request options.
+   * It will not work as you expect.
+   */
+  const response = await fetch(request.url, requestInit);
+  // If we're uploading a blob, we need to fire the progress event manually
+  if (isBlob(request.body) && request.onUploadProgress) {
+    request.onUploadProgress({ loadedBytes: request.body.size });
+  }
+  return buildPipelineResponse(response, request, abortControllerCleanup);
 }
 
 /**
  * Creates a pipeline response from a Fetch response;
  */
-async function buildPipelineResponse(httpResponse: Response, request: PipelineRequest) {
+async function buildPipelineResponse(httpResponse: Response, request: PipelineRequest, abortControllerCleanup?: () => void) {
   const headers = buildPipelineHeaders(httpResponse);
   const response: PipelineResponse = {
     request,
@@ -123,7 +116,7 @@ async function buildPipelineResponse(httpResponse: Response, request: PipelineRe
   };
 
   const bodyStream = isReadableStream(httpResponse.body)
-    ? buildBodyStream(httpResponse.body, request.onDownloadProgress)
+    ? buildBodyStream(httpResponse.body, request.onDownloadProgress, abortControllerCleanup)
     : httpResponse.body;
 
   if (
@@ -136,11 +129,13 @@ async function buildPipelineResponse(httpResponse: Response, request: PipelineRe
     } else {
       const responseStream = new Response(bodyStream);
       response.blobBody = responseStream.blob();
+      abortControllerCleanup?.();
     }
   } else {
     const responseStream = new Response(bodyStream);
 
     response.bodyAsText = await responseStream.text();
+    abortControllerCleanup?.();
   }
 
   return response;
@@ -241,7 +236,8 @@ function buildRequestBody(request: PipelineRequest) {
  */
 function buildBodyStream(
   readableStream: ReadableStream<Uint8Array>,
-  onProgress?: (progress: TransferProgressEvent) => void
+  onProgress?: (progress: TransferProgressEvent) => void,
+  onEnd?: () => void
 ): ReadableStream<Uint8Array> {
   let loadedBytes = 0;
 
@@ -252,6 +248,10 @@ function buildBodyStream(
       new TransformStream({
         transform(chunk, controller) {
           if (chunk === null) {
+            // Clean the abort signal
+            if (onEnd) {
+              onEnd();
+            }
             controller.terminate();
             return;
           }
@@ -273,6 +273,10 @@ function buildBodyStream(
         const { done, value } = await reader.read();
         // When no more data needs to be consumed, break the reading
         if (done || !value) {
+          // Clean the abort signal
+          if (onEnd) {
+            onEnd();
+          }
           // Close the stream
           controller.close();
           reader.releaseLock();

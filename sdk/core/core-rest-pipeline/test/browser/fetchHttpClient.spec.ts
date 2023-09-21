@@ -22,7 +22,6 @@ function createResponse(statusCode: number, body = "", chunkDelay = 0): Response
     async start(controller) {
       const encoder = new TextEncoder();
       const view = encoder.encode(body);
-
       if (view.length > 1) {
         const first = view.slice(0, 1);
         const second = view.slice(1);
@@ -141,6 +140,54 @@ describe("FetchHttpClient", function () {
     try {
       await promise;
       assert.fail("Expected await to throw");
+    } catch (e: any) {
+      assert.strictEqual(e.name, "AbortError");
+    }
+  });
+
+  it.only("should allow canceling in the middle of streaming request", async function () {
+    const responseText = "This is a test response for the abort signal";
+    const stream = new ReadableStream({
+      async start(controller) {
+        const encoder = new TextEncoder();
+        const view = encoder.encode(responseText);
+        for (let num = 0; num < 20; num++) {
+          let chunk = view.slice(num, num + 1);
+          controller.enqueue(chunk);
+        }
+        controller.close();
+      },
+    })
+
+    fetchMock.callsFake(async (_url, options) => {
+      return new Response(stream, { status: 200 });
+    });
+
+    const client = createFetchHttpClient();
+    const controller = new AbortController();
+    const request = createPipelineRequest({
+      url: "https://localhost/abort",
+      abortSignal: controller.signal,
+      allowInsecureConnection: true,
+      streamResponseStatusCodes: new Set([200]),
+      method: "GET",
+      enableBrowserStreams: true,
+      onDownloadProgress: (ev) => {
+        assert.isNumber(ev.loadedBytes);
+      },
+    });
+    const response = await client.sendRequest(request);
+
+    try {
+      const reader = response.browserStreamBody!.getReader();
+      while (true) {
+        const { done } = await reader.read();
+        controller.abort()
+        console.log("control signal aborted", controller.signal.aborted === true)
+        if (done) {
+          assert.fail("Expected to abort before done")
+        }
+      }
     } catch (e: any) {
       assert.strictEqual(e.name, "AbortError");
     }
@@ -337,8 +384,8 @@ describe("FetchHttpClient", function () {
       const body = options.body;
       assert.isTrue(
         body &&
-          typeof (body as ReadableStream).getReader === "function" &&
-          typeof (body as ReadableStream).tee === "function",
+        typeof (body as ReadableStream).getReader === "function" &&
+        typeof (body as ReadableStream).tee === "function",
         "expecting ReadableStream request body"
       );
       assert.strictEqual(options.duplex, "half");
@@ -378,8 +425,8 @@ describe("FetchHttpClient", function () {
       const body = options.body;
       assert.isTrue(
         body &&
-          typeof (body as ReadableStream).getReader === "function" &&
-          typeof (body as ReadableStream).tee === "function",
+        typeof (body as ReadableStream).getReader === "function" &&
+        typeof (body as ReadableStream).tee === "function",
         "expecting ReadableStream request body"
       );
       const reader = (body as ReadableStream).getReader();
