@@ -25,8 +25,8 @@ function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
 function isReadableStream(body: unknown): body is ReadableStream {
   return Boolean(
     body &&
-    typeof (body as ReadableStream).getReader === "function" &&
-    typeof (body as ReadableStream).tee === "function"
+      typeof (body as ReadableStream).getReader === "function" &&
+      typeof (body as ReadableStream).tee === "function"
   );
 }
 
@@ -107,7 +107,11 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
 /**
  * Creates a pipeline response from a Fetch response;
  */
-async function buildPipelineResponse(httpResponse: Response, request: PipelineRequest, abortControllerCleanup?: () => void) {
+async function buildPipelineResponse(
+  httpResponse: Response,
+  request: PipelineRequest,
+  abortControllerCleanup?: () => void
+) {
   const headers = buildPipelineHeaders(httpResponse);
   const response: PipelineResponse = {
     request,
@@ -249,9 +253,7 @@ function buildBodyStream(
         transform(chunk, controller) {
           if (chunk === null) {
             // Clean the abort signal
-            if (onEnd) {
-              onEnd();
-            }
+            onEnd?.();
             controller.terminate();
             return;
           }
@@ -274,9 +276,7 @@ function buildBodyStream(
         // When no more data needs to be consumed, break the reading
         if (done || !value) {
           // Clean the abort signal
-          if (onEnd) {
-            onEnd();
-          }
+          onEnd?.();
           // Close the stream
           controller.close();
           reader.releaseLock();

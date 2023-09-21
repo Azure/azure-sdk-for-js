@@ -36,7 +36,7 @@ describe("AbortSignal", () => {
       for await (const event of events) {
         for (const choice of event.choices) {
           const delta = choice.delta?.content;
-          abortController.abort()
+          abortController.abort();
           if (delta !== undefined) {
             this.currentMessage += delta;
           }
@@ -44,8 +44,8 @@ describe("AbortSignal", () => {
       }
       assert.fail("Expected to abort streaming");
     } catch (error) {
-      assert.isDefined(error)
-      assert.equal(abortSignal.aborted, true)
+      assert.isDefined(error);
+      assert.equal(abortSignal.aborted, true);
     }
   });
 });
