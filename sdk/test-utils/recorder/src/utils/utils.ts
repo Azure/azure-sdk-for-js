@@ -363,3 +363,10 @@ export function assertEnvironmentVariable(variable: string): string {
   if (!value) throw new Error(`${variable} is not defined`);
   return value;
 }
+
+/**
+ * Polling options that don't wait in playback mode.
+ */
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
+}

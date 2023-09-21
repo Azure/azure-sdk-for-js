@@ -1,10 +1,11 @@
 # Release History
 
-## 3.0.1 (Unreleased)
+## 3.1.0 (Unreleased)
 
 ### Features Added
 
 - Add support for setting `TLSValidationCert` in the Test Proxy Transport.
+- Add a `testPollingOptions` that allow skip polling wait in playback mode.
 
 ### Breaking Changes
 
