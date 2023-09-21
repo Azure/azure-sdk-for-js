@@ -3,14 +3,25 @@
 
 import { Context } from "mocha";
 import { OpenAIClient } from "../../src/index.js";
-import { createClient } from "../public/utils/recordedClient.js";
+import { createClient, startRecorder } from "./utils/recordedClient.js";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { assert } from "@azure/test-utils";
+import { Recorder } from "@azure-tools/test-recorder";
 describe("AbortSignal", () => {
+  let recorder: Recorder;
   let client: OpenAIClient;
 
   beforeEach(async function (this: Context) {
-    client = createClient("AzureAPIKey", {});
+    recorder = new Recorder(this.currentTest);
+    recorder = await startRecorder(this.currentTest);
+    client = createClient("AzureAPIKey", {recorder});
+  });
+
+
+  afterEach(async function () {
+    if (recorder) {
+      await recorder.stop();
+    }
   });
 
   it("Abort signal test for streaming method", async function () {
