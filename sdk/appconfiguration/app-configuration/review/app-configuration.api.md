@@ -116,6 +116,7 @@ export type ConfigurationSnapshotStatus = string;
 
 // @public
 export interface CreateSnapshotOptions extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public

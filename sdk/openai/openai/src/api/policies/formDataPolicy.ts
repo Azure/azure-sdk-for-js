@@ -18,7 +18,7 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { Readable } from "node:stream";
+import { Readable } from "stream";
 
 /**
  * The programmatic identifier of the formDataPolicy.

@@ -38,7 +38,7 @@
     "uglify-js": "^3.4.9",
     "rimraf": "^3.0.0",
     "dotenv": "^8.2.0",
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^3.3.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "mocha": "^7.1.1",

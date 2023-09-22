@@ -29,6 +29,9 @@ import {
   UnmuteParticipantsRequest,
   CallConnectionUnmuteOptionalParams,
   CallConnectionUnmuteResponse,
+  CancelAddParticipantRequest,
+  CallConnectionCancelAddParticipantOptionalParams,
+  CallConnectionCancelAddParticipantResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse
 } from "../models";
@@ -37,7 +40,7 @@ import {
 /** Interface representing a CallConnection. */
 export interface CallConnection {
   /**
-   * Get participants from a call.
+   * Get participants from a call. Recording and transcription bots are omitted from this list.
    * @param callConnectionId The call connection Id
    * @param options The options parameters.
    */
@@ -127,6 +130,17 @@ export interface CallConnection {
     unmuteParticipantsRequest: UnmuteParticipantsRequest,
     options?: CallConnectionUnmuteOptionalParams
   ): Promise<CallConnectionUnmuteResponse>;
+  /**
+   * Cancel add participant operation.
+   * @param callConnectionId The call connection Id
+   * @param cancelAddParticipantRequest Cancellation request.
+   * @param options The options parameters.
+   */
+  cancelAddParticipant(
+    callConnectionId: string,
+    cancelAddParticipantRequest: CancelAddParticipantRequest,
+    options?: CallConnectionCancelAddParticipantOptionalParams
+  ): Promise<CallConnectionCancelAddParticipantResponse>;
   /**
    * Get participant from a call.
    * @param callConnectionId The call connection Id

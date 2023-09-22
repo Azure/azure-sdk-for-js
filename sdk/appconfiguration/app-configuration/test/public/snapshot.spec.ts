@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode, testPollingOptions } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
@@ -59,7 +59,7 @@ describe("AppConfigurationClient snapshot", () => {
   describe("createSnapshot", () => {
     it("create a snapshot", async () => {
       // creating a new snapshot
-      const poller = await client.beginCreateSnapshot(snapshot1);
+      const poller = await client.beginCreateSnapshot(snapshot1, testPollingOptions);
       newSnapshot = await poller.pollUntilDone();
       assertEqualSnapshot(newSnapshot, snapshot1);
 
@@ -68,7 +68,7 @@ describe("AppConfigurationClient snapshot", () => {
 
     it("service throws error when tried to create a snapshot with same name", async () => {
       // creating a new snapshot
-      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
+      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
       assertEqualSnapshot(newSnapshot, snapshot1);
 
       const errorExpected = {
@@ -80,7 +80,7 @@ describe("AppConfigurationClient snapshot", () => {
 
       // attempt to add the same snapshot
       try {
-        await client.beginCreateSnapshotAndWait(snapshot1);
+        await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
         throw new Error("Test failure");
       } catch (err: any) {
         assert.equal(err.message, JSON.stringify(errorExpected));
@@ -98,6 +98,7 @@ describe("AppConfigurationClient snapshot", () => {
           requestOptions: {
             timeout: 1,
           },
+          updateIntervalInMs: testPollingOptions.updateIntervalInMs,
         });
       });
     });
@@ -106,7 +107,7 @@ describe("AppConfigurationClient snapshot", () => {
   describe("listConfigurationSettings of a Snapshot", () => {
     it("list configuration settings", async () => {
       // creating a new snapshot
-      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
+      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
 
       // change the value of the setting
       await client.setConfigurationSetting({ ...filter1, value: "value2" });
@@ -129,7 +130,7 @@ describe("AppConfigurationClient snapshot", () => {
   describe("archiveSnapshot", () => {
     it("archive a snapshot", async () => {
       // creating a new snapshot
-      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
+      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
       const archivedSnapshot = await client.archiveSnapshot(newSnapshot.name);
 
       assert.equal(
@@ -182,7 +183,7 @@ describe("AppConfigurationClient snapshot", () => {
   describe("getSnapshot", () => {
     it("get a snapshot", async () => {
       // creating a new snapshot
-      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
+      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
 
       const snapshot = await client.getSnapshot(newSnapshot.name);
       assertEqualSnapshot(snapshot, newSnapshot);
@@ -193,7 +194,7 @@ describe("AppConfigurationClient snapshot", () => {
     it.skip("accepts operation options", async function () {
       if (isPlaybackMode()) this.skip();
       // creating a new snapshot
-      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
+      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
       await assertThrowsAbortError(async () => {
         await client.getSnapshot(newSnapshot.name, {
           requestOptions: {
@@ -222,14 +223,14 @@ describe("AppConfigurationClient snapshot", () => {
       assert.equal(num, 0, "There should be no snapshot in ready status");
 
       // creating a new snapshot 1
-      await client.beginCreateSnapshotAndWait(snapshot1);
+      await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
 
       // create a new snapshot 2
       const snapshot2 = {
         name: recorder.variable("snapshot2", `snapshot-${new Date().getTime()}`),
         filters: [filter1, filter2],
       };
-      await client.beginCreateSnapshotAndWait(snapshot2);
+      await client.beginCreateSnapshotAndWait(snapshot2, testPollingOptions);
 
       // new snapshot lists
       const listAfter = await client.listSnapshots({ statusFilter: ["ready"] });
