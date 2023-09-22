@@ -120,7 +120,10 @@ async function buildPipelineResponse(
   };
 
   const bodyStream = isReadableStream(httpResponse.body)
-    ? buildBodyStream(httpResponse.body, request.onDownloadProgress, abortControllerCleanup)
+    ? buildBodyStream(httpResponse.body, {
+        onProgress: request.onDownloadProgress,
+        onEnd: abortControllerCleanup,
+      })
     : httpResponse.body;
 
   if (
@@ -228,7 +231,7 @@ function buildRequestBody(request: PipelineRequest) {
   }
 
   return isReadableStream(body)
-    ? { streaming: true, body: buildBodyStream(body, request.onUploadProgress) }
+    ? { streaming: true, body: buildBodyStream(body, { onProgress: request.onUploadProgress }) }
     : { streaming: false, body };
 }
 
@@ -240,10 +243,10 @@ function buildRequestBody(request: PipelineRequest) {
  */
 function buildBodyStream(
   readableStream: ReadableStream<Uint8Array>,
-  onProgress?: (progress: TransferProgressEvent) => void,
-  onEnd?: () => void
+  options: { onProgress?: (progress: TransferProgressEvent) => void; onEnd?: () => void } = {}
 ): ReadableStream<Uint8Array> {
   let loadedBytes = 0;
+  const { onProgress, onEnd } = options;
 
   // If the current browser supports pipeThrough we use a TransformStream
   // to report progress
@@ -252,8 +255,7 @@ function buildBodyStream(
       new TransformStream({
         transform(chunk, controller) {
           if (chunk === null) {
-            // Clean the abort signal
-            onEnd?.();
+            options?.onEnd?.();
             controller.terminate();
             return;
           }
@@ -275,7 +277,6 @@ function buildBodyStream(
         const { done, value } = await reader.read();
         // When no more data needs to be consumed, break the reading
         if (done || !value) {
-          // Clean the abort signal
           onEnd?.();
           // Close the stream
           controller.close();

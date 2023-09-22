@@ -4,7 +4,6 @@
 import { Context } from "mocha";
 import { OpenAIClient } from "../../src/index.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
-import { AbortSignalLike } from "@azure/abort-controller";
 import { assert } from "@azure/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 describe("AbortSignal", () => {
@@ -42,7 +41,7 @@ describe("AbortSignal", () => {
         temperature: 0.7,
         presencePenalty: 0,
         frequencyPenalty: 0,
-        abortSignal: abortSignal as AbortSignalLike,
+        abortSignal: abortSignal,
       });
       for await (const event of events) {
         for (const choice of event.choices) {
@@ -54,8 +53,8 @@ describe("AbortSignal", () => {
         }
       }
       assert.fail("Expected to abort streaming");
-    } catch (error) {
-      assert.isDefined(error);
+    } catch (error: any) {
+      assert.isTrue((error.name === "AbortError") || (error.name === "Error"))
       assert.equal(abortSignal.aborted, true);
     }
   });
