@@ -2991,6 +2991,10 @@ packages:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
     dev: false
 
+  /@types/mocha@10.0.1:
+    resolution: {integrity: sha512-/fvYntiO1GeICvqbQ3doGDIP97vWmvFt83GKguJ6prmQM2iXZfFcq6YE8KteFyRtX2/h5Hf91BYvPodJKFYv5Q==}
+    dev: false
+
   /@types/mocha@7.0.2:
     resolution: {integrity: sha512-ZvO2tAcjmMi8V/5Z3JsyofMe3hasRcaw88cto5etSVMwVQfeivGAlEYmaQgceUSVYFofVjT+ioHsATjdWcFt1w==}
     dev: false
@@ -9758,13 +9762,13 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-hZvXXmMNrv3DYckZqnci9P94cc0p6K8XHw2ftAf0ZwE928F5CAp69OazEC2vXLU/ihhWk5JwIk860o8CV6rR5A==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-NSHKa5CgzC23GM381/0Y8B+/+pwVe+Lg2qpH09VXq6a0z8fZGlmvJAiJ+5wQJI6iWWvbgrcuo6H+XHbAyWDmyQ==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
       '@types/chai': 4.3.6
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       chai: 4.3.8
       cross-env: 7.0.3
@@ -9779,8 +9783,8 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1(mocha@7.2.0)
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
@@ -17761,7 +17765,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-CawoT9o/i9/uP3BS59/AlRNR4Fh3GNXdY/oVF6lfc6khhbXbY9kKAnx3J0rQyrjgOTnxOZUPkG92ycYu5U/Psg==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-PpUQYe2wKI84viko7l1F9SmHZAaL/1JGHIZHsesiDbINN+K1CUQxE2SiHVtZds78IpZimFdhdeMzf9SufVfbQw==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
@@ -17834,7 +17838,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-+SAkBV7fqAketk4q1nOKI0b8ViGfSPidqJlCJUWkjwg1T0cSMFpoAyeTDVxDj3ayLdtx6/G39qs/huAxmjyq6Q==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-n1J24o+Oavn0E3CueXXgvZR06G8Zbjbe5cwy9R9xxoc2uJSiKXGKrFlv11QvugV9lV5HcyQqg1E44xAtDm7rhw==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -17847,7 +17851,7 @@ packages:
       '@rollup/plugin-replace': 5.0.2(rollup@2.79.1)
       '@types/chai': 4.3.6
       '@types/debug': 4.1.8
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       '@types/sinon': 10.0.16
       '@types/ws': 7.4.7
@@ -17861,8 +17865,8 @@ packages:
       karma: 6.4.2(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-mocha: 2.0.1
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1(mocha@7.2.0)
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       nyc: 15.1.0
       prettier: 2.8.8
       process: 0.11.10
@@ -17889,21 +17893,21 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-/shfZZZ/a1OLCdEjvnxl3PCsNyot+3dbqyjZe/Y4ryUjnZDl5I36mDV88XOnKYz8Rr4tF7E12AULdWcTDnOZPg==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-edT7cFB9xL8pM/V8Yc3cWmS9KpeyRZdkfjo+CZKi4l8ddXzqUjoX+RFecKGAbpkT90Nj4zeiS0cP1JPWlCmgBQ==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
       '@types/chai': 4.3.6
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       chai: 4.3.8
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
       eslint: 8.48.0
       inherits: 2.0.4
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1(mocha@7.2.0)
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
@@ -17917,19 +17921,20 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-VnzVYfpBMnTmrIojrKNKxOWKlSCzLdbp/L59acB4QsE2hrqfmnN50V9i75jAdNRRoGioPizCQj4aNBlccWzIjw==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-F3J3Al4e/y0I3yAok9jUcYjHAuMTyXqtlY42A0l10uI/12RO9mb0UZyQqbjwQ5slyDOziCPrFJRAWQHfhWhLAw==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
       '@types/chai': 4.3.6
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       '@types/sinon': 10.0.16
       chai: 4.3.8
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
       eslint: 8.48.0
+      esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.2(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
@@ -17940,8 +17945,8 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1(mocha@7.2.0)
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       sinon: 15.2.0
@@ -17959,13 +17964,13 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-RpADfPq3hnSSPkiIr8lReApEUfKwEPFIaApL06lb4L2iIS7VOUTUwrCtwkFUGRWUgNBrObdl7/hk4J3kPkFttw==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-tme9dp6snzbAjobZiOxshp4ck6tWejK0TQmXbeGSLgQJUge5b3IIpvO6d0FiOJtwTUnTo0/KUfnkMOXVXobLyw==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
       '@types/chai': 4.3.6
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       '@types/sinon': 10.0.16
       chai: 4.3.8
@@ -17981,8 +17986,8 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1(mocha@7.2.0)
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       sinon: 15.2.0
@@ -17999,7 +18004,7 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-FmoLb0A0sQLUXxK8EahhdVZJIg0k527s0OzU9iuXkYGJK+HLHZr9Ajjyr1ts5vPSq0PnvXy0EGkH1mtiJqjRoA==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-qHNNvzuxcs/wS7OJV+CQ2jJRg9DvqN30pKU9NbumzjvyrdDJbygsNGw/UPk7nSu4L7xpyfJRyK7fWRjIU3x+FA==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
@@ -18008,8 +18013,8 @@ packages:
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
       eslint: 8.48.0
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1(mocha@7.2.0)
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
@@ -18021,7 +18026,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-lhKl7UujbseGtvMww3XNRQNCDOwciRy9C+sfS53/LQIwGxozcYUf1WicDPitkJu+4JWrlG1LXBwtog3M6lozmw==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-0abbi76ZPnIIRRQxdKS+CxXqj+abG2rhVjy6wRcwhOxX5EFQADO1dbFu+B533sUDxsuUJylaMdZD2zk29whoSA==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -18031,7 +18036,7 @@ packages:
       '@opentelemetry/api': 1.6.0
       '@types/chai': 4.3.6
       '@types/express': 4.17.17
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       '@types/node-fetch': 2.6.4
       '@types/sinon': 10.0.16
@@ -18044,6 +18049,7 @@ packages:
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
       eslint: 8.48.0
+      esm: 3.2.25
       express: 4.18.2
       fetch-mock: 9.11.0(node-fetch@2.7.0)
       form-data: 4.0.0
@@ -18053,8 +18059,8 @@ packages:
       karma-firefox-launcher: 1.3.0
       karma-mocha: 2.0.1
       karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1(mocha@7.2.0)
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       node-fetch: 2.7.0
       npm-run-all: 4.1.5
       nyc: 15.1.0
@@ -18085,12 +18091,12 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-Mq3N34zTxb6W2cEXp22e/pGg7lD7VQGgwdTfSucZYqwqTe2e/gr3rgK6/1h22yaMAVV8Z9/fVSbwxFYkI38v/A==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-sGVfSmZLyR2sC0ZC3XBLcm1I+rExxBO4vxXq32bMW1/cEGvwe1ztrpa3isQws4kO92jJDOwIgmvfHDmcnjY1ig==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       cross-env: 7.0.3
       eslint: 8.48.0
@@ -18103,8 +18109,8 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1(mocha@7.2.0)
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
@@ -18121,13 +18127,13 @@ packages:
     dev: false
 
   file:projects/core-paging.tgz:
-    resolution: {integrity: sha512-0iMI4d2AxBfPNUBNLyHt971OaZRCfUw4xw8na4CfmY25mPZ4xbkNm5VxytDSrvW50NERDtk1hC9eBk2ZrDI+mg==, tarball: file:projects/core-paging.tgz}
+    resolution: {integrity: sha512-4jQw2cyVOrSuWTJqjdM4wD9b+VfiI+OS4iTSwbz4JTP0sEon7KkiREhCwhiEL+bGtbL4kCErEL8u1BCvtKRu9A==, tarball: file:projects/core-paging.tgz}
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
       '@types/chai': 4.3.6
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       chai: 4.3.8
       cross-env: 7.0.3
@@ -18142,8 +18148,8 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1(mocha@7.2.0)
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
@@ -18159,7 +18165,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-EbAemB9izKnTLPSDxLAgPLxPXumHcUoy7YsrM9SwQjT29vyhGV6z6t4syZcwVaxH31sQNzJFzy5QR5YhCbzp7w==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-90LuGTblbdTxVmckT6Rmjbz8El2IoB7S7ejQ72/OEY0c6VIEnMQnqpK7CTL3e93/q/bmvPJ+He7m1a/Xsqrj9Q==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -18167,7 +18173,7 @@ packages:
       '@opentelemetry/api': 1.6.0
       '@types/chai': 4.3.6
       '@types/chai-as-promised': 7.1.5
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       '@types/sinon': 10.0.16
       chai: 4.3.8
@@ -18211,12 +18217,12 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-1snxwFmYOmHCVPRn/Dbz8M9R3VfQIMAMFqAdnpai9qvMySuO6GbKKaPEkQNXW0NVeMRgI8wi6ih+wiAH3xk2UQ==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-2I7/xuHZUWsYKEpM7oBfoZFN49F3tTRvYsRiP2FE2bqohmTN4M0wD5WRWG3bic8nyKOXVLSRirX17msXXCkpnw==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -18234,8 +18240,8 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1(mocha@7.2.0)
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       nyc: 15.1.0
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.0.4)
@@ -18254,13 +18260,13 @@ packages:
     dev: false
 
   file:projects/core-tracing.tgz:
-    resolution: {integrity: sha512-b53oYNqSKUFxNeGAbe7GXs/zZCtgMxlnFdXAhVD1Ns3oVs+axM3eyTTS1lR8xF8vr2Oz8feSMtGZkoRdvmB8QA==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-KpOxu5nIHlsGeRmssNYgLTkcYsNPM5fUuZIjXKRI9S2rYDk2swlEQFXpc67XjTsBzWsrOev9rusCxbG2slwyNg==, tarball: file:projects/core-tracing.tgz}
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
       '@types/chai': 4.3.6
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       '@types/sinon': 10.0.16
       chai: 4.3.8
@@ -18276,8 +18282,8 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1(mocha@7.2.0)
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       sinon: 15.2.0
@@ -18295,14 +18301,14 @@ packages:
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-i9Hg4xLbRX812CzkP0ZVLgQFzV1qjj/geuOXb7rQ6AvaK/WBkd4taFzQHywrs1vB+m7W1/IK7CCHc/16vhV2Bg==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-UlHleaykKOAJI/smfd+1RFc8ZK8njD4IXii4c9iJMeVEQC2GAaOyQ4MCrwI4sadjIugZz2KnY9NWuLCbd0AxPQ==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
       '@types/chai': 4.3.6
       '@types/chai-as-promised': 7.1.5
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       '@types/sinon': 10.0.16
       chai: 4.3.8
@@ -18320,8 +18326,8 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1(mocha@7.2.0)
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       sinon: 15.2.0
@@ -18339,13 +18345,13 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-v3OXnOCq37ZMbLQRLMwKzpXZJ/8UP6I29WPGcZx51Xuj63p8vVkHMzsNX4H6YotT5EbNjrv2+fNqfNW5tyHe8A==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-EOkx1D6q7UaTyDrCBZZ3TORsXk0/OjdUL+E91hPaMxrWonPxyKrlBJKQHlgb2HlkZaCQAbtXBMBp8ZB4oQNS8Q==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
       '@types/chai': 4.3.6
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       '@types/trusted-types': 2.0.3
       chai: 4.3.8
@@ -18363,8 +18369,8 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1(mocha@7.2.0)
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
@@ -19512,13 +19518,13 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-Xvm/0RnmqKL0U4XXUOl5vbP9E7bfLgANrhGSBUlfM2uLK/l3kuX85GPMvHO9meMwopCU/pmkJYxS2Leem7hsdg==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-PAwCcT99TC7wLhnCc1rTNS7jBzpb8b2n6g8PAwhvyXCJdkyAX6qRc2VqufXVtcPYnVt4wPzcEQuBnE2iM+65Lg==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
       '@types/chai': 4.3.6
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.56
       '@types/sinon': 10.0.16
       chai: 4.3.8
@@ -19534,8 +19540,8 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1(mocha@7.2.0)
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       nyc: 15.1.0
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.0.4)
