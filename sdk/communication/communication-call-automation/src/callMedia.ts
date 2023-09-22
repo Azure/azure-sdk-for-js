@@ -380,7 +380,7 @@ export class CallMedia {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       playSourceInfo: this.createPlaySourceInternal(playSource),
       loop: loop,
-      operationContext: operationContext
+      operationContext: operationContext,
     };
 
     return this.callMedia.startHoldMusic(this.callConnectionId, holdRequest);
@@ -398,7 +398,7 @@ export class CallMedia {
   ): Promise<void> {
     const unholdRequest: StopHoldMusicRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: operationContext
+      operationContext: operationContext,
     };
 
     return this.callMedia.stopHoldMusic(this.callConnectionId, unholdRequest);
