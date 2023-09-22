@@ -25,8 +25,8 @@ export interface NetworkDeviceSkus {
     options?: NetworkDeviceSkusListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<NetworkDeviceSku>;
   /**
-   * Get Network Device SKU details.
-   * @param networkDeviceSkuName Name of the Network Device Sku
+   * Get a Network Device SKU details.
+   * @param networkDeviceSkuName Name of the Network Device SKU.
    * @param options The options parameters.
    */
   get(

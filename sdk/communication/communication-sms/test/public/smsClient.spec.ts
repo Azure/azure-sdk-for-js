@@ -6,17 +6,17 @@
  *  They are duplicated in an internal test which contains workaround logic to record/playback the tests
  */
 
-import { matrix } from "@azure/test-utils";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { createRecordedSmsClient, createRecordedSmsClientWithToken } from "./utils/recordedClient";
+import { matrix } from "@azure/test-utils";
 import { Context } from "mocha";
-import sendSmsSuites from "./suites/smsClient.send";
-import { SmsClient } from "../../src";
 import sinon from "sinon";
+import { SmsClient } from "../../src";
 import { Uuid } from "../../src/utils/uuid";
+import sendSmsSuites from "./suites/smsClient.send";
+import { createRecordedSmsClient, createRecordedSmsClientWithToken } from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad: boolean) {
-  describe(`SmsClient [Live]${useAad ? " [AAD]" : ""}`, async () => {
+  describe(`SmsClient [Live]${useAad ? " [AAD]" : ""}`, async function () {
     let recorder: Recorder;
     let client: SmsClient;
 

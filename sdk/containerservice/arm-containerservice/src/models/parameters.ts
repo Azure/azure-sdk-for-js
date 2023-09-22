@@ -53,7 +53,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-05-02-preview",
+    defaultValue: "2023-07-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -222,6 +222,39 @@ export const commandId: OperationURLParameter = {
   }
 };
 
+export const version: OperationURLParameter = {
+  parameterPath: "version",
+  mapper: {
+    constraints: {
+      MaxLength: 24,
+      MinLength: 1
+    },
+    serializedName: "version",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const mode: OperationURLParameter = {
+  parameterPath: "mode",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
+      ),
+      MaxLength: 24,
+      MinLength: 1
+    },
+    serializedName: "mode",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const nextLink: OperationURLParameter = {
   parameterPath: "nextLink",
   mapper: {
@@ -271,10 +304,13 @@ export const parameters5: OperationParameter = {
   mapper: AgentPoolMapper
 };
 
-export const agentPoolName1: OperationURLParameter = {
-  parameterPath: "agentPoolName",
+export const machineName: OperationURLParameter = {
+  parameterPath: "machineName",
   mapper: {
-    serializedName: "agentPoolName",
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][-_a-zA-Z0-9]{0,39}$")
+    },
+    serializedName: "machineName",
     required: true,
     type: {
       name: "String"

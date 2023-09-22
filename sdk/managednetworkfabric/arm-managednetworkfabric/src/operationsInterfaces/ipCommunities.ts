@@ -19,14 +19,15 @@ import {
   IpCommunityPatch,
   IpCommunitiesUpdateOptionalParams,
   IpCommunitiesUpdateResponse,
-  IpCommunitiesDeleteOptionalParams
+  IpCommunitiesDeleteOptionalParams,
+  IpCommunitiesDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a IpCommunities. */
 export interface IpCommunities {
   /**
-   * Implements IpCommunities list by resource group GET method.
+   * Implements IP Communities list by resource group GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -35,7 +36,7 @@ export interface IpCommunities {
     options?: IpCommunitiesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<IpCommunity>;
   /**
-   * Implements IpCommunities list by subscription GET method.
+   * Implements IP Communities list by subscription GET method.
    * @param options The options parameters.
    */
   listBySubscription(
@@ -44,7 +45,7 @@ export interface IpCommunities {
   /**
    * Implements an IP Community PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipCommunityName Name of the IP Community
+   * @param ipCommunityName Name of the IP Community.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -62,7 +63,7 @@ export interface IpCommunities {
   /**
    * Implements an IP Community PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipCommunityName Name of the IP Community
+   * @param ipCommunityName Name of the IP Community.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -86,7 +87,7 @@ export interface IpCommunities {
   /**
    * API to update certain properties of the IP Community resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipCommunityName Name of the IP Community
+   * @param ipCommunityName Name of the IP Community.
    * @param body IP Community properties to update.
    * @param options The options parameters.
    */
@@ -104,7 +105,7 @@ export interface IpCommunities {
   /**
    * API to update certain properties of the IP Community resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipCommunityName Name of the IP Community
+   * @param ipCommunityName Name of the IP Community.
    * @param body IP Community properties to update.
    * @param options The options parameters.
    */
@@ -124,7 +125,12 @@ export interface IpCommunities {
     resourceGroupName: string,
     ipCommunityName: string,
     options?: IpCommunitiesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<IpCommunitiesDeleteResponse>,
+      IpCommunitiesDeleteResponse
+    >
+  >;
   /**
    * Implements IP Community DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -135,5 +141,5 @@ export interface IpCommunities {
     resourceGroupName: string,
     ipCommunityName: string,
     options?: IpCommunitiesDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<IpCommunitiesDeleteResponse>;
 }

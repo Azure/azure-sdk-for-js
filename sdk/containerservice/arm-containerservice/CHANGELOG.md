@@ -1,41 +1,66 @@
 # Release History
-
-## 19.1.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 19.1.0-beta.1 (2023-06-12)
+    
+## 19.4.0-beta.1 (2023-09-01)
     
 **Features**
 
+  - Added operation group Machines
   - Added operation group ManagedClusterSnapshots
   - Added operation group TrustedAccessRoleBindings
   - Added operation group TrustedAccessRoles
-  - Added Interface AbsoluteMonthlySchedule
+  - Added operation ManagedClusters.getGuardrailsVersions
+  - Added operation ManagedClusters.getMeshRevisionProfile
+  - Added operation ManagedClusters.getMeshUpgradeProfile
+  - Added operation ManagedClusters.listGuardrailsVersions
+  - Added operation ManagedClusters.listMeshRevisionProfiles
+  - Added operation ManagedClusters.listMeshUpgradeProfiles
   - Added Interface AgentPoolNetworkProfile
+  - Added Interface AgentPoolSecurityProfile
   - Added Interface AgentPoolWindowsProfile
-  - Added Interface ClusterUpgradeSettings
+  - Added Interface CompatibleVersions
   - Added Interface ContainerServiceNetworkProfileKubeProxyConfig
   - Added Interface ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig
-  - Added Interface DailySchedule
-  - Added Interface DateSpan
+  - Added Interface GuardrailsAvailableVersion
+  - Added Interface GuardrailsAvailableVersionsList
+  - Added Interface GuardrailsAvailableVersionsProperties
   - Added Interface GuardrailsProfile
   - Added Interface IPTag
+  - Added Interface IstioCertificateAuthority
   - Added Interface IstioComponents
+  - Added Interface IstioEgressGateway
   - Added Interface IstioIngressGateway
+  - Added Interface IstioPluginCertificateAuthority
   - Added Interface IstioServiceMesh
-  - Added Interface MaintenanceWindow
+  - Added Interface Machine
+  - Added Interface MachineIpAddress
+  - Added Interface MachineListResult
+  - Added Interface MachineNetworkProperties
+  - Added Interface MachineProperties
+  - Added Interface MachinesGetOptionalParams
+  - Added Interface MachinesListNextOptionalParams
+  - Added Interface MachinesListOptionalParams
+  - Added Interface ManagedClusterAzureMonitorProfileAppMonitoring
+  - Added Interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
+  - Added Interface ManagedClusterAzureMonitorProfileContainerInsights
+  - Added Interface ManagedClusterAzureMonitorProfileLogs
+  - Added Interface ManagedClusterAzureMonitorProfileWindowsHostLogs
+  - Added Interface ManagedClusterCostAnalysis
   - Added Interface ManagedClusterIngressProfile
   - Added Interface ManagedClusterIngressProfileWebAppRouting
+  - Added Interface ManagedClusterMetricsProfile
   - Added Interface ManagedClusterNodeResourceGroupProfile
   - Added Interface ManagedClusterPropertiesForSnapshot
+  - Added Interface ManagedClusterSecurityProfileImageIntegrity
   - Added Interface ManagedClusterSecurityProfileNodeRestriction
+  - Added Interface ManagedClustersGetGuardrailsVersionsOptionalParams
+  - Added Interface ManagedClustersGetMeshRevisionProfileOptionalParams
+  - Added Interface ManagedClustersGetMeshUpgradeProfileOptionalParams
+  - Added Interface ManagedClustersListGuardrailsVersionsNextOptionalParams
+  - Added Interface ManagedClustersListGuardrailsVersionsOptionalParams
+  - Added Interface ManagedClustersListMeshRevisionProfilesNextOptionalParams
+  - Added Interface ManagedClustersListMeshRevisionProfilesOptionalParams
+  - Added Interface ManagedClustersListMeshUpgradeProfilesNextOptionalParams
+  - Added Interface ManagedClustersListMeshUpgradeProfilesOptionalParams
   - Added Interface ManagedClusterSnapshot
   - Added Interface ManagedClusterSnapshotListResult
   - Added Interface ManagedClusterSnapshotsCreateOrUpdateOptionalParams
@@ -46,12 +71,17 @@
   - Added Interface ManagedClusterSnapshotsListNextOptionalParams
   - Added Interface ManagedClusterSnapshotsListOptionalParams
   - Added Interface ManagedClusterSnapshotsUpdateTagsOptionalParams
-  - Added Interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
+  - Added Interface MeshRevision
+  - Added Interface MeshRevisionProfile
+  - Added Interface MeshRevisionProfileList
+  - Added Interface MeshRevisionProfileProperties
+  - Added Interface MeshUpgradeProfile
+  - Added Interface MeshUpgradeProfileList
+  - Added Interface MeshUpgradeProfileProperties
   - Added Interface NetworkMonitoring
   - Added Interface NetworkProfileForSnapshot
   - Added Interface PortRange
-  - Added Interface RelativeMonthlySchedule
-  - Added Interface Schedule
+  - Added Interface ProxyResource
   - Added Interface ServiceMeshProfile
   - Added Interface TrustedAccessRole
   - Added Interface TrustedAccessRoleBinding
@@ -65,14 +95,24 @@
   - Added Interface TrustedAccessRoleRule
   - Added Interface TrustedAccessRolesListNextOptionalParams
   - Added Interface TrustedAccessRolesListOptionalParams
-  - Added Interface UpgradeOverrideSettings
-  - Added Interface WeeklySchedule
+  - Added Type Alias AgentPoolSSHAccess
   - Added Type Alias BackendPoolType
-  - Added Type Alias ControlledValues
-  - Added Type Alias ControlPlaneUpgradeOverride
+  - Added Type Alias GuardrailsSupport
   - Added Type Alias IpvsScheduler
   - Added Type Alias IstioIngressGatewayMode
   - Added Type Alias Level
+  - Added Type Alias MachinesGetResponse
+  - Added Type Alias MachinesListNextResponse
+  - Added Type Alias MachinesListResponse
+  - Added Type Alias ManagedClustersGetGuardrailsVersionsResponse
+  - Added Type Alias ManagedClustersGetMeshRevisionProfileResponse
+  - Added Type Alias ManagedClustersGetMeshUpgradeProfileResponse
+  - Added Type Alias ManagedClustersListGuardrailsVersionsNextResponse
+  - Added Type Alias ManagedClustersListGuardrailsVersionsResponse
+  - Added Type Alias ManagedClustersListMeshRevisionProfilesNextResponse
+  - Added Type Alias ManagedClustersListMeshRevisionProfilesResponse
+  - Added Type Alias ManagedClustersListMeshUpgradeProfilesNextResponse
+  - Added Type Alias ManagedClustersListMeshUpgradeProfilesResponse
   - Added Type Alias ManagedClusterSnapshotsCreateOrUpdateResponse
   - Added Type Alias ManagedClusterSnapshotsGetResponse
   - Added Type Alias ManagedClusterSnapshotsListByResourceGroupNextResponse
@@ -81,7 +121,6 @@
   - Added Type Alias ManagedClusterSnapshotsListResponse
   - Added Type Alias ManagedClusterSnapshotsUpdateTagsResponse
   - Added Type Alias Mode
-  - Added Type Alias NodeOSUpgradeChannel
   - Added Type Alias Protocol
   - Added Type Alias RestrictionLevel
   - Added Type Alias ServiceMeshMode
@@ -92,57 +131,95 @@
   - Added Type Alias TrustedAccessRoleBindingsListResponse
   - Added Type Alias TrustedAccessRolesListNextResponse
   - Added Type Alias TrustedAccessRolesListResponse
-  - Added Type Alias Type
-  - Added Type Alias UpdateMode
   - Interface AgentPool has a new optional parameter capacityReservationGroupID
   - Interface AgentPool has a new optional parameter enableCustomCATrust
   - Interface AgentPool has a new optional parameter messageOfTheDay
   - Interface AgentPool has a new optional parameter networkProfile
+  - Interface AgentPool has a new optional parameter securityProfile
   - Interface AgentPool has a new optional parameter windowsProfile
   - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
   - Interface ContainerServiceNetworkProfile has a new optional parameter kubeProxyConfig
   - Interface ContainerServiceNetworkProfile has a new optional parameter monitoring
-  - Interface MaintenanceConfiguration has a new optional parameter maintenanceWindow
   - Interface ManagedCluster has a new optional parameter creationData
   - Interface ManagedCluster has a new optional parameter enableNamespaceResources
   - Interface ManagedCluster has a new optional parameter guardrailsProfile
   - Interface ManagedCluster has a new optional parameter ingressProfile
+  - Interface ManagedCluster has a new optional parameter metricsProfile
   - Interface ManagedCluster has a new optional parameter nodeResourceGroupProfile
+  - Interface ManagedCluster has a new optional parameter resourceUID
   - Interface ManagedCluster has a new optional parameter serviceMeshProfile
-  - Interface ManagedCluster has a new optional parameter upgradeSettings
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter enableCustomCATrust
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter messageOfTheDay
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter networkProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter securityProfile
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter windowsProfile
   - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter enableVnetIntegration
   - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter subnetId
-  - Interface ManagedClusterAutoUpgradeProfile has a new optional parameter nodeOSUpgradeChannel
+  - Interface ManagedClusterAzureMonitorProfile has a new optional parameter logs
+  - Interface ManagedClusterAzureMonitorProfileMetrics has a new optional parameter appMonitoringOpenTelemetryMetrics
   - Interface ManagedClusterHttpProxyConfig has a new optional parameter effectiveNoProxy
   - Interface ManagedClusterLoadBalancerProfile has a new optional parameter backendPoolType
   - Interface ManagedClustersDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
   - Interface ManagedClusterSecurityProfile has a new optional parameter customCATrustCertificates
+  - Interface ManagedClusterSecurityProfile has a new optional parameter imageIntegrity
   - Interface ManagedClusterSecurityProfile has a new optional parameter nodeRestriction
   - Interface ManagedClusterStorageProfileDiskCSIDriver has a new optional parameter version
-  - Interface ManagedClusterWorkloadAutoScalerProfile has a new optional parameter verticalPodAutoscaler
+  - Added Enum KnownAgentPoolSSHAccess
   - Added Enum KnownBackendPoolType
-  - Added Enum KnownControlledValues
-  - Added Enum KnownControlPlaneUpgradeOverride
+  - Added Enum KnownGuardrailsSupport
   - Added Enum KnownIpvsScheduler
   - Added Enum KnownIstioIngressGatewayMode
   - Added Enum KnownLevel
   - Added Enum KnownMode
-  - Added Enum KnownNodeOSUpgradeChannel
   - Added Enum KnownProtocol
   - Added Enum KnownRestrictionLevel
   - Added Enum KnownServiceMeshMode
   - Added Enum KnownTrustedAccessRoleBindingProvisioningState
-  - Added Enum KnownType
-  - Added Enum KnownUpdateMode
+  - Enum KnownNodeOSUpgradeChannel has a new value SecurityPatch
   - Enum KnownOssku has a new value Mariner
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
   - Enum KnownSnapshotType has a new value ManagedCluster
   - Enum KnownWorkloadRuntime has a new value KataMshvVmIsolation
+    
+    
+## 19.3.0 (2023-08-21)
+    
+**Features**
+
+  - Added Interface ClusterUpgradeSettings
+  - Added Interface UpgradeOverrideSettings
+  - Interface ManagedCluster has a new optional parameter upgradeSettings
+    
+    
+## 19.2.0 (2023-08-14)
+    
+**Features**
+
+  - Added Interface DelegatedResource
+  - Added Interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
+  - Added Type Alias NodeOSUpgradeChannel
+  - Interface AgentPoolUpgradeSettings has a new optional parameter drainTimeoutInMinutes
+  - Interface ManagedClusterAutoUpgradeProfile has a new optional parameter nodeOSUpgradeChannel
+  - Interface ManagedClusterIdentity has a new optional parameter delegatedResources
+  - Interface ManagedClusterWorkloadAutoScalerProfile has a new optional parameter verticalPodAutoscaler
+  - Added Enum KnownNodeOSUpgradeChannel
+    
+    
+## 19.1.0 (2023-07-03)
+    
+**Features**
+
+  - Added Interface AbsoluteMonthlySchedule
+  - Added Interface DailySchedule
+  - Added Interface DateSpan
+  - Added Interface MaintenanceWindow
+  - Added Interface RelativeMonthlySchedule
+  - Added Interface Schedule
+  - Added Interface WeeklySchedule
+  - Added Type Alias Type
+  - Interface MaintenanceConfiguration has a new optional parameter maintenanceWindow
+  - Added Enum KnownType
     
     
 ## 19.0.0 (2023-05-19)

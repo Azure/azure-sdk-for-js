@@ -16,9 +16,10 @@ import {
   TransferCallResult,
   RemoveParticipantResult,
   MuteParticipantsResult,
+  CancelAddParticipantResult,
 } from "../src";
 import Sinon, { SinonStubbedInstance } from "sinon";
-import { CALL_TARGET_ID } from "./utils/connectionUtils";
+import { CALL_TARGET_ID, CALL_TARGET_ID_2 } from "./utils/connectionUtils";
 import {
   createRecorder,
   createTestUser,
@@ -200,6 +201,34 @@ describe("CallConnection Unit Tests", () => {
       .catch((error) => console.error(error));
   });
 
+  it("TransferCallToParticipantWithTransferee", async () => {
+    // mocks
+    const transferCallResultMock: TransferCallResult = {};
+    callConnection.transferCallToParticipant.returns(
+      new Promise((resolve) => {
+        resolve(transferCallResultMock);
+      })
+    );
+
+    const transferee = { communicationUserId: CALL_TARGET_ID_2 };
+
+    const promiseResult = callConnection.transferCallToParticipant(target.targetParticipant, {
+      transferee: transferee,
+    });
+
+    // asserts
+    promiseResult
+      .then((result: TransferCallResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(
+          callConnection.transferCallToParticipant.calledWith(target.targetParticipant)
+        );
+        assert.equal(result, transferCallResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
   it("RemoveParticipant", async () => {
     // mocks
     const removeParticipantResultMock: RemoveParticipantResult = {};
@@ -239,6 +268,26 @@ describe("CallConnection Unit Tests", () => {
         assert.isNotNull(result);
         assert.isTrue(callConnection.muteParticipants.calledWith(target.targetParticipant));
         assert.equal(result, muteParticipantsResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
+  it("CancelAddParticipant", async () => {
+    const invitationId = "invitationId";
+    const cancelAddParticipantResultMock: CancelAddParticipantResult = { invitationId };
+    callConnection.cancelAddParticipant.returns(
+      new Promise((resolve) => {
+        resolve(cancelAddParticipantResultMock);
+      })
+    );
+
+    callConnection
+      .cancelAddParticipant(invitationId)
+      .then((result: CancelAddParticipantResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(callConnection.cancelAddParticipant.calledWith(invitationId));
+        assert.equal(result, cancelAddParticipantResultMock);
         return;
       })
       .catch((error) => console.error(error));

@@ -9,220 +9,53 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { StreamableMethod } from "@azure-rest/core-client";
-import { RequestOptions } from "../common/interfaces.js";
+import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  ChatCompletions,
+  ChatMessage,
+  Completions,
+  Embeddings,
+  ImageGenerations,
+  ImageLocation,
+} from "../models/models.js";
+import {
+  GetChatCompletionsOptions as GeneratedGetChatCompletionsOptions,
+  GetChatCompletionsWithAzureExtensionsOptions,
+  GetCompletionsOptions,
+  GetEmbeddingsOptions,
+  ImageGenerationOptions,
+} from "../models/options.js";
 import {
   BeginAzureBatchImageGeneration202Response,
   BeginAzureBatchImageGenerationDefaultResponse,
-  ChatChoiceOutput,
-  ChoiceOutput,
+  BeginAzureBatchImageGenerationLogicalResponse,
+  ChatMessage as GeneratedChatMessage,
   OpenAIContext as Client,
-  GetAzureBatchImageGenerationOperationStatus200Response,
-  GetAzureBatchImageGenerationOperationStatusDefaultResponse,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
+  GetChatCompletionsWithAzureExtensions200Response,
+  GetChatCompletionsWithAzureExtensionsDefaultResponse,
   GetCompletions200Response,
   GetCompletionsDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
   ImageGenerationsOutput,
+  ImagePayloadOutput,
+  getLongRunningPoller,
   isUnexpected,
 } from "../rest/index.js";
+import { getChatCompletionsResult, getCompletionsResult } from "./deserializers.js";
+import { getOaiSSEs } from "./oaiSse.js";
+import { GetChatCompletionsOptions } from "./models.js";
 import {
-  BatchImageGenerationOperationResponse,
-  ChatCompletions,
-  ChatMessage,
-  Completions,
-  Embeddings,
-  ImageGenerationResponseFormat,
-  ImageLocation,
-  ImagePayload,
-  ImageSize,
-} from "./models.js";
-
-export interface GetEmbeddingsOptions extends RequestOptions {
-  /**
-   * An identifier for the caller or end user of the operation. This may be used for tracking
-   * or rate-limiting purposes.
-   */
-  user?: string;
-  /**
-   * The model name to provide as part of this embeddings request.
-   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
-   * resource URI that's connected to.
-   */
-  model?: string;
-}
-
-export interface GetCompletionsOptions extends RequestOptions {
-  /** The maximum number of tokens to generate. */
-  maxTokens?: number;
-  /**
-   * The sampling temperature to use that controls the apparent creativity of generated completions.
-   * Higher values will make output more random while lower values will make results more focused
-   * and deterministic.
-   * It is not recommended to modify temperature and top_p for the same completions request as the
-   * interaction of these two settings is difficult to predict.
-   */
-  temperature?: number;
-  /**
-   * An alternative to sampling with temperature called nucleus sampling. This value causes the
-   * model to consider the results of tokens with the provided probability mass. As an example, a
-   * value of 0.15 will cause only the tokens comprising the top 15% of probability mass to be
-   * considered.
-   * It is not recommended to modify temperature and top_p for the same completions request as the
-   * interaction of these two settings is difficult to predict.
-   */
-  topP?: number;
-  /**
-   * A map between GPT token IDs and bias scores that influences the probability of specific tokens
-   * appearing in a completions response. Token IDs are computed via external tokenizer tools, while
-   * bias scores reside in the range of -100 to 100 with minimum and maximum values corresponding to
-   * a full ban or exclusive selection of a token, respectively. The exact behavior of a given bias
-   * score varies by model.
-   */
-  logitBias?: Record<string, number>;
-  /**
-   * An identifier for the caller or end user of the operation. This may be used for tracking
-   * or rate-limiting purposes.
-   */
-  user?: string;
-  /**
-   * The number of completions choices that should be generated per provided prompt as part of an
-   * overall completions response.
-   * Because this setting can generate many completions, it may quickly consume your token quota.
-   * Use carefully and ensure reasonable settings for max_tokens and stop.
-   */
-  n?: number;
-  /**
-   * A value that controls the emission of log probabilities for the provided number of most likely
-   * tokens within a completions response.
-   */
-  logprobs?: number;
-  /**
-   * A value specifying whether completions responses should include input prompts as prefixes to
-   * their generated output.
-   */
-  echo?: boolean;
-  /** A collection of textual sequences that will end completions generation. */
-  stop?: string[];
-  /**
-   * A value that influences the probability of generated tokens appearing based on their existing
-   * presence in generated text.
-   * Positive values will make tokens less likely to appear when they already exist and increase the
-   * model's likelihood to output new topics.
-   */
-  presencePenalty?: number;
-  /**
-   * A value that influences the probability of generated tokens appearing based on their cumulative
-   * frequency in generated text.
-   * Positive values will make tokens less likely to appear as their frequency increases and
-   * decrease the likelihood of the model repeating the same statements verbatim.
-   */
-  frequencyPenalty?: number;
-  /**
-   * A value that controls how many completions will be internally generated prior to response
-   * formulation.
-   * When used together with n, best_of controls the number of candidate completions and must be
-   * greater than n.
-   * Because this setting can generate many completions, it may quickly consume your token quota.
-   * Use carefully and ensure reasonable settings for max_tokens and stop.
-   */
-  bestOf?: number;
-  /** A value indicating whether chat completions should be streamed for this request. */
-  stream?: boolean;
-  /**
-   * The model name to provide as part of this completions request.
-   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
-   * resource URI that's connected to.
-   */
-  model?: string;
-}
-
-export interface GetChatCompletionsOptions extends RequestOptions {
-  /** The maximum number of tokens to generate. */
-  maxTokens?: number;
-  /**
-   * The sampling temperature to use that controls the apparent creativity of generated completions.
-   * Higher values will make output more random while lower values will make results more focused
-   * and deterministic.
-   * It is not recommended to modify temperature and top_p for the same completions request as the
-   * interaction of these two settings is difficult to predict.
-   */
-  temperature?: number;
-  /**
-   * An alternative to sampling with temperature called nucleus sampling. This value causes the
-   * model to consider the results of tokens with the provided probability mass. As an example, a
-   * value of 0.15 will cause only the tokens comprising the top 15% of probability mass to be
-   * considered.
-   * It is not recommended to modify temperature and top_p for the same completions request as the
-   * interaction of these two settings is difficult to predict.
-   */
-  topP?: number;
-  /**
-   * A map between GPT token IDs and bias scores that influences the probability of specific tokens
-   * appearing in a completions response. Token IDs are computed via external tokenizer tools, while
-   * bias scores reside in the range of -100 to 100 with minimum and maximum values corresponding to
-   * a full ban or exclusive selection of a token, respectively. The exact behavior of a given bias
-   * score varies by model.
-   */
-  logitBias?: Record<string, number>;
-  /**
-   * An identifier for the caller or end user of the operation. This may be used for tracking
-   * or rate-limiting purposes.
-   */
-  user?: string;
-  /**
-   * The number of chat completions choices that should be generated for a chat completions
-   * response.
-   * Because this setting can generate many completions, it may quickly consume your token quota.
-   * Use carefully and ensure reasonable settings for max_tokens and stop.
-   */
-  n?: number;
-  /** A collection of textual sequences that will end completions generation. */
-  stop?: string[];
-  /**
-   * A value that influences the probability of generated tokens appearing based on their existing
-   * presence in generated text.
-   * Positive values will make tokens less likely to appear when they already exist and increase the
-   * model's likelihood to output new topics.
-   */
-  presencePenalty?: number;
-  /**
-   * A value that influences the probability of generated tokens appearing based on their cumulative
-   * frequency in generated text.
-   * Positive values will make tokens less likely to appear as their frequency increases and
-   * decrease the likelihood of the model repeating the same statements verbatim.
-   */
-  frequencyPenalty?: number;
-  /** A value indicating whether chat completions should be streamed for this request. */
-  stream?: boolean;
-  /**
-   * The model name to provide as part of this completions request.
-   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
-   * resource URI that's connected to.
-   */
-  model?: string;
-}
-
-export interface GetAzureBatchImageGenerationOperationStatusOptions extends RequestOptions {}
-
-export interface BeginAzureBatchImageGenerationOptions extends RequestOptions {
-  /** The number of images to generate (defaults to 1). */
-  n?: number;
-  /** The desired size of the generated images. Must be one of 256x256, 512x512, or 1024x1024 (defaults to 1024x1024). */
-  size?: ImageSize;
-  /**
-   *   The format in which image generation response items should be presented.
-   *   Azure OpenAI only supports URL response items.
-   */
-  responseFormat?: ImageGenerationResponseFormat;
-  /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
-  user?: string;
-}
-
-/** Convenience alias for BeginAzureBatchImageGenerationOptions */
-export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;
+  AudioResult,
+  AudioResultFormat,
+  AudioResultSimpleJson,
+  GetAudioTranscriptionOptions,
+  GetAudioTranslationOptions,
+} from "../models/audio.js";
+import { createFile } from "./policies/formDataPolicy.js";
+import { renameKeysToCamelCase } from "./util.js";
 
 export function _getEmbeddingsSend(
   context: Client,
@@ -231,9 +64,7 @@ export function _getEmbeddingsSend(
   options: GetEmbeddingsOptions = { requestOptions: {} }
 ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/embeddings", deploymentId).post({
-    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-    headers: { ...options.requestOptions?.headers },
+    ...operationOptionsToRequestParameters(options),
     body: { user: options?.user, model: options?.model, input: input },
   });
 }
@@ -242,7 +73,7 @@ export async function _getEmbeddingsDeserialize(
   result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
 ): Promise<Embeddings> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
@@ -275,9 +106,7 @@ export function _getCompletionsSend(
   options: GetCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/completions", deploymentId).post({
-    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-    headers: { ...options.requestOptions?.headers },
+    ...operationOptionsToRequestParameters(options),
     body: {
       prompt: prompt,
       max_tokens: options?.maxTokens,
@@ -302,15 +131,74 @@ export async function _getCompletionsDeserialize(
   result: GetCompletions200Response | GetCompletionsDefaultResponse
 ): Promise<Completions> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
     id: result.body["id"],
-    created: result.body["created"],
+    created: new Date(result.body["created"]),
+    promptFilterResults: (result.body["prompt_annotations"] ?? []).map((p) => ({
+      promptIndex: p["prompt_index"],
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+          },
+    })),
     choices: (result.body["choices"] ?? []).map((p) => ({
       text: p["text"],
       index: p["index"],
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+          },
       logprobs:
         p.logprobs === null
           ? null
@@ -349,14 +237,14 @@ export function _getChatCompletionsSend(
   context: Client,
   messages: ChatMessage[],
   deploymentId: string,
-  options: GetChatCompletionsOptions = { requestOptions: {} }
+  options: GeneratedGetChatCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
-    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-    headers: { ...options.requestOptions?.headers },
+    ...operationOptionsToRequestParameters(options),
     body: {
-      messages: messages,
+      messages: parseChatMessage(messages),
+      functions: options?.functions,
+      function_call: options?.functionCall,
       max_tokens: options?.maxTokens,
       temperature: options?.temperature,
       top_p: options?.topP,
@@ -368,6 +256,7 @@ export function _getChatCompletionsSend(
       frequency_penalty: options?.frequencyPenalty,
       stream: options?.stream,
       model: options?.model,
+      dataSources: options?.dataSources,
     },
   });
 }
@@ -376,19 +265,95 @@ export async function _getChatCompletionsDeserialize(
   result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
     id: result.body["id"],
-    created: result.body["created"],
+    created: new Date(result.body["created"]),
     choices: (result.body["choices"] ?? []).map((p) => ({
-      message: !p.message
-        ? undefined
-        : { role: p.message?.["role"], content: p.message?.["content"] },
+      message: !p.message ? undefined : (p.message as any),
       index: p["index"],
       finishReason: p["finish_reason"],
-      delta: !p.delta ? undefined : { role: p.delta?.["role"], content: p.delta?.["content"] },
+      delta: !p.delta
+        ? undefined
+        : {
+            role: p.delta?.["role"],
+            content: p.delta?.["content"],
+            name: p.delta?.["name"],
+            functionCall: !p.delta?.function_call
+              ? undefined
+              : {
+                  name: p.delta?.function_call?.["name"],
+                  arguments: p.delta?.function_call?.["arguments"],
+                },
+            context: !p.delta?.context
+              ? undefined
+              : {
+                  messages: !p.delta?.context?.messages
+                    ? undefined
+                    : (p.delta?.context?.messages as any),
+                },
+          },
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+          },
+    })),
+    promptFilterResults: (result.body["prompt_annotations"] ?? []).map((p) => ({
+      promptIndex: p["prompt_index"],
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+          },
     })),
     usage: {
       completionTokens: result.body.usage["completion_tokens"],
@@ -396,6 +361,237 @@ export async function _getChatCompletionsDeserialize(
       totalTokens: result.body.usage["total_tokens"],
     },
   };
+}
+
+export function _getChatCompletionsWithAzureExtensionsSend(
+  context: Client,
+  messages: ChatMessage[],
+  deploymentId: string,
+  options: GetChatCompletionsWithAzureExtensionsOptions = { requestOptions: {} }
+): StreamableMethod<
+  | GetChatCompletionsWithAzureExtensions200Response
+  | GetChatCompletionsWithAzureExtensionsDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/extensions/chat/completions", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        messages: parseChatMessage(messages),
+        functions: options?.functions,
+        function_call: options?.functionCall,
+        max_tokens: options?.maxTokens,
+        temperature: options?.temperature,
+        top_p: options?.topP,
+        logit_bias: options?.logitBias,
+        user: options?.user,
+        n: options?.n,
+        stop: options?.stop,
+        presence_penalty: options?.presencePenalty,
+        frequency_penalty: options?.frequencyPenalty,
+        stream: options?.stream,
+        model: options?.model,
+        dataSources: options?.dataSources,
+      },
+    });
+}
+
+export async function _getChatCompletionsWithAzureExtensionsDeserialize(
+  result:
+    | GetChatCompletionsWithAzureExtensions200Response
+    | GetChatCompletionsWithAzureExtensionsDefaultResponse
+): Promise<ChatCompletions> {
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  return {
+    id: result.body["id"],
+    created: new Date(result.body["created"]),
+    choices: (result.body["choices"] ?? []).map((p) => ({
+      message: !p.message ? undefined : (p.message as any),
+      index: p["index"],
+      finishReason: p["finish_reason"],
+      delta: !p.delta
+        ? undefined
+        : {
+            role: p.delta?.["role"],
+            content: p.delta?.["content"],
+            name: p.delta?.["name"],
+            functionCall: !p.delta?.function_call
+              ? undefined
+              : {
+                  name: p.delta?.function_call?.["name"],
+                  arguments: p.delta?.function_call?.["arguments"],
+                },
+            context: !p.delta?.context
+              ? undefined
+              : {
+                  messages: !p.delta?.context?.messages
+                    ? undefined
+                    : (p.delta?.context?.messages as any),
+                },
+          },
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+          },
+    })),
+    promptFilterResults: (result.body["prompt_annotations"] ?? []).map((p) => ({
+      promptIndex: p["prompt_index"],
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+          },
+    })),
+    usage: {
+      completionTokens: result.body.usage["completion_tokens"],
+      promptTokens: result.body.usage["prompt_tokens"],
+      totalTokens: result.body.usage["total_tokens"],
+    },
+  };
+}
+
+/**
+ * Gets chat completions for the provided chat messages.
+ * This is an Azure-specific version of chat completions that supports integration with configured data sources and
+ * other augmentations to the base chat completions capabilities.
+ */
+export async function getChatCompletionsWithAzureExtensions(
+  context: Client,
+  messages: ChatMessage[],
+  deploymentId: string,
+  options: GetChatCompletionsWithAzureExtensionsOptions = { requestOptions: {} }
+): Promise<ChatCompletions> {
+  const result = await _getChatCompletionsWithAzureExtensionsSend(
+    context,
+    messages,
+    deploymentId,
+    options
+  );
+  return _getChatCompletionsWithAzureExtensionsDeserialize(result);
+}
+
+export function _beginAzureBatchImageGenerationSend(
+  context: Client,
+  prompt: string,
+  options: ImageGenerationOptions = { requestOptions: {} }
+): StreamableMethod<
+  | BeginAzureBatchImageGeneration202Response
+  | BeginAzureBatchImageGenerationDefaultResponse
+  | BeginAzureBatchImageGenerationLogicalResponse
+> {
+  return context.path("/images/generations:submit").post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      prompt: prompt,
+      n: options?.n,
+      size: options?.size,
+      response_format: options?.responseFormat,
+      user: options?.user,
+    },
+  });
+}
+
+export function listCompletions(
+  context: Client,
+  prompt: string[],
+  deploymentName: string,
+  options: GetCompletionsOptions = { requestOptions: {} }
+): AsyncIterable<Omit<Completions, "usage">> {
+  const response = _getCompletionsSend(context, prompt, deploymentName, {
+    ...options,
+    stream: true,
+  });
+  return getOaiSSEs(response, getCompletionsResult);
+}
+
+export async function getImages(
+  context: Client,
+  prompt: string,
+  options: ImageGenerationOptions = { requestOptions: {} }
+): Promise<ImageGenerations> {
+  const response = await _beginAzureBatchImageGenerationSend(context, prompt, options);
+  if (isUnexpected(response)) {
+    // Check for response from OpenAI
+    const body = response.body as unknown as ImageGenerations;
+    if (body.created && body.data) {
+      return body;
+    }
+    throw response.body.error;
+  }
+
+  if (response.status === "202") {
+    const poller = await getLongRunningPoller(
+      context,
+      response as BeginAzureBatchImageGeneration202Response
+    );
+    const result = await poller.pollUntilDone();
+    return getImageResultsDeserialize(result);
+  } else {
+    return getImageResultsDeserialize(response);
+  }
+}
+
+export function listChatCompletions(
+  context: Client,
+  messages: ChatMessage[],
+  deploymentName: string,
+  options: GetChatCompletionsOptions = { requestOptions: {} }
+): AsyncIterable<ChatCompletions> {
+  const response = _getChatCompletionsSendX(context, messages, deploymentName, {
+    ...options,
+    stream: true,
+  });
+  return getOaiSSEs(response, getChatCompletionsResult);
 }
 
 /**
@@ -409,173 +605,195 @@ export async function getChatCompletions(
   deploymentId: string,
   options: GetChatCompletionsOptions = { requestOptions: {} }
 ): Promise<ChatCompletions> {
-  const result = await _getChatCompletionsSend(context, messages, deploymentId, options);
-  return _getChatCompletionsDeserialize(result);
-}
-
-export function _getAzureBatchImageGenerationOperationStatusSend(
-  context: Client,
-  operationId: string,
-  options: GetAzureBatchImageGenerationOperationStatusOptions = {
-    requestOptions: {},
-  }
-): StreamableMethod<
-  | GetAzureBatchImageGenerationOperationStatus200Response
-  | GetAzureBatchImageGenerationOperationStatusDefaultResponse
-> {
-  return context.path("/operations/images/{operationId}", operationId).get({
-    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-    headers: { ...options.requestOptions?.headers },
-  });
-}
-
-export async function _getAzureBatchImageGenerationOperationStatusDeserialize(
-  result:
-    | GetAzureBatchImageGenerationOperationStatus200Response
-    | GetAzureBatchImageGenerationOperationStatusDefaultResponse
-): Promise<BatchImageGenerationOperationResponse> {
+  const result = await _getChatCompletionsSendX(context, messages, deploymentId, options);
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
+  }
+  return getChatCompletionsResult(result.body);
+}
+
+function convertResultTypes({ created, data }: ImageGenerationsOutput): ImageGenerations {
+  if (typeof (data[0] as ImageLocation).url === "string") {
+    return {
+      created: new Date(created),
+      data: data as ImageLocation[],
+    };
+  } else {
+    return {
+      created: new Date(created),
+      data: data.map((item) => {
+        return {
+          base64Data: (item as ImagePayloadOutput).b64_json,
+        };
+      }),
+    };
+  }
+}
+
+function getImageResultsDeserialize(
+  response:
+    | BeginAzureBatchImageGeneration202Response
+    | BeginAzureBatchImageGenerationDefaultResponse
+    | BeginAzureBatchImageGenerationLogicalResponse
+): ImageGenerations {
+  if (isUnexpected(response) || !response.body.result) {
+    throw response.body.error;
   }
 
-  return {
-    id: result.body["id"],
-    created: result.body["created"],
-    expires: result.body["expires"],
-    result: !result.body.result
-      ? undefined
-      : {
-          created: result.body.result?.["created"],
-          data: toImageGenerationsData(result.body.result?.["data"]),
-        },
-    status: result.body["status"],
-    error: !result.body.error ? undefined : result.body.error,
-  };
+  const result = response.body.result;
+  return convertResultTypes(result);
+}
+
+function _getChatCompletionsSendX(
+  context: Client,
+  messages: ChatMessage[],
+  deploymentName: string,
+  options: GetChatCompletionsOptions = { requestOptions: {} }
+): StreamableMethod<
+  | GetChatCompletionsWithAzureExtensions200Response
+  | GetChatCompletionsWithAzureExtensionsDefaultResponse
+> {
+  return options.azureExtensionOptions?.extensions
+    ? _getChatCompletionsWithAzureExtensionsSend(context, messages, deploymentName, {
+        ...options,
+        dataSources: options.azureExtensionOptions?.extensions,
+      })
+    : _getChatCompletionsSend(context, messages, deploymentName, options);
 }
 
 /**
- * Convert REST-level ImageGenerationsOutput.data to HLC-level ImageGenerations.data
- * see https://github.com/Azure/autorest.typescript/issues/1921
- * @internal
+ * Returns the translation of an audio file.
+ * @param context - The context containing the client to use for this request.
+ * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+ * @param fileContent - The content of the audio file to translate.
+ * @param options - The options for this audio translation request.
+ * @returns The audio translation result.
  */
-function toImageGenerationsData(
-  input: ImageGenerationsOutput["data"]
-): ImageLocation[] | ImagePayload[] {
-  return input.map(function (locationOrPayload) {
-    if ("url" in locationOrPayload) {
-      return locationOrPayload as ImageLocation;
-    } else {
-      return {
-        base64Data: locationOrPayload.b64_json,
-      } as ImagePayload;
-    }
-  }) as ImageLocation[] | ImagePayload[];
-}
-
-/** Returns the status of the images operation */
-export async function getAzureBatchImageGenerationOperationStatus(
+export async function getAudioTranslation(
   context: Client,
-  operationId: string,
-  options: GetAzureBatchImageGenerationOperationStatusOptions = {
-    requestOptions: {},
+  deploymentName: string,
+  fileContent: Uint8Array,
+  options?: GetAudioTranslationOptions
+): Promise<AudioResultSimpleJson>;
+/**
+ * Returns the translation of an audio file.
+ * @param context - The context containing the client to use for this request.
+ * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+ * @param fileContent - The content of the audio file to translate.
+ * @param format - The format of the result object. See {@link AudioResultFormat} for possible values.
+ * @param options - The options for this audio translation request.
+ * @returns The audio translation result.
+ */
+export async function getAudioTranslation<Format extends AudioResultFormat>(
+  context: Client,
+  deploymentName: string,
+  fileContent: Uint8Array,
+  format: Format,
+  options?: GetAudioTranslationOptions
+): Promise<AudioResult<Format>>;
+// implementation
+export async function getAudioTranslation<Format extends AudioResultFormat>(
+  context: Client,
+  deploymentName: string,
+  fileContent: Uint8Array,
+  formatOrOptions?: Format | GetAudioTranslationOptions,
+  inputOptions?: GetAudioTranslationOptions
+): Promise<AudioResult<Format>> {
+  const options =
+    inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
+  const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
+  const { temperature, prompt, model, ...rest } = options;
+  const { body, status } = await context
+    .pathUnchecked("deployments/{deploymentId}/audio/translations", deploymentName)
+    .post({
+      body: {
+        file: createFile(fileContent),
+        ...(response_format && { response_format }),
+        ...(temperature !== undefined ? { temperature } : {}),
+        ...(prompt && { prompt }),
+        ...(model && { model }),
+      },
+      ...rest,
+      contentType: "multipart/form-data",
+    });
+  if (status !== "200") {
+    throw body.error;
   }
-): Promise<BatchImageGenerationOperationResponse> {
-  const result = await _getAzureBatchImageGenerationOperationStatusSend(
-    context,
-    operationId,
-    options
-  );
-  return _getAzureBatchImageGenerationOperationStatusDeserialize(result);
+  return response_format !== "verbose_json"
+    ? body
+    : (renameKeysToCamelCase(body) as AudioResult<Format>);
 }
 
-export function _beginAzureBatchImageGenerationSend(
+/**
+ * Returns the transcription of an audio file in a simple JSON format.
+ * @param context - The context containing the client to use for this request.
+ * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+ * @param fileContent - The content of the audio file to transcribe.
+ * @param options - The options for this audio transcription request.
+ * @returns The audio transcription result in a simple JSON format.
+ */
+export async function getAudioTranscription(
   context: Client,
-  prompt: string,
-  options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
-): StreamableMethod<
-  BeginAzureBatchImageGeneration202Response | BeginAzureBatchImageGenerationDefaultResponse
-> {
-  return context.path("/images/generations:submit").post({
-    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-    headers: { ...options.requestOptions?.headers },
-    body: {
-      prompt: prompt,
-      n: options.n ?? 1,
-      size: options?.size,
-      response_format: options?.responseFormat,
-      user: options?.user,
-    },
-  });
-}
-
-export async function _beginAzureBatchImageGenerationDeserialize(
-  result: BeginAzureBatchImageGeneration202Response | BeginAzureBatchImageGenerationDefaultResponse
-): Promise<BatchImageGenerationOperationResponse> {
-  if (isUnexpected(result)) {
-    throw result.body;
+  deploymentName: string,
+  fileContent: Uint8Array,
+  options?: GetAudioTranscriptionOptions
+): Promise<AudioResultSimpleJson>;
+/**
+ * Returns the transcription of an audio file.
+ * @param context - The context containing the client to use for this request.
+ * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+ * @param fileContent - The content of the audio file to transcribe.
+ * @param format - The format of the result object. See {@link AudioResultFormat} for possible values.
+ * @param options - The options for this audio transcription request.
+ * @returns The audio transcription result in a format of your choice.
+ */
+export async function getAudioTranscription<Format extends AudioResultFormat>(
+  context: Client,
+  deploymentName: string,
+  fileContent: Uint8Array,
+  format: Format,
+  options?: GetAudioTranscriptionOptions
+): Promise<AudioResult<Format>>;
+// implementation
+export async function getAudioTranscription<Format extends AudioResultFormat>(
+  context: Client,
+  deploymentName: string,
+  fileContent: Uint8Array,
+  formatOrOptions?: Format | GetAudioTranscriptionOptions,
+  inputOptions?: GetAudioTranscriptionOptions
+): Promise<AudioResult<Format>> {
+  const options =
+    inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
+  const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
+  const { temperature, language, prompt, model, ...rest } = options;
+  const { body, status } = await context
+    .pathUnchecked("deployments/{deploymentId}/audio/transcriptions", deploymentName)
+    .post({
+      body: {
+        file: createFile(fileContent),
+        ...(response_format && { response_format }),
+        ...(language && { language }),
+        ...(temperature !== undefined ? { temperature } : {}),
+        ...(prompt && { prompt }),
+        ...(model && { model }),
+      },
+      ...rest,
+      contentType: "multipart/form-data",
+    });
+  if (status !== "200") {
+    throw body.error;
   }
-
-  return {
-    id: result.body["id"],
-    created: result.body["created"],
-    expires: result.body["expires"],
-    result: !result.body.result
-      ? undefined
-      : {
-          created: result.body.result?.["created"],
-          data: toImageGenerationsData(result.body.result?.["data"]),
-        },
-    status: result.body["status"],
-    error: !result.body.error ? undefined : result.body.error,
-  };
+  return response_format !== "verbose_json"
+    ? body
+    : (renameKeysToCamelCase(body) as AudioResult<Format>);
 }
 
-/** Starts the generation of a batch of images from a text caption */
-export async function beginAzureBatchImageGeneration(
-  context: Client,
-  prompt: string,
-  options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
-): Promise<BatchImageGenerationOperationResponse> {
-  const result = await _beginAzureBatchImageGenerationSend(context, prompt, options);
-  return _beginAzureBatchImageGenerationDeserialize(result);
-}
-
-export function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usage"> {
-  return {
-    id: body["id"],
-    created: body["created"],
-    choices: (body["choices"] ?? []).map((p: ChoiceOutput) => ({
-      text: p["text"],
-      index: p["index"],
-      logprobs:
-        p.logprobs === null
-          ? null
-          : {
-              tokens: p.logprobs["tokens"],
-              tokenLogprobs: p.logprobs["token_logprobs"],
-              topLogprobs: p.logprobs["top_logprobs"],
-              textOffset: p.logprobs["text_offset"],
-            },
-      finishReason: p["finish_reason"],
-    })),
-  };
-}
-
-export function getChatCompletionsResult(
-  body: Record<string, any>
-): Omit<ChatCompletions, "usage"> {
-  return {
-    id: body["id"],
-    created: body["created"],
-    choices: (body["choices"] ?? []).map((p: ChatChoiceOutput) => ({
-      message: !p.message
-        ? undefined
-        : { role: p.message?.["role"], content: p.message?.["content"] },
-      index: p["index"],
-      finishReason: p["finish_reason"],
-      delta: !p.delta ? undefined : { role: p.delta?.["role"], content: p.delta?.["content"] },
-    })),
-  };
+function parseChatMessage(messages: ChatMessage[]): GeneratedChatMessage[] {
+  return messages.map((p: ChatMessage) => ({
+    role: p.role,
+    content: p.content ?? null,
+    name: p.name,
+    function_call: p.functionCall,
+    context: p.context,
+  }));
 }

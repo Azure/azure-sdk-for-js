@@ -22,7 +22,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -48,7 +48,7 @@ describe("managednetworkfabric test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "eastus2euap";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
 
@@ -58,47 +58,46 @@ describe("managednetworkfabric test", () => {
     await recorder.stop();
   });
 
-  it.skip("accessControlLists create test", async function () {
-    const res = await client.accessControlLists.create(
+  it("ipPrefixes create test", async function () {
+    const res = await client.ipPrefixes.beginCreateAndWait(
       resourceGroup,
       resourcename,
       {
-        addressFamily: "ipv4",
-        conditions: [
+        annotation: "annotation",
+        ipPrefixRules: [
           {
-            action: "allow",
-            destinationAddress: "1.1.1.1",
-            destinationPort: "21",
-            sequenceNumber: 3,
-            sourceAddress: "2.2.2.2",
-            sourcePort: "65000",
-            protocol: 6
+            action: "Permit",
+            condition: "GreaterThanOrEqualTo",
+            networkPrefix: "10.10.10.10/30",
+            sequenceNumber: 4155123341,
+            subnetMaskLength: "31"
           }
         ],
-        location
-      });
+        location,
+        tags: { keyID: "KeyValue" }
+      }, testPollingOptions);
     assert.equal(res.name, resourcename);
   });
 
-  it.skip("accessControlLists get test", async function () {
-    const res = await client.accessControlLists.get(resourceGroup,
+  it("ipPrefixes get test", async function () {
+    const res = await client.ipPrefixes.get(resourceGroup,
       resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it.skip("accessControlLists list test", async function () {
+  it("ipPrefixes list test", async function () {
     const resArray = new Array();
-    for await (let item of client.accessControlLists.listByResourceGroup(resourceGroup)) {
+    for await (let item of client.ipPrefixes.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it.skip("accessControlLists delete test", async function () {
+  it("ipPrefixes delete test", async function () {
     const resArray = new Array();
-    const res = await client.accessControlLists.delete(resourceGroup, resourcename
+    const res = await client.ipPrefixes.beginDeleteAndWait(resourceGroup, resourcename
     )
-    for await (let item of client.accessControlLists.listByResourceGroup(resourceGroup)) {
+    for await (let item of client.ipPrefixes.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

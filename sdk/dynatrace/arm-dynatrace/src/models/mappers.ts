@@ -8,28 +8,64 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const AccountInfoSecure: coreClient.CompositeMapper = {
+export const MonitoredResourceListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AccountInfoSecure",
+    className: "MonitoredResourceListResponse",
     modelProperties: {
-      accountId: {
-        serializedName: "accountId",
-        readOnly: true,
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MonitoredResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MonitoredResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitoredResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
         type: {
           name: "String"
         }
       },
-      apiKey: {
-        serializedName: "apiKey",
-        readOnly: true,
+      sendingMetrics: {
+        serializedName: "sendingMetrics",
         type: {
           name: "String"
         }
       },
-      regionId: {
-        serializedName: "regionId",
-        readOnly: true,
+      reasonForMetricsStatus: {
+        serializedName: "reasonForMetricsStatus",
+        type: {
+          name: "String"
+        }
+      },
+      sendingLogs: {
+        serializedName: "sendingLogs",
+        type: {
+          name: "String"
+        }
+      },
+      reasonForLogsStatus: {
+        serializedName: "reasonForLogsStatus",
         type: {
           name: "String"
         }
@@ -128,72 +164,6 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
-};
-
-export const MonitoredResourceListResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MonitoredResourceListResponse",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MonitoredResource"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MonitoredResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MonitoredResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      sendingMetrics: {
-        serializedName: "sendingMetrics",
-        type: {
-          name: "String"
-        }
-      },
-      reasonForMetricsStatus: {
-        serializedName: "reasonForMetricsStatus",
-        type: {
-          name: "String"
-        }
-      },
-      sendingLogs: {
-        serializedName: "sendingLogs",
-        type: {
-          name: "String"
-        }
-      },
-      reasonForLogsStatus: {
-        serializedName: "reasonForLogsStatus",
-        type: {
-          name: "String"
         }
       }
     }
@@ -584,39 +554,6 @@ export const MonitorResourceUpdate: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "String" } }
         }
-      },
-      monitoringStatus: {
-        serializedName: "monitoringStatus",
-        type: {
-          name: "String"
-        }
-      },
-      marketplaceSubscriptionStatus: {
-        serializedName: "marketplaceSubscriptionStatus",
-        type: {
-          name: "String"
-        }
-      },
-      dynatraceEnvironmentProperties: {
-        serializedName: "dynatraceEnvironmentProperties",
-        type: {
-          name: "Composite",
-          className: "DynatraceEnvironmentProperties"
-        }
-      },
-      userInfo: {
-        serializedName: "userInfo",
-        type: {
-          name: "Composite",
-          className: "UserInfo"
-        }
-      },
-      planData: {
-        serializedName: "planData",
-        type: {
-          name: "Composite",
-          className: "PlanData"
-        }
       }
     }
   }
@@ -831,6 +768,12 @@ export const MetricRules: coreClient.CompositeMapper = {
     name: "Composite",
     className: "MetricRules",
     modelProperties: {
+      sendingMetrics: {
+        serializedName: "sendingMetrics",
+        type: {
+          name: "String"
+        }
+      },
       filteringTags: {
         serializedName: "filteringTags",
         type: {
@@ -841,29 +784,6 @@ export const MetricRules: coreClient.CompositeMapper = {
               className: "FilteringTag"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const TagRuleUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TagRuleUpdate",
-    modelProperties: {
-      logRules: {
-        serializedName: "logRules",
-        type: {
-          name: "Composite",
-          className: "LogRules"
-        }
-      },
-      metricRules: {
-        serializedName: "metricRules",
-        type: {
-          name: "Composite",
-          className: "MetricRules"
         }
       }
     }
@@ -890,6 +810,49 @@ export const TagRuleListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MarketplaceSaaSResourceDetailsRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MarketplaceSaaSResourceDetailsRequest",
+    modelProperties: {
+      tenantId: {
+        serializedName: "tenantId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MarketplaceSaaSResourceDetailsResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MarketplaceSaaSResourceDetailsResponse",
+    modelProperties: {
+      marketplaceSaaSResourceId: {
+        serializedName: "marketplaceSaaSResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      planId: {
+        serializedName: "planId",
+        type: {
+          name: "String"
+        }
+      },
+      marketplaceSubscriptionStatus: {
+        serializedName: "marketplaceSubscriptionStatus",
         type: {
           name: "String"
         }
@@ -1016,6 +979,26 @@ export const VMInfo: coreClient.CompositeMapper = {
   }
 };
 
+export const MetricsStatusResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MetricsStatusResponse",
+    modelProperties: {
+      azureResourceIds: {
+        serializedName: "azureResourceIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AppServiceListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1113,6 +1096,7 @@ export const SSODetailsRequest: coreClient.CompositeMapper = {
     modelProperties: {
       userPrincipal: {
         serializedName: "userPrincipal",
+        required: true,
         type: {
           name: "String"
         }
@@ -1177,18 +1161,21 @@ export const LinkableEnvironmentRequest: coreClient.CompositeMapper = {
     modelProperties: {
       tenantId: {
         serializedName: "tenantId",
+        required: true,
         type: {
           name: "String"
         }
       },
       userPrincipal: {
         serializedName: "userPrincipal",
+        required: true,
         type: {
           name: "String"
         }
       },
       region: {
         serializedName: "region",
+        required: true,
         type: {
           name: "String"
         }

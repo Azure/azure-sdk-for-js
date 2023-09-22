@@ -23,6 +23,8 @@ import { appServiceMsi2019 } from "./appServiceMsi2019";
 import { AppTokenProviderParameters, ConfidentialClientApplication } from "@azure/msal-node";
 import { DeveloperSignOnClientId } from "../../constants";
 import { MsalResult, MsalToken } from "../../msal/types";
+import { getMSALLogLevel } from "../../msal/utils";
+import { getLogLevel } from "@azure/logger";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -122,6 +124,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         maxRetries: 0,
       },
     });
+
     /**  authority host validation and metadata discovery to be skipped in managed identity
      * since this wasn't done previously before adding token cache support
      */
@@ -133,6 +136,12 @@ export class ManagedIdentityCredential implements TokenCredential {
           '{"tenant_discovery_endpoint":"https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration","api-version":"1.1","metadata":[{"preferred_network":"login.microsoftonline.com","preferred_cache":"login.windows.net","aliases":["login.microsoftonline.com","login.windows.net","login.microsoft.com","sts.windows.net"]},{"preferred_network":"login.partner.microsoftonline.cn","preferred_cache":"login.partner.microsoftonline.cn","aliases":["login.partner.microsoftonline.cn","login.chinacloudapi.cn"]},{"preferred_network":"login.microsoftonline.de","preferred_cache":"login.microsoftonline.de","aliases":["login.microsoftonline.de"]},{"preferred_network":"login.microsoftonline.us","preferred_cache":"login.microsoftonline.us","aliases":["login.microsoftonline.us","login.usgovcloudapi.net"]},{"preferred_network":"login-us.microsoftonline.com","preferred_cache":"login-us.microsoftonline.com","aliases":["login-us.microsoftonline.com"]}]}',
         authorityMetadata:
           '{"token_endpoint":"https://login.microsoftonline.com/common/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/common/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/{tenantid}/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/common/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/common/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/common/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"kerberos_endpoint":"https://login.microsoftonline.com/common/kerberos","tenant_region_scope":null,"cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}',
+        clientCapabilities: [],
+      },
+      system: {
+        loggerOptions: {
+          logLevel: getMSALLogLevel(getLogLevel()),
+        },
       },
     });
   }
@@ -242,46 +251,9 @@ export class ManagedIdentityCredential implements TokenCredential {
             scopes: Array.isArray(scopes) ? scopes : [scopes],
             claims: options?.claims,
           };
+
           // Added a check to see if SetAppTokenProvider was already defined.
-          // Don't redefine it if it's already defined, since it should be static method.
-          if (!this.isAppTokenProviderInitialized) {
-            this.confidentialApp.SetAppTokenProvider(
-              async (appTokenProviderParameters = appTokenParameters) => {
-                logger.info(
-                  `SetAppTokenProvider invoked with parameters- ${JSON.stringify(
-                    appTokenProviderParameters
-                  )}`
-                );
-
-                const resultToken = await this.authenticateManagedIdentity(scopes, {
-                  ...updatedOptions,
-                  ...appTokenProviderParameters,
-                });
-
-                if (resultToken) {
-                  logger.info(`SetAppTokenProvider has saved the token in cache`);
-
-                  const expiresInSeconds = resultToken?.expiresOnTimestamp
-                    ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)
-                    : 0;
-                  return {
-                    accessToken: resultToken?.token,
-                    expiresInSeconds,
-                  };
-                } else {
-                  logger.info(
-                    `SetAppTokenProvider token has "no_access_token_returned" as the saved token`
-                  );
-                  return {
-                    accessToken: "no_access_token_returned",
-                    expiresInSeconds: 0,
-                  };
-                }
-              }
-            );
-            this.isAppTokenProviderInitialized = true;
-          }
-
+          this.initializeSetAppTokenProvider();
           const authenticationResult = await this.confidentialApp.acquireTokenByClientCredential({
             ...appTokenParameters,
           });
@@ -427,6 +399,51 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
     if (!msalToken.accessToken) {
       throw error(`Response had no "accessToken" property.`);
+    }
+  }
+
+  private initializeSetAppTokenProvider(): void {
+    if (!this.isAppTokenProviderInitialized) {
+      this.confidentialApp.SetAppTokenProvider(async (appTokenProviderParameters) => {
+        logger.info(
+          `SetAppTokenProvider invoked with parameters- ${JSON.stringify(
+            appTokenProviderParameters
+          )}`
+        );
+        const getTokenOptions: GetTokenOptions = {
+          ...appTokenProviderParameters,
+        };
+        logger.info(
+          `authenticateManagedIdentity invoked with scopes- ${JSON.stringify(
+            appTokenProviderParameters.scopes
+          )} and getTokenOptions - ${JSON.stringify(getTokenOptions)}`
+        );
+        const resultToken = await this.authenticateManagedIdentity(
+          appTokenProviderParameters.scopes,
+          getTokenOptions
+        );
+
+        if (resultToken) {
+          logger.info(`SetAppTokenProvider will save the token in cache`);
+
+          const expiresInSeconds = resultToken?.expiresOnTimestamp
+            ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)
+            : 0;
+          return {
+            accessToken: resultToken?.token,
+            expiresInSeconds,
+          };
+        } else {
+          logger.info(
+            `SetAppTokenProvider token has "no_access_token_returned" as the saved token`
+          );
+          return {
+            accessToken: "no_access_token_returned",
+            expiresInSeconds: 0,
+          };
+        }
+      });
+      this.isAppTokenProviderInitialized = true;
     }
   }
 }

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ProtectionContainer,
   ReplicationProtectionContainersListByReplicationFabricsNextOptionalParams,
@@ -290,8 +294,8 @@ export class ReplicationProtectionContainersImpl
     creationInput: CreateProtectionContainerInput,
     options?: ReplicationProtectionContainersCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectionContainersCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectionContainersCreateResponse>,
       ReplicationProtectionContainersCreateResponse
     >
   > {
@@ -301,7 +305,7 @@ export class ReplicationProtectionContainersImpl
     ): Promise<ReplicationProtectionContainersCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -334,9 +338,9 @@ export class ReplicationProtectionContainersImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -344,10 +348,13 @@ export class ReplicationProtectionContainersImpl
         creationInput,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationProtectionContainersCreateResponse,
+      OperationState<ReplicationProtectionContainersCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -401,8 +408,8 @@ export class ReplicationProtectionContainersImpl
     discoverProtectableItemRequest: DiscoverProtectableItemRequest,
     options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ReplicationProtectionContainersDiscoverProtectableItemResponse
       >,
       ReplicationProtectionContainersDiscoverProtectableItemResponse
@@ -414,7 +421,7 @@ export class ReplicationProtectionContainersImpl
     ): Promise<ReplicationProtectionContainersDiscoverProtectableItemResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -447,9 +454,9 @@ export class ReplicationProtectionContainersImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -457,10 +464,15 @@ export class ReplicationProtectionContainersImpl
         discoverProtectableItemRequest,
         options
       },
-      discoverProtectableItemOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: discoverProtectableItemOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationProtectionContainersDiscoverProtectableItemResponse,
+      OperationState<
+        ReplicationProtectionContainersDiscoverProtectableItemResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -511,14 +523,14 @@ export class ReplicationProtectionContainersImpl
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectionContainersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -551,19 +563,19 @@ export class ReplicationProtectionContainersImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
         protectionContainerName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -614,10 +626,8 @@ export class ReplicationProtectionContainersImpl
     switchInput: SwitchProtectionInput,
     options?: ReplicationProtectionContainersSwitchProtectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        ReplicationProtectionContainersSwitchProtectionResponse
-      >,
+    SimplePollerLike<
+      OperationState<ReplicationProtectionContainersSwitchProtectionResponse>,
       ReplicationProtectionContainersSwitchProtectionResponse
     >
   > {
@@ -627,7 +637,7 @@ export class ReplicationProtectionContainersImpl
     ): Promise<ReplicationProtectionContainersSwitchProtectionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -660,9 +670,9 @@ export class ReplicationProtectionContainersImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -670,10 +680,13 @@ export class ReplicationProtectionContainersImpl
         switchInput,
         options
       },
-      switchProtectionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: switchProtectionOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationProtectionContainersSwitchProtectionResponse,
+      OperationState<ReplicationProtectionContainersSwitchProtectionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

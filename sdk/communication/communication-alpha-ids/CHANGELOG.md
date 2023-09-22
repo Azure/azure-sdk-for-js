@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Fixed a pagination issue by adding a custom paging policy
+
 ### Other Changes
 
 - Updated to `@azure/communication-common` 2.2.0.

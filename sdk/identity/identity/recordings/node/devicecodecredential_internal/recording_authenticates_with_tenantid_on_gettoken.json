@@ -184,7 +184,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "68b143c3-c893-4ca1-a595-a4af401496ee"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id",
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -224,7 +224,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "3874cfc6-a057-4daa-943c-a19877a96213"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -268,7 +268,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "d47aa13b-59e0-48b8-90cf-53b73ddc96c4"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -312,7 +312,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "65a27ff9-7206-4a16-aad3-e000177dedc5"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -356,7 +356,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "c050e9dd-91da-417d-a217-876becbaf66c"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -400,7 +400,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "774d5fca-d88a-491e-9346-3c3c42e3dd3b"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -444,7 +444,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "75c95557-3d55-44e5-939c-14f8e4770592"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -488,7 +488,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "7b5d719c-97da-405f-807f-1109c108d22d"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -532,7 +532,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "d14ceca8-2de2-4014-921b-b2c0571b2de4"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -576,7 +576,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "07f64e34-3515-4b2c-8af9-a7c367e920c6"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -620,7 +620,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "be0a96ab-6a8b-4d2b-8b85-9e554c7df320"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -664,7 +664,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "bc2df218-f1c3-4039-9ca1-e229e1d67d36"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -708,7 +708,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "f1728398-f581-4d03-8f5d-9a82badae0d6"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -752,7 +752,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "62359007-ae9a-4c9c-91d2-e11dd9813c94"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -796,7 +796,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "e90378b5-9403-451e-9214-a65bd3b39e1d"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -840,7 +840,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "10148862-b600-49f4-bea4-2359279a4881"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -884,7 +884,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "b27892d6-e17e-496e-b1da-db0f6cd30161"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -928,7 +928,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "5aad9a2f-62de-447f-8bf8-42eaa747a134"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
@@ -972,7 +972,7 @@
         "User-Agent": "User-Agent",
         "x-ms-client-request-id": "67209d78-e3dd-4a46-8ae3-c659f869d979"
       },
-      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0",
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Adds the API Management User to the list of Recipients for the Notification.
  *
  * @summary Adds the API Management User to the list of Recipients for the Notification.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateNotificationRecipientUser.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateNotificationRecipientUser.json
  */
 async function apiManagementCreateNotificationRecipientUser() {
   const subscriptionId =

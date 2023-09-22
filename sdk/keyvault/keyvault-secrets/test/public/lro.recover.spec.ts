@@ -3,11 +3,11 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
 
 import { SecretClient, SecretProperties } from "../../src";
-import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
+import { getServiceVersion } from "./utils/common";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -90,25 +90,5 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     const secretProperties: SecretProperties = await resumePoller.pollUntilDone();
     assert.equal(secretProperties.name, secretName);
     assert.ok(resumePoller.getOperationState().isCompleted);
-  });
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can attempt to recover a deleted secret with requestOptions timeout", async function (this: Context) {
-    if (!isLiveMode()) {
-      this.skip();
-    }
-
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    await client.setSecret(secretName, "value");
-    const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
-    await deletePoller.pollUntilDone();
-    await assertThrowsAbortError(async () => {
-      await client.beginRecoverDeletedSecret(secretName, {
-        requestOptions: { timeout: 1 },
-        ...testPollerProperties,
-      });
-    });
   });
 });

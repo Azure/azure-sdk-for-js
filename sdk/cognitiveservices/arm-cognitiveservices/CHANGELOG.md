@@ -1,15 +1,42 @@
 # Release History
+    
+## 7.5.0 (2023-07-06)
+    
+**Features**
 
-## 7.4.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group Models
+  - Added operation group Usages
+  - Added Interface AbusePenalty
+  - Added Interface CapacityConfig
+  - Added Interface Model
+  - Added Interface ModelListResult
+  - Added Interface ModelSku
+  - Added Interface ModelsListNextOptionalParams
+  - Added Interface ModelsListOptionalParams
+  - Added Interface UsagesListNextOptionalParams
+  - Added Interface UsagesListOptionalParams
+  - Added Type Alias AbusePenaltyAction
+  - Added Type Alias DeploymentModelVersionUpgradeOption
+  - Added Type Alias ModelsListNextResponse
+  - Added Type Alias ModelsListResponse
+  - Added Type Alias UsagesListNextResponse
+  - Added Type Alias UsagesListResponse
+  - Interface AccountModel has a new optional parameter isDefaultVersion
+  - Interface AccountModel has a new optional parameter skus
+  - Interface AccountProperties has a new optional parameter abusePenalty
+  - Interface CommitmentPlanProperties has a new optional parameter provisioningIssues
+  - Interface Deployment has a new optional parameter sku
+  - Interface DeploymentModel has a new optional parameter source
+  - Interface DeploymentProperties has a new optional parameter rateLimits
+  - Interface DeploymentProperties has a new optional parameter versionUpgradeOption
+  - Interface UsageListResult has a new optional parameter nextLink
+  - Added Enum KnownAbusePenaltyAction
+  - Added Enum KnownDeploymentModelVersionUpgradeOption
+  - Enum KnownDeploymentProvisioningState has a new value Canceled
+  - Enum KnownDeploymentProvisioningState has a new value Disabled
+  - Enum KnownHostingModel has a new value ProvisionedWeb
+    
+    
 ## 7.4.0 (2023-02-06)
     
 **Features**

@@ -21,7 +21,7 @@ async function listRouterWorkers(): Promise<void> {
   const maxPageSize = 3;
   const receivedPagedItems: RouterWorkerItem[] = [];
 
-  for await (const page of routerClient.listWorkers({ maxpagesize: maxPageSize }).byPage()) {
+  for await (const page of routerClient.listWorkers({ maxPageSize }).byPage()) {
     ++pagesCount;
     console.log("page: " + pagesCount);
     for (const policy of page) {

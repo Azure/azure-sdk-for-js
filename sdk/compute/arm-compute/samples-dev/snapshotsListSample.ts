@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists snapshots under a subscription.
  *
  * @summary Lists snapshots under a subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/snapshotExamples/Snapshot_ListBySubscription.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/snapshotExamples/Snapshot_ListBySubscription.json
  */
 async function listAllSnapshotsInASubscription() {
   const subscriptionId =

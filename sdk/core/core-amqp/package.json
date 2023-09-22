@@ -59,7 +59,7 @@
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && rollup -c rollup.test.config.js 2>&1 && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" nyc --reporter=lcov --reporter=text-summary --reporter=cobertura mocha -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js  --timeout 50000  --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
+    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" mocha -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js  --timeout 50000  --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "engines": {
@@ -98,7 +98,7 @@
     "@types/debug": "^4.1.4",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",
-    "@types/sinon": "^9.0.4",
+    "@types/sinon": "^10.0.0",
     "@types/ws": "^7.2.4",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
@@ -117,7 +117,7 @@
     "rollup": "^2.0.0",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
-    "sinon": "^9.0.2",
+    "sinon": "^15.0.0",
     "ts-node": "^10.0.0",
     "typescript": "~5.0.0",
     "ws": "^8.2.0"

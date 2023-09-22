@@ -23,13 +23,10 @@ import {
   UpdateAdministrativeState,
   L3IsolationDomainsUpdateAdministrativeStateOptionalParams,
   L3IsolationDomainsUpdateAdministrativeStateResponse,
-  L3IsolationDomainsUpdateOptionBAdministrativeStateOptionalParams,
-  L3IsolationDomainsUpdateOptionBAdministrativeStateResponse,
-  EnableDisableOnResources,
-  L3IsolationDomainsClearArpTableOptionalParams,
-  L3IsolationDomainsClearArpTableResponse,
-  L3IsolationDomainsClearNeighborTableOptionalParams,
-  L3IsolationDomainsClearNeighborTableResponse
+  L3IsolationDomainsValidateConfigurationOptionalParams,
+  L3IsolationDomainsValidateConfigurationResponse,
+  L3IsolationDomainsCommitConfigurationOptionalParams,
+  L3IsolationDomainsCommitConfigurationResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +53,7 @@ export interface L3IsolationDomains {
    * communication with external services .This configuration is applied on the devices only after the
    * creation of networks is completed and isolation domain is enabled.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3 Isolation Domain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -76,7 +73,7 @@ export interface L3IsolationDomains {
    * communication with external services .This configuration is applied on the devices only after the
    * creation of networks is completed and isolation domain is enabled.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3 Isolation Domain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -89,7 +86,7 @@ export interface L3IsolationDomains {
   /**
    * Retrieves details of this L3 Isolation Domain.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3 Isolation Domain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
   get(
@@ -100,7 +97,7 @@ export interface L3IsolationDomains {
   /**
    * API to update certain properties of the L3 Isolation Domain resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3 Isolation Domain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param body API to update certain properties of the L3 Isolation Domain resource.
    * @param options The options parameters.
    */
@@ -118,7 +115,7 @@ export interface L3IsolationDomains {
   /**
    * API to update certain properties of the L3 Isolation Domain resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3 Isolation Domain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param body API to update certain properties of the L3 Isolation Domain resource.
    * @param options The options parameters.
    */
@@ -131,7 +128,7 @@ export interface L3IsolationDomains {
   /**
    * Deletes layer 3 connectivity between compute nodes by managed by named L3 Isolation name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3 Isolation Domain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
   beginDelete(
@@ -142,7 +139,7 @@ export interface L3IsolationDomains {
   /**
    * Deletes layer 3 connectivity between compute nodes by managed by named L3 Isolation name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3 Isolation Domain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -153,7 +150,7 @@ export interface L3IsolationDomains {
   /**
    * Enables racks for this Isolation Domain.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -171,7 +168,7 @@ export interface L3IsolationDomains {
   /**
    * Enables racks for this Isolation Domain.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -182,98 +179,57 @@ export interface L3IsolationDomains {
     options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams
   ): Promise<L3IsolationDomainsUpdateAdministrativeStateResponse>;
   /**
-   * Update administrative state of option B on CE devices
+   * Validates the configuration of the resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param body Request payload.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
-  beginUpdateOptionBAdministrativeState(
+  beginValidateConfiguration(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    body: UpdateAdministrativeState,
-    options?: L3IsolationDomainsUpdateOptionBAdministrativeStateOptionalParams
+    options?: L3IsolationDomainsValidateConfigurationOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        L3IsolationDomainsUpdateOptionBAdministrativeStateResponse
-      >,
-      L3IsolationDomainsUpdateOptionBAdministrativeStateResponse
+      OperationState<L3IsolationDomainsValidateConfigurationResponse>,
+      L3IsolationDomainsValidateConfigurationResponse
     >
   >;
   /**
-   * Update administrative state of option B on CE devices
+   * Validates the configuration of the resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param body Request payload.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
-  beginUpdateOptionBAdministrativeStateAndWait(
+  beginValidateConfigurationAndWait(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    body: UpdateAdministrativeState,
-    options?: L3IsolationDomainsUpdateOptionBAdministrativeStateOptionalParams
-  ): Promise<L3IsolationDomainsUpdateOptionBAdministrativeStateResponse>;
+    options?: L3IsolationDomainsValidateConfigurationOptionalParams
+  ): Promise<L3IsolationDomainsValidateConfigurationResponse>;
   /**
-   * Clears ARP tables for this Isolation Domain.
+   * Commits the configuration of the given resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param body Request payload.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
-  beginClearArpTable(
+  beginCommitConfiguration(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L3IsolationDomainsClearArpTableOptionalParams
+    options?: L3IsolationDomainsCommitConfigurationOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<L3IsolationDomainsClearArpTableResponse>,
-      L3IsolationDomainsClearArpTableResponse
+      OperationState<L3IsolationDomainsCommitConfigurationResponse>,
+      L3IsolationDomainsCommitConfigurationResponse
     >
   >;
   /**
-   * Clears ARP tables for this Isolation Domain.
+   * Commits the configuration of the given resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param body Request payload.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
-  beginClearArpTableAndWait(
+  beginCommitConfigurationAndWait(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L3IsolationDomainsClearArpTableOptionalParams
-  ): Promise<L3IsolationDomainsClearArpTableResponse>;
-  /**
-   * Clears IPv6 neighbor tables for this Isolation Domain.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  beginClearNeighborTable(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L3IsolationDomainsClearNeighborTableOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<L3IsolationDomainsClearNeighborTableResponse>,
-      L3IsolationDomainsClearNeighborTableResponse
-    >
-  >;
-  /**
-   * Clears IPv6 neighbor tables for this Isolation Domain.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  beginClearNeighborTableAndWait(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L3IsolationDomainsClearNeighborTableOptionalParams
-  ): Promise<L3IsolationDomainsClearNeighborTableResponse>;
+    options?: L3IsolationDomainsCommitConfigurationOptionalParams
+  ): Promise<L3IsolationDomainsCommitConfigurationResponse>;
 }

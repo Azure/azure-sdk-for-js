@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a Cognitive Services account
  *
  * @summary Updates a Cognitive Services account
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/UpdateAccount.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/UpdateAccount.json
  */
 async function updateAccount() {
   const subscriptionId =

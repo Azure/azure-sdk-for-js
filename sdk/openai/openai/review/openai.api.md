@@ -8,8 +8,79 @@ import { AzureKeyCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export type AudioResult<ResponseFormat extends AudioResultFormat> = {
+    json: AudioResultSimpleJson;
+    verbose_json: AudioResultVerboseJson;
+    vtt: string;
+    srt: string;
+    text: string;
+}[ResponseFormat];
+
+// @public
+export type AudioResultFormat =
+/** This format will return an JSON structure containing a single \"text\" with the transcription. */
+"json"
+/** This format will return an JSON structure containing an enriched structure with the transcription. */
+| "verbose_json"
+/** This will make the response return the transcription as plain/text. */
+| "text"
+/** The transcription will be provided in SRT format (SubRip Text) in the form of plain/text. */
+| "srt"
+/** The transcription will be provided in VTT format (Web Video Text Tracks) in the form of plain/text. */
+| "vtt";
+
+// @public
+export interface AudioResultSimpleJson {
+    text: string;
+}
+
+// @public
+export interface AudioResultVerboseJson extends AudioResultSimpleJson {
+    duration: number;
+    language: string;
+    segments: AudioSegment[];
+    task: AudioTranscriptionTask;
+}
+
+// @public
+export interface AudioSegment {
+    avgLogprob: number;
+    compressionRatio: number;
+    end: number;
+    id: number;
+    noSpeechProb: number;
+    seek: number;
+    start: number;
+    temperature: number;
+    text: string;
+    tokens: number[];
+}
+
+// @public
+export type AudioTranscriptionTask = string;
+
+// @public
+export interface AzureChatExtensionConfiguration {
+    parameters: Record<string, any>;
+    type: AzureChatExtensionType;
+}
+
+// @public
+export interface AzureChatExtensionsMessageContext {
+    messages?: ChatMessage[];
+}
+
+// @public
+export type AzureChatExtensionType = string;
+
+// @public
+export interface AzureExtensionsOptions {
+    extensions?: AzureChatExtensionConfiguration[];
+}
 
 export { AzureKeyCredential }
 
@@ -18,7 +89,7 @@ export type AzureOpenAIOperationState = string;
 
 // @public
 export interface BatchImageGenerationOperationResponse {
-    created: number;
+    created: Date;
     error?: ErrorModel;
     expires?: number;
     id: string;
@@ -26,16 +97,9 @@ export interface BatchImageGenerationOperationResponse {
     status: AzureOpenAIOperationState;
 }
 
-// @public (undocumented)
-export interface BeginAzureBatchImageGenerationOptions extends RequestOptions {
-    n?: number;
-    responseFormat?: ImageGenerationResponseFormat;
-    size?: ImageSize;
-    user?: string;
-}
-
 // @public
 export interface ChatChoice {
+    contentFilterResults?: ContentFilterResults;
     delta?: ChatMessage;
     finishReason: CompletionsFinishReason | null;
     index: number;
@@ -45,14 +109,18 @@ export interface ChatChoice {
 // @public
 export interface ChatCompletions {
     choices: ChatChoice[];
-    created: number;
+    created: Date;
     id: string;
-    usage: CompletionsUsage;
+    promptFilterResults?: PromptFilterResult[];
+    usage?: CompletionsUsage;
 }
 
 // @public
 export interface ChatMessage {
-    content?: string;
+    content: string | null;
+    context?: AzureChatExtensionsMessageContext;
+    functionCall?: FunctionCall;
+    name?: string;
     role: ChatRole;
 }
 
@@ -61,6 +129,7 @@ export type ChatRole = string;
 
 // @public
 export interface Choice {
+    contentFilterResults?: ContentFilterResults;
     finishReason: CompletionsFinishReason | null;
     index: number;
     logprobs: CompletionsLogProbabilityModel | null;
@@ -70,8 +139,9 @@ export interface Choice {
 // @public
 export interface Completions {
     choices: Choice[];
-    created: number;
+    created: Date;
     id: string;
+    promptFilterResults?: PromptFilterResult[];
     usage: CompletionsUsage;
 }
 
@@ -102,6 +172,32 @@ export interface CompletionsUsage {
 }
 
 // @public
+export interface ContentFilterErrorResults {
+    error: ErrorModel;
+}
+
+// @public
+export interface ContentFilterResult {
+    filtered: boolean;
+    severity: ContentFilterSeverity;
+}
+
+// @public
+export type ContentFilterResults = ContentFilterSuccessResults | ContentFilterErrorResults;
+
+// @public
+export type ContentFilterSeverity = string;
+
+// @public
+export interface ContentFilterSuccessResults {
+    error?: undefined;
+    hate?: ContentFilterResult;
+    selfHarm?: ContentFilterResult;
+    sexual?: ContentFilterResult;
+    violence?: ContentFilterResult;
+}
+
+// @public
 export interface EmbeddingItem {
     embedding: number[];
     index: number;
@@ -119,13 +215,48 @@ export interface EmbeddingsUsage {
     totalTokens: number;
 }
 
-// @public (undocumented)
-export interface GetAzureBatchImageGenerationOperationStatusOptions extends RequestOptions {
+// @public
+export interface FunctionCall {
+    arguments: string;
+    name: string;
 }
 
-// @public (undocumented)
-export interface GetChatCompletionsOptions extends RequestOptions {
+// @public
+export type FunctionCallPreset = string;
+
+// @public
+export interface FunctionDefinition {
+    description?: string;
+    name: string;
+    parameters?: Record<string, any>;
+}
+
+// @public
+export interface FunctionName {
+    name: string;
+}
+
+// @public
+export interface GetAudioTranscriptionOptions extends OperationOptions {
+    language?: string;
+    model?: string;
+    prompt?: string;
+    temperature?: number;
+}
+
+// @public
+export interface GetAudioTranslationOptions extends OperationOptions {
+    model?: string;
+    prompt?: string;
+    temperature?: number;
+}
+
+// @public
+export interface GetChatCompletionsOptions extends OperationOptions {
+    azureExtensionOptions?: AzureExtensionsOptions;
     frequencyPenalty?: number;
+    functionCall?: FunctionCallPreset | FunctionName;
+    functions?: FunctionDefinition[];
     logitBias?: Record<string, number>;
     maxTokens?: number;
     model?: string;
@@ -139,7 +270,7 @@ export interface GetChatCompletionsOptions extends RequestOptions {
 }
 
 // @public (undocumented)
-export interface GetCompletionsOptions extends RequestOptions {
+export interface GetCompletionsOptions extends OperationOptions {
     bestOf?: number;
     echo?: boolean;
     frequencyPenalty?: number;
@@ -157,23 +288,25 @@ export interface GetCompletionsOptions extends RequestOptions {
 }
 
 // @public (undocumented)
-export interface GetEmbeddingsOptions extends RequestOptions {
+export interface GetEmbeddingsOptions extends OperationOptions {
     model?: string;
     user?: string;
 }
 
 // @public
-export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;
-
-// @public
-export type ImageGenerationResponse = BatchImageGenerationOperationResponse;
+export interface ImageGenerationOptions extends OperationOptions {
+    n?: number;
+    responseFormat?: ImageGenerationResponseFormat;
+    size?: ImageSize;
+    user?: string;
+}
 
 // @public
 export type ImageGenerationResponseFormat = string;
 
 // @public
 export interface ImageGenerations {
-    created: number;
+    created: Date;
     data: ImageLocation[] | ImagePayload[];
 }
 
@@ -195,14 +328,16 @@ export class OpenAIClient {
     constructor(endpoint: string, credential: KeyCredential, options?: OpenAIClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: OpenAIClientOptions);
     constructor(openAiApiKey: KeyCredential, options?: OpenAIClientOptions);
-    beginAzureBatchImageGeneration(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerationResponse>;
-    getAzureBatchImageGenerationOperationStatus(operationId: string, options?: GetAzureBatchImageGenerationOperationStatusOptions): Promise<ImageGenerationResponse>;
-    getChatCompletions(deploymentOrModelName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
-    getCompletions(deploymentOrModelName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
-    getEmbeddings(deploymentOrModelName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
-    getImages(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerationResponse>;
-    listChatCompletions(deploymentOrModelName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<AsyncIterable<Omit<ChatCompletions, "usage">>>;
-    listCompletions(deploymentOrModelName: string, prompt: string[], options?: GetCompletionsOptions): Promise<AsyncIterable<Omit<Completions, "usage">>>;
+    getAudioTranscription(deploymentName: string, fileContent: Uint8Array, options?: GetAudioTranscriptionOptions): Promise<AudioResultSimpleJson>;
+    getAudioTranscription<Format extends AudioResultFormat>(deploymentName: string, fileContent: Uint8Array, format: Format, options?: GetAudioTranscriptionOptions): Promise<AudioResult<Format>>;
+    getAudioTranslation(deploymentName: string, fileContent: Uint8Array, options?: GetAudioTranslationOptions): Promise<AudioResultSimpleJson>;
+    getAudioTranslation<Format extends AudioResultFormat>(deploymentName: string, fileContent: Uint8Array, format: Format, options?: GetAudioTranslationOptions): Promise<AudioResult<Format>>;
+    getChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
+    getCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
+    getEmbeddings(deploymentName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
+    getImages(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerations>;
+    listChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): AsyncIterable<ChatCompletions>;
+    listCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): AsyncIterable<Omit<Completions, "usage">>;
 }
 
 // @public (undocumented)
@@ -217,14 +352,9 @@ export class OpenAIKeyCredential implements KeyCredential {
 }
 
 // @public
-export interface RequestOptions {
-    requestOptions?: {
-        headers?: RawHttpHeadersInput;
-        allowInsecureConnection?: boolean;
-        skipUrlEncoding?: boolean;
-    };
+export interface PromptFilterResult {
+    contentFilterResults?: ContentFilterResults;
+    promptIndex: number;
 }
-
-// (No @packageDocumentation comment for this package)
 
 ```

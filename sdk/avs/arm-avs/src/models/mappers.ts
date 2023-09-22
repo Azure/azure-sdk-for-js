@@ -328,26 +328,26 @@ export const MetricDimension: coreClient.CompositeMapper = {
   }
 };
 
-export const CloudError: coreClient.CompositeMapper = {
+export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CloudError",
+    className: "ErrorResponse",
     modelProperties: {
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorResponse"
+          className: "ErrorDetail"
         }
       }
     }
   }
 };
 
-export const ErrorResponse: coreClient.CompositeMapper = {
+export const ErrorDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ErrorResponse",
+    className: "ErrorDetail",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -378,7 +378,7 @@ export const ErrorResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorResponse"
+              className: "ErrorDetail"
             }
           }
         }
@@ -626,6 +626,17 @@ export const PrivateCloudUpdateProperties: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Encryption"
+        }
+      },
+      extendedNetworkBlocks: {
+        serializedName: "extendedNetworkBlocks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -954,6 +965,17 @@ export const PrivateCloudUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Encryption"
+        }
+      },
+      extendedNetworkBlocks: {
+        serializedName: "properties.extendedNetworkBlocks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -2823,6 +2845,17 @@ export const PrivateCloud: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Encryption"
+        }
+      },
+      extendedNetworkBlocks: {
+        serializedName: "properties.extendedNetworkBlocks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       provisioningState: {

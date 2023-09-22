@@ -128,6 +128,7 @@ function Get-javascript-DocsMsMetadataForPackage($PackageInfo) {
     DocsMsReadMeName      = $docsReadmeName
     LatestReadMeLocation  = 'docs-ref-services/latest'
     PreviewReadMeLocation = 'docs-ref-services/preview'
+    LegacyReadMeLocation  = 'docs-ref-services/legacy'
     Suffix                = ''
   }
 }
@@ -232,10 +233,11 @@ function ValidatePackagesForDocs($packages, $DocValidationImageId) {
 
   $scriptRoot = $PSScriptRoot
   # Run this in parallel as each step takes a long time to run
-  $validationOutput = $packages | Foreach-Object -Parallel {
+  $validationOutput = $packages | ForEach-Object { [PSCustomObject]$_ } | Foreach-Object -Parallel {
     # Get value for variables outside of the Foreach-Object scope
     $scriptRoot = "$using:scriptRoot"
     $workingDirectory = "$using:tempDirectory"
+    Write-Host "`"$scriptRoot\validate-docs-package.ps1`" -Package $_ -DocValidationImageId `"$($using:DocValidationImageId)`" -WorkingDirectory $workingDirectory"
     return ."$scriptRoot\validate-docs-package.ps1" -Package $_ -DocValidationImageId "$using:DocValidationImageId" -WorkingDirectory $workingDirectory 
   }
 
@@ -450,6 +452,8 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
   }
 }
 
+# Defined in common.ps1 as:
+# $ValidateDocsMsPackagesFn = "Validate-${Language}-DocMsPackages" 
 function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRepoLocation, $DocValidationImageId) { 
   if (!$PackageInfos) {
     $PackageInfos = @($PackageInfo)
@@ -484,5 +488,15 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
     $outputPackages += $outputPackage
   }
 
-  ValidatePackagesForDocs -packages $outputPackages -DocValidationImageId $DocValidationImageId
+  $validationResults = ValidatePackagesForDocs `
+    -packages $outputPackages `
+    -DocValidationImageId $DocValidationImageId
+
+  foreach ($result in $validationResults) { 
+    if (!$result.Success) { 
+      return $false
+    }
+  }
+
+  return $true
 }

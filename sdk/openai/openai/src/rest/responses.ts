@@ -70,6 +70,23 @@ export interface GetChatCompletionsDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
+export interface GetChatCompletionsWithAzureExtensions200Response extends HttpResponse {
+  status: "200";
+  body: ChatCompletionsOutput;
+}
+
+export interface GetChatCompletionsWithAzureExtensionsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetChatCompletionsWithAzureExtensionsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & GetChatCompletionsWithAzureExtensionsDefaultHeaders;
+}
+
+/** The request has succeeded. */
 export interface GetAzureBatchImageGenerationOperationStatus200Response extends HttpResponse {
   status: "200";
   body: BatchImageGenerationOperationResponseOutput;

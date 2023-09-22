@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get usages for the requested Cognitive Services account
  *
  * @summary Get usages for the requested Cognitive Services account
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/GetUsages.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/GetUsages.json
  */
 async function getUsages() {
   const subscriptionId =

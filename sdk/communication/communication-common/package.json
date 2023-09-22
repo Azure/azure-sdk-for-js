@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-common",
-  "version": "3.0.0-beta.2",
+  "version": "2.3.0",
   "description": "Common package for Azure Communication services.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -23,7 +23,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  dist-esm/test/**/*.spec.js dist-esm/test/node/*.spec.js",
+    "integration-test:node": "mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  dist-esm/test/**/*.spec.js dist-esm/test/node/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
@@ -32,7 +32,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
+    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -79,7 +79,7 @@
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",
-    "@types/sinon": "^9.0.4",
+    "@types/sinon": "^10.0.0",
     "chai-as-promised": "^7.1.1",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
@@ -99,9 +99,10 @@
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "sinon": "^9.0.2",
+    "sinon": "^15.0.0",
     "typescript": "~5.0.0",
     "util": "^0.12.1",
-    "mockdate": "^3.0.5"
+    "mockdate": "^3.0.5",
+    "ts-node": "^10.0.0"
   }
 }

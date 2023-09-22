@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Revokes access to a disk.
  *
  * @summary Revokes access to a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_EndGetAccess.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskExamples/Disk_EndGetAccess.json
  */
 async function revokeAccessToAManagedDisk() {
   const subscriptionId =

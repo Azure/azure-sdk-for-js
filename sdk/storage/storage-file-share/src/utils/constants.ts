@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 export const SDK_VERSION: string = "12.20.0";
-export const SERVICE_VERSION: string = "2021-12-02";
+export const SERVICE_VERSION: string = "2023-01-03";
 
 export const FILE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024 * 1024 * 1024; // 4TB
 export const FILE_RANGE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024; // 4MB

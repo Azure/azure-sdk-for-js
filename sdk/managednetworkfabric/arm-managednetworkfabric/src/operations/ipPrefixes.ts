@@ -35,6 +35,7 @@ import {
   IpPrefixesUpdateOptionalParams,
   IpPrefixesUpdateResponse,
   IpPrefixesDeleteOptionalParams,
+  IpPrefixesDeleteResponse,
   IpPrefixesListByResourceGroupNextResponse,
   IpPrefixesListBySubscriptionNextResponse
 } from "../models";
@@ -178,7 +179,7 @@ export class IpPrefixesImpl implements IpPrefixes {
   /**
    * Implements IP Prefix PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipPrefixName Name of the IP Prefix
+   * @param ipPrefixName Name of the IP Prefix.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -252,7 +253,7 @@ export class IpPrefixesImpl implements IpPrefixes {
   /**
    * Implements IP Prefix PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipPrefixName Name of the IP Prefix
+   * @param ipPrefixName Name of the IP Prefix.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -274,7 +275,7 @@ export class IpPrefixesImpl implements IpPrefixes {
   /**
    * Implements IP Prefix GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipPrefixName Name of the IP Prefix
+   * @param ipPrefixName Name of the IP Prefix.
    * @param options The options parameters.
    */
   get(
@@ -291,7 +292,7 @@ export class IpPrefixesImpl implements IpPrefixes {
   /**
    * API to update certain properties of the IP Prefix resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipPrefixName Name of the IP Prefix
+   * @param ipPrefixName Name of the IP Prefix.
    * @param body IP Prefix properties to update.
    * @param options The options parameters.
    */
@@ -365,7 +366,7 @@ export class IpPrefixesImpl implements IpPrefixes {
   /**
    * API to update certain properties of the IP Prefix resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipPrefixName Name of the IP Prefix
+   * @param ipPrefixName Name of the IP Prefix.
    * @param body IP Prefix properties to update.
    * @param options The options parameters.
    */
@@ -387,18 +388,23 @@ export class IpPrefixesImpl implements IpPrefixes {
   /**
    * Implements IP Prefix DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipPrefixName Name of the IP Prefix
+   * @param ipPrefixName Name of the IP Prefix.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     ipPrefixName: string,
     options?: IpPrefixesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<IpPrefixesDeleteResponse>,
+      IpPrefixesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<IpPrefixesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -439,7 +445,10 @@ export class IpPrefixesImpl implements IpPrefixes {
       args: { resourceGroupName, ipPrefixName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      IpPrefixesDeleteResponse,
+      OperationState<IpPrefixesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -451,14 +460,14 @@ export class IpPrefixesImpl implements IpPrefixes {
   /**
    * Implements IP Prefix DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipPrefixName Name of the IP Prefix
+   * @param ipPrefixName Name of the IP Prefix.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     ipPrefixName: string,
     options?: IpPrefixesDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<IpPrefixesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       ipPrefixName,
@@ -551,7 +560,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body6,
+  requestBody: Parameters.body11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -606,7 +615,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body7,
+  requestBody: Parameters.body12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -623,10 +632,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipPrefixes/{ipPrefixName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.IpPrefixesDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.IpPrefixesDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.IpPrefixesDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.IpPrefixesDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

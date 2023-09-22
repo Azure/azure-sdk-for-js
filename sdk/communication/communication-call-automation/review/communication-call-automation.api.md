@@ -11,9 +11,21 @@ import { CommunicationIdentifier } from '@azure/communication-common';
 import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
+import { MicrosoftTeamsUserIdentifier } from '@azure/communication-common';
 import { OperationOptions } from '@azure/core-client';
 import { PhoneNumberIdentifier } from '@azure/communication-common';
 import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface AddParticipantCancelled extends Omit<RestAddParticipantCancelled, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "invitationId" | "operationContext"> {
+    callConnectionId: string;
+    correlationId: string;
+    invitationId: string;
+    kind: "AddParticipantCancelled";
+    operationContext?: string;
+    participant?: CommunicationIdentifier;
+    serverCallId: string;
+}
 
 // @public
 export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
@@ -27,13 +39,14 @@ export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, "ca
 
 // @public
 export interface AddParticipantOptions extends OperationOptions {
-    callbackUrlOverride?: string;
+    callbackUrl?: string;
     invitationTimeoutInSeconds?: number;
     operationContext?: string;
 }
 
 // @public
 export interface AddParticipantResult {
+    invitationId?: string;
     operationContext?: string;
     participant?: CallParticipant;
 }
@@ -80,7 +93,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfCompleted | SendDtmfFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfCompleted | SendDtmfFailed | AddParticipantCancelled | CancelAddParticipantFailed;
 
 // @public
 export interface CallConnected extends Omit<RestCallConnected, "callConnectionId" | "serverCallId" | "correlationId"> {
@@ -95,6 +108,7 @@ export class CallConnection {
     // Warning: (ae-forgotten-export) The symbol "CallAutomationApiClientOptionalParams" needs to be exported by the entry point index.d.ts
     constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, options?: CallAutomationApiClientOptionalParams);
     addParticipant(targetParticipant: CallInvite, options?: AddParticipantOptions): Promise<AddParticipantResult>;
+    cancelAddParticipant(invitationId: string, options?: CancelAddParticipantOptions): Promise<CancelAddParticipantResult>;
     getCallConnectionProperties(options?: GetCallConnectionPropertiesOptions): Promise<CallConnectionProperties>;
     getCallMedia(): CallMedia;
     getParticipant(targetParticipant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
@@ -133,16 +147,11 @@ export interface CallDisconnected extends Omit<RestCallDisconnected, "callConnec
 
 // @public
 export interface CallInvite {
-    readonly sipHeaders?: {
-        [propertyName: string]: string;
-    };
+    customContext?: CustomContext;
     readonly sourceCallIdNumber?: PhoneNumberIdentifier;
     // (undocumented)
     sourceDisplayName?: string;
-    readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier;
-    readonly voipHeaders?: {
-        [propertyName: string]: string;
-    };
+    readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier | MicrosoftTeamsUserIdentifier;
 }
 
 // @public
@@ -186,6 +195,8 @@ export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions
 
 // @public
 export interface CallMediaRecognizeOptions extends OperationOptions {
+    // (undocumented)
+    callbackUrl?: string;
     // (undocumented)
     initialSilenceTimeoutInSeconds?: number;
     // (undocumented)
@@ -242,12 +253,14 @@ export class CallRecording {
 export type CallRejectReason = string;
 
 // @public
-export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation" | "transferee" | "transferTarget"> {
     callConnectionId: string;
     correlationId: string;
     kind: "CallTransferAccepted";
     resultInformation?: ResultInformation;
     serverCallId: string;
+    transferee: CommunicationIdentifier;
+    transferTarget: CommunicationIdentifier;
 }
 
 // @public
@@ -257,6 +270,29 @@ export interface CallTransferFailed extends Omit<RestCallTransferFailed, "callCo
     kind: "CallTransferFailed";
     resultInformation?: ResultInformation;
     serverCallId: string;
+}
+
+// @public
+export interface CancelAddParticipantFailed extends Omit<RestCancelAddParticipantFailed, "callConnectionId" | "serverCallId" | "correlationId" | "invitationId" | "operationContext" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    invitationId: string;
+    kind: "CancelAddParticipantFailed";
+    operationContext?: string;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
+// @public
+export interface CancelAddParticipantOptions extends OperationOptions {
+    callbackUrl?: string;
+    operationContext?: string;
+}
+
+// @public
+export interface CancelAddParticipantResult {
+    invitationId: string;
+    operationContext?: string;
 }
 
 // @public
@@ -275,6 +311,7 @@ export interface Choice {
 
 // @public
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
+    callbackUrl?: string;
     operationContext?: string;
 }
 
@@ -312,20 +349,32 @@ export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuo
 // @public
 export interface CreateCallOptions extends OperationOptions {
     azureCognitiveServicesEndpointUrl?: string;
+    customContext?: CustomContext;
     mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
-    sipHeaders?: {
-        [propertyName: string]: string;
-    };
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
-    voipHeaders?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
 export type CreateCallResult = CallResult;
+
+// @public
+export class CustomContext {
+    constructor(sipHeaders: {
+        [key: string]: string;
+    }, voipHeaders: {
+        [key: string]: string;
+    });
+    // Warning: (ae-forgotten-export) The symbol "CustomContextHeader" needs to be exported by the entry point index.d.ts
+    add(header: CustomContextHeader): void;
+    sipHeaders: {
+        [key: string]: string;
+    };
+    voipHeaders: {
+        [key: string]: string;
+    };
+}
 
 // @public
 export type DeleteRecordingOptions = OperationOptions;
@@ -485,9 +534,8 @@ export interface PlayFailed extends Omit<RestPlayFailed, "callConnectionId" | "s
 
 // @public
 export interface PlayOptions extends OperationOptions {
-    // (undocumented)
+    callbackUrl?: string;
     loop?: boolean;
-    // (undocumented)
     operationContext?: string;
 }
 
@@ -591,7 +639,7 @@ export interface RemoveParticipantResult {
 
 // @public
 export interface RemoveParticipantsOption extends OperationOptions {
-    callbackUrlOverride?: string;
+    callbackUrl?: string;
     operationContext?: string;
 }
 
@@ -606,11 +654,21 @@ export interface RemoveParticipantSucceeded extends Omit<RestRemoveParticipantSu
 }
 
 // @public
+export interface RestAddParticipantCancelled {
+    callConnectionId?: string;
+    correlationId?: string;
+    invitationId?: string;
+    operationContext?: string;
+    // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
+    participant?: CommunicationIdentifierModel;
+    serverCallId?: string;
+}
+
+// @public
 export interface RestAddParticipantFailed {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
-    // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
     participant?: CommunicationIdentifierModel;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
@@ -649,12 +707,24 @@ export interface RestCallTransferAccepted {
     operationContext?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
+    readonly transferee?: CommunicationIdentifierModel;
+    readonly transferTarget?: CommunicationIdentifierModel;
 }
 
 // @public
 export interface RestCallTransferFailed {
     callConnectionId?: string;
     correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestCancelAddParticipantFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    invitationId?: string;
     operationContext?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
@@ -855,7 +925,26 @@ export interface SendDtmfFailed extends Omit<RestSendDtmfFailed, "callConnection
 
 // @public
 export interface SendDtmfOptions extends OperationOptions {
+    callbackUrl?: string;
     operationContext?: string;
+}
+
+// @public
+export interface SIPCustomHeader extends CustomContextHeader {
+}
+
+// @public
+export class SIPCustomHeader implements CustomContextHeader {
+    constructor(key: string, value: string);
+}
+
+// @public
+export interface SIPUserToUserHeader extends CustomContextHeader {
+}
+
+// @public
+export class SIPUserToUserHeader implements CustomContextHeader {
+    constructor(value: string);
 }
 
 // @public
@@ -911,14 +1000,19 @@ export interface TransferCallResult {
 
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
-    callbackUrlOverride?: string;
+    callbackUrl?: string;
+    customContext?: CustomContext;
     operationContext?: string;
-    sipHeaders?: {
-        [propertyName: string]: string;
-    };
-    voipHeaders?: {
-        [propertyName: string]: string;
-    };
+    transferee?: CommunicationIdentifier;
+}
+
+// @public
+export interface VoipHeader extends CustomContextHeader {
+}
+
+// @public
+export class VoipHeader implements CustomContextHeader {
+    constructor(key: string, value: string);
 }
 
 // (No @packageDocumentation comment for this package)

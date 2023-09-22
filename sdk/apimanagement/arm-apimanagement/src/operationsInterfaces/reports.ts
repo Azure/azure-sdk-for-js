@@ -25,7 +25,7 @@ import {
 export interface Reports {
   /**
    * Lists report records by API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter The filter to apply on the operation.
    * @param options The options parameters.
@@ -38,7 +38,7 @@ export interface Reports {
   ): PagedAsyncIterableIterator<ReportRecordContract>;
   /**
    * Lists report records by User.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -63,7 +63,7 @@ export interface Reports {
   ): PagedAsyncIterableIterator<ReportRecordContract>;
   /**
    * Lists report records by API Operations.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -87,7 +87,7 @@ export interface Reports {
   ): PagedAsyncIterableIterator<ReportRecordContract>;
   /**
    * Lists report records by Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -111,7 +111,7 @@ export interface Reports {
   ): PagedAsyncIterableIterator<ReportRecordContract>;
   /**
    * Lists report records by geography.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -135,7 +135,7 @@ export interface Reports {
   ): PagedAsyncIterableIterator<ReportRecordContract>;
   /**
    * Lists report records by subscription.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -159,7 +159,7 @@ export interface Reports {
   ): PagedAsyncIterableIterator<ReportRecordContract>;
   /**
    * Lists report records by Time.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter, select
@@ -187,7 +187,7 @@ export interface Reports {
   ): PagedAsyncIterableIterator<ReportRecordContract>;
   /**
    * Lists report records by Request.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le

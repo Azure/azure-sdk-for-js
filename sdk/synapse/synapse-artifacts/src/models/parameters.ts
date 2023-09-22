@@ -16,6 +16,7 @@ import {
   EditTablesRequest as EditTablesRequestMapper,
   QueryTableStatusRequest as QueryTableStatusRequestMapper,
   UpdateLandingZoneCredential as UpdateLandingZoneCredentialMapper,
+  RunNotebookRequest as RunNotebookRequestMapper,
   KqlScriptResource as KqlScriptResourceMapper,
   ArtifactRenameRequest as ArtifactRenameRequestMapper,
   MetastoreRegisterObject as MetastoreRegisterObjectMapper,
@@ -64,7 +65,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-12-01-preview",
+    defaultValue: "2023-04-18-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -128,7 +129,38 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const runNotebookRequest: OperationParameter = {
+  parameterPath: "runNotebookRequest",
+  mapper: RunNotebookRequestMapper
+};
+
 export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-03-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const runId: OperationURLParameter = {
+  parameterPath: "runId",
+  mapper: {
+    constraints: {
+      MaxLength: 100
+    },
+    serializedName: "runId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion2: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-11-01-preview",
@@ -166,7 +198,7 @@ export const registerBody: OperationParameter = {
   mapper: MetastoreRegisterObjectMapper
 };
 
-export const apiVersion2: OperationQueryParameter = {
+export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-07-01-preview",
@@ -194,7 +226,7 @@ export const updateBody: OperationParameter = {
   mapper: MetastoreUpdateObjectMapper
 };
 
-export const apiVersion3: OperationQueryParameter = {
+export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-06-01-preview",
@@ -247,7 +279,7 @@ export const request: OperationParameter = {
   mapper: ArtifactRenameRequestMapper
 };
 
-export const apiVersion4: OperationQueryParameter = {
+export const apiVersion5: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2020-12-01",
@@ -544,7 +576,7 @@ export const filterParameters: OperationParameter = {
   mapper: RunFilterParametersMapper
 };
 
-export const runId: OperationURLParameter = {
+export const runId1: OperationURLParameter = {
   parameterPath: "runId",
   mapper: {
     serializedName: "runId",

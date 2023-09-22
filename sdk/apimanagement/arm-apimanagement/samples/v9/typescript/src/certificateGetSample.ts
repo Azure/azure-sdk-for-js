@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the details of the certificate specified by its identifier.
  *
  * @summary Gets the details of the certificate specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetCertificate.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetCertificate.json
  */
 async function apiManagementGetCertificate() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function apiManagementGetCertificate() {
  * This sample demonstrates how to Gets the details of the certificate specified by its identifier.
  *
  * @summary Gets the details of the certificate specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetCertificateWithKeyVault.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetCertificateWithKeyVault.json
  */
 async function apiManagementGetCertificateWithKeyVault() {
   const subscriptionId =

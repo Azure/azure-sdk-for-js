@@ -346,9 +346,9 @@ export interface SearchRequest<TModel extends object = never> {
    */
   semanticFields?: string;
   /**
-   * The query parameters for vector and hybrid search queries.
+   * The query parameters for vector, hybrid, and multi-vector search queries.
    */
-  vector?: Vector<TModel>;
+  vectors?: Vector<TModel>[];
 }
 
 /**
@@ -505,11 +505,10 @@ export interface SearchRequestOptions<
    * The list of field names used for semantic search.
    */
   semanticFields?: string[];
-
   /**
-   * The query parameters for vector and hybrid search queries.
+   * The query parameters for vector, hybrid, and multi-vector search queries.
    */
-  vector?: Vector<TModel>;
+  vectors?: Vector<TModel>[];
 }
 
 /**

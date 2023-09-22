@@ -14,8 +14,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PipelineResource,
   PipelineGetPipelinesByWorkspaceNextOptionalParams,
@@ -133,8 +137,8 @@ export class PipelineOperationsImpl implements PipelineOperations {
     pipeline: PipelineResource,
     options?: PipelineCreateOrUpdatePipelineOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PipelineCreateOrUpdatePipelineResponse>,
+    SimplePollerLike<
+      OperationState<PipelineCreateOrUpdatePipelineResponse>,
       PipelineCreateOrUpdatePipelineResponse
     >
   > {
@@ -152,7 +156,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -185,13 +189,16 @@ export class PipelineOperationsImpl implements PipelineOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { pipelineName, pipeline, options },
-      createOrUpdatePipelineOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { pipelineName, pipeline, options },
+      spec: createOrUpdatePipelineOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PipelineCreateOrUpdatePipelineResponse,
+      OperationState<PipelineCreateOrUpdatePipelineResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -246,7 +253,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
   async beginDeletePipeline(
     pipelineName: string,
     options?: PipelineDeletePipelineOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -259,7 +266,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -292,13 +299,13 @@ export class PipelineOperationsImpl implements PipelineOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { pipelineName, options },
-      deletePipelineOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { pipelineName, options },
+      spec: deletePipelineOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -328,7 +335,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
     pipelineName: string,
     request: ArtifactRenameRequest,
     options?: PipelineRenamePipelineOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -341,7 +348,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -374,13 +381,13 @@ export class PipelineOperationsImpl implements PipelineOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { pipelineName, request, options },
-      renamePipelineOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { pipelineName, request, options },
+      spec: renamePipelineOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -463,7 +470,7 @@ const getPipelinesByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -489,7 +496,7 @@ const createOrUpdatePipelineOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.pipeline,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.pipelineName],
   headerParameters: [
     Parameters.accept,
@@ -511,7 +518,7 @@ const getPipelineOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.pipelineName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -528,7 +535,7 @@ const deletePipelineOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.pipelineName],
   headerParameters: [Parameters.accept],
   serializer
@@ -546,7 +553,7 @@ const renamePipelineOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.pipelineName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -565,7 +572,7 @@ const createPipelineRunOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters,
   queryParameters: [
-    Parameters.apiVersion4,
+    Parameters.apiVersion5,
     Parameters.referencePipelineRunId,
     Parameters.isRecovery,
     Parameters.startActivityName

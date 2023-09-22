@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PacketCoreDataPlane,
   PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams,
@@ -47,7 +47,7 @@ export interface PacketCoreDataPlanes {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     options?: PacketCoreDataPlanesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified packet core data plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -90,8 +90,8 @@ export interface PacketCoreDataPlanes {
     parameters: PacketCoreDataPlane,
     options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PacketCoreDataPlanesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PacketCoreDataPlanesCreateOrUpdateResponse>,
       PacketCoreDataPlanesCreateOrUpdateResponse
     >
   >;

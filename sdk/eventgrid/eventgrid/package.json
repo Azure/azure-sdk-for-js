@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Event Grid service.",
-  "version": "4.13.1",
+  "version": "4.14.0",
   "keywords": [
     "node",
     "azure",
@@ -110,7 +110,7 @@
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",
-    "@types/sinon": "^9.0.4",
+    "@types/sinon": "^10.0.0",
     "@types/uuid": "^8.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -131,7 +131,7 @@
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "sinon": "^9.0.2",
+    "sinon": "^15.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
     "typescript": "~5.0.0"

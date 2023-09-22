@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists managed clusters in the specified subscription and resource group.
  *
  * @summary Lists managed clusters in the specified subscription and resource group.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-05-02-preview/examples/ManagedClustersListByResourceGroup.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-07-02-preview/examples/ManagedClustersListByResourceGroup.json
  */
 async function getManagedClustersByResourceGroup() {
   const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";

@@ -22,7 +22,7 @@ async function listRouterJobs(): Promise<void> {
   const receivedPagedItems: RouterJobItem[] = [];
 
   for await (const page of routerClient
-    .listJobs({ jobStateSelector: "queued", maxpagesize: maxPageSize })
+    .listJobs({ statusSelector: "queued", maxPageSize })
     .byPage()) {
     ++pagesCount;
     console.log("page: " + pagesCount);

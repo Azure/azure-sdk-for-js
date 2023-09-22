@@ -29,7 +29,8 @@ function delay<T>(t: number, value?: T): Promise<T | void> {
 }
 
 const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
-  instrumentationKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",
+  instrumentationKey:
+    process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
   sampleRate: 100,
 };
 
@@ -106,7 +107,7 @@ export class TraceBasicScenario implements Scenario {
         baseType: "MetricData",
         baseData: {
           version: 2,
-          metrics: [{ name: "_APPRESOURCEPREVIEW_", value: 1 }],
+          metrics: [{ name: "_OTELRESOURCE_", value: 1 }],
           properties: {
             "service.name": "testServiceName",
             "k8s.cluster.name": "testClusterName",

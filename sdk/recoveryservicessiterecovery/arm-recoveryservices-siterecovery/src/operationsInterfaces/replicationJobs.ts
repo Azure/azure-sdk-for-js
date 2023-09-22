@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Job,
   ReplicationJobsListOptionalParams,
@@ -68,8 +68,8 @@ export interface ReplicationJobs {
     jobName: string,
     options?: ReplicationJobsCancelOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsCancelResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsCancelResponse>,
       ReplicationJobsCancelResponse
     >
   >;
@@ -101,8 +101,8 @@ export interface ReplicationJobs {
     jobName: string,
     options?: ReplicationJobsRestartOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsRestartResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsRestartResponse>,
       ReplicationJobsRestartResponse
     >
   >;
@@ -136,8 +136,8 @@ export interface ReplicationJobs {
     resumeJobParams: ResumeJobParams,
     options?: ReplicationJobsResumeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsResumeResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsResumeResponse>,
       ReplicationJobsResumeResponse
     >
   >;
@@ -171,8 +171,8 @@ export interface ReplicationJobs {
     jobQueryParameter: JobQueryParameter,
     options?: ReplicationJobsExportOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsExportResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsExportResponse>,
       ReplicationJobsExportResponse
     >
   >;

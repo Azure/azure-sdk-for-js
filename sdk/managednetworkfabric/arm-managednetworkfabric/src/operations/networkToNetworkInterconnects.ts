@@ -21,15 +21,23 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   NetworkToNetworkInterconnect,
-  NetworkToNetworkInterconnectsListNextOptionalParams,
-  NetworkToNetworkInterconnectsListOptionalParams,
-  NetworkToNetworkInterconnectsListResponse,
+  NetworkToNetworkInterconnectsListByNetworkFabricNextOptionalParams,
+  NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams,
+  NetworkToNetworkInterconnectsListByNetworkFabricResponse,
   NetworkToNetworkInterconnectsCreateOptionalParams,
   NetworkToNetworkInterconnectsCreateResponse,
   NetworkToNetworkInterconnectsGetOptionalParams,
   NetworkToNetworkInterconnectsGetResponse,
+  NetworkToNetworkInterconnectPatch,
+  NetworkToNetworkInterconnectsUpdateOptionalParams,
+  NetworkToNetworkInterconnectsUpdateResponse,
   NetworkToNetworkInterconnectsDeleteOptionalParams,
-  NetworkToNetworkInterconnectsListNextResponse
+  UpdateAdministrativeState,
+  NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
+  NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse,
+  NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
+  NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse,
+  NetworkToNetworkInterconnectsListByNetworkFabricNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,15 +57,15 @@ export class NetworkToNetworkInterconnectsImpl
   /**
    * Implements Network To Network Interconnects list by Network Fabric GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
-  public list(
+  public listByNetworkFabric(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkToNetworkInterconnectsListOptionalParams
+    options?: NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams
   ): PagedAsyncIterableIterator<NetworkToNetworkInterconnect> {
-    const iter = this.listPagingAll(
+    const iter = this.listByNetworkFabricPagingAll(
       resourceGroupName,
       networkFabricName,
       options
@@ -73,7 +81,7 @@ export class NetworkToNetworkInterconnectsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listByNetworkFabricPagingPage(
           resourceGroupName,
           networkFabricName,
           options,
@@ -83,23 +91,27 @@ export class NetworkToNetworkInterconnectsImpl
     };
   }
 
-  private async *listPagingPage(
+  private async *listByNetworkFabricPagingPage(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkToNetworkInterconnectsListOptionalParams,
+    options?: NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<NetworkToNetworkInterconnect[]> {
-    let result: NetworkToNetworkInterconnectsListResponse;
+    let result: NetworkToNetworkInterconnectsListByNetworkFabricResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, networkFabricName, options);
+      result = await this._listByNetworkFabric(
+        resourceGroupName,
+        networkFabricName,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
+      result = await this._listByNetworkFabricNext(
         resourceGroupName,
         networkFabricName,
         continuationToken,
@@ -112,12 +124,12 @@ export class NetworkToNetworkInterconnectsImpl
     }
   }
 
-  private async *listPagingAll(
+  private async *listByNetworkFabricPagingAll(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkToNetworkInterconnectsListOptionalParams
+    options?: NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams
   ): AsyncIterableIterator<NetworkToNetworkInterconnect> {
-    for await (const page of this.listPagingPage(
+    for await (const page of this.listByNetworkFabricPagingPage(
       resourceGroupName,
       networkFabricName,
       options
@@ -129,8 +141,8 @@ export class NetworkToNetworkInterconnectsImpl
   /**
    * Configuration used to setup CE-PE connectivity PUT Method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
-   * @param networkToNetworkInterconnectName Name of the NetworkToNetworkInterconnectName
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -211,8 +223,8 @@ export class NetworkToNetworkInterconnectsImpl
   /**
    * Configuration used to setup CE-PE connectivity PUT Method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
-   * @param networkToNetworkInterconnectName Name of the NetworkToNetworkInterconnectName
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -236,8 +248,8 @@ export class NetworkToNetworkInterconnectsImpl
   /**
    * Implements NetworkToNetworkInterconnects GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
-   * @param networkToNetworkInterconnectName Name of the NetworkToNetworkInterconnect
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
    * @param options The options parameters.
    */
   get(
@@ -258,10 +270,117 @@ export class NetworkToNetworkInterconnectsImpl
   }
 
   /**
+   * Update certain properties of the Network To NetworkInterconnects resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
+   * @param body Network to Network Interconnect properties to update.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    networkFabricName: string,
+    networkToNetworkInterconnectName: string,
+    body: NetworkToNetworkInterconnectPatch,
+    options?: NetworkToNetworkInterconnectsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkToNetworkInterconnectsUpdateResponse>,
+      NetworkToNetworkInterconnectsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<NetworkToNetworkInterconnectsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        networkFabricName,
+        networkToNetworkInterconnectName,
+        body,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkToNetworkInterconnectsUpdateResponse,
+      OperationState<NetworkToNetworkInterconnectsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update certain properties of the Network To NetworkInterconnects resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
+   * @param body Network to Network Interconnect properties to update.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    networkToNetworkInterconnectName: string,
+    body: NetworkToNetworkInterconnectPatch,
+    options?: NetworkToNetworkInterconnectsUpdateOptionalParams
+  ): Promise<NetworkToNetworkInterconnectsUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      networkFabricName,
+      networkToNetworkInterconnectName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Implements NetworkToNetworkInterconnects DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
-   * @param networkToNetworkInterconnectName Name of the NetworkToNetworkInterconnectName
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -331,8 +450,8 @@ export class NetworkToNetworkInterconnectsImpl
   /**
    * Implements NetworkToNetworkInterconnects DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
-   * @param networkToNetworkInterconnectName Name of the NetworkToNetworkInterconnectName
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -353,36 +472,260 @@ export class NetworkToNetworkInterconnectsImpl
   /**
    * Implements Network To Network Interconnects list by Network Fabric GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
-  private _list(
+  private _listByNetworkFabric(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkToNetworkInterconnectsListOptionalParams
-  ): Promise<NetworkToNetworkInterconnectsListResponse> {
+    options?: NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams
+  ): Promise<NetworkToNetworkInterconnectsListByNetworkFabricResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkFabricName, options },
-      listOperationSpec
+      listByNetworkFabricOperationSpec
     );
   }
 
   /**
-   * ListNext
+   * Updates the NPB Static Route BFD Administrative State.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
+   * @param body Request payload.
    * @param options The options parameters.
    */
-  private _listNext(
+  async beginUpdateNpbStaticRouteBfdAdministrativeState(
+    resourceGroupName: string,
+    networkFabricName: string,
+    networkToNetworkInterconnectName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<
+        NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse
+      >,
+      NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        networkFabricName,
+        networkToNetworkInterconnectName,
+        body,
+        options
+      },
+      spec: updateNpbStaticRouteBfdAdministrativeStateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse,
+      OperationState<
+        NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates the NPB Static Route BFD Administrative State.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateNpbStaticRouteBfdAdministrativeStateAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    networkToNetworkInterconnectName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams
+  ): Promise<
+    NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse
+  > {
+    const poller = await this.beginUpdateNpbStaticRouteBfdAdministrativeState(
+      resourceGroupName,
+      networkFabricName,
+      networkToNetworkInterconnectName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Updates the Admin State.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateAdministrativeState(
+    resourceGroupName: string,
+    networkFabricName: string,
+    networkToNetworkInterconnectName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<
+        NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse
+      >,
+      NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        networkFabricName,
+        networkToNetworkInterconnectName,
+        body,
+        options
+      },
+      spec: updateAdministrativeStateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse,
+      OperationState<
+        NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates the Admin State.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateAdministrativeStateAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    networkToNetworkInterconnectName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams
+  ): Promise<NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse> {
+    const poller = await this.beginUpdateAdministrativeState(
+      resourceGroupName,
+      networkFabricName,
+      networkToNetworkInterconnectName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * ListByNetworkFabricNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param nextLink The nextLink from the previous successful call to the ListByNetworkFabric method.
+   * @param options The options parameters.
+   */
+  private _listByNetworkFabricNext(
     resourceGroupName: string,
     networkFabricName: string,
     nextLink: string,
-    options?: NetworkToNetworkInterconnectsListNextOptionalParams
-  ): Promise<NetworkToNetworkInterconnectsListNextResponse> {
+    options?: NetworkToNetworkInterconnectsListByNetworkFabricNextOptionalParams
+  ): Promise<NetworkToNetworkInterconnectsListByNetworkFabricNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkFabricName, nextLink, options },
-      listNextOperationSpec
+      listByNetworkFabricNextOperationSpec
     );
   }
 }
@@ -410,7 +753,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body28,
+  requestBody: Parameters.body35,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -446,6 +789,40 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkToNetworkInterconnect
+    },
+    201: {
+      bodyMapper: Mappers.NetworkToNetworkInterconnect
+    },
+    202: {
+      bodyMapper: Mappers.NetworkToNetworkInterconnect
+    },
+    204: {
+      bodyMapper: Mappers.NetworkToNetworkInterconnect
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body36,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkFabricName,
+    Parameters.networkToNetworkInterconnectName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}",
@@ -470,7 +847,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listOperationSpec: coreClient.OperationSpec = {
+const listByNetworkFabricOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects",
   httpMethod: "GET",
@@ -492,7 +869,75 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const updateNpbStaticRouteBfdAdministrativeStateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}/updateNpbStaticRouteBfdAdministrativeState",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    201: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    202: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    204: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkFabricName,
+    Parameters.networkToNetworkInterconnectName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}/updateAdministrativeState",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    201: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    202: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    204: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkFabricName,
+    Parameters.networkToNetworkInterconnectName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const listByNetworkFabricNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

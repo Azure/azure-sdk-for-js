@@ -189,22 +189,27 @@ const client = new AppConfigurationClient(
   "<App Configuration connection string goes here>"
 );
 
-const key = "testkey";
-const value = "testvalue";
-const label = "optional-label";
 
-await client.addConfigurationSetting({
-  key,
-  value,
-  label
-});
+async function run() {
+  const key = "testkey";
+  const value = "testvalue";
+  const label = "optional-label";
 
-const poller = await this.beginCreateSnapshot({
-  name:"testsnapshot",
-  retentionPeriod: 2592000,
-  filters: [{key, label}],
-});
-const snapshot = await poller.pollUntilDone();
+  await client.addConfigurationSetting({
+    key,
+    value,
+    label
+  });
+
+  const poller = await client.beginCreateSnapshot({
+    name:"testsnapshot",
+    retentionPeriod: 2592000,
+    filters: [{key, label}],
+  });
+  const snapshot = await poller.pollUntilDone();
+}
+
+run().catch((err) => console.log("ERROR:", err));
 ```
 
 You can also use `beginCreateSnapshotAndWait` to have the result of the creation directly after the polling is done.
@@ -225,9 +230,7 @@ console.log("Retrieved snapshot:", retrievedSnapshot);
 
 ### List the `ConfigurationSetting` in the snapshot
 ```javascript
-let retrievedSnapshotSettings = await client.listConfigurationSettings({
-  snapshotFilter: "testsnapshot"
-});
+let retrievedSnapshotSettings = await client.listConfigurationSettingsForSnapshot("testsnapshot");
 
 for await (const setting of retrievedSnapshotSettings) {
   console.log(`Found key: ${setting.key}, label: ${setting.label}`);
@@ -246,11 +249,11 @@ for await (const snapshot of snapshots) {
 ### Recover and archive the snapshot
 ```javascript
 // Snapshot is in ready status
-let archivedSnapshot = await client.archiveSnapshot("testsnapshot");
+let archivedSnapshot = await client.archiveSnapshot({name: "testsnapshot"});
 console.log("Snapshot updated status is:", archivedSnapshot.status);
 
 // Snapshot is in archive status
-let recoverSnapshot = await client.recoverSnapshot("testsnapshot");
+let recoverSnapshot = await client.recoverSnapshot({name: "testsnapshot"});
 console.log("Snapshot updated status is:", recoverSnapshot.status);
 ```
 ## Troubleshooting

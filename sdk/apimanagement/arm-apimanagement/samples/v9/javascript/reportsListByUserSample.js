@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists report records by User.
  *
  * @summary Lists report records by User.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetReportsByUser.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetReportsByUser.json
  */
 async function apiManagementGetReportsByUser() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

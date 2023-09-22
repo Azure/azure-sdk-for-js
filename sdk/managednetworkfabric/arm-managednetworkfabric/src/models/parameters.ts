@@ -14,6 +14,11 @@ import {
 import {
   AccessControlList as AccessControlListMapper,
   AccessControlListPatch as AccessControlListPatchMapper,
+  UpdateAdministrativeState as UpdateAdministrativeStateMapper,
+  InternetGateway as InternetGatewayMapper,
+  InternetGatewayPatch as InternetGatewayPatchMapper,
+  InternetGatewayRule as InternetGatewayRuleMapper,
+  InternetGatewayRulePatch as InternetGatewayRulePatchMapper,
   IpCommunity as IpCommunityMapper,
   IpCommunityPatch as IpCommunityPatchMapper,
   IpExtendedCommunity as IpExtendedCommunityMapper,
@@ -22,27 +27,36 @@ import {
   IpPrefixPatch as IpPrefixPatchMapper,
   L2IsolationDomain as L2IsolationDomainMapper,
   L2IsolationDomainPatch as L2IsolationDomainPatchMapper,
-  UpdateAdministrativeState as UpdateAdministrativeStateMapper,
-  EnableDisableOnResources as EnableDisableOnResourcesMapper,
   L3IsolationDomain as L3IsolationDomainMapper,
   L3IsolationDomainPatch as L3IsolationDomainPatchMapper,
   InternalNetwork as InternalNetworkMapper,
   InternalNetworkPatch as InternalNetworkPatchMapper,
   ExternalNetwork as ExternalNetworkMapper,
   ExternalNetworkPatch as ExternalNetworkPatchMapper,
+  NeighborGroup as NeighborGroupMapper,
+  NeighborGroupPatch as NeighborGroupPatchMapper,
   NetworkDevice as NetworkDeviceMapper,
   NetworkDevicePatchParameters as NetworkDevicePatchParametersMapper,
-  UpdateVersionProperties as UpdateVersionPropertiesMapper,
-  UpdatePowerCycleProperties as UpdatePowerCyclePropertiesMapper,
+  RebootProperties as RebootPropertiesMapper,
+  UpdateDeviceAdministrativeState as UpdateDeviceAdministrativeStateMapper,
+  UpdateVersion as UpdateVersionMapper,
   NetworkInterface as NetworkInterfaceMapper,
   NetworkInterfacePatch as NetworkInterfacePatchMapper,
   NetworkFabricController as NetworkFabricControllerMapper,
   NetworkFabricControllerPatch as NetworkFabricControllerPatchMapper,
   NetworkFabric as NetworkFabricMapper,
-  NetworkFabricPatchParameters as NetworkFabricPatchParametersMapper,
+  NetworkFabricPatch as NetworkFabricPatchMapper,
+  ValidateConfigurationProperties as ValidateConfigurationPropertiesMapper,
   NetworkToNetworkInterconnect as NetworkToNetworkInterconnectMapper,
+  NetworkToNetworkInterconnectPatch as NetworkToNetworkInterconnectPatchMapper,
+  NetworkPacketBroker as NetworkPacketBrokerMapper,
+  NetworkPacketBrokerPatch as NetworkPacketBrokerPatchMapper,
   NetworkRack as NetworkRackMapper,
-  NetworkRackPatch as NetworkRackPatchMapper,
+  TagsUpdate as TagsUpdateMapper,
+  NetworkTapRule as NetworkTapRuleMapper,
+  NetworkTapRulePatch as NetworkTapRulePatchMapper,
+  NetworkTap as NetworkTapMapper,
+  NetworkTapPatch as NetworkTapPatchMapper,
   RoutePolicy as RoutePolicyMapper,
   RoutePolicyPatch as RoutePolicyPatchMapper
 } from "../models/mappers";
@@ -91,13 +105,10 @@ export const $host: OperationURLParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
@@ -120,7 +131,7 @@ export const resourceGroupName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-02-01-preview",
+    defaultValue: "2023-06-15",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -145,6 +156,11 @@ export const body1: OperationParameter = {
   mapper: AccessControlListPatchMapper
 };
 
+export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: UpdateAdministrativeStateMapper
+};
+
 export const nextLink: OperationURLParameter = {
   parameterPath: "nextLink",
   mapper: {
@@ -157,7 +173,49 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const body2: OperationParameter = {
+export const body3: OperationParameter = {
+  parameterPath: "body",
+  mapper: InternetGatewayMapper
+};
+
+export const internetGatewayName: OperationURLParameter = {
+  parameterPath: "internetGatewayName",
+  mapper: {
+    serializedName: "internetGatewayName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body4: OperationParameter = {
+  parameterPath: "body",
+  mapper: InternetGatewayPatchMapper
+};
+
+export const body5: OperationParameter = {
+  parameterPath: "body",
+  mapper: InternetGatewayRuleMapper
+};
+
+export const internetGatewayRuleName: OperationURLParameter = {
+  parameterPath: "internetGatewayRuleName",
+  mapper: {
+    serializedName: "internetGatewayRuleName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body6: OperationParameter = {
+  parameterPath: "body",
+  mapper: InternetGatewayRulePatchMapper
+};
+
+export const body7: OperationParameter = {
   parameterPath: "body",
   mapper: IpCommunityMapper
 };
@@ -173,12 +231,12 @@ export const ipCommunityName: OperationURLParameter = {
   }
 };
 
-export const body3: OperationParameter = {
+export const body8: OperationParameter = {
   parameterPath: "body",
   mapper: IpCommunityPatchMapper
 };
 
-export const body4: OperationParameter = {
+export const body9: OperationParameter = {
   parameterPath: "body",
   mapper: IpExtendedCommunityMapper
 };
@@ -194,12 +252,12 @@ export const ipExtendedCommunityName: OperationURLParameter = {
   }
 };
 
-export const body5: OperationParameter = {
+export const body10: OperationParameter = {
   parameterPath: "body",
   mapper: IpExtendedCommunityPatchMapper
 };
 
-export const body6: OperationParameter = {
+export const body11: OperationParameter = {
   parameterPath: "body",
   mapper: IpPrefixMapper
 };
@@ -215,12 +273,12 @@ export const ipPrefixName: OperationURLParameter = {
   }
 };
 
-export const body7: OperationParameter = {
+export const body12: OperationParameter = {
   parameterPath: "body",
   mapper: IpPrefixPatchMapper
 };
 
-export const body8: OperationParameter = {
+export const body13: OperationParameter = {
   parameterPath: "body",
   mapper: L2IsolationDomainMapper
 };
@@ -236,22 +294,12 @@ export const l2IsolationDomainName: OperationURLParameter = {
   }
 };
 
-export const body9: OperationParameter = {
+export const body14: OperationParameter = {
   parameterPath: "body",
   mapper: L2IsolationDomainPatchMapper
 };
 
-export const body10: OperationParameter = {
-  parameterPath: "body",
-  mapper: UpdateAdministrativeStateMapper
-};
-
-export const body11: OperationParameter = {
-  parameterPath: "body",
-  mapper: EnableDisableOnResourcesMapper
-};
-
-export const body12: OperationParameter = {
+export const body15: OperationParameter = {
   parameterPath: "body",
   mapper: L3IsolationDomainMapper
 };
@@ -267,12 +315,12 @@ export const l3IsolationDomainName: OperationURLParameter = {
   }
 };
 
-export const body13: OperationParameter = {
+export const body16: OperationParameter = {
   parameterPath: "body",
   mapper: L3IsolationDomainPatchMapper
 };
 
-export const body14: OperationParameter = {
+export const body17: OperationParameter = {
   parameterPath: "body",
   mapper: InternalNetworkMapper
 };
@@ -288,12 +336,12 @@ export const internalNetworkName: OperationURLParameter = {
   }
 };
 
-export const body15: OperationParameter = {
+export const body18: OperationParameter = {
   parameterPath: "body",
   mapper: InternalNetworkPatchMapper
 };
 
-export const body16: OperationParameter = {
+export const body19: OperationParameter = {
   parameterPath: "body",
   mapper: ExternalNetworkMapper
 };
@@ -309,9 +357,30 @@ export const externalNetworkName: OperationURLParameter = {
   }
 };
 
-export const body17: OperationParameter = {
+export const body20: OperationParameter = {
   parameterPath: "body",
   mapper: ExternalNetworkPatchMapper
+};
+
+export const body21: OperationParameter = {
+  parameterPath: "body",
+  mapper: NeighborGroupMapper
+};
+
+export const neighborGroupName: OperationURLParameter = {
+  parameterPath: "neighborGroupName",
+  mapper: {
+    serializedName: "neighborGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body22: OperationParameter = {
+  parameterPath: "body",
+  mapper: NeighborGroupPatchMapper
 };
 
 export const networkDeviceSkuName: OperationURLParameter = {
@@ -325,7 +394,7 @@ export const networkDeviceSkuName: OperationURLParameter = {
   }
 };
 
-export const body18: OperationParameter = {
+export const body23: OperationParameter = {
   parameterPath: "body",
   mapper: NetworkDeviceMapper
 };
@@ -341,22 +410,27 @@ export const networkDeviceName: OperationURLParameter = {
   }
 };
 
-export const body19: OperationParameter = {
+export const body24: OperationParameter = {
   parameterPath: "body",
   mapper: NetworkDevicePatchParametersMapper
 };
 
-export const body20: OperationParameter = {
+export const body25: OperationParameter = {
   parameterPath: "body",
-  mapper: UpdateVersionPropertiesMapper
+  mapper: RebootPropertiesMapper
 };
 
-export const body21: OperationParameter = {
+export const body26: OperationParameter = {
   parameterPath: "body",
-  mapper: UpdatePowerCyclePropertiesMapper
+  mapper: UpdateDeviceAdministrativeStateMapper
 };
 
-export const body22: OperationParameter = {
+export const body27: OperationParameter = {
+  parameterPath: "body",
+  mapper: UpdateVersionMapper
+};
+
+export const body28: OperationParameter = {
   parameterPath: "body",
   mapper: NetworkInterfaceMapper
 };
@@ -372,12 +446,12 @@ export const networkInterfaceName: OperationURLParameter = {
   }
 };
 
-export const body23: OperationParameter = {
+export const body29: OperationParameter = {
   parameterPath: "body",
   mapper: NetworkInterfacePatchMapper
 };
 
-export const body24: OperationParameter = {
+export const body30: OperationParameter = {
   parameterPath: "body",
   mapper: NetworkFabricControllerMapper
 };
@@ -393,7 +467,7 @@ export const networkFabricControllerName: OperationURLParameter = {
   }
 };
 
-export const body25: OperationParameter = {
+export const body31: OperationParameter = {
   parameterPath: "body",
   mapper: NetworkFabricControllerPatchMapper
 };
@@ -409,7 +483,7 @@ export const networkFabricSkuName: OperationURLParameter = {
   }
 };
 
-export const body26: OperationParameter = {
+export const body32: OperationParameter = {
   parameterPath: "body",
   mapper: NetworkFabricMapper
 };
@@ -425,12 +499,17 @@ export const networkFabricName: OperationURLParameter = {
   }
 };
 
-export const body27: OperationParameter = {
+export const body33: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkFabricPatchParametersMapper
+  mapper: NetworkFabricPatchMapper
 };
 
-export const body28: OperationParameter = {
+export const body34: OperationParameter = {
+  parameterPath: "body",
+  mapper: ValidateConfigurationPropertiesMapper
+};
+
+export const body35: OperationParameter = {
   parameterPath: "body",
   mapper: NetworkToNetworkInterconnectMapper
 };
@@ -446,10 +525,20 @@ export const networkToNetworkInterconnectName: OperationURLParameter = {
   }
 };
 
-export const networkRackSkuName: OperationURLParameter = {
-  parameterPath: "networkRackSkuName",
+export const body36: OperationParameter = {
+  parameterPath: "body",
+  mapper: NetworkToNetworkInterconnectPatchMapper
+};
+
+export const body37: OperationParameter = {
+  parameterPath: "body",
+  mapper: NetworkPacketBrokerMapper
+};
+
+export const networkPacketBrokerName: OperationURLParameter = {
+  parameterPath: "networkPacketBrokerName",
   mapper: {
-    serializedName: "networkRackSkuName",
+    serializedName: "networkPacketBrokerName",
     required: true,
     type: {
       name: "String"
@@ -457,7 +546,12 @@ export const networkRackSkuName: OperationURLParameter = {
   }
 };
 
-export const body29: OperationParameter = {
+export const body38: OperationParameter = {
+  parameterPath: "body",
+  mapper: NetworkPacketBrokerPatchMapper
+};
+
+export const body39: OperationParameter = {
   parameterPath: "body",
   mapper: NetworkRackMapper
 };
@@ -473,12 +567,54 @@ export const networkRackName: OperationURLParameter = {
   }
 };
 
-export const body30: OperationParameter = {
+export const body40: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkRackPatchMapper
+  mapper: TagsUpdateMapper
 };
 
-export const body31: OperationParameter = {
+export const body41: OperationParameter = {
+  parameterPath: "body",
+  mapper: NetworkTapRuleMapper
+};
+
+export const networkTapRuleName: OperationURLParameter = {
+  parameterPath: "networkTapRuleName",
+  mapper: {
+    serializedName: "networkTapRuleName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body42: OperationParameter = {
+  parameterPath: "body",
+  mapper: NetworkTapRulePatchMapper
+};
+
+export const body43: OperationParameter = {
+  parameterPath: "body",
+  mapper: NetworkTapMapper
+};
+
+export const networkTapName: OperationURLParameter = {
+  parameterPath: "networkTapName",
+  mapper: {
+    serializedName: "networkTapName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body44: OperationParameter = {
+  parameterPath: "body",
+  mapper: NetworkTapPatchMapper
+};
+
+export const body45: OperationParameter = {
   parameterPath: "body",
   mapper: RoutePolicyMapper
 };
@@ -494,7 +630,7 @@ export const routePolicyName: OperationURLParameter = {
   }
 };
 
-export const body32: OperationParameter = {
+export const body46: OperationParameter = {
   parameterPath: "body",
   mapper: RoutePolicyPatchMapper
 };

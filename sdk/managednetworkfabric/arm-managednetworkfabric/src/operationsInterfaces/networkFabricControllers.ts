@@ -20,10 +20,7 @@ import {
   NetworkFabricControllersUpdateOptionalParams,
   NetworkFabricControllersUpdateResponse,
   NetworkFabricControllersDeleteOptionalParams,
-  NetworkFabricControllersEnableWorkloadManagementNetworkOptionalParams,
-  NetworkFabricControllersEnableWorkloadManagementNetworkResponse,
-  NetworkFabricControllersDisableWorkloadManagementNetworkOptionalParams,
-  NetworkFabricControllersDisableWorkloadManagementNetworkResponse
+  NetworkFabricControllersDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,7 +45,7 @@ export interface NetworkFabricControllers {
   /**
    * Creates a Network Fabric Controller.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the Network Fabric Controller
+   * @param networkFabricControllerName Name of the Network Fabric Controller.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -66,7 +63,7 @@ export interface NetworkFabricControllers {
   /**
    * Creates a Network Fabric Controller.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the Network Fabric Controller
+   * @param networkFabricControllerName Name of the Network Fabric Controller.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -79,7 +76,7 @@ export interface NetworkFabricControllers {
   /**
    * Shows the provisioning status of Network Fabric Controller.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the Network Fabric Controller
+   * @param networkFabricControllerName Name of the Network Fabric Controller.
    * @param options The options parameters.
    */
   get(
@@ -90,7 +87,7 @@ export interface NetworkFabricControllers {
   /**
    * Updates are currently not supported for the Network Fabric Controller resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the Network Fabric Controller
+   * @param networkFabricControllerName Name of the Network Fabric Controller.
    * @param body Network Fabric Controller properties to update.
    * @param options The options parameters.
    */
@@ -108,7 +105,7 @@ export interface NetworkFabricControllers {
   /**
    * Updates are currently not supported for the Network Fabric Controller resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the Network Fabric Controller
+   * @param networkFabricControllerName Name of the Network Fabric Controller.
    * @param body Network Fabric Controller properties to update.
    * @param options The options parameters.
    */
@@ -121,81 +118,28 @@ export interface NetworkFabricControllers {
   /**
    * Deletes the Network Fabric Controller resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the Network Fabric Controller
+   * @param networkFabricControllerName Name of the Network Fabric Controller.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     networkFabricControllerName: string,
     options?: NetworkFabricControllersDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkFabricControllersDeleteResponse>,
+      NetworkFabricControllersDeleteResponse
+    >
+  >;
   /**
    * Deletes the Network Fabric Controller resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the Network Fabric Controller
+   * @param networkFabricControllerName Name of the Network Fabric Controller.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     networkFabricControllerName: string,
     options?: NetworkFabricControllersDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Enables the workloadManagementNetwork (Tenant Network).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the networkFabricController.
-   * @param options The options parameters.
-   */
-  beginEnableWorkloadManagementNetwork(
-    resourceGroupName: string,
-    networkFabricControllerName: string,
-    options?: NetworkFabricControllersEnableWorkloadManagementNetworkOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<
-        NetworkFabricControllersEnableWorkloadManagementNetworkResponse
-      >,
-      NetworkFabricControllersEnableWorkloadManagementNetworkResponse
-    >
-  >;
-  /**
-   * Enables the workloadManagementNetwork (Tenant Network).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the networkFabricController.
-   * @param options The options parameters.
-   */
-  beginEnableWorkloadManagementNetworkAndWait(
-    resourceGroupName: string,
-    networkFabricControllerName: string,
-    options?: NetworkFabricControllersEnableWorkloadManagementNetworkOptionalParams
-  ): Promise<NetworkFabricControllersEnableWorkloadManagementNetworkResponse>;
-  /**
-   * Disables the workloadManagementNetwork (Tenant Network).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the networkFabricController.
-   * @param options The options parameters.
-   */
-  beginDisableWorkloadManagementNetwork(
-    resourceGroupName: string,
-    networkFabricControllerName: string,
-    options?: NetworkFabricControllersDisableWorkloadManagementNetworkOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<
-        NetworkFabricControllersDisableWorkloadManagementNetworkResponse
-      >,
-      NetworkFabricControllersDisableWorkloadManagementNetworkResponse
-    >
-  >;
-  /**
-   * Disables the workloadManagementNetwork (Tenant Network).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricControllerName Name of the networkFabricController.
-   * @param options The options parameters.
-   */
-  beginDisableWorkloadManagementNetworkAndWait(
-    resourceGroupName: string,
-    networkFabricControllerName: string,
-    options?: NetworkFabricControllersDisableWorkloadManagementNetworkOptionalParams
-  ): Promise<NetworkFabricControllersDisableWorkloadManagementNetworkResponse>;
+  ): Promise<NetworkFabricControllersDeleteResponse>;
 }

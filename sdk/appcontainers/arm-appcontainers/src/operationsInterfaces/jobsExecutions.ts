@@ -15,7 +15,7 @@ export interface JobsExecutions {
   /**
    * Get a Container Apps Job's executions
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   list(

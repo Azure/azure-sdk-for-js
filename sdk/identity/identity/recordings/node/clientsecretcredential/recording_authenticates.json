@@ -7,7 +7,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "User-Agent": "User-Agent",
-        "x-ms-client-request-id": "aecf9e7c-bd9d-49db-ab89-7dda886e7aa4"
+        "x-ms-client-request-id": "5e463a20-bd38-4bbb-887b-a5a0bb10e7e9"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,18 +17,14 @@
         "Cache-Control": "max-age=86400, private",
         "Content-Length": "980",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Mar 2022 00:51:32 GMT",
+        "Date": "Thu, 03 Aug 2023 00:44:55 GMT",
         "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
-        "Set-Cookie": [
-          "fpc=fpc; expires=Thu, 31-Mar-2022 00:51:33 GMT; path=/; secure; HttpOnly; SameSite=None",
-          "esctx=esctx; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None",
-          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
-          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
-        ],
+        "Set-Cookie": "fpc=secret_cookie; expires=Sat, 02-Sep-2023 00:44:56 GMT; path=/; secure; HttpOnly; SameSite=None",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-ests-server": "2.1.12470.13 - EUS ProdSlices",
-        "x-ms-request-id": "8eba8961-4a67-40b3-be96-ec2b9a10d100"
+        "x-ms-ests-server": "2.1.15922.5 - SCUS ProdSlices",
+        "x-ms-request-id": "98114f20-8c5c-4ecc-8389-5e2567519400",
+        "X-XSS-Protection": "0"
       },
       "ResponseBody": {
         "tenant_discovery_endpoint": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0/.well-known/openid-configuration",
@@ -84,7 +80,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "User-Agent": "User-Agent",
-        "x-ms-client-request-id": "f62cfca6-893a-4faa-a1a6-bc3948da6cad"
+        "x-ms-client-request-id": "7d44c96b-6317-4512-8dd6-e800e364a2d6"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -94,17 +90,14 @@
         "Cache-Control": "max-age=86400, private",
         "Content-Length": "1753",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Mar 2022 00:51:32 GMT",
+        "Date": "Thu, 03 Aug 2023 00:44:55 GMT",
         "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
-        "Set-Cookie": [
-          "fpc=fpc; expires=Thu, 31-Mar-2022 00:51:33 GMT; path=/; secure; HttpOnly; SameSite=None",
-          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
-          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
-        ],
+        "Set-Cookie": "fpc=secret_cookie; expires=Sat, 02-Sep-2023 00:44:56 GMT; path=/; secure; HttpOnly; SameSite=None",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-ests-server": "2.1.12529.16 - EUS ProdSlices",
-        "x-ms-request-id": "c1929755-5f95-4876-8eb4-6e9b0006a300"
+        "x-ms-ests-server": "2.1.15984.6 - NCUS ProdSlices",
+        "x-ms-request-id": "4e6eb857-71f8-4c82-b1e7-40dc318f7600",
+        "X-XSS-Protection": "0"
       },
       "ResponseBody": {
         "token_endpoint": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
@@ -180,31 +173,28 @@
       "RequestHeaders": {
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "492",
+        "Content-Length": "397",
         "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
         "User-Agent": "User-Agent",
-        "x-ms-client-request-id": "e3cb9745-d661-4edc-8122-6b7899dcad81"
+        "x-ms-client-request-id": "38172c22-20d6-4c73-bad2-1bcdfcfd8d9b"
       },
-      "RequestBody": "client_id=azure_client_id\u0026scope=https%3A%2F%2Fvault.azure.net%2F.default\u0026grant_type=client_credentials\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|771,2,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026client-request-id=client-request-id\u0026client_secret=azure_client_secret\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "client_id=azure_client_id\u0026scope=https%3A%2F%2Fvault.azure.net%2F.default\u0026grant_type=client_credentials\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|771,2,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026client-request-id=client-request-id\u0026client_secret=azure_client_secret",
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
         "Content-Length": "95",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Mar 2022 00:51:32 GMT",
+        "Date": "Thu, 03 Aug 2023 00:44:56 GMT",
         "Expires": "-1",
         "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
         "Pragma": "no-cache",
-        "Set-Cookie": [
-          "fpc=fpc; expires=Thu, 31-Mar-2022 00:51:33 GMT; path=/; secure; HttpOnly; SameSite=None",
-          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
-          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
-        ],
+        "Set-Cookie": "fpc=secret_cookie; expires=Sat, 02-Sep-2023 00:44:56 GMT; path=/; secure; HttpOnly; SameSite=None",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "x-ms-clitelem": "1,0,0,,",
-        "x-ms-ests-server": "2.1.12529.16 - NCUS ProdSlices",
-        "x-ms-request-id": "3e71c408-97d7-4842-a5ea-5a9b9ed87600"
+        "x-ms-ests-server": "2.1.15984.6 - SCUS ProdSlices",
+        "x-ms-request-id": "883f4d26-9af8-401b-8b8e-e50e8a9a7800",
+        "X-XSS-Protection": "0"
       },
       "ResponseBody": {
         "token_type": "Bearer",

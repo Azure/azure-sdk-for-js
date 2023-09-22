@@ -18,6 +18,7 @@ import { CallConnectionImpl } from "./generated/src/operations";
 import { CallConnectionProperties, CallInvite, CallParticipant } from "./models/models";
 import {
   AddParticipantOptions,
+  CancelAddParticipantOptions,
   GetCallConnectionPropertiesOptions,
   GetParticipantOptions,
   HangUpOptions,
@@ -31,6 +32,7 @@ import {
   AddParticipantResult,
   RemoveParticipantResult,
   MuteParticipantsResult,
+  CancelAddParticipantResult,
 } from "./models/responses";
 import {
   callParticipantConverter,
@@ -183,10 +185,10 @@ export class CallConnection {
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
       operationContext: options.operationContext,
       customContext: {
-        sipHeaders: targetParticipant.sipHeaders,
-        voipHeaders: targetParticipant.voipHeaders,
+        sipHeaders: targetParticipant.customContext?.sipHeaders,
+        voipHeaders: targetParticipant.customContext?.voipHeaders,
       },
-      callbackUriOverride: options.callbackUrlOverride,
+      callbackUri: options.callbackUrl,
     };
     const optionsInternal = {
       ...options,
@@ -223,10 +225,11 @@ export class CallConnection {
       targetParticipant: communicationIdentifierModelConverter(targetParticipant),
       operationContext: options.operationContext,
       customContext: {
-        sipHeaders: options.sipHeaders,
-        voipHeaders: options.voipHeaders,
+        sipHeaders: options.customContext?.sipHeaders,
+        voipHeaders: options.customContext?.voipHeaders,
       },
-      callbackUriOverride: options.callbackUrlOverride,
+      callbackUri: options.callbackUrl,
+      transferee: options.transferee && communicationIdentifierModelConverter(options.transferee),
     };
     const optionsInternal = {
       ...options,
@@ -254,7 +257,7 @@ export class CallConnection {
     const removeParticipantRequest: RemoveParticipantRequest = {
       participantToRemove: communicationIdentifierModelConverter(participant),
       operationContext: options.operationContext,
-      callbackUriOverride: options.callbackUrlOverride,
+      callbackUri: options.callbackUrl,
     };
     const optionsInternal = {
       ...options,
@@ -299,5 +302,32 @@ export class CallConnection {
       ...result,
     };
     return muteParticipantsResult;
+  }
+
+  /** Cancel add participant request.
+   *
+   * @param invitationId - Invitation ID used to cancel the add participant request.
+   */
+  public cancelAddParticipant(
+    invitationId: string,
+    options: CancelAddParticipantOptions = {}
+  ): Promise<CancelAddParticipantResult> {
+    const { operationContext, callbackUrl: callbackUri, ...operationOptions } = options;
+    const cancelAddParticipantRequest = {
+      invitationId,
+      operationContext,
+      callbackUri,
+    };
+    const optionsInternal = {
+      ...operationOptions,
+      repeatabilityFirstSent: new Date(),
+      repeatabilityRequestID: uuidv4(),
+    };
+
+    return this.callConnection.cancelAddParticipant(
+      this.callConnectionId,
+      cancelAddParticipantRequest,
+      optionsInternal
+    ) as Promise<CancelAddParticipantResult>;
   }
 }

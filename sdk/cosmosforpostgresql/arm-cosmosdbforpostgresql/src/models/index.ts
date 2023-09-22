@@ -160,7 +160,7 @@ export interface ClusterForUpdate {
   postgresqlVersion?: string;
   /** The Citus extension version on all cluster servers. */
   citusVersion?: string;
-  /** If shards on coordinator is enabled or not for the cluster. */
+  /** If distributed tables are placed on coordinator or not. Should be set to 'true' on single node clusters. Requires shard rebalancing after value is changed. */
   enableShardsOnCoordinator?: boolean;
   /** If high availability (HA) is enabled or not for the cluster. */
   enableHa?: boolean;
@@ -637,7 +637,7 @@ export interface Cluster extends TrackedResource {
   maintenanceWindow?: MaintenanceWindow;
   /** Preferred primary availability zone (AZ) for all cluster servers. */
   preferredPrimaryZone?: string;
-  /** If shards on coordinator is enabled or not for the cluster. */
+  /** If distributed tables are placed on coordinator or not. Should be set to 'true' on single node clusters. Requires shard rebalancing after value is changed. */
   enableShardsOnCoordinator?: boolean;
   /** If high availability (HA) is enabled or not for the cluster. */
   enableHa?: boolean;
