@@ -161,7 +161,8 @@ export class AppConfigurationClient {
         authPolicy = appConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
       } else {
         throw new Error(
-          `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.`
+          `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.` +
+            ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`
         );
       }
     }
