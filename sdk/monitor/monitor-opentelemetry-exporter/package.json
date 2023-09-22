@@ -35,7 +35,6 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "report": "nyc report --reporter=json",
     "test-opentelemetry-versions": "node test-opentelemetry-versions.js 2>&1",
-    "prepare": "npm run build",
     "pack": "npm pack 2>&1"
   },
   "engines": {
