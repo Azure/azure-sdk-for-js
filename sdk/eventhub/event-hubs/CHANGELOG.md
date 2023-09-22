@@ -1,6 +1,6 @@
 # Release History
 
-## 5.11.2 (Unreleased)
+## 5.11.2 (2023-09-25)
 
 ### Bugs Fixed
 
