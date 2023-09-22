@@ -180,6 +180,9 @@
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
 
+# PRLabel: %Cognitive - Content Safety
+/sdk/contentsafety/ @bowgong @mengai @minjuewu
+
 # PRLabel: %Search
 /sdk/search/ @dgetu @xirzec
 

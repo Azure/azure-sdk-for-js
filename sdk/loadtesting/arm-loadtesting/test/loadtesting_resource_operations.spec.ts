@@ -10,6 +10,7 @@ import {
   env,
   RecorderStartOptions,
   Recorder,
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -31,6 +32,10 @@ const replaceableVariables: Record<string, string> = {
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("Load Testing Resource Operations", () => {
@@ -82,7 +87,7 @@ describe("Load Testing Resource Operations", () => {
     const resource = await client.loadTests.beginCreateOrUpdateAndWait(
       resourceGroupName,
       loadTestResourceName,
-      loadTestResourceCreatePayload
+      loadTestResourceCreatePayload, testPollingOptions
     );
 
     // Verify the response
@@ -115,7 +120,7 @@ describe("Load Testing Resource Operations", () => {
     const result = await client.loadTests.beginUpdateAndWait(
       resourceGroupName,
       loadTestResourceName,
-      loadTestResourcePatchPayload
+      loadTestResourcePatchPayload, testPollingOptions
     );
 
     // Get the load test resource

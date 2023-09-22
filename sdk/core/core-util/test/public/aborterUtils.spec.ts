@@ -98,7 +98,10 @@ describe("cancelablePromiseRace", function () {
     let token: ReturnType<typeof setTimeout>;
     return createAbortablePromise(
       (resolve, reject) => {
-        token = Math.random() < 0.5 ? setTimeout(resolve, function3Delay) : setTimeout(() => reject(function3Message), function3Delay);
+        token =
+          Math.random() < 0.5
+            ? setTimeout(resolve, function3Delay)
+            : setTimeout(() => reject(function3Message), function3Delay);
       },
       {
         cleanupBeforeAbort: () => {

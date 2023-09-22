@@ -33,15 +33,10 @@ export class AwaitableQueue<T> {
       return Promise.resolve(item);
     }
 
-    return createAbortablePromise<T>(
-      (resolve) => this._resolvers.push(resolve),
-      {
-        ...options,
-        cleanupBeforeAbort: () => {
-          this._resolvers.pop();
-        },
-      }
-    );
+    return createAbortablePromise<T>((resolve) => this._resolvers.push(resolve), {
+      ...options,
+      cleanupBeforeAbort: () => this._resolvers.pop(),
+    });
   }
 
   /**
