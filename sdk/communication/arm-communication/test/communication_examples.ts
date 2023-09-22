@@ -61,7 +61,7 @@ describe("CommunicationService test", () => {
   });
 
   it("communicationService create test", async function () {
-    const res = await client.communicationServices.beginCreateOrUpdateAndWait(resourceGroup, communicationServiceName, { location: location, dataLocation: "UnitedStates" });
+    const res = await client.communicationServices.beginCreateOrUpdateAndWait(resourceGroup, communicationServiceName, { location: location, dataLocation: "UnitedStates" }, testPollingOptions);
     assert.notEqual(res.id, undefined);
   });
 
