@@ -17,6 +17,17 @@ import { PhoneNumberIdentifier } from '@azure/communication-common';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AddParticipantCancelled extends Omit<RestAddParticipantCancelled, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "invitationId" | "operationContext"> {
+    callConnectionId: string;
+    correlationId: string;
+    invitationId: string;
+    kind: "AddParticipantCancelled";
+    operationContext?: string;
+    participant?: CommunicationIdentifier;
+    serverCallId: string;
+}
+
+// @public
 export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
@@ -35,6 +46,7 @@ export interface AddParticipantOptions extends OperationOptions {
 
 // @public
 export interface AddParticipantResult {
+    invitationId?: string;
     operationContext?: string;
     participant?: CallParticipant;
 }
@@ -81,7 +93,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfCompleted | SendDtmfFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfCompleted | SendDtmfFailed | AddParticipantCancelled | CancelAddParticipantFailed;
 
 // @public
 export interface CallConnected extends Omit<RestCallConnected, "callConnectionId" | "serverCallId" | "correlationId"> {
@@ -96,6 +108,7 @@ export class CallConnection {
     // Warning: (ae-forgotten-export) The symbol "CallAutomationApiClientOptionalParams" needs to be exported by the entry point index.d.ts
     constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, options?: CallAutomationApiClientOptionalParams);
     addParticipant(targetParticipant: CallInvite, options?: AddParticipantOptions): Promise<AddParticipantResult>;
+    cancelAddParticipant(invitationId: string, options?: CancelAddParticipantOptions): Promise<CancelAddParticipantResult>;
     getCallConnectionProperties(options?: GetCallConnectionPropertiesOptions): Promise<CallConnectionProperties>;
     getCallMedia(): CallMedia;
     getParticipant(targetParticipant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
@@ -259,6 +272,29 @@ export interface CallTransferFailed extends Omit<RestCallTransferFailed, "callCo
     kind: "CallTransferFailed";
     resultInformation?: ResultInformation;
     serverCallId: string;
+}
+
+// @public
+export interface CancelAddParticipantFailed extends Omit<RestCancelAddParticipantFailed, "callConnectionId" | "serverCallId" | "correlationId" | "invitationId" | "operationContext" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    invitationId: string;
+    kind: "CancelAddParticipantFailed";
+    operationContext?: string;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
+// @public
+export interface CancelAddParticipantOptions extends OperationOptions {
+    callbackUrl?: string;
+    operationContext?: string;
+}
+
+// @public
+export interface CancelAddParticipantResult {
+    invitationId: string;
+    operationContext?: string;
 }
 
 // @public
@@ -620,11 +656,21 @@ export interface RemoveParticipantSucceeded extends Omit<RestRemoveParticipantSu
 }
 
 // @public
+export interface RestAddParticipantCancelled {
+    callConnectionId?: string;
+    correlationId?: string;
+    invitationId?: string;
+    operationContext?: string;
+    // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
+    participant?: CommunicationIdentifierModel;
+    serverCallId?: string;
+}
+
+// @public
 export interface RestAddParticipantFailed {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
-    // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
     participant?: CommunicationIdentifierModel;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
@@ -671,6 +717,16 @@ export interface RestCallTransferAccepted {
 export interface RestCallTransferFailed {
     callConnectionId?: string;
     correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestCancelAddParticipantFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    invitationId?: string;
     operationContext?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
