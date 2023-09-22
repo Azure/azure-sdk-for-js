@@ -618,7 +618,7 @@ export class AppConfigurationClient {
    * ```
    * @param snapshotID - The ID of the snapshot, contains name and optional etag.
    * @param options - Optional parameters for the request.
-*/
+   */
   recoverSnapshot(
     name: string,
     options: UpdateSnapshotOptions = {}
@@ -653,7 +653,7 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   archiveSnapshot(
-    name: string ,
+    name: string,
     options: UpdateSnapshotOptions = {}
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(

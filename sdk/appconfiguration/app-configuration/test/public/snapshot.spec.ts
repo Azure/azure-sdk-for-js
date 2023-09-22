@@ -4,7 +4,11 @@ import { Recorder, isPlaybackMode, testPollingOptions } from "@azure-tools/test-
 import { assert } from "chai";
 import { Context } from "mocha";
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
-import { ConfigurationSnapshot, ConfigurationSettingsFilter, CreateSnapshotResponse } from "../../src/models";
+import {
+  ConfigurationSnapshot,
+  ConfigurationSettingsFilter,
+  CreateSnapshotResponse,
+} from "../../src/models";
 import {
   assertEqualSnapshot,
   assertThrowsAbortError,

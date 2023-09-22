@@ -336,7 +336,9 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
 /**
  * @internal
  */
-export function transformSnapshotResponse<T extends ConfigurationSnapshot>(snapshot: T): SnapshotResponse {
+export function transformSnapshotResponse<T extends ConfigurationSnapshot>(
+  snapshot: T
+): SnapshotResponse {
   if (hasUnderscoreResponse(snapshot)) {
     Object.defineProperty(snapshot, "_response", {
       enumerable: false,

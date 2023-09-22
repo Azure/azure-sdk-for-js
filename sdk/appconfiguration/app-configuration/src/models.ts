@@ -485,7 +485,6 @@ export interface GetSnapshotResponse extends SnapshotResponse {}
  * Options used when updating a Snapshot.
  */
 export interface UpdateSnapshotOptions extends HttpOnlyIfUnchangedField, OperationOptions {
-
   /**
    * The etag for this snapshot
    */

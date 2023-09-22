@@ -70,7 +70,7 @@ export async function main() {
   }
   // archive snapshot
   await client.archiveSnapshot(newSnapshot.name);
-  console.log(`${newSnapshot.name} has been archived with the status ${newSnapshot.status}`);;
+  console.log(`${newSnapshot.name} has been archived with the status ${newSnapshot.status}`);
 
   await cleanupSampleValues([key1], client);
 }
