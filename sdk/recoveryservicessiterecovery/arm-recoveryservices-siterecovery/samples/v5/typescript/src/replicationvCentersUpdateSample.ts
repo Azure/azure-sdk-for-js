@@ -13,17 +13,23 @@ import {
   SiteRecoveryManagementClient
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to update a registered vCenter.
  *
  * @summary The operation to update a registered vCenter.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationvCenters_Update.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationvCenters_Update.json
  */
 async function updateVCenterOperation() {
-  const subscriptionId = "7c943c1b-5122-4097-90c8-861411bdd574";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "7c943c1b-5122-4097-90c8-861411bdd574";
   const resourceName = "MadhaviVault";
-  const resourceGroupName = "MadhaviVRG";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "MadhaviVRG";
   const fabricName = "MadhaviFabric";
   const vcenterName = "esx-78";
   const updateVCenterRequest: UpdateVCenterRequest = {
@@ -41,4 +47,8 @@ async function updateVCenterOperation() {
   console.log(result);
 }
 
-updateVCenterOperation().catch(console.error);
+async function main() {
+  updateVCenterOperation();
+}
+
+main().catch(console.error);

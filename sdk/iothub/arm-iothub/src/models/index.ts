@@ -134,12 +134,8 @@ export interface IotHubProperties {
   cloudToDevice?: CloudToDeviceProperties;
   /** IoT hub comments. */
   comments?: string;
-  /** The device streams properties of iothub. */
-  deviceStreams?: IotHubPropertiesDeviceStreams;
   /** The capabilities and features enabled for the IoT hub. */
   features?: Capabilities;
-  /** The encryption properties for the IoT hub. */
-  encryption?: EncryptionPropertiesDescription;
   /**
    * Primary and secondary location for iot hub
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -147,10 +143,6 @@ export interface IotHubProperties {
   readonly locations?: IotHubLocationDescription[];
   /** This property when set to true, will enable data residency, thus, disabling disaster recovery. */
   enableDataResidency?: boolean;
-  /** This property store root certificate related information */
-  rootCertificate?: RootCertificateProperties;
-  /** This property specifies the IP Version the hub is currently utilizing. */
-  ipVersion?: IpVersion;
 }
 
 /** The properties of an IoT hub shared access policy. */
@@ -272,7 +264,7 @@ export interface RoutingProperties {
   endpoints?: RoutingEndpoints;
   /** The list of user-provided routing rules that the IoT hub uses to route messages to built-in and custom endpoints. A maximum of 100 routing rules are allowed for paid hubs and a maximum of 5 routing rules are allowed for free hubs. */
   routes?: RouteProperties[];
-  /** The properties of the route that is used as a fall-back route when none of the conditions specified in the 'routes' section are met. This is an optional parameter. When this property is not set, the messages which do not meet any of the conditions specified in the 'routes' section get routed to the built-in eventhub endpoint. */
+  /** The properties of the route that is used as a fall-back route when none of the conditions specified in the 'routes' section are met. This is an optional parameter. When this property is not present in the template, the fallback route is disabled by default. */
   fallbackRoute?: FallbackRouteProperties;
   /** The list of user-provided enrichments that the IoT hub applies to messages to be delivered to built-in and custom endpoints. See: https://aka.ms/telemetryoneventgrid */
   enrichments?: EnrichmentProperties[];
@@ -398,8 +390,11 @@ export interface RoutingStorageContainerProperties {
 export interface RoutingCosmosDBSqlApiProperties {
   /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved:  events, fileNotifications, $default. Endpoint names must be unique across endpoint types. */
   name: string;
-  /** Id of the cosmos DB sql container endpoint */
-  id?: string;
+  /**
+   * Id of the cosmos DB sql container endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
   /** The subscription identifier of the cosmos DB account. */
   subscriptionId?: string;
   /** The name of the resource group of the cosmos DB account. */
@@ -506,45 +501,12 @@ export interface FeedbackProperties {
   maxDeliveryCount?: number;
 }
 
-/** The device streams properties of iothub. */
-export interface IotHubPropertiesDeviceStreams {
-  /** List of Device Streams Endpoints. */
-  streamingEndpoints?: string[];
-}
-
-/** The encryption properties for the IoT hub. */
-export interface EncryptionPropertiesDescription {
-  /** The source of the key. */
-  keySource?: string;
-  /** The properties of the KeyVault key. */
-  keyVaultProperties?: KeyVaultKeyProperties[];
-}
-
-/** The properties of the KeyVault key. */
-export interface KeyVaultKeyProperties {
-  /** The identifier of the key. */
-  keyIdentifier?: string;
-  /** Managed identity properties of KeyVault Key. */
-  identity?: ManagedIdentity;
-}
-
 /** Public representation of one of the locations where a resource is provisioned. */
 export interface IotHubLocationDescription {
   /** The name of the Azure region */
   location?: string;
   /** The role of the region, can be either primary or secondary. The primary region is where the IoT hub is currently provisioned. The secondary region is the Azure disaster recovery (DR) paired region and also the region where the IoT hub can failover to. */
   role?: IotHubReplicaRoleType;
-}
-
-/** This property store root certificate related information */
-export interface RootCertificateProperties {
-  /** This property when set to true, hub will use G2 cert; while it's set to false, hub uses Baltimore Cert. */
-  enableRootCertificateV2?: boolean;
-  /**
-   * the last update time to root certificate flag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastUpdatedTimeUtc?: Date;
 }
 
 /** Information about the SKU of the IoT hub. */
@@ -571,7 +533,7 @@ export interface ArmIdentity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-  /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
   type?: ResourceIdentityType;
   /** Dictionary of <ArmUserIdentity> */
   userAssignedIdentities?: { [propertyName: string]: ArmUserIdentity };
@@ -1275,22 +1237,11 @@ export interface IotHubDescription extends Resource {
   readonly systemData?: SystemData;
 }
 
-/** Defines headers for IotHubResource_createOrUpdate operation. */
-export interface IotHubResourceCreateOrUpdateHeaders {
-  /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for IotHubResource_update operation. */
-export interface IotHubResourceUpdateHeaders {
-  /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
-}
-
 /** Defines headers for IotHubResource_delete operation. */
 export interface IotHubResourceDeleteHeaders {
   /** URL to query for status of the operation. */
   azureAsyncOperation?: string;
+  location?: string;
 }
 
 /** Defines headers for IotHub_manualFailover operation. */
@@ -1300,16 +1251,11 @@ export interface IotHubManualFailoverHeaders {
   location?: string;
 }
 
-/** Defines headers for PrivateEndpointConnections_update operation. */
-export interface PrivateEndpointConnectionsUpdateHeaders {
-  /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
-}
-
 /** Defines headers for PrivateEndpointConnections_delete operation. */
 export interface PrivateEndpointConnectionsDeleteHeaders {
   /** URL to query for status of the operation. */
   azureAsyncOperation?: string;
+  location?: string;
 }
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
@@ -1438,12 +1384,8 @@ export enum KnownRoutingSource {
   DeviceLifecycleEvents = "DeviceLifecycleEvents",
   /** DeviceJobLifecycleEvents */
   DeviceJobLifecycleEvents = "DeviceJobLifecycleEvents",
-  /** DigitalTwinChangeEvents */
-  DigitalTwinChangeEvents = "DigitalTwinChangeEvents",
   /** DeviceConnectionStateEvents */
-  DeviceConnectionStateEvents = "DeviceConnectionStateEvents",
-  /** MqttBrokerMessages */
-  MqttBrokerMessages = "MqttBrokerMessages"
+  DeviceConnectionStateEvents = "DeviceConnectionStateEvents"
 }
 
 /**
@@ -1456,9 +1398,7 @@ export enum KnownRoutingSource {
  * **TwinChangeEvents** \
  * **DeviceLifecycleEvents** \
  * **DeviceJobLifecycleEvents** \
- * **DigitalTwinChangeEvents** \
- * **DeviceConnectionStateEvents** \
- * **MqttBrokerMessages**
+ * **DeviceConnectionStateEvents**
  */
 export type RoutingSource = string;
 
@@ -1497,27 +1437,6 @@ export enum KnownIotHubReplicaRoleType {
  * **secondary**
  */
 export type IotHubReplicaRoleType = string;
-
-/** Known values of {@link IpVersion} that the service accepts. */
-export enum KnownIpVersion {
-  /** Ipv4 */
-  Ipv4 = "ipv4",
-  /** Ipv6 */
-  Ipv6 = "ipv6",
-  /** Ipv4Ipv6 */
-  Ipv4Ipv6 = "ipv4ipv6"
-}
-
-/**
- * Defines values for IpVersion. \
- * {@link KnownIpVersion} can be used interchangeably with IpVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ipv4** \
- * **ipv6** \
- * **ipv4ipv6**
- */
-export type IpVersion = string;
 
 /** Known values of {@link IotHubSku} that the service accepts. */
 export enum KnownIotHubSku {
@@ -1768,8 +1687,7 @@ export interface IotHubResourceUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type IotHubResourceUpdateResponse = IotHubResourceUpdateHeaders &
-  IotHubDescription;
+export type IotHubResourceUpdateResponse = IotHubDescription;
 
 /** Optional parameters. */
 export interface IotHubResourceDeleteOptionalParams

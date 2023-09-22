@@ -180,6 +180,9 @@
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
 
+# PRLabel: %Cognitive - Content Safety
+/sdk/contentsafety/ @bowgong @mengai @minjuewu
+
 # PRLabel: %Search
 /sdk/search/ @dgetu @xirzec
 
@@ -350,6 +353,10 @@
 # PRLabel: %Mgmt
 /sdk/cosmosdb/arm-cosmosdb/ @qiaozha @MaryGao
 /sdk/cosmosdb/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/cosmosdbforpostgresql/arm-cosmosdbforpostgresql/ @qiaozha @MaryGao
+/sdk/cosmosdbforpostgresql/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/customer-insights/arm-customerinsights/ @qiaozha @MaryGao

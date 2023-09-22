@@ -292,7 +292,7 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -312,7 +312,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -343,7 +343,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   requestBody: Parameters.parameters72,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

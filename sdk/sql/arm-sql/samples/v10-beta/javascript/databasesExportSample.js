@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Exports a database.
  *
  * @summary Exports a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ExportDatabaseWithNetworkIsolation.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ExportDatabaseWithNetworkIsolation.json
  */
 async function exportsADatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount() {
   const subscriptionId =
@@ -54,7 +54,7 @@ async function exportsADatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStor
  * This sample demonstrates how to Exports a database.
  *
  * @summary Exports a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ExportDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ExportDatabase.json
  */
 async function exportsADatabase() {
   const subscriptionId =

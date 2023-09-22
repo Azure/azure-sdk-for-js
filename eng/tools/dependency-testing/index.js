@@ -261,12 +261,11 @@ function fromDir(startPath, filter, resList) {
   return resList;
 }
 
-async function insertMochaReporter(targetPackagePath, repoRoot, testFolder) {
+async function copyRepoFile(repoRoot, relativePath, fileName, targetPackagePath, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
-  const mochaPath = path.join(repoRoot, "./common/tools/mocha-multi-reporter.js");
-  const mochaDestPath = path.join(testPath, "./mocha-multi-reporter.js");
-  let mochaReporter = await packageUtils.readFile(mochaPath);
-  await packageUtils.writeFile(mochaDestPath, mochaReporter);
+  const sourcePath = path.join(repoRoot, relativePath, fileName);
+  const destPath = path.join(testPath, fileName);
+  fs.copyFileSync(sourcePath, destPath);
 }
 
 async function insertTsConfigJson(targetPackagePath, testFolder) {
@@ -402,7 +401,8 @@ async function main(argv) {
     return;
   }
   await replaceSourceReferences(targetPackagePath, targetPackage.packageName, testFolder);
-  await insertMochaReporter(targetPackagePath, repoRoot, testFolder);
+  await copyRepoFile(repoRoot, "common/tools", "mocha-multi-reporter.js", targetPackagePath, testFolder);
+  await copyRepoFile(repoRoot, "common/tools", "esm-workaround.js", targetPackagePath, testFolder);
   await updateRushConfig(repoRoot, targetPackage, testFolder);
   outputTestPath(targetPackage.projectFolder, sourceDir, testFolder);
 }

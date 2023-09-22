@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates virtual wan vpn gateway tags.
  *
  * @summary Updates virtual wan vpn gateway tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-04-01/examples/VpnGatewayUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-05-01/examples/VpnGatewayUpdateTags.json
  */
 async function vpnGatewayUpdate() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

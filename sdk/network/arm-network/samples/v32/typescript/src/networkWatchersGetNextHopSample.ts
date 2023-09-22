@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the next hop from the specified VM.
  *
  * @summary Gets the next hop from the specified VM.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-04-01/examples/NetworkWatcherNextHopGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-05-01/examples/NetworkWatcherNextHopGet.json
  */
 async function getNextHop() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

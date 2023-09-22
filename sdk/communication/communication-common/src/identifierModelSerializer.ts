@@ -34,9 +34,9 @@ export interface SerializedCommunicationIdentifier {
    */
   microsoftTeamsUser?: SerializedMicrosoftTeamsUserIdentifier;
   /**
-   * The Microsoft bot.
+   * The Microsoft Teams App.
    */
-  microsoftBot?: SerializedMicrosoftBotIdentifier;
+  microsoftTeamsApp?: SerializedMicrosoftTeamsAppIdentifier;
 }
 
 /**
@@ -82,19 +82,16 @@ export interface SerializedMicrosoftTeamsUserIdentifier {
 
 /**
  * @hidden
- * A Microsoft bot.
+ * A Microsoft Teams App.
  */
-export interface SerializedMicrosoftBotIdentifier {
+export interface SerializedMicrosoftTeamsAppIdentifier {
   /**
-   * Id of the Microsoft bot.
+   * Id of the Microsoft Teams App.
    */
-  botId: string;
+  teamsAppId: string;
+
   /**
-   * True (or missing) if the bot is global and no resource account is configured and false if the bot is tenantized.
-   */
-  isResourceAccountConfigured?: boolean;
-  /**
-   * The cloud that the Microsoft bot belongs to. By default 'public' if missing.
+   * The cloud that the Microsoft Teams App belongs to. By default 'public' if missing.
    */
   cloud?: SerializedCommunicationCloudEnvironment;
 }
@@ -129,8 +126,8 @@ const assertMaximumOneNestedModel = (identifier: SerializedCommunicationIdentifi
   if (identifier.microsoftTeamsUser !== undefined) {
     presentProperties.push("microsoftTeamsUser");
   }
-  if (identifier.microsoftBot !== undefined) {
-    presentProperties.push("microsoftBot");
+  if (identifier.microsoftTeamsApp !== undefined) {
+    presentProperties.push("microsoftTeamsApp");
   }
   if (identifier.phoneNumber !== undefined) {
     presentProperties.push("phoneNumber");
@@ -173,12 +170,11 @@ export const serializeCommunicationIdentifier = (
           cloud: identifierKind.cloud ?? "public",
         },
       };
-    case "microsoftBot":
+    case "microsoftTeamsApp":
       return {
         rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
-        microsoftBot: {
-          botId: identifierKind.botId,
-          isResourceAccountConfigured: identifierKind.isResourceAccountConfigured ?? true,
+        microsoftTeamsApp: {
+          teamsAppId: identifierKind.teamsAppId,
           cloud: identifierKind.cloud ?? "public",
         },
       };
@@ -202,8 +198,8 @@ const getKind = (serializedIdentifier: SerializedCommunicationIdentifier): strin
     return "microsoftTeamsUser";
   }
 
-  if (serializedIdentifier.microsoftBot) {
-    return "microsoftBot";
+  if (serializedIdentifier.microsoftTeamsApp) {
+    return "microsoftTeamsApp";
   }
 
   return "unknown";
@@ -219,7 +215,8 @@ export const deserializeCommunicationIdentifier = (
 ): CommunicationIdentifierKind => {
   assertMaximumOneNestedModel(serializedIdentifier);
 
-  const { communicationUser, microsoftTeamsUser, microsoftBot, phoneNumber } = serializedIdentifier;
+  const { communicationUser, microsoftTeamsUser, microsoftTeamsApp, phoneNumber } =
+    serializedIdentifier;
   const kind = serializedIdentifier.kind ?? getKind(serializedIdentifier);
 
   if (kind === "communicationUser" && communicationUser) {
@@ -244,16 +241,12 @@ export const deserializeCommunicationIdentifier = (
       rawId: assertNotNullOrUndefined({ microsoftTeamsUser: serializedIdentifier }, "rawId"),
     };
   }
-  if (kind === "microsoftBot" && microsoftBot) {
+  if (kind === "microsoftTeamsApp" && microsoftTeamsApp) {
     return {
-      kind: "microsoftBot",
-      botId: assertNotNullOrUndefined({ microsoftBot }, "botId"),
-      isResourceAccountConfigured: assertNotNullOrUndefined(
-        { microsoftBot },
-        "isResourceAccountConfigured"
-      ),
-      cloud: assertNotNullOrUndefined({ microsoftBot }, "cloud"),
-      rawId: assertNotNullOrUndefined({ microsoftBot: serializedIdentifier }, "rawId"),
+      kind: "microsoftTeamsApp",
+      teamsAppId: assertNotNullOrUndefined({ microsoftTeamsApp }, "teamsAppId"),
+      cloud: assertNotNullOrUndefined({ microsoftTeamsApp }, "cloud"),
+      rawId: assertNotNullOrUndefined({ microsoftTeamsApp: serializedIdentifier }, "rawId"),
     };
   }
   return {
