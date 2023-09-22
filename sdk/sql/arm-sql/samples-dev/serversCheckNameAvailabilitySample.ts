@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Determines whether a resource can be created with the specified name.
  *
  * @summary Determines whether a resource can be created with the specified name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CheckNameAvailabilityServerAlreadyExists.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CheckNameAvailabilityServerAlreadyExists.json
  */
 async function checkForAServerNameThatAlreadyExists() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function checkForAServerNameThatAlreadyExists() {
  * This sample demonstrates how to Determines whether a resource can be created with the specified name.
  *
  * @summary Determines whether a resource can be created with the specified name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CheckNameAvailabilityServerAvailable.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CheckNameAvailabilityServerAvailable.json
  */
 async function checkForAServerNameThatIsAvailable() {
   const subscriptionId =
@@ -61,7 +61,7 @@ async function checkForAServerNameThatIsAvailable() {
  * This sample demonstrates how to Determines whether a resource can be created with the specified name.
  *
  * @summary Determines whether a resource can be created with the specified name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CheckNameAvailabilityServerInvalid.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CheckNameAvailabilityServerInvalid.json
  */
 async function checkForAServerNameThatIsInvalid() {
   const subscriptionId =

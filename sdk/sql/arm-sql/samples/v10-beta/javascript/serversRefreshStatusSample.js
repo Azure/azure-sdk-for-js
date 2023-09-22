@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Refresh external governance enablement status.
  *
  * @summary Refresh external governance enablement status.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/RefreshExternalGovernanceStatus.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/RefreshExternalGovernanceStatus.json
  */
 async function refreshExternalGovernanceEnablementStatus() {
   const subscriptionId =

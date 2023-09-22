@@ -9,7 +9,7 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { ChatMessage, ChatRole, Completions } from "../models/models.js";
+import { ChatMessage, ChatRole, Completions, PromptFilterResult } from "../models/models.js";
 import {
   ChatChoiceOutput,
   ChatMessageOutput,
@@ -20,22 +20,29 @@ import {
 import { ChatCompletions } from "../models/models.js";
 import { ContentFilterResults } from "./models.js";
 
+function getPromptFilterResult(body: Record<string, any>): {
+  promptFilterResults?: PromptFilterResult[];
+} {
+  const res = body["prompt_annotations"] ?? body["prompt_filter_results"];
+  return !res
+    ? {}
+    : {
+        promptFilterResults: res.map((p: PromptFilterResultOutput) => ({
+          promptIndex: p["prompt_index"],
+          ...(!p.content_filter_results
+            ? {}
+            : {
+                contentFilterResults: deserializeContentFilter(p.content_filter_results),
+              }),
+        })),
+      };
+}
+
 export function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usage"> {
   return {
     id: body["id"],
     created: new Date(body["created"]),
-    ...(!body["prompt_annotations"]
-      ? {}
-      : {
-          promptFilterResults: body["prompt_annotations"].map((p: PromptFilterResultOutput) => ({
-            promptIndex: p["prompt_index"],
-            ...(!p.content_filter_results
-              ? {}
-              : {
-                  contentFilterResults: deserializeContentFilter(p.content_filter_results),
-                }),
-          })),
-        }),
+    ...getPromptFilterResult(body),
     choices: (body["choices"] ?? []).map((p: ChoiceOutput) => ({
       text: p["text"],
       index: p["index"],
@@ -71,18 +78,7 @@ export function getChatCompletionsResult(body: Record<string, any>): ChatComplet
         ? {}
         : { contentFilterResults: deserializeContentFilter(p.content_filter_results) }),
     })),
-    ...(!body["prompt_annotations"]
-      ? {}
-      : {
-          promptFilterResults: body["prompt_annotations"].map((p: PromptFilterResultOutput) => ({
-            promptIndex: p["prompt_index"],
-            ...(!p.content_filter_results
-              ? {}
-              : {
-                  contentFilterResults: deserializeContentFilter(p.content_filter_results),
-                }),
-          })),
-        }),
+    ...getPromptFilterResult(body),
     ...(!body["usage"]
       ? {}
       : {

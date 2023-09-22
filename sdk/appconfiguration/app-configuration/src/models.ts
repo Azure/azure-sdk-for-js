@@ -461,7 +461,12 @@ export interface RetryOptions {
 /**
  * Options used when creating a Snapshot.
  */
-export interface CreateSnapshotOptions extends OperationOptions {}
+export interface CreateSnapshotOptions extends OperationOptions {
+  /**
+   * The amount of time to wait (in milliseconds) between subsequent requests relating to the same operation.
+   */
+  updateIntervalInMs?: number;
+}
 
 /**
  * Response from adding a Snapshot.
