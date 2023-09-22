@@ -14,7 +14,7 @@ dependencies:
   '@rush-temp/ai-anomaly-detector':
     specifier: file:./projects/ai-anomaly-detector.tgz
     version: file:projects/ai-anomaly-detector.tgz
-  '@rush-temp/ai-content-safety': 
+  '@rush-temp/ai-content-safety':
     specifier: file:./projects/ai-content-safety.tgz
     version: file:projects/ai-content-safety.tgz
   '@rush-temp/ai-document-translator':
@@ -2196,22 +2196,6 @@ packages:
 
   /@opentelemetry/instrumentation@0.41.2(@opentelemetry/api@1.6.0):
     resolution: {integrity: sha512-rxU72E0pKNH6ae2w5+xgVYZLzc5mlxAbGzF4shxMVK8YC2QQsfN38B2GPbj0jvrKWWNUElfclQ+YTykkNg/grw==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@opentelemetry/api': ^1.3.0
-    dependencies:
-      '@opentelemetry/api': 1.6.0
-      '@types/shimmer': 1.0.2
-      import-in-the-middle: 1.4.2
-      require-in-the-middle: 7.2.0
-      semver: 7.5.4
-      shimmer: 1.2.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@opentelemetry/instrumentation@0.42.0(@opentelemetry/api@1.6.0):
-    resolution: {integrity: sha512-GurYTghhmz/JlV2jGzGQbZLWBmzsjWKVOunZnoy1fzYtZ3mHBAmEFWXwQyAi6lQwnWsEq6u/xacGY60qH2onnw==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
@@ -4480,7 +4464,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230919
+      typescript: 5.3.0-dev.20230921
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9200,8 +9184,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20230919:
-    resolution: {integrity: sha512-FU6DZhzId38aY/dX2gHp7phaYkbNJkCx8G//VVs0nVzZv0qjWGggLkMXoMipphO8Hv0TvZu30Zwdt6nzFIbcBQ==}
+  /typescript@5.3.0-dev.20230921:
+    resolution: {integrity: sha512-TZnDMkY/mgooSXJv72Zxr71MvXYUKiH05lekDOB9FaScoHLGNDvqw6IrT6qXx/kD6eJFpW2gadIz1eJQeA/URw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9884,38 +9868,38 @@ packages:
     dev: false
 
   file:projects/ai-content-safety.tgz:
-    resolution: {integrity: sha512-ghhD0hitSl1yehkXY8937HiI0GIesBzqf10RHxOM3KYXo60elnspeGRfCd/ODPfDFrYwSROqNrKbSssvQ+ioPQ==, tarball: file:projects/ai-content-safety.tgz}
+    resolution: {integrity: sha512-HtRgWb64AgSkfZlAE07H76mxQwpf+B4dq61gzAdDFcy+Mw7wbTWZfMmni0q20NpQOmLW6FaBJ49ghON1fo24Eg==, tarball: file:projects/ai-content-safety.tgz}
     name: '@rush-temp/ai-content-safety'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.36.2_@types+node@14.18.53
-      '@types/chai': 4.3.5
+      '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
+      '@types/chai': 4.3.6
       '@types/mocha': 7.0.2
-      '@types/node': 14.18.53
+      '@types/node': 14.18.56
       autorest: 3.6.3
-      chai: 4.3.7
+      chai: 4.3.8
       cross-env: 7.0.3
       dotenv: 16.3.1
-      eslint: 8.45.0
-      karma: 6.4.2
+      eslint: 8.48.0
+      karma: 6.4.2(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-junit-reporter: 2.0.1_karma@6.4.2
+      karma-junit-reporter: 2.0.1(karma@6.4.2)
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.4.2
+      karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mkdirp: 2.1.6
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 1.23.3(mocha@7.2.0)
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
       source-map-support: 0.5.21
-      tslib: 2.6.0
+      tslib: 2.6.2
       typescript: 5.0.4
     transitivePeerDependencies:
       - bufferutil
@@ -12001,7 +11985,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdbforpostgresql.tgz:
-    resolution: {integrity: sha512-aTZZunMkiPA6kuNjfLPPJm7Uhk47BQ+fpMra7raCedYUrnRfPVw1ehndznjELIbuaPaybiBzB9Ti09MSDysHbQ==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
+    resolution: {integrity: sha512-GhkzcQ7p1/1B503z9URCbi60a95oDT+sJpK98TgsCpeoTBJ4WUN24EAfpdLhMTAwyhs3P7BpxS2Iqo53vo+s0A==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
     name: '@rush-temp/arm-cosmosdbforpostgresql'
     version: 0.0.0
     dependencies:
@@ -15576,7 +15560,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-JDTsZOuYhef+ouTE3gpTZ6HfGpWoq4Q9NoKyE0OYCHoY6CeiGUqYivKUwEYzmiKIjAyDW9LBLQjjexvhG/xNEg==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-yRoTaH0f5+DBBUidse7sz5UDIn1TTltX///zwO0gjQUvCnte4Mu6zA14Cdg36oRZ60iljQsEIR4tsFx4zhcGBw==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -16453,7 +16437,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-zXhvjT5ASwG1D++1s6nqllUhU/mQwxN9lNQrVQHcVbdh4C1icY3OYnD6cBkNA8Yyriw8MvL4nePeCFmf4WfDGQ==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-WKRCqnYXQ09FZaDbEPOQxIf1vp1N7nmnEdVyBcqPjS0E/ThLSY/hU/73NIDnTvpDWyHYIzuxcJxgI1blpEgWRQ==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -16470,7 +16454,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 7.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.1
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
@@ -17272,7 +17256,7 @@ packages:
     dev: false
 
   file:projects/communication-alpha-ids.tgz:
-    resolution: {integrity: sha512-T+0Vz2bQ6lOhzAVSeERChaJQTc7I1Va7iMGrI+9dXRwe18vjOWKDJA844KrhJtW1IOJZJPKa5P19S9Gsl99kJA==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-Ar4gZmdIoE81kqpPnkjSrJWRXsv4vhrQykjEkYixd7MRmcFINfKv99B4cScmTCzuSebNTBsyyVnZls2DLVIoRA==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
@@ -17316,7 +17300,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-I95R4LweEY6DulekdZyHFBDc5gYAZ7Dq8xDpF8nMZh6twr85oOWFiOgFBB3L13A+3O2YE1xcCUUaen/4YR1zgg==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-Lr9F5MxDq9pYPblmhTKJR7vTWluHaZ1RDeZnYRn8AHXcJoqSzXvGjHLlkvrwbCUMTRUFgiTuxSy46KumKRsEQA==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -17365,7 +17349,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-2lbV09MTvQOFhBj4wbaTLnBdu8R29yfzrZBFdGdk+DPG5SMG/nu3fl2CC3+rQp7sy+s8tGpjsPpcsAhnb1gRqw==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-BZQ8JcRQ6AYZIh3x0TZF4ofzkzvj8yeokPWwzLUoJoGdS/Bd2Vd5rAfVZwH6OL/AvqmI7GVNY6KK8K/vfghmmw==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -17463,7 +17447,7 @@ packages:
     dev: false
 
   file:projects/communication-email.tgz:
-    resolution: {integrity: sha512-GOyJNqPuvzmz77q4iSanoi9igNxVqVyvTUi+xh5XRcbfLPKQJSbvjpV3DZuZeL9WHxW35Z0hZeFthhEEhzScgA==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-afDSmfDusmfsXok4Ws6htYLFJFqzaQQJdv5cGIbO+II8FV/3fWGCXd566PKT/lt7qDTGZzVDObWFPg5wJTqfpQ==, tarball: file:projects/communication-email.tgz}
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
@@ -17507,7 +17491,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-JG9T9VS1aWHfOQeT0jkuqWA8FaoOoFWn2T87HVTCl5Ryo+c+TId7mKGFFdLS20mPlam1lmBkF/t56dbZHmJ1Ww==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-txAjUJm6MTseZ/+YZP0NGBS26dkQyWv33TGllxjjLu0uSS3OWZmZQU3rpQlcCLdxVWe27VHxgVNciM+KwONTxg==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -17557,7 +17541,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-qypc/gsoj0jLDj+V3UVqyZ+ajM0AL3mZR44NSqyCY5MZmU+BQ10o2n3jW2oGShmhVjeb//cvUNkTvJZzluKUsA==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-7W7ojlceOXwLiKrJgyUDy0Hi15zVsWYz7YxKufsgU+xbDrysQaoydBkpdnM+FX0sshMIZ258o3DUywLE68ysQA==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -17606,7 +17590,7 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-BXacXKJAkKRQZ7UsCbRZbS2izmaiKVK7w7iNDJWmJ5oSbwThzyaWNpjpKyLyszzxvWBUupXrzKOeoiAWRTPucA==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-S8Nt5zhyRiBCVY2dof2f7oyTthSatuS9IZZdDvg8lFlcti7XqBu4WwS2GdhxoKUbsZcpQyW3JYQG632pWSsg0Q==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
@@ -17653,7 +17637,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-pOCQO9HL24abJ9gVn3hTaGfeK5xyI6+Z0WvJJJMENZFe5edUeK7TrKhqE7AkC2AgOuXr6mT60QgnIPlBXIbS1Q==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-qjBy6YQQnGMH9FvYgoy1owQcXY/i8IV6Q1WBxd687yKmQ+LgjH6sPcIOYWmAVOwIBgdvMRCymhJMxdCU6BHm3Q==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -17700,7 +17684,7 @@ packages:
     dev: false
 
   file:projects/communication-recipient-verification.tgz:
-    resolution: {integrity: sha512-EUHxa+KcpREhYTxft9Z74xzVamJrF91CRee+uRKJ5PX0KEP4by3SbXWWMN18PFn0e4Dq8od3kOy5C+F10nf96Q==, tarball: file:projects/communication-recipient-verification.tgz}
+    resolution: {integrity: sha512-XnvfVkkbxr/Zlng73VcTQ7y69UtgtFJsO2uY6uLkTLNZtCGGBAIoi5OOT1lkGZqIrCZNASKwhPVwBQFAkEwGiw==, tarball: file:projects/communication-recipient-verification.tgz}
     name: '@rush-temp/communication-recipient-verification'
     version: 0.0.0
     dependencies:
@@ -17747,7 +17731,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-Ediq03xRYY5TTg2YJcwm+4bDaNoyHF1iN5Hz7i6AbfY4a7Wn9XrapjXYlhRHNDSnDqWhT6/8C45EcDeRcqHEgw==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-VOaYHR5r7unCyiKROE7O9hACRQa05pRXh/6scZzJEGHNIBbQCeWRfZE74usf0lGDPioU6vt8t81/i+Rv7t1NhA==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
@@ -17784,7 +17768,7 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-ZVSS7zUEO+jzNK9j3puY5elfldkHPwfiZXkrJnwSlAeckEgF5IVtbxFUiEnvYdKYovqvApoKF28LrkPhFQyThg==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-6ojiKk0CZStYwojQTvccaRKwgZMenNQHJ5Qr59clzMYNlBviW66D0qrL3QeenP6ZTsET8/2H9aqTVBCzd3mihw==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
@@ -17831,7 +17815,7 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-NZmHYycCztveawVX5v3SeQEFexWIGahxtmQz+mM9V31YbZKtvCIoxt0D0SzQqdlU4/TyK11TVlpjQ9yR1eU/qA==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-rhpQi+HoB1XGHOAHPoV8M8jvsQhjL8Aoe2EayIBrYXUyWfanYLd24Z0xWIn6UjF2COVRHAD5xADJ1m2D/784EQ==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
@@ -17879,7 +17863,7 @@ packages:
     dev: false
 
   file:projects/communication-tiering.tgz:
-    resolution: {integrity: sha512-KNOwdeTgbB90YxXyrUOfwKyv0yjL4tT1E7o5hIpPLmtBxT6EoP2pe3kI0Mjrv4wNpGntTZxLYx7uo29jRK0Ogg==, tarball: file:projects/communication-tiering.tgz}
+    resolution: {integrity: sha512-LeoaA4BZzguvQCFmqrAqvIuGKsKGoDpzeZEdFuqYc0ZxuoENpw/bgW9aTHko8lYf7G4Q7useh6G4cCNjH+ebsQ==, tarball: file:projects/communication-tiering.tgz}
     name: '@rush-temp/communication-tiering'
     version: 0.0.0
     dependencies:
@@ -17926,7 +17910,7 @@ packages:
     dev: false
 
   file:projects/communication-toll-free-verification.tgz:
-    resolution: {integrity: sha512-EKP8pP5kbaw0LW3OABeUBM4h/4Wnd2glSRop0C9yjaJoEn2Z8dJbNfu0wQpmVOlxM8kaP5ZbgJ627gJbjBvpcw==, tarball: file:projects/communication-toll-free-verification.tgz}
+    resolution: {integrity: sha512-+Q2QeSp/lvXt0TZorV6YiNHg32cUtCGQOdgIf+QWZbMbcRM2lSWUscAk7ZUElLzslKrSrRHLuEqs50juBvIHuA==, tarball: file:projects/communication-toll-free-verification.tgz}
     name: '@rush-temp/communication-toll-free-verification'
     version: 0.0.0
     dependencies:
@@ -20129,7 +20113,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-NebZ7TTFoPqc1him+3j7XDi90aIj7xwscwOpF/cl2cSqtnqL39SbAoa0eXTu+9QwhAnekyX7TBLubNhQg4i6MQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-41KHBdz9k4Bi2CC5COCEL6hZz4uY5qk0FLd9HD70lTpZBe5Xu8zkDPAUdlWzDizspwPSS8mjdDpS57NDGCWvcQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -20166,7 +20150,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-z8S20YU7yveFgkfsUk2qd2ASJG8b29n2HuFJ8qwK7/I3SJT0IxQ2tb4tTfcjpWFhnErx3hbyex1EjHMwYuUSdw==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-wZ5RIDTiBVaiLdIOjZ9vQW/TrZOrbCwaTb0fVHKmMUCYj50Akv/F96h+Pr2gS81OS01V7nr/wkXl1KrRFmxTFQ==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -20210,7 +20194,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-0oIb2j8SsN9FMSWdQCcmLe+xj+qO/uI00s1/0HVFexrny613fY5DFVTKhwmX8luPNuc1sM+Eb4yIeOvZ8tNczQ==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-bpDudUug9guzPnsD0Z74HmavTQrPuNBy+OkI7IP0GJfHlncEkxEdFmmyRwxLft4TT3/bpgD7ckPlOohxPOwmUg==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -20357,14 +20341,14 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-iHO8pUPLsT5tVgelM9XtwufrZd8gq+bj0D6WLu5x+H8TmrWF6kVL8nQBNmjfUV90eFM6B5gVhMhuO+X7OXFdTw==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-GPKUXRD+EnZdCWEP7aL1zgWaLYwDnD71LDG+Kh6lLqnO24XKbsLX6lUvGHs9oSRpTTjXA88OXWP4AKZKpr7hBg==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
       '@opentelemetry/api': 1.6.0
       '@opentelemetry/core': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/instrumentation': 0.42.0(@opentelemetry/api@1.6.0)
+      '@opentelemetry/instrumentation': 0.43.0(@opentelemetry/api@1.6.0)
       '@opentelemetry/sdk-trace-base': 1.17.0(@opentelemetry/api@1.6.0)
       '@opentelemetry/sdk-trace-node': 1.17.0(@opentelemetry/api@1.6.0)
       '@types/chai': 4.3.6
@@ -20722,7 +20706,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-vazzbL/oGjqznRcz/9WCh+FXChL7FyCjlRqSfVyK7qp09nU3ffA2IRowVOo2Fn2BQcMi75c3fBi3esAd0eFm+Q==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-/50L2iH57G0wMOJuck+UG6QqMRdEujkLvxYwHHvTsgqU4dBsv/tGaQidZ1xGqpSPGlUHmwv+cZfHY8tZpgdU7Q==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     name: '@rush-temp/perf-monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -22197,7 +22181,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-wHVJXGJjReOFiT5QIreYqDlx9yR/urLPZHxOrzoGsMDmSZfWBjwoA3O+sldv2kZos1wPe3ZEo+0/9xavYAiNVw==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-ZvkAprwzOY11ZzSNY5gq4EnCuFmyojR3Hh8+WoFUPSZul7qRQwBKNyRiaOUsDsulfcWeoZKYjpHpdMHIg4H3vQ==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:

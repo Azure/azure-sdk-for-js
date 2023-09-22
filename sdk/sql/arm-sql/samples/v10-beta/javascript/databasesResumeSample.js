@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Resumes a database.
  *
  * @summary Resumes a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ResumeDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ResumeDatabase.json
  */
 async function resumesADatabase() {
   const subscriptionId =

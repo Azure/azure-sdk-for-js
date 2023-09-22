@@ -99,6 +99,7 @@ export interface ConfigurationSettingsFilter {
 
 // @public
 export interface CreateSnapshotOptions extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public

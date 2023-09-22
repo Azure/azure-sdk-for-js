@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Upgrades a data warehouse.
  *
  * @summary Upgrades a data warehouse.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/UpgradeDataWarehouse.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/UpgradeDataWarehouse.json
  */
 async function upgradesADataWarehouse() {
   const subscriptionId =
