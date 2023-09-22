@@ -200,16 +200,16 @@ export class CallMediaImpl implements CallMedia {
   /**
    * Hold participant from the call using identifier.
    * @param callConnectionId The call connection id.
-   * @param holdParticipantRequest The participants to be hold from the call.
+   * @param startHoldMusicRequest The participants to be hold from the call.
    * @param options The options parameters.
    */
   startHoldMusic(
     callConnectionId: string,
-    holdParticipantRequest: StartHoldMusicRequest,
+    startHoldMusicRequest: StartHoldMusicRequest,
     options?: CallMediaStartHoldMusicOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { callConnectionId, holdParticipantRequest, options },
+      { callConnectionId, startHoldMusicRequest, options },
       startHoldMusicOperationSpec
     );
   }
@@ -217,16 +217,16 @@ export class CallMediaImpl implements CallMedia {
   /**
    * Unhold participants from the call using identifier.
    * @param callConnectionId The call connection id.
-   * @param unholdParticipantRequest The participants to be hold from the call.
+   * @param stopHoldMusicRequest The participants to be hold from the call.
    * @param options The options parameters.
    */
   stopHoldMusic(
     callConnectionId: string,
-    unholdParticipantRequest: StopHoldMusicRequest,
+    stopHoldMusicRequest: StopHoldMusicRequest,
     options?: CallMediaStopHoldMusicOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { callConnectionId, unholdParticipantRequest, options },
+      { callConnectionId, stopHoldMusicRequest, options },
       stopHoldMusicOperationSpec
     );
   }
@@ -387,7 +387,7 @@ const startHoldMusicOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.holdParticipantRequest,
+  requestBody: Parameters.startHoldMusicRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -403,7 +403,7 @@ const stopHoldMusicOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.unholdParticipantRequest,
+  requestBody: Parameters.stopHoldMusicRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],

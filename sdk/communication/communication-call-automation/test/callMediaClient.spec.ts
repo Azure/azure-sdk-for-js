@@ -321,7 +321,7 @@ describe("CallMedia Unit Tests", async function () {
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
     console.log(data);
-    assert.equal(data.participantToHold.rawId, CALL_TARGET_ID);
+    assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
     assert.equal(data.playSourceInfo.sourceType, "text");
     assert.equal(data.playSourceInfo.textSource.text, playSource.text);
     assert.equal(data.loop, true);
@@ -340,7 +340,7 @@ describe("CallMedia Unit Tests", async function () {
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
     console.log(data);
-    assert.equal(data.participantToUnhold.rawId, CALL_TARGET_ID);
+    assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
     assert.equal(request.method, "POST");
   });
 });

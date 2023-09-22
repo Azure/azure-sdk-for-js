@@ -377,7 +377,7 @@ export class CallMedia {
     operationContext: string | undefined = undefined
   ): Promise<void> {
     const holdRequest: StartHoldMusicRequest = {
-      participantToHold: serializeCommunicationIdentifier(targetParticipant),
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       playSourceInfo: this.createPlaySourceInternal(playSource),
       loop: loop,
       operationContext: operationContext
@@ -397,7 +397,7 @@ export class CallMedia {
     operationContext: string | undefined = undefined
   ): Promise<void> {
     const unholdRequest: StopHoldMusicRequest = {
-      participantToUnhold: serializeCommunicationIdentifier(targetParticipant),
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       operationContext: operationContext
     };
 

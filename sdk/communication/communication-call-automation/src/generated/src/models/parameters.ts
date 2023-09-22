@@ -222,13 +222,13 @@ export const updateTranscriptionDataRequest: OperationParameter = {
   mapper: UpdateTranscriptionDataRequestMapper
 };
 
-export const holdParticipantRequest: OperationParameter = {
-  parameterPath: "holdParticipantRequest",
+export const startHoldMusicRequest: OperationParameter = {
+  parameterPath: "startHoldMusicRequest",
   mapper: StartHoldMusicRequestMapper
 };
 
-export const unholdParticipantRequest: OperationParameter = {
-  parameterPath: "unholdParticipantRequest",
+export const stopHoldMusicRequest: OperationParameter = {
+  parameterPath: "stopHoldMusicRequest",
   mapper: StopHoldMusicRequestMapper
 };
 

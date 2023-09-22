@@ -1122,8 +1122,8 @@ export const StartHoldMusicRequest: coreClient.CompositeMapper = {
     name: "Composite",
     className: "StartHoldMusicRequest",
     modelProperties: {
-      participantToHold: {
-        serializedName: "participantToHold",
+      targetParticipant: {
+        serializedName: "targetParticipant",
         type: {
           name: "Composite",
           className: "CommunicationIdentifierModel"
@@ -1157,8 +1157,8 @@ export const StopHoldMusicRequest: coreClient.CompositeMapper = {
     name: "Composite",
     className: "StopHoldMusicRequest",
     modelProperties: {
-      participantToUnhold: {
-        serializedName: "participantToUnhold",
+      targetParticipant: {
+        serializedName: "targetParticipant",
         type: {
           name: "Composite",
           className: "CommunicationIdentifierModel"
@@ -1166,12 +1166,6 @@ export const StopHoldMusicRequest: coreClient.CompositeMapper = {
       },
       operationContext: {
         serializedName: "operationContext",
-        type: {
-          name: "String"
-        }
-      },
-      callbackUri: {
-        serializedName: "callbackUri",
         type: {
           name: "String"
         }

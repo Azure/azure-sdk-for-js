@@ -131,23 +131,23 @@ export interface CallMedia {
   /**
    * Hold participant from the call using identifier.
    * @param callConnectionId The call connection id.
-   * @param holdParticipantRequest The participants to be hold from the call.
+   * @param startHoldMusicRequest The participants to be hold from the call.
    * @param options The options parameters.
    */
   startHoldMusic(
     callConnectionId: string,
-    holdParticipantRequest: StartHoldMusicRequest,
+    startHoldMusicRequest: StartHoldMusicRequest,
     options?: CallMediaStartHoldMusicOptionalParams
   ): Promise<void>;
   /**
    * Unhold participants from the call using identifier.
    * @param callConnectionId The call connection id.
-   * @param unholdParticipantRequest The participants to be hold from the call.
+   * @param stopHoldMusicRequest The participants to be hold from the call.
    * @param options The options parameters.
    */
   stopHoldMusic(
     callConnectionId: string,
-    unholdParticipantRequest: StopHoldMusicRequest,
+    stopHoldMusicRequest: StopHoldMusicRequest,
     options?: CallMediaStopHoldMusicOptionalParams
   ): Promise<void>;
 }

@@ -381,7 +381,7 @@ export interface UpdateTranscriptionDataRequest {
 /** The request payload for holding participant from the call. */
 export interface StartHoldMusicRequest {
   /** Participant to be held from the call. */
-  participantToHold: CommunicationIdentifierModel;
+  targetParticipant: CommunicationIdentifierModel;
   /** Prompt to play while in hold. */
   playSourceInfo: PlaySourceInternal;
   /** If the prompt will be looped or not. */
@@ -396,7 +396,7 @@ export interface StopHoldMusicRequest {
    * Participants to be hold from the call.
    * Only ACS Users are supported.
    */
-  participantToUnhold: CommunicationIdentifierModel;
+  targetParticipant: CommunicationIdentifierModel;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
 }
