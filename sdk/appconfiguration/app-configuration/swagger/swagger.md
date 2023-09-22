@@ -12,7 +12,7 @@ add-credentials: false
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/preview/2022-11-01-preview/appconfiguration.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/stable/2023-10-01/appconfiguration.json
 model-date-time-as-string: false
 optional-response-headers: true
 sample-generation: false
@@ -101,7 +101,7 @@ directive:
       $["304"]["headers"]["Last-Modified"]["type"] = "string";
 ```
 
-### Rename Properties created -> createdOn, expires -> expiresOn, items_count -> itemCount, retention_period -> retentionPeriodInSeconds, size -> sizeInBytes, composition_type -> snapshotComposition
+### Rename Properties created -> createdOn, expires -> expiresOn, items_count -> itemCount, retention_period -> retentionPeriodInSeconds, size -> sizeInBytes
 
 ```yaml
 directive:
@@ -113,7 +113,6 @@ directive:
       $.expires["x-ms-client-name"] = "expiresOn";
       $.retention_period["x-ms-client-name"] = "retentionPeriodInSeconds";
       $.size["x-ms-client-name"] = "sizeInBytes";
-      $.composition_type["x-ms-client-name"] = "snapshotComposition";
 ```
 
 ### Rename KeyValueFilter -> ConfigurationSettingsFilter

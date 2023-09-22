@@ -107,6 +107,12 @@ export const KeyValueListResult: coreClient.CompositeMapper = {
           }
         }
       },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
       nextLink: {
         serializedName: "@nextLink",
         type: {
@@ -240,7 +246,7 @@ export const ConfigurationSnapshot: coreClient.CompositeMapper = {
           }
         }
       },
-      snapshotComposition: {
+      compositionType: {
         serializedName: "composition_type",
         type: {
           name: "String"
@@ -256,7 +262,6 @@ export const ConfigurationSnapshot: coreClient.CompositeMapper = {
       expiresOn: {
         serializedName: "expires",
         readOnly: true,
-        nullable: true,
         type: {
           name: "DateTime"
         }
@@ -524,6 +529,12 @@ export const AppConfigurationGetKeyValuesHeaders: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -536,6 +547,12 @@ export const AppConfigurationCheckKeyValuesHeaders: coreClient.CompositeMapper =
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }
@@ -854,6 +871,12 @@ export const AppConfigurationGetRevisionsHeaders: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -866,6 +889,12 @@ export const AppConfigurationCheckRevisionsHeaders: coreClient.CompositeMapper =
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }
@@ -896,6 +925,12 @@ export const AppConfigurationGetKeyValuesNextHeaders: coreClient.CompositeMapper
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }
@@ -941,6 +976,12 @@ export const AppConfigurationGetRevisionsNextHeaders: coreClient.CompositeMapper
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }

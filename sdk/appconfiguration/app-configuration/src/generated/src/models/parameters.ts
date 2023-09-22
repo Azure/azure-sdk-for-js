@@ -152,6 +152,26 @@ export const snapshot: OperationQueryParameter = {
   }
 };
 
+export const ifMatch: OperationParameter = {
+  parameterPath: ["options", "ifMatch"],
+  mapper: {
+    serializedName: "If-Match",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const ifNoneMatch: OperationParameter = {
+  parameterPath: ["options", "ifNoneMatch"],
+  mapper: {
+    serializedName: "If-None-Match",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const accept2: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -170,26 +190,6 @@ export const key1: OperationURLParameter = {
   mapper: {
     serializedName: "key",
     required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const ifMatch: OperationParameter = {
-  parameterPath: ["options", "ifMatch"],
-  mapper: {
-    serializedName: "If-Match",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const ifNoneMatch: OperationParameter = {
-  parameterPath: ["options", "ifNoneMatch"],
-  mapper: {
-    serializedName: "If-None-Match",
     type: {
       name: "String"
     }
@@ -245,7 +245,7 @@ export const select1: OperationQueryParameter = {
 export const status: OperationQueryParameter = {
   parameterPath: ["options", "status"],
   mapper: {
-    serializedName: "Status",
+    serializedName: "status",
     type: {
       name: "Sequence",
       element: {

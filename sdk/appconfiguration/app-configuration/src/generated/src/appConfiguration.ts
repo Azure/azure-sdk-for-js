@@ -22,7 +22,7 @@ import { createLroSpec } from "./lroImpl";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
-  ApiVersion20221101Preview,
+  ApiVersion20231001,
   AppConfigurationOptionalParams,
   GetKeysOptionalParams,
   GetKeysResponse,
@@ -84,7 +84,7 @@ import {
 export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
   syncToken?: string;
-  apiVersion: ApiVersion20221101Preview;
+  apiVersion: ApiVersion20231001;
 
   /**
    * Initializes a new instance of the AppConfiguration class.
@@ -94,7 +94,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20221101Preview,
+    apiVersion: ApiVersion20231001,
     options?: AppConfigurationOptionalParams
   ) {
     if (endpoint === undefined) {
@@ -624,7 +624,9 @@ const getKeyValuesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept1
+    Parameters.accept1,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch
   ],
   serializer
 };
@@ -646,7 +648,12 @@ const checkKeyValuesOperationSpec: coreClient.OperationSpec = {
     Parameters.snapshot
   ],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
+  headerParameters: [
+    Parameters.syncToken,
+    Parameters.acceptDatetime,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch
+  ],
   serializer
 };
 const getKeyValueOperationSpec: coreClient.OperationSpec = {
@@ -669,9 +676,9 @@ const getKeyValueOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept2,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.accept2
   ],
   serializer
 };
@@ -692,9 +699,9 @@ const putKeyValueOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
-    Parameters.accept2,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
+    Parameters.accept2,
     Parameters.contentType
   ],
   mediaType: "json",
@@ -719,8 +726,8 @@ const deleteKeyValueOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
-    Parameters.accept2,
-    Parameters.ifMatch
+    Parameters.ifMatch,
+    Parameters.accept2
   ],
   serializer
 };
@@ -944,9 +951,9 @@ const putLockOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
-    Parameters.accept2,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.accept2
   ],
   serializer
 };
@@ -966,9 +973,9 @@ const deleteLockOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
-    Parameters.accept2,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.accept2
   ],
   serializer
 };
@@ -1071,7 +1078,9 @@ const getKeyValuesNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept1
+    Parameters.accept1,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch
   ],
   serializer
 };
