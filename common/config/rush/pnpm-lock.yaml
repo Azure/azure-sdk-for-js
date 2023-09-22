@@ -14100,7 +14100,7 @@ packages:
     dev: false
 
   file:projects/arm-managedapplications.tgz:
-    resolution: {integrity: sha512-l+pncXDhFwTze0AYcleRnD0vjlPpyRmwtCDgpmVDSa3L/7UFMKJN8sSusWW9fzn3Y7Aigl0xIW/vYNgyUr7rTw==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-bZfHTmMJ4hSePfpZHiSQXWPSi2DV2IgD8UkV3iTQiTagER29E18/F0hSqQz944gn6Hyg2N7N8zVDRmVReBcicQ==, tarball: file:projects/arm-managedapplications.tgz}
     name: '@rush-temp/arm-managedapplications'
     version: 0.0.0
     dependencies:
@@ -14114,7 +14114,8 @@ packages:
       '@types/node': 14.18.56
       chai: 4.3.8
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
