@@ -87,11 +87,11 @@ export interface ConfigurationSnapshot {
    * The current status of the snapshot.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly status?: SnapshotStatus;
+  readonly status?: ConfigurationSnapshotStatus;
   /** A list of filters used to filter the key-values included in the snapshot. */
   filters: ConfigurationSettingsFilter[];
   /** The composition type describes how the key-values within the snapshot are composed. The 'key' composition type ensures there are no two key-values containing the same key. The 'key_label' composition type ensures there are no two key-values containing the same key and label. */
-  compositionType?: CompositionType;
+  compositionType?: SnapshotComposition;
   /**
    * The time that the snapshot was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -495,8 +495,32 @@ export enum KnownSnapshotStatus {
  */
 export type SnapshotStatus = string;
 
-/** Known values of {@link CompositionType} that the service accepts. */
-export enum KnownCompositionType {
+/** Known values of {@link ConfigurationSnapshotStatus} that the service accepts. */
+export enum KnownConfigurationSnapshotStatus {
+  /** Provisioning */
+  Provisioning = "provisioning",
+  /** Ready */
+  Ready = "ready",
+  /** Archived */
+  Archived = "archived",
+  /** Failed */
+  Failed = "failed"
+}
+
+/**
+ * Defines values for ConfigurationSnapshotStatus. \
+ * {@link KnownConfigurationSnapshotStatus} can be used interchangeably with ConfigurationSnapshotStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **provisioning** \
+ * **ready** \
+ * **archived** \
+ * **failed**
+ */
+export type ConfigurationSnapshotStatus = string;
+
+/** Known values of {@link SnapshotComposition} that the service accepts. */
+export enum KnownSnapshotComposition {
   /** Key */
   Key = "key",
   /** KeyLabel */
@@ -504,14 +528,14 @@ export enum KnownCompositionType {
 }
 
 /**
- * Defines values for CompositionType. \
- * {@link KnownCompositionType} can be used interchangeably with CompositionType,
+ * Defines values for SnapshotComposition. \
+ * {@link KnownSnapshotComposition} can be used interchangeably with SnapshotComposition,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **key** \
  * **key_label**
  */
-export type CompositionType = string;
+export type SnapshotComposition = string;
 
 /** Known values of {@link LabelFields} that the service accepts. */
 export enum KnownLabelFields {

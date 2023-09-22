@@ -63,9 +63,6 @@ export interface AppConfigurationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CompositionType = string;
-
-// @public
 export type ConfigurationSetting<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingParam<T> & {
     isReadOnly: boolean;
     lastModified?: Date;
@@ -99,6 +96,7 @@ export interface ConfigurationSettingsFilter {
 
 // @public
 export interface ConfigurationSnapshot {
+    compositionType?: SnapshotComposition;
     readonly createdOn?: Date;
     readonly etag?: string;
     readonly expiresOn?: Date;
@@ -107,12 +105,14 @@ export interface ConfigurationSnapshot {
     readonly name: string;
     retentionPeriodInSeconds?: number;
     readonly sizeInBytes?: number;
-    snapshotComposition?: CompositionType;
-    readonly status?: SnapshotStatus;
+    readonly status?: ConfigurationSnapshotStatus;
     tags?: {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export type ConfigurationSnapshotStatus = string;
 
 // @public
 export interface CreateSnapshotOptions extends OperationOptions {
@@ -201,17 +201,17 @@ export function isFeatureFlag(setting: ConfigurationSetting): setting is Configu
 export function isSecretReference(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
 // @public
-export enum KnownCompositionType {
-    Key = "key",
-    KeyLabel = "key_label"
-}
-
-// @public
-export enum KnownSnapshotStatus {
+export enum KnownConfigurationSnapshotStatus {
     Archived = "archived",
     Failed = "failed",
     Provisioning = "provisioning",
     Ready = "ready"
+}
+
+// @public
+export enum KnownSnapshotComposition {
+    Key = "key",
+    KeyLabel = "key_label"
 }
 
 // @public
@@ -246,6 +246,7 @@ export interface ListSettingsOptions extends OptionalFields {
 // @public
 export interface ListSnapshots extends OptionalSnapshotFields {
     nameFilter?: string;
+    // Warning: (ae-forgotten-export) The symbol "SnapshotStatus" needs to be exported by the entry point index.d.ts
     statusFilter?: SnapshotStatus[];
 }
 
@@ -313,8 +314,11 @@ export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHead
 }
 
 // @public
+export type SnapshotComposition = string;
+
+// @public
 export interface SnapshotInfo {
-    compositionType?: CompositionType;
+    compositionType?: SnapshotComposition;
     filters: ConfigurationSettingsFilter[];
     name: string;
     retentionPeriodInSeconds?: number;
@@ -326,9 +330,6 @@ export interface SnapshotInfo {
 // @public
 export interface SnapshotResponse extends ConfigurationSnapshot, SyncTokenHeaderField {
 }
-
-// @public
-export type SnapshotStatus = string;
 
 // @public
 export interface SyncTokenHeaderField {

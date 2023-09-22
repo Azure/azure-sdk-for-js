@@ -6,7 +6,7 @@ import { FeatureFlagValue } from "./featureFlag";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { SecretReferenceValue } from "./secretReference";
 import {
-  CompositionType,
+  SnapshotComposition,
   ConfigurationSettingsFilter,
   ConfigurationSnapshot,
   SnapshotStatus,
@@ -505,7 +505,7 @@ export interface SnapshotInfo {
   /** A list of filters used to filter the key-values included in the snapshot. */
   filters: ConfigurationSettingsFilter[];
   /** The composition type describes how the key-values within the snapshot are composed. The 'all' composition type includes all key-values. The 'group_by_key' composition type ensures there are no two key-values containing the same key. */
-  compositionType?: CompositionType;
+  compositionType?: SnapshotComposition;
   /** The amount of time, in seconds, that a snapshot will remain in the archived state before expiring. This property is only writable during the creation of a snapshot. If not specified, the default lifetime of key-value revisions will be used. */
   retentionPeriodInSeconds?: number;
   /** The tags of the snapshot. */
@@ -515,8 +515,8 @@ export interface SnapshotInfo {
 export {
   ConfigurationSnapshot,
   ConfigurationSettingsFilter,
-  CompositionType,
-  KnownCompositionType,
-  KnownSnapshotStatus,
-  SnapshotStatus,
+  SnapshotComposition,
+  KnownSnapshotComposition,
+  KnownConfigurationSnapshotStatus,
+  ConfigurationSnapshotStatus,
 } from "./generated/src";
