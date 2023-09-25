@@ -287,6 +287,56 @@ describe("spanUtils.ts", () => {
         );
       });
 
+      it("should set the azure SDK properties", () => {
+        const span = new Span(
+          tracer,
+          ROOT_CONTEXT,
+          "parent span",
+          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+          SpanKind.INTERNAL,
+          "parentSpanId"
+        );
+        span.setAttributes({
+          "az.namespace": "Microsoft.EventHub"
+        });
+        span.setStatus({
+          code: SpanStatusCode.OK,
+        });
+        span.end();
+        const expectedTime = new Date(hrTimeToMilliseconds(span.startTime));
+        const expectedTags: Tags = {
+          [KnownContextTagKeys.AiOperationId]: "traceid",
+          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+        };
+        const expectedProperties = {
+          "az.namespace": "Microsoft.EventHub"
+        };
+        const expectedBaseData: Partial<RequestData> = {
+          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          id: `${span.spanContext().spanId}`,
+          name: "parent span",
+          success: true,
+          resultCode: "0",
+          version: 2,
+          type: "InProc | Microsoft.EventHub",
+          properties: expectedProperties,
+          measurements: {},
+        };
+
+        const envelope = readableSpanToEnvelope(span, "ikey");
+        assertEnvelope(
+          envelope,
+          "Microsoft.ApplicationInsights.RemoteDependency",
+          100,
+          "RemoteDependencyData",
+          expectedTags,
+          expectedProperties,
+          emptyMeasurements,
+          expectedBaseData,
+          expectedTime
+        );
+      });
+
       it("should create a Dependency Envelope for Client Spans", () => {
         const span = new Span(
           tracer,
