@@ -8,7 +8,7 @@ import { assert } from "@azure/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 
-describe("AbortSignal", () => {
+describe.only("AbortSignal", () => {
   let recorder: Recorder;
   let client: OpenAIClient;
 
@@ -55,6 +55,7 @@ describe("AbortSignal", () => {
       }
       assert.fail("Expected to abort streaming");
     } catch (error: any) {
+      console.log(error)
       assert.isTrue(error.name === "AbortError" || error.name === "Error");
       assert.equal(abortSignal.aborted, true);
     }
