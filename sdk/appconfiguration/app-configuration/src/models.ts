@@ -48,16 +48,6 @@ export const AppConfigurationApiVersion = {
    * (GA) version, even if the package version is a beta.
    */
   Stable: "1.0",
-
-  /**
-   * App Configuration API version "1.0" (GA).
-   */
-  "1.0": "1.0",
-
-  /**
-   * App Configuration API version 2022-11-01-preview.
-   */
-  "2022-11-01-preview": "2022-11-01-preview",
 } as const;
 
 /**

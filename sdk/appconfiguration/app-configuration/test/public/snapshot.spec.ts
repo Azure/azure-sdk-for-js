@@ -211,7 +211,6 @@ describe("AppConfigurationClient snapshot", () => {
     });
   });
 
-  // Error with the list functions currently
   describe("listSnapshots", () => {
     it("list all snapshots with ready filter", async function () {
       const list = client.listSnapshots();
