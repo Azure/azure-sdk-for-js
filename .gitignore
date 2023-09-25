@@ -172,8 +172,12 @@ code-model-*
 
 # CPU profiles
 *.cpuprofile
+
 # Temp typespec files
 TempTypeSpecFiles/
 
 # Symbolic link from project directory to recordings
 _recordings
+
+# CI generated artifacts
+/artifacts
