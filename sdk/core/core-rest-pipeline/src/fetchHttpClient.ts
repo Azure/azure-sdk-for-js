@@ -255,7 +255,7 @@ function buildBodyStream(
       new TransformStream({
         transform(chunk, controller) {
           if (chunk === null) {
-            options?.onEnd?.();
+            onEnd?.();
             controller.terminate();
             return;
           }
