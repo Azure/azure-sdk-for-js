@@ -24,7 +24,7 @@ export = {
       outer: "author",
       expected: "Microsoft Corporation",
     });
-    return stripPath(context.getFilename()) === "package.json"
+    return stripPath(context.filename) === "package.json"
       ? ({
           // callback functions
 
