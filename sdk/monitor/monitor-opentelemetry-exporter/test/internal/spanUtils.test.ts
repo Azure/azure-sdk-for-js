@@ -211,7 +211,7 @@ describe("spanUtils.ts", () => {
         const expectedProperties = {
           "extra.attribute": "foo",
         };
-  
+
         const expectedBaseData: Partial<RemoteDependencyData> = {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `${span.spanContext().spanId}`,
@@ -224,7 +224,7 @@ describe("spanUtils.ts", () => {
           properties: expectedProperties,
           measurements: {},
         };
-  
+
         const envelope = readableSpanToEnvelope(span, "ikey");
         assertEnvelope(
           envelope,
@@ -297,7 +297,7 @@ describe("spanUtils.ts", () => {
           "parentSpanId"
         );
         span.setAttributes({
-          "az.namespace": "Microsoft.EventHub"
+          "az.namespace": "Microsoft.EventHub",
         });
         span.setStatus({
           code: SpanStatusCode.OK,
@@ -309,7 +309,7 @@ describe("spanUtils.ts", () => {
           [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
         };
         const expectedProperties = {
-          "az.namespace": "Microsoft.EventHub"
+          "az.namespace": "Microsoft.EventHub",
         };
         const expectedBaseData: Partial<RequestData> = {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
@@ -396,14 +396,14 @@ describe("spanUtils.ts", () => {
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.SERVER,
           "parentSpanId",
-          [{ context: { traceId: "traceid", spanId: "spanId", traceFlags: 0 }}]
+          [{ context: { traceId: "traceid", spanId: "spanId", traceFlags: 0 } }]
         );
         span.setAttributes({
           [SemanticAttributes.HTTP_METHOD]: "GET",
           [SemanticAttributes.HTTP_ROUTE]: "/api/example",
           [SemanticAttributes.HTTP_URL]: "https://example.com/api/example",
           [SemanticAttributes.HTTP_STATUS_CODE]: 200,
-          "extra.attribute": "foo"
+          "extra.attribute": "foo",
         });
         span.setStatus({
           code: SpanStatusCode.OK,
@@ -524,7 +524,7 @@ describe("spanUtils.ts", () => {
         expectedTags[KnownContextTagKeys.AiLocationIp] = "192.168.123.132";
 
         const expectedProperties = {
-          "extra.attribute": "foo"
+          "extra.attribute": "foo",
         };
 
         const expectedBaseData: RequestData = {
@@ -605,7 +605,7 @@ describe("spanUtils.ts", () => {
         );
       });
     });
-    
+
     describe("createDepenedencyData", () => {
       it("should create a Dependency Envelope for Producer Spans", () => {
         const span = new Span(
@@ -728,7 +728,7 @@ describe("spanUtils.ts", () => {
           properties: expectedProperties,
           measurements: {},
           target: "http://test",
-          data: ""
+          data: "",
         };
 
         const envelope = readableSpanToEnvelope(span, "ikey");
