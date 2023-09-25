@@ -500,6 +500,9 @@ dependencies:
   '@rush-temp/arm-peering':
     specifier: file:./projects/arm-peering.tgz
     version: file:projects/arm-peering.tgz
+  '@rush-temp/arm-playwrighttesting':
+    specifier: file:./projects/arm-playwrighttesting.tgz
+    version: file:projects/arm-playwrighttesting.tgz
   '@rush-temp/arm-policy':
     specifier: file:./projects/arm-policy.tgz
     version: file:projects/arm-policy.tgz
@@ -4464,7 +4467,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230921
+      typescript: 5.3.0-dev.20230922
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9184,8 +9187,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20230921:
-    resolution: {integrity: sha512-TZnDMkY/mgooSXJv72Zxr71MvXYUKiH05lekDOB9FaScoHLGNDvqw6IrT6qXx/kD6eJFpW2gadIz1eJQeA/URw==}
+  /typescript@5.3.0-dev.20230922:
+    resolution: {integrity: sha512-QmuWGuk9Uk3blOaDo5P9wVLAOw7CfhrHmWoQAD+5UAQeR52S0/W0BjuYgCMGwmxVJJgYK1WCeBdbTi2jLxvoog==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10396,7 +10399,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-0ZITUjON5z9o/en0l4xoJHnKTrOm/4oluoSpo+qFza5p3V20F8tEUVZIOGW+0Q92yDHo+iEIUyT1XNAz8lhLmQ==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-nwrHfm98kkHuVcyx0K4KEyoWM4s2ZTusCzJQkMxx2ugwsnef+2JHTITbD4WbAMuVnz5G6eT0kwQkrnSrhzlsCg==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -15056,6 +15059,37 @@ packages:
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
+      ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
+      tslib: 2.6.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-playwrighttesting.tgz:
+    resolution: {integrity: sha512-95xyFIfwT/yHtQpcRUUkMXBPmJmEVzO+EcVjWUYu4F73CKFD3150RUXmkUxKL4QRVwDlP3nIdRcNTQXoeo+5GQ==, tarball: file:projects/arm-playwrighttesting.tgz}
+    name: '@rush-temp/arm-playwrighttesting'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
+      '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
+      '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
+      '@rollup/plugin-multi-entry': 6.0.0(rollup@2.79.1)
+      '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
+      '@types/chai': 4.3.6
+      '@types/node': 14.18.56
+      chai: 4.3.8
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 5.0.1
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
