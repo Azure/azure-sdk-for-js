@@ -108,7 +108,7 @@ describe("webPubSub test", () => {
 
   it("webPubSub delete test", async function () {
     const resArray = new Array();
-    const res = await client.webPubSub.beginDeleteAndWait(resourceGroup, resourceName)
+    const res = await client.webPubSub.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions)
     for await (let item of client.webPubSub.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
