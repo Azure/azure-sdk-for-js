@@ -1661,7 +1661,8 @@ testWithServiceTypes((serviceVersion) => {
             const claimedPartitions = claimedPartitionsMap[eventProcessorId];
             claimedPartitions.delete(partitionId);
             loggerForTest(
-              `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${context.partitionId
+              `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${
+                context.partitionId
               }`
             );
             if (reason === CloseReason.OwnershipLost && allPartitionsClaimed) {
@@ -1825,7 +1826,8 @@ testWithServiceTypes((serviceVersion) => {
             const claimedPartitions = claimedPartitionsMap[eventProcessorId];
             claimedPartitions.delete(partitionId);
             loggerForTest(
-              `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${context.partitionId
+              `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${
+                context.partitionId
               }`
             );
             if (reason === CloseReason.OwnershipLost && allPartitionsClaimed) {
