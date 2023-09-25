@@ -98,10 +98,7 @@ describe("metricUtil.ts", () => {
             const envelope = resourceMetricsToEnvelope(
                 testMetrics,
                 "ikey"
-            );
-
-            console.log("HEYO LES GET THIS ENVELOPE: ", envelope[0].data?.baseData?.metrics[0]);
-            
+            );            
             assertEnvelope(
                 envelope[0],
                 "Microsoft.ApplicationInsights.Metric",
