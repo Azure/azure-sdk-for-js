@@ -2811,8 +2811,8 @@ packages:
     engines: {node: '>= 10'}
     dev: false
 
-  /@ts-morph/common@0.20.0:
-    resolution: {integrity: sha512-7uKjByfbPpwuzkstL3L5MQyuXPSKdoNG93Fmi2JoDcTf3pEP731JdRFAduRVkOs8oqxPsXKA+ScrWkdQ8t/I+Q==}
+  /@ts-morph/common@0.21.0:
+    resolution: {integrity: sha512-ES110Mmne5Vi4ypUKrtVQfXFDtCsDXiUiGxF6ILVlE90dDD4fdpC1LSjydl/ml7xJWKSDZwUYD2zkOePMSrPBA==}
     dependencies:
       fast-glob: 3.3.1
       minimatch: 7.4.6
@@ -9229,10 +9229,10 @@ packages:
     hasBin: true
     dev: false
 
-  /ts-morph@19.0.0:
-    resolution: {integrity: sha512-D6qcpiJdn46tUqV45vr5UGM2dnIEuTGNxVhg0sk5NX11orcouwj6i1bMqZIz2mZTZB1Hcgy7C3oEVhAT+f6mbQ==}
+  /ts-morph@20.0.0:
+    resolution: {integrity: sha512-JVmEJy2Wow5n/84I3igthL9sudQ8qzjh/6i4tmYCm6IqYyKFlNbJZi7oBdjyqcWSWYRu3CtL0xbT6fS03ESZIg==}
     dependencies:
-      '@ts-morph/common': 0.20.0
+      '@ts-morph/common': 0.21.0
       code-block-writer: 12.0.0
     dev: false
 
@@ -18717,7 +18717,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-j9fmM/MAWFeDiCNgOl8fTqyQxvWQg/DNPlm7UWIZtnJRNU3F3V2qxC91FhNGhEw3zuCshfvcWFo+Rdqo7at6rw==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-w0TETD51ln0GmU0KWEWge94WsVhurCR2AxBnwl3DNQjcRQ0jgaPBstcr//K4TWJ/RJ2iBvaXsd3Z0ycHPu1mpQ==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -18764,7 +18764,7 @@ packages:
       rollup-plugin-visualizer: 5.9.2(rollup@2.79.1)
       semver: 7.5.4
       strip-json-comments: 5.0.1
-      ts-morph: 19.0.0
+      ts-morph: 20.0.0
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
       tslib: 2.6.2
       typescript: 5.0.4
