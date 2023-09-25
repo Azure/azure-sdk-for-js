@@ -9,7 +9,7 @@ import {
   SnapshotComposition,
   ConfigurationSettingsFilter,
   ConfigurationSnapshot,
-  SnapshotStatus,
+  ConfigurationSnapshotStatus,
 } from "./generated/src";
 
 /**
@@ -351,7 +351,7 @@ export interface ListSnapshots extends OptionalSnapshotFields {
   nameFilter?: string;
 
   /** Used to filter returned snapshots by their status property. */
-  statusFilter?: SnapshotStatus[];
+  statusFilter?: ConfigurationSnapshotStatus[];
 }
 
 /**

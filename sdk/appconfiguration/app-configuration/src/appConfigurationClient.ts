@@ -616,7 +616,7 @@ export class AppConfigurationClient {
    * ```ts
    * const result = await client.recoverSnapshot("MySnapshot");
    * ```
-   * @param snapshotID - The ID of the snapshot, contains name and optional etag.
+   * @param name - The name of the snapshot.
    * @param options - Optional parameters for the request.
    */
   recoverSnapshot(
@@ -649,7 +649,7 @@ export class AppConfigurationClient {
    * ```ts
    * const result = await client.archiveSnapshot({name: "MySnapshot"});
    * ```
-   * @param snapshotID - The ID of the snapshot, contains name and optional etag.
+   * @param name - The name of the snapshot.
    * @param options - Optional parameters for the request.
    */
   archiveSnapshot(
