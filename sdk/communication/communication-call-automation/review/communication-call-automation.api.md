@@ -174,8 +174,10 @@ export class CallMedia {
     // Warning: (ae-forgotten-export) The symbol "Tone" needs to be exported by the entry point index.d.ts
     sendDtmf(tones: Tone[], targetParticipant: CommunicationIdentifier, sendDtmfOptions?: SendDtmfOptions): Promise<void>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
+    startHoldMusic(targetParticipant: CommunicationIdentifier, playSource: FileSource | TextSource | SsmlSource, loop?: boolean, operationContext?: string | undefined): Promise<void>;
     startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, recognizeOptions: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
+    stopHoldMusic(targetParticipant: CommunicationIdentifier, operationContext?: string | undefined): Promise<void>;
 }
 
 // @public

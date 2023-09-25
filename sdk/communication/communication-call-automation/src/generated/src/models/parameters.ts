@@ -23,9 +23,14 @@ import {
   UnmuteParticipantsRequest as UnmuteParticipantsRequestMapper,
   CancelAddParticipantRequest as CancelAddParticipantRequestMapper,
   PlayRequest as PlayRequestMapper,
+  StartTranscriptionRequest as StartTranscriptionRequestMapper,
+  StopTranscriptionRequest as StopTranscriptionRequestMapper,
   RecognizeRequest as RecognizeRequestMapper,
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
   SendDtmfRequest as SendDtmfRequestMapper,
+  UpdateTranscriptionDataRequest as UpdateTranscriptionDataRequestMapper,
+  StartHoldMusicRequest as StartHoldMusicRequestMapper,
+  StopHoldMusicRequest as StopHoldMusicRequestMapper,
   StartDialogRequest as StartDialogRequestMapper,
   StartCallRecordingRequest as StartCallRecordingRequestMapper
 } from "../models/mappers";
@@ -187,6 +192,16 @@ export const playRequest: OperationParameter = {
   mapper: PlayRequestMapper
 };
 
+export const startTranscriptionRequest: OperationParameter = {
+  parameterPath: "startTranscriptionRequest",
+  mapper: StartTranscriptionRequestMapper
+};
+
+export const stopTranscriptionRequest: OperationParameter = {
+  parameterPath: "stopTranscriptionRequest",
+  mapper: StopTranscriptionRequestMapper
+};
+
 export const recognizeRequest: OperationParameter = {
   parameterPath: "recognizeRequest",
   mapper: RecognizeRequestMapper
@@ -200,6 +215,21 @@ export const continuousDtmfRecognitionRequest: OperationParameter = {
 export const sendDtmfRequest: OperationParameter = {
   parameterPath: "sendDtmfRequest",
   mapper: SendDtmfRequestMapper
+};
+
+export const updateTranscriptionDataRequest: OperationParameter = {
+  parameterPath: "updateTranscriptionDataRequest",
+  mapper: UpdateTranscriptionDataRequestMapper
+};
+
+export const startHoldMusicRequest: OperationParameter = {
+  parameterPath: "startHoldMusicRequest",
+  mapper: StartHoldMusicRequestMapper
+};
+
+export const stopHoldMusicRequest: OperationParameter = {
+  parameterPath: "stopHoldMusicRequest",
+  mapper: StopHoldMusicRequestMapper
 };
 
 export const startDialogRequest: OperationParameter = {
