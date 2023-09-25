@@ -1,18 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
+import { AbortOptions } from "./aborterUtils";
 
 /**
  * Options for the createAbortablePromise function.
  */
-export interface CreateAbortablePromiseOptions {
+export interface CreateAbortablePromiseOptions extends AbortOptions {
   /** A function to be called if the promise was aborted */
   cleanupBeforeAbort?: () => void;
-  /** An abort signal */
-  abortSignal?: AbortSignalLike;
-  /** An abort error message */
-  abortErrorMsg?: string;
 }
 
 /**

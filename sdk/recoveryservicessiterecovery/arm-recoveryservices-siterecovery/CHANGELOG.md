@@ -1,15 +1,49 @@
 # Release History
+    
+## 5.1.0 (2023-09-08)
+    
+**Features**
 
-## 5.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface A2AFabricSpecificLocationDetails
+  - Added Interface ApplianceMonitoringDetails
+  - Added Interface ApplianceResourceDetails
+  - Added Interface DataStoreUtilizationDetails
+  - Added Interface GatewayOperationDetails
+  - Added Interface OSUpgradeSupportedVersions
+  - Added Interface VMwareCbtSecurityProfileProperties
+  - Added Type Alias ChurnOptionSelected
+  - Added Type Alias SecurityType
+  - Interface A2AReplicationDetails has a new optional parameter churnOptionSelected
+  - Interface AzureFabricSpecificDetails has a new optional parameter locationDetails
+  - Interface FabricQueryParameter has a new optional parameter extendedLocationMappings
+  - Interface FabricQueryParameter has a new optional parameter locationDetails
+  - Interface HyperVReplicaAzurePlannedFailoverProviderInput has a new optional parameter osUpgradeVersion
+  - Interface HyperVReplicaAzureReplicationDetails has a new optional parameter allAvailableOSUpgradeConfigurations
+  - Interface HyperVReplicaAzureTestFailoverInput has a new optional parameter osUpgradeVersion
+  - Interface InMageAzureV2ReplicationDetails has a new optional parameter allAvailableOSUpgradeConfigurations
+  - Interface InMageAzureV2ReplicationDetails has a new optional parameter osName
+  - Interface InMageAzureV2ReplicationDetails has a new optional parameter supportedOSVersions
+  - Interface InMageAzureV2TestFailoverInput has a new optional parameter osUpgradeVersion
+  - Interface InMageAzureV2UnplannedFailoverInput has a new optional parameter osUpgradeVersion
+  - Interface VMwareCbtEnableMigrationInput has a new optional parameter confidentialVmKeyVaultId
+  - Interface VMwareCbtEnableMigrationInput has a new optional parameter targetVmSecurityProfile
+  - Interface VMwareCbtMigrateInput has a new optional parameter osUpgradeVersion
+  - Interface VMwareCbtMigrationDetails has a new optional parameter applianceMonitoringDetails
+  - Interface VMwareCbtMigrationDetails has a new optional parameter confidentialVmKeyVaultId
+  - Interface VMwareCbtMigrationDetails has a new optional parameter deltaSyncProgressPercentage
+  - Interface VMwareCbtMigrationDetails has a new optional parameter deltaSyncRetryCount
+  - Interface VMwareCbtMigrationDetails has a new optional parameter gatewayOperationDetails
+  - Interface VMwareCbtMigrationDetails has a new optional parameter isCheckSumResyncCycle
+  - Interface VMwareCbtMigrationDetails has a new optional parameter operationName
+  - Interface VMwareCbtMigrationDetails has a new optional parameter osName
+  - Interface VMwareCbtMigrationDetails has a new optional parameter supportedOSVersions
+  - Interface VMwareCbtMigrationDetails has a new optional parameter targetVmSecurityProfile
+  - Interface VMwareCbtProtectedDiskDetails has a new optional parameter gatewayOperationDetails
+  - Interface VMwareCbtProtectionContainerMappingDetails has a new optional parameter excludedSkus
+  - Interface VMwareCbtTestMigrateInput has a new optional parameter osUpgradeVersion
+  - Added Enum KnownChurnOptionSelected
+  - Added Enum KnownSecurityType
+    
 ## 5.0.1 (2023-01-05)
 
 **Migration Guide**

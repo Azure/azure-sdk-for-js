@@ -66,6 +66,13 @@ export const CreateCallRequest: coreClient.CompositeMapper = {
           className: "MediaStreamingConfiguration"
         }
       },
+      transcriptionConfiguration: {
+        serializedName: "transcriptionConfiguration",
+        type: {
+          name: "Composite",
+          className: "TranscriptionConfiguration"
+        }
+      },
       azureCognitiveServicesEndpointUrl: {
         serializedName: "azureCognitiveServicesEndpointUrl",
         type: {
@@ -216,6 +223,43 @@ export const MediaStreamingConfiguration: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TranscriptionConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TranscriptionConfiguration",
+    modelProperties: {
+      transportUrl: {
+        serializedName: "transportUrl",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      transportType: {
+        serializedName: "transportType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      locale: {
+        serializedName: "locale",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      startTranscription: {
+        serializedName: "startTranscription",
+        required: true,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -425,6 +469,13 @@ export const AnswerCallRequest: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "MediaStreamingConfiguration"
+        }
+      },
+      transcriptionConfiguration: {
+        serializedName: "transcriptionConfiguration",
+        type: {
+          name: "Composite",
+          className: "TranscriptionConfiguration"
         }
       },
       azureCognitiveServicesEndpointUrl: {
@@ -1221,6 +1272,12 @@ export const AddParticipantResponse: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      invitationId: {
+        serializedName: "invitationId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1345,6 +1402,55 @@ export const UnmuteParticipantsResponse: coreClient.CompositeMapper = {
     name: "Composite",
     className: "UnmuteParticipantsResponse",
     modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CancelAddParticipantRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CancelAddParticipantRequest",
+    modelProperties: {
+      invitationId: {
+        serializedName: "invitationId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CancelAddParticipantResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CancelAddParticipantResponse",
+    modelProperties: {
+      invitationId: {
+        serializedName: "invitationId",
+        type: {
+          name: "String"
+        }
+      },
       operationContext: {
         serializedName: "operationContext",
         type: {
@@ -1531,6 +1637,12 @@ export const RecordingStateResponse: coreClient.CompositeMapper = {
       },
       recordingState: {
         serializedName: "recordingState",
+        type: {
+          name: "String"
+        }
+      },
+      recordingType: {
+        serializedName: "recordingType",
         type: {
           name: "String"
         }
@@ -1953,6 +2065,98 @@ export const RemoveParticipantFailed: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CommunicationIdentifierModel"
+        }
+      }
+    }
+  }
+};
+
+export const AddParticipantCancelled: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AddParticipantCancelled",
+    modelProperties: {
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        type: {
+          name: "String"
+        }
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        type: {
+          name: "String"
+        }
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      participant: {
+        serializedName: "participant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      invitationId: {
+        serializedName: "invitationId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CancelAddParticipantFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CancelAddParticipantFailed",
+    modelProperties: {
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        type: {
+          name: "String"
+        }
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        type: {
+          name: "String"
+        }
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "ResultInformation"
+        }
+      },
+      invitationId: {
+        serializedName: "invitationId",
+        type: {
+          name: "String"
         }
       }
     }

@@ -12,6 +12,8 @@ import { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseRequest } from "./DatabaseRequest";
 import { DatabaseResponse } from "./DatabaseResponse";
 import { validateOffer } from "../../utils/offers";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 
 /**
  * Operations for creating new databases, and reading/querying all databases
@@ -68,7 +70,7 @@ export class Databases {
    */
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const cb: FetchFunctionCallback = (innerOptions) => {
+    const cb: FetchFunctionCallback = (diagNode: DiagnosticNodeInternal, innerOptions) => {
       return this.clientContext.queryFeed({
         path: "/dbs",
         resourceType: ResourceType.database,
@@ -76,6 +78,7 @@ export class Databases {
         resultFn: (result) => result.Databases,
         query,
         options: innerOptions,
+        diagnosticNode: diagNode,
       });
     };
     return new QueryIterator(this.clientContext, query, options, cb);
@@ -96,6 +99,19 @@ export class Databases {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    */
   public async create(
+    body: DatabaseRequest,
+    options: RequestOptions = {}
+  ): Promise<DatabaseResponse> {
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.createInternal(diagnosticNode, body, options);
+    }, this.clientContext);
+  }
+
+  /**
+   * @hidden
+   */
+  public async createInternal(
+    diagnosticNode: DiagnosticNodeInternal,
     body: DatabaseRequest,
     options: RequestOptions = {}
   ): Promise<DatabaseResponse> {
@@ -141,6 +157,7 @@ export class Databases {
       path,
       resourceType: ResourceType.database,
       resourceId: undefined,
+      diagnosticNode,
       options,
     });
     const ref = new Database(this.client, body.id, this.clientContext);
@@ -149,7 +166,7 @@ export class Databases {
       response.headers,
       response.code,
       ref,
-      response.diagnostics
+      getEmptyCosmosDiagnostics()
     );
   }
 
@@ -179,19 +196,23 @@ export class Databases {
       1. Attempt to read the Database (based on an assumption that most databases will already exist, so its faster)
       2. If it fails with NotFound error, attempt to create the db. Else, return the read results.
     */
-    try {
-      const readResponse = await this.client.database(body.id).read(options);
-      return readResponse;
-    } catch (err: any) {
-      if (err.code === StatusCodes.NotFound) {
-        const createResponse = await this.create(body, options);
-        // Must merge the headers to capture RU costskaty
-        mergeHeaders(createResponse.headers, err.headers);
-        return createResponse;
-      } else {
-        throw err;
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      try {
+        const readResponse = await this.client
+          .database(body.id)
+          .readInternal(diagnosticNode, options);
+        return readResponse;
+      } catch (err: any) {
+        if (err.code === StatusCodes.NotFound) {
+          const createResponse = await this.createInternal(diagnosticNode, body, options);
+          // Must merge the headers to capture RU costskaty
+          mergeHeaders(createResponse.headers, err.headers);
+          return createResponse;
+        } else {
+          throw err;
+        }
       }
-    }
+    }, this.clientContext);
   }
 
   // TODO: DatabaseResponse for QueryIterator?

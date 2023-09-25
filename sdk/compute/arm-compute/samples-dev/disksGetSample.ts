@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about a disk.
  *
  * @summary Gets information about a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskExamples/Disk_Get.json
  */
 async function getInformationAboutAManagedDisk() {
   const subscriptionId =

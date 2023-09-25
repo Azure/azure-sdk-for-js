@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a FleetMember
  *
  * @summary Update a FleetMember
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/examples/FleetMembers_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-06-15-preview/examples/FleetMembers_Update.json
  */
 async function updatesAFleetMemberResourceSynchronously() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function updatesAFleetMemberResourceSynchronously() {
   const properties: FleetMemberUpdate = { group: "staging" };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  const result = await client.fleetMembers.update(
+  const result = await client.fleetMembers.beginUpdateAndWait(
     resourceGroupName,
     fleetName,
     fleetMemberName,

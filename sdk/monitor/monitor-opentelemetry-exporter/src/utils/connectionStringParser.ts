@@ -86,4 +86,15 @@ export class ConnectionStringParser {
     }
     return newUrl;
   }
+
+  public static validateInstrumentationKey(iKey: string): boolean {
+    if (iKey.startsWith("InstrumentationKey=")) {
+      const startIndex = iKey.indexOf("InstrumentationKey=") + "InstrumentationKey=".length;
+      const endIndex = iKey.indexOf(";", startIndex);
+      iKey = iKey.substring(startIndex, endIndex);
+    }
+    const UUID_Regex = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
+    const regexp = new RegExp(UUID_Regex);
+    return regexp.test(iKey);
+  }
 }

@@ -159,6 +159,12 @@ import {
   ContainerServiceNodePoolRollingStartedEventData,
   ContainerServiceNodePoolRollingSucceededEventData,
   ContainerServiceNodePoolRollingFailedEventData,
+  EventGridMqttClientCreatedOrUpdatedEventData,
+  EventGridMqttClientDeletedEventData,
+  EventGridMqttClientSessionConnectedEventData,
+  EventGridMqttClientSessionDisconnectedEventData,
+  AppConfigurationSnapshotCreatedEventData,
+  AppConfigurationSnapshotModifiedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -487,6 +493,18 @@ export interface SystemEventNameToEventData {
   "Microsoft.ContainerService.NodePoolRollingSucceeded": ContainerServiceNodePoolRollingSucceededEventData;
   /** An interface for the event data of a "Microsoft.ContainerService.NodePoolRollingFailed" event. */
   "Microsoft.ContainerService.NodePoolRollingFailed": ContainerServiceNodePoolRollingFailedEventData;
+  /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientCreatedOrUpdated" event. */
+  "Microsoft.EventGrid.MQTTClientCreatedOrUpdated": EventGridMqttClientCreatedOrUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientDeleted" event. */
+  "Microsoft.EventGrid.MQTTClientDeleted": EventGridMqttClientDeletedEventData;
+  /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientSessionConnected" event. */
+  "Microsoft.EventGrid.MQTTClientSessionConnected": EventGridMqttClientSessionConnectedEventData;
+  /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientSessionDisconnected" event. */
+  "Microsoft.EventGrid.MQTTClientSessionDisconnected": EventGridMqttClientSessionDisconnectedEventData;
+  /** An interface for the event data of a "Microsoft.AppConfiguration.SnapshotCreated" event. */
+  "Microsoft.AppConfiguration.SnapshotCreated": AppConfigurationSnapshotCreatedEventData;
+  /** An interface for the event data of a "Microsoft.AppConfiguration.SnapshotModified" event. */
+  "Microsoft.AppConfiguration.SnapshotModified": AppConfigurationSnapshotModifiedEventData;
 }
 
 /**

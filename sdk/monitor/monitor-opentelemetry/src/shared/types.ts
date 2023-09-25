@@ -5,16 +5,12 @@ import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-export
 import { InstrumentationConfig } from "@opentelemetry/instrumentation";
 import { Resource } from "@opentelemetry/resources";
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.0.0-beta.2";
-export const DEFAULT_ROLE_NAME = "Web";
-process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
-
 /**
  * Azure Monitor OpenTelemetry Options
  */
 export interface AzureMonitorOpenTelemetryOptions {
   /** Azure Monitor Exporter Configuration */
-  azureMonitorExporterConfig?: AzureMonitorExporterOptions;
+  azureMonitorExporterOptions?: AzureMonitorExporterOptions;
   /** OpenTelemetry Resource */
   resource?: Resource;
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */

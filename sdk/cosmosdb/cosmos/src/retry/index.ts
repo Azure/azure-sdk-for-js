@@ -5,3 +5,4 @@ export * from "./endpointDiscoveryRetryPolicy";
 export * from "./resourceThrottleRetryPolicy";
 export * from "./sessionRetryPolicy";
 export * from "./retryUtility";
+export * from "./timeoutFailoverRetryPolicy";

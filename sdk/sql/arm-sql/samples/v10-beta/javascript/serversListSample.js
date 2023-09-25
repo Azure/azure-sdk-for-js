@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of all servers in the subscription.
  *
  * @summary Gets a list of all servers in the subscription.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ServerList.json
  */
 async function listServers() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function listServers() {
  * This sample demonstrates how to Gets a list of all servers in the subscription.
  *
  * @summary Gets a list of all servers in the subscription.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerListWithExpandEqualsAdministrators.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ServerListWithExpandEqualsAdministrators.json
  */
 async function listServersWithExpandAdministratorsOrActivedirectory() {
   const subscriptionId =

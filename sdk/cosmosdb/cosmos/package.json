@@ -108,7 +108,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^3.3.0",
     "@azure/logger": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/debug": "^4.1.4",
@@ -136,7 +136,9 @@
     "typescript": "~5.0.0",
     "nock": "^12.0.3",
     "@types/sinonjs__fake-timers": "~8.1.2",
-    "@sinonjs/fake-timers": "^11.0.0"
+    "@sinonjs/fake-timers": "^11.0.0",
+    "chai": "~4.3.8",
+    "@types/chai": "~4.3.6"
   },
   "//sampleConfiguration": {
     "skip": [
@@ -152,7 +154,13 @@
       "QueryThroughput.ts",
       "SasTokenAuth.ts",
       "ServerSideScripts.ts",
-      "handleError.ts"
+      "handleError.ts",
+      "ChangeFeedIteratorEntireContainer.ts",
+      "ChangeFeedIteratorEpkRange.ts",
+      "ChangeFeedPartitionKey.ts",
+      "ChangeFeedHierarchicalPartitionKey.ts",
+      "Diagnostics.ts",
+      "HierarchicalPartitioning.ts"
     ],
     "productName": "Azure Cosmos DB",
     "productSlugs": [

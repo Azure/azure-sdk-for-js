@@ -230,9 +230,7 @@ console.log("Retrieved snapshot:", retrievedSnapshot);
 
 ### List the `ConfigurationSetting` in the snapshot
 ```javascript
-let retrievedSnapshotSettings = await client.listConfigurationSettings({
-  snapshotFilter: "testsnapshot"
-});
+let retrievedSnapshotSettings = await client.listConfigurationSettingsForSnapshot("testsnapshot");
 
 for await (const setting of retrievedSnapshotSettings) {
   console.log(`Found key: ${setting.key}, label: ${setting.label}`);

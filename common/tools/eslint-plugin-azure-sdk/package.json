@@ -87,7 +87,7 @@
     "@typescript-eslint/parser": "~5.57.0",
     "chai": "^4.2.0",
     "eslint": "^8.0.0",
-    "mocha": "^7.1.1",
+    "mocha": "^10.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
