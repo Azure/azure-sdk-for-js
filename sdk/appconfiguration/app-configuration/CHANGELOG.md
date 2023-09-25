@@ -12,8 +12,9 @@
 ### Other Changes
 
 - Rename `Snapshot` -> `ConfigurationSnapshot`
-- Rename the properties `retentionPeriod` -> `retentionPeriodInSeconds`, `size` -> `sizeInBytes`, `compositionType` -> `snapshotComposition` for `ConfigurationSnapshot`
-- The method signature for `archiveSnapshot` and `updateSnapshot` changes so that they will
+- Rename the properties `retentionPeriod` -> `retentionPeriodInSeconds`, `size` -> `sizeInBytes` for `ConfigurationSnapshot`
+- Rename the type `CompositionType` -> `SnapshotComposition`, `SnapshotStatus` -> `ConfigurationSnapshotStatus`
+- Update the method signature for `archiveSnapshot` and `updateSnapshot` to take in a snapshot name as a parameter
 
 ## 1.5.0-beta.1 (2023-07-14)
 
