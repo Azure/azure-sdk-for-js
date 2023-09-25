@@ -13,9 +13,8 @@ describe("AbortSignal", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     recorder = await startRecorder(this.currentTest);
-    client = createClient("AzureAPIKey", {recorder});
+    client = createClient("AzureAPIKey", { recorder });
   });
-
 
   afterEach(async function () {
     if (recorder) {
@@ -54,7 +53,7 @@ describe("AbortSignal", () => {
       }
       assert.fail("Expected to abort streaming");
     } catch (error: any) {
-      assert.isTrue((error.name === "AbortError") || (error.name === "Error"))
+      assert.isTrue(error.name === "AbortError" || error.name === "Error");
       assert.equal(abortSignal.aborted, true);
     }
   });
