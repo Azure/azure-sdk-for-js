@@ -358,7 +358,7 @@ testWithServiceTypes((serviceVersion) => {
           });
 
           await loopUntil({
-            maxTimes: 20,
+            maxTimes: 10,
             name: "Wait for subscription1 to read from all partitions",
             timeBetweenRunsMs: 5000,
             async until() {
@@ -389,7 +389,7 @@ testWithServiceTypes((serviceVersion) => {
           });
 
           await loopUntil({
-            maxTimes: 20,
+            maxTimes: 10,
             name: "Wait for subscription2 to read from all partitions and subscription1 to invoke close handlers",
             timeBetweenRunsMs: 5000,
             async until() {
@@ -406,7 +406,7 @@ testWithServiceTypes((serviceVersion) => {
           await subscription2.close();
 
           await loopUntil({
-            maxTimes: 20,
+            maxTimes: 10,
             name: "Wait for subscription1 to recover",
             timeBetweenRunsMs: 5000,
             async until() {
