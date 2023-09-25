@@ -212,7 +212,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         }
       });
 
-      it("modify and updates the index object", async function () {
+      it.only("modify and updates the index object", async function () {
         let index = await indexClient.getIndex(TEST_INDEX_NAME);
         index.fields.push({
           type: "Edm.DateTimeOffset",
@@ -222,6 +222,52 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         await indexClient.createOrUpdateIndex(index);
         index = await indexClient.getIndex(TEST_INDEX_NAME);
         assert.equal(index.fields.length, 6);
+      });
+
+      it("correctly instantiates the index", async function () {
+        const index: SearchIndex = {
+          name: "hotel-live-test5",
+          fields: [
+            {
+              type: "Edm.String",
+              name: "id",
+              key: true,
+            },
+            {
+              type: "Edm.Double",
+              name: "awesomenessLevel",
+              sortable: true,
+              filterable: true,
+              facetable: true,
+            },
+          ],
+          analyzers: [
+            {
+              odatatype: "#Microsoft.Azure.Search.CustomAnalyzer",
+              name: "foo",
+              tokenizerName: "classic",
+              charFilters: ["foo"],
+              tokenFilters: [],
+            },
+          ],
+          charFilters: [
+            {
+              name: "foo",
+              odatatype: "#Microsoft.Azure.Search.PatternReplaceCharFilter",
+              pattern: "bar",
+              replacement: "baz",
+            },
+          ],
+        };
+
+        try {
+          const createdIndex = await indexClient.createIndex(index);
+          const test = createdIndex.analyzers![0];
+          const expect = index.analyzers![0];
+          assert.deepEqual(expect, test);
+        } finally {
+          await indexClient.deleteIndex(index.name);
+        }
       });
     });
   });

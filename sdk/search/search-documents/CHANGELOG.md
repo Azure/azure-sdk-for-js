@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix some `SearchIndex` fields being improperly serialized.
+
 ### Other Changes
 
 ## 11.3.2 (2023-06-06)
