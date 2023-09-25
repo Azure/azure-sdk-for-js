@@ -6,7 +6,7 @@ import { OpenAIClient } from "../../src/index.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 import { assert } from "@azure/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
-import { AbortController } from "@azure/abort-controller"
+import { AbortController } from "@azure/abort-controller";
 
 describe("AbortSignal", () => {
   let recorder: Recorder;
