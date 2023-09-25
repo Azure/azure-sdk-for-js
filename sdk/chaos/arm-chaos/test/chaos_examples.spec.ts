@@ -217,7 +217,7 @@ describe("Chaos test", () => {
 
   it("chaos dependence delete test", async function () {
     const resArray = new Array();
-    const res = await cos_client.databaseAccounts.beginDeleteAndWait(resourceGroup, cosmosdbName)
+    const res = await cos_client.databaseAccounts.beginDeleteAndWait(resourceGroup, cosmosdbName, testPollingOptions)
     for await (let item of cos_client.databaseAccounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

@@ -128,7 +128,7 @@ describe("Monitor test", () => {
         key1: "value1",
         key2: "value2",
       }
-    });
+    }, testPollingOptions);
     storageId = storageaccount.id || "";
 
     //namespaces.beginCreateOrUpdateAndWait
@@ -142,7 +142,7 @@ describe("Monitor test", () => {
         tag1: "value1",
         tag2: "value2",
       }
-    })
+    }, testPollingOptions)
     //namespaces.createOrUpdateAuthorizationRule
     const authorization = await eventhub_client.namespaces.createOrUpdateAuthorizationRule(resourceGroup, namespaceName, authorizationRuleName, { rights: ["Listen", "Send", "Manage"] });
     //eventHubs.createOrUpdate
@@ -175,7 +175,7 @@ describe("Monitor test", () => {
       tags: {
         tag1: "value1"
       }
-    })
+    }, testPollingOptions)
     workspaceId = workspace.id || "";
   });
 
@@ -289,8 +289,8 @@ describe("Monitor test", () => {
   it("delete parameters for diagnosticSettings", async function () {
     const workflowDlete = await logic_client.workflows.delete(resourceGroup, workflowName);
     const storageDelete = await storage_client.storageAccounts.delete(resourceGroup, storageAccountName);
-    const namespaceDelete = await eventhub_client.namespaces.beginDeleteAndWait(resourceGroup, namespaceName);
-    const workspaceDelete = await op_client.workspaces.beginDeleteAndWait(resourceGroup, workspaceName);
+    const namespaceDelete = await eventhub_client.namespaces.beginDeleteAndWait(resourceGroup, namespaceName, testPollingOptions);
+    const workspaceDelete = await op_client.workspaces.beginDeleteAndWait(resourceGroup, workspaceName, testPollingOptions);
   });
 
   it("logProfiles delete test", async function () {

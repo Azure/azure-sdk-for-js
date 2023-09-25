@@ -101,7 +101,7 @@ describe("Datafactory test", () => {
           }
         },
         timeToLive: 60
-      }
+      }, testPollingOptions
     );
 
     return sessionId = String(res.sessionId)

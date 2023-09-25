@@ -95,7 +95,7 @@ describe("HDInsightOnAks test", () => {
 
   it("clusterPools delete test", async function () {
     const resArray = new Array();
-    const res = await client.clusterPools.beginDeleteAndWait(resourceGroup, resourcename
+    const res = await client.clusterPools.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions
 )
     for await (let item of client.clusterPools.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

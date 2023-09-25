@@ -102,7 +102,7 @@ describe("CosmosDBForPostgreSQL test", () => {
   //need run this case 1h later
   it("clusters delete test", async function () {
     const resArray = new Array();
-    const res = await client.clusters.beginDeleteAndWait(resourceGroup, resourcename
+    const res = await client.clusters.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions
     )
     for await (let item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

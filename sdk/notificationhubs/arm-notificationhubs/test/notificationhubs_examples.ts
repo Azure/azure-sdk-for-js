@@ -97,6 +97,6 @@ describe("NotificationHubs test", () => {
   });
 
   it("namespaces delete test", async function () {
-    const res = await client.namespaces.beginDeleteAndWait(resourceGroup, nameSpaceName);
+    const res = await client.namespaces.beginDeleteAndWait(resourceGroup, nameSpaceName, testPollingOptions);
   });
 });
