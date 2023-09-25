@@ -1,6 +1,7 @@
 import { Resource } from "@opentelemetry/resources";
 import fs from "fs";
 import path from "path";
+import * as os from "os";
 import {
   ResourceMetrics,
   MeterProvider,
@@ -32,6 +33,11 @@ class TestExporter extends AzureMonitorMetricExporter {
   }
   async export(metrics: ResourceMetrics): Promise<void> {
     testMetrics = metrics;
+    testMetrics.resource = new Resource({
+      [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "testServiceInstanceID",
+      [SemanticResourceAttributes.SERVICE_NAME]: "testServiceName",
+      [SemanticResourceAttributes.SERVICE_NAMESPACE]: "testServiceNamespace",
+    });
   }
 }
 
@@ -72,13 +78,17 @@ function assertEnvelope(
 }
 
 describe("metricUtil.ts", () => {
+  let prefix = process.env["AZURE_MONITOR_AGENT_PREFIX"]
+    ? process.env["AZURE_MONITOR_AGENT_PREFIX"]
+    : "";
+  let version = process.env["AZURE_MONITOR_DISTRO_VERSION"]
+    ? `dst${process.env["AZURE_MONITOR_DISTRO_VERSION"]}`
+    : `ext${Context.sdkVersion}`;
   describe("#resourceMetricsToEnvelope", () => {
     it("should create a metric envelope", async () => {
       const expectedTags: Tags = {
-        "ai.device.osVersion": "Windows_NT 10.0.22621",
-        "ai.internal.sdkVersion": "testPrefix_node16:otel1.17.0:dst_testDistroVersion",
-        "ai.cloud.role": "basic-service",
-        "ai.cloud.roleInstance": "jackson-msft",
+        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
+        "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData: Partial<RequestData> = {
         name: "counter",
