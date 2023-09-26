@@ -323,6 +323,16 @@ export interface CallTransferFailed extends Omit<RestCallTransferFailed, "callCo
     serverCallId: string;
 }
 
+// @public
+export interface CancelAddParticipantEventResult {
+    // (undocumented)
+    failureResult?: CancelAddParticipantFailed;
+    // (undocumented)
+    isSuccess: boolean;
+    // (undocumented)
+    successResult?: AddParticipantCancelled;
+}
+
 // Warning: (ae-forgotten-export) The symbol "RestCancelAddParticipantFailed" needs to be exported by the entry point index.d.ts
 //
 // @public
@@ -344,8 +354,10 @@ export interface CancelAddParticipantOptions extends OperationOptions {
 
 // @public
 export interface CancelAddParticipantResult {
-    invitationId: string;
+    invitationId?: string;
     operationContext?: string;
+    // (undocumented)
+    waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<CancelAddParticipantEventResult>;
 }
 
 // @public
@@ -353,7 +365,7 @@ export interface CancelAllMediaOperationsEventResult {
     // (undocumented)
     isSuccess: boolean;
     // (undocumented)
-    playCanceledSucessResult?: PlayCanceled;
+    playCanceledSuccessResult?: PlayCanceled;
     // (undocumented)
     recognizeCanceledSuccessResult?: RecognizeCanceled;
 }

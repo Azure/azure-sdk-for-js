@@ -20,6 +20,7 @@ import {
   AddParticipantEventResult,
   TransferCallToParticipantEventResult,
   RemoveParticipantEventResult,
+  CancelAddParticipantEventResult,
 } from "../src";
 import Sinon, { SinonStubbedInstance } from "sinon";
 import { CALL_TARGET_ID, CALL_TARGET_ID_2 } from "./utils/connectionUtils";
@@ -294,7 +295,12 @@ describe("CallConnection Unit Tests", () => {
 
   it("CancelAddParticipant", async () => {
     const invitationId = "invitationId";
-    const cancelAddParticipantResultMock: CancelAddParticipantResult = { invitationId };
+    const cancelAddParticipantResultMock: CancelAddParticipantResult = {
+      invitationId,
+      waitForEventProcessor: async () => {
+        return {} as CancelAddParticipantEventResult;
+      },
+    };
     callConnection.cancelAddParticipant.returns(
       new Promise((resolve) => {
         resolve(cancelAddParticipantResultMock);
