@@ -29,6 +29,7 @@
     "./dist-esm/src/util/processMultiTenantRequest.js": "./dist-esm/src/util/processMultiTenantRequest.browser.js",
     "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js",
     "./dist-esm/src/plugins/consumer.js": "./dist-esm/src/plugins/consumer.browser.js",
+    "./dist-esm/src/credentials/azureDeveloperCliCredential.js": "./dist-esm/src/credentials/azureDeveloperCliCredential.browser.js",
     "./dist-esm/test/httpRequests.js": "./dist-esm/test/httpRequests.browser.js"
   },
   "//sampleConfiguration": {
