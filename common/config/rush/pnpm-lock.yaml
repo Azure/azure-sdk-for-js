@@ -4487,7 +4487,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230922
+      typescript: 5.3.0-dev.20230925
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9207,8 +9207,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20230922:
-    resolution: {integrity: sha512-QmuWGuk9Uk3blOaDo5P9wVLAOw7CfhrHmWoQAD+5UAQeR52S0/W0BjuYgCMGwmxVJJgYK1WCeBdbTi2jLxvoog==}
+  /typescript@5.3.0-dev.20230925:
+    resolution: {integrity: sha512-Q8U1zNAGD0BSaVuaHmjhYB8sM5VyTcp0y6IM4Q3v40uLX3MysM5yLl6qSxzA3PTzXmQmahLy+08aM3cZA0hR5A==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -22030,7 +22030,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client-protobuf.tgz:
-    resolution: {integrity: sha512-BHn7+GE78WKhd9PJqTs/w9w/ko8Vcmy6T0s9vHbVn3DfPdjsh3NJYpmdV309/XpkqKXfLVBRea1dv8ptTnBwXg==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
+    resolution: {integrity: sha512-nmCGz7vas3IGu1vxqKlojcil+WYaAxUAba3zD2AFs8FQQJQKLv+H2CzZGsI3QePj4IkIYVvl0hMUgZCatzoM3g==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
     name: '@rush-temp/web-pubsub-client-protobuf'
     version: 0.0.0
     dependencies:
@@ -22075,6 +22075,7 @@ packages:
       protobufjs-cli: 1.1.2(protobufjs@7.2.5)
       puppeteer: 19.11.1(typescript@5.0.4)
       rimraf: 3.0.2
+      rollup: 2.79.1
       sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
