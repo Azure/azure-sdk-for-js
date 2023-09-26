@@ -76,18 +76,18 @@ describe("netapp test", () => {
 
   it("accounts list test", async function () {
     const resArray = new Array();
-    for await (let item of client.accounts.listBySubscription()) {
+    for await (let item of client.accounts.list(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 3);
+    assert.equal(resArray.length, 1);
   });
 
   it("accounts delete test", async function () {
     const resArray = new Array();
     const res = await client.accounts.beginDeleteAndWait(resourceGroup, accountName, testPollingOptions)
-    for await (let item of client.accounts.listBySubscription()) {
+    for await (let item of client.accounts.list(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 2);
+    assert.equal(resArray.length, 0);
   });
 })
