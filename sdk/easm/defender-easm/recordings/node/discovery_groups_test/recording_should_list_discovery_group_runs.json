@@ -1,0 +1,1301 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group_name/workspaces/azure_workspace_name/discoGroups/University%20of%20Kansas/runs?api-version=2023-03-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.1 Node/v16.17.0 OS/(arm64-Darwin-22.6.0)",
+        "x-ms-client-request-id": "436cbc15-b06e-4a48-b741-f3aaef12013c"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Tue, 26 Sep 2023 19:18:52 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "origin",
+          "access-control-request-method",
+          "access-control-request-headers",
+          "accept-encoding"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "ed2ccc12-d841-4ea6-aee9-3638010cc41f",
+        "x-ms-request-id": "2ac7e3ea-30e0-4999-9e8e-8c7a6f9e5219",
+        "x-ms-ui-version": "sdk",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "totalElements": 8,
+        "value": [
+          {
+            "submittedDate": "2023-09-26T18:51:00\u002B0000",
+            "startedDate": "2023-09-26T18:51:00\u002B0000",
+            "completedDate": "2023-09-26T19:16:04\u002B0000",
+            "tier": "advanced",
+            "state": "failed",
+            "totalAssetsFoundCount": 21854,
+            "assetsAddedToInventoryCount": 109,
+            "seeds": [
+              {
+                "kind": "domain",
+                "name": "jayhawkmediaworkshop.org"
+              },
+              {
+                "kind": "domain",
+                "name": "wethryve.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kumc.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "ksrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuhistory.com"
+              },
+              {
+                "kind": "domain",
+                "name": "actionsdg.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "redtire.org"
+              },
+              {
+                "kind": "domain",
+                "name": "journalismtech.org"
+              },
+              {
+                "kind": "as",
+                "name": "11659"
+              },
+              {
+                "kind": "domain",
+                "name": "ksltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "ku.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "kufood.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kucppr.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuce.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkjournalism.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kucrl.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kiteaai.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkconsulting.org"
+              },
+              {
+                "kind": "domain",
+                "name": "trestlenetwork.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.net"
+              },
+              {
+                "kind": "as",
+                "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kclatinohealth.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jschooltech.org"
+              }
+            ],
+            "excludes": [],
+            "names": [
+              "Transportation Research Institute, University of Kansas",
+              "University Of Kansas Center For Research, Inc.",
+              "University of Kansas Medical Center",
+              "University of Kansas",
+              "The University of Kansas School of Business",
+              "University of Kansas School of Law",
+              "University of Kansas School Of Medicine-Wichita Medical Practice Association",
+              "Institute for Advancing Medical Innovation",
+              "University of Kansas School of Pharmacy"
+            ],
+            "errors": [
+              {
+                "error": {
+                  "code": "ERROR_RETRY_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              },
+              {
+                "error": {
+                  "code": "ERROR_RECURSION_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              }
+            ]
+          },
+          {
+            "submittedDate": "2023-09-26T18:32:05\u002B0000",
+            "startedDate": "2023-09-26T18:32:05\u002B0000",
+            "completedDate": "2023-09-26T18:53:36\u002B0000",
+            "tier": "advanced",
+            "state": "failed",
+            "totalAssetsFoundCount": 20538,
+            "assetsAddedToInventoryCount": 157253,
+            "seeds": [
+              {
+                "kind": "domain",
+                "name": "jayhawkmediaworkshop.org"
+              },
+              {
+                "kind": "domain",
+                "name": "wethryve.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kumc.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "ksrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuhistory.com"
+              },
+              {
+                "kind": "domain",
+                "name": "actionsdg.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "redtire.org"
+              },
+              {
+                "kind": "domain",
+                "name": "journalismtech.org"
+              },
+              {
+                "kind": "as",
+                "name": "11659"
+              },
+              {
+                "kind": "domain",
+                "name": "ksltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "ku.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "kufood.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kucppr.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuce.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkjournalism.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kucrl.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kiteaai.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkconsulting.org"
+              },
+              {
+                "kind": "domain",
+                "name": "trestlenetwork.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.net"
+              },
+              {
+                "kind": "as",
+                "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kclatinohealth.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jschooltech.org"
+              }
+            ],
+            "excludes": [],
+            "names": [
+              "University Of Kansas Center For Research, Inc.",
+              "Transportation Research Institute, University of Kansas",
+              "University of Kansas Medical Center",
+              "University of Kansas",
+              "The University of Kansas School of Business",
+              "University of Kansas School of Law",
+              "Institute for Advancing Medical Innovation",
+              "University of Kansas School Of Medicine-Wichita Medical Practice Association",
+              "University of Kansas School of Pharmacy"
+            ],
+            "errors": [
+              {
+                "error": {
+                  "code": "ERROR_RETRY_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              },
+              {
+                "error": {
+                  "code": "ERROR_RECURSION_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              }
+            ]
+          },
+          {
+            "submittedDate": "2023-09-26T18:52:13\u002B0000",
+            "startedDate": "2023-09-26T18:52:13\u002B0000",
+            "completedDate": "2023-09-26T19:10:05\u002B0000",
+            "tier": "advanced",
+            "state": "failed",
+            "totalAssetsFoundCount": 23615,
+            "assetsAddedToInventoryCount": 326,
+            "seeds": [
+              {
+                "kind": "domain",
+                "name": "jayhawkmediaworkshop.org"
+              },
+              {
+                "kind": "domain",
+                "name": "wethryve.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kumc.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "ksrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuhistory.com"
+              },
+              {
+                "kind": "domain",
+                "name": "actionsdg.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "redtire.org"
+              },
+              {
+                "kind": "domain",
+                "name": "journalismtech.org"
+              },
+              {
+                "kind": "as",
+                "name": "11659"
+              },
+              {
+                "kind": "domain",
+                "name": "ksltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "ku.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "kufood.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kucppr.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuce.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkjournalism.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kucrl.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kiteaai.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkconsulting.org"
+              },
+              {
+                "kind": "domain",
+                "name": "trestlenetwork.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.net"
+              },
+              {
+                "kind": "as",
+                "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kclatinohealth.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jschooltech.org"
+              }
+            ],
+            "excludes": [],
+            "names": [
+              "Transportation Research Institute, University of Kansas",
+              "University Of Kansas Center For Research, Inc.",
+              "University of Kansas Medical Center",
+              "University of Kansas",
+              "The University of Kansas School of Business",
+              "University of Kansas School of Law",
+              "University of Kansas School Of Medicine-Wichita Medical Practice Association",
+              "Institute for Advancing Medical Innovation",
+              "University of Kansas School of Pharmacy"
+            ],
+            "errors": [
+              {
+                "error": {
+                  "code": "ERROR_RETRY_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              },
+              {
+                "error": {
+                  "code": "ERROR_RECURSION_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              }
+            ]
+          },
+          {
+            "submittedDate": "2023-09-26T19:00:30\u002B0000",
+            "startedDate": "2023-09-26T19:00:30\u002B0000",
+            "completedDate": "2023-09-26T19:17:58\u002B0000",
+            "tier": "advanced",
+            "state": "failed",
+            "totalAssetsFoundCount": 23699,
+            "assetsAddedToInventoryCount": 619,
+            "seeds": [
+              {
+                "kind": "domain",
+                "name": "jayhawkmediaworkshop.org"
+              },
+              {
+                "kind": "domain",
+                "name": "wethryve.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kumc.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "ksrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuhistory.com"
+              },
+              {
+                "kind": "domain",
+                "name": "actionsdg.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "redtire.org"
+              },
+              {
+                "kind": "domain",
+                "name": "journalismtech.org"
+              },
+              {
+                "kind": "as",
+                "name": "11659"
+              },
+              {
+                "kind": "domain",
+                "name": "ksltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "ku.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "kufood.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kucppr.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuce.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkjournalism.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kucrl.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kiteaai.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkconsulting.org"
+              },
+              {
+                "kind": "domain",
+                "name": "trestlenetwork.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.net"
+              },
+              {
+                "kind": "as",
+                "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kclatinohealth.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jschooltech.org"
+              }
+            ],
+            "excludes": [],
+            "names": [
+              "University Of Kansas Center For Research, Inc.",
+              "Transportation Research Institute, University of Kansas",
+              "University of Kansas Medical Center",
+              "University of Kansas",
+              "The University of Kansas School of Business",
+              "University of Kansas School of Law",
+              "Institute for Advancing Medical Innovation",
+              "University of Kansas School Of Medicine-Wichita Medical Practice Association",
+              "University of Kansas School of Pharmacy"
+            ],
+            "errors": [
+              {
+                "error": {
+                  "code": "ERROR_RETRY_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              },
+              {
+                "error": {
+                  "code": "ERROR_RECURSION_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              }
+            ]
+          },
+          {
+            "submittedDate": "2023-09-26T18:48:43\u002B0000",
+            "startedDate": "2023-09-26T18:48:43\u002B0000",
+            "completedDate": "2023-09-26T19:09:27\u002B0000",
+            "tier": "advanced",
+            "state": "failed",
+            "totalAssetsFoundCount": 23493,
+            "assetsAddedToInventoryCount": 1987,
+            "seeds": [
+              {
+                "kind": "domain",
+                "name": "jayhawkmediaworkshop.org"
+              },
+              {
+                "kind": "domain",
+                "name": "wethryve.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kumc.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "ksrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuhistory.com"
+              },
+              {
+                "kind": "domain",
+                "name": "actionsdg.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "redtire.org"
+              },
+              {
+                "kind": "domain",
+                "name": "journalismtech.org"
+              },
+              {
+                "kind": "as",
+                "name": "11659"
+              },
+              {
+                "kind": "domain",
+                "name": "ksltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "ku.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "kufood.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kucppr.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuce.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkjournalism.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kucrl.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kiteaai.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkconsulting.org"
+              },
+              {
+                "kind": "domain",
+                "name": "trestlenetwork.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.net"
+              },
+              {
+                "kind": "as",
+                "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kclatinohealth.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jschooltech.org"
+              }
+            ],
+            "excludes": [],
+            "names": [
+              "Transportation Research Institute, University of Kansas",
+              "University Of Kansas Center For Research, Inc.",
+              "University of Kansas Medical Center",
+              "University of Kansas",
+              "The University of Kansas School of Business",
+              "University of Kansas School of Law",
+              "Institute for Advancing Medical Innovation",
+              "University of Kansas School Of Medicine-Wichita Medical Practice Association",
+              "University of Kansas School of Pharmacy"
+            ],
+            "errors": [
+              {
+                "error": {
+                  "code": "ERROR_RETRY_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              },
+              {
+                "error": {
+                  "code": "ERROR_RECURSION_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              }
+            ]
+          },
+          {
+            "submittedDate": "2023-09-26T19:18:48\u002B0000",
+            "startedDate": "2023-09-26T19:18:49\u002B0000",
+            "completedDate": null,
+            "tier": "advanced",
+            "state": "running",
+            "totalAssetsFoundCount": 0,
+            "assetsAddedToInventoryCount": 0,
+            "seeds": [
+              {
+                "kind": "domain",
+                "name": "jayhawkmediaworkshop.org"
+              },
+              {
+                "kind": "domain",
+                "name": "wethryve.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kumc.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "ksrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuhistory.com"
+              },
+              {
+                "kind": "domain",
+                "name": "actionsdg.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "redtire.org"
+              },
+              {
+                "kind": "domain",
+                "name": "journalismtech.org"
+              },
+              {
+                "kind": "as",
+                "name": "11659"
+              },
+              {
+                "kind": "domain",
+                "name": "ksltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "ku.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "kufood.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kucppr.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuce.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkjournalism.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kucrl.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kiteaai.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkconsulting.org"
+              },
+              {
+                "kind": "domain",
+                "name": "trestlenetwork.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.net"
+              },
+              {
+                "kind": "as",
+                "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kclatinohealth.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jschooltech.org"
+              }
+            ],
+            "excludes": [],
+            "names": [
+              "Transportation Research Institute, University of Kansas",
+              "University Of Kansas Center For Research, Inc.",
+              "University of Kansas Medical Center",
+              "University of Kansas",
+              "The University of Kansas School of Business",
+              "University of Kansas School of Law",
+              "Institute for Advancing Medical Innovation",
+              "University of Kansas School Of Medicine-Wichita Medical Practice Association",
+              "University of Kansas School of Pharmacy"
+            ],
+            "errors": []
+          },
+          {
+            "submittedDate": "2023-09-26T19:10:40\u002B0000",
+            "startedDate": "2023-09-26T19:10:40\u002B0000",
+            "completedDate": null,
+            "tier": "advanced",
+            "state": "running",
+            "totalAssetsFoundCount": 23665,
+            "assetsAddedToInventoryCount": 4,
+            "seeds": [
+              {
+                "kind": "domain",
+                "name": "jayhawkmediaworkshop.org"
+              },
+              {
+                "kind": "domain",
+                "name": "wethryve.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kumc.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "ksrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuhistory.com"
+              },
+              {
+                "kind": "domain",
+                "name": "actionsdg.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "redtire.org"
+              },
+              {
+                "kind": "domain",
+                "name": "journalismtech.org"
+              },
+              {
+                "kind": "as",
+                "name": "11659"
+              },
+              {
+                "kind": "domain",
+                "name": "ksltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "ku.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "kufood.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kucppr.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuce.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkjournalism.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kucrl.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kiteaai.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkconsulting.org"
+              },
+              {
+                "kind": "domain",
+                "name": "trestlenetwork.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.net"
+              },
+              {
+                "kind": "as",
+                "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kclatinohealth.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jschooltech.org"
+              }
+            ],
+            "excludes": [],
+            "names": [
+              "University Of Kansas Center For Research, Inc.",
+              "Transportation Research Institute, University of Kansas",
+              "University of Kansas Medical Center",
+              "University of Kansas",
+              "The University of Kansas School of Business",
+              "University of Kansas School of Law",
+              "University of Kansas School Of Medicine-Wichita Medical Practice Association",
+              "Institute for Advancing Medical Innovation",
+              "University of Kansas School of Pharmacy"
+            ],
+            "errors": [
+              {
+                "error": {
+                  "code": "ERROR_RETRY_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              },
+              {
+                "error": {
+                  "code": "ERROR_RECURSION_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              }
+            ]
+          },
+          {
+            "submittedDate": "2023-09-26T18:41:05\u002B0000",
+            "startedDate": "2023-09-26T18:41:05\u002B0000",
+            "completedDate": "2023-09-26T18:59:22\u002B0000",
+            "tier": "advanced",
+            "state": "failed",
+            "totalAssetsFoundCount": 22068,
+            "assetsAddedToInventoryCount": 6153,
+            "seeds": [
+              {
+                "kind": "domain",
+                "name": "jayhawkmediaworkshop.org"
+              },
+              {
+                "kind": "domain",
+                "name": "wethryve.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kumc.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "ksrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuhistory.com"
+              },
+              {
+                "kind": "domain",
+                "name": "actionsdg.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "redtire.org"
+              },
+              {
+                "kind": "domain",
+                "name": "journalismtech.org"
+              },
+              {
+                "kind": "as",
+                "name": "11659"
+              },
+              {
+                "kind": "domain",
+                "name": "ksltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "ku.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "kufood.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kucppr.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuce.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkjournalism.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kucrl.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kiteaai.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkconsulting.org"
+              },
+              {
+                "kind": "domain",
+                "name": "trestlenetwork.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.net"
+              },
+              {
+                "kind": "as",
+                "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kclatinohealth.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jschooltech.org"
+              }
+            ],
+            "excludes": [],
+            "names": [
+              "Transportation Research Institute, University of Kansas",
+              "University Of Kansas Center For Research, Inc.",
+              "University of Kansas Medical Center",
+              "University of Kansas",
+              "The University of Kansas School of Business",
+              "University of Kansas School of Law",
+              "University of Kansas School Of Medicine-Wichita Medical Practice Association",
+              "Institute for Advancing Medical Innovation",
+              "University of Kansas School of Pharmacy"
+            ],
+            "errors": [
+              {
+                "error": {
+                  "code": "ERROR_RETRY_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              },
+              {
+                "error": {
+                  "code": "ERROR_RECURSION_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

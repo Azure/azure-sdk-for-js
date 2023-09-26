@@ -1,0 +1,82 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group_name/workspaces/azure_workspace_name/discoGroups/New%20disco%20group%20name%20from%20ts?api-version=2023-03-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "88",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Cookie": "df=NWRiZTUzZmQtMDU4My00ZDFiLWIyODAtZmE3NTY4NjQ3ZDE1",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "80597e21-a512-4d4d-ab0d-ec7345453eaa",
+        "x-ms-useragent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.1 OS"
+      },
+      "RequestBody": {
+        "seeds": [
+          {
+            "kind": "domain",
+            "name": "example.org"
+          }
+        ],
+        "description": "Here is a description"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Tue, 26 Sep 2023 19:19:58 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "origin",
+          "access-control-request-method",
+          "access-control-request-headers",
+          "accept-encoding"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "7e5653bc-bd1e-4c8e-a414-25ba671ff5a2",
+        "x-ms-request-id": "d2616bce-6b9a-4004-8b3d-0106c7ee8177",
+        "x-ms-ui-version": "api",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "id": "New disco group name from ts",
+        "name": "New disco group name from ts",
+        "displayName": "New disco group name from ts",
+        "description": "Here is a description",
+        "tier": "advanced",
+        "frequencyMilliseconds": null,
+        "seeds": [
+          {
+            "kind": "domain",
+            "name": "example.org"
+          }
+        ],
+        "names": [],
+        "excludes": [],
+        "latestRun": null,
+        "createdDate": "2023-09-26T18:41:05\u002B0000",
+        "templateId": null
+      }
+    }
+  ],
+  "Variables": {}
+}

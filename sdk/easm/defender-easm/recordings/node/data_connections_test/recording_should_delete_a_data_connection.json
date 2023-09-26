@@ -1,0 +1,41 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group_name/workspaces/azure_workspace_name/dataConnections/sample-dc?api-version=2023-03-01-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.1 Node/v16.17.0 OS/(arm64-Darwin-22.6.0)",
+        "x-ms-client-request-id": "4df74e70-970f-4006-b096-4c5a3b8046c0"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Date": "Tue, 26 Sep 2023 19:18:45 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Vary": [
+          "Origin",
+          "Access-Control-Request-Method",
+          "Access-Control-Request-Headers"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "cbe27a63-bc8b-446c-bf0f-732eafa2ae36",
+        "x-ms-request-id": "d416f88d-c09a-4dc1-95f5-a1806a112b5d",
+        "x-ms-ui-version": "sdk",
+        "X-RiskIQ-RequestID": "d416f88d-c09a-4dc1-95f5-a1806a112b5d",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

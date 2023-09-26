@@ -1,0 +1,65 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group_name/workspaces/azure_workspace_name/tasks/efad1fac-52d5-4ea9-b601-d5bf54a83780:cancel?api-version=2023-03-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.1 Node/v16.17.0 OS/(arm64-Darwin-22.6.0)",
+        "x-ms-client-request-id": "0be9102d-9547-4cd1-8f5d-dd139c42cf00"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Tue, 26 Sep 2023 19:19:38 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "origin",
+          "access-control-request-method",
+          "access-control-request-headers",
+          "accept-encoding"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "d9012e46-be09-4a9d-928a-a9988002e00c",
+        "x-ms-request-id": "c697b7a6-3bde-4eb7-aeda-5a0f7eaa2beb",
+        "x-ms-ui-version": "sdk",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "id": "efad1fac-52d5-4ea9-b601-d5bf54a83780",
+        "startedAt": "2023-09-26T19:16:45\u002B0000",
+        "completedAt": "2023-09-26T19:16:59\u002B0000",
+        "lastPolledAt": null,
+        "state": "complete",
+        "phase": "complete",
+        "reason": null,
+        "metadata": {
+          "filter": "uuid in (\u002208bc18a0-eebf-e5f9-ef1d-13dcd1da2ae2\u0022) and state !empty",
+          "kind": "GlobalInventoryUpdateTask",
+          "assetUpdateRequest": {
+            "labels": {
+              "sdklabeltest": true
+            }
+          },
+          "estimated": 1,
+          "progress": 100,
+          "username": "thangle@microsoft.com"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -1,0 +1,69 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group_name/workspaces/azure_workspace_name/assets?filter=name\u002B%3D\u002Bku.edu\u002Band\u002Btype\u002B%3D\u002Bdomain\u0026api-version=2023-03-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "32",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.1 Node/v16.17.0 OS/(arm64-Darwin-22.6.0)",
+        "x-ms-client-request-id": "7ebe437f-61cb-4368-916a-2b9292cd9024"
+      },
+      "RequestBody": {
+        "externalId": "new_external_id"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Tue, 26 Sep 2023 19:18:42 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "origin",
+          "access-control-request-method",
+          "access-control-request-headers",
+          "accept-encoding"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "09675363-d7f0-4444-84db-dab2b49c6928",
+        "x-ms-request-id": "00c82eac-0534-448e-8394-e7d62b119530",
+        "x-ms-ui-version": "sdk",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "id": "e7d5a84b-1e64-4c67-9f76-a469f325d277",
+        "startedAt": "2023-09-26T19:18:38\u002B0000",
+        "completedAt": "2023-09-26T19:18:42\u002B0000",
+        "lastPolledAt": null,
+        "state": "complete",
+        "phase": "complete",
+        "reason": null,
+        "metadata": {
+          "filter": "name = ku.edu and type = domain",
+          "kind": "GlobalInventoryUpdateTask",
+          "assetUpdateRequest": {
+            "state": null,
+            "externalId": "new_external_id",
+            "labels": null,
+            "transfers": null
+          },
+          "estimated": 1,
+          "progress": 100,
+          "username": ""
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
