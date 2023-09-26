@@ -212,7 +212,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         }
       });
 
-      it.only("modify and updates the index object", async function () {
+      it("modify and updates the index object", async function () {
         let index = await indexClient.getIndex(TEST_INDEX_NAME);
         index.fields.push({
           type: "Edm.DateTimeOffset",
