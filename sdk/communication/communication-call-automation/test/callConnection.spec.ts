@@ -564,12 +564,12 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.CallConnecti
     setTimeout(async () => {
       await callConnection.cancelAddParticipant(addResult.invitationId!);
 
-      const addParticipantCancelledEvent = await waitForEvent(
+      const addParticipantCancelledEvent = (await waitForEvent(
         "AddParticipantCancelled",
         callConnectionId,
         10000
-      ) as AddParticipantCancelled;
-      
+      )) as AddParticipantCancelled;
+
       assert.isDefined(addParticipantCancelledEvent);
       assert.equal(addResult.invitationId, addParticipantCancelledEvent?.invitationId);
     }, 3000);
