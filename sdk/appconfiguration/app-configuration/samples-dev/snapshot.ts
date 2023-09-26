@@ -34,7 +34,7 @@ export async function main() {
     name: "mySnapshot",
     filters: [
       {
-        key: key1,
+        keyFilter: key1,
       },
     ],
   });
@@ -56,7 +56,7 @@ export async function main() {
     name: "mySnapshot2",
     filters: [
       {
-        key: key2,
+        keyFilter: key2,
       },
     ],
   });

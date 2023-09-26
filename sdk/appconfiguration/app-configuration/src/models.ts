@@ -48,16 +48,37 @@ export const AppConfigurationApiVersion = {
    * (GA) version, even if the package version is a beta.
    */
   Stable: "1.0",
+
+  /**
+   * App Configuration API version "1.0" (GA).
+   */
+  "1.0": "1.0",
+
+  /**
+   * App Configuration API version 2022-11-01-preview.
+   */
+  "2022-11-01-preview": "2022-11-01-preview",
 } as const;
 
 /**
  * Fields that uniquely identify a configuration setting
  */
-export interface ConfigurationSettingId extends ConfigurationSettingsFilter {
+export interface ConfigurationSettingId {
   /**
    * The etag for this setting
    */
   etag?: string;
+  /**
+   * The key for this setting.
+   * Feature flags must be prefixed with `.appconfig.featureflag/<feature-flag-name>`.
+   */
+  key: string;
+
+  /**
+   * The label for this setting. Leaving this undefined means this
+   * setting does not have a label.
+   */
+  label?: string;
 }
 /**
  * Necessary fields for updating or creating a new configuration setting
@@ -461,10 +482,7 @@ export interface SnapshotResponse extends ConfigurationSnapshot, SyncTokenHeader
 /**
  * Options used when getting a Snapshot.
  */
-export interface GetSnapshotOptions
-  extends OperationOptions,
-    HttpOnlyIfChangedField,
-    OptionalSnapshotFields {}
+export interface GetSnapshotOptions extends OperationOptions, OptionalSnapshotFields {}
 
 /**
  * Response from getting a Snapshot.
@@ -474,7 +492,7 @@ export interface GetSnapshotResponse extends SnapshotResponse {}
 /**
  * Options used when updating a Snapshot.
  */
-export interface UpdateSnapshotOptions extends HttpOnlyIfUnchangedField, OperationOptions {
+export interface UpdateSnapshotOptions extends OperationOptions {
   /**
    * The etag for this snapshot
    */

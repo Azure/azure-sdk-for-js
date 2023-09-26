@@ -32,6 +32,8 @@ export type AppConfigurationApiVersion = (typeof AppConfigurationApiVersion)[key
 export const AppConfigurationApiVersion: {
     readonly Latest: "2022-11-01-preview";
     readonly Stable: "1.0";
+    readonly "1.0": "1.0";
+    readonly "2022-11-01-preview": "2022-11-01-preview";
 };
 
 // @public
@@ -67,8 +69,10 @@ export type ConfigurationSetting<T extends string | FeatureFlagValue | SecretRef
 };
 
 // @public
-export interface ConfigurationSettingId extends ConfigurationSettingsFilter {
+export interface ConfigurationSettingId {
     etag?: string;
+    key: string;
+    label?: string;
 }
 
 // @public
@@ -88,8 +92,8 @@ export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & Http
 
 // @public
 export interface ConfigurationSettingsFilter {
-    key: string;
-    label?: string;
+    keyFilter: string;
+    labelFilter?: string;
 }
 
 // @public
@@ -163,7 +167,7 @@ export interface GetConfigurationSettingResponse extends ConfigurationSetting, G
 }
 
 // @public
-export interface GetSnapshotOptions extends OperationOptions, HttpOnlyIfChangedField, OptionalSnapshotFields {
+export interface GetSnapshotOptions extends OperationOptions, OptionalSnapshotFields {
 }
 
 // @public
@@ -245,8 +249,7 @@ export interface ListSettingsOptions extends OptionalFields {
 // @public
 export interface ListSnapshots extends OptionalSnapshotFields {
     nameFilter?: string;
-    // Warning: (ae-forgotten-export) The symbol "SnapshotStatus" needs to be exported by the entry point index.d.ts
-    statusFilter?: SnapshotStatus[];
+    statusFilter?: ConfigurationSnapshotStatus[];
 }
 
 // @public
@@ -336,7 +339,7 @@ export interface SyncTokenHeaderField {
 }
 
 // @public
-export interface UpdateSnapshotOptions extends HttpOnlyIfUnchangedField, OperationOptions {
+export interface UpdateSnapshotOptions extends OperationOptions {
     etag?: string;
 }
 

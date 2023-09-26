@@ -8,6 +8,7 @@ import {
   ConfigurationSnapshot,
   ConfigurationSettingsFilter,
   CreateSnapshotResponse,
+  ConfigurationSettingId,
 } from "../../src/models";
 import {
   assertEqualSnapshot,
@@ -21,6 +22,8 @@ describe("AppConfigurationClient snapshot", () => {
   let recorder: Recorder;
   let key1: string;
   let key2: string;
+  let configSetting1: ConfigurationSettingId;
+  let configSetting2: ConfigurationSettingId;
   let snapshot1: ConfigurationSnapshot;
   let filter1: ConfigurationSettingsFilter;
   let filter2: ConfigurationSettingsFilter;
@@ -31,13 +34,23 @@ describe("AppConfigurationClient snapshot", () => {
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     key1 = recorder.variable("key1", `key1-${new Date().getTime()}`);
     key2 = recorder.variable("key2", `key2-${new Date().getTime()}`);
-    filter1 = {
+    const label1 = "label1";
+    const label2 = "label2";
+    configSetting1 = {
       key: key1,
-      label: "label1",
+      label: label1,
+    };
+    configSetting2 = {
+      key: key2,
+      label: label2,
+    };
+    filter1 = {
+      keyFilter: key1,
+      labelFilter: label1,
     };
     filter2 = {
-      key: key2,
-      label: "label2",
+      keyFilter: key2,
+      labelFilter: label2,
     };
     snapshot1 = {
       name: recorder.variable("snapshot1", `snapshot-${new Date().getTime()}`),
@@ -45,24 +58,18 @@ describe("AppConfigurationClient snapshot", () => {
       filters: [filter1],
     };
 
-    // creating a new setting for key1
-    await client.addConfigurationSetting({ ...filter1, value: "value1" });
-
-    // creating a new setting for key2
-    await client.addConfigurationSetting({ ...filter2, value: "value2" });
+    await client.addConfigurationSetting({ ...configSetting1, value: "value1" });
+    await client.addConfigurationSetting({ ...configSetting2, value: "value2" });
   });
 
   afterEach(async function (this: Context) {
-    // delete a new setting for key1
-    await client.deleteConfigurationSetting({ ...filter1 });
-    // delete a new setting for key2
-    await client.deleteConfigurationSetting({ ...filter2 });
+    await client.deleteConfigurationSetting({ ...configSetting1 });
+    await client.deleteConfigurationSetting({ ...configSetting2 });
     await recorder.stop();
   });
 
   describe("createSnapshot", () => {
     it("create a snapshot", async () => {
-      // creating a new snapshot
       const poller = await client.beginCreateSnapshot(snapshot1, testPollingOptions);
       newSnapshot = await poller.pollUntilDone();
       assertEqualSnapshot(newSnapshot, snapshot1);
@@ -71,7 +78,6 @@ describe("AppConfigurationClient snapshot", () => {
     });
 
     it("service throws error when tried to create a snapshot with same name", async () => {
-      // creating a new snapshot
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
       assertEqualSnapshot(newSnapshot, snapshot1);
 
@@ -110,13 +116,10 @@ describe("AppConfigurationClient snapshot", () => {
 
   describe("listConfigurationSettings of a Snapshot", () => {
     it("list configuration settings", async () => {
-      // creating a new snapshot
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
 
-      // change the value of the setting
-      await client.setConfigurationSetting({ ...filter1, value: "value2" });
+      await client.setConfigurationSetting({ ...configSetting1, value: "value2" });
 
-      // getting the configuration settting of the snapshot
       const snapshotConfigurationSettings = client.listConfigurationSettingsForSnapshot(
         newSnapshot.name
       );
@@ -133,7 +136,6 @@ describe("AppConfigurationClient snapshot", () => {
 
   describe("archiveSnapshot", () => {
     it("archive a snapshot", async () => {
-      // creating a new snapshot
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
       const archivedSnapshot = await client.archiveSnapshot(newSnapshot.name);
 
@@ -158,7 +160,6 @@ describe("AppConfigurationClient snapshot", () => {
 
   describe("recoverSnapshot", () => {
     it("recover a snapshot", async () => {
-      // creating a new snapshot
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
       const archivedSnapshot = await client.archiveSnapshot(newSnapshot.name);
 
@@ -186,7 +187,6 @@ describe("AppConfigurationClient snapshot", () => {
 
   describe("getSnapshot", () => {
     it("get a snapshot", async () => {
-      // creating a new snapshot
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
 
       const snapshot = await client.getSnapshot(newSnapshot.name);
@@ -195,9 +195,9 @@ describe("AppConfigurationClient snapshot", () => {
       await client.archiveSnapshot(newSnapshot.name);
     });
 
+    // Check issue https://github.com/Azure/azure-sdk-for-js/issues/26447
     it.skip("accepts operation options", async function () {
       if (isPlaybackMode()) this.skip();
-      // creating a new snapshot
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
       await assertThrowsAbortError(async () => {
         await client.getSnapshot(newSnapshot.name, {
@@ -225,17 +225,14 @@ describe("AppConfigurationClient snapshot", () => {
       }
       assert.equal(num, 0, "There should be no snapshot in ready status");
 
-      // creating a new snapshot 1
       await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
 
-      // create a new snapshot 2
       const snapshot2 = {
         name: recorder.variable("snapshot2", `snapshot-${new Date().getTime()}`),
         filters: [filter1, filter2],
       };
       await client.beginCreateSnapshotAndWait(snapshot2, testPollingOptions);
 
-      // new snapshot lists
       const listAfter = await client.listSnapshots({ statusFilter: ["ready"] });
       let total = 0;
       for await (const snapshot of listAfter) {

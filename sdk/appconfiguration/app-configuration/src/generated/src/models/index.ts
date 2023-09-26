@@ -126,9 +126,9 @@ export interface ConfigurationSnapshot {
 /** Enables filtering of key-values. */
 export interface ConfigurationSettingsFilter {
   /** Filters key-values by their key field. */
-  key: string;
+  keyFilter: string;
   /** Filters key-values by their label field. */
-  label?: string;
+  labelFilter?: string;
 }
 
 /** Parameters used to update a snapshot. */

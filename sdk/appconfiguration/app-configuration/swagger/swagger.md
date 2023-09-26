@@ -115,9 +115,17 @@ directive:
       $.size["x-ms-client-name"] = "sizeInBytes";
       $.composition_type["x-ms-enum"].name = "SnapshotComposition";
       $.status["x-ms-enum"].name = "ConfigurationSnapshotStatus";
-
 ```
+### Rename Properties key -> keyFilter, label -> labelFilter for KeyValueFilter
 
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.KeyValueFilter.properties
+    transform: >
+      $.key["x-ms-client-name"] = "keyFilter";
+      $.label["x-ms-client-name"] = "labelFilter";
+```
 ### Rename KeyValueFilter -> ConfigurationSettingsFilter
 ```yaml
 directive:

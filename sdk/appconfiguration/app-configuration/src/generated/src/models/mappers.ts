@@ -313,14 +313,14 @@ export const ConfigurationSettingsFilter: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ConfigurationSettingsFilter",
     modelProperties: {
-      key: {
+      keyFilter: {
         serializedName: "key",
         required: true,
         type: {
           name: "String"
         }
       },
-      label: {
+      labelFilter: {
         serializedName: "label",
         type: {
           name: "String"

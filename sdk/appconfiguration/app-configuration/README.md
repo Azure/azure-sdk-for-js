@@ -204,7 +204,7 @@ async function run() {
   const poller = await client.beginCreateSnapshot({
     name:"testsnapshot",
     retentionPeriod: 2592000,
-    filters: [{key, label}],
+    filters: [{keyFilter: key, labelFilter: label}],
   });
   const snapshot = await poller.pollUntilDone();
 }
@@ -217,7 +217,7 @@ You can also use `beginCreateSnapshotAndWait` to have the result of the creation
 const snapshot  = await client.beginCreateSnapshotAndWait({
   name:"testsnapshot",
   retentionPeriod: 2592000,
-  filters: [{key, label}],
+  filters: [{keyFilter: key, labelFilter: label}],
 });
 ```
 
