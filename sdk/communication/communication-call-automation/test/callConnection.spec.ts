@@ -539,12 +539,12 @@ describe("CallConnection Live Tests", function () {
     setTimeout(async () => {
       await callConnection.cancelAddParticipant(addResult.invitationId!);
 
-      const addParticipantCancelledEvent = await waitForEvent(
+      const addParticipantCancelledEvent = (await waitForEvent(
         "AddParticipantCancelled",
         callConnectionId,
         10000
-      ) as AddParticipantCancelled;
-      
+      )) as AddParticipantCancelled;
+
       assert.isDefined(addParticipantCancelledEvent);
       assert.equal(addResult.invitationId, addParticipantCancelledEvent?.invitationId);
     }, 3000);
