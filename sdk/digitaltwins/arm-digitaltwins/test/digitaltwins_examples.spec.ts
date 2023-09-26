@@ -81,7 +81,7 @@ describe("DigitalTwins test", () => {
 
   it("DigitalTwins delete test", async function () {
     const resArray = new Array();
-    const res = await client.digitalTwins.beginDeleteAndWait(resourceGroup, resourceName)
+    const res = await client.digitalTwins.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions)
     for await (let item of client.digitalTwins.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

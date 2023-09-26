@@ -228,7 +228,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       credentials = new SasServiceClientCredentials(credentialOrOptions2);
       options = options3 || {};
-      authPolicy = signingPolicy(credentials);
+      authPolicy = signingPolicy(credentials as SasServiceClientCredentials);
     } else {
       const connectionString = fullyQualifiedNamespaceOrConnectionString1;
       options = credentialOrOptions2 || {};
@@ -245,7 +245,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         key: connectionStringObj.SharedAccessKey,
         name: connectionStringObj.SharedAccessKeyName,
       });
-      authPolicy = signingPolicy(credentials);
+      authPolicy = signingPolicy(credentials as SasServiceClientCredentials);
     }
 
     const userAgentPrefix = formatUserAgentPrefix(options.userAgentOptions?.userAgentPrefix);
@@ -1998,7 +1998,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         ) {
           const token =
             this.credentials instanceof SasServiceClientCredentials
-              ? this.credentials.getToken(this.endpoint).token
+              ? (await this.credentials.getToken(this.endpoint)).token
               : (await this.credentials.getToken([AMQPConstants.aadServiceBusScope]))!.token;
 
           if (queueOrSubscriptionFields.ForwardTo) {

@@ -98,7 +98,7 @@ export = {
     "require TSDoc comments to include an '@internal' or '@hidden' tag if the object is not public-facing"
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
-    const fileName = context.getFilename();
+    const fileName = context.filename;
 
     // on the first run, if on a .ts file (program.getSourceFile is file-type dependent)
     if (context.settings.exported === undefined && /\.ts$/.test(fileName)) {
@@ -111,7 +111,7 @@ export = {
       }
     }
 
-    const parserServices = context.parserServices as ParserServices;
+    const parserServices = context.sourceCode.parserServices as ParserServices;
     if (
       parserServices.program === undefined ||
       parserServices.esTreeNodeToTSNodeMap === undefined
@@ -134,8 +134,8 @@ export = {
           // standalone functions
           ":function": (node: Node): void => {
             if (
-              context
-                .getAncestors()
+              context.sourceCode
+                .getAncestors(node)
                 .every(
                   (ancestor: Node): boolean =>
                     !["ClassBody", "TSInterfaceBody", "TSModuleBlock"].includes(ancestor.type)

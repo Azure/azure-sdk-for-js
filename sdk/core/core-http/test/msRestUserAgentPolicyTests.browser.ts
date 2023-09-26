@@ -3,7 +3,6 @@
 
 /* eslint-disable no-unused-expressions */
 
-import "chai/register-should";
 import { RequestPolicy, RequestPolicyOptions } from "../src/policies/requestPolicy";
 import { HttpOperationResponse } from "../src/httpOperationResponse";
 import { WebResource } from "../src/webResource";

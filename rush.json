@@ -518,6 +518,7 @@
     {
       "packageName": "@azure/core-http",
       "projectFolder": "sdk/core/core-http",
+      "decoupledLocalDependencies": ["@azure/core-tracing"],
       "versionPolicyName": "core"
     },
     {
@@ -608,6 +609,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
+      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
       "versionPolicyName": "client"
     },
     {

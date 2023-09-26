@@ -28,7 +28,7 @@
     "@azure/event-hubs": "latest",
     "dotenv": "latest",
     "rhea-promise": "^3.0.0",
-    "@azure/core-amqp": "^3.3.0",
+    "@azure/core-amqp": "^4.0.0",
     "ws": "^8.2.0",
     "@azure/identity": "^2.0.1",
     "https-proxy-agent": "^5.0.0"
