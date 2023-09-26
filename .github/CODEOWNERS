@@ -708,6 +708,10 @@
 /sdk/recoveryservicessiterecovery/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/recoveryservicesdatareplication/arm-recoveryservicesdatareplication/ @qiaozha @MaryGao
+/sdk/recoveryservicesdatareplication/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/redis/arm-rediscache/ @qiaozha @MaryGao
 /sdk/redis/ci.mgmt.yml @qiaozha @MaryGao
 
