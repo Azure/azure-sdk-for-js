@@ -110,7 +110,7 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
               typeof context.headers["x-ms-dedicatedgateway-max-age"] === "string",
               `${context.headers["x-ms-dedicatedgateway-max-age"]} = string`
             );
-            
+
             if (context.headers["x-ms-dedicatedgateway-max-age"] === "0") {
               assert.ok(
                 context.headers["x-ms-dedicatedgateway-max-age"] === "0",
