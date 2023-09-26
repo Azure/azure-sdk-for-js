@@ -14,6 +14,7 @@ import {
   SendDtmfEventResult,
   StartRecognizingEventResult,
   TransferCallToParticipantEventResult,
+  CancelAddParticipantEventResult,
 } from "../eventprocessor/eventResponses";
 import { AbortSignalLike } from "@azure/abort-controller";
 
@@ -173,7 +174,14 @@ export interface StartRecognizingResult {
 /** The response payload for cancelling add participant request. */
 export interface CancelAddParticipantResult {
   /** the invitation ID used to cancel the add participant request. */
-  invitationId: string;
+  invitationId?: string;
   /** The operation context provided by client. */
   operationContext?: string;
+  /*
+   * Waiting for event processor to process the event
+   */
+  waitForEventProcessor(
+    abortSignal?: AbortSignalLike,
+    timeoutInMs?: number
+  ): Promise<CancelAddParticipantEventResult>;
 }

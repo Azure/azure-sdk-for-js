@@ -17,6 +17,8 @@ import {
   RecognizeFailed,
   CallTransferAccepted,
   CallTransferFailed,
+  AddParticipantCancelled,
+  CancelAddParticipantFailed,
 } from "../models/events";
 
 /**
@@ -96,4 +98,13 @@ export interface TransferCallToParticipantEventResult {
   isSuccess: boolean;
   successResult?: CallTransferAccepted;
   failureResult?: CallTransferFailed;
+}
+
+/**
+ * TransferCallToParticipant event result
+ */
+export interface CancelAddParticipantEventResult {
+  isSuccess: boolean;
+  successResult?: AddParticipantCancelled;
+  failureResult?: CancelAddParticipantFailed;
 }

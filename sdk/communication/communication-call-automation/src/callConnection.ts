@@ -47,6 +47,7 @@ import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
 import {
   AddParticipantEventResult,
+  CancelAddParticipantEventResult,
   RemoveParticipantEventResult,
   TransferCallToParticipantEventResult,
 } from "./eventprocessor/eventResponses";
@@ -413,14 +414,14 @@ export class CallConnection {
    *
    * @param invitationId - Invitation ID used to cancel the add participant request.
    */
-  public cancelAddParticipant(
+  public async cancelAddParticipant(
     invitationId: string,
     options: CancelAddParticipantOptions = {}
   ): Promise<CancelAddParticipantResult> {
     const { operationContext, callbackUrl: callbackUri, ...operationOptions } = options;
     const cancelAddParticipantRequest = {
       invitationId,
-      operationContext,
+      operationContext: options.operationContext ? options.operationContext : uuidv4(),
       callbackUri,
     };
     const optionsInternal = {
@@ -429,10 +430,47 @@ export class CallConnection {
       repeatabilityRequestID: uuidv4(),
     };
 
-    return this.callConnection.cancelAddParticipant(
+    const result = await this.callConnection.cancelAddParticipant(
       this.callConnectionId,
       cancelAddParticipantRequest,
       optionsInternal
-    ) as Promise<CancelAddParticipantResult>;
+    );
+
+    const cancelAddParticipantResult: CancelAddParticipantResult = {
+      ...result,
+      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
+        const cancelAddParticipantEventResult: CancelAddParticipantEventResult = {
+          isSuccess: false,
+        };
+        await this.callAutomationEventProcessor.waitForEventProcessor(
+          (event) => {
+            if (
+              event.callConnectionId === this.callConnectionId &&
+              event.kind === "AddParticipantCancelled" &&
+              event.operationContext === cancelAddParticipantRequest.operationContext
+            ) {
+              cancelAddParticipantEventResult.isSuccess = true;
+              cancelAddParticipantEventResult.successResult = event;
+              return true;
+            } else if (
+              event.callConnectionId === this.callConnectionId &&
+              event.kind === "CancelAddParticipantFailed" &&
+              event.operationContext === cancelAddParticipantRequest.operationContext
+            ) {
+              cancelAddParticipantEventResult.isSuccess = false;
+              cancelAddParticipantEventResult.failureResult = event;
+              return true;
+            } else {
+              return false;
+            }
+          },
+          abortSignal,
+          timeoutInMs
+        );
+        return cancelAddParticipantEventResult;
+      },
+    };
+
+    return cancelAddParticipantResult;
   }
 }
