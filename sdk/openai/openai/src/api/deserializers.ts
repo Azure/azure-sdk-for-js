@@ -9,7 +9,7 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { ChatMessage, ChatRole, Completions, ContentFilterResults } from "../models/models.js";
+import { ChatMessage, ChatRole, Completions, PromptFilterResult } from "../models/models.js";
 import {
   ChatChoiceOutput,
   ChatMessageOutput,
@@ -18,23 +18,31 @@ import {
   PromptFilterResultOutput,
 } from "../rest/outputModels.js";
 import { ChatCompletions } from "../models/models.js";
+import { ContentFilterResults } from "./models.js";
+
+function getPromptFilterResult(body: Record<string, any>): {
+  promptFilterResults?: PromptFilterResult[];
+} {
+  const res = body["prompt_annotations"] ?? body["prompt_filter_results"];
+  return !res
+    ? {}
+    : {
+        promptFilterResults: res.map((p: PromptFilterResultOutput) => ({
+          promptIndex: p["prompt_index"],
+          ...(!p.content_filter_results
+            ? {}
+            : {
+                contentFilterResults: deserializeContentFilter(p.content_filter_results),
+              }),
+        })),
+      };
+}
 
 export function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usage"> {
   return {
     id: body["id"],
     created: new Date(body["created"]),
-    ...(!body["prompt_annotations"]
-      ? {}
-      : {
-          promptFilterResults: body["prompt_annotations"].map((p: PromptFilterResultOutput) => ({
-            promptIndex: p["prompt_index"],
-            ...(!p.content_filter_results
-              ? {}
-              : {
-                  contentFilterResults: deserializeContentFilter(p.content_filter_results),
-                }),
-          })),
-        }),
+    ...getPromptFilterResult(body),
     choices: (body["choices"] ?? []).map((p: ChoiceOutput) => ({
       text: p["text"],
       index: p["index"],
@@ -70,17 +78,15 @@ export function getChatCompletionsResult(body: Record<string, any>): ChatComplet
         ? {}
         : { contentFilterResults: deserializeContentFilter(p.content_filter_results) }),
     })),
-    ...(!body["prompt_annotations"]
+    ...getPromptFilterResult(body),
+    ...(!body["usage"]
       ? {}
       : {
-          promptFilterResults: body["prompt_annotations"].map((p: PromptFilterResultOutput) => ({
-            promptIndex: p["prompt_index"],
-            ...(!p.content_filter_results
-              ? {}
-              : {
-                  contentFilterResults: deserializeContentFilter(p.content_filter_results),
-                }),
-          })),
+          usage: {
+            completionTokens: body["usage"].completion_tokens,
+            promptTokens: body["usage"].prompt_tokens,
+            totalTokens: body["usage"].total_tokens,
+          },
         }),
   };
 }
@@ -120,6 +126,15 @@ function _deserializeMessage(message: ChatMessageOutput): ChatMessage {
 }
 
 function deserializeContentFilter(result: ContentFilterResultsOutput): ContentFilterResults {
+  if (result.error) {
+    return {
+      error: {
+        code: result.error.code,
+        message: result.error.message,
+        details: result.error.details ?? [],
+      },
+    };
+  }
   return {
     ...(!result.sexual
       ? {}

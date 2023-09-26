@@ -16,3 +16,4 @@ export { AzureKeyCredential } from "@azure/core-auth";
 export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";
 export { OpenAIClient, OpenAIClientOptions } from "./OpenAIClient.js";
 export * from "./models/index.js";
+export * from "./models/audio.js";

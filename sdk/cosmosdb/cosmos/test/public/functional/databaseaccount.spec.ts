@@ -3,9 +3,10 @@
 import assert from "assert";
 import { Context } from "mocha";
 import { Suite } from "mocha";
-import { CosmosClient } from "../../../src";
+import { CosmosClient, OperationType } from "../../../src";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
+import { testForDiagnostics } from "../common/TestHelpers";
 
 const client = new CosmosClient({
   endpoint,
@@ -21,7 +22,25 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
 
   describe("validate database account functionality", function () {
     it("nativeApi Should get database account successfully name based", async function () {
-      const { resource: databaseAccount, headers, statusCode } = await client.getDatabaseAccount();
+      const {
+        resource: databaseAccount,
+        headers,
+        statusCode,
+      } = await testForDiagnostics(
+        async () => {
+          return client.getDatabaseAccount();
+        },
+        {
+          locationEndpointsContacted: 1,
+          metadataCallCount: 0,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [
+            {
+              operationType: OperationType.Read,
+            },
+          ],
+        }
+      );
       assert.equal(databaseAccount.DatabasesLink, "/dbs/");
       assert.equal(databaseAccount.MediaLink, "/media/");
       assert.equal(

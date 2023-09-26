@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ProtectionContainerMapping,
   ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams,
@@ -94,8 +94,8 @@ export interface ReplicationProtectionContainerMappings {
     creationInput: CreateProtectionContainerMappingInput,
     options?: ReplicationProtectionContainerMappingsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectionContainerMappingsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectionContainerMappingsCreateResponse>,
       ReplicationProtectionContainerMappingsCreateResponse
     >
   >;
@@ -136,7 +136,7 @@ export interface ReplicationProtectionContainerMappings {
     protectionContainerName: string,
     mappingName: string,
     options?: ReplicationProtectionContainerMappingsPurgeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to purge(force delete) a protection container mapping.
    * @param resourceName The name of the recovery services vault.
@@ -175,8 +175,8 @@ export interface ReplicationProtectionContainerMappings {
     updateInput: UpdateProtectionContainerMappingInput,
     options?: ReplicationProtectionContainerMappingsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectionContainerMappingsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectionContainerMappingsUpdateResponse>,
       ReplicationProtectionContainerMappingsUpdateResponse
     >
   >;
@@ -219,7 +219,7 @@ export interface ReplicationProtectionContainerMappings {
     mappingName: string,
     removalInput: RemoveProtectionContainerMappingInput,
     options?: ReplicationProtectionContainerMappingsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete or remove a protection container mapping.
    * @param resourceName The name of the recovery services vault.

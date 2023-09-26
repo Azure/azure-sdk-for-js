@@ -377,17 +377,18 @@ export type AzureVmWorkloadItemUnion = AzureVmWorkloadItem | AzureVmWorkloadSAPA
 export interface AzureVmWorkloadProtectableItem extends WorkloadProtectableItem {
     isAutoProtectable?: boolean;
     isAutoProtected?: boolean;
+    isProtectable?: boolean;
     parentName?: string;
     parentUniqueName?: string;
     prebackupvalidation?: PreBackupValidation;
-    protectableItemType: "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
+    protectableItemType: "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
     serverName?: string;
     subinquireditemcount?: number;
     subprotectableitemcount?: number;
 }
 
 // @public (undocumented)
-export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSAPHanaDBInstance | AzureVmWorkloadSAPHanaHSR | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem;
+export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSAPHanaDBInstance | AzureVmWorkloadSAPHanaHSRProtectableItem | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem;
 
 // @public
 export interface AzureVmWorkloadProtectedItem extends ProtectedItem {
@@ -399,6 +400,7 @@ export interface AzureVmWorkloadProtectedItem extends ProtectedItem {
     lastBackupErrorDetail?: ErrorDetail;
     lastBackupStatus?: LastBackupStatus;
     lastBackupTime?: Date;
+    nodesList?: DistributedNodesInfo[];
     parentName?: string;
     parentType?: string;
     protectedItemDataSourceId?: string;
@@ -478,8 +480,8 @@ export interface AzureVmWorkloadSAPHanaDBInstanceProtectedItem extends AzureVmWo
 }
 
 // @public
-export interface AzureVmWorkloadSAPHanaHSR extends AzureVmWorkloadProtectableItem {
-    protectableItemType: "SAPHanaHSR";
+export interface AzureVmWorkloadSAPHanaHSRProtectableItem extends AzureVmWorkloadProtectableItem {
+    protectableItemType: "HanaHSRContainer";
 }
 
 // @public
@@ -494,6 +496,7 @@ export interface AzureVmWorkloadSAPHanaSystemWorkloadItem extends AzureVmWorkloa
 
 // @public
 export interface AzureVmWorkloadSQLAvailabilityGroupProtectableItem extends AzureVmWorkloadProtectableItem {
+    nodesList?: DistributedNodesInfo[];
     protectableItemType: "SQLAvailabilityGroupContainer";
 }
 
@@ -1087,6 +1090,7 @@ export interface BackupResourceVaultConfig {
     isSoftDeleteFeatureStateEditable?: boolean;
     resourceGuardOperationRequests?: string[];
     softDeleteFeatureState?: SoftDeleteFeatureState;
+    softDeleteRetentionPeriodInDays?: number;
     storageModelType?: StorageType;
     storageType?: StorageType;
     storageTypeState?: StorageTypeState;
@@ -1451,6 +1455,7 @@ export interface DiskInformation {
 export interface DistributedNodesInfo {
     errorDetail?: ErrorDetail;
     nodeName?: string;
+    sourceResourceId?: string;
     status?: string;
 }
 
@@ -1852,6 +1857,7 @@ export type InquiryStatus = string;
 export interface InquiryValidation {
     readonly additionalDetail?: string;
     errorDetail?: ErrorDetail;
+    readonly protectableItemCount?: Record<string, unknown>;
     status?: string;
 }
 
@@ -2437,6 +2443,7 @@ export enum KnownScheduleRunType {
 
 // @public
 export enum KnownSoftDeleteFeatureState {
+    AlwaysON = "AlwaysON",
     Disabled = "Disabled",
     Enabled = "Enabled",
     Invalid = "Invalid"
@@ -2504,6 +2511,13 @@ export enum KnownValidationStatus {
     Failed = "Failed",
     Invalid = "Invalid",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownVaultSubResourceType {
+    AzureBackup = "AzureBackup",
+    AzureBackupSecondary = "AzureBackup_secondary",
+    AzureSiteRecovery = "AzureSiteRecovery"
 }
 
 // @public
@@ -2900,6 +2914,7 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection {
+    groupIds?: VaultSubResourceType[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     provisioningState?: ProvisioningState;
@@ -2958,7 +2973,7 @@ export interface PrivateEndpointOperations {
 
 // @public
 export interface PrivateLinkServiceConnectionState {
-    actionRequired?: string;
+    actionsRequired?: string;
     description?: string;
     status?: PrivateEndpointConnectionStatus;
 }
@@ -3025,7 +3040,7 @@ export interface ProtectedItem {
     policyName?: string;
     protectedItemType: "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem";
     resourceGuardOperationRequests?: string[];
-    softDeleteRetentionPeriod?: number;
+    softDeleteRetentionPeriodInDays?: number;
     sourceResourceId?: string;
     readonly workloadType?: DataSourceType;
 }
@@ -4042,6 +4057,9 @@ export interface VaultStorageConfigOperationResultResponse {
 export type VaultStorageConfigOperationResultResponseUnion = VaultStorageConfigOperationResultResponse | PrepareDataMoveResponse;
 
 // @public
+export type VaultSubResourceType = string;
+
+// @public
 export interface WeeklyRetentionFormat {
     daysOfTheWeek?: DayOfWeek[];
     weeksOfTheMonth?: WeekOfMonth[];
@@ -4100,7 +4118,7 @@ export type WorkloadItemUnion = WorkloadItem | AzureVmWorkloadItemUnion;
 export interface WorkloadProtectableItem {
     backupManagementType?: string;
     friendlyName?: string;
-    protectableItemType: "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
+    protectableItemType: "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
     protectionState?: ProtectionStatus;
     workloadType?: string;
 }

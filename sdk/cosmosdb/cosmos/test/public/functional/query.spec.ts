@@ -6,7 +6,12 @@ import { ContainerDefinition, CosmosClient } from "../../../src";
 import { Container } from "../../../src/";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
-import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import {
+  getTestContainer,
+  getTestDatabase,
+  removeAllDatabases,
+  testForDiagnostics,
+} from "../common/TestHelpers";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
 
 const client = new CosmosClient({
@@ -68,7 +73,21 @@ describe("Queries", function (this: Suite) {
 
     it("fetchAll", async function () {
       const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
-      const { resources: docs } = await queryIterator.fetchAll();
+
+      const { resources: docs } = await testForDiagnostics(
+        async () => {
+          return queryIterator.fetchAll();
+        },
+        {
+          locationEndpointsContacted: 1,
+          metadataCallCount: 7,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [{}, {}], // Two backend data calls.
+        },
+        true
+      );
+
+      // const { resources: docs } = await queryIterator.fetchAll();
       assert.equal(docs.length, 3, "queryIterator should return all documents using continuation");
       assert.equal(docs[0].id, resources.doc1.id);
       assert.equal(docs[1].id, resources.doc2.id);
@@ -94,7 +113,20 @@ describe("Queries", function (this: Suite) {
       let queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
       });
-      const firstResponse = await queryIterator.fetchNext();
+
+      const firstResponse = await testForDiagnostics(
+        async () => {
+          return queryIterator.fetchNext();
+        },
+        {
+          locationEndpointsContacted: 1,
+          metadataCallCount: 5,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [{}], // One backend data calls.
+        },
+        true
+      );
+      // const firstResponse = await queryIterator.fetchNext();
       assert(firstResponse.continuationToken);
       assert(firstResponse.requestCharge > 0, "RequestCharge has to be non-zero");
       assert.equal(firstResponse.resources.length, 2, "first batch size should be 2");
@@ -118,7 +150,6 @@ describe("Queries", function (this: Suite) {
         continuationToken: firstResponse.continuationToken,
       });
       const secondResponse = await queryIterator.fetchNext();
-      // console.log(secondResponse);
       assert(secondResponse.requestCharge > 0, "RequestCharge has to be non-zero");
       assert.equal(
         secondResponse.resources.length,
@@ -336,7 +367,6 @@ describe("Queries", function (this: Suite) {
         partitionKey: ["a", 1],
       });
       const secondResponse = await queryIterator.fetchNext();
-      // console.log(secondResponse);
       assert(secondResponse.requestCharge > 0, "RequestCharge has to be non-zero");
       assert.equal(
         secondResponse.resources.length,

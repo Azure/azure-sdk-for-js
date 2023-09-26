@@ -19,7 +19,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   public samplingRatio: number;
   /** Azure Monitor Exporter Configuration */
-  public azureMonitorExporterConfig: AzureMonitorExporterOptions;
+  public azureMonitorExporterOptions: AzureMonitorExporterOptions;
   /**
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
@@ -43,7 +43,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
    */
   constructor(options?: AzureMonitorOpenTelemetryOptions) {
     // Default values
-    this.azureMonitorExporterConfig = {};
+    this.azureMonitorExporterOptions = {};
     this.samplingRatio = 1;
     this.instrumentationOptions = {
       http: { enabled: true },
@@ -61,9 +61,9 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     // This will take precedence over other settings
     if (options) {
       // Merge default with provided options
-      this.azureMonitorExporterConfig = Object.assign(
-        this.azureMonitorExporterConfig,
-        options.azureMonitorExporterConfig
+      this.azureMonitorExporterOptions = Object.assign(
+        this.azureMonitorExporterOptions,
+        options.azureMonitorExporterOptions
       );
       this.instrumentationOptions = Object.assign(
         this.instrumentationOptions,
@@ -80,9 +80,9 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       this.samplingRatio =
         jsonConfig.samplingRatio !== undefined ? jsonConfig.samplingRatio : this.samplingRatio;
 
-      this.azureMonitorExporterConfig = Object.assign(
-        this.azureMonitorExporterConfig,
-        jsonConfig.azureMonitorExporterConfig
+      this.azureMonitorExporterOptions = Object.assign(
+        this.azureMonitorExporterOptions,
+        jsonConfig.azureMonitorExporterOptions
       );
       this.instrumentationOptions = Object.assign(
         this.instrumentationOptions,

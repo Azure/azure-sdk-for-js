@@ -10,6 +10,13 @@ import { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseResponse } from "./DatabaseResponse";
 import { OfferResponse, OfferDefinition, Offer } from "../Offer";
 import { Resource } from "../Resource";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import {
+  getEmptyCosmosDiagnostics,
+  withDiagnostics,
+  withMetadataDiagnostics,
+} from "../../utils/diagnostics";
+import { MetadataLookUpType } from "../../CosmosDiagnostics";
 
 /**
  * Operations for reading or deleting an existing database.
@@ -85,6 +92,18 @@ export class Database {
 
   /** Read the definition of the given Database. */
   public async read(options?: RequestOptions): Promise<DatabaseResponse> {
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.readInternal(diagnosticNode, options);
+    }, this.clientContext);
+  }
+
+  /**
+   * @hidden
+   */
+  public async readInternal(
+    diagnosticNode: DiagnosticNodeInternal,
+    options?: RequestOptions
+  ): Promise<DatabaseResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
     const response = await this.clientContext.read<DatabaseDefinition>({
@@ -92,59 +111,75 @@ export class Database {
       resourceType: ResourceType.database,
       resourceId: id,
       options,
+      diagnosticNode,
     });
     return new DatabaseResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      getEmptyCosmosDiagnostics()
     );
   }
 
   /** Delete the given Database. */
   public async delete(options?: RequestOptions): Promise<DatabaseResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
-    const response = await this.clientContext.delete<DatabaseDefinition>({
-      path,
-      resourceType: ResourceType.database,
-      resourceId: id,
-      options,
-    });
-    return new DatabaseResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
+
+      const response = await this.clientContext.delete<DatabaseDefinition>({
+        path,
+        resourceType: ResourceType.database,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new DatabaseResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 
   /**
    * Gets offer on database. If none exists, returns an OfferResponse with undefined.
    */
   public async readOffer(options: RequestOptions = {}): Promise<OfferResponse> {
-    const { resource: record } = await this.read();
-    const path = "/offers";
-    const url = record._self;
-    const response = await this.clientContext.queryFeed<OfferDefinition & Resource[]>({
-      path,
-      resourceId: "",
-      resourceType: ResourceType.offer,
-      query: `SELECT * from root where root.resource = "${url}"`,
-      resultFn: (result) => result.Offers,
-      options,
-    });
-    const offer = response.result[0]
-      ? new Offer(this.client, response.result[0].id, this.clientContext)
-      : undefined;
-    return new OfferResponse(
-      response.result[0],
-      response.headers,
-      response.code,
-      response.diagnostics,
-      offer
-    );
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const { resource: record } = await withMetadataDiagnostics(
+        async (node: DiagnosticNodeInternal) => {
+          return this.readInternal(node);
+        },
+        diagnosticNode,
+        MetadataLookUpType.DatabaseLookUp
+      );
+
+      const path = "/offers";
+      const url = record._self;
+
+      const response = await this.clientContext.queryFeed<OfferDefinition & Resource[]>({
+        path,
+        resourceId: "",
+        resourceType: ResourceType.offer,
+        query: `SELECT * from root where root.resource = "${url}"`,
+        resultFn: (result) => result.Offers,
+        options,
+        diagnosticNode,
+      });
+      const offer = response.result[0]
+        ? new Offer(this.client, response.result[0].id, this.clientContext)
+        : undefined;
+      return new OfferResponse(
+        response.result[0],
+        response.headers,
+        response.code,
+        getEmptyCosmosDiagnostics(),
+        offer
+      );
+    }, this.clientContext);
   }
 }

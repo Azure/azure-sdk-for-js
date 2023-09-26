@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.16 (2023-08-30)
+
+### Bugs Fixed
+
+- Avoid dependency telemetry for ingestion endpoint calls.
+
 ## 1.0.0-beta.15 (2023-08-24)
 
 ### Breaking Changes

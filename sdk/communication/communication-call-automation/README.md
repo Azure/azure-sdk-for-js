@@ -30,7 +30,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 | CallRecording        | `CallRecording` can be used to do recording related actions, such as `startRecording`. This can be retrieved from `CallAutomationClient`.                                                                                                                                                                                                |
 | Callback Events      | Callback events are events sent back during duration of the call. It gives information and state of the call, such as `CallConnected`. `CallbackUrl` must be provided during `createCall` and `answerCall`, and callback events will be sent to this url. You can use `callAutomationEventParser` to parse these events when it arrives. |
 | Incoming Call Event  | When incoming call happens (that can be answered with `answerCall`), incoming call eventgrid event will be sent. This is different from Callback events above, and should be setup on Azure portal. See [Incoming Call][incomingcall] for detail.                                                                                        |
-| CallAutomationEventProcessor | `CallAutomationEventProcessor` is a convinient way to handle mid-call callback events such as `CallConnected`. This will ensure corelation between call and events more easily. See below example for its usuage.|
+| CallAutomationEventProcessor | `CallAutomationEventProcessor` is a convinient way to handle mid-call callback events such as `CallConnected`. This will ensure correlation between call and events more easily. See below example for its usage.|
 
 ## Examples
 ### Initialize CallAutomationClient
@@ -71,7 +71,7 @@ const response = callConnection.getCallMedia().playToAll(myFile);
 ```
 
 ### Handle Mid-Connection callback events
-To easily handle mid-connection events, Call Automation's SDK provides easier way to handle these events. Take a look at CallAutomationEventProcessor. This will ensure corelation between call and events more easily.
+To easily handle mid-connection events, Call Automation's SDK provides easier way to handle these events. Take a look at CallAutomationEventProcessor. This will ensure correlation between call and events more easily.
 ```JavaScript
 const eventProcessor: CallAutomationEventProcessor = callAutomationClient.getEventProcessor();
 eventProcessor.processEvents(incomingEvent);

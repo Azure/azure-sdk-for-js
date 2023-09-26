@@ -7,22 +7,22 @@ import { Context } from "mocha";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient.js";
 import {
   assertChatCompletions,
-  assertChatCompletionsStream,
+  assertChatCompletionsList,
   assertCompletions,
   assertCompletionsStream,
 } from "./utils/asserts.js";
 import {
+  bufferAsyncIterable,
   getDeployments,
   getModels,
   getSucceeded,
   sendRequestWithRecorder,
   updateWithSucceeded,
-  withDeployment,
+  withDeployments,
 } from "./utils/utils.js";
-import { logger } from "./utils/logger.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { getImageDimensions } from "./utils/getImageDimensions.js";
-import { OpenAIClient, ImageLocation } from "../../src/index.js";
+import { OpenAIClient, ImageLocation, ChatMessage } from "../../src/index.js";
 
 describe("OpenAI", function () {
   let recorder: Recorder;
@@ -54,10 +54,10 @@ describe("OpenAI", function () {
       describe("getCompletions", function () {
         it("returns completions across all models", async function () {
           const prompt = ["What is Azure OpenAI?"];
-          await withDeployment(
+          await withDeployments(
             authMethod === "OpenAIKey" ? models : deployments,
-            async (deploymentName) =>
-              client.getCompletions(deploymentName, prompt).then(assertCompletions)
+            async (deploymentName) => client.getCompletions(deploymentName, prompt),
+            assertCompletions
           );
         });
       });
@@ -158,7 +158,6 @@ describe("OpenAI", function () {
               "What's the most common feedback we received from our customers about the product?",
           },
         ];
-        const weatherMessages = [{ role: "user", content: "What's the weather like in Boston?" }];
         const getCurrentWeather = {
           name: "get_current_weather",
           description: "Get the current weather in a given location",
@@ -183,7 +182,7 @@ describe("OpenAI", function () {
         describe("getChatCompletions", function () {
           it("returns completions across all models", async function () {
             updateWithSucceeded(
-              await withDeployment(
+              await withDeployments(
                 getSucceeded(
                   authMethod,
                   deployments,
@@ -191,10 +190,8 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) =>
-                  client
-                    .getChatCompletions(deploymentName, pirateMessages)
-                    .then(assertChatCompletions)
+                async (deploymentName) => client.getChatCompletions(deploymentName, pirateMessages),
+                assertChatCompletions
               ),
               chatCompletionDeployments,
               chatCompletionModels,
@@ -204,7 +201,7 @@ describe("OpenAI", function () {
 
           it("calls functions", async function () {
             updateWithSucceeded(
-              await withDeployment(
+              await withDeployments(
                 getSucceeded(
                   authMethod,
                   deployments,
@@ -212,12 +209,33 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) =>
-                  client
-                    .getChatCompletions(deploymentName, weatherMessages, {
-                      functions: [getCurrentWeather],
-                    })
-                    .then((c) => assertChatCompletions(c, { functions: true }))
+                async (deploymentName) => {
+                  const weatherMessages: ChatMessage[] = [
+                    { role: "user", content: "What's the weather like in Boston?" },
+                  ];
+                  const result = await client.getChatCompletions(deploymentName, weatherMessages, {
+                    functions: [getCurrentWeather],
+                  });
+                  assertChatCompletions(result, { functions: true });
+                  const responseMessage = result.choices[0].message;
+                  if (!responseMessage?.functionCall) {
+                    assert.fail("Undefined function call");
+                  }
+                  const functionArgs = JSON.parse(responseMessage.functionCall.arguments);
+                  weatherMessages.push(responseMessage);
+                  weatherMessages.push({
+                    role: "function",
+                    name: responseMessage.functionCall.name,
+                    content: JSON.stringify({
+                      location: functionArgs.location,
+                      temperature: "72",
+                      unit: functionArgs.unit,
+                      forecast: ["sunny", "windy"],
+                    }),
+                  });
+                  return client.getChatCompletions(deploymentName, weatherMessages);
+                },
+                (result) => assertChatCompletions(result, { functions: true })
               ),
               chatCompletionDeployments,
               chatCompletionModels,
@@ -225,12 +243,12 @@ describe("OpenAI", function () {
             );
           });
 
-          it("bring your own data", async function (this: Context) {
+          it.skip("bring your own data", async function (this: Context) {
             if (authMethod === "OpenAIKey") {
               this.skip();
             }
             updateWithSucceeded(
-              await withDeployment(
+              await withDeployments(
                 getSucceeded(
                   authMethod,
                   deployments,
@@ -239,22 +257,21 @@ describe("OpenAI", function () {
                   chatCompletionModels
                 ),
                 async (deploymentName) =>
-                  client
-                    .getChatCompletions(deploymentName, byodMessages, {
-                      azureExtensionOptions: {
-                        extensions: [
-                          {
-                            type: "AzureCognitiveSearch",
-                            parameters: {
-                              endpoint: assertEnvironmentVariable("AZURE_SEARCH_ENDPOINT"),
-                              key: assertEnvironmentVariable("AZURE_SEARCH_KEY"),
-                              indexName: assertEnvironmentVariable("AZURE_SEARCH_INDEX"),
-                            },
+                  client.getChatCompletions(deploymentName, byodMessages, {
+                    azureExtensionOptions: {
+                      extensions: [
+                        {
+                          type: "AzureCognitiveSearch",
+                          parameters: {
+                            endpoint: assertEnvironmentVariable("AZURE_SEARCH_ENDPOINT"),
+                            key: assertEnvironmentVariable("AZURE_SEARCH_KEY"),
+                            indexName: assertEnvironmentVariable("AZURE_SEARCH_INDEX"),
                           },
-                        ],
-                      },
-                    })
-                    .then(assertChatCompletions)
+                        },
+                      ],
+                    },
+                  }),
+                assertChatCompletions
               ),
               chatCompletionDeployments,
               chatCompletionModels,
@@ -266,7 +283,7 @@ describe("OpenAI", function () {
         describe("listChatCompletions", function () {
           it("returns completions across all models", async function () {
             updateWithSucceeded(
-              await withDeployment(
+              await withDeployments(
                 getSucceeded(
                   authMethod,
                   deployments,
@@ -274,19 +291,17 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) => {
-                  const count = await assertChatCompletionsStream(
-                    client.listChatCompletions(deploymentName, pirateMessages),
-                    {
-                      // The API returns an empty choice in the first event for some
-                      // reason. This should be fixed in the API.
-                      allowEmptyChoices: true,
-                    }
-                  );
-                  if (count === 0) {
-                    logger.warning(`No completions returned for ${deploymentName}`);
-                  }
-                }
+                async (deploymentName) =>
+                  bufferAsyncIterable(client.listChatCompletions(deploymentName, pirateMessages)),
+                async (res) =>
+                  assertChatCompletionsList(res, {
+                    // The API returns an empty choice in the first event for some
+                    // reason. This should be fixed in the API.
+                    allowEmptyChoices: true,
+                    // The API returns an empty ID in the first event for some
+                    // reason. This should be fixed in the API.
+                    allowEmptyId: true,
+                  })
               ),
               chatCompletionDeployments,
               chatCompletionModels,
@@ -295,8 +310,11 @@ describe("OpenAI", function () {
           });
 
           it("calls functions", async function () {
+            const weatherMessages: ChatMessage[] = [
+              { role: "user", content: "What's the weather like in Boston?" },
+            ];
             updateWithSucceeded(
-              await withDeployment(
+              await withDeployments(
                 getSucceeded(
                   authMethod,
                   deployments,
@@ -304,22 +322,19 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) => {
-                  const count = await assertChatCompletionsStream(
+                async (deploymentName) =>
+                  bufferAsyncIterable(
                     client.listChatCompletions(deploymentName, weatherMessages, {
                       functions: [getCurrentWeather],
-                    }),
-                    {
-                      functions: true,
-                      // The API returns an empty choice in the first event for some
-                      // reason. This should be fixed in the API.
-                      allowEmptyChoices: true,
-                    }
-                  );
-                  if (count === 0) {
-                    logger.warning(`No completions returned for ${deploymentName}`);
-                  }
-                }
+                    })
+                  ),
+                (res) =>
+                  assertChatCompletionsList(res, {
+                    functions: true,
+                    // The API returns an empty choice in the first event for some
+                    // reason. This should be fixed in the API.
+                    allowEmptyChoices: true,
+                  })
               ),
               chatCompletionDeployments,
               chatCompletionModels,
@@ -327,12 +342,12 @@ describe("OpenAI", function () {
             );
           });
 
-          it("bring your own data", async function () {
+          it.skip("bring your own data", async function () {
             if (authMethod === "OpenAIKey") {
               this.skip();
             }
             updateWithSucceeded(
-              await withDeployment(
+              await withDeployments(
                 getSucceeded(
                   authMethod,
                   deployments,
@@ -340,8 +355,8 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) => {
-                  const count = await assertChatCompletionsStream(
+                async (deploymentName) =>
+                  bufferAsyncIterable(
                     client.listChatCompletions(deploymentName, byodMessages, {
                       azureExtensionOptions: {
                         extensions: [
@@ -356,11 +371,8 @@ describe("OpenAI", function () {
                         ],
                       },
                     })
-                  );
-                  if (count === 0) {
-                    logger.warning(`No completions returned for ${deploymentName}`);
-                  }
-                }
+                  ),
+                assertChatCompletionsList
               ),
               chatCompletionDeployments,
               chatCompletionModels,

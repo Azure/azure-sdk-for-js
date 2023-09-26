@@ -16,6 +16,10 @@ import {
   TransferCallResult,
   RemoveParticipantResult,
   MuteParticipantsResult,
+  CancelAddParticipantResult,
+  AddParticipantEventResult,
+  TransferCallToParticipantEventResult,
+  RemoveParticipantEventResult,
 } from "../src";
 import Sinon, { SinonStubbedInstance } from "sinon";
 import { CALL_TARGET_ID, CALL_TARGET_ID_2 } from "./utils/connectionUtils";
@@ -156,7 +160,9 @@ describe("CallConnection Unit Tests", () => {
 
   it("AddParticipant", async () => {
     // mocks
-    const addParticipantResultMock: AddParticipantResult = {};
+    const addParticipantResultMock: AddParticipantResult = {
+      waitForEventProcessor: async () => {return {} as AddParticipantEventResult},
+    };
     callConnection.addParticipant.returns(
       new Promise((resolve) => {
         resolve(addParticipantResultMock);
@@ -178,7 +184,9 @@ describe("CallConnection Unit Tests", () => {
 
   it("TransferCallToParticipant", async () => {
     // mocks
-    const transferCallResultMock: TransferCallResult = {};
+    const transferCallResultMock: TransferCallResult = {
+      waitForEventProcessor: async () => {return {} as TransferCallToParticipantEventResult}
+    };
     callConnection.transferCallToParticipant.returns(
       new Promise((resolve) => {
         resolve(transferCallResultMock);
@@ -202,7 +210,9 @@ describe("CallConnection Unit Tests", () => {
 
   it("TransferCallToParticipantWithTransferee", async () => {
     // mocks
-    const transferCallResultMock: TransferCallResult = {};
+    const transferCallResultMock: TransferCallResult = {
+      waitForEventProcessor: async () => {return {} as TransferCallToParticipantEventResult}
+    };
     callConnection.transferCallToParticipant.returns(
       new Promise((resolve) => {
         resolve(transferCallResultMock);
@@ -230,7 +240,9 @@ describe("CallConnection Unit Tests", () => {
 
   it("RemoveParticipant", async () => {
     // mocks
-    const removeParticipantResultMock: RemoveParticipantResult = {};
+    const removeParticipantResultMock: RemoveParticipantResult = {
+      waitForEventProcessor: async () => {return {} as RemoveParticipantEventResult}
+    };
     callConnection.removeParticipant.returns(
       new Promise((resolve) => {
         resolve(removeParticipantResultMock);
@@ -241,7 +253,7 @@ describe("CallConnection Unit Tests", () => {
 
     // asserts
     promiseResult
-      .then((result: TransferCallResult) => {
+      .then((result: RemoveParticipantResult) => {
         assert.isNotNull(result);
         assert.isTrue(callConnection.removeParticipant.calledWith(target.targetParticipant));
         assert.equal(result, removeParticipantResultMock);
@@ -267,6 +279,26 @@ describe("CallConnection Unit Tests", () => {
         assert.isNotNull(result);
         assert.isTrue(callConnection.muteParticipants.calledWith(target.targetParticipant));
         assert.equal(result, muteParticipantsResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
+  it("CancelAddParticipant", async () => {
+    const invitationId = "invitationId";
+    const cancelAddParticipantResultMock: CancelAddParticipantResult = { invitationId };
+    callConnection.cancelAddParticipant.returns(
+      new Promise((resolve) => {
+        resolve(cancelAddParticipantResultMock);
+      })
+    );
+
+    callConnection
+      .cancelAddParticipant(invitationId)
+      .then((result: CancelAddParticipantResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(callConnection.cancelAddParticipant.calledWith(invitationId));
+        assert.equal(result, cancelAddParticipantResultMock);
         return;
       })
       .catch((error) => console.error(error));

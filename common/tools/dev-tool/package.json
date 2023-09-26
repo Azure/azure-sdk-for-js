@@ -58,7 +58,7 @@
     "tslib": "^2.2.0",
     "typescript": "~5.0.0",
     "yaml": "^2.3.0",
-    "ts-morph": "^19.0.0"
+    "ts-morph": "^20.0.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
@@ -83,7 +83,7 @@
     "downlevel-dts": "~0.10.0",
     "eslint": "^8.0.0",
     "mkdirp": "^1.0.4",
-    "mocha": "^7.1.1",
+    "mocha": "^10.0.0",
     "nyc": "^15.1.0",
     "karma": "^6.3.9",
     "rimraf": "^3.0.0",

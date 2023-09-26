@@ -22,14 +22,13 @@ import {
   GetSnapshotResponse,
   HttpResponseField,
   ListConfigurationSettingPage,
+  ListConfigurationSettingsForSnapshotOptions,
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
   ListRevisionsPage,
-  ListSettingsSnapshotsOptions,
   ListSnapshotsOptions,
   ListSnapshotsPage,
   PageSettings,
-  SendConfigurationSettingsOptions,
   SetConfigurationSettingOptions,
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
@@ -59,10 +58,12 @@ import {
 import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
+  SendConfigurationSettingsOptions,
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
+  formatConfigurationSettingsFiltersAndSelect,
   formatFieldsForSelect,
   formatFiltersAndSelect,
   formatSnapshotFiltersAndSelect,
@@ -160,7 +161,8 @@ export class AppConfigurationClient {
         authPolicy = appConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
       } else {
         throw new Error(
-          `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.`
+          `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.` +
+            ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`
         );
       }
     }
@@ -364,7 +366,7 @@ export class AppConfigurationClient {
    */
   listConfigurationSettingsForSnapshot(
     snapshotName: string,
-    options: ListSettingsSnapshotsOptions = {}
+    options: ListConfigurationSettingsForSnapshotOptions = {}
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
       {
@@ -402,7 +404,7 @@ export class AppConfigurationClient {
         const response = await this.client.getKeyValues({
           ...updatedOptions,
           ...formatAcceptDateTime(options),
-          ...formatFiltersAndSelect(options),
+          ...formatConfigurationSettingsFiltersAndSelect(options),
           after: pageLink,
         });
 

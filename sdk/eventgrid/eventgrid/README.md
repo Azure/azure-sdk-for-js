@@ -218,9 +218,9 @@ await client.send([
     subject: "Event Subject",
     dataVersion: "1.0",
     data: {
-      hello: "world"
-    }
-  }
+      hello: "world",
+    },
+  },
 ]);
 ```
 
@@ -244,9 +244,9 @@ await client.send([
     subject: "Event Subject",
     dataVersion: "1.0",
     data: {
-      hello: "world"
-    }
-  }
+      hello: "world",
+    },
+  },
 ]);
 ```
 
@@ -289,7 +289,7 @@ receiver.subscribe({
   processError: async (err) => {
     console.error(err);
   },
-  processMessage
+  processMessage,
 });
 ```
 
@@ -305,7 +305,7 @@ const { setLogLevel } = require("@azure/logger");
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+For more detailed instructions on how to enable the logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 

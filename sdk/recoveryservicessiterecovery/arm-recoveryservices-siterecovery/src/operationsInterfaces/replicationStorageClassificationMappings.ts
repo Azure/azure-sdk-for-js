@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StorageClassificationMapping,
   ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams,
@@ -89,10 +89,8 @@ export interface ReplicationStorageClassificationMappings {
     pairingInput: StorageClassificationMappingInput,
     options?: ReplicationStorageClassificationMappingsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        ReplicationStorageClassificationMappingsCreateResponse
-      >,
+    SimplePollerLike<
+      OperationState<ReplicationStorageClassificationMappingsCreateResponse>,
       ReplicationStorageClassificationMappingsCreateResponse
     >
   >;
@@ -133,7 +131,7 @@ export interface ReplicationStorageClassificationMappings {
     storageClassificationName: string,
     storageClassificationMappingName: string,
     options?: ReplicationStorageClassificationMappingsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete a storage classification mapping.
    * @param resourceName The name of the recovery services vault.

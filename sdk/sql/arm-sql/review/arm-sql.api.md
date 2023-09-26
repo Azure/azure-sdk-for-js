@@ -290,8 +290,10 @@ export interface Database extends TrackedResource {
     readonly earliestRestoreDate?: Date;
     elasticPoolId?: string;
     encryptionProtector?: string;
+    encryptionProtectorAutoRotation?: boolean;
     readonly failoverGroupId?: string;
     federatedClientId?: string;
+    freeLimitExhaustionBehavior?: FreeLimitExhaustionBehavior;
     highAvailabilityReplicaCount?: number;
     identity?: DatabaseIdentity;
     readonly isInfraEncryptionEnabled?: boolean;
@@ -326,6 +328,7 @@ export interface Database extends TrackedResource {
     sourceDatabaseId?: string;
     sourceResourceId?: string;
     readonly status?: DatabaseStatus;
+    useFreeLimit?: boolean;
     zoneRedundant?: boolean;
 }
 
@@ -1263,8 +1266,10 @@ export interface DatabaseUpdate {
     readonly earliestRestoreDate?: Date;
     elasticPoolId?: string;
     encryptionProtector?: string;
+    encryptionProtectorAutoRotation?: boolean;
     readonly failoverGroupId?: string;
     federatedClientId?: string;
+    freeLimitExhaustionBehavior?: FreeLimitExhaustionBehavior;
     highAvailabilityReplicaCount?: number;
     identity?: DatabaseIdentity;
     readonly isInfraEncryptionEnabled?: boolean;
@@ -1299,6 +1304,7 @@ export interface DatabaseUpdate {
     tags?: {
         [propertyName: string]: string;
     };
+    useFreeLimit?: boolean;
     zoneRedundant?: boolean;
 }
 
@@ -2343,6 +2349,7 @@ export interface FailoverGroupListResult {
 // @public
 export interface FailoverGroupReadOnlyEndpoint {
     failoverPolicy?: ReadOnlyEndpointFailoverPolicy;
+    targetServer?: string;
 }
 
 // @public
@@ -2453,6 +2460,7 @@ export type FailoverGroupsUpdateResponse = FailoverGroup;
 // @public
 export interface FailoverGroupUpdate {
     databases?: string[];
+    partnerServers?: PartnerInfo[];
     readOnlyEndpoint?: FailoverGroupReadOnlyEndpoint;
     readWriteEndpoint?: FailoverGroupReadWriteEndpoint;
     tags?: {
@@ -2525,6 +2533,9 @@ export interface FirewallRulesReplaceOptionalParams extends coreClient.Operation
 
 // @public
 export type FirewallRulesReplaceResponse = FirewallRule;
+
+// @public
+export type FreeLimitExhaustionBehavior = string;
 
 // @public
 export interface GeoBackupPolicies {
@@ -3800,6 +3811,12 @@ export enum KnownExternalGovernanceStatus {
 export enum KnownFailoverGroupReplicationRole {
     Primary = "Primary",
     Secondary = "Secondary"
+}
+
+// @public
+export enum KnownFreeLimitExhaustionBehavior {
+    AutoPause = "AutoPause",
+    BillOverUsage = "BillOverUsage"
 }
 
 // @public
@@ -8395,6 +8412,7 @@ export interface Server extends TrackedResource {
     federatedClientId?: string;
     readonly fullyQualifiedDomainName?: string;
     identity?: ResourceIdentity;
+    isIPv6Enabled?: ServerNetworkAccessFlag;
     keyId?: string;
     readonly kind?: string;
     minimalTlsVersion?: string;
@@ -9401,6 +9419,7 @@ export interface ServerUpdate {
     federatedClientId?: string;
     readonly fullyQualifiedDomainName?: string;
     identity?: ResourceIdentity;
+    isIPv6Enabled?: ServerNetworkAccessFlag;
     keyId?: string;
     minimalTlsVersion?: string;
     primaryUserAssignedIdentityId?: string;
