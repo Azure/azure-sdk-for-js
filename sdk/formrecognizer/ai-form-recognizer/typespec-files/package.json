@@ -1,0 +1,14 @@
+{
+  "name": "clients",
+  "dependencies": {
+    "@typespec/compiler": "latest",
+    "@typespec/rest": "latest",
+    "@typespec/http": "latest",
+    "@typespec/json-schema": "latest",
+    "@typespec/openapi": "latest",
+    "@azure-tools/typespec-azure-core": "latest",
+    "@azure-tools/typespec-python": "latest",
+    "@azure-tools/typespec-csharp": "latest"
+  },
+  "private": true
+}
