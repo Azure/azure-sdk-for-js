@@ -10,10 +10,16 @@
     "ws": "./dist-esm/src/ws.browser.js",
     "./dist-esm/src/websocket/websocketClient.js": "./dist-esm/src/websocket/websocketClient.browser.js"
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js",
+    "ws": "./dist-esm/src/ws.browser.js",
+    "./dist-esm/src/websocket/websocketClient.js": "./dist-esm/src/websocket/websocketClient.browser.js",
+    "events": "eventemitter3"
+  },
   "types": "types/web-pubsub-client.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:browser": "tsc -p . && dev-tool run bundle",
+    "build:browser": "dev-tool run bundle",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "dev-tool samples publish -f",
     "build:test": "tsc -p . && dev-tool run bundle",
