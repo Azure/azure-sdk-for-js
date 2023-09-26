@@ -41,7 +41,7 @@ export interface AnswerCallEventResult {
  */
 export interface CancelAllMediaOperationsEventResult {
   isSuccess: boolean;
-  playCanceledSucessResult?: PlayCanceled;
+  playCanceledSuccessResult?: PlayCanceled;
   recognizeCanceledSuccessResult?: RecognizeCanceled;
 }
 

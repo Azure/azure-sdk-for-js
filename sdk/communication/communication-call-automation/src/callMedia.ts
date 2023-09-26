@@ -433,7 +433,7 @@ export class CallMedia {
           (event) => {
             if (event.callConnectionId === this.callConnectionId && event.kind === "PlayCanceled") {
               cancelAllMediaOperationsEventResult.isSuccess = true;
-              cancelAllMediaOperationsEventResult.playCanceledSucessResult = event;
+              cancelAllMediaOperationsEventResult.playCanceledSuccessResult = event;
               return true;
             } else if (
               event.callConnectionId === this.callConnectionId &&

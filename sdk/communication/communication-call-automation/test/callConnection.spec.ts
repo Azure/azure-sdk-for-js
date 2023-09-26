@@ -161,7 +161,9 @@ describe("CallConnection Unit Tests", () => {
   it("AddParticipant", async () => {
     // mocks
     const addParticipantResultMock: AddParticipantResult = {
-      waitForEventProcessor: async () => {return {} as AddParticipantEventResult},
+      waitForEventProcessor: async () => {
+        return {} as AddParticipantEventResult;
+      },
     };
     callConnection.addParticipant.returns(
       new Promise((resolve) => {
@@ -185,7 +187,9 @@ describe("CallConnection Unit Tests", () => {
   it("TransferCallToParticipant", async () => {
     // mocks
     const transferCallResultMock: TransferCallResult = {
-      waitForEventProcessor: async () => {return {} as TransferCallToParticipantEventResult}
+      waitForEventProcessor: async () => {
+        return {} as TransferCallToParticipantEventResult;
+      },
     };
     callConnection.transferCallToParticipant.returns(
       new Promise((resolve) => {
@@ -211,7 +215,9 @@ describe("CallConnection Unit Tests", () => {
   it("TransferCallToParticipantWithTransferee", async () => {
     // mocks
     const transferCallResultMock: TransferCallResult = {
-      waitForEventProcessor: async () => {return {} as TransferCallToParticipantEventResult}
+      waitForEventProcessor: async () => {
+        return {} as TransferCallToParticipantEventResult;
+      },
     };
     callConnection.transferCallToParticipant.returns(
       new Promise((resolve) => {
@@ -241,7 +247,9 @@ describe("CallConnection Unit Tests", () => {
   it("RemoveParticipant", async () => {
     // mocks
     const removeParticipantResultMock: RemoveParticipantResult = {
-      waitForEventProcessor: async () => {return {} as RemoveParticipantEventResult}
+      waitForEventProcessor: async () => {
+        return {} as RemoveParticipantEventResult;
+      },
     };
     callConnection.removeParticipant.returns(
       new Promise((resolve) => {
@@ -305,7 +313,7 @@ describe("CallConnection Unit Tests", () => {
   });
 });
 
-describe("CallConnection Live Tests", function () {
+describe.skip("SKIP test until Javascript is updated with TextProxy.CallConnection Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;
