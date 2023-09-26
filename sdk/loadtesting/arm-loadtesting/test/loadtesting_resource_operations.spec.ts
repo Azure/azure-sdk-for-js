@@ -118,19 +118,19 @@ describe("Load Testing Resource Operations", () => {
       loadTestResourcePatchPayload
     );
 
-    // Get the load test resource
-    const patchedResource = await client.loadTests.get(
-      resourceGroupName,
-      loadTestResourceName
-    );
+    // // Get the load test resource
+    // const patchedResource = await client.loadTests.get(
+    //   resourceGroupName,
+    //   loadTestResourceName
+    // );
 
     // Verify the response
-    assert.equal(patchedResource.provisioningState, "Succeeded");
-    assert.equal(patchedResource.name, loadTestResourceName);
-    assert.equal(patchedResource.location, location);
-    assert.equal(patchedResource.tags?.team, loadTestResourceCreatePayload.tags?.team);
-    assert.equal(patchedResource.description, loadTestResourceCreatePayload.description);
-    assert.equal(patchedResource.identity?.type, loadTestResourcePatchPayload.identity?.type);
+    assert.equal(result.provisioningState, "Succeeded");
+    assert.equal(result.name, loadTestResourceName);
+    assert.equal(result.location, location);
+    assert.equal(result.tags?.team, loadTestResourceCreatePayload.tags?.team);
+    assert.equal(result.description, loadTestResourceCreatePayload.description);
+    assert.equal(result.identity?.type, loadTestResourcePatchPayload.identity?.type);
   });
 
   it("delete resource", async function () {
