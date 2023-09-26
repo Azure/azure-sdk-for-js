@@ -31,7 +31,7 @@ export = {
     "code"
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener =>
-    /\.ts$/.test(context.getFilename())
+    /\.ts$/.test(context.filename)
       ? {
           // callback functions
 

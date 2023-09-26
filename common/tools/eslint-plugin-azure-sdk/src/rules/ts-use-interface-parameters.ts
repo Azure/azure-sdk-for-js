@@ -244,7 +244,7 @@ export = {
   ),
 
   create: (context: Rule.RuleContext): Rule.RuleListener => {
-    const parserServices = context.parserServices as ParserServices;
+    const parserServices = context.sourceCode.parserServices as ParserServices;
     if (
       parserServices.program === undefined ||
       parserServices.esTreeNodeToTSNodeMap === undefined ||
@@ -259,10 +259,10 @@ export = {
     const verifiedMethods: string[] = [];
     const verifiedDeclarations: string[] = [];
 
-    return /src/.test(context.getFilename())
+    return /src/.test(context.filename)
       ? ({
           "MethodDefinition > FunctionExpression": (node: FunctionExpression): void => {
-            const parent = context.getAncestors().reverse()[0] as MethodDefinition;
+            const parent = context.sourceCode.getAncestors(node).reverse()[0] as MethodDefinition;
             const key = parent.key as Identifier;
             const name = key.name;
 

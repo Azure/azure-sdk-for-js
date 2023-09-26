@@ -116,6 +116,8 @@ export interface CallConnectionPropertiesInternal {
   callbackUri?: string;
   /** SubscriptionId for media streaming */
   mediaSubscriptionId?: string;
+  /** SubscriptionId for transcription */
+  dataSubscriptionId?: string;
   /**
    * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
    * Required only when calling a PSTN callee.
@@ -281,6 +283,18 @@ export interface PlayOptionsInternal {
   loop: boolean;
 }
 
+export interface StartTranscriptionRequest {
+  /** Defines Locale for the transcription e,g en-US */
+  locale?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+export interface StopTranscriptionRequest {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
 export interface RecognizeRequest {
   /** Determines the type of the recognition. */
   recognizeInputType: RecognizeInputType;
@@ -359,6 +373,34 @@ export interface SendDtmfRequest {
   callbackUri?: string;
 }
 
+export interface UpdateTranscriptionDataRequest {
+  /** Defines new locale for transcription. */
+  locale: string;
+}
+
+/** The request payload for holding participant from the call. */
+export interface StartHoldMusicRequest {
+  /** Participant to be held from the call. */
+  targetParticipant: CommunicationIdentifierModel;
+  /** Prompt to play while in hold. */
+  playSourceInfo: PlaySourceInternal;
+  /** If the prompt will be looped or not. */
+  loop?: boolean;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+}
+
+/** The request payload for holding participant from the call. */
+export interface StopHoldMusicRequest {
+  /**
+   * Participants to be hold from the call.
+   * Only ACS Users are supported.
+   */
+  targetParticipant: CommunicationIdentifierModel;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+}
+
 export interface StartDialogRequest {
   /** Defines options for dialog. */
   dialogOptions: DialogOptions;
@@ -370,7 +412,7 @@ export interface StartDialogRequest {
 
 export interface DialogOptions {
   /** Bot identifier. */
-  botAppId: string;
+  botAppId?: string;
   /** Dialog context. */
   dialogContext: { [propertyName: string]: Record<string, unknown> };
 }
@@ -1245,6 +1287,119 @@ export interface SendDtmfFailed {
   resultInformation?: ResultInformation;
 }
 
+export interface TranscriptionStarted {
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /**
+   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: ResultInformation;
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdateResult?: TranscriptionUpdate;
+}
+
+export interface TranscriptionUpdate {
+  transcriptionStatus?: string;
+  transcriptionStatusDetails?: string;
+}
+
+export interface TranscriptionStopped {
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /**
+   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: ResultInformation;
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdateResult?: TranscriptionUpdate;
+}
+
+export interface TranscriptionResumed {
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /**
+   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: ResultInformation;
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdateResult?: TranscriptionUpdate;
+}
+
+export interface TranscriptionFailed {
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /**
+   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: ResultInformation;
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdateResult?: TranscriptionUpdate;
+}
+
 /** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */
 export enum KnownCommunicationIdentifierModelKind {
   /** Unknown */
@@ -1533,7 +1688,9 @@ export type Tone = string;
 /** Known values of {@link DialogInputType} that the service accepts. */
 export enum KnownDialogInputType {
   /** PowerVirtualAgents */
-  PowerVirtualAgents = "powerVirtualAgents"
+  PowerVirtualAgents = "powerVirtualAgents",
+  /** AzureOpenAI */
+  AzureOpenAI = "azureOpenAI"
 }
 
 /**
@@ -1541,7 +1698,8 @@ export enum KnownDialogInputType {
  * {@link KnownDialogInputType} can be used interchangeably with DialogInputType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **powerVirtualAgents**
+ * **powerVirtualAgents** \
+ * **azureOpenAI**
  */
 export type DialogInputType = string;
 
@@ -1852,6 +2010,14 @@ export interface CallMediaPlayOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
+export interface CallMediaStartTranscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaStopTranscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface CallMediaCancelAllMediaOperationsOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1869,6 +2035,18 @@ export interface CallMediaStopContinuousDtmfRecognitionOptionalParams
 
 /** Optional parameters. */
 export interface CallMediaSendDtmfOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaUpdateTranscriptionDataOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaStartHoldMusicOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaStopHoldMusicOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
