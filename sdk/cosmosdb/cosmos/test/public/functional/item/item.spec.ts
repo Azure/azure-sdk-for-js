@@ -74,6 +74,7 @@ type CRUDTestDataSet = {
   originalItemPartitionKey?: PartitionKey;
   // Partition key to use for operations on replaced item
   replacedItemPartitionKey?: PartitionKey;
+  // Properties to check in an item definition
   propertyToCheck?: string[];
 };
 
