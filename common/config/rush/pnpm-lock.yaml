@@ -548,6 +548,9 @@ dependencies:
   '@rush-temp/arm-recoveryservicesbackup':
     specifier: file:./projects/arm-recoveryservicesbackup.tgz
     version: file:projects/arm-recoveryservicesbackup.tgz
+  '@rush-temp/arm-recoveryservicesdatareplication':
+    specifier: file:./projects/arm-recoveryservicesdatareplication.tgz
+    version: file:projects/arm-recoveryservicesdatareplication.tgz
   '@rush-temp/arm-rediscache':
     specifier: file:./projects/arm-rediscache.tgz
     version: file:projects/arm-rediscache.tgz
@@ -15653,6 +15656,37 @@ packages:
       - '@swc/wasm'
     dev: false
 
+  file:projects/arm-recoveryservicesdatareplication.tgz:
+    resolution: {integrity: sha512-KsIpVOwDdYOFza/yj5Z7Tu+7Pnt0Kgppo5WzPlNWL175lv9Bltlwz7WMwIeMPltg03lupGpbuVcuTk8/8nP46w==, tarball: file:projects/arm-recoveryservicesdatareplication.tgz}
+    name: '@rush-temp/arm-recoveryservicesdatareplication'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
+      '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
+      '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
+      '@rollup/plugin-multi-entry': 6.0.0(rollup@2.79.1)
+      '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
+      '@types/chai': 4.3.6
+      '@types/node': 14.18.56
+      chai: 4.3.8
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 5.0.1
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
+      ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
+      tslib: 2.6.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/arm-rediscache.tgz:
     resolution: {integrity: sha512-NH/Ba6FSKP2bAyrLHKyZLDwL60+mAIscysnEFp9ARgqL76my/A/aU9lyScsKdvXnnR7ctlPZI+2s5aaZpiEAwQ==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
@@ -18927,7 +18961,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-rBFuADWXTPsofV6O2WYzSKOi5L4yNWQzSP68ck4O9zS3ylBqGJPd/Js/faKzqcsGQpqY186iLNo6ki7X3umZuA==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-FrhtE/eDNTlpDz/J88Ft4svwmFmzvpZKeFZAA1MougIReSVhrTQpL5muVKyRbb5JAKTGrKrV6791YVG8E3TVFg==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -21405,7 +21439,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-sDTxW6LZDflTlIWKcvR2AY05PhQt/L8jSfDT/9Wf5s9hW06br+jacvOWuHkLzuq6P3t4uNsKMWyqKn3sV6m/NQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-zebeyI9M+2uB3hb+47C0SxnwN8/jcwpk14WKVWzNVcGXIlXHcYV3hIvbPSwZ8iik+OCR1W0thMTLz2JIj5lMig==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
