@@ -7,8 +7,7 @@
     "@typespec/json-schema": "latest",
     "@typespec/openapi": "latest",
     "@azure-tools/typespec-azure-core": "latest",
-    "@azure-tools/typespec-python": "latest",
-    "@azure-tools/typespec-csharp": "latest"
+    "@azure-tools/typespec-ts": "latest"
   },
   "private": true
 }

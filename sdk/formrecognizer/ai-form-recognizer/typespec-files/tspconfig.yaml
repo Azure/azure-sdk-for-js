@@ -1,14 +1,15 @@
 emit: [
-  "@azure-tools/typespec-autorest",
+  # "@azure-tools/typespec-autorest",
   # "@azure-tools/typespec-csharp",
   # "@azure-tools/typespec-python",
+  "@azure-tools/typespec-ts"
 ]
 options:
   # Uncomment this line and add "@azure-tools/typespec-python" to your package.json to generate Python code
-   "@azure-tools/typespec-python":
-    "basic-setup-py": true
-    "package-version": 1.0.0b1
-    "package-name": "azure-ai-documentintelligence"
+  "@azure-tools/typespec-ts":
+    packageDetails:
+      name: "@azure-rest/ai-documentintelligence"
+      description: "Document Intelligence"
     # "output-path":
   # Uncomment this line and add "@azure-tools/typespec-java" to your package.json to generate Java code
   # "@azure-tools/typespec-java": true
