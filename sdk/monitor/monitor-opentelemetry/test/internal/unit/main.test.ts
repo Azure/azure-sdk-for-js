@@ -4,7 +4,11 @@
 import * as assert from "assert";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
-import { useAzureMonitor, AzureMonitorOpenTelemetryOptions, shutdownAzureMonitor } from "../../../src/index";
+import {
+  useAzureMonitor,
+  AzureMonitorOpenTelemetryOptions,
+  shutdownAzureMonitor,
+} from "../../../src/index";
 import { MeterProvider } from "@opentelemetry/sdk-metrics";
 
 describe("Main functions", () => {
@@ -47,15 +51,18 @@ describe("Main functions", () => {
         mySql: {
           enabled: true,
         },
-        postgreSql:{
+        postgreSql: {
           enabled: true,
         },
         redis: {
           enabled: true,
-        }
+        },
       },
     };
     useAzureMonitor(config);
-    assert.strictEqual(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"], JSON.stringify({"instrumentation":15,"feature":4}));
+    assert.strictEqual(
+      process.env["AZURE_MONITOR_STATSBEAT_FEATURES"],
+      JSON.stringify({ instrumentation: 15, feature: 4 })
+    );
   });
 });
