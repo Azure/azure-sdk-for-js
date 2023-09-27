@@ -15,23 +15,23 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Returns list of operations.
+ * This sample demonstrates how to Ends the troubleshooter action
  *
- * @summary Returns list of operations.
- * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/stable/2023-06-01/examples/ListOperations.json
+ * @summary Ends the troubleshooter action
+ * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2023-09-01-preview/examples/Troubleshooter_End.json
  */
-async function listAllOperations() {
+async function troubleshootersEnd() {
+  const scope =
+    "subscriptions/mySubscription/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-rp";
+  const troubleshooterName = "abf168ed-1b54-454a-86f6-e4b62253d3b1";
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
-  const resArray = new Array();
-  for await (let item of client.operations.list()) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.troubleshooters.end(scope, troubleshooterName);
+  console.log(result);
 }
 
 async function main() {
-  listAllOperations();
+  troubleshootersEnd();
 }
 
 main().catch(console.error);

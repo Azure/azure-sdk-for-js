@@ -159,7 +159,7 @@ export interface Diagnostic {
   error?: ErrorModel;
 }
 
-/** Detailed insights(s) obtained via the invocation of an insight diagnostic troubleshooter. */
+/** Detailed insights(s) obtained via the invocation of an insight diagnostic */
 export interface Insight {
   /** Article id. */
   id?: string;
@@ -195,7 +195,7 @@ export interface ErrorModel {
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -234,14 +234,325 @@ export interface SystemData {
 
 /** Discovery response. */
 export interface DiscoveryResponse {
-  /** The list of solution metadata. */
+  /** The list of metadata. */
   value?: SolutionMetadataResource[];
   /** The link used to get the next page of solution metadata. */
   nextLink?: string;
 }
 
+/** Metadata Properties */
+export interface SolutionMetadataProperties {
+  /** Solution Id. */
+  solutionId?: string;
+  /**
+   * Solution Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly solutionType?: SolutionType;
+  /**
+   * A detailed description of solution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Required parameters for invoking this particular solution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredInputs?: string[];
+}
+
+/** Solution response. */
+export interface SolutionResource {
+  /**
+   * Full resource uri of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Type of resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** Solution result */
+  properties?: SolutionResourceProperties;
+}
+
+/** Solution result */
+export interface SolutionResourceProperties {
+  /** Solution request trigger criteria */
+  triggerCriteria?: TriggerCriterion[];
+  /** Client input parameters to run Solution */
+  parameters?: { [propertyName: string]: string };
+  /** Solution Id to identify single solution. */
+  solutionId?: string;
+  /** Status of solution provisioning. */
+  provisioningState?: SolutionProvisioningState;
+  /** The title. */
+  title?: string;
+  /** The HTML content that needs to be rendered and shown to customer. */
+  content?: string;
+  /** Solution replacement maps. */
+  replacementMaps?: ReplacementMaps;
+  /** List of section object. */
+  sections?: Section[];
+}
+
+/** Solution request trigger criterion. SolutionId/ProblemClassificationId is the only supported trigger type for Solution PUT request. ReplacementKey is the only supported trigger type for Solution PATCH request. */
+export interface TriggerCriterion {
+  /** Trigger criterion name. */
+  name?: Name;
+  /** Trigger criterion value. */
+  value?: string;
+}
+
+/** Solution replacement maps. */
+export interface ReplacementMaps {
+  /** Solution AzureKB results */
+  webResults?: WebResult[];
+  /** Solution diagnostics results. */
+  diagnostics?: SolutionsDiagnostic[];
+  /** Solutions Troubleshooters */
+  troubleshooters?: SolutionsTroubleshooters[];
+  /** Solution metrics based charts */
+  metricsBasedCharts?: MetricsBasedChart[];
+  /** Video solutions, which have the power to engage the customer by stimulating their senses */
+  videos?: Video[];
+  /** Group of Videos */
+  videoGroups?: VideoGroup[];
+}
+
+/** AzureKB web result */
+export interface WebResult {
+  /** Place holder used in HTML Content replace control with the content */
+  replacementKey?: string;
+  /** AzureKB search results */
+  searchResults?: SearchResult[];
+}
+
+/** Details of an AzureKB search result. */
+export interface SearchResult {
+  /** Unique id of the result. */
+  solutionId?: string;
+  /** Content of the search result. */
+  content?: string;
+  /** Title of the search result. */
+  title?: string;
+  /** Confidence of the search result. */
+  confidence?: Confidence;
+  /** Source of the search result. */
+  source?: string;
+  /** Result type of the search result. */
+  resultType?: ResultType;
+  /** rank of the search result */
+  rank?: number;
+  /** Link to the document. */
+  link?: string;
+}
+
+/** Solutions Diagnostic */
+export interface SolutionsDiagnostic {
+  /** Solution Id to identify single Solutions Diagnostic */
+  solutionId?: string;
+  /** Denotes the status of the diagnostic resource. */
+  status?: Status;
+  /** Details of the status */
+  statusDetails?: string;
+  /** Place holder used in HTML Content replace control with the content */
+  replacementKey?: string;
+  /** Required parameters of this item */
+  requiredParameters?: string[];
+  /** Diagnostic insights */
+  insights?: Insight[];
+}
+
+/** Troubleshooters in Solutions */
+export interface SolutionsTroubleshooters {
+  /** Solution Id to identify single Solutions Troubleshooter */
+  solutionId?: string;
+  /** Troubleshooter title */
+  title?: string;
+  /** Troubleshooter summary */
+  summary?: string;
+}
+
+/** Solutions metrics based chart */
+export interface MetricsBasedChart {
+  /** Chart name */
+  name?: string;
+  /** Allowed values are Sum, Avg, Count, Min, Max. Default is Sum */
+  aggregationType?: AggregationType;
+  /** Time span duration */
+  timeSpanDuration?: string;
+  /** Chart title */
+  title?: string;
+  /** Filter group */
+  filterGroup?: FilterGroup;
+  /** Place holder used in HTML Content replace control with the content */
+  replacementKey?: string;
+}
+
+/** Filter group */
+export interface FilterGroup {
+  /** List of filters */
+  filter?: Filter[];
+}
+
+/** Filter criterion */
+export interface Filter {
+  /** Filter name */
+  name?: string;
+  /** Filter values */
+  values?: string;
+  /** Filter operator */
+  operator?: string;
+}
+
+/** VideoGroup video detail */
+export interface VideoGroupVideo {
+  /** Link to the video */
+  src?: string;
+  /** Title of the video */
+  title?: string;
+}
+
+/** Video group detail */
+export interface VideoGroup {
+  /** List of videos will be shown to customers */
+  videos?: VideoGroupVideo[];
+  /** Place holder used in HTML Content replace control with the insight content */
+  replacementKey?: string;
+}
+
+/** Part of the solution and are dividers in the solution rendering. */
+export interface Section {
+  /** Solution sections title. */
+  title?: string;
+  /** Solution sections content. */
+  content?: string;
+  /** Solution replacement maps. */
+  replacementMaps?: ReplacementMaps;
+}
+
+/** Solution response. */
+export interface SolutionPatchRequestBody {
+  /** Solution result */
+  properties?: SolutionResourceProperties;
+}
+
+/** Troubleshooter step */
+export interface Step {
+  /** Unique step id. */
+  id?: string;
+  /** Step title. */
+  title?: string;
+  /** Step description. */
+  description?: string;
+  /** Get or sets the Step guidance. */
+  guidance?: string;
+  /** Status of Troubleshooter Step execution. */
+  executionStatus?: ExecutionStatus;
+  /** This field has more detailed status description of the execution status. */
+  executionStatusDescription?: string;
+  /** Type of Troubleshooting step. */
+  type?: Type;
+  /** is this last step of the workflow. */
+  isLastStep?: boolean;
+  inputs?: StepInput[];
+  /** Only for AutomatedStep type */
+  automatedCheckResults?: AutomatedCheckResult;
+  insights?: Insight[];
+  /** The error detail. */
+  error?: ErrorDetail;
+}
+
+/** Details of step input. */
+export interface StepInput {
+  /** Use Index as QuestionId. */
+  questionId?: string;
+  /** Text Input. Will be a single line input. */
+  questionType?: string;
+  /** User question content. */
+  questionContent?: string;
+  /** Default is Text. */
+  questionContentType?: QuestionContentType;
+  /** Place holder text for response hints. */
+  responseHint?: string;
+  /** Result of Automate step. */
+  recommendedOption?: string;
+  /** Text of response that was selected. */
+  selectedOptionValue?: string;
+  /** Troubleshooter step input response validation properties */
+  responseValidationProperties?: ResponseValidationProperties;
+  responseOptions?: ResponseOption[];
+}
+
+/** Troubleshooter step input response validation properties */
+export interface ResponseValidationProperties {
+  /** Regex used for the input validation. */
+  regex?: string;
+  /** Default True */
+  isRequired?: boolean;
+  /** Validation Error Message. */
+  validationErrorMessage?: string;
+  /** Max text input (open Ended Text). */
+  maxLength?: number;
+}
+
+/** The status of the resource. */
+export interface ResponseOption {
+  /** Unique string. */
+  key?: string;
+  /** Option description */
+  value?: string;
+}
+
+/** Only for AutomatedStep type */
+export interface AutomatedCheckResult {
+  /** Insight Article Content */
+  result?: string;
+  /** Type of Result. */
+  type?: AutomatedCheckResultType;
+}
+
+/** Troubleshooter ContinueRequest body. */
+export interface ContinueRequestBody {
+  /** Unique id of the result. */
+  stepId?: string;
+  responses?: TroubleshooterResponse[];
+}
+
+/** User Response for Troubleshooter continue request */
+export interface TroubleshooterResponse {
+  /** id of the question. */
+  questionId?: string;
+  /** Text Input. Will be a single line input. */
+  questionType?: QuestionType;
+  /** Response key for SingleInput. For Multi-line test/open ended question it is free form text */
+  response?: string;
+}
+
+/** Troubleshooter restart response */
+export interface RestartTroubleshooterResponse {
+  /**
+   * Updated TroubleshooterResource Name .
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly troubleshooterResourceName?: string;
+}
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
+
+/** Video detail */
+export interface Video extends VideoGroupVideo {
+  /** Place holder used in HTML Content replace control with the insight content */
+  replacementKey?: string;
+}
 
 /** Diagnostic resource */
 export interface DiagnosticResource extends ProxyResource {
@@ -258,7 +569,7 @@ export interface DiagnosticResource extends ProxyResource {
    * Status of diagnostic provisioning.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: DiagnosticProvisioningState;
   /**
    * Array of Diagnostics.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -266,16 +577,48 @@ export interface DiagnosticResource extends ProxyResource {
   readonly diagnostics?: Diagnostic[];
 }
 
-/** Solution Metadata resource */
+/** Metadata resource */
 export interface SolutionMetadataResource extends ProxyResource {
-  /** Solution Id. */
+  /** List of metadata. */
+  solutions?: SolutionMetadataProperties[];
+}
+
+/** Troubleshooter response. */
+export interface TroubleshooterResource extends ProxyResource {
+  /** Solution Id to identify single troubleshooter. */
   solutionId?: string;
-  /** Solution Type. */
-  solutionType?: string;
-  /** A detailed description of solution. */
-  description?: string;
-  /** Required parameters for invoking this particular solution. */
-  requiredParameterSets?: string[][];
+  /** Client input parameters to run Troubleshooter Resource */
+  parameters?: { [propertyName: string]: string };
+  /**
+   * Status of troubleshooter provisioning.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: TroubleshooterProvisioningState;
+  /**
+   * List of step object.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly steps?: Step[];
+}
+
+/** Defines headers for Solution_update operation. */
+export interface SolutionUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for Troubleshooters_continue operation. */
+export interface TroubleshootersContinueHeaders {
+  location?: string;
+}
+
+/** Defines headers for Troubleshooters_end operation. */
+export interface TroubleshootersEndHeaders {
+  location?: string;
+}
+
+/** Defines headers for Troubleshooters_restart operation. */
+export interface TroubleshootersRestartHeaders {
+  location?: string;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -314,8 +657,8 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-/** Known values of {@link ProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
+/** Known values of {@link DiagnosticProvisioningState} that the service accepts. */
+export enum KnownDiagnosticProvisioningState {
   /** All Diagnostics in the Batch succeeded. */
   Succeeded = "Succeeded",
   /** Some Diagnostics are still running or failed. */
@@ -327,8 +670,8 @@ export enum KnownProvisioningState {
 }
 
 /**
- * Defines values for ProvisioningState. \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ * Defines values for DiagnosticProvisioningState. \
+ * {@link KnownDiagnosticProvisioningState} can be used interchangeably with DiagnosticProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: All Diagnostics in the Batch succeeded. \
@@ -336,7 +679,7 @@ export enum KnownProvisioningState {
  * **Failed**: All Diagnostics failed to run. \
  * **Canceled**: When Diagnostic request gets canceled.
  */
-export type ProvisioningState = string;
+export type DiagnosticProvisioningState = string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
@@ -410,6 +753,276 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link SolutionType} that the service accepts. */
+export enum KnownSolutionType {
+  /** Diagnostics resource type. */
+  Diagnostics = "Diagnostics",
+  /** Solutions resource type. */
+  Solutions = "Solutions"
+}
+
+/**
+ * Defines values for SolutionType. \
+ * {@link KnownSolutionType} can be used interchangeably with SolutionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Diagnostics**: Diagnostics resource type. \
+ * **Solutions**: Solutions resource type.
+ */
+export type SolutionType = string;
+
+/** Known values of {@link Name} that the service accepts. */
+export enum KnownName {
+  /** SolutionId */
+  SolutionId = "SolutionId",
+  /** ProblemClassificationId */
+  ProblemClassificationId = "ProblemClassificationId",
+  /** ReplacementKey */
+  ReplacementKey = "ReplacementKey"
+}
+
+/**
+ * Defines values for Name. \
+ * {@link KnownName} can be used interchangeably with Name,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SolutionId** \
+ * **ProblemClassificationId** \
+ * **ReplacementKey**
+ */
+export type Name = string;
+
+/** Known values of {@link SolutionProvisioningState} that the service accepts. */
+export enum KnownSolutionProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for SolutionProvisioningState. \
+ * {@link KnownSolutionProvisioningState} can be used interchangeably with SolutionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type SolutionProvisioningState = string;
+
+/** Known values of {@link Confidence} that the service accepts. */
+export enum KnownConfidence {
+  /** Low */
+  Low = "Low",
+  /** Medium */
+  Medium = "Medium",
+  /** High */
+  High = "High"
+}
+
+/**
+ * Defines values for Confidence. \
+ * {@link KnownConfidence} can be used interchangeably with Confidence,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Low** \
+ * **Medium** \
+ * **High**
+ */
+export type Confidence = string;
+
+/** Known values of {@link ResultType} that the service accepts. */
+export enum KnownResultType {
+  /** Community */
+  Community = "Community",
+  /** Documentation */
+  Documentation = "Documentation"
+}
+
+/**
+ * Defines values for ResultType. \
+ * {@link KnownResultType} can be used interchangeably with ResultType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Community** \
+ * **Documentation**
+ */
+export type ResultType = string;
+
+/** Known values of {@link AggregationType} that the service accepts. */
+export enum KnownAggregationType {
+  /** Sum */
+  Sum = "Sum",
+  /** Avg */
+  Avg = "Avg",
+  /** Count */
+  Count = "Count",
+  /** Min */
+  Min = "Min",
+  /** Max */
+  Max = "Max"
+}
+
+/**
+ * Defines values for AggregationType. \
+ * {@link KnownAggregationType} can be used interchangeably with AggregationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Sum** \
+ * **Avg** \
+ * **Count** \
+ * **Min** \
+ * **Max**
+ */
+export type AggregationType = string;
+
+/** Known values of {@link TroubleshooterProvisioningState} that the service accepts. */
+export enum KnownTroubleshooterProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Running */
+  Running = "Running",
+  /** AutoContinue */
+  AutoContinue = "AutoContinue"
+}
+
+/**
+ * Defines values for TroubleshooterProvisioningState. \
+ * {@link KnownTroubleshooterProvisioningState} can be used interchangeably with TroubleshooterProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Running** \
+ * **AutoContinue**
+ */
+export type TroubleshooterProvisioningState = string;
+
+/** Known values of {@link ExecutionStatus} that the service accepts. */
+export enum KnownExecutionStatus {
+  /** Success */
+  Success = "Success",
+  /** Running */
+  Running = "Running",
+  /** Failed */
+  Failed = "Failed",
+  /** Warning */
+  Warning = "Warning"
+}
+
+/**
+ * Defines values for ExecutionStatus. \
+ * {@link KnownExecutionStatus} can be used interchangeably with ExecutionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Success** \
+ * **Running** \
+ * **Failed** \
+ * **Warning**
+ */
+export type ExecutionStatus = string;
+
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** Decision */
+  Decision = "Decision",
+  /** Solution */
+  Solution = "Solution",
+  /** Insight */
+  Insight = "Insight",
+  /** AutomatedCheck */
+  AutomatedCheck = "AutomatedCheck"
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Decision** \
+ * **Solution** \
+ * **Insight** \
+ * **AutomatedCheck**
+ */
+export type Type = string;
+
+/** Known values of {@link QuestionContentType} that the service accepts. */
+export enum KnownQuestionContentType {
+  /** Text */
+  Text = "Text",
+  /** Html */
+  Html = "Html",
+  /** Markdown */
+  Markdown = "Markdown"
+}
+
+/**
+ * Defines values for QuestionContentType. \
+ * {@link KnownQuestionContentType} can be used interchangeably with QuestionContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Text** \
+ * **Html** \
+ * **Markdown**
+ */
+export type QuestionContentType = string;
+
+/** Known values of {@link AutomatedCheckResultType} that the service accepts. */
+export enum KnownAutomatedCheckResultType {
+  /** Success */
+  Success = "Success",
+  /** Warning */
+  Warning = "Warning",
+  /** Error */
+  Error = "Error",
+  /** Information */
+  Information = "Information"
+}
+
+/**
+ * Defines values for AutomatedCheckResultType. \
+ * {@link KnownAutomatedCheckResultType} can be used interchangeably with AutomatedCheckResultType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Success** \
+ * **Warning** \
+ * **Error** \
+ * **Information**
+ */
+export type AutomatedCheckResultType = string;
+
+/** Known values of {@link QuestionType} that the service accepts. */
+export enum KnownQuestionType {
+  /** SingleChoice radio button */
+  RadioButton = "RadioButton",
+  /** SingleChoice dropdown. */
+  Dropdown = "Dropdown",
+  /** Text Input */
+  TextInput = "TextInput",
+  /** MultiLineInfoBox */
+  MultiLineInfoBox = "MultiLineInfoBox"
+}
+
+/**
+ * Defines values for QuestionType. \
+ * {@link KnownQuestionType} can be used interchangeably with QuestionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RadioButton**: SingleChoice radio button \
+ * **Dropdown**: SingleChoice dropdown. \
+ * **TextInput**: Text Input \
+ * **MultiLineInfoBox**: MultiLineInfoBox
+ */
+export type QuestionType = string;
+
 /** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
@@ -425,14 +1038,14 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface DiagnosticsCheckNameAvailabilityOptionalParams
+export interface CheckNameAvailabilityPostOptionalParams
   extends coreClient.OperationOptions {
   /** The required parameters for availability check. */
   checkNameAvailabilityRequest?: CheckNameAvailabilityRequest;
 }
 
-/** Contains response data for the checkNameAvailability operation. */
-export type DiagnosticsCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
+/** Contains response data for the post operation. */
+export type CheckNameAvailabilityPostResponse = CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
 export interface DiagnosticsCreateOptionalParams
@@ -458,9 +1071,9 @@ export type DiagnosticsGetResponse = DiagnosticResource;
 /** Optional parameters. */
 export interface DiscoverySolutionListOptionalParams
   extends coreClient.OperationOptions {
-  /** Can be used to filter solutionIds by 'ProblemClassificationId'. The filter supports only 'and' and 'eq' operators. Example: $filter=ProblemClassificationId eq '1ddda5b4-cf6c-4d4f-91ad-bc38ab0e811e' and ProblemClassificationId eq '0a9673c2-7af6-4e19-90d3-4ee2461076d9'. */
+  /** 'ProblemClassificationId' or 'Id' is a mandatory filter to get solutions ids. It also supports optional 'ResourceType' and 'SolutionType' filters. The filter supports only 'and', 'or' and 'eq' operators. Example: $filter=ProblemClassificationId eq '1ddda5b4-cf6c-4d4f-91ad-bc38ab0e811e' */
   filter?: string;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
+  /** Skiptoken is only used if a previous operation returned a partial result. */
   skiptoken?: string;
 }
 
@@ -473,6 +1086,83 @@ export interface DiscoverySolutionListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type DiscoverySolutionListNextResponse = DiscoveryResponse;
+
+/** Optional parameters. */
+export interface SolutionCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The required request body for this solution resource creation. */
+  solutionRequestBody?: SolutionResource;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type SolutionCreateResponse = SolutionResource;
+
+/** Optional parameters. */
+export interface SolutionGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SolutionGetResponse = SolutionResource;
+
+/** Optional parameters. */
+export interface SolutionUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The required request body for updating a solution resource. */
+  solutionPatchRequestBody?: SolutionPatchRequestBody;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type SolutionUpdateResponse = SolutionUpdateHeaders & SolutionResource;
+
+/** Optional parameters. */
+export interface TroubleshootersCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The required request body for this Troubleshooter resource creation. */
+  createTroubleshooterRequestBody?: TroubleshooterResource;
+}
+
+/** Contains response data for the create operation. */
+export type TroubleshootersCreateResponse = TroubleshooterResource;
+
+/** Optional parameters. */
+export interface TroubleshootersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TroubleshootersGetResponse = TroubleshooterResource;
+
+/** Optional parameters. */
+export interface TroubleshootersContinueOptionalParams
+  extends coreClient.OperationOptions {
+  /** The required request body for going to next step in Troubleshooter resource. */
+  continueRequestBody?: ContinueRequestBody;
+}
+
+/** Contains response data for the continue operation. */
+export type TroubleshootersContinueResponse = TroubleshootersContinueHeaders;
+
+/** Optional parameters. */
+export interface TroubleshootersEndOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the end operation. */
+export type TroubleshootersEndResponse = TroubleshootersEndHeaders;
+
+/** Optional parameters. */
+export interface TroubleshootersRestartOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the restart operation. */
+export type TroubleshootersRestartResponse = TroubleshootersRestartHeaders &
+  RestartTroubleshooterResponse;
 
 /** Optional parameters. */
 export interface HelpRPOptionalParams extends coreClient.ServiceClientOptions {
