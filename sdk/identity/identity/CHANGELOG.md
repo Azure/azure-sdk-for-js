@@ -3,7 +3,8 @@
 ## 3.3.2 (2023-10-17)
 
 ### Bugs Fixed
-- Ensure `AzurePowershellCredential` calls PowerShell with the `-NoProfile`  and "-NonInteractive" flag to avoid loading user profiles for more consistent behavior.  ([#27023](https://github.com/Azure/azure-sdk-for-js/pull/27023))
+- Ensure `AzurePowershellCredential` calls PowerShell with the `-NoProfile`  and "-NonInteractive" flag to avoid loading user profiles for more consistent behavior. ([#27023](https://github.com/Azure/azure-sdk-for-js/pull/27023))
+- Fixed browser bundling for Azure Developer CLI credential. ([Identity] update mapping for browser for azd (#27097))
 
 ### Other Changes
 
