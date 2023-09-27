@@ -1,16 +1,10 @@
 # Release History
 
-## 11.3.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 11.3.3 (2023-09-27)
 
 ### Bugs Fixed
 
-- Fix some `SearchIndex` fields being improperly serialized.
-
-### Other Changes
+- Fix some `SearchIndex` fields being improperly serialized.[#27238](https://github.com/Azure/azure-sdk-for-js/pull/27238)
 
 ## 11.3.2 (2023-06-06)
 
