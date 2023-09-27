@@ -561,17 +561,18 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.CallConnecti
     assert.isDefined(addResult);
 
     // ensure invitation is sent out
-    setTimeout(async () => {
-      await callConnection.cancelAddParticipant(addResult.invitationId!);
+    await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(3000);
+    
+    // cancel add participant
+    await callConnection.cancelAddParticipant(addResult.invitationId!);
 
-      const addParticipantCancelledEvent = (await waitForEvent(
-        "AddParticipantCancelled",
-        callConnectionId,
-        10000
-      )) as AddParticipantCancelled;
+    const addParticipantCancelledEvent = (await waitForEvent(
+      "AddParticipantCancelled",
+      callConnectionId,
+      10000
+    )) as AddParticipantCancelled;
 
-      assert.isDefined(addParticipantCancelledEvent);
-      assert.equal(addResult.invitationId, addParticipantCancelledEvent?.invitationId);
-    }, 3000);
+    assert.isDefined(addParticipantCancelledEvent);
+    assert.equal(addResult.invitationId, addParticipantCancelledEvent?.invitationId);
   }).timeout(90000);
 });
