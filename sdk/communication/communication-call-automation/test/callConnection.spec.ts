@@ -562,7 +562,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.CallConnecti
 
     // ensure invitation is sent out
     await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(3000);
-    
+
     // cancel add participant
     await callConnection.cancelAddParticipant(addResult.invitationId!);
 
