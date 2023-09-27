@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Resource } from "@opentelemetry/resources";
 import fs from "fs";
 import path from "path";
