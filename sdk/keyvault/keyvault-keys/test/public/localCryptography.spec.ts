@@ -47,7 +47,7 @@ describe("Local cryptography public tests", () => {
     let cryptoClientFromKey: CryptographyClient;
 
     beforeEach(async function (this: Context) {
-      customKeyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+      customKeyName = testClient.formatName(`${keyPrefix}-beforeeachhook-${keySuffix}`);
       customKeyVaultKey = await client.createKey(customKeyName, "RSA");
       cryptoClientFromKey = new CryptographyClient(customKeyVaultKey.key!);
     });
