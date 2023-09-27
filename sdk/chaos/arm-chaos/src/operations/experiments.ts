@@ -34,6 +34,9 @@ import {
   ExperimentsGetResponse,
   ExperimentsCreateOrUpdateOptionalParams,
   ExperimentsCreateOrUpdateResponse,
+  ExperimentUpdate,
+  ExperimentsUpdateOptionalParams,
+  ExperimentsUpdateResponse,
   ExperimentsCancelOptionalParams,
   ExperimentsCancelResponse,
   ExperimentsStartOptionalParams,
@@ -424,6 +427,25 @@ export class ExperimentsImpl implements Experiments {
   }
 
   /**
+   * The operation to update an experiment.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param experiment Parameters supplied to the Update experiment operation.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    experimentName: string,
+    experiment: ExperimentUpdate,
+    options?: ExperimentsUpdateOptionalParams
+  ): Promise<ExperimentsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, experimentName, experiment, options },
+      updateOperationSpec
+    );
+  }
+
+  /**
    * Cancel a running Experiment resource.
    * @param resourceGroupName String that represents an Azure resource group.
    * @param experimentName String that represents a Experiment resource name.
@@ -703,6 +725,30 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.experiment,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.experimentName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Experiment
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.experiment1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

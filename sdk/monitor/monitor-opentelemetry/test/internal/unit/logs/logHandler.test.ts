@@ -4,44 +4,28 @@
 import * as assert from "assert";
 import sinon from "sinon";
 import { trace, context, isValidTraceId, isValidSpanId } from "@opentelemetry/api";
-import { LogRecord as APILogRecord } from "@opentelemetry/api-logs";
+import { LogRecord as APILogRecord, logs } from "@opentelemetry/api-logs";
 import { ExportResultCode } from "@opentelemetry/core";
 import { LogHandler } from "../../../../src/logs";
 import { MetricHandler } from "../../../../src/metrics";
+import { InternalConfig } from "../../../../src/shared";
 import { TraceHandler } from "../../../../src/traces";
-import { AzureMonitorOpenTelemetryConfig } from "../../../../src/shared";
 
 describe("LogHandler", () => {
   let sandbox: sinon.SinonSandbox;
   let handler: LogHandler;
-  let traceHandler: TraceHandler;
   let exportStub: sinon.SinonStub;
-  let otlpExportStub: sinon.SinonStub;
   let metricHandler: MetricHandler;
-  const _config = new AzureMonitorOpenTelemetryConfig();
-  if (_config.azureMonitorExporterConfig) {
-    _config.azureMonitorExporterConfig.connectionString =
+  const _config = new InternalConfig();
+  if (_config.azureMonitorExporterOptions) {
+    _config.azureMonitorExporterOptions.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
   }
-  _config.otlpLogExporterConfig.enabled = true;
 
   before(() => {
     sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-    handler.shutdown();
-    if (traceHandler) {
-      traceHandler.shutdown();
-    }
-    if (metricHandler) {
-      metricHandler.shutdown();
-    }
-  });
-
-  function createLogHandler(config: AzureMonitorOpenTelemetryConfig, metricHandler: MetricHandler) {
-    handler = new LogHandler(config, metricHandler);
+    metricHandler = new MetricHandler(_config);
+    handler = new LogHandler(_config, metricHandler);
     exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
       (logs: any, resultCallback: any) =>
         new Promise((resolve) => {
@@ -51,40 +35,29 @@ describe("LogHandler", () => {
           resolve(logs);
         })
     );
-    otlpExportStub = sinon.stub(handler["_otlpExporter"] as any, "export").callsFake(
-      (result: any, resultCallback: any) =>
-        new Promise((resolve) => {
-          resultCallback({
-            code: ExportResultCode.SUCCESS,
-          });
-          resolve(result);
-        })
-    );
-  }
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+    exportStub.resetHistory();
+  });
 
   describe("#logger", () => {
     it("constructor", () => {
-      metricHandler = new MetricHandler(_config);
-      createLogHandler(_config, metricHandler);
-      assert.ok(handler.getLoggerProvider(), "LoggerProvider not available");
-      assert.ok(handler.getLogger(), "Logger not available");
+      assert.ok(logs.getLoggerProvider(), "LoggerProvider not available");
+      assert.ok(logs.getLogger("testLogger"), "Logger not available");
     });
 
     it("export", (done) => {
-      metricHandler = new MetricHandler(_config);
-      createLogHandler(_config, metricHandler);
       // Generate exception Log record
       const logRecord: APILogRecord = {
         body: "testLog",
       };
-      handler.getLogger().emit(logRecord);
+      logs.getLogger("testLogger").emit(logRecord);
       handler
         .flush()
         .then(() => {
           let result = exportStub.args;
-          assert.strictEqual(result.length, 1);
-          assert.strictEqual(result[0][0][0].body, "testLog");
-          result = otlpExportStub.args;
           assert.strictEqual(result.length, 1);
           assert.strictEqual(result[0][0][0].body, "testLog");
           done();
@@ -95,16 +68,14 @@ describe("LogHandler", () => {
     });
 
     it("tracing", (done) => {
-      metricHandler = new MetricHandler(_config);
-      createLogHandler(_config, metricHandler);
-      traceHandler = new TraceHandler(_config, metricHandler);
-      traceHandler["_tracer"].startActiveSpan("test", () => {
+      new TraceHandler(_config, metricHandler);
+      trace.getTracer("testTracer").startActiveSpan("test", () => {
         // Generate Log record
         const logRecord: APILogRecord = {
           attributes: {},
           body: "testRecord",
         };
-        handler.getLogger().emit(logRecord);
+        logs.getLogger("testLogger").emit(logRecord);
         handler
           .flush()
           .then(() => {
@@ -124,9 +95,6 @@ describe("LogHandler", () => {
       });
 
       it("Exception standard metrics processed", (done) => {
-        _config.enableAutoCollectStandardMetrics = true;
-        metricHandler = new MetricHandler(_config);
-        createLogHandler(_config, metricHandler);
         // Generate exception Log record
         const logRecord: APILogRecord = {
           attributes: {
@@ -134,7 +102,7 @@ describe("LogHandler", () => {
           },
           body: "testErrorRecord",
         };
-        handler.getLogger().emit(logRecord);
+        logs.getLogger("testLogger").emit(logRecord);
         handler
           .flush()
           .then(() => {
@@ -152,15 +120,12 @@ describe("LogHandler", () => {
       });
 
       it("Trace standard metrics processed", (done) => {
-        _config.enableAutoCollectStandardMetrics = true;
-        metricHandler = new MetricHandler(_config);
-        createLogHandler(_config, metricHandler);
         // Generate Log record
         const logRecord: APILogRecord = {
           attributes: {},
           body: "testRecord",
         };
-        handler.getLogger().emit(logRecord);
+        logs.getLogger("testLogger").emit(logRecord);
         handler
           .flush()
           .then(() => {

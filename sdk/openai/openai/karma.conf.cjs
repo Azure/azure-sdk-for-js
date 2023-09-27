@@ -58,6 +58,12 @@ module.exports = function (config) {
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
       "RECORDINGS_RELATIVE_PATH",
+      "SUBSCRIPTION_ID",
+      "RESOURCE_GROUP",
+      "ACCOUNT_NAME",
+      "AZURE_SEARCH_ENDPOINT",
+      "AZURE_SEARCH_KEY",
+      "AZURE_SEARCH_INDEX",
     ],
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -101,7 +107,15 @@ module.exports = function (config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadless"],
+    // --no-sandbox allows our tests to run in Linux without having to change the system.
+    // --disable-web-security allows us to authenticate from the browser without having to write tests using interactive auth, which would be far more complex.
+    browsers: ["ChromeHeadlessNoSandbox"],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox", "--disable-web-security"],
+      },
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

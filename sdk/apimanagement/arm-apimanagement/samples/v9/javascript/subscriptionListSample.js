@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all subscriptions of the API Management service instance.
  *
  * @summary Lists all subscriptions of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListSubscriptions.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListSubscriptions.json
  */
 async function apiManagementListSubscriptions() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

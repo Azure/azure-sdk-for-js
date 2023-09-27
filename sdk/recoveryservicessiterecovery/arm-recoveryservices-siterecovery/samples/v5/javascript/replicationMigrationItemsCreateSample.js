@@ -10,17 +10,21 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to The operation to create an ASR migration item (enable migration).
  *
  * @summary The operation to create an ASR migration item (enable migration).
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationMigrationItems_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationMigrationItems_Create.json
  */
 async function enablesMigration() {
-  const subscriptionId = "cb53d0c3-bd59-4721-89bc-06916a9147ef";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "cb53d0c3-bd59-4721-89bc-06916a9147ef";
   const resourceName = "migrationvault";
-  const resourceGroupName = "resourcegroup1";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "resourcegroup1";
   const fabricName = "vmwarefabric1";
   const protectionContainerName = "vmwareContainer1";
   const migrationItemName = "virtualmachine1";
@@ -65,4 +69,8 @@ async function enablesMigration() {
   console.log(result);
 }
 
-enablesMigration().catch(console.error);
+async function main() {
+  enablesMigration();
+}
+
+main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all diagnostics of an API.
  *
  * @summary Lists all diagnostics of an API.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListApiDiagnostics.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiDiagnostics.json
  */
 async function apiManagementListApiDiagnostics() {
   const subscriptionId =

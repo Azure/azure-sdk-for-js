@@ -1,9 +1,20 @@
 # Release History
 
-## 3.3.0 (2023-08-10)
+## 3.3.1 (Unreleased)
 
 ### Features Added
--  Enabled support for logging [personally identifiable information](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/PII), required for customer support through the `enableSupportLogging` option on `loggingOptions` under `TokenCredentialOptions`.
+
+### Breaking Changes
+
+### Bugs Fixed
+- Ensure `AzurePowershellCredential` calls PowerShell with the `-NoProfile`  and "-NonInteractive" flag to avoid loading user profiles for more consistent behavior.  ([#27023](https://github.com/Azure/azure-sdk-for-js/pull/27023))
+- Fixed browser bundling for Azure Developer CLI credential 
+### Other Changes
+
+## 3.3.0 (2023-08-14)
+
+### Features Added
+-  Enabled support for logging [personally identifiable information](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/PII), required for customer support through the `enableUnsafeSupportLogging` option on `loggingOptions` under `TokenCredentialOptions`.
 - Continuous Access Evaluation (CAE) is now configurable per-request by setting the `enable_cae` keyword argument to `True` in `get_token`. This applies to user credentials and service principal credentials. ([#26614](https://github.com/Azure/azure-sdk-for-js/pull/26614))
 
 ### Breaking Changes

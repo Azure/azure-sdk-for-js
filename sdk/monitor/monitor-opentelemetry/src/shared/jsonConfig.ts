@@ -3,11 +3,7 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import {
-  AzureMonitorOpenTelemetryOptions,
-  InstrumentationOptions,
-  OTLPExporterConfig,
-} from "./types";
+import { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./types";
 import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { Logger } from "./logging";
 
@@ -22,23 +18,7 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   public samplingRatio?: number;
   /** Azure Monitor Exporter Configuration */
-  public azureMonitorExporterConfig?: AzureMonitorExporterOptions;
-  /** OTLP Trace Exporter Configuration */
-  public otlpTraceExporterConfig?: OTLPExporterConfig;
-  /** OTLP Metric Exporter Configuration */
-  public otlpMetricExporterConfig?: OTLPExporterConfig;
-  /** OTLP Log Exporter Configuration */
-  public otlpLogExporterConfig?: OTLPExporterConfig;
-  /**
-   * Sets the state of performance tracking (enabled by default)
-   * if true performance counters will be collected every second and sent to Azure Monitor
-   */
-  public enableAutoCollectPerformance?: boolean;
-  /**
-   * Sets the state of standard metrics tracking (enabled by default)
-   * if true Standard metrics will be collected every minute and sent to Azure Monitor
-   */
-  public enableAutoCollectStandardMetrics?: boolean;
+  public azureMonitorExporterOptions?: AzureMonitorExporterOptions;
   /**
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
@@ -89,13 +69,8 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
     }
     try {
       const jsonConfig: AzureMonitorOpenTelemetryOptions = JSON.parse(jsonString);
-      this.azureMonitorExporterConfig = jsonConfig.azureMonitorExporterConfig;
-      this.otlpLogExporterConfig = jsonConfig.otlpLogExporterConfig;
-      this.otlpMetricExporterConfig = jsonConfig.otlpMetricExporterConfig;
-      this.otlpTraceExporterConfig = jsonConfig.otlpTraceExporterConfig;
+      this.azureMonitorExporterOptions = jsonConfig.azureMonitorExporterOptions;
       this.samplingRatio = jsonConfig.samplingRatio;
-      this.enableAutoCollectPerformance = jsonConfig.enableAutoCollectPerformance;
-      this.enableAutoCollectStandardMetrics = jsonConfig.enableAutoCollectStandardMetrics;
       this.instrumentationOptions = jsonConfig.instrumentationOptions;
     } catch (err) {
       Logger.getInstance().info("Missing or invalid JSON config file: ", err);

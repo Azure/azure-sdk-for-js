@@ -7,6 +7,7 @@ import { AzureMonitorExporterOptions } from "../../config";
 import { TelemetryItem as Envelope } from "../../generated";
 import { resourceMetricsToEnvelope } from "../../utils/metricUtils";
 import { AzureMonitorBaseExporter } from "../base";
+import { HttpSender } from "../../platform";
 
 /**
  * Azure Monitor Statsbeat Exporter
@@ -19,6 +20,7 @@ export class AzureMonitorStatsbeatExporter
    * Flag to determine if the Exporter is shutdown.
    */
   private _isShutdown = false;
+  private _sender: HttpSender;
 
   /**
    * Initializes a new instance of the AzureMonitorStatsbeatExporter class.
@@ -26,6 +28,12 @@ export class AzureMonitorStatsbeatExporter
    */
   constructor(options: AzureMonitorExporterOptions) {
     super(options, true);
+    this._sender = new HttpSender(
+      this.endpointUrl,
+      this.instrumentationKey,
+      this.trackStatsbeat,
+      options
+    );
   }
 
   /**
@@ -42,12 +50,12 @@ export class AzureMonitorStatsbeatExporter
 
     let envelopes: Envelope[] = resourceMetricsToEnvelope(
       metrics,
-      this._instrumentationKey,
+      this.instrumentationKey,
       true // isStatsbeat flag passed to create a Statsbeat envelope.
     );
     // Supress tracing until OpenTelemetry Metrics SDK support it
     context.with(suppressTracing(context.active()), async () => {
-      resultCallback(await this._exportEnvelopes(envelopes));
+      resultCallback(await this._sender.exportEnvelopes(envelopes));
     });
   }
 
@@ -56,7 +64,7 @@ export class AzureMonitorStatsbeatExporter
    */
   public async shutdown(): Promise<void> {
     this._isShutdown = true;
-    return this._shutdown();
+    return this._sender.shutdown();
   }
 
   /**

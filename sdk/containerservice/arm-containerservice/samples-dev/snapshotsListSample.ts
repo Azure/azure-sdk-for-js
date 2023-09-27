@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of snapshots in the specified subscription.
  *
  * @summary Gets a list of snapshots in the specified subscription.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-06-02-preview/examples/SnapshotsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-07-02-preview/examples/SnapshotsList.json
  */
 async function listSnapshots() {
   const subscriptionId =

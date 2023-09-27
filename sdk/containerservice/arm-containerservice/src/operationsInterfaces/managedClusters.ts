@@ -14,6 +14,8 @@ import {
   ManagedClustersListByResourceGroupOptionalParams,
   OutboundEnvironmentEndpoint,
   ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
+  GuardrailsAvailableVersion,
+  ManagedClustersListGuardrailsVersionsOptionalParams,
   MeshRevisionProfile,
   ManagedClustersListMeshRevisionProfilesOptionalParams,
   MeshUpgradeProfile,
@@ -60,6 +62,8 @@ import {
   ManagedClustersRunCommandResponse,
   ManagedClustersGetCommandResultOptionalParams,
   ManagedClustersGetCommandResultResponse,
+  ManagedClustersGetGuardrailsVersionsOptionalParams,
+  ManagedClustersGetGuardrailsVersionsResponse,
   ManagedClustersGetMeshRevisionProfileOptionalParams,
   ManagedClustersGetMeshRevisionProfileResponse,
   ManagedClustersGetMeshUpgradeProfileOptionalParams,
@@ -97,6 +101,15 @@ export interface ManagedClusters {
     resourceName: string,
     options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
+  /**
+   * Contains list of Guardrails version along with its support info and whether it is a default version.
+   * @param location The name of Azure region.
+   * @param options The options parameters.
+   */
+  listGuardrailsVersions(
+    location: string,
+    options?: ManagedClustersListGuardrailsVersionsOptionalParams
+  ): PagedAsyncIterableIterator<GuardrailsAvailableVersion>;
   /**
    * Contains extra metadata on each revision, including supported revisions, cluster compatibility and
    * available upgrades
@@ -551,6 +564,17 @@ export interface ManagedClusters {
     commandId: string,
     options?: ManagedClustersGetCommandResultOptionalParams
   ): Promise<ManagedClustersGetCommandResultResponse>;
+  /**
+   * Contains Guardrails version along with its support info and whether it is a default version.
+   * @param location The name of Azure region.
+   * @param version Guardrails version
+   * @param options The options parameters.
+   */
+  getGuardrailsVersions(
+    location: string,
+    version: string,
+    options?: ManagedClustersGetGuardrailsVersionsOptionalParams
+  ): Promise<ManagedClustersGetGuardrailsVersionsResponse>;
   /**
    * Contains extra metadata on the revision, including supported revisions, cluster compatibility and
    * available upgrades

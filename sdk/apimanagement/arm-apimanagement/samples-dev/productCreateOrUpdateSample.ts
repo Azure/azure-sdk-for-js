@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or Updates a product.
  *
  * @summary Creates or Updates a product.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateProduct.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateProduct.json
  */
 async function apiManagementCreateProduct() {
   const subscriptionId =

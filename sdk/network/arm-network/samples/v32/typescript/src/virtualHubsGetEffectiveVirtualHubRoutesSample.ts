@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the effective routes configured for the Virtual Hub resource or the specified resource .
  *
  * @summary Gets the effective routes configured for the Virtual Hub resource or the specified resource .
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/EffectiveRoutesListForConnection.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-05-01/examples/EffectiveRoutesListForConnection.json
  */
 async function effectiveRoutesForAConnectionResource() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -50,7 +50,7 @@ async function effectiveRoutesForAConnectionResource() {
  * This sample demonstrates how to Gets the effective routes configured for the Virtual Hub resource or the specified resource .
  *
  * @summary Gets the effective routes configured for the Virtual Hub resource or the specified resource .
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/EffectiveRoutesListForRouteTable.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-05-01/examples/EffectiveRoutesListForRouteTable.json
  */
 async function effectiveRoutesForARouteTableResource() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -78,7 +78,7 @@ async function effectiveRoutesForARouteTableResource() {
  * This sample demonstrates how to Gets the effective routes configured for the Virtual Hub resource or the specified resource .
  *
  * @summary Gets the effective routes configured for the Virtual Hub resource or the specified resource .
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/EffectiveRoutesListForVirtualHub.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-05-01/examples/EffectiveRoutesListForVirtualHub.json
  */
 async function effectiveRoutesForTheVirtualHub() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

@@ -46,7 +46,7 @@ describe("Json Config", () => {
       process.env = env;
       const config = JsonConfig.getInstance();
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.connectionString,
+        config.azureMonitorExporterOptions?.connectionString,
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
       );
     });
@@ -58,7 +58,7 @@ describe("Json Config", () => {
       process.env = env;
       const config = JsonConfig.getInstance();
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.connectionString,
+        config.azureMonitorExporterOptions?.connectionString,
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
       );
     });
@@ -75,28 +75,12 @@ describe("Json Config", () => {
       process.env = env;
       const config = JsonConfig.getInstance();
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.connectionString,
+        config.azureMonitorExporterOptions?.connectionString,
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
       );
-      assert.deepStrictEqual(config.azureMonitorExporterConfig?.disableOfflineStorage, true);
-      assert.deepStrictEqual(config.azureMonitorExporterConfig?.storageDirectory, "testPath");
-      assert.deepStrictEqual(config.otlpTraceExporterConfig?.enabled, true);
-      assert.deepStrictEqual(config.otlpTraceExporterConfig?.keepAlive, false);
-      assert.deepStrictEqual(config.otlpTraceExporterConfig?.url, "someurlfortraces");
-      assert.deepStrictEqual(config.otlpMetricExporterConfig?.enabled, true);
-      assert.deepStrictEqual(config.otlpMetricExporterConfig?.keepAlive, true);
-      assert.deepStrictEqual(config.otlpMetricExporterConfig?.url, "someurlformetrics");
+      assert.deepStrictEqual(config.azureMonitorExporterOptions?.disableOfflineStorage, true);
+      assert.deepStrictEqual(config.azureMonitorExporterOptions?.storageDirectory, "testPath");
       assert.deepStrictEqual(config.samplingRatio, 0.3, "Wrong samplingRatio");
-      assert.deepStrictEqual(
-        config.enableAutoCollectPerformance,
-        false,
-        "Wrong enableAutoCollectPerformance"
-      );
-      assert.deepStrictEqual(
-        config.enableAutoCollectStandardMetrics,
-        false,
-        "Wrong enableAutoCollectStandardMetrics"
-      );
       assert.deepStrictEqual(
         config.instrumentationOptions?.azureSdk?.enabled,
         true,
@@ -128,7 +112,7 @@ describe("Json Config", () => {
       process.env = env;
       const config = JsonConfig.getInstance();
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.connectionString,
+        config.azureMonitorExporterOptions?.connectionString,
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
       );
     });

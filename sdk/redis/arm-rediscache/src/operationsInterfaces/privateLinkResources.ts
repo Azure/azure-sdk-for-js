@@ -17,7 +17,7 @@ import {
 export interface PrivateLinkResources {
   /**
    * Gets the private link resources that need to be created for a redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param options The options parameters.
    */

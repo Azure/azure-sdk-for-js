@@ -1902,6 +1902,36 @@ export const SubscriptionDeletedEventData: coreClient.CompositeMapper = {
   }
 };
 
+export const EventGridMqttClientEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventGridMqttClientEventData",
+    modelProperties: {
+      clientAuthenticationName: {
+        serializedName: "clientAuthenticationName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientName: {
+        serializedName: "clientName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      namespaceName: {
+        serializedName: "namespaceName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DataBoxCopyStartedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3867,6 +3897,36 @@ export const AppConfigurationKeyValueDeletedEventData: coreClient.CompositeMappe
       },
       label: {
         serializedName: "label",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      syncToken: {
+        serializedName: "syncToken",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppConfigurationSnapshotEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AppConfigurationSnapshotEventData",
+    modelProperties: {
+      name: {
+        serializedName: "name",
         required: true,
         type: {
           name: "String"
@@ -6314,6 +6374,13 @@ export const AcsEmailEngagementTrackingReportReceivedEventData: coreClient.Compo
           name: "String"
         }
       },
+      recipient: {
+        serializedName: "recipient",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       messageId: {
         serializedName: "messageId",
         required: true,
@@ -7276,6 +7343,110 @@ export const HealthcareDicomImageDeletedEventData: coreClient.CompositeMapper = 
   }
 };
 
+export const EventGridMqttClientCreatedOrUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventGridMqttClientCreatedOrUpdatedEventData",
+    modelProperties: {
+      ...EventGridMqttClientEventData.type.modelProperties,
+      state: {
+        serializedName: "state",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdOn: {
+        serializedName: "createdOn",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      updatedOn: {
+        serializedName: "updatedOn",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      attributes: {
+        serializedName: "attributes",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const EventGridMqttClientDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventGridMqttClientDeletedEventData",
+    modelProperties: {
+      ...EventGridMqttClientEventData.type.modelProperties
+    }
+  }
+};
+
+export const EventGridMqttClientSessionConnectedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventGridMqttClientSessionConnectedEventData",
+    modelProperties: {
+      ...EventGridMqttClientEventData.type.modelProperties,
+      clientSessionName: {
+        serializedName: "clientSessionName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sequenceNumber: {
+        serializedName: "sequenceNumber",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const EventGridMqttClientSessionDisconnectedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventGridMqttClientSessionDisconnectedEventData",
+    modelProperties: {
+      ...EventGridMqttClientEventData.type.modelProperties,
+      clientSessionName: {
+        serializedName: "clientSessionName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sequenceNumber: {
+        serializedName: "sequenceNumber",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      disconnectionReason: {
+        serializedName: "disconnectionReason",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const IotHubDeviceCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7583,6 +7754,26 @@ export const MapsGeofenceResultEventData: coreClient.CompositeMapper = {
     className: "MapsGeofenceResultEventData",
     modelProperties: {
       ...MapsGeofenceEvent.type.modelProperties
+    }
+  }
+};
+
+export const AppConfigurationSnapshotCreatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AppConfigurationSnapshotCreatedEventData",
+    modelProperties: {
+      ...AppConfigurationSnapshotEventData.type.modelProperties
+    }
+  }
+};
+
+export const AppConfigurationSnapshotModifiedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AppConfigurationSnapshotModifiedEventData",
+    modelProperties: {
+      ...AppConfigurationSnapshotEventData.type.modelProperties
     }
   }
 };

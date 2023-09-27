@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Rotates the service account signing keys of a managed cluster.
  *
  * @summary Rotates the service account signing keys of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-06-02-preview/examples/ManagedClustersRotateServiceAccountSigningKeys.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-07-02-preview/examples/ManagedClustersRotateServiceAccountSigningKeys.json
  */
 async function rotateClusterServiceAccountSigningKeys() {
   const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";

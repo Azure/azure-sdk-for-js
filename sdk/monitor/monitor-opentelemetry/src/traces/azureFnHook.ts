@@ -18,16 +18,7 @@ export class AzureFunctionsHook {
     try {
       // TODO: Add types files when publicly available
       this._functionsCoreModule = require("@azure/functions-core");
-      // Only v3 of Azure Functions library is supported right now. See matrix of versions here:
-      // https://github.com/Azure/azure-functions-nodejs-library
-      const funcProgModel = this._functionsCoreModule.getProgrammingModel();
-      if (funcProgModel.name === "@azure/functions" && funcProgModel.version.startsWith("3.")) {
-        this._addPreInvocationHook();
-      } else {
-        Logger.getInstance().debug(
-          `AzureFunctionsHook does not support model "${funcProgModel.name}" version "${funcProgModel.version}"`
-        );
-      }
+      this._addPreInvocationHook();
     } catch (error) {
       Logger.getInstance().debug(
         "@azure/functions-core failed to load, not running in Azure Functions"

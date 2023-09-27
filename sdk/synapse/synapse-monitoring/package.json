@@ -40,7 +40,9 @@
     "rollup-plugin-sourcemaps": "^0.6.3",
     "@rollup/plugin-commonjs": "^24.0.0",
     "typescript": "~5.0.0",
-    "uglify-js": "^3.4.9"
+    "uglify-js": "^3.4.9",
+    "ts-node": "^10.0.0",
+    "@types/node": "^14.0.0"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -64,6 +66,9 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "build:test": "echo skipped",
+    "integration-test:browser": "echo skip",
+    "integration-test:node": "echo skip",
+    "integration-test": "echo skip",
     "lint": "echo skipped",
     "format": "echo skip format as this package has only auto generated code",
     "check-format": "echo skip format check as this package has only auto generated code",

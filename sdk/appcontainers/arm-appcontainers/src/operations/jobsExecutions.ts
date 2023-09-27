@@ -37,7 +37,7 @@ export class JobsExecutionsImpl implements JobsExecutions {
   /**
    * Get a Container Apps Job's executions
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   public list(
@@ -113,7 +113,7 @@ export class JobsExecutionsImpl implements JobsExecutions {
   /**
    * Get a Container Apps Job's executions
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   private _list(
@@ -130,7 +130,7 @@ export class JobsExecutionsImpl implements JobsExecutions {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */

@@ -86,6 +86,7 @@ export interface SubStatusCodesType {
 
   // 410: StatusCodeType_Gone: substatus
   PartitionKeyRangeGone: 1002;
+  CompletingSplit: 1007;
 
   // 404: NotFound Substatus
   ReadSessionNotAvailable: 1002;
@@ -106,7 +107,7 @@ export const SubStatusCodes: SubStatusCodesType = {
 
   // 410: StatusCodeType_Gone: substatus
   PartitionKeyRangeGone: 1002,
-
+  CompletingSplit: 1007,
   // 404: NotFound Substatus
   ReadSessionNotAvailable: 1002,
 

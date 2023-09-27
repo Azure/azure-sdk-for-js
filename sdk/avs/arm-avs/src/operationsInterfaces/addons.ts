@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Addon,
   AddonsListOptionalParams,
@@ -60,8 +60,8 @@ export interface Addons {
     addon: Addon,
     options?: AddonsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AddonsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AddonsCreateOrUpdateResponse>,
       AddonsCreateOrUpdateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface Addons {
     privateCloudName: string,
     addonName: string,
     options?: AddonsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a addon in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@azure/ai-form-recognizer": "^5.0.0",
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^3.3.0",
     "@azure/test-utils-perf": "^1.0.0",
     "@azure/core-util": "^1.3.1",
     "dotenv": "^16.0.0",
@@ -21,7 +21,8 @@
     "eslint": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "typescript": "~5.0.0"
+    "typescript": "~5.0.0",
+    "ts-node": "^10.0.0"
   },
   "scripts": {
     "perf-test:node": "npm run build && node dist-esm/index.spec.js",

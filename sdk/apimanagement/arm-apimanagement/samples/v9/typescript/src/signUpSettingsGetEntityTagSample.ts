@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the entity state (Etag) version of the SignUpSettings.
  *
  * @summary Gets the entity state (Etag) version of the SignUpSettings.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadSignUpSettings.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadSignUpSettings.json
  */
 async function apiManagementHeadSignUpSettings() {
   const subscriptionId =

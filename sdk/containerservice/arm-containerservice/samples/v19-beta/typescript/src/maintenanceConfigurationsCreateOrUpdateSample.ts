@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a maintenance configuration in the specified managed cluster.
  *
  * @summary Creates or updates a maintenance configuration in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-06-02-preview/examples/MaintenanceConfigurationsCreate_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-07-02-preview/examples/MaintenanceConfigurationsCreate_Update.json
  */
 async function createOrUpdateMaintenanceConfiguration() {
   const subscriptionId =
@@ -54,7 +54,7 @@ async function createOrUpdateMaintenanceConfiguration() {
  * This sample demonstrates how to Creates or updates a maintenance configuration in the specified managed cluster.
  *
  * @summary Creates or updates a maintenance configuration in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-06-02-preview/examples/MaintenanceConfigurationsCreate_Update_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-07-02-preview/examples/MaintenanceConfigurationsCreate_Update_MaintenanceWindow.json
  */
 async function createOrUpdateMaintenanceConfigurationWithMaintenanceWindow() {
   const subscriptionId =

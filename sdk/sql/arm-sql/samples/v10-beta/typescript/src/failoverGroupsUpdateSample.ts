@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a failover group.
  *
  * @summary Updates a failover group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-11-01-preview/examples/FailoverGroupUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/FailoverGroupUpdate.json
  */
 async function updateFailoverGroup() {
   const subscriptionId =

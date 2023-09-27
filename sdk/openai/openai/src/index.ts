@@ -2,44 +2,18 @@
 // Licensed under the MIT license.
 
 /**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ * [Azure OpenAI](https://learn.microsoft.com/azure/cognitive-services/openai/overview)
+ * provides REST API access to OpenAI's powerful language models including the GPT-3,
+ * Codex and Embeddings model series. In addition, the new GPT-4 and ChatGPT (gpt-35-turbo)
+ * model series have now reached general availability. These models can be easily adapted
+ * to your specific task including but not limited to content generation, summarization,
+ * semantic search, and natural language to code translation.
  *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ * @packageDocumentation
  */
 
 export { AzureKeyCredential } from "@azure/core-auth";
-export { OpenAIClient, OpenAIClientOptions } from "./OpenAIClient.js";
-export {
-  AzureOpenAIOperationState,
-  BatchImageGenerationOperationResponse,
-  ChatChoice,
-  ChatCompletions,
-  ChatMessage,
-  ChatRole,
-  Choice,
-  Completions,
-  CompletionsFinishReason,
-  CompletionsLogProbabilityModel,
-  CompletionsUsage,
-  EmbeddingItem,
-  Embeddings,
-  EmbeddingsUsage,
-  ImageGenerationResponse,
-  ImageGenerationResponseFormat,
-  ImageGenerations,
-  ImageLocation,
-  ImagePayload,
-  ImageSize,
-} from "./api/models.js";
-export {
-  BeginAzureBatchImageGenerationOptions,
-  ImageGenerationOptions,
-  GetAzureBatchImageGenerationOperationStatusOptions,
-  GetChatCompletionsOptions,
-  GetCompletionsOptions,
-  GetEmbeddingsOptions,
-} from "./api/operations.js";
-export { RequestOptions } from "./common/interfaces.js";
 export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";
+export { OpenAIClient, OpenAIClientOptions } from "./OpenAIClient.js";
+export * from "./models/index.js";
+export * from "./models/audio.js";

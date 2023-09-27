@@ -1,6 +1,6 @@
 # Release History
 
-## 7.9.1 (Unreleased)
+## 7.9.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 7.9.1 (2023-09-12)
+
+### Other Changes
+
+- Check whether we can send messages before making management requests. [PR #26927](https://github.com/Azure/azure-sdk-for-js/pull/26927)
 
 ## 7.9.0 (2023-04-11)
 

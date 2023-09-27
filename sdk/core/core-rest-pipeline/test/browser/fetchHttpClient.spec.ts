@@ -341,6 +341,7 @@ describe("FetchHttpClient", function () {
           typeof (body as ReadableStream).tee === "function",
         "expecting ReadableStream request body"
       );
+      assert.strictEqual(options.duplex, "half");
       const reader = (body as ReadableStream).getReader();
       const data = await reader.read();
       assert.equal(data.value, requestText, "unexpected request text");

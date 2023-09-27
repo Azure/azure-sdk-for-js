@@ -48,7 +48,7 @@ export class AppConfigurationClient {
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
     getSnapshot(name: string, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
-    listConfigurationSettingsForSnapshot(snapshotName: string, options?: ListSettingsSnapshotsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
+    listConfigurationSettingsForSnapshot(snapshotName: string, options?: ListConfigurationSettingsForSnapshotOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
     listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<Snapshot, ListSnapshotsPage, PageSettings>;
     recoverSnapshot(snapshotId: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
@@ -99,6 +99,7 @@ export interface ConfigurationSettingsFilter {
 
 // @public
 export interface CreateSnapshotOptions extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -111,14 +112,6 @@ export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedFi
 
 // @public
 export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
-}
-
-// @public
-export interface ErrorDetail {
-    code: string;
-    details?: ErrorDetail[];
-    innererror?: InnerError;
-    message: string;
 }
 
 // @public
@@ -186,16 +179,24 @@ export interface HttpResponseFields {
 }
 
 // @public
-export interface InnerError {
-    code?: string;
-    innererror?: InnerError;
-}
-
-// @public
 export function isFeatureFlag(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
 // @public
 export function isSecretReference(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
+
+// @public
+export enum KnownCompositionType {
+    Key = "key",
+    KeyLabel = "key_label"
+}
+
+// @public
+export enum KnownSnapshotStatus {
+    Archived = "archived",
+    Failed = "failed",
+    Provisioning = "provisioning",
+    Ready = "ready"
+}
 
 // @public
 export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
@@ -203,11 +204,16 @@ export interface ListConfigurationSettingPage extends HttpResponseField<SyncToke
 }
 
 // @public
+export interface ListConfigurationSettingsForSnapshotOptions extends OperationOptions, OptionalFields {
+    acceptDateTime?: Date;
+}
+
+// @public
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
 }
 
 // @public
-export interface ListRevisionsOptions extends OperationOptions, SendSettingsOptions {
+export interface ListRevisionsOptions extends OperationOptions, ListSettingsOptions {
 }
 
 // @public
@@ -223,34 +229,18 @@ export interface ListSettingsOptions extends OptionalFields {
 }
 
 // @public
-export interface ListSettingsSnapshotsOptions extends OperationOptions, OptionalFields {
-    acceptDateTime?: Date;
-}
-
-// @public
 export interface ListSnapshots extends OptionalSnapshotFields {
     nameFilter?: string;
     statusFilter?: SnapshotStatus[];
 }
 
 // @public
-export interface ListSnapshotsOptions extends OperationOptions, ListSnapshots {
+export interface ListSnapshotsOptions extends OperationOptions, ListSnapshots, OptionalSnapshotFields {
 }
 
 // @public
 export interface ListSnapshotsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
     items: Snapshot[];
-}
-
-// @public
-export interface OperationDetails {
-    error?: ErrorDetail;
-    id: string;
-    status: State;
-}
-
-// @public
-export interface OperationDetailsResponse extends OperationDetails {
 }
 
 // @public
@@ -286,15 +276,6 @@ export const secretReferenceContentType = "application/vnd.microsoft.appconfig.k
 // @public
 export interface SecretReferenceValue {
     secretId: string;
-}
-
-// @public
-export interface SendConfigurationSettingsOptions extends OperationOptions, SendSettingsOptions {
-}
-
-// @public
-export interface SendSettingsOptions extends ListSettingsOptions {
-    snapshotName?: string;
 }
 
 // @public

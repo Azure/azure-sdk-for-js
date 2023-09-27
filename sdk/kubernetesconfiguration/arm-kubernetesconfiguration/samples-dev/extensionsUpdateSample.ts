@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Patch an existing Kubernetes Cluster Extension.
  *
  * @summary Patch an existing Kubernetes Cluster Extension.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/PatchExtension.json
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/PatchExtension.json
  */
 async function updateExtension() {
   const subscriptionId =

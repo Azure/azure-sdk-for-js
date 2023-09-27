@@ -1,6 +1,6 @@
 # Release History
 
-## 1.4.1 (Unreleased)
+## 1.5.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,13 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.5.0 (2023-09-25)
+
+### Features Added
+
+- Adds helper method `cancelablePromiseRace`, an abstraction that leverages `"promise.race()"` and aborts the losers of the race as soon as the first promise settles.
+  [PR #26748](https://github.com/Azure/azure-sdk-for-js/pull/26748)
 
 ## 1.4.0 (2023-08-03)
 

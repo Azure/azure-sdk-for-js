@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a database.
  *
  * @summary Gets a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetVCoreDatabaseDefaultEnclave.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetVCoreDatabaseDefaultEnclave.json
  */
 async function getsADatabaseConfiguredWithDefaultEnclaveType() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function getsADatabaseConfiguredWithDefaultEnclaveType() {
  * This sample demonstrates how to Gets a database.
  *
  * @summary Gets a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetVCoreDatabaseVBSEnclave.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetVCoreDatabaseVBSEnclave.json
  */
 async function getsADatabaseConfiguredWithVbsEnclaveType() {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function getsADatabaseConfiguredWithVbsEnclaveType() {
  * This sample demonstrates how to Gets a database.
  *
  * @summary Gets a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetDatabaseWithAvailabilityZone.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetDatabaseWithAvailabilityZone.json
  */
 async function getsADatabaseWithAvailabilityZoneSpecified() {
   const subscriptionId =
@@ -70,7 +70,7 @@ async function getsADatabaseWithAvailabilityZoneSpecified() {
  * This sample demonstrates how to Gets a database.
  *
  * @summary Gets a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetVCoreDatabaseWithExpandEqualsKeys.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetVCoreDatabaseWithExpandEqualsKeys.json
  */
 async function getsADatabaseWithDatabaseLevelKeysExpanded() {
   const subscriptionId =
@@ -90,7 +90,7 @@ async function getsADatabaseWithDatabaseLevelKeysExpanded() {
  * This sample demonstrates how to Gets a database.
  *
  * @summary Gets a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetVCoreDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetVCoreDatabase.json
  */
 async function getsADatabase() {
   const subscriptionId =

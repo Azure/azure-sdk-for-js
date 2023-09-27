@@ -2281,15 +2281,10 @@ export const UpgradeOverrideSettings: coreClient.CompositeMapper = {
     name: "Composite",
     className: "UpgradeOverrideSettings",
     modelProperties: {
-      controlPlaneOverrides: {
-        serializedName: "controlPlaneOverrides",
+      forceUpgrade: {
+        serializedName: "forceUpgrade",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "Boolean"
         }
       },
       until: {
@@ -2902,10 +2897,18 @@ export const ManagedClusterIngressProfileWebAppRouting: coreClient.CompositeMapp
           name: "Boolean"
         }
       },
-      dnsZoneResourceId: {
-        serializedName: "dnsZoneResourceId",
+      dnsZoneResourceIds: {
+        constraints: {
+          MaxItems: 5
+        },
+        serializedName: "dnsZoneResourceIds",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       identity: {
@@ -2971,22 +2974,6 @@ export const ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler: coreC
         type: {
           name: "Boolean"
         }
-      },
-      controlledValues: {
-        defaultValue: "RequestsAndLimits",
-        serializedName: "controlledValues",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      updateMode: {
-        defaultValue: "Off",
-        serializedName: "updateMode",
-        required: true,
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -3002,6 +2989,13 @@ export const ManagedClusterAzureMonitorProfile: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterAzureMonitorProfileMetrics"
+        }
+      },
+      logs: {
+        serializedName: "logs",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterAzureMonitorProfileLogs"
         }
       }
     }
@@ -3025,6 +3019,14 @@ export const ManagedClusterAzureMonitorProfileMetrics: coreClient.CompositeMappe
         type: {
           name: "Composite",
           className: "ManagedClusterAzureMonitorProfileKubeStateMetrics"
+        }
+      },
+      appMonitoringOpenTelemetryMetrics: {
+        serializedName: "appMonitoringOpenTelemetryMetrics",
+        type: {
+          name: "Composite",
+          className:
+            "ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics"
         }
       }
     }
@@ -3052,6 +3054,103 @@ export const ManagedClusterAzureMonitorProfileKubeStateMetrics: coreClient.Compo
   }
 };
 
+export const ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterAzureMonitorProfileLogs: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterAzureMonitorProfileLogs",
+    modelProperties: {
+      containerInsights: {
+        serializedName: "containerInsights",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterAzureMonitorProfileContainerInsights"
+        }
+      },
+      appMonitoring: {
+        serializedName: "appMonitoring",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterAzureMonitorProfileAppMonitoring"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterAzureMonitorProfileContainerInsights: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterAzureMonitorProfileContainerInsights",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      logAnalyticsWorkspaceResourceId: {
+        serializedName: "logAnalyticsWorkspaceResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      windowsHostLogs: {
+        serializedName: "windowsHostLogs",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterAzureMonitorProfileWindowsHostLogs"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterAzureMonitorProfileWindowsHostLogs: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterAzureMonitorProfileWindowsHostLogs",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterAzureMonitorProfileAppMonitoring: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterAzureMonitorProfileAppMonitoring",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const GuardrailsProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3071,7 +3170,6 @@ export const GuardrailsProfile: coreClient.CompositeMapper = {
       },
       version: {
         serializedName: "version",
-        required: true,
         type: {
           name: "String"
         }
@@ -3252,6 +3350,37 @@ export const IstioPluginCertificateAuthority: coreClient.CompositeMapper = {
         serializedName: "certChainObjectName",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterMetricsProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterMetricsProfile",
+    modelProperties: {
+      costAnalysis: {
+        serializedName: "costAnalysis",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterCostAnalysis"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterCostAnalysis: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterCostAnalysis",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -3972,6 +4101,102 @@ export const AgentPoolUpgradeProfilePropertiesUpgradesItem: coreClient.Composite
   }
 };
 
+export const MachineListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MachineListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Machine"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MachineProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MachineProperties",
+    modelProperties: {
+      network: {
+        serializedName: "network",
+        type: {
+          name: "Composite",
+          className: "MachineNetworkProperties"
+        }
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MachineNetworkProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MachineNetworkProperties",
+    modelProperties: {
+      ipAddresses: {
+        serializedName: "ipAddresses",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MachineIpAddress"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MachineIpAddress: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MachineIpAddress",
+    modelProperties: {
+      ip: {
+        serializedName: "ip",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      family: {
+        serializedName: "family",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AgentPoolAvailableVersions: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4666,6 +4891,57 @@ export const TrustedAccessRoleBindingListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const GuardrailsAvailableVersionsProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GuardrailsAvailableVersionsProperties",
+    modelProperties: {
+      isDefaultVersion: {
+        serializedName: "isDefaultVersion",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      support: {
+        serializedName: "support",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GuardrailsAvailableVersionsList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GuardrailsAvailableVersionsList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GuardrailsAvailableVersion"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const MeshRevisionProfileList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4914,6 +5190,23 @@ export const TrustedAccessRoleBinding: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const GuardrailsAvailableVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GuardrailsAvailableVersion",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GuardrailsAvailableVersionsProperties"
         }
       }
     }
@@ -5301,6 +5594,23 @@ export const AgentPool: coreClient.CompositeMapper = {
   }
 };
 
+export const Machine: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Machine",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "MachineProperties"
+        }
+      }
+    }
+  }
+};
+
 export const MeshUpgradeProfileProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5640,6 +5950,20 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ServiceMeshProfile"
+        }
+      },
+      resourceUID: {
+        serializedName: "properties.resourceUID",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      metricsProfile: {
+        serializedName: "properties.metricsProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterMetricsProfile"
         }
       }
     }
