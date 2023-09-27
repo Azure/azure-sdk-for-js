@@ -537,7 +537,7 @@ describe("CallConnection Live Tests", function () {
 
     // ensure invitation is sent out
     await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(3000);
-    
+
     // cancel add participant
     await callConnection.cancelAddParticipant(addResult.invitationId!);
 
