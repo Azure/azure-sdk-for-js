@@ -209,6 +209,16 @@ export const scoringProfile: OperationQueryParameter = {
   }
 };
 
+export const semanticQuery: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticQuery"],
+  mapper: {
+    serializedName: "semanticQuery",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const semanticConfiguration: OperationQueryParameter = {
   parameterPath: ["options", "searchOptions", "semanticConfiguration"],
   mapper: {
