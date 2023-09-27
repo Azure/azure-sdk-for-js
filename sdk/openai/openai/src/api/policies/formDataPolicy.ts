@@ -9,8 +9,6 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import type { FormDataEncoder } from "../../../node_modules/form-data-encoder/@type/index.d.ts";
-import { FormData, File } from "formdata-node";
 import {
   FormDataMap,
   PipelinePolicy,
@@ -65,6 +63,7 @@ async function prepareFormData(
   request: PipelineRequest,
   boundary?: string
 ): Promise<void> {
+  const { FormData } = await import("formdata-node");
   const requestForm = new FormData();
   for (const formKey of Object.keys(formData)) {
     const formValue = formData[formKey];
@@ -76,11 +75,8 @@ async function prepareFormData(
       requestForm.append(formKey, formValue);
     }
   }
-  // This library doesn't define `type` entries in the exports section of its package.json.
-  // See https://github.com/microsoft/TypeScript/issues/52363
-  const { FormDataEncoder } = await import("form-data-encoder" as any);
-
-  const encoder: FormDataEncoder = boundary
+  const { FormDataEncoder } = await import("form-data-encoder");
+  const encoder = boundary
     ? new FormDataEncoder(requestForm, boundary)
     : new FormDataEncoder(requestForm);
   const body = Readable.from(encoder.encode());
@@ -96,6 +92,12 @@ async function prepareFormData(
   }
 }
 
-export function createFile(data: Uint8Array | string): File {
-  return new File([data], "placeholder.wav");
+export async function createFile(data: Uint8Array | string): Promise<File> {
+  const filename = "placeholder.wav";
+  if (typeof File === "function") {
+    return new File([data], filename);
+  } else {
+    const { File } = await import("formdata-node");
+    return new File([data], filename);
+  }
 }

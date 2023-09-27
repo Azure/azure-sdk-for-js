@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { FormDataEncoder } from "../../../../node_modules/form-data-encoder/@type/index.d.ts";
-import { FormData, File } from "formdata-node";
 import {
   FormDataMap,
   PipelinePolicy,
@@ -20,7 +18,7 @@ export const formDataPolicyName = "formDataPolicyWithFileUpload";
 /**
  * A policy that encodes FormData on the request into the body.
  */
-export function formDataWithFileUploadPolicy(): PipelinePolicy {
+export function formDataWithFileUploadPolicy(boundary?: string): PipelinePolicy {
   return {
     name: formDataPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
@@ -30,7 +28,7 @@ export function formDataWithFileUploadPolicy(): PipelinePolicy {
           request.body = wwwFormUrlEncode(request.formData);
           request.formData = undefined;
         } else {
-          await prepareFormData(request.formData, request);
+          await prepareFormData(request.formData, request, boundary);
         }
       }
       return next(request);
@@ -52,7 +50,12 @@ function wwwFormUrlEncode(formData: FormDataMap): string {
   return urlSearchParams.toString();
 }
 
-async function prepareFormData(formData: FormDataMap, request: PipelineRequest): Promise<void> {
+async function prepareFormData(
+  formData: FormDataMap,
+  request: PipelineRequest,
+  boundary?: string
+): Promise<void> {
+  const { FormData } = await import("formdata-node");
   const requestForm = new FormData();
   for (const formKey of Object.keys(formData)) {
     const formValue = formData[formKey];
@@ -64,11 +67,10 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
       requestForm.append(formKey, formValue);
     }
   }
-
-  // This library doesn't define `type` entries in the exports section of its package.json.
-  // See https://github.com/microsoft/TypeScript/issues/52363
-  const { FormDataEncoder } = await import("form-data-encoder" as any);
-  const encoder: FormDataEncoder = new FormDataEncoder(requestForm);
+  const { FormDataEncoder } = await import("form-data-encoder");
+  const encoder = boundary
+    ? new FormDataEncoder(requestForm, boundary)
+    : new FormDataEncoder(requestForm);
   const body = Readable.from(encoder.encode());
   request.body = body;
   request.formData = undefined;
@@ -82,6 +84,12 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
   }
 }
 
-export function createFile(data: Uint8Array | string): File {
-  return new File([data], "placeholder.wav");
+export async function createFile(data: Uint8Array | string): Promise<File> {
+  const filename = "placeholder.wav";
+  if (typeof File === "function") {
+    return new File([data], filename);
+  } else {
+    const { File } = await import("formdata-node");
+    return new File([data], filename);
+  }
 }

@@ -2483,6 +2483,24 @@ packages:
       rollup: 3.28.1
     dev: false
 
+  /@rollup/plugin-commonjs@25.0.4(rollup@3.29.3):
+    resolution: {integrity: sha512-L92Vz9WUZXDnlQQl3EwbypJR4+DM2EbsO+/KOcEkP4Mc6Ct453EeDB2uH9lgRwj4w5yflgNpq9pHOiY8aoUXBQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.68.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 5.0.4(rollup@3.29.3)
+      commondir: 1.0.1
+      estree-walker: 2.0.2
+      glob: 8.1.0
+      is-reference: 1.2.1
+      magic-string: 0.27.0
+      rollup: 3.29.3
+    dev: false
+
   /@rollup/plugin-inject@5.0.3(rollup@2.79.1):
     resolution: {integrity: sha512-411QlbL+z2yXpRWFXSmw/teQRMkXcAAC8aYTemc15gwJRpvEVDQwoe+N/HTFD8RFG8+88Bme9DK2V9CVm7hJdA==}
     engines: {node: '>=14.0.0'}
@@ -2539,6 +2557,19 @@ packages:
       rollup: 3.28.1
     dev: false
 
+  /@rollup/plugin-json@6.0.0(rollup@3.29.3):
+    resolution: {integrity: sha512-i/4C5Jrdr1XUarRhVu27EEwjt4GObltD7c+MkCIpO2QIbojw8MUs+CCTqOphQi3Qtg1FLmYt+l+6YeoIf51J7w==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 5.0.4(rollup@3.29.3)
+      rollup: 3.29.3
+    dev: false
+
   /@rollup/plugin-multi-entry@6.0.0(rollup@2.79.1):
     resolution: {integrity: sha512-msBgVncGQwh/ahxeP/rc8MXVZNBOjoVCsBuDk6uqyFzDv/SZN7jksfAsu6DJ2w4r5PaBX3/OXOjVPeCxya2waA==}
     engines: {node: '>=14.0.0'}
@@ -2565,6 +2596,20 @@ packages:
       '@rollup/plugin-virtual': 3.0.1(rollup@3.28.1)
       matched: 5.0.1
       rollup: 3.28.1
+    dev: false
+
+  /@rollup/plugin-multi-entry@6.0.0(rollup@3.29.3):
+    resolution: {integrity: sha512-msBgVncGQwh/ahxeP/rc8MXVZNBOjoVCsBuDk6uqyFzDv/SZN7jksfAsu6DJ2w4r5PaBX3/OXOjVPeCxya2waA==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@rollup/plugin-virtual': 3.0.1(rollup@3.29.3)
+      matched: 5.0.1
+      rollup: 3.29.3
     dev: false
 
   /@rollup/plugin-node-resolve@13.3.0(rollup@2.79.1):
@@ -2598,6 +2643,24 @@ packages:
       is-module: 1.0.0
       resolve: 1.22.4
       rollup: 3.28.1
+    dev: false
+
+  /@rollup/plugin-node-resolve@15.2.1(rollup@3.29.3):
+    resolution: {integrity: sha512-nsbUg588+GDSu8/NS8T4UAshO6xeaOfINNuXeVHcKV02LJtoRaM1SiOacClw4kws1SFiNhdLGxlbMY9ga/zs/w==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.78.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 5.0.4(rollup@3.29.3)
+      '@types/resolve': 1.20.2
+      deepmerge: 4.3.1
+      is-builtin-module: 3.2.1
+      is-module: 1.0.0
+      resolve: 1.22.4
+      rollup: 3.29.3
     dev: false
 
   /@rollup/plugin-replace@5.0.2(rollup@2.79.1):
@@ -2672,6 +2735,18 @@ packages:
       rollup: 3.28.1
     dev: false
 
+  /@rollup/plugin-virtual@3.0.1(rollup@3.29.3):
+    resolution: {integrity: sha512-fK8O0IL5+q+GrsMLuACVNk2x21g3yaw+sG2qn16SnUd3IlBsQyvWxLMGHmCmXRMecPjGRSZ/1LmZB4rjQm68og==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      rollup: 3.29.3
+    dev: false
+
   /@rollup/pluginutils@3.1.0(rollup@2.79.1):
     resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
     engines: {node: '>= 8.0.0'}
@@ -2712,6 +2787,21 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
       rollup: 3.28.1
+    dev: false
+
+  /@rollup/pluginutils@5.0.4(rollup@3.29.3):
+    resolution: {integrity: sha512-0KJnIoRI8A+a1dqOYLxH8vBf8bphDmty5QvIm2hqm7oFCFYKCAZWWd2hXgMibaPsNDhI0AtpYfQZJG47pt/k4g==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@types/estree': 1.0.1
+      estree-walker: 2.0.2
+      picomatch: 2.3.1
+      rollup: 3.29.3
     dev: false
 
   /@rushstack/node-core-library@3.59.7(@types/node@14.18.56):
@@ -5435,8 +5525,9 @@ packages:
       signal-exit: 4.1.0
     dev: false
 
-  /form-data-encoder@1.7.2:
-    resolution: {integrity: sha512-qfqtYan3rxrnCk1VYaA4H+Ms9xdpPqvLZa6xmMgFvhO32x7/3J/ExcTd6qpxM0vH2GdMI+poehyBZvqfMTto8A==}
+  /form-data-encoder@3.0.0:
+    resolution: {integrity: sha512-qPautpoQvO/kTxjKawxHlBQ5KUHdJy8c3z5ddUaF589k5nJDY+AjnvsxtzLXlZmkNNu64bA7YOuvwWb32TMbJw==}
+    engines: {node: '>= 16.5'}
     dev: false
 
   /form-data@3.0.1:
@@ -5457,9 +5548,9 @@ packages:
       mime-types: 2.1.35
     dev: false
 
-  /formdata-node@4.4.1:
-    resolution: {integrity: sha512-0iirZp3uVDjVGt9p49aTaqjk84TrglENEDuqfdlZQ1roC9CWlPk6Avf8EEnZNcAqPonwkG35x4n3ww/1THYAeQ==}
-    engines: {node: '>= 12.20'}
+  /formdata-node@5.0.1:
+    resolution: {integrity: sha512-8xnIjMYGKPj+rY2BTbAmpqVpi8der/2FT4d9f7J32FlsCpO5EzZPq3C/N56zdv8KweHzVF6TGijsS1JT6r1H2g==}
+    engines: {node: '>= 14.17'}
     dependencies:
       node-domexception: 1.0.0
       web-streams-polyfill: 4.0.0-beta.3
@@ -8311,6 +8402,14 @@ packages:
 
   /rollup@3.28.1:
     resolution: {integrity: sha512-R9OMQmIHJm9znrU3m3cpE8uhN0fGdXiawME7aZIpQqvpS/85+Vt1Hq1/yVIcYfOmaQiHjvXkQAoJukvLpau6Yw==}
+    engines: {node: '>=14.18.0', npm: '>=8.0.0'}
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.3.3
+    dev: false
+
+  /rollup@3.29.3:
+    resolution: {integrity: sha512-T7du6Hum8jOkSWetjRgbwpM6Sy0nECYrYRSmZjayFcOddtKJWU4d17AC3HNUk7HRuqy4p+G7aEZclSHytqUmEg==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
@@ -20070,19 +20169,24 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-UQiHiPtHwIAhAwtI0v5DZC/0Pbfije/v/1jEhkZU5FpYhtWfpdjtmEpI3RbZo2WBNkjM1+Nz2XnqsRcoy/17MQ==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-AAO1R3GYDhCBFWlLeRCEp6Zkj/ymwPcw4PQmDWUtqSqv78HXzWZ487He1zDX22Ug/gGW3W/A4ips9nwp8lt6eg==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
+      '@rollup/plugin-commonjs': 25.0.4(rollup@3.29.3)
+      '@rollup/plugin-json': 6.0.0(rollup@3.29.3)
+      '@rollup/plugin-multi-entry': 6.0.0(rollup@3.29.3)
+      '@rollup/plugin-node-resolve': 15.2.1(rollup@3.29.3)
       '@types/mocha': 10.0.1
       '@types/node': 14.18.56
+      builtin-modules: 3.3.0
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.48.0
       esm: 3.2.25
-      form-data-encoder: 1.7.2
-      formdata-node: 4.4.1
+      form-data-encoder: 3.0.0
+      formdata-node: 5.0.1
       karma: 6.4.2(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -20101,6 +20205,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.0.4)
       rimraf: 3.0.2
+      rollup: 3.29.3
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
       tslib: 2.6.2
       typescript: 5.0.4
