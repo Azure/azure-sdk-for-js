@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import * as sinon from "sinon";
-import { SpanKind } from "@opentelemetry/api";
+import { Attributes, SpanKind } from "@opentelemetry/api";
 import { Histogram } from "@opentelemetry/sdk-metrics";
 import {
   SemanticAttributes,
@@ -172,6 +172,26 @@ describe("#StandardMetricsHandler", () => {
       "testcloudRoleInstance"
     );
     assert.strictEqual(metrics[3].dataPoints[0].attributes["cloudRoleName"], "testcloudRoleName");
+  });
+
+  it("should set depenedncy targets", () => {
+    let attributes: Attributes;
+
+    attributes = { [SemanticAttributes.HTTP_URL]: "http://testHttpHost" };
+    assert.strictEqual(autoCollect["_getDependencyTarget"](attributes), "http://testHttpHost");
+
+    attributes = { [SemanticAttributes.NET_PEER_NAME]: "testNetPeerName" };
+    assert.strictEqual(autoCollect["_getDependencyTarget"](attributes), "testNetPeerName");
+
+    attributes = { [SemanticAttributes.NET_PEER_IP]: "testNetPeerIp" };
+    assert.strictEqual(autoCollect["_getDependencyTarget"](attributes), "testNetPeerIp");
+
+    attributes = { "unknown.attribute": "value" };
+    assert.strictEqual(autoCollect["_getDependencyTarget"](attributes), "");
+  });
+
+  it("should retrieve meter provider", () => {
+    assert.ok(autoCollect.getMeterProvider());
   });
 
   it("should not collect when disabled", async () => {
