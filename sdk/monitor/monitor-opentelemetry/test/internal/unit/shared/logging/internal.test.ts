@@ -72,7 +72,7 @@ describe("#InternalLogger", () => {
       internalLogger["_maxSizeBytes"] = 0;
       internalLogger.logMessage("test");
 
-      const filePath = path.join(internalLogger["_tempDir"], "/applicationinsights.log");
+      const filePath = path.join(path.join(os.tmpdir(), "appInsights-node"), "applicationinsights.log");
       const value = await readFileAsync(filePath);
       assert.strictEqual(value.toString(), "test\r\n");
     });
