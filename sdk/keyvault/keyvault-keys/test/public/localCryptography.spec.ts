@@ -3,7 +3,6 @@
 
 import { Context } from "mocha";
 import { CryptographyClient, KeyClient, KeyVaultKey, SignatureAlgorithm } from "../../src";
-import { isNode } from "@azure/core-util";
 import { createHash } from "crypto";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -20,11 +19,6 @@ describe("Local cryptography public tests", () => {
   let recorder: Recorder;
   let credential: ClientSecretCredential;
   let keySuffix: string;
-
-  if (!isNode) {
-    // Local cryptography is only supported in NodeJS
-    return;
-  }
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
