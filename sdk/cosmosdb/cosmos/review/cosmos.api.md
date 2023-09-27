@@ -306,6 +306,16 @@ export type ClientSideRequestStatistics = {
     totalResponsePayloadLengthInBytes: number;
 };
 
+// @public (undocumented)
+export interface CompositePath {
+    // (undocumented)
+    [key: string]: any;
+    // (undocumented)
+    order: "ascending" | "descending";
+    // (undocumented)
+    path: string;
+}
+
 // @public
 export class Conflict {
     constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
@@ -1141,6 +1151,7 @@ export enum IndexingMode {
 export interface IndexingPolicy {
     // (undocumented)
     automatic?: boolean;
+    compositeIndexes?: CompositePath[][];
     excludedPaths?: IndexedPath[];
     includedPaths?: IndexedPath[];
     indexingMode?: keyof typeof IndexingMode;

@@ -12,7 +12,7 @@ export interface IndexingPolicy {
   excludedPaths?: IndexedPath[];
   spatialIndexes?: SpatialIndex[];
   /** An array of {@link CompositeIndexes} representing composite indexes to be included. */
-  compositeIndexes?: CompositeIndexes;
+  compositeIndexes?: CompositePath[][];
 }
 
 /* The target data type of a spatial path */
@@ -50,12 +50,8 @@ export interface Index {
   dataType: keyof typeof DataType;
   precision?: number;
 }
-interface CompositeIndex {
+export interface CompositePath {
   path: string;
   order: "ascending" | "descending";
   [key: string]: any;
-}
-
-interface CompositeIndexes {
-  [index: number]: CompositeIndex[];
 }

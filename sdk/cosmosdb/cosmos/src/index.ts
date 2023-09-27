@@ -60,6 +60,7 @@ export {
   TriggerOperation,
   TriggerType,
   UserDefinedFunctionType,
+  CompositePath,
 } from "./documents";
 
 export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
