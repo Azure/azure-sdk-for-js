@@ -8,6 +8,8 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
+import type { FormData } from "formdata-node";
+import type { FormDataEncoder } from "form-data-encoder";
 import { Readable } from "stream";
 
 /**
@@ -50,12 +52,29 @@ function wwwFormUrlEncode(formData: FormDataMap): string {
   return urlSearchParams.toString();
 }
 
+let formDataConstructor: typeof FormData;
+let formDataEncoderConstructor: typeof FormDataEncoder;
+
+async function getFormData(): Promise<typeof formDataConstructor> {
+  if (!formDataConstructor) {
+    formDataConstructor = (await import("formdata-node")).FormData;
+  }
+  return formDataConstructor;
+}
+
+async function getFormDataEncoder(): Promise<typeof formDataEncoderConstructor> {
+  if (!formDataEncoderConstructor) {
+    formDataEncoderConstructor = (await import("form-data-encoder")).FormDataEncoder;
+  }
+  return formDataEncoderConstructor;
+}
+
 async function prepareFormData(
   formData: FormDataMap,
   request: PipelineRequest,
   boundary?: string
 ): Promise<void> {
-  const { FormData } = await import("formdata-node");
+  const FormData = await getFormData();
   const requestForm = new FormData();
   for (const formKey of Object.keys(formData)) {
     const formValue = formData[formKey];
@@ -67,7 +86,7 @@ async function prepareFormData(
       requestForm.append(formKey, formValue);
     }
   }
-  const { FormDataEncoder } = await import("form-data-encoder");
+  const FormDataEncoder = await getFormDataEncoder();
   const encoder = boundary
     ? new FormDataEncoder(requestForm, boundary)
     : new FormDataEncoder(requestForm);
@@ -84,12 +103,16 @@ async function prepareFormData(
   }
 }
 
-export async function createFile(data: Uint8Array | string): Promise<File> {
-  const filename = "placeholder.wav";
-  if (typeof File === "function") {
-    return new File([data], filename);
-  } else {
-    const { File } = await import("formdata-node");
-    return new File([data], filename);
+let fileConstructor: typeof File;
+
+async function getFile(): Promise<typeof fileConstructor> {
+  if (!fileConstructor) {
+    fileConstructor = typeof File === "function" ? File : (await import("formdata-node")).File;
   }
+  return fileConstructor;
+}
+
+export async function createFile(data: Uint8Array | string): Promise<File> {
+  const File = await getFile();
+  return new File([data], "placeholder.wav");
 }

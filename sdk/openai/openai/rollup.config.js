@@ -9,12 +9,16 @@ import * as path from "path";
 
 import nodeBuiltins from "builtin-modules";
 
-import * as openaiPkg from "./package.json" assert { type: "json" };
-
-// #endregion
+function getModule(pkg) {
+  const module = pkg["module"];
+  if (!module) {
+    throw new Error(`${pkg.name} does not specify a module field.`);
+  }
+  return module;
+}
 
 export function makeBrowserTestConfig(pkg) {
-  const module = pkg["module"] ?? "dist-esm/src/index.js";
+  const module = getModule(pkg);
   const basePath = path.dirname(path.parse(module).dir);
 
   const config = {
@@ -55,15 +59,19 @@ export function makeConfig(pkg, options) {
     ...(options ?? {}),
   };
 
+  const cjsOutput = pkg.exports?.["."]?.require ?? pkg.main;
+  if (!cjsOutput) {
+    throw new Error("Expecting valid main entry");
+  }
+
   const baseConfig = {
-    // Use the package's module field if it has one
-    input: pkg["module"] ?? "dist-esm/src/index.js",
+    input: getModule(pkg),
     external: [
       ...nodeBuiltins,
       ...Object.keys(pkg.dependencies),
       ...Object.keys(pkg.devDependencies),
     ],
-    output: { file: "dist/index.cjs", format: "cjs", sourcemap: true, exports: "named" },
+    output: { file: cjsOutput, format: "cjs", sourcemap: true, exports: "named" },
     preserveSymlinks: false,
     plugins: [nodeResolve(), cjs(), json()],
   };
@@ -77,4 +85,5 @@ export function makeConfig(pkg, options) {
   return config;
 }
 
-export default makeConfig(openaiPkg.default);
+const openai = (await import("./package.json", { assert: { type: "json" } })).default;
+export default makeConfig(openai);
