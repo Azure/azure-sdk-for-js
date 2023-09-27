@@ -71,7 +71,7 @@
     "@types/decompress": "^4.2.4",
     "@types/fs-extra": "^9.0.13",
     "@types/minimist": "^1.2.2",
-    "@types/mocha": "^7.0.2",
+    "@types/mocha": "^10.0.0",
     "@types/node": "^14.0.0",
     "@types/prettier": "^2.0.1",
     "@types/semver": "~7.3.13",
