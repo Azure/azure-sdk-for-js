@@ -15,35 +15,33 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Delete a backup of the volume
+ * This sample demonstrates how to Delete a Backup under the Backup Vault
  *
- * @summary Delete a backup of the volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Backups_Delete.json
+ * @summary Delete a Backup under the Backup Vault
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2022-11-01-preview/examples/BackupsUnderBackupVault_Delete.json
  */
-async function backupsDelete() {
+async function backupsUnderBackupVaultDelete() {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
   const resourceGroupName =
     process.env["NETAPP_RESOURCE_GROUP"] || "resourceGroup";
-  const accountName = "accountName";
-  const poolName = "poolName";
-  const volumeName = "volumeName";
-  const backupName = "backupName";
+  const accountName = "account1";
+  const backupVaultName = "backupVault1";
+  const backupName = "backup1";
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
   const result = await client.backups.beginDeleteAndWait(
     resourceGroupName,
     accountName,
-    poolName,
-    volumeName,
+    backupVaultName,
     backupName
   );
   console.log(result);
 }
 
 async function main() {
-  backupsDelete();
+  backupsUnderBackupVaultDelete();
 }
 
 main().catch(console.error);

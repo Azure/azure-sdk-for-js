@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Finalizes the relocation of the volume and cleans up the old volume.
  *
  * @summary Finalizes the relocation of the volume and cleans up the old volume.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Volumes_FinalizeRelocation.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2022-11-01-preview/examples/Volumes_FinalizeRelocation.json
  */
 async function volumesFinalizeRelocation() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List backup policies for Netapp Account
  *
  * @summary List backup policies for Netapp Account
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/BackupPolicies_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2022-11-01-preview/examples/BackupPolicies_List.json
  */
 async function backupsList() {
   const subscriptionId =

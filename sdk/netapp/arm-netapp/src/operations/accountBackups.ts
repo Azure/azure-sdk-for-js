@@ -20,8 +20,8 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   Backup,
-  AccountBackupsListOptionalParams,
-  AccountBackupsListResponse,
+  AccountBackupsListByNetAppAccountOptionalParams,
+  AccountBackupsListByNetAppAccountResponse,
   AccountBackupsGetOptionalParams,
   AccountBackupsGetResponse,
   AccountBackupsDeleteOptionalParams
@@ -46,12 +46,16 @@ export class AccountBackupsImpl implements AccountBackups {
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
-  public list(
+  public listByNetAppAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountBackupsListOptionalParams
+    options?: AccountBackupsListByNetAppAccountOptionalParams
   ): PagedAsyncIterableIterator<Backup> {
-    const iter = this.listPagingAll(resourceGroupName, accountName, options);
+    const iter = this.listByNetAppAccountPagingAll(
+      resourceGroupName,
+      accountName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -63,7 +67,7 @@ export class AccountBackupsImpl implements AccountBackups {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listByNetAppAccountPagingPage(
           resourceGroupName,
           accountName,
           options,
@@ -73,23 +77,27 @@ export class AccountBackupsImpl implements AccountBackups {
     };
   }
 
-  private async *listPagingPage(
+  private async *listByNetAppAccountPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountBackupsListOptionalParams,
+    options?: AccountBackupsListByNetAppAccountOptionalParams,
     _settings?: PageSettings
   ): AsyncIterableIterator<Backup[]> {
-    let result: AccountBackupsListResponse;
-    result = await this._list(resourceGroupName, accountName, options);
+    let result: AccountBackupsListByNetAppAccountResponse;
+    result = await this._listByNetAppAccount(
+      resourceGroupName,
+      accountName,
+      options
+    );
     yield result.value || [];
   }
 
-  private async *listPagingAll(
+  private async *listByNetAppAccountPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountBackupsListOptionalParams
+    options?: AccountBackupsListByNetAppAccountOptionalParams
   ): AsyncIterableIterator<Backup> {
-    for await (const page of this.listPagingPage(
+    for await (const page of this.listByNetAppAccountPagingPage(
       resourceGroupName,
       accountName,
       options
@@ -104,14 +112,14 @@ export class AccountBackupsImpl implements AccountBackups {
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
-  private _list(
+  private _listByNetAppAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountBackupsListOptionalParams
-  ): Promise<AccountBackupsListResponse> {
+    options?: AccountBackupsListByNetAppAccountOptionalParams
+  ): Promise<AccountBackupsListByNetAppAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec
+      listByNetAppAccountOperationSpec
     );
   }
 
@@ -225,7 +233,7 @@ export class AccountBackupsImpl implements AccountBackups {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
+const listByNetAppAccountOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/accountBackups",
   httpMethod: "GET",
@@ -235,7 +243,10 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.includeOnlyBackupsFromDeletedVolumes
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

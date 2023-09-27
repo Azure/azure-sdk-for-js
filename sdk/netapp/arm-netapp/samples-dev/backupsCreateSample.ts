@@ -15,28 +15,30 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Create a backup for the volume
+ * This sample demonstrates how to Create a backup under the Backup Vault
  *
- * @summary Create a backup for the volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Backups_Create.json
+ * @summary Create a backup under the Backup Vault
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2022-11-01-preview/examples/BackupsUnderBackupVault_Create.json
  */
-async function backupsCreate() {
+async function backupsUnderBackupVaultCreate() {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
   const accountName = "account1";
-  const poolName = "pool1";
-  const volumeName = "volume1";
+  const backupVaultName = "backupVault1";
   const backupName = "backup1";
-  const body: Backup = { label: "myLabel", location: "eastus" };
+  const body: Backup = {
+    label: "myLabel",
+    volumeResourceId:
+      "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPool/pool1/volumes/volume1"
+  };
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
   const result = await client.backups.beginCreateAndWait(
     resourceGroupName,
     accountName,
-    poolName,
-    volumeName,
+    backupVaultName,
     backupName,
     body
   );
@@ -44,7 +46,7 @@ async function backupsCreate() {
 }
 
 async function main() {
-  backupsCreate();
+  backupsUnderBackupVaultCreate();
 }
 
 main().catch(console.error);

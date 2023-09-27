@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Backup,
-  AccountBackupsListOptionalParams,
+  AccountBackupsListByNetAppAccountOptionalParams,
   AccountBackupsGetOptionalParams,
   AccountBackupsGetResponse,
   AccountBackupsDeleteOptionalParams
@@ -25,10 +25,10 @@ export interface AccountBackups {
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
-  list(
+  listByNetAppAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountBackupsListOptionalParams
+    options?: AccountBackupsListByNetAppAccountOptionalParams
   ): PagedAsyncIterableIterator<Backup>;
   /**
    * Gets the specified backup for a Netapp Account

@@ -19,19 +19,18 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Patch a backup for the volume
+ * This sample demonstrates how to Patch a Backup under the Backup Vault
  *
- * @summary Patch a backup for the volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Backups_Update.json
+ * @summary Patch a Backup under the Backup Vault
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2022-11-01-preview/examples/BackupsUnderBackupVault_Update.json
  */
-async function backupsUpdate() {
+async function backupsUnderBackupVaultUpdate() {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
   const accountName = "account1";
-  const poolName = "pool1";
-  const volumeName = "volume1";
+  const backupVaultName = "backupVault1";
   const backupName = "backup1";
   const body: BackupPatch = {};
   const options: BackupsUpdateOptionalParams = { body };
@@ -40,8 +39,7 @@ async function backupsUpdate() {
   const result = await client.backups.beginUpdateAndWait(
     resourceGroupName,
     accountName,
-    poolName,
-    volumeName,
+    backupVaultName,
     backupName,
     options
   );
@@ -49,7 +47,7 @@ async function backupsUpdate() {
 }
 
 async function main() {
-  backupsUpdate();
+  backupsUnderBackupVaultUpdate();
 }
 
 main().catch(console.error);

@@ -1,15 +1,88 @@
 # Release History
+    
+## 19.0.0-beta.1 (2023-09-27)
+    
+**Features**
 
-## 18.1.1 (Unreleased)
+  - Added operation group BackupsUnderAccount
+  - Added operation group BackupsUnderBackupVault
+  - Added operation group BackupsUnderVolume
+  - Added operation group BackupVaults
+  - Added operation AccountBackups.listByNetAppAccount
+  - Added operation Backups.getLatestStatus
+  - Added operation Backups.listByVault
+  - Added Interface AccountBackupsListByNetAppAccountOptionalParams
+  - Added Interface BackupsCreateHeaders
+  - Added Interface BackupsDeleteHeaders
+  - Added Interface BackupsGetLatestStatusOptionalParams
+  - Added Interface BackupsListByVaultNextOptionalParams
+  - Added Interface BackupsListByVaultOptionalParams
+  - Added Interface BackupsMigrationRequest
+  - Added Interface BackupsUnderAccountMigrateBackupsHeaders
+  - Added Interface BackupsUnderAccountMigrateBackupsOptionalParams
+  - Added Interface BackupsUnderBackupVaultRestoreFilesHeaders
+  - Added Interface BackupsUnderBackupVaultRestoreFilesOptionalParams
+  - Added Interface BackupsUnderVolumeMigrateBackupsHeaders
+  - Added Interface BackupsUnderVolumeMigrateBackupsOptionalParams
+  - Added Interface BackupsUpdateHeaders
+  - Added Interface BackupVault
+  - Added Interface BackupVaultPatch
+  - Added Interface BackupVaultsCreateOrUpdateOptionalParams
+  - Added Interface BackupVaultsDeleteHeaders
+  - Added Interface BackupVaultsDeleteOptionalParams
+  - Added Interface BackupVaultsGetOptionalParams
+  - Added Interface BackupVaultsList
+  - Added Interface BackupVaultsListByNetAppAccountNextOptionalParams
+  - Added Interface BackupVaultsListByNetAppAccountOptionalParams
+  - Added Interface BackupVaultsUpdateHeaders
+  - Added Interface BackupVaultsUpdateOptionalParams
+  - Added Type Alias AccountBackupsListByNetAppAccountResponse
+  - Added Type Alias BackupsGetLatestStatusResponse
+  - Added Type Alias BackupsListByVaultNextResponse
+  - Added Type Alias BackupsListByVaultResponse
+  - Added Type Alias BackupsUnderAccountMigrateBackupsResponse
+  - Added Type Alias BackupsUnderBackupVaultRestoreFilesResponse
+  - Added Type Alias BackupsUnderVolumeMigrateBackupsResponse
+  - Added Type Alias BackupVaultsCreateOrUpdateResponse
+  - Added Type Alias BackupVaultsGetResponse
+  - Added Type Alias BackupVaultsListByNetAppAccountNextResponse
+  - Added Type Alias BackupVaultsListByNetAppAccountResponse
+  - Added Type Alias BackupVaultsUpdateResponse
+  - Interface Backup has a new optional parameter snapshotName
+  - Interface BackupsList has a new optional parameter nextLink
+  - Interface BackupStatus has a new optional parameter transferProgressBytes
+  - Interface VolumeBackupProperties has a new optional parameter backupVaultId
+  - Interface VolumePatch has a new optional parameter smbAccessBasedEnumeration
+  - Interface VolumePatch has a new optional parameter smbNonBrowsable
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation AccountBackups.list
+  - Removed operation Backups.beginRestoreFiles
+  - Removed operation Backups.beginRestoreFilesAndWait
+  - Removed operation Backups.getStatus
+  - Removed operation Backups.list
+  - Operation Backups.beginCreate has a new signature
+  - Operation Backups.beginCreateAndWait has a new signature
+  - Operation Backups.beginDelete has a new signature
+  - Operation Backups.beginDeleteAndWait has a new signature
+  - Operation Backups.beginUpdate has a new signature
+  - Operation Backups.beginUpdateAndWait has a new signature
+  - Operation Backups.get has a new signature
+  - Interface Backup no longer has parameter location
+  - Interface Backup no longer has parameter volumeName
+  - Interface BackupPatch no longer has parameter backupId
+  - Interface BackupPatch no longer has parameter backupType
+  - Interface BackupPatch no longer has parameter creationDate
+  - Interface BackupPatch no longer has parameter failureReason
+  - Interface BackupPatch no longer has parameter provisioningState
+  - Interface BackupPatch no longer has parameter size
+  - Interface BackupPatch no longer has parameter tags
+  - Interface BackupPatch no longer has parameter useExistingSnapshot
+  - Interface BackupPatch no longer has parameter volumeName
+  - Interface Backup has a new required parameter volumeResourceId
+    
+    
 ## 18.1.0 (2023-07-03)
     
 **Features**

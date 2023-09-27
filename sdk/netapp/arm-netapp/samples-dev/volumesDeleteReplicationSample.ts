@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete the replication connection on the destination volume, and send release to the source replication
  *
  * @summary Delete the replication connection on the destination volume, and send release to the source replication
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Volumes_DeleteReplication.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2022-11-01-preview/examples/Volumes_DeleteReplication.json
  */
 async function volumesDeleteReplication() {
   const subscriptionId =

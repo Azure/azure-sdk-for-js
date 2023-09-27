@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Patch a quota rule
  *
  * @summary Patch a quota rule
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/VolumeQuotaRules_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2022-11-01-preview/examples/VolumeQuotaRules_Update.json
  */
 async function volumeQuotaRulesUpdate() {
   const subscriptionId =

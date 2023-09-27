@@ -20,3 +20,7 @@ export * from "./backupPolicies";
 export * from "./volumeQuotaRules";
 export * from "./volumeGroups";
 export * from "./subvolumes";
+export * from "./backupVaults";
+export * from "./backupsUnderBackupVault";
+export * from "./backupsUnderVolume";
+export * from "./backupsUnderAccount";
