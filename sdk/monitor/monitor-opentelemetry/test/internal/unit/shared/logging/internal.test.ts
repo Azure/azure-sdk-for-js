@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import * as os from "os";
 import { Logger } from "../../../../../src/shared/logging/logger";
 import * as path from "path";
 import { readFileAsync, readdirAsync } from "../../../../../src/utils";
@@ -60,7 +61,7 @@ describe("#InternalLogger", () => {
       // Find the created files in the temp directory
       let files = await readdirAsync(internalLogger["_tempDir"]);
       assert.ok(
-        path.join(internalLogger["_tempDir"], files[0]).includes("applicationinsights.log")
+        path.join(path.join(os.tmpdir(), "appInsights-node"), files[0]).includes("applicationinsights.log")
       );
     });
 
