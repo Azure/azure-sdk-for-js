@@ -200,13 +200,6 @@ describe("Local cryptography public tests", () => {
 
     for (const localAlgorithmName of localSupportedAlgorithmNames) {
       it(localAlgorithmName, async function (this: Context): Promise<void> {
-        if (!isNode) {
-          console.log(
-            `Skipping test, Local sign of algorithm ${localAlgorithmName} is only supported in NodeJS`
-          );
-          this.skip();
-        }
-
         const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
         const keyVaultKey = await client.createKey(keyName, "RSA");
         const cryptoClient = new CryptographyClient(
