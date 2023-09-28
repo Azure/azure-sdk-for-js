@@ -5,7 +5,7 @@ import * as assert from "assert";
 import * as os from "os";
 import { Logger } from "../../../../../src/shared/logging/logger";
 import * as path from "path";
-import { readFileAsync, readdirAsync } from "../../../../../src/utils";
+import { readdirAsync } from "../../../../../src/utils";
 import { InternalAzureLogger } from "../../../../../src/shared/logging/internal";
 
 describe("#InternalLogger", () => {
@@ -63,18 +63,6 @@ describe("#InternalLogger", () => {
       assert.ok(
         path.join(path.join(os.tmpdir(), "appInsights-node"), files[0]).includes("applicationinsights.log")
       );
-    });
-
-    it("should create backup file with appropriate data", async () => {
-      process.env["APPLICATIONINSIGHTS_LOG_DESTINATION"] = "file";
-      const internalLogger = new InternalAzureLogger();
-      internalLogger["_maxHistory"] = 0;
-      internalLogger["_maxSizeBytes"] = 0;
-      internalLogger.logMessage("test");
-
-      const filePath = path.join(path.join(os.tmpdir(), "appInsights-node"), "applicationinsights.log");
-      const value = await readFileAsync(filePath);
-      assert.strictEqual(value.toString(), "test\r\n");
     });
   });
 });

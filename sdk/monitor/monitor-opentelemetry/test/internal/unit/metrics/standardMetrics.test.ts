@@ -174,6 +174,43 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual(metrics[3].dataPoints[0].attributes["cloudRoleName"], "testcloudRoleName");
   });
 
+  it("should set service name based on service namespace if provided", async () => {
+    let resource = new Resource({});
+    resource.attributes[SemanticResourceAttributes.SERVICE_NAMESPACE] = "testcloudRoleName";
+    resource.attributes[SemanticResourceAttributes.SERVICE_NAME] = "serviceTestName";
+    resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
+
+    let loggerProvider = new LoggerProvider({ resource: resource });
+    let logger = loggerProvider.getLogger("testLogger") as Logger;
+
+    let traceLog = new LogRecord(logger, {
+      body: "testMessage",
+    });
+    autoCollect.recordLog(traceLog as any);
+    traceLog.attributes["exception.type"] = "testExceptionType";
+    autoCollect.recordLog(traceLog as any);
+
+    let clientSpan: any = {
+      kind: SpanKind.CLIENT,
+      duration: [123456],
+      attributes: {
+        "http.status_code": 200,
+      },
+      resource: resource,
+    };
+    clientSpan.attributes[SemanticAttributes.PEER_SERVICE] = "testPeerService";
+    autoCollect.recordSpan(clientSpan);
+
+    await new Promise((resolve) => setTimeout(resolve, 120));
+
+    assert.ok(exportStub.called);
+    const resourceMetrics = exportStub.args[0][0];
+    const scopeMetrics = resourceMetrics.scopeMetrics;
+    assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
+    const metrics = scopeMetrics[0].metrics;
+    assert.strictEqual(metrics[3].dataPoints[0].attributes["cloudRoleName"], "testcloudRoleName.serviceTestName");
+  });
+
   it("should set depenedncy targets", () => {
     let attributes: Attributes;
 
