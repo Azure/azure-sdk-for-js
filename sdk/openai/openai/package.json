@@ -68,7 +68,8 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types",
+    "types/openai.d.ts",
+    "types/src",
     "README.md",
     "LICENSE"
   ],
