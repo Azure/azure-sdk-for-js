@@ -11409,10 +11409,11 @@ packages:
     dev: false
 
   file:projects/arm-connectedvmware.tgz:
-    resolution: {integrity: sha512-JueFS+Q1yXex3/UE4JMeuw//mQDKoftQhOJisLw7Xxhh2UtYm0iJLqrbhcalZBlVgikFjwxceR4/XbQUqYHK/Q==, tarball: file:projects/arm-connectedvmware.tgz}
+    resolution: {integrity: sha512-ROquQWQpuX/cH+SA8O9LO8uAGnYmJLFqGh3m6N9PIGdNW+ZkKMhhJo+iuiUX3ZO4ZWj9aibTjuuadvT/up7tvg==, tarball: file:projects/arm-connectedvmware.tgz}
     name: '@rush-temp/arm-connectedvmware'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.37.1(@types/node@14.18.63)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
@@ -11423,9 +11424,9 @@ packages:
       chai: 4.3.9
       cross-env: 7.0.3
       dotenv: 16.3.1
-      mkdirp: 1.0.4
-      mocha: 10.2.0
-      rimraf: 3.0.2
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 5.0.5
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.63)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.63)(typescript@5.0.4)
@@ -11435,6 +11436,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-consumption.tgz:
