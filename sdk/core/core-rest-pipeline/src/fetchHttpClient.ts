@@ -72,36 +72,41 @@ class FetchHttpClient implements HttpClient {
  */
 async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> {
   const { abortController, abortControllerCleanup } = setupAbortSignal(request);
-  const headers = buildFetchHeaders(request.headers);
-  const { streaming, body: requestBody } = buildRequestBody(request);
-  const requestInit: RequestInit = {
-    body: requestBody,
-    method: request.method,
-    headers: headers,
-    signal: abortController.signal,
-    credentials: request.withCredentials ? "include" : "same-origin",
-    cache: "no-store",
-  };
+  try {
+    const headers = buildFetchHeaders(request.headers);
+    const { streaming, body: requestBody } = buildRequestBody(request);
+    const requestInit: RequestInit = {
+      body: requestBody,
+      method: request.method,
+      headers: headers,
+      signal: abortController.signal,
+      credentials: request.withCredentials ? "include" : "same-origin",
+      cache: "no-store",
+    };
 
-  // According to https://fetch.spec.whatwg.org/#fetch-method,
-  // init.duplex must be set when body is a ReadableStream object.
-  // currently "half" is the only valid value.
-  if (streaming) {
-    (requestInit as any).duplex = "half";
+    // According to https://fetch.spec.whatwg.org/#fetch-method,
+    // init.duplex must be set when body is a ReadableStream object.
+    // currently "half" is the only valid value.
+    if (streaming) {
+      (requestInit as any).duplex = "half";
+    }
+    /**
+     * Developers of the future:
+     * Do not set redirect: "manual" as part
+     * of request options.
+     * It will not work as you expect.
+     */
+    const response = await fetch(request.url, requestInit);
+    // If we're uploading a blob, we need to fire the progress event manually
+    if (isBlob(request.body) && request.onUploadProgress) {
+      request.onUploadProgress({ loadedBytes: request.body.size });
+    }
+    return buildPipelineResponse(response, request, abortControllerCleanup);
+  } finally {
+    if (abortControllerCleanup) {
+      abortControllerCleanup();
+    }
   }
-
-  /**
-   * Developers of the future:
-   * Do not set redirect: "manual" as part
-   * of request options.
-   * It will not work as you expect.
-   */
-  const response = await fetch(request.url, requestInit);
-  // If we're uploading a blob, we need to fire the progress event manually
-  if (isBlob(request.body) && request.onUploadProgress) {
-    request.onUploadProgress({ loadedBytes: request.body.size });
-  }
-  return buildPipelineResponse(response, request, abortControllerCleanup);
 }
 
 /**
@@ -255,7 +260,6 @@ function buildBodyStream(
       new TransformStream({
         transform(chunk, controller) {
           if (chunk === null) {
-            onEnd?.();
             controller.terminate();
             return;
           }
@@ -265,6 +269,9 @@ function buildBodyStream(
           if (onProgress) {
             onProgress({ loadedBytes });
           }
+        },
+        flush() {
+          onEnd?.();
         },
       })
     );

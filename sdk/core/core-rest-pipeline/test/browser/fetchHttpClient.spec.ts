@@ -39,6 +39,34 @@ function createResponse(statusCode: number, body = "", chunkDelay = 0): Response
   return new Response(stream, { status: statusCode });
 }
 
+function createStreamResponseWithAbortSignal(
+  statusCode: number,
+  body = "",
+  chunkDelay = 0,
+  chunkNumber = 10,
+  abortSignal: AbortSignalLike
+): Response {
+  const stream = new ReadableStream({
+    async start(controller) {
+      const encoder = new TextEncoder();
+      const view = encoder.encode(body);
+
+      for (let i = 0; i < chunkNumber; i++) {
+        const chunk = view.slice(i, i + 1);
+        controller.enqueue(chunk);
+        console.log("chunk enqueued", i, chunk);
+        await delay(chunkDelay);
+        console.log("log abort", abortSignal.aborted);
+        if (abortSignal.aborted) {
+          throw new AbortError();
+        }
+      }
+      controller.close();
+    },
+  });
+  return new Response(stream, { status: statusCode });
+}
+
 describe("FetchHttpClient", function () {
   let fetchMock: sinon.SinonStub;
   let clock: sinon.SinonFakeTimers;
@@ -104,6 +132,50 @@ describe("FetchHttpClient", function () {
       assert.fail(`Expected await to throw`);
     } catch (e: any) {
       assert.strictEqual(e.name, "AbortError");
+    }
+  });
+
+  it("should return AbortError while reading stream", async function () {
+    clock = sinon.useFakeTimers();
+    const body = "This is an example text for abort test";
+    fetchMock.callsFake(async (_url, options) => {
+      if (!options.signal) {
+        throw new Error("Abort signal is not received");
+      }
+      return createStreamResponseWithAbortSignal(200, body, 0, 20, options.signal);
+    });
+    const controller = new AbortController();
+    const url = `http://localhost:3000/files/stream/verylarge`;
+    const client = createFetchHttpClient();
+    const request = createPipelineRequest({
+      url,
+      abortSignal: controller.signal,
+      allowInsecureConnection: true,
+      method: "GET",
+      onDownloadProgress: (ev) => {
+        assert.isNumber(ev.loadedBytes);
+      },
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([200]),
+    });
+    const promise = client.sendRequest(request);
+    clock.tick(100);
+    controller.abort();
+    clock.tick(1);
+    try {
+      const response = await promise;
+      const reader = response.browserStreamBody!.getReader();
+      let finishReading = false;
+      while (!finishReading) {
+        const chunk = await reader.read();
+        console.log("Read chunk", chunk);
+        if (chunk.done) {
+          finishReading = true;
+        }
+      }
+      assert.fail(`Expected await to throw`);
+    } catch (error: any) {
+      assert.strictEqual(error.name, "AbortError");
     }
   });
 
