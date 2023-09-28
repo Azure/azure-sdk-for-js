@@ -15226,10 +15226,11 @@ packages:
     dev: false
 
   file:projects/arm-resourcemover.tgz:
-    resolution: {integrity: sha512-jX410tMuwVfC55UU8sIFF9d52MYMVY+ZIldzuzi0yBr/d/iPBYoqZ/f7I2+nhlfzzIYs9qgKeO+3NNbfl+OMzg==, tarball: file:projects/arm-resourcemover.tgz}
+    resolution: {integrity: sha512-s7LBmoGlPhw8clWtII5WcUOZ3sObDuqxtTvOvn122pE74YCr06d8elV75te6sQXRC8sFUUzb7ZUMpC3mBLTI2w==, tarball: file:projects/arm-resourcemover.tgz}
     name: '@rush-temp/arm-resourcemover'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.37.1(@types/node@14.18.63)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
@@ -15239,9 +15240,10 @@ packages:
       '@types/node': 14.18.63
       chai: 4.3.9
       cross-env: 7.0.3
-      mkdirp: 1.0.4
-      mocha: 10.2.0
-      rimraf: 3.0.2
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 5.0.5
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.63)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.63)(typescript@5.0.4)
@@ -15251,6 +15253,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-resources-profile-2020-09-01-hybrid.tgz:
