@@ -208,7 +208,10 @@ describe("#StandardMetricsHandler", () => {
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
-    assert.strictEqual(metrics[3].dataPoints[0].attributes["cloudRoleName"], "testcloudRoleName.serviceTestName");
+    assert.strictEqual(
+      metrics[3].dataPoints[0].attributes["cloudRoleName"],
+      "testcloudRoleName.serviceTestName"
+    );
   });
 
   it("should set depenedncy targets", () => {

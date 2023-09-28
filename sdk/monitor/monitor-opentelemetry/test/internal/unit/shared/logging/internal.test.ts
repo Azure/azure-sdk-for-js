@@ -61,7 +61,9 @@ describe("#InternalLogger", () => {
       // Find the created files in the temp directory
       let files = await readdirAsync(internalLogger["_tempDir"]);
       assert.ok(
-        path.join(path.join(os.tmpdir(), "appInsights-node"), files[0]).includes("applicationinsights.log")
+        path
+          .join(path.join(os.tmpdir(), "appInsights-node"), files[0])
+          .includes("applicationinsights.log")
       );
     });
   });
