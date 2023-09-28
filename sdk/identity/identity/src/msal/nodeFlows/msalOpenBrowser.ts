@@ -5,6 +5,7 @@ import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 import { credentialLogger } from "../../util/logging";
 import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
+import { CredentialUnavailableError } from "../../errors";
 import open from "open";
 
 /**
