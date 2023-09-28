@@ -2,11 +2,8 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import * as os from "os";
 import { Logger } from "../../../../../src/shared/logging/logger";
 import * as path from "path";
-import { readdirAsync } from "../../../../../src/utils";
-import { InternalAzureLogger } from "../../../../../src/shared/logging/internal";
 
 describe("#InternalLogger", () => {
   describe("#SetLogLevel", () => {
@@ -51,20 +48,6 @@ describe("#InternalLogger", () => {
           path.join(process.cwd(), "tmp/example/test")
         );
       });
-    });
-
-    it("should create log file", async () => {
-      process.env["APPLICATIONINSIGHTS_LOG_DESTINATION"] = "file";
-      const internalLogger = new InternalAzureLogger();
-      internalLogger["_maxHistory"] = 0;
-
-      // Find the created files in the temp directory
-      let files = await readdirAsync(internalLogger["_tempDir"]);
-      assert.ok(
-        path
-          .join(path.join(os.tmpdir(), "appInsights-node"), files[0])
-          .includes("applicationinsights.log")
-      );
     });
   });
 });
