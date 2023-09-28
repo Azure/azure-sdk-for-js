@@ -9,7 +9,7 @@ export {
   ChatMessageType,
   ChatThreadItem,
   ChatError,
-  SendChatMessageResult
+  SendChatMessageResult,
 } from "../generated/src/models";
 
 /** Chat thread. */
@@ -109,7 +109,7 @@ export interface ListPageSettings {
 }
 
 /** Type of Supported Attachments. */
-export type AttachmentType = "teamsInlineImage" | "teamsImage" | "file";
+export type AttachmentType = "inlineImage" | "image" | "file";
 
 /** An attachment in a chat message. */
 export interface ChatAttachment {
@@ -122,7 +122,7 @@ export interface ChatAttachment {
   /** The name of the attachment content. */
   name?: string;
   /** The URL where the attachment can be downloaded */
-  url: string;
+  url?: string;
   /** The URL where the preview of attachment can be downloaded */
   previewUrl?: string;
 }
@@ -132,13 +132,5 @@ export interface UploadImageResult {
   /** A server-generated image id. */
   id: string;
   /** Attachment type: Inline or attached. */
-  attachmentType?: AttachmentType;
-  /** File extension. */
-  contentType?: string,
-  /** Image name. */
-  name?: string;
-  /** Server generated image url. */
-  url?: string;
-  /** Server generated image preview url. */
-  previewUrl?: string;
+  attachmentType: AttachmentType;
 }

@@ -4,6 +4,7 @@
 
 ```ts
 
+/// <reference types="node" />
 /// <reference lib="esnext.asynciterable" />
 
 import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
@@ -17,6 +18,7 @@ import { CommunicationIdentifier } from '@azure/communication-common';
 import { CommunicationIdentifierKind } from '@azure/communication-common';
 import { CommunicationTokenCredential } from '@azure/communication-common';
 import * as coreClient from '@azure/core-client';
+import { HttpClient } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ParticipantsAddedEvent } from '@azure/communication-signaling';
@@ -35,6 +37,19 @@ export type AddParticipantsOptions = OperationOptions;
 // @public
 export interface AddParticipantsRequest {
     participants: ChatParticipant[];
+}
+
+// @public
+export type AttachmentType = "inlineImage" | "image" | "file";
+
+// @public
+export interface ChatAttachment {
+    attachmentType: AttachmentType;
+    contentType?: string;
+    id: string;
+    name?: string;
+    previewUrl?: string;
+    url?: string;
 }
 
 // @public
@@ -103,6 +118,7 @@ export interface ChatMessage {
 
 // @public
 export interface ChatMessageContent {
+    attachments?: ChatAttachment[];
     initiator?: CommunicationIdentifierKind;
     message?: string;
     participants?: ChatParticipant[];
@@ -149,6 +165,7 @@ export class ChatThreadClient {
     readonly threadId: string;
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
+    uploadImage(body: ArrayBuffer | Blob | NodeJS.ReadableStream, options: UploadImageOptions): Promise<UploadImageResult>;
 }
 
 // @public
@@ -194,6 +211,9 @@ export interface CreateChatThreadResult {
     chatThread?: ChatThreadProperties;
     readonly invalidParticipants?: ChatError[];
 }
+
+// @internal
+export function _createXhrHttpClient(): HttpClient;
 
 // @public
 export type DeleteChatThreadOptions = OperationOptions;
@@ -264,6 +284,7 @@ export interface SendChatMessageResult {
 
 // @public
 export interface SendMessageOptions extends OperationOptions {
+    attachments?: ChatAttachment[];
     metadata?: Record<string, string>;
     senderDisplayName?: string;
     type?: ChatMessageType;
@@ -291,12 +312,24 @@ export { TypingIndicatorReceivedEvent }
 
 // @public
 export interface UpdateMessageOptions extends OperationOptions {
+    attachments?: ChatAttachment[];
     content?: string;
     metadata?: Record<string, string>;
 }
 
 // @public
 export interface UpdateTopicOptions extends OperationOptions {
+}
+
+// @public
+export interface UploadImageOptions extends OperationOptions {
+    filename: string;
+}
+
+// @public
+export interface UploadImageResult {
+    attachmentType: AttachmentType;
+    id: string;
 }
 
 // (No @packageDocumentation comment for this package)

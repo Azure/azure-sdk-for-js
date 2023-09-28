@@ -12,16 +12,8 @@ import * as coreClient from "@azure/core-client";
 export interface UploadChatImageResponse {
   /** A server-generated image id. */
   id: string;
-  /** this field would be teamsImage */
-  attachmentType?: any;
-  /** The type of content */
-  contentType?: string;
-  /** The name of the image */
-  name?: string;
-  /** The URL where the image can be downloaded */
-  url?: string;
-  /** The URL where the preview of the image can be downloaded */
-  previewUrl?: string;
+  /** The type of attachment. */
+  attachmentType?: AttachmentType;
 }
 
 /** The Communication Services error. */
@@ -141,7 +133,7 @@ export interface ChatAttachment {
   /** The name of the attachment content. */
   name?: string;
   /** The URL where the attachment can be downloaded */
-  url: string;
+  url?: string;
   /** The URL where the preview of attachment can be downloaded */
   previewUrl?: string;
 }
@@ -372,28 +364,8 @@ export enum KnownCommunicationCloudEnvironmentModel {
  * **gcch**
  */
 export type CommunicationCloudEnvironmentModel = string;
-
-/** Known values of {@link AttachmentType} that the service accepts. */
-export enum KnownAttachmentType {
-  /** TeamsInlineImage */
-  TeamsInlineImage = "teamsInlineImage",
-  /** TeamsImage */
-  TeamsImage = "teamsImage",
-  /** File */
-  File = "file"
-}
-
-/**
- * Defines values for AttachmentType. \
- * {@link KnownAttachmentType} can be used interchangeably with AttachmentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **teamsInlineImage** \
- * **teamsImage** \
- * **file**
- */
-export type AttachmentType = "teamsInlineImage" | "teamsImage" | "file";
-
+/** Defines values for AttachmentType. */
+export type AttachmentType = "inlineImage" | "image" | "file";
 /** Defines values for ChatMessageType. */
 export type ChatMessageType =
   | "text"
@@ -406,9 +378,7 @@ export type ChatMessageType =
 export interface ChatThreadUploadChatImageOptionalParams
   extends coreClient.OperationOptions {
   /** The file name of the image. */
-  xPostFilename?: string;
-  /** The share mode, options of teamsImage or teamsInlineImage */
-  xPostSharingMode?: string;
+  imageFilename?: string;
 }
 
 /** Contains response data for the uploadChatImage operation. */

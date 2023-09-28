@@ -64,16 +64,11 @@ export class ChatThreadImpl implements ChatThread {
 
   /**
    * upload an image in a thread, on behalf of a user.
-   * @param contentType The content type of the request. currently we only support
-   *                    application/octet-stream
-   * @param xContentLength The content length of the image body.
    * @param chatThreadId Thread id where the uploaded image belongs to.
    * @param uploadChatImage Read receipt details.
    * @param options The options parameters.
    */
   async uploadChatImage(
-    contentType: string,
-    xContentLength: string,
     chatThreadId: string,
     uploadChatImage: coreRestPipeline.RequestBodyType,
     options?: ChatThreadUploadChatImageOptionalParams
@@ -83,13 +78,7 @@ export class ChatThreadImpl implements ChatThread {
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
-          {
-            contentType,
-            xContentLength,
-            chatThreadId,
-            uploadChatImage,
-            options
-          },
+          { chatThreadId, uploadChatImage, options },
           uploadChatImageOperationSpec
         ) as Promise<ChatThreadUploadChatImageResponse>;
       }
@@ -460,7 +449,7 @@ export class ChatThreadImpl implements ChatThread {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const uploadChatImageOperationSpec: coreClient.OperationSpec = {
-  path: "/chat/threads/{chatThreadId}/image",
+  path: "/chat/threads/{chatThreadId}/images",
   httpMethod: "POST",
   responses: {
     201: {
@@ -487,11 +476,9 @@ const uploadChatImageOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.xContentLength,
-    Parameters.xPostFilename,
-    Parameters.xPostSharingMode
+    Parameters.accept,
+    Parameters.imageFilename
   ],
   mediaType: "binary",
   serializer

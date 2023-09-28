@@ -22,7 +22,7 @@ import {
   ChatThreadProperties,
   ListPageSettings,
   SendChatMessageResult,
-  UploadImageResult
+  UploadImageResult,
 } from "./models/models";
 import {
   mapToAddChatParticipantsRequestRestModel,
@@ -46,9 +46,12 @@ import {
   SendTypingNotificationOptions,
   UpdateMessageOptions,
   UpdateTopicOptions,
-  UploadImageOptions
+  UploadImageOptions,
 } from "./models/options";
-import { ChatApiClient, ChatThreadUploadChatImageOptionalParams, ChatThreadUploadChatImageResponse } from "./generated/src";
+import {
+  ChatApiClient,
+  ChatThreadUploadChatImageResponse,
+} from "./generated/src";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { tracingClient } from "./generated/src/tracing";
@@ -100,7 +103,7 @@ export class ChatThreadClient {
       this.xhrClient = new ChatApiClient(this.endpoint, {
         endpoint: this.endpoint,
         ...internalPipelineOptions,
-        httpClient: createXhrHttpClient()
+        httpClient: _createXhrHttpClient(),
       });
       this.xhrClient.pipeline.addPolicy(authPolicy);
     }
@@ -121,74 +124,51 @@ export class ChatThreadClient {
     });
   }
 
-    /**
+  /**
    * UploadImage
    * Returns the chat thread.
    * @param body - Image body to be uploaded in the Blob, ArrayBuffer, NodeJS.ReadableStream, or ReadableStream<Uint8Array>.
    * @param options -  Operation options, 'size' is required for ReadableStream.
    */
-  public uploadImage(body: ArrayBuffer | Blob | ReadableStream<Uint8Array> | NodeJS.ReadableStream, options: UploadImageOptions) {
+  // public uploadImage(body: ArrayBuffer | Blob, options: UploadImageOptions) {
+  public uploadImage(
+    body: ArrayBuffer | Blob | NodeJS.ReadableStream,
+    options: UploadImageOptions
+  ): Promise<UploadImageResult> {
     return tracingClient.withSpan("ChatClient-GetProperties", {}, async () => {
-      // console.log('size uploadImage: ', blob.size)
-      const uploadChatImageOptions: ChatThreadUploadChatImageOptionalParams = {
-        requestOptions: {
-          onUploadProgress: options.onUploadProgress
-        }
-      }
-
-      // validate file name/extension
-      // validate size
-
-      // check size if is readable stream or throw
-      console.log('options.size', options.size);
+      console.log("customOptions");
+      console.log(options);
       var result: ChatThreadUploadChatImageResponse;
-      // var uint8Array: Uint8Array;
-      if (this.xhrClient && // is browser
+      if (
+        this.xhrClient && // is browser
         ((!this.supportsReadableStream() && isReadableStream(body)) || // is readable stream but no support, need to convert
-        !isReadableStream(body))
+          !isReadableStream(body))
       ) {
-        console.log("using xhrClient")
+        console.log("using xhrClient");
         result = await this.xhrClient.chatThread.uploadChatImage(
-          'application/octet-stream',
-          // @ts-ignore
-          options.size?.toString(), // ?? blob.size?.toString() ?? blob.length?.toString(),
           this.threadId,
           // if is readable stream: convert body (readable stream) to in memory blob or array buffer
           isReadableStream(body) ? await this.getArrayBufferFromReadableStream(body) : body,
-          uploadChatImageOptions
+          options //uploadChatImageOptions
         );
-      } else { // backend & fetch client for readable stream
-        console.log("using default client")
+      } else {
+        // backend & fetch client for readable stream
+        console.log("using default client");
 
         // backend (no browser) need to convert Blob to ReadableStream or ArrayBuffer
         result = await this.client.chatThread.uploadChatImage(
-          'application/octet-stream',
-          // @ts-ignore
-          options.size?.toString(), // ?? blob.size?.toString() ?? blob.length?.toString(),
           this.threadId,
           // if is blob and has browser, will not end up in this case
           isBlob(body) ? await this.getArrayBufferFromBlob(body) : body,
-          uploadChatImageOptions
+          options // uploadChatImageOptions
         );
       }
-      
-      // const result = await this.client.chatThread.uploadChatImage(
-      //   'application/octet-stream',
-      //   blob.size.toString(),
-      //   this.threadId,
-      //   blob.stream(),
-      //   uploadChatImageOptions
-      // );
-      console.log('result2----');
+      console.log("result2----");
       console.log(result);
       const response: UploadImageResult = {
         id: result.id,
-        attachmentType: 'teamsInlineImage',
-        contentType: options?.filename?.split('.')?.pop(),
-        name: options?.filename,
-        url: 'someUrl',
-        previewUrl: 'somePreviewUrl',
-      }
+        attachmentType: "inlineImage",
+      };
       return response;
     });
   }
@@ -627,19 +607,21 @@ export class ChatThreadClient {
 
   private supportsReadableStream(): boolean {
     let duplexAccessed = false;
-    const hasContentType = new Request('', {
+    const hasContentType = new Request("", {
       body: new ReadableStream(),
-      method: 'POST',
+      method: "POST",
       // @ts-ignore
       get duplex() {
         duplexAccessed = true;
-        return 'half';
+        return "half";
       },
-    }).headers.has('Content-Type');
+    }).headers.has("Content-Type");
     return duplexAccessed && !hasContentType;
   }
 
-  private async getArrayBufferFromReadableStream(body: ReadableStream<Uint8Array>): Promise<ArrayBuffer> {
+  private async getArrayBufferFromReadableStream(
+    body: ReadableStream<Uint8Array>
+  ): Promise<ArrayBuffer> {
     console.log("getArrayBufferFromReadableStream");
     const arrayBuffer = await new Response(body).arrayBuffer();
     return new Uint8Array(arrayBuffer);
@@ -878,6 +860,6 @@ function rejectOnTerminalEvent(
  * Create a new HttpClient instance for the browser environment.
  * @internal
  */
-export function createXhrHttpClient(): HttpClient {
+export function _createXhrHttpClient(): HttpClient {
   return new XhrHttpClient();
 }

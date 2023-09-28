@@ -48,16 +48,11 @@ import {
 export interface ChatThread {
   /**
    * upload an image in a thread, on behalf of a user.
-   * @param contentType The content type of the request. currently we only support
-   *                    application/octet-stream
-   * @param xContentLength The content length of the image body.
    * @param chatThreadId Thread id where the uploaded image belongs to.
    * @param uploadChatImage Read receipt details.
    * @param options The options parameters.
    */
   uploadChatImage(
-    contentType: string,
-    xContentLength: string,
     chatThreadId: string,
     uploadChatImage: coreRestPipeline.RequestBodyType,
     options?: ChatThreadUploadChatImageOptionalParams

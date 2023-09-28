@@ -23,31 +23,8 @@ export const UploadChatImageResponse: coreClient.CompositeMapper = {
       attachmentType: {
         serializedName: "attachmentType",
         type: {
-          name: "any"
-        }
-      },
-      contentType: {
-        serializedName: "contentType",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      url: {
-        serializedName: "url",
-        type: {
-          name: "String"
-        }
-      },
-      previewUrl: {
-        serializedName: "previewUrl",
-        type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["inlineImage", "image", "file"]
         }
       }
     }
@@ -367,7 +344,8 @@ export const ChatAttachment: coreClient.CompositeMapper = {
         serializedName: "attachmentType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["inlineImage", "image", "file"]
         }
       },
       contentType: {
@@ -384,7 +362,6 @@ export const ChatAttachment: coreClient.CompositeMapper = {
       },
       url: {
         serializedName: "url",
-        required: true,
         type: {
           name: "String"
         }

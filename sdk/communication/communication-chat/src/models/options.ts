@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import {
-  AttachmentType,
   ChatMessageType,
   ChatListChatThreadsOptionalParams as RestListChatThreadsOptions,
   ChatThreadListChatMessagesOptionalParams as RestListMessagesOptions,
@@ -10,7 +9,6 @@ import {
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
 } from "../generated/src/models";
 import { ChatAttachment, ChatParticipant } from "./models";
-import { TransferProgressEvent } from "@azure/core-rest-pipeline";
 
 export {
   RestListMessagesOptions,
@@ -84,16 +82,8 @@ export interface CreateChatThreadOptions extends OperationOptions {
  * Options to upload iamge.
  */
 export interface UploadImageOptions extends OperationOptions {
-  /** MIME type. */
-  mimeType: string;
-  /** Attachment Type. */
-  attachmentType: AttachmentType;
   /** file name. */
   filename: string;
-  /** file size. */
-  size?: number;
-  /** Callback which fires upon upload progress. */
-  onUploadProgress?: (progress: TransferProgressEvent) => void
 }
 
 /**

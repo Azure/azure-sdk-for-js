@@ -6,7 +6,7 @@
     "paths": {
       "@azure/communication-chat": ["./src/index"]
     },
-     "lib": ["dom"]
+    "lib": ["dom"]
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

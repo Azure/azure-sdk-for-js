@@ -22,6 +22,18 @@ import {
   CreateChatThreadRequest as CreateChatThreadRequestMapper
 } from "../models/mappers";
 
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/octet-stream",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const uploadChatImage: OperationParameter = {
   parameterPath: "uploadChatImage",
   mapper: {
@@ -57,42 +69,10 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: "contentType",
+export const imageFilename: OperationParameter = {
+  parameterPath: ["options", "imageFilename"],
   mapper: {
-    serializedName: "content-type",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const xContentLength: OperationParameter = {
-  parameterPath: "xContentLength",
-  mapper: {
-    serializedName: "x-content-length",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const xPostFilename: OperationParameter = {
-  parameterPath: ["options", "xPostFilename"],
-  mapper: {
-    serializedName: "x-post-filename",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const xPostSharingMode: OperationParameter = {
-  parameterPath: ["options", "xPostSharingMode"],
-  mapper: {
-    serializedName: "x-post-sharing-mode",
+    serializedName: "image-filename",
     type: {
       name: "String"
     }
