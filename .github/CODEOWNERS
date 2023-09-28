@@ -663,6 +663,10 @@
 /sdk/paloaltonetworksngfw/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/playwrighttesting/arm-playwrighttesting/ @qiaozha @MaryGao
+/sdk/playwrighttesting/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/policy/arm-policy/ @qiaozha @MaryGao
 /sdk/policy/ci.mgmt.yml @qiaozha @MaryGao
 
