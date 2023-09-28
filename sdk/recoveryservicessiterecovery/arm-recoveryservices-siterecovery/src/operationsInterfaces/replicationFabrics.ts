@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Fabric,
   ReplicationFabricsListOptionalParams,
@@ -74,8 +74,8 @@ export interface ReplicationFabrics {
     input: FabricCreationInput,
     options?: ReplicationFabricsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationFabricsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationFabricsCreateResponse>,
       ReplicationFabricsCreateResponse
     >
   >;
@@ -108,7 +108,7 @@ export interface ReplicationFabrics {
     resourceGroupName: string,
     fabricName: string,
     options?: ReplicationFabricsPurgeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to purge(force delete) an Azure Site Recovery fabric.
    * @param resourceName The name of the recovery services vault.
@@ -137,8 +137,8 @@ export interface ReplicationFabrics {
     fabricName: string,
     options?: ReplicationFabricsCheckConsistencyOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationFabricsCheckConsistencyResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationFabricsCheckConsistencyResponse>,
       ReplicationFabricsCheckConsistencyResponse
     >
   >;
@@ -169,7 +169,7 @@ export interface ReplicationFabrics {
     resourceGroupName: string,
     fabricName: string,
     options?: ReplicationFabricsMigrateToAadOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to migrate an Azure Site Recovery fabric to AAD.
    * @param resourceName The name of the recovery services vault.
@@ -200,8 +200,8 @@ export interface ReplicationFabrics {
     failoverProcessServerRequest: FailoverProcessServerRequest,
     options?: ReplicationFabricsReassociateGatewayOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationFabricsReassociateGatewayResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationFabricsReassociateGatewayResponse>,
       ReplicationFabricsReassociateGatewayResponse
     >
   >;
@@ -234,7 +234,7 @@ export interface ReplicationFabrics {
     resourceGroupName: string,
     fabricName: string,
     options?: ReplicationFabricsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete or remove an Azure Site Recovery fabric.
    * @param resourceName The name of the recovery services vault.
@@ -265,8 +265,8 @@ export interface ReplicationFabrics {
     renewCertificate: RenewCertificateInput,
     options?: ReplicationFabricsRenewCertificateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationFabricsRenewCertificateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationFabricsRenewCertificateResponse>,
       ReplicationFabricsRenewCertificateResponse
     >
   >;

@@ -2767,6 +2767,42 @@ export const AzureWebCategoryListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const BastionHostPropertiesFormatNetworkAcls: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BastionHostPropertiesFormatNetworkAcls",
+    modelProperties: {
+      ipRules: {
+        serializedName: "ipRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IPRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IPRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IPRule",
+    modelProperties: {
+      addressPrefix: {
+        serializedName: "addressPrefix",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Sku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -12705,6 +12741,43 @@ export const VirtualNetworkDdosProtectionStatusResult: coreClient.CompositeMappe
   }
 };
 
+export const VirtualNetworkGatewayAutoScaleConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkGatewayAutoScaleConfiguration",
+    modelProperties: {
+      bounds: {
+        serializedName: "bounds",
+        type: {
+          name: "Composite",
+          className: "VirtualNetworkGatewayAutoScaleBounds"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualNetworkGatewayAutoScaleBounds: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkGatewayAutoScaleBounds",
+    modelProperties: {
+      min: {
+        serializedName: "min",
+        type: {
+          name: "Number"
+        }
+      },
+      max: {
+        serializedName: "max",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualNetworkGatewaySku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -18257,6 +18330,12 @@ export const Subnet: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      defaultOutboundAccess: {
+        serializedName: "properties.defaultOutboundAccess",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -21237,6 +21316,13 @@ export const FirewallPolicyRuleCollectionGroup: coreClient.CompositeMapper = {
       },
       type: {
         serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      size: {
+        serializedName: "properties.size",
         readOnly: true,
         type: {
           name: "String"
@@ -25661,6 +25747,20 @@ export const BastionHost: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      virtualNetwork: {
+        serializedName: "properties.virtualNetwork",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
+      networkAcls: {
+        serializedName: "properties.networkAcls",
+        type: {
+          name: "Composite",
+          className: "BastionHostPropertiesFormatNetworkAcls"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -26547,6 +26647,13 @@ export const FirewallPolicy: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedServiceIdentity"
+        }
+      },
+      size: {
+        serializedName: "properties.size",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       },
       ruleCollectionGroups: {
@@ -27738,6 +27845,13 @@ export const VirtualNetworkGateway: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      autoScaleConfiguration: {
+        serializedName: "properties.autoScaleConfiguration",
+        type: {
+          name: "Composite",
+          className: "VirtualNetworkGatewayAutoScaleConfiguration"
         }
       },
       ipConfigurations: {

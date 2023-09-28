@@ -17,7 +17,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const options: AzureMonitorOpenTelemetryOptions = {
-  azureMonitorExporterConfig: {
+  azureMonitorExporterOptions: {
     connectionString:
       process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
   },
@@ -26,7 +26,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
 useAzureMonitor(options);
 
 export async function main() {
-  // Ge Meter and create custom metric
+  // Get Meter and create custom metric
   const meter = metrics.getMeter("testMeter");
   const customCounter = meter.createCounter("TestCounter");
   customCounter.add(1);

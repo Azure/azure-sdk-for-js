@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create a UpdateRun
  *
  * @summary Create a UpdateRun
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/examples/UpdateRuns_CreateOrUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-06-15-preview/examples/UpdateRuns_CreateOrUpdate.json
  */
 async function createAnUpdateRun() {
   const subscriptionId =
@@ -26,6 +26,7 @@ async function createAnUpdateRun() {
   const updateRunName = "run1";
   const resource = {
     managedClusterUpdate: {
+      nodeImageSelection: { type: "Latest" },
       upgrade: { type: "Full", kubernetesVersion: "1.26.1" },
     },
     strategy: {

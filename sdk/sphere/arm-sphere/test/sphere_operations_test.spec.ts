@@ -91,7 +91,7 @@ describe("Sphere test", () => {
 
   it.skip("catalogs delete test", async function () {
     const res = await client.catalogs.beginDeleteAndWait(resourceGroup,
-      resourcename);
+      resourcename, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.catalogs.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

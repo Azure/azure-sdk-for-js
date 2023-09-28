@@ -121,7 +121,7 @@ describe("Dynatrace test", () => {
 
   it("monitor delete test", async function () {
     const resArray = new Array();
-    const res = await client.monitors.beginDeleteAndWait(resourceGroup, monitorName)
+    const res = await client.monitors.beginDeleteAndWait(resourceGroup, monitorName, testPollingOptions)
     for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

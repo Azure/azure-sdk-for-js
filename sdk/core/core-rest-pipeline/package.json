@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-rest-pipeline",
-  "version": "1.12.1",
+  "version": "1.12.2",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "type": "module",
@@ -121,7 +121,7 @@
     "@sinonjs/fake-timers": "^10.3.0",
     "@types/chai": "^4.3.5",
     "@types/chai-as-promised": "^7.1.0",
-    "@types/mocha": "^7.0.2",
+    "@types/mocha": "^10.0.0",
     "@types/node": "^14.0.0",
     "@types/sinon": "^10.0.15",
     "@types/sinonjs__fake-timers": "^8.1.2",
@@ -142,15 +142,14 @@
     "karma-sourcemap-loader": "^0.4.0",
     "karma": "^6.4.2",
     "mocha-junit-reporter": "^2.0.0",
-    "mocha": "^7.1.1",
+    "mocha": "^10.0.0",
     "prettier": "^2.5.1",
     "puppeteer": "^21.1.1",
     "rimraf": "^5.0.1",
     "sinon": "^15.2.0",
     "source-map-support": "^0.5.21",
     "typescript": "~5.0.0",
-    "util": "^0.12.5",
-    "testdouble": "^3.18.0",
-    "ts-node": "^10.9.1"
+    "util": "^0.12.1",
+    "ts-node": "^10.0.0"
   }
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 export { delay, DelayOptions } from "./delay.js";
+export { AbortOptions, cancelablePromiseRace, AbortablePromiseBuilder } from "./aborterUtils.js";
 export { createAbortablePromise, CreateAbortablePromiseOptions } from "./createAbortablePromise.js";
 export { getRandomIntegerInclusive } from "./random.js";
 export { isObject, UnknownObject } from "./object.js";

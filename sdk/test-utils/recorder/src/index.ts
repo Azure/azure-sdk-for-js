@@ -10,6 +10,7 @@ export {
   isPlaybackMode,
   isRecordMode,
   assertEnvironmentVariable,
+  testPollingOptions,
 } from "./utils/utils.js";
 export { env } from "./utils/env.js";
 export { delay } from "./utils/delay.js";

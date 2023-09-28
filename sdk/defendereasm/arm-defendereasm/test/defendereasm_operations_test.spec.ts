@@ -62,7 +62,8 @@ describe("DefenderEasm test", () => {
       resourceGroup,
       resourceName,
       {
-        workspaceResource: { location }
+        workspaceResource: { location },
+        updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
       });
     assert.equal(res.name, resourceName);
   });
@@ -83,7 +84,7 @@ describe("DefenderEasm test", () => {
 
   it("workspaces delete test", async function () {
     const resArray = new Array();
-    const res = await client.workspaces.beginDeleteAndWait(resourceGroup, resourceName)
+    const res = await client.workspaces.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions)
     for await (let item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

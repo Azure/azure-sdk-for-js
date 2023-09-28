@@ -1,33 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ErrorResponse } from "../../request";
+
 /**
- * @hidden
  * Specifies a feed range for the changefeed.
  */
-export class FeedRangeInternal implements FeedRange {
+export abstract class FeedRange {
   /**
    * Min value for the feed range.
    */
-  minInclusive: string;
+  readonly minInclusive: string;
   /**
    * Max value for the feed range.
    */
-  maxExclusive: string;
+  readonly maxExclusive: string;
+  /**
+   * @internal
+   */
+  protected constructor(minInclusive: string, maxExclusive: string) {
+    // only way to explictly block users from creating FeedRange directly in JS
+    if (new.target === FeedRange) {
+      throw new ErrorResponse("Cannot instantiate abstract class FeedRange");
+    }
 
-  constructor(minInclusive: string, maxExclusive: string) {
     this.minInclusive = minInclusive;
     this.maxExclusive = maxExclusive;
   }
 }
 
-export interface FeedRange {
-  /**
-   * Min value for the feed range.
-   */
-  minInclusive: string;
-  /**
-   * Max value for the feed range.
-   */
-  maxExclusive: string;
+/**
+ * @hidden
+ * Specifies a feed range for the changefeed.
+ */
+export class FeedRangeInternal extends FeedRange {
+  /* eslint-disable @typescript-eslint/no-useless-constructor */
+  constructor(minInclusive: string, maxExclusive: string) {
+    super(minInclusive, maxExclusive);
+  }
 }

@@ -14,15 +14,16 @@ export const commandInfo = makeCommandInfo(
     "no-test-proxy": {
       shortName: "ntp",
       kind: "boolean",
-      default: false, 
-      description: "whether to disable launching test-proxy"
+      default: false,
+      description: "whether to disable launching test-proxy",
     },
   }
 );
 
 export default leafCommand(commandInfo, async (options) => {
+  const isModuleProj = await isModuleProject();
   const defaultMochaArgs = `${
-    (await isModuleProject()) ? "" : "-r esm "
+    isModuleProj ? "" : "-r esm "
   }-r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt
@@ -31,7 +32,10 @@ export default leafCommand(commandInfo, async (options) => {
     ? updatedArgs?.join(" ")
     : '--timeout 1200000 --exclude "test/**/browser/*.spec.ts" "test/**/*.spec.ts"';
   const command = {
-    command: `mocha ${defaultMochaArgs} ${mochaArgs}`,
+    command: isModuleProj
+      ? `mocha ${defaultMochaArgs} ${mochaArgs}`
+      : // eslint-disable-next-line no-useless-escape
+        `cross-env TS_NODE_COMPILER_OPTIONS="{\\\"module\\\":\\\"commonjs\\\"}" mocha ${defaultMochaArgs} ${mochaArgs}`,
     name: "node-tests",
   };
 

@@ -180,6 +180,9 @@
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
 
+# PRLabel: %Cognitive - Content Safety
+/sdk/contentsafety/ @bowgong @mengai @minjuewu
+
 # PRLabel: %Search
 /sdk/search/ @dgetu @xirzec
 
@@ -343,12 +346,17 @@
 
 # PRLabel: %Mgmt
 /sdk/containerservice/arm-containerservice/      @qiaozha @MaryGao
+/sdk/containerservice/arm-containerservicefleet/      @qiaozha @MaryGao
 /sdk/containerservice/arm-containerservice-rest/ @qiaozha @MaryGao
 /sdk/containerservice/ci.mgmt.yml                @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/cosmosdb/arm-cosmosdb/ @qiaozha @MaryGao
 /sdk/cosmosdb/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/cosmosdbforpostgresql/arm-cosmosdbforpostgresql/ @qiaozha @MaryGao
+/sdk/cosmosdbforpostgresql/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/customer-insights/arm-customerinsights/ @qiaozha @MaryGao
@@ -466,6 +474,10 @@
 # PRLabel: %Mgmt
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao
 /sdk/hybridcompute/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/hybridconnectivity/arm-hybridconnectivity/ @qiaozha @MaryGao
+/sdk/hybridconnectivity/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao
@@ -649,6 +661,10 @@
 # PRLabel: %Mgmt
 /sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw/ @qiaozha @MaryGao
 /sdk/paloaltonetworksngfw/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/playwrighttesting/arm-playwrighttesting/ @qiaozha @MaryGao
+/sdk/playwrighttesting/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/policy/arm-policy/ @qiaozha @MaryGao

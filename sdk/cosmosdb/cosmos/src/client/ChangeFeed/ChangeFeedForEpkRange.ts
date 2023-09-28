@@ -13,7 +13,7 @@ import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
 import { extractOverlappingRanges } from "./changeFeedUtils";
 import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { withDiagnostics } from "../../utils/diagnostics";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 /**
  * @hidden
  * Provides iterator for change feed for entire container or an epk range.
@@ -49,8 +49,8 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     this.isInstantiated = false;
   }
 
-  private async setIteratorRid(): Promise<void> {
-    const { resource } = await this.container.read();
+  private async setIteratorRid(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+    const { resource } = await this.container.readInternal(diagnosticNode);
     this.rId = resource._rid;
   }
 
@@ -156,13 +156,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
   public async *getAsyncIterator(): AsyncIterable<ChangeFeedIteratorResponse<Array<T & Resource>>> {
     do {
       const result = await this.readNext();
-      // filter out some empty 200 responses from backend.
-      if (
-        (result.count === 0 && result.statusCode === StatusCodes.NotModified) ||
-        (result.count > 0 && result.statusCode === StatusCodes.Ok)
-      ) {
-        yield result;
-      }
+      yield result;
     } while (this.hasMoreResults);
   }
 
@@ -177,7 +171,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       // validate if the internal queue is filled up with feed ranges.
       if (!this.isInstantiated) {
-        await this.setIteratorRid();
+        await this.setIteratorRid(diagnosticNode);
         await this.fillChangeFeedQueue(diagnosticNode);
       }
 
@@ -425,11 +419,19 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         response.result,
         response.result ? response.result.length : 0,
         response.code,
-        response.headers
+        response.headers,
+        getEmptyCosmosDiagnostics()
       );
     } catch (err) {
       // If any errors are encountered, eg. partition split or gone, handle it based on error code and not break the flow.
-      return new ChangeFeedIteratorResponse([], 0, err.code, err.headers, err.substatus);
+      return new ChangeFeedIteratorResponse(
+        [],
+        0,
+        err.code,
+        err.headers,
+        getEmptyCosmosDiagnostics(),
+        err.substatus
+      );
     }
   }
 }

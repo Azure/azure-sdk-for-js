@@ -5,15 +5,15 @@
   "editor.formatOnSave": true,
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    { "language": "typescript", "autoFix": true }
-  ],
+  "eslint.workingDirectories": [{ "pattern": "./sdk/*/*/" }],
+  "eslint.options": {
+    "resolvePluginsRelativeTo": "../../../common/tools/eslint-plugin-azure-sdk-helper"
+  },
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
-    "**/.DS_Store": true
+    "**/.DS_Store": true,
+    "**/node_modules": true
   },
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
@@ -21,8 +21,22 @@
   "typescript.disableAutomaticTypeAcquisition": true,
   "typescript.preferences.quoteStyle": "double",
   "git.ignoreLimitWarning": true,
-  "cSpell.words": [
-    "datalake"
-  ],
-  "prettier.prettierPath": "./sdk/core/core-rest-pipeline/node_modules/prettier"
+  "prettier.prettierPath": "./sdk/core/core-rest-pipeline/node_modules/prettier",
+  "search.exclude": {
+    "test-results*.xml": true,
+    "**/temp/*": true,
+    "**/dist/*": true,
+    "**/*.map": true,
+    "**/dist-*/*": true,
+    "**/test-dist/*": true,
+    "**/dist-test/*": true,
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "**/types/*": true,
+    "**/coverage/*": true,
+    "**/*.d.ts": true,
+    "**/test-browser/*": true
+  },
+  "typescript.tsdk": "./sdk/core/core-rest-pipeline/node_modules/typescript/lib"
 }

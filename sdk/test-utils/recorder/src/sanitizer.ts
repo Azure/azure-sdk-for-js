@@ -34,9 +34,9 @@ type AddSanitizer<T> = (
 const pluralize =
   <T>(singular: AddSanitizer<T>): AddSanitizer<T[]> =>
   async (httpClient, url, recordingId, sanitizers) => {
-    await Promise.all(
-      sanitizers.map((sanitizer) => singular(httpClient, url, recordingId, sanitizer))
-    );
+    for (const sanitizer of sanitizers) {
+      await singular(httpClient, url, recordingId, sanitizer);
+    }
   };
 
 /**

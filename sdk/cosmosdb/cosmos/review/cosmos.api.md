@@ -10,7 +10,6 @@
 import { AbortError } from '@azure/abort-controller';
 import { AbortSignal as AbortSignal_2 } from 'node-abort-controller';
 import { Pipeline } from '@azure/core-rest-pipeline';
-import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -79,6 +78,7 @@ export class ChangeFeedIteratorResponse<T> {
     get activityId(): string;
     get continuationToken(): string;
     readonly count: number;
+    readonly diagnostics: CosmosDiagnostics;
     headers: CosmosHeaders;
     get requestCharge(): number;
     readonly result: T;
@@ -150,7 +150,7 @@ export type ClientConfigDiagnostic = {
 
 // @public (undocumented)
 export class ClientContext {
-    constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic);
+    constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, diagnosticLevel: CosmosDbDiagnosticLevel);
     // (undocumented)
     batch<T>({ body, path, partitionKey, resourceId, options, diagnosticNode, }: {
         body: T;
@@ -193,6 +193,8 @@ export class ClientContext {
         diagnosticNode: DiagnosticNodeInternal;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
+    diagnosticLevel: CosmosDbDiagnosticLevel;
+    // (undocumented)
     execute<T>({ sprocLink, params, options, partitionKey, diagnosticNode, }: {
         sprocLink: string;
         params?: any[];
@@ -201,7 +203,7 @@ export class ClientContext {
         diagnosticNode: DiagnosticNodeInternal;
     }): Promise<Response_2<T>>;
     // (undocumented)
-    getClientConfig(): ClientConfigDiagnostic | undefined;
+    getClientConfig(): ClientConfigDiagnostic;
     getDatabaseAccount(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<Response_2<DatabaseAccount>>;
     // (undocumented)
     getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options: FeedOptions, diagnosticNode: DiagnosticNodeInternal): Promise<Response_2<PartitionedQueryExecutionInfo>>;
@@ -213,6 +215,8 @@ export class ClientContext {
     getWriteEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getWriteEndpoints(): Promise<readonly string[]>;
+    // (undocumented)
+    initializeDiagnosticSettings(diagnosticLevel: CosmosDbDiagnosticLevel): void;
     // (undocumented)
     partitionKeyDefinitionCache: {
         [containerUrl: string]: any;
@@ -836,6 +840,40 @@ export interface DeleteOperationInput {
     partitionKey?: PartitionKey;
 }
 
+// @public (undocumented)
+export type DiagnosticDataValue = {
+    selectedLocation: string;
+    activityId: string;
+    requestAttempNumber: number;
+    requestPayloadLengthInBytes: number;
+    responsePayloadLengthInBytes: number;
+    responseStatus: number;
+    readFromCache: boolean;
+    operationType: OperationType;
+    metadatOperationType: MetadataLookUpType;
+    resourceType: ResourceType;
+    failedAttempty: boolean;
+    successfulRetryPolicy: string;
+    partitionKeyRangeId: string;
+    stateful: boolean;
+    queryRecordsRead: number;
+    queryMethodIdentifier: string;
+    log: string[];
+    failure: boolean;
+    startTimeUTCInMs: number;
+    durationInMs: number;
+    requestData: Partial<{
+        requestPayloadLengthInBytes: number;
+        responsePayloadLengthInBytes: number;
+        operationType: OperationType;
+        resourceType: ResourceType;
+        headers: CosmosHeaders_2;
+        requestBody: any;
+        responseBody: any;
+        url: string;
+    }>;
+};
+
 // @public
 export interface DiagnosticNode {
     // (undocumented)
@@ -852,6 +890,48 @@ export interface DiagnosticNode {
     nodeType: string;
     // (undocumented)
     startTimeUTCInMs: number;
+}
+
+// @public
+export class DiagnosticNodeInternal implements DiagnosticNode {
+    // (undocumented)
+    children: DiagnosticNodeInternal[];
+    // (undocumented)
+    data: Partial<DiagnosticDataValue>;
+    // (undocumented)
+    diagnosticLevel: CosmosDbDiagnosticLevel;
+    // (undocumented)
+    durationInMs: number;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    nodeType: DiagnosticNodeType;
+    // (undocumented)
+    parent: DiagnosticNodeInternal;
+    // (undocumented)
+    startTimeUTCInMs: number;
+}
+
+// @public (undocumented)
+export enum DiagnosticNodeType {
+    // (undocumented)
+    BACKGROUND_REFRESH_THREAD = "BACKGROUND_REFRESH_THREAD",
+    // (undocumented)
+    BATCH_REQUEST = "BATCH_REQUEST",
+    // (undocumented)
+    CLIENT_REQUEST_NODE = "CLIENT_REQUEST_NODE",
+    // (undocumented)
+    DEFAULT_QUERY_NODE = "DEFAULT_QUERY_NODE",
+    // (undocumented)
+    HTTP_REQUEST = "HTTP_REQUEST",
+    // (undocumented)
+    METADATA_REQUEST_NODE = "METADATA_REQUEST_NODE",
+    // (undocumented)
+    PARALLEL_QUERY_NODE = "PARALLEL_QUERY_NODE",
+    // (undocumented)
+    QUERY_REPAIR_NODE = "QUERY_REPAIR_NODE",
+    // (undocumented)
+    REQUEST_ATTEMPTS = "REQUEST_ATTEMPTS"
 }
 
 // @public (undocumented)
@@ -873,9 +953,9 @@ export class ErrorResponse extends Error {
     // (undocumented)
     body?: ErrorBody;
     // (undocumented)
-    code?: number;
+    code?: number | string;
     // (undocumented)
-    diagnostics: CosmosDiagnostics;
+    diagnostics?: CosmosDiagnostics;
     // (undocumented)
     headers?: CosmosHeaders;
     // (undocumented)
@@ -892,11 +972,6 @@ export type ExistingKeyOperation = {
     value: any;
     path: string;
 };
-
-// Warning: (ae-forgotten-export) The symbol "PartitionKeyInternal" needs to be exported by the entry point index.d.ts
-//
-// @public
-export function extractPartitionKey(document: unknown, partitionKeyDefinition?: PartitionKeyDefinition): PartitionKeyInternal | undefined;
 
 // @public
 export interface FailedRequestAttemptDiagnostic {
@@ -943,10 +1018,10 @@ export interface FeedOptions extends SharedOptions {
     useIncrementalFeed?: boolean;
 }
 
-// @public (undocumented)
-export interface FeedRange {
-    maxExclusive: string;
-    minInclusive: string;
+// @public
+export abstract class FeedRange {
+    readonly maxExclusive: string;
+    readonly minInclusive: string;
 }
 
 // @public (undocumented)
@@ -994,7 +1069,6 @@ export enum GeospatialType {
 
 // @public
 export class GlobalEndpointManager {
-    constructor(options: CosmosClientOptions, readDatabaseAccount: (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => Promise<ResourceResponse<DatabaseAccount>>);
     // (undocumented)
     canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean;
     enableEndpointDiscovery: boolean;
@@ -1008,9 +1082,11 @@ export class GlobalEndpointManager {
     markCurrentLocationUnavailableForRead(diagnosticNode: DiagnosticNodeInternal, endpoint: string): Promise<void>;
     // (undocumented)
     markCurrentLocationUnavailableForWrite(diagnosticNode: DiagnosticNodeInternal, endpoint: string): Promise<void>;
+    // (undocumented)
+    preferredLocationsCount: number;
     refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void>;
     // (undocumented)
-    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType): Promise<string>;
+    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number): Promise<string>;
 }
 
 // @public (undocumented)
@@ -1194,13 +1270,11 @@ export enum MetadataLookUpType {
     // (undocumented)
     DatabaseAccountLookUp = "DATABASE_ACCOUNT_LOOK_UP",
     // (undocumented)
-    PartitionKeyDefinition = "PARTITION_KEY_DEFINITION",
+    DatabaseLookUp = "DATABASE_LOOK_UP",
     // (undocumented)
     PartitionKeyRangeLookUp = "PARTITION_KEY_RANGE_LOOK_UP",
     // (undocumented)
-    QueryPlanLookUp = "QUERY_PLAN_LOOK_UP",
-    // (undocumented)
-    ServiceEndpointResolution = "SERVICE_ENDPOINT_RESOLUTION"
+    QueryPlanLookUp = "QUERY_PLAN_LOOK_UP"
 }
 
 // @public
@@ -1338,6 +1412,20 @@ export interface PartitionedQueryExecutionInfo {
 
 // @public
 export type PartitionKey = PrimitivePartitionKeyValue | PrimitivePartitionKeyValue[];
+
+// @public
+export class PartitionKeyBuilder {
+    // (undocumented)
+    addNoneValue(): PartitionKeyBuilder;
+    // (undocumented)
+    addNullValue(): PartitionKeyBuilder;
+    // (undocumented)
+    addValue(value: string | boolean | number): PartitionKeyBuilder;
+    // (undocumented)
+    build(): PartitionKey;
+    // (undocumented)
+    readonly values: PrimitivePartitionKeyValue[];
+}
 
 // @public (undocumented)
 export interface PartitionKeyDefinition {
@@ -2400,10 +2488,6 @@ export class Users {
     readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource>;
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
 }
-
-// Warnings were encountered during analysis:
-//
-// src/ClientContext.ts:110:5 - (ae-forgotten-export) The symbol "DiagnosticNodeInternal" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

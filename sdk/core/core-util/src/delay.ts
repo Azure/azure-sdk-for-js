@@ -3,22 +3,14 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { createAbortablePromise } from "./createAbortablePromise.js";
+import { AbortOptions } from "./aborterUtils.js";
 
 const StandardAbortMessage = "The delay was aborted.";
 
 /**
  * Options for support abort functionality for the delay method
  */
-export interface DelayOptions {
-  /**
-   * The abortSignal associated with containing operation.
-   */
-  abortSignal?: AbortSignalLike;
-  /**
-   * The abort error message associated with containing operation.
-   */
-  abortErrorMsg?: string;
-}
+export interface DelayOptions extends AbortOptions {}
 
 /**
  * A wrapper for setTimeout that resolves a promise after timeInMs milliseconds.

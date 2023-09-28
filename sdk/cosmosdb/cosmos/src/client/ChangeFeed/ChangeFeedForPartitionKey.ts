@@ -4,13 +4,13 @@ import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 import { Container, Resource } from "../../client";
 import { ClientContext } from "../../ClientContext";
-import { Constants, ResourceType, StatusCodes } from "../../common";
+import { Constants, ResourceType } from "../../common";
 import { FeedOptions, Response, ErrorResponse } from "../../request";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
 import { PartitionKey } from "../../documents";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { withDiagnostics } from "../../utils/diagnostics";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 /**
  * @hidden
  * Provides iterator for change feed for one partition key.
@@ -43,8 +43,8 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
     }
   }
 
-  private async instantiateIterator(): Promise<void> {
-    await this.setIteratorRid();
+  private async instantiateIterator(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+    await this.setIteratorRid(diagnosticNode);
     if (this.continuationToken) {
       if (!this.continuationTokenRidMatchContainerRid()) {
         throw new ErrorResponse("The continuation is not for the current container definition.");
@@ -67,8 +67,8 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
     return true;
   }
 
-  private async setIteratorRid(): Promise<void> {
-    const { resource } = await this.container.read();
+  private async setIteratorRid(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+    const { resource } = await this.container.readInternal(diagnosticNode);
     this.rId = resource._rid;
   }
 
@@ -85,13 +85,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
   public async *getAsyncIterator(): AsyncIterable<ChangeFeedIteratorResponse<Array<T & Resource>>> {
     do {
       const result = await this.readNext();
-      // filter out some empty 200 responses from backend.
-      if (
-        (result.count === 0 && result.statusCode === StatusCodes.NotModified) ||
-        (result.count > 0 && result.statusCode === StatusCodes.Ok)
-      ) {
-        yield result;
-      }
+      yield result;
     } while (this.hasMoreResults);
   }
 
@@ -101,7 +95,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
   public async readNext(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       if (!this.isInstantiated) {
-        await this.instantiateIterator();
+        await this.instantiateIterator(diagnosticNode);
       }
       const result = await this.fetchNext(diagnosticNode);
       return result;
@@ -162,7 +156,8 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       response.result,
       response.result ? response.result.length : 0,
       response.code,
-      response.headers
+      response.headers,
+      getEmptyCosmosDiagnostics()
     );
   }
 }

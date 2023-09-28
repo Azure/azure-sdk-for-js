@@ -3,10 +3,7 @@
 
 import { RequestOptions } from "http";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
-import {
-  ApplicationInsightsSampler,
-  AzureMonitorTraceExporter,
-} from "@azure/monitor-opentelemetry-exporter";
+import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import { NodeTracerProvider, NodeTracerConfig } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor, BufferConfig } from "@opentelemetry/sdk-trace-base";
 import {
@@ -27,6 +24,7 @@ import { AzureMonitorSpanProcessor } from "./spanProcessor";
 import { AzureFunctionsHook } from "./azureFnHook";
 import { metrics } from "@opentelemetry/api";
 import { Instrumentation } from "@opentelemetry/instrumentation";
+import { ApplicationInsightsSampler } from "./sampler";
 
 /**
  * Azure Monitor OpenTelemetry Trace Handler
@@ -56,7 +54,7 @@ export class TraceHandler {
       forceFlushTimeoutMillis: 30000,
     };
     this._tracerProvider = new NodeTracerProvider(tracerConfig);
-    this._azureExporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterConfig);
+    this._azureExporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterOptions);
     const bufferConfig: BufferConfig = {
       maxExportBatchSize: 512,
       scheduledDelayMillis: 5000,
