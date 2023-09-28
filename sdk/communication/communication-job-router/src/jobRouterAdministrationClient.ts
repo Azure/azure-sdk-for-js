@@ -50,7 +50,7 @@ import {
   RouterQueueResponse,
 } from "./responses";
 import { SDK_VERSION } from "./constants";
-import { logger } from "./logger";
+import { logger } from "./generated/src/logger";
 
 /**
  * Checks whether a value is of type {@link JobRouterAdministrationClientOptions}.

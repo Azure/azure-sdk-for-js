@@ -12,7 +12,7 @@ import { OperationOptions } from "@azure/core-client";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { SDK_VERSION } from "./constants";
 import {
-  JobRouterApiClient,
+  AzureCommunicationRoutingServiceClient,
   JobRouterListJobsOptionalParams,
   JobRouterListWorkersOptionalParams,
   RouterJobPositionDetails,
@@ -21,9 +21,10 @@ import {
   RouterJobItem as RouterJobItemGenerated,
   RouterWorkerItem as RouterWorkerItemGenerated,
   KnownJobMatchModeType,
-  JobMatchingMode,
+  JobMatchingMode, UpsertJob
 } from "./generated/src";
-import { logger } from "./logger";
+import createClient from "./generated/src/azureCommunicationRoutingServiceClient"
+import { logger } from "./generated/src/logger";
 import {
   RouterJobItem,
   RouterWorkerItem,
@@ -168,7 +169,7 @@ const listWorkersTransform = (item: RouterWorkerItemGenerated): RouterWorkerItem
  * The client to do job router operations.
  */
 export class JobRouterClient {
-  private readonly client: JobRouterApiClient;
+  private readonly client: AzureCommunicationRoutingServiceClient;
 
   /**
    * Constructs an instance of {@link JobRouterClient}.
@@ -242,7 +243,7 @@ export class JobRouterClient {
 
     const authPolicy = createCommunicationAuthPolicy(credential);
 
-    this.client = new JobRouterApiClient(url, internalPipelineOptions);
+    this.client = createClient(url, internalPipelineOptions);
     this.client.pipeline.addPolicy(authPolicy);
   }
 
@@ -264,6 +265,7 @@ export class JobRouterClient {
       delete patch.matchingMode;
     }
 
+    UpsertJob.create
     const response = await this.client.jobRouter.upsertJob(jobId, patch, options);
     return response as RouterJobResponse;
   }

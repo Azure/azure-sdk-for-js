@@ -55,7 +55,9 @@
     "@azure/core-rest-pipeline": "^1.12.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
-    "@azure/core-paging": "^1.5.0"
+    "@azure/core-paging": "^1.5.0",
+    "@azure/communication-common": "^2.2.0",
+    "@azure/core-client": "^1.3.2"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
@@ -95,7 +97,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/azureCommunicationRoutingServiceClient.ts",
+        "path": "src/generated/src/azureCommunicationRoutingServiceClient.ts",
         "prefix": "userAgentInfo"
       }
     ]
