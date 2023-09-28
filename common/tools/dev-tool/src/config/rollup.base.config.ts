@@ -112,22 +112,29 @@ export function sourcemaps() {
       if (!id.endsWith(".js")) {
         return null;
       }
-      const code = await readFile(id, "utf8");
-      if (code.includes("sourceMappingURL")) {
-        const basePath = path.dirname(id);
-        const mapPath = code.match(/sourceMappingURL=(.*)/)?.[1];
-        if (!mapPath) {
-          const warning = { message: "Could not find map path in file " + id, id };
-          this.warn(warning);
-          return null;
+      try {
+        const code = await readFile(id, "utf8");
+        if (code.includes("sourceMappingURL")) {
+          const basePath = path.dirname(id);
+          const mapPath = code.match(/sourceMappingURL=(.*)/)?.[1];
+          if (!mapPath) {
+            this.warn({ message: "Could not find map path in file " + id, id });
+            return null;
+          }
+          const absoluteMapPath = path.join(basePath, mapPath);
+          const map = JSON.parse(await readFile(absoluteMapPath, "utf8"));
+          debug("got map for file ", id);
+          return { code, map };
         }
-        const absoluteMapPath = path.join(basePath, mapPath);
-        const map = JSON.parse(await readFile(absoluteMapPath, "utf8"));
-        debug("got map for file ", id);
-        return { code, map };
+        debug("no map for file ", id);
+        return { code, map: null };
+      } catch (e) {
+        function toString(error: any): string {
+          return error instanceof Error ? error.stack ?? error.toString() : JSON.stringify(error);
+        }
+        this.warn({ message: toString(e), id });
+        return null;
       }
-      debug("no map for file ", id);
-      return { code, map: null };
     },
   };
 }
