@@ -5232,7 +5232,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.4
+      minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: false
@@ -8010,13 +8010,13 @@ packages:
       glob: 10.3.10
     dev: false
 
-  /rollup-plugin-polyfill-node@0.12.0(rollup@2.79.1):
+  /rollup-plugin-polyfill-node@0.12.0(rollup@3.29.3):
     resolution: {integrity: sha512-PWEVfDxLEKt8JX1nZ0NkUAgXpkZMTb85rO/Ru9AQ69wYW8VUCfDgP4CGRXXWYni5wDF0vIeR1UoF3Jmw/Lt3Ug==}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0 || ^3.0.0
     dependencies:
-      '@rollup/plugin-inject': 5.0.3(rollup@2.79.1)
-      rollup: 2.79.1
+      '@rollup/plugin-inject': 5.0.3(rollup@3.29.3)
+      rollup: 3.29.3
     dev: false
 
   /rollup-plugin-shim@1.0.0:
@@ -8039,7 +8039,7 @@ packages:
       source-map-resolve: 0.6.0
     dev: false
 
-  /rollup-plugin-visualizer@5.9.2(rollup@2.79.1):
+  /rollup-plugin-visualizer@5.9.2(rollup@3.29.3):
     resolution: {integrity: sha512-waHktD5mlWrYFrhOLbti4YgQCn1uR24nYsNuXxg7LkPH8KdTXVWR9DNY1WU0QqokyMixVXJS4J04HNrVTMP01A==}
     engines: {node: '>=14'}
     hasBin: true
@@ -8051,7 +8051,7 @@ packages:
     dependencies:
       open: 8.4.2
       picomatch: 2.3.1
-      rollup: 2.79.1
+      rollup: 3.29.3
       source-map: 0.7.4
       yargs: 17.7.2
     dev: false
@@ -18038,17 +18038,17 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-+9PLoc0THuKYNlBSLvSQ5ITtsC0MoG/WHIrfEu1Oo8iYXx0mA3OaoHbEY1y9C1USOV/ehFfkPXb9hGPLTei2eA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-I1+lfiPtrz9fyLxH8PF0tQzRoudRTgrxL3wunOwHRlmy1PpGazczncHmPFcJyE4fZs/OcwFBGIV6odDLpoFu3Q==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
       '@_ts/max': /typescript@5.2.2
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.37.1(@types/node@14.18.63)
-      '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
-      '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
-      '@rollup/plugin-multi-entry': 6.0.0(rollup@2.79.1)
-      '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
+      '@rollup/plugin-commonjs': 25.0.4(rollup@3.29.3)
+      '@rollup/plugin-json': 6.0.0(rollup@3.29.3)
+      '@rollup/plugin-multi-entry': 6.0.0(rollup@3.29.3)
+      '@rollup/plugin-node-resolve': 15.2.1(rollup@3.29.3)
       '@types/chai': 4.3.6
       '@types/chai-as-promised': 7.1.6
       '@types/decompress': 4.2.5
@@ -18079,10 +18079,10 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-polyfill-node: 0.12.0(rollup@2.79.1)
+      rollup: 3.29.3
+      rollup-plugin-polyfill-node: 0.12.0(rollup@3.29.3)
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.63)(rollup@2.79.1)
-      rollup-plugin-visualizer: 5.9.2(rollup@2.79.1)
+      rollup-plugin-visualizer: 5.9.2(rollup@3.29.3)
       semver: 7.5.4
       strip-json-comments: 5.0.1
       ts-morph: 20.0.0
@@ -19650,7 +19650,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-AAO1R3GYDhCBFWlLeRCEp6Zkj/ymwPcw4PQmDWUtqSqv78HXzWZ487He1zDX22Ug/gGW3W/A4ips9nwp8lt6eg==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-GA2FN1Hx14qtCdr3yFNRNOhFMBp1WweITSr3faJCGkTUpHnmdr7G9wFcKO5lDaT731Xhh2wIIfs2e21uqAcYoA==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
