@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
 import { createAbortablePromise } from "./createAbortablePromise.js";
 import { AbortOptions } from "./aborterUtils.js";
 

@@ -82,7 +82,7 @@
     "karma-env-preprocessor": "^0.1.1",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "typescript": "https://typescript.visualstudio.com/cf7ac146-d525-443c-b23c-0d58337efebc/_apis/build/builds/157676/artifacts?artifactName=tgz&fileId=7D92E271BFAD4CCDDEED93C285D7F869BF417D6FF114019F46959151848DB9CA02&fileName=/typescript-5.3.0-insiders.20230913.tgz",
+    "typescript": "5.3.0-dev.20230929",
     "ts-node": "^10.9.1"
   }
 }
