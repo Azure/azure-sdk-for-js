@@ -1123,6 +1123,21 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@azure/arm-cosmosdb@16.0.0-beta.6:
+    resolution: {integrity: sha512-Ue4ocP8qCsFDeBZ/MjMNyVt4e9QhU3UgrRfZSw6kWiMzdrCgDePnZvjzZs9PQpjAsXbHGd9HlEIXg9Dl6Y/uww==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.1
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-signaling@1.0.0-beta.20:
     resolution: {integrity: sha512-Vjsiv6lWiVFqTG51cKNOAwnhuUhKbb6oOsQ833NEaWl9MwlqEQtxSOMJPYsoSCjb+pnIYvbioC+hIHkKfkAxbQ==}
     engines: {node: '>=8.0.0'}
@@ -4209,7 +4224,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230927
+      typescript: 5.3.0-dev.20230929
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -8944,8 +8959,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20230927:
-    resolution: {integrity: sha512-FHoT/nbOZjlXfK1yYTtCVT6yOp7Y9Vab/8Do4KiEGl3jI6rxPD7d1ssB/5vlH4ZXZ//0DW96vsvp/OUyjxCqgA==}
+  /typescript@5.3.0-dev.20230929:
+    resolution: {integrity: sha512-PI76o79R5fqKK17Khk6QYvlC5W5JnKMms7ojq4MhQ0P0jmCsiUrDLRRwJ9Cs5GhMVGoA5Qb87U//Xpztc0ICsw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11079,10 +11094,11 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-Tg5sGn871wb2lzLom6crSCHNIvjzyuzg0wGS/WNXfNPgf71bYg1C5XxZRsM34RKPldiEGWA8ypr+DFr99EQPow==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-zabWfv/z6Rmw2Vq6mLflTn97JumHETdr56lCpAjHzIMdZW/NpwZKh115BaSkdD0DYdeDhhXub3UA4THT5+2d+g==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
+      '@azure/arm-cosmosdb': 16.0.0-beta.6
       '@microsoft/api-extractor': 7.37.1(@types/node@14.18.63)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
@@ -11105,6 +11121,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-cognitiveservices.tgz:
