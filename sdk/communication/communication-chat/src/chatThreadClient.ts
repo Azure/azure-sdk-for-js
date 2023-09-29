@@ -127,28 +127,31 @@ export class ChatThreadClient {
   /**
    * UploadImage
    * Returns the chat thread.
-   * @param body - Image body to be uploaded in the Blob, ArrayBuffer, NodeJS.ReadableStream, or ReadableStream<Uint8Array>.
+   * @param image - Image body to be uploaded in the Blob, ArrayBuffer, NodeJS.ReadableStream, or ReadableStream<Uint8Array>.
+   * @param fileName - Image body to be uploaded in the Blob, ArrayBuffer, NodeJS.ReadableStream, or ReadableStream<Uint8Array>.
    * @param options -  Operation options, 'size' is required for ReadableStream.
    */
   // public uploadImage(body: ArrayBuffer | Blob, options: UploadImageOptions) {
   public uploadImage(
-    body: ArrayBuffer | Blob | NodeJS.ReadableStream,
-    options: UploadImageOptions
+    image: ArrayBuffer | Blob | NodeJS.ReadableStream,
+    fileName: string,
+    options: UploadImageOptions = {}
   ): Promise<UploadImageResult> {
     return tracingClient.withSpan("ChatClient-GetProperties", {}, async () => {
+      console.log(fileName);
       console.log("customOptions");
       console.log(options);
       var result: ChatThreadUploadChatImageResponse;
       if (
         this.xhrClient && // is browser
-        ((!this.supportsReadableStream() && isReadableStream(body)) || // is readable stream but no support, need to convert
-          !isReadableStream(body))
+        ((!this.supportsReadableStream() && isReadableStream(image)) || // is readable stream but no support, need to convert
+          !isReadableStream(image))
       ) {
         console.log("using xhrClient");
         result = await this.xhrClient.chatThread.uploadChatImage(
           this.threadId,
           // if is readable stream: convert body (readable stream) to in memory blob or array buffer
-          isReadableStream(body) ? await this.getArrayBufferFromReadableStream(body) : body,
+          isReadableStream(image) ? await this.getArrayBufferFromReadableStream(image) : image,
           options //uploadChatImageOptions
         );
       } else {
@@ -159,7 +162,7 @@ export class ChatThreadClient {
         result = await this.client.chatThread.uploadChatImage(
           this.threadId,
           // if is blob and has browser, will not end up in this case
-          isBlob(body) ? await this.getArrayBufferFromBlob(body) : body,
+          isBlob(image) ? await this.getArrayBufferFromBlob(image) : image,
           options // uploadChatImageOptions
         );
       }

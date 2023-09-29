@@ -81,10 +81,7 @@ export interface CreateChatThreadOptions extends OperationOptions {
 /**
  * Options to upload iamge.
  */
-export interface UploadImageOptions extends OperationOptions {
-  /** file name. */
-  filename: string;
-}
+export interface UploadImageOptions extends OperationOptions {}
 
 /**
  * Options to get a chat thread.

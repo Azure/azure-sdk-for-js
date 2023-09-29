@@ -165,7 +165,7 @@ export class ChatThreadClient {
     readonly threadId: string;
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
-    uploadImage(body: ArrayBuffer | Blob | NodeJS.ReadableStream, options: UploadImageOptions): Promise<UploadImageResult>;
+    uploadImage(image: ArrayBuffer | Blob | NodeJS.ReadableStream, fileName: string, options?: UploadImageOptions): Promise<UploadImageResult>;
 }
 
 // @public
@@ -323,7 +323,6 @@ export interface UpdateTopicOptions extends OperationOptions {
 
 // @public
 export interface UploadImageOptions extends OperationOptions {
-    filename: string;
 }
 
 // @public
