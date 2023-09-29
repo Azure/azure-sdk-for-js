@@ -103,7 +103,6 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   async sendTokenRequest(request: PipelineRequest): Promise<TokenResponse | null> {
     logger.info(`IdentityClient: sending token request to [${request.url}]`);
     const response = await this.sendRequest(request);
-
     if (response.bodyAsText && (response.status === 200 || response.status === 201)) {
       const parsedBody: TokenResponseParsedBody = JSON.parse(response.bodyAsText);
 
