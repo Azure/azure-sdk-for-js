@@ -37,7 +37,7 @@ interface PackageJson {
 export type WarningInhibitor = (warning: RollupWarning) => boolean;
 
 function matchesPathSegments(str: string | undefined, segments: string[]): boolean {
-  return str?.includes(segments.join(path.sep)) ?? false;
+  return !str ? false : str.includes(segments.join("/")) || str.includes(segments.join("\\"));
 }
 
 function ignoreNiseSinonEval(warning: RollupWarning): boolean {
