@@ -59,7 +59,7 @@ async function main() {
       },
     ];
 
-    console.log(`Asking ChatGPT: ${exampleQuestions.content}`);
+    console.log(`Asking ChatGPT: ${exampleQuestions[0].content}`);
     console.log();
     await askOpenAI(indexName, exampleQuestions);
 }
@@ -97,12 +97,18 @@ async function askOpenAI(azureSearchIndexName, messages) {
       },
     });
 
+    let chatGptAnswer = "";
     for await (const event of events) {
       for (const choice of event.choices) {
-        console.log(choice.delta?.content);
+        const newText = choice.delta?.content;
+        if (!!newText) {
+          chatGptAnswer += newText;
+          // To see streaming results as they arrive, uncomment line below
+          // console.log(newText);
+        }
       }
     }
-    console.log();
+    console.log(chatGptAnswer);
 }
 
 function sleep(ms) {
