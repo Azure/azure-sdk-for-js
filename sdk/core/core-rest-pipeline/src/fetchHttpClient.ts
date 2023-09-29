@@ -102,10 +102,11 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
       request.onUploadProgress({ loadedBytes: request.body.size });
     }
     return buildPipelineResponse(response, request, abortControllerCleanup);
-  } finally {
+  } catch (e) {
     if (abortControllerCleanup) {
       abortControllerCleanup();
     }
+    throw e;
   }
 }
 
@@ -299,6 +300,10 @@ function buildBodyStream(
         if (onProgress) {
           onProgress({ loadedBytes });
         }
+      },
+      cancel(reason?: string) {
+        onEnd?.();
+        return reader.cancel(reason);
       },
     });
   }
