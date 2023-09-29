@@ -8,11 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   DatabaseAccountsImpl,
@@ -28,17 +24,14 @@ import {
   CollectionPartitionImpl,
   PartitionKeyRangeIdImpl,
   PartitionKeyRangeIdRegionImpl,
-  GraphResourcesImpl,
   SqlResourcesImpl,
   MongoDBResourcesImpl,
   TableResourcesImpl,
   CassandraResourcesImpl,
   GremlinResourcesImpl,
   LocationsImpl,
-  DataTransferJobsImpl,
   CassandraClustersImpl,
   CassandraDataCentersImpl,
-  MongoClustersImpl,
   NotebookWorkspacesImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
@@ -54,7 +47,7 @@ import {
   RestorableGremlinResourcesImpl,
   RestorableTablesImpl,
   RestorableTableResourcesImpl,
-  ServiceImpl
+  ServiceImpl,
 } from "./operations";
 import {
   DatabaseAccounts,
@@ -70,17 +63,14 @@ import {
   CollectionPartition,
   PartitionKeyRangeId,
   PartitionKeyRangeIdRegion,
-  GraphResources,
   SqlResources,
   MongoDBResources,
   TableResources,
   CassandraResources,
   GremlinResources,
   Locations,
-  DataTransferJobs,
   CassandraClusters,
   CassandraDataCenters,
-  MongoClusters,
   NotebookWorkspaces,
   PrivateEndpointConnections,
   PrivateLinkResources,
@@ -96,7 +86,7 @@ import {
   RestorableGremlinResources,
   RestorableTables,
   RestorableTableResources,
-  Service
+  Service,
 } from "./operationsInterfaces";
 import { CosmosDBManagementClientOptionalParams } from "./models";
 
@@ -129,10 +119,10 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     }
     const defaults: CosmosDBManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-cosmosdb/16.0.0-beta.7`;
+    const packageDetails = `azsdk-js-arm-cosmosdb/16.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -142,20 +132,19 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
     }
     if (
@@ -165,18 +154,16 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
+          },
         })
       );
     }
@@ -185,7 +172,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-03-15-preview";
+    this.apiVersion = options.apiVersion || "2023-09-15";
     this.databaseAccounts = new DatabaseAccountsImpl(this);
     this.operations = new OperationsImpl(this);
     this.database = new DatabaseImpl(this);
@@ -199,17 +186,14 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     this.collectionPartition = new CollectionPartitionImpl(this);
     this.partitionKeyRangeId = new PartitionKeyRangeIdImpl(this);
     this.partitionKeyRangeIdRegion = new PartitionKeyRangeIdRegionImpl(this);
-    this.graphResources = new GraphResourcesImpl(this);
     this.sqlResources = new SqlResourcesImpl(this);
     this.mongoDBResources = new MongoDBResourcesImpl(this);
     this.tableResources = new TableResourcesImpl(this);
     this.cassandraResources = new CassandraResourcesImpl(this);
     this.gremlinResources = new GremlinResourcesImpl(this);
     this.locations = new LocationsImpl(this);
-    this.dataTransferJobs = new DataTransferJobsImpl(this);
     this.cassandraClusters = new CassandraClustersImpl(this);
     this.cassandraDataCenters = new CassandraDataCentersImpl(this);
-    this.mongoClusters = new MongoClustersImpl(this);
     this.notebookWorkspaces = new NotebookWorkspacesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -218,9 +202,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     this.restorableSqlContainers = new RestorableSqlContainersImpl(this);
     this.restorableSqlResources = new RestorableSqlResourcesImpl(this);
     this.restorableMongodbDatabases = new RestorableMongodbDatabasesImpl(this);
-    this.restorableMongodbCollections = new RestorableMongodbCollectionsImpl(
-      this
-    );
+    this.restorableMongodbCollections = new RestorableMongodbCollectionsImpl(this);
     this.restorableMongodbResources = new RestorableMongodbResourcesImpl(this);
     this.restorableGremlinDatabases = new RestorableGremlinDatabasesImpl(this);
     this.restorableGremlinGraphs = new RestorableGremlinGraphsImpl(this);
@@ -238,10 +220,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -254,7 +233,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -272,17 +251,14 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
   collectionPartition: CollectionPartition;
   partitionKeyRangeId: PartitionKeyRangeId;
   partitionKeyRangeIdRegion: PartitionKeyRangeIdRegion;
-  graphResources: GraphResources;
   sqlResources: SqlResources;
   mongoDBResources: MongoDBResources;
   tableResources: TableResources;
   cassandraResources: CassandraResources;
   gremlinResources: GremlinResources;
   locations: Locations;
-  dataTransferJobs: DataTransferJobs;
   cassandraClusters: CassandraClusters;
   cassandraDataCenters: CassandraDataCenters;
-  mongoClusters: MongoClusters;
   notebookWorkspaces: NotebookWorkspaces;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;

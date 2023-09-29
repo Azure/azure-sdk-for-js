@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the usages (most recent storage data) for the given collection.
  *
  * @summary Retrieves the usages (most recent storage data) for the given collection.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBCollectionGetUsages.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-09-15/examples/CosmosDBCollectionGetUsages.json
  */
 async function cosmosDbCollectionGetUsages() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the Azure Cosmos DB database accounts available under the given resource group.
  *
  * @summary Lists all the Azure Cosmos DB database accounts available under the given resource group.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBDatabaseAccountListByResourceGroup.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-09-15/examples/CosmosDBDatabaseAccountListByResourceGroup.json
  */
 async function cosmosDbDatabaseAccountListByResourceGroup() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
