@@ -257,35 +257,27 @@ export class MessageSession extends LinkEntity<Receiver> {
     }
   }
 
-  protected createRheaLink(
+  protected async createRheaLink(
     options: ReceiverOptions,
     _abortSignal?: AbortSignalLike
   ): Promise<Receiver> {
-    return this._context.connection.createReceiver(options);
-  }
+    this._lastSBError = undefined;
+    const link = await this._context.connection.createReceiver(options);
 
-  /**
-   * Creates a new AMQP receiver under a new AMQP session.
-   */
-  private async _init(
-    opts: { abortSignal?: AbortSignalLike; timeoutInMs?: number } = {}
-  ): Promise<void> {
-    try {
-      const sessionOptions = this._createMessageSessionOptions(this.identifier, opts.timeoutInMs);
-      await this.initLink(sessionOptions, opts.abortSignal);
-
-      if (this.link == null) {
-        throw new Error("INTERNAL ERROR: failed to create receiver but without an error.");
-      }
-
-      const receivedSessionId =
-        this.link.source &&
-        this.link.source.filter &&
-        this.link.source.filter[Constants.sessionFilterName];
-
+    // When we ask for any sessions, but don't get one back, check whether
+    // service has sent any error.
+    if (
+      options.source &&
+      typeof options.source !== "string" &&
+      options.source.filter &&
+      Constants.sessionFilterName in options.source.filter &&
+      options.source.filter![Constants.sessionFilterName] === undefined
+    ) {
+      const receivedSessionId = link.source?.filter?.[Constants.sessionFilterName];
       let errorMessage: string = "";
-
       if (this._providedSessionId == null && receivedSessionId == null) {
+        await new Promise((resolve) => setTimeout(resolve, 1)); // yield to event-loop
+        if (this._lastSBError) throw this._lastSBError;
         // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
         // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
         errorMessage = `Failed to create a receiver. No unlocked sessions available.`;
@@ -303,6 +295,27 @@ export class MessageSession extends LinkEntity<Receiver> {
         logger.logError(error, this.logPrefix);
         throw error;
       }
+    }
+
+    return link;
+  }
+
+  /**
+   * Creates a new AMQP receiver under a new AMQP session.
+   */
+  private async _init(
+    opts: { abortSignal?: AbortSignalLike; timeoutInMs?: number } = {}
+  ): Promise<void> {
+    try {
+      const sessionOptions = this._createMessageSessionOptions(this.identifier, opts.timeoutInMs);
+      await this.initLink(sessionOptions, opts.abortSignal);
+
+      if (this.link == null) {
+        throw new Error("INTERNAL ERROR: failed to create receiver but without an error.");
+      }
+
+      const receivedSessionId = this.link.source?.filter?.[Constants.sessionFilterName];
+
       if (this._providedSessionId == null) this.sessionId = receivedSessionId;
       this.sessionLockedUntilUtc = convertTicksToDate(
         this.link.properties["com.microsoft:locked-until-utc"]
@@ -371,6 +384,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   }
 
   private _retryOptions: RetryOptions | undefined;
+  private _lastSBError: Error | ServiceBusError | undefined;
 
   /**
    * Constructs a MessageSession instance which lets you receive messages as batches
@@ -444,6 +458,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         if (sbError.code === "SessionLockLostError") {
           sbError.message = `The session lock has expired on the session with id ${this.sessionId}.`;
         }
+        this._lastSBError = sbError;
         logger.logError(sbError, "%s An error occurred for Receiver", this.logPrefix);
         this._notifyError({
           error: sbError,
