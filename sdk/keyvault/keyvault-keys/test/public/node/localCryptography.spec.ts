@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { CryptographyClient, KeyClient, KeyVaultKey, SignatureAlgorithm } from "../../src";
+import { CryptographyClient, KeyClient, KeyVaultKey, SignatureAlgorithm } from "../../../src";
 import { createHash } from "crypto";
-import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
+import { authenticate, envSetupForPlayback } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
-import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
-import { getServiceVersion } from "./utils/common";
+import { RsaCryptographyProvider } from "../../../src/cryptography/rsaCryptographyProvider";
+import { getServiceVersion } from "../utils/common";
 import { assert } from "@azure/test-utils";
 
 describe("Local cryptography public tests", () => {

@@ -7,12 +7,12 @@ import { createHash } from "crypto";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
-import { CryptographyClient, KeyClient, KeyVaultKey } from "../../src";
-import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
-import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
-import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
-import { getServiceVersion } from "./utils/common";
+import { CryptographyClient, KeyClient, KeyVaultKey } from "../../../src";
+import { authenticate, envSetupForPlayback } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
+import { stringToUint8Array, uint8ArrayToString } from "./../utils/crypto";
+import { RsaCryptographyProvider } from "../../../src/cryptography/rsaCryptographyProvider";
+import { getServiceVersion } from "../utils/common";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
   const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;
