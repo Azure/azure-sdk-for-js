@@ -92,7 +92,7 @@ describe("FileSystemPersist", () => {
     });
 
     it("custom storageDirectory", async () => {
-      let customPath = path.join(os.tmpdir(), "TestFolder");
+      const customPath = path.join(os.tmpdir(), "TestFolder");
       const tempDir = path.join(
         customPath,
         "Microsoft",

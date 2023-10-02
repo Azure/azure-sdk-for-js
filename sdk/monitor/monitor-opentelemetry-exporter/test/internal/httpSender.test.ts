@@ -20,18 +20,18 @@ function toObject<T>(obj: T): T {
 }
 
 class TestTokenCredential implements TokenCredential {
-  private _expiresOn: Date;
-  private _numberOfRefreshs = 0;
+  private expiresOn: Date;
+  private numberOfRefreshs = 0;
 
   constructor(expiresOn?: Date) {
-    this._expiresOn = expiresOn || new Date();
+    this.expiresOn = expiresOn || new Date();
   }
 
   async getToken(): Promise<any> {
-    this._numberOfRefreshs++;
+    this.numberOfRefreshs++;
     return {
-      token: "testToken" + this._numberOfRefreshs,
-      expiresOnTimestamp: this._expiresOn,
+      token: "testToken" + this.numberOfRefreshs,
+      expiresOnTimestamp: this.expiresOn,
     };
   }
 }
@@ -93,7 +93,7 @@ describe("HttpSender", () => {
       const result = await sender.exportEnvelopes([envelope]);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
-      const persistedEnvelopes = (await sender["_persister"].shift()) as Envelope[];
+      const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
       assert.strictEqual(persistedEnvelopes?.length, 1);
       assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
     });
@@ -106,7 +106,7 @@ describe("HttpSender", () => {
       const result = await sender.exportEnvelopes([envelope]);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
-      const persistedEnvelopes = (await sender["_persister"].shift()) as Envelope[];
+      const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
       assert.strictEqual(persistedEnvelopes?.length, 1);
       assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
     });
@@ -119,7 +119,7 @@ describe("HttpSender", () => {
       const result = await sender.exportEnvelopes([envelope]);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
-      const persistedEnvelopes = (await sender["_persister"].shift()) as Envelope[];
+      const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
       assert.strictEqual(persistedEnvelopes?.length, 1);
       assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
     });
@@ -132,7 +132,7 @@ describe("HttpSender", () => {
       const result = await sender.exportEnvelopes([envelope]);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
-      const persistedEnvelopes = (await sender["_persister"].shift()) as Envelope[];
+      const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
       assert.strictEqual(persistedEnvelopes?.length, 1);
       assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
     });
@@ -145,7 +145,7 @@ describe("HttpSender", () => {
       const result = await sender.exportEnvelopes([envelope]);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
-      const persistedEnvelopes = (await sender["_persister"].shift()) as Envelope[];
+      const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
       assert.strictEqual(persistedEnvelopes?.length, 1);
       assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
     });
@@ -158,7 +158,7 @@ describe("HttpSender", () => {
       const result = await sender.exportEnvelopes([envelope, envelope, envelope]);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
-      const persistedEnvelopes = (await sender["_persister"].shift()) as Envelope[];
+      const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
       assert.strictEqual(persistedEnvelopes?.length, 2);
     });
 
@@ -170,7 +170,7 @@ describe("HttpSender", () => {
       const result = await sender.exportEnvelopes([envelope, envelope, envelope]);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
-      const persistedEnvelopes = (await sender["_persister"].shift()) as Envelope[];
+      const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
       assert.strictEqual(persistedEnvelopes?.length, 1);
     });
 
@@ -182,7 +182,7 @@ describe("HttpSender", () => {
       const result = await sender.exportEnvelopes([envelope]);
       assert.strictEqual(result.code, ExportResultCode.FAILED);
 
-      const persistedEnvelopes = await sender["_persister"].shift();
+      const persistedEnvelopes = await sender["persister"].shift();
       assert.strictEqual(persistedEnvelopes, null);
     });
 
@@ -194,7 +194,7 @@ describe("HttpSender", () => {
       const result = await sender.exportEnvelopes([envelope]);
       assert.strictEqual(result.code, ExportResultCode.FAILED);
 
-      const persistedEnvelopes = await sender["_persister"].shift();
+      const persistedEnvelopes = await sender["persister"].shift();
       assert.strictEqual(persistedEnvelopes, null);
     });
 
@@ -205,7 +205,7 @@ describe("HttpSender", () => {
       const result = await sender.exportEnvelopes([envelope]);
       assert.strictEqual(result.code, ExportResultCode.FAILED);
 
-      const persistedEnvelopes = await sender["_persister"].shift();
+      const persistedEnvelopes = await sender["persister"].shift();
       assert.strictEqual(persistedEnvelopes, null);
     });
 
@@ -216,21 +216,21 @@ describe("HttpSender", () => {
 
       const result = await sender.exportEnvelopes([envelope]);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.notStrictEqual(sender["_retryTimer"], null);
+      assert.notStrictEqual(sender["retryTimer"], null);
 
-      clearTimeout(sender["_retryTimer"]!);
-      sender["_retryTimer"] = null;
+      clearTimeout(sender["retryTimer"]!);
+      sender["retryTimer"] = null;
     });
 
     it("should not start a retry timer when one already exists", async () => {
       const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
-      sender["_retryTimer"] = "foo" as unknown as NodeJS.Timer;
+      sender["retryTimer"] = "foo" as unknown as NodeJS.Timer;
       const response = successfulBreezeResponse(1);
       scope.reply(200, JSON.stringify(response));
 
       const result = await sender.exportEnvelopes([envelope]);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.strictEqual(sender["_retryTimer"], "foo");
+      assert.strictEqual(sender["retryTimer"], "foo");
     });
 
     it("should handle permanent redirects in Azure Monitor", async () => {
@@ -245,10 +245,10 @@ describe("HttpSender", () => {
       scope.reply(308, {}, { location: redirectLocation });
 
       const result = await sender.exportEnvelopes([envelope]);
-      const persistedEnvelopes = (await sender["_persister"].shift()) as Envelope[];
+      const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
       assert.strictEqual(persistedEnvelopes, null);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.strictEqual(sender["_appInsightsClient"]["host"], redirectHost);
+      assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
     });
 
     it("should handle temporary redirects in Azure Monitor", async () => {
@@ -263,10 +263,10 @@ describe("HttpSender", () => {
       scope.reply(307, {}, { location: redirectLocation });
 
       const result = await sender.exportEnvelopes([envelope]);
-      const persistedEnvelopes = (await sender["_persister"].shift()) as Envelope[];
+      const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
       assert.strictEqual(persistedEnvelopes, null);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.strictEqual(sender["_appInsightsClient"]["host"], redirectHost);
+      assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
     });
 
     it("should use redirect URL for following requests", async () => {
@@ -281,10 +281,10 @@ describe("HttpSender", () => {
       scope.reply(307, {}, { location: redirectLocation });
       let result = await sender.exportEnvelopes([envelope]);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.strictEqual(sender["_appInsightsClient"]["host"], redirectHost);
+      assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
       result = await sender.exportEnvelopes([envelope]);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.strictEqual(sender["_appInsightsClient"]["host"], redirectHost);
+      assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
     });
 
     it("should stop redirecting when circular redirect is triggered", async () => {
@@ -317,11 +317,9 @@ describe("HttpSender", () => {
         credential: new TestTokenCredential(),
       });
       assert.ok(
-        sender["_appInsightsClient"].pipeline
-          .getOrderedPolicies()
-          .find((policy: PipelinePolicy) => {
-            return policy.name == "bearerTokenAuthenticationPolicy";
-          })
+        sender["appInsightsClient"].pipeline.getOrderedPolicies().find((policy: PipelinePolicy) => {
+          return policy.name === "bearerTokenAuthenticationPolicy";
+        })
       );
     });
   });
@@ -335,11 +333,9 @@ describe("HttpSender", () => {
         },
       });
       assert.ok(
-        sender["_appInsightsClient"].pipeline
-          .getOrderedPolicies()
-          .find((policy: PipelinePolicy) => {
-            return policy.name == "proxyPolicy";
-          })
+        sender["appInsightsClient"].pipeline.getOrderedPolicies().find((policy: PipelinePolicy) => {
+          return policy.name === "proxyPolicy";
+        })
       );
     });
   });

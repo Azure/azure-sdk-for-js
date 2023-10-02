@@ -48,7 +48,7 @@ export class AzureMonitorStatsbeatExporter
       return;
     }
 
-    let envelopes: Envelope[] = resourceMetricsToEnvelope(
+    const envelopes: Envelope[] = resourceMetricsToEnvelope(
       metrics,
       this.instrumentationKey,
       true // isStatsbeat flag passed to create a Statsbeat envelope.
