@@ -19,7 +19,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -138,7 +138,7 @@
     "@types/chai-string": "^1.4.1",
     "@types/debug": "^4.1.4",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^14.0.0",
+    "@types/node": "^16.0.0",
     "@types/sinon": "^10.0.0",
     "@types/ws": "^7.2.4",
     "chai": "^4.2.0",

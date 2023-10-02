@@ -38,7 +38,7 @@
     "pack": "npm pack 2>&1"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "files": [
     "dist-esm/src/",
@@ -89,7 +89,7 @@
     "@opentelemetry/instrumentation-http": "^0.43.0",
     "@opentelemetry/sdk-trace-node": "^1.17.0",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^14.0.0",
+    "@types/node": "^16.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "eslint-plugin-node": "^11.1.0",
