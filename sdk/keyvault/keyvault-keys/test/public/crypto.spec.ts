@@ -13,7 +13,6 @@ import TestClient from "./utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { getServiceVersion } from "./utils/common";
-import { isNode } from "@azure/core-util";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
   const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;
@@ -25,11 +24,6 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   let keyName: string;
   let keyVaultKey: KeyVaultKey;
   let keySuffix: string;
-
-  if (!isNode) {
-    // Local cryptography is only supported in NodeJS
-    return;
-  }
 
   describe("RSA keys", () => {
     beforeEach(async function (this: Context) {
