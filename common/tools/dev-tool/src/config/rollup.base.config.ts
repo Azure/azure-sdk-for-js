@@ -1,14 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PluginContext, RollupWarning, WarningHandler } from "rollup";
+import {
+  LoadResult,
+  PluginContext,
+  RollupOptions,
+  RollupWarning,
+  WarningHandlerWithDefault,
+} from "rollup";
 
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
-import sourcemaps from "rollup-plugin-sourcemaps";
 import multiEntry from "@rollup/plugin-multi-entry";
 import json from "@rollup/plugin-json";
 import * as path from "path";
+import { readFile } from "node:fs/promises";
 
 import nodeBuiltins from "builtin-modules";
 import { createPrinter } from "../util/printer";
@@ -20,44 +26,6 @@ interface PackageJson {
   module: string;
   dependencies: Record<string, string>;
   devDependencies: Record<string, string>;
-}
-
-/**
- * The default sourcemaps plugin does not provide very much information in warnings, so this shim allows us to capture
- * the active sourcemaps loading context.
- *
- * This allows us to selectively disable warnings about missing source maps, for example in core-asynciterator-polyfill.
- */
-export function sourcemapsExtra() {
-  const _sourcemaps = sourcemaps();
-
-  const load = _sourcemaps.load;
-
-  if (!load) return _sourcemaps;
-
-  return Object.assign(_sourcemaps, {
-    load(this: PluginContext, id: string) {
-      const shim = new Proxy(this, {
-        get(context, p, ...rest) {
-          if (p === "warn") {
-            const warn = context.warn;
-            return (warning: unknown) => {
-              const warningObject = (
-                typeof warning === "string" ? { message: warning } : warning
-              ) as RollupWarning;
-
-              warningObject.id = id;
-
-              warn(warningObject);
-            };
-          }
-          return Reflect.get(context, p, ...rest);
-        },
-      });
-
-      return load instanceof Function ? load.call(shim, id) : load.handler.call(shim, id);
-    },
-  });
 }
 
 // #region Warning Handler
@@ -83,14 +51,14 @@ function ignoreNiseSinonEval(warning: RollupWarning): boolean {
 function ignoreChaiCircularDependency(warning: RollupWarning): boolean {
   return (
     warning.code === "CIRCULAR_DEPENDENCY" &&
-    matchesPathSegments(warning.importer, ["node_modules", "chai"])
+    matchesPathSegments(warning.ids?.[0], ["node_modules", "chai"])
   );
 }
 
 function ignoreRheaPromiseCircularDependency(warning: RollupWarning): boolean {
   return (
     warning.code === "CIRCULAR_DEPENDENCY" &&
-    matchesPathSegments(warning.importer, ["node_modules", "rhea-promise"])
+    matchesPathSegments(warning.ids?.[0], ["node_modules", "rhea-promise"])
   );
 }
 
@@ -125,28 +93,60 @@ const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
  * Construct a warning handler for the shared rollup configuration
  * that ignores certain warnings that are not relevant to testing.
  */
-export function makeOnWarnForTesting(): (warning: RollupWarning, warn: WarningHandler) => void {
+export function makeOnWarnForTesting(): (
+  warning: RollupWarning,
+  warn: WarningHandlerWithDefault
+) => void {
   return (warning, warn) => {
     if (!warningInhibitors.some((inhibited) => inhibited(warning))) {
       debug("Warning:", warning.code, warning.id, warning.loc);
-      warn(warning);
+      warn(warning, console.warn);
     }
+  };
+}
+
+export function sourcemaps() {
+  return {
+    name: "load-source-maps",
+    async load(this: PluginContext, id: string): Promise<LoadResult> {
+      if (!id.endsWith(".js")) {
+        return null;
+      }
+      try {
+        const code = await readFile(id, "utf8");
+        if (code.includes("sourceMappingURL")) {
+          const basePath = path.dirname(id);
+          const mapPath = code.match(/sourceMappingURL=(.*)/)?.[1];
+          if (!mapPath) {
+            this.warn({ message: "Could not find map path in file " + id, id });
+            return null;
+          }
+          const absoluteMapPath = path.join(basePath, mapPath);
+          const map = JSON.parse(await readFile(absoluteMapPath, "utf8"));
+          debug("got map for file ", id);
+          return { code, map };
+        }
+        debug("no map for file ", id);
+        return { code, map: null };
+      } catch (e) {
+        function toString(error: any): string {
+          return error instanceof Error ? error.stack ?? error.toString() : JSON.stringify(error);
+        }
+        this.warn({ message: toString(e), id });
+        return null;
+      }
+    },
   };
 }
 
 // #endregion
 
 export function makeBrowserTestConfig(pkg: PackageJson): RollupOptions {
-  // ./dist-esm/src/index.js -> ./dist-esm
-  // ./dist-esm/keyvault-keys/src/index.js -> ./dist-esm/keyvault-keys
   const module = pkg["module"] ?? "dist-esm/src/index.js";
   const basePath = path.dirname(path.parse(module).dir);
 
   const config: RollupOptions = {
-    input: {
-      include: [path.join(basePath, "test", "**", "*.spec.js")],
-      exclude: [path.join(basePath, "test", "**", "node", "**")],
-    },
+    input: path.join(basePath, "test", "**", "*.spec.js"),
     output: {
       file: `dist-test/index.browser.js`,
       format: "umd",
@@ -154,15 +154,15 @@ export function makeBrowserTestConfig(pkg: PackageJson): RollupOptions {
     },
     preserveSymlinks: false,
     plugins: [
-      multiEntry({ exports: false }),
+      multiEntry({ exports: false, exclude: ["**/test/**/node/**/*.js"] }),
       nodeResolve({
         mainFields: ["module", "browser"],
         preferBuiltins: false,
+        browser: true,
       }),
       cjs(),
       json(),
-      sourcemapsExtra(),
-      //viz({ filename: "dist-test/browser-stats.html", sourcemap: true })
+      sourcemaps(),
     ],
     onwarn: makeOnWarnForTesting(),
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0,
