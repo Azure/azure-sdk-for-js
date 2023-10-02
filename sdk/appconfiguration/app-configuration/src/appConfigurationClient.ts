@@ -633,7 +633,10 @@ export class AppConfigurationClient {
           { status: "ready" },
           {
             ...updatedOptions,
-            ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfUnchanged: true }),
+            ...checkAndFormatIfAndIfNoneMatch(
+              { etag: options.etag },
+              { onlyIfUnchanged: true, ...options }
+            ),
           }
         );
         const response = transformSnapshotResponse(originalResponse);
@@ -666,7 +669,10 @@ export class AppConfigurationClient {
           { status: "archived" },
           {
             ...updatedOptions,
-            ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfUnchanged: true }),
+            ...checkAndFormatIfAndIfNoneMatch(
+              { etag: options.etag },
+              { onlyIfUnchanged: true, ...options }
+            ),
           }
         );
         const response = transformSnapshotResponse(originalResponse);
