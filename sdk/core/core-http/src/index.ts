@@ -119,7 +119,7 @@ export { createSpanFunction, SpanConfig } from "./createSpanLegacy";
 
 // Credentials
 export { TokenCredential, GetTokenOptions, AccessToken, isTokenCredential } from "@azure/core-auth";
-export { AccessTokenCache, ExpiringAccessTokenCache } from "./credentials/accessTokenCache.js";
+export { AccessTokenCache, ExpiringAccessTokenCache } from "./credentials/accessTokenCache";
 export { AccessTokenRefresher } from "./credentials/accessTokenRefresher";
 export { BasicAuthenticationCredentials } from "./credentials/basicAuthenticationCredentials";
 export { ApiKeyCredentials, ApiKeyCredentialOptions } from "./credentials/apiKeyCredentials";

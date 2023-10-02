@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken } from "../src";
-import { ExpiringAccessTokenCache } from "../src/credentials/accessTokenCache.js";
+import { ExpiringAccessTokenCache } from "../src/credentials/accessTokenCache";
 import { assert } from "chai";
 
 function mockToken(expirationDeltaMs: number): AccessToken {
