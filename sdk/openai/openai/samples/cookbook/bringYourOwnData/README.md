@@ -2,14 +2,14 @@
 page_type: sample
 languages:
   - javascript
-  - typescript
   - nodejs
 name: Quickstart in JavaScript
 description: |
-  Learn how to create, load, and query an Azure Cognitive Search index using the Azure SDK for Javascript/Typescript.
+  Learn how to create and load an Azure Cognitive Search index using the Azure SDK for Javascript, and then use that index for chat operations using the Azure OpenAI SDK for Javascript.
 products:
   - azure
   - azure-cognitive-search
+  - azure-openai
 urlFragment: javascript-quickstart
 ---
 
@@ -26,7 +26,6 @@ Demonstrates using JavaScript to use the [Azure Search SDK for JavaScript/TypeSc
 + [Create a search service in the portal](search-create-service-portal.md) or [find an existing service](https://ms.portal.azure.com/#blade/HubsExtension/BrowseResourceBlade/resourceType/Microsoft.Search%2FsearchServices) under your current subscription. You can use a free service for this quickstart.
 https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource?pivots=web-portal
 + [Create and deploy an Azure OpenAI Service resource](https://learn.microsoft.com/azure/ai-services/openai/how-to/create-resource?pivots=web-portal) under your current subscription. You can use a free service for this quickstart.
-+ [Visual Studio Code](https://code.visualstudio.com) or another IDE.
 
 ## Set up the sample
 
@@ -35,7 +34,7 @@ https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resourc
 1. Open the folder in Visual Studio Code and navigate to the samples/cookbook/bring-your-own-data folder:
 
    ```cmd
-   cd samples/cookbook/bring-your-own-data
+   cd samples/cookbook/bringYourOwnData
    ```
 
 1. Install the dependencies using `npm`:
@@ -49,6 +48,9 @@ https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resourc
    ```nodejs
    SEARCH_API_KEY=<search-admin-key>
    SEARCH_API_ENDPOINT=https://<search-service-name>.search.windows.net
+   AZURE_API_KEY=<openai_resource_key>
+   AZURE_OPENAI_ENDPOINT=<your_azure_openai_endpoint>
+   AZURE_OPENAI_DEPLOYMENT_ID=<name_of_chat_deployment>
    ```
 
 1. Rename `sample.env` to just `.env`. The quickstart will read the `.env` file automatically.
@@ -77,7 +79,7 @@ The `run` function :
 + If so, the program deletes the existing index.
 + Creates a new `hotels-quickstart` index from the structure in **hotels_quickstart_index.json**.
 + Adds the data from **hotels.json** to the `hotels-quickstart` index.
-+ Executes a few basic queries against the search index.
++ Sends a question to Chat GPT regarding the loaded search data.
 
 ## Next steps
 
