@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvVarKeys, getEnvVars, isNode } from "../public/utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import {
   EventHubConsumerClient,
   EventHubProducerClient,
@@ -18,6 +18,7 @@ import debugModule from "debug";
 import { getRuntimeInfo } from "../../src/util/runtimeInfo";
 import { packageJsonInfo } from "../../src/util/constants";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { isNode } from "@azure/core-util";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
