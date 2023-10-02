@@ -191,7 +191,7 @@ console.log(container.id);
 Insert an item with hierarchical partition key defined as - `["/name", "/address/zip"]`
 ```js
 const item = {
-  id: 1,
+  id: "1",
   name: 'foo',
   address: {
     zip: 100
