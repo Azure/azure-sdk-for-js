@@ -72,7 +72,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
 
     if (this.AZURE_MONITOR_STATSBEAT_FEATURES) {
       try {
-        this.feature = (JSON.parse(this.AZURE_MONITOR_STATSBEAT_FEATURES)).feature;
+        this.feature = JSON.parse(this.AZURE_MONITOR_STATSBEAT_FEATURES).feature;
         this.instrumentation = JSON.parse(this.AZURE_MONITOR_STATSBEAT_FEATURES).instrumentation;
       } catch (error: any) {
         diag.error(

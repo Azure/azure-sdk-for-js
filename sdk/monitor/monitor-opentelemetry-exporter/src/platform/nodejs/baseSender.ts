@@ -183,9 +183,9 @@ export abstract class BaseSender {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-          code: ExportResultCode.FAILED,
-          error: new Error("Failed to persist envelope in disk."),
-        };
+            code: ExportResultCode.FAILED,
+            error: new Error("Failed to persist envelope in disk."),
+          };
     } catch (ex: any) {
       return { code: ExportResultCode.FAILED, error: ex };
     }

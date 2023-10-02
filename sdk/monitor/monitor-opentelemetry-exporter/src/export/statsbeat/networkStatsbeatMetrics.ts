@@ -232,7 +232,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
       currentCounter.averageRequestExecutionTime =
         (currentCounter.intervalRequestExecutionTime -
           currentCounter.lastIntervalRequestExecutionTime) /
-        intervalRequests || 0;
+          intervalRequests || 0;
       currentCounter.lastIntervalRequestExecutionTime = currentCounter.intervalRequestExecutionTime; // reset
 
       currentCounter.lastRequestCount = currentCounter.totalRequestCount;
