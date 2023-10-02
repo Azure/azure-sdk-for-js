@@ -4,7 +4,7 @@
   "description": "My webpack project",
   "main": "index.js",
   "scripts": {
-    "create:resource": "az search service create --name laureate-search --resource-group <YOUR_AZURE_RESOURCE_GROUP> --sku free --location westus",
+    "create:resource": "az search service create --name hotel-search --resource-group <YOUR_AZURE_RESOURCE_GROUP> --sku free --location westus",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
