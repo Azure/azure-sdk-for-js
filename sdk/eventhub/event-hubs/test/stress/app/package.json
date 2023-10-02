@@ -5,14 +5,14 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p .",
-    "test": "npm run build && node dist/src/scenarioNoActivity.js --testDurationInMs=10000"
+    "test": "npm run build && node --inspect dist/src/scenario-27253.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "applicationinsights": "^1.8.8",
-    "@azure/event-hubs": "5.10.0",
+    "@azure/event-hubs": "5.11.2",
     "@azure/storage-blob": "latest",
     "@azure/eventhubs-checkpointstore-blob": "1.0.1",
     "@azure/core-amqp": "3.2.0",
