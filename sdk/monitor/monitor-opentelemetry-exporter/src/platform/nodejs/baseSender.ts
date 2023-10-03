@@ -19,13 +19,13 @@ const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
  * @internal
  */
 export abstract class BaseSender {
-  private readonly _persister: PersistentStorage;
-  private _numConsecutiveRedirects: number;
-  private _retryTimer: NodeJS.Timer | null;
-  private _networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
-  private _longIntervalStatsbeatMetrics;
-  private _statsbeatFailureCount: number = 0;
-  private _batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
+  private readonly persister: PersistentStorage;
+  private numConsecutiveRedirects: number;
+  private retryTimer: NodeJS.Timer | null;
+  private networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
+  private longIntervalStatsbeatMetrics;
+  private statsbeatFailureCount: number = 0;
+  private batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
 
   constructor(options: {
     endpointUrl: string;
@@ -34,20 +34,20 @@ export abstract class BaseSender {
     exporterOptions: AzureMonitorExporterOptions;
     aadAudience?: string;
   }) {
-    this._numConsecutiveRedirects = 0;
-    this._persister = new FileSystemPersist(options.instrumentationKey, options.exporterOptions);
+    this.numConsecutiveRedirects = 0;
+    this.persister = new FileSystemPersist(options.instrumentationKey, options.exporterOptions);
     if (options.trackStatsbeat) {
       // Initialize statsbeatMetrics
-      this._networkStatsbeatMetrics = new NetworkStatsbeatMetrics({
+      this.networkStatsbeatMetrics = new NetworkStatsbeatMetrics({
         instrumentationKey: options.instrumentationKey,
         endpointUrl: options.endpointUrl,
       });
-      this._longIntervalStatsbeatMetrics = getInstance({
+      this.longIntervalStatsbeatMetrics = getInstance({
         instrumentationKey: options.instrumentationKey,
         endpointUrl: options.endpointUrl,
       });
     }
-    this._retryTimer = null;
+    this.retryTimer = null;
   }
 
   abstract send(payload: unknown[]): Promise<SenderResult>;
@@ -69,24 +69,24 @@ export abstract class BaseSender {
       const { result, statusCode } = await this.send(envelopes);
       const endTime = new Date().getTime();
       const duration = endTime - startTime;
-      this._numConsecutiveRedirects = 0;
+      this.numConsecutiveRedirects = 0;
 
       if (statusCode === 200) {
         // Success -- @todo: start retry timer
-        if (!this._retryTimer) {
-          this._retryTimer = setTimeout(() => {
-            this._retryTimer = null;
-            this._sendFirstPersistedFile();
-          }, this._batchSendRetryIntervalMs);
-          this._retryTimer.unref();
+        if (!this.retryTimer) {
+          this.retryTimer = setTimeout(() => {
+            this.retryTimer = null;
+            this.sendFirstPersistedFile();
+          }, this.batchSendRetryIntervalMs);
+          this.retryTimer.unref();
         }
         // If we are not exportings statsbeat and statsbeat is not disabled -- count success
-        this._networkStatsbeatMetrics?.countSuccess(duration);
+        this.networkStatsbeatMetrics?.countSuccess(duration);
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
         if (statusCode === 429 || statusCode === 439) {
-          this._networkStatsbeatMetrics?.countThrottle(statusCode);
+          this.networkStatsbeatMetrics?.countThrottle(statusCode);
         }
         if (result) {
           diag.info(result);
@@ -100,28 +100,28 @@ export abstract class BaseSender {
             });
           }
           if (filteredEnvelopes.length > 0) {
-            this._networkStatsbeatMetrics?.countRetry(statusCode);
+            this.networkStatsbeatMetrics?.countRetry(statusCode);
             // calls resultCallback(ExportResult) based on result of persister.push
-            return await this._persist(filteredEnvelopes);
+            return await this.persist(filteredEnvelopes);
           }
           // Failed -- not retriable
-          this._networkStatsbeatMetrics?.countFailure(duration, statusCode);
+          this.networkStatsbeatMetrics?.countFailure(duration, statusCode);
           return {
             code: ExportResultCode.FAILED,
           };
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
-          this._networkStatsbeatMetrics?.countRetry(statusCode);
-          return await this._persist(envelopes);
+          this.networkStatsbeatMetrics?.countRetry(statusCode);
+          return await this.persist(envelopes);
         }
       } else {
         // Failed -- not retriable
-        if (this._networkStatsbeatMetrics) {
+        if (this.networkStatsbeatMetrics) {
           if (statusCode) {
-            this._networkStatsbeatMetrics.countFailure(duration, statusCode);
+            this.networkStatsbeatMetrics.countFailure(duration, statusCode);
           }
         } else {
-          this._incrementStatsbeatFailure();
+          this.incrementStatsbeatFailure();
         }
         return {
           code: ExportResultCode.FAILED,
@@ -135,9 +135,9 @@ export abstract class BaseSender {
           restError.statusCode === 308)
       ) {
         // Permanent redirect
-        this._numConsecutiveRedirects++;
+        this.numConsecutiveRedirects++;
         // To prevent circular redirects
-        if (this._numConsecutiveRedirects < 10) {
+        if (this.numConsecutiveRedirects < 10) {
           if (restError.response && restError.response.headers) {
             const location = restError.response.headers.get("location");
             if (location) {
@@ -148,25 +148,25 @@ export abstract class BaseSender {
             }
           }
         } else {
-          let redirectError = new Error("Circular redirect");
-          this._networkStatsbeatMetrics?.countException(redirectError);
+          const redirectError = new Error("Circular redirect");
+          this.networkStatsbeatMetrics?.countException(redirectError);
           return { code: ExportResultCode.FAILED, error: redirectError };
         }
       } else if (restError.statusCode && isRetriable(restError.statusCode)) {
-        this._networkStatsbeatMetrics?.countRetry(restError.statusCode);
-        return await this._persist(envelopes);
+        this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
+        return this.persist(envelopes);
       }
-      if (this._isNetworkError(restError)) {
+      if (this.isNetworkError(restError)) {
         if (restError.statusCode) {
-          this._networkStatsbeatMetrics?.countRetry(restError.statusCode);
+          this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
         }
         diag.error(
           "Retrying due to transient client side error. Error message:",
           restError.message
         );
-        return await this._persist(envelopes);
+        return this.persist(envelopes);
       }
-      this._networkStatsbeatMetrics?.countException(restError);
+      this.networkStatsbeatMetrics?.countException(restError);
       diag.error(
         "Envelopes could not be exported and are not retriable. Error message:",
         restError.message
@@ -178,9 +178,9 @@ export abstract class BaseSender {
   /**
    * Persist envelopes to disk
    */
-  private async _persist(envelopes: unknown[]): Promise<ExportResult> {
+  private async persist(envelopes: unknown[]): Promise<ExportResult> {
     try {
-      const success = await this._persister.push(envelopes);
+      const success = await this.persister.push(envelopes);
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
@@ -193,19 +193,19 @@ export abstract class BaseSender {
   }
 
   // Disable collection of statsbeat metrics after max failures
-  private _incrementStatsbeatFailure() {
-    this._statsbeatFailureCount++;
-    if (this._statsbeatFailureCount > MAX_STATSBEAT_FAILURES) {
-      this._networkStatsbeatMetrics?.shutdown();
-      this._longIntervalStatsbeatMetrics?.shutdown();
-      this._networkStatsbeatMetrics = undefined;
-      this._statsbeatFailureCount = 0;
+  private incrementStatsbeatFailure() {
+    this.statsbeatFailureCount++;
+    if (this.statsbeatFailureCount > MAX_STATSBEAT_FAILURES) {
+      this.networkStatsbeatMetrics?.shutdown();
+      this.longIntervalStatsbeatMetrics?.shutdown();
+      this.networkStatsbeatMetrics = undefined;
+      this.statsbeatFailureCount = 0;
     }
   }
 
-  private async _sendFirstPersistedFile(): Promise<void> {
+  private async sendFirstPersistedFile(): Promise<void> {
     try {
-      const envelopes = (await this._persister.shift()) as Envelope[] | null;
+      const envelopes = (await this.persister.shift()) as Envelope[] | null;
       if (envelopes) {
         await this.send(envelopes);
       }
@@ -214,7 +214,7 @@ export abstract class BaseSender {
     }
   }
 
-  private _isNetworkError(error: RestError): boolean {
+  private isNetworkError(error: RestError): boolean {
     if (error && error.code && error.code === "REQUEST_SEND_ERROR") {
       return true;
     }
