@@ -278,7 +278,7 @@ main().catch((err) => {
 This example generates batch images from a given input prompt.
 
 ```js
-const { OpenAIClient } = require("@azure/openai");
+const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
 
 async function main() {
   const endpoint = "https://myaccount.openai.azure.com/";
