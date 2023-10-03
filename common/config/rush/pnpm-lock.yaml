@@ -1194,6 +1194,28 @@ packages:
       - encoding
     dev: false
 
+  /@azure/core-http@3.0.3:
+    resolution: {integrity: sha512-QMib3wXotJMFhHgmJBPUF9YsyErw34H0XDFQd9CauH7TPB+RGcyl9Ayy7iURtJB04ngXhE6YwrQsWDXlSLrilg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-util': 1.5.0
+      '@azure/logger': 1.0.4
+      '@types/node-fetch': 2.6.6
+      '@types/tunnel': 0.0.3
+      form-data: 4.0.0
+      node-fetch: 2.7.0
+      process: 0.11.10
+      tslib: 2.6.2
+      tunnel: 0.0.6
+      uuid: 8.3.2
+      xml2js: 0.5.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /@azure/core-lro@2.5.4:
     resolution: {integrity: sha512-3GJiMVH7/10bulzOKGrrLeG/uCBH/9VtxqaMcB9lIqAeamI/xYQSHJL/KcsLDuH+yTjYpro/u6D/MuRe4dN70Q==}
     engines: {node: '>=14.0.0'}
@@ -1362,6 +1384,21 @@ packages:
       '@azure/msal-common': 13.3.0
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
+    dev: false
+
+  /@azure/storage-file-share@12.15.0:
+    resolution: {integrity: sha512-boaEKdunq33CdU/TBAao7Ilefni3KgZqmUzlVLufkykgwpNtIgcbGR2b/+T2T9K/4G2TfhhuOkzlSlsbvwIikg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-http': 3.0.3
+      '@azure/core-paging': 1.5.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.4
+      events: 3.3.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@azure/web-pubsub-client@1.0.0-beta.2:
@@ -20172,10 +20209,11 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-bHt+jvhT8baKcb1qCSS4phu0RQfTuaOdMqr2bEref46mvR2cEviQbD7thqHDvDWvPlvAd3xM7RvJeGX8Vh+hsQ==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-MX8P6LOAeIaJ1HrvuBOmZ77dOojhlg0MJ8B38jBfAo0XFYJWSM8P0uS2EzhoFB5cQoIJDSt+O9PQykkUm6PLxA==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
+      '@azure/storage-file-share': 12.15.0
       '@types/node': 14.18.63
       '@types/uuid': 8.3.4
       dotenv: 16.3.1
@@ -20189,6 +20227,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - encoding
       - supports-color
     dev: false
 

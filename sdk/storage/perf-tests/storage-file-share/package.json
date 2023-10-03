@@ -8,7 +8,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/storage-file-share": "^12.11.1",
+    "@azure/storage-file-share": "12.15.0",
     "@azure/test-utils-perf": "^1.0.0",
     "dotenv": "^16.0.0",
     "uuid": "^8.3.0"

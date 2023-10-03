@@ -29,6 +29,7 @@ export abstract class StorageFileShareTest<TOptions> extends PerfTest<TOptions> 
   public async globalSetup() {
     await this.shareClient.create();
     await this.directoryClient.create();
+    
   }
 
   public async globalCleanup() {
