@@ -24,7 +24,7 @@ describe("AbortSignal", () => {
     }
   });
 
-  it.only("Abort signal test for streaming method", async function () {
+  it("Abort signal test for streaming method", async function () {
     // Skip test for Node 14
     if (typeof process === "object") {
       const [major] = process.versions.node.split(".").map(Number);
