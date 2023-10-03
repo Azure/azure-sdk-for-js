@@ -288,7 +288,7 @@ describe("Aggregate Query", function (this: Suite) {
 
   it("should execute ORDER BY query with order on multiple fields when composite Index defined", async () => {
     const containerDefinitionWithCompositeIndex: ContainerDefinition = {
-      id: "containerWithIndexingPolicy",
+      id: "containerWithCompositeIndexingPolicy",
       indexingPolicy: {
         automatic: true,
         indexingMode: IndexingMode.consistent,
