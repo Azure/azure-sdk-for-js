@@ -54,9 +54,7 @@ function createStreamResponseWithAbortSignal(
       for (let i = 0; i < chunkNumber; i++) {
         const chunk = view.slice(i, i + 1);
         controller.enqueue(chunk);
-        console.log("chunk enqueued", i, chunk);
         await delay(chunkDelay);
-        console.log("log abort", abortSignal.aborted);
         if (abortSignal.aborted) {
           throw new AbortError();
         }
@@ -168,7 +166,6 @@ describe("FetchHttpClient", function () {
       let finishReading = false;
       while (!finishReading) {
         const chunk = await reader.read();
-        console.log("Read chunk", chunk);
         if (chunk.done) {
           finishReading = true;
         }

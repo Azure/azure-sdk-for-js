@@ -5,7 +5,7 @@ import { Context } from "mocha";
 import { OpenAIClient } from "../../src/index.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 import { assert } from "@azure/test-utils";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 
 describe("AbortSignal", () => {
@@ -15,7 +15,7 @@ describe("AbortSignal", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     recorder = await startRecorder(this.currentTest);
-    client = createClient("AzureAPIKey", { recorder });
+    client = createClient("OpenAIKey", { recorder });
   });
 
   afterEach(async function () {
@@ -25,6 +25,9 @@ describe("AbortSignal", () => {
   });
 
   it("Abort signal test for streaming method", async function () {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     // Skip test for Node 14
     if (typeof process === "object") {
       const [major] = process.versions.node.split(".").map(Number);
@@ -39,11 +42,10 @@ describe("AbortSignal", () => {
       { role: "user", content: "What's the best way to train a parrot?" },
     ];
 
-    const deploymentName = "gpt-35-turbo";
+    const deploymentName = "gpt-3.5-turbo";
     const abortController = new AbortController();
     const abortSignal = abortController.signal;
     let currentMessage = "";
-    let counter = 0;
     try {
       const events = client.listChatCompletions(deploymentName, messages, {
         maxTokens: 800,
@@ -53,8 +55,6 @@ describe("AbortSignal", () => {
         abortSignal: abortSignal,
       });
       for await (const event of events) {
-        counter++;
-        console.log("Number of events received", counter)
         for (const choice of event.choices) {
           const delta = choice.delta?.content;
           abortController.abort();
@@ -63,7 +63,7 @@ describe("AbortSignal", () => {
           }
         }
       }
-      console.log("Received message", currentMessage)
+      console.log("Final received message:", currentMessage);
       assert.fail("Expected to abort streaming");
     } catch (error: any) {
       console.log(error);
