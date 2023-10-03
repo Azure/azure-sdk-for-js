@@ -59,9 +59,9 @@ export class AzureMonitorMetricExporter
     }
     diag.info(`Exporting ${metrics.scopeMetrics.length} metrics(s). Converting to envelopes...`);
 
-    let envelopes: Envelope[] = resourceMetricsToEnvelope(metrics, this.instrumentationKey);
+    const envelopes: Envelope[] = resourceMetricsToEnvelope(metrics, this.instrumentationKey);
     // Supress tracing until OpenTelemetry Metrics SDK support it
-    context.with(suppressTracing(context.active()), async () => {
+    await context.with(suppressTracing(context.active()), async () => {
       resultCallback(await this._sender.exportEnvelopes(envelopes));
     });
   }
@@ -80,8 +80,8 @@ export class AzureMonitorMetricExporter
    */
   public selectAggregationTemporality(instrumentType: InstrumentType): AggregationTemporality {
     if (
-      instrumentType == InstrumentType.UP_DOWN_COUNTER ||
-      instrumentType == InstrumentType.OBSERVABLE_UP_DOWN_COUNTER
+      instrumentType === InstrumentType.UP_DOWN_COUNTER ||
+      instrumentType === InstrumentType.OBSERVABLE_UP_DOWN_COUNTER
     ) {
       return AggregationTemporality.CUMULATIVE;
     }
@@ -91,7 +91,7 @@ export class AzureMonitorMetricExporter
   /**
    * Force flush
    */
-  public async forceFlush() {
+  public async forceFlush(): Promise<void> {
     return Promise.resolve();
   }
 }
