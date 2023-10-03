@@ -8,14 +8,14 @@
 import { useIdentityPlugin } from "../../../../identity/src";
 
 // The persistence tests have to run on the same version of Node that's used to
-// install dependencies, currently 14.
+// install dependencies, currently 16.
 // TODO: We need a better solution for this, but this will do for now.
-if (!process.versions.node.startsWith("14")) {
+if (!process.versions.node.startsWith("16")) {
   console.warn(
     "WARNING: skipping persistence tests on incompatible node version:",
     process.version
   );
-  console.warn("Persistence tests are only compatible with Node 14.");
+  console.warn("Persistence tests are only compatible with Node 16.");
   process.exit(0);
 }
 
