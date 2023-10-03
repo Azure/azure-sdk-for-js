@@ -24,7 +24,7 @@ describe("AbortSignal", () => {
     }
   });
 
-  it("Abort signal test for streaming method", async function () {
+  it.only("Abort signal test for streaming method", async function () {
     // Skip test for Node 14
     if (typeof process === "object") {
       const [major] = process.versions.node.split(".").map(Number);
@@ -42,7 +42,8 @@ describe("AbortSignal", () => {
     const deploymentName = "gpt-35-turbo";
     const abortController = new AbortController();
     const abortSignal = abortController.signal;
-
+    let currentMessage = "";
+    let counter = 0;
     try {
       const events = client.listChatCompletions(deploymentName, messages, {
         maxTokens: 800,
@@ -52,14 +53,17 @@ describe("AbortSignal", () => {
         abortSignal: abortSignal,
       });
       for await (const event of events) {
+        counter++;
+        console.log("Number of events received", counter)
         for (const choice of event.choices) {
           const delta = choice.delta?.content;
           abortController.abort();
           if (delta !== undefined) {
-            this.currentMessage += delta;
+            currentMessage += delta;
           }
         }
       }
+      console.log("Received message", currentMessage)
       assert.fail("Expected to abort streaming");
     } catch (error: any) {
       console.log(error);
