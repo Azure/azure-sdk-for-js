@@ -87,12 +87,13 @@
     "@typescript-eslint/parser": "~5.57.0",
     "chai": "^4.2.0",
     "eslint": "^8.0.0",
-    "mocha": "^7.1.1",
+    "mocha": "^10.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
     "mocha-junit-reporter": "^2.0.0",
     "typescript": "~5.0.0",
-    "eslint-plugin-markdown": "~3.0.0"
+    "eslint-plugin-markdown": "~3.0.0",
+    "ts-node": "^10.0.0"
   }
 }

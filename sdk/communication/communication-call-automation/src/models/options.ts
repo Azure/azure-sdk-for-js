@@ -28,6 +28,7 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
   interruptPrompt?: boolean;
   initialSilenceTimeoutInSeconds?: number;
   speechModelEndpointId?: string;
+  callbackUrl?: string;
 }
 
 /** The recognize configuration specific to Dtmf. */
@@ -164,8 +165,12 @@ export interface MuteParticipantsOption extends OperationOptions {
  * Options to play audio.
  */
 export interface PlayOptions extends OperationOptions {
+  /** Determine if it is looping */
   loop?: boolean;
+  /** The value to identify context of the operation. */
   operationContext?: string;
+  /** Call back URI override for this request */
+  callbackUrl?: string;
 }
 
 /**
@@ -253,6 +258,8 @@ export interface DownloadRecordingOptions extends OperationOptions {
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** Call back URI override for this request */
+  callbackUrl?: string;
 }
 
 /**
@@ -261,4 +268,14 @@ export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
 export interface SendDtmfOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** Call back URI override for this request */
+  callbackUrl?: string;
+}
+
+/** Options for cancelling add participant request. */
+export interface CancelAddParticipantOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+  /** Call back URI override for this request */
+  callbackUrl?: string;
 }

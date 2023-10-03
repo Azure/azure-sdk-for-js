@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Cancel a running Experiment resource.
  *
  * @summary Cancel a running Experiment resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/CancelAExperiment.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-04-15-preview/examples/CancelAExperiment.json
  */
 async function cancelARunningExperiment() {
   const subscriptionId =

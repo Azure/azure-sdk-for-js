@@ -178,6 +178,7 @@ export interface AcsEmailEngagementTrackingReportReceivedEventData {
     engagement: AcsUserEngagement;
     engagementContext: string;
     messageId: string;
+    recipient: string;
     sender: string;
     userActionTimestamp: string;
     userAgent: string;
@@ -415,6 +416,19 @@ export interface AppConfigurationKeyValueModifiedEventData {
     label: string;
     syncToken: string;
 }
+
+// @public
+export type AppConfigurationSnapshotCreatedEventData = AppConfigurationSnapshotEventData & {};
+
+// @public
+export interface AppConfigurationSnapshotEventData {
+    etag: string;
+    name: string;
+    syncToken: string;
+}
+
+// @public
+export type AppConfigurationSnapshotModifiedEventData = AppConfigurationSnapshotEventData & {};
 
 // @public
 export interface AppEventTypeDetail {
@@ -700,6 +714,45 @@ export interface EventGridEvent<T> {
 }
 
 // @public
+export type EventGridMqttClientCreatedOrUpdatedEventData = EventGridMqttClientEventData & {
+    state: EventGridMqttClientState;
+    createdOn: string;
+    updatedOn: string;
+    attributes: {
+        [propertyName: string]: string;
+    };
+};
+
+// @public
+export type EventGridMqttClientDeletedEventData = EventGridMqttClientEventData & {};
+
+// @public
+export type EventGridMqttClientDisconnectionReason = string;
+
+// @public
+export interface EventGridMqttClientEventData {
+    clientAuthenticationName: string;
+    clientName: string;
+    namespaceName: string;
+}
+
+// @public
+export type EventGridMqttClientSessionConnectedEventData = EventGridMqttClientEventData & {
+    clientSessionName: string;
+    sequenceNumber: number;
+};
+
+// @public
+export type EventGridMqttClientSessionDisconnectedEventData = EventGridMqttClientEventData & {
+    clientSessionName: string;
+    sequenceNumber: number;
+    disconnectionReason: EventGridMqttClientDisconnectionReason;
+};
+
+// @public
+export type EventGridMqttClientState = string;
+
+// @public
 export class EventGridPublisherClient<T extends InputSchema> {
     constructor(endpointUrl: string, inputSchema: T, credential: KeyCredential | SASCredential | TokenCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
@@ -956,6 +1009,29 @@ export const enum KnownAsyncStatus {
     Completed = "Completed",
     Failed = "Failed",
     Started = "Started"
+}
+
+// @public
+export const enum KnownEventGridMqttClientDisconnectionReason {
+    ClientAuthenticationError = "ClientAuthenticationError",
+    ClientAuthorizationError = "ClientAuthorizationError",
+    ClientError = "ClientError",
+    ClientInitiatedDisconnect = "ClientInitiatedDisconnect",
+    ConnectionLost = "ConnectionLost",
+    IpForbidden = "IpForbidden",
+    QuotaExceeded = "QuotaExceeded",
+    ServerError = "ServerError",
+    ServerInitiatedDisconnect = "ServerInitiatedDisconnect",
+    SessionOverflow = "SessionOverflow",
+    SessionTakenOver = "SessionTakenOver"
+}
+
+// @public
+export const enum KnownEventGridMqttClientState {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1728,6 +1804,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.ApiManagement.UserUpdated": ApiManagementUserUpdatedEventData;
     "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
     "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
+    "Microsoft.AppConfiguration.SnapshotCreated": AppConfigurationSnapshotCreatedEventData;
+    "Microsoft.AppConfiguration.SnapshotModified": AppConfigurationSnapshotModifiedEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
     "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
     "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
@@ -1766,6 +1844,10 @@ export interface SystemEventNameToEventData {
     "Microsoft.Devices.DeviceDeleted": IotHubDeviceDeletedEventData;
     "Microsoft.Devices.DeviceDisconnected": IotHubDeviceDisconnectedEventData;
     "Microsoft.Devices.DeviceTelemetry": IotHubDeviceTelemetryEventData;
+    "Microsoft.EventGrid.MQTTClientCreatedOrUpdated": EventGridMqttClientCreatedOrUpdatedEventData;
+    "Microsoft.EventGrid.MQTTClientDeleted": EventGridMqttClientDeletedEventData;
+    "Microsoft.EventGrid.MQTTClientSessionConnected": EventGridMqttClientSessionConnectedEventData;
+    "Microsoft.EventGrid.MQTTClientSessionDisconnected": EventGridMqttClientSessionDisconnectedEventData;
     "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
     "Microsoft.EventGrid.SubscriptionValidationEvent": SubscriptionValidationEventData;
     "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;

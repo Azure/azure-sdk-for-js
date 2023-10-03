@@ -97,7 +97,7 @@
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure/test-utils": "^1.0.0",
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^3.3.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",
@@ -121,6 +121,7 @@
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.0.0"
+    "typescript": "~5.0.0",
+    "ts-node": "^10.0.0"
   }
 }

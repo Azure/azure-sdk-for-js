@@ -132,7 +132,7 @@ await container.item("id", undefined).read();  // None type
 await container.item("id", null).read();       // null type
 ```
 
-If the Partition Key consists of a single value, it could be supplied either as a lietral value, or an array.
+If the Partition Key consists of a single value, it could be supplied either as a literal value, or an array.
 
 ```js
 await container.item("id", "1").read();
@@ -254,6 +254,74 @@ for (const city of resources) {
 
 For more information on querying Cosmos DB databases using the SQL API, see [Query Azure Cosmos DB data with SQL queries][cosmos_sql_queries].
 
+### Change Feed Pull Model
+
+Change feed can be fetched for a partition key, a feed range or an entire container.
+
+To process the change feed, create an instance of `ChangeFeedPullModelIterator`. When you initially create `ChangeFeedPullModelIterator`, you must specify a required `changeFeedStartFrom` value inside the `ChangeFeedIteratorOptions` which consists of both the starting position for reading changes and the resource(a partition key or a FeedRange) for which changes are to be fetched. You can optionally use `maxItemCount` in `ChangeFeedIteratorOptions` to set the maximum number of items received per page.
+
+Note: If no `changeFeedStartFrom` value is specified, then changefeed will be fetched for an entire container from Now().
+
+There are four starting positions for change feed:
+
+- `Beginning`
+
+```js
+// Signals the iterator to read changefeed from the beginning of time.
+const options = {
+  changeFeedStartFrom: ChangeFeedStartFrom.Beginning();
+}
+const iterator = container.getChangeFeedIterator(options);
+```
+
+- `Time`
+
+```js
+// Signals the iterator to read changefeed from a particular point of time.
+const time = new Date("2023/09/11") // some sample date
+const options = {
+  changeFeedStartFrom: ChangeFeedStartFrom.Time(time);
+}
+```
+
+- `Now`
+
+```js
+// Signals the iterator to read changefeed from this moment onward.
+const options = {
+  changeFeedStartFrom: ChangeFeedStartFrom.Now();
+}
+```
+
+- `Continuation`
+
+```js
+// Signals the iterator to read changefeed from a saved point.
+const continuationToken = "some continuation token recieved from previous request";
+const options = {
+  changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken);
+}
+```
+
+Here's an example of fetching change feed for a partition key
+
+```js
+const partitionKey = "some-partition-Key-value";
+const options = {
+  changeFeedStartFrom: ChangeFeedStartFrom.Beginning(partitionKey),
+};
+
+const iterator = container.items.getChangeFeedIterator(options);
+
+while (iterator.hasMoreResults) {
+  const response = await iterator.readNext();
+  // process this response
+}
+```
+Because the change feed is effectively an infinite list of items that encompasses all future writes and updates, the value of `hasMoreResults` is always `true`. When you try to read the change feed and there are no new changes available, you receive a response with `NotModified` status.
+
+More detailed usage guidelines and examples of change feed can be found [here](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-pull-model?tabs=javascript).
+
 ## Error Handling
 
 The SDK generates various types of errors that can occur during an operation.
@@ -326,6 +394,68 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
+### Diagnostics
+
+Cosmos Diagnostics feature provides enhanced insights into all your client operations. A CosmosDiagnostics object is added to response of all client operations. such as 
+- Point look up operation reponse - `item.read()`, `container.create()`, `database.delete()`
+- Query operation reponse -`queryIterator.fetchAll()`, 
+- Bulk and Batch operations -`item.batch()`.
+- Error/Exception response objects.
+
+A CosmosDiagnostics object is added to response of all client operations.
+There are 3 Cosmos Diagnostic levels, info, debug and debug-unsafe. Where only info is meant for production systems and debug and debug-unsafe are meant to be used during development and debugging, since they consume significantly higher resources. Cosmos Diagnostic level can be set in 2 ways
+- Programatically
+```js
+  const client = new CosmosClient({ endpoint, key, diagnosticLevel: CosmosDbDiagnosticLevel.debug });
+```
+- Using environment variables. (Diagnostic level set by Environment variable has higher priority over setting it through client options.)
+```bash
+  export AZURE_COSMOSDB_DIAGNOSTICS_LEVEL="debug"
+```
+
+Cosmos Diagnostic has three members
+- ClientSideRequestStatistics Type: Contains aggregates diagnostic details, including metadata lookups, retries, endpoints contacted, and request and response statistics like payload size and duration. (is always collected, can be used in production systems.) 
+
+- DiagnosticNode: Is a tree-like structure that captures detailed diagnostic information. Similar to `har` recording present in browsers. This feature is disabled by default and is intended for debugging non-production environments only. (collected at diagnostic level debug and debug-unsafe) 
+
+- ClientConfig: Captures essential information related to client's configuration settings during client initialization. (collected at diagnostic level debug and debug-unsafe) 
+
+Please make sure to never set diagnostic level to `debug-unsafe` in production environment, since it this level `CosmosDiagnostics` captures request and response payloads and if you choose to log it (it is by default logged by @azure/logger at `verbose` level). These payloads might get captured in your log sinks.
+
+#### Consuming Diagnostics
+
+- Since `diagnostics` is added to all Response objects. You could programatically access `CosmosDiagnostic` as follows. 
+```js
+  // For point look up operations
+  const { container, diagnostics: containerCreateDiagnostic } =
+    await database.containers.createIfNotExists({
+      id: containerId,
+      partitionKey: {
+        paths: ["/key1"],
+      },
+  });
+
+  // For Batch operations
+   const operations: OperationInput[] = [
+    {
+      operationType: BulkOperationType.Create,
+      resourceBody: { id: 'A', key: "A", school: "high" },
+    },
+  ];
+  const response = await container.items.batch(operations, "A"); 
+  
+  // For query operations
+  const queryIterator = container.items.query("select * from c");
+  const { resources, diagnostics } = await queryIterator.fetchAll();
+
+  // While error handling
+  try {
+    // Some operation that might fail
+  } catch (err) {
+    const diagnostics = err.diagnostics
+  }
+```
+- You could also log `diagnostics` using `@azure/logger`, diagnostic is always logged using `@azure/logger` at `verbose` level. So if you set Diagnostic level to `debug` or `debug-unsafe` and `@azure/logger` level to `verbose`, `diagnostics` will be logged.
 ## Next steps
 
 ### More sample code
@@ -352,9 +482,8 @@ Currently the features below are **not supported**. For alternatives options, ch
 * Aggregate cross-partition queries, like sorting, counting, and distinct, don't support continuation tokens.       Streamable queries, like SELECT \* FROM <table> WHERE <condition>, support continuation tokens. See the "Workaround" section for executing non-streamable queries without a continuation token.
 * Change Feed: Processor
 * Change Feed: Read multiple partitions key values
-* Change Feed: Read specific time
-* Change Feed: Read from the beginning
-* Change Feed: Pull model
+* Change Feed pull model all versions and delete mode [#27058](https://github.com/Azure/azure-sdk-for-js/issues/27058)
+* Change Feed pull model support for partial hierarchical partition keys [#27059](https://github.com/Azure/azure-sdk-for-js/issues/27059)
 * Cross-partition ORDER BY for mixed types
 
 ### Control Plane Limitations:

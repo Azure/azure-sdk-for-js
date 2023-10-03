@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.101.0",
+  "rushVersion": "5.106.0",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "7.33.5",
+  "pnpmVersion": "8.7.5",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -356,6 +356,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/ai-content-safety",
+      "projectFolder": "sdk/contentsafety/ai-content-safety-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-form-recognizer",
       "projectFolder": "sdk/formrecognizer/ai-form-recognizer",
       "versionPolicyName": "client"
@@ -501,6 +506,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-sse",
+      "projectFolder": "sdk/core/core-sse",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-client",
       "projectFolder": "sdk/core/core-client",
       "versionPolicyName": "core"
@@ -508,6 +518,7 @@
     {
       "packageName": "@azure/core-http",
       "projectFolder": "sdk/core/core-http",
+      "decoupledLocalDependencies": ["@azure/core-tracing"],
       "versionPolicyName": "core"
     },
     {
@@ -598,6 +609,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
+      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
       "versionPolicyName": "client"
     },
     {
@@ -1406,6 +1418,16 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/health-insights-cancerprofiling",
+      "projectFolder": "sdk/healthinsights/health-insights-cancerprofiling-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/health-insights-clinicalmatching",
+      "projectFolder": "sdk/healthinsights/health-insights-clinicalmatching-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-deploymentmanager",
       "projectFolder": "sdk/deploymentmanager/arm-deploymentmanager",
       "versionPolicyName": "management"
@@ -2054,6 +2076,41 @@
       "packageName": "@azure/arm-sphere",
       "projectFolder": "sdk/sphere/arm-sphere",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-maintenance",
+      "projectFolder": "sdk/maintenance/arm-maintenance",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcesdeploymentstacks",
+      "projectFolder": "sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-apicenter",
+      "projectFolder": "sdk/apicenter/arm-apicenter",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hdinsightcontainers",
+      "projectFolder": "sdk/hdinsight/arm-hdinsightcontainers",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-defendereasm",
+      "projectFolder": "sdk/defendereasm/arm-defendereasm",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hybridconnectivity",
+      "projectFolder": "sdk/hybridconnectivity/arm-hybridconnectivity",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-tests/perf-monitor-opentelemetry",
+      "projectFolder": "sdk/monitor/perf-tests/monitor-opentelemetry",
+      "versionPolicyName": "test"
     }
   ]
 }

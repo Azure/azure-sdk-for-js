@@ -87,7 +87,7 @@ describe("deviceprovisioningservices test", () => {
 
   it("iotDpsResource delete test", async function () {
     const resArray = new Array();
-    const res = await client.iotDpsResource.beginDeleteAndWait(resourceGroup, resourcename)
+    const res = await client.iotDpsResource.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions)
     for await (let item of client.iotDpsResource.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

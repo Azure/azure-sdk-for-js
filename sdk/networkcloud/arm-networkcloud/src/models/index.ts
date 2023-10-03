@@ -1129,6 +1129,31 @@ export interface BareMetalMachineCordonParameters {
   evacuate?: BareMetalMachineEvacuate;
 }
 
+/** The current status of an async operation. */
+export interface OperationStatusResult {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /**
+   * Fully qualified ID of the resource against which the original async operation was started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceId?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+}
+
 /** BareMetalMachinePowerOffParameters represents the body of the request to power off bare metal machine. */
 export interface BareMetalMachinePowerOffParameters {
   /** The indicator of whether to skip the graceful OS shutdown and power off the bare metal machine immediately. */
@@ -1190,12 +1215,6 @@ export interface BareMetalMachineRunReadCommandsParameters {
    * If the execution time exceeds the maximum, the script will be stopped, any output produced until then will be captured, and the exit code matching a timeout will be returned (252).
    */
   limitTimeSeconds: number;
-}
-
-/** BareMetalMachineValidateHardwareParameters represents the body of the request to validate the physical hardware of a bare metal machine. */
-export interface BareMetalMachineValidateHardwareParameters {
-  /** The category of hardware validation to perform. */
-  validationCategory: BareMetalMachineHardwareValidationCategory;
 }
 
 /** CloudServicesNetworkPatchParameters represents the body of the request to patch the cloud services network. */
@@ -1406,25 +1425,6 @@ export interface StorageApplianceEnableRemoteVendorManagementParameters {
   supportEndpoints?: string[];
 }
 
-/** StorageApplianceRunReadCommandsParameters represents the body of request containing list of read-only commands to run for a storage appliance. */
-export interface StorageApplianceRunReadCommandsParameters {
-  /** The list of read-only commands to run. */
-  commands: StorageApplianceCommandSpecification[];
-  /**
-   * The maximum time the commands are allowed to run.
-   * If the execution time exceeds the maximum, the script will be stopped, any output produced until then will be captured, and the exit code matching a timeout will be returned (252).
-   */
-  limitTimeSeconds: number;
-}
-
-/** StorageApplianceCommandSpecification represents the read-only command and optional arguments to execute against a storage appliance. */
-export interface StorageApplianceCommandSpecification {
-  /** The list of string arguments that will be passed to the script in order as separate arguments. */
-  arguments?: string[];
-  /** The read-only command to execute against the storage appliance. */
-  command: string;
-}
-
 /** TrunkedNetworkPatchParameters represents the body of the request to patch the Trunked network. */
 export interface TrunkedNetworkPatchParameters {
   /** The Azure resource tags that will replace the existing ones. */
@@ -1437,12 +1437,6 @@ export interface VirtualMachinePatchParameters {
   tags?: { [propertyName: string]: string };
   /** The credentials used to login to the image repository that has access to the specified image. */
   vmImageRepositoryCredentials?: ImageRepositoryCredentials;
-}
-
-/** VirtualMachineVolumeParameters represents the body of the request to handle attachment and detachment of volumes for the virtual machine. */
-export interface VirtualMachineVolumeParameters {
-  /** The resource ID of the volume. */
-  volumeId: string;
 }
 
 /** ConsoleList represents a list of virtual machine consoles. */
@@ -2576,12 +2570,6 @@ export interface BareMetalMachinesUncordonHeaders {
   location?: string;
 }
 
-/** Defines headers for BareMetalMachines_validateHardware operation. */
-export interface BareMetalMachinesValidateHardwareHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
 /** Defines headers for CloudServicesNetworks_createOrUpdate operation. */
 export interface CloudServicesNetworksCreateOrUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
@@ -2738,12 +2726,6 @@ export interface StorageAppliancesEnableRemoteVendorManagementHeaders {
   location?: string;
 }
 
-/** Defines headers for StorageAppliances_runReadCommands operation. */
-export interface StorageAppliancesRunReadCommandsHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
 /** Defines headers for TrunkedNetworks_createOrUpdate operation. */
 export interface TrunkedNetworksCreateOrUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
@@ -2772,18 +2754,6 @@ export interface VirtualMachinesDeleteHeaders {
 export interface VirtualMachinesUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   azureAsyncOperation?: string;
-}
-
-/** Defines headers for VirtualMachines_attachVolume operation. */
-export interface VirtualMachinesAttachVolumeHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
-/** Defines headers for VirtualMachines_detachVolume operation. */
-export interface VirtualMachinesDetachVolumeHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
 }
 
 /** Defines headers for VirtualMachines_powerOff operation. */
@@ -4559,21 +4529,6 @@ export enum KnownBareMetalMachineSkipShutdown {
  */
 export type BareMetalMachineSkipShutdown = string;
 
-/** Known values of {@link BareMetalMachineHardwareValidationCategory} that the service accepts. */
-export enum KnownBareMetalMachineHardwareValidationCategory {
-  /** BasicValidation */
-  BasicValidation = "BasicValidation"
-}
-
-/**
- * Defines values for BareMetalMachineHardwareValidationCategory. \
- * {@link KnownBareMetalMachineHardwareValidationCategory} can be used interchangeably with BareMetalMachineHardwareValidationCategory,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **BasicValidation**
- */
-export type BareMetalMachineHardwareValidationCategory = string;
-
 /** Known values of {@link BareMetalMachineKeySetDetailedStatus} that the service accepts. */
 export enum KnownBareMetalMachineKeySetDetailedStatus {
   /** AllActive */
@@ -4995,7 +4950,7 @@ export interface BareMetalMachinesCordonOptionalParams
 }
 
 /** Contains response data for the cordon operation. */
-export type BareMetalMachinesCordonResponse = BareMetalMachinesCordonHeaders;
+export type BareMetalMachinesCordonResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesPowerOffOptionalParams
@@ -5009,7 +4964,7 @@ export interface BareMetalMachinesPowerOffOptionalParams
 }
 
 /** Contains response data for the powerOff operation. */
-export type BareMetalMachinesPowerOffResponse = BareMetalMachinesPowerOffHeaders;
+export type BareMetalMachinesPowerOffResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesReimageOptionalParams
@@ -5021,7 +4976,7 @@ export interface BareMetalMachinesReimageOptionalParams
 }
 
 /** Contains response data for the reimage operation. */
-export type BareMetalMachinesReimageResponse = BareMetalMachinesReimageHeaders;
+export type BareMetalMachinesReimageResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesReplaceOptionalParams
@@ -5035,7 +4990,7 @@ export interface BareMetalMachinesReplaceOptionalParams
 }
 
 /** Contains response data for the replace operation. */
-export type BareMetalMachinesReplaceResponse = BareMetalMachinesReplaceHeaders;
+export type BareMetalMachinesReplaceResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesRestartOptionalParams
@@ -5047,7 +5002,7 @@ export interface BareMetalMachinesRestartOptionalParams
 }
 
 /** Contains response data for the restart operation. */
-export type BareMetalMachinesRestartResponse = BareMetalMachinesRestartHeaders;
+export type BareMetalMachinesRestartResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesRunCommandOptionalParams
@@ -5059,7 +5014,7 @@ export interface BareMetalMachinesRunCommandOptionalParams
 }
 
 /** Contains response data for the runCommand operation. */
-export type BareMetalMachinesRunCommandResponse = BareMetalMachinesRunCommandHeaders;
+export type BareMetalMachinesRunCommandResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesRunDataExtractsOptionalParams
@@ -5071,7 +5026,7 @@ export interface BareMetalMachinesRunDataExtractsOptionalParams
 }
 
 /** Contains response data for the runDataExtracts operation. */
-export type BareMetalMachinesRunDataExtractsResponse = BareMetalMachinesRunDataExtractsHeaders;
+export type BareMetalMachinesRunDataExtractsResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesRunReadCommandsOptionalParams
@@ -5083,7 +5038,7 @@ export interface BareMetalMachinesRunReadCommandsOptionalParams
 }
 
 /** Contains response data for the runReadCommands operation. */
-export type BareMetalMachinesRunReadCommandsResponse = BareMetalMachinesRunReadCommandsHeaders;
+export type BareMetalMachinesRunReadCommandsResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesStartOptionalParams
@@ -5095,7 +5050,7 @@ export interface BareMetalMachinesStartOptionalParams
 }
 
 /** Contains response data for the start operation. */
-export type BareMetalMachinesStartResponse = BareMetalMachinesStartHeaders;
+export type BareMetalMachinesStartResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesUncordonOptionalParams
@@ -5107,19 +5062,7 @@ export interface BareMetalMachinesUncordonOptionalParams
 }
 
 /** Contains response data for the uncordon operation. */
-export type BareMetalMachinesUncordonResponse = BareMetalMachinesUncordonHeaders;
-
-/** Optional parameters. */
-export interface BareMetalMachinesValidateHardwareOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the validateHardware operation. */
-export type BareMetalMachinesValidateHardwareResponse = BareMetalMachinesValidateHardwareHeaders;
+export type BareMetalMachinesUncordonResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesListBySubscriptionNextOptionalParams
@@ -5339,7 +5282,7 @@ export interface ClustersDeployOptionalParams
 }
 
 /** Contains response data for the deploy operation. */
-export type ClustersDeployResponse = ClustersDeployHeaders;
+export type ClustersDeployResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface ClustersUpdateVersionOptionalParams
@@ -5351,7 +5294,7 @@ export interface ClustersUpdateVersionOptionalParams
 }
 
 /** Contains response data for the updateVersion operation. */
-export type ClustersUpdateVersionResponse = ClustersUpdateVersionHeaders;
+export type ClustersUpdateVersionResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface ClustersListBySubscriptionNextOptionalParams
@@ -5433,7 +5376,7 @@ export interface KubernetesClustersRestartNodeOptionalParams
 }
 
 /** Contains response data for the restartNode operation. */
-export type KubernetesClustersRestartNodeResponse = KubernetesClustersRestartNodeHeaders;
+export type KubernetesClustersRestartNodeResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface KubernetesClustersListBySubscriptionNextOptionalParams
@@ -5735,7 +5678,7 @@ export interface StorageAppliancesDisableRemoteVendorManagementOptionalParams
 }
 
 /** Contains response data for the disableRemoteVendorManagement operation. */
-export type StorageAppliancesDisableRemoteVendorManagementResponse = StorageAppliancesDisableRemoteVendorManagementHeaders;
+export type StorageAppliancesDisableRemoteVendorManagementResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface StorageAppliancesEnableRemoteVendorManagementOptionalParams
@@ -5749,19 +5692,7 @@ export interface StorageAppliancesEnableRemoteVendorManagementOptionalParams
 }
 
 /** Contains response data for the enableRemoteVendorManagement operation. */
-export type StorageAppliancesEnableRemoteVendorManagementResponse = StorageAppliancesEnableRemoteVendorManagementHeaders;
-
-/** Optional parameters. */
-export interface StorageAppliancesRunReadCommandsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the runReadCommands operation. */
-export type StorageAppliancesRunReadCommandsResponse = StorageAppliancesRunReadCommandsHeaders;
+export type StorageAppliancesEnableRemoteVendorManagementResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface StorageAppliancesListBySubscriptionNextOptionalParams
@@ -5900,30 +5831,6 @@ export interface VirtualMachinesUpdateOptionalParams
 export type VirtualMachinesUpdateResponse = VirtualMachine;
 
 /** Optional parameters. */
-export interface VirtualMachinesAttachVolumeOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the attachVolume operation. */
-export type VirtualMachinesAttachVolumeResponse = VirtualMachinesAttachVolumeHeaders;
-
-/** Optional parameters. */
-export interface VirtualMachinesDetachVolumeOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the detachVolume operation. */
-export type VirtualMachinesDetachVolumeResponse = VirtualMachinesDetachVolumeHeaders;
-
-/** Optional parameters. */
 export interface VirtualMachinesPowerOffOptionalParams
   extends coreClient.OperationOptions {
   /** The request body. */
@@ -5935,7 +5842,7 @@ export interface VirtualMachinesPowerOffOptionalParams
 }
 
 /** Contains response data for the powerOff operation. */
-export type VirtualMachinesPowerOffResponse = VirtualMachinesPowerOffHeaders;
+export type VirtualMachinesPowerOffResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesReimageOptionalParams
@@ -5947,7 +5854,7 @@ export interface VirtualMachinesReimageOptionalParams
 }
 
 /** Contains response data for the reimage operation. */
-export type VirtualMachinesReimageResponse = VirtualMachinesReimageHeaders;
+export type VirtualMachinesReimageResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesRestartOptionalParams
@@ -5959,7 +5866,7 @@ export interface VirtualMachinesRestartOptionalParams
 }
 
 /** Contains response data for the restart operation. */
-export type VirtualMachinesRestartResponse = VirtualMachinesRestartHeaders;
+export type VirtualMachinesRestartResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesStartOptionalParams
@@ -5971,7 +5878,7 @@ export interface VirtualMachinesStartOptionalParams
 }
 
 /** Contains response data for the start operation. */
-export type VirtualMachinesStartResponse = VirtualMachinesStartHeaders;
+export type VirtualMachinesStartResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesListBySubscriptionNextOptionalParams

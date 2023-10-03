@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -10,6 +11,7 @@ import { Resource } from "../Resource";
 import { User } from "./User";
 import { UserDefinition } from "./UserDefinition";
 import { UserResponse } from "./UserResponse";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 
 /**
  * Used to create, upsert, query, and read all users.
@@ -36,8 +38,7 @@ export class Users {
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const path = getPathFromLink(this.database.url, ResourceType.user);
     const id = getIdFromLink(this.database.url);
-
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
+    return new QueryIterator(this.clientContext, query, options, (diagnosticNode, innerOptions) => {
       return this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.user,
@@ -45,6 +46,7 @@ export class Users {
         resultFn: (result) => result.Users,
         query,
         options: innerOptions,
+        diagnosticNode,
       });
     });
   }
@@ -65,28 +67,31 @@ export class Users {
    * @param body - The specified {@link UserDefinition}.
    */
   public async create(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const err = {};
+      if (!isResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.database.url, ResourceType.user);
-    const id = getIdFromLink(this.database.url);
-    const response = await this.clientContext.create<UserDefinition>({
-      body,
-      path,
-      resourceType: ResourceType.user,
-      resourceId: id,
-      options,
-    });
-    const ref = new User(this.database, response.result.id, this.clientContext);
-    return new UserResponse(
-      response.result,
-      response.headers,
-      response.code,
-      ref,
-      response.diagnostics
-    );
+      const path = getPathFromLink(this.database.url, ResourceType.user);
+      const id = getIdFromLink(this.database.url);
+      const response = await this.clientContext.create<UserDefinition>({
+        body,
+        path,
+        resourceType: ResourceType.user,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      const ref = new User(this.database, response.result.id, this.clientContext);
+      return new UserResponse(
+        response.result,
+        response.headers,
+        response.code,
+        ref,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -94,28 +99,31 @@ export class Users {
    * @param body - The specified {@link UserDefinition}.
    */
   public async upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const err = {};
+      if (!isResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.database.url, ResourceType.user);
-    const id = getIdFromLink(this.database.url);
+      const path = getPathFromLink(this.database.url, ResourceType.user);
+      const id = getIdFromLink(this.database.url);
 
-    const response = await this.clientContext.upsert<UserDefinition>({
-      body,
-      path,
-      resourceType: ResourceType.user,
-      resourceId: id,
-      options,
-    });
-    const ref = new User(this.database, response.result.id, this.clientContext);
-    return new UserResponse(
-      response.result,
-      response.headers,
-      response.code,
-      ref,
-      response.diagnostics
-    );
+      const response = await this.clientContext.upsert<UserDefinition>({
+        body,
+        path,
+        resourceType: ResourceType.user,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      const ref = new User(this.database, response.result.id, this.clientContext);
+      return new UserResponse(
+        response.result,
+        response.headers,
+        response.code,
+        ref,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 }

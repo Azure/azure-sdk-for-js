@@ -10,17 +10,21 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the details of a registered vCenter server(Add vCenter server).
  *
  * @summary Gets the details of a registered vCenter server(Add vCenter server).
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationvCenters_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationvCenters_Get.json
  */
 async function getsTheDetailsOfAVCenter() {
-  const subscriptionId = "7c943c1b-5122-4097-90c8-861411bdd574";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "7c943c1b-5122-4097-90c8-861411bdd574";
   const resourceName = "MadhaviVault";
-  const resourceGroupName = "MadhaviVRG";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "MadhaviVRG";
   const fabricName = "MadhaviFabric";
   const vcenterName = "esx-78";
   const credential = new DefaultAzureCredential();
@@ -34,4 +38,8 @@ async function getsTheDetailsOfAVCenter() {
   console.log(result);
 }
 
-getsTheDetailsOfAVCenter().catch(console.error);
+async function main() {
+  getsTheDetailsOfAVCenter();
+}
+
+main().catch(console.error);

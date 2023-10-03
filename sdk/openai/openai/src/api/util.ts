@@ -9,23 +9,37 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-function errorWithCause(message: string, cause: Error): Error {
-  return new Error(
-    message,
-    // TS v4.6 and below do not yet recognize the cause option in the Error constructor
-    // see https://medium.com/ovrsea/power-up-your-node-js-debugging-and-error-handling-with-the-new-error-cause-feature-4136c563126a
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    { cause }
-  );
+export function wrapError<T>(f: () => T, message: string): T {
+  try {
+    const result = f();
+    return result;
+  } catch (cause) {
+    throw new Error(`${message}: ${cause}`, { cause });
+  }
 }
 
-export function wrapError<T>(f: () => T, message: string): T {
-  let result: T;
-  try {
-    result = f();
-  } catch (cause) {
-    throw errorWithCause(message, cause as Error);
+function tocamelCase(str: string): string {
+  return str.replace(/([_][a-z])/g, (group) => group.toUpperCase().replace("_", ""));
+}
+
+/**
+ * Rename keys to camel case.
+ * @param obj - The object to rename keys to camel case
+ * @returns The object with keys renamed to camel case
+ */
+export function renameKeysToCamelCase(obj: Record<string, any>): Record<string, any> {
+  for (const key of Object.keys(obj)) {
+    const value = obj[key];
+    const newKey = tocamelCase(key);
+    if (newKey !== key) {
+      delete obj[key];
+    }
+    obj[newKey] =
+      typeof value === "object"
+        ? Array.isArray(value)
+          ? value.map((v) => renameKeysToCamelCase(v))
+          : renameKeysToCamelCase(value)
+        : value;
   }
-  return result;
+  return obj;
 }

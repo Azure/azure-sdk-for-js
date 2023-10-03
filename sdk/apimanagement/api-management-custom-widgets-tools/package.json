@@ -91,10 +91,11 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "@types/sinon": "^10.0.0"
+    "@types/sinon": "^10.0.0",
+    "ts-node": "^10.0.0"
   },
   "dependencies": {
-    "@azure/identity": "^2.1.0",
+    "@azure/identity": "^3.3.0",
     "@azure-rest/core-client": "^1.0.0-beta.10",
     "@azure/storage-blob": "^12.9.0",
     "mime": "^3.0.0",

@@ -46,7 +46,7 @@ export class ApiVersionSetImpl implements ApiVersionSet {
 
   /**
    * Lists a collection of API Version Sets in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -130,7 +130,7 @@ export class ApiVersionSetImpl implements ApiVersionSet {
 
   /**
    * Lists a collection of API Version Sets in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -147,7 +147,7 @@ export class ApiVersionSetImpl implements ApiVersionSet {
 
   /**
    * Gets the entity state (Etag) version of the Api Version Set specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
    *                     instance.
@@ -167,7 +167,7 @@ export class ApiVersionSetImpl implements ApiVersionSet {
 
   /**
    * Gets the details of the Api Version Set specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
    *                     instance.
@@ -187,7 +187,7 @@ export class ApiVersionSetImpl implements ApiVersionSet {
 
   /**
    * Creates or Updates a Api Version Set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
    *                     instance.
@@ -209,7 +209,7 @@ export class ApiVersionSetImpl implements ApiVersionSet {
 
   /**
    * Updates the details of the Api VersionSet specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
    *                     instance.
@@ -241,7 +241,7 @@ export class ApiVersionSetImpl implements ApiVersionSet {
 
   /**
    * Deletes specific Api Version Set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
    *                     instance.
@@ -264,7 +264,7 @@ export class ApiVersionSetImpl implements ApiVersionSet {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -375,7 +375,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters14,
+  requestBody: Parameters.parameters18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -405,7 +405,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters15,
+  requestBody: Parameters.parameters19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

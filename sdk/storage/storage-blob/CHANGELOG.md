@@ -12,6 +12,13 @@
 
 - Migrated dependency on `@azure/core-http` to `@azure/core-rest-pipeline`.
 
+## 12.16.0-beta.1 (2023-08-11)
+
+### Features Added
+
+- Added support for service version 2023-08-03.
+- Added rehydrate-pending-to-cold value to ArchiveStatus enum.
+
 ## 12.15.0 (2023-07-12)
 
 ### Features Added
@@ -364,7 +371,8 @@
   {
     blobAccessConditions: {
       modifiedAccessConditions: {
-        ifMatch: uploadResponse.eTag
+        ifMatch: uploadResponse.eTag;
+      }
     }
   }
   ```
@@ -374,7 +382,8 @@
   ```js
   {
     conditions: {
-      ifMatch: uploadResponse.eTag
+      ifMatch: uploadResponse.eTag;
+    }
   }
   ```
 

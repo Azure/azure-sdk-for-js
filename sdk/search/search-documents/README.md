@@ -321,7 +321,7 @@ main();
 In TypeScript, `SearchClient` takes a generic parameter that is the model shape of your index documents. This allows you to perform strongly typed lookup of fields returned in results. TypeScript is also able to check for fields returned when specifying a `select` parameter.
 
 ```ts
-import { SearchClient, AzureKeyCredential } from "@azure/search-documents";
+import { SearchClient, AzureKeyCredential, SelectFields } from "@azure/search-documents";
 
 // An example schema for documents in the index
 interface Hotel {
@@ -335,7 +335,7 @@ interface Hotel {
   rooms?: Array<{
     beds?: number | null;
     description?: string | null;
-  } | null;>
+  } | null>;
 }
 
 const client = new SearchClient<Hotel>(
@@ -404,10 +404,10 @@ Text embeddings can be queried using the `vector` search parameter.
 ```js
 const { SearchClient, AzureKeyCredential, odata } = require("@azure/search-documents");
 
-const client = new SearchClient("<endpoint>", "<indexName>", new AzureKeyCredential("<apiKey>"));
+const searchClient = new SearchClient("<endpoint>", "<indexName>", new AzureKeyCredential("<apiKey>"));
 
 async function main() {
-  const queryVector: number[] = [...]
+  const queryVector = [...]
   const searchResults = await searchClient.search("*", {
     vector: {
       fields: ["descriptionVector"],

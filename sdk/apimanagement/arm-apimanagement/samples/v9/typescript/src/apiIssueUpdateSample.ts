@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing issue for an API.
  *
  * @summary Updates an existing issue for an API.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementUpdateApiIssue.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateApiIssue.json
  */
 async function apiManagementUpdateApiIssue() {
   const subscriptionId =

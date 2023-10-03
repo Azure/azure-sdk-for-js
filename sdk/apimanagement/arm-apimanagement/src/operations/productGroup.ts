@@ -41,7 +41,7 @@ export class ProductGroupImpl implements ProductGroup {
 
   /**
    * Lists the collection of developer groups associated with the specified product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -134,7 +134,7 @@ export class ProductGroupImpl implements ProductGroup {
 
   /**
    * Lists the collection of developer groups associated with the specified product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -153,7 +153,7 @@ export class ProductGroupImpl implements ProductGroup {
 
   /**
    * Checks that Group entity specified by identifier is associated with the Product entity.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
@@ -174,7 +174,7 @@ export class ProductGroupImpl implements ProductGroup {
 
   /**
    * Adds the association between the specified developer group with the specified product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
@@ -195,7 +195,7 @@ export class ProductGroupImpl implements ProductGroup {
 
   /**
    * Deletes the association between the specified group and product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
@@ -216,7 +216,7 @@ export class ProductGroupImpl implements ProductGroup {
 
   /**
    * ListByProductNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param nextLink The nextLink from the previous successful call to the ListByProduct method.

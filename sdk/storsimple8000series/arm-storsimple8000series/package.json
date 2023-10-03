@@ -39,7 +39,7 @@
     "typescript": "~5.0.0",
     "uglify-js": "^3.4.9",
     "rimraf": "^3.0.0",
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^3.3.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "mocha": "^7.1.1",
@@ -47,7 +47,8 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "@types/node": "^14.0.0",
-    "@azure/dev-tool": "^1.0.0"
+    "@azure/dev-tool": "^1.0.0",
+    "ts-node": "^10.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storsimple8000series/arm-storsimple8000series",
   "repository": {

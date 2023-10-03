@@ -7,141 +7,104 @@ import { ExportResultCode } from "@opentelemetry/core";
 
 import { TraceHandler } from "../../../../src/traces";
 import { MetricHandler } from "../../../../src/metrics";
-import { AzureMonitorOpenTelemetryConfig } from "../../../../src/shared";
+import { InternalConfig } from "../../../../src/shared";
 import { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
-import { ReadableSpan, SpanProcessor } from "@opentelemetry/sdk-trace-base";
-import { Span } from "@opentelemetry/api";
+import { BasicTracerProvider, ReadableSpan, SpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { ProxyTracerProvider, Span, metrics, trace } from "@opentelemetry/api";
 
 describe("Library/TraceHandler", () => {
   let http: any = null;
   let sandbox: sinon.SinonSandbox;
-  let _config: AzureMonitorOpenTelemetryConfig;
+  let _config: InternalConfig;
+  let exportStub: sinon.SinonStub;
+  let handler: TraceHandler;
+  let metricHandler: MetricHandler;
 
   before(() => {
-    _config = new AzureMonitorOpenTelemetryConfig();
-    if (_config.azureMonitorExporterConfig) {
-      _config.azureMonitorExporterConfig.connectionString =
+    _config = new InternalConfig();
+    if (_config.azureMonitorExporterOptions) {
+      _config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
     }
-    _config.otlpTraceExporterConfig.enabled = true;
     sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
+    metricHandler.shutdown();
+    handler.shutdown();
+    metrics.disable();
+    trace.disable();
+    mockHttpServer.close();
     sandbox.restore();
+    exportStub.resetHistory();
   });
 
-  describe("#autoCollection of HTTP/HTTPS requests", () => {
-    let exportStub: sinon.SinonStub;
-    let otlpExportStub: sinon.SinonStub;
-    let handler: TraceHandler;
-    let metricHandler: MetricHandler;
-    let mockHttpServer: any;
-    let mockHttpServerPort = 0;
+  after(() => {
+    exportStub.restore();
+  });
 
-    before(() => {
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-      const httpConfig: HttpInstrumentationConfig = {
-        enabled: true,
-      };
-      _config.instrumentationOptions.http = httpConfig;
-      metricHandler = new MetricHandler(_config);
-      handler = new TraceHandler(_config, metricHandler);
-      exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
-        (spans: any, resultCallback: any) =>
-          new Promise((resolve) => {
-            resultCallback({
-              code: ExportResultCode.SUCCESS,
-            });
-            resolve(spans);
-          })
-      );
-      otlpExportStub = sinon.stub(handler["_otlpExporter"] as any, "export").callsFake(
-        (spans: any, resultCallback: any) =>
-          new Promise((resolve) => {
-            resultCallback({
-              code: ExportResultCode.SUCCESS,
-            });
-            resolve(spans);
-          })
-      );
-
-      // Load Http modules, HTTP instrumentation hook will be created in OpenTelemetry
-      http = require("http") as any;
-      createMockServers();
-    });
-
-    beforeEach(() => {
-      handler.disableInstrumentations();
-    });
-
-    afterEach(() => {
-      exportStub.resetHistory();
-      otlpExportStub.resetHistory();
-    });
-
-    after(() => {
-      exportStub.restore();
-      otlpExportStub.restore();
-      mockHttpServer.close();
-      metricHandler.shutdown();
-      handler.shutdown();
-    });
-
-    function createMockServers() {
-      mockHttpServer = http.createServer((req: any, res: any) => {
-        if (req) {
-          res.statusCode = 200;
-          res.setHeader("content-type", "application/json");
-          res.write(
-            JSON.stringify({
-              success: true,
-            })
-          );
-          res.end();
-        }
-      });
-      mockHttpServer.listen(0, () => {
-        const addr = mockHttpServer.address();
-        if (addr == null) {
-          new Error("unexpected addr null");
-          return;
-        }
-        if (typeof addr === "string") {
-          new Error(`unexpected addr ${addr}`);
-          return;
-        }
-        if (addr.port <= 0) {
-          new Error("Could not get port");
-          return;
-        }
-        mockHttpServerPort = addr.port;
-      });
-    }
-
-    async function makeHttpRequest(): Promise<void> {
-      const options = {
-        hostname: "localhost",
-        port: mockHttpServerPort,
-        path: "/test",
-        method: "GET",
-      };
-      return new Promise((resolve, reject) => {
-        const req = http.request(options, (res: any) => {
-          res.on("data", function () {});
-          res.on("end", () => {
-            resolve();
+  function createHandler(httpConfig: HttpInstrumentationConfig) {
+    _config.instrumentationOptions.http = httpConfig;
+    metricHandler = new MetricHandler(_config);
+    handler = new TraceHandler(_config, metricHandler);
+    exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
+      (spans: any, resultCallback: any) =>
+        new Promise((resolve) => {
+          resultCallback({
+            code: ExportResultCode.SUCCESS,
           });
-        });
-        req.on("error", (error: Error) => {
-          reject(error);
-        });
-        req.end();
-      });
-    }
+          resolve(spans);
+        })
+    );
 
+    // Load Http modules, HTTP instrumentation hook will be created in OpenTelemetry
+    http = require("http") as any;
+    createMockServers();
+  }
+
+  let mockHttpServer: any;
+  let mockHttpServerPort = 8085;
+
+  function createMockServers() {
+    mockHttpServer = http.createServer((req: any, res: any) => {
+      if (req) {
+        res.statusCode = 200;
+        res.setHeader("content-type", "application/json");
+        res.write(
+          JSON.stringify({
+            success: true,
+          })
+        );
+        res.end();
+      }
+    });
+    mockHttpServer.listen(mockHttpServerPort);
+  }
+
+  async function makeHttpRequest(): Promise<void> {
+    const options = {
+      hostname: "localhost",
+      port: mockHttpServerPort,
+      path: "/test",
+      method: "GET",
+    };
+    return new Promise((resolve, reject) => {
+      const req = http.request(options, (res: any) => {
+        res.on("data", function () {});
+        res.on("end", () => {
+          resolve();
+        });
+      });
+      req.on("error", (error: Error) => {
+        reject(error);
+      });
+      req.end();
+    });
+  }
+
+  describe("#autoCollection of HTTP/HTTPS requests", () => {
     it("http outgoing/incoming requests", (done) => {
-      handler["_initializeInstrumentations"]();
+      createHandler({ enabled: true });
       makeHttpRequest()
         .then(() => {
           handler
@@ -149,84 +112,6 @@ describe("Library/TraceHandler", () => {
             .then(() => {
               assert.ok(exportStub.calledOnce, "Export called");
               const spans = exportStub.args[0][0];
-              assert.deepStrictEqual(spans.length, 2);
-              // Incoming request
-              assert.deepStrictEqual(spans[0].name, "GET");
-              assert.deepStrictEqual(
-                spans[0].instrumentationLibrary.name,
-                "@opentelemetry/instrumentation-http"
-              );
-              assert.deepStrictEqual(spans[0].kind, 1, "Span Kind");
-              assert.deepStrictEqual(spans[0].status.code, 0, "Span Success"); // Success
-              assert.ok(spans[0].startTime);
-              assert.ok(spans[0].endTime);
-              assert.deepStrictEqual(
-                spans[0].attributes["http.host"],
-                `localhost:${mockHttpServerPort}`
-              );
-              assert.deepStrictEqual(spans[0].attributes["http.method"], "GET");
-              assert.deepStrictEqual(spans[0].attributes["http.status_code"], 200);
-              assert.deepStrictEqual(spans[0].attributes["http.status_text"], "OK");
-              assert.deepStrictEqual(spans[0].attributes["http.target"], "/test");
-              assert.deepStrictEqual(
-                spans[0].attributes["http.url"],
-                `http://localhost:${mockHttpServerPort}/test`
-              );
-              assert.deepStrictEqual(spans[0].attributes["net.host.name"], "localhost");
-              assert.deepStrictEqual(spans[0].attributes["net.host.port"], mockHttpServerPort);
-              // Outgoing request
-              assert.deepStrictEqual(spans[1].name, "GET");
-              assert.deepStrictEqual(
-                spans[1].instrumentationLibrary.name,
-                "@opentelemetry/instrumentation-http"
-              );
-              assert.deepStrictEqual(spans[1].kind, 2, "Span Kind");
-              assert.deepStrictEqual(spans[1].status.code, 0, "Span Success"); // Success
-              assert.ok(spans[1].startTime);
-              assert.ok(spans[1].endTime);
-              assert.deepStrictEqual(
-                spans[1].attributes["http.host"],
-                `localhost:${mockHttpServerPort}`
-              );
-              assert.deepStrictEqual(spans[1].attributes["http.method"], "GET");
-              assert.deepStrictEqual(spans[1].attributes["http.status_code"], 200);
-              assert.deepStrictEqual(spans[1].attributes["http.status_text"], "OK");
-              assert.deepStrictEqual(spans[1].attributes["http.target"], "/test");
-              assert.deepStrictEqual(
-                spans[1].attributes["http.url"],
-                `http://localhost:${mockHttpServerPort}/test`
-              );
-              assert.deepStrictEqual(spans[1].attributes["net.peer.name"], "localhost");
-              assert.deepStrictEqual(spans[1].attributes["net.peer.port"], mockHttpServerPort);
-
-              assert.deepStrictEqual(
-                spans[0]["_spanContext"]["traceId"],
-                spans[1]["_spanContext"]["traceId"]
-              );
-              assert.notDeepStrictEqual(
-                spans[0]["_spanContext"]["spanId"],
-                spans[1]["_spanContext"]["spanId"]
-              );
-              done();
-            })
-            .catch((error) => {
-              done(error);
-            });
-        })
-        .catch((error) => {
-          done(error);
-        });
-    });
-
-    it("OTLP Export", (done) => {
-      handler["_initializeInstrumentations"]();
-      makeHttpRequest()
-        .then(() => {
-          handler
-            .flush()
-            .then(() => {
-              assert.ok(otlpExportStub.calledOnce, "Export called");
-              const spans = otlpExportStub.args[0][0];
               assert.deepStrictEqual(spans.length, 2);
               // Incoming request
               assert.deepStrictEqual(spans[0].name, "GET");
@@ -297,7 +182,7 @@ describe("Library/TraceHandler", () => {
     });
 
     it("Custom Span processors", (done) => {
-      handler["_initializeInstrumentations"]();
+      createHandler({ enabled: true });
       let customSpanProcessor: SpanProcessor = {
         forceFlush: () => {
           return Promise.resolve();
@@ -312,7 +197,9 @@ describe("Library/TraceHandler", () => {
           return Promise.resolve();
         },
       };
-      handler.addSpanProcessor(customSpanProcessor);
+      (
+        (trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as BasicTracerProvider
+      ).addSpanProcessor(customSpanProcessor);
       makeHttpRequest()
         .then(() => {
           handler
@@ -339,8 +226,7 @@ describe("Library/TraceHandler", () => {
     });
 
     it("Span processing for pre aggregated metrics", (done) => {
-      handler["_initializeInstrumentations"]();
-      metricHandler["_config"].enableAutoCollectStandardMetrics = true;
+      createHandler({ enabled: true });
       makeHttpRequest()
         .then(() => {
           handler
@@ -375,8 +261,7 @@ describe("Library/TraceHandler", () => {
         enabled: true,
         ignoreOutgoingRequestHook: () => true,
       };
-      handler["_httpInstrumentation"]?.setConfig(httpConfig);
-      handler["_initializeInstrumentations"]();
+      createHandler(httpConfig);
       makeHttpRequest()
         .then(() => {
           handler
@@ -402,8 +287,7 @@ describe("Library/TraceHandler", () => {
         enabled: true,
         ignoreIncomingRequestHook: () => true,
       };
-      handler["_httpInstrumentation"]?.setConfig(httpConfig);
-      handler["_initializeInstrumentations"]();
+      createHandler(httpConfig);
       makeHttpRequest()
         .then(() => {
           handler
@@ -425,7 +309,7 @@ describe("Library/TraceHandler", () => {
     });
 
     it("http should not track if instrumentations are disabled", (done) => {
-      handler.disableInstrumentations();
+      createHandler({ enabled: false });
       makeHttpRequest()
         .then(() => {
           makeHttpRequest()

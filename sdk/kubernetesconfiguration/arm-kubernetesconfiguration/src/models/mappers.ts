@@ -863,6 +863,78 @@ export const KustomizationDefinition: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      wait: {
+        defaultValue: true,
+        serializedName: "wait",
+        type: {
+          name: "Boolean"
+        }
+      },
+      postBuild: {
+        serializedName: "postBuild",
+        type: {
+          name: "Composite",
+          className: "PostBuildDefinition"
+        }
+      }
+    }
+  }
+};
+
+export const PostBuildDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PostBuildDefinition",
+    modelProperties: {
+      substitute: {
+        serializedName: "substitute",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      substituteFrom: {
+        serializedName: "substituteFrom",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubstituteFromDefinition"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SubstituteFromDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubstituteFromDefinition",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      optional: {
+        defaultValue: false,
+        serializedName: "optional",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -1417,6 +1489,20 @@ export const KustomizationPatchDefinition: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      wait: {
+        serializedName: "wait",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      postBuild: {
+        serializedName: "postBuild",
+        type: {
+          name: "Composite",
+          className: "PostBuildDefinition"
+        }
       }
     }
   }
@@ -1942,6 +2028,20 @@ export const FluxConfiguration: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "DateTime"
+        }
+      },
+      waitForReconciliation: {
+        serializedName: "properties.waitForReconciliation",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      reconciliationWaitDuration: {
+        serializedName: "properties.reconciliationWaitDuration",
+        nullable: true,
+        type: {
+          name: "String"
         }
       },
       complianceState: {

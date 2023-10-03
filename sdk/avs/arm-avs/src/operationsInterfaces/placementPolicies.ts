@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PlacementPolicy,
   PlacementPoliciesListOptionalParams,
@@ -71,8 +71,8 @@ export interface PlacementPolicies {
     placementPolicy: PlacementPolicy,
     options?: PlacementPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PlacementPoliciesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PlacementPoliciesCreateOrUpdateResponse>,
       PlacementPoliciesCreateOrUpdateResponse
     >
   >;
@@ -112,8 +112,8 @@ export interface PlacementPolicies {
     placementPolicyUpdate: PlacementPolicyUpdate,
     options?: PlacementPoliciesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PlacementPoliciesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PlacementPoliciesUpdateResponse>,
       PlacementPoliciesUpdateResponse
     >
   >;
@@ -150,7 +150,7 @@ export interface PlacementPolicies {
     clusterName: string,
     placementPolicyName: string,
     options?: PlacementPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a placement policy in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

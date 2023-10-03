@@ -18,7 +18,7 @@ export interface NetworkStatus {
   /**
    * Gets the Connectivity Status to the external resources on which the Api Management service depends
    * from inside the Cloud Service. This also returns the DNS Servers as visible to the CloudService.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -30,7 +30,7 @@ export interface NetworkStatus {
   /**
    * Gets the Connectivity Status to the external resources on which the Api Management service depends
    * from inside the Cloud Service. This also returns the DNS Servers as visible to the CloudService.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param locationName Location in which the API Management service is deployed. This is one of the
    *                     Azure Regions like West US, East US, South Central US.

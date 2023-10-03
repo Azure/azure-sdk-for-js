@@ -1,6 +1,6 @@
 # Release History
 
-## 10.1.1 (Unreleased)
+## 11.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,32 @@
 
 ### Other Changes
 
+## 11.0.0 (2023-09-01)
+    
+**Features**
+
+  - Added Interface AzureVmWorkloadSAPHanaHSRProtectableItem
+  - Added Type Alias VaultSubResourceType
+  - Interface AzureVmWorkloadProtectableItem has a new optional parameter isProtectable
+  - Interface AzureVmWorkloadProtectedItem has a new optional parameter nodesList
+  - Interface AzureVmWorkloadSQLAvailabilityGroupProtectableItem has a new optional parameter nodesList
+  - Interface BackupResourceVaultConfig has a new optional parameter softDeleteRetentionPeriodInDays
+  - Interface DistributedNodesInfo has a new optional parameter sourceResourceId
+  - Interface InquiryValidation has a new optional parameter protectableItemCount
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface PrivateLinkServiceConnectionState has a new optional parameter actionsRequired
+  - Interface ProtectedItem has a new optional parameter softDeleteRetentionPeriodInDays
+  - Added Enum KnownVaultSubResourceType
+  - Enum KnownSoftDeleteFeatureState has a new value AlwaysON
+
+**Breaking Changes**
+
+  - Interface PrivateLinkServiceConnectionState no longer has parameter actionRequired
+  - Interface ProtectedItem no longer has parameter softDeleteRetentionPeriod
+  - Type of parameter protectableItemType of interface AzureVmWorkloadProtectableItem is changed from "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance" to "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance"
+  - Type of parameter protectableItemType of interface WorkloadProtectableItem is changed from "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance" to "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance"
+    
+    
 ## 10.1.0 (2023-03-10)
     
 **Features**

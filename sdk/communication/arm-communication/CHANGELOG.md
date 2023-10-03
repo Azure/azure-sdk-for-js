@@ -1,15 +1,17 @@
 # Release History
+    
+## 4.1.0-beta.1 (2023-09-20)
+    
+**Features**
 
-## 4.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ManagedServiceIdentity
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias ManagedServiceIdentityType
+  - Interface CommunicationServiceResource has a new optional parameter identity
+  - Interface CommunicationServiceResourceUpdate has a new optional parameter identity
+  - Added Enum KnownManagedServiceIdentityType
+    
+    
 ## 4.0.0 (2023-03-27)
     
 **Features**
