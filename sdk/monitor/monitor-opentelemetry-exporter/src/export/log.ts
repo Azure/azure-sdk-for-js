@@ -32,7 +32,7 @@ export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements
       instrumentationKey: this.instrumentationKey,
       trackStatsbeat: this.trackStatsbeat,
       exporterOptions: options,
-      aadAudience: this.aadAudience
+      aadAudience: this.aadAudience,
     });
     diag.debug("AzureMonitorLogExporter was successfully setup");
   }

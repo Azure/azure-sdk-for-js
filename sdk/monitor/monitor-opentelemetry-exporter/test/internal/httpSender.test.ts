@@ -440,7 +440,7 @@ describe("HttpSender", () => {
           credential: new TestTokenCredential(),
         },
       });
-      assert.strictEqual(sender["_appInsightsClientOptions"].credentialScopes, "testAudience");
+      assert.strictEqual(sender["_appInsightsClientOptions"].credentialScopes, ["testAudience"]);
     });
   });
 

@@ -42,8 +42,8 @@ export class HttpSender extends BaseSender {
       // Add credentialScopes
       if (options.aadAudience) {
         this._appInsightsClientOptions.credentialScopes = [options.aadAudience];
-      }
-      else { // Default
+      } else {
+        // Default
         this._appInsightsClientOptions.credentialScopes = [applicationInsightsResource];
       }
     }
