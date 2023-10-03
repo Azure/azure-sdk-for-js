@@ -5,7 +5,7 @@ import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs
 import { delay } from "@azure/core-util";
 import { EventHubsStressTester } from "./eventHubsStressTester";
 import parsedArgs from "minimist";
-import { createEventHubsProducerClient } from "./utils";
+import { createEventHubsProducerClient, generateHeapSnapshot } from "./utils";
 
 interface scenario27253TestOptions {
   testDurationInMs?: number;
@@ -17,6 +17,7 @@ function sanitizeOptions(args: string[]): Required<scenario27253TestOptions> {
     testDurationInMs: options.testDurationInMs || 10 * 24 * 60 * 60 * 1000, // Default = 10 days
   };
 }
+let totalEventsSent = 0;
 
 // https://github.com/Azure/azure-sdk-for-js/issues/25572
 async function scenario27253Test() {
@@ -54,10 +55,17 @@ async function scenario27253Test() {
     }, { maxWaitTimeInSeconds: 0.5, maxBatchSize: 100, startPosition: earliestEventPosition }))
   }
 
-  while (new Date().valueOf() - startedAt.valueOf() < testDurationInMs && !terminalCase) {
-    await delay(20000 + Math.floor(Math.random() * 1000)); // around every 20s
-    console.log(`waited 20 seconds, events received so far = ${stressBase.eventsReceivedCount}`);
+  generateHeapSnapshot("check-memLeak-0", process.env.DEBUG_SHARE);
+  let hundredSecondsCounter = 0;
+  while (new Date().valueOf() - startedAt.valueOf() < testDurationInMs && !terminalCase && stressBase.eventsReceivedCount < totalEventsSent) {
+    console.log("Waiting for 100 seconds...");
+    await delay(100000);
+    if (hundredSecondsCounter % 6 === 0) {
+      generateHeapSnapshot("check-memLeak-" + hundredSecondsCounter / 6, process.env.DEBUG_SHARE); // generate one very 10 minutes
+    }
+    hundredSecondsCounter++;
   }
+
   await consumerClient.close();
   await stressBase.endTest();
 }
@@ -85,8 +93,10 @@ async function sendEvents() {
       eventsAdded = eventsAdded + batch.count;
       console.log(`Added ${batch.count} events to partition ${partition}, total ${eventsAdded}`);
     }
+    totalEventsSent += eventsAdded;
   }
 
+  console.log("Sending done. Waiting for test to complete...");
   await producer.close();
 }
 

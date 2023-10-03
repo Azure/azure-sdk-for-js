@@ -9,6 +9,8 @@ import {
   EventHubClientOptions,
   EventHubProducerClient,
 } from "@azure/event-hubs";
+const fs = require("fs");
+const v8 = require("v8");
 
 export interface SnapshotOptions {
   /**
@@ -66,4 +68,16 @@ export function createEventHubsProducerClient(
   }
 
   return new EventHubProducerClient(connectionString, eventHubName, options);
+}
+
+
+export function generateHeapSnapshot(fileName: string, folderName?: string) {
+  const snapshotStream = v8.getHeapSnapshot();
+  // It's important that the filename end with `.heapsnapshot`,
+  // otherwise Chrome DevTools won't open it.
+  const folder = folderName ?? "./heapSnapshots";
+  if (!fs.existsSync(folderName)) fs.mkdirSync(folder, { recursive: true });
+  const completePath = `${folderName}${fileName}.heapsnapshot`;
+  const fileStream = fs.createWriteStream(completePath);
+  snapshotStream.pipe(fileStream);
 }
