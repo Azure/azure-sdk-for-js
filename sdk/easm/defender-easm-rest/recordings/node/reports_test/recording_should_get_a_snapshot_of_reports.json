@@ -1,0 +1,1738 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/subscriptions/5aceda1f-93bf-4b33-b129-22f360f7c5ff/resourceGroups/thangdeveastus2-rg/workspaces/sdktesting/reports/assets:getSnapshot?api-version=2023-03-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "56",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v16.17.0 OS/(arm64-Darwin-22.6.0)",
+        "x-ms-client-request-id": "bed639bd-2e0a-481d-928f-df1ad11859bb"
+      },
+      "RequestBody": {
+        "metric": "savedfilter_metric_51126",
+        "page": 0,
+        "size": 25
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Tue, 03 Oct 2023 03:38:00 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "origin",
+          "access-control-request-method",
+          "access-control-request-headers",
+          "accept-encoding"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "a2eaa2be-6381-4c1a-91b5-8c68ca09ff80",
+        "x-ms-request-id": "ba717ff6-1e35-45b2-8816-8bc7e39d5ce1",
+        "x-ms-ui-version": "sdk",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "displayName": "ASI: WordPress Core Multiple CVEs for SQLi and Stored XSS",
+        "metric": "savedfilter_metric_51126",
+        "labelName": null,
+        "updatedAt": "2023-10-01T07:45:24\u002B0000",
+        "description": "##### Description\n\nThis impacts all versions of WordPress major release branches from 3.7 to 5.8 and consists of the following CVEs:\n-   CVE-2022-21664: SQL injection due to improper sanitization in WP_Meta_Query  \n    Due to lack of proper sanitization in WP_Meta_Query, there\u2019s potential for blind SQL Injection\n-   CVE-2022-21661: SQL Injection through WP_Query  \n    Due to improper sanitization in WP_Query, there can be cases where SQL injection is possible through plugins or themes that use it in a certain way.\n-   CVE-2022-21663: Authenticated Object Injection in Multisites  \n    On a multisite, users with Super Admin role can bypass explicit/additional hardening under certain conditions through object injection.\n-   CVE-2022-21662: Stored XSS through authenticated users  \n    Low-privileged authenticated users (like author) in WordPress core are able to execute JavaScript/perform stored XSS attack, which can affect high-privileged users.\n\n##### Related Intelligence\nCVE: [CVE-2022-21661](https://nvd.nist.gov/vuln/detail/CVE-2022-21661)\nCVE: [CVE-2022-21662](https://nvd.nist.gov/vuln/detail/CVE-2022-21662)\nCVE: [CVE-2022-21663](https://nvd.nist.gov/vuln/detail/CVE-2022-21663)\nCVE: [CVE-2022-21664](https://nvd.nist.gov/vuln/detail/CVE-2022-21664)\nSecurity Advisory: [WordPress.org](https://wordpress.org/news/2022/01/wordpress-5-8-3-security-release/)\nPoC: [Exploit-DB](https://www.exploit-db.com/exploits/50663)\nWriteup: [Zero Day Initiative](https://www.zerodayinitiative.com/blog/2022/1/18/cve-2021-21661-exposing-database-info-via-wordpress-sql-injection)\nWriteup: [Medium article - written in Vietnamese](https://cognn.medium.com/sql-injection-in-wordpress-core-zdi-can-15541-a451c492897)\n\n##### Remediation\n\nUpdate to the latest minor release of your WordPress instance by logging in to the admin dashboard and clicking Update WordPress under the Updates screen. See [this page](https://wordpress.org/support/article/updating-wordpress/) if you run into issues. The makers of WordPress also strongly recommend enabling auto-update by following [these instructions.](https://wordpress.org/support/article/configuring-automatic-background-updates/)\n\nThe [WordPress_Versions](https://codex.wordpress.org/WordPress_Versions) page is a great resource to find the latest minor version for specific release branches.  Ensure the version you are running has a release date of January 6, 2022 or greater. ",
+        "assets": {
+          "totalElements": 5,
+          "mark": null,
+          "value": [
+            {
+              "id": "ipAddress$$129.237.135.36",
+              "name": "129.237.135.36",
+              "displayName": "129.237.135.36",
+              "kind": "ipAddress",
+              "uuid": "8a6f0cc7-ef09-9dda-7f87-5a4d5595ce2b",
+              "asset": {
+                "ipAddress": "129.237.135.36",
+                "asns": [
+                  {
+                    "value": 2496,
+                    "sources": [],
+                    "recent": true
+                  }
+                ],
+                "reputations": [],
+                "webComponents": [
+                  {
+                    "name": "jQuery",
+                    "type": "JavaScript Library",
+                    "version": "1.6.2",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Analytics",
+                    "type": "Analytics Service",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Facebook",
+                    "type": "Ad Exchange",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Ajax CDN",
+                    "type": "CDN",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Hosted Libraries",
+                    "type": "CDN",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google",
+                    "type": "Ad Network",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "CDNJS",
+                    "type": "CDN",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "CloudFlare",
+                    "type": "IT",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Ads - DoubleClick",
+                    "type": "Ad Exchange",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Search",
+                    "type": "Search",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Tag Manager",
+                    "type": "Analytics Service",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "StatCounter",
+                    "type": "Analytics Service",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jQuery CDN",
+                    "type": "CDN",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jquery",
+                    "type": "JavaScript Library",
+                    "version": "3.1.1",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "tether",
+                    "type": "JavaScript Library",
+                    "version": "1.4.0",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "twitter-bootstrap",
+                    "type": "JavaScript Library",
+                    "version": "4.0.0-alpha.6",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Bootstrap",
+                    "type": "JavaScript Library",
+                    "version": "5.0.2",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jsDelivr",
+                    "type": "CDN",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Cufon",
+                    "type": "JavaScript Library",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "AES - Chris Veness",
+                    "type": "JavaScript Library",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Drupal",
+                    "type": "CMS",
+                    "version": "7",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Analytics (deprecated)",
+                    "type": "Analytics Service",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "YouTube",
+                    "type": "Online Videos",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "assets.drupal.ku.edu",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "timelinejs",
+                    "type": "JavaScript Library",
+                    "version": "2.36.0",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Adobe - Typekit",
+                    "type": "Web Design",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Analytics",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "WordPress",
+                    "type": "CMS",
+                    "version": "4.3.15",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jQuery Migrate",
+                    "type": "JavaScript Library",
+                    "version": "1.2.1",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Apache",
+                    "type": "Server",
+                    "version": "2.4.57",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "IUS",
+                    "type": "Operating System",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "OpenSSL",
+                    "type": "Server Module",
+                    "version": "1.0.2k-fips",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Search",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "webmedia.ku.edu",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "digitalnollywood.ku.edu",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "fancybox",
+                    "type": "JavaScript Library",
+                    "version": "2.1.5",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jQuery UI",
+                    "type": "JavaScript Library",
+                    "version": "1.12.1",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jqueryui",
+                    "type": "JavaScript Library",
+                    "version": "1.12.1",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "leaflet-providers",
+                    "type": "JavaScript Library",
+                    "version": "1.2.0",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jquery-validate",
+                    "type": "JavaScript Library",
+                    "version": "1.14.0",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Modernizr",
+                    "type": "JavaScript Library",
+                    "version": "3.3.1",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "BootStrap CDN",
+                    "type": "CDN",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Bootstrap CDN",
+                    "type": "CDN",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "require.js",
+                    "type": "JavaScript Library",
+                    "version": "2.1.17",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "svg.js",
+                    "type": "JavaScript Library",
+                    "version": "2.6.5",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "MarkOfTheWeb",
+                    "type": "Content",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Matomo",
+                    "type": "Analytics Service",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Twitter Ads",
+                    "type": "Publisher",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "modernizr",
+                    "type": "JavaScript Library",
+                    "version": "2.6.2",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "pbiscatalog.ku.edu",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "piwik",
+                    "type": "Analytics Service",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "MediaWiki",
+                    "type": "CMS",
+                    "version": "1.40.0",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "cufon",
+                    "type": "JavaScript Library",
+                    "version": "1.09i",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jquery-easing",
+                    "type": "JavaScript Library",
+                    "version": "1.3",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "www.hersinstitute.org",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "FrontPage",
+                    "type": "Framework",
+                    "version": "5.0",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Twitter Widgets",
+                    "type": "Social Media",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "WP Statistics",
+                    "type": "Wordpress Plugin",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "magnific-popup.js",
+                    "type": "JavaScript Library",
+                    "version": "1.1.0",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "odometer.js",
+                    "type": "JavaScript Library",
+                    "version": "0.4.6",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "www.capfedhall.ku.edu",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "babel-polyfill",
+                    "type": "JavaScript Library",
+                    "version": "6.2",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "PHP",
+                    "type": "Framework",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google",
+                    "type": "Ad Exchange",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "YouTube CDN",
+                    "type": "CDN",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "cbmm.ku.edu",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jquery-parallax",
+                    "type": "JavaScript Library",
+                    "version": "1.1.3",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "owl-carousel",
+                    "type": "JavaScript Library",
+                    "version": "1.3",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "RoundCube",
+                    "type": "IT",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Roundcube Webmail",
+                    "type": "Remote Access",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "cPanel",
+                    "type": "Remote Access",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "selectize.js",
+                    "type": "JavaScript Library",
+                    "version": "0.12.4",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "sockjs-client",
+                    "type": "JavaScript Library",
+                    "version": "1.0.0-beta.9",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jQuery UI Widget",
+                    "type": "JavaScript Library",
+                    "version": "1.8.11",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Adobe Muse",
+                    "type": "CMS",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Tag Manager",
+                    "type": "Tag Mgmt",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Juicer",
+                    "type": "Social Media",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "www.cbmm.ku.edu",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Chart.js",
+                    "type": "JavaScript Library",
+                    "version": "2.6.0",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "DataTables",
+                    "type": "JavaScript Library",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "datatables",
+                    "type": "JavaScript Library",
+                    "version": "1.10.16",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jquery.scrollex",
+                    "type": "JavaScript Library",
+                    "version": "0.2.1",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "skel",
+                    "type": "JavaScript Library",
+                    "version": "3.0.1",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Facebook",
+                    "type": "CDN",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "CloudFront CDN",
+                    "type": "CDN",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "www.google.hn",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Criteo",
+                    "type": "Ad Network",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Criteo",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "ShareThis",
+                    "type": "Sharing",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "capfedhall.ku.edu",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Turn",
+                    "type": "DSP",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Rocket Fuel",
+                    "type": "DMP",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "pippio.com",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Sovrn (Lijit)",
+                    "type": "Ad Network",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "sync.sharethis.com",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "selectivizr",
+                    "type": "JavaScript Library",
+                    "version": "1.0.2",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Prototype JavaScript Framework",
+                    "type": "JavaScript Library",
+                    "version": "1.6.0.2",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "prototype",
+                    "type": "JavaScript Library",
+                    "version": "1.6.0.2",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "script.aculo.us controls",
+                    "type": "JavaScript Library",
+                    "version": "1.8.1",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "script.aculo.us effects",
+                    "type": "JavaScript Library",
+                    "version": "1.8.1",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "i6.liadm.com",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Horde Webmail",
+                    "type": "Remote Access",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  }
+                ],
+                "netRanges": [],
+                "headers": [],
+                "attributes": [],
+                "cookies": [],
+                "sslCerts": [],
+                "services": [],
+                "ipBlocks": [
+                  {
+                    "ipBlock": "129.237.0.0/16",
+                    "sources": [],
+                    "recent": true
+                  }
+                ],
+                "sources": [],
+                "firstSeen": "2023-03-22T23:00:46\u002B0000",
+                "lastSeen": "2023-09-29T23:38:37\u002B0000",
+                "banners": [],
+                "scanMetadata": [],
+                "nsRecord": [],
+                "mxRecord": [],
+                "location": [],
+                "hosts": [],
+                "nxdomain": [],
+                "sslServerConfig": []
+              },
+              "createdDate": null,
+              "updatedDate": null,
+              "state": null,
+              "externalId": null,
+              "labels": null,
+              "wildcard": false,
+              "discoGroupName": null,
+              "auditTrail": [
+                {
+                  "id": null,
+                  "name": "2496",
+                  "displayName": null,
+                  "kind": "as",
+                  "reason": null
+                },
+                {
+                  "id": null,
+                  "name": "129.237.0.0/16",
+                  "displayName": null,
+                  "kind": "ipBlock",
+                  "reason": null
+                }
+              ],
+              "history": null,
+              "reason": null
+            },
+            {
+              "id": "host$$segbert.ku.edu",
+              "name": "segbert.ku.edu",
+              "displayName": "segbert.ku.edu",
+              "kind": "host",
+              "uuid": "36264096-e99f-9f64-f19d-b062217ab064",
+              "asset": {
+                "host": "segbert.ku.edu",
+                "domain": "ku.edu",
+                "ipAddresses": [],
+                "webComponents": [
+                  {
+                    "name": "Apache",
+                    "type": "Server",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google",
+                    "type": "Ad Network",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "WordPress Embeds",
+                    "type": "JavaScript Library",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "WordPress Emoji",
+                    "type": "JavaScript Library",
+                    "version": "4.9.8",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "WordPress",
+                    "type": "CMS",
+                    "version": "5.0.3",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "flexslider",
+                    "type": "JavaScript Library",
+                    "version": "2.2.2",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jQuery Migrate",
+                    "type": "JavaScript Library",
+                    "version": "1.4.1",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jQuery",
+                    "type": "JavaScript Library",
+                    "version": "1.12.4",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  }
+                ],
+                "headers": [],
+                "attributes": [],
+                "cookies": [],
+                "sslCerts": [],
+                "parentHosts": [],
+                "childHosts": [],
+                "services": [],
+                "cnames": [],
+                "sources": [],
+                "firstSeen": "2021-02-10T19:57:10\u002B0000",
+                "lastSeen": "2023-09-29T21:56:30\u002B0000",
+                "resourceUrls": [],
+                "scanMetadata": [],
+                "asns": [],
+                "ipBlocks": [],
+                "responseBodies": [],
+                "domainAsset": {
+                  "domain": "ku.edu",
+                  "registrarIanaIds": [],
+                  "registrantContacts": [],
+                  "registrantOrgs": [
+                    {
+                      "value": "",
+                      "sources": [],
+                      "recent": true
+                    }
+                  ],
+                  "adminContacts": [],
+                  "technicalContacts": [],
+                  "alexaInfos": [],
+                  "nameServers": [],
+                  "mailServers": [],
+                  "whoisServers": [],
+                  "domainStatuses": [],
+                  "registrarCreatedAt": [],
+                  "registrarUpdatedAt": [],
+                  "registrarExpiresAt": [],
+                  "soaRecords": [],
+                  "registrarNames": [],
+                  "sources": [],
+                  "firstSeen": "2021-02-10T19:57:10\u002B0000",
+                  "lastSeen": "2023-09-29T21:56:30\u002B0000",
+                  "parkedDomain": [],
+                  "registrantNames": [],
+                  "adminNames": [],
+                  "technicalNames": [],
+                  "adminOrgs": [],
+                  "technicalOrgs": [],
+                  "registrantPhones": [],
+                  "adminPhones": [],
+                  "technicalPhones": []
+                },
+                "nsRecord": [],
+                "mxRecord": [],
+                "webserver": [],
+                "location": [],
+                "nxdomain": [],
+                "sslServerConfig": [],
+                "isWildcard": [],
+                "banners": [],
+                "ipv4": [],
+                "ipv6": []
+              },
+              "createdDate": null,
+              "updatedDate": null,
+              "state": null,
+              "externalId": null,
+              "labels": null,
+              "wildcard": false,
+              "discoGroupName": null,
+              "auditTrail": [
+                {
+                  "id": null,
+                  "name": "ku.edu",
+                  "displayName": null,
+                  "kind": "domain",
+                  "reason": null
+                },
+                {
+                  "id": null,
+                  "name": "blog-alias.ku.edu",
+                  "displayName": null,
+                  "kind": "host",
+                  "reason": null
+                }
+              ],
+              "history": null,
+              "reason": null
+            },
+            {
+              "id": "host$$viplab.ku.edu",
+              "name": "viplab.ku.edu",
+              "displayName": "viplab.ku.edu",
+              "kind": "host",
+              "uuid": "0ad02771-3667-acde-a5f1-08969bdaff0f",
+              "asset": {
+                "host": "viplab.ku.edu",
+                "domain": "ku.edu",
+                "ipAddresses": [],
+                "webComponents": [
+                  {
+                    "name": "Apache",
+                    "type": "Server",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Analytics (deprecated)",
+                    "type": "Analytics Service",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Analytics",
+                    "type": "Analytics Service",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Analytics",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google",
+                    "type": "Ad Network",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "WordPress",
+                    "type": "CMS",
+                    "version": "4.3.15",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jQuery Migrate",
+                    "type": "JavaScript Library",
+                    "version": "1.2.1",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jQuery",
+                    "type": "JavaScript Library",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  }
+                ],
+                "headers": [],
+                "attributes": [],
+                "cookies": [],
+                "sslCerts": [],
+                "parentHosts": [],
+                "childHosts": [],
+                "services": [],
+                "cnames": [],
+                "sources": [],
+                "firstSeen": "2013-08-02T17:16:42\u002B0000",
+                "lastSeen": "2023-09-29T22:22:09\u002B0000",
+                "resourceUrls": [],
+                "scanMetadata": [],
+                "asns": [],
+                "ipBlocks": [],
+                "responseBodies": [],
+                "domainAsset": {
+                  "domain": "ku.edu",
+                  "registrarIanaIds": [],
+                  "registrantContacts": [],
+                  "registrantOrgs": [
+                    {
+                      "value": "",
+                      "sources": [],
+                      "recent": true
+                    }
+                  ],
+                  "adminContacts": [],
+                  "technicalContacts": [],
+                  "alexaInfos": [],
+                  "nameServers": [],
+                  "mailServers": [],
+                  "whoisServers": [],
+                  "domainStatuses": [],
+                  "registrarCreatedAt": [],
+                  "registrarUpdatedAt": [],
+                  "registrarExpiresAt": [],
+                  "soaRecords": [],
+                  "registrarNames": [],
+                  "sources": [],
+                  "firstSeen": "2013-08-02T17:16:42\u002B0000",
+                  "lastSeen": "2023-09-29T22:22:09\u002B0000",
+                  "parkedDomain": [],
+                  "registrantNames": [],
+                  "adminNames": [],
+                  "technicalNames": [],
+                  "adminOrgs": [],
+                  "technicalOrgs": [],
+                  "registrantPhones": [],
+                  "adminPhones": [],
+                  "technicalPhones": []
+                },
+                "nsRecord": [],
+                "mxRecord": [],
+                "webserver": [],
+                "location": [],
+                "nxdomain": [],
+                "sslServerConfig": [],
+                "isWildcard": [],
+                "banners": [],
+                "ipv4": [],
+                "ipv6": []
+              },
+              "createdDate": null,
+              "updatedDate": null,
+              "state": null,
+              "externalId": null,
+              "labels": null,
+              "wildcard": false,
+              "discoGroupName": null,
+              "auditTrail": [
+                {
+                  "id": null,
+                  "name": "ku.edu",
+                  "displayName": null,
+                  "kind": "domain",
+                  "reason": null
+                },
+                {
+                  "id": null,
+                  "name": "acceso.ku.edu",
+                  "displayName": null,
+                  "kind": "host",
+                  "reason": null
+                },
+                {
+                  "id": null,
+                  "name": "unit-alias.ku.edu",
+                  "displayName": null,
+                  "kind": "host",
+                  "reason": null
+                }
+              ],
+              "history": null,
+              "reason": null
+            },
+            {
+              "id": "page$$https://segbert.ku.edu/",
+              "name": "https://segbert.ku.edu/",
+              "displayName": "https://segbert.ku.edu/",
+              "kind": "page",
+              "uuid": "71f3992b-799e-e827-88dd-dde92a0c497e",
+              "asset": {
+                "url": "https://segbert.ku.edu/",
+                "ipAddresses": [],
+                "successful": [],
+                "httpResponseCodes": [],
+                "httpResponseMessages": [],
+                "responseTimes": [],
+                "frames": [],
+                "windows": [],
+                "nonHtmlFrames": [],
+                "undirectedContent": [],
+                "contentTypes": [],
+                "contentLengths": [],
+                "windowNames": [],
+                "charsets": [],
+                "titles": [],
+                "languages": [],
+                "responseHeaders": [],
+                "cookies": [],
+                "webComponents": [
+                  {
+                    "name": "Apache",
+                    "type": "Server",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google",
+                    "type": "Ad Network",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "WordPress Embeds",
+                    "type": "JavaScript Library",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "WordPress Emoji",
+                    "type": "JavaScript Library",
+                    "version": "4.9.8",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "WordPress",
+                    "type": "CMS",
+                    "version": "5.0.3",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "flexslider",
+                    "type": "JavaScript Library",
+                    "version": "2.2.2",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jQuery Migrate",
+                    "type": "JavaScript Library",
+                    "version": "1.4.1",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jQuery",
+                    "type": "JavaScript Library",
+                    "version": "1.12.4",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  }
+                ],
+                "attributes": [],
+                "assetSecurityPolicies": [],
+                "responseBodyMinhashSignatures": [],
+                "fullDomMinhashSignatures": [],
+                "responseBodyHashSignatures": [],
+                "errors": [],
+                "sslCerts": [],
+                "sources": [],
+                "firstSeen": "2021-06-24T04:39:52\u002B0000",
+                "lastSeen": "2023-09-29T21:56:30\u002B0000",
+                "redirectUrls": [],
+                "finalUrls": [],
+                "finalResponseCodes": [],
+                "parkedPage": [],
+                "resourceUrls": [],
+                "guids": [],
+                "finalIpAddresses": [],
+                "asns": [],
+                "ipBlocks": [],
+                "finalAsns": [],
+                "finalIpBlocks": [],
+                "responseBodies": [],
+                "domainAsset": {
+                  "domain": "ku.edu",
+                  "registrarIanaIds": [],
+                  "registrantContacts": [],
+                  "registrantOrgs": [
+                    {
+                      "value": "",
+                      "sources": [],
+                      "recent": true
+                    }
+                  ],
+                  "adminContacts": [],
+                  "technicalContacts": [],
+                  "alexaInfos": [],
+                  "nameServers": [],
+                  "mailServers": [],
+                  "whoisServers": [],
+                  "domainStatuses": [],
+                  "registrarCreatedAt": [],
+                  "registrarUpdatedAt": [],
+                  "registrarExpiresAt": [],
+                  "soaRecords": [],
+                  "registrarNames": [],
+                  "sources": [],
+                  "firstSeen": "2021-06-24T04:39:52\u002B0000",
+                  "lastSeen": "2023-09-29T21:56:30\u002B0000",
+                  "parkedDomain": [],
+                  "registrantNames": [],
+                  "adminNames": [],
+                  "technicalNames": [],
+                  "adminOrgs": [],
+                  "technicalOrgs": [],
+                  "registrantPhones": [],
+                  "adminPhones": [],
+                  "technicalPhones": []
+                },
+                "location": [],
+                "services": [],
+                "cnames": [],
+                "cdns": [],
+                "domain": "ku.edu",
+                "sslServerConfig": [],
+                "gdprAssetSecurityPolicies": [],
+                "ipv4": [],
+                "ipv6": []
+              },
+              "createdDate": null,
+              "updatedDate": null,
+              "state": null,
+              "externalId": null,
+              "labels": null,
+              "wildcard": false,
+              "discoGroupName": null,
+              "auditTrail": [
+                {
+                  "id": null,
+                  "name": "ku.edu",
+                  "displayName": null,
+                  "kind": "domain",
+                  "reason": null
+                },
+                {
+                  "id": null,
+                  "name": "blog-alias.ku.edu",
+                  "displayName": null,
+                  "kind": "host",
+                  "reason": null
+                },
+                {
+                  "id": null,
+                  "name": "segbert.ku.edu",
+                  "displayName": null,
+                  "kind": "host",
+                  "reason": null
+                }
+              ],
+              "history": null,
+              "reason": null
+            },
+            {
+              "id": "page$$https://viplab.ku.edu/",
+              "name": "https://viplab.ku.edu/",
+              "displayName": "https://viplab.ku.edu/",
+              "kind": "page",
+              "uuid": "f26ac1dd-40fc-398c-7ed4-15f78ebd7e81",
+              "asset": {
+                "url": "https://viplab.ku.edu/",
+                "ipAddresses": [],
+                "successful": [],
+                "httpResponseCodes": [],
+                "httpResponseMessages": [],
+                "responseTimes": [],
+                "frames": [],
+                "windows": [],
+                "nonHtmlFrames": [],
+                "undirectedContent": [],
+                "contentTypes": [],
+                "contentLengths": [],
+                "windowNames": [],
+                "charsets": [],
+                "titles": [],
+                "languages": [],
+                "responseHeaders": [],
+                "cookies": [],
+                "webComponents": [
+                  {
+                    "name": "Apache",
+                    "type": "Server",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Analytics (deprecated)",
+                    "type": "Analytics Service",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Analytics",
+                    "type": "Analytics Service",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google Analytics",
+                    "type": "Tracking Pixel",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "Google",
+                    "type": "Ad Network",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "WordPress",
+                    "type": "CMS",
+                    "version": "4.3.15",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jQuery Migrate",
+                    "type": "JavaScript Library",
+                    "version": "1.2.1",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  },
+                  {
+                    "name": "jQuery",
+                    "type": "JavaScript Library",
+                    "ruleId": [],
+                    "cve": [],
+                    "ports": [],
+                    "sources": []
+                  }
+                ],
+                "attributes": [],
+                "assetSecurityPolicies": [],
+                "responseBodyMinhashSignatures": [],
+                "fullDomMinhashSignatures": [],
+                "responseBodyHashSignatures": [],
+                "errors": [],
+                "sslCerts": [],
+                "sources": [],
+                "firstSeen": "2021-06-24T04:40:18\u002B0000",
+                "lastSeen": "2023-09-29T22:21:33\u002B0000",
+                "redirectUrls": [],
+                "finalUrls": [],
+                "finalResponseCodes": [],
+                "parkedPage": [],
+                "resourceUrls": [],
+                "guids": [],
+                "finalIpAddresses": [],
+                "asns": [],
+                "ipBlocks": [],
+                "finalAsns": [],
+                "finalIpBlocks": [],
+                "responseBodies": [],
+                "domainAsset": {
+                  "domain": "ku.edu",
+                  "registrarIanaIds": [],
+                  "registrantContacts": [],
+                  "registrantOrgs": [
+                    {
+                      "value": "",
+                      "sources": [],
+                      "recent": true
+                    }
+                  ],
+                  "adminContacts": [],
+                  "technicalContacts": [],
+                  "alexaInfos": [],
+                  "nameServers": [],
+                  "mailServers": [],
+                  "whoisServers": [],
+                  "domainStatuses": [],
+                  "registrarCreatedAt": [],
+                  "registrarUpdatedAt": [],
+                  "registrarExpiresAt": [],
+                  "soaRecords": [],
+                  "registrarNames": [],
+                  "sources": [],
+                  "firstSeen": "2021-06-24T04:40:18\u002B0000",
+                  "lastSeen": "2023-09-29T22:21:33\u002B0000",
+                  "parkedDomain": [],
+                  "registrantNames": [],
+                  "adminNames": [],
+                  "technicalNames": [],
+                  "adminOrgs": [],
+                  "technicalOrgs": [],
+                  "registrantPhones": [],
+                  "adminPhones": [],
+                  "technicalPhones": []
+                },
+                "location": [],
+                "services": [],
+                "cnames": [],
+                "cdns": [],
+                "domain": "ku.edu",
+                "sslServerConfig": [],
+                "gdprAssetSecurityPolicies": [],
+                "ipv4": [],
+                "ipv6": []
+              },
+              "createdDate": null,
+              "updatedDate": null,
+              "state": null,
+              "externalId": null,
+              "labels": null,
+              "wildcard": false,
+              "discoGroupName": null,
+              "auditTrail": [
+                {
+                  "id": null,
+                  "name": "ku.edu",
+                  "displayName": null,
+                  "kind": "domain",
+                  "reason": null
+                },
+                {
+                  "id": null,
+                  "name": "acceso.ku.edu",
+                  "displayName": null,
+                  "kind": "host",
+                  "reason": null
+                },
+                {
+                  "id": null,
+                  "name": "unit-alias.ku.edu",
+                  "displayName": null,
+                  "kind": "host",
+                  "reason": null
+                },
+                {
+                  "id": null,
+                  "name": "viplab.ku.edu",
+                  "displayName": null,
+                  "kind": "host",
+                  "reason": null
+                }
+              ],
+              "history": null,
+              "reason": null
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

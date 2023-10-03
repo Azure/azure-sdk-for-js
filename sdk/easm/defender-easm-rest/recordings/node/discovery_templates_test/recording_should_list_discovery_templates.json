@@ -1,0 +1,543 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/subscriptions/5aceda1f-93bf-4b33-b129-22f360f7c5ff/resourceGroups/thangdeveastus2-rg/workspaces/sdktesting/discoTemplates?filter=ku\u0026maxpagesize=25\u0026skip=0\u0026api-version=2023-03-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v16.17.0 OS/(arm64-Darwin-22.6.0)",
+        "x-ms-client-request-id": "19b1267f-4398-4780-ab5c-49e96a306c4a"
+      },
+      "RequestBody": null,
+      "StatusCode": 500,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Tue, 03 Oct 2023 03:37:32 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "origin",
+          "access-control-request-method",
+          "access-control-request-headers",
+          "accept-encoding"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "7a9ea0ca-f361-4c46-b7de-6ca7f16620f5",
+        "x-ms-error-code": "DiscoMicroserviceLookupFailed",
+        "x-ms-request-id": "7e0072a7-c81e-4cec-b147-615cc6f812f5",
+        "x-ms-ui-version": "sdk",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "DiscoMicroserviceLookupFailed",
+          "message": "Error performing request: 500 - \n{\u0022timestamp\u0022:\u00222023-10-03T03:37:32.120\u002B00:00\u0022,\u0022status\u0022:500,\u0022error\u0022:\u0022Internal Server Error\u0022,\u0022path\u0022:\u0022/v1/vendor/search\u0022}",
+          "target": null,
+          "details": null,
+          "innererror": null
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/subscriptions/5aceda1f-93bf-4b33-b129-22f360f7c5ff/resourceGroups/thangdeveastus2-rg/workspaces/sdktesting/discoTemplates?filter=ku\u0026maxpagesize=25\u0026skip=0\u0026api-version=2023-03-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v16.17.0 OS/(arm64-Darwin-22.6.0)",
+        "x-ms-client-request-id": "19b1267f-4398-4780-ab5c-49e96a306c4a"
+      },
+      "RequestBody": null,
+      "StatusCode": 500,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Tue, 03 Oct 2023 03:37:35 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "origin",
+          "access-control-request-method",
+          "access-control-request-headers",
+          "accept-encoding"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "75ced049-afc3-4f71-8cb5-4a6ffec49ecb",
+        "x-ms-error-code": "DiscoMicroserviceLookupFailed",
+        "x-ms-request-id": "f05ae654-e770-47a0-b51d-2d29fd8e4f3d",
+        "x-ms-ui-version": "sdk",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "DiscoMicroserviceLookupFailed",
+          "message": "Error performing request: 500 - \n{\u0022timestamp\u0022:\u00222023-10-03T03:37:35.058\u002B00:00\u0022,\u0022status\u0022:500,\u0022error\u0022:\u0022Internal Server Error\u0022,\u0022path\u0022:\u0022/v1/vendor/search\u0022}",
+          "target": null,
+          "details": null,
+          "innererror": null
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/subscriptions/5aceda1f-93bf-4b33-b129-22f360f7c5ff/resourceGroups/thangdeveastus2-rg/workspaces/sdktesting/discoTemplates?filter=ku\u0026maxpagesize=25\u0026skip=0\u0026api-version=2023-03-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v16.17.0 OS/(arm64-Darwin-22.6.0)",
+        "x-ms-client-request-id": "19b1267f-4398-4780-ab5c-49e96a306c4a"
+      },
+      "RequestBody": null,
+      "StatusCode": 500,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Tue, 03 Oct 2023 03:37:38 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "origin",
+          "access-control-request-method",
+          "access-control-request-headers",
+          "accept-encoding"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "1d73d7ae-78eb-46ff-8a01-48c389dae918",
+        "x-ms-error-code": "DiscoMicroserviceLookupFailed",
+        "x-ms-request-id": "8d5365c9-9693-4d49-9289-9a9ab22cb6b6",
+        "x-ms-ui-version": "sdk",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "DiscoMicroserviceLookupFailed",
+          "message": "Error performing request: 500 - \n{\u0022timestamp\u0022:\u00222023-10-03T03:37:37.959\u002B00:00\u0022,\u0022status\u0022:500,\u0022error\u0022:\u0022Internal Server Error\u0022,\u0022path\u0022:\u0022/v1/vendor/search\u0022}",
+          "target": null,
+          "details": null,
+          "innererror": null
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/subscriptions/5aceda1f-93bf-4b33-b129-22f360f7c5ff/resourceGroups/thangdeveastus2-rg/workspaces/sdktesting/discoTemplates?filter=ku\u0026maxpagesize=25\u0026skip=0\u0026api-version=2023-03-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v16.17.0 OS/(arm64-Darwin-22.6.0)",
+        "x-ms-client-request-id": "19b1267f-4398-4780-ab5c-49e96a306c4a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Tue, 03 Oct 2023 03:37:41 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "origin",
+          "access-control-request-method",
+          "access-control-request-headers",
+          "accept-encoding"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "831a32e0-3d4f-4ccd-abe0-d09f55f4829b",
+        "x-ms-request-id": "61432b51-5f87-42f5-a32a-e5085b3f3732",
+        "x-ms-ui-version": "sdk",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "totalElements": 319,
+        "nextLink": "https://eastus.easm-api-prod.trafficmanager.net/subscriptions/5aceda1f-93bf-4b33-b129-22f360f7c5ff/resourceGroups/thangdeveastus2-rg/workspaces/sdktesting/discoTemplates?filter=ku\u0026maxpagesize=25\u0026skip=1\u0026api-version=2023-03-01-preview",
+        "value": [
+          {
+            "id": "43488",
+            "name": "Rigaku Corporation",
+            "displayName": "Rigaku Corporation",
+            "industry": "Electronic Equipment, Instruments and Components",
+            "region": "Asia / Pacific",
+            "countryCode": "JP",
+            "stateCode": null,
+            "city": "Tokyo",
+            "seeds": [],
+            "names": [
+              "Rigaku Corporation"
+            ]
+          },
+          {
+            "id": "44100",
+            "name": "FUJIYAKUHIN Co., Ltd.",
+            "displayName": "FUJIYAKUHIN Co., Ltd.",
+            "industry": "Pharmaceuticals",
+            "region": "Asia / Pacific",
+            "countryCode": "JP",
+            "stateCode": null,
+            "city": "Saitama",
+            "seeds": [],
+            "names": [
+              "FUJIYAKUHIN Co., Ltd."
+            ]
+          },
+          {
+            "id": "44419",
+            "name": "Kulmbacher Brauerei Aktien-Gesellschaft",
+            "displayName": "Kulmbacher Brauerei Aktien-Gesellschaft",
+            "industry": "Beverages",
+            "region": "Europe",
+            "countryCode": "DE",
+            "stateCode": null,
+            "city": "Kulmbach",
+            "seeds": [],
+            "names": [
+              "Kulmbacher Brauerei Aktien-Gesellschaft"
+            ]
+          },
+          {
+            "id": "44457",
+            "name": "Roku, Inc.",
+            "displayName": "Roku, Inc.",
+            "industry": "Entertainment",
+            "region": "United States and Canada",
+            "countryCode": "US",
+            "stateCode": "CA",
+            "city": "Los Gatos",
+            "seeds": [],
+            "names": [
+              "Roku, Inc."
+            ]
+          },
+          {
+            "id": "46359",
+            "name": "Katakura Industries Co.,Ltd.",
+            "displayName": "Katakura Industries Co.,Ltd.",
+            "industry": "Industrial Conglomerates",
+            "region": "Asia / Pacific",
+            "countryCode": "JP",
+            "stateCode": null,
+            "city": "Tokyo",
+            "seeds": [],
+            "names": [
+              "Katakura Industries Co.,Ltd."
+            ]
+          },
+          {
+            "id": "46914",
+            "name": "Kuopion Energia Oy",
+            "displayName": "Kuopion Energia Oy",
+            "industry": "Electric Utilities",
+            "region": "Europe",
+            "countryCode": "FI",
+            "stateCode": null,
+            "city": "Kuopio",
+            "seeds": [],
+            "names": [
+              "Kuopion Energia Oy"
+            ]
+          },
+          {
+            "id": "47138",
+            "name": "KfH Kuratorium f\u00FCr Dialyse und Nierentransplantation e.V.",
+            "displayName": "KfH Kuratorium f\u00FCr Dialyse und Nierentransplantation e.V.",
+            "industry": "Healthcare Providers and Services",
+            "region": "Europe",
+            "countryCode": "DE",
+            "stateCode": null,
+            "city": "Neu-Isenburg",
+            "seeds": [],
+            "names": [
+              "KfH Kuratorium f\u00FCr Dialyse und Nierentransplantation e.V."
+            ]
+          },
+          {
+            "id": "48307",
+            "name": "Toyota Boshoku Corporation",
+            "displayName": "Toyota Boshoku Corporation",
+            "industry": "Auto Components",
+            "region": "Asia / Pacific",
+            "countryCode": "JP",
+            "stateCode": null,
+            "city": "Kariya",
+            "seeds": [],
+            "names": [
+              "Toyota Boshoku Corporation"
+            ]
+          },
+          {
+            "id": "48982",
+            "name": "Suomen Osuuskauppojen Keskuskunta Oy",
+            "displayName": "Suomen Osuuskauppojen Keskuskunta Oy",
+            "industry": "Industrial Conglomerates",
+            "region": "Europe",
+            "countryCode": "FI",
+            "stateCode": null,
+            "city": "Helsinki",
+            "seeds": [],
+            "names": [
+              "Suomen Osuuskauppojen Keskuskunta Oy"
+            ]
+          },
+          {
+            "id": "49346",
+            "name": "Commercial Bank of Kuwait K.P.S.C.",
+            "displayName": "Commercial Bank of Kuwait K.P.S.C.",
+            "industry": "Banks",
+            "region": "Africa / Middle East",
+            "countryCode": "KW",
+            "stateCode": null,
+            "city": "Safat",
+            "seeds": [],
+            "names": [
+              "Commercial Bank of Kuwait K.P.S.C."
+            ]
+          },
+          {
+            "id": "49680",
+            "name": "Miroku Jyoho Service Co., Ltd.",
+            "displayName": "Miroku Jyoho Service Co., Ltd.",
+            "industry": "Software",
+            "region": "Asia / Pacific",
+            "countryCode": "JP",
+            "stateCode": null,
+            "city": "Tokyo",
+            "seeds": [],
+            "names": [
+              "Miroku Jyoho Service Co., Ltd."
+            ]
+          },
+          {
+            "id": "49715",
+            "name": "Kuwait Finance House K.S.C.P.",
+            "displayName": "Kuwait Finance House K.S.C.P.",
+            "industry": "Banks",
+            "region": "Africa / Middle East",
+            "countryCode": "KW",
+            "stateCode": null,
+            "city": "Kuwait City",
+            "seeds": [],
+            "names": [
+              "Kuwait Finance House K.S.C.P."
+            ]
+          },
+          {
+            "id": "51643",
+            "name": "Shikoku Electric Power Company, Incorporated",
+            "displayName": "Shikoku Electric Power Company, Incorporated",
+            "industry": "Electric Utilities",
+            "region": "Asia / Pacific",
+            "countryCode": "JP",
+            "stateCode": null,
+            "city": "Takamatsu",
+            "seeds": [],
+            "names": [
+              "Shikoku Electric Power Company, Incorporated"
+            ]
+          },
+          {
+            "id": "52622",
+            "name": "Outokumpu Oyj",
+            "displayName": "Outokumpu Oyj",
+            "industry": "Metals and Mining",
+            "region": "Europe",
+            "countryCode": "FI",
+            "stateCode": null,
+            "city": "Helsinki",
+            "seeds": [],
+            "names": [
+              "Outokumpu Oyj"
+            ]
+          },
+          {
+            "id": "53642",
+            "name": "Rimkus Consulting Group, Inc.",
+            "displayName": "Rimkus Consulting Group, Inc.",
+            "industry": "Professional Services",
+            "region": "United States and Canada",
+            "countryCode": "US",
+            "stateCode": "TX",
+            "city": "Houston",
+            "seeds": [],
+            "names": [
+              "Rimkus Consulting Group, Inc."
+            ]
+          },
+          {
+            "id": "53887",
+            "name": "Mikuni Corporation",
+            "displayName": "Mikuni Corporation",
+            "industry": "Auto Components",
+            "region": "Asia / Pacific",
+            "countryCode": "JP",
+            "stateCode": null,
+            "city": "Tokyo",
+            "seeds": [],
+            "names": [
+              "Mikuni Corporation"
+            ]
+          },
+          {
+            "id": "54385",
+            "name": "Skullcandy, Inc.",
+            "displayName": "Skullcandy, Inc.",
+            "industry": "Household Durables",
+            "region": "United States and Canada",
+            "countryCode": "US",
+            "stateCode": "UT",
+            "city": "Park City",
+            "seeds": [],
+            "names": [
+              "Skullcandy, Inc."
+            ]
+          },
+          {
+            "id": "54532",
+            "name": "Kulicke and Soffa Industries, Inc.",
+            "displayName": "Kulicke and Soffa Industries, Inc.",
+            "industry": "Semiconductors and Semiconductor Equipment",
+            "region": "Asia / Pacific",
+            "countryCode": "SG",
+            "stateCode": null,
+            "city": "Singapore",
+            "seeds": [],
+            "names": [
+              "Kulicke and Soffa Industries, Inc."
+            ]
+          },
+          {
+            "id": "54548",
+            "name": "Daifuku Co., Ltd.",
+            "displayName": "Daifuku Co., Ltd.",
+            "industry": "Machinery",
+            "region": "Asia / Pacific",
+            "countryCode": "JP",
+            "stateCode": null,
+            "city": "Osaka",
+            "seeds": [],
+            "names": [
+              "Daifuku Co., Ltd."
+            ]
+          },
+          {
+            "id": "54550",
+            "name": "Hokuriku Electric Power Company",
+            "displayName": "Hokuriku Electric Power Company",
+            "industry": "Electric Utilities",
+            "region": "Asia / Pacific",
+            "countryCode": "JP",
+            "stateCode": null,
+            "city": "Toyama",
+            "seeds": [],
+            "names": [
+              "Hokuriku Electric Power Company"
+            ]
+          },
+          {
+            "id": "54555",
+            "name": "The Hyakugo Bank, Ltd.",
+            "displayName": "The Hyakugo Bank, Ltd.",
+            "industry": "Banks",
+            "region": "Asia / Pacific",
+            "countryCode": "JP",
+            "stateCode": null,
+            "city": "Tsu",
+            "seeds": [],
+            "names": [
+              "The Hyakugo Bank, Ltd."
+            ]
+          },
+          {
+            "id": "56953",
+            "name": "Egypt-Kuwait Securities Trading",
+            "displayName": "Egypt-Kuwait Securities Trading",
+            "industry": "Capital Markets",
+            "region": "Africa / Middle East",
+            "countryCode": "EG",
+            "stateCode": null,
+            "city": "Cairo",
+            "seeds": [],
+            "names": [
+              "Egypt-Kuwait Securities Trading"
+            ]
+          },
+          {
+            "id": "57943",
+            "name": "BankUnited, Inc.",
+            "displayName": "BankUnited, Inc.",
+            "industry": "Banks",
+            "region": "United States and Canada",
+            "countryCode": "US",
+            "stateCode": "FL",
+            "city": "Miami Lakes",
+            "seeds": [],
+            "names": [
+              "BankUnited, Inc."
+            ]
+          },
+          {
+            "id": "58190",
+            "name": "SAKURA Internet Inc.",
+            "displayName": "SAKURA Internet Inc.",
+            "industry": "IT Services",
+            "region": "Asia / Pacific",
+            "countryCode": "JP",
+            "stateCode": null,
+            "city": "Osaka",
+            "seeds": [],
+            "names": [
+              "SAKURA Internet Inc."
+            ]
+          },
+          {
+            "id": "58469",
+            "name": "Hokuhoku Financial Group, Inc.",
+            "displayName": "Hokuhoku Financial Group, Inc.",
+            "industry": "Banks",
+            "region": "Asia / Pacific",
+            "countryCode": "JP",
+            "stateCode": null,
+            "city": "Toyama",
+            "seeds": [],
+            "names": [
+              "Hokuhoku Financial Group, Inc."
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
