@@ -47,7 +47,12 @@ describe("HttpSender", () => {
 
   describe("#constructor", () => {
     it("should create a valid instance", () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       assert.ok(sender);
     });
   });
@@ -58,7 +63,12 @@ describe("HttpSender", () => {
       time: new Date(),
     };
     it("should send a valid envelope", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       scope.reply(200, JSON.stringify(successfulBreezeResponse(1)));
       const { result, statusCode } = await sender.send([envelope]);
       assert.strictEqual(statusCode, 200);
@@ -66,7 +76,12 @@ describe("HttpSender", () => {
     });
 
     it("should send an invalid non-retriable envelope", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       scope.reply(403, JSON.stringify(failedBreezeResponse(2, 403)));
 
       try {
@@ -78,7 +93,12 @@ describe("HttpSender", () => {
     });
 
     it("should send a partially retriable envelope", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       scope.reply(206, JSON.stringify(partialBreezeResponse([200, 408, 408])));
       const { result, statusCode } = await sender.send([envelope, envelope]);
       assert.strictEqual(statusCode, 206);
@@ -86,7 +106,12 @@ describe("HttpSender", () => {
     });
 
     it("should persist retriable failed telemetry 429", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       const response = failedBreezeResponse(1, 429);
       scope.reply(429, JSON.stringify(response));
 
@@ -99,7 +124,12 @@ describe("HttpSender", () => {
     });
 
     it("should persist retriable failed telemetry 500", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       const response = failedBreezeResponse(1, 500);
       scope.reply(500, JSON.stringify(response));
 
@@ -112,7 +142,12 @@ describe("HttpSender", () => {
     });
 
     it("should persist retriable failed  502", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       const response = failedBreezeResponse(1, 502);
       scope.reply(502, JSON.stringify(response));
 
@@ -125,7 +160,12 @@ describe("HttpSender", () => {
     });
 
     it("should persist retriable failed telemetry 503", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       const response = failedBreezeResponse(1, 503);
       scope.reply(503, JSON.stringify(response));
 
@@ -138,7 +178,12 @@ describe("HttpSender", () => {
     });
 
     it("should persist retriable failed telemetry 504", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       const response = failedBreezeResponse(1, 504);
       scope.reply(504, JSON.stringify(response));
 
@@ -151,7 +196,12 @@ describe("HttpSender", () => {
     });
 
     it("should persist partial retriable failed telemetry", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       const response = partialBreezeResponse([200, 408, 408]);
       scope.reply(206, JSON.stringify(response));
 
@@ -163,7 +213,12 @@ describe("HttpSender", () => {
     });
 
     it("should not persist partial non retriable failed telemetry", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       const response = partialBreezeResponse([407, 501, 408]);
       scope.reply(206, JSON.stringify(response));
 
@@ -175,7 +230,12 @@ describe("HttpSender", () => {
     });
 
     it("should not persist non-retriable failed telemetry", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       const response = failedBreezeResponse(1, 400);
       scope.reply(400, JSON.stringify(response));
 
@@ -187,7 +247,12 @@ describe("HttpSender", () => {
     });
 
     it("should not persist non-retriable failed telemetry", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       const response = failedBreezeResponse(1, 404);
       scope.reply(404, JSON.stringify(response));
 
@@ -199,7 +264,12 @@ describe("HttpSender", () => {
     });
 
     it("should not persist when an error is caught", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       scope.reply(1, ""); // httpSender will throw
 
       const result = await sender.exportEnvelopes([envelope]);
@@ -210,7 +280,12 @@ describe("HttpSender", () => {
     });
 
     it("should start retry timer when telemetry is successfully sent", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       const response = successfulBreezeResponse(1);
       scope.reply(200, JSON.stringify(response));
 
@@ -223,7 +298,12 @@ describe("HttpSender", () => {
     });
 
     it("should not start a retry timer when one already exists", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       sender["_retryTimer"] = "foo" as unknown as NodeJS.Timer;
       const response = successfulBreezeResponse(1);
       scope.reply(200, JSON.stringify(response));
@@ -234,7 +314,12 @@ describe("HttpSender", () => {
     });
 
     it("should handle permanent redirects in Azure Monitor", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
@@ -252,7 +337,12 @@ describe("HttpSender", () => {
     });
 
     it("should handle temporary redirects in Azure Monitor", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
@@ -270,7 +360,12 @@ describe("HttpSender", () => {
     });
 
     it("should use redirect URL for following requests", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
@@ -288,7 +383,12 @@ describe("HttpSender", () => {
     });
 
     it("should stop redirecting when circular redirect is triggered", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
       const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
@@ -313,8 +413,13 @@ describe("HttpSender", () => {
 
   describe("#authentication", () => {
     it("should add bearerTokenAuthenticationPolicy", () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false, {
-        credential: new TestTokenCredential(),
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {
+          credential: new TestTokenCredential(),
+        },
       });
       assert.ok(
         sender["_appInsightsClient"].pipeline
@@ -324,14 +429,32 @@ describe("HttpSender", () => {
           })
       );
     });
+
+    it("should allow configuration of credentialScopes", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        aadAudience: "testAudience",
+        exporterOptions: {
+          credential: new TestTokenCredential(),
+        },
+      });
+      assert.strictEqual(sender["_appInsightsClientOptions"].credentialScopes, "testAudience");
+    });
   });
 
   describe("#advanced configuration", () => {
     it("proxy configuration", () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false, {
-        proxyOptions: {
-          host: "testproxy",
-          port: 123,
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "someIkey",
+        trackStatsbeat: false,
+        exporterOptions: {
+          proxyOptions: {
+            host: "testproxy",
+            port: 123,
+          },
         },
       });
       assert.ok(

@@ -26,6 +26,10 @@ export abstract class AzureMonitorBaseExporter {
    *Flag to determine if exporter will generate Statsbeat data
    */
   protected trackStatsbeat: boolean = false;
+  /**
+   * Instrumentation key to be used for exported envelopes
+   */
+  protected aadAudience: string | undefined;
   private _isStatsbeatExporter: boolean;
 
   /**
@@ -49,6 +53,7 @@ export abstract class AzureMonitorBaseExporter {
       this.instrumentationKey =
         parsedConnectionString.instrumentationkey || this.instrumentationKey;
       this.endpointUrl = parsedConnectionString.ingestionendpoint?.trim() || this.endpointUrl;
+      this.aadAudience = parsedConnectionString.aadaudience;
     }
 
     // Instrumentation key is required
