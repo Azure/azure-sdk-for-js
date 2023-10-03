@@ -56,7 +56,7 @@ async function scenario27253Test() {
 
   while (new Date().valueOf() - startedAt.valueOf() < testDurationInMs && !terminalCase) {
     await delay(20000 + Math.floor(Math.random() * 1000)); // around every 20s
-    console.log("waited 20 seconds");
+    console.log(`waited 20 seconds, events received so far = ${stressBase.eventsReceivedCount}`);
   }
   await consumerClient.close();
   await stressBase.endTest();
