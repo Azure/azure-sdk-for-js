@@ -187,7 +187,7 @@ describe.skip("Computed Properties test", async () => {
     assert.deepStrictEqual(results, allComputedPropertiesResult);
   });
 
-  //replace test
+  // replace test
   it("replace computed property for a contianer", async function () {
     const database = await getTestDatabase("sample database");
     // create container
