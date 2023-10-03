@@ -41,9 +41,9 @@ async function scenario27253Test() {
   for (const partition in partitions) {
     subscriptions.push(consumerClient.subscribe(partition, {
       processEvents: async (events) => {
-        await delay(2000 + Math.floor(Math.random() * 3000)); // around 2-5s
         // event processing code goes here
         if (events.length === 0) return;
+        await delay(1000 + Math.floor(Math.random() * 2000)); // around 1-3s
         stressBase.eventsReceivedCount += events.length;
       },
       processError: async (err) => {
