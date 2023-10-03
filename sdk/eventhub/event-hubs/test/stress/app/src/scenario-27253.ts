@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventHubConsumerClient } from "@azure/event-hubs";
+import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
 import { delay } from "@azure/core-util";
 import { EventHubsStressTester } from "./eventHubsStressTester";
 import parsedArgs from "minimist";
@@ -52,7 +52,7 @@ async function scenario27253Test() {
         stressBase._numErrors += 1;
         terminalCase = true;
       }
-    }, { maxWaitTimeInSeconds: 0.5, maxBatchSize: 100 }))
+    }, { maxWaitTimeInSeconds: 0.5, maxBatchSize: 100, startPosition: earliestEventPosition }))
   }
 
   while (new Date().valueOf() - startedAt.valueOf() < testDurationInMs && !terminalCase) {
