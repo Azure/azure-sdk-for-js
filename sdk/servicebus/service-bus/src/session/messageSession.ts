@@ -37,7 +37,7 @@ import {
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/receiverCommon";
-import { isDefined } from "@azure/core-util";
+import { delay, isDefined } from "@azure/core-util";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -267,9 +267,9 @@ export class MessageSession extends LinkEntity<Receiver> {
     const link = await this._context.connection.createReceiver(options);
 
     const receivedSessionId = link.source?.filter?.[Constants.sessionFilterName];
-    if (this._providedSessionId == null && receivedSessionId == null) {
-      // When we ask for any sessions, but don't get one back, check whether
-      // service has sent any error.
+    if (!this._providedSessionId && !receivedSessionId) {
+      // When we ask for any sessions (passing option of session-filter: undefined),
+      // but don't receive one back, check whether service has sent any error.
       if (
         options.source &&
         typeof options.source !== "string" &&
@@ -277,14 +277,15 @@ export class MessageSession extends LinkEntity<Receiver> {
         Constants.sessionFilterName in options.source.filter &&
         options.source.filter![Constants.sessionFilterName] === undefined
       ) {
-        await new Promise((resolve) => setTimeout(resolve, 1)); // yield to eventloop
-        if (this._lastSBError) throw this._lastSBError;
-
-        // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
-        // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
-        errorMessage = `Failed to create a receiver. No unlocked sessions available.`;
+        await delay(1); // yield to eventloop
+        if (this._lastSBError) {
+          throw this._lastSBError;
+        }
       }
-    } else if (this._providedSessionId != null && receivedSessionId !== this._providedSessionId) {
+      // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
+      // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
+      errorMessage = `Failed to create a receiver. No unlocked sessions available.`;
+    } else if (this._providedSessionId && receivedSessionId !== this._providedSessionId) {
       // This code path is reached if the session is already locked by another receiver.
       // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
       errorMessage = `Failed to create a receiver for the requested session '${this._providedSessionId}'. It may be locked by another receiver.`;
@@ -312,13 +313,13 @@ export class MessageSession extends LinkEntity<Receiver> {
       const sessionOptions = this._createMessageSessionOptions(this.identifier, opts.timeoutInMs);
       await this.initLink(sessionOptions, opts.abortSignal);
 
-      if (this.link == null) {
+      if (!this.link) {
         throw new Error("INTERNAL ERROR: failed to create receiver but without an error.");
       }
 
       const receivedSessionId = this.link.source?.filter?.[Constants.sessionFilterName];
 
-      if (this._providedSessionId == null) this.sessionId = receivedSessionId;
+      if (!this._providedSessionId) this.sessionId = receivedSessionId;
       this.sessionLockedUntilUtc = convertTicksToDate(
         this.link.properties["com.microsoft:locked-until-utc"]
       );
