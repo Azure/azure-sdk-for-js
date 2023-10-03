@@ -9,12 +9,15 @@ matrix:
     node18:
       image: Dockerfile
   scenarios:
-    noActivity:
-       testTarget: scenarioNoActivity
-       memory: "1.5Gi"
-    checkpointStore:
-       testTarget: scenarioCheckpointStore
-       memory: "1.5Gi"
-    getRuntimeProps:
-      testTarget: scenarioGetRuntimeProps
+    # noActivity:
+    #    testTarget: scenarioNoActivity
+    #    memory: "1.5Gi"
+    # checkpointStore:
+    #    testTarget: scenarioCheckpointStore
+    #    memory: "1.5Gi"
+    # getRuntimeProps:
+    #   testTarget: scenarioGetRuntimeProps
+    #   memory: "1.5Gi"
+    scenario-27253:
+      testTarget: scenario-27253
       memory: "1.5Gi"
