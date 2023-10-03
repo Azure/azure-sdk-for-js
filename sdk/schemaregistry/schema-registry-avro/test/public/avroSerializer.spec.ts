@@ -4,12 +4,21 @@
 import {
   CreateTestSerializerOptions,
   createTestSerializer,
+  registerLogicalTypesTestSchema,
   registerTestSchema,
 } from "./utils/mockedSerializer";
 import { assert, use as chaiUse } from "chai";
-import { testAvroType, testGroup, testSchema, testValue } from "./utils/dummies";
+import {
+  testAvroDateType,
+  testAvroType,
+  testGroup,
+  testSchema,
+  testTransaction,
+  testValue,
+  testDateSchema,
+} from "./utils/dummies";
 import { Context } from "mocha";
-import { MessageContent } from "../../src/";
+import { AvroSerializer, MessageContent } from "../../src/";
 import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { v4 as uuid } from "uuid";
@@ -84,6 +93,22 @@ describe("AvroSerializer", async function () {
     // throw away serializer again and cover getSchemaProperties instead of registerSchema
     serializer = await createTestSerializer(noAutoRegisterOptions);
     assert.deepStrictEqual(await serializer.serialize(testValue, testSchema), message);
+  });
+
+  it("serializes logical type for timestamp-millis", async () => {
+    const schemaId = await registerLogicalTypesTestSchema(registry);
+    const serializer = new AvroSerializer(registry as any, noAutoRegisterOptions.serializerOptions);
+    const { contentType, data } = await serializer.serialize(testTransaction, testDateSchema);
+    assert.strictEqual(`avro/binary+${schemaId}`, contentType);
+    const buffer = Buffer.from(data);
+    assert.deepStrictEqual(testAvroDateType.fromBuffer(buffer), testTransaction);
+    assert.equal(serializer["cacheById"].size, 1);
+    assert.equal(
+      serializer["cacheById"].peek(schemaId)?.name,
+      "com.azure.schemaregistry.samples.AvroUser"
+    );
+    assert.equal(serializer["cacheBySchemaDefinition"].size, 1);
+    assert.equal(serializer["cacheBySchemaDefinition"].peek(testDateSchema)?.id, schemaId);
   });
 
   it("works with trivial example in README", async () => {
