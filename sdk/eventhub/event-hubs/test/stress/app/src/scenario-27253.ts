@@ -41,7 +41,6 @@ async function scenario27253Test() {
   for (const partition in partitions) {
     subscriptions.push(consumerClient.subscribe(partition, {
       processEvents: async (events) => {
-        console.log(`Received ${events.length} events from partition ${partition}`);
         await delay(2000 + Math.floor(Math.random() * 3000)); // around 2-5s
         // event processing code goes here
         if (events.length === 0) return;
@@ -82,7 +81,6 @@ async function sendEvents() {
         }) &&
         eventsAdded + batch.count <= eventsToAdd
       );
-      console.log(`Created batch with ${batch.count} events to partition ${partition}`);
       await producer.sendBatch(batch);
       eventsAdded = eventsAdded + batch.count;
       console.log(`Added ${batch.count} events to partition ${partition}, total ${eventsAdded}`);
