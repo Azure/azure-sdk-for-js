@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.1-beta.1 (Unreleased)
+
+### Features Added
+
+- The Avro Serializer supports serialization and deserialization for `timestamp-millis` logical types to native `Date` types
+
 ## 1.0.0 (2022-05-10)
 
 ### Other Changes
