@@ -6,7 +6,9 @@ import { IndexingPolicy } from "../../../src/documents/IndexingPolicy";
 import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 import { Container } from "../../../src/client/Container/Container";
 
-describe("Computed Properties test", async () => {
+// As of the current emulator release (March 23), computed properties are not supported,
+// hence, we are temporarily excluding these tests.
+describe.skip("Computed Properties test", async () => {
   let lowerName: ComputedProperty;
   let parentsFullName: ComputedProperty;
   let allComputedProperties: ComputedProperty[];
