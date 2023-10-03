@@ -37,9 +37,9 @@ export class HttpSender extends BaseSender {
       ...options,
     };
 
-    if (this._appInsightsClientOptions.credential) {
+    if (options?.credential) {
       // Add credentialScopes
-      this._appInsightsClientOptions.credentialScopes = [applicationInsightsResource];
+      options.credentialScopes = [applicationInsightsResource];
     }
     this._appInsightsClient = new ApplicationInsightsClient(this._appInsightsClientOptions);
 

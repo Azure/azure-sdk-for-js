@@ -2,14 +2,15 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { CryptographyClient, KeyClient, KeyVaultKey, SignatureAlgorithm } from "../../../src";
+import { CryptographyClient, KeyClient, KeyVaultKey, SignatureAlgorithm } from "../../src";
+import { isNode } from "@azure/core-util";
 import { createHash } from "crypto";
-import { authenticate, envSetupForPlayback } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
+import TestClient from "./utils/testClient";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
-import { RsaCryptographyProvider } from "../../../src/cryptography/rsaCryptographyProvider";
-import { getServiceVersion } from "../utils/common";
+import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
+import { getServiceVersion } from "./utils/common";
 import { assert } from "@azure/test-utils";
 
 describe("Local cryptography public tests", () => {
@@ -19,6 +20,11 @@ describe("Local cryptography public tests", () => {
   let recorder: Recorder;
   let credential: ClientSecretCredential;
   let keySuffix: string;
+
+  if (!isNode) {
+    // Local cryptography is only supported in NodeJS
+    return;
+  }
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -200,6 +206,13 @@ describe("Local cryptography public tests", () => {
 
     for (const localAlgorithmName of localSupportedAlgorithmNames) {
       it(localAlgorithmName, async function (this: Context): Promise<void> {
+        if (!isNode) {
+          console.log(
+            `Skipping test, Local sign of algorithm ${localAlgorithmName} is only supported in NodeJS`
+          );
+          this.skip();
+        }
+
         const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
         const keyVaultKey = await client.createKey(keyName, "RSA");
         const cryptoClient = new CryptographyClient(

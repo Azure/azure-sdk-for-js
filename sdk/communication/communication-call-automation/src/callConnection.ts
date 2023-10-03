@@ -44,13 +44,6 @@ import {
 } from "./utli/converters";
 import { v4 as uuidv4 } from "uuid";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
-import {
-  AddParticipantEventResult,
-  CancelAddParticipantEventResult,
-  RemoveParticipantEventResult,
-  TransferCallToParticipantEventResult,
-} from "./eventprocessor/eventResponses";
 
 /**
  * CallConnection class represents call connection based APIs.
@@ -62,12 +55,10 @@ export class CallConnection {
   private readonly endpoint: string;
   private readonly credential: TokenCredential | KeyCredential;
   private readonly callAutomationApiClientOptions?: CallAutomationApiClientOptionalParams;
-  private readonly callAutomationEventProcessor: CallAutomationEventProcessor;
   constructor(
     callConnectionId: string,
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    eventProcessor: CallAutomationEventProcessor,
     options?: CallAutomationApiClientOptionalParams
   ) {
     this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
@@ -77,7 +68,6 @@ export class CallConnection {
     this.callConnection = new CallConnectionImpl(this.callAutomationApiClient);
     this.endpoint = endpoint;
     this.credential = credential;
-    this.callAutomationEventProcessor = eventProcessor;
     this.callAutomationApiClientOptions = options;
   }
 
@@ -89,7 +79,6 @@ export class CallConnection {
       this.callConnectionId,
       this.endpoint,
       this.credential,
-      this.callAutomationEventProcessor,
       this.callAutomationApiClientOptions
     );
   }
@@ -194,7 +183,7 @@ export class CallConnection {
       ),
       sourceDisplayName: targetParticipant.sourceDisplayName,
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext,
       customContext: {
         sipHeaders: targetParticipant.customContext?.sipHeaders,
         voipHeaders: targetParticipant.customContext?.voipHeaders,
@@ -219,37 +208,6 @@ export class CallConnection {
           ? communicationIdentifierConverter(result.participant?.identifier)
           : undefined,
       },
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const addParticipantEventResult: AddParticipantEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "AddParticipantSucceeded" &&
-              event.operationContext === addParticipantRequest.operationContext
-            ) {
-              addParticipantEventResult.isSuccess = true;
-              addParticipantEventResult.successResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "AddParticipantFailed" &&
-              event.operationContext === addParticipantRequest.operationContext
-            ) {
-              addParticipantEventResult.isSuccess = false;
-              addParticipantEventResult.failureResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs
-        );
-        return addParticipantEventResult;
-      },
     };
     return addParticipantsResult;
   }
@@ -265,7 +223,7 @@ export class CallConnection {
   ): Promise<TransferCallResult> {
     const transferToParticipantRequest: TransferToParticipantRequest = {
       targetParticipant: communicationIdentifierModelConverter(targetParticipant),
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext,
       customContext: {
         sipHeaders: options.customContext?.sipHeaders,
         voipHeaders: options.customContext?.voipHeaders,
@@ -283,40 +241,7 @@ export class CallConnection {
       transferToParticipantRequest,
       optionsInternal
     );
-    const transferCallResult: TransferCallResult = {
-      ...result,
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const transferCallToParticipantEventResult: TransferCallToParticipantEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "CallTransferAccepted" &&
-              event.operationContext === transferToParticipantRequest.operationContext
-            ) {
-              transferCallToParticipantEventResult.isSuccess = true;
-              transferCallToParticipantEventResult.successResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "CallTransferFailed" &&
-              event.operationContext === transferToParticipantRequest.operationContext
-            ) {
-              transferCallToParticipantEventResult.isSuccess = false;
-              transferCallToParticipantEventResult.failureResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs
-        );
-        return transferCallToParticipantEventResult;
-      },
-    };
+    const transferCallResult: TransferCallResult = { ...result };
     return transferCallResult;
   }
 
@@ -331,7 +256,7 @@ export class CallConnection {
   ): Promise<RemoveParticipantResult> {
     const removeParticipantRequest: RemoveParticipantRequest = {
       participantToRemove: communicationIdentifierModelConverter(participant),
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext,
       callbackUri: options.callbackUrl,
     };
     const optionsInternal = {
@@ -346,37 +271,6 @@ export class CallConnection {
     );
     const removeParticipantsResult: RemoveParticipantResult = {
       ...result,
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const removeParticipantEventResult: RemoveParticipantEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "RemoveParticipantSucceeded" &&
-              event.operationContext === removeParticipantRequest.operationContext
-            ) {
-              removeParticipantEventResult.isSuccess = true;
-              removeParticipantEventResult.successResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "RemoveParticipantFailed" &&
-              event.operationContext === removeParticipantRequest.operationContext
-            ) {
-              removeParticipantEventResult.isSuccess = false;
-              removeParticipantEventResult.failureResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs
-        );
-        return removeParticipantEventResult;
-      },
     };
     return removeParticipantsResult;
   }
@@ -414,14 +308,14 @@ export class CallConnection {
    *
    * @param invitationId - Invitation ID used to cancel the add participant request.
    */
-  public async cancelAddParticipant(
+  public cancelAddParticipant(
     invitationId: string,
     options: CancelAddParticipantOptions = {}
   ): Promise<CancelAddParticipantResult> {
     const { operationContext, callbackUrl: callbackUri, ...operationOptions } = options;
     const cancelAddParticipantRequest = {
       invitationId,
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext,
       callbackUri,
     };
     const optionsInternal = {
@@ -430,47 +324,10 @@ export class CallConnection {
       repeatabilityRequestID: uuidv4(),
     };
 
-    const result = await this.callConnection.cancelAddParticipant(
+    return this.callConnection.cancelAddParticipant(
       this.callConnectionId,
       cancelAddParticipantRequest,
       optionsInternal
-    );
-
-    const cancelAddParticipantResult: CancelAddParticipantResult = {
-      ...result,
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const cancelAddParticipantEventResult: CancelAddParticipantEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "AddParticipantCancelled" &&
-              event.operationContext === cancelAddParticipantRequest.operationContext
-            ) {
-              cancelAddParticipantEventResult.isSuccess = true;
-              cancelAddParticipantEventResult.successResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "CancelAddParticipantFailed" &&
-              event.operationContext === cancelAddParticipantRequest.operationContext
-            ) {
-              cancelAddParticipantEventResult.isSuccess = false;
-              cancelAddParticipantEventResult.failureResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs
-        );
-        return cancelAddParticipantEventResult;
-      },
-    };
-
-    return cancelAddParticipantResult;
+    ) as Promise<CancelAddParticipantResult>;
   }
 }

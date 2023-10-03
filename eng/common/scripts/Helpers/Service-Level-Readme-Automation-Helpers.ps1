@@ -1,15 +1,8 @@
 
-function create-service-readme(
-  $readmeFolder,
-  $readmeName,
-  $moniker,
-  $msService,
-  $indexTableLink,
-  $serviceName
-) {
-
+function create-service-readme($readmeFolder, $readmeName, $moniker, $msService, $indexTableLink, $serviceName, $author, $msAuthor)
+{
   $readmePath = Join-Path $readmeFolder -ChildPath $readmeName
-  $content = ""
+  $content = ""  
   if (Test-Path (Join-Path $readmeFolder -ChildPath $indexTableLink)) {
     $content = "## Packages - $moniker`r`n"
     $content += "[!INCLUDE [packages]($indexTableLink)]"
@@ -20,12 +13,8 @@ function create-service-readme(
   }
   # Generate the front-matter for docs needs
   # $Language, $LanguageDisplayName are the variables globally defined in Language-Settings.ps1
-  $metadataString = GenerateDocsMsMetadata `
-    -language $Language `
-    -languageDisplayName $LanguageDisplayName `
-    -serviceName $serviceName `
-    -msService $msService
-
+  $metadataString = GenerateDocsMsMetadata -language $Language -languageDisplayName $LanguageDisplayName -serviceName $serviceName `
+    -author $author -msAuthor $msAuthor -msService $msService
   Add-Content -Path $readmePath -Value $metadataString -NoNewline
 
   # Add tables, conbined client and mgmt together.
@@ -45,20 +34,14 @@ function update-metadata-table($readmeFolder, $readmeName, $serviceName, $msServ
     $restContent = $Matches["content"].trim()
     $metadata = $Matches["metadata"].trim()
   }
-
   # $Language, $LanguageDisplayName are the variables globally defined in Language-Settings.ps1
-  $metadataString = GenerateDocsMsMetadata `
-    -originalMetadata $metadata `
-    -language $Language `
-    -languageDisplayName $LanguageDisplayName `
-    -serviceName $serviceName `
-    -msService $msService
-
+  $metadataString = GenerateDocsMsMetadata -originalMetadata $metadata -language $Language -languageDisplayName $LanguageDisplayName -serviceName $serviceName `
+    -author $author -msAuthor $msAuthor -msService $msService
   Set-Content -Path $readmePath -Value "$metadataString$restContent" -NoNewline
 }
 
 function generate-markdown-table($readmeFolder, $readmeName, $packageInfos, $moniker) {
-  $tableHeader = "| Reference | Package | Source |`r`n|---|---|---|`r`n"
+  $tableHeader = "| Reference | Package | Source |`r`n|---|---|---|`r`n" 
   $tableContent = ""
   $packageInfos = $packageInfos | Sort-Object -Property Type,Package
   # Here is the table, the versioned value will
@@ -71,7 +54,7 @@ function generate-markdown-table($readmeFolder, $readmeName, $packageInfos, $mon
     if (Test-Path "Function:$GetPackageLevelReadmeFn") {
       $packageLevelReadme = &$GetPackageLevelReadmeFn -packageMetadata $pkg
     }
-
+    
     $referenceLink = "[$($pkg.DisplayName)]($packageLevelReadme-readme.md)"
     if (!(Test-Path (Join-Path $readmeFolder -ChildPath "$packageLevelReadme-readme.md"))) {
       $referenceLink = $pkg.DisplayName
@@ -89,41 +72,19 @@ function generate-markdown-table($readmeFolder, $readmeName, $packageInfos, $mon
   }
 }
 
-function generate-service-level-readme(
-  $docRepoLocation,
-  $readmeBaseName,
-  $pathPrefix,
-  $packageInfos,
-  $serviceName,
-  $moniker,
-  $msService
-) {
+function generate-service-level-readme($docRepoLocation, $readmeBaseName, $pathPrefix, $packageInfos, $serviceName, $moniker, $author, $msAuthor, $msService) {
   $readmeFolder = "$docRepoLocation/$pathPrefix/$moniker/"
   $serviceReadme = "$readmeBaseName.md"
   $indexReadme  = "$readmeBaseName-index.md"
- 
   if ($packageInfos) {
-    generate-markdown-table `
-      -readmeFolder $readmeFolder `
-      -readmeName $indexReadme `
-      -packageInfos $packageInfos `
-      -moniker $moniker  
+    generate-markdown-table -readmeFolder $readmeFolder -readmeName $indexReadme -packageInfos $packageInfos -moniker $moniker
   }
-  
   if (!(Test-Path "$readmeFolder$serviceReadme") -and $packageInfos) {
-    create-service-readme `
-      -readmeFolder $readmeFolder `
-      -readmeName $serviceReadme `
-      -moniker $moniker `
-      -msService $msService `
-      -indexTableLink $indexReadme `
-      -serviceName $serviceName
-
-  } elseif (Test-Path "$readmeFolder$serviceReadme") {
-    update-metadata-table `
-      -readmeFolder $readmeFolder `
-      -readmeName $serviceReadme `
-      -serviceName $serviceName `
-      -msService $msService
+    create-service-readme -readmeFolder $readmeFolder -readmeName $serviceReadme -moniker $moniker -msService $msService `
+      -indexTableLink $indexReadme -serviceName $serviceName -author $author -msAuthor $msAuthor
+  }
+  elseif (Test-Path "$readmeFolder$serviceReadme") {
+    update-metadata-table -readmeFolder $readmeFolder -readmeName $serviceReadme -serviceName $serviceName `
+      -msService $msService -author $author -msAuthor $msAuthor
   }
 }

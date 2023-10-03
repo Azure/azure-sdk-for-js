@@ -212,7 +212,7 @@ export async function getAudioTranslation<Format extends AudioResultFormat>(
     .pathUnchecked("deployments/{deploymentId}/audio/translations", deploymentName)
     .post({
       body: {
-        file: await createFile(fileContent),
+        file: createFile(fileContent),
         ...(response_format && { response_format }),
         ...(temperature !== undefined ? { temperature } : {}),
         ...(prompt && { prompt }),
@@ -275,7 +275,7 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
     .pathUnchecked("deployments/{deploymentId}/audio/transcriptions", deploymentName)
     .post({
       body: {
-        file: await createFile(fileContent),
+        file: createFile(fileContent),
         ...(response_format && { response_format }),
         ...(language && { language }),
         ...(temperature !== undefined ? { temperature } : {}),

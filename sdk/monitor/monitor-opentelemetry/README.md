@@ -30,7 +30,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 const { useAzureMonitor, AzureMonitorOpenTelemetryOptions } = require("@azure/monitor-opentelemetry");
 
 const options: AzureMonitorOpenTelemetryOptions = {
-  azureMonitorExporterOptions: {
+  azureMonitorExporterConfig: {
     connectionString:
       process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
   },
@@ -49,7 +49,7 @@ const { Resource } = require("@opentelemetry/resources");
 
 const resource = new Resource({ "testAttribute": "testValue" });
 const options: AzureMonitorOpenTelemetryOptions = {
-    azureMonitorExporterOptions: {
+    azureMonitorExporterConfig: {
         // Offline storage
         storageDirectory: "c://azureMonitor",
         // Automatic retries
@@ -89,7 +89,7 @@ useAzureMonitor(options);
 
 |Property|Description|Default|
 | ------------------------------- |------------------------------------------------------------------------------------------------------------|-------|
-| azureMonitorExporterOptions                     | Azure Monitor OpenTelemetry Exporter Configuration. [More info here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter)                                                | |
+| azureMonitorExporterConfig                     | Azure Monitor OpenTelemetry Exporter Configuration. [More info here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter)                                                | |
 | otlpTraceExporterConfig                     | OTLP Trace Exporter Configuration. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/exporter-trace-otlp-http) 
 | otlpMetricExporterConfig                     | OTLP Trace Exporter Configuration. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-exporter-metrics-otlp-http) 
 | otlpLogExporterConfig                     | OTLP Trace Exporter Configuration. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/exporter-logs-otlp-http)                                         | |

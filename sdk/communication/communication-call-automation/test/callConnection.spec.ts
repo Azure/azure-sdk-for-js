@@ -17,10 +17,6 @@ import {
   RemoveParticipantResult,
   MuteParticipantsResult,
   CancelAddParticipantResult,
-  AddParticipantEventResult,
-  TransferCallToParticipantEventResult,
-  RemoveParticipantEventResult,
-  CancelAddParticipantEventResult,
   AddParticipantCancelled,
 } from "../src";
 import Sinon, { SinonStubbedInstance } from "sinon";
@@ -162,11 +158,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("AddParticipant", async () => {
     // mocks
-    const addParticipantResultMock: AddParticipantResult = {
-      waitForEventProcessor: async () => {
-        return {} as AddParticipantEventResult;
-      },
-    };
+    const addParticipantResultMock: AddParticipantResult = {};
     callConnection.addParticipant.returns(
       new Promise((resolve) => {
         resolve(addParticipantResultMock);
@@ -188,11 +180,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("TransferCallToParticipant", async () => {
     // mocks
-    const transferCallResultMock: TransferCallResult = {
-      waitForEventProcessor: async () => {
-        return {} as TransferCallToParticipantEventResult;
-      },
-    };
+    const transferCallResultMock: TransferCallResult = {};
     callConnection.transferCallToParticipant.returns(
       new Promise((resolve) => {
         resolve(transferCallResultMock);
@@ -216,11 +204,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("TransferCallToParticipantWithTransferee", async () => {
     // mocks
-    const transferCallResultMock: TransferCallResult = {
-      waitForEventProcessor: async () => {
-        return {} as TransferCallToParticipantEventResult;
-      },
-    };
+    const transferCallResultMock: TransferCallResult = {};
     callConnection.transferCallToParticipant.returns(
       new Promise((resolve) => {
         resolve(transferCallResultMock);
@@ -248,11 +232,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("RemoveParticipant", async () => {
     // mocks
-    const removeParticipantResultMock: RemoveParticipantResult = {
-      waitForEventProcessor: async () => {
-        return {} as RemoveParticipantEventResult;
-      },
-    };
+    const removeParticipantResultMock: RemoveParticipantResult = {};
     callConnection.removeParticipant.returns(
       new Promise((resolve) => {
         resolve(removeParticipantResultMock);
@@ -263,7 +243,7 @@ describe("CallConnection Unit Tests", () => {
 
     // asserts
     promiseResult
-      .then((result: RemoveParticipantResult) => {
+      .then((result: TransferCallResult) => {
         assert.isNotNull(result);
         assert.isTrue(callConnection.removeParticipant.calledWith(target.targetParticipant));
         assert.equal(result, removeParticipantResultMock);
@@ -296,12 +276,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("CancelAddParticipant", async () => {
     const invitationId = "invitationId";
-    const cancelAddParticipantResultMock: CancelAddParticipantResult = {
-      invitationId,
-      waitForEventProcessor: async () => {
-        return {} as CancelAddParticipantEventResult;
-      },
-    };
+    const cancelAddParticipantResultMock: CancelAddParticipantResult = { invitationId };
     callConnection.cancelAddParticipant.returns(
       new Promise((resolve) => {
         resolve(cancelAddParticipantResultMock);
@@ -320,7 +295,7 @@ describe("CallConnection Unit Tests", () => {
   });
 });
 
-describe.skip("SKIP test until Javascript is updated with TextProxy.CallConnection Live Tests", function () {
+describe("CallConnection Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;

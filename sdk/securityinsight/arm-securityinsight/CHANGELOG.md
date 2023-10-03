@@ -617,4 +617,4 @@
     
 ## 1.0.0-beta.1 (2022-01-19)
 
-The package of @azure/arm-securityinsight is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-securityinsight is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

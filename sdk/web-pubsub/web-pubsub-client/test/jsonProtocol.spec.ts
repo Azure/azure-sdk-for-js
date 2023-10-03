@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
+import { TextDecoder, TextEncoder } from "util";
 import {
   AckMessage,
   ConnectedMessage,

@@ -48,7 +48,7 @@
     "build:nodebrowser": "npm run bundle",
     "build:test": "tsc -p . && npm run bundle",
     "build": "npm run clean && tsc -p . && npm run build:nodebrowser && api-extractor run --local",
-    "bundle": "dev-tool run bundle --browser-test=false",
+    "bundle": "dev-tool run bundle --polyfill-node=false",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
     "execute:samples": "dev-tool samples run samples-dev",

@@ -39,8 +39,7 @@ import {
 } from "./utli/converters";
 import { v4 as uuidv4 } from "uuid";
 import { createCallAutomationAuthPolicy } from "./credential/callAutomationAuthPolicy";
-import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
-import { AnswerCallEventResult, CreateCallEventResult } from "./eventprocessor/eventResponses";
+
 /**
  * Client options used to configure CallAutomation Client API requests.
  */
@@ -67,7 +66,6 @@ export class CallAutomationClient {
   private readonly sourceIdentity?: CommunicationUserIdentifierModel;
   private readonly credential: TokenCredential | KeyCredential;
   private readonly internalPipelineOptions: InternalPipelineOptions;
-  private readonly callAutomationEventProcessor: CallAutomationEventProcessor;
   /**
    * Initializes a new instance of the CallAutomationClient class.
    * @param connectionString - Connection string to connect to an Azure Communication Service resource.
@@ -114,9 +112,6 @@ export class CallAutomationClient {
 
     this.credential = credential;
 
-    // create event processor
-    this.callAutomationEventProcessor = new CallAutomationEventProcessor();
-
     // read environment variable for callAutomation auth
     const customEnabled = process.env.COMMUNICATION_CUSTOM_ENDPOINT_ENABLED;
     const customUrl = process.env.COMMUNICATION_CUSTOM_URL;
@@ -147,7 +142,6 @@ export class CallAutomationClient {
       callConnectionId,
       this.callAutomationApiClient.endpoint,
       this.credential,
-      this.callAutomationEventProcessor,
       this.internalPipelineOptions
     );
   }
@@ -168,13 +162,6 @@ export class CallAutomationClient {
    */
   public getSourceIdentity(): CommunicationUserIdentifier | undefined {
     return communicationUserIdentifierConverter(this.sourceIdentity);
-  }
-
-  /**
-   * Get event processor to work with call automation events
-   */
-  public getEventProcessor(): CallAutomationEventProcessor {
-    return this.callAutomationEventProcessor;
   }
 
   private async createCallInternal(
@@ -214,32 +201,11 @@ export class CallAutomationClient {
         callConnectionId,
         this.callAutomationApiClient.endpoint,
         this.credential,
-        this.callAutomationEventProcessor,
         this.internalPipelineOptions
       );
       const createCallResult: CreateCallResult = {
         callConnectionProperties: callConnectionPropertiesDto,
         callConnection: callConnection,
-        waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-          const createCallEventResult: CreateCallEventResult = {
-            isSuccess: false,
-          };
-          await this.callAutomationEventProcessor.waitForEventProcessor(
-            (event) => {
-              if (event.callConnectionId === callConnectionId && event.kind === "CallConnected") {
-                createCallEventResult.isSuccess = true;
-                createCallEventResult.successResult = event;
-                return true;
-              } else {
-                return false;
-              }
-            },
-            abortSignal,
-            timeoutInMs
-          );
-
-          return createCallEventResult;
-        },
       };
       return createCallResult;
     }
@@ -362,31 +328,11 @@ export class CallAutomationClient {
         callConnectionId,
         this.callAutomationApiClient.endpoint,
         this.credential,
-        this.callAutomationEventProcessor,
         this.internalPipelineOptions
       );
       const answerCallResult: AnswerCallResult = {
         callConnectionProperties: callConnectionProperties,
         callConnection: callConnection,
-        waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-          const answerCallEventResult: AnswerCallEventResult = {
-            isSuccess: false,
-          };
-          await this.callAutomationEventProcessor.waitForEventProcessor(
-            (event) => {
-              if (event.callConnectionId === callConnectionId && event.kind === "CallConnected") {
-                answerCallEventResult.isSuccess = true;
-                answerCallEventResult.successResult = event;
-                return true;
-              } else {
-                return false;
-              }
-            },
-            abortSignal,
-            timeoutInMs
-          );
-          return answerCallEventResult;
-        },
       };
       return answerCallResult;
     }

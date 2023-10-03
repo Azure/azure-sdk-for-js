@@ -24,7 +24,6 @@ import {
   CallInvite,
   ContinuousDtmfRecognitionOptions,
   SendDtmfOptions,
-  CallAutomationEventProcessor,
 } from "../src";
 
 // Current directory imports
@@ -64,12 +63,7 @@ describe("CallMedia Unit Tests", async function () {
   });
 
   it("can instantiate", async function () {
-    new CallMedia(
-      CALL_CONNECTION_ID,
-      baseUri,
-      { key: generateToken() },
-      new CallAutomationEventProcessor()
-    );
+    new CallMedia(CALL_CONNECTION_ID, baseUri, { key: generateToken() });
   });
 
   it("makes successful Play file request", async function () {
@@ -351,7 +345,7 @@ describe("CallMedia Unit Tests", async function () {
   });
 });
 
-describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media Client Live Tests", function () {
+describe("Call Media Client Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;

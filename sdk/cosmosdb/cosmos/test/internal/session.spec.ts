@@ -98,9 +98,13 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
             assert.ok(
               context.headers["x-ms-consistency-level"] === "Eventual" ||
                 context.headers["x-ms-consistency-level"] === "Session",
-              `${context.headers["x-ms-consistency-level"]} = EVENTUAL or SESSION`
+              `${context.headers["x-ms-dedicatedgateway-max-age"]} = EVENTUAL or SESSION`
             );
-            if (context.headers["x-ms-dedicatedgateway-max-age"] === "null") {
+            if (
+              context.headers["x-ms-dedicatedgateway-max-age"] === "null" ||
+              context.headers["x-ms-dedicatedgateway-max-age"] === undefined ||
+              typeof context.headers["x-ms-dedicatedgateway-max-age"] === "undefined"
+            ) {
               assert.ok(
                 context.headers["x-ms-dedicatedgateway-max-age"] === "null",
                 "x-ms-dedicatedgateway-max-age will be ignored."
@@ -110,13 +114,10 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
               typeof context.headers["x-ms-dedicatedgateway-max-age"] === "string",
               `${context.headers["x-ms-dedicatedgateway-max-age"]} = string`
             );
-
-            if (context.headers["x-ms-dedicatedgateway-max-age"] === "0") {
-              assert.ok(
-                context.headers["x-ms-dedicatedgateway-max-age"] === "0",
-                "x-ms-dedicatedgateway-max-age will be ignored."
-              );
-            }
+            assert.ok(
+              context.headers["x-ms-dedicatedgateway-max-age"] === "0",
+              "x-ms-dedicatedgateway-max-age will be ignored."
+            );
 
             assert.ok(
               context.headers["x-ms-dedicatedgateway-max-age"] === `"${dedicatedGatewayMaxAge}"`,
