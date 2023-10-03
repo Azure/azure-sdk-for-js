@@ -4,7 +4,7 @@
   "description": "Core library for interfacing with AutoRest generated code",
   "sdk-type": "client",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/base64.js": "./dist-esm/src/base64.browser.js"
