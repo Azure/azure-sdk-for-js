@@ -68,7 +68,7 @@ async function sendEvents() {
   const partitions = await producer.getPartitionIds();
 
   for (const partition in partitions) {
-    const eventsToAdd = 11000;// 100000 + Math.floor(Math.random() * 10000);
+    const eventsToAdd = 100000 + Math.floor(Math.random() * 10000);
     let eventsAdded = 0;
     // add events to our batch
     while (eventsAdded < eventsToAdd) {
