@@ -262,39 +262,41 @@ export class MessageSession extends LinkEntity<Receiver> {
     _abortSignal?: AbortSignalLike
   ): Promise<Receiver> {
     this._lastSBError = undefined;
+    let errorMessage: string = "";
+
     const link = await this._context.connection.createReceiver(options);
 
-    // When we ask for any sessions, but don't get one back, check whether
-    // service has sent any error.
-    if (
-      options.source &&
-      typeof options.source !== "string" &&
-      options.source.filter &&
-      Constants.sessionFilterName in options.source.filter &&
-      options.source.filter![Constants.sessionFilterName] === undefined
-    ) {
-      const receivedSessionId = link.source?.filter?.[Constants.sessionFilterName];
-      let errorMessage: string = "";
-      if (this._providedSessionId == null && receivedSessionId == null) {
-        await new Promise((resolve) => setTimeout(resolve, 1)); // yield to event-loop
+    const receivedSessionId = link.source?.filter?.[Constants.sessionFilterName];
+    if (this._providedSessionId == null && receivedSessionId == null) {
+      // When we ask for any sessions, but don't get one back, check whether
+      // service has sent any error.
+      if (
+        options.source &&
+        typeof options.source !== "string" &&
+        options.source.filter &&
+        Constants.sessionFilterName in options.source.filter &&
+        options.source.filter![Constants.sessionFilterName] === undefined
+      ) {
+        await new Promise((resolve) => setTimeout(resolve, 1)); // yield to eventloop
         if (this._lastSBError) throw this._lastSBError;
+
         // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
         // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
         errorMessage = `Failed to create a receiver. No unlocked sessions available.`;
-      } else if (this._providedSessionId != null && receivedSessionId !== this._providedSessionId) {
-        // This code path is reached if the session is already locked by another receiver.
-        // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
-        errorMessage = `Failed to create a receiver for the requested session '${this._providedSessionId}'. It may be locked by another receiver.`;
       }
+    } else if (this._providedSessionId != null && receivedSessionId !== this._providedSessionId) {
+      // This code path is reached if the session is already locked by another receiver.
+      // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
+      errorMessage = `Failed to create a receiver for the requested session '${this._providedSessionId}'. It may be locked by another receiver.`;
+    }
 
-      if (errorMessage) {
-        const error = translateServiceBusError({
-          description: errorMessage,
-          condition: ErrorNameConditionMapper.SessionCannotBeLockedError,
-        });
-        logger.logError(error, this.logPrefix);
-        throw error;
-      }
+    if (errorMessage) {
+      const error = translateServiceBusError({
+        description: errorMessage,
+        condition: ErrorNameConditionMapper.SessionCannotBeLockedError,
+      });
+      logger.logError(error, this.logPrefix);
+      throw error;
     }
 
     return link;
