@@ -27,23 +27,24 @@ export abstract class BaseSender {
   private statsbeatFailureCount: number = 0;
   private batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
 
-  constructor(
-    endpointUrl: string,
-    instrumentationKey: string,
-    trackStatsbeat: boolean,
-    options: AzureMonitorExporterOptions = {}
-  ) {
+  constructor(options: {
+    endpointUrl: string;
+    instrumentationKey: string;
+    trackStatsbeat: boolean;
+    exporterOptions: AzureMonitorExporterOptions;
+    aadAudience?: string;
+  }) {
     this.numConsecutiveRedirects = 0;
-    this.persister = new FileSystemPersist(instrumentationKey, options);
-    if (trackStatsbeat) {
+    this.persister = new FileSystemPersist(options.instrumentationKey, options.exporterOptions);
+    if (options.trackStatsbeat) {
       // Initialize statsbeatMetrics
       this.networkStatsbeatMetrics = new NetworkStatsbeatMetrics({
-        instrumentationKey: instrumentationKey,
-        endpointUrl: endpointUrl,
+        instrumentationKey: options.instrumentationKey,
+        endpointUrl: options.endpointUrl,
       });
       this.longIntervalStatsbeatMetrics = getInstance({
-        instrumentationKey: instrumentationKey,
-        endpointUrl: endpointUrl,
+        instrumentationKey: options.instrumentationKey,
+        endpointUrl: options.endpointUrl,
       });
     }
     this.retryTimer = null;
