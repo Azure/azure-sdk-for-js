@@ -15,8 +15,6 @@ stages:
           SubscriptionConfigurations:
             - $(sub-config-communication-ppe-test-resources-common)
             - $(sub-config-communication-ppe-test-resources-js)
-          MatrixFilters:
-            - TestType=^(?!(browser|sample)).*
           MatrixReplace:
             - SKIP_UPDATE_CAPABILITIES_LIVE_TESTS=false/true
         Int:
