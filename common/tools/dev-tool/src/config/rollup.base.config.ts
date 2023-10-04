@@ -62,10 +62,17 @@ function ignoreRheaPromiseCircularDependency(warning: RollupWarning): boolean {
   );
 }
 
+function ignoreOpenTelemetryCircularDependency(warning: RollupWarning): boolean {
+  return (
+    warning.code === "CIRCULAR_DEPENDENCY" &&
+    matchesPathSegments(warning.ids?.[0], ["node_modules", "@opentelemetry"])
+  );
+}
+
 function ignoreOpenTelemetryThisIsUndefined(warning: RollupWarning): boolean {
   return (
     warning.code === "THIS_IS_UNDEFINED" &&
-    matchesPathSegments(warning.id, ["node_modules", "@opentelemetry", "api"])
+    matchesPathSegments(warning.id, ["node_modules", "@opentelemetry"])
   );
 }
 
@@ -85,6 +92,7 @@ const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
   ignoreChaiCircularDependency,
   ignoreRheaPromiseCircularDependency,
   ignoreNiseSinonEval,
+  ignoreOpenTelemetryCircularDependency,
   ignoreOpenTelemetryThisIsUndefined,
   ignoreMissingExportsFromEmpty,
 ];
