@@ -4,13 +4,13 @@
 
 ### Features Added
 
-- Added support for service version 7.5-preview.1.
-
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- The default service version is now `7.5-preview.1`.
 
 ## 4.7.0 (2023-03-09)
 

@@ -18851,10 +18851,11 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-YgpgdrxIxx1JmNZ+cwsng5AwOP4lYgXosvhRNgilII9Zb2lv7o0wa9KZAb6DFlOAM+uDmoAjCEM+LJBJQXMnRg==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-qazKsh/D9cFlltpP9leVpT3UjXeklIxdVTKZPEHbAE+bY4JmUh2kGgKtk4mJPkyGsLHIdpkUnrFiknAkl7NDhA==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
+      '@azure/keyvault-keys': 4.7.2
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@types/mocha': 10.0.2
       '@types/node': 14.18.63
@@ -20020,10 +20021,11 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-keys.tgz:
-    resolution: {integrity: sha512-Oc6rML7NWDSLTXd9UZvjUJGBQ0im12U7K0iSVX/R/KX6j48SL80rxhW12yi6l9ItciCHz3XrvRGwkwhhW6Ju9w==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-6poByIm2ZqcLVzSNczrD3ycCgwwXRfO0f6qXqhwMI4DP10nrjHwlSUQVmTrrIXaNnxD73D5Mwhpu7Xj5ygevGA==, tarball: file:projects/perf-keyvault-keys.tgz}
     name: '@rush-temp/perf-keyvault-keys'
     version: 0.0.0
     dependencies:
+      '@azure/keyvault-keys': 4.7.2
       '@types/node': 14.18.63
       '@types/uuid': 8.3.4
       dotenv: 16.3.1
