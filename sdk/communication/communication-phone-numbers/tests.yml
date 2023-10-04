@@ -18,7 +18,7 @@ stages:
           MatrixFilters:
             - TestType=^(?!(browser|sample)).*
           MatrixReplace:
-            - SKIP_UPDATE_CAPABILITIES_LIVE_TESTS=true
+            - SKIP_UPDATE_CAPABILITIES_LIVE_TESTS=false/true
         Int:
           SubscriptionConfigurations:
             - $(sub-config-communication-int-test-resources-common)
