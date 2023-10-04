@@ -171,13 +171,15 @@ const promptMiscConfig = (partial) => inquirer__default["default"].prompt([
     {
         name: "configAdvancedTenantId",
         type: "input",
-        message: fieldIdToName.configAdvancedTenantId + " to be used in Azure Identity InteractiveBrowserCredential class (optional)",
+        message: fieldIdToName.configAdvancedTenantId +
+            " to be used in Azure Identity InteractiveBrowserCredential class (optional)",
         validate: validateMiscConfig.openUrl,
     },
     {
         name: "configAdvancedRedirectUri",
         type: "input",
-        message: fieldIdToName.configAdvancedRedirectUri + " to be used in Azure Identity InteractiveBrowserCredential class (optional; default is http://localhost:1337)",
+        message: fieldIdToName.configAdvancedRedirectUri +
+            " to be used in Azure Identity InteractiveBrowserCredential class (optional; default is http://localhost:1337)",
         validate: validateMiscConfig.openUrl,
     },
 ], partial);
@@ -884,12 +886,14 @@ async function generateProject(widgetConfig, deploymentConfig, options = {}) {
         open: openUrlParsed ? openUrlParsed.toString() : true,
     };
     const configAdditional = {
-        interactiveBrowserCredentialOptions: { redirectUri: "http://localhost:1337" }
+        interactiveBrowserCredentialOptions: { redirectUri: "http://localhost:1337" },
     };
-    if (configAdvancedTenantId)
+    if (configAdvancedTenantId) {
         configAdditional.interactiveBrowserCredentialOptions.tenantId = configAdvancedTenantId;
-    if (configAdvancedRedirectUri)
+    }
+    if (configAdvancedRedirectUri) {
         configAdditional.interactiveBrowserCredentialOptions.redirectUri = configAdvancedRedirectUri;
+    }
     const renderTemplate = async (file) => {
         const isTemplate = file.endsWith(templateSuffix);
         const encoding = file.endsWith(".ttf") ? "binary" : "utf8";

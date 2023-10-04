@@ -63,7 +63,7 @@ export = {
     "requires TSDoc comments to not include an '@internal' tag if the object is private"
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
-    const parserServices = context.parserServices as ParserServices;
+    const parserServices = context.sourceCode.parserServices as ParserServices;
     if (
       parserServices.program === undefined ||
       parserServices.esTreeNodeToTSNodeMap === undefined

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   NetworkMapping,
   ReplicationNetworkMappingsListByReplicationNetworksNextOptionalParams,
@@ -303,8 +307,8 @@ export class ReplicationNetworkMappingsImpl
     input: CreateNetworkMappingInput,
     options?: ReplicationNetworkMappingsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationNetworkMappingsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationNetworkMappingsCreateResponse>,
       ReplicationNetworkMappingsCreateResponse
     >
   > {
@@ -314,7 +318,7 @@ export class ReplicationNetworkMappingsImpl
     ): Promise<ReplicationNetworkMappingsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -347,9 +351,9 @@ export class ReplicationNetworkMappingsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -358,10 +362,13 @@ export class ReplicationNetworkMappingsImpl
         input,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationNetworkMappingsCreateResponse,
+      OperationState<ReplicationNetworkMappingsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -417,14 +424,14 @@ export class ReplicationNetworkMappingsImpl
     networkName: string,
     networkMappingName: string,
     options?: ReplicationNetworkMappingsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -457,9 +464,9 @@ export class ReplicationNetworkMappingsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -467,10 +474,10 @@ export class ReplicationNetworkMappingsImpl
         networkMappingName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -526,8 +533,8 @@ export class ReplicationNetworkMappingsImpl
     input: UpdateNetworkMappingInput,
     options?: ReplicationNetworkMappingsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationNetworkMappingsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationNetworkMappingsUpdateResponse>,
       ReplicationNetworkMappingsUpdateResponse
     >
   > {
@@ -537,7 +544,7 @@ export class ReplicationNetworkMappingsImpl
     ): Promise<ReplicationNetworkMappingsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -570,9 +577,9 @@ export class ReplicationNetworkMappingsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -581,10 +588,13 @@ export class ReplicationNetworkMappingsImpl
         input,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationNetworkMappingsUpdateResponse,
+      OperationState<ReplicationNetworkMappingsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

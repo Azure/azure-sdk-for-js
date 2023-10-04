@@ -81,7 +81,8 @@ describe("help test", () => {
             solutionId: "KeyVaultUnauthorizedNetworkInsight"
           }
         ]
-      }
+      },
+      updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
     }
     const result = await client.diagnostics.beginCreateAndWait(
       scope1,

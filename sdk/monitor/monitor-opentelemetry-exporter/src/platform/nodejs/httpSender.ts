@@ -21,8 +21,8 @@ const applicationInsightsResource = "https://monitor.azure.com//.default";
  * @internal
  */
 export class HttpSender extends BaseSender {
-  private readonly _appInsightsClient: ApplicationInsightsClient;
-  private _appInsightsClientOptions: ApplicationInsightsClientOptionalParams;
+  private readonly appInsightsClient: ApplicationInsightsClient;
+  private appInsightsClientOptions: ApplicationInsightsClientOptionalParams;
 
   constructor(
     endpointUrl: string,
@@ -32,19 +32,19 @@ export class HttpSender extends BaseSender {
   ) {
     super(endpointUrl, instrumentationKey, trackStatsbeat, options);
     // Build endpoint using provided configuration or default values
-    this._appInsightsClientOptions = {
+    this.appInsightsClientOptions = {
       host: endpointUrl,
       ...options,
     };
 
-    if (options?.credential) {
+    if (this.appInsightsClientOptions.credential) {
       // Add credentialScopes
-      options.credentialScopes = [applicationInsightsResource];
+      this.appInsightsClientOptions.credentialScopes = [applicationInsightsResource];
     }
-    this._appInsightsClient = new ApplicationInsightsClient(this._appInsightsClientOptions);
+    this.appInsightsClient = new ApplicationInsightsClient(this.appInsightsClientOptions);
 
     // Handle redirects in HTTP Sender
-    this._appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
+    this.appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
   }
 
   /**
@@ -52,24 +52,20 @@ export class HttpSender extends BaseSender {
    * @internal
    */
   async send(envelopes: Envelope[]): Promise<SenderResult> {
-    let options: TrackOptionalParams = {};
-    try {
-      let response: FullOperationResponse | undefined;
-      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-        response = rawResponse;
-        if (options.onResponse) {
-          options.onResponse(rawResponse, flatResponse);
-        }
+    const options: TrackOptionalParams = {};
+    let response: FullOperationResponse | undefined;
+    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+      response = rawResponse;
+      if (options.onResponse) {
+        options.onResponse(rawResponse, flatResponse);
       }
-      await this._appInsightsClient.track(envelopes, {
-        ...options,
-        onResponse,
-      });
-
-      return { statusCode: response?.status, result: response?.bodyAsText ?? "" };
-    } catch (e: any) {
-      throw e;
     }
+    await this.appInsightsClient.track(envelopes, {
+      ...options,
+      onResponse,
+    });
+
+    return { statusCode: response?.status, result: response?.bodyAsText ?? "" };
   }
 
   /**
@@ -84,7 +80,7 @@ export class HttpSender extends BaseSender {
     if (location) {
       const locUrl = new url.URL(location);
       if (locUrl && locUrl.host) {
-        this._appInsightsClient.host = "https://" + locUrl.host;
+        this.appInsightsClient.host = "https://" + locUrl.host;
       }
     }
   }

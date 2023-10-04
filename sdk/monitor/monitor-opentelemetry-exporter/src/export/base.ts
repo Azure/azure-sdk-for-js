@@ -26,23 +26,23 @@ export abstract class AzureMonitorBaseExporter {
    *Flag to determine if exporter will generate Statsbeat data
    */
   protected trackStatsbeat: boolean = false;
-  private _isStatsbeatExporter: boolean;
+  private isStatsbeatExporter: boolean;
 
   /**
    * Exporter internal configuration
    */
-  private readonly _options: AzureMonitorExporterOptions;
+  private readonly options: AzureMonitorExporterOptions;
 
   /**
    * Initializes a new instance of the AzureMonitorBaseExporter class.
    * @param AzureMonitorExporterOptions - Exporter configuration.
    */
   constructor(options: AzureMonitorExporterOptions = {}, isStatsbeatExporter?: boolean) {
-    this._options = options;
+    this.options = options;
     this.instrumentationKey = "";
     this.endpointUrl = DEFAULT_BREEZE_ENDPOINT;
-    const connectionString = this._options.connectionString || process.env[ENV_CONNECTION_STRING];
-    this._isStatsbeatExporter = isStatsbeatExporter ? isStatsbeatExporter : false;
+    const connectionString = this.options.connectionString || process.env[ENV_CONNECTION_STRING];
+    this.isStatsbeatExporter = isStatsbeatExporter ? isStatsbeatExporter : false;
 
     if (connectionString) {
       const parsedConnectionString = ConnectionStringParser.parse(connectionString);
@@ -58,7 +58,12 @@ export abstract class AzureMonitorBaseExporter {
       diag.error(message);
       throw new Error(message);
     }
-    this.trackStatsbeat = !this._isStatsbeatExporter && !process.env[ENV_DISABLE_STATSBEAT];
+    if (!ConnectionStringParser.validateInstrumentationKey(this.instrumentationKey)) {
+      const message = "Invalid instrumentation key was provided to the Azure Monitor Exporter";
+      diag.error(message);
+      throw new Error(message);
+    }
+    this.trackStatsbeat = !this.isStatsbeatExporter && !process.env[ENV_DISABLE_STATSBEAT];
 
     diag.debug("AzureMonitorExporter was successfully setup");
   }

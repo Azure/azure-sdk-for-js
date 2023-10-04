@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a RouteTable resource if it doesn't exist else updates the existing RouteTable.
  *
  * @summary Creates a RouteTable resource if it doesn't exist else updates the existing RouteTable.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-04-01/examples/HubRouteTablePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-05-01/examples/HubRouteTablePut.json
  */
 async function routeTablePut() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

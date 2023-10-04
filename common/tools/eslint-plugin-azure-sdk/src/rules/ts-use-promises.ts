@@ -18,7 +18,7 @@ import { isExternalModule } from "typescript";
 export = {
   meta: getRuleMetaData("ts-use-promises", "force usage of built-in promises over external ones"),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
-    const parserServices: ParserServices = context.parserServices;
+    const parserServices: ParserServices = context.sourceCode.parserServices;
     if (
       parserServices.program === undefined ||
       parserServices.esTreeNodeToTSNodeMap === undefined

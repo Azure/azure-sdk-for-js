@@ -167,7 +167,7 @@ export function convertToPrivateMethod(
 
 export function addConstructorsToClass(
   customConstructor: ConstructorDeclaration,
-  originalClass: ClassDeclaration,
+  originalClass: ClassDeclaration
 ) {
   const originalConstructor = originalClass
     .getConstructors()
@@ -267,7 +267,7 @@ export function getDocs(
 export function addPropertyToClass(
   property: PropertyDeclaration,
   classDeclaration: ClassDeclaration,
-  jsdoc: JSDoc[],
+  jsdoc: JSDoc[]
 ) {
   // Insert the class declaration and JSDocs into the target file
   classDeclaration.addProperty({
@@ -279,7 +279,7 @@ export function addPropertyToClass(
 export function addClass(
   classDeclaration: ClassDeclaration,
   targetFile: SourceFile,
-  jsdoc: JSDoc[],
+  jsdoc: JSDoc[]
 ) {
   // Insert the class declaration and JSDocs into the target file
   targetFile.addStatements((writer) => {
