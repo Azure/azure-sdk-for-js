@@ -1,0 +1,170 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/subscriptions/5aceda1f-93bf-4b33-b129-22f360f7c5ff/resourceGroups/thangdeveastus2-rg/workspaces/sdktesting/discoGroups/University%20of%20Kansas:run?api-version=2023-03-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Cookie": "df=NzZiMjQxZWItYmRkZi00Y2VjLWE3NWMtYmMwNGQ2MDNhZWI4",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "3e619755-3ac9-4675-b098-75a538ff23f8",
+        "x-ms-useragent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 500,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Wed, 04 Oct 2023 15:57:18 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "origin",
+          "access-control-request-method",
+          "access-control-request-headers",
+          "accept-encoding"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "cd504749-a646-4cbb-ad99-d075c5a0b985",
+        "x-ms-error-code": "DiscoMicroserviceSubmitFailed",
+        "x-ms-request-id": "38c673ea-3729-40c4-8299-268d3e972f32",
+        "x-ms-ui-version": "api",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "DiscoMicroserviceSubmitFailed",
+          "message": "Error performing request: 500 - \n{\u0022timestamp\u0022:\u00222023-10-04T15:57:18.520\u002B00:00\u0022,\u0022status\u0022:500,\u0022error\u0022:\u0022Internal Server Error\u0022,\u0022path\u0022:\u0022/v1/disco/submit\u0022}",
+          "target": null,
+          "details": null,
+          "innererror": null
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/subscriptions/5aceda1f-93bf-4b33-b129-22f360f7c5ff/resourceGroups/thangdeveastus2-rg/workspaces/sdktesting/discoGroups/University%20of%20Kansas:run?api-version=2023-03-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Cookie": "df=NzZiMjQxZWItYmRkZi00Y2VjLWE3NWMtYmMwNGQ2MDNhZWI4",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "3e619755-3ac9-4675-b098-75a538ff23f8",
+        "x-ms-useragent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 500,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Wed, 04 Oct 2023 15:57:22 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "origin",
+          "access-control-request-method",
+          "access-control-request-headers",
+          "accept-encoding"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "146e1fd2-4ce2-4051-8366-873eb3154f75",
+        "x-ms-error-code": "DiscoMicroserviceSubmitFailed",
+        "x-ms-request-id": "6f182ea6-1f06-47ff-b476-275cb69497a4",
+        "x-ms-ui-version": "api",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "DiscoMicroserviceSubmitFailed",
+          "message": "Error performing request: 500 - \n{\u0022timestamp\u0022:\u00222023-10-04T15:57:21.718\u002B00:00\u0022,\u0022status\u0022:500,\u0022error\u0022:\u0022Internal Server Error\u0022,\u0022path\u0022:\u0022/v1/disco/submit\u0022}",
+          "target": null,
+          "details": null,
+          "innererror": null
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/subscriptions/5aceda1f-93bf-4b33-b129-22f360f7c5ff/resourceGroups/thangdeveastus2-rg/workspaces/sdktesting/discoGroups/University%20of%20Kansas:run?api-version=2023-03-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Cookie": "df=NzZiMjQxZWItYmRkZi00Y2VjLWE3NWMtYmMwNGQ2MDNhZWI4",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "3e619755-3ac9-4675-b098-75a538ff23f8",
+        "x-ms-useragent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Date": "Wed, 04 Oct 2023 15:57:23 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Vary": [
+          "Origin",
+          "Access-Control-Request-Method",
+          "Access-Control-Request-Headers"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "0b2a4cf7-0bcc-40b5-944f-d84b7f6bd194",
+        "x-ms-request-id": "13f1189d-86b2-4672-972f-7848ac4f999f",
+        "x-ms-ui-version": "api",
+        "X-RiskIQ-RequestID": "13f1189d-86b2-4672-972f-7848ac4f999f",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

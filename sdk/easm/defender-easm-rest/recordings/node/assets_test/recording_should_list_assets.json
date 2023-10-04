@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v16.17.0 OS/(arm64-Darwin-22.6.0)",
-        "x-ms-client-request-id": "33bbf166-a089-4dcc-9d30-515094cb35ef"
+        "x-ms-client-request-id": "d09f03e8-97b4-4a7d-a853-14542017a318"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -18,11 +18,11 @@
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Tue, 03 Oct 2023 03:36:42 GMT",
+        "Date": "Wed, 04 Oct 2023 15:55:48 GMT",
         "Expires": "0",
         "Pragma": "no-cache",
         "Server": "digitalfootprint-web",
-        "Set-Cookie": "df=ZmJiN2M4NzgtNDA3NC00YjVmLWFhZWUtYzM4N2ZlMTkzNTFh; Path=/; Secure; HttpOnly; SameSite=Lax",
+        "Set-Cookie": "df=MTkzNGE0ZjctN2RhYy00OGE5LTgwNjQtNTZiOWQxOGMzNGFm; Path=/; Secure; HttpOnly; SameSite=Lax",
         "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": [
@@ -33,13 +33,13 @@
         ],
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "b3793a8b-31ca-4789-ad5c-c1a5e8192c61",
-        "x-ms-request-id": "923be3f6-9793-4f69-a4cd-9f5bed86ab2b",
+        "x-ms-correlation-request-id": "53840d8b-799d-4e9c-ac39-78e9bef6d152",
+        "x-ms-request-id": "6d75451a-53e9-4e2f-ad70-9da080046b46",
         "x-ms-ui-version": "sdk",
         "X-XSS-Protection": "1; mode=block"
       },
       "ResponseBody": {
-        "totalElements": 166782,
+        "totalElements": 166854,
         "mark": null,
         "nextLink": "https://eastus.easm-api-prod.trafficmanager.net/subscriptions/5aceda1f-93bf-4b33-b129-22f360f7c5ff/resourceGroups/thangdeveastus2-rg/workspaces/sdktesting/assets?api-version=2023-03-01-preview\u0026skip=1",
         "value": [
@@ -3460,6 +3460,1489 @@
             "reason": null
           },
           {
+            "id": "ipAddress$$129.237.97.43",
+            "name": "129.237.97.43",
+            "displayName": "129.237.97.43",
+            "kind": "ipAddress",
+            "uuid": "17fd6fbb-9210-6e6c-2190-af7e7cdc18a9",
+            "asset": {
+              "ipAddress": "129.237.97.43",
+              "asns": [
+                {
+                  "value": 2496,
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "reputations": [],
+              "webComponents": [],
+              "netRanges": [
+                {
+                  "value": "129.237.0.0 - 129.237.255.255",
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "headers": [],
+              "attributes": [],
+              "cookies": [],
+              "sslCerts": [],
+              "services": [
+                {
+                  "scheme": "unknown",
+                  "port": 80,
+                  "webComponents": [],
+                  "sslCerts": [],
+                  "exceptions": [],
+                  "sources": [],
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "recent": true,
+                  "portStates": [
+                    {
+                      "value": "filtered",
+                      "port": 80,
+                      "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                      "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                      "count": 1,
+                      "recent": true
+                    }
+                  ]
+                }
+              ],
+              "ipBlocks": [
+                {
+                  "ipBlock": "129.237.0.0/16",
+                  "sources": [],
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "recent": true
+                }
+              ],
+              "sources": [],
+              "firstSeen": "2023-10-01T11:45:09\u002B0000",
+              "lastSeen": "2023-10-01T11:45:09\u002B0000",
+              "count": 1,
+              "banners": [],
+              "scanMetadata": [
+                {
+                  "port": 80,
+                  "bannerMetadata": "z-i",
+                  "startScan": "2023-10-01T11:42:26\u002B0000",
+                  "endScan": "2023-10-01T11:45:21\u002B0000"
+                }
+              ],
+              "nsRecord": [
+                {
+                  "value": false,
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "mxRecord": [
+                {
+                  "value": false,
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "location": [
+                {
+                  "value": {
+                    "countryCode": "US",
+                    "countryName": "United States",
+                    "region": "KS",
+                    "regionName": "Kansas",
+                    "city": "Lawrence",
+                    "postalCode": "66047",
+                    "latitude": 38.9408,
+                    "longitude": -95.276,
+                    "metroCodeId": 616
+                  },
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "recent": true,
+                  "sources": []
+                }
+              ],
+              "hosts": [],
+              "nxdomain": [],
+              "sslServerConfig": [],
+              "ipv4": true,
+              "ipv6": false
+            },
+            "createdDate": "2023-09-26T18:34:38\u002B0000",
+            "updatedDate": "2023-09-26T18:41:50\u002B0000",
+            "state": "confirmed",
+            "externalId": null,
+            "labels": [],
+            "wildcard": false,
+            "discoGroupName": "University of Kansas",
+            "auditTrail": [
+              {
+                "id": null,
+                "name": "2496",
+                "displayName": null,
+                "kind": "as",
+                "reason": null
+              },
+              {
+                "id": null,
+                "name": "129.237.0.0/16",
+                "displayName": null,
+                "kind": "ipBlock",
+                "reason": null
+              }
+            ],
+            "history": null,
+            "reason": null
+          },
+          {
+            "id": "ipAddress$$129.237.252.181",
+            "name": "129.237.252.181",
+            "displayName": "129.237.252.181",
+            "kind": "ipAddress",
+            "uuid": "cd3ea803-0e09-f700-064d-e7d3cbbc4f31",
+            "asset": {
+              "ipAddress": "129.237.252.181",
+              "asns": [
+                {
+                  "value": 2496,
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "reputations": [],
+              "webComponents": [],
+              "netRanges": [
+                {
+                  "value": "129.237.0.0 - 129.237.255.255",
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "headers": [],
+              "attributes": [],
+              "cookies": [],
+              "sslCerts": [],
+              "services": [
+                {
+                  "scheme": "unknown",
+                  "port": 80,
+                  "webComponents": [],
+                  "sslCerts": [],
+                  "exceptions": [],
+                  "sources": [],
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "recent": true,
+                  "portStates": [
+                    {
+                      "value": "filtered",
+                      "port": 80,
+                      "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                      "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                      "count": 1,
+                      "recent": true
+                    }
+                  ]
+                }
+              ],
+              "ipBlocks": [
+                {
+                  "ipBlock": "129.237.0.0/16",
+                  "sources": [],
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "recent": true
+                }
+              ],
+              "sources": [],
+              "firstSeen": "2023-10-01T11:45:09\u002B0000",
+              "lastSeen": "2023-10-01T11:45:09\u002B0000",
+              "count": 1,
+              "banners": [],
+              "scanMetadata": [
+                {
+                  "port": 80,
+                  "bannerMetadata": "z-i",
+                  "startScan": "2023-10-01T11:42:26\u002B0000",
+                  "endScan": "2023-10-01T11:45:21\u002B0000"
+                }
+              ],
+              "nsRecord": [
+                {
+                  "value": false,
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "mxRecord": [
+                {
+                  "value": false,
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "location": [
+                {
+                  "value": {
+                    "countryCode": "US",
+                    "countryName": "United States",
+                    "region": "KS",
+                    "regionName": "Kansas",
+                    "city": "Eudora",
+                    "postalCode": "66025",
+                    "latitude": 38.931,
+                    "longitude": -95.0996,
+                    "metroCodeId": 616
+                  },
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "recent": true,
+                  "sources": []
+                }
+              ],
+              "hosts": [],
+              "nxdomain": [],
+              "sslServerConfig": [],
+              "ipv4": true,
+              "ipv6": false
+            },
+            "createdDate": "2023-09-26T18:34:38\u002B0000",
+            "updatedDate": "2023-09-26T18:34:38\u002B0000",
+            "state": "confirmed",
+            "externalId": null,
+            "labels": [],
+            "wildcard": false,
+            "discoGroupName": "University of Kansas",
+            "auditTrail": [
+              {
+                "id": null,
+                "name": "2496",
+                "displayName": null,
+                "kind": "as",
+                "reason": null
+              },
+              {
+                "id": null,
+                "name": "129.237.0.0/16",
+                "displayName": null,
+                "kind": "ipBlock",
+                "reason": null
+              }
+            ],
+            "history": null,
+            "reason": null
+          },
+          {
+            "id": "ipAddress$$129.237.209.22",
+            "name": "129.237.209.22",
+            "displayName": "129.237.209.22",
+            "kind": "ipAddress",
+            "uuid": "e3a936a7-5a61-2b01-3d53-3d000e1e2302",
+            "asset": {
+              "ipAddress": "129.237.209.22",
+              "asns": [
+                {
+                  "value": 2496,
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "reputations": [],
+              "webComponents": [],
+              "netRanges": [
+                {
+                  "value": "129.237.0.0 - 129.237.255.255",
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "headers": [],
+              "attributes": [],
+              "cookies": [],
+              "sslCerts": [],
+              "services": [
+                {
+                  "scheme": "unknown",
+                  "port": 80,
+                  "webComponents": [],
+                  "sslCerts": [],
+                  "exceptions": [],
+                  "sources": [],
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "recent": true,
+                  "portStates": [
+                    {
+                      "value": "filtered",
+                      "port": 80,
+                      "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                      "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                      "count": 1,
+                      "recent": true
+                    }
+                  ]
+                }
+              ],
+              "ipBlocks": [
+                {
+                  "ipBlock": "129.237.0.0/16",
+                  "sources": [],
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "recent": true
+                }
+              ],
+              "sources": [],
+              "firstSeen": "2023-10-01T11:45:09\u002B0000",
+              "lastSeen": "2023-10-01T11:45:09\u002B0000",
+              "count": 1,
+              "banners": [],
+              "scanMetadata": [
+                {
+                  "port": 80,
+                  "bannerMetadata": "z-i",
+                  "startScan": "2023-10-01T11:42:26\u002B0000",
+                  "endScan": "2023-10-01T11:45:21\u002B0000"
+                }
+              ],
+              "nsRecord": [
+                {
+                  "value": false,
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "mxRecord": [
+                {
+                  "value": false,
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "location": [
+                {
+                  "value": {
+                    "countryCode": "US",
+                    "countryName": "United States",
+                    "region": "KS",
+                    "regionName": "Kansas",
+                    "city": "Lawrence",
+                    "postalCode": "66049",
+                    "latitude": 38.9683,
+                    "longitude": -95.2695,
+                    "metroCodeId": 616
+                  },
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "recent": true,
+                  "sources": []
+                }
+              ],
+              "hosts": [],
+              "nxdomain": [],
+              "sslServerConfig": [],
+              "ipv4": true,
+              "ipv6": false
+            },
+            "createdDate": "2023-09-26T18:34:38\u002B0000",
+            "updatedDate": "2023-09-26T18:41:50\u002B0000",
+            "state": "confirmed",
+            "externalId": null,
+            "labels": [],
+            "wildcard": false,
+            "discoGroupName": "University of Kansas",
+            "auditTrail": [
+              {
+                "id": null,
+                "name": "2496",
+                "displayName": null,
+                "kind": "as",
+                "reason": null
+              },
+              {
+                "id": null,
+                "name": "129.237.0.0/16",
+                "displayName": null,
+                "kind": "ipBlock",
+                "reason": null
+              }
+            ],
+            "history": null,
+            "reason": null
+          },
+          {
+            "id": "ipAddress$$129.237.198.64",
+            "name": "129.237.198.64",
+            "displayName": "129.237.198.64",
+            "kind": "ipAddress",
+            "uuid": "11db403e-5126-fcdb-72db-9bda6860ac1a",
+            "asset": {
+              "ipAddress": "129.237.198.64",
+              "asns": [
+                {
+                  "value": 2496,
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "reputations": [],
+              "webComponents": [],
+              "netRanges": [
+                {
+                  "value": "129.237.0.0 - 129.237.255.255",
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "headers": [],
+              "attributes": [],
+              "cookies": [],
+              "sslCerts": [],
+              "services": [
+                {
+                  "scheme": "unknown",
+                  "port": 80,
+                  "webComponents": [],
+                  "sslCerts": [],
+                  "exceptions": [],
+                  "sources": [],
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "recent": true,
+                  "portStates": [
+                    {
+                      "value": "filtered",
+                      "port": 80,
+                      "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                      "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                      "count": 1,
+                      "recent": true
+                    }
+                  ]
+                }
+              ],
+              "ipBlocks": [
+                {
+                  "ipBlock": "129.237.0.0/16",
+                  "sources": [],
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "recent": true
+                }
+              ],
+              "sources": [],
+              "firstSeen": "2023-10-01T11:45:09\u002B0000",
+              "lastSeen": "2023-10-01T11:45:09\u002B0000",
+              "count": 1,
+              "banners": [],
+              "scanMetadata": [
+                {
+                  "port": 80,
+                  "bannerMetadata": "z-i",
+                  "startScan": "2023-10-01T11:42:26\u002B0000",
+                  "endScan": "2023-10-01T11:45:21\u002B0000"
+                }
+              ],
+              "nsRecord": [
+                {
+                  "value": false,
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "mxRecord": [
+                {
+                  "value": false,
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "location": [
+                {
+                  "value": {
+                    "countryCode": "US",
+                    "countryName": "United States",
+                    "region": "KS",
+                    "regionName": "Kansas",
+                    "city": "Lawrence",
+                    "postalCode": "66049",
+                    "latitude": 38.9683,
+                    "longitude": -95.2695,
+                    "metroCodeId": 616
+                  },
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "recent": true,
+                  "sources": []
+                }
+              ],
+              "hosts": [],
+              "nxdomain": [],
+              "sslServerConfig": [],
+              "ipv4": true,
+              "ipv6": false
+            },
+            "createdDate": "2023-09-26T18:34:38\u002B0000",
+            "updatedDate": "2023-09-26T18:41:50\u002B0000",
+            "state": "confirmed",
+            "externalId": null,
+            "labels": [],
+            "wildcard": false,
+            "discoGroupName": "University of Kansas",
+            "auditTrail": [
+              {
+                "id": null,
+                "name": "2496",
+                "displayName": null,
+                "kind": "as",
+                "reason": null
+              },
+              {
+                "id": null,
+                "name": "129.237.0.0/16",
+                "displayName": null,
+                "kind": "ipBlock",
+                "reason": null
+              }
+            ],
+            "history": null,
+            "reason": null
+          },
+          {
+            "id": "ipAddress$$129.237.114.120",
+            "name": "129.237.114.120",
+            "displayName": "129.237.114.120",
+            "kind": "ipAddress",
+            "uuid": "16e3badb-7cc2-2004-53c2-5daa35373550",
+            "asset": {
+              "ipAddress": "129.237.114.120",
+              "asns": [
+                {
+                  "value": 2496,
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "reputations": [],
+              "webComponents": [],
+              "netRanges": [
+                {
+                  "value": "129.237.0.0 - 129.237.255.255",
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "headers": [],
+              "attributes": [],
+              "cookies": [],
+              "sslCerts": [],
+              "services": [
+                {
+                  "scheme": "unknown",
+                  "port": 80,
+                  "webComponents": [],
+                  "sslCerts": [],
+                  "exceptions": [],
+                  "sources": [],
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "recent": true,
+                  "portStates": [
+                    {
+                      "value": "filtered",
+                      "port": 80,
+                      "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                      "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                      "count": 1,
+                      "recent": true
+                    }
+                  ]
+                }
+              ],
+              "ipBlocks": [
+                {
+                  "ipBlock": "129.237.0.0/16",
+                  "sources": [],
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "recent": true
+                }
+              ],
+              "sources": [],
+              "firstSeen": "2023-10-01T11:45:09\u002B0000",
+              "lastSeen": "2023-10-01T11:45:09\u002B0000",
+              "count": 1,
+              "banners": [],
+              "scanMetadata": [
+                {
+                  "port": 80,
+                  "bannerMetadata": "z-i",
+                  "startScan": "2023-10-01T11:42:26\u002B0000",
+                  "endScan": "2023-10-01T11:45:21\u002B0000"
+                }
+              ],
+              "nsRecord": [
+                {
+                  "value": false,
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "mxRecord": [
+                {
+                  "value": false,
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "location": [
+                {
+                  "value": {
+                    "countryCode": "US",
+                    "countryName": "United States",
+                    "region": "KS",
+                    "regionName": "Kansas",
+                    "city": "Lawrence",
+                    "postalCode": "66047",
+                    "latitude": 38.9408,
+                    "longitude": -95.276,
+                    "metroCodeId": 616
+                  },
+                  "firstSeen": "2023-10-01T11:45:09\u002B0000",
+                  "lastSeen": "2023-10-01T11:45:09\u002B0000",
+                  "recent": true,
+                  "sources": []
+                }
+              ],
+              "hosts": [],
+              "nxdomain": [],
+              "sslServerConfig": [],
+              "ipv4": true,
+              "ipv6": false
+            },
+            "createdDate": "2023-09-26T18:34:38\u002B0000",
+            "updatedDate": "2023-09-26T18:34:38\u002B0000",
+            "state": "confirmed",
+            "externalId": null,
+            "labels": [],
+            "wildcard": false,
+            "discoGroupName": "University of Kansas",
+            "auditTrail": [
+              {
+                "id": null,
+                "name": "2496",
+                "displayName": null,
+                "kind": "as",
+                "reason": null
+              },
+              {
+                "id": null,
+                "name": "129.237.0.0/16",
+                "displayName": null,
+                "kind": "ipBlock",
+                "reason": null
+              }
+            ],
+            "history": null,
+            "reason": null
+          },
+          {
+            "id": "host$$marac.ku.edu",
+            "name": "marac.ku.edu",
+            "displayName": "marac.ku.edu",
+            "kind": "host",
+            "uuid": "4b8cc900-911c-069c-87f3-ddd7749718a2",
+            "asset": {
+              "host": "marac.ku.edu",
+              "domain": "ku.edu",
+              "ipAddresses": [],
+              "webComponents": [],
+              "headers": [],
+              "attributes": [],
+              "cookies": [],
+              "sslCerts": [],
+              "parentHosts": [],
+              "childHosts": [],
+              "services": [],
+              "cnames": [
+                {
+                  "value": "cms.ku.edu",
+                  "firstSeen": "2023-09-30T18:26:38\u002B0000",
+                  "lastSeen": "2023-10-01T11:46:25\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "sources": [],
+              "firstSeen": "2023-09-30T18:26:38\u002B0000",
+              "lastSeen": "2023-10-01T11:46:25\u002B0000",
+              "count": 3,
+              "resourceUrls": [],
+              "scanMetadata": [],
+              "asns": [],
+              "ipBlocks": [],
+              "responseBodies": [],
+              "nsRecord": [],
+              "mxRecord": [],
+              "webserver": [],
+              "location": [],
+              "nxdomain": [],
+              "sslServerConfig": [],
+              "isWildcard": [],
+              "banners": [],
+              "ipv4": [],
+              "ipv6": []
+            },
+            "createdDate": "2023-10-04T15:47:44\u002B0000",
+            "updatedDate": "2023-10-04T15:47:44\u002B0000",
+            "state": "confirmed",
+            "externalId": null,
+            "labels": [],
+            "wildcard": false,
+            "discoGroupName": "University of Kansas",
+            "auditTrail": [
+              {
+                "id": null,
+                "name": "kufood.com",
+                "displayName": null,
+                "kind": "domain",
+                "reason": null
+              },
+              {
+                "id": null,
+                "name": "kufood.com",
+                "displayName": null,
+                "kind": "host",
+                "reason": null
+              },
+              {
+                "id": null,
+                "name": "dining.ku.edu",
+                "displayName": null,
+                "kind": "host",
+                "reason": null
+              },
+              {
+                "id": null,
+                "name": "cms.ku.edu",
+                "displayName": null,
+                "kind": "host",
+                "reason": null
+              }
+            ],
+            "history": null,
+            "reason": null
+          },
+          {
+            "id": "host$$kite-eans-student-login.kiteaai.org",
+            "name": "kite-eans-student-login.kiteaai.org",
+            "displayName": "kite-eans-student-login.kiteaai.org",
+            "kind": "host",
+            "uuid": "e5b15753-d577-42d3-84c6-88da7f78b4ad",
+            "asset": {
+              "host": "kite-eans-student-login.kiteaai.org",
+              "domain": "kiteaai.org",
+              "ipAddresses": [],
+              "webComponents": [],
+              "headers": [],
+              "attributes": [],
+              "cookies": [],
+              "sslCerts": [],
+              "parentHosts": [],
+              "childHosts": [],
+              "services": [],
+              "cnames": [
+                {
+                  "value": "d37ker7q6kjlo5.cloudfront.net",
+                  "firstSeen": "2023-09-30T16:58:03\u002B0000",
+                  "lastSeen": "2023-09-30T18:59:40\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "sources": [],
+              "firstSeen": "2023-09-30T16:58:03\u002B0000",
+              "lastSeen": "2023-09-30T18:59:40\u002B0000",
+              "count": 4,
+              "resourceUrls": [],
+              "scanMetadata": [],
+              "asns": [],
+              "ipBlocks": [],
+              "responseBodies": [],
+              "nsRecord": [],
+              "mxRecord": [],
+              "webserver": [],
+              "location": [],
+              "nxdomain": [],
+              "sslServerConfig": [],
+              "isWildcard": [],
+              "banners": [],
+              "ipv4": [],
+              "ipv6": []
+            },
+            "createdDate": "2023-10-04T15:47:11\u002B0000",
+            "updatedDate": "2023-10-04T15:47:11\u002B0000",
+            "state": "confirmed",
+            "externalId": null,
+            "labels": [],
+            "wildcard": false,
+            "discoGroupName": "University of Kansas",
+            "auditTrail": [
+              {
+                "id": null,
+                "name": "kiteaai.org",
+                "displayName": null,
+                "kind": "domain",
+                "reason": null
+              }
+            ],
+            "history": null,
+            "reason": null
+          },
+          {
+            "id": "sslCert$$1739767823bec93474bec97a6ec37d9626363931",
+            "name": "1739767823bec93474bec97a6ec37d9626363931",
+            "displayName": "1739767823bec93474bec97a6ec37d9626363931",
+            "kind": "sslCert",
+            "uuid": "bb8b0fb8-2f50-0912-1bab-475d7db2c85e",
+            "asset": {
+              "sha1": "1739767823bec93474bec97a6ec37d9626363931",
+              "subjectCommonNames": [
+                "kite-ohnp-student-login.kiteaai.org"
+              ],
+              "organizations": [],
+              "organizationalUnits": [],
+              "issuerCommonNames": [
+                "Amazon RSA 2048 M02"
+              ],
+              "sigAlgName": "SHA256WITHRSA",
+              "invalidAfter": "2024-10-09T23:59:59\u002B0000",
+              "serialNumber": "b119ba8727a58561237e99dbe8a0573",
+              "subjectAlternativeNames": [
+                "kite-ohnp-student-login.kiteaai.org"
+              ],
+              "issuerAlternativeNames": [],
+              "sources": [],
+              "firstSeen": "2023-09-30T10:53:40\u002B0000",
+              "lastSeen": "2023-10-04T03:14:10\u002B0000",
+              "count": 9,
+              "invalidBefore": "2023-09-10T00:00:00\u002B0000",
+              "keySize": 2048,
+              "keyAlgorithm": "RSA",
+              "subjectLocality": [],
+              "subjectState": [],
+              "subjectCountry": [],
+              "issuerLocality": [],
+              "issuerState": [],
+              "issuerCountry": [
+                "US"
+              ],
+              "subjectOrganizations": [],
+              "subjectOrganizationalUnits": [],
+              "issuerOrganizations": [
+                "Amazon"
+              ],
+              "issuerOrganizationalUnits": [],
+              "version": 3,
+              "certificateAuthority": false,
+              "selfSigned": false,
+              "sigAlgOid": "1.2.840.113549.1.1.11",
+              "validationType": "domainValidation"
+            },
+            "createdDate": "2023-10-04T15:47:12\u002B0000",
+            "updatedDate": "2023-10-04T15:47:12\u002B0000",
+            "state": "confirmed",
+            "externalId": null,
+            "labels": [],
+            "wildcard": false,
+            "discoGroupName": "University of Kansas",
+            "auditTrail": [
+              {
+                "id": null,
+                "name": "kiteaai.org",
+                "displayName": null,
+                "kind": "domain",
+                "reason": null
+              },
+              {
+                "id": null,
+                "name": "kite-ohnp-student-login.kiteaai.org",
+                "displayName": null,
+                "kind": "host",
+                "reason": null
+              }
+            ],
+            "history": null,
+            "reason": null
+          },
+          {
+            "id": "host$$3ma62ajwap1posshxvmux4ykpepq9999.tw6dansdld4q9999.acrm-11331.com",
+            "name": "3ma62ajwap1posshxvmux4ykpepq9999.tw6dansdld4q9999.acrm-11331.com",
+            "displayName": "3ma62ajwap1posshxvmux4ykpepq9999.tw6dansdld4q9999.acrm-11331.com",
+            "kind": "host",
+            "uuid": "0ab11455-b23a-08f9-3b7c-bd564beb1abe",
+            "asset": {
+              "host": "3ma62ajwap1posshxvmux4ykpepq9999.tw6dansdld4q9999.acrm-11331.com",
+              "domain": "acrm-11331.com",
+              "ipAddresses": [
+                {
+                  "value": "130.75.131.44",
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                },
+                {
+                  "value": "133.103.122.214",
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                },
+                {
+                  "value": "139.169.25.230",
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                },
+                {
+                  "value": "154.224.159.137",
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                },
+                {
+                  "value": "156.79.183.148",
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                },
+                {
+                  "value": "192.88.180.38",
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                },
+                {
+                  "value": "206.208.9.22",
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                },
+                {
+                  "value": "217.68.219.1",
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                },
+                {
+                  "value": "71.237.1.108",
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                },
+                {
+                  "value": "73.88.139.50",
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                },
+                {
+                  "value": "76.182.166.154",
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                },
+                {
+                  "value": "81.10.219.68",
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                },
+                {
+                  "value": "83.206.119.225",
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                },
+                {
+                  "value": "84.101.219.105",
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                },
+                {
+                  "value": "87.51.49.26",
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "webComponents": [],
+              "headers": [],
+              "attributes": [],
+              "cookies": [],
+              "sslCerts": [],
+              "parentHosts": [],
+              "childHosts": [],
+              "services": [],
+              "cnames": [],
+              "sources": [],
+              "firstSeen": "2023-09-30T09:00:48\u002B0000",
+              "lastSeen": "2023-09-30T09:00:48\u002B0000",
+              "count": 30,
+              "resourceUrls": [],
+              "scanMetadata": [],
+              "asns": [
+                {
+                  "value": 270,
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                },
+                {
+                  "value": 680,
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                },
+                {
+                  "value": 2907,
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                },
+                {
+                  "value": 3215,
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                },
+                {
+                  "value": 3292,
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                },
+                {
+                  "value": 7922,
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                },
+                {
+                  "value": 11363,
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                },
+                {
+                  "value": 11426,
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                },
+                {
+                  "value": 12605,
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                },
+                {
+                  "value": 12903,
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                },
+                {
+                  "value": 15557,
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                },
+                {
+                  "value": 26643,
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                },
+                {
+                  "value": 37075,
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                }
+              ],
+              "ipBlocks": [
+                {
+                  "ipBlock": "130.75.0.0/16",
+                  "sources": [],
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "recent": true
+                },
+                {
+                  "ipBlock": "133.103.0.0/16",
+                  "sources": [],
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000"
+                },
+                {
+                  "ipBlock": "139.169.0.0/16",
+                  "sources": [],
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000"
+                },
+                {
+                  "ipBlock": "154.224.128.0/17",
+                  "sources": [],
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000"
+                },
+                {
+                  "ipBlock": "156.79.0.0/16",
+                  "sources": [],
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000"
+                },
+                {
+                  "ipBlock": "192.88.180.0/22",
+                  "sources": [],
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000"
+                },
+                {
+                  "ipBlock": "217.68.219.0/24",
+                  "sources": [],
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000"
+                },
+                {
+                  "ipBlock": "71.224.0.0/12",
+                  "sources": [],
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000"
+                },
+                {
+                  "ipBlock": "73.0.0.0/8",
+                  "sources": [],
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000"
+                },
+                {
+                  "ipBlock": "76.182.160.0/19",
+                  "sources": [],
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000"
+                },
+                {
+                  "ipBlock": "81.10.128.0/17",
+                  "sources": [],
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000"
+                },
+                {
+                  "ipBlock": "83.206.0.0/16",
+                  "sources": [],
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000"
+                },
+                {
+                  "ipBlock": "84.96.0.0/13",
+                  "sources": [],
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000"
+                },
+                {
+                  "ipBlock": "87.48.0.0/13",
+                  "sources": [],
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000"
+                }
+              ],
+              "responseBodies": [],
+              "nsRecord": [],
+              "mxRecord": [],
+              "webserver": [],
+              "location": [
+                {
+                  "value": {},
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "recent": true,
+                  "sources": []
+                },
+                {
+                  "value": {
+                    "countryCode": "AT",
+                    "countryName": "Austria",
+                    "region": "4",
+                    "regionName": "Upper Austria",
+                    "city": "Wels",
+                    "postalCode": "4600",
+                    "latitude": 48.1676,
+                    "longitude": 14.031
+                  },
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                },
+                {
+                  "value": {
+                    "countryCode": "DE",
+                    "countryName": "Germany",
+                    "region": "NI",
+                    "regionName": "Lower Saxony",
+                    "city": "Hanover",
+                    "postalCode": "30165",
+                    "latitude": 52.3959,
+                    "longitude": 9.724
+                  },
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                },
+                {
+                  "value": {
+                    "countryCode": "DK",
+                    "countryName": "Denmark",
+                    "region": "83",
+                    "regionName": "South Denmark",
+                    "city": "Odense",
+                    "postalCode": "5100",
+                    "latitude": 55.3945,
+                    "longitude": 10.3903
+                  },
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                },
+                {
+                  "value": {
+                    "countryCode": "FR",
+                    "countryName": "France",
+                    "region": "IDF",
+                    "regionName": "\u00CEle-de-France",
+                    "city": "Charenton-le-Pont",
+                    "postalCode": "94220",
+                    "latitude": 48.8166,
+                    "longitude": 2.4095
+                  },
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": []
+                }
+              ],
+              "nxdomain": [],
+              "sslServerConfig": [],
+              "isWildcard": [],
+              "banners": [],
+              "ipv4": [
+                {
+                  "value": true,
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ],
+              "ipv6": [
+                {
+                  "value": false,
+                  "firstSeen": "2023-09-30T09:00:48\u002B0000",
+                  "lastSeen": "2023-09-30T09:00:48\u002B0000",
+                  "sources": [],
+                  "recent": true
+                }
+              ]
+            },
+            "createdDate": "2023-10-04T15:47:34\u002B0000",
+            "updatedDate": "2023-10-04T15:47:34\u002B0000",
+            "state": "confirmed",
+            "externalId": null,
+            "labels": [],
+            "wildcard": false,
+            "discoGroupName": "University of Kansas",
+            "auditTrail": [
+              {
+                "id": null,
+                "name": "kumc.edu",
+                "displayName": null,
+                "kind": "domain",
+                "reason": null
+              },
+              {
+                "id": null,
+                "name": "dan@ns.kumc.edu",
+                "displayName": null,
+                "kind": "contact",
+                "reason": null
+              },
+              {
+                "id": null,
+                "name": "206.208.8.0/21",
+                "displayName": null,
+                "kind": "ipBlock",
+                "reason": null
+              },
+              {
+                "id": null,
+                "name": "206.208.9.22",
+                "displayName": null,
+                "kind": "ipAddress",
+                "reason": null
+              }
+            ],
+            "history": null,
+            "reason": null
+          },
+          {
+            "id": "sslCert$$9033950f64c3f019a11e8923b340837b4a2d2c02",
+            "name": "9033950f64c3f019a11e8923b340837b4a2d2c02",
+            "displayName": "9033950f64c3f019a11e8923b340837b4a2d2c02",
+            "kind": "sslCert",
+            "uuid": "1a361af0-314a-b01c-86f4-ff49694171ec",
+            "asset": {
+              "sha1": "9033950f64c3f019a11e8923b340837b4a2d2c02",
+              "subjectCommonNames": [
+                "watkinspatientportal.ku.edu"
+              ],
+              "organizations": [],
+              "organizationalUnits": [],
+              "issuerCommonNames": [
+                "InCommon ECC Server CA 2"
+              ],
+              "sigAlgName": "SHA256WITHECDSA",
+              "invalidAfter": "2024-09-28T23:59:59\u002B0000",
+              "serialNumber": "4062c596eb0089ba54e6affd9790938c",
+              "subjectAlternativeNames": [
+                "watkinspatientportal.ku.edu"
+              ],
+              "issuerAlternativeNames": [],
+              "sources": [],
+              "firstSeen": "2023-09-30T08:14:46\u002B0000",
+              "lastSeen": "2023-10-04T07:33:26\u002B0000",
+              "count": 17,
+              "invalidBefore": "2023-09-29T00:00:00\u002B0000",
+              "keySize": 256,
+              "keyAlgorithm": "EC",
+              "subjectLocality": [],
+              "subjectState": [
+                "Kansas"
+              ],
+              "subjectCountry": [
+                "US"
+              ],
+              "issuerLocality": [],
+              "issuerState": [],
+              "issuerCountry": [
+                "US"
+              ],
+              "subjectOrganizations": [
+                "University of Kansas"
+              ],
+              "subjectOrganizationalUnits": [],
+              "issuerOrganizations": [
+                "Internet2"
+              ],
+              "issuerOrganizationalUnits": [],
+              "version": 3,
+              "certificateAuthority": false,
+              "selfSigned": false,
+              "sigAlgOid": "1.2.840.10045.4.3.2",
+              "validationType": "organizationValidation"
+            },
+            "createdDate": "2023-10-04T15:47:22\u002B0000",
+            "updatedDate": "2023-10-04T15:55:08\u002B0000",
+            "state": "confirmed",
+            "externalId": null,
+            "labels": [],
+            "wildcard": false,
+            "discoGroupName": "University of Kansas",
+            "auditTrail": [
+              {
+                "id": null,
+                "name": "2496",
+                "displayName": null,
+                "kind": "as",
+                "reason": null
+              },
+              {
+                "id": null,
+                "name": "129.237.0.0/16",
+                "displayName": null,
+                "kind": "ipBlock",
+                "reason": null
+              },
+              {
+                "id": null,
+                "name": "129.237.135.38",
+                "displayName": null,
+                "kind": "ipAddress",
+                "reason": null
+              }
+            ],
+            "history": null,
+            "reason": null
+          },
+          {
             "id": "page$$http://ccren.ku.edu/",
             "name": "http://ccren.ku.edu/",
             "displayName": "http://ccren.ku.edu/",
@@ -4987,7 +6470,7 @@
                 {
                   "value": "eas-lmbackend-app-elb-973008697.us-east-1.elb.amazonaws.com",
                   "firstSeen": "2023-09-29T08:06:04\u002B0000",
-                  "lastSeen": "2023-09-29T12:40:36\u002B0000",
+                  "lastSeen": "2023-10-02T23:23:17\u002B0000",
                   "sources": [],
                   "recent": true
                 }
@@ -4995,7 +6478,7 @@
               "sources": [],
               "firstSeen": "2023-09-29T08:06:04\u002B0000",
               "lastSeen": "2023-10-02T23:23:17\u002B0000",
-              "count": 33,
+              "count": 34,
               "resourceUrls": [],
               "scanMetadata": [
                 {
@@ -5179,3110 +6662,6 @@
                 "name": "129.237.135.38",
                 "displayName": null,
                 "kind": "ipAddress",
-                "reason": null
-              }
-            ],
-            "history": null,
-            "reason": null
-          },
-          {
-            "id": "sslCert$$939796f4a9200d582e1773fcb66dcbb822ba215a",
-            "name": "939796f4a9200d582e1773fcb66dcbb822ba215a",
-            "displayName": "939796f4a9200d582e1773fcb66dcbb822ba215a",
-            "kind": "sslCert",
-            "uuid": "832c8174-0318-b1f4-9710-1741c02001c8",
-            "asset": {
-              "sha1": "939796f4a9200d582e1773fcb66dcbb822ba215a",
-              "subjectCommonNames": [
-                "ws.my.ku.edu"
-              ],
-              "organizations": [],
-              "organizationalUnits": [],
-              "issuerCommonNames": [
-                "InCommon RSA Server CA"
-              ],
-              "sigAlgName": "SHA256WITHRSA",
-              "invalidAfter": "2024-10-05T23:59:59\u002B0000",
-              "serialNumber": "a3336365d6345e0230ea59d11288a154",
-              "subjectAlternativeNames": [
-                "ws.my.ku.edu"
-              ],
-              "issuerAlternativeNames": [],
-              "sources": [],
-              "firstSeen": "2023-09-28T23:22:51\u002B0000",
-              "lastSeen": "2023-10-02T19:04:12\u002B0000",
-              "count": 18,
-              "invalidBefore": "2023-09-21T00:00:00\u002B0000",
-              "keySize": 256,
-              "keyAlgorithm": "EC",
-              "subjectLocality": [],
-              "subjectState": [
-                "Kansas"
-              ],
-              "subjectCountry": [
-                "US"
-              ],
-              "issuerLocality": [
-                "Ann Arbor"
-              ],
-              "issuerState": [
-                "MI"
-              ],
-              "issuerCountry": [
-                "US"
-              ],
-              "subjectOrganizations": [
-                "University of Kansas"
-              ],
-              "subjectOrganizationalUnits": [],
-              "issuerOrganizations": [
-                "Internet2"
-              ],
-              "issuerOrganizationalUnits": [
-                "InCommon"
-              ],
-              "version": 3,
-              "certificateAuthority": false,
-              "selfSigned": false,
-              "sigAlgOid": "1.2.840.113549.1.1.11",
-              "validationType": "organizationValidation"
-            },
-            "createdDate": "2023-10-02T04:14:01\u002B0000",
-            "updatedDate": "2023-10-03T03:29:26\u002B0000",
-            "state": "confirmed",
-            "externalId": null,
-            "labels": [],
-            "wildcard": false,
-            "discoGroupName": "University of Kansas",
-            "auditTrail": [
-              {
-                "id": null,
-                "name": "2496",
-                "displayName": null,
-                "kind": "as",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "129.237.0.0/16",
-                "displayName": null,
-                "kind": "ipBlock",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "129.237.135.217",
-                "displayName": null,
-                "kind": "ipAddress",
-                "reason": null
-              }
-            ],
-            "history": null,
-            "reason": null
-          },
-          {
-            "id": "page$$http://cep.ku.edu/",
-            "name": "http://cep.ku.edu/",
-            "displayName": "http://cep.ku.edu/",
-            "kind": "page",
-            "uuid": "79f1ca6b-bf4e-e5c3-c234-b161ec41b5ea",
-            "asset": {
-              "url": "http://cep.ku.edu/",
-              "httpMethod": "GET",
-              "service": "http://cep.ku.edu:80",
-              "ipAddresses": [
-                {
-                  "value": "129.237.135.235",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "successful": [
-                {
-                  "value": true,
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "httpResponseCodes": [
-                {
-                  "value": 301,
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "httpResponseMessages": [
-                {
-                  "value": "Moved Permanently",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "responseTimes": [
-                {
-                  "value": 273,
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "frames": [],
-              "windows": [],
-              "nonHtmlFrames": [],
-              "undirectedContent": [],
-              "contentTypes": [
-                {
-                  "value": "text/html",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "contentLengths": [
-                {
-                  "value": 215,
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "windowNames": [],
-              "charsets": [
-                {
-                  "value": "ISO-8859-1",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "titles": [
-                {
-                  "value": "301 Moved Permanently",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "languages": [],
-              "responseHeaders": [],
-              "cookies": [],
-              "webComponents": [],
-              "attributes": [],
-              "assetSecurityPolicies": [
-                {
-                  "policyName": "content-security-policy-high",
-                  "isAffected": false,
-                  "description": "no violations",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true,
-                  "sources": []
-                },
-                {
-                  "policyName": "content-security-policy-low",
-                  "isAffected": false,
-                  "description": "no violations",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true,
-                  "sources": []
-                },
-                {
-                  "policyName": "form",
-                  "isAffected": false,
-                  "description": "Page does not contain forms.",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true,
-                  "sources": []
-                },
-                {
-                  "policyName": "insecure-form",
-                  "isAffected": false,
-                  "description": "Page does not contain forms.",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true,
-                  "sources": []
-                },
-                {
-                  "policyName": "insecure-login-form",
-                  "isAffected": false,
-                  "description": "Page does not use forms.",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true,
-                  "sources": []
-                },
-                {
-                  "policyName": "login-form",
-                  "isAffected": false,
-                  "description": "Page does not use login related input types",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true,
-                  "sources": []
-                },
-                {
-                  "policyName": "public-key-pinning-extensions-for-http",
-                  "isAffected": false,
-                  "description": "Page does not use HTTPS.",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true,
-                  "sources": []
-                },
-                {
-                  "policyName": "strict-transport-security",
-                  "isAffected": false,
-                  "description": "Page does not use HTTPS.",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true,
-                  "sources": []
-                },
-                {
-                  "policyName": "x-content-type-options",
-                  "isAffected": true,
-                  "description": "Header X-Content-Type-Options is not present.",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true,
-                  "sources": []
-                },
-                {
-                  "policyName": "x-frame-options",
-                  "isAffected": true,
-                  "description": "X-Frame-Options not found.",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true,
-                  "sources": []
-                },
-                {
-                  "policyName": "x-permitted-cross-domain-policies",
-                  "isAffected": false,
-                  "description": "Header X-Permitted-Cross-Domain-Policies is not present.",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true,
-                  "sources": []
-                },
-                {
-                  "policyName": "xss-protection",
-                  "isAffected": false,
-                  "description": "X-XSS-Protection is not present, so the browser\u0027s default behavior will be used.",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true,
-                  "sources": []
-                }
-              ],
-              "responseBodyMinhashSignatures": [
-                {
-                  "values": [
-                    -2146480268,
-                    -2135677162,
-                    -2141406494,
-                    -2128778720,
-                    -2108441054,
-                    -2107174412,
-                    -2143453288,
-                    -2142795750,
-                    -2141019040,
-                    -2122265142,
-                    -2146600255,
-                    -2132253251,
-                    -2139112930,
-                    -2140750432,
-                    -2117110402,
-                    -2134526607,
-                    -2138118783,
-                    -2145511313,
-                    -2134066386,
-                    -2100774492,
-                    -2086765346,
-                    -2122271387,
-                    -2127179029,
-                    -2124079460,
-                    -2143721545,
-                    -2133146077,
-                    -2140418143,
-                    -2145490703,
-                    -2116757970,
-                    -2094437484,
-                    -2075519557,
-                    -2135300982,
-                    -2147289488,
-                    -2120491737,
-                    -2118683330,
-                    -2122843668,
-                    -2103369797,
-                    -2133948371,
-                    -2114985770,
-                    -2143942135,
-                    -2133873413,
-                    -2078778155,
-                    -2144455769,
-                    -2119223672,
-                    -2144683550,
-                    -2123200711,
-                    -2081758735,
-                    -2125005313,
-                    -2132384071,
-                    -2145202301,
-                    -2134485479,
-                    -2147250688,
-                    -2119070250,
-                    -2110740016,
-                    -2126740705,
-                    -2092441770,
-                    -2142044276,
-                    -2102939352,
-                    -2132686213,
-                    -2141156278,
-                    -2134803681,
-                    -2111818524,
-                    -2142959620,
-                    -2084058491,
-                    -2134242793,
-                    -2147185599,
-                    -2119125282,
-                    -2110471309,
-                    -2133987159,
-                    -2062518418,
-                    -2130438956,
-                    -2139473271,
-                    -2146891317,
-                    -2111779897,
-                    -2141525133,
-                    -2135712801,
-                    -2118238959,
-                    -2123069025,
-                    -2120142895,
-                    -2142379781,
-                    -2145700133,
-                    -2142498557,
-                    -2132598928,
-                    -2140360673,
-                    -2101036746,
-                    -2143953972,
-                    -2136562591,
-                    -2112999813,
-                    -2139937043,
-                    -2131842823,
-                    -2125264031,
-                    -2129311604,
-                    -2146850228,
-                    -2139156122,
-                    -2141579479,
-                    -2145597969,
-                    -2134976533,
-                    -2139099416,
-                    -2123035798,
-                    -2140141775,
-                    -2128931107,
-                    -2118482084,
-                    -2143915058,
-                    -2140702961,
-                    -2125151048,
-                    -2127160855,
-                    -2100113901,
-                    -2131993326,
-                    -2143895391,
-                    -2134259702,
-                    -2145720469,
-                    -2123405954,
-                    -2095407365,
-                    -2131532135,
-                    -2137937507,
-                    -2142340577,
-                    -2112441294,
-                    -2146311512,
-                    -2061071459,
-                    -2136320919,
-                    -2123564639,
-                    -2139093624,
-                    -2144938335,
-                    -2139262316,
-                    -2146224527,
-                    -2110225993,
-                    -2130617550,
-                    -2134045153,
-                    -2143695170,
-                    -2145850516,
-                    -2146540258,
-                    -2136043764,
-                    -2138142938,
-                    -2146499110,
-                    -2088068702,
-                    -2146046550,
-                    -2070291865,
-                    -2075103191,
-                    -2133018551,
-                    -2143403655,
-                    -2135858510,
-                    -2132281498,
-                    -2145193444,
-                    -2137912225,
-                    -2073547251,
-                    -2135714840,
-                    -2136974366,
-                    -2141313445,
-                    -2059358315,
-                    -2129987963,
-                    -2137740162,
-                    -2115467132,
-                    -2145094250,
-                    -2127195986,
-                    -2117550779,
-                    -2141639907,
-                    -2127050792,
-                    -2061062701,
-                    -2077951632,
-                    -2118688519,
-                    -2085424170,
-                    -2134528129,
-                    -2113080059,
-                    -2137793619,
-                    -2135652155,
-                    -2124647130,
-                    -2142141626,
-                    -2075871260,
-                    -2141169258,
-                    -2130321038,
-                    -2145621556,
-                    -2110250050,
-                    -2123408519,
-                    -2115847706,
-                    -2145835875,
-                    -2126893651,
-                    -2137062305,
-                    -2140788290,
-                    -2138165707,
-                    -2132511881,
-                    -2127200751,
-                    -2117841988,
-                    -2127387285,
-                    -2135195988,
-                    -2113720846,
-                    -2127950632,
-                    -2142888835,
-                    -2146569366,
-                    -2068749134,
-                    -2103872239,
-                    -2117285447,
-                    -2114660101,
-                    -2142143726,
-                    -2115774219,
-                    -2140358081,
-                    -2084361675,
-                    -2140072801,
-                    -2129541134,
-                    -2138632158,
-                    -2079696254
-                  ],
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "fullDomMinhashSignatures": [],
-              "responseBodyHashSignatures": [
-                {
-                  "value": "2ecbd9a9ec75a17404ebdb7c17ae0ae0ab636327",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "errors": [
-                {
-                  "value": "",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "sslCerts": [],
-              "sources": [],
-              "firstSeen": "2023-09-28T21:46:51\u002B0000",
-              "lastSeen": "2023-09-28T21:46:51\u002B0000",
-              "count": 4,
-              "redirectUrls": [],
-              "redirectType": "final",
-              "finalUrls": [
-                {
-                  "value": "http://cep.ku.edu/",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "finalResponseCodes": [
-                {
-                  "value": 301,
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "parkedPage": [
-                {
-                  "value": false,
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "resourceUrls": [],
-              "guids": [],
-              "finalIpAddresses": [
-                {
-                  "value": "129.237.135.235",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "asns": [
-                {
-                  "value": 2496,
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "ipBlocks": [
-                {
-                  "ipBlock": "129.237.0.0/16",
-                  "sources": [],
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true
-                }
-              ],
-              "finalAsns": [
-                {
-                  "value": 2496,
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "finalIpBlocks": [
-                {
-                  "ipBlock": "129.237.0.0/16",
-                  "sources": [],
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true
-                }
-              ],
-              "responseBodies": [],
-              "domainAsset": {
-                "domain": "ku.edu",
-                "whoisId": 7081649620358645849,
-                "registrarIanaIds": [],
-                "registrantContacts": [
-                  {
-                    "value": "",
-                    "firstSeen": "2022-07-31T13:43:45\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  }
-                ],
-                "registrantOrgs": [
-                  {
-                    "value": "",
-                    "firstSeen": "2022-07-31T13:43:45\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  }
-                ],
-                "adminContacts": [
-                  {
-                    "value": "mattg@ku.edu",
-                    "firstSeen": "2019-07-10T07:00:48\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  },
-                  {
-                    "value": "rlytle@ku.edu",
-                    "firstSeen": "2018-08-01T00:42:22\u002B0000",
-                    "lastSeen": "2018-08-01T00:42:22\u002B0000",
-                    "sources": []
-                  }
-                ],
-                "technicalContacts": [
-                  {
-                    "value": "raycole@ku.edu",
-                    "firstSeen": "2022-06-05T17:22:06\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  },
-                  {
-                    "value": "mattg@ku.edu",
-                    "firstSeen": "2018-08-01T00:42:22\u002B0000",
-                    "lastSeen": "2022-06-05T17:22:06\u002B0000",
-                    "sources": []
-                  }
-                ],
-                "alexaInfos": [
-                  {
-                    "alexaRank": 5720,
-                    "firstSeen": "2023-09-30T01:11:16\u002B0000",
-                    "lastSeen": "2023-10-01T00:15:02\u002B0000",
-                    "recent": true
-                  },
-                  {
-                    "alexaRank": 5717,
-                    "firstSeen": "2023-09-29T01:29:18\u002B0000",
-                    "lastSeen": "2023-09-30T00:10:57\u002B0000"
-                  },
-                  {
-                    "alexaRank": 5713,
-                    "firstSeen": "2023-09-27T01:11:32\u002B0000",
-                    "lastSeen": "2023-09-29T00:14:03\u002B0000"
-                  },
-                  {
-                    "alexaRank": 5715,
-                    "firstSeen": "2023-09-24T01:11:34\u002B0000",
-                    "lastSeen": "2023-09-27T00:11:34\u002B0000"
-                  },
-                  {
-                    "alexaRank": 5722,
-                    "firstSeen": "2023-09-25T01:11:16\u002B0000",
-                    "lastSeen": "2023-09-26T00:29:08\u002B0000"
-                  },
-                  {
-                    "alexaRank": 5725,
-                    "firstSeen": "2023-09-23T01:15:22\u002B0000",
-                    "lastSeen": "2023-09-24T00:10:52\u002B0000"
-                  },
-                  {
-                    "alexaRank": 5745,
-                    "firstSeen": "2023-09-18T01:11:32\u002B0000",
-                    "lastSeen": "2023-09-23T00:14:06\u002B0000"
-                  },
-                  {
-                    "alexaRank": 5750,
-                    "firstSeen": "2023-09-21T01:10:56\u002B0000",
-                    "lastSeen": "2023-09-22T00:11:23\u002B0000"
-                  },
-                  {
-                    "alexaRank": 5758,
-                    "firstSeen": "2023-09-20T01:19:27\u002B0000",
-                    "lastSeen": "2023-09-21T13:48:32\u002B0000"
-                  },
-                  {
-                    "alexaRank": 5746,
-                    "firstSeen": "2023-09-19T01:11:16\u002B0000",
-                    "lastSeen": "2023-09-20T00:13:20\u002B0000"
-                  }
-                ],
-                "nameServers": [
-                  {
-                    "value": "ns1.ku.edu",
-                    "firstSeen": "2012-10-19T18:41:24\u002B0000",
-                    "lastSeen": "2023-09-30T23:40:20\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  },
-                  {
-                    "value": "ns2.ku.edu",
-                    "firstSeen": "2012-10-19T18:41:24\u002B0000",
-                    "lastSeen": "2023-09-30T23:40:20\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  },
-                  {
-                    "value": "ns4.ku.edu",
-                    "firstSeen": "2023-05-20T15:20:10\u002B0000",
-                    "lastSeen": "2023-09-30T23:40:20\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  },
-                  {
-                    "value": "ns3.ku.edu",
-                    "firstSeen": "2023-06-27T21:14:04\u002B0000",
-                    "lastSeen": "2023-09-30T23:38:06\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  },
-                  {
-                    "value": "bddsext-pd04.cc.ku.edu",
-                    "firstSeen": "2023-03-15T17:01:43\u002B0000",
-                    "lastSeen": "2023-05-20T15:20:17\u002B0000",
-                    "sources": []
-                  }
-                ],
-                "mailServers": [
-                  {
-                    "value": "ku-edu.mail.protection.outlook.com",
-                    "firstSeen": "2023-03-22T22:07:53\u002B0000",
-                    "lastSeen": "2023-09-30T22:00:42\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  }
-                ],
-                "whoisServers": [
-                  {
-                    "value": "whois.educause.net",
-                    "firstSeen": "2018-08-01T00:42:22\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  }
-                ],
-                "domainStatuses": [],
-                "registrarCreatedAt": [
-                  {
-                    "value": 851299200000,
-                    "firstSeen": "2018-08-01T00:42:22\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  }
-                ],
-                "registrarUpdatedAt": [
-                  {
-                    "value": 1688083200000,
-                    "firstSeen": "2023-07-03T15:07:20\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  },
-                  {
-                    "value": 1687478400000,
-                    "firstSeen": "2023-06-23T20:58:04\u002B0000",
-                    "lastSeen": "2023-07-03T15:07:20\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1684454400000,
-                    "firstSeen": "2023-05-23T16:23:24\u002B0000",
-                    "lastSeen": "2023-06-23T20:58:04\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1679616000000,
-                    "firstSeen": "2023-04-03T17:13:11\u002B0000",
-                    "lastSeen": "2023-05-23T16:23:24\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1678838400000,
-                    "firstSeen": "2023-03-17T22:53:30\u002B0000",
-                    "lastSeen": "2023-04-03T17:13:11\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1657584000000,
-                    "firstSeen": "2022-07-31T13:43:45\u002B0000",
-                    "lastSeen": "2023-03-17T22:53:30\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1655942400000,
-                    "firstSeen": "2022-07-07T01:27:54\u002B0000",
-                    "lastSeen": "2022-07-31T13:43:45\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1654128000000,
-                    "firstSeen": "2022-06-05T17:22:06\u002B0000",
-                    "lastSeen": "2022-07-07T01:27:54\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1651449600000,
-                    "firstSeen": "2022-05-04T21:25:42\u002B0000",
-                    "lastSeen": "2022-06-05T17:22:06\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1649808000000,
-                    "firstSeen": "2022-04-18T10:28:51\u002B0000",
-                    "lastSeen": "2022-05-04T21:25:42\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1640476800000,
-                    "firstSeen": "2021-12-31T02:24:33\u002B0000",
-                    "lastSeen": "2022-04-18T10:28:51\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1635724800000,
-                    "firstSeen": "2021-11-15T13:58:43\u002B0000",
-                    "lastSeen": "2021-12-31T02:24:33\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1632614400000,
-                    "firstSeen": "2021-09-30T21:46:26\u002B0000",
-                    "lastSeen": "2021-11-15T13:58:43\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1615334400000,
-                    "firstSeen": "2021-03-22T17:10:44\u002B0000",
-                    "lastSeen": "2021-09-30T21:46:26\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1571097600000,
-                    "firstSeen": "2020-02-29T23:54:04\u002B0000",
-                    "lastSeen": "2021-03-22T17:10:44\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1552435200000,
-                    "firstSeen": "2019-07-10T07:00:48\u002B0000",
-                    "lastSeen": "2020-02-29T23:54:04\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1529971200000,
-                    "firstSeen": "2018-08-01T00:42:22\u002B0000",
-                    "lastSeen": "2018-08-01T00:42:22\u002B0000",
-                    "sources": []
-                  }
-                ],
-                "registrarExpiresAt": [
-                  {
-                    "value": 1753920000000,
-                    "firstSeen": "2022-07-31T13:43:45\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  },
-                  {
-                    "value": 1659225600000,
-                    "firstSeen": "2020-02-29T23:54:04\u002B0000",
-                    "lastSeen": "2022-07-31T13:43:45\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": 1564531200000,
-                    "firstSeen": "2018-08-01T00:42:22\u002B0000",
-                    "lastSeen": "2020-02-29T23:54:04\u002B0000",
-                    "sources": []
-                  }
-                ],
-                "soaRecords": [
-                  {
-                    "nameServer": "ns1.ku.edu",
-                    "email": "itcsc@ku.edu",
-                    "firstSeen": "2017-11-01T19:32:20\u002B0000",
-                    "lastSeen": "2023-09-30T23:40:28\u002B0000",
-                    "serialNumber": 703589076,
-                    "recent": true
-                  }
-                ],
-                "detailedFromWhoisAt": "2023-09-29T04:58:53\u002B0000",
-                "registrarNames": [],
-                "sources": [],
-                "firstSeen": "2023-03-17T22:53:30\u002B0000",
-                "lastSeen": "2023-10-01T00:15:02\u002B0000",
-                "count": 1334939,
-                "parkedDomain": [
-                  {
-                    "value": false,
-                    "firstSeen": "2019-05-30T03:49:10\u002B0000",
-                    "lastSeen": "2023-08-16T19:53:33\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  }
-                ],
-                "registrantNames": [
-                  {
-                    "value": "University of Kansas\n1 University of Kansas",
-                    "firstSeen": "2021-02-10T18:48:06\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  },
-                  {
-                    "value": "University of Kansas|1 University of Kansas",
-                    "firstSeen": "2020-12-10T22:11:13\u002B0000",
-                    "lastSeen": "2021-02-10T18:48:06\u002B0000",
-                    "sources": []
-                  }
-                ],
-                "adminNames": [
-                  {
-                    "value": "Domain Admin\nUniversity of Kansas\n1 University of Kansas",
-                    "firstSeen": "2021-02-10T18:48:06\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  },
-                  {
-                    "value": "Domain Admin|University of Kansas|1 University of Kansas",
-                    "firstSeen": "2020-12-10T22:11:13\u002B0000",
-                    "lastSeen": "2021-02-10T18:48:06\u002B0000",
-                    "sources": []
-                  }
-                ],
-                "technicalNames": [
-                  {
-                    "value": "Ray Cole\nUniversity of Kansas\nInformation Technology",
-                    "firstSeen": "2022-06-05T17:22:06\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  },
-                  {
-                    "value": "Matt Garrett\nUniversity of Kansas\nInformation Technology",
-                    "firstSeen": "2021-02-10T18:48:06\u002B0000",
-                    "lastSeen": "2022-06-05T17:22:06\u002B0000",
-                    "sources": []
-                  },
-                  {
-                    "value": "Matt Garrett|University of Kansas|Information Technology",
-                    "firstSeen": "2020-12-10T22:11:13\u002B0000",
-                    "lastSeen": "2021-02-10T18:48:06\u002B0000",
-                    "sources": []
-                  }
-                ],
-                "adminOrgs": [
-                  {
-                    "value": "",
-                    "firstSeen": "2022-07-31T13:43:45\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  }
-                ],
-                "technicalOrgs": [
-                  {
-                    "value": "",
-                    "firstSeen": "2022-07-31T13:43:45\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  }
-                ],
-                "registrantPhones": [
-                  {
-                    "value": "",
-                    "firstSeen": "2022-07-31T13:43:45\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  }
-                ],
-                "adminPhones": [
-                  {
-                    "value": "17858640469",
-                    "firstSeen": "2020-12-10T22:11:13\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  }
-                ],
-                "technicalPhones": [
-                  {
-                    "value": "17858640469",
-                    "firstSeen": "2020-12-10T22:11:13\u002B0000",
-                    "lastSeen": "2023-09-29T04:58:53\u002B0000",
-                    "sources": [],
-                    "recent": true
-                  }
-                ]
-              },
-              "isRootUrl": true,
-              "location": [
-                {
-                  "value": {
-                    "countryCode": "US",
-                    "countryName": "United States",
-                    "region": "KS",
-                    "regionName": "Kansas",
-                    "city": "Lawrence",
-                    "postalCode": "66047",
-                    "latitude": 38.9408,
-                    "longitude": -95.276,
-                    "metroCodeId": 616
-                  },
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true,
-                  "sources": []
-                }
-              ],
-              "services": [
-                {
-                  "scheme": "http",
-                  "port": 80,
-                  "webComponents": [],
-                  "sslCerts": [],
-                  "exceptions": [],
-                  "sources": [],
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "recent": true,
-                  "portStates": []
-                }
-              ],
-              "siteStatus": "ACTIVE",
-              "cnames": [
-                {
-                  "value": "cms.ku.edu",
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": []
-                }
-              ],
-              "cdns": [],
-              "host": "cep.ku.edu",
-              "domain": "ku.edu",
-              "sslServerConfig": [],
-              "gdprAssetSecurityPolicies": [],
-              "ipv4": [
-                {
-                  "value": true,
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "ipv6": [
-                {
-                  "value": false,
-                  "firstSeen": "2023-09-28T21:46:51\u002B0000",
-                  "lastSeen": "2023-09-28T21:46:51\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ]
-            },
-            "createdDate": "2023-10-02T04:13:11\u002B0000",
-            "updatedDate": "2023-10-02T04:13:11\u002B0000",
-            "state": "confirmed",
-            "externalId": null,
-            "labels": [],
-            "wildcard": false,
-            "discoGroupName": "University of Kansas",
-            "auditTrail": [
-              {
-                "id": null,
-                "name": "ku.edu",
-                "displayName": null,
-                "kind": "domain",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "3mt.ku.edu",
-                "displayName": null,
-                "kind": "host",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "cms.ku.edu",
-                "displayName": null,
-                "kind": "host",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "cep.ku.edu",
-                "displayName": null,
-                "kind": "host",
-                "reason": null
-              }
-            ],
-            "history": null,
-            "reason": null
-          },
-          {
-            "id": "sslCert$$7fbbb4194ef5d01e8905c8220cc1529b010b3300",
-            "name": "7fbbb4194ef5d01e8905c8220cc1529b010b3300",
-            "displayName": "7fbbb4194ef5d01e8905c8220cc1529b010b3300",
-            "kind": "sslCert",
-            "uuid": "75d4da2b-318e-7564-d718-6b8f20926709",
-            "asset": {
-              "sha1": "7fbbb4194ef5d01e8905c8220cc1529b010b3300",
-              "subjectCommonNames": [
-                "affcom.ku.edu"
-              ],
-              "organizations": [],
-              "organizationalUnits": [],
-              "issuerCommonNames": [
-                "R3"
-              ],
-              "sigAlgName": "SHA256WITHRSA",
-              "invalidAfter": "2023-12-17T12:48:13\u002B0000",
-              "serialNumber": "47df66a78b55681bfc25f62faaac49b1700",
-              "subjectAlternativeNames": [
-                "affcom.ku.edu"
-              ],
-              "issuerAlternativeNames": [],
-              "sources": [],
-              "firstSeen": "2023-09-28T11:13:06\u002B0000",
-              "lastSeen": "2023-09-28T11:13:06\u002B0000",
-              "count": 6,
-              "invalidBefore": "2023-09-18T12:48:14\u002B0000",
-              "keySize": 2048,
-              "keyAlgorithm": "RSA",
-              "subjectLocality": [],
-              "subjectState": [],
-              "subjectCountry": [],
-              "issuerLocality": [],
-              "issuerState": [],
-              "issuerCountry": [
-                "US"
-              ],
-              "subjectOrganizations": [],
-              "subjectOrganizationalUnits": [],
-              "issuerOrganizations": [
-                "Let\u0027s Encrypt"
-              ],
-              "issuerOrganizationalUnits": [],
-              "version": 3,
-              "certificateAuthority": false,
-              "selfSigned": false,
-              "sigAlgOid": "1.2.840.113549.1.1.11",
-              "validationType": "domainValidation"
-            },
-            "createdDate": "2023-10-02T04:13:04\u002B0000",
-            "updatedDate": "2023-10-02T04:13:04\u002B0000",
-            "state": "confirmed",
-            "externalId": null,
-            "labels": [],
-            "wildcard": false,
-            "discoGroupName": "University of Kansas",
-            "auditTrail": [
-              {
-                "id": null,
-                "name": "ku.edu",
-                "displayName": null,
-                "kind": "domain",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "affcom.ku.edu",
-                "displayName": null,
-                "kind": "host",
-                "reason": null
-              }
-            ],
-            "history": null,
-            "reason": null
-          },
-          {
-            "id": "ipAddress$$129.237.144.115",
-            "name": "129.237.144.115",
-            "displayName": "129.237.144.115",
-            "kind": "ipAddress",
-            "uuid": "4740a8b7-8c11-f342-a7b1-2ad96718895a",
-            "asset": {
-              "ipAddress": "129.237.144.115",
-              "asns": [
-                {
-                  "value": 2496,
-                  "firstSeen": "2023-09-28T02:25:41\u002B0000",
-                  "lastSeen": "2023-09-28T02:25:41\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "reputations": [],
-              "webComponents": [],
-              "netRanges": [
-                {
-                  "value": "129.237.0.0 - 129.237.255.255",
-                  "firstSeen": "2023-09-28T02:25:41\u002B0000",
-                  "lastSeen": "2023-09-28T02:25:41\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "headers": [],
-              "attributes": [],
-              "cookies": [],
-              "sslCerts": [],
-              "services": [],
-              "ipBlocks": [
-                {
-                  "ipBlock": "129.237.0.0/16",
-                  "sources": [],
-                  "firstSeen": "2023-09-28T02:25:41\u002B0000",
-                  "lastSeen": "2023-09-28T02:25:41\u002B0000",
-                  "recent": true
-                }
-              ],
-              "sources": [],
-              "firstSeen": "2023-09-28T02:25:41\u002B0000",
-              "lastSeen": "2023-09-28T02:25:41\u002B0000",
-              "count": 2,
-              "banners": [],
-              "scanMetadata": [],
-              "nsRecord": [
-                {
-                  "value": false,
-                  "firstSeen": "2023-09-28T02:25:41\u002B0000",
-                  "lastSeen": "2023-09-28T02:25:41\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "mxRecord": [
-                {
-                  "value": false,
-                  "firstSeen": "2023-09-28T02:25:41\u002B0000",
-                  "lastSeen": "2023-09-28T02:25:41\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "location": [
-                {
-                  "value": {
-                    "countryCode": "US",
-                    "countryName": "United States",
-                    "region": "KS",
-                    "regionName": "Kansas",
-                    "city": "Lawrence",
-                    "postalCode": "66047",
-                    "latitude": 38.9408,
-                    "longitude": -95.276,
-                    "metroCodeId": 616
-                  },
-                  "firstSeen": "2023-09-28T02:25:41\u002B0000",
-                  "lastSeen": "2023-09-28T02:25:41\u002B0000",
-                  "recent": true,
-                  "sources": []
-                }
-              ],
-              "hosts": [
-                {
-                  "value": "ns2.surfapp.ru",
-                  "firstSeen": "2023-09-28T02:25:41\u002B0000",
-                  "lastSeen": "2023-09-28T02:25:41\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "nxdomain": [],
-              "sslServerConfig": [],
-              "ipv4": true,
-              "ipv6": false
-            },
-            "createdDate": "2023-09-26T18:34:38\u002B0000",
-            "updatedDate": "2023-09-26T18:41:50\u002B0000",
-            "state": "confirmed",
-            "externalId": null,
-            "labels": [],
-            "wildcard": false,
-            "discoGroupName": "University of Kansas",
-            "auditTrail": [
-              {
-                "id": null,
-                "name": "2496",
-                "displayName": null,
-                "kind": "as",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "129.237.0.0/16",
-                "displayName": null,
-                "kind": "ipBlock",
-                "reason": null
-              }
-            ],
-            "history": null,
-            "reason": null
-          },
-          {
-            "id": "ipAddress$$129.237.250.106",
-            "name": "129.237.250.106",
-            "displayName": "129.237.250.106",
-            "kind": "ipAddress",
-            "uuid": "b6b4c4f2-a361-227e-34a3-5c521c5f2cf2",
-            "asset": {
-              "ipAddress": "129.237.250.106",
-              "asns": [
-                {
-                  "value": 2496,
-                  "firstSeen": "2023-09-27T18:50:17\u002B0000",
-                  "lastSeen": "2023-09-29T23:34:40\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "reputations": [],
-              "webComponents": [],
-              "netRanges": [
-                {
-                  "value": "129.237.0.0 - 129.237.255.255",
-                  "firstSeen": "2023-09-27T18:50:17\u002B0000",
-                  "lastSeen": "2023-09-29T23:34:40\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "headers": [],
-              "attributes": [],
-              "cookies": [],
-              "sslCerts": [],
-              "services": [
-                {
-                  "scheme": "unknown",
-                  "port": 88,
-                  "webComponents": [],
-                  "sslCerts": [],
-                  "exceptions": [],
-                  "sources": [],
-                  "firstSeen": "2023-09-27T18:50:17\u002B0000",
-                  "lastSeen": "2023-09-29T23:34:40\u002B0000",
-                  "recent": true,
-                  "portStates": [
-                    {
-                      "value": "filtered",
-                      "port": 88,
-                      "firstSeen": "2023-09-27T18:50:17\u002B0000",
-                      "lastSeen": "2023-09-29T23:34:40\u002B0000",
-                      "count": 3,
-                      "recent": true
-                    }
-                  ]
-                }
-              ],
-              "ipBlocks": [
-                {
-                  "ipBlock": "129.237.0.0/16",
-                  "sources": [],
-                  "firstSeen": "2023-09-27T18:50:17\u002B0000",
-                  "lastSeen": "2023-09-29T23:34:40\u002B0000",
-                  "recent": true
-                }
-              ],
-              "sources": [],
-              "firstSeen": "2023-09-27T18:50:17\u002B0000",
-              "lastSeen": "2023-09-29T23:35:01\u002B0000",
-              "count": 3,
-              "banners": [],
-              "scanMetadata": [
-                {
-                  "port": 88,
-                  "bannerMetadata": "gii",
-                  "startScan": "2023-09-29T23:29:43\u002B0000",
-                  "endScan": "2023-09-29T23:35:01\u002B0000"
-                }
-              ],
-              "nsRecord": [
-                {
-                  "value": false,
-                  "firstSeen": "2023-09-27T18:50:17\u002B0000",
-                  "lastSeen": "2023-09-29T23:34:40\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "mxRecord": [
-                {
-                  "value": false,
-                  "firstSeen": "2023-09-27T18:50:17\u002B0000",
-                  "lastSeen": "2023-09-29T23:34:40\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "location": [
-                {
-                  "value": {
-                    "countryCode": "US",
-                    "countryName": "United States",
-                    "region": "KS",
-                    "regionName": "Kansas",
-                    "city": "Eudora",
-                    "postalCode": "66025",
-                    "latitude": 38.931,
-                    "longitude": -95.0996,
-                    "metroCodeId": 616
-                  },
-                  "firstSeen": "2023-09-27T18:50:17\u002B0000",
-                  "lastSeen": "2023-09-29T23:34:40\u002B0000",
-                  "recent": true,
-                  "sources": []
-                }
-              ],
-              "hosts": [],
-              "nxdomain": [],
-              "sslServerConfig": [],
-              "ipv4": true,
-              "ipv6": false
-            },
-            "createdDate": "2023-09-26T18:34:38\u002B0000",
-            "updatedDate": "2023-09-26T18:34:38\u002B0000",
-            "state": "confirmed",
-            "externalId": null,
-            "labels": [],
-            "wildcard": false,
-            "discoGroupName": "University of Kansas",
-            "auditTrail": [
-              {
-                "id": null,
-                "name": "2496",
-                "displayName": null,
-                "kind": "as",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "129.237.0.0/16",
-                "displayName": null,
-                "kind": "ipBlock",
-                "reason": null
-              }
-            ],
-            "history": null,
-            "reason": null
-          },
-          {
-            "id": "sslCert$$6c03d9feb3f75b8c185752bb769deed0b35baaac",
-            "name": "6c03d9feb3f75b8c185752bb769deed0b35baaac",
-            "displayName": "6c03d9feb3f75b8c185752bb769deed0b35baaac",
-            "kind": "sslCert",
-            "uuid": "cb912be9-8d39-427d-0901-aaba02707bc0",
-            "asset": {
-              "sha1": "6c03d9feb3f75b8c185752bb769deed0b35baaac",
-              "subjectCommonNames": [
-                "ops.cresis.ku.edu"
-              ],
-              "organizations": [],
-              "organizationalUnits": [],
-              "issuerCommonNames": [
-                "InCommon RSA Server CA 2"
-              ],
-              "sigAlgName": "SHA384WITHRSA",
-              "invalidAfter": "2024-10-26T23:59:59\u002B0000",
-              "serialNumber": "db67922d9a3b08c69870512a3327dcb7",
-              "subjectAlternativeNames": [
-                "ops.cresis.ku.edu",
-                "data.cresis.ku.edu",
-                "ftp.cresis.ku.edu",
-                "video.cresis.ku.edu"
-              ],
-              "issuerAlternativeNames": [],
-              "sources": [],
-              "firstSeen": "2023-09-27T18:01:17\u002B0000",
-              "lastSeen": "2023-10-02T23:33:41\u002B0000",
-              "count": 217,
-              "invalidBefore": "2023-09-26T00:00:00\u002B0000",
-              "keySize": 2048,
-              "keyAlgorithm": "RSA",
-              "subjectLocality": [],
-              "subjectState": [
-                "Kansas"
-              ],
-              "subjectCountry": [
-                "US"
-              ],
-              "issuerLocality": [],
-              "issuerState": [],
-              "issuerCountry": [
-                "US"
-              ],
-              "subjectOrganizations": [
-                "University of Kansas"
-              ],
-              "subjectOrganizationalUnits": [],
-              "issuerOrganizations": [
-                "Internet2"
-              ],
-              "issuerOrganizationalUnits": [],
-              "version": 3,
-              "certificateAuthority": false,
-              "selfSigned": false,
-              "sigAlgOid": "1.2.840.113549.1.1.12",
-              "validationType": "organizationValidation"
-            },
-            "createdDate": "2023-10-02T04:18:56\u002B0000",
-            "updatedDate": "2023-10-02T04:18:56\u002B0000",
-            "state": "confirmed",
-            "externalId": null,
-            "labels": [],
-            "wildcard": false,
-            "discoGroupName": "University of Kansas",
-            "auditTrail": [
-              {
-                "id": null,
-                "name": "2496",
-                "displayName": null,
-                "kind": "as",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "129.237.0.0/16",
-                "displayName": null,
-                "kind": "ipBlock",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "129.237.164.134",
-                "displayName": null,
-                "kind": "ipAddress",
-                "reason": null
-              }
-            ],
-            "history": null,
-            "reason": null
-          },
-          {
-            "id": "ipAddress$$206.208.13.158",
-            "name": "206.208.13.158",
-            "displayName": "206.208.13.158",
-            "kind": "ipAddress",
-            "uuid": "6888596b-6a8a-1b0f-255c-c29e2280effc",
-            "asset": {
-              "ipAddress": "206.208.13.158",
-              "asns": [],
-              "reputations": [],
-              "webComponents": [],
-              "netRanges": [
-                {
-                  "value": "206.208.8.0 - 206.208.15.255",
-                  "firstSeen": "2023-09-27T11:19:00\u002B0000",
-                  "lastSeen": "2023-09-27T11:19:00\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "headers": [],
-              "attributes": [],
-              "cookies": [],
-              "sslCerts": [],
-              "services": [],
-              "ipBlocks": [
-                {
-                  "ipBlock": "206.208.8.0/21",
-                  "sources": [],
-                  "firstSeen": "2023-09-27T11:19:00\u002B0000",
-                  "lastSeen": "2023-09-27T11:19:00\u002B0000",
-                  "recent": true
-                }
-              ],
-              "sources": [],
-              "firstSeen": "2023-09-27T11:19:00\u002B0000",
-              "lastSeen": "2023-09-27T11:19:00\u002B0000",
-              "count": 2,
-              "banners": [],
-              "scanMetadata": [],
-              "nsRecord": [
-                {
-                  "value": false,
-                  "firstSeen": "2023-09-27T11:19:00\u002B0000",
-                  "lastSeen": "2023-09-27T11:19:00\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "mxRecord": [
-                {
-                  "value": false,
-                  "firstSeen": "2023-09-27T11:19:00\u002B0000",
-                  "lastSeen": "2023-09-27T11:19:00\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "location": [
-                {
-                  "value": {
-                    "countryCode": "US",
-                    "countryName": "United States",
-                    "latitude": 37.751,
-                    "longitude": -97.822
-                  },
-                  "firstSeen": "2023-09-27T11:19:00\u002B0000",
-                  "lastSeen": "2023-09-27T11:19:00\u002B0000",
-                  "recent": true,
-                  "sources": []
-                }
-              ],
-              "hosts": [
-                {
-                  "value": "qvjy55cj1cjebeq5xe6uiga5wa6q9999.2ecmbwyhmo1zs1bgjiasvda9.claudfront.net",
-                  "firstSeen": "2023-09-27T11:19:00\u002B0000",
-                  "lastSeen": "2023-09-27T11:19:00\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "nxdomain": [],
-              "sslServerConfig": [],
-              "ipv4": true,
-              "ipv6": false
-            },
-            "createdDate": "2023-09-26T18:34:38\u002B0000",
-            "updatedDate": "2023-09-26T18:34:38\u002B0000",
-            "state": "confirmed",
-            "externalId": null,
-            "labels": [],
-            "wildcard": false,
-            "discoGroupName": "University of Kansas",
-            "auditTrail": [
-              {
-                "id": null,
-                "name": "kumc.edu",
-                "displayName": null,
-                "kind": "domain",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "dan@ns.kumc.edu",
-                "displayName": null,
-                "kind": "contact",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "206.208.8.0/21",
-                "displayName": null,
-                "kind": "ipBlock",
-                "reason": null
-              }
-            ],
-            "history": null,
-            "reason": null
-          },
-          {
-            "id": "host$$6dvk4idybu35saz5kpfnmnazkhqa9999.whelvgcbknka9999.acrm-11331.com",
-            "name": "6dvk4idybu35saz5kpfnmnazkhqa9999.whelvgcbknka9999.acrm-11331.com",
-            "displayName": "6dvk4idybu35saz5kpfnmnazkhqa9999.whelvgcbknka9999.acrm-11331.com",
-            "kind": "host",
-            "uuid": "57b6ae70-1671-cb05-abca-c0d4458b229f",
-            "asset": {
-              "host": "6dvk4idybu35saz5kpfnmnazkhqa9999.whelvgcbknka9999.acrm-11331.com",
-              "domain": "acrm-11331.com",
-              "ipAddresses": [
-                {
-                  "value": "195.43.142.73",
-                  "firstSeen": "2023-10-02T10:10:12\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "count": 2,
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "128.89.103.52",
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "133.67.12.252",
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "135.94.213.182",
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "141.34.83.44",
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "145.195.42.142",
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "151.92.97.153",
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "153.93.153.164",
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "202.168.8.130",
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "221.30.34.74",
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "73.54.48.105",
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "79.152.33.84",
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "83.194.77.18",
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "85.6.82.20",
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "91.22.119.20",
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "128.89.159.122",
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "133.57.198.182",
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "136.25.9.234",
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "141.156.255.74",
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "152.245.26.17",
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "154.1.157.169",
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "195.122.25.89",
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "198.30.34.234",
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "203.239.23.114",
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "206.208.14.206",
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "208.47.108.118",
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "215.102.60.193",
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "83.177.127.194",
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "85.34.216.226",
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": "93.19.191.170",
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "webComponents": [
-                {
-                  "name": "Apache",
-                  "type": "Server",
-                  "version": "2.4.6",
-                  "ruleId": [],
-                  "firstSeen": "2023-10-02T10:10:12\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:12\u002B0000",
-                  "cve": [
-                    {
-                      "name": "CVE-2022-28614",
-                      "cweId": "CWE-190",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2016-0736",
-                      "cweId": "CWE-310",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2013-6438",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2014-0226",
-                      "cweId": "CWE-362",
-                      "cvssScore": 6.8
-                    },
-                    {
-                      "name": "CVE-2018-1301",
-                      "cweId": "CWE-119",
-                      "cvssScore": 4.3
-                    },
-                    {
-                      "name": "CVE-2016-5387",
-                      "cvssScore": 6.8
-                    },
-                    {
-                      "name": "CVE-2018-1303",
-                      "cweId": "CWE-125",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2013-5704",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2021-34798",
-                      "cweId": "CWE-476",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2018-1283",
-                      "cvssScore": 3.5
-                    },
-                    {
-                      "name": "CVE-2015-3183",
-                      "cweId": "CWE-20",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2016-8612",
-                      "cweId": "CWE-20",
-                      "cvssScore": 3.3
-                    },
-                    {
-                      "name": "CVE-2016-4975",
-                      "cweId": "CWE-93",
-                      "cvssScore": 4.3
-                    },
-                    {
-                      "name": "CVE-2019-0220",
-                      "cweId": "CWE-706",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2017-15710",
-                      "cweId": "CWE-787",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2020-11985",
-                      "cweId": "CWE-345",
-                      "cvssScore": 4.3
-                    },
-                    {
-                      "name": "CVE-2021-44790",
-                      "cweId": "CWE-787",
-                      "cvssScore": 7.5
-                    },
-                    {
-                      "name": "CVE-2021-26691",
-                      "cweId": "CWE-787",
-                      "cvssScore": 7.5
-                    },
-                    {
-                      "name": "CVE-2022-22720",
-                      "cweId": "CWE-444",
-                      "cvssScore": 7.5
-                    },
-                    {
-                      "name": "CVE-2018-1302",
-                      "cweId": "CWE-476",
-                      "cvssScore": 4.3
-                    },
-                    {
-                      "name": "CVE-2014-0231",
-                      "cweId": "CWE-399",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2017-15715",
-                      "cweId": "CWE-20",
-                      "cvssScore": 6.8
-                    },
-                    {
-                      "name": "CVE-2022-31813",
-                      "cweId": "CWE-345",
-                      "cvssScore": 7.5
-                    },
-                    {
-                      "name": "CVE-2019-10092",
-                      "cweId": "CWE-79",
-                      "cvssScore": 4.3
-                    },
-                    {
-                      "name": "CVE-2020-35452",
-                      "cweId": "CWE-787",
-                      "cvssScore": 6.8
-                    },
-                    {
-                      "name": "CVE-2014-3523",
-                      "cweId": "CWE-399",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2022-23943",
-                      "cweId": "CWE-787",
-                      "cvssScore": 7.5
-                    },
-                    {
-                      "name": "CVE-2019-10098",
-                      "cweId": "CWE-601",
-                      "cvssScore": 5.8
-                    },
-                    {
-                      "name": "CVE-2014-0098",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2016-8743",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2021-26690",
-                      "cweId": "CWE-476",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2014-3581",
-                      "cweId": "CWE-476",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2014-0117",
-                      "cweId": "CWE-20",
-                      "cvssScore": 4.3
-                    },
-                    {
-                      "name": "CVE-2019-0217",
-                      "cweId": "CWE-362",
-                      "cvssScore": 6.0
-                    },
-                    {
-                      "name": "CVE-2015-3185",
-                      "cweId": "CWE-264",
-                      "cvssScore": 4.3
-                    },
-                    {
-                      "name": "CVE-2021-40438",
-                      "cweId": "CWE-918",
-                      "cvssScore": 6.8
-                    },
-                    {
-                      "name": "CVE-2013-4352",
-                      "cvssScore": 4.3
-                    },
-                    {
-                      "name": "CVE-2017-7679",
-                      "cweId": "CWE-119",
-                      "cvssScore": 7.5
-                    },
-                    {
-                      "name": "CVE-2022-28615",
-                      "cweId": "CWE-190",
-                      "cvssScore": 6.4
-                    },
-                    {
-                      "name": "CVE-2014-0118",
-                      "cweId": "CWE-400",
-                      "cvssScore": 4.3
-                    },
-                    {
-                      "name": "CVE-2022-29404",
-                      "cweId": "CWE-770",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2020-13938",
-                      "cweId": "CWE-862",
-                      "cvssScore": 2.1
-                    },
-                    {
-                      "name": "CVE-2017-9798",
-                      "cweId": "CWE-416",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2021-39275",
-                      "cweId": "CWE-787",
-                      "cvssScore": 7.5
-                    },
-                    {
-                      "name": "CVE-2020-1934",
-                      "cweId": "CWE-908",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2018-1312",
-                      "cweId": "CWE-287",
-                      "cvssScore": 6.8
-                    },
-                    {
-                      "name": "CVE-2019-17567",
-                      "cweId": "CWE-444",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2022-28330",
-                      "cweId": "CWE-125",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2018-17199",
-                      "cweId": "CWE-384",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2022-26377",
-                      "cweId": "CWE-444",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2016-2161",
-                      "cweId": "CWE-20",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2020-1927",
-                      "cweId": "CWE-601",
-                      "cvssScore": 5.8
-                    },
-                    {
-                      "name": "CVE-2017-3167",
-                      "cweId": "CWE-287",
-                      "cvssScore": 7.5
-                    },
-                    {
-                      "name": "CVE-2022-30556",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2015-0228",
-                      "cweId": "CWE-20",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2022-22721",
-                      "cweId": "CWE-190",
-                      "cvssScore": 5.8
-                    },
-                    {
-                      "name": "CVE-2017-9788",
-                      "cweId": "CWE-200",
-                      "cvssScore": 6.4
-                    },
-                    {
-                      "name": "CVE-2022-22719",
-                      "cweId": "CWE-665",
-                      "cvssScore": 5.0
-                    },
-                    {
-                      "name": "CVE-2014-8109",
-                      "cweId": "CWE-863",
-                      "cvssScore": 4.3
-                    }
-                  ],
-                  "recent": true,
-                  "ports": [
-                    {
-                      "port": 80,
-                      "firstSeen": "2023-10-02T10:10:12\u002B0000",
-                      "lastSeen": "2023-10-02T10:10:12\u002B0000",
-                      "count": 1
-                    }
-                  ],
-                  "sources": []
-                },
-                {
-                  "name": "CentOS",
-                  "type": "Operating System",
-                  "ruleId": [
-                    "82"
-                  ],
-                  "firstSeen": "2023-10-02T10:10:12\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:12\u002B0000",
-                  "cve": [],
-                  "recent": true,
-                  "ports": [
-                    {
-                      "port": 80,
-                      "firstSeen": "2023-10-02T10:10:12\u002B0000",
-                      "lastSeen": "2023-10-02T10:10:12\u002B0000",
-                      "count": 1
-                    }
-                  ],
-                  "sources": []
-                },
-                {
-                  "name": "PHP",
-                  "type": "Framework",
-                  "version": "7.2.34",
-                  "ruleId": [
-                    "355"
-                  ],
-                  "firstSeen": "2023-10-02T10:10:12\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:12\u002B0000",
-                  "cve": [
-                    {
-                      "name": "CVE-2017-8923",
-                      "cweId": "CWE-787",
-                      "cvssScore": 7.5
-                    }
-                  ],
-                  "recent": true,
-                  "ports": [
-                    {
-                      "port": 80,
-                      "firstSeen": "2023-10-02T10:10:12\u002B0000",
-                      "lastSeen": "2023-10-02T10:10:12\u002B0000",
-                      "count": 1
-                    }
-                  ],
-                  "sources": []
-                }
-              ],
-              "headers": [
-                {
-                  "headerName": "Server",
-                  "headerValue": "Apache/2.4.6 (CentOS)",
-                  "firstSeen": "2023-10-02T10:10:12\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:12\u002B0000",
-                  "recent": true
-                },
-                {
-                  "headerName": "X-Cache-Lookup",
-                  "headerValue": "MISS from localhost:65432",
-                  "firstSeen": "2023-10-02T10:10:12\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:12\u002B0000",
-                  "recent": true
-                },
-                {
-                  "headerName": "X-Powered-By",
-                  "headerValue": "PHP/7.2.34",
-                  "firstSeen": "2023-10-02T10:10:12\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:12\u002B0000",
-                  "recent": true
-                }
-              ],
-              "attributes": [
-                {
-                  "attributeType": "address",
-                  "attributeValue": "195.43.142.73",
-                  "sources": [],
-                  "firstSeen": "2023-10-02T10:10:12\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "recent": true
-                }
-              ],
-              "cookies": [],
-              "sslCerts": [],
-              "parentHosts": [
-                {
-                  "value": "6dvk4idybu35saz5kpfnmnazkhqa9999.whelvgcbknka9999.acrm-11331.com",
-                  "firstSeen": "2023-10-02T10:10:12\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "childHosts": [
-                {
-                  "value": "6dvk4idybu35saz5kpfnmnazkhqa9999.whelvgcbknka9999.acrm-11331.com",
-                  "firstSeen": "2023-10-02T10:10:12\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "services": [
-                {
-                  "scheme": "unknown",
-                  "port": 80,
-                  "webComponents": [],
-                  "sslCerts": [],
-                  "exceptions": [],
-                  "sources": [],
-                  "firstSeen": "2023-09-28T01:28:08\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:12\u002B0000",
-                  "recent": true,
-                  "portStates": [
-                    {
-                      "value": "open",
-                      "port": 80,
-                      "firstSeen": "2023-09-28T01:28:08\u002B0000",
-                      "lastSeen": "2023-09-28T06:59:08\u002B0000",
-                      "count": 1,
-                      "recent": true
-                    }
-                  ]
-                },
-                {
-                  "scheme": "unknown",
-                  "port": 443,
-                  "webComponents": [],
-                  "sslCerts": [],
-                  "exceptions": [],
-                  "sources": [],
-                  "firstSeen": "2023-09-27T20:55:34\u002B0000",
-                  "lastSeen": "2023-09-28T18:54:43\u002B0000",
-                  "recent": true,
-                  "portStates": [
-                    {
-                      "value": "open",
-                      "port": 443,
-                      "firstSeen": "2023-09-27T20:55:34\u002B0000",
-                      "lastSeen": "2023-09-28T18:54:43\u002B0000",
-                      "count": 2,
-                      "recent": true
-                    }
-                  ]
-                },
-                {
-                  "scheme": "unknown",
-                  "port": 1723,
-                  "webComponents": [],
-                  "sslCerts": [],
-                  "exceptions": [],
-                  "sources": [],
-                  "firstSeen": "2023-09-27T23:49:12\u002B0000",
-                  "lastSeen": "2023-09-27T23:49:12\u002B0000",
-                  "recent": true,
-                  "portStates": [
-                    {
-                      "value": "filtered",
-                      "port": 1723,
-                      "firstSeen": "2023-09-27T23:49:12\u002B0000",
-                      "lastSeen": "2023-09-27T23:49:12\u002B0000",
-                      "count": 1,
-                      "recent": true
-                    }
-                  ]
-                }
-              ],
-              "cnames": [],
-              "sources": [],
-              "firstSeen": "2023-09-27T09:16:34\u002B0000",
-              "lastSeen": "2023-10-02T10:10:13\u002B0000",
-              "count": 63,
-              "resourceUrls": [],
-              "scanMetadata": [
-                {
-                  "port": 443,
-                  "bannerMetadata": "minicrawl:https",
-                  "startScan": "2023-10-02T10:10:13\u002B0000",
-                  "endScan": "2023-10-02T10:10:13\u002B0000"
-                },
-                {
-                  "port": 80,
-                  "bannerMetadata": "minicrawl:http",
-                  "startScan": "2023-10-02T10:10:12\u002B0000",
-                  "endScan": "2023-10-02T10:10:12\u002B0000"
-                }
-              ],
-              "asns": [
-                {
-                  "value": 48347,
-                  "firstSeen": "2023-10-02T10:10:12\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                },
-                {
-                  "value": 1101,
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 1754,
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 3215,
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 3303,
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 3320,
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 3352,
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 7545,
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 7922,
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 17676,
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 24261,
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 24771,
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 209,
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 600,
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 701,
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 749,
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 1257,
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 2907,
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 3269,
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 10429,
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 12578,
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 15557,
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 19165,
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": 131794,
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000",
-                  "sources": []
-                }
-              ],
-              "ipBlocks": [
-                {
-                  "ipBlock": "195.43.142.0/24",
-                  "sources": [],
-                  "firstSeen": "2023-10-02T10:10:12\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "recent": true
-                },
-                {
-                  "ipBlock": "133.67.0.0/16",
-                  "sources": [],
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000"
-                },
-                {
-                  "ipBlock": "141.34.0.0/16",
-                  "sources": [],
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000"
-                },
-                {
-                  "ipBlock": "145.192.0.0/12",
-                  "sources": [],
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000"
-                },
-                {
-                  "ipBlock": "151.92.0.0/16",
-                  "sources": [],
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000"
-                },
-                {
-                  "ipBlock": "202.168.8.0/24",
-                  "sources": [],
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000"
-                },
-                {
-                  "ipBlock": "221.30.0.0/16",
-                  "sources": [],
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000"
-                },
-                {
-                  "ipBlock": "73.0.0.0/8",
-                  "sources": [],
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000"
-                },
-                {
-                  "ipBlock": "79.152.0.0/16",
-                  "sources": [],
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000"
-                },
-                {
-                  "ipBlock": "83.194.0.0/16",
-                  "sources": [],
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000"
-                },
-                {
-                  "ipBlock": "85.6.0.0/15",
-                  "sources": [],
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000"
-                },
-                {
-                  "ipBlock": "91.0.0.0/10",
-                  "sources": [],
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000"
-                },
-                {
-                  "ipBlock": "133.57.0.0/16",
-                  "sources": [],
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000"
-                },
-                {
-                  "ipBlock": "136.25.0.0/17",
-                  "sources": [],
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000"
-                },
-                {
-                  "ipBlock": "141.156.0.0/16",
-                  "sources": [],
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000"
-                },
-                {
-                  "ipBlock": "152.245.0.0/17",
-                  "sources": [],
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000"
-                },
-                {
-                  "ipBlock": "195.122.0.0/19",
-                  "sources": [],
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000"
-                },
-                {
-                  "ipBlock": "198.30.0.0/16",
-                  "sources": [],
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000"
-                },
-                {
-                  "ipBlock": "203.239.23.0/24",
-                  "sources": [],
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000"
-                },
-                {
-                  "ipBlock": "208.44.0.0/14",
-                  "sources": [],
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000"
-                },
-                {
-                  "ipBlock": "215.96.0.0/11",
-                  "sources": [],
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000"
-                },
-                {
-                  "ipBlock": "83.176.0.0/12",
-                  "sources": [],
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000"
-                },
-                {
-                  "ipBlock": "85.34.0.0/16",
-                  "sources": [],
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000"
-                },
-                {
-                  "ipBlock": "93.0.0.0/11",
-                  "sources": [],
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-09-27T09:16:34\u002B0000"
-                }
-              ],
-              "responseBodies": [],
-              "nsRecord": [],
-              "mxRecord": [],
-              "webserver": [
-                {
-                  "value": true,
-                  "firstSeen": "2023-09-27T20:55:34\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:12\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "location": [
-                {
-                  "value": {
-                    "countryCode": "AU",
-                    "countryName": "Australia",
-                    "region": "NSW",
-                    "regionName": "New South Wales",
-                    "city": "Sydney",
-                    "postalCode": "2000",
-                    "latitude": -33.8715,
-                    "longitude": 151.2006
-                  },
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "recent": true,
-                  "sources": []
-                },
-                {
-                  "value": {
-                    "countryCode": "CH",
-                    "countryName": "Switzerland",
-                    "latitude": 47.1449,
-                    "longitude": 8.1551
-                  },
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": {
-                    "countryCode": "DE",
-                    "countryName": "Germany",
-                    "latitude": 51.2993,
-                    "longitude": 9.491
-                  },
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": {
-                    "countryCode": "DE",
-                    "countryName": "Germany",
-                    "region": "BE",
-                    "regionName": "Land Berlin",
-                    "city": "Berlin",
-                    "postalCode": "10247",
-                    "latitude": 52.5196,
-                    "longitude": 13.4603
-                  },
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": []
-                },
-                {
-                  "value": {
-                    "countryCode": "DE",
-                    "countryName": "Germany",
-                    "region": "RP",
-                    "regionName": "Rheinland-Pfalz",
-                    "city": "Germersheim",
-                    "postalCode": "76726",
-                    "latitude": 49.2229,
-                    "longitude": 8.3698
-                  },
-                  "firstSeen": "2023-10-02T10:10:13\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": []
-                }
-              ],
-              "nxdomain": [],
-              "sslServerConfig": [],
-              "isWildcard": [],
-              "banners": [],
-              "ipv4": [
-                {
-                  "value": true,
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "ipv6": [
-                {
-                  "value": false,
-                  "firstSeen": "2023-09-27T09:16:34\u002B0000",
-                  "lastSeen": "2023-10-02T10:10:13\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ]
-            },
-            "createdDate": "2023-10-02T04:13:41\u002B0000",
-            "updatedDate": "2023-10-02T04:13:41\u002B0000",
-            "state": "confirmed",
-            "externalId": null,
-            "labels": [],
-            "wildcard": false,
-            "discoGroupName": "University of Kansas",
-            "auditTrail": [
-              {
-                "id": null,
-                "name": "kumc.edu",
-                "displayName": null,
-                "kind": "domain",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "dan@ns.kumc.edu",
-                "displayName": null,
-                "kind": "contact",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "206.208.8.0/21",
-                "displayName": null,
-                "kind": "ipBlock",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "206.208.14.206",
-                "displayName": null,
-                "kind": "ipAddress",
-                "reason": null
-              }
-            ],
-            "history": null,
-            "reason": null
-          },
-          {
-            "id": "host$$ccren.ku.edu",
-            "name": "ccren.ku.edu",
-            "displayName": "ccren.ku.edu",
-            "kind": "host",
-            "uuid": "a1b410da-5df9-eef8-68ad-1341bf02230f",
-            "asset": {
-              "host": "ccren.ku.edu",
-              "domain": "ku.edu",
-              "ipAddresses": [
-                {
-                  "value": "129.237.135.235",
-                  "firstSeen": "2023-09-30T02:45:12\u002B0000",
-                  "lastSeen": "2023-10-02T08:54:27\u002B0000",
-                  "count": 2,
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "webComponents": [],
-              "headers": [],
-              "attributes": [
-                {
-                  "attributeType": "address",
-                  "attributeValue": "129.237.135.235",
-                  "sources": [],
-                  "firstSeen": "2023-09-30T02:45:12\u002B0000",
-                  "lastSeen": "2023-10-02T08:54:27\u002B0000",
-                  "recent": true
-                }
-              ],
-              "cookies": [],
-              "sslCerts": [],
-              "parentHosts": [
-                {
-                  "value": "ccren.ku.edu",
-                  "firstSeen": "2023-09-30T02:45:12\u002B0000",
-                  "lastSeen": "2023-10-02T08:54:27\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "childHosts": [
-                {
-                  "value": "ccren.ku.edu",
-                  "firstSeen": "2023-09-30T02:45:12\u002B0000",
-                  "lastSeen": "2023-10-02T08:54:27\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "services": [
-                {
-                  "scheme": "http",
-                  "port": 80,
-                  "webComponents": [],
-                  "sslCerts": [],
-                  "exceptions": [],
-                  "sources": [],
-                  "firstSeen": "2023-09-30T02:45:12\u002B0000",
-                  "lastSeen": "2023-10-02T08:54:27\u002B0000",
-                  "recent": true,
-                  "portStates": []
-                }
-              ],
-              "cnames": [
-                {
-                  "value": "cms.ku.edu",
-                  "firstSeen": "2023-09-26T14:34:29\u002B0000",
-                  "lastSeen": "2023-10-01T23:15:35\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "sources": [],
-              "firstSeen": "2023-09-26T14:34:29\u002B0000",
-              "lastSeen": "2023-10-02T08:54:27\u002B0000",
-              "count": 19,
-              "resourceUrls": [],
-              "scanMetadata": [
-                {
-                  "port": 80,
-                  "bannerMetadata": "minicrawl:http",
-                  "startScan": "2023-10-02T08:54:27\u002B0000",
-                  "endScan": "2023-10-02T08:54:27\u002B0000"
-                }
-              ],
-              "asns": [
-                {
-                  "value": 2496,
-                  "firstSeen": "2023-09-30T02:45:12\u002B0000",
-                  "lastSeen": "2023-10-02T08:54:27\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "ipBlocks": [
-                {
-                  "ipBlock": "129.237.0.0/16",
-                  "sources": [],
-                  "firstSeen": "2023-09-30T02:45:12\u002B0000",
-                  "lastSeen": "2023-10-02T08:54:27\u002B0000",
-                  "recent": true
-                }
-              ],
-              "responseBodies": [],
-              "nsRecord": [],
-              "mxRecord": [],
-              "webserver": [
-                {
-                  "value": true,
-                  "firstSeen": "2023-09-30T02:45:12\u002B0000",
-                  "lastSeen": "2023-10-02T08:54:27\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "location": [],
-              "nxdomain": [],
-              "sslServerConfig": [],
-              "isWildcard": [],
-              "banners": [],
-              "ipv4": [
-                {
-                  "value": true,
-                  "firstSeen": "2023-09-30T02:45:12\u002B0000",
-                  "lastSeen": "2023-10-02T08:54:27\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ],
-              "ipv6": [
-                {
-                  "value": false,
-                  "firstSeen": "2023-09-30T02:45:12\u002B0000",
-                  "lastSeen": "2023-10-02T08:54:27\u002B0000",
-                  "sources": [],
-                  "recent": true
-                }
-              ]
-            },
-            "createdDate": "2023-10-02T04:13:11\u002B0000",
-            "updatedDate": "2023-10-02T04:13:11\u002B0000",
-            "state": "confirmed",
-            "externalId": null,
-            "labels": [],
-            "wildcard": false,
-            "discoGroupName": "University of Kansas",
-            "auditTrail": [
-              {
-                "id": null,
-                "name": "ku.edu",
-                "displayName": null,
-                "kind": "domain",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "3mt.ku.edu",
-                "displayName": null,
-                "kind": "host",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "cms.ku.edu",
-                "displayName": null,
-                "kind": "host",
-                "reason": null
-              }
-            ],
-            "history": null,
-            "reason": null
-          },
-          {
-            "id": "sslCert$$d2798dee25c8950338eeebe839d939592e88685d",
-            "name": "d2798dee25c8950338eeebe839d939592e88685d",
-            "displayName": "d2798dee25c8950338eeebe839d939592e88685d",
-            "kind": "sslCert",
-            "uuid": "7e30d8c6-5e21-a9b8-fe85-795a3ae28e83",
-            "asset": {
-              "sha1": "d2798dee25c8950338eeebe839d939592e88685d",
-              "subjectCommonNames": [
-                "kite-ohnp-student-kelpa-audio.kiteaai.org"
-              ],
-              "organizations": [],
-              "organizationalUnits": [],
-              "issuerCommonNames": [
-                "Amazon RSA 2048 M03"
-              ],
-              "sigAlgName": "SHA256WITHRSA",
-              "invalidAfter": "2024-10-09T23:59:59\u002B0000",
-              "serialNumber": "9e5710c549458977f505ec7e3462783",
-              "subjectAlternativeNames": [
-                "kite-ohnp-student-kelpa-audio.kiteaai.org"
-              ],
-              "issuerAlternativeNames": [],
-              "sources": [],
-              "firstSeen": "2023-09-26T13:17:28\u002B0000",
-              "lastSeen": "2023-09-27T16:43:40\u002B0000",
-              "count": 9,
-              "invalidBefore": "2023-09-10T00:00:00\u002B0000",
-              "keySize": 2048,
-              "keyAlgorithm": "RSA",
-              "subjectLocality": [],
-              "subjectState": [],
-              "subjectCountry": [],
-              "issuerLocality": [],
-              "issuerState": [],
-              "issuerCountry": [
-                "US"
-              ],
-              "subjectOrganizations": [],
-              "subjectOrganizationalUnits": [],
-              "issuerOrganizations": [
-                "Amazon"
-              ],
-              "issuerOrganizationalUnits": [],
-              "version": 3,
-              "certificateAuthority": false,
-              "selfSigned": false,
-              "sigAlgOid": "1.2.840.113549.1.1.11",
-              "validationType": "domainValidation"
-            },
-            "createdDate": "2023-10-02T04:12:33\u002B0000",
-            "updatedDate": "2023-10-02T04:12:33\u002B0000",
-            "state": "confirmed",
-            "externalId": null,
-            "labels": [],
-            "wildcard": false,
-            "discoGroupName": "University of Kansas",
-            "auditTrail": [
-              {
-                "id": null,
-                "name": "kiteaai.org",
-                "displayName": null,
-                "kind": "domain",
-                "reason": null
-              },
-              {
-                "id": null,
-                "name": "kite-ohnp-student-kelpa-audio.kiteaai.org",
-                "displayName": null,
-                "kind": "host",
                 "reason": null
               }
             ],

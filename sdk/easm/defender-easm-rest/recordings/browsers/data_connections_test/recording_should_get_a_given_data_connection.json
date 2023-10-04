@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/subscriptions/5aceda1f-93bf-4b33-b129-22f360f7c5ff/resourceGroups/thangdeveastus2-rg/workspaces/sdktesting/savedFilters?api-version=2023-03-01-preview",
+      "RequestUri": "https://endpoint/subscriptions/5aceda1f-93bf-4b33-b129-22f360f7c5ff/resourceGroups/thangdeveastus2-rg/workspaces/sdktesting/dataConnections/sdktest-connection?api-version=2023-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -18,7 +18,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "2656725d-0833-4cb5-aaf6-31ba9a8b8561",
+        "x-ms-client-request-id": "ee7fb083-5422-4b12-ab2a-49de3d6dfb98",
         "x-ms-useragent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 OS"
       },
       "RequestBody": null,
@@ -28,7 +28,7 @@
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Wed, 04 Oct 2023 15:57:56 GMT",
+        "Date": "Wed, 04 Oct 2023 15:57:09 GMT",
         "Expires": "0",
         "Pragma": "no-cache",
         "Server": "digitalfootprint-web",
@@ -42,22 +42,29 @@
         ],
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "f6723ef5-afd6-4de9-84b4-d83db3ff93d8",
-        "x-ms-request-id": "1a6893a6-22d2-476f-bb85-76a67e618299",
+        "x-ms-correlation-request-id": "0078f155-f74f-4b18-a8b1-2decc466a6f6",
+        "x-ms-request-id": "b20789b0-784e-4a0f-8b10-6b94ce3e71b4",
         "x-ms-ui-version": "api",
         "X-XSS-Protection": "1; mode=block"
       },
       "ResponseBody": {
-        "totalElements": 1,
-        "value": [
-          {
-            "id": "new_put_filter",
-            "name": "new_put_filter",
-            "displayName": "new_put_filter",
-            "filter": "state = \u0022confirmed\u0022",
-            "description": ""
-          }
-        ]
+        "id": "sdktest-connection",
+        "name": "sdktest-connection",
+        "displayName": "sdktest-connection",
+        "kind": "azureDataExplorer",
+        "content": "assets",
+        "properties": {
+          "clusterName": "test",
+          "region": "centralindia",
+          "databaseName": "test"
+        },
+        "createdDate": "2023-09-26T18:49:41\u002B0000",
+        "frequency": "daily",
+        "frequencyOffset": 0,
+        "updatedDate": "2023-09-26T18:54:47\u002B0000",
+        "userUpdatedAt": "2023-09-26T18:49:41\u002B0000",
+        "active": false,
+        "inactiveMessage": "Failed to connect to service. Ensure your connection parameters are valid and in the right format."
       }
     }
   ],

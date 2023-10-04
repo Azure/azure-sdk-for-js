@@ -5,13 +5,23 @@
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "69",
         "Content-Type": "application/json; charset=UTF-8",
-        "User-Agent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v16.17.0 OS/(arm64-Darwin-22.6.0)",
-        "x-ms-client-request-id": "028d5635-92e7-4ac2-b0d5-d960d86f85fe"
+        "Cookie": "df=NzZiMjQxZWItYmRkZi00Y2VjLWE3NWMtYmMwNGQ2MDNhZWI4",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "1060bf80-5398-46d7-a3d4-42ca75d2af9c",
+        "x-ms-useragent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 OS"
       },
       "RequestBody": {
         "description": "Sample description",
@@ -23,7 +33,7 @@
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Wed, 04 Oct 2023 15:57:00 GMT",
+        "Date": "Wed, 04 Oct 2023 15:57:57 GMT",
         "Expires": "0",
         "Pragma": "no-cache",
         "Server": "digitalfootprint-web",
@@ -37,9 +47,9 @@
         ],
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "6b60d849-cd9b-4611-b12d-b13c6de13317",
-        "x-ms-request-id": "0d6ee526-bcbb-4be2-b059-98fa4c06fd17",
-        "x-ms-ui-version": "sdk",
+        "x-ms-correlation-request-id": "a936575b-824f-4e5f-905d-7c42ff699c4d",
+        "x-ms-request-id": "2dec2ae3-7780-4b0e-aa43-c313c96797fc",
+        "x-ms-ui-version": "api",
         "X-XSS-Protection": "1; mode=block"
       },
       "ResponseBody": {

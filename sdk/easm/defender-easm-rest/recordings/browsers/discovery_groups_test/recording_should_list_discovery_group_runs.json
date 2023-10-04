@@ -5,59 +5,21 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v16.17.0 OS/(arm64-Darwin-22.6.0)",
-        "x-ms-client-request-id": "7e8b1fa6-3130-48df-91ca-73223a4f9f12"
-      },
-      "RequestBody": null,
-      "StatusCode": 500,
-      "ResponseHeaders": {
-        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
-        "Connection": "keep-alive",
-        "Content-Encoding": "gzip",
-        "Content-Type": "application/json",
-        "Date": "Wed, 04 Oct 2023 15:56:26 GMT",
-        "Expires": "0",
-        "Pragma": "no-cache",
-        "Server": "digitalfootprint-web",
-        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": [
-          "origin",
-          "access-control-request-method",
-          "access-control-request-headers",
-          "accept-encoding"
-        ],
-        "X-Content-Type-Options": "nosniff",
-        "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "8f55416e-b62c-4374-ac99-5989cd628f9a",
-        "x-ms-error-code": "DiscoMicroserviceLookupFailed",
-        "x-ms-request-id": "a922a1b1-d4b5-4730-8d8b-16e4205bd19f",
-        "x-ms-ui-version": "sdk",
-        "X-XSS-Protection": "1; mode=block"
-      },
-      "ResponseBody": {
-        "error": {
-          "code": "DiscoMicroserviceLookupFailed",
-          "message": "Error performing request: 504 - \n\u003Chtml\u003E\u003Cbody\u003E\u003Ch1\u003E504 Gateway Time-out\u003C/h1\u003E\nThe server didn\u0027t respond in time.\n\u003C/body\u003E\u003C/html\u003E\n",
-          "target": null,
-          "details": null,
-          "innererror": null
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/subscriptions/5aceda1f-93bf-4b33-b129-22f360f7c5ff/resourceGroups/thangdeveastus2-rg/workspaces/sdktesting/discoGroups/University%20of%20Kansas/runs?api-version=2023-03-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v16.17.0 OS/(arm64-Darwin-22.6.0)",
-        "x-ms-client-request-id": "7e8b1fa6-3130-48df-91ca-73223a4f9f12"
+        "Cookie": "df=NzZiMjQxZWItYmRkZi00Y2VjLWE3NWMtYmMwNGQ2MDNhZWI4",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "c5892c71-65b4-4658-a693-2ba7b07b4cbb",
+        "x-ms-useragent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -66,7 +28,7 @@
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Wed, 04 Oct 2023 15:56:37 GMT",
+        "Date": "Wed, 04 Oct 2023 15:57:35 GMT",
         "Expires": "0",
         "Pragma": "no-cache",
         "Server": "digitalfootprint-web",
@@ -80,13 +42,13 @@
         ],
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "1fd902e8-37b3-4ec0-9146-1103ab05bedd",
-        "x-ms-request-id": "2b84458b-7db0-4379-82a3-91f1b6b098f6",
-        "x-ms-ui-version": "sdk",
+        "x-ms-correlation-request-id": "dd9ca2d2-cfcd-449f-812f-12d675e33ddf",
+        "x-ms-request-id": "912264db-cc0f-4aaa-bc08-f1cd3a81f5b5",
+        "x-ms-ui-version": "api",
         "X-XSS-Protection": "1; mode=block"
       },
       "ResponseBody": {
-        "totalElements": 18,
+        "totalElements": 19,
         "value": [
           {
             "submittedDate": "2023-10-02T04:16:19\u002B0000",
@@ -115,11 +77,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -154,12 +116,12 @@
                 "name": "kucrl.org"
               },
               {
-                "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -171,11 +133,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -274,11 +236,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -310,15 +272,15 @@
               },
               {
                 "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
-                "kind": "domain",
                 "name": "kucrl.org"
               },
               {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -330,11 +292,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -398,13 +360,13 @@
             ]
           },
           {
-            "submittedDate": "2023-09-26T18:51:00\u002B0000",
-            "startedDate": "2023-09-26T18:51:00\u002B0000",
-            "completedDate": "2023-09-26T19:16:04\u002B0000",
+            "submittedDate": "2023-10-04T15:57:24\u002B0000",
+            "startedDate": "2023-10-04T15:57:24\u002B0000",
+            "completedDate": null,
             "tier": "advanced",
-            "state": "failed",
-            "totalAssetsFoundCount": 21854,
-            "assetsAddedToInventoryCount": 109,
+            "state": "running",
+            "totalAssetsFoundCount": 0,
+            "assetsAddedToInventoryCount": 0,
             "seeds": [
               {
                 "kind": "domain",
@@ -424,11 +386,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -463,12 +425,12 @@
                 "name": "kucrl.org"
               },
               {
-                "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -480,11 +442,151 @@
               },
               {
                 "kind": "domain",
+                "name": "ksltap.org"
+              },
+              {
+                "kind": "domain",
                 "name": "kucppr.org"
               },
               {
                 "kind": "domain",
+                "name": "jayhawkconsulting.org"
+              },
+              {
+                "kind": "domain",
+                "name": "ksrtap.org"
+              },
+              {
+                "kind": "as",
+                "name": "11659"
+              },
+              {
+                "kind": "domain",
+                "name": "kclatinohealth.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuce.org"
+              },
+              {
+                "kind": "domain",
+                "name": "redtire.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kufood.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.com"
+              },
+              {
+                "kind": "domain",
+                "name": "wethryve.org"
+              }
+            ],
+            "excludes": [],
+            "names": [
+              "University Of Kansas Center For Research, Inc.",
+              "Transportation Research Institute, University of Kansas",
+              "University of Kansas Medical Center",
+              "University of Kansas",
+              "The University of Kansas School of Business",
+              "University of Kansas School of Law",
+              "Institute for Advancing Medical Innovation",
+              "University of Kansas School Of Medicine-Wichita Medical Practice Association",
+              "University of Kansas School of Pharmacy"
+            ],
+            "errors": []
+          },
+          {
+            "submittedDate": "2023-09-26T18:51:00\u002B0000",
+            "startedDate": "2023-09-26T18:51:00\u002B0000",
+            "completedDate": "2023-09-26T19:16:04\u002B0000",
+            "tier": "advanced",
+            "state": "failed",
+            "totalAssetsFoundCount": 21854,
+            "assetsAddedToInventoryCount": 109,
+            "seeds": [
+              {
+                "kind": "domain",
+                "name": "kumc.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.net"
+              },
+              {
+                "kind": "domain",
+                "name": "kiteaai.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkmediaworkshop.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuhistory.com"
+              },
+              {
+                "kind": "domain",
+                "name": "jschooltech.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "journalismtech.org"
+              },
+              {
+                "kind": "domain",
+                "name": "ku.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "actionsdg.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkjournalism.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kucrl.org"
+              },
+              {
+                "kind": "as",
+                "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.com"
+              },
+              {
+                "kind": "domain",
+                "name": "trestlenetwork.org"
+              },
+              {
+                "kind": "domain",
                 "name": "ksltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -562,7 +664,7 @@
             "completedDate": null,
             "tier": "advanced",
             "state": "running",
-            "totalAssetsFoundCount": 15879,
+            "totalAssetsFoundCount": 21149,
             "assetsAddedToInventoryCount": 0,
             "seeds": [
               {
@@ -583,11 +685,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -619,15 +721,15 @@
               },
               {
                 "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
-                "kind": "domain",
                 "name": "kucrl.org"
               },
               {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -639,11 +741,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -694,7 +796,26 @@
               "University of Kansas School Of Medicine-Wichita Medical Practice Association",
               "University of Kansas School of Pharmacy"
             ],
-            "errors": []
+            "errors": [
+              {
+                "error": {
+                  "code": "ERROR_RETRY_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              },
+              {
+                "error": {
+                  "code": "ERROR_RECURSION_LIMIT",
+                  "message": null,
+                  "target": null,
+                  "details": null,
+                  "innererror": null
+                }
+              }
+            ]
           },
           {
             "submittedDate": "2023-09-26T18:32:05\u002B0000",
@@ -723,11 +844,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -759,15 +880,15 @@
               },
               {
                 "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
-                "kind": "domain",
                 "name": "kucrl.org"
               },
               {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -779,11 +900,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -882,11 +1003,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -921,12 +1042,12 @@
                 "name": "kucrl.org"
               },
               {
-                "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -938,11 +1059,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -1041,11 +1162,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -1077,15 +1198,15 @@
               },
               {
                 "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
-                "kind": "domain",
                 "name": "kucrl.org"
               },
               {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -1097,11 +1218,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -1200,11 +1321,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -1236,15 +1357,15 @@
               },
               {
                 "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
-                "kind": "domain",
                 "name": "kucrl.org"
               },
               {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -1256,11 +1377,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -1359,11 +1480,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -1398,12 +1519,12 @@
                 "name": "kucrl.org"
               },
               {
-                "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -1415,11 +1536,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -1518,11 +1639,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -1557,12 +1678,12 @@
                 "name": "kucrl.org"
               },
               {
-                "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -1574,11 +1695,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -1677,11 +1798,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -1716,12 +1837,12 @@
                 "name": "kucrl.org"
               },
               {
-                "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -1733,11 +1854,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -1836,11 +1957,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -1872,15 +1993,15 @@
               },
               {
                 "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
-                "kind": "domain",
                 "name": "kucrl.org"
               },
               {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -1892,11 +2013,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -1974,7 +2095,7 @@
             "completedDate": null,
             "tier": "advanced",
             "state": "running",
-            "totalAssetsFoundCount": 0,
+            "totalAssetsFoundCount": 15322,
             "assetsAddedToInventoryCount": 0,
             "seeds": [
               {
@@ -1995,11 +2116,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -2034,12 +2155,12 @@
                 "name": "kucrl.org"
               },
               {
-                "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -2051,11 +2172,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -2135,11 +2256,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -2174,12 +2295,12 @@
                 "name": "kucrl.org"
               },
               {
-                "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -2191,11 +2312,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -2294,11 +2415,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -2333,12 +2454,12 @@
                 "name": "kucrl.org"
               },
               {
-                "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -2350,11 +2471,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -2453,11 +2574,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -2489,15 +2610,15 @@
               },
               {
                 "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
-                "kind": "domain",
                 "name": "kucrl.org"
               },
               {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -2509,11 +2630,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -2612,11 +2733,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -2651,12 +2772,12 @@
                 "name": "kucrl.org"
               },
               {
-                "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -2668,11 +2789,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",
@@ -2762,11 +2883,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kuhistory.com"
+                "name": "jayhawkmediaworkshop.org"
               },
               {
                 "kind": "domain",
-                "name": "jayhawkmediaworkshop.org"
+                "name": "kuhistory.com"
               },
               {
                 "kind": "domain",
@@ -2801,12 +2922,12 @@
                 "name": "kucrl.org"
               },
               {
-                "kind": "domain",
-                "name": "kudining.org"
-              },
-              {
                 "kind": "as",
                 "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
               },
               {
                 "kind": "domain",
@@ -2818,11 +2939,11 @@
               },
               {
                 "kind": "domain",
-                "name": "kucppr.org"
+                "name": "ksltap.org"
               },
               {
                 "kind": "domain",
-                "name": "ksltap.org"
+                "name": "kucppr.org"
               },
               {
                 "kind": "domain",

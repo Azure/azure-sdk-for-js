@@ -1,4 +1,249 @@
 {
-  "Entries": [],
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/subscriptions/5aceda1f-93bf-4b33-b129-22f360f7c5ff/resourceGroups/thangdeveastus2-rg/workspaces/sdktesting/discoGroups?api-version=2023-03-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Cookie": "df=NzZiMjQxZWItYmRkZi00Y2VjLWE3NWMtYmMwNGQ2MDNhZWI4",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "66f48844-75ec-49d5-97a0-7469a0e4f38f",
+        "x-ms-useragent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Wed, 04 Oct 2023 15:57:15 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "origin",
+          "access-control-request-method",
+          "access-control-request-headers",
+          "accept-encoding"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "467ad0b4-11cd-4749-9f7b-1effc33698fd",
+        "x-ms-request-id": "49c76e88-a1e0-45ff-a9ae-a34c23a15a35",
+        "x-ms-ui-version": "api",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "totalElements": 3,
+        "value": [
+          {
+            "id": "University of Kansas",
+            "name": "University of Kansas",
+            "displayName": "University of Kansas",
+            "description": "This Discovery Group has been auto-created by selecting a pre-built attack surface",
+            "tier": "advanced",
+            "frequencyMilliseconds": 604800000,
+            "seeds": [
+              {
+                "kind": "domain",
+                "name": "kclatinohealth.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkmediaworkshop.org"
+              },
+              {
+                "kind": "domain",
+                "name": "redtire.org"
+              },
+              {
+                "kind": "domain",
+                "name": "ksrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.com"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkconsulting.org"
+              },
+              {
+                "kind": "domain",
+                "name": "wethryve.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.com"
+              },
+              {
+                "kind": "domain",
+                "name": "kumc.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "kuce.org"
+              },
+              {
+                "kind": "domain",
+                "name": "actionsdg.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasrtap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "ku.edu"
+              },
+              {
+                "kind": "domain",
+                "name": "kufood.com"
+              },
+              {
+                "kind": "domain",
+                "name": "jayhawkjournalism.org"
+              },
+              {
+                "kind": "as",
+                "name": "11659"
+              },
+              {
+                "kind": "domain",
+                "name": "kuhistory.com"
+              },
+              {
+                "kind": "domain",
+                "name": "ksltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "jschooltech.org"
+              },
+              {
+                "kind": "domain",
+                "name": "journalismtech.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kansasltap.org"
+              },
+              {
+                "kind": "domain",
+                "name": "trestlenetwork.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kucppr.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kiteaai.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.net"
+              },
+              {
+                "kind": "as",
+                "name": "2496"
+              },
+              {
+                "kind": "domain",
+                "name": "kuband.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kudining.org"
+              },
+              {
+                "kind": "domain",
+                "name": "kucrl.org"
+              }
+            ],
+            "names": [
+              "University of Kansas Medical Center",
+              "University of Kansas School Of Medicine-Wichita Medical Practice Association",
+              "University of Kansas School of Pharmacy",
+              "University of Kansas",
+              "Institute for Advancing Medical Innovation",
+              "University of Kansas School of Law",
+              "University Of Kansas Center For Research, Inc.",
+              "Transportation Research Institute, University of Kansas",
+              "The University of Kansas School of Business"
+            ],
+            "excludes": [],
+            "latestRun": {
+              "submittedDate": null,
+              "startedDate": "2023-10-04T15:55:55\u002B0000",
+              "completedDate": null,
+              "tier": null,
+              "state": "running",
+              "totalAssetsFoundCount": 0,
+              "assetsAddedToInventoryCount": 0,
+              "seeds": null,
+              "excludes": null,
+              "names": null,
+              "errors": null
+            },
+            "createdDate": "2023-09-26T18:32:05\u002B0000",
+            "templateId": null
+          },
+          {
+            "id": "New disco group name from ts",
+            "name": "New disco group name from ts",
+            "displayName": "New disco group name from ts",
+            "description": "Here is a description",
+            "tier": "advanced",
+            "frequencyMilliseconds": null,
+            "seeds": [
+              {
+                "kind": "domain",
+                "name": "example.org"
+              }
+            ],
+            "names": [],
+            "excludes": [],
+            "latestRun": null,
+            "createdDate": "2023-09-26T18:41:05\u002B0000",
+            "templateId": null
+          },
+          {
+            "id": "New disco group Name",
+            "name": "New disco group Name",
+            "displayName": "New disco group Name",
+            "description": "This is a description",
+            "tier": "advanced",
+            "frequencyMilliseconds": null,
+            "seeds": [
+              {
+                "kind": "domain",
+                "name": "example.org"
+              }
+            ],
+            "names": [],
+            "excludes": [],
+            "latestRun": null,
+            "createdDate": "2023-10-02T04:11:34\u002B0000",
+            "templateId": null
+          }
+        ]
+      }
+    }
+  ],
   "Variables": {}
 }
