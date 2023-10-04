@@ -970,6 +970,16 @@ export interface AzureWebCategoryListResult {
   nextLink?: string;
 }
 
+export interface BastionHostPropertiesFormatNetworkAcls {
+  /** Sets the IP ACL rules for Developer Bastion Host. */
+  ipRules?: IPRule[];
+}
+
+export interface IPRule {
+  /** Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed. */
+  addressPrefix?: string;
+}
+
 /** The sku of this Bastion Host. */
 export interface Sku {
   /** The name of this Bastion Host. */
@@ -4492,6 +4502,19 @@ export interface VirtualNetworkDdosProtectionStatusResult {
   nextLink?: string;
 }
 
+/** Virtual Network Gateway Autoscale Configuration details */
+export interface VirtualNetworkGatewayAutoScaleConfiguration {
+  /** The bounds of the autoscale configuration */
+  bounds?: VirtualNetworkGatewayAutoScaleBounds;
+}
+
+export interface VirtualNetworkGatewayAutoScaleBounds {
+  /** Minimum scale Units for Autoscale configuration */
+  min?: number;
+  /** Maximum Scale Units for Autoscale configuration */
+  max?: number;
+}
+
 /** VirtualNetworkGatewaySku details. */
 export interface VirtualNetworkGatewaySku {
   /** Gateway SKU name. */
@@ -6563,6 +6586,8 @@ export interface Subnet extends SubResource {
   privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /** Application gateway IP configurations of virtual network resource. */
   applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
+  /** Set this property to false to disable default outbound connectivity for all VMs in the subnet. This property can only be set at the time of subnet creation and cannot be updated for an existing subnet. */
+  defaultOutboundAccess?: boolean;
 }
 
 /** Frontend IP address of the load balancer. */
@@ -7814,6 +7839,11 @@ export interface FirewallPolicyRuleCollectionGroup extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * A read-only string that represents the size of the FirewallPolicyRuleCollectionGroupProperties in MB. (ex 1.2MB)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly size?: string;
   /** Priority of the Firewall Policy Rule Collection Group resource. */
   priority?: number;
   /** Group of Firewall Policy rule collections. */
@@ -9559,6 +9589,9 @@ export interface BastionHost extends Resource {
   ipConfigurations?: BastionHostIPConfiguration[];
   /** FQDN for the endpoint on which bastion host is accessible. */
   dnsName?: string;
+  /** Reference to an existing virtual network required for Developer Bastion Host only. */
+  virtualNetwork?: SubResource;
+  networkAcls?: BastionHostPropertiesFormatNetworkAcls;
   /**
    * The provisioning state of the bastion host resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -9935,6 +9968,11 @@ export interface FirewallPolicy extends Resource {
   readonly etag?: string;
   /** The identity of the firewall policy. */
   identity?: ManagedServiceIdentity;
+  /**
+   * A read-only string that represents the size of the FirewallPolicyPropertiesFormat in MB. (ex 0.5MB)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly size?: string;
   /**
    * List of references to FirewallPolicyRuleCollectionGroups.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -10403,6 +10441,8 @@ export interface VirtualNetworkGateway extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  /** Autoscale configuration for virutal network gateway */
+  autoScaleConfiguration?: VirtualNetworkGatewayAutoScaleConfiguration;
   /** IP configurations for virtual network gateway. */
   ipConfigurations?: VirtualNetworkGatewayIPConfiguration[];
   /** The type of this virtual network gateway. */

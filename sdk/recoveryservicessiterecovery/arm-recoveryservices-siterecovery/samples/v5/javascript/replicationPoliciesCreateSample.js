@@ -10,17 +10,21 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to The operation to create a replication policy.
  *
  * @summary The operation to create a replication policy.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationPolicies_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationPolicies_Create.json
  */
 async function createsThePolicy() {
-  const subscriptionId = "c183865e-6077-46f2-a3b1-deb0f4f4650a";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "c183865e-6077-46f2-a3b1-deb0f4f4650a";
   const resourceName = "vault1";
-  const resourceGroupName = "resourceGroupPS1";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "resourceGroupPS1";
   const policyName = "protectionprofile1";
   const input = {
     properties: {
@@ -38,4 +42,8 @@ async function createsThePolicy() {
   console.log(result);
 }
 
-createsThePolicy().catch(console.error);
+async function main() {
+  createsThePolicy();
+}
+
+main().catch(console.error);

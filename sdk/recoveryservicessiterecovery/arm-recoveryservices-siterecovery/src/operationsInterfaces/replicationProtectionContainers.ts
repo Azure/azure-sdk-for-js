@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ProtectionContainer,
   ReplicationProtectionContainersListByReplicationFabricsOptionalParams,
@@ -89,8 +89,8 @@ export interface ReplicationProtectionContainers {
     creationInput: CreateProtectionContainerInput,
     options?: ReplicationProtectionContainersCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectionContainersCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectionContainersCreateResponse>,
       ReplicationProtectionContainersCreateResponse
     >
   >;
@@ -130,8 +130,8 @@ export interface ReplicationProtectionContainers {
     discoverProtectableItemRequest: DiscoverProtectableItemRequest,
     options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ReplicationProtectionContainersDiscoverProtectableItemResponse
       >,
       ReplicationProtectionContainersDiscoverProtectableItemResponse
@@ -170,7 +170,7 @@ export interface ReplicationProtectionContainers {
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectionContainersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to remove a protection container.
    * @param resourceName The name of the recovery services vault.
@@ -205,10 +205,8 @@ export interface ReplicationProtectionContainers {
     switchInput: SwitchProtectionInput,
     options?: ReplicationProtectionContainersSwitchProtectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        ReplicationProtectionContainersSwitchProtectionResponse
-      >,
+    SimplePollerLike<
+      OperationState<ReplicationProtectionContainersSwitchProtectionResponse>,
       ReplicationProtectionContainersSwitchProtectionResponse
     >
   >;

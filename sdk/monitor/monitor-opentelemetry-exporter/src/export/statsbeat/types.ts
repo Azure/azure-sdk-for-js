@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export class NetworkStatsbeat {
   public time: number | undefined;
 
@@ -56,12 +59,12 @@ export const StatsbeatResourceProvider = {
 };
 
 export enum StatsbeatCounter {
-  SUCCESS_COUNT = "Request Success Count",
-  FAILURE_COUNT = "Request Failure Count",
-  RETRY_COUNT = "Retry Count",
-  THROTTLE_COUNT = "Throttle Count",
-  EXCEPTION_COUNT = "Exception Count",
-  AVERAGE_DURATION = "Request Duration",
+  SUCCESS_COUNT = "Request_Success_Count",
+  FAILURE_COUNT = "Request_Failure_Count",
+  RETRY_COUNT = "Retry_Count",
+  THROTTLE_COUNT = "Throttle_Count",
+  EXCEPTION_COUNT = "Exception_Count",
+  AVERAGE_DURATION = "Request_Duration",
   ATTACH = "Attach",
   FEATURE = "Feature",
 }

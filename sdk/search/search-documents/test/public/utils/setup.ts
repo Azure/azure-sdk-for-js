@@ -297,7 +297,7 @@ export async function populateIndex(
       tags: ["pool", "view", "wifi", "concierge"],
       parkingIncluded: false,
       smokingAllowed: false,
-      lastRenovationDate: new Date(2010, 5, 27),
+      lastRenovationDate: new Date(Date.UTC(2010, 5, 27)),
       rating: 5,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -313,7 +313,7 @@ export async function populateIndex(
       tags: ["motel", "budget"],
       parkingIncluded: true,
       smokingAllowed: true,
-      lastRenovationDate: new Date(1982, 3, 28),
+      lastRenovationDate: new Date(Date.UTC(1982, 3, 28)),
       rating: 1,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -329,7 +329,7 @@ export async function populateIndex(
       tags: ["wifi", "budget"],
       parkingIncluded: true,
       smokingAllowed: false,
-      lastRenovationDate: new Date(1995, 6, 1),
+      lastRenovationDate: new Date(Date.UTC(1995, 6, 1)),
       rating: 4,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -345,7 +345,7 @@ export async function populateIndex(
       tags: ["wifi", "budget"],
       parkingIncluded: true,
       smokingAllowed: false,
-      lastRenovationDate: new Date(1995, 6, 1),
+      lastRenovationDate: new Date(Date.UTC(1995, 6, 1)),
       rating: 4,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -361,7 +361,7 @@ export async function populateIndex(
       tags: ["wifi", "budget"],
       parkingIncluded: true,
       smokingAllowed: false,
-      lastRenovationDate: new Date(2012, 7, 12),
+      lastRenovationDate: new Date(Date.UTC(2012, 7, 12)),
       rating: 4,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -397,7 +397,7 @@ export async function populateIndex(
       tags: ["pool", "air conditioning", "concierge"],
       parkingIncluded: false,
       smokingAllowed: true,
-      lastRenovationDate: new Date(1970, 0, 18),
+      lastRenovationDate: new Date(Date.UTC(1970, 0, 18)),
       rating: 4,
       location: new GeographyPoint({
         longitude: -73.975403,
@@ -444,7 +444,7 @@ export async function populateIndex(
       tags: ["24-hour front desk service", "coffee in lobby", "restaurant"],
       parkingIncluded: false,
       smokingAllowed: true,
-      lastRenovationDate: new Date(1999, 8, 6),
+      lastRenovationDate: new Date(Date.UTC(1999, 8, 6)),
       rating: 3,
       location: new GeographyPoint({
         longitude: -78.940483,

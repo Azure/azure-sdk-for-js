@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all Extensions in the cluster.
  *
  * @summary List all Extensions in the cluster.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/ListExtensions.json
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/ListExtensions.json
  */
 async function listExtensions() {
   const subscriptionId = process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";

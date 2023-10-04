@@ -86,7 +86,7 @@ describe("containerservicefleet test", () => {
 
   it("fleets delete test", async function () {
     const resArray = new Array();
-    const res = await client.fleets.beginDeleteAndWait(resourceGroup, resourceName)
+    const res = await client.fleets.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions)
     for await (let item of client.fleets.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

@@ -129,7 +129,7 @@ describe("DeploymentStacks test", () => {
 
   it("deploymentStacks delete test", async function () {
     const resArray = new Array();
-    const res = await client.deploymentStacks.beginDeleteAtResourceGroupAndWait(resourceGroup, resourcename
+    const res = await client.deploymentStacks.beginDeleteAtResourceGroupAndWait(resourceGroup, resourcename, testPollingOptions
 )
     for await (let item of client.deploymentStacks.listAtResourceGroup(resourceGroup)) {
       resArray.push(item);

@@ -12,7 +12,7 @@ import {
   ServiceInvitationOutput,
   UserInvitationOutput,
 } from "../../src";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
@@ -21,7 +21,7 @@ describe("Sent Shares Operations", () => {
   let recorder: Recorder;
   let client: PurviewSharingClient;
 
-  const pollingIntervalMs = 30000;
+  const pollingIntervalMs = isPlaybackMode() ? 0 : 30000;
   const sentShareId = "172e29c5-ce5d-4c5f-9cfb-6c2748114aa4";
   const sentShareUserInvitationId = "3b5fc276-5114-4ee1-a958-16347dce51f0";
   const sentShareServiceInvitationId = "34e3b512-14e9-482e-b254-d1c5caaef09d";

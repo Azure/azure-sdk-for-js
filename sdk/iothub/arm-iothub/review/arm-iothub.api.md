@@ -156,12 +156,6 @@ export type CreatedByType = string;
 export type DefaultAction = string;
 
 // @public
-export interface EncryptionPropertiesDescription {
-    keySource?: string;
-    keyVaultProperties?: KeyVaultKeyProperties[];
-}
-
-// @public
 export interface EndpointHealthData {
     endpointId?: string;
     healthStatus?: EndpointHealthStatus;
@@ -389,20 +383,17 @@ export interface IotHubProperties {
     authorizationPolicies?: SharedAccessSignatureAuthorizationRule[];
     cloudToDevice?: CloudToDeviceProperties;
     comments?: string;
-    deviceStreams?: IotHubPropertiesDeviceStreams;
     disableDeviceSAS?: boolean;
     disableLocalAuth?: boolean;
     disableModuleSAS?: boolean;
     enableDataResidency?: boolean;
     enableFileUploadNotifications?: boolean;
-    encryption?: EncryptionPropertiesDescription;
     eventHubEndpoints?: {
         [propertyName: string]: EventHubProperties;
     };
     features?: Capabilities;
     readonly hostName?: string;
     ipFilterRules?: IpFilterRule[];
-    ipVersion?: IpVersion;
     readonly locations?: IotHubLocationDescription[];
     messagingEndpoints?: {
         [propertyName: string]: MessagingEndpointProperties;
@@ -413,17 +404,11 @@ export interface IotHubProperties {
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     restrictOutboundNetworkAccess?: boolean;
-    rootCertificate?: RootCertificateProperties;
     routing?: RoutingProperties;
     readonly state?: string;
     storageEndpoints?: {
         [propertyName: string]: StorageEndpointProperties;
     };
-}
-
-// @public
-export interface IotHubPropertiesDeviceStreams {
-    streamingEndpoints?: string[];
 }
 
 // @public
@@ -487,11 +472,6 @@ export interface IotHubResourceCreateEventHubConsumerGroupOptionalParams extends
 export type IotHubResourceCreateEventHubConsumerGroupResponse = EventHubConsumerGroupInfo;
 
 // @public
-export interface IotHubResourceCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
 export interface IotHubResourceCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     resumeFrom?: string;
@@ -508,6 +488,8 @@ export interface IotHubResourceDeleteEventHubConsumerGroupOptionalParams extends
 // @public
 export interface IotHubResourceDeleteHeaders {
     azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -695,18 +677,13 @@ export interface IotHubResourceTestRouteOptionalParams extends coreClient.Operat
 export type IotHubResourceTestRouteResponse = TestRouteResult;
 
 // @public
-export interface IotHubResourceUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
 export interface IotHubResourceUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type IotHubResourceUpdateResponse = IotHubResourceUpdateHeaders & IotHubDescription;
+export type IotHubResourceUpdateResponse = IotHubDescription;
 
 // @public
 export type IotHubScaleType = "Automatic" | "Manual" | "None";
@@ -748,9 +725,6 @@ export interface IpFilterRule {
 }
 
 // @public
-export type IpVersion = string;
-
-// @public
 export interface JobResponse {
     readonly endTimeUtc?: Date;
     readonly failureReason?: string;
@@ -773,12 +747,6 @@ export type JobStatus = "unknown" | "enqueued" | "running" | "completed" | "fail
 
 // @public
 export type JobType = string;
-
-// @public
-export interface KeyVaultKeyProperties {
-    identity?: ManagedIdentity;
-    keyIdentifier?: string;
-}
 
 // @public
 export enum KnownAuthenticationType {
@@ -833,13 +801,6 @@ export enum KnownIotHubSku {
 }
 
 // @public
-export enum KnownIpVersion {
-    Ipv4 = "ipv4",
-    Ipv4Ipv6 = "ipv4ipv6",
-    Ipv6 = "ipv6"
-}
-
-// @public
 export enum KnownJobType {
     Backup = "backup",
     Export = "export",
@@ -884,9 +845,7 @@ export enum KnownRoutingSource {
     DeviceJobLifecycleEvents = "DeviceJobLifecycleEvents",
     DeviceLifecycleEvents = "DeviceLifecycleEvents",
     DeviceMessages = "DeviceMessages",
-    DigitalTwinChangeEvents = "DigitalTwinChangeEvents",
     Invalid = "Invalid",
-    MqttBrokerMessages = "MqttBrokerMessages",
     TwinChangeEvents = "TwinChangeEvents"
 }
 
@@ -1020,6 +979,8 @@ export interface PrivateEndpointConnections {
 // @public
 export interface PrivateEndpointConnectionsDeleteHeaders {
     azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -1044,11 +1005,6 @@ export interface PrivateEndpointConnectionsListOptionalParams extends coreClient
 
 // @public
 export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnection[];
-
-// @public
-export interface PrivateEndpointConnectionsUpdateHeaders {
-    azureAsyncOperation?: string;
-}
 
 // @public
 export interface PrivateEndpointConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1131,12 +1087,6 @@ export interface ResourceProviderCommonGetSubscriptionQuotaOptionalParams extend
 export type ResourceProviderCommonGetSubscriptionQuotaResponse = UserSubscriptionQuotaListResult;
 
 // @public
-export interface RootCertificateProperties {
-    enableRootCertificateV2?: boolean;
-    readonly lastUpdatedTimeUtc?: Date;
-}
-
-// @public
 export interface RouteCompilationError {
     location?: RouteErrorRange;
     message?: string;
@@ -1173,7 +1123,7 @@ export interface RoutingCosmosDBSqlApiProperties {
     containerName: string;
     databaseName: string;
     endpointUri: string;
-    id?: string;
+    readonly id?: string;
     identity?: ManagedIdentity;
     name: string;
     partitionKeyName?: string;
