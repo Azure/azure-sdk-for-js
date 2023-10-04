@@ -28,12 +28,12 @@ export class AzureMonitorStatsbeatExporter
    */
   constructor(options: AzureMonitorExporterOptions) {
     super(options, true);
-    this._sender = new HttpSender(
-      this.endpointUrl,
-      this.instrumentationKey,
-      this.trackStatsbeat,
-      options
-    );
+    this._sender = new HttpSender({
+      endpointUrl: this.endpointUrl,
+      instrumentationKey: this.instrumentationKey,
+      trackStatsbeat: this.trackStatsbeat,
+      exporterOptions: options,
+    });
   }
 
   /**
