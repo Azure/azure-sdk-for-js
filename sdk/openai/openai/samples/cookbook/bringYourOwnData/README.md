@@ -17,13 +17,13 @@ urlFragment: javascript-quickstart
 
 ![Quickstart sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
 
-Demonstrates using JavaScript to use the [Azure Search SDK for JavaScript/TypeScript](https://docs.microsoft.com/javascript/api/overview/azure/search-documents-readme?view=azure-node-latest) to create an Azure Cognitive Search index, load it with documents, and then integrate that search resource with the [Azure OpenAI SDK for JavaScript](https://learn.microsoft.com/en-us/javascript/api/overview/azure/openai-readme?view=azure-node-preview). The index is modeled on a subset of the Hotels dataset, reduced for readability and comprehension. Index definition and documents are included in the code.
+Demonstrates using JavaScript to use the [Azure Search SDK for JavaScript/TypeScript](https://docs.microsoft.com/javascript/api/overview/azure/search-documents-readme?view=azure-node-latest) to create an Azure Cognitive Search index, load it with documents, and then integrate that search resource with the [Azure OpenAI SDK for JavaScript](https://learn.microsoft.com/javascript/api/overview/azure/openai-readme?view=azure-node-preview). The index is modeled on a subset of the Hotels dataset, reduced for readability and comprehension. Index definition and documents are included in the code.
 
 ## Prerequisites
 
 + [Node.js](https://nodejs.org).
 + [NPM](https://www.npmjs.com) should be installed by Node.js.
-+ [Create a search service in the portal](search-create-service-portal.md) or [find an existing service](https://ms.portal.azure.com/#blade/HubsExtension/BrowseResourceBlade/resourceType/Microsoft.Search%2FsearchServices) under your current subscription. You can use a free service for this quickstart.
++ [Create a search service in the portal](https://learn.microsoft.com/azure/search/search-create-service-portal) or [find an existing service](https://ms.portal.azure.com/#blade/HubsExtension/BrowseResourceBlade/resourceType/Microsoft.Search%2FsearchServices) under your current subscription. You can use a free service for this quickstart.
 + [Create and deploy an Azure OpenAI Service resource](https://learn.microsoft.com/azure/ai-services/openai/how-to/create-resource?pivots=web-portal) under your current subscription. You can use a free service for this quickstart.
 
 ## Set up the sample
