@@ -1,8 +1,10 @@
 # Release History
 
-## 4.7.1 (Unreleased)
+## 4.8.0-beta.1 (Unreleased)
 
 ### Features Added
+
+- Added support for service version 7.5-preview.1.
 
 ### Breaking Changes
 
