@@ -24,3 +24,4 @@ stages:
       Clouds: Public
       TestResourceDirectories:
         - communication/test-resources/
+      PublishCodeCoverage: true
