@@ -6,7 +6,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth"
 import { isPlaybackMode, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { StorageClient } from "../../src/StorageClient";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
+import { FindReplaceSanitizer, RegexSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -21,7 +21,7 @@ export function configureBlobStorageClient(recorder: Recorder, serviceClient: St
   }
 }
 
-function getUriSanitizerForQueryParam(paramName: string) {
+function getUriSanitizerForQueryParam(paramName: string): RegexSanitizer {
   return {
     regex: true,
     target: `http.+?[^&]*&?(?<param>${paramName}=[^&]+&?)`,
@@ -92,8 +92,6 @@ export const recorderEnvSetup: RecorderStartOptions = {
         value: "fakestorageaccount:pass123",
       },
     ],
-    // SAS token may contain sensitive information
-    uriSanitizers,
   },
 };
 
@@ -197,4 +195,12 @@ export function generateRandomUint8Array(byteLength: number): Uint8Array {
     uint8Arr[j] = Math.floor(Math.random() * 256);
   }
   return uint8Arr;
+}
+
+export async function createAndStartRecorder(testContext?: Mocha.Test): Promise<Recorder> {
+  const recorder = new Recorder(testContext);
+  await recorder.start(recorderEnvSetup);
+  // SAS token may contain sensitive information
+  await recorder.addSanitizers({ uriSanitizers: uriSanitizers }, ["record", "playback"])
+  return recorder;
 }
