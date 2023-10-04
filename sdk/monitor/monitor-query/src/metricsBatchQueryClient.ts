@@ -6,11 +6,16 @@ import { tracingClient } from "./tracing";
 import {
   AzureMonitorMetricBatch as GeneratedMonitorMetricBatchClient,
   KnownApiVersion20230501Preview as MonitorMetricBatchApiVersion,
-  MetricsBatchOptionalParams,
 } from "./generated/metricBatch/src";
-import { convertResponseForMetricBatch } from "./internal/modelConverters";
+import {
+  convertResponseForMetricBatch,
+  convertRequestForMetricsBatchQuery,
+} from "./internal/modelConverters";
 import { SDK_VERSION } from "./constants";
-import { MetricResultsResponseValuesItem } from "./models/publicBatchModels";
+import {
+  MetricResultsResponseValuesItem,
+  MetricsBatchOptionalParams,
+} from "./models/publicBatchModels";
 
 const defaultMetricsScope = "https://management.azure.com/.default";
 
@@ -18,8 +23,8 @@ const defaultMetricsScope = "https://management.azure.com/.default";
  * Options for the MetricsQueryClient.
  */
 export interface MetricsBatchQueryClientOptions extends CommonClientOptions {
-  /** Overrides batch client endpoint. */
-  batchEndPoint?: string;
+  /** Metrics scope */
+  batchMetricsAuthScope?: string;
 }
 
 export const getSubscriptionFromResourceId = function (resourceId: string): string {
@@ -35,10 +40,14 @@ export class MetricsBatchQueryClient {
   private _metricBatchClient: GeneratedMonitorMetricBatchClient;
   private _baseUrl: string;
 
-  constructor(tokenCredential: TokenCredential, options?: MetricsBatchQueryClientOptions) {
+  constructor(
+    batchEndPoint: string,
+    tokenCredential: TokenCredential,
+    options?: MetricsBatchQueryClientOptions
+  ) {
     let scope;
-    if (options?.batchEndPoint) {
-      scope = `${options?.batchEndPoint}/.default`;
+    if (options?.batchMetricsAuthScope) {
+      scope = `${options?.batchMetricsAuthScope}/.default`;
     }
     const credentialOptions = {
       credentialScopes: scope,
@@ -50,8 +59,8 @@ export class MetricsBatchQueryClient {
         : `${packageDetails}`;
     const serviceClientOptions = {
       ...options,
-      $host: options?.batchEndPoint,
-      endpoint: options?.batchEndPoint,
+      $host: batchEndPoint,
+      endpoint: batchEndPoint,
       credentialScopes: credentialOptions?.credentialScopes ?? defaultMetricsScope,
       credential: tokenCredential,
       userAgentOptions: {
@@ -59,7 +68,7 @@ export class MetricsBatchQueryClient {
       },
     };
 
-    this._baseUrl = serviceClientOptions.batchEndPoint ?? "";
+    this._baseUrl = batchEndPoint;
 
     this._metricBatchClient = new GeneratedMonitorMetricBatchClient(
       MonitorMetricBatchApiVersion.TwoThousandTwentyThree0501Preview,
@@ -80,21 +89,25 @@ export class MetricsBatchQueryClient {
       throw new Error("Resource IDs can not be empty");
     }
 
-    return tracingClient.withSpan("MetricsBatchClient.batch", options, async (updatedOptions) => {
-      const subscriptionId = getSubscriptionFromResourceId(resourceIds[0]);
+    return tracingClient.withSpan(
+      "MetricsBatchQueryClient.batch",
+      options,
+      async (updatedOptions) => {
+        const subscriptionId = getSubscriptionFromResourceId(resourceIds[0]);
 
-      const response = await this._metricBatchClient.metrics.batch(
-        this._baseUrl,
-        subscriptionId,
-        metricNamespace,
-        metricNames,
-        {
-          resourceids: resourceIds,
-        },
-        updatedOptions
-      );
+        const response = await this._metricBatchClient.metrics.batch(
+          this._baseUrl,
+          subscriptionId,
+          metricNamespace,
+          metricNames,
+          {
+            resourceids: resourceIds,
+          },
+          convertRequestForMetricsBatchQuery(updatedOptions)
+        );
 
-      return convertResponseForMetricBatch(response);
-    });
+        return convertResponseForMetricBatch(response);
+      }
+    );
   }
 }

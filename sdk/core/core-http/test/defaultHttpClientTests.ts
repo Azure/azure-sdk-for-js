@@ -3,7 +3,6 @@
 
 /* eslint-disable no-unused-expressions */
 
-import "chai/register-should";
 import * as sinon from "sinon";
 import { AssertionError, assert } from "chai";
 import { HttpMockFacade, getHttpMock } from "./mockHttp";

@@ -38,7 +38,7 @@ export class UserSubscriptionImpl implements UserSubscription {
 
   /**
    * Lists the collection of subscriptions of the specified user.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -131,7 +131,7 @@ export class UserSubscriptionImpl implements UserSubscription {
 
   /**
    * Lists the collection of subscriptions of the specified user.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -150,7 +150,7 @@ export class UserSubscriptionImpl implements UserSubscription {
 
   /**
    * Gets the specified Subscription entity associated with a particular user.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
@@ -172,7 +172,7 @@ export class UserSubscriptionImpl implements UserSubscription {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param nextLink The nextLink from the previous successful call to the List method.

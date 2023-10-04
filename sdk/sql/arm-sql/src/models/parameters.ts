@@ -106,18 +106,18 @@ import {
   ManagedInstanceUpdate as ManagedInstanceUpdateMapper,
   ManagedLedgerDigestUploads as ManagedLedgerDigestUploadsMapper,
   ServerConfigurationOption as ServerConfigurationOptionMapper,
+  StartStopManagedInstanceSchedule as StartStopManagedInstanceScheduleMapper,
+  LogicalDatabaseTransparentDataEncryption as LogicalDatabaseTransparentDataEncryptionMapper,
+  IPv6FirewallRule as IPv6FirewallRuleMapper,
+  DatabaseSqlVulnerabilityAssessmentRuleBaselineListInput as DatabaseSqlVulnerabilityAssessmentRuleBaselineListInputMapper,
+  DatabaseSqlVulnerabilityAssessmentRuleBaselineInput as DatabaseSqlVulnerabilityAssessmentRuleBaselineInputMapper,
+  SqlVulnerabilityAssessment as SqlVulnerabilityAssessmentMapper,
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   Server as ServerMapper,
   ServerUpdate as ServerUpdateMapper,
   ImportNewDatabaseDefinition as ImportNewDatabaseDefinitionMapper,
-  StartStopManagedInstanceSchedule as StartStopManagedInstanceScheduleMapper,
-  LogicalDatabaseTransparentDataEncryption as LogicalDatabaseTransparentDataEncryptionMapper,
   FailoverGroup as FailoverGroupMapper,
-  FailoverGroupUpdate as FailoverGroupUpdateMapper,
-  IPv6FirewallRule as IPv6FirewallRuleMapper,
-  DatabaseSqlVulnerabilityAssessmentRuleBaselineListInput as DatabaseSqlVulnerabilityAssessmentRuleBaselineListInputMapper,
-  DatabaseSqlVulnerabilityAssessmentRuleBaselineInput as DatabaseSqlVulnerabilityAssessmentRuleBaselineInputMapper,
-  SqlVulnerabilityAssessment as SqlVulnerabilityAssessmentMapper
+  FailoverGroupUpdate as FailoverGroupUpdateMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -285,7 +285,7 @@ export const skipToken: OperationQueryParameter = {
 export const apiVersion1: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-08-01-preview",
+    defaultValue: "2023-02-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -382,6 +382,18 @@ export const skip: OperationQueryParameter = {
   }
 };
 
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-08-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: ElasticPoolMapper
@@ -419,7 +431,7 @@ export const serviceObjectiveName: OperationURLParameter = {
   }
 };
 
-export const apiVersion2: OperationQueryParameter = {
+export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2020-11-01-preview",
@@ -1237,7 +1249,7 @@ export const parameters46: OperationParameter = {
   mapper: ServerAzureADOnlyAuthenticationMapper
 };
 
-export const apiVersion3: OperationQueryParameter = {
+export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-02-01-preview",
@@ -1489,7 +1501,7 @@ export const policyName3: OperationURLParameter = {
   }
 };
 
-export const apiVersion4: OperationQueryParameter = {
+export const apiVersion5: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-02-01-preview",
@@ -1602,7 +1614,7 @@ export const backupName: OperationURLParameter = {
   }
 };
 
-export const apiVersion5: OperationQueryParameter = {
+export const apiVersion6: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-05-01-preview",
@@ -1655,7 +1667,7 @@ export const parameters66: OperationParameter = {
   mapper: ServerConnectionPolicyMapper
 };
 
-export const apiVersion6: OperationQueryParameter = {
+export const apiVersion7: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-11-01-preview",
@@ -1865,7 +1877,7 @@ export const linkId: OperationURLParameter = {
   }
 };
 
-export const apiVersion7: OperationQueryParameter = {
+export const apiVersion8: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-05-01-preview",
@@ -2043,26 +2055,6 @@ export const parameters93: OperationParameter = {
   mapper: ServerConfigurationOptionMapper
 };
 
-export const parameters94: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: CheckNameAvailabilityRequestMapper
-};
-
-export const parameters95: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ServerMapper
-};
-
-export const parameters96: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ServerUpdateMapper
-};
-
-export const parameters97: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ImportNewDatabaseDefinitionMapper
-};
-
 export const startStopScheduleName: OperationURLParameter = {
   parameterPath: "startStopScheduleName",
   mapper: {
@@ -2074,17 +2066,17 @@ export const startStopScheduleName: OperationURLParameter = {
   }
 };
 
-export const parameters98: OperationParameter = {
+export const parameters94: OperationParameter = {
   parameterPath: "parameters",
   mapper: StartStopManagedInstanceScheduleMapper
 };
 
-export const parameters99: OperationParameter = {
+export const parameters95: OperationParameter = {
   parameterPath: "parameters",
   mapper: LogicalDatabaseTransparentDataEncryptionMapper
 };
 
-export const apiVersion8: OperationQueryParameter = {
+export const apiVersion9: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-11-01-preview",
@@ -2096,17 +2088,7 @@ export const apiVersion8: OperationQueryParameter = {
   }
 };
 
-export const parameters100: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: FailoverGroupMapper
-};
-
-export const parameters101: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: FailoverGroupUpdateMapper
-};
-
-export const parameters102: OperationParameter = {
+export const parameters96: OperationParameter = {
   parameterPath: "parameters",
   mapper: IPv6FirewallRuleMapper
 };
@@ -2134,12 +2116,12 @@ export const baselineName1: OperationURLParameter = {
   }
 };
 
-export const parameters103: OperationParameter = {
+export const parameters97: OperationParameter = {
   parameterPath: "parameters",
   mapper: DatabaseSqlVulnerabilityAssessmentRuleBaselineListInputMapper
 };
 
-export const parameters104: OperationParameter = {
+export const parameters98: OperationParameter = {
   parameterPath: "parameters",
   mapper: DatabaseSqlVulnerabilityAssessmentRuleBaselineInputMapper
 };
@@ -2177,7 +2159,37 @@ export const vulnerabilityAssessmentName2: OperationURLParameter = {
   }
 };
 
-export const parameters105: OperationParameter = {
+export const parameters99: OperationParameter = {
   parameterPath: "parameters",
   mapper: SqlVulnerabilityAssessmentMapper
+};
+
+export const parameters100: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: CheckNameAvailabilityRequestMapper
+};
+
+export const parameters101: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ServerMapper
+};
+
+export const parameters102: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ServerUpdateMapper
+};
+
+export const parameters103: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ImportNewDatabaseDefinitionMapper
+};
+
+export const parameters104: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: FailoverGroupMapper
+};
+
+export const parameters105: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: FailoverGroupUpdateMapper
 };

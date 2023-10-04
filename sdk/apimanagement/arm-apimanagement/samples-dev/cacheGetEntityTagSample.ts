@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the entity state (Etag) version of the Cache specified by its identifier.
  *
  * @summary Gets the entity state (Etag) version of the Cache specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadCache.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadCache.json
  */
 async function apiManagementHeadCache() {
   const subscriptionId =

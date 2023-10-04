@@ -48,7 +48,7 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
 
   /**
    * Lists of all the OpenId Connect Providers.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -132,7 +132,7 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
 
   /**
    * Lists of all the OpenId Connect Providers.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -149,7 +149,7 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
 
   /**
    * Gets the entity state (Etag) version of the openIdConnectProvider specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param opid Identifier of the OpenID Connect Provider.
    * @param options The options parameters.
@@ -168,7 +168,7 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
 
   /**
    * Gets specific OpenID Connect Provider without secrets.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param opid Identifier of the OpenID Connect Provider.
    * @param options The options parameters.
@@ -187,7 +187,7 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
 
   /**
    * Creates or updates the OpenID Connect Provider.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param opid Identifier of the OpenID Connect Provider.
    * @param parameters Create parameters.
@@ -208,7 +208,7 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
 
   /**
    * Updates the specific OpenID Connect Provider.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param opid Identifier of the OpenID Connect Provider.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -232,7 +232,7 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
 
   /**
    * Deletes specific OpenID Connect Provider of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param opid Identifier of the OpenID Connect Provider.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -254,7 +254,7 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
 
   /**
    * Gets the client secret details of the OpenID Connect Provider.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param opid Identifier of the OpenID Connect Provider.
    * @param options The options parameters.
@@ -273,7 +273,7 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -384,7 +384,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters46,
+  requestBody: Parameters.parameters55,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -414,7 +414,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters47,
+  requestBody: Parameters.parameters56,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -14,7 +14,6 @@ import { CommunicationIdentityClient, TokenScope } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
-import { given } from "mocha-testdata";
 
 matrix([[true, false]], async function (useAad: boolean) {
   describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
@@ -43,28 +42,32 @@ matrix([[true, false]], async function (useAad: boolean) {
       assert.isString(user.communicationUserId);
     });
 
-    given([
+    [
       { scopes: chatScope, description: "chat scope" },
       { scopes: voipScope, description: "voip scope" },
       { scopes: multipleScopes, description: "multiple scopes" },
-    ]).it("successfully creates a user and token", async function (input) {
-      const { user: newUser, token, expiresOn } = await client.createUserAndToken(input.scopes);
-      assert.isTrue(isCommunicationUserIdentifier(newUser));
-      assert.isString(newUser.communicationUserId);
-      assert.isString(token);
-      assert.instanceOf(expiresOn, Date);
-    });
+    ].forEach((input) =>
+      it(`successfully creates a user and token <${input.description}>`, async function () {
+        const { user: newUser, token, expiresOn } = await client.createUserAndToken(input.scopes);
+        assert.isTrue(isCommunicationUserIdentifier(newUser));
+        assert.isString(newUser.communicationUserId);
+        assert.isString(token);
+        assert.instanceOf(expiresOn, Date);
+      })
+    );
 
-    given([
+    [
       { scopes: chatScope, description: "chat scope" },
       { scopes: voipScope, description: "voip scope" },
       { scopes: multipleScopes, description: "multiple scopes" },
-    ]).it("successfully gets a token for a user", async function (input) {
-      const user: CommunicationUserIdentifier = await client.createUser();
-      const { token, expiresOn } = await client.getToken(user, input.scopes);
-      assert.isString(token);
-      assert.instanceOf(expiresOn, Date);
-    });
+    ].forEach((input) =>
+      it(`successfully gets a token for a user <${input.description}>`, async function () {
+        const user: CommunicationUserIdentifier = await client.createUser();
+        const { token, expiresOn } = await client.getToken(user, input.scopes);
+        assert.isString(token);
+        assert.instanceOf(expiresOn, Date);
+      })
+    );
 
     it("successfully revokes tokens issued for a user", async function () {
       const { user } = await client.createUserAndToken(multipleScopes);

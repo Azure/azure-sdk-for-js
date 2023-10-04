@@ -24,7 +24,7 @@ export = {
     const verifiers = getVerifiers(context, {
       outer: "include",
     });
-    return stripPath(context.getFilename()) === "tsconfig.json"
+    return stripPath(context.filename) === "tsconfig.json"
       ? ({
           // callback functions
 

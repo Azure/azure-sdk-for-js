@@ -20,6 +20,9 @@ import {
   ExperimentsGetResponse,
   ExperimentsCreateOrUpdateOptionalParams,
   ExperimentsCreateOrUpdateResponse,
+  ExperimentUpdate,
+  ExperimentsUpdateOptionalParams,
+  ExperimentsUpdateResponse,
   ExperimentsCancelOptionalParams,
   ExperimentsCancelResponse,
   ExperimentsStartOptionalParams,
@@ -106,6 +109,19 @@ export interface Experiments {
     experiment: Experiment,
     options?: ExperimentsCreateOrUpdateOptionalParams
   ): Promise<ExperimentsCreateOrUpdateResponse>;
+  /**
+   * The operation to update an experiment.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param experiment Parameters supplied to the Update experiment operation.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    experimentName: string,
+    experiment: ExperimentUpdate,
+    options?: ExperimentsUpdateOptionalParams
+  ): Promise<ExperimentsUpdateResponse>;
   /**
    * Cancel a running Experiment resource.
    * @param resourceGroupName String that represents an Azure resource group.

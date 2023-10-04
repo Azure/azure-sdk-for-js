@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get Async Operation status
  *
  * @summary Get Async Operation status
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/GetExtensionAsyncOperationStatus.json
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/GetExtensionAsyncOperationStatus.json
  */
 async function extensionAsyncOperationStatusGet() {
   const subscriptionId = process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";

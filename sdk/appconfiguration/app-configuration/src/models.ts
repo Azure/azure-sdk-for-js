@@ -8,7 +8,6 @@ import { SecretReferenceValue } from "./secretReference";
 import {
   CompositionType,
   ConfigurationSettingsFilter,
-  OperationDetails,
   Snapshot,
   SnapshotStatus,
 } from "./generated/src";
@@ -342,7 +341,9 @@ export interface ListSettingsOptions extends OptionalFields {
  * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
  * the accept date time header.
  */
-export interface ListSettingsSnapshotsOptions extends OperationOptions, OptionalFields {
+export interface ListConfigurationSettingsForSnapshotOptions
+  extends OperationOptions,
+    OptionalFields {
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
@@ -355,24 +356,6 @@ export interface ListSettingsSnapshotsOptions extends OperationOptions, Optional
  * result.
  */
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {}
-
-/**
- * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
- * the accept date time header.
- */
-export interface SendSettingsOptions extends ListSettingsOptions {
-  /**
-   * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
-   */
-  snapshotName?: string;
-}
-
-/**
- * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
- * Also provides `fields` which allows you to selectively choose which fields are populated in the
- * result.
- */
-export interface SendConfigurationSettingsOptions extends OperationOptions, SendSettingsOptions {}
 
 /**
  * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
@@ -391,7 +374,10 @@ export interface ListSnapshots extends OptionalSnapshotFields {
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListSnapshotsOptions extends OperationOptions, ListSnapshots {}
+export interface ListSnapshotsOptions
+  extends OperationOptions,
+    ListSnapshots,
+    OptionalSnapshotFields {}
 
 /**
  * An interface that tracks the settings for paged iteration
@@ -432,7 +418,7 @@ export interface ListSnapshotsPage extends HttpResponseField<SyncTokenHeaderFiel
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListRevisionsOptions extends OperationOptions, SendSettingsOptions {}
+export interface ListRevisionsOptions extends OperationOptions, ListSettingsOptions {}
 
 /**
  * A page of configuration settings and the corresponding HTTP response
@@ -475,17 +461,17 @@ export interface RetryOptions {
 /**
  * Options used when creating a Snapshot.
  */
-export interface CreateSnapshotOptions extends OperationOptions {}
+export interface CreateSnapshotOptions extends OperationOptions {
+  /**
+   * The amount of time to wait (in milliseconds) between subsequent requests relating to the same operation.
+   */
+  updateIntervalInMs?: number;
+}
 
 /**
  * Response from adding a Snapshot.
  */
 export interface SnapshotResponse extends Snapshot, SyncTokenHeaderField {}
-
-/**
- * Response from adding a Snapshot.
- */
-export interface OperationDetailsResponse extends OperationDetails {}
 
 /**
  * Options used when getting a Snapshot.
@@ -514,15 +500,11 @@ export interface UpdateSnapshotResponse extends SnapshotResponse {}
  */
 export interface CreateSnapshotResponse extends SnapshotResponse {}
 
-export { CompositionType, SnapshotStatus };
-
 /**
  * Fields that uniquely identify a snapshot
  */
 export interface SnapshotInfo {
-  /**
-   * The name for this snapshot
-   */
+  /** The name for this snapshot */
   name: string;
   /** A list of filters used to filter the key-values included in the snapshot. */
   filters: ConfigurationSettingsFilter[];
@@ -533,6 +515,7 @@ export interface SnapshotInfo {
   /** The tags of the snapshot. */
   tags?: { [propertyName: string]: string };
 }
+
 /**
  * Fields for the snapshot
  */
@@ -548,10 +531,11 @@ export interface SnapshotId {
 }
 
 export {
-  OperationDetails,
   State,
-  ErrorDetail,
   Snapshot,
   ConfigurationSettingsFilter,
-  InnerError,
+  CompositionType,
+  KnownCompositionType,
+  KnownSnapshotStatus,
+  SnapshotStatus,
 } from "./generated/src";

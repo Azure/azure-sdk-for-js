@@ -38,9 +38,6 @@ import {
   StorageAppliancesDisableRemoteVendorManagementResponse,
   StorageAppliancesEnableRemoteVendorManagementOptionalParams,
   StorageAppliancesEnableRemoteVendorManagementResponse,
-  StorageApplianceRunReadCommandsParameters,
-  StorageAppliancesRunReadCommandsOptionalParams,
-  StorageAppliancesRunReadCommandsResponse,
   StorageAppliancesListBySubscriptionNextResponse,
   StorageAppliancesListByResourceGroupNextResponse
 } from "../models";
@@ -694,107 +691,6 @@ export class StorageAppliancesImpl implements StorageAppliances {
   }
 
   /**
-   * Run and retrieve output from read only commands on the provided storage appliance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageApplianceName The name of the storage appliance.
-   * @param storageApplianceRunReadCommandsParameters The request body.
-   * @param options The options parameters.
-   */
-  async beginRunReadCommands(
-    resourceGroupName: string,
-    storageApplianceName: string,
-    storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters,
-    options?: StorageAppliancesRunReadCommandsOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<StorageAppliancesRunReadCommandsResponse>,
-      StorageAppliancesRunReadCommandsResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<StorageAppliancesRunReadCommandsResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        storageApplianceName,
-        storageApplianceRunReadCommandsParameters,
-        options
-      },
-      spec: runReadCommandsOperationSpec
-    });
-    const poller = await createHttpPoller<
-      StorageAppliancesRunReadCommandsResponse,
-      OperationState<StorageAppliancesRunReadCommandsResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Run and retrieve output from read only commands on the provided storage appliance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageApplianceName The name of the storage appliance.
-   * @param storageApplianceRunReadCommandsParameters The request body.
-   * @param options The options parameters.
-   */
-  async beginRunReadCommandsAndWait(
-    resourceGroupName: string,
-    storageApplianceName: string,
-    storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters,
-    options?: StorageAppliancesRunReadCommandsOptionalParams
-  ): Promise<StorageAppliancesRunReadCommandsResponse> {
-    const poller = await this.beginRunReadCommands(
-      resourceGroupName,
-      storageApplianceName,
-      storageApplianceRunReadCommandsParameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -984,20 +880,16 @@ const disableRemoteVendorManagementOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper:
-        Mappers.StorageAppliancesDisableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper:
-        Mappers.StorageAppliancesDisableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper:
-        Mappers.StorageAppliancesDisableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper:
-        Mappers.StorageAppliancesDisableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1019,20 +911,16 @@ const enableRemoteVendorManagementOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper:
-        Mappers.StorageAppliancesEnableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper:
-        Mappers.StorageAppliancesEnableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper:
-        Mappers.StorageAppliancesEnableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper:
-        Mappers.StorageAppliancesEnableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1040,39 +928,6 @@ const enableRemoteVendorManagementOperationSpec: coreClient.OperationSpec = {
   },
   requestBody:
     Parameters.storageApplianceEnableRemoteVendorManagementParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.storageApplianceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const runReadCommandsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/storageAppliances/{storageApplianceName}/runReadCommands",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper: Mappers.StorageAppliancesRunReadCommandsHeaders
-    },
-    201: {
-      headersMapper: Mappers.StorageAppliancesRunReadCommandsHeaders
-    },
-    202: {
-      headersMapper: Mappers.StorageAppliancesRunReadCommandsHeaders
-    },
-    204: {
-      headersMapper: Mappers.StorageAppliancesRunReadCommandsHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.storageApplianceRunReadCommandsParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

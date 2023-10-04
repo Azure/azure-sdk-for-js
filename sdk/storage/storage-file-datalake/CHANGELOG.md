@@ -12,6 +12,13 @@
 
 - Migrated dependency on `@azure/core-http` to `@azure/core-rest-pipeline`.
 
+## 12.15.0-beta.1 (2023-08-11)
+
+### Features Added
+
+- Added support for service version 2023-08-03.
+- Added support for paginated directory delete when using AAD authentication. Note that this feature only applies to HNS storage accounts.
+
 ## 12.14.0 (2023-07-12)
 
 ### Features Added

@@ -205,23 +205,23 @@ export interface MetricResultsResponseValuesItem {
 // @public
 export interface MetricsBatchOptionalParams extends coreClient.OperationOptions {
     aggregation?: string;
-    endtime?: string;
+    endTime?: Date;
     filter?: string;
     interval?: string;
-    orderby?: string;
-    starttime?: string;
+    orderBy?: string;
+    startTime?: Date;
     top?: number;
 }
 
 // @public
 export class MetricsBatchQueryClient {
-    constructor(tokenCredential: TokenCredential, options?: MetricsBatchQueryClientOptions);
+    constructor(batchEndPoint: string, tokenCredential: TokenCredential, options?: MetricsBatchQueryClientOptions);
     queryBatch(resourceIds: string[], metricNamespace: string, metricNames: string[], options?: MetricsBatchOptionalParams): Promise<MetricResultsResponseValuesItem[]>;
 }
 
 // @public
 export interface MetricsBatchQueryClientOptions extends CommonClientOptions {
-    batchEndPoint?: string;
+    batchMetricsAuthScope?: string;
 }
 
 // @public

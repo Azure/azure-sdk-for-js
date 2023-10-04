@@ -47,7 +47,7 @@ export class EmailTemplateImpl implements EmailTemplate {
 
   /**
    * Gets all email templates
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -131,7 +131,7 @@ export class EmailTemplateImpl implements EmailTemplate {
 
   /**
    * Gets all email templates
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -148,7 +148,7 @@ export class EmailTemplateImpl implements EmailTemplate {
 
   /**
    * Gets the entity state (Etag) version of the email template specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param templateName Email Template Name Identifier.
    * @param options The options parameters.
@@ -167,7 +167,7 @@ export class EmailTemplateImpl implements EmailTemplate {
 
   /**
    * Gets the details of the email template specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param templateName Email Template Name Identifier.
    * @param options The options parameters.
@@ -186,7 +186,7 @@ export class EmailTemplateImpl implements EmailTemplate {
 
   /**
    * Updates an Email Template.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param templateName Email Template Name Identifier.
    * @param parameters Email Template update parameters.
@@ -207,7 +207,7 @@ export class EmailTemplateImpl implements EmailTemplate {
 
   /**
    * Updates API Management email template
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param templateName Email Template Name Identifier.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -238,7 +238,7 @@ export class EmailTemplateImpl implements EmailTemplate {
 
   /**
    * Reset the Email Template to default template provided by the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param templateName Email Template Name Identifier.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -260,7 +260,7 @@ export class EmailTemplateImpl implements EmailTemplate {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -369,7 +369,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters31,
+  requestBody: Parameters.parameters40,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -399,7 +399,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters31,
+  requestBody: Parameters.parameters40,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

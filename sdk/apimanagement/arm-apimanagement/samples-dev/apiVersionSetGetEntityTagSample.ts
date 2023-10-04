@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the entity state (Etag) version of the Api Version Set specified by its identifier.
  *
  * @summary Gets the entity state (Etag) version of the Api Version Set specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadApiVersionSet.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadApiVersionSet.json
  */
 async function apiManagementHeadApiVersionSet() {
   const subscriptionId =

@@ -81,9 +81,20 @@ export class ConnectionStringParser {
       newUrl = newUrl.replace("http://", "https://");
     }
     // Remove final slash if present
-    if (newUrl[newUrl.length - 1] == "/") {
+    if (newUrl[newUrl.length - 1] === "/") {
       newUrl = newUrl.slice(0, -1);
     }
     return newUrl;
+  }
+
+  public static validateInstrumentationKey(iKey: string): boolean {
+    if (iKey.startsWith("InstrumentationKey=")) {
+      const startIndex = iKey.indexOf("InstrumentationKey=") + "InstrumentationKey=".length;
+      const endIndex = iKey.indexOf(";", startIndex);
+      iKey = iKey.substring(startIndex, endIndex);
+    }
+    const UUID_Regex = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
+    const regexp = new RegExp(UUID_Regex);
+    return regexp.test(iKey);
   }
 }

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the specific OpenID Connect Provider.
  *
  * @summary Updates the specific OpenID Connect Provider.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementUpdateOpenIdConnectProvider.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateOpenIdConnectProvider.json
  */
 async function apiManagementUpdateOpenIdConnectProvider() {
   const subscriptionId =
@@ -32,7 +32,9 @@ async function apiManagementUpdateOpenIdConnectProvider() {
   const opid = "templateOpenIdConnect2";
   const ifMatch = "*";
   const parameters: OpenidConnectProviderUpdateContract = {
-    clientSecret: "updatedsecret"
+    clientSecret: "updatedsecret",
+    useInApiDocumentation: true,
+    useInTestConsole: false
   };
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);

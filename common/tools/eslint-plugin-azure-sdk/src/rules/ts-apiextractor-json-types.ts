@@ -27,7 +27,7 @@ export = {
       inner: "publicTrimmedFilePath",
       expected: false,
     });
-    const fileName = context.getFilename();
+    const fileName = context.filename;
     return stripPath(fileName) === "api-extractor.json"
       ? ({
           // callback functions

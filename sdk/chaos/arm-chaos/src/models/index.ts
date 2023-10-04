@@ -13,6 +13,7 @@ export type ActionUnion =
   | DelayAction
   | DiscreteAction
   | ContinuousAction;
+export type SelectorUnion = Selector | ListSelector | QuerySelector;
 export type FilterUnion = Filter | SimpleFilter;
 
 /** Model that represents a list of Capability resources and a link for pagination. */
@@ -150,10 +151,12 @@ export interface ExperimentListResult {
   readonly nextLink?: string;
 }
 
-/** The managed identity of a resource. */
+/** The identity of a resource. */
 export interface ResourceIdentity {
   /** String of the resource identity type. */
   type: ResourceIdentityType;
+  /** The list of user identities associated with the Experiment. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
   /**
    * GUID that represents the principal ID of this resource identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -164,6 +167,20 @@ export interface ResourceIdentity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** Model that represents a step in the Experiment resource. */
@@ -192,28 +209,26 @@ export interface Action {
 
 /** Model that represents a selector in the Experiment resource. */
 export interface Selector {
-  /** Enum of the selector type. */
-  type: SelectorType;
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "List" | "Query";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
   /** String of the selector ID. */
   id: string;
-  /** List of Target references. */
-  targets: TargetReference[];
   /** Model that represents available filter types that can be applied to a targets list. */
   filter?: FilterUnion;
-}
-
-/** Model that represents a reference to a Target in the selector. */
-export interface TargetReference {
-  /** Enum of the Target reference type. */
-  type: "ChaosTarget";
-  /** String of the resource ID of a Target resource. */
-  id: string;
 }
 
 /** Model that represents available filter types that can be applied to a targets list. */
 export interface Filter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Simple";
+}
+
+/** Describes an experiment update. */
+export interface ExperimentUpdate {
+  /** The identity of the experiment resource. */
+  identity?: ResourceIdentity;
 }
 
 /** Model that represents the result of a cancel Experiment operation. */
@@ -599,6 +614,14 @@ export interface KeyValuePair {
   value: string;
 }
 
+/** Model that represents a reference to a Target in the selector. */
+export interface TargetReference {
+  /** Enum of the Target reference type. */
+  type: TargetReferenceType;
+  /** String of the resource ID of a Target resource. */
+  id: string;
+}
+
 /** Model that represents the Simple filter parameters. */
 export interface SimpleFilterParameters {
   /** List of Azure availability zones to filter targets by. */
@@ -683,6 +706,10 @@ export interface CapabilityType extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kind?: string;
+  /** Control plane actions necessary to execute capability type. */
+  azureRbacActions?: string[];
+  /** Data plane actions necessary to execute capability type. */
+  azureRbacDataActions?: string[];
   /** Runtime properties of this Capability Type. */
   runtimeProperties?: CapabilityTypePropertiesRuntimeProperties;
 }
@@ -769,6 +796,24 @@ export interface ContinuousAction extends Action {
   selectorId: string;
 }
 
+/** Model that represents a list selector. */
+export interface ListSelector extends Selector {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "List";
+  /** List of Target references. */
+  targets: TargetReference[];
+}
+
+/** Model that represents a query selector. */
+export interface QuerySelector extends Selector {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Query";
+  /** Azure Resource Graph (ARG) Query Language query for target resources. */
+  queryString: string;
+  /** Subscription id list to scope resource query. */
+  subscriptionIds: string[];
+}
+
 /** Model that represents a simple target filter. */
 export interface SimpleFilter extends Filter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -789,7 +834,7 @@ export interface Experiment extends TrackedResource {
   /** List of steps. */
   steps: Step[];
   /** List of selectors. */
-  selectors: Selector[];
+  selectors: SelectorUnion[];
   /** A boolean value that indicates if experiment should be started on creation or not. */
   startOnCreation?: boolean;
 }
@@ -817,6 +862,24 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link SelectorType} that the service accepts. */
+export enum KnownSelectorType {
+  /** List */
+  List = "List",
+  /** Query */
+  Query = "Query"
+}
+
+/**
+ * Defines values for SelectorType. \
+ * {@link KnownSelectorType} can be used interchangeably with SelectorType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **List** \
+ * **Query**
+ */
+export type SelectorType = string;
 
 /** Known values of {@link FilterType} that the service accepts. */
 export enum KnownFilterType {
@@ -868,10 +931,23 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
+
+/** Known values of {@link TargetReferenceType} that the service accepts. */
+export enum KnownTargetReferenceType {
+  /** ChaosTarget */
+  ChaosTarget = "ChaosTarget"
+}
+
+/**
+ * Defines values for TargetReferenceType. \
+ * {@link KnownTargetReferenceType} can be used interchangeably with TargetReferenceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ChaosTarget**
+ */
+export type TargetReferenceType = string;
 /** Defines values for ResourceIdentityType. */
-export type ResourceIdentityType = "None" | "SystemAssigned";
-/** Defines values for SelectorType. */
-export type SelectorType = "Percent" | "Random" | "Tag" | "List";
+export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 
 /** Optional parameters. */
 export interface CapabilitiesListOptionalParams
@@ -973,6 +1049,13 @@ export interface ExperimentsCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type ExperimentsCreateOrUpdateResponse = Experiment;
+
+/** Optional parameters. */
+export interface ExperimentsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ExperimentsUpdateResponse = Experiment;
 
 /** Optional parameters. */
 export interface ExperimentsCancelOptionalParams
