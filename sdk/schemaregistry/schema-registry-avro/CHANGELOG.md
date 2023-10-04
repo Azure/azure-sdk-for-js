@@ -15,8 +15,6 @@
 
 ## 1.0.0-beta.8 (2022-04-05)
 
-### Features Added
-
 ### Breaking Changes
 - The `encodeMessageData` method has been renamed to `serialize`.
 - The `decodeMessageData` method has been renamed to `deserialize`.

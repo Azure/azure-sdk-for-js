@@ -1,6 +1,6 @@
 {
   "name": "@azure/schema-registry-avro",
-  "version": "1.0.0",
+  "version": "1.0.1-beta.1",
   "description": "Schema Registry Avro Serializer Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
