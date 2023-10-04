@@ -13,7 +13,7 @@ import {
   getTagsOrUndefined,
   isDefined,
 } from "../../../src/utils/utils.js";
-import { assert } from "@azure/test-utils";
+import { describe, it, assert } from "vitest";
 
 describe("utils", () => {
   describe("isDefined", () => {

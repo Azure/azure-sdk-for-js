@@ -37,7 +37,7 @@ import {
   registrationDescriptionParser,
   registrationDescriptionSerializer,
 } from "../../../src/serializers/registrationSerializer.js";
-import { assert } from "@azure/test-utils";
+import { describe, it, assert } from "vitest";
 
 const ADM_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">

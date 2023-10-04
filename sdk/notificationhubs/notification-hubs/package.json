@@ -137,7 +137,8 @@
     "rollup-plugin-shim": "^1.0.0",
     "ts-node": "^10.9.1",
     "typescript": "~5.0.0",
-    "util": "^0.12.4"
+    "util": "^0.12.4",
+    "vitest": "^0.34.6"
   },
   "dependencies": {
     "@azure/core-auth": "^1.4.1",
