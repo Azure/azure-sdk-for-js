@@ -60,7 +60,9 @@ async function main() {
 
   console.log(`Asking ChatGPT: ${exampleQuestions[0].content}`);
   console.log();
-  await askOpenAI(indexName, exampleQuestions);
+  const chatAnswer = await askOpenAI(indexName, exampleQuestions);
+  console.log(`ChatGPT answer: ${chatAnswer}`);
+
 }
 
 async function deleteIndexIfExists(indexClient, indexName) {
@@ -107,7 +109,7 @@ async function askOpenAI(azureSearchIndexName, messages) {
       }
     }
   }
-  console.log(chatGptAnswer);
+  return chatGptAnswer;
 }
 
 main().catch((err) => {
