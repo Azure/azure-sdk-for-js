@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added Support for PSTN DialOut Capability in Azure Communication Services Rooms
+- Added support for PSTN dial-out capability
 
 ## 1.0.0 (2023-06-12)
 
