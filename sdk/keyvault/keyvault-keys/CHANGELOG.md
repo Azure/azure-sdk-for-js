@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `hsmPlatform` property to `KeyProperties`.
+
 ### Breaking Changes
 
 ### Bugs Fixed

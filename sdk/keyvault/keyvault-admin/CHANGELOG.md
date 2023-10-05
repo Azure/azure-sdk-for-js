@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Managed Identity can now be used in place of a SAS token to access the blob storage resource when performing backup and restore operations.
+
 ### Breaking Changes
 
 ### Bugs Fixed
