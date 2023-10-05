@@ -119,5 +119,13 @@
   },
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+  },
+  "//sampleConfiguration": {
+    "productName": "Defender EASM Client",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/en-us/azure/external-attack-surface-management/"
   }
 }
