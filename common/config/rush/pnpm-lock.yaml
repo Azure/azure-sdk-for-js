@@ -4232,6 +4232,10 @@ packages:
     resolution: {integrity: sha512-W1+g9qs9hviII0HAwOdehGYkr+zt7KKdmCcJcjH0mYg6oL8+ioT3Skjmt7BLoAQqXhjf40AXd+HlR4oAWMlXjA==}
     dev: false
 
+  /emitter-component@1.1.1:
+    resolution: {integrity: sha512-G+mpdiAySMuB7kesVRLuyvYRqDmshB7ReKEVuyBPkzQlmiDiLrt7hHHIy4Aff552bgknVN7B2/d3lzhGO5dvpQ==}
+    dev: false
+
   /emoji-regex@7.0.3:
     resolution: {integrity: sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA==}
     dev: false
@@ -8400,6 +8404,12 @@ packages:
   /stoppable@1.1.0:
     resolution: {integrity: sha512-KXDYZ9dszj6bzvnEMRYvxgeTHU74QBFL54XKtP3nyMuJ81CFYtABZ3bAzL2EdFUaEwJOBOgENyFj3R7oTzDyyw==}
     engines: {node: '>=4', npm: '>=6'}
+    dev: false
+
+  /stream@0.0.2:
+    resolution: {integrity: sha512-gCq3NDI2P35B2n6t76YJuOp7d6cN/C7Rt0577l91wllh0sY9ZBuw9KaSGqH/b0hzn3CWWJbpbW0W0WvQ1H/Q7g==}
+    dependencies:
+      emitter-component: 1.1.1
     dev: false
 
   /streamroller@3.1.5:
@@ -20476,7 +20486,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-olqzei5dqiX2JZh4/5n+kvdpXszImqbsGCiGkvD7VZoP/tfaC8YJDF5PJ4RFRtm2u0KM90fBCgyc1AT/IevCzA==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-h6tk2pcjMW/nRjCyFV6vtDXzNZXGBOb1sXa/f1w5rQQCuBZ/xlybZnSZI1rbebCKCnCWXgl/YhqRVsiAqDHMFQ==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -20518,6 +20528,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
       source-map-support: 0.5.21
+      stream: 0.0.2
       ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)
       tslib: 2.6.2
       typescript: 5.0.4

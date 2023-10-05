@@ -119,6 +119,7 @@ export default leafCommand(commandInfo, async (options) => {
         inject({
           modules: {
             Buffer: ["buffer", "Buffer"],
+            Stream: ["stream", "Stream"],
             process: "process",
           },
         }),
