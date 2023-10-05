@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { FormDataEncoder } from "../../../../node_modules/form-data-encoder/@type/index.d.ts";
-import { FormData, File } from "formdata-node";
 import {
   FormDataMap,
   PipelinePolicy,
@@ -10,6 +8,8 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
+import type { FormData } from "formdata-node";
+import type { FormDataEncoder } from "form-data-encoder";
 import { Readable } from "stream";
 
 /**
@@ -20,7 +20,7 @@ export const formDataPolicyName = "formDataPolicyWithFileUpload";
 /**
  * A policy that encodes FormData on the request into the body.
  */
-export function formDataWithFileUploadPolicy(): PipelinePolicy {
+export function formDataWithFileUploadPolicy(boundary?: string): PipelinePolicy {
   return {
     name: formDataPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
@@ -30,7 +30,7 @@ export function formDataWithFileUploadPolicy(): PipelinePolicy {
           request.body = wwwFormUrlEncode(request.formData);
           request.formData = undefined;
         } else {
-          await prepareFormData(request.formData, request);
+          await prepareFormData(request.formData, request, boundary);
         }
       }
       return next(request);
@@ -52,7 +52,29 @@ function wwwFormUrlEncode(formData: FormDataMap): string {
   return urlSearchParams.toString();
 }
 
-async function prepareFormData(formData: FormDataMap, request: PipelineRequest): Promise<void> {
+let formDataConstructor: typeof FormData;
+let formDataEncoderConstructor: typeof FormDataEncoder;
+
+async function getFormData(): Promise<typeof formDataConstructor> {
+  if (!formDataConstructor) {
+    formDataConstructor = (await import("formdata-node")).FormData;
+  }
+  return formDataConstructor;
+}
+
+async function getFormDataEncoder(): Promise<typeof formDataEncoderConstructor> {
+  if (!formDataEncoderConstructor) {
+    formDataEncoderConstructor = (await import("form-data-encoder")).FormDataEncoder;
+  }
+  return formDataEncoderConstructor;
+}
+
+async function prepareFormData(
+  formData: FormDataMap,
+  request: PipelineRequest,
+  boundary?: string
+): Promise<void> {
+  const FormData = await getFormData();
   const requestForm = new FormData();
   for (const formKey of Object.keys(formData)) {
     const formValue = formData[formKey];
@@ -64,11 +86,10 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
       requestForm.append(formKey, formValue);
     }
   }
-
-  // This library doesn't define `type` entries in the exports section of its package.json.
-  // See https://github.com/microsoft/TypeScript/issues/52363
-  const { FormDataEncoder } = await import("form-data-encoder" as any);
-  const encoder: FormDataEncoder = new FormDataEncoder(requestForm);
+  const FormDataEncoder = await getFormDataEncoder();
+  const encoder = boundary
+    ? new FormDataEncoder(requestForm, boundary)
+    : new FormDataEncoder(requestForm);
   const body = Readable.from(encoder.encode());
   request.body = body;
   request.formData = undefined;
@@ -82,6 +103,16 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
   }
 }
 
-export function createFile(data: Uint8Array | string): File {
+let fileConstructor: typeof File;
+
+async function getFile(): Promise<typeof fileConstructor> {
+  if (!fileConstructor) {
+    fileConstructor = typeof File === "function" ? File : (await import("formdata-node")).File;
+  }
+  return fileConstructor;
+}
+
+export async function createFile(data: Uint8Array | string): Promise<File> {
+  const File = await getFile();
   return new File([data], "placeholder.wav");
 }

@@ -160,7 +160,7 @@ describe("logUtils.ts", () => {
 
   describe("#legacyApplicationInsights logs", () => {
     it("should create a Message Envelope", () => {
-      let data: MessageData = {
+      const data: MessageData = {
         message: "testMessage",
         severityLevel: "Verbose",
         version: 2,
@@ -202,7 +202,7 @@ describe("logUtils.ts", () => {
     });
 
     it("should create a Exception Envelope", () => {
-      let data: TelemetryExceptionData = {
+      const data: TelemetryExceptionData = {
         message: "testMessage",
         severityLevel: "Error",
         exceptions: [
@@ -258,7 +258,7 @@ describe("logUtils.ts", () => {
     });
 
     it("should create a Availability Envelope", () => {
-      let data: AvailabilityData = {
+      const data: AvailabilityData = {
         id: "testId",
         name: "testName",
         duration: "123",
@@ -308,7 +308,7 @@ describe("logUtils.ts", () => {
     });
 
     it("should create a PageView Envelope", () => {
-      let data: PageViewData = {
+      const data: PageViewData = {
         id: "testId",
         name: "testName",
         duration: "123",
@@ -356,7 +356,7 @@ describe("logUtils.ts", () => {
     });
 
     it("should create a Event Envelope", () => {
-      let data: TelemetryEventData = {
+      const data: TelemetryEventData = {
         name: "testName",
         version: 2,
       };
