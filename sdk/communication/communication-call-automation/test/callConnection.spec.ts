@@ -17,6 +17,7 @@ import {
   RemoveParticipantResult,
   MuteParticipantResult,
   CancelAddParticipantResult,
+  CancelAddParticipantSucceeded,
 } from "../src";
 import Sinon, { SinonStubbedInstance } from "sinon";
 import { CALL_TARGET_ID } from "./utils/connectionUtils";
@@ -478,5 +479,49 @@ describe("CallConnection Live Tests", function () {
       }
     }
     assert.isTrue(isMuted);
+  }).timeout(90000);
+
+
+  it("Add a participant cancels add participant request", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "cancel_add_participant";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 10000);
+    callConnectionId = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+    if (incomingCallContext) {
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 10000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+    const testUser3: CommunicationUserIdentifier = await createTestUser(recorder);
+    const participantInvite: CallInvite = { targetParticipant: testUser3 };
+
+    const addResult = await callConnection.addParticipant(participantInvite);
+    assert.isDefined(addResult);
+
+    // ensure invitation is sent out
+    await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(3000);
+
+    // cancel add participant
+    await callConnection.cancelAddParticipant(addResult.invitationId!);
+
+    const addParticipantCancelledEvent = (await waitForEvent(
+      "CancelAddParticipantSucceeded",
+      callConnectionId,
+      10000
+    )) as CancelAddParticipantSucceeded;
+
+    assert.isDefined(addParticipantCancelledEvent);
+    assert.equal(addResult.invitationId, addParticipantCancelledEvent?.invitationId);
   }).timeout(90000);
 });
