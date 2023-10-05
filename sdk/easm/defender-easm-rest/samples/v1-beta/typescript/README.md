@@ -63,7 +63,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [discoverrunssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/easm/defender-easm-rest/samples/v1-beta/typescript/src/discoverRunsSample.ts
 [managingexternalidsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/easm/defender-easm-rest/samples/v1-beta/typescript/src/managingExternalIdSample.ts
 [savedfiltersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/easm/defender-easm-rest/samples/v1-beta/typescript/src/savedFilterSample.ts
-[apiref]: https://learn.microsoft.com/en-us/azure/external-attack-surface-management/
+[apiref]: https://learn.microsoft.com/azure/external-attack-surface-management/
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/easm/defender-easm-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
