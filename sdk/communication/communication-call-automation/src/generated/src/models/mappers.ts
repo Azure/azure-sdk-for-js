@@ -419,6 +419,19 @@ export const TransferToParticipantRequest: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      transferee: {
+        serializedName: "transferee",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      overrideCallbackUri: {
+        serializedName: "overrideCallbackUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -478,6 +491,12 @@ export const PlayRequest: coreClient.CompositeMapper = {
       },
       operationContext: {
         serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      overrideCallbackUri: {
+        serializedName: "overrideCallbackUri",
         type: {
           name: "String"
         }
@@ -660,6 +679,12 @@ export const RecognizeRequest: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      overrideCallbackUri: {
+        serializedName: "overrideCallbackUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -837,6 +862,12 @@ export const ContinuousDtmfRecognitionRequest: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      overrideCallbackUri: {
+        serializedName: "overrideCallbackUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -868,6 +899,12 @@ export const SendDtmfTonesRequest: coreClient.CompositeMapper = {
       },
       operationContext: {
         serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      overrideCallbackUri: {
+        serializedName: "overrideCallbackUri",
         type: {
           name: "String"
         }
@@ -981,6 +1018,12 @@ export const AddParticipantRequest: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      overrideCallbackUri: {
+        serializedName: "overrideCallbackUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1003,6 +1046,12 @@ export const AddParticipantResponse: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      invitationId: {
+        serializedName: "invitationId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1022,6 +1071,12 @@ export const RemoveParticipantRequest: coreClient.CompositeMapper = {
       },
       operationContext: {
         serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      overrideCallbackUri: {
+        serializedName: "overrideCallbackUri",
         type: {
           name: "String"
         }
@@ -1078,6 +1133,55 @@ export const MuteParticipantsResult: coreClient.CompositeMapper = {
     name: "Composite",
     className: "MuteParticipantsResult",
     modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CancelAddParticipantRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CancelAddParticipantRequest",
+    modelProperties: {
+      invitationId: {
+        serializedName: "invitationId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      overrideCallbackUri: {
+        serializedName: "overrideCallbackUri",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CancelAddParticipantResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CancelAddParticipantResponse",
+    modelProperties: {
+      invitationId: {
+        serializedName: "invitationId",
+        type: {
+          name: "String"
+        }
+      },
       operationContext: {
         serializedName: "operationContext",
         type: {
@@ -1448,6 +1552,20 @@ export const CallTransferAccepted: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ResultInformation"
         }
+      },
+      transferTarget: {
+        serializedName: "transferTarget",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      transferee: {
+        serializedName: "transferee",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
       }
     }
   }
@@ -1626,6 +1744,98 @@ export const RemoveParticipantFailed: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CommunicationIdentifierModel"
+        }
+      }
+    }
+  }
+};
+
+export const CancelAddParticipantSucceeded: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CancelAddParticipantSucceeded",
+    modelProperties: {
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        type: {
+          name: "String"
+        }
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        type: {
+          name: "String"
+        }
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      participant: {
+        serializedName: "participant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      invitationId: {
+        serializedName: "invitationId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CancelAddParticipantFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CancelAddParticipantFailed",
+    modelProperties: {
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        type: {
+          name: "String"
+        }
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        type: {
+          name: "String"
+        }
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "ResultInformation"
+        }
+      },
+      invitationId: {
+        serializedName: "invitationId",
+        type: {
+          name: "String"
         }
       }
     }

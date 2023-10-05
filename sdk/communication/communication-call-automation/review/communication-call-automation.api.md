@@ -584,6 +584,8 @@ export interface RestCallTransferAccepted {
     operationContext?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
+    transferee?: CommunicationIdentifierModel;
+    transferTarget?: CommunicationIdentifierModel;
 }
 
 // @public

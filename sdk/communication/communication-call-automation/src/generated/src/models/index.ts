@@ -157,6 +157,10 @@ export interface TransferToParticipantRequest {
   targetParticipant: CommunicationIdentifierModel;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** Transferee is the participant who is transferring the call. */
+  transferee?: CommunicationIdentifierModel;
+  /** The callback URI to override the main callback URI. */
+  overrideCallbackUri?: string;
 }
 
 /** The response payload for transferring the call. */
@@ -177,6 +181,8 @@ export interface PlayRequest {
   playOptions?: PlayOptionsInternal;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  overrideCallbackUri?: string;
 }
 
 export interface PlaySourceInternal {
@@ -239,6 +245,8 @@ export interface RecognizeRequest {
   recognizeOptions: RecognizeOptions;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  overrideCallbackUri?: string;
 }
 
 export interface RecognizeOptions {
@@ -289,6 +297,8 @@ export interface ContinuousDtmfRecognitionRequest {
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  overrideCallbackUri?: string;
 }
 
 export interface SendDtmfTonesRequest {
@@ -298,6 +308,8 @@ export interface SendDtmfTonesRequest {
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  overrideCallbackUri?: string;
 }
 
 export interface SendDtmfTonesResult {
@@ -342,6 +354,8 @@ export interface AddParticipantRequest {
   invitationTimeoutInSeconds?: number;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  overrideCallbackUri?: string;
 }
 
 /** The response payload for adding participants to the call. */
@@ -350,6 +364,8 @@ export interface AddParticipantResponse {
   participant?: CallParticipantInternal;
   /** The operation context provided by client. */
   operationContext?: string;
+  /** Invitation ID used to add a participant. */
+  invitationId?: string;
 }
 
 /** The remove participant by identifier request. */
@@ -358,6 +374,8 @@ export interface RemoveParticipantRequest {
   participantToRemove: CommunicationIdentifierModel;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  overrideCallbackUri?: string;
 }
 
 /** The response payload for removing participants of the call. */
@@ -379,6 +397,24 @@ export interface MuteParticipantsRequest {
 
 /** The result payload for muting participants from the call. */
 export interface MuteParticipantsResult {
+  /** The operation context provided by client. */
+  operationContext?: string;
+}
+
+/** Request payload for cancelling add participant request. */
+export interface CancelAddParticipantRequest {
+  /** Invitation ID used to add a participant. */
+  invitationId: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** The callback URI to override the main callback URI. */
+  overrideCallbackUri?: string;
+}
+
+/** Response payload for cancel add participant request. */
+export interface CancelAddParticipantResponse {
+  /** Invitation ID used to cancel the add participant action. */
+  invitationId?: string;
   /** The operation context provided by client. */
   operationContext?: string;
 }
@@ -514,6 +550,10 @@ export interface CallTransferAccepted {
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
+  /** Target who the call is transferred to. */
+  transferTarget?: CommunicationIdentifierModel;
+  /** the participant who is being transferred away. */
+  transferee?: CommunicationIdentifierModel;
 }
 
 /** The call transfer failed event. */
@@ -574,6 +614,38 @@ export interface RemoveParticipantFailed {
   resultInformation?: ResultInformation;
   /** Participant */
   participant?: CommunicationIdentifierModel;
+}
+
+/** Successful cancel add participant event. */
+export interface CancelAddParticipantSucceeded {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Participant that has been cancelled. */
+  participant?: CommunicationIdentifierModel;
+  /** Invitation ID used to cancel the request. */
+  invitationId?: string;
+}
+
+/** Failed cancel add participant event. */
+export interface CancelAddParticipantFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** Invitation ID used to cancel the request. */
+  invitationId?: string;
 }
 
 export interface RecordingStateChanged {
@@ -1228,6 +1300,18 @@ export interface CallConnectionMuteOptionalParams
 
 /** Contains response data for the mute operation. */
 export type CallConnectionMuteResponse = MuteParticipantsResult;
+
+/** Optional parameters. */
+export interface CallConnectionCancelAddParticipantOptionalParams
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
+
+/** Contains response data for the cancelAddParticipant operation. */
+export type CallConnectionCancelAddParticipantResponse = CancelAddParticipantResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams

@@ -34,6 +34,9 @@ import {
   MuteParticipantsRequest,
   CallConnectionMuteOptionalParams,
   CallConnectionMuteResponse,
+  CancelAddParticipantRequest,
+  CallConnectionCancelAddParticipantOptionalParams,
+  CallConnectionCancelAddParticipantResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse,
   CallConnectionGetParticipantsNextResponse
@@ -251,6 +254,23 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
+   * Cancel add participant operation.
+   * @param callConnectionId The call connection Id
+   * @param cancelAddParticipantRequest Cancellation request.
+   * @param options The options parameters.
+   */
+  cancelAddParticipant(
+    callConnectionId: string,
+    cancelAddParticipantRequest: CancelAddParticipantRequest,
+    options?: CallConnectionCancelAddParticipantOptionalParams
+  ): Promise<CallConnectionCancelAddParticipantResponse> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, cancelAddParticipantRequest, options },
+      cancelAddParticipantOperationSpec
+    );
+  }
+
+  /**
    * Get participant from a call.
    * @param callConnectionId The call connection Id
    * @param participantRawId Raw id of the participant to retrieve.
@@ -432,6 +452,30 @@ const muteOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.muteParticipantsRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestID,
+    Parameters.repeatabilityFirstSent
+  ],
+  mediaType: "json",
+  serializer
+};
+const cancelAddParticipantOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/calling/callConnections/{callConnectionId}/participants:cancelAddParticipant",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      bodyMapper: Mappers.CancelAddParticipantResponse
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: Parameters.cancelAddParticipantRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [

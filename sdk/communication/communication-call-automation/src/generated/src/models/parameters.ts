@@ -20,6 +20,7 @@ import {
   AddParticipantRequest as AddParticipantRequestMapper,
   RemoveParticipantRequest as RemoveParticipantRequestMapper,
   MuteParticipantsRequest as MuteParticipantsRequestMapper,
+  CancelAddParticipantRequest as CancelAddParticipantRequestMapper,
   PlayRequest as PlayRequestMapper,
   RecognizeRequest as RecognizeRequestMapper,
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
@@ -144,6 +145,11 @@ export const removeParticipantRequest: OperationParameter = {
 export const muteParticipantsRequest: OperationParameter = {
   parameterPath: "muteParticipantsRequest",
   mapper: MuteParticipantsRequestMapper
+};
+
+export const cancelAddParticipantRequest: OperationParameter = {
+  parameterPath: "cancelAddParticipantRequest",
+  mapper: CancelAddParticipantRequestMapper
 };
 
 export const participantRawId: OperationURLParameter = {
