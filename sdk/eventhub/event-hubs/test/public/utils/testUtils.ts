@@ -17,7 +17,11 @@ export enum EnvVarKeys {
 }
 
 export function getEnvVarValue(name: string): string | undefined {
-  return assertEnvironmentVariable(name);
+  try {
+    return assertEnvironmentVariable(name);
+  } catch {
+    return undefined;
+  }
 }
 
 export function getEnvVars(): Omit<{ [key in EnvVarKeys]: any }, EnvVarKeys.TEST_TARGET> {

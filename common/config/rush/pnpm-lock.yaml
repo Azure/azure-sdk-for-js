@@ -4207,7 +4207,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231002
+      typescript: 5.3.0-dev.20231005
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -8937,8 +8937,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231002:
-    resolution: {integrity: sha512-TQXM13rrDgID8W4Ok4KDQAqwLUjLcAXL+NKv0zJiIEQfa0bOM0yoRiSgvcjaCJ4lZT4bScrq3vHspVM2x8rkOQ==}
+  /typescript@5.3.0-dev.20231005:
+    resolution: {integrity: sha512-Twm3wBauTO94CSWbjXFMpsHsbaOUVssreq6pUo4wr8YsaIp0jim8EeCa9LfawFetQ+P4PODMmiM+uBhhWRVX0Q==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18014,7 +18014,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-I1+lfiPtrz9fyLxH8PF0tQzRoudRTgrxL3wunOwHRlmy1PpGazczncHmPFcJyE4fZs/OcwFBGIV6odDLpoFu3Q==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-k/SWGUc+z/cobDdHH4QhefS7s9K6lDpU1D3EFGtqHT2G7BlU295vkfDlpfoMcgDa32d0fqJChONFkoVAgdf3Pg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -18022,6 +18022,7 @@ packages:
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@rollup/plugin-commonjs': 25.0.4(rollup@3.29.4)
+      '@rollup/plugin-inject': 5.0.3(rollup@3.29.4)
       '@rollup/plugin-json': 6.0.0(rollup@3.29.4)
       '@rollup/plugin-multi-entry': 6.0.0(rollup@3.29.4)
       '@rollup/plugin-node-resolve': 15.2.1(rollup@3.29.4)
@@ -18222,7 +18223,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-7+Y9nxHLovmowkobcPX+EqUf/BhdnqPLAa4MqEq+w/ruJ1kvj8Lpo0qakZm3FjrCAhVMTvvMqfi6r1V0XK8clA==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-lh3mImVPGD6N8Dila9S5w9he2ostsd6/VWwHL43yWVtJUhHqYbLRnlX6fk57WWNsn7wZUHGD4qu/PRq7S6Om9g==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -20475,7 +20476,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-W2Eed523TrSIZFDXAJyAa5FG2vXcn6LLdsLACOHWWQ9uw/iWvx9wjUiTDzCAkkOSOHR5z+ACORCXRFKyiBgkXQ==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-olqzei5dqiX2JZh4/5n+kvdpXszImqbsGCiGkvD7VZoP/tfaC8YJDF5PJ4RFRtm2u0KM90fBCgyc1AT/IevCzA==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -20531,7 +20532,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-json.tgz:
-    resolution: {integrity: sha512-ninmMQti7hfTgIPlFshViaX+ZEnJ7KliwWoG+YR6jbwRqS++vFeqyoAq+rbwB+AlHvORuU54PEhH38Jt1AVBEQ==, tarball: file:projects/schema-registry-json.tgz}
+    resolution: {integrity: sha512-1V9csM5W6x2lbnFyBarHbexpo5QcQcg3ZtKC8/cjBsI/OtpmLfmSs0i5gvZ9p5jmeI45Wo8b0ugl7qUZGUcmCQ==, tarball: file:projects/schema-registry-json.tgz}
     name: '@rush-temp/schema-registry-json'
     version: 0.0.0
     dependencies:
@@ -20578,7 +20579,7 @@ packages:
     dev: false
 
   file:projects/schema-registry.tgz:
-    resolution: {integrity: sha512-TE24fujE18Jeew7bfnTDJJEnXlcxOnaPeW3xJF9EN91sB4ClmQeiLV1tp40DtBaVHRkACN4LNgE7POcljc/MvQ==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-y4VJJkZQseWMOUiNphl2oriVyqfwfnzY5LX+8wcijneSN09Pve28VJAwXf3T3HjNCFuPEIsOJWu0HrU0IwLe7A==, tarball: file:projects/schema-registry.tgz}
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:

@@ -11,6 +11,7 @@ import cjs from "@rollup/plugin-commonjs";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 import json from "@rollup/plugin-json";
 import multiEntry from "@rollup/plugin-multi-entry";
+import inject from "@rollup/plugin-inject";
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject, resolveRoot } from "../../util/resolveProject";
@@ -112,10 +113,16 @@ export default leafCommand(commandInfo, async (options) => {
           preferBuiltins: false,
           browser: true,
         }),
-        ...(options["polyfill-node"] ? [nodePolyfills({ sourceMap: true })] : []),
         cjs({
           dynamicRequireTargets: [globFromStore("chai")],
         }),
+        inject({
+          modules: {
+            Buffer: ["buffer", "Buffer"],
+            process: "process",
+          },
+        }),
+        ...(options["polyfill-node"] ? [nodePolyfills({ sourceMap: true })] : []),
         json(),
         sourcemaps(),
       ],
