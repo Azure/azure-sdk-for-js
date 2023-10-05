@@ -30,6 +30,7 @@ export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, "ca
 export interface AddParticipantOptions extends OperationOptions {
     invitationTimeoutInSeconds?: number;
     operationContext?: string;
+    overrideCallbackUrl?: string;
 }
 
 // @public
@@ -187,6 +188,7 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
     interruptCallMediaOperation?: boolean;
     interruptPrompt?: boolean;
     operationContext?: string;
+    overrideCallbackUrl?: string;
     playPrompt?: FileSource | TextSource | SsmlSource;
     // @deprecated (undocumented)
     stopCurrentOperations?: boolean;
@@ -267,8 +269,8 @@ export interface CancelAddParticipantFailed extends Omit<RestCancelAddParticipan
 
 // @public
 export interface CancelAddParticipantOptions extends OperationOptions {
-    callbackUrl?: string;
     operationContext?: string;
+    overrideCallbackUrl?: string;
 }
 
 // @public
@@ -297,6 +299,7 @@ export interface ChannelAffinity {
 // @public
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
     operationContext?: string;
+    overrideCallbackUrl?: string;
 }
 
 // @public
@@ -460,10 +463,9 @@ export interface PlayFailed extends Omit<RestPlayFailed, "callConnectionId" | "s
 
 // @public
 export interface PlayOptions extends OperationOptions {
-    // (undocumented)
     loop?: boolean;
-    // (undocumented)
     operationContext?: string;
+    overrideCallbackUrl?: string;
 }
 
 // @public
@@ -564,6 +566,7 @@ export interface RemoveParticipantResult {
 // @public
 export interface RemoveParticipantsOption extends OperationOptions {
     operationContext?: string;
+    overrideCallbackUrl?: string;
 }
 
 // @public
@@ -847,6 +850,7 @@ export interface SendDtmfTonesFailed extends Omit<RestSendDtmfTonesFailed, "call
 // @public
 export interface SendDtmfTonesOptions extends OperationOptions {
     operationContext?: string;
+    overrideCallbackUrl?: string;
 }
 
 // @public
@@ -908,6 +912,7 @@ export interface TransferCallResult {
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
     operationContext?: string;
+    overrideCallbackUrl?: string;
 }
 
 // @public

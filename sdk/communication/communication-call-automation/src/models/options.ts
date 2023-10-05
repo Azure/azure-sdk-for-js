@@ -31,6 +31,8 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
   interruptPrompt?: boolean;
   /** Time to wait for first input after prompt. */
   initialSilenceTimeoutInSeconds?: number;
+  /** Call back Url override for this request */
+  overrideCallbackUrl?: string;
 }
 
 /** The recognize configuration specific to Dtmf. */
@@ -129,6 +131,8 @@ export interface RejectCallOptions extends OperationOptions {
 export interface TransferCallToParticipantOptions extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** Call back Url override for this request */
+  overrideCallbackUrl?: string;
 }
 
 /** Options to add participants. */
@@ -140,6 +144,8 @@ export interface AddParticipantOptions extends OperationOptions {
   invitationTimeoutInSeconds?: number;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** Call back Url override for this request */
+  overrideCallbackUrl?: string;
 }
 
 /**
@@ -148,6 +154,8 @@ export interface AddParticipantOptions extends OperationOptions {
 export interface RemoveParticipantsOption extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** Call back Url override for this request */
+  overrideCallbackUrl?: string;
 }
 
 /**
@@ -162,8 +170,12 @@ export interface MuteParticipantOption extends OperationOptions {
  * Options to play audio.
  */
 export interface PlayOptions extends OperationOptions {
+  /** Determine if it is looping */
   loop?: boolean;
+  /** The value to identify context of the operation. */
   operationContext?: string;
+  /** Call back Url override for this request */
+  overrideCallbackUrl?: string;
 }
 
 /**
@@ -251,6 +263,8 @@ export interface DownloadRecordingOptions extends OperationOptions {
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** Call back Url override for this request */
+  overrideCallbackUrl?: string;
 }
 
 /**
@@ -259,12 +273,14 @@ export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
 export interface SendDtmfTonesOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** Call back Url override for this request */
+  overrideCallbackUrl?: string;
 }
 
 /** Options for cancelling add participant request. */
 export interface CancelAddParticipantOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
-  /** Call back URI override for this request */
-  callbackUrl?: string;
+  /** Call back Url override for this request */
+  overrideCallbackUrl?: string;
 }

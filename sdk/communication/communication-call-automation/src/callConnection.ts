@@ -184,6 +184,7 @@ export class CallConnection {
       sourceDisplayName: targetParticipant.sourceDisplayName,
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
       operationContext: options.operationContext,
+      overrideCallbackUri: options.overrideCallbackUrl,
     };
     const optionsInternal = {
       ...options,
@@ -219,6 +220,7 @@ export class CallConnection {
     const transferToParticipantRequest: TransferToParticipantRequest = {
       targetParticipant: communicationIdentifierModelConverter(targetParticipant),
       operationContext: options.operationContext,
+      overrideCallbackUri: options.overrideCallbackUrl,
     };
     const optionsInternal = {
       ...options,
@@ -246,6 +248,7 @@ export class CallConnection {
     const removeParticipantRequest: RemoveParticipantRequest = {
       participantToRemove: communicationIdentifierModelConverter(participant),
       operationContext: options.operationContext,
+      overrideCallbackUri: options.overrideCallbackUrl,
     };
     const optionsInternal = {
       ...options,
@@ -301,11 +304,15 @@ export class CallConnection {
     invitationId: string,
     options: CancelAddParticipantOptions = {}
   ): Promise<CancelAddParticipantResult> {
-    const { operationContext, callbackUrl: callbackUri, ...operationOptions } = options;
+    const {
+      operationContext,
+      overrideCallbackUrl: overrideCallbackUri,
+      ...operationOptions
+    } = options;
     const cancelAddParticipantRequest = {
       invitationId,
       operationContext,
-      callbackUri,
+      overrideCallbackUri,
     };
     const optionsInternal = {
       ...operationOptions,
