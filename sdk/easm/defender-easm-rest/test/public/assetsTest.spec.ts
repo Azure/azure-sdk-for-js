@@ -36,7 +36,7 @@ describe("Assets Test", () => {
     asset_kind = "domain";
     filter = `name = ${asset_name} and type = ${asset_kind}`;
     asset_id = `${asset_kind}$$${asset_name}`;
-    console.log("subscription id is: " + subscription_id)
+    console.log("subscription id is: " + subscription_id);
     // observation_asset_id = "71830a02-2037-5b7f-c644-8c940b89ceea";
   });
 

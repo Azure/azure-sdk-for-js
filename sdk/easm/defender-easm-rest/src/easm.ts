@@ -30,9 +30,7 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://easm.defender.microsoft.com/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://easm.defender.microsoft.com/.default"],
     },
   };
 

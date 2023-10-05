@@ -23,7 +23,7 @@ describe("Data Connections Test", () => {
     const workspace_name = assertEnvironmentVariable("WORKSPACENAME");
     const endpoint = assertEnvironmentVariable("ENDPOINT");
     const credential = createTestCredential();
-    console.log("subscription id is: " + subscription_id)
+    console.log("subscription id is: " + subscription_id);
     client = EasmDefender(
       endpoint,
       subscription_id,
@@ -125,8 +125,8 @@ describe("Data Connections Test", () => {
       .path("/dataConnections/{dataConnectionName}", new_data_connection_name)
       .delete();
 
-      if (isUnexpected(dataConnectionResponse)) {
-        throw new Error(dataConnectionResponse.body?.error.message)
-      }
+    if (isUnexpected(dataConnectionResponse)) {
+      throw new Error(dataConnectionResponse.body?.error.message);
+    }
   });
 });
