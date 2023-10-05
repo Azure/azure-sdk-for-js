@@ -8,8 +8,8 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-job-router-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/communication-job-router)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/communication-job-router?view=azure-node-preview)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-job-router-rest/samples)
+- [API reference documentation](TBD)
+- [Samples](TBD)
 
 ## Getting started
 
