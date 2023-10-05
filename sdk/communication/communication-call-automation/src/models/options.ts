@@ -133,6 +133,8 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
   operationContext?: string;
   /** Call back Url override for this request */
   overrideCallbackUrl?: string;
+  /** Participant that is being transferred away */
+  transferee?: CommunicationIdentifier;
 }
 
 /** Options to add participants. */

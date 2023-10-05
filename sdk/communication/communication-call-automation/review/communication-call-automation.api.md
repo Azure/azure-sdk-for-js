@@ -239,12 +239,14 @@ export class CallRecording {
 export type CallRejectReason = string;
 
 // @public
-export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation" | "transferee" | "transferTarget"> {
     callConnectionId: string;
     correlationId: string;
     kind: "CallTransferAccepted";
     resultInformation?: ResultInformation;
     serverCallId: string;
+    transferee: CommunicationIdentifier;
+    transferTarget: CommunicationIdentifier;
 }
 
 // @public
@@ -913,6 +915,7 @@ export interface TransferCallResult {
 export interface TransferCallToParticipantOptions extends OperationOptions {
     operationContext?: string;
     overrideCallbackUrl?: string;
+    transferee?: CommunicationIdentifier;
 }
 
 // @public

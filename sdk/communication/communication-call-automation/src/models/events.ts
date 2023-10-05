@@ -208,7 +208,12 @@ export interface CallDisconnected
 export interface CallTransferAccepted
   extends Omit<
     RestCallTransferAccepted,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+    | "callConnectionId"
+    | "serverCallId"
+    | "correlationId"
+    | "resultInformation"
+    | "transferee"
+    | "transferTarget"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -218,6 +223,10 @@ export interface CallTransferAccepted
   correlationId: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
+  /** Participant that was transferred away */
+  transferee: CommunicationIdentifier;
+  /** Target that transferee is transferred to */
+  transferTarget: CommunicationIdentifier;
   /** kind of this event. */
   kind: "CallTransferAccepted";
 }

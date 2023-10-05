@@ -221,6 +221,7 @@ export class CallConnection {
       targetParticipant: communicationIdentifierModelConverter(targetParticipant),
       operationContext: options.operationContext,
       overrideCallbackUri: options.overrideCallbackUrl,
+      transferee: options.transferee && communicationIdentifierModelConverter(options.transferee),
     };
     const optionsInternal = {
       ...options,
