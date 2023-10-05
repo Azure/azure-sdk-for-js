@@ -188,6 +188,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     if (!isNode && !isLiveMode()) {
       this.skip();
     }
+    await recorder.addSanitizers({ removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } }, ["playback"])
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob"))
     );
