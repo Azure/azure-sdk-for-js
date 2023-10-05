@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Pauses a database.
  *
  * @summary Pauses a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/PauseDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/PauseDatabase.json
  */
 async function pausesADatabase() {
   const subscriptionId =

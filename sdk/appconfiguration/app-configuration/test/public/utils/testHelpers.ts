@@ -5,7 +5,7 @@ import {
   AppConfigurationClient,
   AppConfigurationClientOptions,
   ListSnapshotsPage,
-  Snapshot,
+  ConfigurationSnapshot,
 } from "../../../src";
 import {
   ConfigurationSetting,
@@ -152,16 +152,16 @@ export async function toSortedArray(
 }
 
 export async function toSortedSnapshotArray(
-  pagedIterator: PagedAsyncIterableIterator<Snapshot, ListSnapshotsPage>,
-  compareFn?: (a: Snapshot, b: Snapshot) => number
-): Promise<Snapshot[]> {
-  const snapshots: Snapshot[] = [];
+  pagedIterator: PagedAsyncIterableIterator<ConfigurationSnapshot, ListSnapshotsPage>,
+  compareFn?: (a: ConfigurationSnapshot, b: ConfigurationSnapshot) => number
+): Promise<ConfigurationSnapshot[]> {
+  const snapshots: ConfigurationSnapshot[] = [];
 
   for await (const snapshot of pagedIterator) {
     snapshots.push(snapshot);
   }
 
-  let snapshotsViaPageIterator: Snapshot[] = [];
+  let snapshotsViaPageIterator: ConfigurationSnapshot[] = [];
 
   for await (const page of pagedIterator.byPage()) {
     snapshotsViaPageIterator = snapshotsViaPageIterator.concat(page.items);
@@ -241,11 +241,14 @@ export async function assertThrowsAbortError(
 /**
  * Assert 2 snapshots with name, retentionPeriod and filters are equal
  */
-export function assertEqualSnapshot(snapshot1: Snapshot, snapshot2: Snapshot): void {
+export function assertEqualSnapshot(
+  snapshot1: ConfigurationSnapshot,
+  snapshot2: ConfigurationSnapshot
+): void {
   assert.equal(snapshot1.name, snapshot2.name, "Unexpected name in result from getSnapshot().");
   assert.equal(
-    snapshot1.retentionPeriod,
-    snapshot2.retentionPeriod,
+    snapshot1.retentionPeriodInSeconds,
+    snapshot2.retentionPeriodInSeconds,
     "Unexpected retentionPeriod in result from getSnapshot()."
   );
   assert.deepEqual(

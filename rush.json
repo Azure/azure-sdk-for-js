@@ -356,6 +356,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/ai-content-safety",
+      "projectFolder": "sdk/contentsafety/ai-content-safety-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-form-recognizer",
       "projectFolder": "sdk/formrecognizer/ai-form-recognizer",
       "versionPolicyName": "client"
@@ -518,6 +523,7 @@
     {
       "packageName": "@azure/core-http",
       "projectFolder": "sdk/core/core-http",
+      "decoupledLocalDependencies": ["@azure/core-tracing"],
       "versionPolicyName": "core"
     },
     {
@@ -608,6 +614,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
+      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
       "versionPolicyName": "client"
     },
     {
@@ -2103,6 +2110,16 @@
     {
       "packageName": "@azure/arm-hybridconnectivity",
       "projectFolder": "sdk/hybridconnectivity/arm-hybridconnectivity",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-tests/perf-monitor-opentelemetry",
+      "projectFolder": "sdk/monitor/perf-tests/monitor-opentelemetry",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure/arm-playwrighttesting",
+      "projectFolder": "sdk/playwrighttesting/arm-playwrighttesting",
       "versionPolicyName": "management"
     }
   ]
