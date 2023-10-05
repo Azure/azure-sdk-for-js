@@ -39,6 +39,8 @@ export interface ListParticipantsResult {
 
 /** The response payload for adding participants to the call. */
 export interface AddParticipantResult {
+  /** invitation ID used to add the participant. */
+  invitationId?: string;
   /** List of current participants in the call. */
   participant?: CallParticipant;
   /** The operation context provided by client. */
@@ -71,6 +73,14 @@ export interface RecordingStateResult {
 
 /** The response payload for sending DTMF tones. */
 export interface SendDtmfTonesResult {
+  /** The operation context provided by client. */
+  operationContext?: string;
+}
+
+/** The response payload for cancelling add participant request. */
+export interface CancelAddParticipantResult {
+  /** the invitation ID used to cancel the add participant request. */
+  invitationId: string;
   /** The operation context provided by client. */
   operationContext?: string;
 }

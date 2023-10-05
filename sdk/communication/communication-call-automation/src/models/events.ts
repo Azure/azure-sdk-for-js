@@ -28,6 +28,8 @@ import {
   SendDtmfTonesFailed as RestSendDtmfTonesFailed,
   ToneInfo as RestToneInfo,
   Tone,
+  CancelAddParticipantSucceeded as RestCancelAddParticipantSucceeded,
+  CancelAddParticipantFailed as RestCancelAddParticipantFailed,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
@@ -54,7 +56,9 @@ export type CallAutomationEvent =
   | ContinuousDtmfRecognitionToneFailed
   | ContinuousDtmfRecognitionStopped
   | SendDtmfTonesCompleted
-  | SendDtmfTonesFailed;
+  | SendDtmfTonesFailed
+  | CancelAddParticipantSucceeded
+  | CancelAddParticipantFailed;
 
 export {
   RestAddParticipantSucceeded,
@@ -80,6 +84,8 @@ export {
   RestSendDtmfTonesCompleted,
   RestSendDtmfTonesFailed,
   RestToneInfo,
+  RestCancelAddParticipantSucceeded,
+  RestCancelAddParticipantFailed,
 };
 
 export interface ResultInformation
@@ -476,4 +482,58 @@ export interface SendDtmfTonesFailed
   resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "SendDtmfTonesFailed";
+}
+
+/** Successful cancel add participant event. */
+export interface CancelAddParticipantSucceeded
+  extends Omit<
+    RestCancelAddParticipantSucceeded,
+    | "callConnectionId"
+    | "serverCallId"
+    | "correlationId"
+    | "participant"
+    | "invitationId"
+    | "operationContext"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Invitation ID used to cancel the add participant request. */
+  invitationId: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** The participant whoose invitation was cancelled. */
+  participant?: CommunicationIdentifier;
+  /** kind of this event. */
+  kind: "CancelAddParticipantSucceeded";
+}
+
+/** The failed to cancel add participant event. */
+export interface CancelAddParticipantFailed
+  extends Omit<
+    RestCancelAddParticipantFailed,
+    | "callConnectionId"
+    | "serverCallId"
+    | "correlationId"
+    | "invitationId"
+    | "operationContext"
+    | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Invitation ID used to cancel the add participant request. */
+  invitationId: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "CancelAddParticipantFailed";
 }

@@ -16,6 +16,7 @@ import {
   TransferCallResult,
   RemoveParticipantResult,
   MuteParticipantResult,
+  CancelAddParticipantResult,
 } from "../src";
 import Sinon, { SinonStubbedInstance } from "sinon";
 import { CALL_TARGET_ID } from "./utils/connectionUtils";
@@ -239,6 +240,26 @@ describe("CallConnection Unit Tests", () => {
         assert.isNotNull(result);
         assert.isTrue(callConnection.muteParticipant.calledWith(target.targetParticipant));
         assert.equal(result, muteParticipantResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
+  it("CancelAddParticipant", async () => {
+    const invitationId = "invitationId";
+    const cancelAddParticipantResultMock: CancelAddParticipantResult = { invitationId };
+    callConnection.cancelAddParticipant.returns(
+      new Promise((resolve) => {
+        resolve(cancelAddParticipantResultMock);
+      })
+    );
+
+    callConnection
+      .cancelAddParticipant(invitationId)
+      .then((result: CancelAddParticipantResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(callConnection.cancelAddParticipant.calledWith(invitationId));
+        assert.equal(result, cancelAddParticipantResultMock);
         return;
       })
       .catch((error) => console.error(error));
