@@ -23,7 +23,7 @@ import {
 export interface PrivateEndpointConnections {
   /**
    * List all the private endpoint connections associated with the redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param options The options parameters.
    */
@@ -34,7 +34,7 @@ export interface PrivateEndpointConnections {
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets the specified private endpoint connection associated with the redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
    *                                      Azure resource
@@ -48,7 +48,7 @@ export interface PrivateEndpointConnections {
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Update the state of specified private endpoint connection associated with the redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
    *                                      Azure resource
@@ -69,7 +69,7 @@ export interface PrivateEndpointConnections {
   >;
   /**
    * Update the state of specified private endpoint connection associated with the redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
    *                                      Azure resource
@@ -85,7 +85,7 @@ export interface PrivateEndpointConnections {
   ): Promise<PrivateEndpointConnectionsPutResponse>;
   /**
    * Deletes the specified private endpoint connection associated with the redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
    *                                      Azure resource

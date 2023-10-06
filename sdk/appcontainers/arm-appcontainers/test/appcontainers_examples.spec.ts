@@ -105,7 +105,7 @@ describe("AppContainer test", () => {
   });
 
   it("containerapp delete test", async function () {
-    const res = await client.containerApps.beginDeleteAndWait(resourceGroup, containerAppName);
+    const res = await client.containerApps.beginDeleteAndWait(resourceGroup, containerAppName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.containerApps.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -114,7 +114,7 @@ describe("AppContainer test", () => {
   })
 
   it("managedEnvironments delete test", async function () {
-    const res = await client.managedEnvironments.beginDeleteAndWait(resourceGroup, environmentName);
+    const res = await client.managedEnvironments.beginDeleteAndWait(resourceGroup, environmentName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.managedEnvironments.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

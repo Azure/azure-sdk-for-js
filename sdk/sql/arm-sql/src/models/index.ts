@@ -3506,6 +3506,16 @@ export interface DatabaseUpdate {
   encryptionProtector?: string;
   /** Type of enclave requested on the database i.e. Default or VBS enclaves. */
   preferredEnclaveType?: AlwaysEncryptedEnclaveType;
+  /** Whether or not the database uses free monthly limits. Allowed on one database in a subscription. */
+  useFreeLimit?: boolean;
+  /**
+   * Specifies the behavior when monthly free limits are exhausted for the free database.
+   *
+   * AutoPause: The database will be auto paused upon exhaustion of free limits for remainder of the month.
+   *
+   * BillForUsage: The database will continue to be online upon exhaustion of free limits and any overage will be billed.
+   */
+  freeLimitExhaustionBehavior?: FreeLimitExhaustionBehavior;
   /**
    * Whether or not customer controlled manual cutover needs to be done during Update Database operation to Hyperscale tier.
    *
@@ -3526,6 +3536,8 @@ export interface DatabaseUpdate {
    * When performCutover is specified, the scaling operation will trigger cutover and perform role-change to Hyperscale database.
    */
   performCutover?: boolean;
+  /** The flag to enable or disable auto rotation of database encryption protector AKV key. */
+  encryptionProtectorAutoRotation?: boolean;
 }
 
 /** Contains the information necessary to perform export database operation. */
@@ -4093,159 +4105,6 @@ export interface ServerConfigurationOptionListResult {
   readonly nextLink?: string;
 }
 
-/** A request to check whether the specified name for a resource is available. */
-export interface CheckNameAvailabilityRequest {
-  name: string;
-  type: "Microsoft.Sql/servers";
-}
-
-/** The result of a name availability check. */
-export interface CheckNameAvailabilityResponse {
-  /**
-   * The name whose availability was checked.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * True if the name is available, otherwise false.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly available?: boolean;
-  /**
-   * The reason code explaining why the name is unavailable. Will be undefined if the name is available.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reason?: CheckNameAvailabilityReason;
-  /**
-   * A message explaining why the name is unavailable. Will be undefined if the name is available.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-}
-
-/** A list of servers. */
-export interface ServerListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Server[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A private endpoint connection under a server */
-export interface ServerPrivateEndpointConnection {
-  /**
-   * Resource ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Private endpoint connection properties
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly properties?: PrivateEndpointConnectionProperties;
-}
-
-/** Properties of a active directory administrator. */
-export interface ServerExternalAdministrator {
-  /** Type of the sever administrator. */
-  administratorType?: AdministratorType;
-  /** Principal Type of the sever administrator. */
-  principalType?: PrincipalType;
-  /** Login name of the server administrator. */
-  login?: string;
-  /** SID (object ID) of the server administrator. */
-  sid?: string;
-  /** Tenant ID of the administrator. */
-  tenantId?: string;
-  /** Azure Active Directory only Authentication enabled. */
-  azureADOnlyAuthentication?: boolean;
-}
-
-/** An update request for an Azure SQL Database server. */
-export interface ServerUpdate {
-  /** Server identity */
-  identity?: ResourceIdentity;
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** Administrator username for the server. Once created it cannot be changed. */
-  administratorLogin?: string;
-  /** The administrator login password (required for server creation). */
-  administratorLoginPassword?: string;
-  /** The version of the server. */
-  version?: string;
-  /**
-   * The state of the server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: string;
-  /**
-   * The fully qualified domain name of the server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullyQualifiedDomainName?: string;
-  /**
-   * List of private endpoint connections on a server
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
-  /** Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2' */
-  minimalTlsVersion?: string;
-  /** Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' or 'SecuredByPerimeter' */
-  publicNetworkAccess?: ServerPublicNetworkAccessFlag;
-  /**
-   * Whether or not existing server has a workspace created and if it allows connection from workspace
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly workspaceFeature?: ServerWorkspaceFeature;
-  /** The resource id of a user assigned identity to be used by default. */
-  primaryUserAssignedIdentityId?: string;
-  /** The Client id used for cross tenant CMK scenario */
-  federatedClientId?: string;
-  /** A CMK URI of the key to use for encryption. */
-  keyId?: string;
-  /** The Azure Active Directory administrator of the server. This can only be used at server create time. If used for server update, it will be ignored or it will result in an error. For updates individual APIs will need to be used. */
-  administrators?: ServerExternalAdministrator;
-  /** Whether or not to restrict outbound network access for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' */
-  restrictOutboundNetworkAccess?: ServerNetworkAccessFlag;
-  /**
-   * Status of external governance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly externalGovernanceStatus?: ExternalGovernanceStatus;
-}
-
-/** Contains the information necessary to perform import operation for new database. */
-export interface ImportNewDatabaseDefinition {
-  /** Name of the import database. */
-  databaseName?: string;
-  /** Edition of the import database. */
-  edition?: string;
-  /** Service level objective name of the import database. */
-  serviceObjectiveName?: string;
-  /** Max size in bytes for the import database. */
-  maxSizeBytes?: string;
-  /** Storage key type. */
-  storageKeyType: StorageKeyType;
-  /** Storage key. */
-  storageKey: string;
-  /** Storage Uri. */
-  storageUri: string;
-  /** Administrator login name. */
-  administratorLogin: string;
-  /** Administrator login password. */
-  administratorLoginPassword: string;
-  /** Authentication type. */
-  authenticationType?: string;
-  /** Optional resource information to enable network isolation for request. */
-  networkIsolation?: NetworkIsolationSettings;
-}
-
 /** Managed instance's Start/Stop schedule list result. */
 export interface StartStopManagedInstanceScheduleListResult {
   /**
@@ -4284,62 +4143,6 @@ export interface LogicalDatabaseTransparentDataEncryptionListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** A list of failover groups. */
-export interface FailoverGroupListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: FailoverGroup[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Read-write endpoint of the failover group instance. */
-export interface FailoverGroupReadWriteEndpoint {
-  /** Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required. */
-  failoverPolicy: ReadWriteEndpointFailoverPolicy;
-  /** Grace period before failover with data loss is attempted for the read-write endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required. */
-  failoverWithDataLossGracePeriodMinutes?: number;
-}
-
-/** Read-only endpoint of the failover group instance. */
-export interface FailoverGroupReadOnlyEndpoint {
-  /** Failover policy of the read-only endpoint for the failover group. */
-  failoverPolicy?: ReadOnlyEndpointFailoverPolicy;
-}
-
-/** Partner server information for the failover group. */
-export interface PartnerInfo {
-  /** Resource identifier of the partner server. */
-  id: string;
-  /**
-   * Geo location of the partner server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly location?: string;
-  /**
-   * Replication role of the partner server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicationRole?: FailoverGroupReplicationRole;
-}
-
-/** A failover group update request. */
-export interface FailoverGroupUpdate {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** Read-write endpoint of the failover group instance. */
-  readWriteEndpoint?: FailoverGroupReadWriteEndpoint;
-  /** Read-only endpoint of the failover group instance. */
-  readOnlyEndpoint?: FailoverGroupReadOnlyEndpoint;
-  /** List of databases in the failover group. */
-  databases?: string[];
 }
 
 /** The response to a list IPv6 firewall rules request */
@@ -4582,6 +4385,221 @@ export interface SqlVulnerabilityAssessmentListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** A request to check whether the specified name for a resource is available. */
+export interface CheckNameAvailabilityRequest {
+  name: string;
+  type: "Microsoft.Sql/servers";
+}
+
+/** The result of a name availability check. */
+export interface CheckNameAvailabilityResponse {
+  /**
+   * The name whose availability was checked.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * True if the name is available, otherwise false.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly available?: boolean;
+  /**
+   * The reason code explaining why the name is unavailable. Will be undefined if the name is available.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: CheckNameAvailabilityReason;
+  /**
+   * A message explaining why the name is unavailable. Will be undefined if the name is available.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** A list of servers. */
+export interface ServerListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Server[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A private endpoint connection under a server */
+export interface ServerPrivateEndpointConnection {
+  /**
+   * Resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Private endpoint connection properties
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: PrivateEndpointConnectionProperties;
+}
+
+/** Properties of a active directory administrator. */
+export interface ServerExternalAdministrator {
+  /** Type of the sever administrator. */
+  administratorType?: AdministratorType;
+  /** Principal Type of the sever administrator. */
+  principalType?: PrincipalType;
+  /** Login name of the server administrator. */
+  login?: string;
+  /** SID (object ID) of the server administrator. */
+  sid?: string;
+  /** Tenant ID of the administrator. */
+  tenantId?: string;
+  /** Azure Active Directory only Authentication enabled. */
+  azureADOnlyAuthentication?: boolean;
+}
+
+/** An update request for an Azure SQL Database server. */
+export interface ServerUpdate {
+  /** Server identity */
+  identity?: ResourceIdentity;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Administrator username for the server. Once created it cannot be changed. */
+  administratorLogin?: string;
+  /** The administrator login password (required for server creation). */
+  administratorLoginPassword?: string;
+  /** The version of the server. */
+  version?: string;
+  /**
+   * The state of the server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: string;
+  /**
+   * The fully qualified domain name of the server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullyQualifiedDomainName?: string;
+  /**
+   * List of private endpoint connections on a server
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
+  /** Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2' */
+  minimalTlsVersion?: string;
+  /** Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' or 'SecuredByPerimeter' */
+  publicNetworkAccess?: ServerPublicNetworkAccessFlag;
+  /**
+   * Whether or not existing server has a workspace created and if it allows connection from workspace
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workspaceFeature?: ServerWorkspaceFeature;
+  /** The resource id of a user assigned identity to be used by default. */
+  primaryUserAssignedIdentityId?: string;
+  /** The Client id used for cross tenant CMK scenario */
+  federatedClientId?: string;
+  /** A CMK URI of the key to use for encryption. */
+  keyId?: string;
+  /** The Azure Active Directory administrator of the server. This can only be used at server create time. If used for server update, it will be ignored or it will result in an error. For updates individual APIs will need to be used. */
+  administrators?: ServerExternalAdministrator;
+  /** Whether or not to restrict outbound network access for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' */
+  restrictOutboundNetworkAccess?: ServerNetworkAccessFlag;
+  /** Whether or not to enable IPv6 support for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' */
+  isIPv6Enabled?: ServerNetworkAccessFlag;
+  /**
+   * Status of external governance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly externalGovernanceStatus?: ExternalGovernanceStatus;
+}
+
+/** Contains the information necessary to perform import operation for new database. */
+export interface ImportNewDatabaseDefinition {
+  /** Name of the import database. */
+  databaseName?: string;
+  /** Edition of the import database. */
+  edition?: string;
+  /** Service level objective name of the import database. */
+  serviceObjectiveName?: string;
+  /** Max size in bytes for the import database. */
+  maxSizeBytes?: string;
+  /** Storage key type. */
+  storageKeyType: StorageKeyType;
+  /** Storage key. */
+  storageKey: string;
+  /** Storage Uri. */
+  storageUri: string;
+  /** Administrator login name. */
+  administratorLogin: string;
+  /** Administrator login password. */
+  administratorLoginPassword: string;
+  /** Authentication type. */
+  authenticationType?: string;
+  /** Optional resource information to enable network isolation for request. */
+  networkIsolation?: NetworkIsolationSettings;
+}
+
+/** A list of failover groups. */
+export interface FailoverGroupListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: FailoverGroup[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Read-write endpoint of the failover group instance. */
+export interface FailoverGroupReadWriteEndpoint {
+  /** Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required. */
+  failoverPolicy: ReadWriteEndpointFailoverPolicy;
+  /** Grace period before failover with data loss is attempted for the read-write endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required. */
+  failoverWithDataLossGracePeriodMinutes?: number;
+}
+
+/** Read-only endpoint of the failover group instance. */
+export interface FailoverGroupReadOnlyEndpoint {
+  /** Failover policy of the read-only endpoint for the failover group. */
+  failoverPolicy?: ReadOnlyEndpointFailoverPolicy;
+  /** The target partner server where the read-only endpoint points to. */
+  targetServer?: string;
+}
+
+/** Partner server information for the failover group. */
+export interface PartnerInfo {
+  /** Resource identifier of the partner server. */
+  id: string;
+  /**
+   * Geo location of the partner server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+  /**
+   * Replication role of the partner server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationRole?: FailoverGroupReplicationRole;
+}
+
+/** A failover group update request. */
+export interface FailoverGroupUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Read-write endpoint of the failover group instance. */
+  readWriteEndpoint?: FailoverGroupReadWriteEndpoint;
+  /** Read-only endpoint of the failover group instance. */
+  readOnlyEndpoint?: FailoverGroupReadOnlyEndpoint;
+  /** List of databases in the failover group. */
+  databases?: string[];
+  /** List of partner server information for the failover group. */
+  partnerServers?: PartnerInfo[];
 }
 
 /** A Slo Usage Metric. */
@@ -7902,41 +7920,6 @@ export interface ServerConfigurationOption extends ProxyResource {
   readonly provisioningState?: ProvisioningState;
 }
 
-/** An RefreshExternalGovernanceStatus operation result resource. */
-export interface RefreshExternalGovernanceStatusOperationResult
-  extends ProxyResource {
-  /**
-   * Request Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requestId?: string;
-  /**
-   * Request type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requestType?: string;
-  /**
-   * Queued time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly queuedTime?: string;
-  /**
-   * Server name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverName?: string;
-  /**
-   * Operation status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * Error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorMessage?: string;
-}
-
 /** Managed instance's Start/Stop schedule. */
 export interface StartStopManagedInstanceSchedule extends ProxyResource {
   /**
@@ -7967,35 +7950,6 @@ export interface LogicalDatabaseTransparentDataEncryption
   extends ProxyResource {
   /** Specifies the state of the transparent data encryption. */
   state?: TransparentDataEncryptionState;
-}
-
-/** A failover group. */
-export interface FailoverGroup extends ProxyResource {
-  /**
-   * Resource location.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly location?: string;
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** Read-write endpoint of the failover group instance. */
-  readWriteEndpoint?: FailoverGroupReadWriteEndpoint;
-  /** Read-only endpoint of the failover group instance. */
-  readOnlyEndpoint?: FailoverGroupReadOnlyEndpoint;
-  /**
-   * Local replication role of the failover group instance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicationRole?: FailoverGroupReplicationRole;
-  /**
-   * Replication state of the failover group instance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicationState?: string;
-  /** List of partner server information for the failover group. */
-  partnerServers?: PartnerInfo[];
-  /** List of databases in the failover group. */
-  databases?: string[];
 }
 
 /** A database sql vulnerability assessment baseline set. */
@@ -8201,6 +8155,70 @@ export interface SqlVulnerabilityAssessment extends ProxyResource {
   readonly systemData?: SystemData;
   /** Specifies the state of the SQL Vulnerability Assessment, whether it is enabled or disabled or a state has not been applied yet on the specific database or server. */
   state?: SqlVulnerabilityAssessmentState;
+}
+
+/** An RefreshExternalGovernanceStatus operation result resource. */
+export interface RefreshExternalGovernanceStatusOperationResult
+  extends ProxyResource {
+  /**
+   * Request Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requestId?: string;
+  /**
+   * Request type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requestType?: string;
+  /**
+   * Queued time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly queuedTime?: string;
+  /**
+   * Server name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverName?: string;
+  /**
+   * Operation status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorMessage?: string;
+}
+
+/** A failover group. */
+export interface FailoverGroup extends ProxyResource {
+  /**
+   * Resource location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Read-write endpoint of the failover group instance. */
+  readWriteEndpoint?: FailoverGroupReadWriteEndpoint;
+  /** Read-only endpoint of the failover group instance. */
+  readOnlyEndpoint?: FailoverGroupReadOnlyEndpoint;
+  /**
+   * Local replication role of the failover group instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationRole?: FailoverGroupReplicationRole;
+  /**
+   * Replication state of the failover group instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationState?: string;
+  /** List of partner server information for the failover group. */
+  partnerServers?: PartnerInfo[];
+  /** List of databases in the failover group. */
+  databases?: string[];
 }
 
 /** An Azure SQL instance pool. */
@@ -8439,6 +8457,16 @@ export interface Database extends TrackedResource {
   encryptionProtector?: string;
   /** Type of enclave requested on the database i.e. Default or VBS enclaves. */
   preferredEnclaveType?: AlwaysEncryptedEnclaveType;
+  /** Whether or not the database uses free monthly limits. Allowed on one database in a subscription. */
+  useFreeLimit?: boolean;
+  /**
+   * Specifies the behavior when monthly free limits are exhausted for the free database.
+   *
+   * AutoPause: The database will be auto paused upon exhaustion of free limits for remainder of the month.
+   *
+   * BillForUsage: The database will continue to be online upon exhaustion of free limits and any overage will be billed.
+   */
+  freeLimitExhaustionBehavior?: FreeLimitExhaustionBehavior;
   /**
    * The resource identifier of the source associated with the create operation of this database.
    *
@@ -8477,6 +8505,8 @@ export interface Database extends TrackedResource {
   performCutover?: boolean;
   /** Specifies the availability zone the database is pinned to. */
   availabilityZone?: AvailabilityZoneType;
+  /** The flag to enable or disable auto rotation of database encryption protector AKV key. */
+  encryptionProtectorAutoRotation?: boolean;
 }
 
 /** An elastic pool. */
@@ -8733,6 +8763,8 @@ export interface Server extends TrackedResource {
   administrators?: ServerExternalAdministrator;
   /** Whether or not to restrict outbound network access for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' */
   restrictOutboundNetworkAccess?: ServerNetworkAccessFlag;
+  /** Whether or not to enable IPv6 support for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' */
+  isIPv6Enabled?: ServerNetworkAccessFlag;
   /**
    * Status of external governance.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -10810,6 +10842,24 @@ export enum KnownAlwaysEncryptedEnclaveType {
  */
 export type AlwaysEncryptedEnclaveType = string;
 
+/** Known values of {@link FreeLimitExhaustionBehavior} that the service accepts. */
+export enum KnownFreeLimitExhaustionBehavior {
+  /** AutoPause */
+  AutoPause = "AutoPause",
+  /** BillOverUsage */
+  BillOverUsage = "BillOverUsage"
+}
+
+/**
+ * Defines values for FreeLimitExhaustionBehavior. \
+ * {@link KnownFreeLimitExhaustionBehavior} can be used interchangeably with FreeLimitExhaustionBehavior,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AutoPause** \
+ * **BillOverUsage**
+ */
+export type FreeLimitExhaustionBehavior = string;
+
 /** Known values of {@link AvailabilityZoneType} that the service accepts. */
 export enum KnownAvailabilityZoneType {
   /** NoPreference */
@@ -11245,81 +11295,6 @@ export enum KnownServerConfigurationOptionName {
  */
 export type ServerConfigurationOptionName = string;
 
-/** Known values of {@link ServerPublicNetworkAccessFlag} that the service accepts. */
-export enum KnownServerPublicNetworkAccessFlag {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled",
-  /** SecuredByPerimeter */
-  SecuredByPerimeter = "SecuredByPerimeter"
-}
-
-/**
- * Defines values for ServerPublicNetworkAccessFlag. \
- * {@link KnownServerPublicNetworkAccessFlag} can be used interchangeably with ServerPublicNetworkAccessFlag,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled** \
- * **SecuredByPerimeter**
- */
-export type ServerPublicNetworkAccessFlag = string;
-
-/** Known values of {@link ServerWorkspaceFeature} that the service accepts. */
-export enum KnownServerWorkspaceFeature {
-  /** Connected */
-  Connected = "Connected",
-  /** Disconnected */
-  Disconnected = "Disconnected"
-}
-
-/**
- * Defines values for ServerWorkspaceFeature. \
- * {@link KnownServerWorkspaceFeature} can be used interchangeably with ServerWorkspaceFeature,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Connected** \
- * **Disconnected**
- */
-export type ServerWorkspaceFeature = string;
-
-/** Known values of {@link ServerNetworkAccessFlag} that the service accepts. */
-export enum KnownServerNetworkAccessFlag {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for ServerNetworkAccessFlag. \
- * {@link KnownServerNetworkAccessFlag} can be used interchangeably with ServerNetworkAccessFlag,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type ServerNetworkAccessFlag = string;
-
-/** Known values of {@link ExternalGovernanceStatus} that the service accepts. */
-export enum KnownExternalGovernanceStatus {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for ExternalGovernanceStatus. \
- * {@link KnownExternalGovernanceStatus} can be used interchangeably with ExternalGovernanceStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type ExternalGovernanceStatus = string;
-
 /** Known values of {@link StartStopScheduleName} that the service accepts. */
 export enum KnownStartStopScheduleName {
   /** Default */
@@ -11334,24 +11309,6 @@ export enum KnownStartStopScheduleName {
  * **default**
  */
 export type StartStopScheduleName = string;
-
-/** Known values of {@link FailoverGroupReplicationRole} that the service accepts. */
-export enum KnownFailoverGroupReplicationRole {
-  /** Primary */
-  Primary = "Primary",
-  /** Secondary */
-  Secondary = "Secondary"
-}
-
-/**
- * Defines values for FailoverGroupReplicationRole. \
- * {@link KnownFailoverGroupReplicationRole} can be used interchangeably with FailoverGroupReplicationRole,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Primary** \
- * **Secondary**
- */
-export type FailoverGroupReplicationRole = string;
 
 /** Known values of {@link BaselineName} that the service accepts. */
 export enum KnownBaselineName {
@@ -11469,6 +11426,99 @@ export enum KnownSqlVulnerabilityAssessmentName {
  * **default**
  */
 export type SqlVulnerabilityAssessmentName = string;
+
+/** Known values of {@link ServerPublicNetworkAccessFlag} that the service accepts. */
+export enum KnownServerPublicNetworkAccessFlag {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** SecuredByPerimeter */
+  SecuredByPerimeter = "SecuredByPerimeter"
+}
+
+/**
+ * Defines values for ServerPublicNetworkAccessFlag. \
+ * {@link KnownServerPublicNetworkAccessFlag} can be used interchangeably with ServerPublicNetworkAccessFlag,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled** \
+ * **SecuredByPerimeter**
+ */
+export type ServerPublicNetworkAccessFlag = string;
+
+/** Known values of {@link ServerWorkspaceFeature} that the service accepts. */
+export enum KnownServerWorkspaceFeature {
+  /** Connected */
+  Connected = "Connected",
+  /** Disconnected */
+  Disconnected = "Disconnected"
+}
+
+/**
+ * Defines values for ServerWorkspaceFeature. \
+ * {@link KnownServerWorkspaceFeature} can be used interchangeably with ServerWorkspaceFeature,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Connected** \
+ * **Disconnected**
+ */
+export type ServerWorkspaceFeature = string;
+
+/** Known values of {@link ServerNetworkAccessFlag} that the service accepts. */
+export enum KnownServerNetworkAccessFlag {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ServerNetworkAccessFlag. \
+ * {@link KnownServerNetworkAccessFlag} can be used interchangeably with ServerNetworkAccessFlag,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ServerNetworkAccessFlag = string;
+
+/** Known values of {@link ExternalGovernanceStatus} that the service accepts. */
+export enum KnownExternalGovernanceStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ExternalGovernanceStatus. \
+ * {@link KnownExternalGovernanceStatus} can be used interchangeably with ExternalGovernanceStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ExternalGovernanceStatus = string;
+
+/** Known values of {@link FailoverGroupReplicationRole} that the service accepts. */
+export enum KnownFailoverGroupReplicationRole {
+  /** Primary */
+  Primary = "Primary",
+  /** Secondary */
+  Secondary = "Secondary"
+}
+
+/**
+ * Defines values for FailoverGroupReplicationRole. \
+ * {@link KnownFailoverGroupReplicationRole} can be used interchangeably with FailoverGroupReplicationRole,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Primary** \
+ * **Secondary**
+ */
+export type FailoverGroupReplicationRole = string;
 
 /** Known values of {@link ServiceObjectiveName} that the service accepts. */
 export enum KnownServiceObjectiveName {
@@ -11780,10 +11830,10 @@ export type ReplicationRole =
   | "NonReadableSecondary"
   | "Source"
   | "Copy";
-/** Defines values for CheckNameAvailabilityReason. */
-export type CheckNameAvailabilityReason = "Invalid" | "AlreadyExists";
 /** Defines values for SqlVulnerabilityAssessmentState. */
 export type SqlVulnerabilityAssessmentState = "Enabled" | "Disabled";
+/** Defines values for CheckNameAvailabilityReason. */
+export type CheckNameAvailabilityReason = "Invalid" | "AlreadyExists";
 
 /** Optional parameters. */
 export interface DataMaskingPoliciesCreateOrUpdateOptionalParams
@@ -16719,112 +16769,6 @@ export interface ServerConfigurationOptionsListByManagedInstanceNextOptionalPara
 export type ServerConfigurationOptionsListByManagedInstanceNextResponse = ServerConfigurationOptionListResult;
 
 /** Optional parameters. */
-export interface ServersCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkNameAvailability operation. */
-export type ServersCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
-
-/** Optional parameters. */
-export interface ServersListOptionalParams extends coreClient.OperationOptions {
-  /** The child resources to include in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the list operation. */
-export type ServersListResponse = ServerListResult;
-
-/** Optional parameters. */
-export interface ServersListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** The child resources to include in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type ServersListByResourceGroupResponse = ServerListResult;
-
-/** Optional parameters. */
-export interface ServersGetOptionalParams extends coreClient.OperationOptions {
-  /** The child resources to include in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the get operation. */
-export type ServersGetResponse = Server;
-
-/** Optional parameters. */
-export interface ServersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ServersCreateOrUpdateResponse = Server;
-
-/** Optional parameters. */
-export interface ServersDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ServersUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type ServersUpdateResponse = Server;
-
-/** Optional parameters. */
-export interface ServersImportDatabaseOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the importDatabase operation. */
-export type ServersImportDatabaseResponse = ImportExportOperationResult;
-
-/** Optional parameters. */
-export interface ServersRefreshStatusOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the refreshStatus operation. */
-export type ServersRefreshStatusResponse = RefreshExternalGovernanceStatusOperationResult;
-
-/** Optional parameters. */
-export interface ServersListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ServersListNextResponse = ServerListResult;
-
-/** Optional parameters. */
-export interface ServersListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type ServersListByResourceGroupNextResponse = ServerListResult;
-
-/** Optional parameters. */
 export interface StartStopManagedInstanceSchedulesListByInstanceOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -16888,96 +16832,6 @@ export interface TransparentDataEncryptionsListByDatabaseNextOptionalParams
 
 /** Contains response data for the listByDatabaseNext operation. */
 export type TransparentDataEncryptionsListByDatabaseNextResponse = LogicalDatabaseTransparentDataEncryptionListResult;
-
-/** Optional parameters. */
-export interface FailoverGroupsListByServerOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByServer operation. */
-export type FailoverGroupsListByServerResponse = FailoverGroupListResult;
-
-/** Optional parameters. */
-export interface FailoverGroupsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type FailoverGroupsGetResponse = FailoverGroup;
-
-/** Optional parameters. */
-export interface FailoverGroupsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type FailoverGroupsCreateOrUpdateResponse = FailoverGroup;
-
-/** Optional parameters. */
-export interface FailoverGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface FailoverGroupsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type FailoverGroupsUpdateResponse = FailoverGroup;
-
-/** Optional parameters. */
-export interface FailoverGroupsFailoverOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the failover operation. */
-export type FailoverGroupsFailoverResponse = FailoverGroup;
-
-/** Optional parameters. */
-export interface FailoverGroupsForceFailoverAllowDataLossOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the forceFailoverAllowDataLoss operation. */
-export type FailoverGroupsForceFailoverAllowDataLossResponse = FailoverGroup;
-
-/** Optional parameters. */
-export interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the tryPlannedBeforeForcedFailover operation. */
-export type FailoverGroupsTryPlannedBeforeForcedFailoverResponse = FailoverGroup;
-
-/** Optional parameters. */
-export interface FailoverGroupsListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByServerNext operation. */
-export type FailoverGroupsListByServerNextResponse = FailoverGroupListResult;
 
 /** Optional parameters. */
 export interface IPv6FirewallRulesListByServerOptionalParams
@@ -17285,6 +17139,202 @@ export interface DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseNextOp
 
 /** Contains response data for the listByDatabaseNext operation. */
 export type DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseNextResponse = SqlVulnerabilityAssessmentListResult;
+
+/** Optional parameters. */
+export interface ServersCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type ServersCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
+
+/** Optional parameters. */
+export interface ServersListOptionalParams extends coreClient.OperationOptions {
+  /** The child resources to include in the response. */
+  expand?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ServersListResponse = ServerListResult;
+
+/** Optional parameters. */
+export interface ServersListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The child resources to include in the response. */
+  expand?: string;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ServersListByResourceGroupResponse = ServerListResult;
+
+/** Optional parameters. */
+export interface ServersGetOptionalParams extends coreClient.OperationOptions {
+  /** The child resources to include in the response. */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type ServersGetResponse = Server;
+
+/** Optional parameters. */
+export interface ServersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ServersCreateOrUpdateResponse = Server;
+
+/** Optional parameters. */
+export interface ServersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ServersUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ServersUpdateResponse = Server;
+
+/** Optional parameters. */
+export interface ServersImportDatabaseOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the importDatabase operation. */
+export type ServersImportDatabaseResponse = ImportExportOperationResult;
+
+/** Optional parameters. */
+export interface ServersRefreshStatusOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the refreshStatus operation. */
+export type ServersRefreshStatusResponse = RefreshExternalGovernanceStatusOperationResult;
+
+/** Optional parameters. */
+export interface ServersListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ServersListNextResponse = ServerListResult;
+
+/** Optional parameters. */
+export interface ServersListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ServersListByResourceGroupNextResponse = ServerListResult;
+
+/** Optional parameters. */
+export interface FailoverGroupsListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type FailoverGroupsListByServerResponse = FailoverGroupListResult;
+
+/** Optional parameters. */
+export interface FailoverGroupsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FailoverGroupsGetResponse = FailoverGroup;
+
+/** Optional parameters. */
+export interface FailoverGroupsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type FailoverGroupsCreateOrUpdateResponse = FailoverGroup;
+
+/** Optional parameters. */
+export interface FailoverGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface FailoverGroupsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type FailoverGroupsUpdateResponse = FailoverGroup;
+
+/** Optional parameters. */
+export interface FailoverGroupsFailoverOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the failover operation. */
+export type FailoverGroupsFailoverResponse = FailoverGroup;
+
+/** Optional parameters. */
+export interface FailoverGroupsForceFailoverAllowDataLossOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the forceFailoverAllowDataLoss operation. */
+export type FailoverGroupsForceFailoverAllowDataLossResponse = FailoverGroup;
+
+/** Optional parameters. */
+export interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the tryPlannedBeforeForcedFailover operation. */
+export type FailoverGroupsTryPlannedBeforeForcedFailoverResponse = FailoverGroup;
+
+/** Optional parameters. */
+export interface FailoverGroupsListByServerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerNext operation. */
+export type FailoverGroupsListByServerNextResponse = FailoverGroupListResult;
 
 /** Optional parameters. */
 export interface SqlManagementClientOptionalParams

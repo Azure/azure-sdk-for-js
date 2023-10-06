@@ -10,17 +10,21 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to The operation to create an ASR replication protection intent item.
  *
  * @summary The operation to create an ASR replication protection intent item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationProtectionIntents_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionIntents_Create.json
  */
 async function createProtectionIntentResource() {
-  const subscriptionId = "509099b2-9d2c-4636-b43e-bd5cafb6be69";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "509099b2-9d2c-4636-b43e-bd5cafb6be69";
   const resourceName = "vault1";
-  const resourceGroupName = "resourceGroupPS1";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "resourceGroupPS1";
   const intentObjectName = "vm1";
   const input = {
     properties: {
@@ -48,4 +52,8 @@ async function createProtectionIntentResource() {
   console.log(result);
 }
 
-createProtectionIntentResource().catch(console.error);
+async function main() {
+  createProtectionIntentResource();
+}
+
+main().catch(console.error);

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Imports a bacpac into a new database.
  *
  * @summary Imports a bacpac into a new database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ImportDatabaseWithNetworkIsolation.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ImportDatabaseWithNetworkIsolation.json
  */
 async function importsToAnExistingEmptyDatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount() {
   const subscriptionId =
@@ -54,7 +54,7 @@ async function importsToAnExistingEmptyDatabaseUsingPrivateLinkToCommunicateWith
  * This sample demonstrates how to Imports a bacpac into a new database.
  *
  * @summary Imports a bacpac into a new database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ImportDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ImportDatabase.json
  */
 async function importsToAnExistingEmptyDatabase() {
   const subscriptionId =

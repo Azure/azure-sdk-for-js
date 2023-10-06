@@ -16,6 +16,8 @@ const envSetupForPlayback: { [k: string]: string } = {
   OPENAI_API_KEY: "openai_api_key",
   AZURE_API_KEY: "azure_api_key",
   ENDPOINT: "https://endpoint/",
+  RESOURCE_GROUP: "resource_group",
+  ACCOUNT_NAME: "account_name",
   SUBSCRIPTION_ID: "subscription_id",
   AZURE_SEARCH_ENDPOINT: "azure_search_endpoint",
   AZURE_SEARCH_KEY: "azure_search_key",

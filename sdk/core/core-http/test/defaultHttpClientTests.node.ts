@@ -3,7 +3,6 @@
 
 /* eslint-disable no-unused-expressions */
 
-import "chai/register-should";
 import * as http from "http";
 import * as sinon from "sinon";
 import { CommonResponse, ReportTransform } from "../src/nodeFetchHttpClient";

@@ -45,7 +45,7 @@ export = {
       inner: "node",
       expected: options.nodeVersionOverride || LTS,
     });
-    return stripPath(context.getFilename()) === "package.json"
+    return stripPath(context.filename) === "package.json"
       ? ({
           // callback functions
 

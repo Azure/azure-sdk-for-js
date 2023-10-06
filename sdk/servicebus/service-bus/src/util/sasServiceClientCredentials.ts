@@ -61,7 +61,7 @@ export class SasServiceClientCredentials {
     return request;
   }
 
-  getToken(audience: string): AccessToken {
+  getToken(audience: string): Promise<AccessToken> {
     return this._tokenProvider.getToken(audience);
   }
 }

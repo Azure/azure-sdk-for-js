@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import "chai/register-should";
 import {
   ProxyPolicy,
   getDefaultProxySettings,

@@ -18,8 +18,8 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
   /**
    * Flag to determine if Exporter is shutdown.
    */
-  private _isShutdown = false;
-  private readonly _sender: HttpSender;
+  private isShutdown = false;
+  private readonly sender: HttpSender;
 
   /**
    * Initializes a new instance of the AzureMonitorTraceExporter class.
@@ -27,12 +27,13 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    */
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
-    this._sender = new HttpSender(
-      this.endpointUrl,
-      this.instrumentationKey,
-      this.trackStatsbeat,
-      options
-    );
+    this.sender = new HttpSender({
+      endpointUrl: this.endpointUrl,
+      instrumentationKey: this.instrumentationKey,
+      trackStatsbeat: this.trackStatsbeat,
+      exporterOptions: options,
+      aadAudience: this.aadAudience,
+    });
     diag.debug("AzureMonitorTraceExporter was successfully setup");
   }
 
@@ -45,7 +46,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
     spans: ReadableSpan[],
     resultCallback: (result: ExportResult) => void
   ): Promise<void> {
-    if (this._isShutdown) {
+    if (this.isShutdown) {
       diag.info("Exporter shut down. Failed to export spans.");
       setTimeout(() => resultCallback({ code: ExportResultCode.FAILED }), 0);
       return;
@@ -54,7 +55,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
     diag.info(`Exporting ${spans.length} span(s). Converting to envelopes...`);
 
     if (spans.length > 0) {
-      let envelopes: Envelope[] = [];
+      const envelopes: Envelope[] = [];
       const resourceMetricEnvelope = createResourceMetricEnvelope(
         spans[0].resource,
         this.instrumentationKey
@@ -64,12 +65,12 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
       }
       spans.forEach((span) => {
         envelopes.push(readableSpanToEnvelope(span, this.instrumentationKey));
-        let spanEventEnvelopes = spanEventsToEnvelopes(span, this.instrumentationKey);
+        const spanEventEnvelopes = spanEventsToEnvelopes(span, this.instrumentationKey);
         if (spanEventEnvelopes.length > 0) {
           envelopes.push(...spanEventEnvelopes);
         }
       });
-      resultCallback(await this._sender.exportEnvelopes(envelopes));
+      resultCallback(await this.sender.exportEnvelopes(envelopes));
     }
     // No data to export
     resultCallback({ code: ExportResultCode.SUCCESS });
@@ -79,8 +80,8 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    * Shutdown AzureMonitorTraceExporter.
    */
   async shutdown(): Promise<void> {
-    this._isShutdown = true;
+    this.isShutdown = true;
     diag.info("AzureMonitorTraceExporter shutting down");
-    return this._sender.shutdown();
+    return this.sender.shutdown();
   }
 }

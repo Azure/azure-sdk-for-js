@@ -1991,9 +1991,12 @@ export interface BastionHost extends Resource {
     enableTunneling?: boolean;
     readonly etag?: string;
     ipConfigurations?: BastionHostIPConfiguration[];
+    // (undocumented)
+    networkAcls?: BastionHostPropertiesFormatNetworkAcls;
     readonly provisioningState?: ProvisioningState;
     scaleUnits?: number;
     sku?: Sku;
+    virtualNetwork?: SubResource;
 }
 
 // @public
@@ -2011,6 +2014,11 @@ export interface BastionHostIPConfiguration extends SubResource {
 export interface BastionHostListResult {
     nextLink?: string;
     value?: BastionHost[];
+}
+
+// @public (undocumented)
+export interface BastionHostPropertiesFormatNetworkAcls {
+    ipRules?: IPRule[];
 }
 
 // @public
@@ -4767,6 +4775,7 @@ export interface FirewallPolicy extends Resource {
     intrusionDetection?: FirewallPolicyIntrusionDetection;
     readonly provisioningState?: ProvisioningState;
     readonly ruleCollectionGroups?: SubResource[];
+    readonly size?: string;
     sku?: FirewallPolicySku;
     snat?: FirewallPolicySnat;
     sql?: FirewallPolicySQL;
@@ -4981,6 +4990,7 @@ export interface FirewallPolicyRuleCollectionGroup extends SubResource {
     priority?: number;
     readonly provisioningState?: ProvisioningState;
     ruleCollections?: FirewallPolicyRuleCollectionUnion[];
+    readonly size?: string;
     readonly type?: string;
 }
 
@@ -5885,6 +5895,11 @@ export type IpGroupsUpdateGroupsResponse = IpGroup;
 // @public
 export interface IPPrefixesList {
     ipPrefixes?: string[];
+}
+
+// @public (undocumented)
+export interface IPRule {
+    addressPrefix?: string;
 }
 
 // @public
@@ -12749,6 +12764,7 @@ export interface Subnet extends SubResource {
     addressPrefix?: string;
     addressPrefixes?: string[];
     applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
+    defaultOutboundAccess?: boolean;
     delegations?: Delegation[];
     readonly etag?: string;
     ipAllocations?: SubResource[];
@@ -13640,6 +13656,7 @@ export interface VirtualNetworkGateway extends Resource {
     adminState?: AdminState;
     allowRemoteVnetTraffic?: boolean;
     allowVirtualWanTraffic?: boolean;
+    autoScaleConfiguration?: VirtualNetworkGatewayAutoScaleConfiguration;
     bgpSettings?: BgpSettings;
     customRoutes?: AddressSpace;
     disableIPSecReplayProtection?: boolean;
@@ -13662,6 +13679,17 @@ export interface VirtualNetworkGateway extends Resource {
     vpnClientConfiguration?: VpnClientConfiguration;
     vpnGatewayGeneration?: VpnGatewayGeneration;
     vpnType?: VpnType;
+}
+
+// @public (undocumented)
+export interface VirtualNetworkGatewayAutoScaleBounds {
+    max?: number;
+    min?: number;
+}
+
+// @public
+export interface VirtualNetworkGatewayAutoScaleConfiguration {
+    bounds?: VirtualNetworkGatewayAutoScaleBounds;
 }
 
 // @public

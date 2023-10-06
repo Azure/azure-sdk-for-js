@@ -24,6 +24,7 @@ import {
   CallInvite,
   ContinuousDtmfRecognitionOptions,
   SendDtmfOptions,
+  CallAutomationEventProcessor,
 } from "../src";
 
 // Current directory imports
@@ -63,7 +64,12 @@ describe("CallMedia Unit Tests", async function () {
   });
 
   it("can instantiate", async function () {
-    new CallMedia(CALL_CONNECTION_ID, baseUri, { key: generateToken() });
+    new CallMedia(
+      CALL_CONNECTION_ID,
+      baseUri,
+      { key: generateToken() },
+      new CallAutomationEventProcessor()
+    );
   });
 
   it("makes successful Play file request", async function () {
@@ -302,9 +308,50 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(data.operationContext, sendDtmfOptions.operationContext);
     assert.equal(request.method, "POST");
   });
+
+  it("makes successful Start Hold Music request", async function () {
+    const mockHttpClient = generateHttpClient(200);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const playSource: TextSource = {
+      text: "test test test",
+      customVoiceEndpointId: "customVoiceEndpointId",
+      kind: "textSource",
+    };
+
+    const participantToHold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+
+    await callMedia.startHoldMusic(participantToHold, playSource);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+    console.log(data);
+    assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
+    assert.equal(data.playSourceInfo.sourceType, "text");
+    assert.equal(data.playSourceInfo.textSource.text, playSource.text);
+    assert.equal(data.loop, true);
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful Stop Hold Music request", async function () {
+    const mockHttpClient = generateHttpClient(200);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const participantToUnhold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+
+    await callMedia.stopHoldMusic(participantToUnhold);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+    console.log(data);
+    assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
+    assert.equal(request.method, "POST");
+  });
 });
 
-describe("Call Media Client Live Tests", function () {
+describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media Client Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;

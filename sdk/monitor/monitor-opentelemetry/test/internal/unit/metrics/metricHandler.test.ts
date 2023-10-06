@@ -80,6 +80,15 @@ describe("MetricHandler", () => {
     assert.ok(exportStub.notCalled);
   });
 
+  it("should flush", async () => {
+    createHandler();
+    MetricsApi.getMeter("testMeter").createCounter("testCounter", {
+      description: "testDescription",
+    });
+    await handler.flush();
+    assert.ok(exportStub.called);
+  });
+
   describe("#autoCollect", () => {
     it("standard metrics enablement during start", () => {
       const env = <{ [id: string]: string }>{};
