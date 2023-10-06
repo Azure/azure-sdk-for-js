@@ -81,10 +81,10 @@ function assertEnvelope(
 }
 
 describe("metricUtil.ts", () => {
-  let prefix = process.env["AZURE_MONITOR_AGENT_PREFIX"]
+  const prefix = process.env["AZURE_MONITOR_AGENT_PREFIX"]
     ? process.env["AZURE_MONITOR_AGENT_PREFIX"]
     : "";
-  let version = process.env["AZURE_MONITOR_DISTRO_VERSION"]
+  const version = process.env["AZURE_MONITOR_DISTRO_VERSION"]
     ? `dst${process.env["AZURE_MONITOR_DISTRO_VERSION"]}`
     : `ext${Context.sdkVersion}`;
   describe("#resourceMetricsToEnvelope", () => {
@@ -114,7 +114,7 @@ describe("metricUtil.ts", () => {
       provider.addMetricReader(metricReader);
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
-      let counter = meter.createCounter("counter");
+      const counter = meter.createCounter("counter");
       counter.add(1);
       provider.forceFlush();
       await new Promise((resolve) => setTimeout(resolve, 800));

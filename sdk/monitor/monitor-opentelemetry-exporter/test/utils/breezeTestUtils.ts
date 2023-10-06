@@ -23,7 +23,7 @@ export function failedBreezeResponse(count: number, statusCode: number): BreezeR
   };
 }
 
-export function partialBreezeResponse(statusCodes: number[]) {
+export function partialBreezeResponse(statusCodes: number[]): BreezeResponse {
   const itemsAccepted = statusCodes.filter((v) => v === 200).length;
   return {
     itemsAccepted,

@@ -27,12 +27,13 @@ export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements
 
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
-    this._sender = new HttpSender(
-      this.endpointUrl,
-      this.instrumentationKey,
-      this.trackStatsbeat,
-      options
-    );
+    this._sender = new HttpSender({
+      endpointUrl: this.endpointUrl,
+      instrumentationKey: this.instrumentationKey,
+      trackStatsbeat: this.trackStatsbeat,
+      exporterOptions: options,
+      aadAudience: this.aadAudience,
+    });
     diag.debug("AzureMonitorLogExporter was successfully setup");
   }
 
@@ -41,7 +42,10 @@ export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements
    * @param logs - Logs to export.
    * @param resultCallback - Result callback.
    */
-  public async export(logs: ReadableLogRecord[], resultCallback: (result: ExportResult) => void) {
+  public async export(
+    logs: ReadableLogRecord[],
+    resultCallback: (result: ExportResult) => void
+  ): Promise<void> {
     if (this._isShutdown) {
       diag.info("Exporter shut down. Failed to export spans.");
       setTimeout(() => resultCallback({ code: ExportResultCode.FAILED }), 0);
@@ -49,15 +53,15 @@ export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements
     }
     diag.info(`Exporting ${logs.length} logs(s). Converting to envelopes...`);
 
-    let envelopes: Envelope[] = [];
+    const envelopes: Envelope[] = [];
     logs.forEach((log) => {
-      let envelope = logToEnvelope(log, this.instrumentationKey);
+      const envelope = logToEnvelope(log, this.instrumentationKey);
       if (envelope) {
         envelopes.push(envelope);
       }
     });
     // Supress tracing until OpenTelemetry Logs SDK support it
-    context.with(suppressTracing(context.active()), async () => {
+    await context.with(suppressTracing(context.active()), async () => {
       resultCallback(await this._sender.exportEnvelopes(envelopes));
     });
   }
