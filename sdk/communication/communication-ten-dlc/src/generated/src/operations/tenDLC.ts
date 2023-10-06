@@ -601,7 +601,12 @@ const getBrandsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.skip, Parameters.top, Parameters.apiVersion],
+  queryParameters: [
+    Parameters.skip,
+    Parameters.top,
+    Parameters.apiVersion,
+    Parameters.filter
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer

@@ -238,6 +238,8 @@ export interface TenDLCGetBrandOptionalParams extends coreClient.OperationOption
 
 // @public
 export interface TenDLCGetBrandsOptionalParams extends coreClient.OperationOptions {
+    // (undocumented)
+    filter?: string;
     skip?: number;
     top?: number;
 }

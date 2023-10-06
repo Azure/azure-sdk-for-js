@@ -132,6 +132,16 @@ export const brandId: OperationURLParameter = {
   }
 };
 
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const id1: OperationParameter = {
   parameterPath: "id",
   mapper: USCampaignMapper
@@ -179,16 +189,6 @@ export const campaignId: OperationURLParameter = {
     required: true,
     type: {
       name: "Uuid"
-    }
-  }
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "filter",
-    type: {
-      name: "String"
     }
   }
 };

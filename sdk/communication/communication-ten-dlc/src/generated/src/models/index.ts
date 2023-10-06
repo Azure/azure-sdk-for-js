@@ -401,6 +401,7 @@ export interface TenDLCGetBrandsOptionalParams
   skip?: number;
   /** The maximum number of items to return in the result set (default: 100). */
   top?: number;
+  filter?: string;
 }
 
 /** Contains response data for the getBrands operation. */
