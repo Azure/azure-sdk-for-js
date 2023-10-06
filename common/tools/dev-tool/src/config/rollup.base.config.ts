@@ -81,22 +81,34 @@ function ignoreMissingExportsFromEmpty(warning: RollupWarning): boolean {
   );
 }
 
-const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
+function ignoreExternalModules(warning: RollupWarning): boolean {
+  return (
+    (warning.code === "MISSING_GLOBAL_NAME" && nodeBuiltins.includes(warning.id!)) ||
+    (warning.code === "UNRESOLVED_IMPORT" && nodeBuiltins.includes(warning.exporter!)) ||
+    warning.code === "MISSING_NODE_BUILTINS"
+  );
+}
+
+function createWarningInhibitors({ ignoreMissingNodeBuiltins }: MakeOnWarnForTestingOptions = {}): Array<(warning: RollupWarning) => boolean> {return [
   ignoreChaiCircularDependency,
   ignoreRheaPromiseCircularDependency,
   ignoreNiseSinonEval,
   ignoreOpenTelemetryThisIsUndefined,
   ignoreMissingExportsFromEmpty,
+  ...ignoreMissingNodeBuiltins ? [ignoreExternalModules] : [],
 ];
+}
+
+interface MakeOnWarnForTestingOptions {
+  ignoreMissingNodeBuiltins?: boolean;
+}
 
 /**
  * Construct a warning handler for the shared rollup configuration
  * that ignores certain warnings that are not relevant to testing.
  */
-export function makeOnWarnForTesting(): (
-  warning: RollupWarning,
-  warn: WarningHandlerWithDefault
-) => void {
+export function makeOnWarnForTesting(opts: MakeOnWarnForTestingOptions = {}): (warning: RollupWarning, warn: WarningHandlerWithDefault) => void {
+  const warningInhibitors = createWarningInhibitors(opts);
   return (warning, warn) => {
     if (!warningInhibitors.some((inhibited) => inhibited(warning))) {
       debug("Warning:", warning.code, warning.id, warning.loc);

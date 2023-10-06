@@ -39,6 +39,16 @@ export const commandInfo = makeCommandInfo(
       default: true,
       description: "include a polyfill for Node.js builtin modules",
     },
+    "inject-node-polyfills": {
+      kind: "boolean",
+      default: false,
+      description: "inject imports for Node.js builtin polyfill modules",
+    },
+    "ignore-missing-node-builtins": {
+      kind: "boolean",
+      default: false,
+      description: "ignore missing Node.js builtin modules",
+    },
   }
 );
 
@@ -116,18 +126,25 @@ export default leafCommand(commandInfo, async (options) => {
         cjs({
           dynamicRequireTargets: [globFromStore("chai")],
         }),
-        inject({
-          modules: {
-            Buffer: ["buffer", "Buffer"],
-            Stream: ["stream", "Stream"],
-            process: "process",
-          },
-        }),
+
+        ...(options["inject-node-polyfills"]
+          ? [
+              inject({
+                modules: {
+                  Buffer: ["buffer", "Buffer"],
+                  Stream: ["stream", "Stream"],
+                  process: "process",
+                },
+              }),
+            ]
+          : []),
         ...(options["polyfill-node"] ? [nodePolyfills({ sourceMap: true })] : []),
         json(),
         sourcemaps(),
       ],
-      onwarn: makeOnWarnForTesting(),
+      onwarn: makeOnWarnForTesting({
+        ignoreMissingNodeBuiltins: options["ignore-missing-node-builtins"],
+      }),
       // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0,
       // rollup started respecting the "sideEffects" field in package.json.  Since
       // our package.json sets "sideEffects=false", this also applies to test
