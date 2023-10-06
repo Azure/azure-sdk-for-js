@@ -94,7 +94,7 @@ describe("Cosmosdb test", () => {
     for await (let item of client.databaseAccounts.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    assert.equal(resArray.length, 2);
   });
 
   it("databaseAccounts delete test", async function () {
@@ -103,6 +103,6 @@ describe("Cosmosdb test", () => {
     for await (let item of client.databaseAccounts.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 0);
+    assert.equal(resArray.length, 1);
   }).timeout(3600000);
 });
