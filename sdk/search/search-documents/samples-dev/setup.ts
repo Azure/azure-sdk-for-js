@@ -54,14 +54,14 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         name: "descriptionVectorEn",
         searchable: true,
         vectorSearchDimensions: 1536,
-        vectorSearchConfiguration: "vector-search-configuration",
+        vectorSearchProfile: "vector-search-profile",
       },
       {
         type: "Collection(Edm.Single)",
         name: "descriptionVectorFr",
         searchable: true,
         vectorSearchDimensions: 1536,
-        vectorSearchConfiguration: "vector-search-configuration",
+        vectorSearchProfile: "vector-search-profile",
       },
       {
         type: "Edm.String",
@@ -248,7 +248,8 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
       allowedOrigins: ["*"],
     },
     vectorSearch: {
-      algorithmConfigurations: [{ name: "vector-search-configuration", kind: "hnsw" }],
+      algorithms: [{ name: "vector-search-algorithm", kind: "hnsw" }],
+      profiles: [{ name: "vector-search-profile", algorithm: "vector-search-algorithm" }],
     },
   };
   await client.createIndex(hotelIndex);

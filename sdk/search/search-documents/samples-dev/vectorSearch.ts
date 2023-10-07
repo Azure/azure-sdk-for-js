@@ -81,18 +81,20 @@ async function main() {
     await delay(WAIT_TIME);
 
     const searchResults = await searchClient.search("*", {
-      vectors: [
+      vectorQueries: [
         {
+          kind: "vector",
           fields: ["descriptionVectorEn"],
           kNearestNeighborsCount: 3,
           // An embedding of the query "What are the most luxurious hotels?"
-          value: luxuryQueryVector,
+          vector: luxuryQueryVector,
         },
         // Multi-vector search is supported
         {
+          kind: "vector",
           fields: ["descriptionVectorFr"],
           kNearestNeighborsCount: 3,
-          value: luxuryQueryVector,
+          vector: luxuryQueryVector,
         },
       ],
     });

@@ -55,11 +55,17 @@ import {
   TextTranslationSkill,
   TokenFilterUnion,
   SearchIndexerCache as GeneratedSearchIndexerCache,
+  VectorSearch as GeneratedVectorSearch,
+  CustomVectorizer as GeneratedCustomVectorizer,
+  AzureOpenAIVectorizer as GeneratedAzureOpenAIVectorizer,
+  VectorSearchVectorizerUnion as GeneratedVectorSearchVectorizer,
 } from "./generated/service/models";
 import {
+  AzureOpenAIVectorizer,
   CharFilter,
   CognitiveServicesAccount,
   ComplexField,
+  CustomVectorizer,
   DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy,
   LexicalAnalyzer,
@@ -82,25 +88,28 @@ import {
   SimpleField,
   SynonymMap,
   TokenFilter,
+  VectorSearch,
+  VectorSearchVectorizer,
   WebApiSkill,
   isComplexField,
 } from "./serviceModels";
 import {
+  QueryDebugMode,
   SearchFieldArray,
   SearchRequest,
   SearchResult,
   SelectFields,
+  SemanticErrorHandlingMode,
   SuggestDocumentsResult,
   SuggestResult,
-  Vector,
+  VectorFilterMode,
+  VectorQuery,
 } from "./indexModels";
 import {
   SearchResult as GeneratedSearchResult,
   SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
   SearchRequest as GeneratedSearchRequest,
-  KnownSemanticErrorHandling,
-  KnownQueryDebugMode,
-  Vector as BaseVector,
+  VectorQueryUnion as GeneratedVectorQuery,
 } from "./generated/data/models";
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
@@ -477,7 +486,57 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     fields: convertFieldsToPublic(generatedIndex.fields),
     similarity: convertSimilarityToPublic(generatedIndex.similarity),
     semanticSettings: generatedIndex.semanticSettings,
-    vectorSearch: generatedIndex.vectorSearch,
+    vectorSearch: generatedVectorSearchToPublicVectorSearch(generatedIndex.vectorSearch),
+  };
+}
+export function generatedVectorSearchVectorizerToPublicVectorizer(): undefined;
+export function generatedVectorSearchVectorizerToPublicVectorizer(
+  generatedVectorizer: GeneratedVectorSearchVectorizer
+): VectorSearchVectorizer;
+export function generatedVectorSearchVectorizerToPublicVectorizer(
+  generatedVectorizer?: GeneratedVectorSearchVectorizer
+): VectorSearchVectorizer | undefined {
+  if (!generatedVectorizer) {
+    return generatedVectorizer;
+  }
+
+  if (generatedVectorizer.kind === "azureOpenAI") {
+    const { azureOpenAIParameters } = generatedVectorizer as GeneratedAzureOpenAIVectorizer;
+    const authIdentity = convertSearchIndexerDataIdentityToPublic(
+      azureOpenAIParameters?.authIdentity
+    );
+    const vectorizer: AzureOpenAIVectorizer = {
+      ...(generatedVectorizer as GeneratedAzureOpenAIVectorizer),
+      azureOpenAIParameters: { ...azureOpenAIParameters, authIdentity },
+    };
+    return vectorizer;
+  }
+
+  if (generatedVectorizer.kind === "customWebApi") {
+    const { customVectorizerParameters } = generatedVectorizer as GeneratedCustomVectorizer;
+    const authIdentity = convertSearchIndexerDataIdentityToPublic(
+      customVectorizerParameters?.authIdentity
+    );
+    const vectorizer: CustomVectorizer = {
+      ...(generatedVectorizer as GeneratedCustomVectorizer),
+      customVectorizerParameters: { ...customVectorizerParameters, authIdentity },
+    };
+    return vectorizer;
+  }
+
+  throw Error("Unsupported vectorizer");
+}
+
+export function generatedVectorSearchToPublicVectorSearch(
+  vectorSearch?: GeneratedVectorSearch
+): VectorSearch | undefined {
+  if (!vectorSearch) {
+    return vectorSearch;
+  }
+
+  return {
+    ...vectorSearch,
+    vectorizers: vectorSearch.vectorizers?.map(generatedVectorSearchVectorizerToPublicVectorizer),
   };
 }
 
@@ -630,13 +689,14 @@ export function generatedSearchIndexerToPublicSearchIndexer(
 export function generatedSearchRequestToPublicSearchRequest<Model extends object>(
   request: GeneratedSearchRequest
 ): SearchRequest<Model> {
-  const { semanticErrorHandling, debug, vectors, ...props } = request;
+  const { semanticErrorHandling, debug, vectorQueries, vectorFilterMode, ...props } = request;
   const publicRequest: SearchRequest<Model> = {
-    semanticErrorHandlingMode: semanticErrorHandling as `${KnownSemanticErrorHandling}` | undefined,
-    debugMode: debug as `${KnownQueryDebugMode}` | undefined,
-    vectors: vectors
-      ?.map(convertVectorToPublic<Model>)
-      .filter((v): v is Vector<Model> => v !== undefined),
+    semanticErrorHandlingMode: semanticErrorHandling as SemanticErrorHandlingMode | undefined,
+    debugMode: debug as QueryDebugMode | undefined,
+    vectorFilterMode: vectorFilterMode as VectorFilterMode | undefined,
+    vectorQueries: vectorQueries
+      ?.map(convertVectorQueryToPublic<Model>)
+      .filter((v): v is VectorQuery<Model> => v !== undefined),
     ...props,
   };
 
@@ -724,9 +784,9 @@ export function convertDataDeletionDetectionPolicyToPublic(
   return dataDeletionDetectionPolicy as SoftDeleteColumnDeletionDetectionPolicy;
 }
 
-function convertVectorToPublic<Model extends object>(
-  vector: BaseVector | undefined
-): Vector<Model> | undefined {
+function convertVectorQueryToPublic<Model extends object>(
+  vector: GeneratedVectorQuery | undefined
+): VectorQuery<Model> | undefined {
   if (!vector) {
     return vector;
   }
@@ -758,9 +818,9 @@ export function delay(timeInMs: number): Promise<void> {
   return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
 }
 
-export const serviceVersions = ["2020-06-30", "2023-07-01-Preview"];
+export const serviceVersions = ["2020-06-30", "2023-10-01-Preview"];
 
-export const defaultServiceVersion = "2023-07-01-Preview";
+export const defaultServiceVersion = "2023-10-01-Preview";
 
 function convertKnowledgeStoreToPublic(
   knowledgeStore: BaseSearchIndexerKnowledgeStore | undefined

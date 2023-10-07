@@ -1,10 +1,20 @@
 # Release History
 
-## 12.0.0-beta.4 (Unreleased)
+## 12.0.0-beta.4 (2023-10-11)
 
 ### Features Added
 
+- Added support for text query vectorizers
+- Added exhaustive k-nearest neighbors search algorithm for vector search
+- Added `SearchOptions.semanticQuery`, which allows for using an independent text query for semantic search features
+- Added support for `AzureOpenAIEmbeddingSkill`, which generates text embeddings through the Azure OpenAI service.
+- Added `SearchIndexerSkillset.IndexProjections`, which specifies additional projections to secondary search indexes.
+
 ### Breaking Changes
+
+- `SearchOptions.vector` has been abstracted into `SearchOptions.vectorQueries`
+- `SearchField.vectorSearchConfiguration` has been abstracted into `SearchField.vectorSearchProfile`
+- `VectorSearch.algorithmConfiguration` has been renamed to `VectorSearch.algorithms`
 
 ### Bugs Fixed
 
@@ -18,8 +28,8 @@
 
 ### Breaking Changes
 
-- Change vector option `SearchOptions.vector` to array of vectors option 
-`SearchOptions.vectors`. [#26765](https://github.com/Azure/azure-sdk-for-js/pull/26765)
+- Change vector option `SearchOptions.vector` to array of vectors option
+  `SearchOptions.vectors`. [#26765](https://github.com/Azure/azure-sdk-for-js/pull/26765)
 
 ## 12.0.0-beta.2 (2023-07-11)
 

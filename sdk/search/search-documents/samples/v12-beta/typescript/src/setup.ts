@@ -53,14 +53,14 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         name: "descriptionVectorEn",
         searchable: true,
         vectorSearchDimensions: 1536,
-        vectorSearchConfiguration: "vector-search-configuration",
+        vectorSearchProfile: "vector-search-profile",
       },
       {
         type: "Collection(Edm.Single)",
         name: "descriptionVectorFr",
         searchable: true,
         vectorSearchDimensions: 1536,
-        vectorSearchConfiguration: "vector-search-configuration",
+        vectorSearchProfile: "vector-search-profile",
       },
       {
         type: "Edm.String",
