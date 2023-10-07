@@ -4214,7 +4214,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231005
+      typescript: 5.3.0-dev.20231007
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -8963,8 +8963,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231005:
-    resolution: {integrity: sha512-Twm3wBauTO94CSWbjXFMpsHsbaOUVssreq6pUo4wr8YsaIp0jim8EeCa9LfawFetQ+P4PODMmiM+uBhhWRVX0Q==}
+  /typescript@5.3.0-dev.20231007:
+    resolution: {integrity: sha512-yNeHmU15JtC5TgUuiCaywQqtVJ6Q1T6mNwDg5N1ObnctoaqBrZ0FGy37NP0Y/UnJUhZxgcYrIb1gcial4fUiyA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11616,10 +11616,11 @@ packages:
     dev: false
 
   file:projects/arm-containerservicefleet.tgz:
-    resolution: {integrity: sha512-3v5OZldZW+7g9AtulNlemyrn24OP873fLmRUJFYpxOsY4l4Ep8QL3UQXg5MQ1VbP+uRXvKjCHX1R4c4F7SAr0w==, tarball: file:projects/arm-containerservicefleet.tgz}
+    resolution: {integrity: sha512-y64Bmx3z0z7jugNmfRqSPSG8gY/MdxfFQUzMsrCAqWyaUNBT4mfJbx5qu0QKcVBKPfvydmuncji6P0dUktI+LA==, tarball: file:projects/arm-containerservicefleet.tgz}
     name: '@rush-temp/arm-containerservicefleet'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
@@ -11631,8 +11632,8 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
-      mocha: 10.2.0
-      rimraf: 3.0.2
+      mocha: 7.2.0
+      rimraf: 5.0.5
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.63)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.63)(typescript@5.0.4)
@@ -11642,6 +11643,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-cosmosdb.tgz:

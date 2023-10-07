@@ -13,29 +13,29 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Stops an UpdateRun.
+ * This sample demonstrates how to Get a FleetUpdateStrategy
  *
- * @summary Stops an UpdateRun.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-08-15-preview/examples/UpdateRuns_Stop.json
+ * @summary Get a FleetUpdateStrategy
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-08-15-preview/examples/UpdateStrategies_Get.json
  */
-async function stopsAnUpdateRun() {
+async function getAFleetUpdateStrategyResource() {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const fleetName = "fleet1";
-  const updateRunName = "run1";
+  const updateStrategyName = "strategy1";
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  const result = await client.updateRuns.beginStopAndWait(
+  const result = await client.fleetUpdateStrategies.get(
     resourceGroupName,
     fleetName,
-    updateRunName
+    updateStrategyName
   );
   console.log(result);
 }
 
 async function main() {
-  stopsAnUpdateRun();
+  getAFleetUpdateStrategyResource();
 }
 
 main().catch(console.error);

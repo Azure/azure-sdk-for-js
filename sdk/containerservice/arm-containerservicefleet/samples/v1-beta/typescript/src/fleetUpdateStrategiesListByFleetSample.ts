@@ -15,12 +15,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to List UpdateRun resources by Fleet
+ * This sample demonstrates how to List FleetUpdateStrategy resources by Fleet
  *
- * @summary List UpdateRun resources by Fleet
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-08-15-preview/examples/UpdateRuns_ListByFleet.json
+ * @summary List FleetUpdateStrategy resources by Fleet
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-08-15-preview/examples/UpdateStrategies_ListByFleet.json
  */
-async function listsTheUpdateRunResourcesByFleet() {
+async function listTheFleetUpdateStrategyResourcesByFleet() {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -30,7 +30,7 @@ async function listsTheUpdateRunResourcesByFleet() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.updateRuns.listByFleet(
+  for await (let item of client.fleetUpdateStrategies.listByFleet(
     resourceGroupName,
     fleetName
   )) {
@@ -40,7 +40,7 @@ async function listsTheUpdateRunResourcesByFleet() {
 }
 
 async function main() {
-  listsTheUpdateRunResourcesByFleet();
+  listTheFleetUpdateStrategyResourcesByFleet();
 }
 
 main().catch(console.error);
