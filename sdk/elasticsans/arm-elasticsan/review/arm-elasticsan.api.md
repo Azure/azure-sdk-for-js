@@ -11,6 +11,9 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export type Action = string;
+
+// @public
 export type ActionType = string;
 
 // @public
@@ -23,6 +26,7 @@ export interface ElasticSan extends TrackedResource {
     extendedCapacitySizeTiB: number;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningStates;
+    publicNetworkAccess?: PublicNetworkAccess;
     sku: Sku;
     readonly totalIops?: number;
     readonly totalMBps?: number;
@@ -60,6 +64,8 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
     volumeGroups: VolumeGroups;
     // (undocumented)
     volumes: Volumes;
+    // (undocumented)
+    volumeSnapshots: VolumeSnapshots;
 }
 
 // @public
@@ -157,9 +163,21 @@ export type ElasticSansUpdateResponse = ElasticSan;
 export interface ElasticSanUpdate {
     baseSizeTiB?: number;
     extendedCapacitySizeTiB?: number;
+    publicNetworkAccess?: PublicNetworkAccess;
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface EncryptionIdentity {
+    encryptionUserAssignedIdentity?: string;
+}
+
+// @public
+export interface EncryptionProperties {
+    encryptionIdentity?: EncryptionIdentity;
+    keyVaultProperties?: KeyVaultProperties;
 }
 
 // @public
@@ -189,12 +207,40 @@ export interface ErrorResponse {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export interface Identity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: IdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
+export type IdentityType = string;
+
+// @public
 export interface IscsiTargetInfo {
     readonly provisioningState?: ProvisioningStates;
     status?: OperationalStatus;
     readonly targetIqn?: string;
     readonly targetPortalHostname?: string;
     readonly targetPortalPort?: number;
+}
+
+// @public
+export interface KeyVaultProperties {
+    readonly currentVersionedKeyExpirationTimestamp?: Date;
+    readonly currentVersionedKeyIdentifier?: string;
+    keyName?: string;
+    keyVaultUri?: string;
+    keyVersion?: string;
+    readonly lastKeyRotationTimestamp?: Date;
+}
+
+// @public
+export enum KnownAction {
+    Allow = "Allow"
 }
 
 // @public
@@ -212,7 +258,15 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownEncryptionType {
+    EncryptionAtRestWithCustomerManagedKey = "EncryptionAtRestWithCustomerManagedKey",
     EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey"
+}
+
+// @public
+export enum KnownIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -255,6 +309,12 @@ export enum KnownProvisioningStates {
 }
 
 // @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownSkuName {
     PremiumLRS = "Premium_LRS",
     PremiumZRS = "Premium_ZRS"
@@ -269,6 +329,32 @@ export enum KnownSkuTier {
 export enum KnownStorageTargetType {
     Iscsi = "Iscsi",
     None = "None"
+}
+
+// @public
+export enum KnownVolumeCreateOption {
+    Disk = "Disk",
+    DiskRestorePoint = "DiskRestorePoint",
+    DiskSnapshot = "DiskSnapshot",
+    None = "None",
+    VolumeSnapshot = "VolumeSnapshot"
+}
+
+// @public
+export enum KnownXMsDeleteSnapshots {
+    False = "false",
+    True = "true"
+}
+
+// @public
+export enum KnownXMsForceDelete {
+    False = "false",
+    True = "true"
+}
+
+// @public
+export interface ManagedByInfo {
+    resourceId?: string;
 }
 
 // @public
@@ -424,6 +510,9 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export type PublicNetworkAccess = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -485,13 +574,29 @@ export type SkusListResponse = SkuInformationList;
 export type SkuTier = string;
 
 // @public
-export interface SourceCreationData {
-    createSource?: "None";
-    sourceUri?: string;
+export interface Snapshot extends ProxyResource {
+    creationData: SnapshotCreationData;
+    readonly provisioningState?: ProvisioningStates;
+    readonly sourceVolumeSizeGiB?: number;
+    readonly volumeName?: string;
 }
 
 // @public
-export type State = "provisioning" | "deprovisioning" | "succeeded" | "failed" | "networkSourceDeleted";
+export interface SnapshotCreationData {
+    sourceId: string;
+}
+
+// @public
+export interface SnapshotList {
+    readonly nextLink?: string;
+    value?: Snapshot[];
+}
+
+// @public
+export interface SourceCreationData {
+    createSource?: VolumeCreateOption;
+    sourceId?: string;
+}
 
 // @public
 export type StorageTargetType = string;
@@ -515,23 +620,35 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
 export interface VirtualNetworkRule {
-    action?: "Allow";
-    readonly state?: State;
+    action?: Action;
     virtualNetworkResourceId: string;
 }
 
 // @public
 export interface Volume extends ProxyResource {
     creationData?: SourceCreationData;
+    managedBy?: ManagedByInfo;
+    readonly provisioningState?: ProvisioningStates;
     sizeGiB: number;
     readonly storageTarget?: IscsiTargetInfo;
     readonly volumeId?: string;
 }
 
 // @public
+export type VolumeCreateOption = string;
+
+// @public
 export interface VolumeGroup extends ProxyResource {
     encryption?: EncryptionType;
+    encryptionProperties?: EncryptionProperties;
+    identity?: Identity;
     networkAcls?: NetworkRuleSet;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     protocolType?: StorageTargetType;
@@ -616,6 +733,8 @@ export type VolumeGroupsUpdateResponse = VolumeGroup;
 // @public
 export interface VolumeGroupUpdate {
     encryption?: EncryptionType;
+    encryptionProperties?: EncryptionProperties;
+    identity?: Identity;
     networkAcls?: NetworkRuleSet;
     protocolType?: StorageTargetType;
 }
@@ -657,6 +776,8 @@ export interface VolumesDeleteHeaders {
 export interface VolumesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+    xMsDeleteSnapshots?: XMsDeleteSnapshots;
+    xMsForceDelete?: XMsForceDelete;
 }
 
 // @public
@@ -681,6 +802,59 @@ export interface VolumesListByVolumeGroupOptionalParams extends coreClient.Opera
 export type VolumesListByVolumeGroupResponse = VolumeList;
 
 // @public
+export interface VolumeSnapshots {
+    beginCreate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, parameters: Snapshot, options?: VolumeSnapshotsCreateOptionalParams): Promise<SimplePollerLike<OperationState<VolumeSnapshotsCreateResponse>, VolumeSnapshotsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, parameters: Snapshot, options?: VolumeSnapshotsCreateOptionalParams): Promise<VolumeSnapshotsCreateResponse>;
+    beginDelete(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, options?: VolumeSnapshotsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, options?: VolumeSnapshotsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, options?: VolumeSnapshotsGetOptionalParams): Promise<VolumeSnapshotsGetResponse>;
+    listByVolumeGroup(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeSnapshotsListByVolumeGroupOptionalParams): PagedAsyncIterableIterator<Snapshot>;
+}
+
+// @public
+export interface VolumeSnapshotsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VolumeSnapshotsCreateResponse = Snapshot;
+
+// @public
+export interface VolumeSnapshotsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VolumeSnapshotsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumeSnapshotsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VolumeSnapshotsGetResponse = Snapshot;
+
+// @public
+export interface VolumeSnapshotsListByVolumeGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VolumeSnapshotsListByVolumeGroupNextResponse = SnapshotList;
+
+// @public
+export interface VolumeSnapshotsListByVolumeGroupOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type VolumeSnapshotsListByVolumeGroupResponse = SnapshotList;
+
+// @public
 export interface VolumesUpdateHeaders {
     // (undocumented)
     location?: string;
@@ -697,8 +871,15 @@ export type VolumesUpdateResponse = Volume;
 
 // @public
 export interface VolumeUpdate {
+    managedBy?: ManagedByInfo;
     sizeGiB?: number;
 }
+
+// @public
+export type XMsDeleteSnapshots = string;
+
+// @public
+export type XMsForceDelete = string;
 
 // (No @packageDocumentation comment for this package)
 
