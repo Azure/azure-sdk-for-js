@@ -183,6 +183,7 @@
         "Adls",
         "adlsgen",
         "bangla",
+        "beider",
         "Bokmaal",
         "Decompounder",
         "haase",
@@ -198,7 +199,7 @@
         "Rslp",
         "sorani",
         "Sorani",
-        "beider"
+        "vectorizer"
       ]
     },
     {
