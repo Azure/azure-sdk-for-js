@@ -8,7 +8,6 @@ import nodeBuiltins from "builtin-modules";
 
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
-import sourcemaps from "rollup-plugin-sourcemaps";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 import json from "@rollup/plugin-json";
 import multiEntry from "@rollup/plugin-multi-entry";
@@ -16,7 +15,7 @@ import multiEntry from "@rollup/plugin-multi-entry";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject, resolveRoot } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
-import { makeOnWarnForTesting, sourcemapsExtra } from "../../config/rollup.base.config";
+import { makeOnWarnForTesting, sourcemaps } from "../../config/rollup.base.config";
 
 const log = createPrinter("bundle");
 
@@ -104,23 +103,21 @@ export default leafCommand(commandInfo, async (options) => {
       [pnpmStore, name.split("/").join("+"), "@*", "**/*.js"].join("/");
 
     const browserTestConfig = {
-      input: {
-        include: [[basePath, "test", "**", "*.spec.js"].join("/")],
-        exclude: [[basePath, "test", "**", "node", "**"].join("/")],
-      },
+      input: path.join(basePath, "test", "**", "*.spec.js"),
       preserveSymlinks: false,
       plugins: [
-        multiEntry({ exports: false }),
+        multiEntry({ exports: false, exclude: ["**/test/**/node/**/*.js"] }),
         nodeResolve({
           mainFields: ["module", "browser"],
           preferBuiltins: false,
+          browser: true,
         }),
         ...(options["polyfill-node"] ? [nodePolyfills({ sourceMap: true })] : []),
         cjs({
           dynamicRequireTargets: [globFromStore("chai")],
         }),
         json(),
-        sourcemapsExtra(),
+        sourcemaps(),
       ],
       onwarn: makeOnWarnForTesting(),
       // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0,
