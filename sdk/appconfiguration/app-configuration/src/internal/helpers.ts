@@ -11,7 +11,7 @@ import {
   ListRevisionsOptions,
   ListSettingsOptions,
   ListSnapshotsOptions,
-  Snapshot,
+  ConfigurationSnapshot,
   SnapshotResponse,
 } from "../models";
 import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
@@ -336,7 +336,9 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
 /**
  * @internal
  */
-export function transformSnapshotResponse<T extends Snapshot>(snapshot: T): SnapshotResponse {
+export function transformSnapshotResponse<T extends ConfigurationSnapshot>(
+  snapshot: T
+): SnapshotResponse {
   if (hasUnderscoreResponse(snapshot)) {
     Object.defineProperty(snapshot, "_response", {
       enumerable: false,
