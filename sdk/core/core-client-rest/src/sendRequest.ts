@@ -115,14 +115,20 @@ function buildPipelineRequest(
   url: string,
   options: InternalRequestParameters = {}
 ): PipelineRequest {
-  const { body, formData } = getRequestBody(options.body, options.contentType);
+  const { body, formData } = getRequestBody(
+    options.body,
+    options.contentType ?? (options.headers?.["content-type"] as string)
+  );
   const hasContent = body !== undefined || formData !== undefined;
 
   const headers = createHttpHeaders({
     ...(options.headers ? options.headers : {}),
     accept: options.accept ?? "application/json",
     ...(hasContent && {
-      "content-type": options.contentType ?? getContentType(options.body),
+      "content-type":
+        options.contentType ??
+        (options.headers?.["content-type"] as string) ??
+        getContentType(options.body),
     }),
   });
 
@@ -163,7 +169,12 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   }
 
   if (!contentType && typeof body === "string") {
-    return { body };
+    try {
+      JSON.parse(body);
+      return { body };
+    } catch (error) {
+      return { body: JSON.stringify(body) };
+    }
   }
 
   const firstType = contentType.split(";")[0];
