@@ -4,17 +4,17 @@
 
 ### Features Added
 
-- Added support for text query vectorizers
-- Added exhaustive k-nearest neighbors search algorithm for vector search
-- Added `SearchOptions.semanticQuery`, which allows for using an independent text query for semantic search features
-- Added support for `AzureOpenAIEmbeddingSkill`, which generates text embeddings through the Azure OpenAI service.
-- Added `SearchIndexerSkillset.IndexProjections`, which specifies additional projections to secondary search indexes.
+- Added support for text based vector queries backed by a vectorizer [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
+- Added exhaustive k-nearest neighbors search algorithm for vector search [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
+- Added `SearchOptions.semanticQuery`, which allows for using an independent text query for semantic search features [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
+- Added support for `AzureOpenAIEmbeddingSkill`, which generates text embeddings through the Azure OpenAI service. [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
+- Added `SearchIndexerSkillset.IndexProjections`, which specifies additional projections to secondary search indexes. [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
 
 ### Breaking Changes
 
-- `SearchOptions.vector` has been abstracted into `SearchOptions.vectorQueries`
-- `SearchField.vectorSearchConfiguration` has been abstracted into `SearchField.vectorSearchProfile`
-- `VectorSearch.algorithmConfiguration` has been renamed to `VectorSearch.algorithms`
+- `SearchOptions.vector` has been abstracted into `SearchOptions.vectorQueries` [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
+- `SearchField.vectorSearchConfiguration` has been abstracted into `SearchField.vectorSearchProfile` [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
+- `VectorSearch.algorithmConfiguration` has been renamed to `VectorSearch.algorithms` [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
 
 ### Bugs Fixed
 
