@@ -142,12 +142,86 @@ describe("RoomsClient", function () {
       }
     });
 
+    it("successfully creates a room with only PSTN Dial-Out attribute", async function () {
+      testUser1 = (await createTestUser(recorder)).user;
+      testUser2 = (await createTestUser(recorder)).user;
+
+      const options: CreateRoomOptions = {
+        pstnDialOutEnabled: true,
+      };
+
+      // Create rooms with pstnDialOutEnabled: true
+      let createRoomResult = await client.createRoom(options);
+      verifyRoomsAttributes(createRoomResult, options);
+
+      // Create rooms with pstnDialOutEnabled: false
+      options.pstnDialOutEnabled = false;
+      createRoomResult = await client.createRoom(options);
+      verifyRoomsAttributes(createRoomResult, options);
+
+      roomId = createRoomResult.id;
+      const addParticipantsResult = await client.listParticipants(roomId);
+      verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0);
+    });
+
+    it("successfully creates a room with PSTN Dial-Out and valid time range attributes", async function () {
+      testUser1 = (await createTestUser(recorder)).user;
+
+      const options: CreateRoomOptions = {
+        validFrom: new Date(recorder.variable("validFrom", validFrom.toString())),
+        validUntil: new Date(recorder.variable("validUntil", validUntil.toString())),
+        pstnDialOutEnabled: true,
+      };
+
+      // Create rooms with pstnDialOutEnabled: true
+      let createRoomResult = await client.createRoom(options);
+      verifyRoomsAttributes(createRoomResult, options);
+
+      // Create rooms with pstnDialOutEnabled: false
+      options.pstnDialOutEnabled = false;
+      createRoomResult = await client.createRoom(options);
+      verifyRoomsAttributes(createRoomResult, options);
+
+      roomId = createRoomResult.id;
+      const addParticipantsResult = await client.listParticipants(roomId);
+      verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0);
+    });
+
+    it("successfully creates a room with PSTN Dial-Out and Valid Particpants attributes", async function () {
+      testUser1 = (await createTestUser(recorder)).user;
+      testUser2 = (await createTestUser(recorder)).user;
+
+      const options: CreateRoomOptions = {
+        pstnDialOutEnabled: true,
+        participants: [
+          {
+            id: testUser1,
+            role: "Presenter",
+          },
+        ],
+      };
+
+      // Create rooms with pstnDialOutEnabled: true
+      let createRoomResult = await client.createRoom(options);
+      verifyRoomsAttributes(createRoomResult, options);
+
+      // Create rooms with pstnDialOutEnabled: false
+      options.pstnDialOutEnabled = false;
+      createRoomResult = await client.createRoom(options);
+      verifyRoomsAttributes(createRoomResult, options);
+
+      roomId = createRoomResult.id;
+      const addParticipantsResult = await client.listParticipants(roomId);
+      verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
+    });
+
     it("successfully creates a room with all optional attributes", async function () {
       testUser1 = (await createTestUser(recorder)).user;
 
       const options: CreateRoomOptions = {
         validFrom: new Date(recorder.variable("validFrom", validFrom.toString())),
         validUntil: new Date(recorder.variable("validUntil", validUntil.toString())),
+        pstnDialOutEnabled: false,
         participants: [
           {
             id: testUser1,
@@ -223,7 +297,7 @@ describe("RoomsClient", function () {
       };
 
       try {
-        await client.createRoom(options);
+        await client.updateRoom(roomId, options);
       } catch (e: any) {
         expect(e.message).to.eq(
           "The request could not be understood by the server due to malformed syntax."
@@ -253,7 +327,7 @@ describe("RoomsClient", function () {
       };
 
       try {
-        await client.createRoom(options);
+        await client.updateRoom(roomId, options);
       } catch (e: any) {
         expect(e.message).to.eq(
           "The request could not be understood by the server due to malformed syntax."
@@ -278,7 +352,7 @@ describe("RoomsClient", function () {
       const options: UpdateRoomOptions = {};
 
       try {
-        await client.createRoom(options);
+        await client.updateRoom(roomId, options);
       } catch (e: any) {
         expect(e.message).to.eq(
           "The request could not be understood by the server due to malformed syntax."
@@ -313,12 +387,66 @@ describe("RoomsClient", function () {
       }
     });
 
+    it("successfully update room with PSTN Dial-Out", async function () {
+      const createRoom = await client.createRoom({});
+      roomId = createRoom.id;
+      testUser1 = (await createTestUser(recorder)).user;
+
+      const updateOptions: UpdateRoomOptions = {
+        pstnDialOutEnabled: true,
+      };
+
+      let updateRoomResult = await client.updateRoom(roomId, updateOptions);
+      verifyRoomsAttributes(updateRoomResult, updateOptions);
+
+      updateOptions.pstnDialOutEnabled = false;
+      updateRoomResult = await client.updateRoom(roomId, updateOptions);
+      verifyRoomsAttributes(updateRoomResult, updateOptions);
+    });
+
+    it("successfully update room with PSTN Dial-Out and valid time range", async function () {
+      const createRoom = await client.createRoom({});
+      roomId = createRoom.id;
+      testUser1 = (await createTestUser(recorder)).user;
+
+      const updateOptions: UpdateRoomOptions = {
+        validFrom: new Date(
+          recorder.variable(
+            "validFromUpdated",
+            new Date(validFrom.getTime() + 5 * 60 * 1000).toString()
+          )
+        ),
+        validUntil: new Date(
+          recorder.variable(
+            "validUntilUpdated",
+            new Date(validUntil.getTime() + 5 * 60 * 1000).toString()
+          )
+        ),
+        pstnDialOutEnabled: true,
+      };
+
+      let updateRoomResult = await client.updateRoom(roomId, updateOptions);
+      verifyRoomsAttributes(updateRoomResult, updateOptions);
+
+      updateOptions.pstnDialOutEnabled = false;
+      updateRoomResult = await client.updateRoom(roomId, updateOptions);
+      verifyRoomsAttributes(updateRoomResult, updateOptions);
+    });
+
     it("successfully list rooms", async function () {
       const roomsPages = client.listRooms().byPage();
       let counter: number = 1;
       // loop over each page
       for await (const page of roomsPages) {
-        assert.isNotEmpty(page);
+        if (page) {
+          for (const room of page) {
+            assert.isNotNull(room.id);
+            assert.isNotNull(room.createdOn);
+            assert.isNotNull(room.validFrom);
+            assert.isNotNull(room.validUntil);
+            assert.isNotNull(room.pstnDialOutEnabled);
+          }
+        }
 
         if (counter === 3) {
           break;
@@ -505,6 +633,10 @@ function verifyRoomsAttributes(
   assert.isDefined(actualRoom);
   assert.isDefined(actualRoom.id);
   assert.isDefined(actualRoom.createdOn);
+  assert.deepEqual(
+    actualRoom.pstnDialOutEnabled,
+    expectedValue.pstnDialOutEnabled != null ? expectedValue.pstnDialOutEnabled : false
+  );
 
   if (expectedValue.validFrom != null) {
     assert.deepEqual(actualRoom.validFrom, expectedValue.validFrom);

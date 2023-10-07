@@ -177,6 +177,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     parameterPath: {
       validFrom: ["options", "validFrom"],
       validUntil: ["options", "validUntil"],
+      pstnDialOutEnabled: ["options", "pstnDialOutEnabled"],
       participants: ["options", "participants"]
     },
     mapper: { ...Mappers.CreateRoomRequest, required: true }
@@ -241,7 +242,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
   requestBody: {
     parameterPath: {
       validFrom: ["options", "validFrom"],
-      validUntil: ["options", "validUntil"]
+      validUntil: ["options", "validUntil"],
+      pstnDialOutEnabled: ["options", "pstnDialOutEnabled"]
     },
     mapper: { ...Mappers.UpdateRoomRequest, required: true }
   },
