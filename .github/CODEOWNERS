@@ -436,6 +436,10 @@
 /sdk/edgegateway/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/elasticsans/arm-elasticsans/ @qiaozha @MaryGao
+/sdk/elasticsans/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/eventgrid/arm-eventgrid/ @qiaozha @MaryGao
 /sdk/eventgrid/ci.mgmt.yml @qiaozha @MaryGao
 
