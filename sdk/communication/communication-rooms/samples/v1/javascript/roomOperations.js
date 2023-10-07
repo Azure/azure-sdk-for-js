@@ -30,11 +30,13 @@ async function main() {
   var validFrom = new Date(Date.now());
   var validForDays = 10;
   var validUntil = addDays(validFrom, validForDays);
+  var pstnDialOutEnabled = true;
 
   // options payload to create a room
   const createRoomOptions = {
     validFrom: validFrom,
     validUntil: validUntil,
+    pstnDialOutEnabled: pstnDialOutEnabled,
     participants: [
       {
         id: user1.user,
@@ -62,6 +64,7 @@ async function main() {
   const updateRoomOptions = {
     validFrom,
     validUntil: addDays(validUntil, 10),
+    pstnDialOutEnabled: pstnDialOutEnabled,
   };
 
   // updates the specified room with the request payload
@@ -93,7 +96,8 @@ async function main() {
 function printRoom(room) {
   console.log(`Room ID: ${room.id}`);
   console.log(`Valid From: ${room.validFrom}`);
-  console.log(`Valid Until: ${room.validUntil}\n\n`);
+  console.log(`Valid Until: ${room.validUntil}`);
+  console.log(`PstnDialOutEnabled: ${room.pstnDialOutEnabled}\n\n`);
 }
 
 /**

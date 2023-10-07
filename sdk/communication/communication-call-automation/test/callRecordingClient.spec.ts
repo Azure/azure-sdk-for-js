@@ -186,7 +186,7 @@ describe("CallRecording Unit Tests", async function () {
   });
 });
 
-describe("CallRecording Live Tests", function () {
+describe.skip("SKIP test until Javascript is updated with TextProxy.CallRecording Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;

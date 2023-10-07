@@ -83,6 +83,8 @@ If `validFrom` is not provided, it is defaulted to the current datetime. If `val
 
 When defining `participants`, if `role` is not specified, then it will be `attendee` by default.
 
+Starting in 1.1.0-beta.1 release, `PstnDialOutEnabled` property is added to enable or disable PSTN Dial-Out feature in a room. The `PstnDialOutEnabled` is an optional property. If `PstnDialOutEnabled` is not provided, then the default for `PstnDialOutEnabled` is false.
+
 ```js
 // create users with CommunicationIdentityClient
 const identityClient = new CommunicationIdentityClient(connectionString);
@@ -95,11 +97,13 @@ const validFrom = new Date(Date.now());
 let validForDays = 10;
 let validUntil = new Date(validFrom.getTime());
 validUntil.setDate(validFrom.getDate() + validForDays);
+const pstnDialOutEnabled = true;
 
 // options payload to create a room
 const createRoomOptions: CreateRoomOptions = {
   validFrom,
   validUntil,
+  pstnDialOutEnabled,
   participants: [
     {
       id: user1.user,
@@ -118,12 +122,17 @@ const room = await roomsClient.createRoom(createRoomOptions);
 
 To update the `validFrom` and `validUntil` settings of a room use the `updateRoom` method.
 
+Starting in 1.1.0-beta.1 release, `PstnDialOutEnabled` property is added to enable or disable PSTN Dial-Out feature in a room.
+
 ```js
 validForDays = 60;
 validUntil.setDate(validFrom.getDate() + validForDays);
+pstnDialOutEnabled = false;
+
 const updateRoomOptions: UpdateRoomOptions = {
   validFrom,
   validUntil,
+  pstnDialOutEnabled,
 };
 
 // update the room using the room id from the creation operation
