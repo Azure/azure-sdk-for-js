@@ -11,6 +11,7 @@ import {
   SendEventOptions,
   SendToGroupMessage,
   SendToGroupOptions,
+  ServerDataMessage,
   WebPubSubClientOptions,
   WebPubSubResult,
   WebPubSubRetryOptions,
@@ -386,6 +387,30 @@ describe("WebPubSubClient", function () {
       await spinCheck(() => assert.equal("conn2", conn));
 
       mock.verify();
+    });
+  });
+
+  describe("WebPubSubClient handle messages", () => {
+    it("Handle a list of messages", async() => {
+      const client = new WebPubSubClient("wss://service.com");
+      const testWs = new TestWebSocketClient(client);
+      makeStartable(testWs);
+
+      const mock = sinon.mock(client["_protocol"]); 
+      mock.expects("parseMessages").returns([
+        {kind: "serverData", data: "a", dataType: "text" } as ServerDataMessage,
+        {kind: "serverData", data: "b", dataType: "text" } as ServerDataMessage,
+      ]);
+
+      const callback = sinon.spy();
+      client.on("server-message", callback);
+      await client.start();
+
+      // invoke any data as we mocked parseMessages
+      testWs.invokemessage("a");
+
+      assert.equal(2, callback.callCount);
+      client.stop();
     });
   });
 
