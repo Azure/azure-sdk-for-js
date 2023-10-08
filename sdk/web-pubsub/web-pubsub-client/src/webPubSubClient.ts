@@ -667,7 +667,7 @@ export class WebPubSubClient {
           this._safeEmitServerMessage(message);
         };
 
-        let message: WebPubSubMessage | null;
+        let messages: WebPubSubMessage[] | WebPubSubMessage | null;
         try {
           let convertedData: Buffer | ArrayBuffer | string;
           if (Array.isArray(data)) {
@@ -676,8 +676,8 @@ export class WebPubSubClient {
             convertedData = data;
           }
 
-          message = this._protocol.parseMessages(convertedData);
-          if (message === null) {
+          messages = this._protocol.parseMessages(convertedData);
+          if (messages === null) {
             // null means the message is not recognized.
             return;
           }
@@ -686,35 +686,41 @@ export class WebPubSubClient {
           throw err;
         }
 
-        try {
-          switch (message.kind) {
-            case "ack": {
-              handleAckMessage(message as AckMessage);
-              break;
-            }
-            case "connected": {
-              handleConnectedMessage(message as ConnectedMessage);
-              break;
-            }
-            case "disconnected": {
-              handleDisconnectedMessage(message as DisconnectedMessage);
-              break;
-            }
-            case "groupData": {
-              handleGroupDataMessage(message as GroupDataMessage);
-              break;
-            }
-            case "serverData": {
-              handleServerDataMessage(message as ServerDataMessage);
-              break;
-            }
-          }
-        } catch (err) {
-          logger.warning(
-            `An error occurred while handling the message with kind: ${message.kind} from service`,
-            err
-          );
+        if (!Array.isArray(messages)) {
+          messages = [messages];
         }
+
+        messages.forEach(message => {
+          try {
+            switch (message.kind) {
+              case "ack": {
+                handleAckMessage(message as AckMessage);
+                break;
+              }
+              case "connected": {
+                handleConnectedMessage(message as ConnectedMessage);
+                break;
+              }
+              case "disconnected": {
+                handleDisconnectedMessage(message as DisconnectedMessage);
+                break;
+              }
+              case "groupData": {
+                handleGroupDataMessage(message as GroupDataMessage);
+                break;
+              }
+              case "serverData": {
+                handleServerDataMessage(message as ServerDataMessage);
+                break;
+              }
+            }
+          } catch (err) {
+            logger.warning(
+              `An error occurred while handling the message with kind: ${message.kind} from service`,
+              err
+            );
+          }
+        });
       });
     });
   }
