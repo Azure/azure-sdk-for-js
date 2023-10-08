@@ -690,7 +690,7 @@ export class WebPubSubClient {
           messages = [messages];
         }
 
-        messages.forEach(message => {
+        messages.forEach((message) => {
           try {
             switch (message.kind) {
               case "ack": {

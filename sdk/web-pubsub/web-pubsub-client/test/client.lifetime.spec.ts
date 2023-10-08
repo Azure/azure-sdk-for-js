@@ -391,16 +391,18 @@ describe("WebPubSubClient", function () {
   });
 
   describe("WebPubSubClient handle messages", () => {
-    it("Handle a list of messages", async() => {
+    it("Handle a list of messages", async () => {
       const client = new WebPubSubClient("wss://service.com");
       const testWs = new TestWebSocketClient(client);
       makeStartable(testWs);
 
-      const mock = sinon.mock(client["_protocol"]); 
-      mock.expects("parseMessages").returns([
-        {kind: "serverData", data: "a", dataType: "text" } as ServerDataMessage,
-        {kind: "serverData", data: "b", dataType: "text" } as ServerDataMessage,
-      ]);
+      const mock = sinon.mock(client["_protocol"]);
+      mock
+        .expects("parseMessages")
+        .returns([
+          { kind: "serverData", data: "a", dataType: "text" } as ServerDataMessage,
+          { kind: "serverData", data: "b", dataType: "text" } as ServerDataMessage,
+        ]);
 
       const callback = sinon.spy();
       client.on("server-message", callback);
