@@ -15,26 +15,29 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets a list of AzureBareMetal management operations.
+ * This sample demonstrates how to The operation to shutdown an Azure Bare Metal Instance
  *
- * @summary Gets a list of AzureBareMetal management operations.
- * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalOperations_List.json
+ * @summary The operation to shutdown an Azure Bare Metal Instance
+ * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalInstances_Shutdown.json
  */
-async function listAllManagementOperationsSupportedByTheAzureBareMetalRp() {
+async function shutdownAnAzureBareMetalInstance() {
   const subscriptionId =
     process.env["BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["BAREMETALINFRASTRUCTURE_RESOURCE_GROUP"] || "myResourceGroup";
+  const azureBareMetalInstanceName = "myABMInstance";
   const credential = new DefaultAzureCredential();
   const client = new BareMetalInfrastructureClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.operations.list()) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.azureBareMetalInstances.beginShutdownAndWait(
+    resourceGroupName,
+    azureBareMetalInstanceName
+  );
+  console.log(result);
 }
 
 async function main() {
-  listAllManagementOperationsSupportedByTheAzureBareMetalRp();
+  shutdownAnAzureBareMetalInstance();
 }
 
 main().catch(console.error);

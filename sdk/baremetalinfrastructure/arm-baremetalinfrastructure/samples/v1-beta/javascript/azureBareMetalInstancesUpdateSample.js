@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  Tags,
-  BareMetalInfrastructureClient
-} from "@azure/arm-baremetalinfrastructure";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { BareMetalInfrastructureClient } = require("@azure/arm-baremetalinfrastructure");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Patches the Tags field of a Azure Bare Metal Instance for the specified subscription, resource group, and instance name.
@@ -30,7 +25,7 @@ async function deleteTagsFieldOfAnAzureBareMetalInstance() {
   const resourceGroupName =
     process.env["BAREMETALINFRASTRUCTURE_RESOURCE_GROUP"] || "myResourceGroup";
   const azureBareMetalInstanceName = "myABMInstance";
-  const tagsParameter: Tags = { tags: {} };
+  const tagsParameter = { tags: {} };
   const credential = new DefaultAzureCredential();
   const client = new BareMetalInfrastructureClient(credential, subscriptionId);
   const result = await client.azureBareMetalInstances.update(
@@ -54,7 +49,7 @@ async function updateTagsFieldOfAnAzureBareMetalInstance() {
   const resourceGroupName =
     process.env["BAREMETALINFRASTRUCTURE_RESOURCE_GROUP"] || "myResourceGroup";
   const azureBareMetalInstanceName = "myABMInstance";
-  const tagsParameter: Tags = { tags: { testkey: "testvalue" } };
+  const tagsParameter = { tags: { testkey: "testvalue" } };
   const credential = new DefaultAzureCredential();
   const client = new BareMetalInfrastructureClient(credential, subscriptionId);
   const result = await client.azureBareMetalInstances.update(

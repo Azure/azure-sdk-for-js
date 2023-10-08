@@ -15,26 +15,29 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets a list of AzureBareMetal management operations.
+ * This sample demonstrates how to Delete an AzureBareMetalStorageInstance.
  *
- * @summary Gets a list of AzureBareMetal management operations.
- * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalOperations_List.json
+ * @summary Delete an AzureBareMetalStorageInstance.
+ * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalStorageInstances_Delete.json
  */
-async function listAllManagementOperationsSupportedByTheAzureBareMetalRp() {
+async function deleteAnAzureBareMetalStorageInstance() {
   const subscriptionId =
     process.env["BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["BAREMETALINFRASTRUCTURE_RESOURCE_GROUP"] || "myResourceGroup";
+  const azureBareMetalStorageInstanceName = "myAzureBareMetalStorageInstance";
   const credential = new DefaultAzureCredential();
   const client = new BareMetalInfrastructureClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.operations.list()) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.azureBareMetalStorageInstances.delete(
+    resourceGroupName,
+    azureBareMetalStorageInstanceName
+  );
+  console.log(result);
 }
 
 async function main() {
-  listAllManagementOperationsSupportedByTheAzureBareMetalRp();
+  deleteAnAzureBareMetalStorageInstance();
 }
 
 main().catch(console.error);
