@@ -283,6 +283,10 @@
 /sdk/batch/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/baremetalinfrastructure/arm-baremetalinfrastructure/ @qiaozha @MaryGao
+/sdk/baremetalinfrastructure/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/batchai/arm-batchai/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
