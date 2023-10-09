@@ -12,8 +12,8 @@ describe("AbortSignal", () => {
   let client: OpenAIClient;
 
   beforeEach(async function (this: Context) {
-    // Inconsistent behavior in record and playback mode
-    // Might not throw or the abort error might be thrown after the streaming response is finished
+    // Streaming doesn't work in the record/playback because stream chunks are part of a single response
+    // and the test-proxy just sends all of them at once.
     if (!isLiveMode()) {
       this.skip();
     }
