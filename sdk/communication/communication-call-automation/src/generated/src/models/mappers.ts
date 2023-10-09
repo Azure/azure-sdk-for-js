@@ -1641,6 +1641,12 @@ export const StartCallRecordingRequest: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ExternalStorage"
         }
+      },
+      pauseOnStart: {
+        serializedName: "pauseOnStart",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }

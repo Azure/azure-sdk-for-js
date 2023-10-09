@@ -160,13 +160,13 @@ interface CustomContextHeader {
 }
 
 /** SIPCustomHeader */
-export interface SIPCustomHeader extends CustomContextHeader {}
+export interface SIPCustomHeader extends CustomContextHeader { }
 
 /** SIPUserToUserHeader */
-export interface SIPUserToUserHeader extends CustomContextHeader {}
+export interface SIPUserToUserHeader extends CustomContextHeader { }
 
 /** VoipHeader */
-export interface VoipHeader extends CustomContextHeader {}
+export interface VoipHeader extends CustomContextHeader { }
 
 /** Custom Context SIP header */
 export class SIPCustomHeader implements CustomContextHeader {
@@ -235,9 +235,9 @@ export class CustomContext {
 export interface CallInvite {
   /** The Target's PhoneNumberIdentifier, CommunicationUserIdentifier or MicrosoftTeamsUserIdentifier. */
   readonly targetParticipant:
-    | PhoneNumberIdentifier
-    | CommunicationUserIdentifier
-    | MicrosoftTeamsUserIdentifier;
+  | PhoneNumberIdentifier
+  | CommunicationUserIdentifier
+  | MicrosoftTeamsUserIdentifier;
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
@@ -259,6 +259,9 @@ export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 /** The storage type of a call recording. */
 export type RecordingStorage = "acs" | "blobStorage";
+
+/** The setting to pause upon start recording */
+export type PauseOnStart = true | false;
 
 /** Channel affinity for a participant */
 export interface ChannelAffinity {
