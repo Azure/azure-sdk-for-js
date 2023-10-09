@@ -103,9 +103,7 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
     }
     return buildPipelineResponse(response, request, abortControllerCleanup);
   } catch (e) {
-    if (abortControllerCleanup) {
-      abortControllerCleanup();
-    }
+    abortControllerCleanup?.();
     throw e;
   }
 }
