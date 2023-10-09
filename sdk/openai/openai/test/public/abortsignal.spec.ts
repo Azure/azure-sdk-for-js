@@ -12,14 +12,15 @@ describe("AbortSignal", () => {
   let client: OpenAIClient;
 
   beforeEach(async function (this: Context) {
-    client = createClient("OpenAIKey", {});
-  });
-
-  it("Abort signal test for streaming method", async function () {
     // Inconsistent behavior in record and playback mode. See https://github.com/Azure/azure-sdk-for-js/issues/27352
     if (!isLiveMode()) {
       this.skip();
     }
+
+    client = createClient("OpenAIKey", {});
+  });
+
+  it("Abort signal test for streaming method", async function () {
     // Skip test for Node 14. See https://github.com/Azure/azure-sdk-for-js/issues/27353
     if (typeof process === "object") {
       const [major] = process.versions.node.split(".").map(Number);
