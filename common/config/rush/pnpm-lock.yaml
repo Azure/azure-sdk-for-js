@@ -734,6 +734,9 @@ dependencies:
   '@rush-temp/communication-job-router':
     specifier: file:./projects/communication-job-router.tgz
     version: file:projects/communication-job-router.tgz
+  '@rush-temp/communication-job-router-1':
+    specifier: file:./projects/communication-job-router-1.tgz
+    version: file:projects/communication-job-router-1.tgz
   '@rush-temp/communication-network-traversal':
     specifier: file:./projects/communication-network-traversal.tgz
     version: file:projects/communication-network-traversal.tgz
@@ -2707,6 +2710,10 @@ packages:
 
   /@types/mocha@10.0.2:
     resolution: {integrity: sha512-NaHL0+0lLNhX6d9rs+NSt97WH/gIlRHmszXbQ/8/MV/eVcFNdeJ/GYhrFuUc8K7WuPhRhTSdMkCp8VMzhUq85w==}
+    dev: false
+
+  /@types/mocha@7.0.2:
+    resolution: {integrity: sha512-ZvO2tAcjmMi8V/5Z3JsyofMe3hasRcaw88cto5etSVMwVQfeivGAlEYmaQgceUSVYFofVjT+ioHsATjdWcFt1w==}
     dev: false
 
   /@types/ms@0.7.32:
@@ -6231,6 +6238,12 @@ packages:
       graceful-fs: 4.2.11
     dev: false
 
+  /karma-sourcemap-loader@0.4.0:
+    resolution: {integrity: sha512-xCRL3/pmhAYF3I6qOrcn0uhbQevitc2DERMPH82FMnG+4WReoGcGFZb1pURf2a5apyrOHRdvD+O6K7NljqKHyA==}
+    dependencies:
+      graceful-fs: 4.2.11
+    dev: false
+
   /karma@6.4.2(debug@4.3.4):
     resolution: {integrity: sha512-C6SU/53LB31BEgRg+omznBEMY4SjHU3ricV6zBcAe1EeILKkeScr+fZXtaI5WyDbkVowJxxAI6h73NcFPmXolQ==}
     engines: {node: '>= 10'}
@@ -6770,6 +6783,19 @@ packages:
       md5: 2.3.0
       mkdirp: 0.5.6
       mocha: 10.2.0
+      strip-ansi: 4.0.0
+      xml: 1.0.1
+    dev: false
+
+  /mocha-junit-reporter@1.23.3(mocha@7.2.0):
+    resolution: {integrity: sha512-ed8LqbRj1RxZfjt/oC9t12sfrWsjZ3gNnbhV1nuj9R/Jb5/P3Xb4duv2eCfCDMYH+fEu0mqca7m4wsiVjsxsvA==}
+    peerDependencies:
+      mocha: '>=2.2.5'
+    dependencies:
+      debug: 2.6.9
+      md5: 2.3.0
+      mkdirp: 0.5.6
+      mocha: 7.2.0
       strip-ansi: 4.0.0
       xml: 1.0.1
     dev: false
@@ -16895,19 +16921,17 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-9BbMN+FtfocjeQX8XkbZsNoFN4+mhBrtUB8LwWiBIzyhtwEeut+LG1OWVi4d/Ix/lMcWRQJNRHtP7/L5gJ0crw==, tarball: file:projects/communication-job-router.tgz}
-    name: '@rush-temp/communication-job-router'
+  file:projects/communication-job-router-1.tgz:
+    resolution: {integrity: sha512-x0+PfvLx12jjcnMZVlCD2v3hQyQsRPUxiqBL710XGpH6AaP9AL2oLLKHDU/KplBoAfJP/Xq7lmzh9Ltk0DRW6g==, tarball: file:projects/communication-job-router-1.tgz}
+    name: '@rush-temp/communication-job-router-1'
     version: 0.0.0
     dependencies:
-      '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@types/chai': 4.3.6
       '@types/mocha': 10.0.2
       '@types/node': 14.18.63
       '@types/sinon': 10.0.19
       '@types/uuid': 8.3.4
-      autorest: 3.6.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -16925,21 +16949,62 @@ packages:
       karma-junit-reporter: 2.0.1(karma@6.4.2)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
-      karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
-      mkdirp: 2.1.6
       mocha: 10.2.0
       mocha-junit-reporter: 1.23.3(mocha@10.2.0)
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
       sinon: 15.2.0
-      source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@14.18.63)(typescript@5.0.4)
       tslib: 2.6.2
       typescript: 5.0.4
       util: 0.12.5
       uuid: 8.3.2
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/communication-job-router.tgz:
+    resolution: {integrity: sha512-vQcHXvrr9KBZogoCzJfcgOW/wrhZAwMrbNjF4z1phPOPBgS06Bmg2lkGAjGAq6R0svNQEgxixBjWbNbepWkzFA==, tarball: file:projects/communication-job-router.tgz}
+    name: '@rush-temp/communication-job-router'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
+      '@types/chai': 4.3.6
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.63
+      autorest: 3.6.3
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      eslint: 8.51.0
+      karma: 6.4.2(debug@4.3.4)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-junit-reporter: 2.0.1(karma@6.4.2)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.2)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.4.0
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3(mocha@7.2.0)
+      nyc: 15.1.0
+      prettier: 2.8.8
+      rimraf: 5.0.5
+      source-map-support: 0.5.21
+      ts-node: 10.9.1(@types/node@14.18.63)(typescript@5.0.4)
+      tslib: 2.6.2
+      typescript: 5.0.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'

@@ -51,7 +51,7 @@ export function shutdownAzureMonitor() {
 }
 
 function _setStatsbeatFeatures(config: InternalConfig) {
-  let instrumentationBitMap = 0;
+  let instrumentationBitMap = StatsbeatInstrumentation.NONE;
   if (config.instrumentationOptions?.azureSdk?.enabled) {
     instrumentationBitMap |= StatsbeatInstrumentation.AZURE_CORE_TRACING;
   }
@@ -68,10 +68,14 @@ function _setStatsbeatFeatures(config: InternalConfig) {
     instrumentationBitMap |= StatsbeatInstrumentation.REDIS;
   }
 
-  let featureBitMap = 0;
+  let featureBitMap = StatsbeatFeature.NONE;
   featureBitMap |= StatsbeatFeature.DISTRO;
 
   try {
+    const currentFeaturesBitMap = Number(process.env[AZURE_MONITOR_STATSBEAT_FEATURES]);
+    if (!isNaN(currentFeaturesBitMap)) {
+      featureBitMap |= currentFeaturesBitMap;
+    }
     process.env[AZURE_MONITOR_STATSBEAT_FEATURES] = JSON.stringify({
       instrumentation: instrumentationBitMap,
       feature: featureBitMap,
