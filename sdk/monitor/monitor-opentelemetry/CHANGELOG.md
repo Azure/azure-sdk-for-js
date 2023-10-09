@@ -3,7 +3,7 @@
 ## 1.1.0 (2023-10-09)
 
 ### Bugs Fixed
-- Fix precedence of JSON config vlaue changes over defaults.
+- Fix precedence of JSON config value changes over defaults.
 
 ### Other Changes
 - Fix lint issues.
