@@ -4,6 +4,8 @@
 
 ### Bugs Fixed
 - Fix precedence of JSON config value changes over defaults.
+- Fix custom MetricReaders not being able to collect metrics for instrumentations.
+- Fix values for Statsbeat Features and Instrumentations.
 
 ### Other Changes
 - Fix lint issues.
