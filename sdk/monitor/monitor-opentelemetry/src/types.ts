@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.0.0";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.0.1";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 
 export enum StatsbeatFeature {

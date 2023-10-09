@@ -1,14 +1,8 @@
 # Release History
 
-## 1.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
+## 1.0.1 (2023-10-09)
 ### Other Changes
+- Fix lint issues.
 
 ## 1.0.0 (2023-09-20)
 
