@@ -757,7 +757,7 @@ dependencies:
     version: file:projects/communication-sms.tgz
   '@rush-temp/communication-ten-dlc':
     specifier: file:./projects/communication-ten-dlc.tgz
-    version: file:projects/communication-ten-dlc.tgz  
+    version: file:projects/communication-ten-dlc.tgz
   '@rush-temp/communication-tiering':
     specifier: file:./projects/communication-tiering.tgz
     version: file:projects/communication-tiering.tgz
@@ -1106,7 +1106,7 @@ dependencies:
   path-scurry:
     specifier: 1.6.3
     version: 1.6.3
-    
+
 packages:
 
   /@aashutoshrathi/word-wrap@1.2.6:
@@ -4217,7 +4217,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231005
+      typescript: 5.3.0-dev.20231009
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -6816,6 +6816,21 @@ packages:
       - supports-color
     dev: false
 
+  /mocha-junit-reporter@2.2.1(mocha@7.2.0):
+    resolution: {integrity: sha512-iDn2tlKHn8Vh8o4nCzcUVW4q7iXp7cC4EB78N0cDHIobLymyHNwe0XG8HEHHjc3hJlXm0Vy6zcrxaIhnI2fWmw==}
+    peerDependencies:
+      mocha: '>=2.2.5'
+    dependencies:
+      debug: 4.3.4(supports-color@8.1.1)
+      md5: 2.3.0
+      mkdirp: 3.0.1
+      mocha: 7.2.0
+      strip-ansi: 6.0.1
+      xml: 1.0.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /mocha@10.2.0:
     resolution: {integrity: sha512-IDY7fl/BecMwFHzoqF2sg/SHHANeBoMMXFlS9r0OXKDssYE1M5O43wUY/9BVPeIvfH2zmEbBfseqN9gBQZzXkg==}
     engines: {node: '>= 14.0.0'}
@@ -8966,8 +8981,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231005:
-    resolution: {integrity: sha512-Twm3wBauTO94CSWbjXFMpsHsbaOUVssreq6pUo4wr8YsaIp0jim8EeCa9LfawFetQ+P4PODMmiM+uBhhWRVX0Q==}
+  /typescript@5.3.0-dev.20231009:
+    resolution: {integrity: sha512-0JwLa29peN3wK/3uUMHTr9bzLwJ7BIloeN3JTyHj0aeyoowNMJXjpVMSTu8geVzfP4RPL9vM/7iyVPrPBmLBaQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -17288,38 +17303,37 @@ packages:
     dev: false
 
   file:projects/communication-ten-dlc.tgz:
-    resolution: {integrity: sha512-Tw+YH5h7oZ35qwjBgFHqma3Zzv99d48UA3uasw1YMZ9GPBy8QPsb8AZul0YE4z4C17vMgKgvTx9tG2W8hRPBeQ==, tarball: file:projects/communication-ten-dlc.tgz}
+    resolution: {integrity: sha512-s9vCqreXMHLQebO0vYMog6evFQRpgLkDX8SqYxrSsNMutBf9hr3ynbf0HSdYvuz0e+N/7SFOoWbr1Xo5q33yYA==, tarball: file:projects/communication-ten-dlc.tgz}
     name: '@rush-temp/communication-ten-dlc'
     version: 0.0.0
     dependencies:
-      '@azure/communication-common': 2.2.1
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.56
+      '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@types/chai': 4.3.6
-      '@types/mocha': 7.0.2
-      '@types/node': 14.18.56
-      '@types/sinon': 10.0.16
-      chai: 4.3.8
+      '@types/mocha': 10.0.2
+      '@types/node': 14.18.63
+      '@types/sinon': 10.0.17
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
-      eslint: 8.48.0
+      eslint: 8.50.0
       inherits: 2.0.4
-      karma: 6.4.2
+      karma: 6.4.2(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-junit-reporter: 2.0.1_karma@6.4.2
+      karma-junit-reporter: 2.0.1(karma@6.4.2)
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.4.2
+      karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 2.2.1_mocha@7.2.0
+      mocha-junit-reporter: 2.2.1(mocha@7.2.0)
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
       sinon: 15.2.0
-      ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
+      ts-node: 10.9.1(@types/node@14.18.63)(typescript@5.0.4)
       tslib: 2.6.2
       typescript: 5.0.4
     transitivePeerDependencies:
