@@ -37,7 +37,7 @@ export class MetricHandler {
     if (!process.env[APPLICATION_INSIGHTS_NO_STANDARD_METRICS]) {
       this._standardMetrics = new StandardMetrics(this._config);
     }
-    // Adding Views of instrumenations will allow for customer to add Metric Readers after, and get access to previosu created metrics using the views shared state
+    // Adding Views of instrumentations will allow customer to add Metric Readers after, and get access to previously created metrics using the views shared state
     const views: View[] = [];
     if (config.instrumentationOptions.azureSdk?.enabled) {
       views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-azure-sdk" }));
