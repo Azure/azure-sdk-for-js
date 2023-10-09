@@ -1,14 +1,14 @@
 # Release History
 
-## 1.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.1.0 (2023-10-09)
 
 ### Bugs Fixed
+- Fix precedence of JSON config value changes over defaults.
+- Fix custom MetricReaders not being able to collect metrics for instrumentations.
+- Fix values for Statsbeat Features and Instrumentations.
 
 ### Other Changes
+- Fix lint issues.
 
 ## 1.0.0 (2023-09-20)
 
