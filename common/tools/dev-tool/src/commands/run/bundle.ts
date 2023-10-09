@@ -53,6 +53,27 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async (options) => {
+  const browserTest = options["browser-test"];
+  const injectNodePolyfills = options["inject-node-polyfills"];
+  const ignoreMissingNodeBuiltins = options["ignore-missing-node-builtins"];
+  const polyfillNode = options["polyfill-node"];
+
+  if (injectNodePolyfills && polyfillNode) {
+    throw new Error(
+      "Cannot use both --inject-node-polyfills and --polyfill-node. Using --inject-node-polyfills is an advanced scenario when you want to have more control on which polyfill libraries to be used."
+    );
+  }
+  if (ignoreMissingNodeBuiltins && !injectNodePolyfills) {
+    log.warn(
+      "This is probably a mistake. --ignore-missing-node-builtins should only be used with --inject-node-polyfills."
+    );
+  }
+  if (!browserTest && (polyfillNode || injectNodePolyfills)) {
+    log.warn(
+      "This is probably a mistake. --polyfill-node and --inject-node-polyfills should only be used with --browser-test."
+    );
+  }
+
   const info = await resolveProject(process.cwd());
 
   if (!info.packageJson.module) {
@@ -98,7 +119,7 @@ export default leafCommand(commandInfo, async (options) => {
     log.success("Created production CommonJS bundle.");
   }
 
-  if (options["browser-test"]) {
+  if (browserTest) {
     const pnpmStore = path
       .relative(
         process.cwd(),
@@ -127,7 +148,7 @@ export default leafCommand(commandInfo, async (options) => {
           dynamicRequireTargets: [globFromStore("chai")],
         }),
 
-        ...(options["inject-node-polyfills"]
+        ...(injectNodePolyfills
           ? [
               inject({
                 modules: {
@@ -138,12 +159,12 @@ export default leafCommand(commandInfo, async (options) => {
               }),
             ]
           : []),
-        ...(options["polyfill-node"] ? [nodePolyfills({ sourceMap: true })] : []),
+        ...(polyfillNode ? [nodePolyfills({ sourceMap: true })] : []),
         json(),
         sourcemaps(),
       ],
       onwarn: makeOnWarnForTesting({
-        ignoreMissingNodeBuiltins: options["ignore-missing-node-builtins"],
+        ignoreMissingNodeBuiltins,
       }),
       // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0,
       // rollup started respecting the "sideEffects" field in package.json.  Since
