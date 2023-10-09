@@ -12,7 +12,8 @@ describe("AbortSignal", () => {
   let client: OpenAIClient;
 
   beforeEach(async function (this: Context) {
-    // Inconsistent behavior in record and playback mode. See https://github.com/Azure/azure-sdk-for-js/issues/27352
+    // Inconsistent behavior in record and playback mode
+    // Might not throw or the abort error might be thrown after the streaming response is finished
     if (!isLiveMode()) {
       this.skip();
     }
@@ -31,6 +32,7 @@ describe("AbortSignal", () => {
     const deploymentName = "gpt-3.5-turbo";
     const abortController = new AbortController();
     const abortSignal = abortController.signal;
+    let currentMessage = "";
     try {
       const events = client.listChatCompletions(deploymentName, messages, {
         maxTokens: 800,
@@ -44,10 +46,11 @@ describe("AbortSignal", () => {
           const delta = choice.delta?.content;
           abortController.abort();
           if (delta !== undefined) {
-            assert.isDefined(delta);
+            currentMessage += delta;
           }
         }
       }
+      assert.isDefined(currentMessage);
       assert.fail("Expected to abort streaming");
     } catch (error: any) {
       console.log(error);
