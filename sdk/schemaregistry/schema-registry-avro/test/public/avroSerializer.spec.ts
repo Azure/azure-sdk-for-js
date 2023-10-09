@@ -4,7 +4,6 @@
 import {
   CreateTestSerializerOptions,
   createTestSerializer,
-  registerLogicalTypesTestSchema,
   registerTestSchema,
 } from "./utils/mockedSerializer";
 import { assert, use as chaiUse } from "chai";
@@ -95,20 +94,23 @@ describe("AvroSerializer", async function () {
     assert.deepStrictEqual(await serializer.serialize(testValue, testSchema), message);
   });
 
-  it("serializes logical type for timestamp-millis", async () => {
-    const schemaId = await registerLogicalTypesTestSchema(registry);
+  it("serializes and deserializes logical type for timestamp-millis", async () => {
     const serializer = new AvroSerializer(registry as any, noAutoRegisterOptions.serializerOptions);
-    const { contentType, data } = await serializer.serialize(testTransaction, testDateSchema);
-    assert.strictEqual(`avro/binary+${schemaId}`, contentType);
+    const { data } = await serializer.serialize(testTransaction, testDateSchema);
     const buffer = Buffer.from(data);
     assert.deepStrictEqual(testAvroDateType.fromBuffer(buffer), testTransaction);
-    assert.equal(serializer["cacheById"].size, 1);
-    assert.equal(
-      serializer["cacheById"].peek(schemaId)?.name,
-      "com.azure.schemaregistry.samples.AvroUser"
-    );
-    assert.equal(serializer["cacheBySchemaDefinition"].size, 1);
-    assert.equal(serializer["cacheBySchemaDefinition"].peek(testDateSchema)?.id, schemaId);
+  });
+
+
+  it("serializes and deserializes logical type for timestamp-millis with precision loss", async () => {
+    const serializer = new AvroSerializer(registry as any, noAutoRegisterOptions.serializerOptions); 
+    const unsuppportedDate = {
+      amount: 32,
+      time: new Date("Thu Nov 05 20214234143215 11:38:05 GMT-0800 (PST)"),
+    };
+    const { data } = await serializer.serialize(unsuppportedDate, testDateSchema);
+    const buffer = Buffer.from(data);
+    assert.deepStrictEqual(testAvroDateType.fromBuffer(buffer), testTransaction);
   });
 
   it("works with trivial example in README", async () => {

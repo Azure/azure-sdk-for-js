@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- The Avro Serializer supports serialization and deserialization for `timestamp-millis` logical types to native `Date` types
+- Adds support for serializing and deserializing for `timestamp-millis` logical type as native `Date` objects.
 
 ## 1.0.0 (2022-05-10)
 

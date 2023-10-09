@@ -13,7 +13,7 @@ import LRUCache from "lru-cache";
 import LRUCacheOptions = LRUCache.Options;
 import { isMessageContent } from "./utility";
 import { logger } from "./logger";
-import { DateType } from "./logicalTypes";
+import { DateType } from "./logicalTypes/dateType";
 
 type AVSCSerializer = avro.Type;
 

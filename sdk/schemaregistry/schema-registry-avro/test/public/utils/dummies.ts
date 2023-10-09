@@ -3,7 +3,7 @@
 
 import * as avro from "avsc/";
 import { env } from "@azure-tools/test-recorder";
-import { DateType } from "../../../src/logicalTypes";
+import { DateType } from "../../../src/logicalTypes/dateType";
 
 export const testSchemaObject: avro.schema.RecordType = {
   type: "record",

@@ -6,8 +6,6 @@ import {
   testGroup,
   testSchema,
   testSchemaObject,
-  testDateSchema,
-  testDateSchemaObject,
 } from "./dummies";
 import { SchemaRegistry } from "@azure/schema-registry";
 import { createTestRegistry } from "./mockedRegistryClient";
@@ -37,16 +35,6 @@ export async function registerTestSchema(registry: SchemaRegistry): Promise<stri
     name: `${testSchemaObject.namespace}.${testSchemaObject.name}`,
     groupName: testGroup,
     definition: testSchema,
-    format: "avro",
-  });
-  return schema.id;
-}
-
-export async function registerLogicalTypesTestSchema(registry: SchemaRegistry): Promise<string> {
-  const schema = await registry.registerSchema({
-    name: `${testDateSchemaObject.namespace}.${testDateSchemaObject.name}`,
-    groupName: testGroup,
-    definition: testDateSchema,
     format: "avro",
   });
   return schema.id;
