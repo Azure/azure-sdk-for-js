@@ -10,12 +10,12 @@
 ### Bugs Fixed
 
 - Fix issue with credentialScopes setup not being passed to core-client.
+- Fix Statsbeat metric names.
 
 ### Other Changes
 
 - Add performance tests.
 - Add metric and span util tests.
-- Update Statsbeat metric names.
 
 ## 1.0.0-beta.16 (2023-08-30)
 
