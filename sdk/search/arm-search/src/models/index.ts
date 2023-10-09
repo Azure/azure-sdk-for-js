@@ -374,6 +374,45 @@ export interface CheckNameAvailabilityOutput {
   readonly message?: string;
 }
 
+/** Response containing the quota usage information for all the supported skus of Azure Cognitive Search service. */
+export interface QuotaUsagesListResult {
+  /**
+   * The quota usages for the SKUs supported by Azure Cognitive Search.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: QuotaUsageResult[];
+  /**
+   * Request URL that can be used to query next page of quota usages. Returned when the total number of requested quota usages exceed maximum page size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Describes the quota usage for a particular sku supported by Azure Cognitive Search. */
+export interface QuotaUsageResult {
+  /** The resource id of the quota usage sku endpoint for Microsoft.Search provider. */
+  id?: string;
+  /** The unit of measurement for the search sku. */
+  unit?: string;
+  /** The currently used up value for the particular search sku. */
+  currentValue?: number;
+  /** The quota limit for the particular search sku. */
+  limit?: number;
+  /**
+   * The name of the sku supported by Azure Cognitive Search.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: QuotaUsageResultName;
+}
+
+/** The name of the sku supported by Azure Cognitive Search. */
+export interface QuotaUsageResultName {
+  /** The sku name supported by Azure Cognitive Search. */
+  value?: string;
+  /** The localized string value for the sku supported by Azure Cognitive Search. */
+  localizedValue?: string;
+}
+
 /** The details of a long running asynchronous shared private link resource operation */
 export interface AsyncOperationResult {
   /** The current status of the long running asynchronous shared private link resource operation. */
@@ -446,6 +485,8 @@ export interface SearchServiceUpdate extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Sets options that control the availability of semantic search. This configuration is only possible for certain Azure Cognitive Search SKUs in certain locations. */
+  semanticSearch?: SearchSemanticSearch;
   /**
    * The list of shared private link resources managed by the Azure Cognitive Search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -504,6 +545,8 @@ export interface SearchService extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Sets options that control the availability of semantic search. This configuration is only possible for certain Azure Cognitive Search SKUs in certain locations. */
+  semanticSearch?: SearchSemanticSearch;
   /**
    * The list of shared private link resources managed by the Azure Cognitive Search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -546,6 +589,27 @@ export enum KnownPrivateLinkServiceConnectionProvisioningState {
  * **Canceled**: Provisioning request for the private link service connection resource has been canceled
  */
 export type PrivateLinkServiceConnectionProvisioningState = string;
+
+/** Known values of {@link SearchSemanticSearch} that the service accepts. */
+export enum KnownSearchSemanticSearch {
+  /** Indicates that semantic search is disabled for the search service. */
+  Disabled = "disabled",
+  /** Enables semantic search on a search service and indicates that it is to be used within the limits of the free tier. This would cap the volume of semantic search requests and is offered at no extra charge. This is the default for newly provisioned search services. */
+  Free = "free",
+  /** Enables semantic search on a search service as a billable feature, with higher throughput and volume of semantic search queries. */
+  Standard = "standard"
+}
+
+/**
+ * Defines values for SearchSemanticSearch. \
+ * {@link KnownSearchSemanticSearch} can be used interchangeably with SearchSemanticSearch,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **disabled**: Indicates that semantic search is disabled for the search service. \
+ * **free**: Enables semantic search on a search service and indicates that it is to be used within the limits of the free tier. This would cap the volume of semantic search requests and is offered at no extra charge. This is the default for newly provisioned search services. \
+ * **standard**: Enables semantic search on a search service as a billable feature, with higher throughput and volume of semantic search queries.
+ */
+export type SearchSemanticSearch = string;
 
 /** Known values of {@link UnavailableNameReason} that the service accepts. */
 export enum KnownUnavailableNameReason {
@@ -906,6 +970,36 @@ export interface SharedPrivateLinkResourcesListByServiceNextOptionalParams
 
 /** Contains response data for the listByServiceNext operation. */
 export type SharedPrivateLinkResourcesListByServiceNextResponse = SharedPrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface UsagesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameter group */
+  searchManagementRequestOptions?: SearchManagementRequestOptions;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type UsagesListBySubscriptionResponse = QuotaUsagesListResult;
+
+/** Optional parameters. */
+export interface UsagesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameter group */
+  searchManagementRequestOptions?: SearchManagementRequestOptions;
+}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type UsagesListBySubscriptionNextResponse = QuotaUsagesListResult;
+
+/** Optional parameters. */
+export interface UsageBySubscriptionSkuOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameter group */
+  searchManagementRequestOptions?: SearchManagementRequestOptions;
+}
+
+/** Contains response data for the usageBySubscriptionSku operation. */
+export type UsageBySubscriptionSkuResponse = QuotaUsageResult;
 
 /** Optional parameters. */
 export interface SearchManagementClientOptionalParams

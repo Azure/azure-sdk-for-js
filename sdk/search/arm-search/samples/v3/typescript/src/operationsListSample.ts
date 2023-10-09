@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the available REST API operations of the Microsoft.Search provider.
  *
  * @summary Lists all of the available REST API operations of the Microsoft.Search provider.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/OperationsList.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/OperationsList.json
  */
 async function operationsList() {
   const subscriptionId =

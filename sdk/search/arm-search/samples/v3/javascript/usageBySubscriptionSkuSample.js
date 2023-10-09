@@ -13,24 +13,23 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Regenerates either the primary or secondary admin API key. You can only regenerate one key at a time.
+ * This sample demonstrates how to Gets the quota usage for a search sku in the given subscription.
  *
- * @summary Regenerates either the primary or secondary admin API key. You can only regenerate one key at a time.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchRegenerateAdminKey.json
+ * @summary Gets the quota usage for a search sku in the given subscription.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/GetQuotaUsage.json
  */
-async function searchRegenerateAdminKey() {
+async function getQuotaUsage() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
-  const searchServiceName = "mysearchservice";
-  const keyKind = "primary";
+  const location = "westus";
+  const skuName = "free";
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
-  const result = await client.adminKeys.regenerate(resourceGroupName, searchServiceName, keyKind);
+  const result = await client.usageBySubscriptionSku(location, skuName);
   console.log(result);
 }
 
 async function main() {
-  searchRegenerateAdminKey();
+  getQuotaUsage();
 }
 
 main().catch(console.error);

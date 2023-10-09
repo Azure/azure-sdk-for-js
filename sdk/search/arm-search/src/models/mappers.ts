@@ -813,6 +813,96 @@ export const CheckNameAvailabilityOutput: coreClient.CompositeMapper = {
   }
 };
 
+export const QuotaUsagesListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QuotaUsagesListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "QuotaUsageResult"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const QuotaUsageResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QuotaUsageResult",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      unit: {
+        serializedName: "unit",
+        type: {
+          name: "String"
+        }
+      },
+      currentValue: {
+        serializedName: "currentValue",
+        type: {
+          name: "Number"
+        }
+      },
+      limit: {
+        serializedName: "limit",
+        type: {
+          name: "Number"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Composite",
+          className: "QuotaUsageResultName"
+        }
+      }
+    }
+  }
+};
+
+export const QuotaUsageResultName: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QuotaUsageResultName",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      localizedValue: {
+        serializedName: "localizedValue",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AsyncOperationResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1028,6 +1118,13 @@ export const SearchServiceUpdate: coreClient.CompositeMapper = {
           }
         }
       },
+      semanticSearch: {
+        serializedName: "properties.semanticSearch",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
       sharedPrivateLinkResources: {
         serializedName: "properties.sharedPrivateLinkResources",
         readOnly: true,
@@ -1189,6 +1286,13 @@ export const SearchService: coreClient.CompositeMapper = {
               className: "PrivateEndpointConnection"
             }
           }
+        }
+      },
+      semanticSearch: {
+        serializedName: "properties.semanticSearch",
+        nullable: true,
+        type: {
+          name: "String"
         }
       },
       sharedPrivateLinkResources: {

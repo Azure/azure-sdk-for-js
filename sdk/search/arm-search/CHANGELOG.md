@@ -1,25 +1,39 @@
 # Release History
     
-## 3.2.0 (2023-10-07)
+## 3.2.0 (2023-10-09)
     
 **Features**
 
+  - Added operation group Usages
   - Added Interface DataPlaneAadOrApiKeyAuthOption
   - Added Interface DataPlaneAuthOptions
   - Added Interface EncryptionWithCmk
+  - Added Interface QuotaUsageResult
+  - Added Interface QuotaUsageResultName
+  - Added Interface QuotaUsagesListResult
+  - Added Interface UsageBySubscriptionSkuOptionalParams
+  - Added Interface UsagesListBySubscriptionNextOptionalParams
+  - Added Interface UsagesListBySubscriptionOptionalParams
   - Added Type Alias AadAuthFailureMode
   - Added Type Alias PrivateLinkServiceConnectionProvisioningState
   - Added Type Alias SearchEncryptionComplianceStatus
   - Added Type Alias SearchEncryptionWithCmk
+  - Added Type Alias SearchSemanticSearch
+  - Added Type Alias UsageBySubscriptionSkuResponse
+  - Added Type Alias UsagesListBySubscriptionNextResponse
+  - Added Type Alias UsagesListBySubscriptionResponse
   - Interface PrivateEndpointConnectionProperties has a new optional parameter groupId
   - Interface PrivateEndpointConnectionProperties has a new optional parameter provisioningState
   - Interface SearchService has a new optional parameter authOptions
   - Interface SearchService has a new optional parameter disableLocalAuth
   - Interface SearchService has a new optional parameter encryptionWithCmk
+  - Interface SearchService has a new optional parameter semanticSearch
   - Interface SearchServiceUpdate has a new optional parameter authOptions
   - Interface SearchServiceUpdate has a new optional parameter disableLocalAuth
   - Interface SearchServiceUpdate has a new optional parameter encryptionWithCmk
+  - Interface SearchServiceUpdate has a new optional parameter semanticSearch
   - Added Enum KnownPrivateLinkServiceConnectionProvisioningState
+  - Added Enum KnownSearchSemanticSearch
     
     
 ## 3.1.0 (2022-12-07)

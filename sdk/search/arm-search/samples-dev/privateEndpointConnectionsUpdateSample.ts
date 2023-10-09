@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a Private Endpoint connection to the search service in the given resource group.
  *
  * @summary Updates a Private Endpoint connection to the search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/UpdatePrivateEndpointConnection.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/UpdatePrivateEndpointConnection.json
  */
 async function privateEndpointConnectionUpdate() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";

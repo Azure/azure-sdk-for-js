@@ -8,29 +8,32 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { SearchManagementClient } = require("@azure/arm-search");
-const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+import { SearchManagementClient } from "@azure/arm-search";
+import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
- * This sample demonstrates how to Gets a list of all Search services in the given subscription.
+ * This sample demonstrates how to Gets a list of all Search quota usages in the given subscription.
  *
- * @summary Gets a list of all Search services in the given subscription.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchListServicesBySubscription.json
+ * @summary Gets a list of all Search quota usages in the given subscription.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/GetQuotaUsagesList.json
  */
-async function searchListServicesBySubscription() {
+async function getQuotaUsagesList() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const location = "westus";
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.services.listBySubscription()) {
+  for await (let item of client.usages.listBySubscription(location)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  searchListServicesBySubscription();
+  getQuotaUsagesList();
 }
 
 main().catch(console.error);

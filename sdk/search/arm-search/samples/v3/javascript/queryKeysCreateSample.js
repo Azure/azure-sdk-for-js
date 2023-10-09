@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Generates a new query key for the specified search service. You can create up to 50 query keys per service.
  *
  * @summary Generates a new query key for the specified search service. You can create up to 50 query keys per service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchCreateQueryKey.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchCreateQueryKey.json
  */
 async function searchCreateQueryKey() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";

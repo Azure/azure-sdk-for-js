@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of all private endpoint connections in the given service.
  *
  * @summary Gets a list of all private endpoint connections in the given service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/ListPrivateEndpointConnectionsByService.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/ListPrivateEndpointConnectionsByService.json
  */
 async function listPrivateEndpointConnectionsByService() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Disconnects the private endpoint connection and deletes it from the search service.
  *
  * @summary Disconnects the private endpoint connection and deletes it from the search service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/DeletePrivateEndpointConnection.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/DeletePrivateEndpointConnection.json
  */
 async function privateEndpointConnectionDelete() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchUpdateService.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateService.json
  */
 async function searchUpdateService() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -42,7 +42,7 @@ async function searchUpdateService() {
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchUpdateServiceAuthOptions.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateServiceAuthOptions.json
  */
 async function searchUpdateServiceAuthOptions() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -69,7 +69,7 @@ async function searchUpdateServiceAuthOptions() {
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchUpdateServiceDisableLocalAuth.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateServiceDisableLocalAuth.json
  */
 async function searchUpdateServiceDisableLocalAuth() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -94,7 +94,7 @@ async function searchUpdateServiceDisableLocalAuth() {
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchUpdateServiceToAllowAccessFromPrivateEndpoints.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateServiceToAllowAccessFromPrivateEndpoints.json
  */
 async function searchUpdateServiceToAllowAccessFromPrivateEndpoints() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -119,7 +119,7 @@ async function searchUpdateServiceToAllowAccessFromPrivateEndpoints() {
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchUpdateServiceToAllowAccessFromPublicCustomIPs.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateServiceToAllowAccessFromPublicCustomIPs.json
  */
 async function searchUpdateServiceToAllowAccessFromPublicCustomIPs() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -147,7 +147,7 @@ async function searchUpdateServiceToAllowAccessFromPublicCustomIPs() {
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchUpdateServiceToRemoveIdentity.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateServiceToRemoveIdentity.json
  */
 async function searchUpdateServiceToRemoveIdentity() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -171,7 +171,7 @@ async function searchUpdateServiceToRemoveIdentity() {
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchUpdateServiceWithCmkEnforcement.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateServiceWithCmkEnforcement.json
  */
 async function searchUpdateServiceWithCmkEnforcement() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -192,6 +192,31 @@ async function searchUpdateServiceWithCmkEnforcement() {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to Updates an existing search service in the given resource group.
+ *
+ * @summary Updates an existing search service in the given resource group.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateServiceWithSemanticSearch.json
+ */
+async function searchUpdateServiceWithSemanticSearch() {
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
+  const searchServiceName = "mysearchservice";
+  const service: SearchServiceUpdate = {
+    replicaCount: 2,
+    semanticSearch: "standard",
+    tags: { appName: "My e-commerce app", newTag: "Adding a new tag" }
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new SearchManagementClient(credential, subscriptionId);
+  const result = await client.services.update(
+    resourceGroupName,
+    searchServiceName,
+    service
+  );
+  console.log(result);
+}
+
 async function main() {
   searchUpdateService();
   searchUpdateServiceAuthOptions();
@@ -200,6 +225,7 @@ async function main() {
   searchUpdateServiceToAllowAccessFromPublicCustomIPs();
   searchUpdateServiceToRemoveIdentity();
   searchUpdateServiceWithCmkEnforcement();
+  searchUpdateServiceWithSemanticSearch();
 }
 
 main().catch(console.error);

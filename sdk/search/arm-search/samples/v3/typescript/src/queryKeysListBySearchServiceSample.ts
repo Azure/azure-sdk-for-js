@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns the list of query API keys for the given Azure Cognitive Search service.
  *
  * @summary Returns the list of query API keys for the given Azure Cognitive Search service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchListQueryKeysBySearchService.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchListQueryKeysBySearchService.json
  */
 async function searchListQueryKeysBySearchService() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";

@@ -15,22 +15,23 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Checks whether or not the given search service name is available for use. Search service names must be globally unique since they are part of the service URI (https://<name>.search.windows.net).
+ * This sample demonstrates how to Gets the quota usage for a search sku in the given subscription.
  *
- * @summary Checks whether or not the given search service name is available for use. Search service names must be globally unique since they are part of the service URI (https://<name>.search.windows.net).
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchCheckNameAvailability.json
+ * @summary Gets the quota usage for a search sku in the given subscription.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/GetQuotaUsage.json
  */
-async function searchCheckNameAvailability() {
+async function getQuotaUsage() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
-  const name = "mysearchservice";
+  const location = "westus";
+  const skuName = "free";
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
-  const result = await client.services.checkNameAvailability(name);
+  const result = await client.usageBySubscriptionSku(location, skuName);
   console.log(result);
 }
 
 async function main() {
-  searchCheckNameAvailability();
+  getQuotaUsage();
 }
 
 main().catch(console.error);

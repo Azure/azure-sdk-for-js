@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchCreateOrUpdateService.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchCreateOrUpdateService.json
  */
 async function searchCreateOrUpdateService() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -46,7 +46,7 @@ async function searchCreateOrUpdateService() {
  * This sample demonstrates how to Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchCreateOrUpdateServiceAuthOptions.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchCreateOrUpdateServiceAuthOptions.json
  */
 async function searchCreateOrUpdateServiceAuthOptions() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -77,7 +77,7 @@ async function searchCreateOrUpdateServiceAuthOptions() {
  * This sample demonstrates how to Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchCreateOrUpdateServiceDisableLocalAuth.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchCreateOrUpdateServiceDisableLocalAuth.json
  */
 async function searchCreateOrUpdateServiceDisableLocalAuth() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -106,7 +106,7 @@ async function searchCreateOrUpdateServiceDisableLocalAuth() {
  * This sample demonstrates how to Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints.json
  */
 async function searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -135,7 +135,7 @@ async function searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints() {
  * This sample demonstrates how to Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs.json
  */
 async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -166,7 +166,7 @@ async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs() {
  * This sample demonstrates how to Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchCreateOrUpdateServiceWithCmkEnforcement.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchCreateOrUpdateServiceWithCmkEnforcement.json
  */
 async function searchCreateOrUpdateServiceWithCmkEnforcement() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -195,7 +195,7 @@ async function searchCreateOrUpdateServiceWithCmkEnforcement() {
  * This sample demonstrates how to Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchCreateOrUpdateServiceWithIdentity.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchCreateOrUpdateServiceWithIdentity.json
  */
 async function searchCreateOrUpdateServiceWithIdentity() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -220,6 +220,35 @@ async function searchCreateOrUpdateServiceWithIdentity() {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
+ *
+ * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchCreateOrUpdateWithSemanticSearch.json
+ */
+async function searchCreateOrUpdateWithSemanticSearch() {
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
+  const searchServiceName = "mysearchservice";
+  const service: SearchService = {
+    hostingMode: "default",
+    location: "westus",
+    partitionCount: 1,
+    replicaCount: 3,
+    semanticSearch: "free",
+    sku: { name: "standard" },
+    tags: { appName: "My e-commerce app" }
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new SearchManagementClient(credential, subscriptionId);
+  const result = await client.services.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    searchServiceName,
+    service
+  );
+  console.log(result);
+}
+
 async function main() {
   searchCreateOrUpdateService();
   searchCreateOrUpdateServiceAuthOptions();
@@ -228,6 +257,7 @@ async function main() {
   searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs();
   searchCreateOrUpdateServiceWithCmkEnforcement();
   searchCreateOrUpdateServiceWithIdentity();
+  searchCreateOrUpdateWithSemanticSearch();
 }
 
 main().catch(console.error);

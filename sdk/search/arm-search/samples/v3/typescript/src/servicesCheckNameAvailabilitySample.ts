@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Checks whether or not the given search service name is available for use. Search service names must be globally unique since they are part of the service URI (https://<name>.search.windows.net).
  *
  * @summary Checks whether or not the given search service name is available for use. Search service names must be globally unique since they are part of the service URI (https://<name>.search.windows.net).
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchCheckNameAvailability.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchCheckNameAvailability.json
  */
 async function searchCheckNameAvailability() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";

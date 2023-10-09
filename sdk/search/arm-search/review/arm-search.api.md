@@ -124,6 +124,13 @@ export enum KnownPrivateLinkServiceConnectionProvisioningState {
 }
 
 // @public
+export enum KnownSearchSemanticSearch {
+    Disabled = "disabled",
+    Free = "free",
+    Standard = "standard"
+}
+
+// @public
 export enum KnownSharedPrivateLinkResourceAsyncOperationResult {
     Failed = "Failed",
     Running = "Running",
@@ -344,6 +351,27 @@ export interface QueryKeysListBySearchServiceOptionalParams extends coreClient.O
 export type QueryKeysListBySearchServiceResponse = ListQueryKeysResult;
 
 // @public
+export interface QuotaUsageResult {
+    currentValue?: number;
+    id?: string;
+    limit?: number;
+    readonly name?: QuotaUsageResultName;
+    unit?: string;
+}
+
+// @public
+export interface QuotaUsageResultName {
+    localizedValue?: string;
+    value?: string;
+}
+
+// @public
+export interface QuotaUsagesListResult {
+    readonly nextLink?: string;
+    readonly value?: QuotaUsageResult[];
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -379,6 +407,9 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     sharedPrivateLinkResources: SharedPrivateLinkResources;
     // (undocumented)
     subscriptionId: string;
+    usageBySubscriptionSku(location: string, skuName: string, options?: UsageBySubscriptionSkuOptionalParams): Promise<UsageBySubscriptionSkuResponse>;
+    // (undocumented)
+    usages: Usages;
 }
 
 // @public
@@ -394,6 +425,9 @@ export interface SearchManagementRequestOptions {
 }
 
 // @public
+export type SearchSemanticSearch = string;
+
+// @public
 export interface SearchService extends TrackedResource {
     authOptions?: DataPlaneAuthOptions;
     disableLocalAuth?: boolean;
@@ -406,6 +440,7 @@ export interface SearchService extends TrackedResource {
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
+    semanticSearch?: SearchSemanticSearch;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
@@ -435,6 +470,7 @@ export interface SearchServiceUpdate extends Resource {
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
+    semanticSearch?: SearchSemanticSearch;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
@@ -639,6 +675,35 @@ export interface TrackedResource extends Resource {
 
 // @public
 export type UnavailableNameReason = string;
+
+// @public
+export interface UsageBySubscriptionSkuOptionalParams extends coreClient.OperationOptions {
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
+}
+
+// @public
+export type UsageBySubscriptionSkuResponse = QuotaUsageResult;
+
+// @public
+export interface Usages {
+    listBySubscription(location: string, options?: UsagesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<QuotaUsageResult>;
+}
+
+// @public
+export interface UsagesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
+}
+
+// @public
+export type UsagesListBySubscriptionNextResponse = QuotaUsagesListResult;
+
+// @public
+export interface UsagesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
+}
+
+// @public
+export type UsagesListBySubscriptionResponse = QuotaUsagesListResult;
 
 // (No @packageDocumentation comment for this package)
 

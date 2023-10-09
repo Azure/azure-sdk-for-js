@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of all Search services in the given subscription.
  *
  * @summary Gets a list of all Search services in the given subscription.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchListServicesBySubscription.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchListServicesBySubscription.json
  */
 async function searchListServicesBySubscription() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
