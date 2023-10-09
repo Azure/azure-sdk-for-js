@@ -4214,7 +4214,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231005
+      typescript: 5.3.0-dev.20231008
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -8963,8 +8963,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231005:
-    resolution: {integrity: sha512-Twm3wBauTO94CSWbjXFMpsHsbaOUVssreq6pUo4wr8YsaIp0jim8EeCa9LfawFetQ+P4PODMmiM+uBhhWRVX0Q==}
+  /typescript@5.3.0-dev.20231008:
+    resolution: {integrity: sha512-yIhJnBiRy/xd23P14x7UA5p/41U1WFoZ0PohzZoAuyVNH2DlhtLxng9CI1zVYo6amjknPb4t4apAcImtPkyXYQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11932,10 +11932,11 @@ packages:
     dev: false
 
   file:projects/arm-datadog.tgz:
-    resolution: {integrity: sha512-Jn5qD37LqkDcsC3UmpSZQR2oit9Ay65EOLN69aLX6DdbmkMjXiSV+rBJ8dLJZLm3i3q1drJcc+HDUU2jfFvirA==, tarball: file:projects/arm-datadog.tgz}
+    resolution: {integrity: sha512-5nmqyFYV5iYX5g2AfN3kdzC6qvAJPIisJzVXgA/hefdEc+MCtnEPmYzR0QjJ2UGgwt5pyCpT8Tzv25tijWXV0Q==, tarball: file:projects/arm-datadog.tgz}
     name: '@rush-temp/arm-datadog'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
@@ -11945,9 +11946,10 @@ packages:
       '@types/node': 14.18.63
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
-      mocha: 10.2.0
-      rimraf: 3.0.2
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 5.0.5
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.63)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.63)(typescript@5.0.4)
@@ -11957,6 +11959,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-datafactory.tgz:
