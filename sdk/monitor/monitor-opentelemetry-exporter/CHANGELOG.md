@@ -15,6 +15,7 @@
 
 - Add performance tests.
 - Add metric and span util tests.
+- Update Statsbeat metric names.
 
 ## 1.0.0-beta.16 (2023-08-30)
 
