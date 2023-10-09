@@ -7,6 +7,7 @@ import { MetricHandler } from "../../../../src/metrics";
 import { InternalConfig } from "../../../../src/shared";
 import { ExportResultCode } from "@opentelemetry/core";
 import { metrics as MetricsApi, metrics } from "@opentelemetry/api";
+import { MeterProvider } from "@opentelemetry/sdk-metrics";
 
 describe("MetricHandler", () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -78,6 +79,29 @@ describe("MetricHandler", () => {
     handler.shutdown();
     await new Promise((resolve) => setTimeout(resolve, 120));
     assert.ok(exportStub.notCalled);
+  });
+
+  it("should flush", async () => {
+    createHandler();
+    MetricsApi.getMeter("testMeter").createCounter("testCounter", {
+      description: "testDescription",
+    });
+    await handler.flush();
+    assert.ok(exportStub.called);
+  });
+
+  it("should add views", async () => {
+    _config.instrumentationOptions = {
+      azureSdk: { enabled: true },
+      http: { enabled: true },
+      mySql: { enabled: true },
+      postgreSql: { enabled: true },
+      redis4: { enabled: true },
+      redis: { enabled: true },
+    };
+    createHandler();
+    const meterProvider = MetricsApi.getMeterProvider() as MeterProvider;
+    assert.strictEqual(meterProvider["_sharedState"]["viewRegistry"]["_registeredViews"].length, 6);
   });
 
   describe("#autoCollect", () => {

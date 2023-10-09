@@ -27,7 +27,7 @@ export function resourceMetricsToEnvelope(
   ikey: string,
   isStatsbeat?: boolean
 ): Envelope[] {
-  let envelopes: Envelope[] = [];
+  const envelopes: Envelope[] = [];
   const time = new Date();
   const instrumentationKey = ikey;
   const tags = createTagsFromResource(metrics.resource);
@@ -42,20 +42,20 @@ export function resourceMetricsToEnvelope(
   metrics.scopeMetrics.forEach((scopeMetric) => {
     scopeMetric.metrics.forEach((metric) => {
       metric.dataPoints.forEach((dataPoint) => {
-        let baseData: MetricsData = {
+        const baseData: MetricsData = {
           metrics: [],
           version: 2,
           properties: {},
         };
         baseData.properties = createPropertiesFromMetricAttributes(dataPoint.attributes);
-        var metricDataPoint: MetricDataPoint = {
+        const metricDataPoint: MetricDataPoint = {
           name: metric.descriptor.name,
           value: 0,
           dataPointType: "Aggregation",
         };
         if (
-          metric.dataPointType == DataPointType.SUM ||
-          metric.dataPointType == DataPointType.GAUGE
+          metric.dataPointType === DataPointType.SUM ||
+          metric.dataPointType === DataPointType.GAUGE
         ) {
           metricDataPoint.value = dataPoint.value as number;
           metricDataPoint.count = 1;
@@ -66,7 +66,7 @@ export function resourceMetricsToEnvelope(
           metricDataPoint.min = (dataPoint.value as Histogram).min;
         }
         baseData.metrics.push(metricDataPoint);
-        let envelope: Envelope = {
+        const envelope: Envelope = {
           name: envelopeName,
           time: time,
           sampleRate: 100, // Metrics are never sampled
