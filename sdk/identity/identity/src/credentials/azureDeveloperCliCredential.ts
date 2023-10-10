@@ -7,10 +7,12 @@ import { AzureDeveloperCliCredentialOptions } from "./azureDeveloperCliCredentia
 import { CredentialUnavailableError } from "../errors";
 import child_process from "child_process";
 import {
+  checkTenantId,
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { tracingClient } from "../util/tracing";
+import { ensureValidScopeForDevTimeCreds } from "../util/scopeUtils";
 
 /**
  * Mockable reference to the Developer CLI credential cliCredentialFunctions
@@ -64,7 +66,6 @@ export const developerCliCredentialInternals = {
           ],
           {
             cwd: developerCliCredentialInternals.getSafeWorkingDir(),
-            shell: true,
             timeout,
           },
           (error, stdout, stderr) => {
@@ -119,7 +120,10 @@ export class AzureDeveloperCliCredential implements TokenCredential {
    * @param options - Options, to optionally allow multi-tenant requests.
    */
   constructor(options?: AzureDeveloperCliCredentialOptions) {
-    this.tenantId = options?.tenantId;
+    if (options?.tenantId) {
+      checkTenantId(logger, options?.tenantId);
+      this.tenantId = options?.tenantId;
+    }
     this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
@@ -143,7 +147,9 @@ export class AzureDeveloperCliCredential implements TokenCredential {
       options,
       this.additionallyAllowedTenantIds
     );
-
+    if (tenantId) {
+      checkTenantId(logger, tenantId);
+    }
     let scopeList: string[];
     if (typeof scopes === "string") {
       scopeList = [scopes];
@@ -154,6 +160,9 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
       try {
+        scopeList.forEach((scope) => {
+          ensureValidScopeForDevTimeCreds(scope, logger);
+        });
         const obj = await developerCliCredentialInternals.getAzdAccessToken(
           scopeList,
           tenantId,
