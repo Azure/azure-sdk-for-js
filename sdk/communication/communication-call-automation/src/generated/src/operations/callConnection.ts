@@ -463,7 +463,7 @@ const muteOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}/participants:mute",
   httpMethod: "POST",
   responses: {
-    200: {
+    202: {
       bodyMapper: Mappers.MuteParticipantsResponse
     },
     default: {

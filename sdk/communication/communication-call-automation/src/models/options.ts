@@ -17,7 +17,6 @@ import {
   CallLocator,
   ChannelAffinity,
   CustomContext,
-  PauseOnStart,
 } from "./models";
 
 /** Options to configure the recognize operation. */
@@ -203,9 +202,6 @@ export interface StartRecordingOptions extends OperationOptions {
   recordingChannel?: RecordingChannel;
   /** The format type of call recording. */
   recordingFormat?: RecordingFormat;
-  /** Pause on start call recording option. */
-  pauseOnStart?: boolean;
-  
   /**
    * The sequential order in which audio channels are assigned to participants in the unmixed recording.
    * When 'recordingChannelType' is set to 'unmixed' and `audioChannelParticipantOrdering` is not specified,

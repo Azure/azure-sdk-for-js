@@ -575,8 +575,6 @@ export interface StartCallRecordingRequest {
   channelAffinity?: ChannelAffinity[];
   /** Optional property to specify location where recording will be stored */
   externalStorage?: ExternalStorage;
-  /** When set to true will start recording in Pause mode, which could be resumed. */
-  pauseOnStart?: boolean;
 }
 
 /** The locator used for joining or taking action on a call. */
@@ -1317,8 +1315,8 @@ export interface TranscriptionStarted {
 }
 
 export interface TranscriptionUpdate {
-  transcriptionStatus?: TranscriptionStatus;
-  transcriptionStatusDetails?: TranscriptionStatusDetails;
+  transcriptionStatus?: string;
+  transcriptionStatusDetails?: string;
 }
 
 export interface TranscriptionStopped {
@@ -1854,75 +1852,6 @@ export enum KnownRecognitionType {
  * **choices**
  */
 export type RecognitionType = string;
-
-/** Known values of {@link TranscriptionStatus} that the service accepts. */
-export enum KnownTranscriptionStatus {
-  /** TranscriptionStarted */
-  TranscriptionStarted = "transcriptionStarted",
-  /** TranscriptionFailed */
-  TranscriptionFailed = "transcriptionFailed",
-  /** TranscriptionResumed */
-  TranscriptionResumed = "transcriptionResumed",
-  /** TranscriptionLocaleUpdated */
-  TranscriptionLocaleUpdated = "transcriptionLocaleUpdated",
-  /** TranscriptionStopped */
-  TranscriptionStopped = "transcriptionStopped",
-  /** UnspecifiedError */
-  UnspecifiedError = "unspecifiedError"
-}
-
-/**
- * Defines values for TranscriptionStatus. \
- * {@link KnownTranscriptionStatus} can be used interchangeably with TranscriptionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **transcriptionStarted** \
- * **transcriptionFailed** \
- * **transcriptionResumed** \
- * **transcriptionLocaleUpdated** \
- * **transcriptionStopped** \
- * **unspecifiedError**
- */
-export type TranscriptionStatus = string;
-
-/** Known values of {@link TranscriptionStatusDetails} that the service accepts. */
-export enum KnownTranscriptionStatusDetails {
-  /** SubscriptionStarted */
-  SubscriptionStarted = "subscriptionStarted",
-  /** StreamConnectionReestablished */
-  StreamConnectionReestablished = "streamConnectionReestablished",
-  /** StreamConnectionUnsuccessful */
-  StreamConnectionUnsuccessful = "streamConnectionUnsuccessful",
-  /** StreamUrlMissing */
-  StreamUrlMissing = "streamUrlMissing",
-  /** ServiceShutdown */
-  ServiceShutdown = "serviceShutdown",
-  /** StreamConnectionInterrupted */
-  StreamConnectionInterrupted = "streamConnectionInterrupted",
-  /** SpeechServicesConnectionError */
-  SpeechServicesConnectionError = "speechServicesConnectionError",
-  /** SubscriptionStopped */
-  SubscriptionStopped = "subscriptionStopped",
-  /** UnspecifiedError */
-  UnspecifiedError = "unspecifiedError"
-}
-
-/**
- * Defines values for TranscriptionStatusDetails. \
- * {@link KnownTranscriptionStatusDetails} can be used interchangeably with TranscriptionStatusDetails,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **subscriptionStarted** \
- * **streamConnectionReestablished** \
- * **streamConnectionUnsuccessful** \
- * **streamUrlMissing** \
- * **serviceShutdown** \
- * **streamConnectionInterrupted** \
- * **speechServicesConnectionError** \
- * **subscriptionStopped** \
- * **unspecifiedError**
- */
-export type TranscriptionStatusDetails = string;
 
 /** Optional parameters. */
 export interface CreateCallOptionalParams extends coreClient.OperationOptions {
