@@ -3,6 +3,7 @@
 
 import { TestFunctionWrapper, isNode, versionsToTest } from "@azure/test-utils";
 import { getEnvVarValue } from "./testUtils";
+import { Suite } from "mocha";
 
 export type SupportedTargets = "mock" | "live";
 const serviceVersions: SupportedTargets[] = ["mock", "live"];
@@ -15,9 +16,7 @@ export function testWithServiceTypes(
 ): void {
   // Wrap within an empty `describe` so that nested functions get the mocha
   // context object for the current suite being ran.
-  describe("", function () {
-    // this.file comes from the current mocha suite context.
-    // eslint-disable-next-line @typescript-eslint/no-invalid-this
+  describe("", function (this: Suite) {
     describe(this.file ?? "", function () {
       versionsToTest(
         serviceVersions,
