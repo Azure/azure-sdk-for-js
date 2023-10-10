@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
+  OperationQueryParameter
 } from "@azure/core-client";
 
 export const accept: OperationParameter = {
@@ -19,9 +19,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const endpoint: OperationURLParameter = {
@@ -30,10 +30,10 @@ export const endpoint: OperationURLParameter = {
     serializedName: "endpoint",
     required: true,
     type: {
-      name: "String",
-    },
+      name: "String"
+    }
   },
-  skipEncoding: true,
+  skipEncoding: true
 };
 
 export const xMsClientRequestId: OperationParameter = {
@@ -41,9 +41,9 @@ export const xMsClientRequestId: OperationParameter = {
   mapper: {
     serializedName: "x-ms-client-request-id",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -53,9 +53,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const filter: OperationQueryParameter = {
@@ -63,9 +63,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "filter",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const orderby: OperationQueryParameter = {
@@ -73,9 +73,9 @@ export const orderby: OperationQueryParameter = {
   mapper: {
     serializedName: "$orderby",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const skip: OperationQueryParameter = {
@@ -83,7 +83,7 @@ export const skip: OperationQueryParameter = {
   mapper: {
     serializedName: "skip",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };

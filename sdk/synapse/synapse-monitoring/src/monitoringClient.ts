@@ -8,7 +8,11 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { MonitoringImpl } from "./operations";
 import { Monitoring } from "./operationsInterfaces";
@@ -43,7 +47,7 @@ export class MonitoringClient extends coreClient.ServiceClient {
     }
     const defaults: MonitoringClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials,
+      credential: credentials
     };
 
     const packageDetails = `azsdk-js-synapse-monitoring/1.0.0-beta.3`;
@@ -59,29 +63,30 @@ export class MonitoringClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix,
+        userAgentPrefix
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}",
+      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
     };
     super(optionsWithDefaults);
 
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
-        options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
       const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
       if (!bearerTokenAuthenticationPolicyFound) {
         this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
         });
         this.pipeline.addPolicy(
           coreRestPipeline.bearerTokenAuthenticationPolicy({
             scopes: `${optionsWithDefaults.baseUri}/.default`,
             challengeCallbacks: {
-              authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
-            },
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
           })
         );
       }
@@ -102,7 +107,10 @@ export class MonitoringClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -115,7 +123,7 @@ export class MonitoringClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      },
+      }
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
