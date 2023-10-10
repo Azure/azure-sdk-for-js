@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a hub setting.
  *
  * @summary Delete a hub setting.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/WebPubSubHubs_Delete.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/WebPubSubHubs_Delete.json
  */
 async function webPubSubHubsDelete() {
   const subscriptionId =
