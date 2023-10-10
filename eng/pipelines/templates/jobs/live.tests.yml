@@ -160,6 +160,12 @@ jobs:
 
       - ${{ parameters.PostSteps }}
 
+      - script: echo 'TestType is $(TestType)'
+      - script: echo 'PublishCodeCoverage is $(PublishCodeCoverage)'
+      - script: echo 'TestResultsFiles is $(TestResultsFiles)'
+      - script: echo 'ServiceDirectory is $(parameters.ServiceDirectory)'
+      - script: echo 'ServiceDirectory is $(ServiceDirectory)'
+
       - script: |
           node ../../../common/scripts/install-run-rushx.js execute:samples
         displayName: "Execute Samples"
