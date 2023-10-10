@@ -44,7 +44,7 @@ describe("sendRequest", () => {
         assert.equal(request.body, expectedBody);
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
-      await sendRequest("POST", mockBaseUrl, mockPipeline, { body: '{"key":"value"}' });
+      await sendRequest("POST", mockBaseUrl, mockPipeline, { body: expectedBody });
     });
 
     it("should handle request body as non-json string with content type", async () => {
