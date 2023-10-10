@@ -1301,8 +1301,61 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/keyvault-certificates@4.7.0:
+    resolution: {integrity: sha512-W3v9Fj48ik2gaRiY7ra4F92hjnWM3H4oT25xy4pGl/z3zHeUB0YZTXitFiSnj4fxMTbPEx3gdmjfIjf3FIq/Yw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-http-compat': 1.3.0
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.1
+      '@azure/core-tracing': 1.0.1
+      '@azure/core-util': 1.5.0
+      '@azure/keyvault-common': 1.0.0
+      '@azure/logger': 1.0.4
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/keyvault-common@1.0.0:
+    resolution: {integrity: sha512-JzK7vMMhQR+GhSteymvIZ8on3ZFJyXZ1hEQYhCP0gbFgrqHmy3c8rxdtmvxHLZ7x1C3dFal+aS00Yer9QiA01w==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-rest-pipeline': 1.12.1
+      '@azure/core-tracing': 1.0.1
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/keyvault-keys@4.7.2:
     resolution: {integrity: sha512-VdIH6PjbQ3J5ntK+xeI8eOe1WsDxF9ndXw8BPR/9MZVnIj0vQNtNCS6gpR7EFQeGcs8XjzMfHm0AvKGErobqJQ==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-http-compat': 1.3.0
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.1
+      '@azure/core-tracing': 1.0.1
+      '@azure/core-util': 1.5.0
+      '@azure/logger': 1.0.4
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/keyvault-secrets@4.7.0:
+    resolution: {integrity: sha512-YvlFXRQ+SI5NT4GtSFbb6HGo6prW3yzDab8tr6vga2/SjDQew3wJsCAAr/xwZz6XshFXCYEX26CDKmPf+SJKJg==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
@@ -10154,10 +10207,11 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-yGpbCZ3QqkuuCmRFdTVVAe20A+fl7MjANDUG4OIFUWqEWO/ZzvRogWoSxOAJNDvc3YqlfxVOyjaM+JrZTmm+Lg==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-mdDnEc/eCJMBvRxFo7a8Zq9LEnj9xtV84H3HMZ3FHsYxdh1n7ZBiCI9VGyCHNA3LbLOwnpmFADJzvMbBOzPIFw==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
+      '@azure/keyvault-secrets': 4.7.0
       '@microsoft/api-extractor': 7.37.1(@types/node@16.18.54)
       '@types/chai': 4.3.6
       '@types/mocha': 10.0.2
@@ -18850,10 +18904,11 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-TESnffDAD2enWNPxBGr95gSvlgtzZ6I4GRNtBegIMrWIUlocGYYpSUkUZoGMgui/rvDEnCr30SUQCM+3itR7pA==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-T2KhyJXwiqd53AIBOT2UUM/AcNDlLStXMlB46wd+WaA/CjrODjTyUfME2nyz1kzcZFQz3v3LE/UOOsUcmpsOYQ==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
+      '@azure/keyvault-keys': 4.7.2
       '@microsoft/api-extractor': 7.37.1(@types/node@16.18.54)
       '@types/mocha': 10.0.2
       '@types/node': 16.18.54
@@ -18881,10 +18936,11 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-07iLho/y+rGS8vP5yGso9jz4vbogo917icccL2nUBf4l6r1AOrTWLs5SC9nB2xuQUyhHsnAUMEGHabaZXIypnQ==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-v2GoG7e5yV4ogtEqOJmu+ygJwfNbHC5Zpt59xlJ8cMk0zWsg6k09jFWjDYjIhJRkGbP85t86Vb9dGRJ+00dHQA==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
+      '@azure/keyvault-secrets': 4.7.0
       '@microsoft/api-extractor': 7.37.1(@types/node@16.18.54)
       '@types/mocha': 10.0.2
       '@types/node': 16.18.54
@@ -20001,10 +20057,11 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-certificates.tgz:
-    resolution: {integrity: sha512-g6H0i23jDvVBWFSaB5lspMkuCg92EySPcH5lKpBUbHjdtPQ3OTHYAKyJeqEOqZYWZV5hr30CBgp1u+lOMnuDJA==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-gLXwnFGwt8mc2OJjJ5rGlYMEtcNl+zDmpgJtAqAP5yaT0GgiH2GPEQiYubfiw61Mve8iLFsqrlxmtxALTmOpTQ==, tarball: file:projects/perf-keyvault-certificates.tgz}
     name: '@rush-temp/perf-keyvault-certificates'
     version: 0.0.0
     dependencies:
+      '@azure/keyvault-certificates': 4.7.0
       '@types/node': 16.18.54
       '@types/uuid': 8.3.4
       dotenv: 16.3.1
@@ -20022,10 +20079,11 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-keys.tgz:
-    resolution: {integrity: sha512-tKdppSJsvp4/JoWGodjJ7nFlZ783xgFYgwyeI7KFXv9FwmGsCAv4CjxBpCTXKIfeqDpaKvwKPhiezU9ynzI1rw==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-EhTqZQjVWNy0BB0SsPqx27mZVWlgZo0oky3DxByBX96HydejXbQP1L2S8lffWl7QD+WLnTePlqxlDd5AWH/xyA==, tarball: file:projects/perf-keyvault-keys.tgz}
     name: '@rush-temp/perf-keyvault-keys'
     version: 0.0.0
     dependencies:
+      '@azure/keyvault-keys': 4.7.2
       '@types/node': 16.18.54
       '@types/uuid': 8.3.4
       dotenv: 16.3.1
@@ -20043,10 +20101,11 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-vFNr7i7UZjo5he+k4G3xZHFb43OMy3rNF1uYNqBH3GTshEVeaED9/x+rkTrjDLCpfl1W0qDwh53XROX5fBwujg==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-tHtGxvQrOTXwBijla3P/UmUUSx6rheAAClnoekUWwYoW78Kx3/k7w7qc+5HEBPe0PN0rr0lU7nS5ZRohWrcrYw==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
+      '@azure/keyvault-secrets': 4.7.0
       '@types/node': 16.18.54
       '@types/uuid': 8.3.4
       dotenv: 16.3.1
