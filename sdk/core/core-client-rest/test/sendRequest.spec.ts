@@ -39,12 +39,13 @@ describe("sendRequest", () => {
 
     it("should handle request body as json string without content type", async () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
-      const expectedBody = '{"key":"value"}';
+      const body = '{"key":"value"}';
+      const expectedBody = JSON.stringify(body);
       mockPipeline.sendRequest = async (_client, request) => {
         assert.equal(request.body, expectedBody);
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
-      await sendRequest("POST", mockBaseUrl, mockPipeline, { body: expectedBody });
+      await sendRequest("POST", mockBaseUrl, mockPipeline, { body });
     });
 
     it("should handle request body as non-json string with content type", async () => {
@@ -62,13 +63,14 @@ describe("sendRequest", () => {
 
     it("should handle request body as json string with content type", async () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
-      const expectedBody = JSON.stringify('{"key":"value"}');
+      const body = '{"key":"value"}';
+      const expectedBody = JSON.stringify(body);
       mockPipeline.sendRequest = async (_client, request) => {
         assert.equal(request.body, expectedBody);
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
       await sendRequest("POST", mockBaseUrl, mockPipeline, {
-        body: '{"key":"value"}',
+        body,
         contentType: "application/json",
       });
     });
@@ -88,13 +90,14 @@ describe("sendRequest", () => {
 
     it("should handle request body as json string with content type in header", async () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
-      const expectedBody = JSON.stringify('{"key":"value"}');
+      const body = '{"key":"value"}';
+      const expectedBody = JSON.stringify(body);
       mockPipeline.sendRequest = async (_client, request) => {
         assert.equal(request.body, expectedBody);
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
       await sendRequest("POST", mockBaseUrl, mockPipeline, {
-        body: '{"key":"value"}',
+        body,
         headers: { "content-type": "application/json" },
       });
     });

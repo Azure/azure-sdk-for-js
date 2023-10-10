@@ -92,6 +92,19 @@ export async function sendRequestAsStream<
 }
 
 /**
+ * Function to determine the request content type
+ * @param options - request options InternalRequestParameters
+ * @returns returns the content-type
+ */
+function getRequestContentType(options: InternalRequestParameters = {}): string {
+  return (
+    options.contentType ??
+    (options.headers?.["content-type"] as string) ??
+    getContentType(options.body)
+  );
+}
+
+/**
  * Function to determine the content-type of a body
  * this is used if an explicit content-type is not provided
  * @param body - body in the request
@@ -115,20 +128,14 @@ function buildPipelineRequest(
   url: string,
   options: InternalRequestParameters = {}
 ): PipelineRequest {
-  const { body, formData } = getRequestBody(
-    options.body,
-    options.contentType ?? (options.headers?.["content-type"] as string)
-  );
+  const { body, formData } = getRequestBody(options.body, getRequestContentType(options));
   const hasContent = body !== undefined || formData !== undefined;
 
   const headers = createHttpHeaders({
     ...(options.headers ? options.headers : {}),
     accept: options.accept ?? "application/json",
     ...(hasContent && {
-      "content-type":
-        options.contentType ??
-        (options.headers?.["content-type"] as string) ??
-        getContentType(options.body),
+      "content-type": getRequestContentType(options),
     }),
   });
 
@@ -166,15 +173,6 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
 
   if (isReadableStream(body)) {
     return { body };
-  }
-
-  if (!contentType && typeof body === "string") {
-    try {
-      JSON.parse(body);
-      return { body };
-    } catch (error) {
-      return { body: JSON.stringify(body) };
-    }
   }
 
   const firstType = contentType.split(";")[0];
