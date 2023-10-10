@@ -68,7 +68,7 @@ export default leafCommand(commandInfo, async (options) => {
       "This is probably a mistake. --ignore-missing-node-builtins should only be used with --inject-node-polyfills."
     );
   }
-  if (!browserTest && (polyfillNode || injectNodePolyfills)) {
+  if (!browserTest && injectNodePolyfills) {
     log.warn(
       "This is probably a mistake. --polyfill-node and --inject-node-polyfills should only be used with --browser-test."
     );

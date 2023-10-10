@@ -21512,7 +21512,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client-protobuf.tgz:
-    resolution: {integrity: sha512-zgN5Bkc6Ytg8XpWTuBr6vTqJ4bh07We8O0NWGUpZix4iCvKnqYVLjc+LIjTdDs+X4Cy1xenIbdrMpcTGZwg5HA==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
+    resolution: {integrity: sha512-CLVJunxTB25CINeq+2/36rFDSRn8LAvXDEjBneyeoHmmNt10H6vC1LlWFfwoHP0Pc3qNpBbFbeuR2int+it3/g==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
     name: '@rush-temp/web-pubsub-client-protobuf'
     version: 0.0.0
     dependencies:
@@ -21557,7 +21557,7 @@ packages:
       protobufjs-cli: 1.1.2(protobufjs@7.2.5)
       puppeteer: 19.11.1(typescript@5.0.4)
       rimraf: 3.0.2
-      rollup: 2.79.1
+      rollup: 3.29.4
       sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)
