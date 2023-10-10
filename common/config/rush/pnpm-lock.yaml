@@ -21225,7 +21225,7 @@ packages:
     dev: false
 
   file:projects/synapse-monitoring.tgz:
-    resolution: {integrity: sha512-lKiEWILHLr84jaOKE83S7OcbKi64o5be/USSI4NUCDK1beA5mKLXXsM68urWtjKcs7fq0PD8Vx9bFreJCEjuPA==, tarball: file:projects/synapse-monitoring.tgz}
+    resolution: {integrity: sha512-S8rCFc8BbmzIOEHvnO5HF6tE/viekL/Cy7SaT3TCkwSMeSOnYmCzW9Z6ViIHUib+hT7X+FOpgzHseQqifYvSOA==, tarball: file:projects/synapse-monitoring.tgz}
     name: '@rush-temp/synapse-monitoring'
     version: 0.0.0
     dependencies:
@@ -21248,6 +21248,7 @@ packages:
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
+      prettier: 2.8.8
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@16.18.58)(rollup@2.79.1)

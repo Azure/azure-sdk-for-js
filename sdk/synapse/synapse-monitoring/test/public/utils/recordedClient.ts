@@ -13,7 +13,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { MonitoringClient, MonitoringClientOptionalParams } from "../../../src";
 
 const envSetupForPlayback: { [k: string]: string } = {
-  ENDPOINT: "https://testaccount.dev.azuresynapse.net"
+  ENDPOINT: "https://testaccount.dev.azuresynapse.net",
 };
 
 const recorderStartOptions: RecorderStartOptions = {
@@ -26,7 +26,11 @@ export function createClient(options?: {
 }): MonitoringClient {
   const { recorder, clientOptions = {} } = options || {};
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
-  return new MonitoringClient(createTestCredential(), assertEnvironmentVariable("ENDPOINT"), updatedOptions);
+  return new MonitoringClient(
+    createTestCredential(),
+    assertEnvironmentVariable("ENDPOINT"),
+    updatedOptions
+  );
 }
 
 export async function createRecorder(currentTest?: Test): Promise<Recorder> {

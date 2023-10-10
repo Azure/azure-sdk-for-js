@@ -16,7 +16,7 @@ import {
   MonitoringGetSparkJobListOptionalParams,
   MonitoringGetSparkJobListResponse,
   MonitoringGetSqlJobQueryStringOptionalParams,
-  MonitoringGetSqlJobQueryStringResponse
+  MonitoringGetSqlJobQueryStringResponse,
 } from "../models";
 
 /** Class containing Monitoring operations. */
@@ -77,29 +77,24 @@ const getSparkJobListOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SparkJobListViewResponse
-    }
+      bodyMapper: Mappers.SparkJobListViewResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
-  serializer
+  serializer,
 };
 const getSqlJobQueryStringOperationSpec: coreClient.OperationSpec = {
   path: "/monitoring/workloadTypes/sql/querystring",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlQueryStringDataModel
-    }
+      bodyMapper: Mappers.SqlQueryStringDataModel,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby,
-    Parameters.skip
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.orderby, Parameters.skip],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
-  serializer
+  serializer,
 };

@@ -10,7 +10,7 @@ import {
   MonitoringGetSparkJobListOptionalParams,
   MonitoringGetSparkJobListResponse,
   MonitoringGetSqlJobQueryStringOptionalParams,
-  MonitoringGetSqlJobQueryStringResponse
+  MonitoringGetSqlJobQueryStringResponse,
 } from "../models";
 
 /** Interface representing a Monitoring. */

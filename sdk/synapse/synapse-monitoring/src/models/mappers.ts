@@ -16,8 +16,8 @@ export const SparkJobListViewResponse: coreClient.CompositeMapper = {
       nJobs: {
         serializedName: "nJobs",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       sparkJobs: {
         serializedName: "sparkJobs",
@@ -27,13 +27,13 @@ export const SparkJobListViewResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SparkJob"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SparkJob",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SparkJob: coreClient.CompositeMapper = {
@@ -44,38 +44,38 @@ export const SparkJob: coreClient.CompositeMapper = {
       state: {
         serializedName: "state",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       submitter: {
         serializedName: "submitter",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       compute: {
         serializedName: "compute",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sparkApplicationId: {
         serializedName: "sparkApplicationId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       livyId: {
         serializedName: "livyId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       timing: {
         serializedName: "timing",
@@ -83,17 +83,17 @@ export const SparkJob: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       sparkJobDefinition: {
         serializedName: "sparkJobDefinition",
         nullable: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       pipeline: {
         serializedName: "pipeline",
@@ -103,51 +103,51 @@ export const SparkJob: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SparkJob"
-            }
-          }
-        }
+              className: "SparkJob",
+            },
+          },
+        },
       },
       jobType: {
         serializedName: "jobType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       submitTime: {
         serializedName: "submitTime",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       endTime: {
         serializedName: "endTime",
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       queuedDuration: {
         serializedName: "queuedDuration",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       runningDuration: {
         serializedName: "runningDuration",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       totalDuration: {
         serializedName: "totalDuration",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SqlQueryStringDataModel: coreClient.CompositeMapper = {
@@ -158,9 +158,9 @@ export const SqlQueryStringDataModel: coreClient.CompositeMapper = {
       query: {
         serializedName: "query",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };

@@ -8,7 +8,7 @@ describe("Access Control smoke", () => {
   let recorder: Recorder;
   let client: MonitoringClient;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = await createRecorder(this.currentTest);
     client = createClient({ recorder });
   });
@@ -17,7 +17,7 @@ describe("Access Control smoke", () => {
     await recorder.stop();
   });
 
-  it("should list roles", async function() {
+  it("should list roles", async function () {
     const result = await client.monitoring.getSparkJobList();
     assert.isNumber(result.nJobs);
   });
