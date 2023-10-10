@@ -1,14 +1,45 @@
 # Release History
 
-## 16.0.0 (Unreleased)
+## 16.0.0 (2023-10-12)
+
+The list of changes in 16.0.0 since 16.0.0-beta.6 & 15.5.0 are provided below:
+
+**Changes since 15.5.0**
 
 ### Features Added
 
-### Breaking Changes
+- Added optional property `CustomerManagedKeyStatus` to the following interfaces:
+  - `DatabaseAccountUpdateParameters`
+  - `DatabaseAccountGetResults`
+  - `DatabaseAccountCreateUpdateParameters`
+- Added optional property `enableBurstCapacity` to the following interfaces:
+  - `DatabaseAccountUpdateParameters`
+  - `DatabaseAccountGetResults`
+  - `DatabaseAccountCreateUpdateParameters`
 
-### Bugs Fixed
+**Changes since 16.0.0-beta.6**
 
-### Other Changes
+**Breaking Changes**
+
+- Removed property `identity` from `ARMResourceProperties` interface
+- Removed `getBackup` & `listBackups` operations from `CassandraClusters` interface
+- Removed `beginCreateUpdateCassandraView`, `beginCreateUpdateCassandraViewAndWait`, `beginDeleteCassandraView`, `beginDeleteCassandraViewAndWait`, `beginMigrateCassandraViewToAutoscale`, `beginMigrateCassandraViewToAutoscaleAndWait`, `beginMigrateCassandraViewToManualThroughput`, `beginMigrateCassandraViewToManualThroughputAndWait`, `beginUpdateCassandraViewThroughput`, `beginUpdateCassandraViewThroughputAndWait`, `getCassandraView`, `getCassandraViewThroughput`, & `listCassandraViews` operations from `CassandraResources` interface.
+- Removed `beginListMongoDBCollectionPartitionMerge`, `beginListMongoDBCollectionPartitionMergeAndWait`, `beginMongoDBContainerRedistributeThroughput`, `beginMongoDBContainerRedistributeThroughputAndWait`, `beginMongoDBContainerRetrieveThroughputDistribution`, `beginMongoDBContainerRetrieveThroughputDistributionAndWait`, `beginMongoDBDatabasePartitionMerge`, `beginMongoDBDatabasePartitionMergeAndWait`, `beginMongoDBDatabaseRedistributeThroughput`, `beginMongoDBDatabaseRedistributeThroughputAndWait`, `beginMongoDBDatabaseRetrieveThroughputDistribution`, `beginMongoDBDatabaseRetrieveThroughputDistributionAndWait` operations from `MongoDBResources` interface.
+- Removed `beginListSqlContainerPartitionMerge`, `beginListSqlContainerPartitionMergeAndWait`, `beginSqlContainerRedistributeThroughput`, `beginSqlContainerRedistributeThroughputAndWait`, `beginSqlContainerRetrieveThroughputDistribution`, `beginSqlContainerRetrieveThroughputDistributionAndWait`, `beginSqlDatabasePartitionMerge`, `beginSqlDatabasePartitionMergeAndWait`, `beginSqlDatabaseRedistributeThroughput`, `beginSqlDatabaseRedistributeThroughputAndWait`, `beginSqlDatabaseRetrieveThroughputDistribution`, `beginSqlDatabaseRetrieveThroughputDistributionAndWait` operations from `SqlResources` interface.
+- Removed properties `dataTransferJobs`, `graphResources` & `mongoClusters` from class `CosmosDBManagementClient`.
+- Removed properties `diagnosticLogSettings` & `enableMaterializedViews` from the interfaces:
+  - `DatabaseAccountCreateUpdateParameters`
+  - `DatabaseAccountGetResults`
+  - `DatabaseAccountUpdateParameters`
+- Removed properties `createMode` & `restoreParameters` from the interfaces:
+  - `GremlinDatabaseResource`
+  - `GremlinGraphResource`
+  - `SqlDatabaseResource`
+  - `SqlContainerResource`
+- Removed interfaces `DataTransferJobs`, `GraphResources` & `MongoClusters`.
+- Removed property `materializedViewDefinition` from `SqlContainerResource` interface.
+
+A complete list of changes could be found [here](https://apiview.dev/Assemblies/Review/6aa83fbe20fd4a269b073b5ba7d2af5f?diffRevisionId=73efa6cdc3bb4abbabce58d1a1486a3d&diffOnly=False&revisionId=7c1a4fc14f01483a9181797080ffd1d4&doc=False)
 
 ## 16.0.0-beta.6 (2023-06-13)
 
