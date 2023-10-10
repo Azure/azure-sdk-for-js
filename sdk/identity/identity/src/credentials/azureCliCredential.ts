@@ -8,6 +8,7 @@ import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
 import child_process from "child_process";
 import {
+  checkTenantId,
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
@@ -93,7 +94,10 @@ export class AzureCliCredential implements TokenCredential {
    * @param options - Options, to optionally allow multi-tenant requests.
    */
   constructor(options?: AzureCliCredentialOptions) {
-    this.tenantId = options?.tenantId;
+    if (options?.tenantId) {
+      checkTenantId(logger, options?.tenantId);
+      this.tenantId = options?.tenantId;
+    }
     this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
@@ -118,6 +122,9 @@ export class AzureCliCredential implements TokenCredential {
       this.additionallyAllowedTenantIds
     );
 
+    if (tenantId) {
+      checkTenantId(logger, tenantId);
+    }
     const scope = typeof scopes === "string" ? scopes : scopes[0];
     logger.getToken.info(`Using the scope ${scope}`);
 

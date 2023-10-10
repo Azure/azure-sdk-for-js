@@ -7,6 +7,7 @@ import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scope
 import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
 import {
+  checkTenantId,
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
@@ -112,7 +113,10 @@ export class AzurePowerShellCredential implements TokenCredential {
    * @param options - Options, to optionally allow multi-tenant requests.
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
-    this.tenantId = options?.tenantId;
+    if (options?.tenantId) {
+      checkTenantId(logger, options?.tenantId);
+      this.tenantId = options?.tenantId;
+    }
     this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
@@ -185,7 +189,9 @@ export class AzurePowerShellCredential implements TokenCredential {
         this.additionallyAllowedTenantIds
       );
       const scope = typeof scopes === "string" ? scopes : scopes[0];
-
+      if (tenantId) {
+        checkTenantId(logger, tenantId);
+      }
       try {
         ensureValidScopeForDevTimeCreds(scope, logger);
         logger.getToken.info(`Using the scope ${scope}`);
