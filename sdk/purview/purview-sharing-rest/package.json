@@ -29,7 +29,7 @@
     "review/*"
   ],
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -79,7 +79,7 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^14.0.0",
+    "@types/node": "^16.0.0",
     "autorest": "latest",
     "chai": "^4.3.7",
     "cross-env": "^7.0.2",

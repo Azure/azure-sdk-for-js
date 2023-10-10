@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Web PubSub Client client library samples for TypeScript (Beta)",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -32,7 +32,7 @@
     "@azure/web-pubsub": "^1.1.0"
   },
   "devDependencies": {
-    "@types/node": "^14.0.0",
+    "@types/node": "^16.0.0",
     "typescript": "~5.0.0",
     "rimraf": "latest"
   }

@@ -2,10 +2,6 @@
 // Licensed under the MIT license.
 
 declare global {
-  class TextEncoder {
-    encode(input?: string): Uint8Array;
-  }
-
   interface HmacImportParams {
     name: string;
     hash: { name: string };
