@@ -1126,6 +1126,25 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@azure/app-configuration@1.5.0-beta.2:
+    resolution: {integrity: sha512-FhKvFKmMhu0P57lYO4i3JN8oGyvHs+YTsdz18cmKaqYHwlHD9ITHGKX59f3hT3rWZoK02sd0OajhCGrsKOmkmQ==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-http-compat': 2.0.1
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.1
+      '@azure/core-tracing': 1.0.1
+      '@azure/core-util': 1.5.0
+      '@azure/logger': 1.0.4
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-signaling@1.0.0-beta.20:
     resolution: {integrity: sha512-Vjsiv6lWiVFqTG51cKNOAwnhuUhKbb6oOsQ833NEaWl9MwlqEQtxSOMJPYsoSCjb+pnIYvbioC+hIHkKfkAxbQ==}
     engines: {node: '>=8.0.0'}
@@ -1166,6 +1185,17 @@ packages:
   /@azure/core-http-compat@1.3.0:
     resolution: {integrity: sha512-ZN9avruqbQ5TxopzG3ih3KRy52n8OAbitX3fnZT5go4hzu0J+KVPSzkL+Wt3hpJpdG8WIfg1sBD1tWkgUdEpBA==}
     engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-rest-pipeline': 1.12.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/core-http-compat@2.0.1:
+    resolution: {integrity: sha512-xpQZz/q7E0jSW4rckrTo2mDFDQgo6I69hBU4voMQi7REi6JRW5a+KfVkbJCFCWnkFmP6cAJ0IbuudTdf/MEBOQ==}
+    engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-client': 1.7.3
@@ -4214,7 +4244,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231005
+      typescript: 5.3.0-dev.20231010
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -8963,8 +8993,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231005:
-    resolution: {integrity: sha512-Twm3wBauTO94CSWbjXFMpsHsbaOUVssreq6pUo4wr8YsaIp0jim8EeCa9LfawFetQ+P4PODMmiM+uBhhWRVX0Q==}
+  /typescript@5.3.0-dev.20231010:
+    resolution: {integrity: sha512-oSO2cE/D2+ju7rRavL4A/j6tP/s3Y4W7lDK81PaW3MEi1HpeXbRLObHcxA7Y9s2QuES/1P/81i/YKdB0kssg6w==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -19877,10 +19907,11 @@ packages:
     dev: false
 
   file:projects/perf-app-configuration.tgz:
-    resolution: {integrity: sha512-CtwFTKEdS6TDqigo+QxOu610D+WJd77ITFMucfj+U/u+5wFrxG6jesbZ4SKH/g3EYuLL4ST/OHvR0vtXMu4g7w==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-98ot7Bic6wOnIQfGrq/FF78tHmlycFw28VblJmSvJlvamE/TM0FQzrgEK6+FFvm4ocVjJHjIVDASNxf7fEDlEQ==, tarball: file:projects/perf-app-configuration.tgz}
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
+      '@azure/app-configuration': 1.5.0-beta.2
       '@types/node': 14.18.63
       '@types/uuid': 8.3.4
       dotenv: 16.3.1
@@ -20273,10 +20304,11 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-1bRh+rR6RprHPKmcY5h2yxj+6ncrixdgzcIZTN0Rl4pu2qNn0e2JBahsn19HfmUgZHN6Is+T22DaZaYAkNZXsg==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-ZNEJSPDC2Sboc7c4x1ThJUvFNaEPvJkKXpwwKik1WOj0VTTBzmM5zovJe59fh1Ljo47ghD+ZENd45F3xEVjZoA==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
+      '@azure/app-configuration': 1.5.0-beta.2
       '@types/node': 14.18.63
       '@types/uuid': 8.3.4
       dotenv: 16.3.1
