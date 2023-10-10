@@ -3,7 +3,7 @@ import MagicString from "magic-string";
 
 import nodeResolve from "@rollup/plugin-node-resolve";
 
-import pkg from "./package.json";
+import pkg from "./package.json" assert { type: "json" };
 
 // Some magic code to preserve the shebang and set the executable bit on the generated bundle.
 const executable = (options = {}) => {
