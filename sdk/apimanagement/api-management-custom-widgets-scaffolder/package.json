@@ -1,6 +1,6 @@
 {
   "name": "@azure/api-management-custom-widgets-scaffolder",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "author": "Microsoft Corporation",
   "license": "MIT",
   "sdk-type": "client",
@@ -16,7 +16,7 @@
     "create-apimanagement-widget": "bin/execute.js"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "keywords": [
     "azure",
@@ -66,7 +66,7 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^14.0.0",
+    "@types/node": "^16.0.0",
     "@types/inquirer": "^8.2.1",
     "@types/yargs": "^17.0.10",
     "@types/yargs-parser": "^21.0.0",

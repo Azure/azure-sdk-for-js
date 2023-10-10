@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Communication Services - Phone Numbers client library samples for JavaScript",
   "engine": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "repository": {
     "type": "git",

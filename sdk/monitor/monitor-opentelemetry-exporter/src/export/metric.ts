@@ -34,12 +34,13 @@ export class AzureMonitorMetricExporter
 
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
-    this._sender = new HttpSender(
-      this.endpointUrl,
-      this.instrumentationKey,
-      this.trackStatsbeat,
-      options
-    );
+    this._sender = new HttpSender({
+      endpointUrl: this.endpointUrl,
+      instrumentationKey: this.instrumentationKey,
+      trackStatsbeat: this.trackStatsbeat,
+      exporterOptions: options,
+      aadAudience: this.aadAudience,
+    });
     diag.debug("AzureMonitorMetricExporter was successfully setup");
   }
 
