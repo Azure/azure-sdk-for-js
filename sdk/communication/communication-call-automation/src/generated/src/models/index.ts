@@ -559,6 +559,8 @@ export interface StartCallRecordingRequest {
   recordingChannelType?: RecordingChannelType;
   /** The format type of call recording. */
   recordingFormatType?: RecordingFormatType;
+  /** Pause on start call recording option */
+  pauseOnStart?: boolean;
   /**
    * The sequential order in which audio channels are assigned to participants in the unmixed recording.
    * When 'recordingChannelType' is set to 'unmixed' and `audioChannelParticipantOrdering is not specified,
