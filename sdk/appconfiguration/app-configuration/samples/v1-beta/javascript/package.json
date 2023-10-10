@@ -29,7 +29,7 @@
     "@azure/app-configuration": "next",
     "dotenv": "latest",
     "@azure/keyvault-secrets": "^4.2.0",
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^3.3.0",
     "@azure/eventgrid": "^4.9.0"
   }
 }
