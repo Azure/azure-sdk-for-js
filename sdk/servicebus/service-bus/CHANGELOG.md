@@ -1,16 +1,10 @@
 # Release History
 
-## 7.9.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 7.9.2 (2023-10-10)
 
 ### Bugs Fixed
 
 - Fix an INTERNAL ERROR due to timing [PR #27308](https://github.com/Azure/azure-sdk-for-js/pull/27308)
-
-### Other Changes
 
 ## 7.9.1 (2023-09-12)
 
