@@ -97,6 +97,7 @@ const validFrom = new Date(Date.now());
 let validForDays = 10;
 let validUntil = new Date(validFrom.getTime());
 validUntil.setDate(validFrom.getDate() + validForDays);
+let pstnDialOutEnabled = true;
 
 // options payload to create a room
 const createRoomOptions: CreateRoomOptions = {
