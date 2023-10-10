@@ -166,7 +166,7 @@ To add new participants, or update existing participants, use the `addOrUpdatePa
 
 ```js
 const user2 = await identityClient.createUserAndToken(["voip"]);
-const updateParticipantsList: InvitedRoomParticipant[] = [
+const updateParticipantsList = [
   {
     id: user1.user,
     role: "Presenter",
