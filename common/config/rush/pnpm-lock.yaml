@@ -18588,11 +18588,11 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-bG39QggFPt8Xp10BuCoip/orWVdNBvclU5t6nJPPP25WlbI8EbB90sQcUxNPdopIoCefb9MwOsnJKuWvl7YnaQ==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-3qMU6uvnneJaQtPP13lN5UOfUqEg2q8+x7ar8JLJ1Sw/9fYUb3N708wzpqbMTuC6fMcP6K34OnvkVECHN5e8xw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
-      '@azure/msal-node': 1.18.3
+      '@azure/msal-node': 2.2.0
       '@azure/msal-node-extensions': 1.0.0-alpha.25
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
       '@types/jws': 3.2.6
@@ -18661,7 +18661,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-CkZzItis27iZZmZRINC/jY8BqvAiXrEpNErqtDanoMV8PeZTe49fZrSm+ciw171vA0zPkJx1BMZu66Ax1SzCOg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-hNgTrpvMcsd3NFyKT89C3AgHsxmmaC0ISwZ+urCm3Wv9476oQNp/X47pg+pzSRDaZXSc1DXI0GEGK6vPncSaIg==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
