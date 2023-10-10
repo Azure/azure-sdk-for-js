@@ -1,16 +1,24 @@
 # Release History
-## 1.4.0-beta.1 (2023-08-17)
+
+## 1.4.0-beta.2 (2023-10-10)
 
 ### Features Added
 
-- Support `metadata` for chat thread and chat participant.
-- Updated @azure/communication-signaling to 1.0.0-beta.19 with thread and participant metadata support.
+- Updated @azure/communication-common to 2.3.0
+- Updated @azure/communication-signaling to 1.0.0-beta.21
 
 ## 1.3.2 (2023-08-24)
 
 ### Features Added
 
 - Updated to @azure/communication-signaling@1.0.0-beta.20. Added EUDB real-time notification support. `https://*.trouter.teams.microsoft.com` and `https://teams.microsoft.com` needs to be allowed for real-time notifications.
+
+## 1.4.0-beta.1 (2023-08-17)
+
+### Features Added
+
+- Support `metadata` for chat thread and chat participant.
+- Updated @azure/communication-signaling to 1.0.0-beta.19 with thread and participant metadata support.
 
 ## 1.3.2-beta.3 (2023-07-18)
 
