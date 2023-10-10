@@ -1,5 +1,10 @@
 # Release History
 
+## 3.3.1 (2023-10-10)
+
+### Bug Fixes
+- Bug fixes for developer credentials
+
 ## 3.3.0 (2023-08-14)
 
 ### Features Added
