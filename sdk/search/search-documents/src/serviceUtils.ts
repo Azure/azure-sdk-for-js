@@ -59,6 +59,9 @@ import {
   CustomVectorizer as GeneratedCustomVectorizer,
   AzureOpenAIVectorizer as GeneratedAzureOpenAIVectorizer,
   VectorSearchVectorizerUnion as GeneratedVectorSearchVectorizer,
+  VectorSearchAlgorithmConfigurationUnion as GeneratedVectorSearchAlgorithmConfiguration,
+  HnswVectorSearchAlgorithmConfiguration as GeneratedHnswVectorSearchAlgorithmConfiguration,
+  ExhaustiveKnnVectorSearchAlgorithmConfiguration as GeneratedExhaustiveKnnVectorSearchAlgorithmConfiguration,
 } from "./generated/service/models";
 import {
   AzureOpenAIVectorizer,
@@ -89,6 +92,8 @@ import {
   SynonymMap,
   TokenFilter,
   VectorSearch,
+  VectorSearchAlgorithmConfiguration,
+  VectorSearchAlgorithmMetric,
   VectorSearchVectorizer,
   WebApiSkill,
   isComplexField,
@@ -489,6 +494,7 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     vectorSearch: generatedVectorSearchToPublicVectorSearch(generatedIndex.vectorSearch),
   };
 }
+
 export function generatedVectorSearchVectorizerToPublicVectorizer(): undefined;
 export function generatedVectorSearchVectorizerToPublicVectorizer(
   generatedVectorizer: GeneratedVectorSearchVectorizer
@@ -527,6 +533,31 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
   throw Error("Unsupported vectorizer");
 }
 
+export function generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchAlgorithmConfiguration(): undefined;
+export function generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchAlgorithmConfiguration(
+  generatedAlgorithmConfiguration: GeneratedVectorSearchAlgorithmConfiguration
+): VectorSearchAlgorithmConfiguration;
+export function generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchAlgorithmConfiguration(
+  generatedAlgorithmConfiguration?: GeneratedVectorSearchAlgorithmConfiguration
+): VectorSearchAlgorithmConfiguration | undefined {
+  if (!generatedAlgorithmConfiguration) {
+    return generatedAlgorithmConfiguration;
+  }
+
+  if (["hnsw", "exhaustiveKnn"].includes(generatedAlgorithmConfiguration.kind)) {
+    const algorithmConfiguration = generatedAlgorithmConfiguration as
+      | GeneratedHnswVectorSearchAlgorithmConfiguration
+      | GeneratedExhaustiveKnnVectorSearchAlgorithmConfiguration;
+    const metric = algorithmConfiguration.parameters?.metric as VectorSearchAlgorithmMetric;
+    return {
+      ...algorithmConfiguration,
+      parameters: { ...algorithmConfiguration.parameters, metric },
+    };
+  }
+
+  throw Error("Unsupported algorithm configuration");
+}
+
 export function generatedVectorSearchToPublicVectorSearch(
   vectorSearch?: GeneratedVectorSearch
 ): VectorSearch | undefined {
@@ -536,6 +567,9 @@ export function generatedVectorSearchToPublicVectorSearch(
 
   return {
     ...vectorSearch,
+    algorithms: vectorSearch.algorithms?.map(
+      generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchAlgorithmConfiguration
+    ),
     vectorizers: vectorSearch.vectorizers?.map(generatedVectorSearchVectorizerToPublicVectorizer),
   };
 }

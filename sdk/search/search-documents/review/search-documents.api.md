@@ -136,8 +136,6 @@ export interface AzureOpenAIParameters {
     resourceUri?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BaseVectorSearchVectorizer" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type AzureOpenAIVectorizer = BaseVectorSearchVectorizer & {
     kind: "azureOpenAI";
@@ -224,6 +222,12 @@ export interface BaseVectorQuery<TModel extends object> {
 // @public
 export interface BaseVectorSearchAlgorithmConfiguration {
     kind: VectorSearchAlgorithmKind;
+    name: string;
+}
+
+// @public
+export interface BaseVectorSearchVectorizer {
+    kind: VectorSearchVectorizerKind;
     name: string;
 }
 
@@ -3019,7 +3023,7 @@ export interface VectorSearch {
 }
 
 // @public
-export type VectorSearchAlgorithmConfiguration = BaseVectorSearchAlgorithmConfiguration | HnswVectorSearchAlgorithmConfiguration | ExhaustiveKnnVectorSearchAlgorithmConfiguration;
+export type VectorSearchAlgorithmConfiguration = HnswVectorSearchAlgorithmConfiguration | ExhaustiveKnnVectorSearchAlgorithmConfiguration;
 
 // @public (undocumented)
 export type VectorSearchAlgorithmKind = "hnsw" | "exhaustiveKnn";
@@ -3035,7 +3039,7 @@ export interface VectorSearchProfile {
 }
 
 // @public
-export type VectorSearchVectorizer = BaseVectorSearchVectorizer | AzureOpenAIVectorizer | CustomVectorizer;
+export type VectorSearchVectorizer = AzureOpenAIVectorizer | CustomVectorizer;
 
 // @public (undocumented)
 export type VectorSearchVectorizerKind = "azureOpenAI" | "customWebApi";
