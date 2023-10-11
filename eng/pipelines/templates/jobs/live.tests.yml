@@ -165,6 +165,7 @@ jobs:
       - script: echo 'TestResultsFiles is $(TestResultsFiles)'
       - script: echo 'PackagePath is $(PackagePath)'
       - script: echo 'SourcesDirectory is $(Build.SourcesDirectory)'
+      - script: echo 'SourcesDirectory is $(Build.SourcesDirectory)/${{ parameters.TargetDirectory }}'
 
       - script: |
           node ../../../common/scripts/install-run-rushx.js execute:samples
@@ -201,6 +202,22 @@ jobs:
           npm test -- --reporter mocha-junit-reporter --reporter-options mochaFile=./test-results.xml
         displayName: "Build code coverage report"
 
+      - task: PublishTestResults@2
+        displayName: Publish Test Results A
+        condition: succeededOrFailed()
+        inputs:
+          testResultsFormat: NUnit
+          testResultsFiles: $(Build.SourcesDirectory)/${{ parameters.TargetDirectory }}/testResults.xml
+          testRunTitle: $(System.StageName)_$(Agent.JobName)_Tests
+
+      - task: PublishCodeCoverageResults@1
+        displayName: Publish Code Coverage to Azure DevOps A
+        condition: succeededOrFailed()
+        inputs:
+          codeCoverageTool: JaCoCo
+          summaryFileLocation: $(Build.SourcesDirectory)/${{ parameters.TargetDirectory }}/coverage.xml
+          pathToSources: $(Build.SourcesDirectory)/${{ parameters.TargetDirectory }}
+      
       - task: PublishCodeCoverageResults@1
         displayName: "Publish NodeJs Code Coverage to DevOps 2"
         continueOnError: true
