@@ -77,7 +77,7 @@ export const mockMessageContent: RestModel.ChatMessageContent = {
   topic: "topic",
   participants: [mockParticipant],
   attachments: [
-   {
+    {
       id: "id",
       attachmentType: "image",
       extension: "png",

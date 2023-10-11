@@ -108,6 +108,8 @@ export interface SendChatMessageRequest {
   senderDisplayName?: string;
   /** The chat message type. */
   type?: ChatMessageType;
+  /** Message metadata. */
+  metadata?: { [propertyName: string]: string };
 }
 
 /** Result of the send message operation. */

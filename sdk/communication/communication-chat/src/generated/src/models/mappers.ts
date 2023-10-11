@@ -281,6 +281,13 @@ export const SendChatMessageRequest: coreClient.CompositeMapper = {
             "participantRemoved"
           ]
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }

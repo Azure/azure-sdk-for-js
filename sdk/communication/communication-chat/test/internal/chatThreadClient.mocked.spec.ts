@@ -100,6 +100,7 @@ describe("[Mocked] ChatThreadClient", async function () {
 
     const sendOptions: SendMessageOptions = {
       senderDisplayName: mockMessage.senderDisplayName,
+      metadata: mockMessage.metadata,
     };
 
     const response = await chatThreadClient.sendMessage(sendRequest, sendOptions);
@@ -185,7 +186,7 @@ describe("[Mocked] ChatThreadClient", async function () {
     assert.deepEqual(responseMessage, expectedMessage);
     assert.deepEqual(responseAttachments, expectedAttachments);
     assert.deepEqual(repsonseContents, expectedContents);
-    assert.equal(responseAttachments![0].attachmentType, "image"); 
+    assert.equal(responseAttachments![0].attachmentType, "image");
     const request = spy.getCall(0).args[0];
 
     assert.equal(request.method, "GET");
@@ -220,12 +221,11 @@ describe("[Mocked] ChatThreadClient", async function () {
     assert.deepEqual(responseMessage, expectedMessage);
     assert.deepEqual(responseAttachments, expectedAttachments);
     assert.deepEqual(repsonseContents, expectedContents);
-    assert.equal(responseAttachments![0].attachmentType, "file"); 
+    assert.equal(responseAttachments![0].attachmentType, "file");
     const request = spy.getCall(0).args[0];
 
     assert.equal(request.method, "GET");
   });
-
 
   it("makes successful list messages request", async function () {
     const { senderCommunicationIdentifier, ...rest } = mockMessage;
@@ -319,6 +319,7 @@ describe("[Mocked] ChatThreadClient", async function () {
 
     const sendOptions: UpdateMessageOptions = {
       content: mockMessage.content?.message,
+      metadata: mockMessage.metadata,
     };
 
     await chatThreadClient.updateMessage(mockMessage.id!, sendOptions);
@@ -332,6 +333,7 @@ describe("[Mocked] ChatThreadClient", async function () {
     assert.equal(request.method, "PATCH");
     assert.deepEqual(JSON.parse(request.body as string), {
       content: mockMessage.content?.message,
+      metadata: mockMessage.metadata,
     });
   });
 
