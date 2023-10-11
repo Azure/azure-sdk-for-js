@@ -72,23 +72,6 @@ export const mockChatMessageReadReceipt: RestModel.ChatMessageReadReceipt = {
   readOn: new Date("2020-06-26T18:06:06Z"),
 };
 
-export const mockMessageContent: RestModel.ChatMessageContent = {
-  message: "content",
-  topic: "topic",
-  participants: [mockParticipant],
-  attachments: [
-    {
-      id: "id",
-      attachmentType: "image",
-      extension: "png",
-      name: "",
-      url: "url",
-      previewUrl: "previewUrl",
-    },
-  ],
-  initiatorCommunicationIdentifier: mockCommunicationIdentifier,
-};
-
 export const mockMessageWithImageAttachment: RestModel.ChatMessage = {
   id: "id",
   type: "text",
