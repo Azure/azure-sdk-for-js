@@ -199,7 +199,9 @@
         "Rslp",
         "sorani",
         "Sorani",
-        "vectorizer"
+        "Vectorizable",
+        "vectorizer",
+        "vectorizers"
       ]
     },
     {
