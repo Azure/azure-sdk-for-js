@@ -55,7 +55,7 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "karma start --single-run",
+    "unit-test:browser": "karma start karma.conf.cjs --single-run",
     "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js  --timeout 50000  --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
@@ -80,7 +80,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/",
   "sideEffects": false,
@@ -122,8 +122,8 @@
     "@types/chai": "^4.3.5",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^14.0.0",
-    "@types/sinon": "^10.0.15",
+    "@types/node": "^16.0.0",
+    "@types/sinon": "^10.0.0",
     "@types/sinonjs__fake-timers": "^8.1.2",
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",

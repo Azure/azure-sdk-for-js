@@ -62,7 +62,7 @@ describe("cancelablePromiseRace", function () {
   const function2Message = "function 2 is rejected";
   const function3Message = "function 3 is rejected";
 
-  const function1 = async (abortOptions: { abortSignal?: AbortSignalLike }): Promise<number> => {
+  const function1 = async (abortOptions: { abortSignal?: AbortSignalLike }): Promise<void> => {
     let token: ReturnType<typeof setTimeout>;
     return createAbortablePromise(
       (resolve) => {

@@ -18,7 +18,7 @@
     }
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -34,7 +34,7 @@
     "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts",
     "pack": "npm pack 2>&1",
-    "unit-test:browser": "cross-env karma start --single-run",
+    "unit-test:browser": "karma start karma.conf.cjs --single-run",
     "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build:test npm run unit-test:browser",
@@ -82,11 +82,11 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^14.0.0",
-    "@types/sinon": "^10.0.15",
-    "cross-env": "^7.0.3",
-    "eslint": "^8.43.0",
-    "karma": "^6.4.2",
+    "@types/node": "^16.0.0",
+    "@types/sinon": "^10.0.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^8.0.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",

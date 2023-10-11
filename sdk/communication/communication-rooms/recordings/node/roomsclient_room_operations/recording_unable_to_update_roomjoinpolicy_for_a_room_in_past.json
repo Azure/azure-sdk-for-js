@@ -40,7 +40,7 @@
           "id": "Sanitized"
         },
         "accessToken": {
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTk5OTE3MzAuNTE5fQ==.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
+          "token": "faketoken",
           "expiresOn": "2022-08-09T19:49:00.2306507\u002B00:00"
         }
       }
@@ -85,7 +85,7 @@
           "id": "Sanitized"
         },
         "accessToken": {
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTk5OTE3MzAuNTE5fQ==.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
+          "token": "faketoken",
           "expiresOn": "2022-08-09T19:49:00.6289886\u002B00:00"
         }
       }

@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-admin",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.4.1",
+  "version": "4.5.0-beta.1",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's administrative functions.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/README.md",
@@ -27,7 +27,7 @@
   "module": "dist-esm/src/index.js",
   "types": "./types/keyvault-admin.d.ts",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "files": [
     "types/keyvault-admin.d.ts",
@@ -48,7 +48,7 @@
     "build:nodebrowser": "npm run bundle",
     "build:test": "tsc -p . && npm run bundle",
     "build": "npm run clean && tsc -p . && npm run build:nodebrowser && api-extractor run --local",
-    "bundle": "dev-tool run bundle --polyfill-node=false",
+    "bundle": "dev-tool run bundle --browser-test=false",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -126,7 +126,7 @@
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.11",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^14.0.0",
+    "@types/node": "^16.0.0",
     "@types/sinon": "^10.0.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",

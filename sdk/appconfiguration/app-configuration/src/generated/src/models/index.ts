@@ -43,6 +43,8 @@ export interface ErrorModel {
 export interface KeyValueListResult {
   /** The collection value. */
   items?: KeyValue[];
+  /** An identifier representing the returned state of the resource. */
+  etag?: string;
   /** The URI that can be used to request the next set of paged results. */
   nextLink?: string;
 }
@@ -69,13 +71,13 @@ export interface KeyValue {
 /** The result of a snapshot list request. */
 export interface SnapshotListResult {
   /** The collection value. */
-  items?: Snapshot[];
+  items?: ConfigurationSnapshot[];
   /** The URI that can be used to request the next set of paged results. */
   nextLink?: string;
 }
 
-/** Snapshot details include name, filters, retentionPeriod, expiresOn, size, status, itemCount, and more */
-export interface Snapshot {
+/** Snapshot details include name, filters, expiresOn, sizeInBytes, status, itemCount, and more */
+export interface ConfigurationSnapshot {
   /**
    * The name of the snapshot.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -85,11 +87,11 @@ export interface Snapshot {
    * The current status of the snapshot.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly status?: SnapshotStatus;
+  readonly status?: ConfigurationSnapshotStatus;
   /** A list of filters used to filter the key-values included in the snapshot. */
   filters: ConfigurationSettingsFilter[];
   /** The composition type describes how the key-values within the snapshot are composed. The 'key' composition type ensures there are no two key-values containing the same key. The 'key_label' composition type ensures there are no two key-values containing the same key and label. */
-  compositionType?: CompositionType;
+  compositionType?: SnapshotComposition;
   /**
    * The time that the snapshot was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -101,12 +103,12 @@ export interface Snapshot {
    */
   readonly expiresOn?: Date;
   /** The amount of time, in seconds, that a snapshot will remain in the archived state before expiring. This property is only writable during the creation of a snapshot. If not specified, the default lifetime of key-value revisions will be used. */
-  retentionPeriod?: number;
+  retentionPeriodInSeconds?: number;
   /**
    * The size in bytes of the snapshot.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly size?: number;
+  readonly sizeInBytes?: number;
   /**
    * The amount of key-values in the snapshot.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -124,9 +126,9 @@ export interface Snapshot {
 /** Enables filtering of key-values. */
 export interface ConfigurationSettingsFilter {
   /** Filters key-values by their key field. */
-  key: string;
+  keyFilter: string;
   /** Filters key-values by their label field. */
-  label?: string;
+  labelFilter?: string;
 }
 
 /** Parameters used to update a snapshot. */
@@ -197,12 +199,16 @@ export interface AppConfigurationCheckKeysHeaders {
 export interface AppConfigurationGetKeyValuesHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
 }
 
 /** Defines headers for AppConfiguration_checkKeyValues operation. */
 export interface AppConfigurationCheckKeyValuesHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
 }
 
 /** Defines headers for AppConfiguration_getKeyValue operation. */
@@ -323,12 +329,16 @@ export interface AppConfigurationDeleteLockHeaders {
 export interface AppConfigurationGetRevisionsHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
 }
 
 /** Defines headers for AppConfiguration_checkRevisions operation. */
 export interface AppConfigurationCheckRevisionsHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
 }
 
 /** Defines headers for AppConfiguration_getKeysNext operation. */
@@ -341,6 +351,8 @@ export interface AppConfigurationGetKeysNextHeaders {
 export interface AppConfigurationGetKeyValuesNextHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
 }
 
 /** Defines headers for AppConfiguration_getSnapshotsNext operation. */
@@ -359,22 +371,24 @@ export interface AppConfigurationGetLabelsNextHeaders {
 export interface AppConfigurationGetRevisionsNextHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
 }
 
-/** Known values of {@link ApiVersion20221101Preview} that the service accepts. */
-export enum KnownApiVersion20221101Preview {
-  /** Api Version '2022-11-01-preview' */
-  TwoThousandTwentyTwo1101Preview = "2022-11-01-preview"
+/** Known values of {@link ApiVersion20231001} that the service accepts. */
+export enum KnownApiVersion20231001 {
+  /** Api Version '2023-10-01' */
+  TwoThousandTwentyThree1001 = "2023-10-01"
 }
 
 /**
- * Defines values for ApiVersion20221101Preview. \
- * {@link KnownApiVersion20221101Preview} can be used interchangeably with ApiVersion20221101Preview,
+ * Defines values for ApiVersion20231001. \
+ * {@link KnownApiVersion20231001} can be used interchangeably with ApiVersion20231001,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2022-11-01-preview**: Api Version '2022-11-01-preview'
+ * **2023-10-01**: Api Version '2023-10-01'
  */
-export type ApiVersion20221101Preview = string;
+export type ApiVersion20231001 = string;
 
 /** Known values of {@link KeyValueFields} that the service accepts. */
 export enum KnownKeyValueFields {
@@ -481,8 +495,32 @@ export enum KnownSnapshotStatus {
  */
 export type SnapshotStatus = string;
 
-/** Known values of {@link CompositionType} that the service accepts. */
-export enum KnownCompositionType {
+/** Known values of {@link ConfigurationSnapshotStatus} that the service accepts. */
+export enum KnownConfigurationSnapshotStatus {
+  /** Provisioning */
+  Provisioning = "provisioning",
+  /** Ready */
+  Ready = "ready",
+  /** Archived */
+  Archived = "archived",
+  /** Failed */
+  Failed = "failed"
+}
+
+/**
+ * Defines values for ConfigurationSnapshotStatus. \
+ * {@link KnownConfigurationSnapshotStatus} can be used interchangeably with ConfigurationSnapshotStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **provisioning** \
+ * **ready** \
+ * **archived** \
+ * **failed**
+ */
+export type ConfigurationSnapshotStatus = string;
+
+/** Known values of {@link SnapshotComposition} that the service accepts. */
+export enum KnownSnapshotComposition {
   /** Key */
   Key = "key",
   /** KeyLabel */
@@ -490,14 +528,14 @@ export enum KnownCompositionType {
 }
 
 /**
- * Defines values for CompositionType. \
- * {@link KnownCompositionType} can be used interchangeably with CompositionType,
+ * Defines values for SnapshotComposition. \
+ * {@link KnownSnapshotComposition} can be used interchangeably with SnapshotComposition,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **key** \
  * **key_label**
  */
-export type CompositionType = string;
+export type SnapshotComposition = string;
 
 /** Known values of {@link LabelFields} that the service accepts. */
 export enum KnownLabelFields {
@@ -562,6 +600,10 @@ export interface GetKeyValuesOptionalParams
   select?: KeyValueFields[];
   /** A filter used get key-values for a snapshot. The value should be the name of the snapshot. Not valid when used with 'key' and 'label' filters. */
   snapshot?: string;
+  /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
+  ifMatch?: string;
+  /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
+  ifNoneMatch?: string;
 }
 
 /** Contains response data for the getKeyValues operation. */
@@ -583,6 +625,10 @@ export interface CheckKeyValuesOptionalParams
   select?: KeyValueFields[];
   /** A filter used get key-values for a snapshot. Not valid when used with 'key' and 'label' filters. */
   snapshot?: string;
+  /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
+  ifMatch?: string;
+  /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
+  ifNoneMatch?: string;
 }
 
 /** Contains response data for the checkKeyValues operation. */
@@ -689,7 +735,8 @@ export interface GetSnapshotOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the getSnapshot operation. */
-export type GetSnapshotResponse = AppConfigurationGetSnapshotHeaders & Snapshot;
+export type GetSnapshotResponse = AppConfigurationGetSnapshotHeaders &
+  ConfigurationSnapshot;
 
 /** Optional parameters. */
 export interface CreateSnapshotOptionalParams
@@ -702,7 +749,7 @@ export interface CreateSnapshotOptionalParams
 
 /** Contains response data for the createSnapshot operation. */
 export type CreateSnapshotResponse = AppConfigurationCreateSnapshotHeaders &
-  Snapshot;
+  ConfigurationSnapshot;
 
 /** Optional parameters. */
 export interface UpdateSnapshotOptionalParams
@@ -715,7 +762,7 @@ export interface UpdateSnapshotOptionalParams
 
 /** Contains response data for the updateSnapshot operation. */
 export type UpdateSnapshotResponse = AppConfigurationUpdateSnapshotHeaders &
-  Snapshot;
+  ConfigurationSnapshot;
 
 /** Optional parameters. */
 export interface CheckSnapshotOptionalParams
@@ -845,6 +892,10 @@ export interface GetKeyValuesNextOptionalParams
   extends coreClient.OperationOptions {
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
+  /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
+  ifMatch?: string;
+  /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
+  ifNoneMatch?: string;
 }
 
 /** Contains response data for the getKeyValuesNext operation. */

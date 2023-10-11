@@ -33,7 +33,7 @@ export interface KeyVaultBackupPollOperationState
   /**
    * The SAS token.
    */
-  sasToken: string;
+  sasToken?: string;
 }
 
 /**
@@ -96,7 +96,8 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
         ...this.requestOptions,
         azureStorageBlobContainerUri: {
           storageResourceUri: blobStorageUri!,
-          token: sasToken!,
+          token: sasToken,
+          useManagedIdentity: sasToken === undefined,
         },
       });
 

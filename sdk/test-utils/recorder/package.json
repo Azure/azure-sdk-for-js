@@ -68,7 +68,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/test-utils/recorder/",
   "sideEffects": false,
@@ -86,7 +86,7 @@
     "@types/fs-extra": "^8.0.0",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^14.0.0",
+    "@types/node": "^16.0.0",
     "@types/uuid": "^8.3.1",
     "chai": "^4.3.7",
     "concurrently": "^8.2.1",

@@ -36,7 +36,7 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "karma start --single-run",
+    "unit-test:browser": "karma start karma.conf.cjs --single-run",
     "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
@@ -58,7 +58,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-client-rest/",
   "sideEffects": false,
@@ -77,10 +77,10 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^14.0.0",
-    "@types/sinon": "^10.0.15",
-    "chai": "^4.3.7",
-    "eslint": "^8.48.0",
+    "@types/node": "^16.0.0",
+    "@types/sinon": "^10.0.0",
+    "chai": "^4.2.0",
+    "eslint": "^8.0.0",
     "esm": "^3.2.25",
     "inherits": "^2.0.3",
     "karma-chrome-launcher": "^3.0.0",
