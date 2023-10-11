@@ -22,6 +22,8 @@ import {
   generateHttpClient,
   mockChatMessageReadReceipt,
   mockMessage,
+  mockMessageWithFileAttachment,
+  mockMessageWithImageAttachment,
   mockParticipant,
   mockSdkModelParticipant,
   mockThread,
@@ -155,6 +157,77 @@ describe("[Mocked] ChatThreadClient", async function () {
     assert.equal(request.method, "GET");
   });
 
+  it("makes successful get message with image attachments request", async function () {
+    const mockHttpClient = generateHttpClient(200, mockMessageWithImageAttachment);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const {
+      sender: responseUser,
+      content: responseContent,
+      ...responseMessage
+    } = await chatThreadClient.getMessage(mockMessageWithImageAttachment.id!);
+    const {
+      senderCommunicationIdentifier: expectedIdentifier,
+      content: expectedContent,
+      ...expectedMessage
+    } = mockMessageWithImageAttachment;
+    const {
+      participants: expectedParticipants,
+      attachments: expectedAttachments,
+      ...expectedContents
+    } = expectedContent!;
+    const {
+      participants: responseParticipants,
+      attachments: responseAttachments,
+      ...repsonseContents
+    } = responseContent!;
+    sinon.assert.calledOnce(spy);
+    assert.deepEqual(responseMessage, expectedMessage);
+    assert.deepEqual(responseAttachments, expectedAttachments);
+    assert.deepEqual(repsonseContents, expectedContents);
+    assert.equal(responseAttachments![0].attachmentType, "image"); 
+    const request = spy.getCall(0).args[0];
+
+    assert.equal(request.method, "GET");
+  });
+
+  it("makes successful get message with file attachments request", async function () {
+    const mockHttpClient = generateHttpClient(200, mockMessageWithFileAttachment);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const {
+      sender: responseUser,
+      content: responseContent,
+      ...responseMessage
+    } = await chatThreadClient.getMessage(mockMessageWithFileAttachment.id!);
+    const {
+      senderCommunicationIdentifier: expectedIdentifier,
+      content: expectedContent,
+      ...expectedMessage
+    } = mockMessageWithFileAttachment;
+    const {
+      participants: expectedParticipants,
+      attachments: expectedAttachments,
+      ...expectedContents
+    } = expectedContent!;
+    const {
+      participants: responseParticipants,
+      attachments: responseAttachments,
+      ...repsonseContents
+    } = responseContent!;
+    sinon.assert.calledOnce(spy);
+    assert.deepEqual(responseMessage, expectedMessage);
+    assert.deepEqual(responseAttachments, expectedAttachments);
+    assert.deepEqual(repsonseContents, expectedContents);
+    assert.equal(responseAttachments![0].attachmentType, "file"); 
+    const request = spy.getCall(0).args[0];
+
+    assert.equal(request.method, "GET");
+  });
+
+
   it("makes successful list messages request", async function () {
     const { senderCommunicationIdentifier, ...rest } = mockMessage;
 
@@ -247,7 +320,6 @@ describe("[Mocked] ChatThreadClient", async function () {
 
     const sendOptions: UpdateMessageOptions = {
       content: mockMessage.content?.message,
-      metadata: mockMessage.metadata,
     };
 
     await chatThreadClient.updateMessage(mockMessage.id!, sendOptions);
@@ -261,7 +333,6 @@ describe("[Mocked] ChatThreadClient", async function () {
     assert.equal(request.method, "PATCH");
     assert.deepEqual(JSON.parse(request.body as string), {
       content: mockMessage.content?.message,
-      metadata: mockMessage.metadata,
     });
   });
 
