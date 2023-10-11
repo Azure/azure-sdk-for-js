@@ -16,10 +16,6 @@
 - `SearchField.vectorSearchConfiguration` has been abstracted into `SearchField.vectorSearchProfile` [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
 - `VectorSearch.algorithmConfiguration` has been renamed to `VectorSearch.algorithms` [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
 
-### Bugs Fixed
-
-### Other Changes
-
 ## 12.0.0-beta.3 (2023-08-10)
 
 ### Features Added
