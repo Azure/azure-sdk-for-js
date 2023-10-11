@@ -70,7 +70,7 @@ export default leafCommand(commandInfo, async (options) => {
   }
   if (!browserTest && injectNodePolyfills) {
     log.warn(
-      "This is probably a mistake. --polyfill-node and --inject-node-polyfills should only be used with --browser-test."
+      "This is probably a mistake. --inject-node-polyfills shouldn't be used if --browser-test is disabled."
     );
   }
 
