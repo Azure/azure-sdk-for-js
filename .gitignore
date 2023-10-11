@@ -177,3 +177,21 @@ TempTypeSpecFiles/
 
 # Symbolic link from project directory to recordings
 _recordings
+sdk/template/template-dpg/src/src/rest/widgetServiceClient.ts
+.gitignore
+sdk/template/template-dpg/src/src/rest/responses.ts
+sdk/template/template-dpg/src/src/rest/parameters.ts
+sdk/template/template-dpg/src/src/rest/outputModels.ts
+sdk/template/template-dpg/src/src/rest/models.ts
+sdk/template/template-dpg/src/src/rest/isUnexpected.ts
+sdk/template/template-dpg/src/src/rest/index.ts
+sdk/template/template-dpg/src/src/rest/clientDefinitions.ts
+sdk/template/template-dpg/src/src/common/interfaces.ts
+sdk/template/template-dpg/src/src/api/WidgetServiceContext.ts
+sdk/template/template-dpg/src/src/api/operations.ts
+sdk/template/template-dpg/src/src/api/models.ts
+sdk/template/template-dpg/src/src/api/index.ts
+sdk/template/template-dpg/src/src/api/foo.ts
+sdk/template/template-dpg/src/src/WidgetServiceClient.ts
+sdk/template/template-dpg/src/src/logger.ts
+sdk/template/template-dpg/src/src/index.ts
