@@ -100,7 +100,6 @@ describe("[Mocked] ChatThreadClient", async function () {
 
     const sendOptions: SendMessageOptions = {
       senderDisplayName: mockMessage.senderDisplayName,
-      metadata: mockMessage.metadata,
     };
 
     const response = await chatThreadClient.sendMessage(sendRequest, sendOptions);
