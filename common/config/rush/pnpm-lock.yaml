@@ -4236,7 +4236,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231010
+      typescript: 5.3.0-dev.20231011
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -8985,8 +8985,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231010:
-    resolution: {integrity: sha512-oSO2cE/D2+ju7rRavL4A/j6tP/s3Y4W7lDK81PaW3MEi1HpeXbRLObHcxA7Y9s2QuES/1P/81i/YKdB0kssg6w==}
+  /typescript@5.3.0-dev.20231011:
+    resolution: {integrity: sha512-qpyUI7J37X3Xj7/bPWSNPUvmJ8yDGVnkQ8665xD4+LVWKUX7vwO7n2E1CUuQzeQIF4y369iPaz1d396rTW5LfA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -21346,7 +21346,7 @@ packages:
     dev: false
 
   file:projects/synapse-monitoring.tgz:
-    resolution: {integrity: sha512-A7qVFJgrznd023YxaF1foTKf/QBHF99LEMw2l90TN7oKqVVdjaA5yhkSUsLfIImwC/jbMLYwZXCJnEXaus2zxg==, tarball: file:projects/synapse-monitoring.tgz}
+    resolution: {integrity: sha512-S8rCFc8BbmzIOEHvnO5HF6tE/viekL/Cy7SaT3TCkwSMeSOnYmCzW9Z6ViIHUib+hT7X+FOpgzHseQqifYvSOA==, tarball: file:projects/synapse-monitoring.tgz}
     name: '@rush-temp/synapse-monitoring'
     version: 0.0.0
     dependencies:
@@ -21355,7 +21355,21 @@ packages:
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
       '@types/node': 16.18.54
+      cross-env: 7.0.3
       eslint: 8.50.0
+      esm: 3.2.25
+      karma: 6.4.2(debug@4.3.4)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1(karma@6.4.2)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.2)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mocha: 10.2.0
+      prettier: 2.8.8
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@16.18.54)(rollup@2.79.1)
@@ -21366,7 +21380,10 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - bufferutil
+      - debug
       - supports-color
+      - utf-8-validate
     dev: false
 
   file:projects/synapse-spark.tgz:
