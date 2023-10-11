@@ -189,7 +189,6 @@ export type VectorFilterMode = "postFilter" | "preFilter";
 
 /** The query parameters for vector and hybrid search queries. */
 export type VectorQuery<TModel extends object> =
-  | BaseVectorQuery<TModel>
   | RawVectorQuery<TModel>
   | VectorizableTextQuery<TModel>;
 

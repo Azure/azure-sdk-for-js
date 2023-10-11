@@ -170,6 +170,7 @@ export {
   IndexProjectionMode,
   BaseVectorSearchAlgorithmConfiguration,
   BaseVectorSearchVectorizer,
+  SearchIndexerKnowledgeStoreParameters,
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -386,7 +387,6 @@ export {
   SearchAlias,
   NativeBlobSoftDeleteDeletionDetectionPolicy,
   SearchIndexerIndexProjectionSelector,
-  SearchIndexerKnowledgeStoreParameters,
   VectorSearchProfile,
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";

@@ -2447,7 +2447,7 @@ export type SearchIndexerKnowledgeStoreObjectProjectionSelector = SearchIndexerK
 
 // @public
 export interface SearchIndexerKnowledgeStoreParameters {
-    [property: string]: any;
+    [property: string]: unknown;
     synthesizeGeneratedKeyName?: boolean;
 }
 
@@ -3008,7 +3008,7 @@ export interface VectorizableTextQuery<TModel extends object> extends BaseVector
 }
 
 // @public
-export type VectorQuery<TModel extends object> = BaseVectorQuery<TModel> | RawVectorQuery<TModel> | VectorizableTextQuery<TModel>;
+export type VectorQuery<TModel extends object> = RawVectorQuery<TModel> | VectorizableTextQuery<TModel>;
 
 // @public (undocumented)
 export type VectorQueryKind = "vector" | "text";

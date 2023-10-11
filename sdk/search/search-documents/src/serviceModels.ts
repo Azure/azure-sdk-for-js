@@ -2254,6 +2254,14 @@ export interface AzureOpenAIEmbeddingSkill extends BaseSearchIndexerSkill {
   authIdentity?: SearchIndexerDataIdentity;
 }
 
+/** A dictionary of knowledge store-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
+export interface SearchIndexerKnowledgeStoreParameters {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: unknown;
+  /** Whether or not projections should synthesize a generated key name if one isn't already present. */
+  synthesizeGeneratedKeyName?: boolean;
+}
+
 /** The similarity metric to use for vector comparisons. */
 export type VectorSearchAlgorithmMetric = "cosine" | "euclidean" | "dotProduct";
 
