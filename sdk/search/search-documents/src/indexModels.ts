@@ -180,14 +180,44 @@ export type SearchIterator<
   ListSearchResultsPageSettings
 >;
 
+export type VectorQueryKind = "vector" | "text";
+
+/**
+ * Determines whether or not filters are applied before or after the vector search is performed.
+ */
+export type VectorFilterMode = "postFilter" | "preFilter";
+
 /** The query parameters for vector and hybrid search queries. */
-export interface Vector<T extends object> {
-  /** The vector representation of a search query. */
-  value?: number[];
+export type VectorQuery<TModel extends object> =
+  | RawVectorQuery<TModel>
+  | VectorizableTextQuery<TModel>;
+
+/** The query parameters for vector and hybrid search queries. */
+export interface BaseVectorQuery<TModel extends object> {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: VectorQueryKind;
   /** Number of nearest neighbors to return as top hits. */
   kNearestNeighborsCount?: number;
   /** Vector Fields of type Collection(Edm.Single) to be included in the vector searched. */
-  fields?: SearchFieldArray<T>;
+  fields?: SearchFieldArray<TModel>;
+  /** When true, triggers an exhaustive k-nearest neighbor search across all vectors within the vector index. Useful for scenarios where exact matches are critical, such as determining ground truth values. */
+  exhaustive?: boolean;
+}
+
+/** The query parameters to use for vector search when a raw vector value is provided. */
+export interface RawVectorQuery<TModel extends object> extends BaseVectorQuery<TModel> {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "vector";
+  /** The vector representation of a search query. */
+  vector?: number[];
+}
+
+/** The query parameters to use for vector search when a text value that needs to be vectorized is provided. */
+export interface VectorizableTextQuery<TModel extends object> extends BaseVectorQuery<TModel> {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "text";
+  /** The text to be vectorized to perform a vector search query. */
+  text?: string;
 }
 
 /**
@@ -273,13 +303,19 @@ export interface SearchRequest<TModel extends object = never> {
    */
   scoringProfile?: string;
   /**
+   * Allows setting a separate search query that will be solely used for semantic reranking,
+   * semantic captions and semantic answers. Is useful for scenarios where there is a need to use
+   * different queries between the base retrieval and ranking phase, and the L2 semantic phase.
+   */
+  semanticQuery?: string;
+  /**
    * The name of a semantic configuration that will be used when processing documents for queries of
    * type semantic.
    */
   semanticConfiguration?: string;
   /**
-   * Allows the user to choose whether a semantic call should fail completely (default / current
-   * behavior), or to return partial results.
+   * Allows the user to choose whether a semantic call should fail completely, or to return partial
+   * results (default).
    */
   semanticErrorHandlingMode?: SemanticErrorHandlingMode;
   /**
@@ -348,7 +384,12 @@ export interface SearchRequest<TModel extends object = never> {
   /**
    * The query parameters for vector, hybrid, and multi-vector search queries.
    */
-  vectors?: Vector<TModel>[];
+  vectorQueries?: VectorQuery<TModel>[];
+  /**
+   * Determines whether or not filters are applied before or after the vector search is performed.
+   * Default is 'preFilter'.
+   */
+  vectorFilterMode?: VectorFilterMode;
 }
 
 /**
@@ -421,12 +462,19 @@ export interface SearchRequestOptions<
    */
   scoringProfile?: string;
   /**
+   * Allows setting a separate search query that will be solely used for semantic reranking,
+   * semantic captions and semantic answers. Is useful for scenarios where there is a need to use
+   * different queries between the base retrieval and ranking phase, and the L2 semantic phase.
+   */
+  semanticQuery?: string;
+  /**
    * The name of a semantic configuration that will be used when processing documents for queries of
    * type semantic.
    */
   semanticConfiguration?: string;
   /**
-   *  Allows the user to choose whether a semantic call should fail completely, or to return partial results.
+   * Allows the user to choose whether a semantic call should fail completely, or to return
+   * partial results (default).
    */
   semanticErrorHandlingMode?: SemanticErrorHandlingMode;
   /**
@@ -506,9 +554,14 @@ export interface SearchRequestOptions<
    */
   semanticFields?: string[];
   /**
-   * The query parameters for vector, hybrid, and multi-vector search queries.
+   * The query parameters for vector and hybrid search queries.
    */
-  vectors?: Vector<TModel>[];
+  vectorQueries?: VectorQuery<TModel>[];
+  /**
+   * Determines whether or not filters are applied before or after the vector search is performed.
+   * Default is 'preFilter'.
+   */
+  vectorFilterMode?: VectorFilterMode;
 }
 
 /**
