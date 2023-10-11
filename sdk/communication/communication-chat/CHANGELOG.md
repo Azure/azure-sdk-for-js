@@ -1,5 +1,9 @@
 # Release History
 
+## 1.4.0 (TBD)
+
+- Added inline image support
+
 ## 1.3.2 (2023-08-24)
 
 ### Features Added
