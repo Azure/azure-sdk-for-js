@@ -5,7 +5,7 @@
  */
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { DistributionPolicy, JobrouterClient } from "@azure/communication-job-router";
+import { DistributionPolicy, JobrouterClient } from "../src";
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
@@ -13,8 +13,8 @@ const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 // Create an distribution policy
 async function createDistributionPolicy(): Promise<void> {
   // Create the Router Client
-  const routerClient: JobrouterClient =
-    new JobrouterClient(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient =
+    createClient(connectionString);
 
   const id = "distribution-policy-123";
   const distributionPolicyRequest: DistributionPolicy = {

@@ -3,7 +3,7 @@
 /**
  * @summary job queue crud
  */
-import { RouterQueueResponse, JobrouterClient } from "@azure/communication-job-router";
+import { RouterQueueResponse, JobrouterClient } from "../src";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -14,8 +14,8 @@ const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 // Update a router jobQueue
 async function updateJobQueue(): Promise<void> {
   // Create the Router Client
-  const routerClient: JobrouterClient =
-    new JobrouterClient(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient =
+    createClient(connectionString);
 
   const request: RouterQueueResponse = {
     id: "queue-123",

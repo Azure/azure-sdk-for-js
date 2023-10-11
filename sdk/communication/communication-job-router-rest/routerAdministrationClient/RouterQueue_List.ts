@@ -3,7 +3,7 @@
 /**
  * @summary job queue crud
  */
-import { RouterQueueItem, JobrouterClient } from "@azure/communication-job-router";
+import { RouterQueueItem, JobrouterClient } from "../src";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -15,8 +15,8 @@ const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 // List exception policies
 async function listJobQueues(): Promise<void> {
   // Create the Router Client
-  const routerClient: JobrouterClient =
-    new JobrouterClient(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient =
+    createClient(connectionString);
 
   let pagesCount = 1;
   const maxPageSize = 3;

@@ -6,8 +6,9 @@
  */
 import {
   ClassificationPolicyItem,
-  JobrouterClient,
-} from "@azure/communication-job-router";
+  AzureCommunicationRoutingServiceClient,
+} from "../src";
+import createClient from "../src/azureCommunicationRoutingServiceClient"
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -19,8 +20,8 @@ const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 // List classification policies
 async function listClassificationPolicies(): Promise<void> {
   // Create the Router Client
-  const routerClient: JobrouterClient =
-    new JobrouterClient(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient =
+    createClient(connectionString);
 
   let pagesCount = 1;
   const maxPageSize = 3;

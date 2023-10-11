@@ -3,7 +3,7 @@
 /**
  * @summary router worker crud
  */
-import { JobRouterClient, RouterWorkerResponse } from "@azure/communication-job-router";
+import { JobRouterClient, RouterWorkerResponse } from "../src";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";

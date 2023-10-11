@@ -9,10 +9,10 @@ import {
   DistributionPolicy,
   ExceptionPolicy,
   RouterQueue,
-  QueueLengthExceptionTrigger,
-  AzureCommunicationRoutingServiceClient
+  QueueLengthExceptionTrigger
 } from "../src";
 
+import { AzureCommunicationRoutingServiceClient } from "../src"
 import createClient from "../src/azureCommunicationRoutingServiceClient"
 
 // Load the .env file (you will need to set these environment variables)

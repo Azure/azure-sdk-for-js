@@ -8,7 +8,7 @@ import {
   JobrouterClient,
   JobRouterClient,
   UpdateJobOptions,
-} from "@azure/communication-job-router";
+} from "../src";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";

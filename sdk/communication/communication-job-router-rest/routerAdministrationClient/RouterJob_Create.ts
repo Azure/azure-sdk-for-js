@@ -9,7 +9,7 @@ import {
   JobrouterClient,
   JobRouterClient,
   CreateJobOptions,
-} from "@azure/communication-job-router";
+} from "../src";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -21,8 +21,8 @@ const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 async function createRouterJob(): Promise<void> {
   // Create the Router Client
   const routerClient: JobRouterClient = new JobRouterClient(connectionString);
-  const routerClient: JobrouterClient =
-    new JobrouterClient(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient =
+    createClient(connectionString);
 
   const distributionPolicyId = "distribution-policy-123";
   const distributionPolicyRequest: DistributionPolicy = {

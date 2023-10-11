@@ -7,8 +7,9 @@
 import * as dotenv from "dotenv";
 import {
   DistributionPolicyItem,
-  JobrouterClient,
-} from "@azure/communication-job-router";
+  AzureCommunicationRoutingServiceClient,
+} from "../src";
+import createClient from "../src/azureCommunicationRoutingServiceClient"
 import { assert } from "chai";
 dotenv.config();
 
@@ -17,8 +18,8 @@ const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 // List distribution policies
 async function listDistributionPolicies(): Promise<void> {
   // Create the Router Client
-  const routerClient: JobrouterClient =
-    new JobrouterClient(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient =
+    createClient(connectionString);
 
   let pagesCount = 1;
   const maxPageSize = 3;

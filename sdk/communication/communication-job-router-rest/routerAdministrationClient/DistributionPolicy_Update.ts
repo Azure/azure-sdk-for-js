@@ -7,8 +7,9 @@
 import * as dotenv from "dotenv";
 import {
   DistributionPolicyResponse,
-  JobrouterClient,
-} from "@azure/communication-job-router";
+  AzureCommunicationRoutingServiceClient,
+} from "../src";
+import createClient from "../src/azureCommunicationRoutingServiceClient"
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
@@ -16,8 +17,8 @@ const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 // Update a distribution policy
 async function updateDistributionPolicy(): Promise<void> {
   // Create the Router Client
-  const routerClient: JobrouterClient =
-    new JobrouterClient(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient =
+    createClient(connectionString);
 
   const distributionPolicyRequest: DistributionPolicyResponse = {
     id: "distribution-policy-123",

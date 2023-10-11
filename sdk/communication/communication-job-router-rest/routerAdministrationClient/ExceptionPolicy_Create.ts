@@ -3,11 +3,12 @@
 /**
  * @summary Exception policy crud
  */
-import { JobrouterClient } from "@azure/communication-job-router";
+import { AzureCommunicationRoutingServiceClient } from "../src"
+import createClient from "../src/azureCommunicationRoutingServiceClient"
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { ExceptionPolicy, QueueLengthExceptionTrigger } from "@azure/communication-job-router";
+import { ExceptionPolicy, QueueLengthExceptionTrigger } from "../src";
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
@@ -15,8 +16,8 @@ const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 // Create an exception policy
 async function createExceptionPolicy(): Promise<void> {
   // Create the Router Client
-  const routerClient: JobrouterClient =
-    new JobrouterClient(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient =
+    createClient(connectionString);
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger: QueueLengthExceptionTrigger = {

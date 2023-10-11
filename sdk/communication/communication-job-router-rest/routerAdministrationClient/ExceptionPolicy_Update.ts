@@ -9,8 +9,9 @@ import * as dotenv from "dotenv";
 import {
   ExceptionPolicyResponse,
   QueueLengthExceptionTrigger,
-  JobrouterClient,
-} from "@azure/communication-job-router";
+  AzureCommunicationRoutingServiceClient,
+} from "../src";
+import createClient from "../src/azureCommunicationRoutingServiceClient"
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
@@ -18,8 +19,8 @@ const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 // Update a exception policy
 async function updateExceptionPolicy(): Promise<void> {
   // Create the Router Client
-  const routerClient: JobrouterClient =
-    new JobrouterClient(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient =
+    createClient(connectionString);
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger: QueueLengthExceptionTrigger = {

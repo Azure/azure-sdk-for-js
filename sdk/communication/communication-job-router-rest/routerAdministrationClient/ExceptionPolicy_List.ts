@@ -8,8 +8,8 @@
 import * as dotenv from "dotenv";
 import {
   ExceptionPolicyItem,
-  JobrouterClient,
-} from "@azure/communication-job-router";
+  AzureCommunicationRoutingServiceClient,
+} from "../src";
 import { assert } from "chai";
 dotenv.config();
 
@@ -18,8 +18,8 @@ const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 // List exception policies
 async function listExceptionPolicies(): Promise<void> {
   // Create the Router Client
-  const routerClient: JobrouterClient =
-    new JobrouterClient(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient =
+    createClient(connectionString);
 
   let pagesCount = 1;
   const maxPageSize = 3;
