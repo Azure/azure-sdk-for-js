@@ -2098,7 +2098,6 @@ export interface VectorSearch {
 
 /** Contains configuration options specific to the algorithm used during indexing and/or querying. */
 export type VectorSearchAlgorithmConfiguration =
-  | BaseVectorSearchAlgorithmConfiguration
   | HnswVectorSearchAlgorithmConfiguration
   | ExhaustiveKnnVectorSearchAlgorithmConfiguration;
 
@@ -2227,10 +2226,7 @@ export interface CustomVectorizerParameters {
 }
 
 /** Contains configuration options on how to vectorize text vector queries. */
-export type VectorSearchVectorizer =
-  | BaseVectorSearchVectorizer
-  | AzureOpenAIVectorizer
-  | CustomVectorizer;
+export type VectorSearchVectorizer = AzureOpenAIVectorizer | CustomVectorizer;
 
 /** Contains the parameters specific to using an Azure Open AI service for vectorization at query time. */
 export interface AzureOpenAIParameters {
