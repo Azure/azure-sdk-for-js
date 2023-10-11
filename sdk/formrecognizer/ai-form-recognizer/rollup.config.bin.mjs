@@ -2,8 +2,7 @@ import fs from "fs";
 import MagicString from "magic-string";
 
 import nodeResolve from "@rollup/plugin-node-resolve";
-
-import pkg from "./package.json" assert { type: "json" };
+import { readFile } from "fs/promises";
 
 // Some magic code to preserve the shebang and set the executable bit on the generated bundle.
 const executable = (options = {}) => {
@@ -41,6 +40,8 @@ const executable = (options = {}) => {
     },
   };
 };
+
+const pkg = JSON.parse(await readFile("./package.json", { encoding: "utf-8" }));
 
 /** @type {import('rollup').RollupOptions} */
 const config = {
