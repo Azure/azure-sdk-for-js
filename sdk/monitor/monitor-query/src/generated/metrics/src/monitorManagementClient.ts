@@ -6,28 +6,32 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MetricsImpl } from "./operations";
-import { Metrics } from "./operationsInterfaces";
+import { MetricDefinitionsImpl, MetricsImpl } from "./operations";
+import { MetricDefinitions, Metrics } from "./operationsInterfaces";
 import { MonitorManagementClientContext } from "./monitorManagementClientContext";
 import {
   MonitorManagementClientOptionalParams,
-  ApiVersion201801
+  ApiVersion20231001
 } from "./models";
 
 /** @internal */
 export class MonitorManagementClient extends MonitorManagementClientContext {
   /**
    * Initializes a new instance of the MonitorManagementClient class.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion201801,
+    subscriptionId: string,
+    apiVersion: ApiVersion20231001,
     options?: MonitorManagementClientOptionalParams
   ) {
-    super(apiVersion, options);
+    super(subscriptionId, apiVersion, options);
+    this.metricDefinitions = new MetricDefinitionsImpl(this);
     this.metrics = new MetricsImpl(this);
   }
 
+  metricDefinitions: MetricDefinitions;
   metrics: Metrics;
 }

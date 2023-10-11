@@ -8,24 +8,30 @@
 
 import * as coreClient from "@azure/core-client";
 import {
-  ApiVersion201801,
+  ApiVersion20231001,
   MonitorManagementClientOptionalParams
 } from "./models";
 
 /** @internal */
 export class MonitorManagementClientContext extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: ApiVersion201801;
+  subscriptionId: string;
+  apiVersion: ApiVersion20231001;
 
   /**
    * Initializes a new instance of the MonitorManagementClientContext class.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion201801,
+    subscriptionId: string,
+    apiVersion: ApiVersion20231001,
     options?: MonitorManagementClientOptionalParams
   ) {
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
     if (apiVersion === undefined) {
       throw new Error("'apiVersion' cannot be null");
     }
@@ -38,7 +44,7 @@ export class MonitorManagementClientContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-monitor-metrics/1.2.0-beta.3`;
+    const packageDetails = `azsdk-js-monitor-metrics/1.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -54,6 +60,7 @@ export class MonitorManagementClientContext extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
     // Parameter assignments
+    this.subscriptionId = subscriptionId;
     this.apiVersion = apiVersion;
 
     // Assigning values to Constant parameters

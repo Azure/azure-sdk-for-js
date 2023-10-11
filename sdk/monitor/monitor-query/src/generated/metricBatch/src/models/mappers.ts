@@ -28,10 +28,10 @@ export const ResourceIdList: coreClient.CompositeMapper = {
   }
 };
 
-export const MetricResultsResponse: coreClient.CompositeMapper = {
+export const BatchMetricResultsResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MetricResultsResponse",
+    className: "BatchMetricResultsResponse",
     modelProperties: {
       values: {
         serializedName: "values",
@@ -40,7 +40,7 @@ export const MetricResultsResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MetricResultsResponseValuesItem"
+              className: "BatchMetricResultsResponseValuesItem"
             }
           }
         }
@@ -49,10 +49,10 @@ export const MetricResultsResponse: coreClient.CompositeMapper = {
   }
 };
 
-export const MetricResultsResponseValuesItem: coreClient.CompositeMapper = {
+export const BatchMetricResultsResponseValuesItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MetricResultsResponseValuesItem",
+    className: "BatchMetricResultsResponseValuesItem",
     modelProperties: {
       starttime: {
         serializedName: "starttime",
@@ -100,7 +100,7 @@ export const MetricResultsResponseValuesItem: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Metric"
+              className: "SubscriptionScopeMetric"
             }
           }
         }
@@ -109,13 +109,20 @@ export const MetricResultsResponseValuesItem: coreClient.CompositeMapper = {
   }
 };
 
-export const Metric: coreClient.CompositeMapper = {
+export const SubscriptionScopeMetric: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Metric",
+    className: "SubscriptionScopeMetric",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
         required: true,
         type: {
           name: "String"
@@ -130,14 +137,18 @@ export const Metric: coreClient.CompositeMapper = {
       },
       displayDescription: {
         serializedName: "displayDescription",
-        required: true,
         type: {
           name: "String"
         }
       },
-      type: {
-        serializedName: "type",
-        required: true,
+      errorCode: {
+        serializedName: "errorCode",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        serializedName: "errorMessage",
         type: {
           name: "String"
         }
@@ -146,22 +157,7 @@ export const Metric: coreClient.CompositeMapper = {
         serializedName: "unit",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Count",
-            "Bytes",
-            "Seconds",
-            "CountPerSecond",
-            "BytesPerSecond",
-            "Percent",
-            "MilliSeconds",
-            "ByteSeconds",
-            "Unspecified",
-            "Cores",
-            "MilliCores",
-            "NanoCores",
-            "BitsPerSecond"
-          ]
+          name: "String"
         }
       },
       timeseries: {
@@ -175,18 +171,6 @@ export const Metric: coreClient.CompositeMapper = {
               className: "TimeSeriesElement"
             }
           }
-        }
-      },
-      errorCode: {
-        serializedName: "errorCode",
-        type: {
-          name: "String"
-        }
-      },
-      errorMessage: {
-        serializedName: "errorMessage",
-        type: {
-          name: "String"
         }
       }
     }
@@ -316,72 +300,96 @@ export const MetricValue: coreClient.CompositeMapper = {
   }
 };
 
-export const AdditionalInfoErrorResponse: coreClient.CompositeMapper = {
+export const MetricsErrorContract: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AdditionalInfoErrorResponse",
+    className: "MetricsErrorContract",
     modelProperties: {
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "AdditionalInfoErrorResponseError"
+          className: "ErrorDetail"
         }
       }
     }
   }
 };
 
-export const AdditionalInfoErrorResponseError: coreClient.CompositeMapper = {
+export const ErrorDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AdditionalInfoErrorResponseError",
+    className: "ErrorDetail",
     modelProperties: {
-      additionalInfo: {
-        serializedName: "additionalInfo",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AdditionalInfoErrorResponseErrorAdditionalInfoItem"
-            }
-          }
-        }
-      },
       code: {
         serializedName: "code",
-        required: true,
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       message: {
         serializedName: "message",
-        required: true,
+        readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
         }
       }
     }
   }
 };
 
-export const AdditionalInfoErrorResponseErrorAdditionalInfoItem: coreClient.CompositeMapper = {
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AdditionalInfoErrorResponseErrorAdditionalInfoItem",
+    className: "ErrorAdditionalInfo",
     modelProperties: {
       type: {
         serializedName: "type",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       info: {
         serializedName: "info",
+        readOnly: true,
         type: {
-          name: "String"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }

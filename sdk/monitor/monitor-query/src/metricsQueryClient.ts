@@ -16,7 +16,7 @@ import {
 
 import {
   MonitorManagementClient as GeneratedMetricsClient,
-  KnownApiVersion201801 as MetricsApiVersion,
+  KnownApiVersion20231001 as MetricsApiVersion,
 } from "./generated/metrics/src";
 import {
   MonitorManagementClient as GeneratedMetricsDefinitionsClient,
@@ -58,7 +58,11 @@ export class MetricsQueryClient {
    * @param tokenCredential - A TokenCredential that has rights to query metrics on resources.
    * @param options - Options for the client like controlling request retries.
    */
-  constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
+  constructor(
+    tokenCredential: TokenCredential,
+    subscriptionId: string,
+    options?: MetricsQueryClientOptions
+  ) {
     let scope;
     if (options?.endpoint) {
       scope = `${options?.endpoint}/.default`;
@@ -83,7 +87,8 @@ export class MetricsQueryClient {
     };
 
     this._metricsClient = new GeneratedMetricsClient(
-      MetricsApiVersion.TwoThousandEighteen0101,
+      subscriptionId,
+      MetricsApiVersion.TwoThousandTwentyThree1001,
       serviceClientOptions
     );
 

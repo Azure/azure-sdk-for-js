@@ -15,12 +15,12 @@ export interface ResourceIdList {
 }
 
 /** The metrics result for a resource. */
-export interface MetricResultsResponse {
+export interface BatchMetricResultsResponse {
   /** The collection of metric data responses per resource, per metric. */
-  values?: MetricResultsResponseValuesItem[];
+  values?: BatchMetricResultsResponseValuesItem[];
 }
 
-export interface MetricResultsResponseValuesItem {
+export interface BatchMetricResultsResponseValuesItem {
   /** The start time, in datetime format, for which the data was retrieved. */
   starttime: string;
   /** The end time, in datetime format, for which the data was retrieved. */
@@ -34,27 +34,27 @@ export interface MetricResultsResponseValuesItem {
   /** The resource that has been queried for metrics. */
   resourceid?: string;
   /** The value of the collection. */
-  value: Metric[];
+  value: SubscriptionScopeMetric[];
 }
 
 /** The result data of a query. */
-export interface Metric {
-  /** The metric Id. */
+export interface SubscriptionScopeMetric {
+  /** the metric Id. */
   id: string;
-  /** The name and the display name of the metric, i.e. it is localizable string. */
-  name: LocalizableString;
-  /** Description of this metric */
-  displayDescription: string;
-  /** The resource type of the metric resource. */
+  /** the resource type of the metric resource. */
   type: string;
-  /** The unit of the metric. */
-  unit: MetricUnit;
-  /** The time series returned when a data query is performed. */
-  timeseries: TimeSeriesElement[];
+  /** the name and the display name of the metric, i.e. it is localizable string. */
+  name: LocalizableString;
+  /** Detailed description of this metric. */
+  displayDescription?: string;
   /** 'Success' or the error details on query failures for this metric. */
   errorCode?: string;
   /** Error message encountered querying this specific metric. */
   errorMessage?: string;
+  /** The unit of the metric. */
+  unit: MetricUnit;
+  /** the time series returned when a data query is performed. */
+  timeseries: TimeSeriesElement[];
 }
 
 /** The localizable string class. */
@@ -75,49 +75,75 @@ export interface TimeSeriesElement {
 
 /** Represents a metric metadata value. */
 export interface MetadataValue {
-  /** The name of the metadata. */
+  /** the name of the metadata. */
   name?: LocalizableString;
-  /** The value of the metadata. */
+  /** the value of the metadata. */
   value?: string;
 }
 
 /** Represents a metric value. */
 export interface MetricValue {
-  /** The timestamp for the metric value in ISO 8601 format. */
+  /** the timestamp for the metric value in ISO 8601 format. */
   timeStamp: Date;
-  /** The average value in the time range. */
+  /** the average value in the time range. */
   average?: number;
-  /** The least value in the time range. */
+  /** the least value in the time range. */
   minimum?: number;
-  /** The greatest value in the time range. */
+  /** the greatest value in the time range. */
   maximum?: number;
-  /** The sum of all of the values in the time range. */
+  /** the sum of all of the values in the time range. */
   total?: number;
-  /** The number of samples in the time range. Can be used to determine the number of values that contributed to the average value. */
+  /** the number of samples in the time range. Can be used to determine the number of values that contributed to the average value. */
   count?: number;
 }
 
-/** The response to a metrics query that results in a bad request, with optional additional information. */
-export interface AdditionalInfoErrorResponse {
-  /** Top level error object that contains all relevant information. */
-  error: AdditionalInfoErrorResponseError;
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface MetricsErrorContract {
+  /** The error object. */
+  error?: ErrorDetail;
 }
 
-/** Top level error object that contains all relevant information. */
-export interface AdditionalInfoErrorResponseError {
-  /** Additional information about the error */
-  additionalInfo?: AdditionalInfoErrorResponseErrorAdditionalInfoItem[];
-  /** Error code */
-  code: string;
-  /** Error message indicating why the operation failed. */
-  message: string;
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-export interface AdditionalInfoErrorResponseErrorAdditionalInfoItem {
-  /** The type of the info property (e.g. string). */
-  type?: string;
-  /** Additional information related to the error. */
-  info?: string;
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** Defines headers for Metrics_batch operation. */
@@ -126,35 +152,71 @@ export interface MetricsBatchExceptionHeaders {
   xMsErrorCode?: string;
 }
 
-/** Known values of {@link ApiVersion20230501Preview} that the service accepts. */
-export enum KnownApiVersion20230501Preview {
-  /** Api Version '2023-05-01-preview' */
-  TwoThousandTwentyThree0501Preview = "2023-05-01-preview"
+/** Known values of {@link ApiVersion20231001} that the service accepts. */
+export enum KnownApiVersion20231001 {
+  /** Api Version '2023-10-01' */
+  TwoThousandTwentyThree1001 = "2023-10-01"
 }
 
 /**
- * Defines values for ApiVersion20230501Preview. \
- * {@link KnownApiVersion20230501Preview} can be used interchangeably with ApiVersion20230501Preview,
+ * Defines values for ApiVersion20231001. \
+ * {@link KnownApiVersion20231001} can be used interchangeably with ApiVersion20231001,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2023-05-01-preview**: Api Version '2023-05-01-preview'
+ * **2023-10-01**: Api Version '2023-10-01'
  */
-export type ApiVersion20230501Preview = string;
-/** Defines values for MetricUnit. */
-export type MetricUnit =
-  | "Count"
-  | "Bytes"
-  | "Seconds"
-  | "CountPerSecond"
-  | "BytesPerSecond"
-  | "Percent"
-  | "MilliSeconds"
-  | "ByteSeconds"
-  | "Unspecified"
-  | "Cores"
-  | "MilliCores"
-  | "NanoCores"
-  | "BitsPerSecond";
+export type ApiVersion20231001 = string;
+
+/** Known values of {@link MetricUnit} that the service accepts. */
+export enum KnownMetricUnit {
+  /** Unit of raw quantity. */
+  Count = "Count",
+  /** Unit of memory in bytes. */
+  Bytes = "Bytes",
+  /** Unit of time in seconds. */
+  Seconds = "Seconds",
+  /** Rate unit of raw quantity per second. */
+  CountPerSecond = "CountPerSecond",
+  /** Rate unit of memory in bytes per second. */
+  BytesPerSecond = "BytesPerSecond",
+  /** Percentage unit. */
+  Percent = "Percent",
+  /** Unit of time in 1/1000th of a second. */
+  MilliSeconds = "MilliSeconds",
+  /** Unit of data transfer or storage. It is the size of the data in bytes multiplied by the time it takes to transfer or store the data in seconds. */
+  ByteSeconds = "ByteSeconds",
+  /** No specified unit. */
+  Unspecified = "Unspecified",
+  /** Unit of processing power. */
+  Cores = "Cores",
+  /** Unit of processing power in 1/1000th of a CPU core. */
+  MilliCores = "MilliCores",
+  /** Unit of processing power in one billionth of a CPU core. */
+  NanoCores = "NanoCores",
+  /** Rate unit of binary digits per second. */
+  BitsPerSecond = "BitsPerSecond"
+}
+
+/**
+ * Defines values for MetricUnit. \
+ * {@link KnownMetricUnit} can be used interchangeably with MetricUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Count**: Unit of raw quantity. \
+ * **Bytes**: Unit of memory in bytes. \
+ * **Seconds**: Unit of time in seconds. \
+ * **CountPerSecond**: Rate unit of raw quantity per second. \
+ * **BytesPerSecond**: Rate unit of memory in bytes per second. \
+ * **Percent**: Percentage unit. \
+ * **MilliSeconds**: Unit of time in 1\/1000th of a second. \
+ * **ByteSeconds**: Unit of data transfer or storage. It is the size of the data in bytes multiplied by the time it takes to transfer or store the data in seconds. \
+ * **Unspecified**: No specified unit. \
+ * **Cores**: Unit of processing power. \
+ * **MilliCores**: Unit of processing power in 1\/1000th of a CPU core. \
+ * **NanoCores**: Unit of processing power in one billionth of a CPU core. \
+ * **BitsPerSecond**: Rate unit of binary digits per second.
+ */
+export type MetricUnit = string;
 
 /** Optional parameters. */
 export interface MetricsBatchOptionalParams
@@ -168,8 +230,8 @@ export interface MetricsBatchOptionalParams
   /** The end time of the query. It is a string in the format 'yyyy-MM-ddTHH:mm:ss.fffZ'. */
   endtime?: string;
   /**
-   * The interval (i.e. timegrain) of the query.
-   * *Examples: PT15M, PT1H, P1D*
+   * The interval (i.e. timegrain) of the query in ISO 8601 duration format. Special case for 'FULL' value that returns single datapoint for entire time span requested.
+   * *Examples: PT15M, PT1H, P1D*, FULL
    */
   interval?: string;
   /**
@@ -178,8 +240,8 @@ export interface MetricsBatchOptionalParams
    */
   aggregation?: string;
   /**
-   * The maximum number of records to retrieve per resource ID in the request.
-   * Valid only if filter is specified.
+   * The maximum number of records to retrieve.
+   * Valid only if a filter is specified.
    * Defaults to 10.
    */
   top?: number;
@@ -191,10 +253,12 @@ export interface MetricsBatchOptionalParams
   orderby?: string;
   /** The filter is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
   filter?: string;
+  /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
+  autoAdjustTimegrain?: boolean;
 }
 
 /** Contains response data for the batch operation. */
-export type MetricsBatchResponse = MetricResultsResponse;
+export type MetricsBatchResponse = BatchMetricResultsResponse;
 
 /** Optional parameters. */
 export interface AzureMonitorMetricBatchOptionalParams

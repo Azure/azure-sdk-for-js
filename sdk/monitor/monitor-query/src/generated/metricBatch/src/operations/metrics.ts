@@ -34,7 +34,6 @@ export class MetricsImpl implements Metrics {
    * @param baseUrl The regional endpoint to use, for example https://eastus.metrics.monitor.azure.com.
    *                The region should match the region of the requested resources. For global resources, the region
    *                should be 'global'.
-   * @param subscriptionId The subscription identifier for the resources in this batch.
    * @param metricnamespace Metric namespace that contains the requested metric names.
    * @param metricnames The names of the metrics (comma separated) to retrieve.
    * @param resourceIds The comma separated list of resource IDs to query metrics for.
@@ -42,21 +41,13 @@ export class MetricsImpl implements Metrics {
    */
   batch(
     baseUrl: string,
-    subscriptionId: string,
     metricnamespace: string,
     metricnames: string[],
     resourceIds: ResourceIdList,
     options?: MetricsBatchOptionalParams
   ): Promise<MetricsBatchResponse> {
     return this.client.sendOperationRequest(
-      {
-        baseUrl,
-        subscriptionId,
-        metricnamespace,
-        metricnames,
-        resourceIds,
-        options
-      },
+      { baseUrl, metricnamespace, metricnames, resourceIds, options },
       batchOperationSpec
     );
   }
@@ -69,10 +60,10 @@ const batchOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MetricResultsResponse
+      bodyMapper: Mappers.BatchMetricResultsResponse
     },
     default: {
-      bodyMapper: Mappers.AdditionalInfoErrorResponse,
+      bodyMapper: Mappers.MetricsErrorContract,
       headersMapper: Mappers.MetricsBatchExceptionHeaders
     }
   },
@@ -87,6 +78,7 @@ const batchOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.orderby,
     Parameters.filter,
+    Parameters.autoAdjustTimegrain,
     Parameters.apiVersion
   ],
   urlParameters: [Parameters.baseUrl, Parameters.subscriptionId],

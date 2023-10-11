@@ -130,7 +130,7 @@ describe("Model unit tests", () => {
         aggregation: "Average,Maximum",
         filter: "arbitraryFilter",
         interval: "arbitraryInterval",
-        metricnames: "name1,name2",
+        metricnames: ["name1", "name2"],
         metricnamespace: "myMetricNamespace",
         orderby: "orderByClause",
         requestOptions,
@@ -147,7 +147,7 @@ describe("Model unit tests", () => {
 
     it("convertRequestForMetrics (only required fields)", () => {
       assert.deepEqual(convertRequestForMetrics(["SuccessfulCalls", "TotalCalls"], {}), {
-        metricnames: "SuccessfulCalls,TotalCalls",
+        metricnames: ["SuccessfulCalls", "TotalCalls"],
       });
     });
 

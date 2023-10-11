@@ -60,7 +60,7 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
@@ -91,7 +91,7 @@ export const interval: OperationQueryParameter = {
     defaultValue: "PT1M",
     serializedName: "interval",
     type: {
-      name: "TimeSpan"
+      name: "String"
     }
   }
 };
@@ -160,6 +160,16 @@ export const filter: OperationQueryParameter = {
     serializedName: "filter",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const autoAdjustTimegrain: OperationQueryParameter = {
+  parameterPath: ["options", "autoAdjustTimegrain"],
+  mapper: {
+    serializedName: "AutoAdjustTimegrain",
+    type: {
+      name: "Boolean"
     }
   }
 };

@@ -29,6 +29,7 @@ const envSetupForPlayback: Record<string, string> = {
   AZURE_TENANT_ID: "98123456-7614-3456-5678-789980112547",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -54,7 +55,7 @@ export async function createRecorderAndMetricsBatchQueryClient(): Promise<Record
   const testCredential = createTestCredential();
   const batchEndPoint =
     env["AZURE_MONITOR_BATCH_ENDPOINT"] ?? "https://eastus.metrics.monitor.azure.com/";
-  const client = new MetricsBatchQueryClient(batchEndPoint, testCredential);
+  const client = new MetricsBatchQueryClient(batchEndPoint, testCredential, "subscriptionId");
 
   return {
     client: client,
@@ -91,6 +92,7 @@ export async function createRecorderAndMetricsClient(
   await recorder.start(recorderOptions);
   const client = new MetricsQueryClient(
     createTestCredential(),
+    "subscriptionId",
     recorder.configureClientOptions({})
   );
 

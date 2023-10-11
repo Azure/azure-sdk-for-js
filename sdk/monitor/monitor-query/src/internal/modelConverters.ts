@@ -13,7 +13,7 @@ import {
 } from "../generated/logquery/src";
 
 import {
-  Metric as GeneratedMetric,
+  SubscriptionScopeMetric as GeneratedMetric,
   MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
   MetricsListResponse as GeneratedMetricsListResponse,
   TimeSeriesElement as GeneratedTimeSeriesElement,
@@ -62,6 +62,7 @@ import {
 import {
   MetricResultsResponseValuesItem,
   MetricsBatchOptionalParams,
+  Metric as MetricBatch,
 } from "../models/publicBatchModels";
 
 /**
@@ -232,7 +233,7 @@ export function convertRequestForMetrics(
     obj.orderby = orderBy;
   }
   if (metricNames) {
-    obj.metricnames = metricNames.join(",");
+    obj.metricnames = metricNames;
   }
   if (aggregations) {
     obj.aggregation = aggregations.join(",");
@@ -326,7 +327,19 @@ export function convertResponseForMetricBatch(
         endTime: genDef.endtime,
         resourceRegion: genDef.resourceregion,
         resourceId: genDef.resourceid,
-        ...genDef,
+        value: genDef.value.map((genValue) => {
+          const responseValue: MetricBatch = {
+            id: genValue.id,
+            name: genValue.name,
+            displayDescription: genValue.displayDescription ?? "",
+            type: genValue.type,
+            unit: genValue.unit,
+            timeseries: genValue.timeseries,
+            errorCode: genValue.errorCode,
+            errorMessage: genValue.errorMessage,
+          };
+          return responseValue;
+        }),
       };
 
       return response;

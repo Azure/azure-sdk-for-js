@@ -5,7 +5,7 @@ import { CommonClientOptions } from "@azure/core-client";
 import { tracingClient } from "./tracing";
 import {
   AzureMonitorMetricBatch as GeneratedMonitorMetricBatchClient,
-  KnownApiVersion20230501Preview as MonitorMetricBatchApiVersion,
+  KnownApiVersion20231001 as MonitorMetricBatchApiVersion,
 } from "./generated/metricBatch/src";
 import {
   convertResponseForMetricBatch,
@@ -43,6 +43,7 @@ export class MetricsBatchQueryClient {
   constructor(
     batchEndPoint: string,
     tokenCredential: TokenCredential,
+    subscriptionId: string,
     options?: MetricsBatchQueryClientOptions
   ) {
     let scope;
@@ -71,7 +72,8 @@ export class MetricsBatchQueryClient {
     this._baseUrl = batchEndPoint;
 
     this._metricBatchClient = new GeneratedMonitorMetricBatchClient(
-      MonitorMetricBatchApiVersion.TwoThousandTwentyThree0501Preview,
+      subscriptionId,
+      MonitorMetricBatchApiVersion.TwoThousandTwentyThree1001,
       serviceClientOptions
     );
   }
@@ -93,11 +95,10 @@ export class MetricsBatchQueryClient {
       "MetricsBatchQueryClient.batch",
       options,
       async (updatedOptions) => {
-        const subscriptionId = getSubscriptionFromResourceId(resourceIds[0]);
+        // const subscriptionId = getSubscriptionFromResourceId(resourceIds[0]);
 
         const response = await this._metricBatchClient.metrics.batch(
           this._baseUrl,
-          subscriptionId,
           metricNamespace,
           metricNames,
           {

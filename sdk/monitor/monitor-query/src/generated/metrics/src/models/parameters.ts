@@ -11,6 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
+import { SubscriptionScopeMetricsRequestBodyParameters as SubscriptionScopeMetricsRequestBodyParametersMapper } from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -34,6 +35,49 @@ export const $host: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    serializedName: "api-version",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const region: OperationQueryParameter = {
+  parameterPath: "region",
+  mapper: {
+    serializedName: "region",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const metricnamespace: OperationQueryParameter = {
+  parameterPath: ["options", "metricnamespace"],
+  mapper: {
+    serializedName: "metricnamespace",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const resourceUri: OperationURLParameter = {
@@ -61,9 +105,10 @@ export const timespan: OperationQueryParameter = {
 export const interval: OperationQueryParameter = {
   parameterPath: ["options", "interval"],
   mapper: {
+    defaultValue: "PT1M",
     serializedName: "interval",
     type: {
-      name: "TimeSpan"
+      name: "String"
     }
   }
 };
@@ -73,9 +118,15 @@ export const metricnames: OperationQueryParameter = {
   mapper: {
     serializedName: "metricnames",
     type: {
-      name: "String"
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
     }
-  }
+  },
+  collectionFormat: "CSV"
 };
 
 export const aggregation: OperationQueryParameter = {
@@ -123,29 +174,55 @@ export const resultType: OperationQueryParameter = {
   mapper: {
     serializedName: "resultType",
     type: {
+      name: "String"
+    }
+  }
+};
+
+export const autoAdjustTimegrain: OperationQueryParameter = {
+  parameterPath: ["options", "autoAdjustTimegrain"],
+  mapper: {
+    serializedName: "AutoAdjustTimegrain",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const validateDimensions: OperationQueryParameter = {
+  parameterPath: ["options", "validateDimensions"],
+  mapper: {
+    serializedName: "ValidateDimensions",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: SubscriptionScopeMetricsRequestBodyParametersMapper
+};
+
+export const resultType1: OperationQueryParameter = {
+  parameterPath: ["options", "resultType"],
+  mapper: {
+    serializedName: "resultType",
+    type: {
       name: "Enum",
       allowedValues: ["Data", "Metadata"]
-    }
-  }
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    serializedName: "api-version",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const metricnamespace: OperationQueryParameter = {
-  parameterPath: ["options", "metricnamespace"],
-  mapper: {
-    serializedName: "metricnamespace",
-    type: {
-      name: "String"
     }
   }
 };

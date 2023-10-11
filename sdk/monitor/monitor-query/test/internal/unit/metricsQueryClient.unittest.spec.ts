@@ -22,7 +22,7 @@ it("verify tracing", async () => {
       throw new Error("Shortcircuit auth exception");
     },
   };
-  const client = new MetricsQueryClient(tokenCredential, {
+  const client = new MetricsQueryClient(tokenCredential, "subscriptionId", {
     endpoint: "https://customEndpoint1",
   });
   await assert.supportsTracing(

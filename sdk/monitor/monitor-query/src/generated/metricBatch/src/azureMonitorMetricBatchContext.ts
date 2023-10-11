@@ -8,23 +8,29 @@
 
 import * as coreClient from "@azure/core-client";
 import {
-  ApiVersion20230501Preview,
+  ApiVersion20231001,
   AzureMonitorMetricBatchOptionalParams
 } from "./models";
 
 /** @internal */
 export class AzureMonitorMetricBatchContext extends coreClient.ServiceClient {
-  apiVersion: ApiVersion20230501Preview;
+  subscriptionId: string;
+  apiVersion: ApiVersion20231001;
 
   /**
    * Initializes a new instance of the AzureMonitorMetricBatchContext class.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion20230501Preview,
+    subscriptionId: string,
+    apiVersion: ApiVersion20231001,
     options?: AzureMonitorMetricBatchOptionalParams
   ) {
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
     if (apiVersion === undefined) {
       throw new Error("'apiVersion' cannot be null");
     }
@@ -37,7 +43,7 @@ export class AzureMonitorMetricBatchContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-monitor-metric-batch/1.0.1`;
+    const packageDetails = `azsdk-js-monitor-metric-batch/1.2.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -53,6 +59,7 @@ export class AzureMonitorMetricBatchContext extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
     // Parameter assignments
+    this.subscriptionId = subscriptionId;
     this.apiVersion = apiVersion;
   }
 }

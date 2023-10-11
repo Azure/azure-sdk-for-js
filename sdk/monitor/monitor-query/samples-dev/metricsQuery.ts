@@ -12,10 +12,11 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const metricsResourceId = process.env.METRICS_RESOURCE_ID;
+const subscriptionId = process.env.SUBSCRIPTION_ID ?? "";
 
 export async function main() {
   const tokenCredential = new DefaultAzureCredential();
-  const metricsQueryClient = new MetricsQueryClient(tokenCredential);
+  const metricsQueryClient = new MetricsQueryClient(tokenCredential, subscriptionId);
 
   if (!metricsResourceId) {
     throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");

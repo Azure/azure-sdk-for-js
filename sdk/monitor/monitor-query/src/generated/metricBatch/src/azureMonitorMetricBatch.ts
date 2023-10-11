@@ -11,21 +11,23 @@ import { Metrics } from "./operationsInterfaces";
 import { AzureMonitorMetricBatchContext } from "./azureMonitorMetricBatchContext";
 import {
   AzureMonitorMetricBatchOptionalParams,
-  ApiVersion20230501Preview
+  ApiVersion20231001
 } from "./models";
 
 /** @internal */
 export class AzureMonitorMetricBatch extends AzureMonitorMetricBatchContext {
   /**
    * Initializes a new instance of the AzureMonitorMetricBatch class.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion20230501Preview,
+    subscriptionId: string,
+    apiVersion: ApiVersion20231001,
     options?: AzureMonitorMetricBatchOptionalParams
   ) {
-    super(apiVersion, options);
+    super(subscriptionId, apiVersion, options);
     this.metrics = new MetricsImpl(this);
   }
 
