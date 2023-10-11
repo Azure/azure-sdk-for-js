@@ -449,9 +449,7 @@ export type CustomVectorizer = BaseVectorSearchVectorizer & {
 export interface CustomVectorizerParameters {
     authIdentity?: SearchIndexerDataIdentity;
     authResourceId?: string;
-    httpHeaders?: {
-        [propertyName: string]: string;
-    };
+    httpHeaders?: Record<string, string>;
     httpMethod?: string;
     timeout?: string;
     uri?: string;
@@ -2425,7 +2423,7 @@ export interface SearchIndexerIndexProjectionSelector {
 
 // @public
 export interface SearchIndexerIndexProjectionsParameters {
-    [property: string]: any;
+    [property: string]: unknown;
     projectionMode?: IndexProjectionMode;
 }
 

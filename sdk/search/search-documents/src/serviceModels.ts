@@ -2171,8 +2171,8 @@ export interface ExhaustiveKnnParameters {
 
 /** A dictionary of index projection-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
 export interface SearchIndexerIndexProjectionsParameters {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
+  /** Describes unknown properties.*/
+  [property: string]: unknown;
   /** Defines behavior of the index projections in relation to the rest of the indexer. */
   projectionMode?: IndexProjectionMode;
 }
@@ -2214,7 +2214,7 @@ export interface CustomVectorizerParameters {
   /** The uri for the Web API. */
   uri?: string;
   /** The headers required to make the http request. */
-  httpHeaders?: { [propertyName: string]: string };
+  httpHeaders?: Record<string, string>;
   /** The method for the http request. */
   httpMethod?: string;
   /** The desired timeout for the request. Default is 30 seconds. */
