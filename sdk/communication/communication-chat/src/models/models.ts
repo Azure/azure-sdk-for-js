@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommunicationIdentifier, CommunicationIdentifierKind } from "@azure/communication-common";
-import { ChatError, ChatMessageType } from "../generated/src";
+import { ChatAttachment, ChatError, ChatMessageType } from "../generated/src";
 
 export {
   AddChatParticipantsResult,
@@ -10,6 +10,8 @@ export {
   ChatThreadItem,
   ChatError,
   SendChatMessageResult,
+  ChatAttachment,
+  AttachmentType,
 } from "../generated/src/models";
 
 /** Chat thread. */
@@ -62,6 +64,8 @@ export interface ChatMessageContent {
   participants?: ChatParticipant[];
   /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
   initiator?: CommunicationIdentifierKind;
+  /** List of attachments for this message */
+  attachments?: ChatAttachment[];
 }
 
 /** A chat message read receipt indicates the time a chat message was read by a recipient. */

@@ -1799,7 +1799,7 @@ packages:
       '@rushstack/ts-command-line': 4.16.1
       colors: 1.2.5
       lodash: 4.17.21
-      resolve: 1.22.6
+      resolve: 1.22.8
       semver: 7.5.4
       source-map: 0.6.1
       typescript: 5.0.4
@@ -1853,8 +1853,8 @@ packages:
     engines: {node: '>=8.0.0'}
     dev: false
 
-  /@opentelemetry/context-async-hooks@1.17.0(@opentelemetry/api@1.6.0):
-    resolution: {integrity: sha512-bDIRCgpKniSyhORU0fTL9ISW6ucU9nruKyXKwYrEBep/2f3uLz8LFyF51ZUK9QxIwBHw6WJudK/2UqttWzER4w==}
+  /@opentelemetry/context-async-hooks@1.17.1(@opentelemetry/api@1.6.0):
+    resolution: {integrity: sha512-up5I+RiQEkGrVEHtbAtmRgS+ZOnFh3shaDNHqZPBlGy+O92auL6yMmjzYpSKmJOGWowvs3fhVHePa8Exb5iHUg==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.7.0'
@@ -1870,6 +1870,16 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.6.0
       '@opentelemetry/semantic-conventions': 1.17.0
+    dev: false
+
+  /@opentelemetry/core@1.17.1(@opentelemetry/api@1.6.0):
+    resolution: {integrity: sha512-I6LrZvl1FF97FQXPR0iieWQmKnGxYtMbWA1GrAXnLUR+B1Hn2m8KqQNEIlZAucyv00GBgpWkpllmULmZfG8P3g==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.7.0'
+    dependencies:
+      '@opentelemetry/api': 1.6.0
+      '@opentelemetry/semantic-conventions': 1.17.1
     dev: false
 
   /@opentelemetry/instrumentation-http@0.43.0(@opentelemetry/api@1.6.0):
@@ -1895,8 +1905,8 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.6.0
       '@opentelemetry/instrumentation': 0.41.2(@opentelemetry/api@1.6.0)
-      '@opentelemetry/sdk-metrics': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/semantic-conventions': 1.17.0
+      '@opentelemetry/sdk-metrics': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/semantic-conventions': 1.17.1
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1909,7 +1919,7 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.6.0
       '@opentelemetry/instrumentation': 0.41.2(@opentelemetry/api@1.6.0)
-      '@opentelemetry/semantic-conventions': 1.17.0
+      '@opentelemetry/semantic-conventions': 1.17.1
       '@types/mysql': 2.15.21
     transitivePeerDependencies:
       - supports-color
@@ -1922,9 +1932,9 @@ packages:
       '@opentelemetry/api': ^1.3.0
     dependencies:
       '@opentelemetry/api': 1.6.0
-      '@opentelemetry/core': 1.17.0(@opentelemetry/api@1.6.0)
+      '@opentelemetry/core': 1.17.1(@opentelemetry/api@1.6.0)
       '@opentelemetry/instrumentation': 0.41.2(@opentelemetry/api@1.6.0)
-      '@opentelemetry/semantic-conventions': 1.17.0
+      '@opentelemetry/semantic-conventions': 1.17.1
       '@opentelemetry/sql-common': 0.40.0(@opentelemetry/api@1.6.0)
       '@types/pg': 8.6.1
       '@types/pg-pool': 2.0.3
@@ -1941,7 +1951,7 @@ packages:
       '@opentelemetry/api': 1.6.0
       '@opentelemetry/instrumentation': 0.41.2(@opentelemetry/api@1.6.0)
       '@opentelemetry/redis-common': 0.36.1
-      '@opentelemetry/semantic-conventions': 1.17.0
+      '@opentelemetry/semantic-conventions': 1.17.1
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1955,7 +1965,7 @@ packages:
       '@opentelemetry/api': 1.6.0
       '@opentelemetry/instrumentation': 0.41.2(@opentelemetry/api@1.6.0)
       '@opentelemetry/redis-common': 0.36.1
-      '@opentelemetry/semantic-conventions': 1.17.0
+      '@opentelemetry/semantic-conventions': 1.17.1
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1992,24 +2002,24 @@ packages:
       - supports-color
     dev: false
 
-  /@opentelemetry/propagator-b3@1.17.0(@opentelemetry/api@1.6.0):
-    resolution: {integrity: sha512-oklstXImtaly4vDaL+rGtX41YXZR50jp5a7CSEPMcStp1B7ozdZ5G2I5wftrDvOlOcLt/TIkGWDCr/OkVN7kWg==}
+  /@opentelemetry/propagator-b3@1.17.1(@opentelemetry/api@1.6.0):
+    resolution: {integrity: sha512-XEbXYb81AM3ayJLlbJqITPIgKBQCuby45ZHiB9mchnmQOffh6ZJOmXONdtZAV7TWzmzwvAd28vGSUk57Aw/5ZA==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.7.0'
     dependencies:
       '@opentelemetry/api': 1.6.0
-      '@opentelemetry/core': 1.17.0(@opentelemetry/api@1.6.0)
+      '@opentelemetry/core': 1.17.1(@opentelemetry/api@1.6.0)
     dev: false
 
-  /@opentelemetry/propagator-jaeger@1.17.0(@opentelemetry/api@1.6.0):
-    resolution: {integrity: sha512-iZzu8K0QkZZ16JH9yox6hZk7/Rxc4SPeGU37pvlB9DtzfNxAEX1FMK9zvowv3ve7r2uzZNpa7JGVUwpy5ewdHQ==}
+  /@opentelemetry/propagator-jaeger@1.17.1(@opentelemetry/api@1.6.0):
+    resolution: {integrity: sha512-p+P4lf2pbqd3YMfZO15QCGsDwR2m1ke2q5+dq6YBLa/q0qiC2eq4cD/qhYBBed5/X4PtdamaVGHGsp+u3GXHDA==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.7.0'
     dependencies:
       '@opentelemetry/api': 1.6.0
-      '@opentelemetry/core': 1.17.0(@opentelemetry/api@1.6.0)
+      '@opentelemetry/core': 1.17.1(@opentelemetry/api@1.6.0)
     dev: false
 
   /@opentelemetry/redis-common@0.36.1:
@@ -2028,6 +2038,17 @@ packages:
       '@opentelemetry/semantic-conventions': 1.17.0
     dev: false
 
+  /@opentelemetry/resources@1.17.1(@opentelemetry/api@1.6.0):
+    resolution: {integrity: sha512-M2e5emqg5I7qRKqlzKx0ROkcPyF8PbcSaWEdsm72od9txP7Z/Pl8PDYOyu80xWvbHAWk5mDxOF6v3vNdifzclA==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.7.0'
+    dependencies:
+      '@opentelemetry/api': 1.6.0
+      '@opentelemetry/core': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/semantic-conventions': 1.17.1
+    dev: false
+
   /@opentelemetry/sdk-logs@0.43.0(@opentelemetry/api-logs@0.43.0)(@opentelemetry/api@1.6.0):
     resolution: {integrity: sha512-JyJ2BBRKm37Mc4cSEhFmsMl5ASQn1dkGhEWzAAMSlhPtLRTv5PfvJwhR+Mboaic/eDLAlciwsgijq8IFlf6IgQ==}
     engines: {node: '>=14'}
@@ -2041,47 +2062,52 @@ packages:
       '@opentelemetry/resources': 1.17.0(@opentelemetry/api@1.6.0)
     dev: false
 
-  /@opentelemetry/sdk-metrics@1.17.0(@opentelemetry/api@1.6.0):
-    resolution: {integrity: sha512-HlWM27yGmYuwCoVRe3yg2PqKnIsq0kEF0HQgvkeDWz2NYkq9fFaSspR6kvjxUTbghAlZrabiqbgyKoYpYaXS3w==}
+  /@opentelemetry/sdk-metrics@1.17.1(@opentelemetry/api@1.6.0):
+    resolution: {integrity: sha512-eHdpsMCKhKhwznxvEfls8Wv3y4ZBWkkXlD3m7vtHIiWBqsMHspWSfie1s07mM45i/bBCf6YBMgz17FUxIXwmZA==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': '>=1.3.0 <1.7.0'
     dependencies:
       '@opentelemetry/api': 1.6.0
-      '@opentelemetry/core': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/resources': 1.17.0(@opentelemetry/api@1.6.0)
+      '@opentelemetry/core': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/resources': 1.17.1(@opentelemetry/api@1.6.0)
       lodash.merge: 4.6.2
     dev: false
 
-  /@opentelemetry/sdk-trace-base@1.17.0(@opentelemetry/api@1.6.0):
-    resolution: {integrity: sha512-2T5HA1/1iE36Q9eg6D4zYlC4Y4GcycI1J6NsHPKZY9oWfAxWsoYnRlkPfUqyY5XVtocCo/xHpnJvGNHwzT70oQ==}
+  /@opentelemetry/sdk-trace-base@1.17.1(@opentelemetry/api@1.6.0):
+    resolution: {integrity: sha512-pfSJJSjZj5jkCJUQZicSpzN8Iz9UKMryPWikZRGObPnJo6cUSoKkjZh6BM3j+D47G4olMBN+YZKYqkFM1L6zNA==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.7.0'
     dependencies:
       '@opentelemetry/api': 1.6.0
-      '@opentelemetry/core': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/resources': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/semantic-conventions': 1.17.0
+      '@opentelemetry/core': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/resources': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/semantic-conventions': 1.17.1
     dev: false
 
-  /@opentelemetry/sdk-trace-node@1.17.0(@opentelemetry/api@1.6.0):
-    resolution: {integrity: sha512-Twlaje+t16b5j62CfcaKU869rP9oyBG/sVQWBI5+kDaWuP/YIFnF4LbovaEahK9GwAnW8vPIn6iYLAl/jZBidA==}
+  /@opentelemetry/sdk-trace-node@1.17.1(@opentelemetry/api@1.6.0):
+    resolution: {integrity: sha512-J56DaG4cusjw5crpI7x9rv4bxDF27DtKYGxXJF56KIvopbNKpdck5ZWXBttEyqgAVPDwHMAXWDL1KchHzF0a3A==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.7.0'
     dependencies:
       '@opentelemetry/api': 1.6.0
-      '@opentelemetry/context-async-hooks': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/core': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/propagator-b3': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/propagator-jaeger': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/sdk-trace-base': 1.17.0(@opentelemetry/api@1.6.0)
+      '@opentelemetry/context-async-hooks': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/core': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/propagator-b3': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/propagator-jaeger': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/sdk-trace-base': 1.17.1(@opentelemetry/api@1.6.0)
       semver: 7.5.4
     dev: false
 
   /@opentelemetry/semantic-conventions@1.17.0:
     resolution: {integrity: sha512-+fguCd2d8d2qruk0H0DsCEy2CTK3t0Tugg7MhZ/UQMvmewbZLNnJ6heSYyzIZWG5IPfAXzoj4f4F/qpM7l4VBA==}
+    engines: {node: '>=14'}
+    dev: false
+
+  /@opentelemetry/semantic-conventions@1.17.1:
+    resolution: {integrity: sha512-xbR2U+2YjauIuo42qmE8XyJK6dYeRMLJuOlUP5SO4auET4VtOHOzgkRVOq+Ik18N+Xf3YPcqJs9dZMiDddz1eQ==}
     engines: {node: '>=14'}
     dev: false
 
@@ -2092,7 +2118,7 @@ packages:
       '@opentelemetry/api': ^1.1.0
     dependencies:
       '@opentelemetry/api': 1.6.0
-      '@opentelemetry/core': 1.17.0(@opentelemetry/api@1.6.0)
+      '@opentelemetry/core': 1.17.1(@opentelemetry/api@1.6.0)
     dev: false
 
   /@pkgjs/parseargs@0.11.0:
@@ -2299,7 +2325,7 @@ packages:
       deepmerge: 4.3.1
       is-builtin-module: 3.2.1
       is-module: 1.0.0
-      resolve: 1.22.6
+      resolve: 1.22.8
       rollup: 2.79.1
     dev: false
 
@@ -2317,7 +2343,7 @@ packages:
       deepmerge: 4.3.1
       is-builtin-module: 3.2.1
       is-module: 1.0.0
-      resolve: 1.22.6
+      resolve: 1.22.8
       rollup: 3.29.4
     dev: false
 
@@ -2363,7 +2389,7 @@ packages:
         optional: true
     dependencies:
       '@rollup/pluginutils': 5.0.5(rollup@3.29.4)
-      resolve: 1.22.6
+      resolve: 1.22.8
       rollup: 3.29.4
       tslib: 2.6.2
       typescript: 5.0.4
@@ -2448,7 +2474,7 @@ packages:
       fs-extra: 7.0.1
       import-lazy: 4.0.0
       jju: 1.4.0
-      resolve: 1.22.6
+      resolve: 1.22.8
       semver: 7.5.4
       z-schema: 5.0.5
     dev: false
@@ -2456,7 +2482,7 @@ packages:
   /@rushstack/rig-package@0.5.1:
     resolution: {integrity: sha512-pXRYSe29TjRw7rqxD4WS3HN/sRSbfr+tJs4a9uuaSIBAITbUggygdhuG0VrO0EO+QqH91GhYMN4S6KRtOEmGVA==}
     dependencies:
-      resolve: 1.22.6
+      resolve: 1.22.8
       strip-json-comments: 3.1.1
     dev: false
 
@@ -2557,17 +2583,17 @@ packages:
   /@types/chai-as-promised@7.1.6:
     resolution: {integrity: sha512-cQLhk8fFarRVZAXUQV1xEnZgMoPxqKojBvRkqPCKPQCzEhpbbSKl1Uu75kDng7k5Ln6LQLUmNBjLlFthCgm1NA==}
     dependencies:
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
     dev: false
 
   /@types/chai-string@1.4.3:
     resolution: {integrity: sha512-bLp5xMQ7Ml0fWa05IPpLjIznTkNbuBE3GtRTzKrp0d10IavlBFcu9vXP2liWaXta79unO693q3kuRxD7g2YYGw==}
     dependencies:
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
     dev: false
 
-  /@types/chai@4.3.6:
-    resolution: {integrity: sha512-VOVRLM1mBxIRxydiViqPcKn6MIxZytrbMpd6RJLIWKxUNr3zux8no0Oc7kJx0WAPIitgZ0gkrDS+btlqQpubpw==}
+  /@types/chai@4.3.7:
+    resolution: {integrity: sha512-/k+vesl92vMvMygmQrFe9Aimxi6oQXFUX9mA5HanTrKUSAMoLauSi6PNFOdRw0oeqilaW600GNx2vSaT2f8aIQ==}
     dev: false
 
   /@types/connect@3.4.36:
@@ -2598,8 +2624,8 @@ packages:
       '@types/node': 16.18.58
     dev: false
 
-  /@types/eslint@8.44.3:
-    resolution: {integrity: sha512-iM/WfkwAhwmPff3wZuPLYiHX18HI24jU8k1ZSH7P8FHwxTjZ2P6CoX2wnF43oprR+YXJM6UUxATkNvyv/JHd+g==}
+  /@types/eslint@8.44.4:
+    resolution: {integrity: sha512-lOzjyfY/D9QR4hY9oblZ76B90MYTB3RrQ4z2vBIJKj9ROCRqdkYl2gSUx1x1a4IWPjKJZLL4Aw1Zfay7eMnmnA==}
     dependencies:
       '@types/estree': 1.0.2
       '@types/json-schema': 7.0.13
@@ -2622,8 +2648,8 @@ packages:
       '@types/send': 0.17.2
     dev: false
 
-  /@types/express@4.17.18:
-    resolution: {integrity: sha512-Sxv8BSLLgsBYmcnGdGjjEjqET2U+AKAdCRODmMiq02FgjwuV75Ut85DRpvFjyw/Mk0vgUOliGRU0UUmuuZHByQ==}
+  /@types/express@4.17.19:
+    resolution: {integrity: sha512-UtOfBtzN9OvpZPPbnnYunfjM7XCI4jyk1NvnFhTVz5krYAnW4o5DCoIekvms+8ApqhB4+9wSge1kBijdfTSmfg==}
     dependencies:
       '@types/body-parser': 1.19.3
       '@types/express-serve-static-core': 4.17.37
@@ -2861,8 +2887,8 @@ packages:
       '@types/node': 16.18.58
     dev: false
 
-  /@types/underscore@1.11.10:
-    resolution: {integrity: sha512-qDaHavz423J+9c48y2lRoA4HwsucQ4xgU+7L3nCSJ4TjB/CGl30nPZhRa+ssUgbJdg38JESjZFkY5K52aXlAYA==}
+  /@types/underscore@1.11.11:
+    resolution: {integrity: sha512-J/ZgSP9Yv0S+wfUfeRh9ynktcCvycfW4S9NbzkFdiHLBth+Ctdy5nYg3ZAqUKq7v3gcJce6rXo41zJV6IqsXsQ==}
     dev: false
 
   /@types/unist@2.0.8:
@@ -2879,8 +2905,8 @@ packages:
       '@types/node': 16.18.58
     dev: false
 
-  /@types/ws@8.5.6:
-    resolution: {integrity: sha512-8B5EO9jLVCy+B58PLHvLDuOD8DRVMgQzq8d55SjLCOn9kqGyqOvy27exVaTio1q1nX5zLu8/6N0n2ThSxOM6tg==}
+  /@types/ws@8.5.7:
+    resolution: {integrity: sha512-6UrLjiDUvn40CMrAubXuIVtj2PEfKDffJS7ychvnPU44j+KVeXmdHHTgqcM/dxLUTHxlXHiFM8Skmb8ozGdTnQ==}
     dependencies:
       '@types/node': 16.18.58
     dev: false
@@ -3440,8 +3466,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001546
-      electron-to-chromium: 1.4.544
+      caniuse-lite: 1.0.30001547
+      electron-to-chromium: 1.4.549
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13(browserslist@4.22.1)
     dev: false
@@ -3529,8 +3555,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001546:
-    resolution: {integrity: sha512-zvtSJwuQFpewSyRrI3AsftF6rM0X80mZkChIt1spBGEvRglCrjTniXvinc8JKRoqTwXAgvqTImaN9igfSMtUBw==}
+  /caniuse-lite@1.0.30001547:
+    resolution: {integrity: sha512-W7CrtIModMAxobGhz8iXmDfuJiiKg1WADMO/9x7/CLNin5cpSbuBjooyoIUVB5eyCc36QuTVlkVa1iB2S5+/eA==}
     dev: false
 
   /catharsis@0.9.0:
@@ -4236,8 +4262,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
-  /electron-to-chromium@1.4.544:
-    resolution: {integrity: sha512-54z7squS1FyFRSUqq/knOFSptjjogLZXbKcYk3B0qkE1KZzvqASwRZnY2KzZQJqIYLVD38XZeoiMRflYSwyO4w==}
+  /electron-to-chromium@1.4.549:
+    resolution: {integrity: sha512-gpXfJslSi4hYDkA0mTLEpYKRv9siAgSUgZ+UWyk+J5Cttpd1ThCVwdclzIwQSclz3hYn049+M2fgrP1WpvF8xg==}
     dev: false
 
   /emitter-component@1.1.1:
@@ -4443,7 +4469,7 @@ packages:
     dependencies:
       debug: 3.2.7
       is-core-module: 2.13.0
-      resolve: 1.22.6
+      resolve: 1.22.8
     dev: false
 
   /eslint-module-utils@2.8.0(eslint@8.51.0):
@@ -4524,7 +4550,7 @@ packages:
       eslint-utils: 2.1.0
       ignore: 5.2.4
       minimatch: 3.1.2
-      resolve: 1.22.6
+      resolve: 1.22.8
       semver: 6.3.1
     dev: false
 
@@ -6966,8 +6992,8 @@ packages:
       - supports-color
     dev: false
 
-  /node-abi@3.47.0:
-    resolution: {integrity: sha512-2s6B2CWZM//kPgwnuI0KrYwNjfdByE25zvAaEpq9IH4zcNsarH8Ihu/UuX6XMPEogDAxkuUFeZn60pXNHAqn3A==}
+  /node-abi@3.49.0:
+    resolution: {integrity: sha512-ji8IK8VT2zAQv9BeOqwnpuvJnCivxPCe2HNiPe8P1z1SDhqEFpm7GqctqTWkujb8mLfZ1PWDrjMeiq6l9TN7fA==}
     engines: {node: '>=10'}
     dependencies:
       semver: 7.5.4
@@ -7043,7 +7069,7 @@ packages:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}
     dependencies:
       hosted-git-info: 2.8.9
-      resolve: 1.22.6
+      resolve: 1.22.8
       semver: 5.7.2
       validate-npm-package-license: 3.0.4
     dev: false
@@ -7565,7 +7591,7 @@ packages:
       minimist: 1.2.8
       mkdirp-classic: 0.5.3
       napi-build-utils: 1.0.2
-      node-abi: 3.47.0
+      node-abi: 3.49.0
       pump: 3.0.0
       rc: 1.2.8
       simple-get: 4.0.1
@@ -7873,7 +7899,7 @@ packages:
     resolution: {integrity: sha512-HFM8rkZ+i3zrV+4LQjwQ0W+ez98pApMGM3HUrN04j3CqzPOzl9nmP15Y8YXNm8QHGv/eacOVEjqhmWpkRV0NAw==}
     engines: {node: '>= 0.10'}
     dependencies:
-      resolve: 1.22.6
+      resolve: 1.22.8
     dev: false
 
   /regenerator-runtime@0.13.11:
@@ -7921,7 +7947,7 @@ packages:
     dependencies:
       debug: 4.3.4(supports-color@8.1.1)
       module-details-from-path: 1.0.3
-      resolve: 1.22.6
+      resolve: 1.22.8
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -7963,8 +7989,8 @@ packages:
       path-parse: 1.0.7
     dev: false
 
-  /resolve@1.22.6:
-    resolution: {integrity: sha512-njhxM7mV12JfufShqGy3Rz8j11RPdLy4xi15UurGJeoHLfJpVXKdh3ueuOqbYUcDZnffr6X739JBo5LzyahEsw==}
+  /resolve@1.22.8:
+    resolution: {integrity: sha512-oKWePCxqpd6FlLvGV1VU0x7bkPmmCNolxzjMf4NczoDnQcIWrAF+cPtZn5i6n+RfD2d9i0tzpKnG6Yk168yIyw==}
     hasBin: true
     dependencies:
       is-core-module: 2.13.0
@@ -9514,7 +9540,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -9553,7 +9579,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -9598,7 +9624,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       autorest: 3.6.3
@@ -9643,7 +9669,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       autorest: 3.6.3
@@ -9684,7 +9710,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -9729,7 +9755,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/prettier': 2.6.4
@@ -9776,7 +9802,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -9824,7 +9850,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/decompress': 4.2.5
       '@types/mocha': 10.0.2
@@ -9897,7 +9923,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -9941,7 +9967,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       autorest: 3.6.3
       chai: 4.3.10
@@ -9984,7 +10010,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -10030,7 +10056,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       autorest: 3.6.3
@@ -10075,7 +10101,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/inquirer': 8.2.7
       '@types/mocha': 10.0.2
       '@types/mustache': 4.2.3
@@ -10118,7 +10144,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mime': 3.0.2
       '@types/mocha': 10.0.2
       '@types/mustache': 4.2.3
@@ -10169,7 +10195,7 @@ packages:
     dependencies:
       '@azure/keyvault-secrets': 4.7.0
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -10219,7 +10245,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10248,7 +10274,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10276,7 +10302,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10304,7 +10330,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10329,7 +10355,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10358,7 +10384,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10386,7 +10412,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10415,7 +10441,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10444,7 +10470,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10472,7 +10498,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10501,7 +10527,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10530,7 +10556,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10555,7 +10581,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       autorest: 3.6.3
       chai: 4.3.10
@@ -10602,7 +10628,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10630,7 +10656,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10659,7 +10685,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10688,7 +10714,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10717,7 +10743,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10746,7 +10772,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10775,7 +10801,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10803,7 +10829,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10831,7 +10857,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10859,7 +10885,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10888,7 +10914,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10917,7 +10943,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10945,7 +10971,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10973,7 +10999,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11002,7 +11028,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11030,7 +11056,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11058,7 +11084,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11086,7 +11112,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11115,7 +11141,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11144,7 +11170,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11173,7 +11199,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11201,7 +11227,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11229,7 +11255,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11258,7 +11284,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11287,7 +11313,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11312,7 +11338,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       autorest: 3.6.3
       chai: 4.3.10
@@ -11359,7 +11385,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11388,7 +11414,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11416,7 +11442,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11445,7 +11471,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11474,7 +11500,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11503,7 +11529,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11532,7 +11558,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11557,7 +11583,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       autorest: 3.6.3
       chai: 4.3.10
@@ -11604,7 +11630,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11633,7 +11659,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11662,7 +11688,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11691,7 +11717,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -11721,7 +11747,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11749,7 +11775,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11778,7 +11804,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11807,7 +11833,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11836,7 +11862,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11864,7 +11890,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11892,7 +11918,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11920,7 +11946,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11948,7 +11974,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11977,7 +12003,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12005,7 +12031,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12033,7 +12059,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12062,7 +12088,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12091,7 +12117,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12119,7 +12145,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12148,7 +12174,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12177,7 +12203,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12206,7 +12232,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12235,7 +12261,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12264,7 +12290,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12292,7 +12318,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12320,7 +12346,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12349,7 +12375,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12378,7 +12404,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12406,7 +12432,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12435,7 +12461,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12463,7 +12489,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12492,7 +12518,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12521,7 +12547,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12550,7 +12576,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12579,7 +12605,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12608,7 +12634,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12637,7 +12663,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12666,7 +12692,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12695,7 +12721,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12723,7 +12749,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12752,7 +12778,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12781,7 +12807,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12810,7 +12836,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12838,7 +12864,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12866,7 +12892,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12895,7 +12921,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12924,7 +12950,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12952,7 +12978,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12980,7 +13006,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13008,7 +13034,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13037,7 +13063,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13066,7 +13092,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13094,7 +13120,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13123,7 +13149,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13151,7 +13177,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13180,7 +13206,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13209,7 +13235,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13238,7 +13264,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13267,7 +13293,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13296,7 +13322,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13325,7 +13351,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13354,7 +13380,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13383,7 +13409,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13411,7 +13437,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13440,7 +13466,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13469,7 +13495,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13497,7 +13523,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13526,7 +13552,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13554,7 +13580,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13582,7 +13608,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13611,7 +13637,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13636,7 +13662,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13665,7 +13691,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13694,7 +13720,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13722,7 +13748,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13751,7 +13777,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13780,7 +13806,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13808,7 +13834,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13837,7 +13863,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13866,7 +13892,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13895,7 +13921,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13923,7 +13949,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13952,7 +13978,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13981,7 +14007,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14010,7 +14036,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14039,7 +14065,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14068,7 +14094,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14096,7 +14122,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14125,7 +14151,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14154,7 +14180,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14179,7 +14205,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       autorest: 3.6.3
       chai: 4.3.10
@@ -14226,7 +14252,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14255,7 +14281,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14283,7 +14309,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14312,7 +14338,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14341,7 +14367,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14369,7 +14395,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14397,7 +14423,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14426,7 +14452,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14454,7 +14480,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14483,7 +14509,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14512,7 +14538,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14541,7 +14567,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14571,7 +14597,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14600,7 +14626,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14629,7 +14655,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14658,7 +14684,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14687,7 +14713,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14716,7 +14742,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14744,7 +14770,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14773,7 +14799,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14801,7 +14827,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14830,7 +14856,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14858,7 +14884,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14887,7 +14913,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14916,7 +14942,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14944,7 +14970,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14973,7 +14999,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15002,7 +15028,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15031,7 +15057,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15060,7 +15086,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15089,7 +15115,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15118,7 +15144,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15147,7 +15173,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15176,7 +15202,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15204,7 +15230,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15233,7 +15259,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15261,7 +15287,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15290,7 +15316,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15319,7 +15345,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15348,7 +15374,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15377,7 +15403,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15406,7 +15432,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15434,7 +15460,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15463,7 +15489,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15492,7 +15518,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15521,7 +15547,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15550,7 +15576,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15578,7 +15604,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15607,7 +15633,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15631,7 +15657,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       autorest: 3.6.3
       chai: 4.3.10
@@ -15678,7 +15704,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15707,7 +15733,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15736,7 +15762,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15765,7 +15791,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15794,7 +15820,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15823,7 +15849,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15852,7 +15878,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15881,7 +15907,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15910,7 +15936,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15939,7 +15965,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15968,7 +15994,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15997,7 +16023,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16026,7 +16052,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16055,7 +16081,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16083,7 +16109,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16111,7 +16137,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16139,7 +16165,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16167,7 +16193,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16196,7 +16222,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16224,7 +16250,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16253,7 +16279,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16282,7 +16308,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16310,7 +16336,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16339,7 +16365,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16368,7 +16394,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16396,7 +16422,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16425,7 +16451,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16454,7 +16480,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16483,7 +16509,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16511,7 +16537,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16540,7 +16566,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16564,7 +16590,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -16616,7 +16642,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -16659,7 +16685,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -16708,7 +16734,7 @@ packages:
     dependencies:
       '@azure/communication-signaling': 1.0.0-beta.20
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -16758,7 +16784,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -16806,7 +16832,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/uuid': 8.3.4
@@ -16851,7 +16877,7 @@ packages:
     dependencies:
       '@azure/msal-node': 1.18.3
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -16898,7 +16924,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -16948,7 +16974,7 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 7.0.2
       '@types/node': 16.18.58
       autorest: 3.6.3
@@ -16991,7 +17017,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -17037,7 +17063,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -17083,7 +17109,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -17129,7 +17155,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -17166,7 +17192,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -17212,7 +17238,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -17259,7 +17285,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -17305,7 +17331,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -17350,7 +17376,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -17379,7 +17405,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -17429,7 +17455,7 @@ packages:
       '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
       '@rollup/plugin-replace': 5.0.3(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/debug': 4.1.9
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -17478,7 +17504,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -17506,7 +17532,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -17549,7 +17575,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -17614,8 +17640,8 @@ packages:
       '@azure/logger-js': 1.3.2
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
       '@opentelemetry/api': 1.6.0
-      '@types/chai': 4.3.6
-      '@types/express': 4.17.18
+      '@types/chai': 4.3.7
+      '@types/express': 4.17.19
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/node-fetch': 2.6.6
@@ -17712,7 +17738,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -17751,7 +17777,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
       '@opentelemetry/api': 1.6.0
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -17845,7 +17871,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -17886,7 +17912,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -17930,7 +17956,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/trusted-types': 2.0.4
@@ -17973,7 +17999,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
       '@sinonjs/fake-timers': 11.1.0
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/debug': 4.1.9
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -17981,7 +18007,7 @@ packages:
       '@types/semaphore': 1.1.2
       '@types/sinon': 10.0.19
       '@types/sinonjs__fake-timers': 8.1.3
-      '@types/underscore': 1.11.10
+      '@types/underscore': 1.11.11
       '@types/uuid': 8.3.4
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18021,7 +18047,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -18075,7 +18101,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@3.29.4)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@3.29.4)
       '@rollup/plugin-node-resolve': 15.2.3(rollup@3.29.4)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/decompress': 4.2.5
       '@types/fs-extra': 9.0.13
@@ -18130,7 +18156,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/node': 16.18.58
       autorest: 3.6.3
       chai: 4.3.10
@@ -18173,7 +18199,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -18237,8 +18263,8 @@ packages:
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
-      '@types/chai': 4.3.6
-      '@types/eslint': 8.44.3
+      '@types/chai': 4.3.7
+      '@types/eslint': 8.44.4
       '@types/estree': 1.0.2
       '@types/json-schema': 7.0.13
       '@types/mocha': 10.0.2
@@ -18277,14 +18303,8 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
-      '@rollup/plugin-inject': 5.0.4(rollup@2.79.1)
-      '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
-      '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
-      '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@rollup/plugin-replace': 5.0.3(rollup@2.79.1)
       '@types/async-lock': 1.4.0
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/chai-string': 1.4.3
       '@types/debug': 4.1.9
@@ -18325,9 +18345,6 @@ packages:
       puppeteer: 19.11.1(typescript@5.0.4)
       rhea-promise: 3.0.1
       rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.6.3(@types/node@16.18.58)(rollup@2.79.1)
       sinon: 15.2.0
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)
       tslib: 2.6.2
@@ -18348,7 +18365,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -18395,7 +18412,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/chai-string': 1.4.3
       '@types/debug': 4.1.9
@@ -18444,7 +18461,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/chai-string': 1.4.3
       '@types/debug': 4.1.9
@@ -18493,7 +18510,7 @@ packages:
     dependencies:
       '@azure/functions': 3.5.1
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -18538,7 +18555,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       autorest: 3.6.3
@@ -18582,7 +18599,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       autorest: 3.6.3
@@ -18703,7 +18720,7 @@ packages:
       '@azure/msal-common': 13.3.0
       '@azure/msal-node': 1.18.3
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/jsonwebtoken': 9.0.3
       '@types/jws': 3.2.6
       '@types/mocha': 10.0.2
@@ -18760,7 +18777,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/uuid': 8.3.4
@@ -18806,7 +18823,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -19049,7 +19066,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/uuid': 8.3.4
@@ -19095,7 +19112,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -19158,7 +19175,7 @@ packages:
     dependencies:
       '@azure/maps-common': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       autorest: 3.6.3
@@ -19203,7 +19220,7 @@ packages:
     dependencies:
       '@azure/maps-common': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       autorest: 3.6.3
@@ -19248,7 +19265,7 @@ packages:
     dependencies:
       '@azure/maps-common': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       autorest: 3.6.3
@@ -19293,7 +19310,7 @@ packages:
     dependencies:
       '@azure/maps-common': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       autorest: 3.6.3
@@ -19337,7 +19354,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -19381,7 +19398,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -19448,7 +19465,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/pako': 2.0.1
@@ -19499,15 +19516,15 @@ packages:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
       '@opentelemetry/api': 1.6.0
       '@opentelemetry/api-logs': 0.43.0
-      '@opentelemetry/core': 1.17.0(@opentelemetry/api@1.6.0)
+      '@opentelemetry/core': 1.17.1(@opentelemetry/api@1.6.0)
       '@opentelemetry/instrumentation': 0.43.0(@opentelemetry/api@1.6.0)
       '@opentelemetry/instrumentation-http': 0.43.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/resources': 1.17.0(@opentelemetry/api@1.6.0)
+      '@opentelemetry/resources': 1.17.1(@opentelemetry/api@1.6.0)
       '@opentelemetry/sdk-logs': 0.43.0(@opentelemetry/api-logs@0.43.0)(@opentelemetry/api@1.6.0)
-      '@opentelemetry/sdk-metrics': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/sdk-trace-base': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/sdk-trace-node': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/semantic-conventions': 1.17.0
+      '@opentelemetry/sdk-metrics': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/sdk-trace-base': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/sdk-trace-node': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/semantic-conventions': 1.17.1
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       cross-env: 7.0.3
@@ -19539,7 +19556,7 @@ packages:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
       '@opentelemetry/api': 1.6.0
       '@opentelemetry/api-logs': 0.43.0
-      '@opentelemetry/core': 1.17.0(@opentelemetry/api@1.6.0)
+      '@opentelemetry/core': 1.17.1(@opentelemetry/api@1.6.0)
       '@opentelemetry/instrumentation': 0.43.0(@opentelemetry/api@1.6.0)
       '@opentelemetry/instrumentation-http': 0.43.0(@opentelemetry/api@1.6.0)
       '@opentelemetry/instrumentation-mongodb': 0.37.0(@opentelemetry/api@1.6.0)
@@ -19547,12 +19564,12 @@ packages:
       '@opentelemetry/instrumentation-pg': 0.36.1(@opentelemetry/api@1.6.0)
       '@opentelemetry/instrumentation-redis': 0.35.1(@opentelemetry/api@1.6.0)
       '@opentelemetry/instrumentation-redis-4': 0.35.1(@opentelemetry/api@1.6.0)
-      '@opentelemetry/resources': 1.17.0(@opentelemetry/api@1.6.0)
+      '@opentelemetry/resources': 1.17.1(@opentelemetry/api@1.6.0)
       '@opentelemetry/sdk-logs': 0.43.0(@opentelemetry/api-logs@0.43.0)(@opentelemetry/api@1.6.0)
-      '@opentelemetry/sdk-metrics': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/sdk-trace-base': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/sdk-trace-node': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/semantic-conventions': 1.17.0
+      '@opentelemetry/sdk-metrics': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/sdk-trace-base': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/sdk-trace-node': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/semantic-conventions': 1.17.1
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -19582,9 +19599,9 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
       '@opentelemetry/api': 1.6.0
-      '@opentelemetry/sdk-trace-base': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/sdk-trace-node': 1.17.0(@opentelemetry/api@1.6.0)
-      '@types/chai': 4.3.6
+      '@opentelemetry/sdk-trace-base': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/sdk-trace-node': 1.17.1(@opentelemetry/api@1.6.0)
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -19635,7 +19652,7 @@ packages:
       '@rollup/plugin-node-resolve': 15.2.3(rollup@3.29.4)
       '@rollup/plugin-replace': 5.0.3(rollup@3.29.4)
       '@rollup/plugin-typescript': 11.1.5(rollup@3.29.4)(tslib@2.6.2)(typescript@5.0.4)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -19729,11 +19746,11 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
       '@opentelemetry/api': 1.6.0
-      '@opentelemetry/core': 1.17.0(@opentelemetry/api@1.6.0)
+      '@opentelemetry/core': 1.17.1(@opentelemetry/api@1.6.0)
       '@opentelemetry/instrumentation': 0.43.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/sdk-trace-base': 1.17.0(@opentelemetry/api@1.6.0)
-      '@opentelemetry/sdk-trace-node': 1.17.0(@opentelemetry/api@1.6.0)
-      '@types/chai': 4.3.6
+      '@opentelemetry/sdk-trace-base': 1.17.1(@opentelemetry/api@1.6.0)
+      '@opentelemetry/sdk-trace-node': 1.17.1(@opentelemetry/api@1.6.0)
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -19893,7 +19910,7 @@ packages:
     name: '@rush-temp/perf-core-rest-pipeline'
     version: 0.0.0
     dependencies:
-      '@types/express': 4.17.18
+      '@types/express': 4.17.19
       '@types/node': 16.18.58
       concurrently: 8.2.1
       cross-env: 7.0.3
@@ -20274,7 +20291,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -20317,7 +20334,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -20360,7 +20377,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -20403,7 +20420,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       autorest: 3.6.3
@@ -20447,7 +20464,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       autorest: 3.6.3
@@ -20491,7 +20508,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -20535,9 +20552,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
-      '@rollup/plugin-inject': 5.0.4(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -20560,7 +20575,6 @@ packages:
       karma-junit-reporter: 2.0.1(karma@6.4.2)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
-      karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       lru-cache: 7.18.3
       mocha: 10.2.0
@@ -20569,9 +20583,6 @@ packages:
       prettier: 2.8.8
       process: 0.11.10
       rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-shim: 1.0.0
-      source-map-support: 0.5.21
       stream: 0.0.2
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)
       tslib: 2.6.2
@@ -20592,8 +20603,6 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
-      '@rollup/plugin-inject': 5.0.4(rollup@2.79.1)
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       ajv: 8.12.0
@@ -20611,7 +20620,6 @@ packages:
       karma-junit-reporter: 2.0.1(karma@6.4.2)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
-      karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       lru-cache: 7.18.3
       mocha: 10.2.0
@@ -20619,8 +20627,6 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      rollup: 2.79.1
-      source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)
       tslib: 2.6.2
       typescript: 5.0.4
@@ -20661,7 +20667,6 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)
       tslib: 2.6.2
       typescript: 5.0.4
@@ -20680,7 +20685,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -20727,13 +20732,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
-      '@rollup/plugin-inject': 5.0.4(rollup@2.79.1)
-      '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
-      '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
-      '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
-      '@rollup/plugin-replace': 5.0.3(rollup@2.79.1)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/debug': 4.1.9
       '@types/is-buffer': 2.0.0
@@ -20776,9 +20775,6 @@ packages:
       puppeteer: 19.11.1(typescript@5.0.4)
       rhea-promise: 3.0.1
       rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.6.3(@types/node@16.18.58)(rollup@2.79.1)
       sinon: 15.2.0
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)
       tslib: 2.6.2
@@ -20800,7 +20796,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -20852,7 +20848,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/node-fetch': 2.6.6
@@ -20903,7 +20899,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -20955,7 +20951,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
@@ -21007,7 +21003,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -21054,7 +21050,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/uuid': 8.3.4
@@ -21103,7 +21099,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -21149,7 +21145,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -21198,7 +21194,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -21246,7 +21242,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -21313,7 +21309,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -21356,7 +21352,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -21400,7 +21396,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -21462,8 +21458,8 @@ packages:
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
-      '@types/chai': 4.3.6
-      '@types/express': 4.17.18
+      '@types/chai': 4.3.7
+      '@types/express': 4.17.19
       '@types/fs-extra': 8.1.3
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -21540,7 +21536,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
       '@opentelemetry/api': 1.6.0
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -21577,9 +21573,9 @@ packages:
     dependencies:
       '@azure/web-pubsub-client': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
-      '@types/express': 4.17.18
+      '@types/express': 4.17.19
       '@types/express-serve-static-core': 4.17.37
       '@types/jsonwebtoken': 9.0.3
       '@types/mocha': 10.0.2
@@ -21639,9 +21635,9 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/chai-as-promised': 7.1.6
-      '@types/express': 4.17.18
+      '@types/express': 4.17.19
       '@types/express-serve-static-core': 4.17.37
       '@types/jsonwebtoken': 9.0.3
       '@types/mocha': 10.0.2
@@ -21696,8 +21692,8 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
-      '@types/express': 4.17.18
+      '@types/chai': 4.3.7
+      '@types/express': 4.17.19
       '@types/express-serve-static-core': 4.17.37
       '@types/jsonwebtoken': 9.0.3
       '@types/mocha': 10.0.2
@@ -21735,12 +21731,12 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@types/chai': 4.3.6
+      '@types/chai': 4.3.7
       '@types/jsonwebtoken': 9.0.3
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       '@types/sinon': 10.0.19
-      '@types/ws': 8.5.6
+      '@types/ws': 8.5.7
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
