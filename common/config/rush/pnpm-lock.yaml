@@ -9723,12 +9723,12 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-WzQJ/IsSkdFU2w/UOxO2MUA5BF2PGMbybA1FRceHiGZOZgMYT/UssORDsbAriIX5KIpfYHaNHso6aBUpW5kfSA==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-pdFTF2UktB7PpbbBLfESOMbXmAGqt2VJ8Ke6Jtarb0m8DROpz6hqRSsqAY0CaCzLHTDPrphdgQ9zs5lVNTzHRA==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
+      '@rollup/plugin-node-resolve': 15.2.3(rollup@3.29.4)
       '@types/chai': 4.3.6
       '@types/mocha': 10.0.2
       '@types/node': 16.18.58
@@ -9755,7 +9755,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      rollup: 2.79.1
+      rollup: 3.29.4
       sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)
@@ -10069,12 +10069,12 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-scaffolder.tgz:
-    resolution: {integrity: sha512-sZ5lscIEIgnaveYStwh5id64pdw1fRdyr2uYzZ3Ln1SJaqArQRg++64EaTscwQDe4HQXvXJ5IP0tvGvrZZzPvw==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
+    resolution: {integrity: sha512-nPK+Sd1xxf1ligyAbiSYkA6FeOT8nl5PiQ+WEaUV7b8Jee3vf6MYqCRi1jXisX+GAfgtOiWr6uHnXPSopln4cg==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
     name: '@rush-temp/api-management-custom-widgets-scaffolder'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
-      '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
+      '@rollup/plugin-node-resolve': 15.2.3(rollup@3.29.4)
       '@types/chai': 4.3.6
       '@types/inquirer': 8.2.7
       '@types/mocha': 10.0.2
@@ -10097,7 +10097,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      rollup: 2.79.1
+      rollup: 3.29.4
       sinon: 15.2.0
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)
       tslib: 2.6.2
@@ -10112,7 +10112,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-LmCVoy5yroKZ0UNGdfWIpDJupkGsG+rXQRTlYyN4/rssEWxkjrHc+JSnOZWB99OjPm7QwBVdWXkT9lk2h2AtBQ==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-xKK0YsSJ/wFB7KYOx8S0pKyN2J2GaENOnpX8bk5RruVS32rPmQ+8jNgy0q+xubZ4tg4pOZix/cN1pCHU65kkWQ==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
@@ -16845,7 +16845,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-18xgAce5jioiLpxqp2+1MZJmlCXqo7NNVjoa/CULkdnykZsQlkxU0b/tXaBARgKl/L6e6hc0H+o/BSCItbWcEw==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-2SXRyFgxsz9nwwp69hBCqExtsdiyKg/zDScRnms/NGrf3hF+CPYuGEgU4On9/P+ViuijP2PvfGRSUoGqgMf/KQ==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -17418,7 +17418,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-dWIiCkdkmvPMvtI2DvGt5JfkgdnjFcNfsG0MCPvEvuIvImllPZNYBnksuYTyifnR3FbJAB2axoKmkJAvD7P5hQ==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-I5+nJWGDhV7CNIwuGhLuJTGcKSUcRQBryk5OwT+TdH9/EFr41eOXaHzEfTe0sQ9J76by/7B3OyAELsUID9kgxg==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -19623,7 +19623,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-YbSm+2qUdMw6LS8pREtIB/M9emHfsRzfNyrOoOf5lMSTz74o16E2rzOQgl5uuwF0TnfqCjn1HLuk6F33yS/gPg==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-6AMKrzdbEqDHTwH7hLxalWL0xdqSA5co2C0EfMllvyniohaca4g503E7bQFYN47oeaumw9zzczdat5+ZoJ4s5Q==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -21588,7 +21588,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client-protobuf.tgz:
-    resolution: {integrity: sha512-x2ok9EkajquB5+dFS2am0PYtfSe69eZwFXi93JPmCo2FOM6QYj+W5x5rcEgNt3L3tU6OdkZ3xJLB1X0RMMnD1g==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
+    resolution: {integrity: sha512-CLVJunxTB25CINeq+2/36rFDSRn8LAvXDEjBneyeoHmmNt10H6vC1LlWFfwoHP0Pc3qNpBbFbeuR2int+it3/g==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
     name: '@rush-temp/web-pubsub-client-protobuf'
     version: 0.0.0
     dependencies:
@@ -21633,7 +21633,7 @@ packages:
       protobufjs-cli: 1.1.2(protobufjs@7.2.5)
       puppeteer: 19.11.1(typescript@5.0.4)
       rimraf: 3.0.2
-      rollup: 2.79.1
+      rollup: 3.29.4
       sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)

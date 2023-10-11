@@ -2,7 +2,7 @@ import MagicString from "magic-string";
 import fs from "fs";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import path from "path";
-import pkg from "./package.json";
+import { readFile } from "fs/promises";
 
 const executable = (options = {}) => {
   let fileName;
@@ -96,6 +96,8 @@ function copyFolderRecursiveSync(source, target) {
     });
   }
 }
+
+const pkg = JSON.parse(await readFile("./package.json", { encoding: "utf-8" }));
 
 /** @type {import('rollup').RollupOptions} */
 const config = {
