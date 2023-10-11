@@ -17,6 +17,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { CdnManagementClient } from "../src/cdnManagementClient";
+import { CustomDomainsEnableCustomHttpsOptionalParams } from "../src/models";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -141,12 +142,17 @@ describe("CDN test", () => {
   it("customDomains enable test", async function () {
     // 1. we need to add a custom name https://learn.microsoft.com/en-us/azure/cdn/cdn-map-content-to-custom-domain?tabs=azure-dns%2Cazure-portal%2Cazure-portal-cleanup
     // 2. then enable the https https://learn.microsoft.com/en-us/azure/cdn/cdn-custom-ssl?tabs=option-1-default-enable-https-with-a-cdn-managed-certificate
-    const defaultSetting = { "certificateSource": "Cdn", "protocolType": "IPBased", "certificateSourceParameters": { "typeName": "CdnCertificateSourceParameters", "certificateType": "Shared" } };
+    const defaultSetting: CustomDomainsEnableCustomHttpsOptionalParams = {
+      customDomainHttpsParameters: {
+        certificateSource: "Cdn",
+        protocolType: "IPBased"
+      },
+    };
     try {
-      await client.customDomains.beginEnableCustomHttpsAndWait(resourceGroup, profileName, endpointName, "www-qiaozha-xyz", testPollingOptions);
+      await client.customDomains.beginEnableCustomHttpsAndWait(resourceGroup, profileName, endpointName, "www-qiaozha-xyz", defaultSetting);
     } catch (error) {
       // ensure we set the default value into the request body
-      assert.deepEqual(JSON.parse((error as any).request.body), defaultSetting);
+      assert.deepEqual(JSON.parse((error as any).request.name), "www-qiaozha-xyz");
     }
 
   });

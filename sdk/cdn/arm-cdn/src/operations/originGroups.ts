@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CdnManagementClient } from "../cdnManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   OriginGroup,
   OriginGroupsListByEndpointNextOptionalParams,
@@ -200,8 +204,8 @@ export class OriginGroupsImpl implements OriginGroups {
     originGroup: OriginGroup,
     options?: OriginGroupsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OriginGroupsCreateResponse>,
+    SimplePollerLike<
+      OperationState<OriginGroupsCreateResponse>,
       OriginGroupsCreateResponse
     >
   > {
@@ -211,7 +215,7 @@ export class OriginGroupsImpl implements OriginGroups {
     ): Promise<OriginGroupsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -244,9 +248,9 @@ export class OriginGroupsImpl implements OriginGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         profileName,
         endpointName,
@@ -254,10 +258,13 @@ export class OriginGroupsImpl implements OriginGroups {
         originGroup,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      OriginGroupsCreateResponse,
+      OperationState<OriginGroupsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -309,8 +316,8 @@ export class OriginGroupsImpl implements OriginGroups {
     originGroupUpdateProperties: OriginGroupUpdateParameters,
     options?: OriginGroupsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OriginGroupsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OriginGroupsUpdateResponse>,
       OriginGroupsUpdateResponse
     >
   > {
@@ -320,7 +327,7 @@ export class OriginGroupsImpl implements OriginGroups {
     ): Promise<OriginGroupsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -353,9 +360,9 @@ export class OriginGroupsImpl implements OriginGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         profileName,
         endpointName,
@@ -363,10 +370,13 @@ export class OriginGroupsImpl implements OriginGroups {
         originGroupUpdateProperties,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      OriginGroupsUpdateResponse,
+      OperationState<OriginGroupsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -415,14 +425,14 @@ export class OriginGroupsImpl implements OriginGroups {
     endpointName: string,
     originGroupName: string,
     options?: OriginGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -455,19 +465,19 @@ export class OriginGroupsImpl implements OriginGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         profileName,
         endpointName,
         originGroupName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -540,7 +550,7 @@ const listByEndpointOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -563,7 +573,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName,
     Parameters.originGroupName
   ],
@@ -597,7 +607,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName,
     Parameters.originGroupName
   ],
@@ -632,7 +642,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName,
     Parameters.originGroupName
   ],
@@ -658,7 +668,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName,
     Parameters.originGroupName
   ],
@@ -676,12 +686,11 @@ const listByEndpointNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.nextLink,
     Parameters.endpointName
   ],
