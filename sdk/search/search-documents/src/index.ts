@@ -169,6 +169,7 @@ export {
   ExhaustiveKnnVectorSearchAlgorithmConfiguration,
   IndexProjectionMode,
   BaseVectorSearchAlgorithmConfiguration,
+  BaseVectorSearchVectorizer,
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
