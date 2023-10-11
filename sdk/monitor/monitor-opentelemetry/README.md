@@ -184,7 +184,7 @@ const options: AzureMonitorOpenTelemetryOptions = { resource : customResource }
 useAzureMonitor(options);
 ```
 
-For information on standard attributes for resources, see [Resource Semantic Conventions](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/semantic_conventions/README.md).
+For information on standard attributes for resources, see [Resource Semantic Conventions](https://github.com/open-telemetry/semantic-conventions/tree/main/docs/resource).
 
 
 ## Modify telemetry
