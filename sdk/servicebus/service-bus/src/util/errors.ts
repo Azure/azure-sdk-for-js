@@ -111,6 +111,30 @@ export function throwTypeErrorIfParameterMissing(
  * @param connectionId - Id of the underlying AMQP connection used for logging
  * @param parameterName - Name of the parameter to type check
  * @param parameterValue - Value of the parameter to type check
+ * @param constructor - Expected type of the parameter
+ */
+
+export function throwTypeErrorIfNotInstanceOfParameterType(
+  connectionId: string,
+  parameterName: string,
+  parameterValue: unknown,
+  constructor: Function,
+): void {
+  if (!(parameterValue instanceof constructor)) {
+    const error = new TypeError(
+      `The parameter "${parameterName}" should be an instance of "${constructor.name}"`
+    );
+    logger.warning(`[${connectionId}] %O`, error);
+    throw error;
+  }
+}
+
+/**
+ * @internal
+ * Logs and Throws TypeError if given parameter is not of expected type
+ * @param connectionId - Id of the underlying AMQP connection used for logging
+ * @param parameterName - Name of the parameter to type check
+ * @param parameterValue - Value of the parameter to type check
  * @param expectedType - Expected type of the parameter
  */
 

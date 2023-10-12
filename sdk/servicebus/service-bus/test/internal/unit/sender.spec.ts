@@ -120,6 +120,20 @@ describe("sender unit tests", () => {
     });
   });
 
+  it("doesn't allow invalid enqueue time", async function() {
+    try {
+      await sender.scheduleMessages(
+        { body: "message" },
+        // @ts-expect-error We are trying invalid types on purpose to test the error thrown
+        "invalid date"
+      );
+      assert.fail("You should not be seeing this.");
+    } catch (err: any) {
+      assert.equal(err.name, "TypeError");
+      assert.equal(err.message, `The parameter "scheduledEnqueueTimeUtc" should be an instance of "Date"`);
+    }
+  });
+
   it("should set source in created sender options", () => {
     const options = sender["_sender"]["_createSenderOptions"]();
     assert.equal(options.source, "serviceBusClientId");
