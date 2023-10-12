@@ -13,13 +13,6 @@ export {
   CallConnectionStateModel,
   CallRejectReason,
   KnownCallRejectReason,
-  KnownMediaStreamingAudioChannelType,
-  KnownMediaStreamingContentType,
-  KnownMediaStreamingTransportType,
-  MediaStreamingAudioChannelType,
-  MediaStreamingConfiguration,
-  MediaStreamingContentType,
-  MediaStreamingTransportType,
 } from "../generated/src/models/index";
 
 /** Properties of a call connection */
@@ -36,19 +29,17 @@ export interface CallConnectionProperties {
   /** Display name of the call if dialing out to a pstn number. */
   sourceDisplayName?: string;
   /** Source identity. */
-  sourceIdentity?: CommunicationIdentifier;
+  source?: CommunicationIdentifier;
   /** The targets of the call. */
   targetParticipants?: CommunicationIdentifier[];
   /** The state of the call connection. */
   callConnectionState?: CallConnectionStateModel;
   /** The callback URL. */
   callbackUrl?: string;
-  /** SubscriptionId for media streaming */
-  mediaSubscriptionId?: string;
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
-  answeredByIdentifier?: CommunicationUserIdentifier;
+  answeredby?: CommunicationUserIdentifier;
 }
 
 /** Contract model of an ACS call participant */
@@ -65,8 +56,8 @@ export interface CallLocator {
   kind: CallLocatorType;
 }
 
-/** Defines values for Gender that the service accepts. */
-export enum Gender {
+/** Defines values for VoiceKind that the service accepts. */
+export enum VoiceKind {
   /** Male */
   Male = "male",
   /** Female */
@@ -75,7 +66,7 @@ export enum Gender {
 
 /** The PlaySource model. */
 export interface PlaySource {
-  playSourceId?: string;
+  playsourcacheid?: string;
 }
 
 /** The FileSource model. */
@@ -88,7 +79,7 @@ export interface FileSource extends PlaySource {
 export interface TextSource extends PlaySource {
   text: string;
   sourceLocale?: string;
-  voiceGender?: Gender;
+  voiceKind?: VoiceKind;
   voiceName?: string;
   customVoiceEndpointId?: string;
   readonly kind: "textSource";
@@ -137,8 +128,8 @@ export enum DtmfTone {
   Asterisk = "asterisk",
 }
 
-/** A Recognize Choice */
-export interface Choice {
+/** A Recognition Choice */
+export interface RecognitionChoice {
   /** Identifier for a given choice */
   label: string;
   /** List of phrases to recognize */
@@ -150,85 +141,6 @@ export interface Choice {
 export enum RecognizeInputType {
   /** Dtmf */
   Dtmf = "dtmf",
-  /** Choices */
-  Choices = "choices",
-}
-
-interface CustomContextHeader {
-  key: string;
-  value: string;
-}
-
-/** SIPCustomHeader */
-export interface SIPCustomHeader extends CustomContextHeader {}
-
-/** SIPUserToUserHeader */
-export interface SIPUserToUserHeader extends CustomContextHeader {}
-
-/** VoipHeader */
-export interface VoipHeader extends CustomContextHeader {}
-
-/** Custom Context SIP header */
-export class SIPCustomHeader implements CustomContextHeader {
-  // Create a new SIP custom header.
-  constructor(key: string, value: string) {
-    this.key = "X-MS-Custom-" + key;
-    this.value = value;
-  }
-}
-
-/** Custom Context SIP User-to-User header */
-export class SIPUserToUserHeader implements CustomContextHeader {
-  // Create a new SIP UUI header.
-  constructor(value: string) {
-    this.key = "User-to-User";
-    this.value = value;
-  }
-}
-
-/** Custom Context VOIP header */
-export class VoipHeader implements CustomContextHeader {
-  constructor(key: string, value: string) {
-    this.key = key;
-    this.value = value;
-  }
-}
-
-/** Custom Context */
-export class CustomContext {
-  /** Dictionary of VOIP headers. */
-  public voipHeaders: { [key: string]: string };
-
-  /** Dictionary of SIP headers. */
-  public sipHeaders: { [key: string]: string };
-
-  // Creates a new CustomContext.
-  constructor(sipHeaders: { [key: string]: string }, voipHeaders: { [key: string]: string }) {
-    this.sipHeaders = sipHeaders;
-    this.voipHeaders = voipHeaders;
-  }
-
-  /** Add a custom context sip or voip header. */
-  public add(header: CustomContextHeader): void {
-    if (header instanceof SIPUserToUserHeader) {
-      if (this.sipHeaders == null) {
-        throw new Error("Cannot add sip header, SipHeaders is null.");
-      }
-      this.sipHeaders[header.key] = header.value;
-    } else if (header instanceof SIPCustomHeader) {
-      if (this.sipHeaders == null) {
-        throw new Error("Cannot add sip header, SipHeaders is null.");
-      }
-      this.sipHeaders[header.key] = header.value;
-    } else if (header instanceof VoipHeader) {
-      if (this.voipHeaders == null) {
-        throw new Error("Cannot add voip header, VoipHeaders is null");
-      }
-      this.voipHeaders[header.key] = header.value;
-    } else {
-      throw new Error("Unknown custom context header type.");
-    }
-  }
 }
 
 /** Call invitee details. */
@@ -241,8 +153,6 @@ export interface CallInvite {
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
-  /** The Custom Context. */
-  customContext?: CustomContext;
 }
 
 /** The locator type of a call. */
@@ -256,9 +166,6 @@ export type RecordingChannel = "mixed" | "unmixed";
 
 /** The format type of a call recording. */
 export type RecordingFormat = "mp3" | "mp4" | "wav";
-
-/** The storage type of a call recording. */
-export type RecordingStorage = "acs" | "blobStorage";
 
 /** Channel affinity for a participant */
 export interface ChannelAffinity {
