@@ -95,7 +95,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "karma start karma.config.cjs --single-run",
+    "unit-test:browser": "karma start karma.conf.cjs --single-run",
     "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true"
   },
   "sideEffects": false,
