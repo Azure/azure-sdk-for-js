@@ -75,6 +75,11 @@ export interface BearerTokenAuthenticationPolicyOptions {
     scopes: string | string[];
 }
 
+// @public (undocumented)
+interface Blob_2 {
+}
+export { Blob_2 as Blob }
+
 // @public
 export interface ChallengeCallbacks {
     authorizeRequest?(options: AuthorizeRequestOptions): Promise<void>;
@@ -121,6 +126,16 @@ export interface ExponentialRetryPolicyOptions {
     maxRetryDelayInMs?: number;
     retryDelayInMs?: number;
 }
+
+// @public (undocumented)
+interface File_2 {
+}
+export { File_2 as File }
+
+// @public (undocumented)
+interface FormData_2 {
+}
+export { FormData_2 as FormData }
 
 // @public
 export type FormDataMap = {
@@ -314,6 +329,11 @@ export type RawHttpHeaders = {
 // @public
 export type RawHttpHeadersInput = Record<string, string | number | boolean>;
 
+// @public (undocumented)
+interface ReadableStream_2<R = any> {
+}
+export { ReadableStream_2 as ReadableStream }
+
 // @public
 export function redirectPolicy(options?: RedirectPolicyOptions): PipelinePolicy;
 
@@ -447,6 +467,11 @@ export interface TracingPolicyOptions {
 export type TransferProgressEvent = {
     loadedBytes: number;
 };
+
+// @public (undocumented)
+interface TransformStream_2<I = any, O = any> {
+}
+export { TransformStream_2 as TransformStream }
 
 // @public
 export function userAgentPolicy(options?: UserAgentPolicyOptions): PipelinePolicy;

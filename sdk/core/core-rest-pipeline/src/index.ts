@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-declare global {
-  interface FormData {}
-  interface Blob {}
-  interface File {}
-  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-  interface ReadableStream<R = any> {}
-  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-  interface TransformStream<I = any, O = any> {}
-}
+export interface FormData {}
+export interface Blob {}
+export interface File {}
+// @ts-expect-error -- browser types part of the public API are shimmed
+export interface ReadableStream<R = any> {} // eslint-disable-line @typescript-eslint/no-unused-vars
+// @ts-expect-error -- browser types part of the public API are shimmed
+export interface TransformStream<I = any, O = any> {} // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export {
   Agent,

@@ -9664,7 +9664,7 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-iokg+yKK1Ek4eE9EYd95zVojIFDeh/Vmo7aXZK3Vrs/087Mjx8kZNdj7tciGVxcStFfLj+uTFLNV7TNJd4CAZg==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-K7QXHwRFaRvllmK+wQSExRZOc0BgBsvhY2OcCD5fuZP9HHOiM8JqcGDWKEw8b/pXPvFB/r2GwVB21yz4ZM+7lQ==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
@@ -17668,7 +17668,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-vEPAYxJRvnO9UGkrzjo+ba3inTN20xUTaARkZyI1BRChgBsedvbvzH93qq/o0NCMMKg6BEBzY3yxIeKNXmZa6Q==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-8Gr0XL0tBnWAyhQ2K5vwSxMI9SqkHtRakceV+eus/AcHlukBkTbiBvIucUMSiPviNjw8IpTW4X/Pog/umZWdHA==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -17776,7 +17776,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-39ZrE/3ZNSzc0QUP5TkrdWLMj9huqlNrFBzpg+ayoVjVPa9VZfGIOrFqRdiIvdotJBY9fOXiUYYf3OCd5yZxww==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-aSVT0LV4vwvkuIE2yeORWTorY5LfAu2D4P+yuCFMeBDlD1D0Ck73vB4CbIh2h+M3AR49MLp3TlW3BBZfnlbJLQ==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -17878,7 +17878,7 @@ packages:
     dev: false
 
   file:projects/core-paging.tgz:
-    resolution: {integrity: sha512-Q/nvh/CsgjmtHrJYBhMvoV0Jj0YrfAeFmcrwmtNoG1G0ME0X8r3HEp2spjHmgBWBqaV+exCJUfeTTxc0vJUlZQ==, tarball: file:projects/core-paging.tgz}
+    resolution: {integrity: sha512-XAepoDUkOW8Y4gm642HjqC1wiTW54CLXFPGaWMiOuJ7wAdZmHfFEbYbEeQtHq5DHUN/zdZUogGJbBdoqhbt94Q==, tarball: file:projects/core-paging.tgz}
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
@@ -17917,7 +17917,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-73ebJmxyWFwK1S2rRUFJKijTecR5qz69c5EotpEPgV+7KMmBErjjOEU1hWNrT4OPnBh+/cINmSQqjfaJzPZV0Q==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-kO5zvvWDaIWRDPXX9tYMG2rDI85pnZPWt2NzfffSQP0ugtpRv8xi97/F+Es8idAFrH6mlVPEPKSABVDgLoHeCg==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -17948,7 +17948,7 @@ packages:
       karma-junit-reporter: 2.0.1(karma@6.4.2)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
-      karma-sourcemap-loader: 0.4.0
+      karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
@@ -18015,7 +18015,7 @@ packages:
     dev: false
 
   file:projects/core-tracing.tgz:
-    resolution: {integrity: sha512-7tL4AcUmo18QQKlzZM9JIzTRoS0ZJtRyLsgmXApVk8Kqpub7Qgoo/nlSGnnUw4IPamKx9eSICSZoH1F+6/Su+g==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-RHeg9kMxdk3pLX0vFRudj9CXFcrFjQEAHcm5wvcZxJlvcHPhkI2CCAy/56e/xZAtcAUwnbCAT12OmH5jXc2t6w==, tarball: file:projects/core-tracing.tgz}
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
@@ -18057,7 +18057,7 @@ packages:
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-rK290O0AKlApszDi256w/t/Lej6FvlU8U1j8ZMdBVqnUoQFbZay7B7DYPuks/PXQ7iOkQXFByNc42rufb/eNkQ==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-5R063T1gh0hQm7DkjWWux3+bT5noNzL8A3KDHaJR5eQWdsPyiJ1fKzfydpKk8yh2bWYjosaInABV6ODMTYKp6w==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
@@ -21731,7 +21731,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-bJhN2ts6kOgtJ+2i2R45alL4OBmaspqdDAdpxlTY7f01TDP48kQapCCSDEJDd9wHoxjNoYhtmaUrdgL40b11Yg==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-yRoR7QnoCoy15PRE90bHIju3PLR3o5PHp2r729LlN8attWN2JxFNv8um0dvax5LXxP15qzg+N/MBiSBRg8ytCA==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
