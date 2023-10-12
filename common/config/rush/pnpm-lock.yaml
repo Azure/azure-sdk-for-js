@@ -707,6 +707,9 @@ dependencies:
   '@rush-temp/arm-workloads':
     specifier: file:./projects/arm-workloads.tgz
     version: file:projects/arm-workloads.tgz
+  '@rush-temp/arm-workloads-sapvirtualinstance':
+    specifier: file:./projects/arm-workloads-sapvirtualinstance.tgz
+    version: file:projects/arm-workloads-sapvirtualinstance.tgz
   '@rush-temp/arm-workspaces':
     specifier: file:./projects/arm-workspaces.tgz
     version: file:projects/arm-workspaces.tgz
@@ -1807,12 +1810,42 @@ packages:
       lodash: 4.17.21
     dev: false
 
+  /@microsoft/api-extractor-model@7.28.2(@types/node@14.18.63):
+    resolution: {integrity: sha512-vkojrM2fo3q4n4oPh4uUZdjJ2DxQ2+RnDQL/xhTWSRUNPF6P4QyrvY357HBxbnltKcYu+nNNolVqc6TIGQ73Ig==}
+    dependencies:
+      '@microsoft/tsdoc': 0.14.2
+      '@microsoft/tsdoc-config': 0.16.2
+      '@rushstack/node-core-library': 3.61.0(@types/node@14.18.63)
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
   /@microsoft/api-extractor-model@7.28.2(@types/node@16.18.55):
     resolution: {integrity: sha512-vkojrM2fo3q4n4oPh4uUZdjJ2DxQ2+RnDQL/xhTWSRUNPF6P4QyrvY357HBxbnltKcYu+nNNolVqc6TIGQ73Ig==}
     dependencies:
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
       '@rushstack/node-core-library': 3.61.0(@types/node@16.18.55)
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
+  /@microsoft/api-extractor@7.38.0(@types/node@14.18.63):
+    resolution: {integrity: sha512-e1LhZYnfw+JEebuY2bzhw0imDCl1nwjSThTrQqBXl40hrVo6xm3j/1EpUr89QyzgjqmAwek2ZkIVZbrhaR+cqg==}
+    hasBin: true
+    dependencies:
+      '@microsoft/api-extractor-model': 7.28.2(@types/node@14.18.63)
+      '@microsoft/tsdoc': 0.14.2
+      '@microsoft/tsdoc-config': 0.16.2
+      '@rushstack/node-core-library': 3.61.0(@types/node@14.18.63)
+      '@rushstack/rig-package': 0.5.1
+      '@rushstack/ts-command-line': 4.16.1
+      colors: 1.2.5
+      lodash: 4.17.21
+      resolve: 1.22.6
+      semver: 7.5.4
+      source-map: 0.6.1
+      typescript: 5.0.4
     transitivePeerDependencies:
       - '@types/node'
     dev: false
@@ -2463,6 +2496,24 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
       rollup: 3.29.4
+    dev: false
+
+  /@rushstack/node-core-library@3.61.0(@types/node@14.18.63):
+    resolution: {integrity: sha512-tdOjdErme+/YOu4gPed3sFS72GhtWCgNV9oDsHDnoLY5oDfwjKUc9Z+JOZZ37uAxcm/OCahDHfuu2ugqrfWAVQ==}
+    peerDependencies:
+      '@types/node': '*'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+    dependencies:
+      '@types/node': 14.18.63
+      colors: 1.2.5
+      fs-extra: 7.0.1
+      import-lazy: 4.0.0
+      jju: 1.4.0
+      resolve: 1.22.6
+      semver: 7.5.4
+      z-schema: 5.0.5
     dev: false
 
   /@rushstack/node-core-library@3.61.0(@types/node@16.18.55):
@@ -4249,7 +4300,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231011
+      typescript: 5.3.0-dev.20231012
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -8820,6 +8871,37 @@ packages:
       code-block-writer: 12.0.0
     dev: false
 
+  /ts-node@10.9.1(@types/node@14.18.63)(typescript@5.0.4):
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 14.18.63
+      acorn: 8.10.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.0.4
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node@10.9.1(@types/node@16.18.55)(typescript@5.0.4):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -8993,8 +9075,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231011:
-    resolution: {integrity: sha512-qpyUI7J37X3Xj7/bPWSNPUvmJ8yDGVnkQ8665xD4+LVWKUX7vwO7n2E1CUuQzeQIF4y369iPaz1d396rTW5LfA==}
+  /typescript@5.3.0-dev.20231012:
+    resolution: {integrity: sha512-k/m+QK/2eVsPMAao4I28Cv2Y9WzUKFVhRqvFGZ3CIXc0lrMkw/1pSA+8tp7IMw1ecxoa1myFql1tmCUrMKCbzA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -16551,6 +16633,37 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+    dev: false
+
+  file:projects/arm-workloads-sapvirtualinstance.tgz:
+    resolution: {integrity: sha512-tSZR7rlb6x3IGDYVa444lGB3eKzANOCLNhTr1JfBpEn2P802EmeCwQ3pMAfK2A1SvnycWKHWJz5jVenDnSBjbQ==, tarball: file:projects/arm-workloads-sapvirtualinstance.tgz}
+    name: '@rush-temp/arm-workloads-sapvirtualinstance'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
+      '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
+      '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
+      '@rollup/plugin-multi-entry': 6.0.0(rollup@2.79.1)
+      '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
+      '@types/chai': 4.3.6
+      '@types/node': 14.18.63
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 5.0.5
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.63)(rollup@2.79.1)
+      ts-node: 10.9.1(@types/node@14.18.63)(typescript@5.0.4)
+      tslib: 2.6.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-workloads.tgz:
