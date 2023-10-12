@@ -30,7 +30,7 @@
   "exports": {
     ".": {
       "types": "./types/latest/src/index.d.ts",
-      "types@<3.6": "./core-rest-pipeline.shims-3_1.d.ts",
+      "types@<3.6": "./types/3.1/src/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist-esm/src/index.js"
     }
