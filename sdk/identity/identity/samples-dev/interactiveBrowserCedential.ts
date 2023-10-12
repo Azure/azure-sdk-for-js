@@ -13,18 +13,14 @@ dotenv.config();
 const clientId = process.env.AZURE_CLIENT_ID; // The app registration client Id in the AAD tenant
 const tenantId = process.env.AZURE_TENANT_ID; // The tenant ID in Azure Active Directory
 
-async function main() {
+async function main(): Promise<void> {
   const credential = new InteractiveBrowserCredential({
     clientId,
     tenantId,
   });
 
-  try {
-    const token = await credential.getToken("https://storage.azure.com/.default");
-    console.log(token);
-  } catch (err) {
-    console.log("Error with InteractiveBrowserCredential:", err);
-  }
+  const token = await credential.getToken("https://storage.azure.com/.default");
+  console.log(`Token: ${token}`);
 }
 
 main().catch((err) => {
