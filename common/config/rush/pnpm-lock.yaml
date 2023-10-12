@@ -21638,14 +21638,13 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-tOoywQ+MV65/vno3U1d2m+EPURDzJ1YC7NlDW231MWJbjZBvuzS/N4jky4jpxU75xJkZ0ZkpvM1Fe/WgSc9yvw==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-xoH2DgCct5WOEWP/aHNRxxCbGAyGq/Nu0mvhfYi9U3BP7Aiey28t6pIGhJ37kqTftMb75FzUm8yrnqccsaLhxg==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.55)
       '@types/node': 16.18.55
       eslint: 8.50.0
-      esm: 3.2.25
       prettier: 2.8.8
       rimraf: 3.0.2
       ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)

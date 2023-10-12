@@ -19,7 +19,7 @@
     "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.native.js",
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.native.js"
   },
-  "types": "./types/latest/core-rest-pipeline.d.ts",
+  "types": "core-rest-pipeline.shims.d.ts",
   "typesVersions": {
     "<3.6": {
       "core-rest-pipeline.shims.d.ts": [
@@ -30,7 +30,7 @@
   "exports": {
     ".": {
       "types": "./types/latest/src/index.d.ts",
-      "types@<3.6": "./types/3.1/src/index.d.ts",
+      "types@<3.6": "./core-rest-pipeline.shims-3_1.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist-esm/src/index.js"
     }
