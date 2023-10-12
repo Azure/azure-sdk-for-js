@@ -31,7 +31,7 @@ import { addTransform, Transform } from "./transform";
 import { createRecordingRequest } from "./utils/createRecordingRequest";
 import { logger } from "./log";
 import { setRecordingOptions } from "./options";
-import { isNode } from "@azure/core-util";
+import { isBrowser, isNode } from "@azure/core-util";
 import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
 import { AdditionalPolicyConfig } from "@azure/core-client";
@@ -216,6 +216,9 @@ export class Recorder {
    * - sanitizerOptions - Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided, these santizers are applied only in "record" mode.
    */
   async start(options: RecorderStartOptions): Promise<void> {
+    if (isBrowser && isPlaybackMode()) {
+      await this.setMatcher("CustomDefaultMatcher", { excludedHeaders: ["Accept-Language"] })
+    }
     if (isLiveMode()) return;
     logger.info(`[Recorder#start] Starting the recorder in ${getTestMode()} mode`);
     this.stateManager.state = "started";
