@@ -107,13 +107,12 @@ export function throwTypeErrorIfParameterMissing(
 
 /**
  * @internal
- * Logs and Throws TypeError if given parameter is not of expected type
+ * Logs and Throws TypeError if given parameter is not an instance of expected type
  * @param connectionId - Id of the underlying AMQP connection used for logging
  * @param parameterName - Name of the parameter to type check
  * @param parameterValue - Value of the parameter to type check
- * @param constructor - Expected type of the parameter
+ * @param constructor - Constructor function of the expected parameter type
  */
-
 export function throwTypeErrorIfNotInstanceOfParameterType(
   connectionId: string,
   parameterName: string,
@@ -137,7 +136,6 @@ export function throwTypeErrorIfNotInstanceOfParameterType(
  * @param parameterValue - Value of the parameter to type check
  * @param expectedType - Expected type of the parameter
  */
-
 export function throwTypeErrorIfParameterTypeMismatch(
   connectionId: string,
   parameterName: string,
