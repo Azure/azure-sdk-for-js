@@ -9091,6 +9091,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript@5.3.0-beta:
+    resolution: {integrity: sha512-SiTeC1C8wAS6v2SD05iyfojeuIkUZIbb8suZz0d4BR+RErwpG+05iolat+VjM9hqXSrjb3xutEBzh4X3NJ7Jgw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
   /typescript@5.3.0-dev.20231012:
     resolution: {integrity: sha512-k/m+QK/2eVsPMAao4I28Cv2Y9WzUKFVhRqvFGZ3CIXc0lrMkw/1pSA+8tp7IMw1ecxoa1myFql1tmCUrMKCbzA==}
     engines: {node: '>=14.17'}
@@ -21701,7 +21707,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-bcYnnBuPhoxG90pBJrG3/PIZbYOWFxHf79uB5yTvuTaEjRhu0Xaa887OSazkvuaPlq5GNvhQJcHGnysXVt/sew==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-hLXBrpuqQYpNhulB5Sqkx4ANyV4RZADqvEpFjbdZ9TU9VvJ8OwbZTrpDAtnRsSbHdwh31jEVpiULZGkZ/THivw==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
@@ -21721,7 +21727,7 @@ packages:
       rimraf: 3.0.2
       ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)
       tslib: 2.6.2
-      typescript: 5.0.4
+      typescript: 5.3.0-beta
     transitivePeerDependencies:
       - bufferutil
       - debug
