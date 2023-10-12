@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="DOM" />
-
 import * as base64 from "./base64.js";
 import {
   BaseMapper,

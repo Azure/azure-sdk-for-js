@@ -13,7 +13,6 @@ describe("[Node] Streams", () => {
     td.reset();
   });
 
-  // TODO: Replace sinon with an ES Module mock or another HTTP response mocking library
   it("should get a JSON body response as a stream", async () => {
     const https = await td.replaceEsm("https");
     const { getClient } = await import("../../src/getClient.js");

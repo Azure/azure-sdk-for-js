@@ -71,7 +71,7 @@
     "@opentelemetry/api": "^1.6.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.4",
-    "chai": "^4.3.7",
+    "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-exclude": "^2.1.0",
     "mocha": "^10.0.0",
@@ -90,11 +90,10 @@
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
-    "mocha": "^7.1.1",
     "prettier": "^2.8.8",
     "rimraf": "^3.0.0",
-    "sinon": "^15.2.0",
-    "ts-node": "^10.9.1",
+    "sinon": "^15.0.0",
+    "ts-node": "^10.0.0",
     "typescript": "~5.0.0"
   }
 }

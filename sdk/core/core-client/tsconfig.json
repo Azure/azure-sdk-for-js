@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types/latest",
+    "lib": ["DOM"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
