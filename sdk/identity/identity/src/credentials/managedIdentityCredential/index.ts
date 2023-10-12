@@ -130,6 +130,7 @@ export class ManagedIdentityCredential implements TokenCredential {
      */
     this.confidentialApp = new ConfidentialClientApplication({
       auth: {
+        authority: "https://login.microsoftonline.com/managed_identity",
         clientId: this.clientId ?? DeveloperSignOnClientId,
         clientSecret: "dummy-secret",
         cloudDiscoveryMetadata:
@@ -247,7 +248,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         } else {
           const appTokenParameters: AppTokenProviderParameters = {
             correlationId: this.identityClient.getCorrelationId(),
-            tenantId: options?.tenantId || "organizations",
+            tenantId: options?.tenantId || "managed_identity",
             scopes: Array.isArray(scopes) ? scopes : [scopes],
             claims: options?.claims,
           };
