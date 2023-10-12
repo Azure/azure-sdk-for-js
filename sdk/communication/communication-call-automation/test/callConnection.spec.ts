@@ -440,7 +440,7 @@ describe("CallConnection Live Tests", function () {
     assert.isDefined(callEndedEvent);
   }).timeout(60000);
 
-  it("Mute a participant", async function () {
+  it.skip("Mute a participant", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "add_participant_and_get_call_props";
@@ -507,9 +507,9 @@ describe("CallConnection Live Tests", function () {
       }
     }
     assert.isTrue(isMuted);
-  }).timeout(90000).skip();
+  }).timeout(90000);
 
-  it("Add a participant cancels add participant request", async function () {
+  it.skip("Add a participant cancels add participant request", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "cancel_add_participant";
@@ -550,5 +550,5 @@ describe("CallConnection Live Tests", function () {
 
     assert.isDefined(addParticipantCancelledEvent);
     assert.equal(addResult.invitationId, addParticipantCancelledEvent?.invitationId);
-  }).timeout(90000).skip();
+  }).timeout(90000);
 });
