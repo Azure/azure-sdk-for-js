@@ -58,11 +58,7 @@ export class MetricsQueryClient {
    * @param tokenCredential - A TokenCredential that has rights to query metrics on resources.
    * @param options - Options for the client like controlling request retries.
    */
-  constructor(
-    tokenCredential: TokenCredential,
-    subscriptionId: string,
-    options?: MetricsQueryClientOptions
-  ) {
+  constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
     let scope;
     if (options?.endpoint) {
       scope = `${options?.endpoint}/.default`;
@@ -87,7 +83,6 @@ export class MetricsQueryClient {
     };
 
     this._metricsClient = new GeneratedMetricsClient(
-      subscriptionId,
       MetricsApiVersion.TwoThousandTwentyThree1001,
       serviceClientOptions
     );

@@ -32,15 +32,17 @@ export class MetricDefinitionsImpl implements MetricDefinitions {
 
   /**
    * Lists the metric definitions for the subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param region The region where the metrics you want reside. For example: eastus, westeurope, etc
    * @param options The options parameters.
    */
   listAtSubscriptionScope(
+    subscriptionId: string,
     region: string,
     options?: MetricDefinitionsListAtSubscriptionScopeOptionalParams
   ): Promise<MetricDefinitionsListAtSubscriptionScopeResponse> {
     return this.client.sendOperationRequest(
-      { region, options },
+      { subscriptionId, region, options },
       listAtSubscriptionScopeOperationSpec
     );
   }

@@ -18,16 +18,14 @@ import {
 export class MonitorManagementClient extends MonitorManagementClientContext {
   /**
    * Initializes a new instance of the MonitorManagementClient class.
-   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    subscriptionId: string,
     apiVersion: ApiVersion20231001,
     options?: MonitorManagementClientOptionalParams
   ) {
-    super(subscriptionId, apiVersion, options);
+    super(apiVersion, options);
     this.metricDefinitions = new MetricDefinitionsImpl(this);
     this.metrics = new MetricsImpl(this);
   }

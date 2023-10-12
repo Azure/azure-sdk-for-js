@@ -19,20 +19,24 @@ import {
 export interface Metrics {
   /**
    * **Lists the metric data for a subscription**.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param region The region where the metrics you want reside. For example: eastus, westeurope, etc
    * @param options The options parameters.
    */
   listAtSubscriptionScope(
+    subscriptionId: string,
     region: string,
     options?: MetricsListAtSubscriptionScopeOptionalParams
   ): Promise<MetricsListAtSubscriptionScopeResponse>;
   /**
    * **Lists the metric data for a subscription**. Parameters can be specified on either query params or
    * the body.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param region The region where the metrics you want reside. For example: eastus, westeurope, etc
    * @param options The options parameters.
    */
   listAtSubscriptionScopePost(
+    subscriptionId: string,
     region: string,
     options?: MetricsListAtSubscriptionScopePostOptionalParams
   ): Promise<MetricsListAtSubscriptionScopePostResponse>;

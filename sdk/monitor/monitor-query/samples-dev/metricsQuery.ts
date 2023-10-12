@@ -12,18 +12,17 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const metricsResourceId = process.env.METRICS_RESOURCE_ID;
-const subscriptionId = process.env.SUBSCRIPTION_ID ?? "";
 
 export async function main() {
   const tokenCredential = new DefaultAzureCredential();
-  const metricsQueryClient = new MetricsQueryClient(tokenCredential, subscriptionId);
+  const metricsQueryClient = new MetricsQueryClient(tokenCredential);
 
   if (!metricsResourceId) {
     throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
   const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
-  let metricNames: string[] = [];
+  const metricNames: string[] = [];
   for await (const result of iterator) {
     console.log(` metricDefinitions - ${result.id}, ${result.name}`);
     if (result.name) {

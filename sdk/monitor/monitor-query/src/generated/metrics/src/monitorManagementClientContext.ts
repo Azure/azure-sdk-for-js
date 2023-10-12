@@ -15,23 +15,17 @@ import {
 /** @internal */
 export class MonitorManagementClientContext extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
   apiVersion: ApiVersion20231001;
 
   /**
    * Initializes a new instance of the MonitorManagementClientContext class.
-   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    subscriptionId: string,
     apiVersion: ApiVersion20231001,
     options?: MonitorManagementClientOptionalParams
   ) {
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
-    }
     if (apiVersion === undefined) {
       throw new Error("'apiVersion' cannot be null");
     }
@@ -60,7 +54,6 @@ export class MonitorManagementClientContext extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
     // Parameter assignments
-    this.subscriptionId = subscriptionId;
     this.apiVersion = apiVersion;
 
     // Assigning values to Constant parameters

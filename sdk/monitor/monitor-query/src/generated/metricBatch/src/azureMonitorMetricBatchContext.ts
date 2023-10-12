@@ -14,23 +14,17 @@ import {
 
 /** @internal */
 export class AzureMonitorMetricBatchContext extends coreClient.ServiceClient {
-  subscriptionId: string;
   apiVersion: ApiVersion20231001;
 
   /**
    * Initializes a new instance of the AzureMonitorMetricBatchContext class.
-   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    subscriptionId: string,
     apiVersion: ApiVersion20231001,
     options?: AzureMonitorMetricBatchOptionalParams
   ) {
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
-    }
     if (apiVersion === undefined) {
       throw new Error("'apiVersion' cannot be null");
     }
@@ -59,7 +53,6 @@ export class AzureMonitorMetricBatchContext extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
     // Parameter assignments
-    this.subscriptionId = subscriptionId;
     this.apiVersion = apiVersion;
   }
 }

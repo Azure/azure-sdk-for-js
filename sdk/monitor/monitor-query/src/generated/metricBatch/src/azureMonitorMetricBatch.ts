@@ -18,16 +18,14 @@ import {
 export class AzureMonitorMetricBatch extends AzureMonitorMetricBatchContext {
   /**
    * Initializes a new instance of the AzureMonitorMetricBatch class.
-   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    subscriptionId: string,
     apiVersion: ApiVersion20231001,
     options?: AzureMonitorMetricBatchOptionalParams
   ) {
-    super(subscriptionId, apiVersion, options);
+    super(apiVersion, options);
     this.metrics = new MetricsImpl(this);
   }
 

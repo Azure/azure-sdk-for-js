@@ -43,7 +43,6 @@ export class MetricsBatchQueryClient {
   constructor(
     batchEndPoint: string,
     tokenCredential: TokenCredential,
-    subscriptionId: string,
     options?: MetricsBatchQueryClientOptions
   ) {
     let scope;
@@ -72,7 +71,6 @@ export class MetricsBatchQueryClient {
     this._baseUrl = batchEndPoint;
 
     this._metricBatchClient = new GeneratedMonitorMetricBatchClient(
-      subscriptionId,
       MonitorMetricBatchApiVersion.TwoThousandTwentyThree1001,
       serviceClientOptions
     );
@@ -95,10 +93,11 @@ export class MetricsBatchQueryClient {
       "MetricsBatchQueryClient.batch",
       options,
       async (updatedOptions) => {
-        // const subscriptionId = getSubscriptionFromResourceId(resourceIds[0]);
+        const subscriptionId = getSubscriptionFromResourceId(resourceIds[0]);
 
         const response = await this._metricBatchClient.metrics.batch(
           this._baseUrl,
+          subscriptionId,
           metricNamespace,
           metricNames,
           {

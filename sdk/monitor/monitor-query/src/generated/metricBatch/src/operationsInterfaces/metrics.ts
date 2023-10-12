@@ -19,6 +19,7 @@ export interface Metrics {
    * @param baseUrl The regional endpoint to use, for example https://eastus.metrics.monitor.azure.com.
    *                The region should match the region of the requested resources. For global resources, the region
    *                should be 'global'.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param metricnamespace Metric namespace that contains the requested metric names.
    * @param metricnames The names of the metrics (comma separated) to retrieve.
    * @param resourceIds The comma separated list of resource IDs to query metrics for.
@@ -26,6 +27,7 @@ export interface Metrics {
    */
   batch(
     baseUrl: string,
+    subscriptionId: string,
     metricnamespace: string,
     metricnames: string[],
     resourceIds: ResourceIdList,
