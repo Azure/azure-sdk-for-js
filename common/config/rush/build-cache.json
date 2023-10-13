@@ -1,0 +1,9 @@
+{
+  "buildCacheEnabled": true,
+  "cacheProvider": "azure-blob-storage",
+  "azureBlobStorageConfiguration": {
+    "storageAccountName": "storageyumeng",
+    "storageContainerName": "testrushcloudcache",
+    "isCacheWriteAllowed": false
+  }
+}
