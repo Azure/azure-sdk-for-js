@@ -66,7 +66,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     if (loginStyles.indexOf(loginStyle) === -1) {
       const error = new Error(
-        `Invalid loginStyle: ${browserOptions.loginStyle
+        `Invalid loginStyle: ${
+          browserOptions.loginStyle
         }. Should be any of the following: ${loginStyles.join(", ")}.`
       );
       logger.info(formatError("", error));
