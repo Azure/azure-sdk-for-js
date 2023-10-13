@@ -3,10 +3,21 @@
 
 import { assert } from "chai";
 
-import { BlobServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
-import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
+import {
+  BlobServiceClient,
+  getBlobServiceAccountAudience,
+  newPipeline,
+  StorageSharedKeyCredential,
+} from "../../src";
+import {
+  getBSU,
+  getConnectionStringFromEnvironment,
+  recorderEnvSetup,
+  SimpleTokenCredential,
+} from "../utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { DefaultAzureCredential } from "@azure/identity";
 
 describe("BlobServiceClient Node.js only", () => {
   let recorder: Recorder;
@@ -17,6 +28,55 @@ describe("BlobServiceClient Node.js only", () => {
 
   afterEach(async function () {
     await recorder.stop();
+  });
+
+  it("Default audience should work", async () => {
+    const serviceClient = getBSU();
+    const blobServiceClientWithOAuthToken = new BlobServiceClient(
+      serviceClient.url,
+      new DefaultAzureCredential()
+    );
+    await blobServiceClientWithOAuthToken.getProperties();
+  });
+
+  it("Customized audience should work", async () => {
+    const serviceClient = getBSU();
+    const blobServiceClientWithOAuthToken = new BlobServiceClient(
+      serviceClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: [getBlobServiceAccountAudience(serviceClient.accountName)],
+      }
+    );
+    await blobServiceClientWithOAuthToken.getProperties();
+  });
+
+  it("Bearer token challenge should work", async () => {
+    const serviceClient = getBSU();
+
+    // To validate that bad audience should fail.
+    const authToken = await new DefaultAzureCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default"
+    );
+    const blobServiceClientWithPlainOAuthToken = new BlobServiceClient(
+      serviceClient.url,
+      new SimpleTokenCredential(authToken.token)
+    );
+
+    try {
+      await blobServiceClientWithPlainOAuthToken.getProperties();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+    const blobServiceClientWithOAuthToken = new BlobServiceClient(
+      serviceClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: ["https://badaudience.blob.core.windows.net/.default"],
+      }
+    );
+    await blobServiceClientWithOAuthToken.getProperties();
   });
 
   it("can be created with a url and a credential", async () => {

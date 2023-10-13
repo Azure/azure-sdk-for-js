@@ -1166,6 +1166,9 @@ export function generateAccountSASQueryParameters(accountSASSignatureValues: Acc
 // @public
 export function generateFileSASQueryParameters(fileSASSignatureValues: FileSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
+// @public (undocumented)
+export function getFileServiceAccountAudience(storageAccountName: string): string;
+
 // @public
 export interface HandleItem {
     // (undocumented)
@@ -2149,7 +2152,13 @@ export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
 }
 
 // @public
+export enum StorageFileAudience {
+    StorageOAuthScopes = "https://storage.azure.com/.default"
+}
+
+// @public
 export interface StoragePipelineOptions {
+    audience?: string;
     httpClient?: IHttpClient;
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxyOptions;

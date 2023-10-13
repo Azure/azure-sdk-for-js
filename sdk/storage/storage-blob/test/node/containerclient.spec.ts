@@ -3,8 +3,13 @@
 
 import { assert } from "chai";
 
-import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
-import { PublicAccessType } from "../../src";
+import {
+  SimpleTokenCredential,
+  getBSU,
+  getConnectionStringFromEnvironment,
+  recorderEnvSetup,
+} from "../utils";
+import { PublicAccessType, getBlobServiceAccountAudience } from "../../src";
 import {
   ContainerClient,
   newPipeline,
@@ -16,6 +21,7 @@ import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { DefaultAzureCredential } from "@azure/identity";
 
 describe("ContainerClient Node.js only", () => {
   let containerName: string;
@@ -34,6 +40,53 @@ describe("ContainerClient Node.js only", () => {
   afterEach(async function () {
     await containerClient.delete();
     await recorder.stop();
+  });
+
+  it("Default audience should work", async () => {
+    const containerClientWithOAuthToken = new ContainerClient(
+      containerClient.url,
+      new DefaultAzureCredential()
+    );
+    const exists = await containerClientWithOAuthToken.exists();
+    assert.strictEqual(true, exists);
+  });
+
+  it("Customized audience should work", async () => {
+    const containerClientWithOAuthToken = new ContainerClient(
+      containerClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: [getBlobServiceAccountAudience(blobServiceClient.accountName)],
+      }
+    );
+    const exists = await containerClientWithOAuthToken.exists();
+    assert.strictEqual(true, exists);
+  });
+
+  it("Bearer token challenge should work", async () => {
+    // Validate that bad audience should fail first.
+    const authToken = await new DefaultAzureCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default"
+    );
+    const containerClientWithPlainOAuthToken = new ContainerClient(
+      containerClient.url,
+      new SimpleTokenCredential(authToken.token)
+    );
+
+    try {
+      await containerClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+    const containerClientWithOAuthToken = new ContainerClient(
+      containerClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: ["https://badaudience.blob.core.windows.net/.default"],
+      }
+    );
+    await containerClientWithOAuthToken.getProperties();
   });
 
   it("getAccessPolicy", async () => {

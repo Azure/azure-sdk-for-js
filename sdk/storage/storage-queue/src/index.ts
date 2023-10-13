@@ -16,7 +16,7 @@ export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./StorageRetryPolicyFactory";
 export * from "./StorageBrowserPolicyFactory";
-export { Metadata } from "./models";
+export { Metadata, StorageQueueAudience, getQueueServiceAccountAudience } from "./models";
 export * from "./policies/StorageSharedKeyCredentialPolicy";
 export * from "./QueueClient";
 export * from "./QueueSASPermissions";

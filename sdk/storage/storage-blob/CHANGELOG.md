@@ -4,11 +4,7 @@
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added support for service version 2023-11-03.
 
 ## 12.16.0 (2023-09-14)
 

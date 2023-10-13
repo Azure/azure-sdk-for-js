@@ -80,6 +80,18 @@ export function getBSU(config?: ShareClientConfig): ShareServiceClient {
   return getGenericBSU("", "", config);
 }
 
+export function getAccountName(): string {
+  const accountNameEnvVar = `ACCOUNT_NAME`;
+
+  const accountName = process.env[accountNameEnvVar];
+
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  return accountName;
+}
+
 export function getAlternateBSU(): ShareServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
 }

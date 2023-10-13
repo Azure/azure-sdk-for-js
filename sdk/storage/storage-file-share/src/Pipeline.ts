@@ -23,8 +23,8 @@ import {
   keepAlivePolicy,
   generateClientRequestIdPolicy,
   isTokenCredential,
-  bearerTokenAuthenticationPolicy,
   TokenCredential,
+  bearerTokenAuthenticationPolicy,
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -145,6 +145,11 @@ export interface StoragePipelineOptions {
    * Configures the HTTP client to send requests and receive responses.
    */
   httpClient?: IHttpClient;
+  /**
+   * The audience used to retrieve an AAD token.
+   * By default, audience 'https://storage.azure.com/.default' will be used.
+   */
+  audience?: string;
 }
 
 /**
@@ -190,7 +195,10 @@ export function newPipeline(
   factories.push(
     isTokenCredential(credential)
       ? attachCredential(
-          bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
+          bearerTokenAuthenticationPolicy(
+            credential,
+            pipelineOptions.audience ?? StorageOAuthScopes
+          ),
           credential
         )
       : credential
