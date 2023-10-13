@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msalCommon from "@azure/msal-node";
+import * as msalCommon from "@azure/msal-browser";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors";
@@ -95,7 +95,7 @@ export function getKnownAuthorities(
 export const defaultLoggerCallback: (
   logger: CredentialLogger,
   platform?: "Node" | "Browser"
-) => ILoggerCallback =
+) => msalCommon.ILoggerCallback =
   (logger: CredentialLogger, platform: "Node" | "Browser" = isNode ? "Node" : "Browser") =>
   (level, message, containsPii): void => {
     if (containsPii) {

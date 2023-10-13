@@ -1421,8 +1421,20 @@ packages:
       '@azure/msal-common': 13.3.0
     dev: false
 
+  /@azure/msal-browser@3.2.0:
+    resolution: {integrity: sha512-le2qutddMiq0i3ErQaLKuwP1DpNgdd9iXPs3fSCsLuBrdGg9B4/j4ArCAHCwgxA82Ydj9BcqtMIL5BSWwU+P5A==}
+    engines: {node: '>=0.8.0'}
+    dependencies:
+      '@azure/msal-common': 14.1.0
+    dev: false
+
   /@azure/msal-common@13.3.0:
     resolution: {integrity: sha512-/VFWTicjcJbrGp3yQP7A24xU95NiDMe23vxIU1U6qdRPFsprMDNUohMudclnd+WSHE4/McqkZs/nUU3sAKkVjg==}
+    engines: {node: '>=0.8.0'}
+    dev: false
+
+  /@azure/msal-common@14.1.0:
+    resolution: {integrity: sha512-xphmhcfl5VL+uq5//VKMwQn+wfEZLMKNpFCcMi8Ur8ej5UT166g6chBsxgMzc9xo9Y24R9FB3m/tjDiV03xMIA==}
     engines: {node: '>=0.8.0'}
     dev: false
 
@@ -1446,6 +1458,15 @@ packages:
     engines: {node: 10 || 12 || 14 || 16 || 18}
     dependencies:
       '@azure/msal-common': 13.3.0
+      jsonwebtoken: 9.0.2
+      uuid: 8.3.2
+    dev: false
+
+  /@azure/msal-node@2.2.0:
+    resolution: {integrity: sha512-aZZ1m7OATOR9kz7+/Kl+/LZrNEj+HYaEH84XZfnBtN/9JPRazngk1XTjvAkh7W1u/O/yQrlYiiSwSAKHnNBc8A==}
+    engines: {node: 18 || 20}
+    dependencies:
+      '@azure/msal-common': 14.1.0
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
     dev: false
@@ -2173,6 +2194,29 @@ packages:
 
   /@protobufjs/utf8@1.1.0:
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
+    dev: false
+
+  /@puppeteer/browsers@0.5.0(typescript@5.0.4):
+    resolution: {integrity: sha512-Uw6oB7VvmPRLE4iKsjuOh8zgDabhNX67dzo8U/BB0f9527qx+4eeUs+korU98OhG5C4ubg7ufBgVi63XYwS6TQ==}
+    engines: {node: '>=14.1.0'}
+    hasBin: true
+    peerDependencies:
+      typescript: '>= 4.7.4'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      debug: 4.3.4(supports-color@8.1.1)
+      extract-zip: 2.0.1
+      https-proxy-agent: 5.0.1
+      progress: 2.0.3
+      proxy-from-env: 1.1.0
+      tar-fs: 2.1.1
+      typescript: 5.0.4
+      unbzip2-stream: 1.4.3
+      yargs: 17.7.1
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@puppeteer/browsers@1.7.1:
@@ -3722,6 +3766,15 @@ packages:
       urlpattern-polyfill: 9.0.0
     dev: false
 
+  /chromium-bidi@0.4.7(devtools-protocol@0.0.1107588):
+    resolution: {integrity: sha512-6+mJuFXwTMU6I3vYLs6IL8A1DyQTPjCfIL971X0aMPVGRbGnNfl6i6Cl0NMbxi2bRYLGESt9T2ZIMRM5PAEcIQ==}
+    peerDependencies:
+      devtools-protocol: '*'
+    dependencies:
+      devtools-protocol: 0.0.1107588
+      mitt: 3.0.0
+    dev: false
+
   /cjs-module-lexer@1.2.3:
     resolution: {integrity: sha512-0TNiGstbQmCFwt4akjjBg5pLRTSyj/PkWQ1ZoO2zntmg9yLqSRxwEa4iCfQLGjqhiqBfOJa7W/E8wfGrTDmlZQ==}
     dev: false
@@ -3932,6 +3985,16 @@ packages:
       vary: 1.1.2
     dev: false
 
+  /cosmiconfig@8.1.3:
+    resolution: {integrity: sha512-/UkO2JKI18b5jVMJUp0lvKFMpa/Gye+ZgZjKD+DGEN9y7NRcf/nK1A0sp67ONmKtnDCNMS44E6jrk0Yc3bDuUw==}
+    engines: {node: '>=14'}
+    dependencies:
+      import-fresh: 3.3.0
+      js-yaml: 4.1.0
+      parse-json: 5.2.0
+      path-type: 4.0.0
+    dev: false
+
   /cosmiconfig@8.3.6(typescript@5.0.4):
     resolution: {integrity: sha512-kcZ6+W5QzcJ3P1Mt+83OUv/oHFqZHIx8DuxG6eZ5RGMERoLqp4BuGjhHLYGK+Kf5XVkQvqBSmAy/nGWN3qDgEA==}
     engines: {node: '>=14'}
@@ -3958,6 +4021,14 @@ packages:
     hasBin: true
     dependencies:
       cross-spawn: 7.0.3
+    dev: false
+
+  /cross-fetch@3.1.5:
+    resolution: {integrity: sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==}
+    dependencies:
+      node-fetch: 2.6.7
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /cross-fetch@4.0.0:
@@ -4214,6 +4285,10 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /devtools-protocol@0.0.1107588:
+    resolution: {integrity: sha512-yIR+pG9x65Xko7bErCUSQaDLrO/P1p3JUzEk7JCU4DowPcGHkTGUGQapcfcLc4qj0UaALwZ+cr0riFgiqpixcg==}
+    dev: false
+
   /devtools-protocol@0.0.1179426:
     resolution: {integrity: sha512-KKC7IGwdOr7u9kTGgjUvGTov/z1s2H7oHi3zKCdR9eSDyCPia5CBi4aRhtp7d8uR7l0GS5UTDw3TjKGu5CqINg==}
     dev: false
@@ -4292,7 +4367,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231011
+      typescript: 5.3.0-dev.20231012
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -6870,6 +6945,10 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     dev: false
 
+  /mitt@3.0.0:
+    resolution: {integrity: sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==}
+    dev: false
+
   /mitt@3.0.1:
     resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
     dev: false
@@ -7135,6 +7214,18 @@ packages:
     dependencies:
       object.getownpropertydescriptors: 2.1.7
       semver: 5.7.2
+    dev: false
+
+  /node-fetch@2.6.7:
+    resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
+    engines: {node: 4.x || >=6.0.0}
+    peerDependencies:
+      encoding: ^0.1.0
+    peerDependenciesMeta:
+      encoding:
+        optional: true
+    dependencies:
+      whatwg-url: 5.0.0
     dev: false
 
   /node-fetch@2.7.0:
@@ -7865,6 +7956,34 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /puppeteer-core@19.11.1(typescript@5.0.4):
+    resolution: {integrity: sha512-qcuC2Uf0Fwdj9wNtaTZ2OvYRraXpAK+puwwVW8ofOhOgLPZyz1c68tsorfIZyCUOpyBisjr+xByu7BMbEYMepA==}
+    engines: {node: '>=14.14.0'}
+    peerDependencies:
+      typescript: '>= 4.7.4'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@puppeteer/browsers': 0.5.0(typescript@5.0.4)
+      chromium-bidi: 0.4.7(devtools-protocol@0.0.1107588)
+      cross-fetch: 3.1.5
+      debug: 4.3.4(supports-color@8.1.1)
+      devtools-protocol: 0.0.1107588
+      extract-zip: 2.0.1
+      https-proxy-agent: 5.0.1
+      proxy-from-env: 1.1.0
+      tar-fs: 2.1.1
+      typescript: 5.0.4
+      unbzip2-stream: 1.4.3
+      ws: 8.13.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   /puppeteer-core@21.3.8:
     resolution: {integrity: sha512-yv12E/+zZ7Lei5tJB4sUkSrsuqKibuYpYxLGbmtLUjjYIqGE5HKz9OUI2I/RFHEvF+pHi2bTbv5bWydeCGJ6Mw==}
     engines: {node: '>=16.3.0'}
@@ -7879,6 +7998,24 @@ packages:
       - bufferutil
       - encoding
       - supports-color
+      - utf-8-validate
+    dev: false
+
+  /puppeteer@19.11.1(typescript@5.0.4):
+    resolution: {integrity: sha512-39olGaX2djYUdhaQQHDZ0T0GwEp+5f9UB9HmEP0qHfdQHIq0xGQZuAZ5TLnJIc/88SrPLpEflPC+xUqOTv3c5g==}
+    requiresBuild: true
+    dependencies:
+      '@puppeteer/browsers': 0.5.0(typescript@5.0.4)
+      cosmiconfig: 8.1.3
+      https-proxy-agent: 5.0.1
+      progress: 2.0.3
+      proxy-from-env: 1.1.0
+      puppeteer-core: 19.11.1(typescript@5.0.4)
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
       - utf-8-validate
     dev: false
 
@@ -9164,8 +9301,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231011:
-    resolution: {integrity: sha512-qpyUI7J37X3Xj7/bPWSNPUvmJ8yDGVnkQ8665xD4+LVWKUX7vwO7n2E1CUuQzeQIF4y369iPaz1d396rTW5LfA==}
+  /typescript@5.3.0-dev.20231012:
+    resolution: {integrity: sha512-k/m+QK/2eVsPMAao4I28Cv2Y9WzUKFVhRqvFGZ3CIXc0lrMkw/1pSA+8tp7IMw1ecxoa1myFql1tmCUrMKCbzA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9493,6 +9630,19 @@ packages:
     peerDependencies:
       bufferutil: ^4.0.1
       utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
+
+  /ws@8.13.0:
+    resolution: {integrity: sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
     peerDependenciesMeta:
       bufferutil:
         optional: true
@@ -17431,7 +17581,7 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-Zy9WPrxVxDAuq5iLYpiy+HF8IQkHW5qHW8lvszMJ0eKWAWOgTgtr60bcu7A83DWz2vWBXRsGUWKaNqS3yUqOmA==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-HPqBjVlUjJug38F2I1GghNK4OH69dfIymbHuB2zKRL+PPuX3EaSSDLRPoJm9FLQke6nSh15tekNMhtT0Mzbr1g==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
@@ -18845,11 +18995,11 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-O1KJ67uaqohtU6mokR6LdNFEnsyR4EuPEJC2iHuWcSfwHcKszJu/9B2OanjcgXZF0rtI2OGa0g79YZ+d2cTORw==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-b5NeWnEODoWclgcwK/O7nuOTjgEo0iyIKiUN+rtn10Xdo5XKvfUYRUSx72p48wwK754LFqhpYo1yryvaIN1/aA==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
-      '@azure/msal-node': 1.18.3
+      '@azure/msal-node': 2.2.0
       '@azure/msal-node-extensions': 1.0.0-alpha.25
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.55)
       '@types/jws': 3.2.6
@@ -18865,7 +19015,7 @@ packages:
       mocha: 10.2.0
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
-      puppeteer: 21.3.8(typescript@5.0.4)
+      puppeteer: 19.11.1(typescript@5.0.4)
       rimraf: 3.0.2
       sinon: 15.2.0
       ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)
@@ -18875,14 +19025,11 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - bufferutil
-      - encoding
       - supports-color
-      - utf-8-validate
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-klCCPatFVknhda7B+vso3+GYFqTIFIDRzxbDLsVHPmHcqGVIPpVcZSSHBTp2JYxzeNYIZ/it+XsM3vQ+OYoH+Q==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-XkNkOJgHIwwpU/4ONd4//XyVIuc89QCqjJ0uJpfsVxZb0llGMFuxKtW4BcQkTjoPonuHz1EPwhXlIiEPWAJXEw==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -18901,7 +19048,7 @@ packages:
       mocha: 10.2.0
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
-      puppeteer: 21.3.8(typescript@5.0.4)
+      puppeteer: 19.11.1(typescript@5.0.4)
       rimraf: 3.0.2
       sinon: 15.2.0
       ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)
@@ -18911,21 +19058,18 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - bufferutil
-      - encoding
       - supports-color
-      - utf-8-validate
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-HPLN4ZuS2hBliWxaUPA+CnRUjLO4aohkeCgLbNXnBjxvp6nwnOGirZUflbfJtak+1VWx7feDsKD+45zidXXy1w==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-VHdj8djiFF5ceiCJYepT9KtmjmxJadx0Unarf4jxuMw29rRMeaj2BU/TuAON50+6xcuZ8QBeYMHCl4T6u+NXWA==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
       '@azure/keyvault-keys': 4.7.2
-      '@azure/msal-browser': 2.38.2
+      '@azure/msal-browser': 3.2.0
       '@azure/msal-common': 13.3.0
-      '@azure/msal-node': 1.18.3
+      '@azure/msal-node': 2.2.0
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.55)
       '@types/chai': 4.3.6
       '@types/jsonwebtoken': 9.0.3
@@ -19149,7 +19293,7 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-Wfer/sOfvOoRfwZ+0RWhpRAFknKcLn2QqTgrVvFa+ecm5oKTh0qK8aVGWLXlrhjoIbCKoadUXPZxzKk0EGAPig==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-w6nPr7yTzxVq11nmpB4IE5LEj8YNepkoEC0GA2mZ2UPST0RIBXmclIACagkuseHQDOzxI5qJu0EZor3RaP14pQ==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
@@ -19162,7 +19306,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       nyc: 15.1.0
       prettier: 2.8.8
-      puppeteer: 21.3.8(typescript@5.0.4)
+      puppeteer: 19.11.1(typescript@5.0.4)
       rimraf: 3.0.2
       sinon: 15.2.0
       source-map-support: 0.5.21
@@ -19172,10 +19316,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - bufferutil
-      - encoding
       - supports-color
-      - utf-8-validate
     dev: false
 
   file:projects/keyvault-keys.tgz:
@@ -21814,7 +21955,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client-protobuf.tgz:
-    resolution: {integrity: sha512-79tg2eeyFiaEcaPGgERhyaKXBnwet1VG+v/y97y0q0IAlU1CEdX8Wf840yxIgrdbtZr4ZY5Jqq9w6lU3H+Ga8A==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
+    resolution: {integrity: sha512-PzpFxv+AZ2U2LJh/sqMu1d8PLkFaZVZ+g39Fmz507u1KNolRUQnGk00dyUYdEadnL7y9V84zQ7lLbraDvfI1hA==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
     name: '@rush-temp/web-pubsub-client-protobuf'
     version: 0.0.0
     dependencies:
@@ -21857,7 +21998,7 @@ packages:
       prettier: 2.8.8
       protobufjs: 7.2.5
       protobufjs-cli: 1.1.2(protobufjs@7.2.5)
-      puppeteer: 21.3.8(typescript@5.0.4)
+      puppeteer: 19.11.1(typescript@5.0.4)
       rimraf: 3.0.2
       rollup: 3.29.4
       sinon: 15.2.0
@@ -21870,14 +22011,12 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - bufferutil
-      - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
 
   file:projects/web-pubsub-client.tgz:
-    resolution: {integrity: sha512-5J1KJXua3cFCZl5+muwFsKdNfYCO9zi6bdyx1TqB+W+EGkGdk0PUx7DkqxjUogcWDS4g8roEWKuiR8FNErMJiQ==, tarball: file:projects/web-pubsub-client.tgz}
+    resolution: {integrity: sha512-C43bK7jaH5TRR4C5h7tHnfiwQPv2HsNaH1YmqPit+MkewItv/llQQ/+xpnVhkYL70shFEb+q866pQl1QUGkhPA==, tarball: file:projects/web-pubsub-client.tgz}
     name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
@@ -21914,7 +22053,7 @@ packages:
       mock-socket: 9.3.1
       nyc: 15.1.0
       prettier: 2.8.8
-      puppeteer: 21.3.8(typescript@5.0.4)
+      puppeteer: 19.11.1(typescript@5.0.4)
       rimraf: 3.0.2
       sinon: 15.2.0
       source-map-support: 0.5.21
@@ -21927,14 +22066,12 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - bufferutil
-      - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
 
   file:projects/web-pubsub-express.tgz:
-    resolution: {integrity: sha512-paw8AD22Gr0Ij6X3weKhOjwuxfcHjwfAloSn747V5zSPtczf2Sc2OtFpYDIAdjAj4CqkVixV2pNrnJVR2AgsIg==, tarball: file:projects/web-pubsub-express.tgz}
+    resolution: {integrity: sha512-XPMFG0DsB880f3S0SIk9VAqfepkz8esia4WTvvGzrgq1b6/1GWVXJN41rwC9GP98BCQCS9ic5bgF1NLLrvbvVQ==, tarball: file:projects/web-pubsub-express.tgz}
     name: '@rush-temp/web-pubsub-express'
     version: 0.0.0
     dependencies:
@@ -21956,7 +22093,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       nyc: 15.1.0
       prettier: 2.8.8
-      puppeteer: 21.3.8(typescript@5.0.4)
+      puppeteer: 19.11.1(typescript@5.0.4)
       rimraf: 3.0.2
       sinon: 15.2.0
       source-map-support: 0.5.21
@@ -21966,14 +22103,11 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - bufferutil
-      - encoding
       - supports-color
-      - utf-8-validate
     dev: false
 
   file:projects/web-pubsub.tgz:
-    resolution: {integrity: sha512-MRkMO1+7QE+EFKc97HWVlL+J0xhx/0G3joX0Wj0vWc/0x9Z2K9y6z+NPzfEHjvAvlJitIPEBpaKxuetLxWnZLQ==, tarball: file:projects/web-pubsub.tgz}
+    resolution: {integrity: sha512-YxFjVfO1+qgrY9UWbbbIv4IK9X7EVOFj48ciHg8MHgQTXlom/SZA/qJl7EKLdJmv7nroq7gC9Iv89Rvlo73D3w==, tarball: file:projects/web-pubsub.tgz}
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
@@ -22003,7 +22137,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       nyc: 15.1.0
       prettier: 2.8.8
-      puppeteer: 21.3.8(typescript@5.0.4)
+      puppeteer: 19.11.1(typescript@5.0.4)
       rimraf: 3.0.2
       sinon: 15.2.0
       source-map-support: 0.5.21
@@ -22015,8 +22149,6 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - bufferutil
-      - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
