@@ -3,7 +3,7 @@
   "cacheProvider": "azure-blob-storage",
   "azureBlobStorageConfiguration": {
     "storageAccountName": "storageyumeng",
-    "storageContainerName": "testrushcloudcache",
+    "storageContainerName": "rush-build-cache",
     "isCacheWriteAllowed": false
   }
 }
