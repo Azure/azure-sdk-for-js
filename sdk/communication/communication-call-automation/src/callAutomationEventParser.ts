@@ -26,9 +26,9 @@ import {
   ContinuousDtmfRecognitionToneReceived,
   ContinuousDtmfRecognitionToneFailed,
   ContinuousDtmfRecognitionStopped,
-  SendDtmfCompleted,
-  SendDtmfFailed,
-  AddParticipantCancelled,
+  SendDtmfTonesCompleted,
+  SendDtmfTonesFailed,
+  CancelAddParticipantSucceeded,
   CancelAddParticipantFailed,
 } from "./models/events";
 
@@ -122,14 +122,14 @@ export function parseCallAutomationEvent(
         kind: "ContinuousDtmfRecognitionStopped",
       } as ContinuousDtmfRecognitionStopped;
       break;
-    case "Microsoft.Communication.SendDtmfCompleted":
-      callbackEvent = { kind: "SendDtmfCompleted" } as SendDtmfCompleted;
+    case "Microsoft.Communication.SendDtmfTonesCompleted":
+      callbackEvent = { kind: "SendDtmfTonesCompleted" } as SendDtmfTonesCompleted;
       break;
-    case "Microsoft.Communication.SendDtmfFailed":
-      callbackEvent = { kind: "SendDtmfFailed" } as SendDtmfFailed;
+    case "Microsoft.Communication.SendDtmfTonesFailed":
+      callbackEvent = { kind: "SendDtmfTonesFailed" } as SendDtmfTonesFailed;
       break;
-    case "Microsoft.Communication.AddParticipantCancelled":
-      callbackEvent = { kind: "AddParticipantCancelled" } as AddParticipantCancelled;
+    case "Microsoft.Communication.CancelAddParticipantSucceeded":
+      callbackEvent = { kind: "CancelAddParticipantSucceeded" } as CancelAddParticipantSucceeded;
       parsed.participant = communicationIdentifierConverter(data.participant);
       break;
     case "Microsoft.Communication.CancelAddParticipantFailed":
