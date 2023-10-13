@@ -149,6 +149,7 @@ export function sourcemaps() {
         debug("no map for file ", id);
         return { code, map: null };
       } catch (e) {
+        // eslint-disable-next-line no-inner-declarations
         function toString(error: any): string {
           return error instanceof Error ? error.stack ?? error.toString() : JSON.stringify(error);
         }
