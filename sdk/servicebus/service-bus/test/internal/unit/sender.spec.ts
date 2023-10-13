@@ -120,7 +120,7 @@ describe("sender unit tests", () => {
     });
   });
 
-  it("doesn't allow invalid enqueue time", async function() {
+  it("doesn't allow invalid enqueue time", async function () {
     try {
       await sender.scheduleMessages(
         { body: "message" },
@@ -130,7 +130,10 @@ describe("sender unit tests", () => {
       assert.fail("You should not be seeing this.");
     } catch (err: any) {
       assert.equal(err.name, "TypeError");
-      assert.equal(err.message, `The parameter "scheduledEnqueueTimeUtc" should be an instance of "Date"`);
+      assert.equal(
+        err.message,
+        `The parameter "scheduledEnqueueTimeUtc" should be an instance of "Date"`
+      );
     }
   });
 

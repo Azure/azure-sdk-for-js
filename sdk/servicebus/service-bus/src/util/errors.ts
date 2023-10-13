@@ -117,7 +117,7 @@ export function throwTypeErrorIfNotInstanceOfParameterType(
   connectionId: string,
   parameterName: string,
   parameterValue: unknown,
-  constructor: Function,
+  constructor: Function // eslint-disable @typescript-eslint/ban-types
 ): void {
   if (!(parameterValue instanceof constructor)) {
     const error = new TypeError(
