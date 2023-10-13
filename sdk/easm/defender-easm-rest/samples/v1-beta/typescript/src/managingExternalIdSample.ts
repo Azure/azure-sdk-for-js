@@ -42,7 +42,7 @@ type MappingType = {
 
 async function main() {
   // To create an EasmClient, you need your subscription ID, region, and some sort of credential.
-  const subscription_id = process.env.SUBSCRIPTIONID || "";
+  const subscription_id = process.env.SUBSCRIPTION_ID || "";
   const resource_group = process.env.RESOURCEGROUPNAME || "";
   const workspace_name = process.env.WORKSPACENAME || "";
   const region = process.env.REGION || "";

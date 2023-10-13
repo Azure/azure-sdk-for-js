@@ -9,7 +9,7 @@ Key links:
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/easm/defender-easm-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/defender-easm)
 - [API reference documentation](https://azure.github.io/azure-sdk-for-js)
-- [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/easm/defender-easm-rest/samples/v1-beta)
 
 ## Getting started
 
