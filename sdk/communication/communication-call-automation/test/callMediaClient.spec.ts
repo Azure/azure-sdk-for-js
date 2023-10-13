@@ -14,17 +14,22 @@ import {
 
 // Parent directory imports
 import { CallMedia } from "../src/callMedia";
-import { FileSource, TextSource, SsmlSource, Choice, DtmfTone } from "../src/models/models";
+import {
+  FileSource,
+  TextSource,
+  SsmlSource,
+  RecognitionChoice,
+  DtmfTone,
+} from "../src/models/models";
 import {
   CallMediaRecognizeDtmfOptions,
-  CallMediaRecognizeChoiceOptions,
-  CallMediaRecognizeSpeechOptions,
   CallAutomationClient,
   CallConnection,
   CallInvite,
   ContinuousDtmfRecognitionOptions,
-  SendDtmfOptions,
-  CallAutomationEventProcessor,
+  CallMediaRecognizeChoiceOptions,
+  CallMediaRecognizeSpeechOptions,
+  SendDtmfTonesOptions,
 } from "../src";
 
 // Current directory imports
@@ -64,12 +69,7 @@ describe("CallMedia Unit Tests", async function () {
   });
 
   it("can instantiate", async function () {
-    new CallMedia(
-      CALL_CONNECTION_ID,
-      baseUri,
-      { key: generateToken() },
-      new CallAutomationEventProcessor()
-    );
+    new CallMedia(CALL_CONNECTION_ID, baseUri, { key: generateToken() });
   });
 
   it("makes successful Play file request", async function () {
@@ -78,10 +78,12 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const playSource: FileSource = {
-      url: MEDIA_UR_MP3,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: MEDIA_UR_MP3,
+        kind: "fileSource",
+      },
+    ];
 
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
 
@@ -90,8 +92,8 @@ describe("CallMedia Unit Tests", async function () {
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.playTo[0].rawId, CALL_TARGET_ID);
-    assert.equal(data.playSourceInfo.sourceType, "file");
-    assert.equal(data.playSourceInfo.fileSource.uri, playSource.url);
+    assert.equal(data.playSources[0].kind, "file");
+    assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
   });
 
@@ -101,11 +103,13 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const playSource: TextSource = {
-      text: "test test test",
-      customVoiceEndpointId: "customVoiceEndpointId",
-      kind: "textSource",
-    };
+    const playSource: TextSource[] = [
+      {
+        text: "test test test",
+        customVoiceEndpointId: "customVoiceEndpointId",
+        kind: "textSource",
+      },
+    ];
 
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
 
@@ -114,8 +118,8 @@ describe("CallMedia Unit Tests", async function () {
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.playTo[0].rawId, CALL_TARGET_ID);
-    assert.equal(data.playSourceInfo.sourceType, "text");
-    assert.equal(data.playSourceInfo.textSource.text, playSource.text);
+    assert.equal(data.playSources[0].kind, "text");
+    assert.equal(data.playSources[0].text.text, playSource[0].text);
     assert.equal(request.method, "POST");
   });
 
@@ -125,12 +129,14 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const playSource: SsmlSource = {
-      ssmlText:
-        '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US"><voice name="en-US-JennyNeural">Recognize Choice Completed, played through SSML source.</voice></speak>',
-      customVoiceEndpointId: "customVoiceEndpointId",
-      kind: "ssmlSource",
-    };
+    const playSource: SsmlSource[] = [
+      {
+        ssmlText:
+          '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US"><voice name="en-US-JennyNeural">Recognize Choice Completed, played through SSML source.</voice></speak>',
+        customVoiceEndpointId: "customVoiceEndpointId",
+        kind: "ssmlSource",
+      },
+    ];
 
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
 
@@ -139,8 +145,8 @@ describe("CallMedia Unit Tests", async function () {
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.playTo[0].rawId, CALL_TARGET_ID);
-    assert.equal(data.playSourceInfo.sourceType, "ssml");
-    assert.equal(data.playSourceInfo.ssmlSource.ssmlText, playSource.ssmlText);
+    assert.equal(data.playSources[0].kind, "ssml");
+    assert.equal(data.playSources[0].ssml.ssmlText, playSource[0].ssmlText);
     assert.equal(request.method, "POST");
   });
 
@@ -150,10 +156,12 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const playSource: FileSource = {
-      url: MEDIA_URL_WAV,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: MEDIA_URL_WAV,
+        kind: "fileSource",
+      },
+    ];
 
     const playTo: CommunicationIdentifier[] = [];
 
@@ -161,8 +169,8 @@ describe("CallMedia Unit Tests", async function () {
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
-    assert.equal(data.playSourceInfo.sourceType, "file");
-    assert.equal(data.playSourceInfo.fileSource.uri, playSource.url);
+    assert.equal(data.playSources[0].kind, "file");
+    assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
   });
 
@@ -174,10 +182,10 @@ describe("CallMedia Unit Tests", async function () {
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const recognizeOptions: CallMediaRecognizeDtmfOptions = {
       kind: "callMediaRecognizeDtmfOptions",
+      maxTonesToCollect: 5,
     };
-    const maxTonesToCollect = 5;
 
-    await callMedia.startRecognizing(targetParticipant, maxTonesToCollect, recognizeOptions);
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
@@ -192,7 +200,7 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const choice: Choice = {
+    const choice: RecognitionChoice = {
       label: "choice",
       phrases: ["test"],
     };
@@ -200,9 +208,8 @@ describe("CallMedia Unit Tests", async function () {
       choices: [choice],
       kind: "callMediaRecognizeChoiceOptions",
     };
-    const maxTonesToCollect = 5;
 
-    await callMedia.startRecognizing(targetParticipant, maxTonesToCollect, recognizeOptions);
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
@@ -219,16 +226,15 @@ describe("CallMedia Unit Tests", async function () {
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const recognizeOptions: CallMediaRecognizeSpeechOptions = {
       kind: "callMediaRecognizeSpeechOptions",
-      speechModelEndpointId: "customModelEndpointId",
+      speechRecognitionModelEndpointId: "customModelEndpointId",
     };
-    const maxTonesToCollect = 5;
 
-    await callMedia.startRecognizing(targetParticipant, maxTonesToCollect, recognizeOptions);
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.recognizeInputType, "speech");
-    assert.equal(data.recognizeOptions.speechOptions.endSilenceTimeoutInMs, 2);
+    assert.equal(data.recognizeOptions.speechOptions.endSilenceTimeoutInMs, 2000);
     assert.equal(request.method, "POST");
   });
 
@@ -288,70 +294,29 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(request.method, "POST");
   });
 
-  it("makes successful SendDtmf request", async function () {
+  it("makes successful SendDtmfTones request", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const sendDtmfOptions: SendDtmfOptions = {
+    const sendDtmfTonesOptions: SendDtmfTonesOptions = {
       operationContext: "test_operation_context",
     };
     const tones = ["one", "two", "three", "pound"];
 
-    await callMedia.sendDtmf(tones, targetParticipant, sendDtmfOptions);
+    await callMedia.sendDtmfTones(tones, targetParticipant, sendDtmfTonesOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
     assert.deepEqual(data.tones, tones);
-    assert.equal(data.operationContext, sendDtmfOptions.operationContext);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful Start Hold Music request", async function () {
-    const mockHttpClient = generateHttpClient(200);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-
-    const playSource: TextSource = {
-      text: "test test test",
-      customVoiceEndpointId: "customVoiceEndpointId",
-      kind: "textSource",
-    };
-
-    const participantToHold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-
-    await callMedia.startHoldMusic(participantToHold, playSource);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    console.log(data);
-    assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
-    assert.equal(data.playSourceInfo.sourceType, "text");
-    assert.equal(data.playSourceInfo.textSource.text, playSource.text);
-    assert.equal(data.loop, true);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful Stop Hold Music request", async function () {
-    const mockHttpClient = generateHttpClient(200);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-
-    const participantToUnhold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-
-    await callMedia.stopHoldMusic(participantToUnhold);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    console.log(data);
-    assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
+    assert.equal(data.operationContext, sendDtmfTonesOptions.operationContext);
     assert.equal(request.method, "POST");
   });
 });
 
-describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media Client Live Tests", function () {
+describe("Call Media Client Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;
@@ -415,10 +380,12 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media C
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource = {
-      url: fileSourceUrl,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: fileSourceUrl,
+        kind: "fileSource",
+      },
+    ];
 
     await callConnection.getCallMedia().play(playSource, [testUser2]);
     const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
@@ -452,10 +419,12 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media C
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource = {
-      url: fileSourceUrl,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: fileSourceUrl,
+        kind: "fileSource",
+      },
+    ];
 
     await callConnection.getCallMedia().playToAll(playSource);
 
@@ -491,10 +460,12 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media C
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource = {
-      url: fileSourceUrl,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: fileSourceUrl,
+        kind: "fileSource",
+      },
+    ];
 
     await callConnection.getCallMedia().playToAll(playSource);
     await callConnection.getCallMedia().cancelAllOperations();
@@ -536,33 +507,22 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media C
       : "";
     assert.isDefined(incomingCallContext);
 
-    let answerCallResult;
     if (incomingCallContext) {
-      answerCallResult = await receiverCallAutomationClient.answerCall(
-        incomingCallContext,
-        callBackUrl
-      );
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
-    const receivercallConnectionId: string = answerCallResult?.callConnectionProperties
-      .callConnectionId
-      ? answerCallResult?.callConnectionProperties.callConnectionId
-      : "";
 
     await callConnection.getCallMedia().startContinuousDtmfRecognition(receiverPhoneUser);
 
-    await callConnection.getCallMedia().sendDtmf([DtmfTone.Pound], receiverPhoneUser);
-    const sendDtmfCompleted = await waitForEvent("SendDtmfCompleted", callConnectionId, 8000);
-    assert.isDefined(sendDtmfCompleted);
-
-    const continuousDtmfRecognitionToneReceivedEvent = await waitForEvent(
-      "ContinuousDtmfRecognitionToneReceived",
-      receivercallConnectionId,
+    await callConnection.getCallMedia().sendDtmfTones([DtmfTone.Pound], receiverPhoneUser);
+    const sendDtmfTonesCompleted = await waitForEvent(
+      "SendDtmfTonesCompleted",
+      callConnectionId,
       8000
     );
-    assert.isDefined(continuousDtmfRecognitionToneReceivedEvent);
+    assert.isDefined(sendDtmfTonesCompleted);
 
     await callConnection.getCallMedia().stopContinuousDtmfRecognition(receiverPhoneUser);
     const continuousDtmfRecognitionStopped = await waitForEvent(
