@@ -11,6 +11,7 @@ import { InternalConfig } from "../../../../src/shared";
 import { JsonConfig } from "../../../../src/shared/jsonConfig";
 import { Resource } from "@opentelemetry/resources";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
+import { AzureMonitorOpenTelemetryOptions } from "../../../../src/shared/types";
 
 describe("Library/Config", () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -69,6 +70,91 @@ describe("Library/Config", () => {
       assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, true, "Wrong redis4");
     });
 
+    it("JSON config values take precedence over others", () => {
+      const env = <{ [id: string]: string }>{};
+
+      let jsonOptions = {
+        azureMonitorExporterOptions: {
+          connectionString: "testConnString",
+          storageDirectory: "teststorageDirectory",
+          disableOfflineStorage: true,
+        },
+        samplingRatio: 1,
+        instrumentationOptions: {
+          http: { enabled: true },
+          azureSdk: { enabled: true },
+          mongoDb: { enabled: true },
+          mySql: { enabled: true },
+          postgreSql: { enabled: true },
+          redis: { enabled: true },
+          redis4: { enabled: true },
+        },
+      };
+      env["APPLICATIONINSIGHTS_CONFIGURATION_CONTENT"] = JSON.stringify(jsonOptions);
+      process.env = env;
+
+      let options: AzureMonitorOpenTelemetryOptions = {
+        azureMonitorExporterOptions: {
+          connectionString: "testConnStringOther",
+          storageDirectory: "teststorageDirectoryOther",
+          disableOfflineStorage: false,
+        },
+        samplingRatio: 0.5,
+        instrumentationOptions: {
+          http: { enabled: false },
+          azureSdk: { enabled: false },
+          mongoDb: { enabled: false },
+          mySql: { enabled: false },
+          postgreSql: { enabled: false },
+          redis: { enabled: false },
+          redis4: { enabled: false },
+        },
+      };
+
+      const config = new InternalConfig(options);
+      assert.strictEqual(config.samplingRatio, jsonOptions.samplingRatio);
+      assert.strictEqual(
+        config.instrumentationOptions?.http?.enabled,
+        jsonOptions.instrumentationOptions.http.enabled
+      );
+      assert.strictEqual(
+        config.instrumentationOptions?.azureSdk?.enabled,
+        jsonOptions.instrumentationOptions.azureSdk.enabled
+      );
+      assert.strictEqual(
+        config.instrumentationOptions?.mongoDb?.enabled,
+        jsonOptions.instrumentationOptions.mongoDb.enabled
+      );
+      assert.strictEqual(
+        config.instrumentationOptions?.mySql?.enabled,
+        jsonOptions.instrumentationOptions.mySql.enabled
+      );
+      assert.strictEqual(
+        config.instrumentationOptions?.postgreSql?.enabled,
+        jsonOptions.instrumentationOptions.postgreSql.enabled
+      );
+      assert.strictEqual(
+        config.instrumentationOptions?.redis?.enabled,
+        jsonOptions.instrumentationOptions.redis.enabled
+      );
+      assert.strictEqual(
+        config.instrumentationOptions?.redis4?.enabled,
+        jsonOptions.instrumentationOptions.redis4.enabled
+      );
+      assert.strictEqual(
+        config.azureMonitorExporterOptions?.connectionString,
+        jsonOptions.azureMonitorExporterOptions.connectionString
+      );
+      assert.strictEqual(
+        config.azureMonitorExporterOptions?.storageDirectory,
+        jsonOptions.azureMonitorExporterOptions.storageDirectory
+      );
+      assert.strictEqual(
+        config.azureMonitorExporterOptions?.disableOfflineStorage,
+        jsonOptions.azureMonitorExporterOptions.disableOfflineStorage
+      );
+    });
+
     it("Default config", () => {
       const config = new InternalConfig();
       assert.deepStrictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
@@ -100,6 +186,65 @@ describe("Library/Config", () => {
         undefined,
         "Wrong storageDirectory"
       );
+    });
+
+    it("Partial configurations are supported", () => {
+      const env = <{ [id: string]: string }>{};
+
+      let jsonOptions = {
+        azureMonitorExporterOptions: {
+          storageDirectory: "teststorageDirectory",
+        },
+        samplingRatio: 0.7,
+        instrumentationOptions: {
+          redis4: { enabled: true },
+        },
+      };
+      env["APPLICATIONINSIGHTS_CONFIGURATION_CONTENT"] = JSON.stringify(jsonOptions);
+      process.env = env;
+
+      let options: AzureMonitorOpenTelemetryOptions = {
+        azureMonitorExporterOptions: {
+          connectionString: "testConnectionString",
+        },
+        instrumentationOptions: {
+          http: { enabled: false },
+        },
+      };
+
+      const config = new InternalConfig(options);
+      assert.deepStrictEqual(config.samplingRatio, 0.7, "Wrong samplingRatio");
+      assert.deepStrictEqual(
+        config.azureMonitorExporterOptions?.storageDirectory,
+        "teststorageDirectory",
+        "Wrong storageDirectory"
+      );
+      assert.deepStrictEqual(
+        config.azureMonitorExporterOptions?.connectionString,
+        "testConnectionString",
+        "Wrong connectionString"
+      );
+      assert.deepStrictEqual(config.instrumentationOptions.http?.enabled, false, "Wrong http");
+      assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, true, "Wrong redis4");
+
+      // Default values
+      assert.deepStrictEqual(
+        config.instrumentationOptions.azureSdk?.enabled,
+        false,
+        "Wrong azureSdk"
+      );
+      assert.deepStrictEqual(
+        config.instrumentationOptions.mongoDb?.enabled,
+        false,
+        "Wrong mongoDb"
+      );
+      assert.deepStrictEqual(config.instrumentationOptions.mySql?.enabled, false, "Wrong mySql");
+      assert.deepStrictEqual(
+        config.instrumentationOptions.postgreSql?.enabled,
+        false,
+        "Wrong postgreSql"
+      );
+      assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, false, "Wrong redis");
     });
   });
 
