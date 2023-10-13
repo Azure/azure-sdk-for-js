@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import { SchemaRegistry } from "@azure/schema-registry";
 import { assertError } from "./utils/assertError";
 import chaiPromises from "chai-as-promised";
-import { createTestRegistry } from "./utils/mockedRegistryClient";
+import { createTestRegistry, removeSchema } from "./utils/mockedRegistryClient";
 import { createTestSerializer } from "./utils/mockedSerializer";
 import { testGroup } from "./utils/dummies";
 import { v4 as uuid } from "uuid";
@@ -39,6 +39,10 @@ describe("Error scenarios", function () {
       },
       recorder,
     });
+  });
+
+  afterEach(async function () {
+    await removeSchema();
   });
 
   describe("Schema validation", function () {
@@ -125,6 +129,7 @@ describe("Error scenarios", function () {
           causeMessage: /missing array items/,
         }
       );
+      await removeSchema(`${writerSchema.namespace}.${writerSchema.name}}`);
     });
     it("incompatible reader schema", async function () {
       const writerSchema = {
@@ -172,6 +177,7 @@ describe("Error scenarios", function () {
           causeMessage: /no matching field for default-less validation.AvroUser.age/,
         }
       );
+      await removeSchema(`${writerSchema.namespace}.${writerSchema.name}}`);
     });
     it("invalid writer schema at time of deserializing", async function (this: Context) {
       /**
@@ -271,6 +277,8 @@ describe("Error scenarios", function () {
           causeMessage: /truncated buffer/,
         }
       );
+      await removeSchema("test");
+      await removeSchema(`${writerSchema1.namespace}.${writerSchema1.name}}`);
     });
     it("not JSON schema", async function () {
       await assertError(serializer.serialize(null, ""), {
@@ -410,6 +418,10 @@ describe("Error scenarios", function () {
     });
   });
   describe("Unserialized value validation", function () {
+    afterEach(async function () {
+      await removeSchema("validation.User");
+    });
+
     it("schema is still registered if serialization fails", async function (this: Context) {
       /**
        * This test checks for service calls using the onResponse callback but
@@ -804,6 +816,10 @@ describe("Error scenarios", function () {
     });
   });
   describe("Serialized value validation", function () {
+    afterEach(async function () {
+      await removeSchema("validation.User");
+    });
+
     it("record", async function () {
       const serializedValue = await serializer.serialize(
         {

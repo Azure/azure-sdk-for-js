@@ -1364,6 +1364,33 @@ packages:
       uuid: 8.3.2
     dev: false
 
+  /@azure/schema-registry-avro@1.0.0:
+    resolution: {integrity: sha512-VpadZIKqjrtFj0nVFCxbSNc9/dlz+BlFlebRrLYhD+gRwR6bR7E3FbF4DLvPD2qgl8gT65wimY5eUPOBZwl3oA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/logger': 1.0.4
+      '@azure/schema-registry': 1.2.0
+      avsc: 5.7.7
+      lru-cache: 7.18.3
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/schema-registry@1.2.0:
+    resolution: {integrity: sha512-c0941sREjSPE6/KMVd3vrLYKwwjrKZabOP/i1YOoBS4RquFIi3aA4wUPBvsVhOs4JzN79Ztcn7/ZvO4HyzrSVQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-rest-pipeline': 1.12.1
+      '@azure/core-tracing': 1.0.1
+      '@azure/logger': 1.0.4
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/web-pubsub-client@1.0.0-beta.2:
     resolution: {integrity: sha512-6OUjadAauR3l9oIafFG3As3Fh3JDha4UAJVwVmakKtgHuDfHsWZkAtdivlSBChfc0hqEvw2BuozVnZeIUdCaPg==}
     engines: {node: '>=14.0.0'}
@@ -4207,7 +4234,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231002
+      typescript: 5.3.0-dev.20231012
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -8937,8 +8964,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231002:
-    resolution: {integrity: sha512-TQXM13rrDgID8W4Ok4KDQAqwLUjLcAXL+NKv0zJiIEQfa0bOM0yoRiSgvcjaCJ4lZT4bScrq3vHspVM2x8rkOQ==}
+  /typescript@5.3.0-dev.20231012:
+    resolution: {integrity: sha512-k/m+QK/2eVsPMAao4I28Cv2Y9WzUKFVhRqvFGZ3CIXc0lrMkw/1pSA+8tp7IMw1ecxoa1myFql1tmCUrMKCbzA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -20068,10 +20095,11 @@ packages:
     dev: false
 
   file:projects/perf-schema-registry-avro.tgz:
-    resolution: {integrity: sha512-gDEQjh41AxFUsvpMFOk4DQeV+2WEqNopak2nSshJmv0ufU0ToomdmbLj6mAu+7AkCJZgyukXLT0yMbpghKTZ6g==, tarball: file:projects/perf-schema-registry-avro.tgz}
+    resolution: {integrity: sha512-xHm85A2g7fGaiVsMbnm45Xuzp5Z6MJ6C9cAhwsfn/Cl5XaTRktLg4ajfTxiQoyvn7ukQftVk6fM8hH+r0CxjYw==, tarball: file:projects/perf-schema-registry-avro.tgz}
     name: '@rush-temp/perf-schema-registry-avro'
     version: 0.0.0
     dependencies:
+      '@azure/schema-registry-avro': 1.0.0
       '@types/node': 14.18.63
       dotenv: 16.3.1
       eslint: 8.50.0
@@ -20475,7 +20503,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-W2Eed523TrSIZFDXAJyAa5FG2vXcn6LLdsLACOHWWQ9uw/iWvx9wjUiTDzCAkkOSOHR5z+ACORCXRFKyiBgkXQ==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-RScpXT3Sg/ifxRRXCDHeygE+V+HTWCWxFM5PFi1e7WWwWcz8Pi3lQtZCgxOIDrr3mUj0pmvjIwESARVvZtcUig==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:

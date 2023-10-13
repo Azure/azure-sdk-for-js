@@ -3,7 +3,6 @@
 
 import * as avro from "avsc/";
 import { env } from "@azure-tools/test-recorder";
-import { DateType } from "../../../src/logicalTypes/dateType";
 
 export const testSchemaObject: avro.schema.RecordType = {
   type: "record",
@@ -22,6 +21,7 @@ export const testSchemaObject: avro.schema.RecordType = {
 };
 
 export const testGroup = env.SCHEMA_REGISTRY_GROUP || "azsdk_js_test_group";
+export const testSchemaName = `${testSchemaObject.namespace}.${testSchemaObject.name}`;
 
 export const testSchemaIds = [
   "{773E17BE-793E-40B0-98F1-0A6EA3C11895}",
@@ -45,7 +45,3 @@ export const testTransaction = {
   amount: 32,
   time: new Date("Thu Nov 05 2015 11:38:05 GMT-0800 (PST)"),
 };
-export const testAvroDateType = avro.Type.forSchema(testDateSchemaObject, {
-  omitRecordMethods: true,
-  logicalTypes: { "timestamp-millis": DateType },
-});

@@ -12,10 +12,16 @@ import {
   SchemaRegistryClient,
 } from "@azure/schema-registry";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { testSchemaIds } from "./dummies";
+import { testGroup, testSchemaName, testSchemaIds } from "./dummies";
 import { v4 as uuid } from "uuid";
-import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
-
+import { Recorder, assertEnvironmentVariable, env, isLiveMode } from "@azure-tools/test-recorder";
+import {
+  createPipelineRequest,
+  createDefaultHttpClient,
+  createHttpHeaders,
+  bearerTokenAuthenticationPolicy,
+  createEmptyPipeline,
+} from "@azure/core-rest-pipeline";
 type UpdatedSchemaDescription = Required<Omit<SchemaDescription, "version">>;
 
 function getEnvVar(name: string): string {
@@ -136,4 +142,32 @@ export function createTestRegistry(
         recorder,
       })
     : createMockedTestRegistry();
+}
+
+export async function removeSchema(
+  schemaName: string = testSchemaName,
+  groupName: string = testGroup,
+  apiVersion: string = "2022-10"
+): Promise<void> {
+  if (!isLiveMode()) {
+    return;
+  }
+
+  const endpoint = assertEnvironmentVariable("SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE");
+  const url = `${endpoint}/$schemagroups/${groupName}/schemas/${schemaName}/?api-version=${apiVersion}`;
+  const DEFAULT_SCOPE = "https://eventhubs.azure.net/.default";
+  const request = createPipelineRequest({
+    url,
+    method: "DELETE",
+    timeout: 0,
+    withCredentials: true,
+    headers: createHttpHeaders({}),
+    allowInsecureConnection: new URL(url).protocol !== "https:",
+  });
+  const client = createDefaultHttpClient();
+  const pipeline = createEmptyPipeline();
+  const credential = createTestCredential();
+  const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
+  pipeline.addPolicy(authPolicy);
+  await pipeline.sendRequest(client, request);
 }
