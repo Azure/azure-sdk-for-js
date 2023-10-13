@@ -1,7 +1,6 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "declarationDir": "./types",
     "outDir": "./dist-esm",
     "paths": {
       "@azure/abort-controller": ["./src/index.js"]

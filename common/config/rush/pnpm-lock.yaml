@@ -3639,6 +3639,11 @@ packages:
       supports-color: 7.2.0
     dev: false
 
+  /chalk@5.3.0:
+    resolution: {integrity: sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==}
+    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+    dev: false
+
   /character-entities-legacy@1.1.4:
     resolution: {integrity: sha512-3Xnr+7ZFS1uxeiUDvV02wQ+QDbc55o97tIV5zHScSPJpcLm/r0DFPcoY3tYRp+VZukxuMeKgXYmsXQHO05zQeA==}
     dev: false
@@ -8068,6 +8073,14 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /resolve-import@1.4.4:
+    resolution: {integrity: sha512-+IccDyUypl5rHv25216cXu2m30flEoetrG8p4qDH3RsP53cytedI58Pz+pjCU4PAbxPOQgFkgmxTJLKI9tgf/g==}
+    engines: {node: '>=16'}
+    dependencies:
+      glob: 10.3.10
+      walk-up-path: 3.0.1
+    dev: false
+
   /resolve@1.19.0:
     resolution: {integrity: sha512-rArEXAgsBG4UgRGcynxWIWKFvh/XZCcS8UJdHhwy91zwAvCZIbcs+vAbflgBnNjYMs/i/i+/Ux6IZhML1yPvxg==}
     dependencies:
@@ -8780,6 +8793,17 @@ packages:
     engines: {node: '>= 0.4'}
     dev: false
 
+  /sync-content@1.0.2:
+    resolution: {integrity: sha512-znd3rYiiSxU3WteWyS9a6FXkTA/Wjk8WQsOyzHbineeL837dLn3DA4MRhsIX3qGcxDMH6+uuFV4axztssk7wEQ==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      glob: 10.3.10
+      mkdirp: 3.0.1
+      path-scurry: 1.10.1
+      rimraf: 5.0.5
+    dev: false
+
   /tar-fs@2.1.1:
     resolution: {integrity: sha512-V0r2Y9scmbDRLCNex/+hYzvp/zyYjvFbHPNgVTKfQvVrb6guiE/fxP+XblDNR011utopbkex2nM4dHNV6GDsng==}
     dependencies:
@@ -8956,6 +8980,21 @@ packages:
       json5: 1.0.2
       minimist: 1.2.8
       strip-bom: 3.0.0
+    dev: false
+
+  /tshy@1.4.0:
+    resolution: {integrity: sha512-fq31iXid+DyfYWhLYDPo/urGSu/RbZLWr+Cfd5VUoyYxlpG8PfMgB3PHvsLUu6qyit2yowImk5gwpgdS9dBjmg==}
+    engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
+    hasBin: true
+    dependencies:
+      chalk: 5.3.0
+      foreground-child: 3.1.1
+      mkdirp: 3.0.1
+      resolve-import: 1.4.4
+      rimraf: 5.0.5
+      sync-content: 1.0.2
+      typescript: 5.2.2
+      walk-up-path: 3.0.1
     dev: false
 
   /tslib@1.14.1:
@@ -9263,6 +9302,10 @@ packages:
   /void-elements@2.0.1:
     resolution: {integrity: sha512-qZKX4RnBzH2ugr8Lxa7x+0V6XD9Sb/ouARtiasEQCHB1EVU4NXtmHsDDrx1dO4ne5fc3J6EW05BP1Dl0z0iung==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /walk-up-path@3.0.1:
+    resolution: {integrity: sha512-9YlCL/ynK3CTlrSRrDxZvUauLzAswPCrsaCgilqFevUYpeEW0/3ScEjaa3kbW/T0ghhkEr7mv+fpjqn1Y1YuTA==}
     dev: false
 
   /wcwidth@1.0.1:
@@ -9670,7 +9713,7 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-K7QXHwRFaRvllmK+wQSExRZOc0BgBsvhY2OcCD5fuZP9HHOiM8JqcGDWKEw8b/pXPvFB/r2GwVB21yz4ZM+7lQ==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-3Hj71pSoxf5v/vCPsrkJu0nZe55js52J5Q8SAUVkczwFQhMl51qMPBOrtyI3P9u5fWtMqPD8NJ7HhejnayUOlQ==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
@@ -9698,6 +9741,7 @@ packages:
       prettier: 2.8.8
       rimraf: 3.0.2
       ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)
+      tshy: 1.4.0
       tslib: 2.6.2
       typescript: 5.0.4
     transitivePeerDependencies:
@@ -17646,7 +17690,7 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-PWSq69NL5XM/vTydbGbJAM+6v+24lmZXnU4FUHfSTmAIfG40QisY1tq7WSzUGsH/3ZEBVpoRNP3UasPcbld/ag==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-33KRURaAV16/0ti0eu8A08Rbme8hVnllqycJvWinUoVQJy4jYvkb/jUvpufNAWRvYKXMfBf8Uo2JT9TFTzpbpQ==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
@@ -17664,6 +17708,7 @@ packages:
       prettier: 2.8.8
       rimraf: 3.0.2
       ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)
+      tshy: 1.4.0
       tslib: 2.6.2
       typescript: 5.0.4
       util: 0.12.5
