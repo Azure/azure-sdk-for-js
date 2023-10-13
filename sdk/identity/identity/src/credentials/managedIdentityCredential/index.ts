@@ -220,7 +220,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    * If an unexpected error occurs, an {@link AuthenticationError} will be thrown with the details of the failure.
    *

@@ -44,8 +44,8 @@ For client-side applications running in the browser, the `InteractiveBrowserCred
   - In your app registration in the Azure portal, go to `API Permissions`
   - Click on `Add a permission`
   - Select the API you want to use. For example, if you're using any of our management/control plane packages (the ones whose name starts with `@azure/arm-`), you should select **Azure Service Management**.
-- Ensure that your AAD Application has enabled public authentication flows:
-  - Go to Azure Active Directory in the Azure portal and find your app registration.
+- Ensure that your Microsoft Entra Application has enabled public authentication flows:
+  - Go to Microsoft Entra ID in the Azure portal and find your app registration.
   - Navigate to the **Authentication** section.
   - Under **Advanced settings**, select **yes** on the option **Allow public client flows**.
 
@@ -100,7 +100,7 @@ Authenticating user accounts is the easiest way to get started with minimal set 
 
 An Azure service principal is an identity created for use with applications, hosted services, and automated tools to access Azure resources. The roles assigned by the service principal will determine what resources are accessible. For security reasons, use service principals through automation rather than allowing them to log in with a user identity.
 
-To learn more, read [Application and service principal objects in Azure Active Directory][app-register-service-principal]
+To learn more, read [Application and service principal objects in Microsoft Entra ID][app-register-service-principal].
 
 **Setup**:
 
@@ -121,7 +121,7 @@ If your application is hosted in Azure, you can make use of [Managed Identity](h
 
 | Credential with example                                                     | Usage                                                                                                                                                                                                                                                                                                                                                                        |
 | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|[WorkloadIdentityCredential](#authenticating-in-azure-with-workload-identity) | Authenticate in Azure Kubernetes environment with [Azure Active Directory (Azure AD) workload identities (preview)](https://learn.microsoft.com/azure/active-directory/workload-identities/workload-identities-overview), which [integrates with the Kubernetes native capabilities](https://learn.microsoft.com/azure/aks/workload-identity-overview) to federate with any external identity providers. |
+|[WorkloadIdentityCredential](#authenticating-in-azure-with-workload-identity) | Authenticate in Azure Kubernetes environment with [Microsoft Entra Workload ID](https://learn.microsoft.com/azure/active-directory/workload-identities/workload-identities-overview), which [integrates with the Kubernetes native capabilities](https://learn.microsoft.com/azure/aks/workload-identity-overview) to federate with any external identity providers. |
 | [ManagedIdentityCredential](#authenticating-in-azure-with-managed-identity) | Authenticate in a virtual machine, App Service, Functions app, Cloud Shell, or AKS environment on Azure, with system-assigned managed identity, user-assigned managed identity, or app registration (when working with AKS pod identity).    |
 | [DefaultAzureCredential](#authenticating-with-defaultazurecredential)       | Tries `EnvironmentCredential`, `ManagedIdentityCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
 
@@ -166,7 +166,7 @@ function withDefaultAzureCredential() {
 
 For clients with a default browser available and client-side applications running in the browser, the `InteractiveBrowserCredential` provides the most direct user authentication experience. In the sample below, an application authenticates a `SecretClient` from the [@azure/service-bus][service_bus_client_library] using the `InteractiveBrowserCredential`.
 
-For Node.js, if a `clientId` is provided, the Azure Active Directory application will need to be configured to have a "Mobile and desktop applications" redirect endpoint. Follow our guide on [setting up Redirect URIs for Desktop apps that calls to web APIs](https://docs.microsoft.com/azure/active-directory/develop/scenario-desktop-app-registration#redirect-uris).
+For Node.js, if a `clientId` is provided, the Microsoft Entra application will need to be configured to have a "Mobile and desktop applications" redirect endpoint. Follow our guide on [setting up Redirect URIs for Desktop apps that calls to web APIs](https://learn.microsoft.com/azure/active-directory/develop/scenario-desktop-app-registration#redirect-uris).
 
 For client-side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported. For more information, see [Authenticating client-side browser applications](#authenticating-client-side-browser-applications).
 
@@ -189,7 +189,7 @@ You'll need to:
 - [Create an application registration][quickstart-register-app]
 - [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell][service_principal_azure_powershell]
 
-To learn more about service principals, see [Application and service principal objects in Azure Active Directory][app-register-service-principal].
+To learn more about service principals, see [Application and service principal objects in Microsoft Entra ID][app-register-service-principal].
 
 In the following sample, an application authenticates a `SecretClient` from the [@azure/service-bus][service_bus_client_library] using the `ClientSecretCredential`:
 
@@ -223,7 +223,7 @@ You'll need to:
   - `AZURE_CLIENT_ID`, containing the ID of the user/service principal to authenticate as.
   - `AZURE_CLIENT_SECRET`, containing a client secret created belonging to the same user/service principal.
 
-To learn more about service principals, see [Application and service principal objects in Azure Active Directory][app-register-service-principal].
+To learn more about service principals, see [Application and service principal objects in Microsoft Entra ID][app-register-service-principal].
 
 ```ts
 /**
@@ -244,7 +244,7 @@ You'll need to:
 - [Create an application registration][quickstart-register-app]
 - [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell][service_principal_azure_powershell]
 
-To learn more about service principals, see [Application and service principal objects in Azure Active Directory][app-register-service-principal].
+To learn more about service principals, see [Application and service principal objects in Microsoft Entra ID][app-register-service-principal].
 
 ```ts
 /**
@@ -270,7 +270,7 @@ You'll need to:
 - [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell][service_principal_azure_powershell]
 - [Register the certificate with the Microsoft Identity platform][register_certificate_app_registration]
 
-To learn more about service principals, see [Application and service principal objects in Azure Active Directory][app-register-service-principal].
+To learn more about service principals, see [Application and service principal objects in Microsoft Entra ID][app-register-service-principal].
 
 ```ts
 /**
@@ -343,7 +343,7 @@ This example demonstrates authenticating the `SecretClient` from the [@azure/key
 
 To authenticate a user through device code flow, complete the following steps:
 
-1. Go to Azure Active Directory in Azure portal and find your app registration.
+1. Go to Microsoft Entra ID in Azure portal and find your app registration.
 2. Navigate to the **Authentication** section.
 3. Under **Advanced settings**, select `yes` on the option `Allow public client flows`.
 
@@ -641,7 +641,7 @@ The ActiveDirectory Authority in the output will be your Azure Authority Host
 
 ### Determine the Tenant ID for Azure Stack
 
-If the Identity provider of your Azure Stack is Azure Active Directory (Azure AD), contact your Azure Stack administrator to find your tenant ID. Otherwise, if the Identity provider of your Azure Stack is Active Directory Federation Services (ADFS), your tenant ID is `adfs`.
+If the Identity provider of your Azure Stack is Microsoft Entra ID, contact your Azure Stack administrator to find your tenant ID. Otherwise, if the Identity provider of your Azure Stack is Active Directory Federation Services (ADFS), your tenant ID is `adfs`.
 
 ### Authentication example
 
@@ -668,7 +668,7 @@ function main() {
 
 ### Custom Credentials
 
-The `@azure/identity` library covers a broad range of Azure Active Directory authentication scenarios. However, we understand there are cases in which the credentials provided might not meet the specific needs of your application. Some applications might avoid taking a dependency on the `@azure/identity` package. In such cases, you may want to write your custom credential.
+The `@azure/identity` library covers a broad range of Microsoft Entra authentication scenarios. However, we understand there are cases in which the credentials provided might not meet the specific needs of your application. Some applications might avoid taking a dependency on the `@azure/identity` package. In such cases, you may want to write your custom credential.
 
 In this section, we'll examine some such scenarios.
 
@@ -882,7 +882,7 @@ class BrowserCredential implements TokenCredential {
 }
 ```
 
-The following example shows how the `BrowserCredential` could be used to authenticate a `ServiceBusClient`. For this example to work, the redirect URI configured in the AAD application should point to the same page that runs this code originally. For example, `http://localhost:80`.
+The following example shows how the `BrowserCredential` could be used to authenticate a `ServiceBusClient`. For this example to work, the redirect URI configured in the Microsoft Entra application should point to the same page that runs this code originally. For example, `http://localhost:80`.
 
 ```ts
 import { ServiceBusClient } from "@azure/service-bus";
@@ -910,7 +910,7 @@ Once you have a certificate, you may export the certificate with the Azure CLI f
 
 You can also export your certificate through the Azure portal. Navigate to your Key Vault resource, go to a specific certificate, then download the certificate in PFX/PEM format.
 
-Once you have a Key Vault certificate downloaded, go to Azure Active Directory. Find the Enterprise app you want to authenticate with, go to **Certificates & secrets**, and upload the certificate.
+Once you have a Key Vault certificate downloaded, go to Microsoft Entra ID. Find the Enterprise app you want to authenticate with, go to **Certificates & secrets**, and upload the certificate.
 
 After that, you can authenticate by pointing the `@azure/identity`'s `ClientCertificateCredential` to the PEM certificate's path, as follows:
 
@@ -1035,9 +1035,9 @@ Two accounts participate in the OBO flow:
 - A user, which aims to obtain a special access level. Typically, the `AuthorizationCodeCredential` would be used. We'll call this identity the **User Account**.
 - An app registration, which will act as the provider of the special access level. We'll call this identity the **Target App Registration**.
 
-Both accounts must belong to the same Azure AD tenant.
+Both accounts must belong to the same Microsoft Entra tenant.
 
-While other credentials authenticate requesting access to a set of resources, the OBO flow requires the user token to have access specifically to the scope of the Azure AD app that will delegate its access to the users. For this authentication flow to work, the **Target App Registration** must be configured with a custom scope. To create a scope through the Azure portal:
+While other credentials authenticate requesting access to a set of resources, the OBO flow requires the user token to have access specifically to the scope of the Microsoft Entra app that will delegate its access to the users. For this authentication flow to work, the **Target App Registration** must be configured with a custom scope. To create a scope through the Azure portal:
 
 1. Select **Active Directory** > **App registrations**.
 2. Go to the app you want to authenticate against.
@@ -1291,7 +1291,7 @@ By setting `unsafeAllowUnencryptedStorage` to `true`, the credential will encryp
 
 ### Authenticate national clouds
 
-National clouds are physically isolated instances of Azure. These regions of Azure are designed to make sure that data residency, sovereignty, and compliance requirements are honored within geographical boundaries. Including the global cloud, Azure Active Directory (Azure AD) is deployed in the following national clouds:
+National clouds are physically isolated instances of Azure. These regions of Azure are designed to make sure that data residency, sovereignty, and compliance requirements are honored within geographical boundaries. Including the global cloud, Microsoft Entra ID is deployed in the following national clouds:
 
 - Azure Government
 - Azure Germany
@@ -1313,12 +1313,12 @@ const credential = new ClientSecretCredential(
 
 The following table shows common values provided through the `AzureAuthorityHosts`.
 
-| National Cloud                      | Azure AD authentication endpoint  | AzureAuthorityHost                     |
+| National Cloud                      | Microsoft Entra authentication endpoint  | AzureAuthorityHost                     |
 | ----------------------------------- | --------------------------------- | -------------------------------------- |
-| Azure AD for US Government          | https://login.microsoftonline.us  | `AzureAuthorityHosts.AzureGovernment`  |
-| Azure AD Germany                    | https://login.microsoftonline.de  | `AzureAuthorityHosts.AzureGermany`     |
-| Azure AD China operated by 21Vianet | https://login.chinacloudapi.cn    | `AzureAuthorityHosts.AzureChina`       |
-| Azure AD (global service)           | https://login.microsoftonline.com | `AzureAuthorityHosts.AzurePublicCloud` |
+| Microsoft Entra ID for US Government          | https://login.microsoftonline.us  | `AzureAuthorityHosts.AzureGovernment`  |
+| Microsoft Entra ID Germany                    | https://login.microsoftonline.de  | `AzureAuthorityHosts.AzureGermany`     |
+| Microsoft Entra ID China operated by 21Vianet | https://login.chinacloudapi.cn    | `AzureAuthorityHosts.AzureChina`       |
+| Microsoft Entra ID (global service)           | https://login.microsoftonline.com | `AzureAuthorityHosts.AzurePublicCloud` |
 
 To learn more about Azure Authentication for National Clouds, see [National clouds](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud).
 
