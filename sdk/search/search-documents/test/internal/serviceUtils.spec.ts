@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { convertFieldsToGenerated, convertFieldsToPublic } from "../../src/serviceUtils";
 import { SearchField as GeneratedSearchField } from "../../src/generated/service/models/index";
-import { KnownLexicalAnalyzerName } from "../../src/index";
+import { KnownAnalyzerNames } from "../../src/index";
 import { ComplexField, SearchField } from "../../src/serviceModels";
 
 describe("serviceUtils", function () {
@@ -19,10 +19,9 @@ describe("serviceUtils", function () {
         filterable: true,
         facetable: true,
         retrievable: false,
-        analyzer: KnownLexicalAnalyzerName.ArMicrosoft,
-        indexAnalyzer: KnownLexicalAnalyzerName.ArLucene,
-        normalizer: KnownLexicalAnalyzerName.BgLucene,
-        searchAnalyzer: KnownLexicalAnalyzerName.CaLucene,
+        analyzer: KnownAnalyzerNames.ArMicrosoft,
+        indexAnalyzer: KnownAnalyzerNames.ArLucene,
+        searchAnalyzer: KnownAnalyzerNames.CaLucene,
         synonymMaps: undefined,
       },
     ]);
@@ -36,10 +35,9 @@ describe("serviceUtils", function () {
       filterable: true,
       facetable: true,
       hidden: true,
-      analyzerName: KnownLexicalAnalyzerName.ArMicrosoft,
-      indexAnalyzerName: KnownLexicalAnalyzerName.ArLucene,
-      normalizerName: KnownLexicalAnalyzerName.BgLucene,
-      searchAnalyzerName: KnownLexicalAnalyzerName.CaLucene,
+      analyzerName: KnownAnalyzerNames.ArMicrosoft,
+      indexAnalyzerName: KnownAnalyzerNames.ArLucene,
+      searchAnalyzerName: KnownAnalyzerNames.CaLucene,
       synonymMapNames: undefined,
     });
   });
@@ -59,10 +57,9 @@ describe("serviceUtils", function () {
             filterable: true,
             facetable: true,
             retrievable: false,
-            analyzer: KnownLexicalAnalyzerName.ArMicrosoft,
-            indexAnalyzer: KnownLexicalAnalyzerName.ArLucene,
-            normalizer: KnownLexicalAnalyzerName.BgLucene,
-            searchAnalyzer: KnownLexicalAnalyzerName.CaLucene,
+            analyzer: KnownAnalyzerNames.ArMicrosoft,
+            indexAnalyzer: KnownAnalyzerNames.ArLucene,
+            searchAnalyzer: KnownAnalyzerNames.CaLucene,
             synonymMaps: undefined,
           },
         ],
@@ -83,10 +80,9 @@ describe("serviceUtils", function () {
       filterable: true,
       facetable: true,
       hidden: true,
-      analyzerName: KnownLexicalAnalyzerName.ArMicrosoft,
-      indexAnalyzerName: KnownLexicalAnalyzerName.ArLucene,
-      normalizerName: KnownLexicalAnalyzerName.BgLucene,
-      searchAnalyzerName: KnownLexicalAnalyzerName.CaLucene,
+      analyzerName: KnownAnalyzerNames.ArMicrosoft,
+      indexAnalyzerName: KnownAnalyzerNames.ArLucene,
+      searchAnalyzerName: KnownAnalyzerNames.CaLucene,
       synonymMapNames: undefined,
     });
   });
@@ -102,10 +98,9 @@ describe("serviceUtils", function () {
         filterable: true,
         facetable: true,
         hidden: true,
-        analyzerName: KnownLexicalAnalyzerName.ArMicrosoft,
-        indexAnalyzerName: KnownLexicalAnalyzerName.ArLucene,
-        normalizerName: KnownLexicalAnalyzerName.BgLucene,
-        searchAnalyzerName: KnownLexicalAnalyzerName.CaLucene,
+        analyzerName: KnownAnalyzerNames.ArMicrosoft,
+        indexAnalyzerName: KnownAnalyzerNames.ArLucene,
+        searchAnalyzerName: KnownAnalyzerNames.CaLucene,
         synonymMapNames: undefined,
       },
     ]);
@@ -119,10 +114,9 @@ describe("serviceUtils", function () {
       filterable: true,
       facetable: true,
       retrievable: false,
-      analyzer: KnownLexicalAnalyzerName.ArMicrosoft,
-      indexAnalyzer: KnownLexicalAnalyzerName.ArLucene,
-      normalizer: KnownLexicalAnalyzerName.BgLucene,
-      searchAnalyzer: KnownLexicalAnalyzerName.CaLucene,
+      analyzer: KnownAnalyzerNames.ArMicrosoft,
+      indexAnalyzer: KnownAnalyzerNames.ArLucene,
+      searchAnalyzer: KnownAnalyzerNames.CaLucene,
       synonymMaps: undefined,
     });
   });
@@ -142,10 +136,9 @@ describe("serviceUtils", function () {
             filterable: true,
             facetable: true,
             hidden: true,
-            analyzerName: KnownLexicalAnalyzerName.ArMicrosoft,
-            indexAnalyzerName: KnownLexicalAnalyzerName.ArLucene,
-            normalizerName: KnownLexicalAnalyzerName.BgLucene,
-            searchAnalyzerName: KnownLexicalAnalyzerName.CaLucene,
+            analyzerName: KnownAnalyzerNames.ArMicrosoft,
+            indexAnalyzerName: KnownAnalyzerNames.ArLucene,
+            searchAnalyzerName: KnownAnalyzerNames.CaLucene,
             synonymMapNames: undefined,
           },
         ],
@@ -166,10 +159,9 @@ describe("serviceUtils", function () {
       filterable: true,
       facetable: true,
       retrievable: false,
-      analyzer: KnownLexicalAnalyzerName.ArMicrosoft,
-      indexAnalyzer: KnownLexicalAnalyzerName.ArLucene,
-      normalizer: KnownLexicalAnalyzerName.BgLucene,
-      searchAnalyzer: KnownLexicalAnalyzerName.CaLucene,
+      analyzer: KnownAnalyzerNames.ArMicrosoft,
+      indexAnalyzer: KnownAnalyzerNames.ArLucene,
+      searchAnalyzer: KnownAnalyzerNames.CaLucene,
       synonymMaps: undefined,
     });
   });

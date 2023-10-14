@@ -9,25 +9,28 @@
 import * as coreClient from "@azure/core-client";
 import * as coreHttpCompat from "@azure/core-http-compat";
 import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
+import {
   DataSourcesImpl,
   IndexersImpl,
   SkillsetsImpl,
   SynonymMapsImpl,
-  IndexesImpl,
-  AliasesImpl
+  IndexesImpl
 } from "./operations";
 import {
   DataSources,
   Indexers,
   Skillsets,
   SynonymMaps,
-  Indexes,
-  Aliases
+  Indexes
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
-  ApiVersion20231001Preview,
+  ApiVersion20231101,
   SearchServiceClientOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetServiceStatisticsResponse
@@ -36,7 +39,7 @@ import {
 /** @internal */
 export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
-  apiVersion: ApiVersion20231001Preview;
+  apiVersion: ApiVersion20231101;
 
   /**
    * Initializes a new instance of the SearchServiceClient class.
@@ -46,7 +49,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20231001Preview,
+    apiVersion: ApiVersion20231101,
     options?: SearchServiceClientOptionalParams
   ) {
     if (endpoint === undefined) {
@@ -64,7 +67,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-search-documents/12.0.0-beta.4`;
+    const packageDetails = `azsdk-js-search-documents/12.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -76,7 +79,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -87,7 +90,35 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
     this.skillsets = new SkillsetsImpl(this);
     this.synonymMaps = new SynonymMapsImpl(this);
     this.indexes = new IndexesImpl(this);
-    this.aliases = new AliasesImpl(this);
+    this.addCustomApiVersionPolicy(apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   /**
@@ -108,7 +139,6 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
   skillsets: Skillsets;
   synonymMaps: SynonymMaps;
   indexes: Indexes;
-  aliases: Aliases;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);

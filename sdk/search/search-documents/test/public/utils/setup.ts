@@ -12,17 +12,16 @@ import {
 import { Hotel } from "./interfaces";
 import { delay } from "../../../src/serviceUtils";
 import { assert } from "chai";
-import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { OpenAIClient } from "@azure/openai";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function createIndex(
-  client: SearchIndexClient,
-  name: string,
-  serviceVersion: string
-): Promise<void> {
+export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
+  const algorithmConfigurationName = "algorithm-configuration";
+  const profile = "profile";
+
   const hotelIndex: SearchIndex = {
     name,
     fields: [
@@ -201,6 +200,14 @@ export async function createIndex(
           },
         ],
       },
+      {
+        type: "Collection(Edm.Single)",
+        name: "vectorDescription",
+        searchable: true,
+        vectorSearchDimensions: 1536,
+        hidden: true,
+        vectorSearchProfileName: profile,
+      },
     ],
     suggesters: [
       {
@@ -230,58 +237,31 @@ export async function createIndex(
       // for browser tests
       allowedOrigins: ["*"],
     },
-  };
-
-  if (serviceVersion.includes("Preview")) {
-    const algorithm = "algorithm-configuration";
-    const vectorizer = "vectorizer";
-    const profile = "profile";
-
-    hotelIndex.fields.push({
-      type: "Collection(Edm.Single)",
-      name: "vectorDescription",
-      searchable: true,
-      vectorSearchDimensions: 1536,
-      hidden: true,
-      vectorSearchProfile: profile,
-    });
-
-    hotelIndex.vectorSearch = {
+    vectorSearch: {
       algorithms: [
         {
-          name: algorithm,
+          name: algorithmConfigurationName,
           kind: "exhaustiveKnn",
           parameters: {
             metric: "dotProduct",
           },
         },
       ],
-      vectorizers: [
-        {
-          kind: "azureOpenAI",
-          name: vectorizer,
-          azureOpenAIParameters: {
-            apiKey: env.OPENAI_KEY,
-            deploymentId: env.OPENAI_DEPLOYMENT_NAME,
-            resourceUri: env.OPENAI_ENDPOINT,
-          },
-        },
-      ],
-      profiles: [{ name: profile, vectorizer, algorithm }],
-    };
-    hotelIndex.semanticSettings = {
+      profiles: [{ name: profile, algorithmConfigurationName }],
+    },
+    semanticSearch: {
       configurations: [
         {
           name: "semantic-configuration-name",
           prioritizedFields: {
             titleField: { name: "hotelName" },
-            prioritizedContentFields: [{ name: "description" }],
-            prioritizedKeywordsFields: [{ name: "tags" }],
+            contentFields: [{ name: "description" }],
+            keywordsFields: [{ name: "tags" }],
           },
         },
       ],
-    };
-  }
+    },
+  };
 
   await client.createIndex(hotelIndex);
 }
@@ -289,8 +269,7 @@ export async function createIndex(
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function populateIndex(
   client: SearchClient<Hotel>,
-  openAIClient: OpenAIClient,
-  serviceVersion: string
+  openAIClient: OpenAIClient
 ): Promise<void> {
   // test data from https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/search/Azure.Search.Documents/tests/Utilities/SearchResources.Data.cs
   const testDocuments: Hotel[] = [
@@ -495,7 +474,7 @@ export async function populateIndex(
     },
   ];
 
-  if (serviceVersion.includes("Preview") && !isLiveMode()) {
+  if (!isLiveMode()) {
     await addVectorDescriptions(testDocuments, openAIClient);
   }
 
@@ -516,27 +495,17 @@ async function addVectorDescriptions(
 ): Promise<void> {
   const deploymentName = process.env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
 
-  const descriptionMap: Map<number, Hotel> = documents.reduce((map, document, i) => {
-    map.set(i, document);
-    return map;
-  }, new Map<number, Hotel>());
-
   const descriptions = documents
     .filter(({ description }) => description)
     .map(({ description }) => description!);
 
-  // OpenAI only supports one description at a time at the moment
-  const embeddingsArray = await Promise.all(
-    descriptions.map((description) => openAIClient.getEmbeddings(deploymentName, [description]))
-  );
+  const embeddingsArray = await openAIClient.getEmbeddings(deploymentName, descriptions);
 
-  embeddingsArray.forEach((embeddings, i) =>
-    embeddings.data.forEach((embeddingItem) => {
-      const { embedding, index: j } = embeddingItem;
-      const document = descriptionMap.get(i + j)!;
-      document.vectorDescription = embedding;
-    })
-  );
+  embeddingsArray.data.forEach((embeddingItem) => {
+    const { embedding, index } = embeddingItem;
+    const document = documents[index];
+    document.vectorDescription = embedding;
+  });
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters

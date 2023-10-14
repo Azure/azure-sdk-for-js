@@ -10,13 +10,13 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b62ddd0ffb844fbfb688a04546800d60645a18ef/specification/search/data-plane/Azure.Search/preview/2023-10-01-Preview/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/58e92dd03733bc175e6a9540f4bc53703b57fcc9/specification/search/data-plane/Azure.Search/stable/2023-11-01/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
-  "@autorest/typescript": "6.0.0-alpha.17.20220318.1"
+  "@autorest/typescript": "6.0.11"
 core-http-compat-mode: true
-package-version: 12.0.0-beta.4
+package-version: 12.0.0
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
@@ -99,7 +99,7 @@ directive:
       $.required = ['score', 'key', 'text'];
 ```
 
-### Rename Vector property `K`
+### Renames
 
 ```yaml
 directive:
@@ -108,13 +108,17 @@ directive:
     transform: $["x-ms-client-name"] = "KNearestNeighborsCount";
 ```
 
-### Rename QueryResultDocumentSemanticFieldState
-
-Simplify `QueryResultDocumentSemanticFieldState` name by renaming it to `SemanticFieldState`
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchRequest.properties.semanticConfiguration
+    transform: $["x-ms-client-name"] = "semanticConfigurationName";
+```
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions.QueryResultDocumentSemanticFieldState
-    transform: $["x-ms-enum"].name = "SemanticFieldState";
+    where: $.definitions.RawVectorQuery
+    transform: $["x-ms-client-name"] = "VectorizedQuery";
 ```
+

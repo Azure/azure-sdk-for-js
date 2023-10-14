@@ -11,4 +11,4 @@ stages:
       SupportedClouds: "Preview,UsGov,China"
       CloudConfig:
         Preview:
-          Location: "westcentralus"
+          Location: "eastus2euap"

@@ -3,21 +3,16 @@
 
 import { OperationOptions } from "@azure/core-client";
 import {
-  AnswerResult,
+  QueryAnswerResult,
   AutocompleteMode,
-  CaptionResult,
-  Captions,
+  QueryCaptionResult,
   FacetResult,
   IndexActionType,
   QueryAnswerType,
   QueryCaptionType,
-  QueryLanguage,
-  QueryResultDocumentRerankerInput,
-  QuerySpellerType,
   QueryType,
   ScoringStatistics,
   SearchMode,
-  Speller,
 } from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import GeographyPoint from "./geographyPoint";
@@ -150,7 +145,7 @@ export interface ListSearchResultsPageSettings {
  * Options for retrieving completion text for a partial searchText.
  */
 export type AutocompleteOptions<TModel extends object> = OperationOptions &
-  AutocompleteRequest<TModel>;
+  AutocompleteRequestOptions<TModel>;
 /**
  * Options for committing a full search request.
  */
@@ -164,7 +159,7 @@ export type SearchOptions<
 export type SuggestOptions<
   TModel extends object,
   TFields extends SelectFields<TModel> = SelectFields<TModel>
-> = OperationOptions & SuggestRequest<TModel, TFields>;
+> = OperationOptions & SuggestRequestOptions<TModel, TFields>;
 
 /**
  * An iterator for search results of a paticular query. Will make requests
@@ -180,7 +175,7 @@ export type SearchIterator<
   ListSearchResultsPageSettings
 >;
 
-export type VectorQueryKind = "vector" | "text";
+export type VectorQueryKind = "vector";
 
 /**
  * Determines whether or not filters are applied before or after the vector search is performed.
@@ -188,9 +183,7 @@ export type VectorQueryKind = "vector" | "text";
 export type VectorFilterMode = "postFilter" | "preFilter";
 
 /** The query parameters for vector and hybrid search queries. */
-export type VectorQuery<TModel extends object> =
-  | RawVectorQuery<TModel>
-  | VectorizableTextQuery<TModel>;
+export type VectorQuery<TModel extends object> = VectorizedQuery<TModel>;
 
 /** The query parameters for vector and hybrid search queries. */
 export interface BaseVectorQuery<TModel extends object> {
@@ -205,19 +198,11 @@ export interface BaseVectorQuery<TModel extends object> {
 }
 
 /** The query parameters to use for vector search when a raw vector value is provided. */
-export interface RawVectorQuery<TModel extends object> extends BaseVectorQuery<TModel> {
+export interface VectorizedQuery<TModel extends object> extends BaseVectorQuery<TModel> {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "vector";
   /** The vector representation of a search query. */
-  vector?: number[];
-}
-
-/** The query parameters to use for vector search when a text value that needs to be vectorized is provided. */
-export interface VectorizableTextQuery<TModel extends object> extends BaseVectorQuery<TModel> {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "text";
-  /** The text to be vectorized to perform a vector search query. */
-  text?: string;
+  vector: number[];
 }
 
 /**
@@ -303,31 +288,6 @@ export interface SearchRequest<TModel extends object = never> {
    */
   scoringProfile?: string;
   /**
-   * Allows setting a separate search query that will be solely used for semantic reranking,
-   * semantic captions and semantic answers. Is useful for scenarios where there is a need to use
-   * different queries between the base retrieval and ranking phase, and the L2 semantic phase.
-   */
-  semanticQuery?: string;
-  /**
-   * The name of a semantic configuration that will be used when processing documents for queries of
-   * type semantic.
-   */
-  semanticConfiguration?: string;
-  /**
-   * Allows the user to choose whether a semantic call should fail completely, or to return partial
-   * results (default).
-   */
-  semanticErrorHandlingMode?: SemanticErrorHandlingMode;
-  /**
-   * Allows the user to set an upper bound on the amount of time it takes for semantic enrichment
-   * to finish processing before the request fails.
-   */
-  semanticMaxWaitInMilliseconds?: number;
-  /**
-   * Enables a debugging tool that can be used to further explore your Semantic search results.
-   */
-  debugMode?: QueryDebugMode;
-  /**
    * A full-text search query expression; Use "*" or omit this parameter to match all documents.
    */
   searchText?: string;
@@ -342,15 +302,6 @@ export interface SearchRequest<TModel extends object = never> {
    * count the document as a match. Possible values include: 'Any', 'All'
    */
   searchMode?: SearchMode;
-  /**
-   * A value that specifies the language of the search query.
-   */
-  queryLanguage?: QueryLanguage;
-  /**
-   * A value that specified the type of the speller to use to spell-correct individual search
-   * query terms.
-   */
-  speller?: QuerySpellerType;
   /**
    * A value that specifies whether answers should be returned as part of the search response.
    */
@@ -378,13 +329,9 @@ export interface SearchRequest<TModel extends object = never> {
    */
   captions?: QueryCaptionType;
   /**
-   * The comma-separated list of field names used for semantic search.
-   */
-  semanticFields?: string;
-  /**
    * The query parameters for vector, hybrid, and multi-vector search queries.
    */
-  vectorQueries?: VectorQuery<TModel>[];
+  vectorQueries?: VectorQuery<TModel>;
   /**
    * Determines whether or not filters are applied before or after the vector search is performed.
    * Default is 'preFilter'.
@@ -395,7 +342,7 @@ export interface SearchRequest<TModel extends object = never> {
 /**
  * Parameters for filtering, sorting, faceting, paging, and other search query behaviors.
  */
-export interface SearchRequestOptions<
+export interface BaseSearchRequestOptions<
   TModel extends object,
   TFields extends SelectFields<TModel> = SelectFields<TModel>
 > {
@@ -462,49 +409,11 @@ export interface SearchRequestOptions<
    */
   scoringProfile?: string;
   /**
-   * Allows setting a separate search query that will be solely used for semantic reranking,
-   * semantic captions and semantic answers. Is useful for scenarios where there is a need to use
-   * different queries between the base retrieval and ranking phase, and the L2 semantic phase.
-   */
-  semanticQuery?: string;
-  /**
-   * The name of a semantic configuration that will be used when processing documents for queries of
-   * type semantic.
-   */
-  semanticConfiguration?: string;
-  /**
-   * Allows the user to choose whether a semantic call should fail completely, or to return
-   * partial results (default).
-   */
-  semanticErrorHandlingMode?: SemanticErrorHandlingMode;
-  /**
-   * Allows the user to set an upper bound on the amount of time it takes for semantic enrichment to finish
-   * processing before the request fails.
-   */
-  semanticMaxWaitInMilliseconds?: number;
-  /**
-   * Enables a debugging tool that can be used to further explore your search results.
-   */
-  debugMode?: QueryDebugMode;
-  /**
    * The comma-separated list of field names to which to scope the full-text search. When using
    * fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each
    * fielded search expression take precedence over any field names listed in this parameter.
    */
   searchFields?: SearchFieldArray<TModel>;
-  /**
-   * The language of the query.
-   */
-  queryLanguage?: QueryLanguage;
-  /**
-   * Improve search recall by spell-correcting individual search query terms.
-   */
-  speller?: Speller;
-  /**
-   * This parameter is only valid if the query type is 'semantic'. If set, the query returns answers
-   * extracted from key passages in the highest ranked documents.
-   */
-  answers?: Answers | AnswersOptions;
   /**
    * A value that specifies whether any or all of the search terms must be matched in order to
    * count the document as a match. Possible values include: 'any', 'all'
@@ -542,27 +451,23 @@ export interface SearchRequestOptions<
    * Search request for the next page of results.
    */
   top?: number;
-  /**
-   * This parameter is only valid if the query type is 'semantic'. If set, the query returns captions
-   * extracted from key passages in the highest ranked documents. When Captions is set to 'extractive',
-   * highlighting is enabled by default, and can be configured by appending the pipe character '|'
-   * followed by the 'highlight-true'/'highlight-false' option, such as 'extractive|highlight-true'. Defaults to 'None'.
-   */
-  captions?: Captions;
-  /**
-   * The list of field names used for semantic search.
-   */
-  semanticFields?: string[];
-  /**
-   * The query parameters for vector and hybrid search queries.
-   */
-  vectorQueries?: VectorQuery<TModel>[];
-  /**
-   * Determines whether or not filters are applied before or after the vector search is performed.
-   * Default is 'preFilter'.
-   */
-  vectorFilterMode?: VectorFilterMode;
+  vectorSearchOptions?: VectorSearchOptions<TModel>;
 }
+
+/**
+ * Parameters for filtering, sorting, faceting, paging, and other search query behaviors.
+ */
+export type SearchRequestOptions<
+  TModel extends object,
+  TFields extends SelectFields<TModel> = SelectFields<TModel>
+> = BaseSearchRequestOptions<TModel, TFields> & SearchRequestQueryTypeOptions;
+
+export type SearchRequestQueryTypeOptions =
+  | {
+      queryType: "semantic";
+      semanticSearchOptions: SemanticSearchOptions;
+    }
+  | { queryType?: "simple" | "full" };
 
 /**
  * Contains a document found by a search query, plus associated metadata.
@@ -591,15 +496,9 @@ export type SearchResult<
    * Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly captions?: CaptionResult[];
+  readonly captions?: QueryCaptionResult[];
 
   document: NarrowedModel<TModel, TFields>;
-
-  /**
-   * Contains debugging information that can be used to further explore your search results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly documentDebugInfo?: DocumentDebugInfo[];
 };
 
 /**
@@ -631,17 +530,17 @@ export interface SearchDocumentsResultBase {
    * not specified or set to 'none'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly answers?: AnswerResult[];
+  readonly answers?: QueryAnswerResult[];
   /**
    * Reason that a partial response was returned for a semantic search request.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly semanticPartialResponseReason?: SemanticPartialResponseReason;
+  readonly semanticErrorReason?: SemanticErrorReason;
   /**
    * Type of partial response that was returned for a semantic search request.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly semanticPartialResponseType?: SemanticPartialResponseType;
+  readonly semanticSearchResultsType?: SemanticSearchResultsType;
 }
 
 /**
@@ -680,7 +579,7 @@ export interface SearchDocumentsPageResult<
 /**
  * Parameters for filtering, sorting, fuzzy matching, and other suggestions query behaviors.
  */
-export interface SuggestRequest<
+export interface SuggestRequestOptions<
   TModel extends object,
   TFields extends SelectFields<TModel> = SelectFields<TModel>
 > {
@@ -778,7 +677,7 @@ export interface SuggestDocumentsResult<
 /**
  * Parameters for fuzzy matching, and other autocomplete query behaviors.
  */
-export interface AutocompleteRequest<TModel extends object> {
+export interface AutocompleteRequestOptions<TModel extends object> {
   /**
    * Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles
    * and 'oneTermWithContext' to use the current context while producing auto-completed terms.
@@ -830,13 +729,13 @@ export interface AutocompleteRequest<TModel extends object> {
 /**
  * Represents an index action that operates on a document.
  */
-export type IndexDocumentsAction<T> = {
+export type IndexDocumentsAction<TModel> = {
   /**
    * The operation to perform on a document in an indexing batch. Possible values include:
    * 'upload', 'merge', 'mergeOrUpload', 'delete'
    */
   __actionType: IndexActionType;
-} & Partial<T>;
+} & Partial<TModel>;
 
 // END manually modified generated interfaces
 
@@ -1035,93 +934,42 @@ export type SuggestNarrowedModel<
   : // Unreachable by construction
     never;
 
-/** Description of fields that were sent to the semantic enrichment process, as well as how they were used */
-export interface QueryResultDocumentSemanticField {
-  /**
-   * The name of the field that was sent to the semantic enrichment process
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The way the field was used for the semantic enrichment process (fully used, partially used, or unused)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: SemanticFieldState;
-}
-
-/** Contains debugging information that can be used to further explore your search results. */
-export interface DocumentDebugInfo {
-  /**
-   * Contains debugging information specific to semantic search queries.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly semantic?: SemanticDebugInfo;
-}
-
 /**
- * Debug options for semantic search queries.
+ * Extracts answer candidates from the contents of the documents returned in response to a query
+ * expressed as a question in natural language.
  */
-export interface SemanticDebugInfo {
+export type ExtractiveQueryAnswer = {
+  answerType: "extractive";
   /**
-   * The title field that was sent to the semantic enrichment process, as well as how it was used
-   * NOTE: This property will not be serialized. It can only be populated by the server.
+   * The number of answers returned. Default count is 1
    */
-  readonly titleField?: QueryResultDocumentSemanticField;
+  count?: number;
   /**
-   * The content fields that were sent to the semantic enrichment process, as well as how they were used
-   * NOTE: This property will not be serialized. It can only be populated by the server.
+   * The confidence threshold. Default threshold is 0.7
    */
-  readonly contentFields?: QueryResultDocumentSemanticField[];
-  /**
-   * The keyword fields that were sent to the semantic enrichment process, as well as how they were used
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly keywordFields?: QueryResultDocumentSemanticField[];
-  /**
-   * The raw concatenated strings that were sent to the semantic enrichment process.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rerankerInput?: QueryResultDocumentRerankerInput;
-}
-
-/**
- * This parameter is only valid if the query type is 'semantic'. If set, the query returns answers
- * extracted from key passages in the highest ranked documents. The number of answers returned can
- * be configured by appending the pipe character '|' followed by the 'count-\<number of answers\>' option
- * after the answers parameter value, such as 'extractive|count-3'. Default count is 1. The
- * confidence threshold can be configured by appending the pipe character '|' followed by the
- * 'threshold-\<confidence threshold\>' option after the answers parameter value, such as
- * 'extractive|threshold-0.9'. Default threshold is 0.7.
- */
-export type Answers = string;
+  threshold?: number;
+};
 
 /**
  * A value that specifies whether answers should be returned as part of the search response.
  * This parameter is only valid if the query type is 'semantic'. If set to `extractive`, the query
  * returns answers extracted from key passages in the highest ranked documents.
  */
-export type AnswersOptions =
-  | {
-      /**
-       * Extracts answer candidates from the contents of the documents returned in response to a
-       * query expressed as a question in natural language.
-       */
-      answers: "extractive";
-      /**
-       * The number of answers returned. Default count is 1
-       */
-      count?: number;
-      /**
-       * The confidence threshold. Default threshold is 0.7
-       */
-      threshold?: number;
-    }
-  | {
-      /**
-       * Do not return answers for the query.
-       */
-      answers: "none";
-    };
+export type QueryAnswer = ExtractiveQueryAnswer;
+
+/** Extracts captions from the matching documents that contain passages relevant to the search query. */
+export type ExtractiveQueryCaption = {
+  captionType: "extractive";
+  highlight?: boolean;
+};
+
+/**
+ * A value that specifies whether captions should be returned as part of the search response.
+ * This parameter is only valid if the query type is 'semantic'. If set, the query returns captions
+ * extracted from key passages in the highest ranked documents. When Captions is 'extractive',
+ * highlighting is enabled by default. Defaults to 'none'.
+ */
+export type QueryCaption = ExtractiveQueryCaption;
 
 /**
  * maxWaitExceeded: If 'semanticMaxWaitInMilliseconds' was set and the semantic processing duration
@@ -1131,7 +979,7 @@ export type AnswersOptions =
  *
  * transient: At least one step of the semantic process failed.
  */
-export type SemanticPartialResponseReason = "maxWaitExceeded" | "capacityOverloaded" | "transient";
+export type SemanticErrorReason = "maxWaitExceeded" | "capacityOverloaded" | "transient";
 
 /**
  * baseResults: Results without any semantic enrichment or reranking.
@@ -1139,14 +987,7 @@ export type SemanticPartialResponseReason = "maxWaitExceeded" | "capacityOverloa
  * rerankedResults: Results have been reranked with the reranker model and will include semantic
  * captions. They will not include any answers, answers highlights or caption highlights.
  */
-export type SemanticPartialResponseType = "baseResults" | "rerankedResults";
-
-/**
- * disabled: No query debugging information will be returned.
- *
- * semantic: Allows the user to further explore their Semantic search results.
- */
-export type QueryDebugMode = "disabled" | "semantic";
+export type SemanticSearchResultsType = "baseResults" | "rerankedResults";
 
 /**
  * partial: If the semantic processing fails, partial results still return. The definition of
@@ -1155,13 +996,44 @@ export type QueryDebugMode = "disabled" | "semantic";
  * fail: If there is an exception during the semantic processing step, the query will fail and
  * return the appropriate HTTP code depending on the error.
  */
-export type SemanticErrorHandlingMode = "partial" | "fail";
+export type SemanticErrorMode = "partial" | "fail";
 
-/**
- * used: The field was fully used for semantic enrichment.
- *
- * unused: The field was not used for semantic enrichment.
- *
- * partial: The field was partially used for semantic enrichment.
- */
-export type SemanticFieldState = "used" | "unused" | "partial";
+export interface SemanticSearchOptions {
+  /**
+   * The name of a semantic configuration that will be used when processing documents for queries of
+   * type semantic.
+   */
+  configurationName?: string;
+  /**
+   * Allows the user to choose whether a semantic call should fail completely, or to return partial
+   * results (default).
+   */
+  errorMode?: SemanticErrorMode;
+  /**
+   * Allows the user to set an upper bound on the amount of time it takes for semantic enrichment
+   * to finish processing before the request fails.
+   */
+  maxWaitInMilliseconds?: number;
+  /**
+   * If set, the query returns answers extracted from key passages in the highest ranked documents.
+   */
+  answers?: QueryAnswer;
+  /**
+   * If set, the query returns captions extracted from key passages in the highest ranked
+   * documents. When Captions is set to 'extractive', highlighting is enabled by default. Defaults
+   * to 'None'.
+   */
+  captions?: QueryCaption;
+}
+
+export interface VectorSearchOptions<TModel extends object> {
+  /**
+   * The query parameters for vector, hybrid, and multi-vector search queries.
+   */
+  queries: VectorQuery<TModel>[];
+  /**
+   * Determines whether or not filters are applied before or after the vector search is performed.
+   * Default is 'preFilter'.
+   */
+  filterMode?: VectorFilterMode;
+}

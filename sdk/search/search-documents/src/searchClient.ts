@@ -13,16 +13,14 @@ import {
   AutocompleteRequest,
   AutocompleteResult,
   IndexDocumentsResult,
-  KnownSemanticPartialResponseReason,
-  KnownSemanticPartialResponseType,
+  KnownSemanticErrorReason,
+  KnownSemanticSearchResultsType,
   SuggestRequest,
   SearchRequest as GeneratedSearchRequest,
-  Answers,
-  QueryAnswerType,
+  QueryAnswerType as BaseAnswers,
   VectorQueryUnion as GeneratedVectorQuery,
-  VectorQuery as GeneratedBaseVectorQuery,
-  RawVectorQuery as GeneratedRawVectorQuery,
-  VectorizableTextQuery as GeneratedVectorizableTextQuery,
+  VectorQuery as GeneratedRawVectorQuery,
+  QueryCaptionType as BaseCaptions,
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
 import { deserialize, serialize } from "./serialization";
@@ -39,7 +37,6 @@ import {
   SearchDocumentsResult,
   SearchIterator,
   SearchOptions,
-  SearchRequest,
   SelectFields,
   SearchResult,
   SuggestDocumentsResult,
@@ -48,11 +45,11 @@ import {
   NarrowedModel,
   SelectArray,
   SearchFieldArray,
-  AnswersOptions,
-  BaseVectorQuery,
-  RawVectorQuery,
-  VectorizableTextQuery,
   VectorQuery,
+  QueryAnswer,
+  QueryCaption,
+  SemanticSearchOptions,
+  VectorizedQuery,
 } from "./indexModels";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -315,32 +312,41 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   private async searchDocuments<TFields extends SelectFields<TModel>>(
     searchText?: string,
     options: SearchOptions<TModel, TFields> = {},
-    nextPageParameters: SearchRequest<TModel> = {}
+    nextPageParameters: GeneratedSearchRequest = {}
   ): Promise<SearchDocumentsPageResult<TModel, TFields>> {
     const {
       searchFields,
-      semanticFields,
       select,
       orderBy,
       includeTotalCount,
-      vectorQueries,
-      answers,
-      semanticErrorHandlingMode,
-      debugMode,
+      vectorSearchOptions,
       ...restOptions
     } = options;
+
+    const semanticSearchOptions: SemanticSearchOptions | undefined = (restOptions as any)
+      .semanticSearchOptions;
+
+    delete (restOptions as any).semanticSearchOptions;
+
+    const { configurationName, errorMode, answers, captions, ...restSemanticOptions } =
+      semanticSearchOptions ?? {};
+    const { queries, filterMode, ...restVectorOptions } = vectorSearchOptions ?? {};
+
     const fullOptions: GeneratedSearchRequest = {
+      ...restSemanticOptions,
+      ...restVectorOptions,
       ...restOptions,
       ...nextPageParameters,
       searchFields: this.convertSearchFields(searchFields),
-      semanticFields: this.convertSemanticFields(semanticFields),
       select: this.convertSelect<TFields>(select) || "*",
       orderBy: this.convertOrderBy(orderBy),
       includeTotalResultCount: includeTotalCount,
-      vectorQueries: vectorQueries?.map(this.convertVectorQuery.bind(this)),
-      answers: this.convertAnswers(answers),
-      semanticErrorHandling: semanticErrorHandlingMode,
-      debug: debugMode,
+      vectorQueries: queries?.map(this.convertVectorQuery.bind(this)),
+      answers: this.convertQueryAnswers(answers),
+      captions: this.convertCaptions(captions),
+      semanticErrorHandling: errorMode,
+      semanticConfigurationName: configurationName,
+      vectorFilterMode: filterMode,
     };
 
     const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", options);
@@ -358,8 +364,8 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
         results,
         nextLink,
         nextPageParameters: resultNextPageParameters,
-        semanticPartialResponseReason,
-        semanticPartialResponseType,
+        semanticPartialResponseReason: semanticErrorReason,
+        semanticPartialResponseType: semanticSearchResultsType,
         ...restResult
       } = result;
 
@@ -370,16 +376,9 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       const converted: SearchDocumentsPageResult<TModel, TFields> = {
         ...restResult,
         results: modifiedResults,
-        semanticPartialResponseReason:
-          semanticPartialResponseReason as `${KnownSemanticPartialResponseReason}`,
-        semanticPartialResponseType:
-          semanticPartialResponseType as `${KnownSemanticPartialResponseType}`,
-        continuationToken: this.encodeContinuationToken(
-          nextLink,
-          resultNextPageParameters
-            ? utils.generatedSearchRequestToPublicSearchRequest(resultNextPageParameters)
-            : resultNextPageParameters
-        ),
+        semanticErrorReason: semanticErrorReason as `${KnownSemanticErrorReason}`,
+        semanticSearchResultsType: semanticSearchResultsType as `${KnownSemanticSearchResultsType}`,
+        continuationToken: this.encodeContinuationToken(nextLink, resultNextPageParameters),
       };
 
       return deserialize<SearchDocumentsPageResult<TModel, TFields>>(converted);
@@ -605,7 +604,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     try {
       const result = await this.client.documents.get(key, {
         ...updatedOptions,
-        selectedFields: updatedOptions.selectedFields as string[],
+        selectedFields: updatedOptions.selectedFields as string[] | undefined, // todo: make sure undefined is in beta
       });
       return deserialize<NarrowedModel<TModel, TFields>>(result);
     } catch (e: any) {
@@ -798,7 +797,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   private encodeContinuationToken(
     nextLink: string | undefined,
-    nextPageParameters: SearchRequest<TModel> | undefined
+    nextPageParameters: GeneratedSearchRequest | undefined
   ): string | undefined {
     if (!nextLink || !nextPageParameters) {
       return undefined;
@@ -813,7 +812,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   private decodeContinuationToken(
     token?: string
-  ): { nextPageParameters: SearchRequest<TModel>; nextLink: string } | undefined {
+  ): { nextPageParameters: GeneratedSearchRequest; nextLink: string } | undefined {
     if (!token) {
       return undefined;
     }
@@ -824,7 +823,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       const result: {
         apiVersion: string;
         nextLink: string;
-        nextPageParameters: SearchRequest<TModel>;
+        nextPageParameters: GeneratedSearchRequest;
       } = JSON.parse(decodedToken);
 
       if (result.apiVersion !== this.apiVersion) {
@@ -863,13 +862,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     return searchFields;
   }
 
-  private convertSemanticFields(semanticFields?: string[]): string | undefined {
-    if (semanticFields) {
-      return semanticFields.join(",");
-    }
-    return semanticFields;
-  }
-
   private convertOrderBy(orderBy?: string[]): string | undefined {
     if (orderBy) {
       return orderBy.join(",");
@@ -877,16 +869,13 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     return orderBy;
   }
 
-  private convertAnswers(answers?: Answers | AnswersOptions): QueryAnswerType | undefined {
-    if (!answers || typeof answers === "string") {
+  private convertQueryAnswers(answers?: QueryAnswer): BaseAnswers | undefined {
+    if (!answers) {
       return answers;
-    }
-    if (answers.answers === "none") {
-      return answers.answers;
     }
 
     const config = [];
-    const { answers: output, count, threshold } = answers;
+    const { answerType: output, count, threshold } = answers;
 
     if (count) {
       config.push(`count-${count}`);
@@ -903,12 +892,27 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     return output;
   }
 
+  private convertCaptions(captions?: QueryCaption): BaseCaptions | undefined {
+    if (!captions) {
+      return captions;
+    }
+
+    const config = [];
+    const { captionType: output, highlight } = captions;
+
+    if (highlight !== undefined) {
+      config.push(`highlight-${highlight}`);
+    }
+
+    if (config.length) {
+      return output + `|${config.join(",")}`;
+    }
+
+    return output;
+  }
+
   private convertVectorQuery(): undefined;
-  private convertVectorQuery(vectorQuery: RawVectorQuery<TModel>): GeneratedRawVectorQuery;
-  private convertVectorQuery(
-    vectorQuery: VectorizableTextQuery<TModel>
-  ): GeneratedVectorizableTextQuery;
-  private convertVectorQuery(vectorQuery: BaseVectorQuery<TModel>): GeneratedBaseVectorQuery;
+  private convertVectorQuery(vectorQuery: VectorizedQuery<TModel>): GeneratedRawVectorQuery;
   private convertVectorQuery(vectorQuery: VectorQuery<TModel>): GeneratedVectorQuery;
   private convertVectorQuery(vectorQuery?: VectorQuery<TModel>): GeneratedVectorQuery | undefined {
     if (!vectorQuery) {
