@@ -5,11 +5,7 @@
 
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { InternalClientPipelineOptions } from "@azure/core-client";
-import {
-  LogPolicyOptions,
-  UserAgentPolicyOptions,
-  bearerTokenAuthenticationPolicy,
-} from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { AnalyzeResult } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
@@ -41,7 +37,6 @@ import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { SearchClientOptions as GetSearchClientOptions, SearchClient } from "./searchClient";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import { KnownSearchAudience } from "./searchAudience";
-import { SDK_VERSION } from "./constants";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -49,8 +44,14 @@ import { SDK_VERSION } from "./constants";
 export interface SearchIndexClientOptions extends ExtendedCommonClientOptions {
   /**
    * The API version to use when communicating with the service.
+   * @deprecated use {@Link serviceVersion} instead
    */
   apiVersion?: string;
+
+  /**
+   * The service version to use when communicating with the service.
+   */
+  serviceVersion?: string;
 
   /**
    * The Audience to use for authentication with Azure Active Directory (AAD). The
@@ -68,6 +69,12 @@ export interface SearchIndexClientOptions extends ExtendedCommonClientOptions {
 export class SearchIndexClient {
   /**
    * The API version to use when communicating with the service.
+   */
+  public readonly serviceVersion: string = utils.defaultServiceVersion;
+
+  /**
+   * The API version to use when communicating with the service.
+   * @deprecated use {@Link serviceVersion} instead
    */
   public readonly apiVersion: string = utils.defaultServiceVersion;
 
@@ -118,37 +125,30 @@ export class SearchIndexClient {
     this.credential = credential;
     this.options = options;
 
-    const libInfo = `azsdk-js-search-documents/${SDK_VERSION}`;
-    const userAgentOptions: UserAgentPolicyOptions = {
-      ...this.options.userAgentOptions,
-      userAgentPrefix: this.options.userAgentOptions?.userAgentPrefix
-        ? `${this.options.userAgentOptions.userAgentPrefix} ${libInfo}`
-        : libInfo,
-    };
-
-    const loggingOptions: LogPolicyOptions = {
-      logger: logger.info,
-      additionalAllowedHeaderNames: [
-        "elapsed-time",
-        "Location",
-        "OData-MaxVersion",
-        "OData-Version",
-        "Prefer",
-        "throttle-reason",
-      ],
-    };
-
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...this.options,
-      userAgentOptions,
-      loggingOptions,
+      ...{
+        loggingOptions: {
+          logger: logger.info,
+          additionalAllowedHeaderNames: [
+            "elapsed-time",
+            "Location",
+            "OData-MaxVersion",
+            "OData-Version",
+            "Prefer",
+            "throttle-reason",
+          ],
+        },
+      },
     };
 
-    this.apiVersion = options.apiVersion ?? utils.defaultServiceVersion;
+    this.serviceVersion =
+      this.options.serviceVersion ?? this.options.apiVersion ?? utils.defaultServiceVersion;
+    this.apiVersion = this.serviceVersion;
 
     this.client = new GeneratedClient(
       this.endpoint,
-      this.apiVersion,
+      this.serviceVersion,
       internalClientPipelineOptions
     );
 
@@ -571,7 +571,15 @@ export class SearchIndexClient {
    * @param options - Additional arguments
    */
   public async analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult> {
-    const { abortSignal, requestOptions, tracingOptions, ...restOptions } = options;
+    const {
+      abortSignal,
+      requestOptions,
+      tracingOptions,
+      analyzerName: analyzer,
+      tokenizerName: tokenizer,
+      ...restOptions
+    } = options;
+
     const operationOptions = {
       abortSignal,
       requestOptions,
@@ -579,14 +587,11 @@ export class SearchIndexClient {
     };
 
     const { span, updatedOptions } = createSpan("SearchIndexClient-analyzeText", operationOptions);
+
     try {
       const result = await this.client.indexes.analyze(
         indexName,
-        {
-          ...restOptions,
-          analyzer: restOptions.analyzerName,
-          tokenizer: restOptions.tokenizerName,
-        },
+        { ...restOptions, analyzer, tokenizer },
         updatedOptions
       );
       return result;
@@ -632,7 +637,7 @@ export class SearchIndexClient {
    * be marked optional and nullable, and the key property should have the
    * non-nullable type `string`.
    */
-  public getSearchClient<TModel>(
+  public getSearchClient<TModel extends object>(
     indexName: string,
     options?: GetSearchClientOptions
   ): SearchClient<TModel> {

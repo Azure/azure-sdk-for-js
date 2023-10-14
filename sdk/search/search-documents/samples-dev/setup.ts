@@ -6,13 +6,13 @@
  * @azsdk-util
  */
 
-import { SearchIndexClient, SearchIndex, KnownAnalyzerNames } from "@azure/search-documents";
+import { SearchIndexClient, SearchIndex, KnownLexicalAnalyzerNames } from "@azure/search-documents";
 import { Hotel } from "./interfaces";
 
 export const WAIT_TIME = 4000;
 
 export const documentKeyRetriever: (document: Hotel) => string = (document: Hotel): string => {
-  return document.hotelId;
+  return document.hotelId!;
 };
 
 /**
@@ -47,13 +47,27 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         type: "Edm.String",
         name: "description",
         searchable: true,
-        analyzerName: KnownAnalyzerNames.EnLucene,
+        analyzerName: KnownLexicalAnalyzerNames.EnLucene,
+      },
+      {
+        type: "Collection(Edm.Single)",
+        name: "descriptionVectorEn",
+        searchable: true,
+        vectorSearchDimensions: 1536,
+        vectorSearchProfileName: "vector-search-profile",
+      },
+      {
+        type: "Collection(Edm.Single)",
+        name: "descriptionVectorFr",
+        searchable: true,
+        vectorSearchDimensions: 1536,
+        vectorSearchProfileName: "vector-search-profile",
       },
       {
         type: "Edm.String",
         name: "descriptionFr",
         searchable: true,
-        analyzerName: KnownAnalyzerNames.FrLucene,
+        analyzerName: KnownLexicalAnalyzerNames.FrLucene,
       },
       {
         type: "Edm.String",
@@ -155,13 +169,13 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             type: "Edm.String",
             name: "description",
             searchable: true,
-            analyzerName: KnownAnalyzerNames.EnLucene,
+            analyzerName: KnownLexicalAnalyzerNames.EnLucene,
           },
           {
             type: "Edm.String",
             name: "descriptionFr",
             searchable: true,
-            analyzerName: KnownAnalyzerNames.FrLucene,
+            analyzerName: KnownLexicalAnalyzerNames.FrLucene,
           },
           {
             type: "Edm.String",
@@ -232,6 +246,15 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
     corsOptions: {
       // for browser tests
       allowedOrigins: ["*"],
+    },
+    vectorSearch: {
+      algorithms: [{ name: "vector-search-algorithm", kind: "hnsw" }],
+      profiles: [
+        {
+          name: "vector-search-profile",
+          algorithmConfigurationName: "vector-search-algorithm",
+        },
+      ],
     },
   };
   await client.createIndex(hotelIndex);

@@ -3,11 +3,7 @@
 
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { InternalClientPipelineOptions } from "@azure/core-client";
-import {
-  LogPolicyOptions,
-  UserAgentPolicyOptions,
-  bearerTokenAuthenticationPolicy,
-} from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SearchIndexerStatus } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
@@ -40,7 +36,6 @@ import { createSpan } from "./tracing";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import { KnownSearchAudience } from "./searchAudience";
-import { SDK_VERSION } from "./constants";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -48,8 +43,14 @@ import { SDK_VERSION } from "./constants";
 export interface SearchIndexerClientOptions extends ExtendedCommonClientOptions {
   /**
    * The API version to use when communicating with the service.
+   * @deprecated use {@Link serviceVersion} instead
    */
   apiVersion?: string;
+
+  /**
+   * The service version to use when communicating with the service.
+   */
+  serviceVersion?: string;
 
   /**
    * The Audience to use for authentication with Azure Active Directory (AAD). The
@@ -67,6 +68,12 @@ export interface SearchIndexerClientOptions extends ExtendedCommonClientOptions 
 export class SearchIndexerClient {
   /**
    * The API version to use when communicating with the service.
+   */
+  public readonly serviceVersion: string = utils.defaultServiceVersion;
+
+  /**
+   * The API version to use when communicating with the service.
+   * @deprecated use {@Link serviceVersion} instead
    */
   public readonly apiVersion: string = utils.defaultServiceVersion;
 
@@ -105,37 +112,30 @@ export class SearchIndexerClient {
   ) {
     this.endpoint = endpoint;
 
-    const libInfo = `azsdk-js-search-documents/${SDK_VERSION}`;
-    const userAgentOptions: UserAgentPolicyOptions = {
-      ...options.userAgentOptions,
-      userAgentPrefix: options.userAgentOptions?.userAgentPrefix
-        ? `${options.userAgentOptions.userAgentPrefix} ${libInfo}`
-        : libInfo,
-    };
-
-    const loggingOptions: LogPolicyOptions = {
-      logger: logger.info,
-      additionalAllowedHeaderNames: [
-        "elapsed-time",
-        "Location",
-        "OData-MaxVersion",
-        "OData-Version",
-        "Prefer",
-        "throttle-reason",
-      ],
-    };
-
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...options,
-      userAgentOptions,
-      loggingOptions,
+      ...{
+        loggingOptions: {
+          logger: logger.info,
+          additionalAllowedHeaderNames: [
+            "elapsed-time",
+            "Location",
+            "OData-MaxVersion",
+            "OData-Version",
+            "Prefer",
+            "throttle-reason",
+          ],
+        },
+      },
     };
 
-    this.apiVersion = options.apiVersion ?? utils.defaultServiceVersion;
+    this.serviceVersion =
+      options.serviceVersion ?? options.apiVersion ?? utils.defaultServiceVersion;
+    this.apiVersion = this.serviceVersion;
 
     this.client = new GeneratedClient(
       this.endpoint,
-      this.apiVersion,
+      this.serviceVersion,
       internalClientPipelineOptions
     );
 

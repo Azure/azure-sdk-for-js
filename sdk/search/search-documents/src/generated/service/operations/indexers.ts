@@ -10,7 +10,7 @@ import { Indexers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SearchServiceClientContext } from "../searchServiceClientContext";
+import { SearchServiceClient } from "../searchServiceClient";
 import {
   IndexersResetOptionalParams,
   IndexersRunOptionalParams,
@@ -28,15 +28,15 @@ import {
   IndexersGetStatusResponse
 } from "../models";
 
-/** Class representing a Indexers. */
+/** Class containing Indexers operations. */
 export class IndexersImpl implements Indexers {
-  private readonly client: SearchServiceClientContext;
+  private readonly client: SearchServiceClient;
 
   /**
    * Initialize a new instance of the class Indexers class.
    * @param client Reference to the service client
    */
-  constructor(client: SearchServiceClientContext) {
+  constructor(client: SearchServiceClient) {
     this.client = client;
   }
 

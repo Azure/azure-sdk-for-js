@@ -10,18 +10,17 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/service
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d95c18e2d5fc678a1453c454d746fdce22d30122/specification/search/data-plane/Azure.Search/preview/2020-06-30/searchservice.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/58e92dd03733bc175e6a9540f4bc53703b57fcc9/specification/search/data-plane/Azure.Search/stable/2023-11-01/searchservice.json
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "6.0.0-alpha.20210527.9"
+  "@autorest/typescript": "6.0.11"
 core-http-compat-mode: true
-package-version: 11.3.4
+package-version: 12.0.0
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
 hide-clients: true
 use-core-v2: true
-openapi-type: default
 ```
 
 ## Customizations for Track 2 Generator
@@ -73,58 +72,6 @@ directive:
         }
       }
       $.parameters = newParameters;
-```
-
-### Add support for collection types
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.SearchFieldDataType
-    transform: >
-      if ($["x-ms-enum"].values.length === 8) {
-        const newValues = $["x-ms-enum"].values.slice(0);
-        newValues.push({
-          "value": "Collection(Edm.String)",
-          "name": "Collection(Edm.String)"
-        });
-        newValues.push({
-          "value": "Collection(Edm.Int32)",
-          "name": "Collection(Edm.Int32)"
-        });
-        newValues.push({
-          "value": "Collection(Edm.Int64)",
-          "name": "Collection(Edm.Int64)"
-        });
-        newValues.push({
-          "value": "Collection(Edm.Double)",
-          "name": "Collection(Edm.Double)"
-        });
-        newValues.push({
-          "value": "Collection(Edm.Boolean)",
-          "name": "Collection(Edm.Boolean)"
-        });
-        newValues.push({
-          "value": "Collection(Edm.DateTimeOffset)",
-          "name": "Collection(Edm.DateTimeOffset)"
-        });
-        newValues.push({
-          "value": "Collection(Edm.GeographyPoint)",
-          "name": "Collection(Edm.GeographyPoint)"
-        });
-        newValues.push({
-          "value": "Collection(Edm.ComplexType)",
-          "name": "Collection(Edm.ComplexType)"
-        });
-        $["x-ms-enum"].values = newValues;
-      }
-      if ($.enum.length === 8) {
-        const newValues = $.enum.slice(0);
-        for (let value of $.enum) {
-          newValues.push('Collection('+value+')');
-        }
-        $.enum = newValues;
-      }
 ```
 
 ### Make AnalyzerName a string
@@ -343,25 +290,89 @@ directive:
     $["x-ms-client-name"] = "name";
 ```
 
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchField.properties.dimensions
+    transform: $["x-ms-client-name"] = "vectorSearchDimensions";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.HnswVectorSearchAlgorithmConfiguration
+    transform: $["x-ms-client-name"] = "HnswAlgorithmConfiguration";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.ExhaustiveKnnVectorSearchAlgorithmConfiguration
+    transform: $["x-ms-client-name"] = "ExhaustiveKnnAlgorithmConfiguration";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.PIIDetectionSkill.properties.piiCategories
+    transform: $["x-ms-client-name"] = "categories";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchField.properties.vectorSearchProfile
+    transform: $["x-ms-client-name"] = "vectorSearchProfileName";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SemanticSettings.defaultConfiguration
+    transform: $["x-ms-client-name"] = "defaultConfigurationName";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchIndex.properties.semantic
+    transform: $["x-ms-client-name"] = "semanticSearch";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SemanticSettings
+    transform: $["x-ms-client-name"] = "SemanticSearch";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.VectorSearchProfile.properties.algorithm
+    transform: $["x-ms-client-name"] = "algorithmConfigurationName";
+```
+
 ### Deprecations
 
 ```yaml
 directive:
   from: swagger-document
   where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.EntityRecognitionSkill")]
-  transform: $.description += "\n\n@deprecated EntityRecognitionSkill has been deprecated. See \nhttps://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated";
+  transform: $.description += "\n\n@deprecated";
 ```
 
 ```yaml
 directive:
   from: swagger-document
   where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.SentimentSkill")]
-  transform: $.description += "\n\n@deprecated SentimentSkill has been deprecated. See \nhttps://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated";
+  transform: $.description += "\n\n@deprecated";
 ```
 
 ```yaml
 directive:
   from: swagger-document
   where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.NamedEntityRecognitionSkill")]
-  transform: $.description += "\n\n@deprecated NamedEntityRecognitionSkill has been deprecated. See \nhttps://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated";
+  transform: $.description += "\n\n@deprecated";
 ```
+
