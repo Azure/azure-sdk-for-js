@@ -294,7 +294,6 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     options: OperationOptionsBase = {}
   ): Promise<Long[]> {
     this._throwIfSenderOrConnectionClosed();
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "messages", messages);
     throwTypeErrorIfParameterMissing(
       this._context.connectionId,
       "scheduledEnqueueTimeUtc",
@@ -306,6 +305,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       scheduledEnqueueTimeUtc,
       Date
     );
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "messages", messages);
     const messagesToSchedule = Array.isArray(messages) ? messages : [messages];
 
     for (const message of messagesToSchedule) {

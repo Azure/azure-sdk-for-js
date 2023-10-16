@@ -16,11 +16,11 @@ import { tracingClient } from "../util/tracing";
 const logger = credentialLogger("ClientSecretCredential");
 
 /**
- * Enables authentication to Azure Active Directory using a client secret
+ * Enables authentication to Microsoft Entra ID using a client secret
  * that was generated for an App Registration. More information on how
  * to configure a client secret can be found here:
  *
- * https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-configure-app-access-web-apis#add-credentials-to-your-web-application
+ * https://learn.microsoft.com/azure/active-directory/develop/quickstart-configure-app-access-web-apis#add-credentials-to-your-web-application
  *
  */
 export class ClientSecretCredential implements TokenCredential {
@@ -30,10 +30,10 @@ export class ClientSecretCredential implements TokenCredential {
 
   /**
    * Creates an instance of the ClientSecretCredential with the details
-   * needed to authenticate against Azure Active Directory with a client
+   * needed to authenticate against Microsoft Entra ID with a client
    * secret.
    *
-   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param clientSecret - A client secret that was generated for the App Registration.
    * @param options - Options for configuring the client which makes the authentication request.
@@ -66,7 +66,7 @@ export class ClientSecretCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.

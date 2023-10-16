@@ -22,8 +22,8 @@ require("dotenv").config();
 async function main() {
   // To create an EasmClient, you need your subscription ID, region, and some sort of credential.
   const subscription_id = process.env.SUBSCRIPTION_ID || "";
-  const resource_group = process.env.RESOURCEGROUPNAME || "";
-  const workspace_name = process.env.WORKSPACENAME || "";
+  const resource_group = process.env.RESOURCE_GROUP_NAME || "";
+  const workspace_name = process.env.WORKSPACE_NAME || "";
   const region = process.env.REGION || "";
   const endpoint = `https://${region}.easm.defender.microsoft.com`;
   const credential = new DefaultAzureCredential();
