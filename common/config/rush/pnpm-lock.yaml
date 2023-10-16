@@ -812,6 +812,9 @@ dependencies:
   '@rush-temp/data-tables':
     specifier: file:./projects/data-tables.tgz
     version: file:projects/data-tables.tgz
+  '@rush-temp/defender-easm':
+    specifier: file:./projects/defender-easm.tgz
+    version: file:projects/defender-easm.tgz
   '@rush-temp/dev-tool':
     specifier: file:./projects/dev-tool.tgz
     version: file:projects/dev-tool.tgz
@@ -17737,6 +17740,51 @@ packages:
       typescript: 5.0.4
       util: 0.12.5
       uuid: 8.3.2
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/defender-easm.tgz:
+    resolution: {integrity: sha512-lP5/a1oIFhg74O78hmgm0lNPB7pvF9eU5Zi1XJCuC8KdWptaxuLYuoVtZ2A93wYPUySeTk2MopE570/CzvUGDA==, tarball: file:projects/defender-easm.tgz}
+    name: '@rush-temp/defender-easm'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.38.0(@types/node@16.18.55)
+      '@types/chai': 4.3.6
+      '@types/mocha': 10.0.2
+      '@types/node': 16.18.55
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      eslint: 8.50.0
+      esm: 3.2.25
+      karma: 6.4.2(debug@4.3.4)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-json-preprocessor: 0.3.3(karma@6.4.2)
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1(karma@6.4.2)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.2)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
+      nyc: 15.1.0
+      prettier: 2.8.8
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)
+      tslib: 2.6.2
+      typescript: 5.0.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
