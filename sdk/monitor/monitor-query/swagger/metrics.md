@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b669d69de7368fafac9ee193f205de2d9d88743e/specification/monitor/resource-manager/Microsoft.Insights/stable/2023-10-01/unified_metrics_API.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d08003f5364f7f75cf93f9aa842d16408be7e642/specification/monitor/resource-manager/Microsoft.Insights/stable/2023-10-01/metrics_API.json
 output-folder: ../src/generated/metrics
 package-name: "monitor-metrics"
 package-version: "1.0.1"

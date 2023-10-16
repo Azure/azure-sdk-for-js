@@ -93,13 +93,12 @@ const listAtSubscriptionScopeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SubscriptionScopeMetricResponse
     },
     default: {
-      bodyMapper: Mappers.MetricsErrorContract
+      bodyMapper: Mappers.ErrorContract
     }
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.region,
-    Parameters.metricnamespace,
     Parameters.timespan,
     Parameters.interval,
     Parameters.metricnames,
@@ -108,6 +107,7 @@ const listAtSubscriptionScopeOperationSpec: coreClient.OperationSpec = {
     Parameters.orderby,
     Parameters.filter,
     Parameters.resultType,
+    Parameters.metricnamespace,
     Parameters.autoAdjustTimegrain,
     Parameters.validateDimensions
   ],
@@ -123,14 +123,13 @@ const listAtSubscriptionScopePostOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SubscriptionScopeMetricResponse
     },
     default: {
-      bodyMapper: Mappers.MetricsErrorContract
+      bodyMapper: Mappers.ErrorContract
     }
   },
   requestBody: Parameters.body,
   queryParameters: [
     Parameters.apiVersion,
     Parameters.region,
-    Parameters.metricnamespace,
     Parameters.timespan,
     Parameters.interval,
     Parameters.metricnames,
@@ -139,6 +138,7 @@ const listAtSubscriptionScopePostOperationSpec: coreClient.OperationSpec = {
     Parameters.orderby,
     Parameters.filter,
     Parameters.resultType,
+    Parameters.metricnamespace,
     Parameters.autoAdjustTimegrain,
     Parameters.validateDimensions
   ],
@@ -152,7 +152,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceScopeMetricResponse
+      bodyMapper: Mappers.Response
     },
     default: {
       bodyMapper: Mappers.ErrorDetail
@@ -160,7 +160,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.metricnamespace,
     Parameters.timespan,
     Parameters.interval,
     Parameters.metricnames,
@@ -168,6 +167,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.orderby,
     Parameters.filter,
+    Parameters.metricnamespace,
     Parameters.autoAdjustTimegrain,
     Parameters.validateDimensions,
     Parameters.resultType1

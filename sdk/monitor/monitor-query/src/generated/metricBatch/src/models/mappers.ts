@@ -8,10 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const ResourceIdList: coreClient.CompositeMapper = {
+export const MetricBatchResourceIdList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ResourceIdList",
+    className: "MetricBatchResourceIdList",
     modelProperties: {
       resourceids: {
         serializedName: "resourceids",
@@ -300,10 +300,10 @@ export const MetricValue: coreClient.CompositeMapper = {
   }
 };
 
-export const MetricsErrorContract: coreClient.CompositeMapper = {
+export const ErrorContract: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MetricsErrorContract",
+    className: "ErrorContract",
     modelProperties: {
       error: {
         serializedName: "error",

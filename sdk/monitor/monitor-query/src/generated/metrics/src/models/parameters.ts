@@ -70,28 +70,6 @@ export const region: OperationQueryParameter = {
   }
 };
 
-export const metricnamespace: OperationQueryParameter = {
-  parameterPath: ["options", "metricnamespace"],
-  mapper: {
-    serializedName: "metricnamespace",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceUri: OperationURLParameter = {
-  parameterPath: "resourceUri",
-  mapper: {
-    serializedName: "resourceUri",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
 export const timespan: OperationQueryParameter = {
   parameterPath: ["options", "timespan"],
   mapper: {
@@ -179,6 +157,16 @@ export const resultType: OperationQueryParameter = {
   }
 };
 
+export const metricnamespace: OperationQueryParameter = {
+  parameterPath: ["options", "metricnamespace"],
+  mapper: {
+    serializedName: "metricnamespace",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const autoAdjustTimegrain: OperationQueryParameter = {
   parameterPath: ["options", "autoAdjustTimegrain"],
   mapper: {
@@ -214,6 +202,18 @@ export const contentType: OperationParameter = {
 export const body: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: SubscriptionScopeMetricsRequestBodyParametersMapper
+};
+
+export const resourceUri: OperationURLParameter = {
+  parameterPath: "resourceUri",
+  mapper: {
+    serializedName: "resourceUri",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const resultType1: OperationQueryParameter = {

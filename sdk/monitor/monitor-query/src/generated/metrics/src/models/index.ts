@@ -8,45 +8,40 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Represents collection of metric definitions. */
-export interface SubscriptionScopeMetricDefinitionCollection {
-  /** The values for the metric definitions. */
-  value: SubscriptionScopeMetricDefinition[];
-  /**
-   * URL to get the next set of metric definitions (if there are any).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** The response to a subscription scope metrics query. */
+export interface SubscriptionScopeMetricResponse {
+  /** The integer value representing the relative cost of the query. */
+  cost?: number;
+  /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
+  timespan: string;
+  /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
+  interval?: string;
+  /** The namespace of the metrics being queried */
+  namespace?: string;
+  /** The region of the resource being queried for metrics. */
+  resourceregion?: string;
+  /** the value of the collection. */
+  value: SubscriptionScopeMetric[];
 }
 
-/** Metric definition class specifies the metadata for a metric. */
-export interface SubscriptionScopeMetricDefinition {
-  /** Flag to indicate whether the dimension is required. */
-  isDimensionRequired?: boolean;
-  /** the resource identifier of the resource that emitted the metric. */
-  resourceId?: string;
-  /** the namespace the metric belongs to. */
-  namespace?: string;
-  /** the name and the display name of the metric, i.e. it is a localizable string. */
-  name?: LocalizableString;
+/** The result data of a query. */
+export interface SubscriptionScopeMetric {
+  /** the metric Id. */
+  id: string;
+  /** the resource type of the metric resource. */
+  type: string;
+  /** the name and the display name of the metric, i.e. it is localizable string. */
+  name: LocalizableString;
   /** Detailed description of this metric. */
   displayDescription?: string;
-  /** Custom category name for this metric. */
-  category?: string;
-  /** The class of the metric. */
-  metricClass?: MetricClass;
-  /** the unit of the metric. */
-  unit?: MetricUnit;
-  /** the primary aggregation type value defining how to use the values for display. */
-  primaryAggregationType?: MetricAggregationType;
-  /** the collection of what aggregation types are supported. */
-  supportedAggregationTypes?: MetricAggregationType[];
-  /** the collection of what aggregation intervals are available to be queried. */
-  metricAvailabilities?: MetricAvailability[];
-  /** the resource identifier of the metric definition. */
-  id?: string;
-  /** the name and the display name of the dimension, i.e. it is a localizable string. */
-  dimensions?: LocalizableString[];
+  /** 'Success' or the error details on query failures for this metric. */
+  errorCode?: string;
+  /** Error message encountered querying this specific metric. */
+  errorMessage?: string;
+  /** The unit of the metric. */
+  unit: MetricUnit;
+  /** the time series returned when a data query is performed. */
+  timeseries: TimeSeriesElement[];
 }
 
 /** The localizable string class. */
@@ -57,16 +52,40 @@ export interface LocalizableString {
   localizedValue?: string;
 }
 
-/** Metric availability specifies the time grain (aggregation interval or frequency) and the retention period for that time grain. */
-export interface MetricAvailability {
-  /** the time grain specifies the aggregation interval for the metric. Expressed as a duration 'PT1M', 'P1D', etc. */
-  timeGrain?: string;
-  /** the retention period for the metric at the specified timegrain.  Expressed as a duration 'PT1M', 'P1D', etc. */
-  retention?: string;
+/** A time series result type. The discriminator value is always TimeSeries in this case. */
+export interface TimeSeriesElement {
+  /** The metadata values returned if filter was specified in the call. */
+  metadatavalues?: MetadataValue[];
+  /** An array of data points representing the metric values.  This is only returned if a result type of data is specified. */
+  data?: MetricValue[];
+}
+
+/** Represents a metric metadata value. */
+export interface MetadataValue {
+  /** the name of the metadata. */
+  name?: LocalizableString;
+  /** the value of the metadata. */
+  value?: string;
+}
+
+/** Represents a metric value. */
+export interface MetricValue {
+  /** the timestamp for the metric value in ISO 8601 format. */
+  timeStamp: Date;
+  /** the average value in the time range. */
+  average?: number;
+  /** the least value in the time range. */
+  minimum?: number;
+  /** the greatest value in the time range. */
+  maximum?: number;
+  /** the sum of all of the values in the time range. */
+  total?: number;
+  /** the number of samples in the time range. Can be used to determine the number of values that contributed to the average value. */
+  count?: number;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface MetricsErrorContract {
+export interface ErrorContract {
   /** The error object. */
   error?: ErrorDetail;
 }
@@ -114,115 +133,6 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** Represents collection of metric definitions. */
-export interface MetricDefinitionCollection {
-  /** the values for the metric definitions. */
-  value: MetricDefinition[];
-  /**
-   * URL to get the next set of metric definitions (if there are any).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Metric definition class specifies the metadata for a metric. */
-export interface MetricDefinition {
-  /** Flag to indicate whether the dimension is required. */
-  isDimensionRequired?: boolean;
-  /** the resource identifier of the resource that emitted the metric. */
-  resourceId?: string;
-  /** the namespace the metric belongs to. */
-  namespace?: string;
-  /** the name and the display name of the metric, i.e. it is a localizable string. */
-  name?: LocalizableString;
-  /** Detailed description of this metric. */
-  displayDescription?: string;
-  /** Custom category name for this metric. */
-  category?: string;
-  /** The class of the metric. */
-  metricClass?: MetricClass;
-  /** the unit of the metric. */
-  unit?: MetricUnit;
-  /** the primary aggregation type value defining how to use the values for display. */
-  primaryAggregationType?: AggregationType;
-  /** the collection of what aggregation types are supported. */
-  supportedAggregationTypes?: AggregationType[];
-  /** the collection of what aggregation intervals are available to be queried. */
-  metricAvailabilities?: MetricAvailability[];
-  /** the resource identifier of the metric definition. */
-  id?: string;
-  /** the name and the display name of the dimension, i.e. it is a localizable string. */
-  dimensions?: LocalizableString[];
-}
-
-/** The response to a subscription scope metrics query. */
-export interface SubscriptionScopeMetricResponse {
-  /** The integer value representing the relative cost of the query. */
-  cost?: number;
-  /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
-  timespan: string;
-  /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
-  interval?: string;
-  /** The namespace of the metrics being queried */
-  namespace?: string;
-  /** The region of the resource being queried for metrics. */
-  resourceregion?: string;
-  /** the value of the collection. */
-  value: SubscriptionScopeMetric[];
-}
-
-/** The result data of a query. */
-export interface SubscriptionScopeMetric {
-  /** the metric Id. */
-  id: string;
-  /** the resource type of the metric resource. */
-  type: string;
-  /** the name and the display name of the metric, i.e. it is localizable string. */
-  name: LocalizableString;
-  /** Detailed description of this metric. */
-  displayDescription?: string;
-  /** 'Success' or the error details on query failures for this metric. */
-  errorCode?: string;
-  /** Error message encountered querying this specific metric. */
-  errorMessage?: string;
-  /** The unit of the metric. */
-  unit: MetricUnit;
-  /** the time series returned when a data query is performed. */
-  timeseries: TimeSeriesElement[];
-}
-
-/** A time series result type. The discriminator value is always TimeSeries in this case. */
-export interface TimeSeriesElement {
-  /** The metadata values returned if filter was specified in the call. */
-  metadatavalues?: MetadataValue[];
-  /** An array of data points representing the metric values.  This is only returned if a result type of data is specified. */
-  data?: MetricValue[];
-}
-
-/** Represents a metric metadata value. */
-export interface MetadataValue {
-  /** the name of the metadata. */
-  name?: LocalizableString;
-  /** the value of the metadata. */
-  value?: string;
-}
-
-/** Represents a metric value. */
-export interface MetricValue {
-  /** the timestamp for the metric value in ISO 8601 format. */
-  timeStamp: Date;
-  /** the average value in the time range. */
-  average?: number;
-  /** the least value in the time range. */
-  minimum?: number;
-  /** the greatest value in the time range. */
-  maximum?: number;
-  /** the sum of all of the values in the time range. */
-  total?: number;
-  /** the number of samples in the time range. Can be used to determine the number of values that contributed to the average value. */
-  count?: number;
-}
-
 /** Query parameters can also be specified in the body, specifying the same parameter in both the body and query parameters will result in an error. */
 export interface SubscriptionScopeMetricsRequestBodyParameters {
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
@@ -260,7 +170,7 @@ export interface SubscriptionScopeMetricsRequestBodyParameters {
 }
 
 /** The response to a metrics query. */
-export interface ResourceScopeMetricResponse {
+export interface Response {
   /** The integer value representing the relative cost of the query. */
   cost?: number;
   /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
@@ -272,11 +182,11 @@ export interface ResourceScopeMetricResponse {
   /** The region of the resource being queried for metrics. */
   resourceregion?: string;
   /** the value of the collection. */
-  value: ResourceScopeMetric[];
+  value: Metric[];
 }
 
 /** The result data of a query. */
-export interface ResourceScopeMetric {
+export interface Metric {
   /** the metric Id. */
   id: string;
   /** the resource type of the metric resource. */
@@ -290,7 +200,7 @@ export interface ResourceScopeMetric {
   /** Error message encountered querying this specific metric. */
   errorMessage?: string;
   /** The unit of the metric. */
-  unit: MetricUnit;
+  unit: Unit;
   /** the time series returned when a data query is performed. */
   timeseries: TimeSeriesElement[];
 }
@@ -310,27 +220,21 @@ export enum KnownApiVersion20231001 {
  */
 export type ApiVersion20231001 = string;
 
-/** Known values of {@link MetricClass} that the service accepts. */
-export enum KnownMetricClass {
-  Availability = "Availability",
-  Transactions = "Transactions",
-  Errors = "Errors",
-  Latency = "Latency",
-  Saturation = "Saturation"
+/** Known values of {@link MetricResultType} that the service accepts. */
+export enum KnownMetricResultType {
+  Data = "Data",
+  Metadata = "Metadata"
 }
 
 /**
- * Defines values for MetricClass. \
- * {@link KnownMetricClass} can be used interchangeably with MetricClass,
+ * Defines values for MetricResultType. \
+ * {@link KnownMetricResultType} can be used interchangeably with MetricResultType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Availability** \
- * **Transactions** \
- * **Errors** \
- * **Latency** \
- * **Saturation**
+ * **Data** \
+ * **Metadata**
  */
-export type MetricClass = string;
+export type MetricResultType = string;
 
 /** Known values of {@link MetricUnit} that the service accepts. */
 export enum KnownMetricUnit {
@@ -382,82 +286,27 @@ export enum KnownMetricUnit {
  * **BitsPerSecond**: Rate unit of binary digits per second.
  */
 export type MetricUnit = string;
-
-/** Known values of {@link MetricAggregationType} that the service accepts. */
-export enum KnownMetricAggregationType {
-  None = "None",
-  Average = "Average",
-  Count = "Count",
-  Minimum = "Minimum",
-  Maximum = "Maximum",
-  Total = "Total"
-}
-
-/**
- * Defines values for MetricAggregationType. \
- * {@link KnownMetricAggregationType} can be used interchangeably with MetricAggregationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Average** \
- * **Count** \
- * **Minimum** \
- * **Maximum** \
- * **Total**
- */
-export type MetricAggregationType = string;
-
-/** Known values of {@link MetricResultType} that the service accepts. */
-export enum KnownMetricResultType {
-  Data = "Data",
-  Metadata = "Metadata"
-}
-
-/**
- * Defines values for MetricResultType. \
- * {@link KnownMetricResultType} can be used interchangeably with MetricResultType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Data** \
- * **Metadata**
- */
-export type MetricResultType = string;
-/** Defines values for AggregationType. */
-export type AggregationType =
-  | "None"
-  | "Average"
-  | "Count"
-  | "Minimum"
-  | "Maximum"
-  | "Total";
 /** Defines values for ResultType. */
 export type ResultType = "Data" | "Metadata";
-
-/** Optional parameters. */
-export interface MetricDefinitionsListAtSubscriptionScopeOptionalParams
-  extends coreClient.OperationOptions {
-  /** Metric namespace where the metrics you want reside. */
-  metricnamespace?: string;
-}
-
-/** Contains response data for the listAtSubscriptionScope operation. */
-export type MetricDefinitionsListAtSubscriptionScopeResponse = SubscriptionScopeMetricDefinitionCollection;
-
-/** Optional parameters. */
-export interface MetricDefinitionsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** Metric namespace where the metrics you want reside. */
-  metricnamespace?: string;
-}
-
-/** Contains response data for the list operation. */
-export type MetricDefinitionsListResponse = MetricDefinitionCollection;
+/** Defines values for Unit. */
+export type Unit =
+  | "Count"
+  | "Bytes"
+  | "Seconds"
+  | "CountPerSecond"
+  | "BytesPerSecond"
+  | "Percent"
+  | "MilliSeconds"
+  | "ByteSeconds"
+  | "Unspecified"
+  | "Cores"
+  | "MilliCores"
+  | "NanoCores"
+  | "BitsPerSecond";
 
 /** Optional parameters. */
 export interface MetricsListAtSubscriptionScopeOptionalParams
   extends coreClient.OperationOptions {
-  /** Metric namespace where the metrics you want reside. */
-  metricnamespace?: string;
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
   timespan?: string;
   /**
@@ -488,6 +337,8 @@ export interface MetricsListAtSubscriptionScopeOptionalParams
   filter?: string;
   /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
   resultType?: MetricResultType;
+  /** Metric namespace where the metrics you want reside. */
+  metricnamespace?: string;
   /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
   autoAdjustTimegrain?: boolean;
   /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
@@ -500,8 +351,6 @@ export type MetricsListAtSubscriptionScopeResponse = SubscriptionScopeMetricResp
 /** Optional parameters. */
 export interface MetricsListAtSubscriptionScopePostOptionalParams
   extends coreClient.OperationOptions {
-  /** Metric namespace where the metrics you want reside. */
-  metricnamespace?: string;
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
   timespan?: string;
   /**
@@ -532,6 +381,8 @@ export interface MetricsListAtSubscriptionScopePostOptionalParams
   filter?: string;
   /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
   resultType?: MetricResultType;
+  /** Metric namespace where the metrics you want reside. */
+  metricnamespace?: string;
   /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
   autoAdjustTimegrain?: boolean;
   /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
@@ -545,8 +396,6 @@ export type MetricsListAtSubscriptionScopePostResponse = SubscriptionScopeMetric
 
 /** Optional parameters. */
 export interface MetricsListOptionalParams extends coreClient.OperationOptions {
-  /** Metric namespace where the metrics you want reside. */
-  metricnamespace?: string;
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
   timespan?: string;
   /**
@@ -575,6 +424,8 @@ export interface MetricsListOptionalParams extends coreClient.OperationOptions {
   orderby?: string;
   /** The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
   filter?: string;
+  /** Metric namespace where the metrics you want reside. */
+  metricnamespace?: string;
   /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
   autoAdjustTimegrain?: boolean;
   /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
@@ -584,7 +435,7 @@ export interface MetricsListOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the list operation. */
-export type MetricsListResponse = ResourceScopeMetricResponse;
+export type MetricsListResponse = Response;
 
 /** Optional parameters. */
 export interface MonitorManagementClientOptionalParams

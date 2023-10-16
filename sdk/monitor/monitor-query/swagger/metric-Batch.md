@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b669d69de7368fafac9ee193f205de2d9d88743e/specification/monitor/data-plane/Microsoft.Insights/stable/2023-10-01/metricBatch.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d08003f5364f7f75cf93f9aa842d16408be7e642/specification/monitor/data-plane/Microsoft.Insights/stable/2023-10-01/metricBatch.json
 output-folder: ../src/generated/metricBatch
 package-name: "monitor-metric-batch"
 package-version: "1.2.0-beta.2"

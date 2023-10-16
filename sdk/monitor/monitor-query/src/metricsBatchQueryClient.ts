@@ -71,6 +71,7 @@ export class MetricsBatchQueryClient {
     this._baseUrl = batchEndPoint;
 
     this._metricBatchClient = new GeneratedMonitorMetricBatchClient(
+      this._baseUrl,
       MonitorMetricBatchApiVersion.TwoThousandTwentyThree1001,
       serviceClientOptions
     );
@@ -96,7 +97,6 @@ export class MetricsBatchQueryClient {
         const subscriptionId = getSubscriptionFromResourceId(resourceIds[0]);
 
         const response = await this._metricBatchClient.metrics.batch(
-          this._baseUrl,
           subscriptionId,
           metricNamespace,
           metricNames,

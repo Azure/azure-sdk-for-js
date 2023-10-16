@@ -9,7 +9,7 @@
 import * as coreClient from "@azure/core-client";
 
 /** The comma separated list of resource IDs to query metrics for. */
-export interface ResourceIdList {
+export interface MetricBatchResourceIdList {
   /** The list of resource IDs to query metrics for. */
   resourceids?: string[];
 }
@@ -98,7 +98,7 @@ export interface MetricValue {
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface MetricsErrorContract {
+export interface ErrorContract {
   /** The error object. */
   error?: ErrorDetail;
 }

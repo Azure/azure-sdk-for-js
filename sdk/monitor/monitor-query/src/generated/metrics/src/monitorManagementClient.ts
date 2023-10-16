@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MetricDefinitionsImpl, MetricsImpl } from "./operations";
-import { MetricDefinitions, Metrics } from "./operationsInterfaces";
+import { MetricsImpl } from "./operations";
+import { Metrics } from "./operationsInterfaces";
 import { MonitorManagementClientContext } from "./monitorManagementClientContext";
 import {
   MonitorManagementClientOptionalParams,
@@ -26,10 +26,8 @@ export class MonitorManagementClient extends MonitorManagementClientContext {
     options?: MonitorManagementClientOptionalParams
   ) {
     super(apiVersion, options);
-    this.metricDefinitions = new MetricDefinitionsImpl(this);
     this.metrics = new MetricsImpl(this);
   }
 
-  metricDefinitions: MetricDefinitions;
   metrics: Metrics;
 }
