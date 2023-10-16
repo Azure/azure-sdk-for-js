@@ -85,6 +85,18 @@ export function getBSU(recorder: Recorder, config?: ShareClientConfig): ShareSer
   return getGenericBSU(recorder, "", "", config);
 }
 
+export function getAccountName(): string {
+  const accountNameEnvVar = `ACCOUNT_NAME`;
+
+  const accountName = process.env[accountNameEnvVar];
+
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  return accountName;
+}
+
 export function getAlternateBSU(recorder: Recorder): ShareServiceClient {
   return getGenericBSU(recorder, "SECONDARY_", "-secondary");
 }

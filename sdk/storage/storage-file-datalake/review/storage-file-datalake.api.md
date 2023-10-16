@@ -7,58 +7,45 @@
 /// <reference types="node" />
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { AnonymousCredential } from '@azure/storage-blob';
-import { AnonymousCredentialPolicy } from '@azure/storage-blob';
 import { AzureLogger } from '@azure/logger';
-import { BaseRequestPolicy } from '@azure/storage-blob';
 import { BlobLeaseClient } from '@azure/storage-blob';
 import { BlobQueryArrowConfiguration } from '@azure/storage-blob';
-import { CommonOptions } from '@azure/storage-blob';
 import { ContainerRenameResponse } from '@azure/storage-blob';
 import { ContainerUndeleteResponse } from '@azure/storage-blob';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
-import { Credential as Credential_2 } from '@azure/storage-blob';
-import { CredentialPolicy } from '@azure/storage-blob';
 import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
 import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
-import { HttpHeaders } from '@azure/storage-blob';
-import { HttpOperationResponse } from '@azure/storage-blob';
-import { HttpRequestBody } from '@azure/storage-blob';
-import { IHttpClient } from '@azure/storage-blob';
+import { ExtendedServiceClientOptions } from '@azure/core-http-compat';
+import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
+import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
+import { HttpPipelineLogLevel } from '@azure/core-http-compat';
+import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+import { KeepAliveOptions } from '@azure/core-http-compat';
 import { Lease } from '@azure/storage-blob';
 import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
 import { ModifiedAccessConditions as ModifiedAccessConditions_3 } from '@azure/storage-blob';
-import { newPipeline } from '@azure/storage-blob';
+import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { Pipeline } from '@azure/storage-blob';
+import { ProxySettings } from '@azure/core-rest-pipeline';
 import { Readable } from 'stream';
-import { RequestBodyType } from '@azure/core-rest-pipeline';
-import { RequestPolicy } from '@azure/storage-blob';
-import { RequestPolicyFactory } from '@azure/storage-blob';
-import { RequestPolicyOptions } from '@azure/storage-blob';
+import { RequestPolicy } from '@azure/core-http-compat';
+import { RequestPolicyFactory } from '@azure/core-http-compat';
+import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
 import { RestError } from '@azure/core-rest-pipeline';
 import { ServiceGetPropertiesOptions } from '@azure/storage-blob';
 import { ServiceListContainersSegmentResponse } from '@azure/storage-blob';
 import { ServiceRenameContainerOptions } from '@azure/storage-blob';
 import { ServiceSetPropertiesOptions } from '@azure/storage-blob';
 import { ServiceSetPropertiesResponse } from '@azure/storage-blob';
-import { StorageBrowserPolicy } from '@azure/storage-blob';
-import { StorageBrowserPolicyFactory } from '@azure/storage-blob';
-import { StorageOAuthScopes } from '@azure/storage-blob';
-import { StoragePipelineOptions } from '@azure/storage-blob';
-import { StorageRetryOptions } from '@azure/storage-blob';
-import { StorageRetryPolicy } from '@azure/storage-blob';
-import { StorageRetryPolicyFactory } from '@azure/storage-blob';
-import { StorageSharedKeyCredential } from '@azure/storage-blob';
-import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
+import { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { UserDelegationKeyModel } from '@azure/storage-blob';
-import { WebResource } from '@azure/storage-blob';
+import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 import { WithResponse } from '@azure/storage-blob';
 
 // @public
@@ -142,11 +129,27 @@ export interface AccountSASSignatureValues {
     version?: string;
 }
 
-export { AnonymousCredential }
+// @public
+export class AnonymousCredential extends Credential_2 {
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): AnonymousCredentialPolicy;
+}
 
-export { AnonymousCredentialPolicy }
+// @public
+export class AnonymousCredentialPolicy extends CredentialPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
+}
 
-export { BaseRequestPolicy }
+// @public
+export abstract class BaseRequestPolicy implements RequestPolicy {
+    protected constructor(
+    _nextPolicy: RequestPolicy,
+    _options: RequestPolicyOptions);
+    log(logLevel: HttpPipelineLogLevel, message: string): void;
+    readonly _nextPolicy: RequestPolicy;
+    readonly _options: RequestPolicyOptions;
+    abstract sendRequest(webResource: WebResource): Promise<HttpOperationResponse>;
+    shouldLog(logLevel: HttpPipelineLogLevel): boolean;
+}
 
 // @public (undocumented)
 export interface BlobHierarchyListSegment {
@@ -255,7 +258,11 @@ export interface CommonGenerateSasUrlOptions {
     version?: string;
 }
 
-export { CommonOptions }
+// @public
+export interface CommonOptions {
+    // (undocumented)
+    tracingOptions?: OperationTracingOptions;
+}
 
 // @public (undocumented)
 export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
@@ -267,9 +274,20 @@ export interface CpkInfo {
     encryptionKeySha256?: string;
 }
 
+// @public
+abstract class Credential_2 implements RequestPolicyFactory {
+    create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptions): RequestPolicy;
+}
 export { Credential_2 as Credential }
 
-export { CredentialPolicy }
+// @public
+export abstract class CredentialPolicy extends BaseRequestPolicy {
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+    protected signRequest(request: WebResource): WebResource;
+}
+
+// @public
+export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => CredentialPolicy;
 
 // @public
 export class DataLakeAclChangeFailedError extends Error {
@@ -293,7 +311,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 export class DataLakeFileClient extends DataLakePathClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    append(body: RequestBodyType, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
+    append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: FileCreateOptions): Promise<FileCreateResponse>;
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
@@ -1076,13 +1094,23 @@ export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: D
 // @public
 export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: DataLakeSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
 
+// @public (undocumented)
+export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceClientOptions;
+
+// @public (undocumented)
+export function getCredentialFromPipeline(pipeline: PipelineLike): StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
+
+// @public (undocumented)
+export function getDataLakeServiceAccountAudience(storageAccountName: string): string;
+
 export { HttpHeaders }
 
 export { HttpOperationResponse }
 
 export { HttpRequestBody }
 
-export { IHttpClient }
+// @public
+export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
 
 export { Lease }
 
@@ -1180,7 +1208,8 @@ export interface Metadata {
 // @public (undocumented)
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_3, "ifTags">;
 
-export { newPipeline }
+// @public
+export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public (undocumented)
 export interface Path {
@@ -1794,7 +1823,25 @@ export interface PathUpdateHeaders {
     xMsContinuation?: string;
 }
 
-export { Pipeline }
+// @public
+export class Pipeline implements PipelineLike {
+    constructor(factories: RequestPolicyFactory[], options?: PipelineOptions);
+    readonly factories: RequestPolicyFactory[];
+    readonly options: PipelineOptions;
+    toServiceClientOptions(): ServiceClientOptions;
+}
+
+// @public
+export interface PipelineLike {
+    readonly factories: RequestPolicyFactory[];
+    readonly options: PipelineOptions;
+    toServiceClientOptions(): ServiceClientOptions;
+}
+
+// @public
+export interface PipelineOptions {
+    httpClient?: RequestPolicy;
+}
 
 // @public (undocumented)
 export type PublicAccessType = "filesystem" | "file";
@@ -1816,6 +1863,7 @@ export interface RemovePathAccessControlItem {
     entityId?: string;
 }
 
+export { RequestPolicy as IHttpClient }
 export { RequestPolicy }
 
 export { RequestPolicyFactory }
@@ -1899,6 +1947,12 @@ export interface SASQueryParametersOptions {
 }
 
 // @public
+export interface ServiceClientOptions {
+    httpClient?: RequestPolicy;
+    requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
+}
+
+// @public
 export interface ServiceGenerateAccountSasUrlOptions {
     encryptionScope?: string;
     ipRange?: SasIPRange;
@@ -1972,23 +2026,78 @@ export interface SignedIdentifier<T> {
     id: string;
 }
 
-export { StorageBrowserPolicy }
+// @public
+export class StorageBrowserPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+}
 
-export { StorageBrowserPolicyFactory }
+// @public
+export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBrowserPolicy;
+}
 
-export { StorageOAuthScopes }
+// @public
+export enum StorageDataLakeAudience {
+    StorageOAuthScopes = "https://storage.azure.com/.default"
+}
 
-export { StoragePipelineOptions }
+// @public (undocumented)
+export const StorageOAuthScopes: string | string[];
 
-export { StorageRetryOptions }
+// @public
+export interface StoragePipelineOptions {
+    audience?: string;
+    httpClient?: RequestPolicy;
+    keepAliveOptions?: KeepAliveOptions;
+    proxyOptions?: ProxySettings;
+    retryOptions?: StorageRetryOptions;
+    userAgentOptions?: UserAgentPolicyOptions;
+}
 
-export { StorageRetryPolicy }
+// @public
+export interface StorageRetryOptions {
+    readonly maxRetryDelayInMs?: number;
+    readonly maxTries?: number;
+    readonly retryDelayInMs?: number;
+    readonly retryPolicyType?: StorageRetryPolicyType;
+    readonly secondaryHost?: string;
+    readonly tryTimeoutInMs?: number;
+}
 
-export { StorageRetryPolicyFactory }
+// @public
+export class StorageRetryPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: StorageRetryOptions);
+    protected attemptSendRequest(request: WebResource, secondaryHas404: boolean, attempt: number): Promise<HttpOperationResponse>;
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+    protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: HttpOperationResponse, err?: RestError): boolean;
+}
 
-export { StorageSharedKeyCredential }
+// @public
+export class StorageRetryPolicyFactory implements RequestPolicyFactory {
+    constructor(retryOptions?: StorageRetryOptions);
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy;
+}
 
-export { StorageSharedKeyCredentialPolicy }
+// @public
+export enum StorageRetryPolicyType {
+    EXPONENTIAL = 0,
+    FIXED = 1
+}
+
+// @public
+export class StorageSharedKeyCredential extends Credential_2 {
+    constructor(accountName: string, accountKey: string);
+    readonly accountName: string;
+    computeHMACSHA256(stringToSign: string): string;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageSharedKeyCredentialPolicy;
+}
+
+// @public
+export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
+    protected signRequest(request: WebResource): WebResource;
+}
 
 // @public (undocumented)
 export const ToBlobEndpointHostMappings: string[][];

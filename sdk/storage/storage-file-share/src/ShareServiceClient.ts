@@ -16,7 +16,7 @@ import {
   ServiceGetPropertiesHeaders,
 } from "./generatedModels";
 import { Service } from "./generated/src/operationsInterfaces";
-import { newPipeline, Pipeline } from "../../storage-blob/src/Pipeline";
+import { newPipeline, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import { ShareClientInternal } from "./ShareClientInternal";
 import { ShareClient, ShareCreateOptions, ShareDeleteMethodOptions } from "./Clients";
@@ -277,7 +277,7 @@ export class ShareServiceClient extends StorageClient {
 
   constructor(
     url: string,
-    credential?: AnonymousCredential | StorageSharedKeyCredential | TokenCredential,
+    credential?: Credential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: ShareClientOptions,
@@ -294,12 +294,11 @@ export class ShareServiceClient extends StorageClient {
    */
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-  constructor(url: string, pipeline: Pipeline, options?: ShareClientOptions);
+  constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
   constructor(
     url: string,
     credentialOrPipeline?:
-      | AnonymousCredential
-      | StorageSharedKeyCredential
+      | Credential
       | TokenCredential
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.

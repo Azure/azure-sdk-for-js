@@ -13,7 +13,7 @@ import {
   newPipeline,
   StoragePipelineOptions,
   StorageSharedKeyCredential,
-} from "@azure/storage-blob";
+} from "../../src";
 import { getUniqueName, SimpleTokenCredential, configureStorageClient } from "./testutils.common";
 import {
   AccountSASPermissions,

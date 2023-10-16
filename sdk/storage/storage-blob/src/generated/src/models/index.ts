@@ -1544,7 +1544,7 @@ export interface BlobCopyFromURLHeaders {
   /** String identifier for this copy operation. */
   copyId?: string;
   /** State of the copy operation identified by x-ms-copy-id. */
-  copyStatus?: "success";
+  copyStatus?: SyncCopyStatusType;
   /** This response header is returned so that the client can check for the integrity of the copied content. This header is only returned if the source content MD5 was specified. */
   contentMD5?: Uint8Array;
   /** This response header is returned so that the client can check for the integrity of the copied content. */
@@ -2859,7 +2859,9 @@ export type BlockListType = "committed" | "uncommitted" | "all";
 /** Defines values for SequenceNumberActionType. */
 export type SequenceNumberActionType = "max" | "update" | "increment";
 /** Defines values for QueryFormatType. */
-export type QueryFormatType = "delimited" | "json" | "arrow" | "parquet";
+export type QueryFormatType = "delimited" | "json" | "arrow" | "parquet";/** Defines values for SyncCopyStatusType. */
+/** Defines values for SyncCopyStatusType. */
+export type SyncCopyStatusType = "success";
 
 /** Optional parameters. */
 export interface ServiceSetPropertiesOptionalParams

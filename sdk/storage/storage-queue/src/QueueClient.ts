@@ -31,7 +31,7 @@ import {
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Messages, MessageId, Queue } from "./generated/src/operationsInterfaces";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "../../storage-blob/src/Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions, getStorageClientContext } from "./StorageClient";
 import {
   appendToURLPath,

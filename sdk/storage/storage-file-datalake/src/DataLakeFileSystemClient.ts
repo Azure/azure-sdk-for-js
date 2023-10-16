@@ -4,12 +4,14 @@ import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import {
   ContainerClient,
-  AnonymousCredential,
+} from "@azure/storage-blob";
+import {
   newPipeline,
   Pipeline,
   StoragePipelineOptions,
-} from "@azure/storage-blob";
+} from "./Pipeline";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
 import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations";

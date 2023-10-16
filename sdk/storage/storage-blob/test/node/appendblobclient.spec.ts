@@ -21,12 +21,15 @@ import {
   getStorageAccessTokenWithDefaultCredential,
   getUniqueName,
   configureBlobStorageClient,
+  SimpleTokenCredential,
 } from "../utils";
 import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { Context } from "mocha";
+import { DefaultAzureCredential } from "@azure/identity";
+import { getBlobServiceAccountAudience } from "../../src/models";
 
 describe("AppendBlobClient Node.js only", () => {
   let containerName: string;
@@ -99,7 +102,59 @@ describe("AppendBlobClient Node.js only", () => {
     assertClientUsesTokenCredential(newClient);
   });
 
-  it("can be created with a url and a pipeline", async function () {
+  it("Default audience should work", async () => {
+    await appendBlobClient.create();
+    const appendBlobClientWithOAuthToken = new AppendBlobClient(
+      appendBlobClient.url,
+      new DefaultAzureCredential()
+    );
+    const exist = await appendBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Customized audience should work", async () => {
+    await appendBlobClient.create();
+    const appendBlobClientWithOAuthToken = new AppendBlobClient(
+      appendBlobClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: [getBlobServiceAccountAudience(blobServiceClient.accountName)],
+      }
+    );
+    const exist = await appendBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Bearer token challenge should work", async () => {
+    await appendBlobClient.create();
+
+    // To validate that bad audience should fail.
+    const authToken = await new DefaultAzureCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default"
+    );
+    const appendBlobClientWithPlainOAuthToken = new AppendBlobClient(
+      appendBlobClient.url,
+      new SimpleTokenCredential(authToken.token)
+    );
+
+    try {
+      await appendBlobClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+    const appendBlobClientWithOAuthToken = new AppendBlobClient(
+      appendBlobClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: ["https://badaudience.blob.core.windows.net/.default"],
+      }
+    );
+    const exist = await appendBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
     const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new AppendBlobClient(appendBlobClient.url, pipeline);

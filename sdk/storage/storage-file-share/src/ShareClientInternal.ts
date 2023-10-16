@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Pipeline } from "../../storage-blob/src/Pipeline";
+import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { ShareRestoreOptionalParams, ShareRestoreResponse } from "./generated/src/models";
 import { Share } from "./generated/src/operationsInterfaces";

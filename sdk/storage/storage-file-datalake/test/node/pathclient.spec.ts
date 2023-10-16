@@ -12,8 +12,10 @@ import {
   AccessControlChanges,
   DataLakeFileClient,
   DataLakeFileSystemClient,
+  DataLakePathClient,
   DataLakeSASPermissions,
   DataLakeServiceClient,
+  getDataLakeServiceAccountAudience,
   PathAccessControlItem,
   PathPermissions,
 } from "../../src";
@@ -26,8 +28,10 @@ import {
   getDataLakeServiceClientWithDefaultCredential,
   getUniqueName,
   uriSanitizers,
+  SimpleTokenCredential,
 } from "../utils";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
+import { DefaultAzureCredential } from "@azure/identity";
 
 describe("DataLakePathClient Node.js only", () => {
   let fileSystemName: string;
@@ -952,6 +956,108 @@ describe("DataLakePathClient Node.js only", () => {
       customerProvidedKey: Test_CPK_INFO,
     });
     assert.deepStrictEqual(await bodyToString(response), csvContent);
+  });
+
+  it("DataLakeFileClient default audience should work", async () => {
+    const fileClientWithOAuthToken = new DataLakeFileClient(
+      fileClient.url,
+      new DefaultAzureCredential()
+    );
+    const exist = await fileClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("DataLakeFileClient customized audience should work", async () => {
+    const fileClientWithOAuthToken = new DataLakeFileClient(
+      fileClient.url,
+      new DefaultAzureCredential(),
+      { audience: getDataLakeServiceAccountAudience(serviceClient.accountName) }
+    );
+    const exist = await fileClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("DataLakeFileClient bearer token challenge should work", async () => {
+    // Validate that bad audience should fail first.
+    const authToken = await new DefaultAzureCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default"
+    );
+    const fileClientWithPlainOAuthToken = new DataLakeFileClient(
+      fileClient.url,
+      new SimpleTokenCredential(authToken.token)
+    );
+
+    try {
+      await fileClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
+    const fileClientWithOAuthToken = new DataLakeFileClient(
+      fileClient.url,
+      new DefaultAzureCredential(),
+      { audience: "https://badaudience.dfs.core.windows.net/.default" }
+    );
+    const exist = await fileClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("DataLakeDirectoryClient default audience should work", async () => {
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    await directoryClient.createIfNotExists();
+
+    const directoryClientWithOAuthToken = new DataLakePathClient(
+      directoryClient.url,
+      new DefaultAzureCredential()
+    ).toDirectoryClient();
+    const exist = await directoryClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("DataLakeDirectoryClient customized audience should work", async () => {
+    const directoryName = recorder.variable("directory", getUniqueName("directory"))
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    await directoryClient.createIfNotExists();
+
+    const directoryClientWithOAuthToken = new DataLakePathClient(
+      fileClient.url,
+      new DefaultAzureCredential(),
+      { audience: getDataLakeServiceAccountAudience(serviceClient.accountName) }
+    ).toDirectoryClient();
+    const exist = await directoryClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("DataLakeDirectoryClient bearer token challenge should work", async () => {
+    const directoryName = recorder.variable("directory", getUniqueName("directory"))
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    await directoryClient.createIfNotExists();
+
+    // Validate that bad audience should fail first.
+    const authToken = await new DefaultAzureCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default"
+    );
+    const directoryClientWithPlainOAuthToken = new DataLakePathClient(
+      fileClient.url,
+      new SimpleTokenCredential(authToken.token)
+    ).toDirectoryClient();
+
+    try {
+      await directoryClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
+    const directoryClientWithOAuthToken = new DataLakePathClient(
+      fileClient.url,
+      new DefaultAzureCredential(),
+      { audience: "https://badaudience.dfs.core.windows.net/.default" }
+    ).toDirectoryClient();
+    const exist = await directoryClientWithOAuthToken.exists();
+    assert.equal(exist, true);
   });
 });
 

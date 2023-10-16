@@ -4,13 +4,15 @@ import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 import {
-  AnonymousCredential,
-  BlobClient,
-  BlockBlobClient,
   newPipeline,
   Pipeline,
   StoragePipelineOptions,
-} from "@azure/storage-blob";
+} from "./Pipeline";
+import {
+  BlobClient,
+  BlockBlobClient,
+} from "@azure/storage-blob"
+import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { Readable } from "stream";
 
