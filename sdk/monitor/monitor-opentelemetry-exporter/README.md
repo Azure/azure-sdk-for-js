@@ -32,13 +32,13 @@ const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 const { Resource } = require("@opentelemetry/resources"); 
 const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions"); 
 
-const provider = new NodeTracerProvider({
+const tracerProvider = new NodeTracerProvider({
   resource: new Resource({
     [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
   }),
 });
 // Register Tracer Provider as global
-provider.register();
+tracerProvider.register();
 
 // Create an exporter instance
 const exporter = new AzureMonitorTraceExporter({
@@ -47,7 +47,7 @@ const exporter = new AzureMonitorTraceExporter({
 });
 
 // Add the exporter to the Provider
-provider.addSpanProcessor(
+tracerProvider.addSpanProcessor(
   new BatchSpanProcessor(exporter, {
     bufferTimeout: 15000,
     bufferSize: 1000
