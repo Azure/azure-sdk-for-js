@@ -131,20 +131,28 @@ export const imdsMsi: MSI = {
 
         // This MSI uses the imdsEndpoint to get the token, which only uses http://
         request.allowInsecureConnection = true;
-
+        let response;
         try {
           logger.info(`${msiName}: Pinging the Azure IMDS endpoint`);
-          await identityClient.sendRequest(request);
+          response = await identityClient.sendRequest(request);
         } catch (err: unknown) {
           // If the request failed, or Node.js was unable to establish a connection,
           // or the host was down, we'll assume the IMDS endpoint isn't available.
           if (isError(err)) {
             logger.verbose(`${msiName}: Caught error ${err.name}: ${err.message}`);
           }
+          // This is a special case for Docker Desktop which responds with a 403 with a message that contains "A socket operation was attempted to an unreachable network"
+          // rather than just timing out, as expected.
           logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
           return false;
         }
-
+        if ((response as any).status === 403) {
+         if ((response as any).bodyAsText.includes("A socket operation was attempted to an unreachable network")) {
+            logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
+            logger.info(`${msiName}: ${(response as any).bodyAsText}`);
+            return false;
+          }
+        }
         // If we received any response, the endpoint is available
         logger.info(`${msiName}: The Azure IMDS endpoint is available`);
         return true;

@@ -218,7 +218,6 @@ describe("ManagedIdentityCredential", function () {
         { error: new RestError(errorMessage, { statusCode: 500 }) },
       ],
     });
-    console.log(error?.message);
     assert.ok(error?.message.startsWith(errorMessage));
   });
 
@@ -272,14 +271,26 @@ describe("ManagedIdentityCredential", function () {
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential(),
       insecureResponses: [
-        createResponse(200), // IMDS Endpoint ping
         { error: netError },
       ],
     });
-    console.log(error!.message);
+    
     assert.ok(error!.message!.indexOf("Network unreachable.") > -1);
+    assert(error!.name, "CredentialUnavailableError");
   });
 
+  it("IMDS MSI returns error on 403", async function () {
+    const { error } = await testContext.sendCredentialRequests({
+      scopes: ["scopes"],
+      credential: new ManagedIdentityCredential("errclient"),
+      insecureResponses: [
+        createResponse(403,{"message": "connecting to 169.254.169.254:80: connecting to 169.254.169.254:80: dial tcp 169.254.169.254:80: connectex: A socket operation was attempted to an unreachable network."}),
+      ],
+    });
+
+    assert.ok(error!.message.indexOf("No MSI credential available") > -1);
+    assert(error!.name, "CredentialUnavailableError");
+  });
   it("IMDS MSI retries and succeeds on 404", async function () {
     const { result, error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
