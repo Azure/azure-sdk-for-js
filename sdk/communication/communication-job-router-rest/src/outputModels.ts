@@ -238,8 +238,7 @@ export interface RuleEngineQueueSelectorAttachmentOutput
 }
 
 /** Describes a queue selector that will be attached to the job */
-export interface StaticQueueSelectorAttachmentOutput
-  extends QueueSelectorAttachmentOutputParent {
+export interface StaticQueueSelectorAttachmentOutput extends QueueSelectorAttachmentOutputParent {
   /**
    * Describes a condition that must be met against a set of labels for queue
    * selection
@@ -382,8 +381,7 @@ export interface RuleEngineWorkerSelectorAttachmentOutput
 }
 
 /** Describes a worker selector that will be attached to the job */
-export interface StaticWorkerSelectorAttachmentOutput
-  extends WorkerSelectorAttachmentOutputParent {
+export interface StaticWorkerSelectorAttachmentOutput extends WorkerSelectorAttachmentOutputParent {
   /**
    * Describes a condition that must be met against a set of labels for worker
    * selection
@@ -584,8 +582,7 @@ export interface ExceptionTriggerOutputParent {
 }
 
 /** Trigger for an exception action on exceeding queue length */
-export interface QueueLengthExceptionTriggerOutput
-  extends ExceptionTriggerOutputParent {
+export interface QueueLengthExceptionTriggerOutput extends ExceptionTriggerOutputParent {
   /** Threshold of number of jobs ahead in the queue to for this trigger to fire. */
   threshold: number;
   /** The type discriminator describing a sub-type of ExceptionTrigger */
@@ -593,8 +590,7 @@ export interface QueueLengthExceptionTriggerOutput
 }
 
 /** Trigger for an exception action on exceeding wait time */
-export interface WaitTimeExceptionTriggerOutput
-  extends ExceptionTriggerOutputParent {
+export interface WaitTimeExceptionTriggerOutput extends ExceptionTriggerOutputParent {
   /** Threshold for wait time for this trigger. */
   thresholdSeconds: number;
   /** The type discriminator describing a sub-type of ExceptionTrigger */
@@ -607,8 +603,7 @@ export interface ExceptionActionOutputParent {
 }
 
 /** An action that marks a job as cancelled */
-export interface CancelExceptionActionOutput
-  extends ExceptionActionOutputParent {
+export interface CancelExceptionActionOutput extends ExceptionActionOutputParent {
   /**
    * (Optional) A note that will be appended to the jobs' Notes collection with the
    * current timestamp.
@@ -627,8 +622,7 @@ export interface CancelExceptionActionOutput
  * An action that manually reclassifies a job by providing the queue, priority and
  * worker selectors.
  */
-export interface ManualReclassifyExceptionActionOutput
-  extends ExceptionActionOutputParent {
+export interface ManualReclassifyExceptionActionOutput extends ExceptionActionOutputParent {
   /** Updated QueueId. */
   queueId?: string;
   /** Updated Priority. */
@@ -640,8 +634,7 @@ export interface ManualReclassifyExceptionActionOutput
 }
 
 /** An action that modifies labels on a job and then reclassifies it */
-export interface ReclassifyExceptionActionOutput
-  extends ExceptionActionOutputParent {
+export interface ReclassifyExceptionActionOutput extends ExceptionActionOutputParent {
   /**
    * (optional) The new classification policy that will determine queue, priority
    * and worker selectors.
@@ -1025,11 +1018,9 @@ export type ExceptionActionOutput =
   | ManualReclassifyExceptionActionOutput
   | ReclassifyExceptionActionOutput;
 /** A paged collection of classification policies. */
-export type PagedClassificationPolicyItemOutput =
-  Paged<ClassificationPolicyItemOutput>;
+export type PagedClassificationPolicyItemOutput = Paged<ClassificationPolicyItemOutput>;
 /** A paged collection of distribution policies. */
-export type PagedDistributionPolicyItemOutput =
-  Paged<DistributionPolicyItemOutput>;
+export type PagedDistributionPolicyItemOutput = Paged<DistributionPolicyItemOutput>;
 /** A paged collection of exception policies. */
 export type PagedExceptionPolicyItemOutput = Paged<ExceptionPolicyItemOutput>;
 /** A paged collection of queues. */
