@@ -1,13 +1,21 @@
 # Release History
-## 1.5.0-beta.2 (Unreleased)
+
+## 1.5.0-beta.3 (Unreleased)
+
+
+### Features Added
 
 ### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.5.0-beta.2 (2023-10-10)
 
 ### Features Added
 
 - Allow setting `updateIntervalInMs` in `CreateSnapshotOptions`
-
-### Bugs Fixed
 
 ### Other Changes
 

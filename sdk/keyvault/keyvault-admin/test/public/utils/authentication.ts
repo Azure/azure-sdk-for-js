@@ -46,7 +46,7 @@ export async function authenticate(
           value: `keyvault_name.managedhsm.azure.net`,
         },
         {
-          target: `[a-z-]+\.blob\.core\.windows\.net`,
+          target: `[a-zA-Z0-9\-]+\.blob\.core\.windows\.net`,
           regex: true,
           value: `uri.blob.core.windows.net`,
         },

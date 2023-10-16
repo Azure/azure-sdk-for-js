@@ -379,7 +379,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
     });
   });
 
-  onVersions({ minVer: "2023-07-01-Preview" }).describe(
+  onVersions({ minVer: "2023-10-01-Preview" }).describe(
     "SearchClient tests",
     function (this: Suite) {
       let recorder: Recorder;
@@ -492,7 +492,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         for await (const result of searchResults.results) {
           resultIds.push(result.document.hotelId);
         }
-        assert.deepEqual(["1", "5", "4"], resultIds);
+        assert.deepEqual(["3", "9", "1"], resultIds);
       });
 
       it("search with semantic error handling", async function () {
@@ -524,7 +524,14 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         const embedding = embeddings.data[0].embedding;
 
         const searchResults = await searchClient.search("*", {
-          vectors: [{ value: embedding, kNearestNeighborsCount: 3, fields: ["vectorDescription"] }],
+          vectorQueries: [
+            {
+              kind: "vector",
+              vector: embedding,
+              kNearestNeighborsCount: 3,
+              fields: ["vectorDescription"],
+            },
+          ],
           top: 3,
           select: ["hotelId"],
         });
@@ -549,9 +556,19 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         const embedding = embeddings.data[0].embedding;
 
         const searchResults = await searchClient.search("*", {
-          vectors: [
-            { value: embedding, kNearestNeighborsCount: 3, fields: ["vectorDescription"] },
-            { value: embedding, kNearestNeighborsCount: 3, fields: ["vectorDescription"] },
+          vectorQueries: [
+            {
+              kind: "vector",
+              vector: embedding,
+              kNearestNeighborsCount: 3,
+              fields: ["vectorDescription"],
+            },
+            {
+              kind: "vector",
+              vector: embedding,
+              kNearestNeighborsCount: 3,
+              fields: ["vectorDescription"],
+            },
           ],
           top: 3,
           select: ["hotelId"],
@@ -590,8 +607,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
 
       it("defaults to the current apiVersion", () => {
         const client = new SearchClient<Hotel>("", "", credential);
-        assert.equal("2023-07-01-Preview", client.serviceVersion);
-        assert.equal("2023-07-01-Preview", client.apiVersion);
+        assert.equal("2023-10-01-Preview", client.serviceVersion);
+        assert.equal("2023-10-01-Preview", client.apiVersion);
       });
     });
   });

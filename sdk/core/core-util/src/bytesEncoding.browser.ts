@@ -5,14 +5,6 @@ declare global {
   // stub these out for the browser
   function btoa(input: string): string;
   function atob(input: string): string;
-  class TextDecoder {
-    constructor(encoding?: string);
-    decode(input?: ArrayBufferView | ArrayBuffer): string;
-  }
-  class TextEncoder {
-    constructor(encoding?: string);
-    encode(input?: string): Uint8Array;
-  }
 }
 
 /** The supported character encoding type */
@@ -75,7 +67,7 @@ export function uint8ArrayToBase64Url(bytes: Uint8Array): string {
  * @internal
  */
 export function uint8ArrayToUtf8String(uint8Array: Uint8Array): string {
-  const decoder = new TextDecoder("utf-8");
+  const decoder = new TextDecoder();
   const dataString = decoder.decode(uint8Array);
   return dataString;
 }
@@ -85,7 +77,7 @@ export function uint8ArrayToUtf8String(uint8Array: Uint8Array): string {
  * @internal
  */
 export function utf8StringToUint8Array(value: string): Uint8Array {
-  return new TextEncoder("utf-8").encode(value);
+  return new TextEncoder().encode(value);
 }
 
 /**
