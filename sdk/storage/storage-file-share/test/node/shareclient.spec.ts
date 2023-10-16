@@ -6,8 +6,20 @@ import { Context } from "mocha";
 
 import { record, Recorder } from "@azure-tools/test-recorder";
 
-import { newPipeline, ShareClient, SignedIdentifier, StorageSharedKeyCredential } from "../../src";
-import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
+import {
+  getFileServiceAccountAudience,
+  newPipeline,
+  ShareClient,
+  SignedIdentifier,
+  StorageSharedKeyCredential,
+} from "../../src";
+import {
+  getAccountName,
+  getBSU,
+  getConnectionStringFromEnvironment,
+  recorderEnvSetup,
+} from "../utils";
+import { DefaultAzureCredential } from "@azure/identity";
 
 describe("ShareClient Node.js only", () => {
   let shareName: string;
@@ -26,6 +38,70 @@ describe("ShareClient Node.js only", () => {
   afterEach(async function () {
     await shareClient.delete();
     await recorder.stop();
+  });
+
+  it("Default audience should work", async () => {
+    const directoryName = recorder.getUniqueName("dir");
+    const directoryClient = shareClient.getDirectoryClient(directoryName);
+
+    const cResp = await directoryClient.create();
+    assert.ok(cResp.filePermissionKey);
+
+    const shareClientWithOAuthToken = new ShareClient(
+      shareClient.url,
+      new DefaultAzureCredential(),
+      { fileRequestIntent: "backup" }
+    );
+    const getPermissionResp = await shareClientWithOAuthToken.getPermission(
+      cResp.filePermissionKey!
+    );
+    assert.ok(getPermissionResp.date!);
+    assert.equal(getPermissionResp.errorCode, undefined);
+  });
+
+  it("Customized audience should work", async () => {
+    const directoryName = recorder.getUniqueName("dir");
+    const directoryClient = shareClient.getDirectoryClient(directoryName);
+
+    const cResp = await directoryClient.create();
+    assert.ok(cResp.filePermissionKey);
+
+    const shareClientWithOAuthToken = new ShareClient(
+      shareClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: getFileServiceAccountAudience(getAccountName()),
+        fileRequestIntent: "backup",
+      }
+    );
+    const getPermissionResp = await shareClientWithOAuthToken.getPermission(
+      cResp.filePermissionKey!
+    );
+    assert.ok(getPermissionResp.date!);
+    assert.equal(getPermissionResp.errorCode, undefined);
+  });
+
+  it("Bad audience should fail", async () => {
+    const directoryName = recorder.getUniqueName("dir");
+    const directoryClient = shareClient.getDirectoryClient(directoryName);
+
+    const cResp = await directoryClient.create();
+    assert.ok(cResp.filePermissionKey);
+
+    const shareClientWithOAuthToken = new ShareClient(
+      shareClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: "https://badaudience.file.core.windows.net/.default",
+        fileRequestIntent: "backup",
+      }
+    );
+    try {
+      await shareClientWithOAuthToken.getPermission(cResp.filePermissionKey!);
+      assert.fail("Should fail with 403");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 403);
+    }
   });
 
   it("setAccessPolicy", async () => {

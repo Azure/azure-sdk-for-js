@@ -8,22 +8,25 @@ import { Context } from "mocha";
 
 import {
   DataLakeFileSystemClient,
+  DataLakeServiceClient,
   FileSystemSASPermissions,
   newPipeline,
   StorageSharedKeyCredential,
 } from "../../src";
-import { PublicAccessType } from "../../src/models";
-import { getDataLakeServiceClient, recorderEnvSetup } from "../utils";
+import { getDataLakeServiceAccountAudience, PublicAccessType } from "../../src/models";
+import { getDataLakeServiceClient, recorderEnvSetup, SimpleTokenCredential } from "../utils";
 import { assertClientUsesTokenCredential } from "../utils/assert";
+import { DefaultAzureCredential } from "@azure/identity";
 
 describe("DataLakeFileSystemClient Node.js only", () => {
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
+  let serviceClient: DataLakeServiceClient;
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
-    const serviceClient = getDataLakeServiceClient();
+    serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.createIfNotExists();
@@ -32,6 +35,51 @@ describe("DataLakeFileSystemClient Node.js only", () => {
   afterEach(async function () {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
+  });
+
+  it("DataLakeFileSystemClient default audience should work", async () => {
+    const fileSystemClientWithOAuthToken = new DataLakeFileSystemClient(
+      fileSystemClient.url,
+      new DefaultAzureCredential()
+    );
+    const exist = await fileSystemClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("DataLakeFileSystemClient customized audience should work", async () => {
+    const fileSystemClientWithOAuthToken = new DataLakeFileSystemClient(
+      fileSystemClient.url,
+      new DefaultAzureCredential(),
+      { audience: getDataLakeServiceAccountAudience(serviceClient.accountName) }
+    );
+    const exist = await fileSystemClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("DataLakeFileSystemClient bearer token challenge should work", async () => {
+    // Validate that bad audience should fail first.
+    const authToken = await new DefaultAzureCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default"
+    );
+    const fileSystemClientWithPlainOAuthToken = new DataLakeFileSystemClient(
+      fileSystemClient.url,
+      new SimpleTokenCredential(authToken.token)
+    );
+
+    try {
+      await fileSystemClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
+    const fileSystemClientWithOAuthToken = new DataLakeFileSystemClient(
+      fileSystemClient.url,
+      new DefaultAzureCredential(),
+      { audience: "https://badaudience.dfs.core.windows.net/.default" }
+    );
+    const exist = await fileSystemClientWithOAuthToken.exists();
+    assert.equal(exist, true);
   });
 
   it("getAccessPolicy", async () => {

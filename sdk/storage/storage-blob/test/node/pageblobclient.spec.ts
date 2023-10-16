@@ -10,6 +10,7 @@ import {
   recorderEnvSetup,
   getTokenBSUWithDefaultCredential,
   getStorageAccessTokenWithDefaultCredential,
+  SimpleTokenCredential,
 } from "../utils";
 import {
   newPipeline,
@@ -21,6 +22,7 @@ import {
   BlobSASPermissions,
   BlobServiceClient,
   StorageBlobAudience,
+  getBlobServiceAccountAudience,
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -53,6 +55,58 @@ describe("PageBlobClient Node.js only", () => {
   afterEach(async function () {
     await containerClient.delete();
     await recorder.stop();
+  });
+
+  it("Default audience should work", async () => {
+    await pageBlobClient.create(1024);
+    const pageBlobClientWithOAuthToken = new PageBlobClient(
+      pageBlobClient.url,
+      new DefaultAzureCredential()
+    );
+    const exist = await pageBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Customized audience should work", async () => {
+    await pageBlobClient.create(1024);
+    const pageBlobClientWithOAuthToken = new PageBlobClient(
+      pageBlobClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: [getBlobServiceAccountAudience(blobServiceClient.accountName)],
+      }
+    );
+    const exist = await pageBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Bearer token challenge should work", async () => {
+    await pageBlobClient.create(1024);
+
+    // To validate that bad audience should fail.
+    const authToken = await new DefaultAzureCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default"
+    );
+    const pageBlobClientWithPlainOAuthToken = new PageBlobClient(
+      pageBlobClient.url,
+      new SimpleTokenCredential(authToken.token)
+    );
+
+    try {
+      await pageBlobClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+    const blockBlobClientWithOAuthToken = new PageBlobClient(
+      pageBlobClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: ["https://badaudience.blob.core.windows.net/.default"],
+      }
+    );
+    const exist = await blockBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
   });
 
   it("fetch a blob for disk with challenge Bearer token", async function (this: Context): Promise<void> {

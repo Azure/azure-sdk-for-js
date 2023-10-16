@@ -1603,6 +1603,20 @@ export declare interface FileSystemEncryptionScope {
   preventEncryptionScopeOverride?: boolean;
 }
 
+/**
+ * Defines the known cloud audiences for Storage.
+ */
+export enum StorageDataLakeAudience {
+  /**
+   * The OAuth scope to use to retrieve an AAD token for Azure Storage.
+   */
+  StorageOAuthScopes = "https://storage.azure.com/.default",
+}
+
+export function getDataLakeServiceAccountAudience(storageAccountName: string): string {
+  return `https://${storageAccountName}.dfs.core.windows.net/.default`;
+}
+
 /** *********************************************************/
 /** DataLakeLeaseClient option and response related models */
 /** *********************************************************/

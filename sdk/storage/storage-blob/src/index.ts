@@ -38,6 +38,7 @@ export {
   HttpAuthorization,
   StorageBlobAudience,
   PollerLikeWithCancellation,
+  getBlobServiceAccountAudience,
 } from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";

@@ -1,5 +1,12 @@
 # Release History
 
+## 12.16.1 (Unreleased)
+
+### Features Added
+
+- Added support for service version 2023-11-03.
+- Added support for indicating audience in StoragePipelineOptions.
+
 ## 12.16.0 (2023-09-14)
 
 ### Features Added

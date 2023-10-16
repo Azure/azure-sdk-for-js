@@ -5,6 +5,7 @@ import { assert } from "chai";
 import { Buffer } from "buffer";
 import * as fs from "fs";
 import { Context } from "mocha";
+import { DefaultAzureCredential } from "@azure/identity";
 import * as path from "path";
 import { Duplex } from "stream";
 import * as zlib from "zlib";
@@ -14,6 +15,7 @@ import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 import {
   FileSASPermissions,
   generateFileSASQueryParameters,
+  getFileServiceAccountAudience,
   newPipeline,
   ShareClient,
   ShareDirectoryClient,
@@ -24,6 +26,7 @@ import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 import {
   bodyToString,
   createRandomLocalFile,
+  getAccountName,
   getBlobServceClient,
   getBSU,
   getTokenCredential,
@@ -61,6 +64,49 @@ describe("FileClient Node.js only", () => {
     if (!this.currentTest?.isPending()) {
       await shareClient.delete();
       await recorder.stop();
+    }
+  });
+
+  it("Default audience should work", async () => {
+    await fileClient.create(1024);
+    const fileClientWithOAuthToken = new ShareFileClient(
+      fileClient.url,
+      new DefaultAzureCredential(),
+      { fileRequestIntent: "backup" }
+    );
+    const exist = await fileClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Customized audience should work", async () => {
+    await fileClient.create(1024);
+    const fileClientWithOAuthToken = new ShareFileClient(
+      fileClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: getFileServiceAccountAudience(getAccountName()),
+        fileRequestIntent: "backup",
+      }
+    );
+    const exist = await fileClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Bad audience should fail", async () => {
+    await fileClient.create(1024);
+    const fileClientWithOAuthToken = new ShareFileClient(
+      fileClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: "https://badaudience.file.core.windows.net/.default",
+        fileRequestIntent: "backup",
+      }
+    );
+    try {
+      await fileClientWithOAuthToken.exists();
+      assert.fail("Should fail with 403");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 403);
     }
   });
 

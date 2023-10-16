@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
 
 export function isBrowser(): boolean {
   return typeof self !== "undefined";
@@ -21,6 +22,9 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
     ACCOUNT_TOKEN: `${mockAccountKey}`,
+    AZURE_CLIENT_ID: `${mockAccountKey}`,
+    AZURE_TENANT_ID: `${mockAccountKey}`,
+    AZURE_CLIENT_SECRET: `${mockAccountKey}`,
   },
   customizationsOnRecordings: [
     // Used in record mode
@@ -58,4 +62,47 @@ export function base64encode(content: string): string {
 
 export function base64decode(encodedString: string): string {
   return isBrowser() ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+}
+
+/**
+ * A TokenCredential that always returns the given token. This class can be
+ * used when the access token is already known or can be retrieved from an
+ * outside source.
+ */
+export class SimpleTokenCredential implements TokenCredential {
+  /**
+   * The raw token string.  Can be changed when the token needs to be updated.
+   */
+  public token: string;
+
+  /**
+   * The Date at which the token expires.  Can be changed to update the expiration time.
+   */
+  public expiresOn: Date;
+
+  /**
+   * Creates an instance of TokenCredential.
+   * @param token -
+   */
+  constructor(token: string, expiresOn?: Date) {
+    this.token = token;
+    this.expiresOn = expiresOn ? expiresOn : new Date(Date.now() + 60 * 60 * 1000);
+  }
+
+  /**
+   * Retrieves the token stored in this RawTokenCredential.
+   *
+   * @param _scopes - Ignored since token is already known.
+   * @param _options - Ignored since token is already known.
+   * @returns The access token details.
+   */
+  async getToken(
+    _scopes: string | string[],
+    _options?: GetTokenOptions
+  ): Promise<AccessToken | null> {
+    return {
+      token: this.token,
+      expiresOnTimestamp: this.expiresOn.getTime(),
+    };
+  }
 }

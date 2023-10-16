@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { StorageClientOptionalParams } from "./models";
 
 const packageName = "azure-storage-file-share";
-const packageVersion = "12.16.0";
+const packageVersion = "12.16.1";
 
 export class StorageClientContext extends coreHttp.ServiceClient {
   url: string;
@@ -48,7 +48,7 @@ export class StorageClientContext extends coreHttp.ServiceClient {
     this.url = url;
 
     // Assigning values to Constant parameters
-    this.version = options.version || "2023-08-03";
+    this.version = options.version || "2023-11-03";
     this.fileRangeWriteFromUrl = options.fileRangeWriteFromUrl || "update";
   }
 }

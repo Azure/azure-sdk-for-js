@@ -359,3 +359,17 @@ export interface HttpAuthorization {
    */
   value: string;
 }
+
+/**
+ * Defines the known cloud audiences for Storage.
+ */
+export enum StorageFileAudience {
+  /**
+   * The OAuth scope to use to retrieve an AAD token for Azure Storage.
+   */
+  StorageOAuthScopes = "https://storage.azure.com/.default",
+}
+
+export function getFileServiceAccountAudience(storageAccountName: string): string {
+  return `https://${storageAccountName}.file.core.windows.net/.default`;
+}

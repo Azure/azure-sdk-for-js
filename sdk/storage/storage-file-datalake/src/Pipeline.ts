@@ -3,7 +3,6 @@
 
 import {
   BaseRequestPolicy,
-  bearerTokenAuthenticationPolicy,
   deserializationPolicy,
   disableResponseDecompressionPolicy,
   generateClientRequestIdPolicy,
@@ -40,6 +39,7 @@ import {
   StorageOAuthScopes,
 } from "./utils/constants";
 import { getCachedDefaultHttpClient } from "./utils/cache";
+import { storageBearerTokenChallengeAuthenticationPolicy } from "./policies/StorageBearerTokenChallengeAuthenticationPolicy";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -140,6 +140,11 @@ export interface StoragePipelineOptions {
    * Configures the HTTP client to send requests and receive responses.
    */
   httpClient?: IHttpClient;
+  /**
+   * The audience used to retrieve an AAD token.
+   * By default, audience 'https://storage.azure.com/.default' will be used.
+   */
+  audience?: string;
 }
 
 /**
@@ -184,7 +189,10 @@ export function newPipeline(
   factories.push(
     isTokenCredential(credential)
       ? attachCredential(
-          bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
+          storageBearerTokenChallengeAuthenticationPolicy(
+            credential,
+            pipelineOptions.audience ?? StorageOAuthScopes
+          ),
           credential
         )
       : credential

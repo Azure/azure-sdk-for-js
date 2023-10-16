@@ -1130,6 +1130,9 @@ export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: D
 // @public
 export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: DataLakeSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
 
+// @public (undocumented)
+export function getDataLakeServiceAccountAudience(storageAccountName: string): string;
+
 export { HttpHeaders }
 
 export { HttpOperationResponse }
@@ -2110,11 +2113,17 @@ export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBrowserPolicy;
 }
 
+// @public
+export enum StorageDataLakeAudience {
+    StorageOAuthScopes = "https://storage.azure.com/.default"
+}
+
 // @public (undocumented)
 export const StorageOAuthScopes: string | string[];
 
 // @public
 export interface StoragePipelineOptions {
+    audience?: string;
     httpClient?: IHttpClient;
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxyOptions;

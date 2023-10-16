@@ -2295,6 +2295,9 @@ export interface GeoReplication {
 // @public
 export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
+// @public (undocumented)
+export function getBlobServiceAccountAudience(storageAccountName: string): string;
+
 // @public
 export interface HttpAuthorization {
     scheme: string;

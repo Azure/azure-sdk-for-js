@@ -29,6 +29,8 @@ export {
   CloseHandlesInfo,
   ShareProtocols,
   HttpAuthorization,
+  StorageFileAudience,
+  getFileServiceAccountAudience,
 } from "./models";
 export * from "./FileSystemAttributes";
 export * from "./Pipeline";
