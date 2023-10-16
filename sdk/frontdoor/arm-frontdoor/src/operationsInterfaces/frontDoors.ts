@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FrontDoor,
   FrontDoorsListOptionalParams,
@@ -66,8 +66,8 @@ export interface FrontDoors {
     frontDoorParameters: FrontDoor,
     options?: FrontDoorsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FrontDoorsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FrontDoorsCreateOrUpdateResponse>,
       FrontDoorsCreateOrUpdateResponse
     >
   >;
@@ -94,7 +94,7 @@ export interface FrontDoors {
     resourceGroupName: string,
     frontDoorName: string,
     options?: FrontDoorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Front Door with the specified parameters.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.

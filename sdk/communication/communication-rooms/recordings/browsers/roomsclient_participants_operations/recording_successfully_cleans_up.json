@@ -1,12 +1,12 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/rooms/99435069523038846?api-version=2023-03-31-preview",
+      "RequestUri": "https://endpoint/rooms/99481786414329785?api-version=2023-06-14",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Language": "en-GB",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Origin": "http://localhost:9876",
@@ -18,21 +18,21 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "8c2bffbd-8a99-487b-9667-371dd317a205",
+        "x-ms-client-request-id": "f44d371b-b43e-4c37-b63a-5750944ba601",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 28 Apr 2023 13:27:00 GMT",
-        "x-ms-useragent": "azsdk-js-communication-rooms/1.0.0-beta.2 core-rest-pipeline/1.10.3 OS"
+        "x-ms-date": "Wed, 07 Jun 2023 19:44:36 GMT",
+        "x-ms-useragent": "azsdk-js-communication-rooms/1.0.0 core-rest-pipeline/1.11.1 OS"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "Access-Control-Allow-Origin": "*",
-        "api-supported-versions": "2021-04-07, 2022-02-01, 2023-03-31-preview",
-        "Connection": "keep-alive",
-        "Date": "Fri, 28 Apr 2023 13:27:02 GMT",
-        "MS-CV": "c7T8a6Pg30Gthc5zdvDYeg.0",
+        "api-deprecated-versions": "2021-04-07",
+        "api-supported-versions": "2022-02-01, 2023-03-31-preview, 2023-06-14",
+        "Date": "Wed, 07 Jun 2023 19:44:36 GMT",
+        "MS-CV": "tnsOlKfLMUOhtygRwilTeA.0",
         "Request-Context": "appId=",
-        "x-azure-ref": "20230428T132702Z-tkvh9g0xex6vdecxaqdu4636tw000000053g00000002hqr2",
+        "X-Azure-Ref": "0JN6AZAAAAABxtNtF9eKqQ4dnm72u6W0SWVZSMzExMDAwMTE1MDUzAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null

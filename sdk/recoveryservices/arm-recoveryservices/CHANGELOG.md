@@ -1,6 +1,6 @@
 # Release History
 
-## 5.2.1 (Unreleased)
+## 5.4.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,33 @@
 
 ### Other Changes
 
+## 5.4.0 (2023-08-29)
+    
+**Features**
+
+  - Added Interface SoftDeleteSettings
+  - Added Type Alias MultiUserAuthorization
+  - Added Type Alias SecureScoreLevel
+  - Added Type Alias SoftDeleteState
+  - Interface SecuritySettings has a new optional parameter multiUserAuthorization
+  - Interface SecuritySettings has a new optional parameter softDeleteSettings
+  - Interface VaultProperties has a new optional parameter secureScore
+  - Added Enum KnownMultiUserAuthorization
+  - Added Enum KnownSecureScoreLevel
+  - Added Enum KnownSoftDeleteState
+    
+    
+## 5.3.0 (2023-05-31)
+    
+**Features**
+
+  - Added Interface CrossSubscriptionRestoreSettings
+  - Added Interface RestoreSettings
+  - Added Type Alias CrossSubscriptionRestoreState
+  - Interface VaultProperties has a new optional parameter restoreSettings
+  - Added Enum KnownCrossSubscriptionRestoreState
+    
+    
 ## 5.2.0 (2023-02-07)
     
 **Features**
@@ -88,4 +115,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

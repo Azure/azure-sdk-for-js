@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Image,
   ImagesListByResourceGroupOptionalParams,
@@ -26,7 +26,8 @@ import {
 /** Interface representing a Images. */
 export interface Images {
   /**
-   * Gets the list of images under a resource group.
+   * Gets the list of images under a resource group. Use nextLink property in the response to get the
+   * next page of Images. Do this till nextLink is null to fetch all the Images.
    * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */
@@ -53,8 +54,8 @@ export interface Images {
     parameters: Image,
     options?: ImagesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ImagesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ImagesCreateOrUpdateResponse>,
       ImagesCreateOrUpdateResponse
     >
   >;
@@ -84,7 +85,7 @@ export interface Images {
     parameters: ImageUpdate,
     options?: ImagesUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ImagesUpdateResponse>, ImagesUpdateResponse>
+    SimplePollerLike<OperationState<ImagesUpdateResponse>, ImagesUpdateResponse>
   >;
   /**
    * Update an image.
@@ -109,7 +110,7 @@ export interface Images {
     resourceGroupName: string,
     imageName: string,
     options?: ImagesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an Image.
    * @param resourceGroupName The name of the resource group.

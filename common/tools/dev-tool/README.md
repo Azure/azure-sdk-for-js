@@ -20,6 +20,7 @@ It provides a place to centralize scripts, resources, and processes for developm
 - `samples`
   - `dev` (link samples to local sources for access to IntelliSense during development)
   - `prep` (prepare samples for local source-linked execution)
+  - `publish` (make a "camera-ready" copy of a package's samples)
   - `run` (execute a sample or all samples within a directory)
   - `check-node-versions` (execute samples with different node versions, typically in preparation for release)
 - `test-proxy`

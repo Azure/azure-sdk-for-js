@@ -93,6 +93,55 @@ export interface Resource {
   readonly type?: string;
 }
 
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** A list of availability group listeners. */
 export interface AvailabilityGroupListenerListResult {
   /**
@@ -321,6 +370,8 @@ export interface ServerConfigurationsManagementSettings {
   additionalFeaturesServerConfigurations?: AdditionalFeaturesServerConfigurations;
   /** SQL Instance settings. */
   sqlInstanceSettings?: SQLInstanceSettings;
+  /** Azure AD authentication Settings. */
+  azureAdAuthenticationSettings?: AADAuthenticationSettings;
 }
 
 /** Set the access level and network port settings for SQL Server. */
@@ -375,6 +426,12 @@ export interface SQLInstanceSettings {
   isIfiEnabled?: boolean;
 }
 
+/** Enable AAD authentication for SQL VM. */
+export interface AADAuthenticationSettings {
+  /** The client Id of the Managed Identity to query Microsoft Graph API. An empty string must be used for the system assigned Managed Identity */
+  clientId?: string;
+}
+
 /** Storage Configurations for SQL Data, Log and TempDb. */
 export interface StorageConfigurationSettings {
   /** SQL Server Data Storage Settings. */
@@ -421,13 +478,59 @@ export interface SQLTempDbSettings {
   defaultFilePath?: string;
 }
 
-/** Configure assessment for databases in your SQL virtual machine. */
+/** Status of last troubleshooting operation on this SQL VM */
+export interface TroubleshootingStatus {
+  /**
+   * Root cause of the issue
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rootCause?: string;
+  /**
+   * Last troubleshooting trigger time in UTC timezone
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTriggerTimeUtc?: Date;
+  /**
+   * Start time in UTC timezone.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTimeUtc?: Date;
+  /**
+   * End time in UTC timezone.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTimeUtc?: Date;
+  /**
+   * SQL VM troubleshooting scenario.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly troubleshootingScenario?: TroubleshootingScenario;
+  /**
+   * Troubleshooting properties
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: TroubleshootingAdditionalProperties;
+}
+
+/** SQL VM Troubleshooting additional properties. */
+export interface TroubleshootingAdditionalProperties {
+  /** The unhealthy replica information */
+  unhealthyReplicaInfo?: UnhealthyReplicaInfo;
+}
+
+/** SQL VM Troubleshoot UnhealthyReplica scenario information. */
+export interface UnhealthyReplicaInfo {
+  /** The name of the availability group */
+  availabilityGroupName?: string;
+}
+
+/** Configure SQL best practices Assessment for databases in your SQL virtual machine. */
 export interface AssessmentSettings {
-  /** Enable or disable assessment feature on SQL virtual machine. */
+  /** Enable or disable SQL best practices Assessment feature on SQL virtual machine. */
   enable?: boolean;
-  /** Run assessment immediately on SQL virtual machine. */
+  /** Run SQL best practices Assessment immediately on SQL virtual machine. */
   runImmediately?: boolean;
-  /** Schedule for Assessment. */
+  /** Schedule for SQL best practices Assessment. */
   schedule?: Schedule;
 }
 
@@ -449,6 +552,23 @@ export interface Schedule {
 export interface SqlVirtualMachineUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
+}
+
+/** Details required for SQL VM troubleshooting */
+export interface SqlVmTroubleshooting {
+  /** Start time in UTC timezone. */
+  startTimeUtc?: Date;
+  /** End time in UTC timezone. */
+  endTimeUtc?: Date;
+  /** SQL VM troubleshooting scenario. */
+  troubleshootingScenario?: TroubleshootingScenario;
+  /** Troubleshooting properties */
+  properties?: TroubleshootingAdditionalProperties;
+  /**
+   * Virtual machine resource id for response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachineResourceId?: string;
 }
 
 /** ARM proxy resource. */
@@ -565,10 +685,45 @@ export interface SqlVirtualMachine extends TrackedResource {
   serverConfigurationsManagementSettings?: ServerConfigurationsManagementSettings;
   /** Storage Configuration Settings. */
   storageConfigurationSettings?: StorageConfigurationSettings;
-  /** Assessment Settings. */
+  /**
+   * Troubleshooting status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly troubleshootingStatus?: TroubleshootingStatus;
+  /** SQL best practices Assessment Settings. */
   assessmentSettings?: AssessmentSettings;
   /** Enable automatic upgrade of Sql IaaS extension Agent. */
   enableAutomaticUpgrade?: boolean;
+}
+
+/** Defines headers for AvailabilityGroupListeners_delete operation. */
+export interface AvailabilityGroupListenersDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for SqlVirtualMachineGroups_delete operation. */
+export interface SqlVirtualMachineGroupsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for SqlVirtualMachines_delete operation. */
+export interface SqlVirtualMachinesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for SqlVirtualMachines_startAssessment operation. */
+export interface SqlVirtualMachinesStartAssessmentHeaders {
+  location?: string;
+}
+
+/** Defines headers for SqlVirtualMachines_redeploy operation. */
+export interface SqlVirtualMachinesRedeployHeaders {
+  location?: string;
+}
+
+/** Defines headers for SqlVirtualMachineTroubleshoot_troubleshoot operation. */
+export interface SqlVirtualMachineTroubleshootTroubleshootHeaders {
+  location?: string;
 }
 
 /** Known values of {@link Role} that the service accepts. */
@@ -832,7 +987,9 @@ export type SqlManagementMode = string;
 /** Known values of {@link LeastPrivilegeMode} that the service accepts. */
 export enum KnownLeastPrivilegeMode {
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
+  /** NotSet */
+  NotSet = "NotSet"
 }
 
 /**
@@ -840,7 +997,8 @@ export enum KnownLeastPrivilegeMode {
  * {@link KnownLeastPrivilegeMode} can be used interchangeably with LeastPrivilegeMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled**
+ * **Enabled** \
+ * **NotSet**
  */
 export type LeastPrivilegeMode = string;
 
@@ -1023,6 +1181,21 @@ export enum KnownStorageWorkloadType {
  * **DW**
  */
 export type StorageWorkloadType = string;
+
+/** Known values of {@link TroubleshootingScenario} that the service accepts. */
+export enum KnownTroubleshootingScenario {
+  /** UnhealthyReplica */
+  UnhealthyReplica = "UnhealthyReplica"
+}
+
+/**
+ * Defines values for TroubleshootingScenario. \
+ * {@link KnownTroubleshootingScenario} can be used interchangeably with TroubleshootingScenario,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **UnhealthyReplica**
+ */
+export type TroubleshootingScenario = string;
 /** Defines values for DayOfWeek. */
 export type DayOfWeek =
   | "Everyday"
@@ -1185,24 +1358,6 @@ export interface SqlVirtualMachinesListOptionalParams
 export type SqlVirtualMachinesListResponse = SqlVirtualMachineListResult;
 
 /** Optional parameters. */
-export interface SqlVirtualMachinesStartAssessmentOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface SqlVirtualMachinesRedeployOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
 export interface SqlVirtualMachinesGetOptionalParams
   extends coreClient.OperationOptions {
   /** The child resources to include in the response. */
@@ -1253,6 +1408,24 @@ export interface SqlVirtualMachinesListByResourceGroupOptionalParams
 export type SqlVirtualMachinesListByResourceGroupResponse = SqlVirtualMachineListResult;
 
 /** Optional parameters. */
+export interface SqlVirtualMachinesStartAssessmentOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SqlVirtualMachinesRedeployOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface SqlVirtualMachinesListBySqlVmGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1272,6 +1445,18 @@ export interface SqlVirtualMachinesListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type SqlVirtualMachinesListByResourceGroupNextResponse = SqlVirtualMachineListResult;
+
+/** Optional parameters. */
+export interface SqlVirtualMachineTroubleshootTroubleshootOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the troubleshoot operation. */
+export type SqlVirtualMachineTroubleshootTroubleshootResponse = SqlVmTroubleshooting;
 
 /** Optional parameters. */
 export interface SqlVirtualMachineManagementClientOptionalParams

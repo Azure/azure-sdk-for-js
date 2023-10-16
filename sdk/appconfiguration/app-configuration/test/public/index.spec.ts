@@ -31,19 +31,7 @@ describe("AppConfigurationClient", () => {
 
   after(async function (this: Context) {
     if (!isPlaybackMode()) {
-      try {
-        await deleteEverySetting();
-      } catch (error) {
-        if ((error as { statusCode: number }).statusCode === 404) {
-          // If for some reason, service fails with 404 while deleting, we don't care about it so that we don't count it as a test failure
-          console.log(
-            "delete settings if any(in the after section..) results in an error(404)",
-            error
-          );
-        } else {
-          throw error;
-        }
-      }
+      await deleteEverySetting();
     }
   });
 
@@ -177,7 +165,8 @@ describe("AppConfigurationClient", () => {
       await client.deleteConfigurationSetting({ key, label });
     });
 
-    it("accepts operation options", async function () {
+    // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
+    it.skip("accepts  operation options", async function () {
       if (isPlaybackMode()) this.skip();
       const key = recorder.variable(
         "addConfigTestTwice",
@@ -330,7 +319,8 @@ describe("AppConfigurationClient", () => {
       await client.deleteConfigurationSetting({ key, label });
     });
 
-    it("accepts operation options", async function () {
+    // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
+    it.skip("accepts  operation options", async function () {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
       // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isPlaybackMode()) this.skip();
@@ -459,7 +449,8 @@ describe("AppConfigurationClient", () => {
       }
     });
 
-    it("accepts operation options", async function () {
+    // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
+    it.skip("accepts  operation options", async function () {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
       // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isPlaybackMode()) this.skip();
@@ -860,7 +851,8 @@ describe("AppConfigurationClient", () => {
       }
     });
 
-    it("accepts operation options", async function () {
+    // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
+    it.skip("accepts  operation options", async function () {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
       // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isPlaybackMode()) this.skip();
@@ -1038,7 +1030,8 @@ describe("AppConfigurationClient", () => {
       );
     });
 
-    it("accepts operation options", async function () {
+    // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
+    it.skip("accepts  operation options", async function () {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
       // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isPlaybackMode()) this.skip();
@@ -1312,7 +1305,8 @@ describe("AppConfigurationClient", () => {
       );
     });
 
-    it("accepts operation options", async function () {
+    // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
+    it.skip("accepts  operation options", async function () {
       if (isPlaybackMode()) this.skip();
       const key = recorder.variable(
         `setConfigTestNA`,

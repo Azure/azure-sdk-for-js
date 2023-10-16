@@ -167,7 +167,7 @@ describe("Redis test", () => {
       count++;
       const res = await client.redis.get(resourceGroupName, name);
       if (res.provisioningState == "Succeeded") {
-        const res = await client.redis.beginUpdateAndWait(resourceGroupName, name, { enableNonSslPort: true });
+        const res = await client.redis.beginUpdateAndWait(resourceGroupName, name, { enableNonSslPort: true }, testPollingOptions);
         assert.equal(res.enableNonSslPort, true);
         break;
       } else {

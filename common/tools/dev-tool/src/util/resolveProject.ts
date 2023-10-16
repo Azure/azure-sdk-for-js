@@ -31,11 +31,20 @@ declare global {
     description: string;
     main: string;
     types: string;
+    exports?: {
+      [path: string]: {
+        import?: string;
+        require?: string;
+        types?: string;
+        [extraTypes: `types@${string}`]: string;
+      };
+    };
     typesVersions?: {
       [k: string]: {
         [k: string]: string[];
       };
     };
+    type?: string;
     module?: string;
     bin?: Record<string, string>;
     files: string[];
@@ -54,7 +63,7 @@ declare global {
     dependencies: Record<string, string>;
     devDependencies: Record<string, string>;
 
-    [METADATA_KEY]: AzureSdkMetadata;
+    [METADATA_KEY]?: AzureSdkMetadata;
   }
 }
 
@@ -77,7 +86,7 @@ export interface AzureSdkMetadata {
   /**
    * Paths that contain instances of the package's version number that should be updated automatically.
    */
-  constantPaths: Array<{
+  constantPaths?: Array<{
     /** The path to the containing file. */
     path: string;
     /** A line prefix to match */
@@ -196,4 +205,9 @@ export async function resolveRoot(start: string = process.cwd()): Promise<string
       return resolveRoot(nextPath);
     }
   }
+}
+
+export async function isModuleProject() {
+  const projectInfo = await resolveProject(process.cwd());
+  return projectInfo.packageJson.type === "module";
 }

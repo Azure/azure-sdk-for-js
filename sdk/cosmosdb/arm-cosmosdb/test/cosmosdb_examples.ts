@@ -52,7 +52,7 @@ describe("Cosmosdb test", () => {
     const credential = createTestCredential();
     client = new CosmosDBManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroupName = "czwjstest";
+    resourceGroupName = "myjstest";
     accountName = "myaccountxxyy2";
   });
 

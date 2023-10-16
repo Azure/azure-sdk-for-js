@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MobileNetworkManagementClient } from "../mobileNetworkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AttachedDataNetwork,
   AttachedDataNetworksListByPacketCoreDataPlaneNextOptionalParams,
@@ -151,14 +155,14 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
     options?: AttachedDataNetworksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -191,21 +195,21 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
         attachedDataNetworkName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -281,8 +285,8 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     parameters: AttachedDataNetwork,
     options?: AttachedDataNetworksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AttachedDataNetworksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AttachedDataNetworksCreateOrUpdateResponse>,
       AttachedDataNetworksCreateOrUpdateResponse
     >
   > {
@@ -292,7 +296,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     ): Promise<AttachedDataNetworksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -325,9 +329,9 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
@@ -335,12 +339,15 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AttachedDataNetworksCreateOrUpdateResponse,
+      OperationState<AttachedDataNetworksCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;

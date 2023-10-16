@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a SQL virtual machine.
  *
  * @summary Deletes a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/DeleteSqlVirtualMachine.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/DeleteSqlVirtualMachine.json
  */
 async function deletesASqlVirtualMachine() {
   const subscriptionId =

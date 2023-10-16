@@ -18,6 +18,8 @@ import {
   BackupsListByServerNextOptionalParams,
   BackupsListByServerOptionalParams,
   BackupsListByServerResponse,
+  BackupsPutOptionalParams,
+  BackupsPutResponse,
   BackupsGetOptionalParams,
   BackupsGetResponse,
   BackupsListByServerNextResponse
@@ -117,6 +119,25 @@ export class BackupsImpl implements Backups {
   }
 
   /**
+   * Create backup for a given server with specified backup name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param backupName The name of the backup.
+   * @param options The options parameters.
+   */
+  put(
+    resourceGroupName: string,
+    serverName: string,
+    backupName: string,
+    options?: BackupsPutOptionalParams
+  ): Promise<BackupsPutResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, backupName, options },
+      putOperationSpec
+    );
+  }
+
+  /**
    * List all the backups for a given server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
@@ -174,6 +195,29 @@ export class BackupsImpl implements Backups {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const putOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/backups/{backupName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServerBackup
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.backupName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/backups/{backupName}",
@@ -186,7 +230,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -209,7 +253,7 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -24,23 +24,6 @@ export type AnalyzeTextTaskResultUnion =
   | PiiTaskResult
   | KeyPhraseTaskResult
   | LanguageDetectionTaskResult;
-export type BaseResolutionUnion =
-  | BaseResolution
-  | AgeResolution
-  | VolumeResolution
-  | SpeedResolution
-  | AreaResolution
-  | LengthResolution
-  | InformationResolution
-  | TemperatureResolution
-  | WeightResolution
-  | CurrencyResolution
-  | BooleanResolution
-  | DateTimeResolution
-  | NumberResolution
-  | OrdinalResolution
-  | TemporalSpanResolution
-  | NumericRangeResolution;
 export type AnalyzeBatchActionUnion =
   | AnalyzeBatchAction
   | CustomEntitiesLROTask
@@ -144,7 +127,7 @@ export interface TextDocumentInput {
   id: string;
   /** The input text to process. */
   text: string;
-  /** (Optional) This is the 2 letter ISO 639-1 representation of a language. For example, use "en" for English; "es" for Spanish etc. For Auto Language Detection, use "auto". If not set, use "en" for English as default. */
+  /** (Optional) This is the 2 letter ISO 639-1 representation of a language. For example, use "en" for English; "es" for Spanish etc. If not set, use "en" for English as default. */
   language?: string;
 }
 
@@ -177,11 +160,8 @@ export interface TasksStateTasks {
   items?: AnalyzeTextLROResultUnion[];
 }
 
-/** Returns the current state of the task. */
 export interface TaskState {
-  /** The last updated time in UTC for the task. */
   lastUpdateDateTime: Date;
-  /** The status of the task at the mentioned last update time. */
   status: State;
 }
 
@@ -192,8 +172,6 @@ export interface AnalyzeTextJobStatistics {
 
 /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
 export interface TextDocumentBatchStatistics {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
   /** Number of documents submitted in the request. */
   documentCount: number;
   /** Number of valid documents. This excludes empty, over-size limit or non-supported languages documents. */
@@ -239,32 +217,12 @@ export interface CustomResult {
   deploymentName: string;
 }
 
+/** Contains details of errors encountered during a job execution. */
 export interface DocumentError {
-  /** Document Id. */
+  /** The ID of the input document. */
   id: string;
-  /** Document Error. */
+  /** Error encountered. */
   error: ErrorModel;
-}
-
-/** The abstract base class for entity resolutions. */
-export interface BaseResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind:
-    | "AgeResolution"
-    | "VolumeResolution"
-    | "SpeedResolution"
-    | "AreaResolution"
-    | "LengthResolution"
-    | "InformationResolution"
-    | "TemperatureResolution"
-    | "WeightResolution"
-    | "CurrencyResolution"
-    | "BooleanResolution"
-    | "DateTimeResolution"
-    | "NumberResolution"
-    | "OrdinalResolution"
-    | "TemporalSpanResolution"
-    | "NumericRangeResolution";
 }
 
 /** A word or phrase identified as an entity that is categorized within a taxonomy of types. The set of categories recognized by the Language service is described at https://docs.microsoft.com/azure/cognitive-services/language-service/named-entity-recognition/concepts/named-entity-categories . */
@@ -306,24 +264,6 @@ export interface TextDocumentStatistics {
   characterCount: number;
   /** Number of transactions for the document. */
   transactionCount: number;
-}
-
-/** The auto-detected language of the input document. */
-export interface DocumentDetectedLanguage {
-  /** If 'language' is set to 'auto' for the document in the request this field will contain a 2 letter ISO 639-1 representation of the language detected for this document. */
-  detectedLanguage?: DetectedLanguage;
-}
-
-/** Information about the language of a document as identified by the Language service. */
-export interface DetectedLanguage {
-  /** Long name of a detected language (e.g. English, French). */
-  name: string;
-  /** A two letter representation of the detected language according to the ISO 639-1 standard (e.g. en, fr). */
-  iso6391Name: string;
-  /** A confidence score between 0 and 1. Scores close to 1 indicate 100% certainty that the identified language is true. */
-  confidenceScore: number;
-  /** Identifies the script of the input document. */
-  script?: ScriptKind;
 }
 
 /** A classification result from a custom classify document single category action */
@@ -391,26 +331,13 @@ export interface HealthcareRelationEntity {
   role: string;
 }
 
-export interface DocumentDetectedLanguageString {
-  /** If 'language' is set to 'auto' for the document in the request this field will contain a 2 letter ISO 639-1 representation of the language detected for this document. */
-  detectedLanguage?: string;
-}
-
 export interface PreBuiltResult {
   /** Errors by document id. */
-  errors: InputError[];
+  errors: DocumentError[];
   /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
   statistics?: TextDocumentBatchStatistics;
   /** This field indicates which model is used for scoring. */
   modelVersion: string;
-}
-
-/** Contains details of errors encountered during a job execution. */
-export interface InputError {
-  /** The ID of the input. */
-  id: string;
-  /** Error encountered. */
-  error: ErrorModel;
 }
 
 /** Represents the confidence scores between 0 and 1 across all sentiment classes: positive, neutral, negative. */
@@ -517,12 +444,6 @@ export interface Match {
   length: number;
 }
 
-/** Represents resolutions for quantities. */
-export interface QuantityResolution {
-  /** The numeric value that the extracted text denotes. */
-  value: number;
-}
-
 /** A sentence that is part of the extracted summary. */
 export interface SummarySentence {
   /** The extracted sentence text. */
@@ -535,8 +456,22 @@ export interface SummarySentence {
   length: number;
 }
 
+/** Information about the language of a document as identified by the Language service. */
+export interface DetectedLanguage {
+  /** Long name of a detected language (e.g. English, French). */
+  name: string;
+  /** A two letter representation of the detected language according to the ISO 639-1 standard (e.g. en, fr). */
+  iso6391Name: string;
+  /** A confidence score between 0 and 1. Scores close to 1 indicate 100% certainty that the identified language is true. */
+  confidenceScore: number;
+}
+
 export interface Pagination {
   nextLink?: string;
+}
+
+export interface JobErrors {
+  errors?: ErrorModel[];
 }
 
 /** Supported parameters for an Abstractive Summarization task. */
@@ -554,7 +489,7 @@ export interface AbstractiveSummarizationTaskParametersBase {
 /** An object representing the summarization results of each document. */
 export interface AbstractiveSummarizationResultBase {
   /** Response by document */
-  documents: AbstractiveSummaryDocumentResultWithDetectedLanguage[];
+  documents: AbstractiveSummaryDocumentResult[];
 }
 
 /** An object representing a single summary with context for given document. */
@@ -672,16 +607,6 @@ export interface AnalyzeTextJobState
     TasksState,
     AnalyzeTextJobStatistics {}
 
-/** if includeStatistics=true was specified in the request this field will contain information about the document request payload. */
-export interface DocumentRequestStatistics extends TextDocumentBatchStatistics {
-  /** Number of documents submitted in the request. */
-  documentsCount: number;
-  /** Number of valid documents. This excludes empty, over-size limit or non-supported languages documents. */
-  validDocumentsCount: number;
-  /** Number of invalid documents. This includes empty, over-size limit or non-supported languages documents. */
-  erroneousDocumentsCount: number;
-}
-
 /** Configuration common to all actions that use prebuilt models. */
 export interface ActionPrebuilt extends ActionCommon {
   /** The version of the model to be used by the action. */
@@ -706,164 +631,9 @@ export interface CustomLabelClassificationResult extends CustomResult {
   documents: CustomLabelClassificationResultDocumentsItem[];
 }
 
-/** Represents the Age entity resolution model. */
-export interface AgeResolution extends BaseResolution, QuantityResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind: "AgeResolution";
-  /** The Age Unit of measurement */
-  unit: AgeUnit;
-}
-
-/** Represents the volume entity resolution model. */
-export interface VolumeResolution extends BaseResolution, QuantityResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind: "VolumeResolution";
-  /** The Volume Unit of measurement */
-  unit: VolumeUnit;
-}
-
-/** Represents the speed entity resolution model. */
-export interface SpeedResolution extends BaseResolution, QuantityResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind: "SpeedResolution";
-  /** The speed Unit of measurement */
-  unit: SpeedUnit;
-}
-
-/** Represents the area entity resolution model. */
-export interface AreaResolution extends BaseResolution, QuantityResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind: "AreaResolution";
-  /** The area Unit of measurement */
-  unit: AreaUnit;
-}
-
-/** Represents the length entity resolution model. */
-export interface LengthResolution extends BaseResolution, QuantityResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind: "LengthResolution";
-  /** The length Unit of measurement */
-  unit: LengthUnit;
-}
-
-/** Represents the information (data) entity resolution model. */
-export interface InformationResolution
-  extends BaseResolution,
-    QuantityResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind: "InformationResolution";
-  /** The information (data) Unit of measurement. */
-  unit: InformationUnit;
-}
-
-/** Represents the temperature entity resolution model. */
-export interface TemperatureResolution
-  extends BaseResolution,
-    QuantityResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind: "TemperatureResolution";
-  /** The temperature Unit of measurement. */
-  unit: TemperatureUnit;
-}
-
-/** Represents the weight entity resolution model. */
-export interface WeightResolution extends BaseResolution, QuantityResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind: "WeightResolution";
-  /** The weight Unit of measurement. */
-  unit: WeightUnit;
-}
-
-/** Represents the currency entity resolution model. */
-export interface CurrencyResolution extends BaseResolution, QuantityResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind: "CurrencyResolution";
-  /** The alphabetic code based on another ISO standard, ISO 3166, which lists the codes for country names. The first two letters of the ISO 4217 three-letter code are the same as the code for the country name, and, where possible, the third letter corresponds to the first letter of the currency name. */
-  iso4217?: string;
-  /** The unit of the amount captured in the extracted entity */
-  unit: string;
-}
-
-/** A resolution for boolean expressions */
-export interface BooleanResolution extends BaseResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind: "BooleanResolution";
-  value: boolean;
-}
-
-/** A resolution for datetime entity instances. */
-export interface DateTimeResolution extends BaseResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind: "DateTimeResolution";
-  /** An extended ISO 8601 date/time representation as described in (https://github.com/Microsoft/Recognizers-Text/blob/master/Patterns/English/English-DateTime.yaml) */
-  timex: string;
-  /** The DateTime SubKind */
-  dateTimeSubKind: DateTimeSubKind;
-  /** The actual time that the extracted text denote. */
-  value: string;
-  /** An optional modifier of a date/time instance. */
-  modifier?: TemporalModifier;
-}
-
-/** A resolution for numeric entity instances. */
-export interface NumberResolution extends BaseResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind: "NumberResolution";
-  /** The type of the extracted number entity. */
-  numberKind: NumberKind;
-  /** A numeric representation of what the extracted text denotes. */
-  value: number;
-}
-
-/** A resolution for ordinal numbers entity instances. */
-export interface OrdinalResolution extends BaseResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind: "OrdinalResolution";
-  /** The offset With respect to the reference (e.g., offset = -1 in "show me the second to last" */
-  offset: string;
-  /** The reference point that the ordinal number denotes. */
-  relativeTo: RelativeTo;
-  /** A simple arithmetic expression that the ordinal denotes. */
-  value: string;
-}
-
-/** represents the resolution of a date and/or time span. */
-export interface TemporalSpanResolution extends BaseResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind: "TemporalSpanResolution";
-  /** An extended ISO 8601 date/time representation as described in (https://github.com/Microsoft/Recognizers-Text/blob/master/Patterns/English/English-DateTime.yaml) */
-  begin?: string;
-  /** An extended ISO 8601 date/time representation as described in (https://github.com/Microsoft/Recognizers-Text/blob/master/Patterns/English/English-DateTime.yaml) */
-  end?: string;
-  /** An optional duration value formatted based on the ISO 8601 (https://en.wikipedia.org/wiki/ISO_8601#Durations) */
-  duration?: string;
-  /** An optional modifier of a date/time instance. */
-  modifier?: TemporalModifier;
-  /** An optional triplet containing the beginning, the end, and the duration all stated as ISO 8601 formatted strings. */
-  timex?: string;
-}
-
-/** represents the resolution of numeric intervals. */
-export interface NumericRangeResolution extends BaseResolution {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  resolutionKind: "NumericRangeResolution";
-  /** The kind of range that the resolution object represents. */
-  rangeKind: RangeKind;
-  /** The beginning value of  the interval. */
-  minimum: number;
-  /** The ending value of the interval. */
-  maximum: number;
-}
-
-/** An entity with resolution. */
-export interface EntityWithResolution extends Entity {
-  /** The collection of entity resolution objects. */
-  resolutions?: BaseResolutionUnion[];
-}
-
 export interface EntitiesDocumentResult extends DocumentResult {
   /** Recognized entities in the document. */
-  entities: EntityWithResolution[];
+  entities: Entity[];
 }
 
 export interface ClassificationDocumentResult extends DocumentResult {
@@ -875,8 +645,6 @@ export interface HealthcareEntitiesDocumentResult extends DocumentResult {
   entities: HealthcareEntity[];
   /** Healthcare entity relations. */
   relations: HealthcareRelation[];
-  /** JSON bundle containing a FHIR compatible object for consumption in other Healthcare tools. For additional information see https://www.hl7.org/fhir/overview.html. */
-  fhirBundle?: { [propertyName: string]: any };
 }
 
 export interface SentimentDocumentResult extends DocumentResult {
@@ -921,49 +689,8 @@ export interface AbstractiveSummaryDocumentResult extends DocumentResult {
   summaries: AbstractiveSummary[];
 }
 
-export interface CustomEntitiesResultDocumentsItem
-  extends EntitiesDocumentResult,
-    DocumentDetectedLanguage {}
-
-export interface CustomLabelClassificationResultDocumentsItem
-  extends ClassificationDocumentResult,
-    DocumentDetectedLanguage {}
-
-export interface SentimentResponseDocumentsItem
-  extends SentimentDocumentResult,
-    DocumentDetectedLanguage {}
-
-export interface EntitiesResultWithDetectedLanguage
-  extends EntitiesDocumentResult,
-    DocumentDetectedLanguage {}
-
-export interface EntityLinkingResultWithDetectedLanguage
-  extends LinkedEntitiesDocumentResult,
-    DocumentDetectedLanguage {}
-
-export interface PIIResultWithDetectedLanguage
-  extends PiiEntitiesDocumentResult,
-    DocumentDetectedLanguage {}
-
-export interface ExtractedSummaryDocumentResultWithDetectedLanguage
-  extends ExtractedSummaryDocumentResult,
-    DocumentDetectedLanguage {}
-
-export interface KeyPhraseResultDocumentsItem
-  extends KeyPhrasesDocumentResult,
-    DocumentDetectedLanguage {}
-
-/** An object representing the summarization result of a single document with detected language. */
-export interface AbstractiveSummaryDocumentResultWithDetectedLanguage
-  extends AbstractiveSummaryDocumentResult,
-    DocumentDetectedLanguage {}
-
-export interface HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage
-  extends HealthcareEntitiesDocumentResult,
-    DocumentDetectedLanguageString {}
-
 export interface HealthcareResult extends PreBuiltResult {
-  documents: HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage[];
+  documents: HealthcareResultDocumentsItem[];
 }
 
 export interface SentimentResponse extends PreBuiltResult {
@@ -973,22 +700,22 @@ export interface SentimentResponse extends PreBuiltResult {
 
 export interface EntitiesResult extends PreBuiltResult {
   /** Response by document */
-  documents: EntitiesResultWithDetectedLanguage[];
+  documents: EntitiesResultDocumentsItem[];
 }
 
 export interface EntityLinkingResult extends PreBuiltResult {
   /** Response by document */
-  documents: EntityLinkingResultWithDetectedLanguage[];
+  documents: EntityLinkingResultDocumentsItem[];
 }
 
 export interface PiiResult extends PreBuiltResult {
   /** Response by document */
-  documents: PIIResultWithDetectedLanguage[];
+  documents: PiiResultDocumentsItem[];
 }
 
 export interface ExtractiveSummarizationResult extends PreBuiltResult {
   /** Response by document */
-  documents: ExtractedSummaryDocumentResultWithDetectedLanguage[];
+  documents: ExtractedSummaryDocumentResult[];
 }
 
 export interface KeyPhraseResult extends PreBuiltResult {
@@ -1266,6 +993,28 @@ export interface CustomSingleLabelClassificationAction extends ActionCustom {}
 
 /** Options for a multi-label classification custom action */
 export interface CustomMultiLabelClassificationAction extends ActionCustom {}
+
+export interface CustomEntitiesResultDocumentsItem
+  extends EntitiesDocumentResult {}
+
+export interface EntitiesResultDocumentsItem extends EntitiesDocumentResult {}
+
+export interface CustomLabelClassificationResultDocumentsItem
+  extends ClassificationDocumentResult {}
+
+export interface HealthcareResultDocumentsItem
+  extends HealthcareEntitiesDocumentResult {}
+
+export interface SentimentResponseDocumentsItem
+  extends SentimentDocumentResult {}
+
+export interface EntityLinkingResultDocumentsItem
+  extends LinkedEntitiesDocumentResult {}
+
+export interface PiiResultDocumentsItem extends PiiEntitiesDocumentResult {}
+
+export interface KeyPhraseResultDocumentsItem
+  extends KeyPhrasesDocumentResult {}
 
 /** Defines headers for GeneratedClient_analyzeBatch operation. */
 export interface GeneratedClientAnalyzeBatchHeaders {
@@ -2180,63 +1929,6 @@ export enum KnownPiiEntityCategory {
  */
 export type PiiEntityCategory = string;
 
-/** Known values of {@link ResolutionKind} that the service accepts. */
-export enum KnownResolutionKind {
-  /** BooleanResolution */
-  BooleanResolution = "BooleanResolution",
-  /** DateTimeResolution */
-  DateTimeResolution = "DateTimeResolution",
-  /** NumberResolution */
-  NumberResolution = "NumberResolution",
-  /** OrdinalResolution */
-  OrdinalResolution = "OrdinalResolution",
-  /** SpeedResolution */
-  SpeedResolution = "SpeedResolution",
-  /** WeightResolution */
-  WeightResolution = "WeightResolution",
-  /** LengthResolution */
-  LengthResolution = "LengthResolution",
-  /** VolumeResolution */
-  VolumeResolution = "VolumeResolution",
-  /** AreaResolution */
-  AreaResolution = "AreaResolution",
-  /** AgeResolution */
-  AgeResolution = "AgeResolution",
-  /** InformationResolution */
-  InformationResolution = "InformationResolution",
-  /** TemperatureResolution */
-  TemperatureResolution = "TemperatureResolution",
-  /** CurrencyResolution */
-  CurrencyResolution = "CurrencyResolution",
-  /** NumericRangeResolution */
-  NumericRangeResolution = "NumericRangeResolution",
-  /** TemporalSpanResolution */
-  TemporalSpanResolution = "TemporalSpanResolution"
-}
-
-/**
- * Defines values for ResolutionKind. \
- * {@link KnownResolutionKind} can be used interchangeably with ResolutionKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **BooleanResolution** \
- * **DateTimeResolution** \
- * **NumberResolution** \
- * **OrdinalResolution** \
- * **SpeedResolution** \
- * **WeightResolution** \
- * **LengthResolution** \
- * **VolumeResolution** \
- * **AreaResolution** \
- * **AgeResolution** \
- * **InformationResolution** \
- * **TemperatureResolution** \
- * **CurrencyResolution** \
- * **NumericRangeResolution** \
- * **TemporalSpanResolution**
- */
-export type ResolutionKind = string;
-
 /** Known values of {@link WarningCode} that the service accepts. */
 export enum KnownWarningCode {
   /** LongWordsInDocument */
@@ -2255,36 +1947,6 @@ export enum KnownWarningCode {
  */
 export type WarningCode = string;
 
-/** Known values of {@link ScriptKind} that the service accepts. */
-export enum KnownScriptKind {
-  /** Latin */
-  Latin = "Latin"
-}
-
-/**
- * Defines values for ScriptKind. \
- * {@link KnownScriptKind} can be used interchangeably with ScriptKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Latin**
- */
-export type ScriptKind = string;
-
-/** Known values of {@link FhirVersion} that the service accepts. */
-export enum KnownFhirVersion {
-  /** Four01 */
-  Four01 = "4.0.1"
-}
-
-/**
- * Defines values for FhirVersion. \
- * {@link KnownFhirVersion} can be used interchangeably with FhirVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **4.0.1**
- */
-export type FhirVersion = string;
-
 /** Known values of {@link HealthcareEntityCategory} that the service accepts. */
 export enum KnownHealthcareEntityCategory {
   /** BodyStructure */
@@ -2293,6 +1955,8 @@ export enum KnownHealthcareEntityCategory {
   Age = "Age",
   /** Gender */
   Gender = "Gender",
+  /** Ethnicity */
+  Ethnicity = "Ethnicity",
   /** ExaminationName */
   ExaminationName = "ExaminationName",
   /** Date */
@@ -2309,10 +1973,16 @@ export enum KnownHealthcareEntityCategory {
   RelationalOperator = "RelationalOperator",
   /** Time */
   Time = "Time",
+  /** Course */
+  Course = "Course",
   /** GeneOrProtein */
   GeneOrProtein = "GeneOrProtein",
   /** Variant */
   Variant = "Variant",
+  /** Expression */
+  Expression = "Expression",
+  /** MutationType */
+  MutationType = "MutationType",
   /** AdministrativeEvent */
   AdministrativeEvent = "AdministrativeEvent",
   /** CareEnvironment */
@@ -2325,6 +1995,8 @@ export enum KnownHealthcareEntityCategory {
   SymptomOrSign = "SymptomOrSign",
   /** ConditionQualifier */
   ConditionQualifier = "ConditionQualifier",
+  /** ConditionScale */
+  ConditionScale = "ConditionScale",
   /** MedicationClass */
   MedicationClass = "MedicationClass",
   /** MedicationName */
@@ -2338,7 +2010,17 @@ export enum KnownHealthcareEntityCategory {
   /** FamilyRelation */
   FamilyRelation = "FamilyRelation",
   /** TreatmentName */
-  TreatmentName = "TreatmentName"
+  TreatmentName = "TreatmentName",
+  /** Allergen */
+  Allergen = "Allergen",
+  /** Employment */
+  Employment = "Employment",
+  /** LivingStatus */
+  LivingStatus = "LivingStatus",
+  /** SubstanceUse */
+  SubstanceUse = "SubstanceUse",
+  /** SubstanceUseAmount */
+  SubstanceUseAmount = "SubstanceUseAmount"
 }
 
 /**
@@ -2349,6 +2031,7 @@ export enum KnownHealthcareEntityCategory {
  * **BodyStructure** \
  * **Age** \
  * **Gender** \
+ * **Ethnicity** \
  * **ExaminationName** \
  * **Date** \
  * **Direction** \
@@ -2357,21 +2040,30 @@ export enum KnownHealthcareEntityCategory {
  * **MeasurementUnit** \
  * **RelationalOperator** \
  * **Time** \
+ * **Course** \
  * **GeneOrProtein** \
  * **Variant** \
+ * **Expression** \
+ * **MutationType** \
  * **AdministrativeEvent** \
  * **CareEnvironment** \
  * **HealthcareProfession** \
  * **Diagnosis** \
  * **SymptomOrSign** \
  * **ConditionQualifier** \
+ * **ConditionScale** \
  * **MedicationClass** \
  * **MedicationName** \
  * **Dosage** \
  * **MedicationForm** \
  * **MedicationRoute** \
  * **FamilyRelation** \
- * **TreatmentName**
+ * **TreatmentName** \
+ * **Allergen** \
+ * **Employment** \
+ * **LivingStatus** \
+ * **SubstanceUse** \
+ * **SubstanceUseAmount**
  */
 export type HealthcareEntityCategory = string;
 
@@ -2379,6 +2071,18 @@ export type HealthcareEntityCategory = string;
 export enum KnownRelationType {
   /** Abbreviation */
   Abbreviation = "Abbreviation",
+  /** BodySiteOfCondition */
+  BodySiteOfCondition = "BodySiteOfCondition",
+  /** BodySiteOfTreatment */
+  BodySiteOfTreatment = "BodySiteOfTreatment",
+  /** CourseOfCondition */
+  CourseOfCondition = "CourseOfCondition",
+  /** CourseOfExamination */
+  CourseOfExamination = "CourseOfExamination",
+  /** CourseOfMedication */
+  CourseOfMedication = "CourseOfMedication",
+  /** CourseOfTreatment */
+  CourseOfTreatment = "CourseOfTreatment",
   /** DirectionOfBodyStructure */
   DirectionOfBodyStructure = "DirectionOfBodyStructure",
   /** DirectionOfCondition */
@@ -2389,18 +2093,32 @@ export enum KnownRelationType {
   DirectionOfTreatment = "DirectionOfTreatment",
   /** DosageOfMedication */
   DosageOfMedication = "DosageOfMedication",
+  /** ExaminationFindsCondition */
+  ExaminationFindsCondition = "ExaminationFindsCondition",
+  /** ExpressionOfGene */
+  ExpressionOfGene = "ExpressionOfGene",
+  /** ExpressionOfVariant */
+  ExpressionOfVariant = "ExpressionOfVariant",
   /** FormOfMedication */
   FormOfMedication = "FormOfMedication",
+  /** FrequencyOfCondition */
+  FrequencyOfCondition = "FrequencyOfCondition",
   /** FrequencyOfMedication */
   FrequencyOfMedication = "FrequencyOfMedication",
   /** FrequencyOfTreatment */
   FrequencyOfTreatment = "FrequencyOfTreatment",
+  /** MutationTypeOfGene */
+  MutationTypeOfGene = "MutationTypeOfGene",
+  /** MutationTypeOfVariant */
+  MutationTypeOfVariant = "MutationTypeOfVariant",
   /** QualifierOfCondition */
   QualifierOfCondition = "QualifierOfCondition",
   /** RelationOfExamination */
   RelationOfExamination = "RelationOfExamination",
   /** RouteOfMedication */
   RouteOfMedication = "RouteOfMedication",
+  /** ScaleOfCondition */
+  ScaleOfCondition = "ScaleOfCondition",
   /** TimeOfCondition */
   TimeOfCondition = "TimeOfCondition",
   /** TimeOfEvent */
@@ -2418,7 +2136,9 @@ export enum KnownRelationType {
   /** ValueOfCondition */
   ValueOfCondition = "ValueOfCondition",
   /** ValueOfExamination */
-  ValueOfExamination = "ValueOfExamination"
+  ValueOfExamination = "ValueOfExamination",
+  /** VariantOfGene */
+  VariantOfGene = "VariantOfGene"
 }
 
 /**
@@ -2427,17 +2147,30 @@ export enum KnownRelationType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Abbreviation** \
+ * **BodySiteOfCondition** \
+ * **BodySiteOfTreatment** \
+ * **CourseOfCondition** \
+ * **CourseOfExamination** \
+ * **CourseOfMedication** \
+ * **CourseOfTreatment** \
  * **DirectionOfBodyStructure** \
  * **DirectionOfCondition** \
  * **DirectionOfExamination** \
  * **DirectionOfTreatment** \
  * **DosageOfMedication** \
+ * **ExaminationFindsCondition** \
+ * **ExpressionOfGene** \
+ * **ExpressionOfVariant** \
  * **FormOfMedication** \
+ * **FrequencyOfCondition** \
  * **FrequencyOfMedication** \
  * **FrequencyOfTreatment** \
+ * **MutationTypeOfGene** \
+ * **MutationTypeOfVariant** \
  * **QualifierOfCondition** \
  * **RelationOfExamination** \
  * **RouteOfMedication** \
+ * **ScaleOfCondition** \
  * **TimeOfCondition** \
  * **TimeOfEvent** \
  * **TimeOfExamination** \
@@ -2446,624 +2179,10 @@ export enum KnownRelationType {
  * **UnitOfCondition** \
  * **UnitOfExamination** \
  * **ValueOfCondition** \
- * **ValueOfExamination**
+ * **ValueOfExamination** \
+ * **VariantOfGene**
  */
 export type RelationType = string;
-
-/** Known values of {@link AgeUnit} that the service accepts. */
-export enum KnownAgeUnit {
-  /** Unspecified */
-  Unspecified = "Unspecified",
-  /** Year */
-  Year = "Year",
-  /** Month */
-  Month = "Month",
-  /** Week */
-  Week = "Week",
-  /** Day */
-  Day = "Day"
-}
-
-/**
- * Defines values for AgeUnit. \
- * {@link KnownAgeUnit} can be used interchangeably with AgeUnit,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unspecified** \
- * **Year** \
- * **Month** \
- * **Week** \
- * **Day**
- */
-export type AgeUnit = string;
-
-/** Known values of {@link VolumeUnit} that the service accepts. */
-export enum KnownVolumeUnit {
-  /** Unspecified */
-  Unspecified = "Unspecified",
-  /** CubicMeter */
-  CubicMeter = "CubicMeter",
-  /** CubicCentimeter */
-  CubicCentimeter = "CubicCentimeter",
-  /** CubicMillimeter */
-  CubicMillimeter = "CubicMillimeter",
-  /** Hectoliter */
-  Hectoliter = "Hectoliter",
-  /** Decaliter */
-  Decaliter = "Decaliter",
-  /** Liter */
-  Liter = "Liter",
-  /** Centiliter */
-  Centiliter = "Centiliter",
-  /** Milliliter */
-  Milliliter = "Milliliter",
-  /** CubicYard */
-  CubicYard = "CubicYard",
-  /** CubicInch */
-  CubicInch = "CubicInch",
-  /** CubicFoot */
-  CubicFoot = "CubicFoot",
-  /** CubicMile */
-  CubicMile = "CubicMile",
-  /** FluidOunce */
-  FluidOunce = "FluidOunce",
-  /** Teaspoon */
-  Teaspoon = "Teaspoon",
-  /** Tablespoon */
-  Tablespoon = "Tablespoon",
-  /** Pint */
-  Pint = "Pint",
-  /** Quart */
-  Quart = "Quart",
-  /** Cup */
-  Cup = "Cup",
-  /** Gill */
-  Gill = "Gill",
-  /** Pinch */
-  Pinch = "Pinch",
-  /** FluidDram */
-  FluidDram = "FluidDram",
-  /** Barrel */
-  Barrel = "Barrel",
-  /** Minim */
-  Minim = "Minim",
-  /** Cord */
-  Cord = "Cord",
-  /** Peck */
-  Peck = "Peck",
-  /** Bushel */
-  Bushel = "Bushel",
-  /** Hogshead */
-  Hogshead = "Hogshead"
-}
-
-/**
- * Defines values for VolumeUnit. \
- * {@link KnownVolumeUnit} can be used interchangeably with VolumeUnit,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unspecified** \
- * **CubicMeter** \
- * **CubicCentimeter** \
- * **CubicMillimeter** \
- * **Hectoliter** \
- * **Decaliter** \
- * **Liter** \
- * **Centiliter** \
- * **Milliliter** \
- * **CubicYard** \
- * **CubicInch** \
- * **CubicFoot** \
- * **CubicMile** \
- * **FluidOunce** \
- * **Teaspoon** \
- * **Tablespoon** \
- * **Pint** \
- * **Quart** \
- * **Cup** \
- * **Gill** \
- * **Pinch** \
- * **FluidDram** \
- * **Barrel** \
- * **Minim** \
- * **Cord** \
- * **Peck** \
- * **Bushel** \
- * **Hogshead**
- */
-export type VolumeUnit = string;
-
-/** Known values of {@link SpeedUnit} that the service accepts. */
-export enum KnownSpeedUnit {
-  /** Unspecified */
-  Unspecified = "Unspecified",
-  /** MeterPerSecond */
-  MeterPerSecond = "MeterPerSecond",
-  /** KilometerPerHour */
-  KilometerPerHour = "KilometerPerHour",
-  /** KilometerPerMinute */
-  KilometerPerMinute = "KilometerPerMinute",
-  /** KilometerPerSecond */
-  KilometerPerSecond = "KilometerPerSecond",
-  /** MilePerHour */
-  MilePerHour = "MilePerHour",
-  /** Knot */
-  Knot = "Knot",
-  /** FootPerSecond */
-  FootPerSecond = "FootPerSecond",
-  /** FootPerMinute */
-  FootPerMinute = "FootPerMinute",
-  /** YardPerMinute */
-  YardPerMinute = "YardPerMinute",
-  /** YardPerSecond */
-  YardPerSecond = "YardPerSecond",
-  /** MeterPerMillisecond */
-  MeterPerMillisecond = "MeterPerMillisecond",
-  /** CentimeterPerMillisecond */
-  CentimeterPerMillisecond = "CentimeterPerMillisecond",
-  /** KilometerPerMillisecond */
-  KilometerPerMillisecond = "KilometerPerMillisecond"
-}
-
-/**
- * Defines values for SpeedUnit. \
- * {@link KnownSpeedUnit} can be used interchangeably with SpeedUnit,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unspecified** \
- * **MeterPerSecond** \
- * **KilometerPerHour** \
- * **KilometerPerMinute** \
- * **KilometerPerSecond** \
- * **MilePerHour** \
- * **Knot** \
- * **FootPerSecond** \
- * **FootPerMinute** \
- * **YardPerMinute** \
- * **YardPerSecond** \
- * **MeterPerMillisecond** \
- * **CentimeterPerMillisecond** \
- * **KilometerPerMillisecond**
- */
-export type SpeedUnit = string;
-
-/** Known values of {@link AreaUnit} that the service accepts. */
-export enum KnownAreaUnit {
-  /** Unspecified */
-  Unspecified = "Unspecified",
-  /** SquareKilometer */
-  SquareKilometer = "SquareKilometer",
-  /** SquareHectometer */
-  SquareHectometer = "SquareHectometer",
-  /** SquareDecameter */
-  SquareDecameter = "SquareDecameter",
-  /** SquareDecimeter */
-  SquareDecimeter = "SquareDecimeter",
-  /** SquareMeter */
-  SquareMeter = "SquareMeter",
-  /** SquareCentimeter */
-  SquareCentimeter = "SquareCentimeter",
-  /** SquareMillimeter */
-  SquareMillimeter = "SquareMillimeter",
-  /** SquareInch */
-  SquareInch = "SquareInch",
-  /** SquareFoot */
-  SquareFoot = "SquareFoot",
-  /** SquareMile */
-  SquareMile = "SquareMile",
-  /** SquareYard */
-  SquareYard = "SquareYard",
-  /** Acre */
-  Acre = "Acre"
-}
-
-/**
- * Defines values for AreaUnit. \
- * {@link KnownAreaUnit} can be used interchangeably with AreaUnit,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unspecified** \
- * **SquareKilometer** \
- * **SquareHectometer** \
- * **SquareDecameter** \
- * **SquareDecimeter** \
- * **SquareMeter** \
- * **SquareCentimeter** \
- * **SquareMillimeter** \
- * **SquareInch** \
- * **SquareFoot** \
- * **SquareMile** \
- * **SquareYard** \
- * **Acre**
- */
-export type AreaUnit = string;
-
-/** Known values of {@link LengthUnit} that the service accepts. */
-export enum KnownLengthUnit {
-  /** Unspecified */
-  Unspecified = "Unspecified",
-  /** Kilometer */
-  Kilometer = "Kilometer",
-  /** Hectometer */
-  Hectometer = "Hectometer",
-  /** Decameter */
-  Decameter = "Decameter",
-  /** Meter */
-  Meter = "Meter",
-  /** Decimeter */
-  Decimeter = "Decimeter",
-  /** Centimeter */
-  Centimeter = "Centimeter",
-  /** Millimeter */
-  Millimeter = "Millimeter",
-  /** Micrometer */
-  Micrometer = "Micrometer",
-  /** Nanometer */
-  Nanometer = "Nanometer",
-  /** Picometer */
-  Picometer = "Picometer",
-  /** Mile */
-  Mile = "Mile",
-  /** Yard */
-  Yard = "Yard",
-  /** Inch */
-  Inch = "Inch",
-  /** Foot */
-  Foot = "Foot",
-  /** LightYear */
-  LightYear = "LightYear",
-  /** Pt */
-  Pt = "Pt"
-}
-
-/**
- * Defines values for LengthUnit. \
- * {@link KnownLengthUnit} can be used interchangeably with LengthUnit,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unspecified** \
- * **Kilometer** \
- * **Hectometer** \
- * **Decameter** \
- * **Meter** \
- * **Decimeter** \
- * **Centimeter** \
- * **Millimeter** \
- * **Micrometer** \
- * **Nanometer** \
- * **Picometer** \
- * **Mile** \
- * **Yard** \
- * **Inch** \
- * **Foot** \
- * **LightYear** \
- * **Pt**
- */
-export type LengthUnit = string;
-
-/** Known values of {@link InformationUnit} that the service accepts. */
-export enum KnownInformationUnit {
-  /** Unspecified */
-  Unspecified = "Unspecified",
-  /** Bit */
-  Bit = "Bit",
-  /** Kilobit */
-  Kilobit = "Kilobit",
-  /** Megabit */
-  Megabit = "Megabit",
-  /** Gigabit */
-  Gigabit = "Gigabit",
-  /** Terabit */
-  Terabit = "Terabit",
-  /** Petabit */
-  Petabit = "Petabit",
-  /** Byte */
-  Byte = "Byte",
-  /** Kilobyte */
-  Kilobyte = "Kilobyte",
-  /** Megabyte */
-  Megabyte = "Megabyte",
-  /** Gigabyte */
-  Gigabyte = "Gigabyte",
-  /** Terabyte */
-  Terabyte = "Terabyte",
-  /** Petabyte */
-  Petabyte = "Petabyte"
-}
-
-/**
- * Defines values for InformationUnit. \
- * {@link KnownInformationUnit} can be used interchangeably with InformationUnit,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unspecified** \
- * **Bit** \
- * **Kilobit** \
- * **Megabit** \
- * **Gigabit** \
- * **Terabit** \
- * **Petabit** \
- * **Byte** \
- * **Kilobyte** \
- * **Megabyte** \
- * **Gigabyte** \
- * **Terabyte** \
- * **Petabyte**
- */
-export type InformationUnit = string;
-
-/** Known values of {@link TemperatureUnit} that the service accepts. */
-export enum KnownTemperatureUnit {
-  /** Unspecified */
-  Unspecified = "Unspecified",
-  /** Fahrenheit */
-  Fahrenheit = "Fahrenheit",
-  /** Kelvin */
-  Kelvin = "Kelvin",
-  /** Rankine */
-  Rankine = "Rankine",
-  /** Celsius */
-  Celsius = "Celsius"
-}
-
-/**
- * Defines values for TemperatureUnit. \
- * {@link KnownTemperatureUnit} can be used interchangeably with TemperatureUnit,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unspecified** \
- * **Fahrenheit** \
- * **Kelvin** \
- * **Rankine** \
- * **Celsius**
- */
-export type TemperatureUnit = string;
-
-/** Known values of {@link WeightUnit} that the service accepts. */
-export enum KnownWeightUnit {
-  /** Unspecified */
-  Unspecified = "Unspecified",
-  /** Kilogram */
-  Kilogram = "Kilogram",
-  /** Gram */
-  Gram = "Gram",
-  /** Milligram */
-  Milligram = "Milligram",
-  /** Gallon */
-  Gallon = "Gallon",
-  /** MetricTon */
-  MetricTon = "MetricTon",
-  /** Ton */
-  Ton = "Ton",
-  /** Pound */
-  Pound = "Pound",
-  /** Ounce */
-  Ounce = "Ounce",
-  /** Grain */
-  Grain = "Grain",
-  /** PennyWeight */
-  PennyWeight = "PennyWeight",
-  /** LongTonBritish */
-  LongTonBritish = "LongTonBritish",
-  /** ShortTonUS */
-  ShortTonUS = "ShortTonUS",
-  /** ShortHundredWeightUS */
-  ShortHundredWeightUS = "ShortHundredWeightUS",
-  /** Stone */
-  Stone = "Stone",
-  /** Dram */
-  Dram = "Dram"
-}
-
-/**
- * Defines values for WeightUnit. \
- * {@link KnownWeightUnit} can be used interchangeably with WeightUnit,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unspecified** \
- * **Kilogram** \
- * **Gram** \
- * **Milligram** \
- * **Gallon** \
- * **MetricTon** \
- * **Ton** \
- * **Pound** \
- * **Ounce** \
- * **Grain** \
- * **PennyWeight** \
- * **LongTonBritish** \
- * **ShortTonUS** \
- * **ShortHundredWeightUS** \
- * **Stone** \
- * **Dram**
- */
-export type WeightUnit = string;
-
-/** Known values of {@link DateTimeSubKind} that the service accepts. */
-export enum KnownDateTimeSubKind {
-  /** Time */
-  Time = "Time",
-  /** Date */
-  Date = "Date",
-  /** DateTime */
-  DateTime = "DateTime",
-  /** Duration */
-  Duration = "Duration",
-  /** Set */
-  Set = "Set"
-}
-
-/**
- * Defines values for DateTimeSubKind. \
- * {@link KnownDateTimeSubKind} can be used interchangeably with DateTimeSubKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Time** \
- * **Date** \
- * **DateTime** \
- * **Duration** \
- * **Set**
- */
-export type DateTimeSubKind = string;
-
-/** Known values of {@link TemporalModifier} that the service accepts. */
-export enum KnownTemporalModifier {
-  /** AfterApprox */
-  AfterApprox = "AfterApprox",
-  /** Before */
-  Before = "Before",
-  /** BeforeStart */
-  BeforeStart = "BeforeStart",
-  /** Approx */
-  Approx = "Approx",
-  /** ReferenceUndefined */
-  ReferenceUndefined = "ReferenceUndefined",
-  /** SinceEnd */
-  SinceEnd = "SinceEnd",
-  /** AfterMid */
-  AfterMid = "AfterMid",
-  /** Start */
-  Start = "Start",
-  /** After */
-  After = "After",
-  /** BeforeEnd */
-  BeforeEnd = "BeforeEnd",
-  /** Until */
-  Until = "Until",
-  /** End */
-  End = "End",
-  /** Less */
-  Less = "Less",
-  /** Since */
-  Since = "Since",
-  /** AfterStart */
-  AfterStart = "AfterStart",
-  /** BeforeApprox */
-  BeforeApprox = "BeforeApprox",
-  /** Mid */
-  Mid = "Mid",
-  /** More */
-  More = "More"
-}
-
-/**
- * Defines values for TemporalModifier. \
- * {@link KnownTemporalModifier} can be used interchangeably with TemporalModifier,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AfterApprox** \
- * **Before** \
- * **BeforeStart** \
- * **Approx** \
- * **ReferenceUndefined** \
- * **SinceEnd** \
- * **AfterMid** \
- * **Start** \
- * **After** \
- * **BeforeEnd** \
- * **Until** \
- * **End** \
- * **Less** \
- * **Since** \
- * **AfterStart** \
- * **BeforeApprox** \
- * **Mid** \
- * **More**
- */
-export type TemporalModifier = string;
-
-/** Known values of {@link NumberKind} that the service accepts. */
-export enum KnownNumberKind {
-  /** Integer */
-  Integer = "Integer",
-  /** Decimal */
-  Decimal = "Decimal",
-  /** Power */
-  Power = "Power",
-  /** Fraction */
-  Fraction = "Fraction",
-  /** Percent */
-  Percent = "Percent",
-  /** Unspecified */
-  Unspecified = "Unspecified"
-}
-
-/**
- * Defines values for NumberKind. \
- * {@link KnownNumberKind} can be used interchangeably with NumberKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Integer** \
- * **Decimal** \
- * **Power** \
- * **Fraction** \
- * **Percent** \
- * **Unspecified**
- */
-export type NumberKind = string;
-
-/** Known values of {@link RelativeTo} that the service accepts. */
-export enum KnownRelativeTo {
-  /** Current */
-  Current = "Current",
-  /** End */
-  End = "End",
-  /** Start */
-  Start = "Start"
-}
-
-/**
- * Defines values for RelativeTo. \
- * {@link KnownRelativeTo} can be used interchangeably with RelativeTo,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Current** \
- * **End** \
- * **Start**
- */
-export type RelativeTo = string;
-
-/** Known values of {@link RangeKind} that the service accepts. */
-export enum KnownRangeKind {
-  /** Number */
-  Number = "Number",
-  /** Speed */
-  Speed = "Speed",
-  /** Weight */
-  Weight = "Weight",
-  /** Length */
-  Length = "Length",
-  /** Volume */
-  Volume = "Volume",
-  /** Area */
-  Area = "Area",
-  /** Age */
-  Age = "Age",
-  /** Information */
-  Information = "Information",
-  /** Temperature */
-  Temperature = "Temperature",
-  /** Currency */
-  Currency = "Currency"
-}
-
-/**
- * Defines values for RangeKind. \
- * {@link KnownRangeKind} can be used interchangeably with RangeKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Number** \
- * **Speed** \
- * **Weight** \
- * **Length** \
- * **Volume** \
- * **Area** \
- * **Age** \
- * **Information** \
- * **Temperature** \
- * **Currency**
- */
-export type RangeKind = string;
 
 /** Known values of {@link ExtractiveSummarizationOrderingCriteria} that the service accepts. */
 export enum KnownExtractiveSummarizationOrderingCriteria {

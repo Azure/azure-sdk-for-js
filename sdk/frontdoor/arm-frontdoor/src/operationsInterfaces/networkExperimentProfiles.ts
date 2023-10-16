@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Profile,
   NetworkExperimentProfilesListOptionalParams,
@@ -65,8 +65,8 @@ export interface NetworkExperimentProfiles {
     parameters: Profile,
     options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkExperimentProfilesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NetworkExperimentProfilesCreateOrUpdateResponse>,
       NetworkExperimentProfilesCreateOrUpdateResponse
     >
   >;
@@ -96,8 +96,8 @@ export interface NetworkExperimentProfiles {
     parameters: ProfileUpdateModel,
     options?: NetworkExperimentProfilesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkExperimentProfilesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NetworkExperimentProfilesUpdateResponse>,
       NetworkExperimentProfilesUpdateResponse
     >
   >;
@@ -124,7 +124,7 @@ export interface NetworkExperimentProfiles {
     resourceGroupName: string,
     profileName: string,
     options?: NetworkExperimentProfilesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an NetworkExperiment Profile by ProfileName
    * @param resourceGroupName Name of the Resource group within the Azure subscription.

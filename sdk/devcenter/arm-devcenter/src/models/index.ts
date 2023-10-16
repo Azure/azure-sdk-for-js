@@ -140,6 +140,8 @@ export interface ProjectUpdateProperties {
   devCenterId?: string;
   /** Description of the project. */
   description?: string;
+  /** When specified, limits the maximum number of Dev Boxes a single user can create across all pools in the project. This will have no effect on existing Dev Boxes when reduced. */
+  maxDevBoxesPerUser?: number;
 }
 
 /** Results of the Attached Networks list operation. */
@@ -323,7 +325,7 @@ export interface ProjectEnvironmentTypeUpdateProperties {
   /** Id of a subscription that the environment type will be mapped to. The environment's resources will be deployed into this subscription. */
   deploymentTargetId?: string;
   /** Defines whether this Environment Type can be used in this Project. */
-  status?: EnableStatus;
+  status?: EnvironmentTypeEnableStatus;
   /** The role definition assigned to the environment creator on backing resources. */
   creatorRoleAssignment?: ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment;
   /** Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs. */
@@ -365,7 +367,7 @@ export interface ProjectEnvironmentTypeUpdate {
   /** Id of a subscription that the environment type will be mapped to. The environment's resources will be deployed into this subscription. */
   deploymentTargetId?: string;
   /** Defines whether this Environment Type can be used in this Project. */
-  status?: EnableStatus;
+  status?: EnvironmentTypeEnableStatus;
   /** The role definition assigned to the environment creator on backing resources. */
   creatorRoleAssignment?: ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment;
   /** Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs. */
@@ -403,12 +405,6 @@ export interface ImageReference {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly exactVersion?: string;
-  /** The image publisher. */
-  publisher?: string;
-  /** The image offer. */
-  offer?: string;
-  /** The image sku. */
-  sku?: string;
 }
 
 /** Properties of a Dev Box definition. These properties can be updated after the resource has been created. */
@@ -664,6 +660,20 @@ export interface PoolListResult {
   readonly nextLink?: string;
 }
 
+/** Pool health status detail. */
+export interface HealthStatusDetail {
+  /**
+   * An identifier for the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * A message describing the issue, intended to be suitable for display in a user interface
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
 /** Properties of a Pool. These properties can be updated after the resource has been created. */
 export interface PoolUpdateProperties {
   /** Name of a Dev Box definition in parent Project of this Pool */
@@ -674,6 +684,16 @@ export interface PoolUpdateProperties {
   licenseType?: LicenseType;
   /** Indicates whether owners of Dev Boxes in this pool are added as local administrators on the Dev Box. */
   localAdministrator?: LocalAdminStatus;
+  /** Stop on disconnect configuration settings for Dev Boxes created in this pool. */
+  stopOnDisconnect?: StopOnDisconnectConfiguration;
+}
+
+/** Stop on disconnect configuration settings for Dev Boxes created in this pool. */
+export interface StopOnDisconnectConfiguration {
+  /** Whether the feature to stop the Dev Box on disconnect once the grace period has lapsed is enabled. */
+  status?: StopOnDisconnectEnableStatus;
+  /** The specified time in minutes to wait before stopping a Dev Box once disconnect is detected. */
+  gracePeriodMinutes?: number;
 }
 
 /** Result of the schedule list operation. */
@@ -701,7 +721,7 @@ export interface ScheduleUpdateProperties {
   /** The IANA timezone id at which the schedule should execute. */
   timeZone?: string;
   /** Indicates whether or not this scheduled task is enabled. */
-  state?: EnableStatus;
+  state?: ScheduleEnableStatus;
 }
 
 /** Result of the network connection list operation. */
@@ -783,6 +803,59 @@ export interface HealthCheck {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly additionalDetails?: string;
+}
+
+/** Values returned by the List operation. */
+export interface OutboundEnvironmentEndpointCollection {
+  /**
+   * The collection of outbound network dependency endpoints returned by the listing operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: OutboundEnvironmentEndpoint[];
+  /** The continuation token. */
+  nextLink?: string;
+}
+
+/** A collection of related endpoints from the same service for which the agent requires outbound access. */
+export interface OutboundEnvironmentEndpoint {
+  /**
+   * The type of service that the agent connects to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly category?: string;
+  /**
+   * The endpoints for this service for which the agent requires outbound access.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoints?: EndpointDependency[];
+}
+
+/** A domain name and connection details used to access a dependency. */
+export interface EndpointDependency {
+  /**
+   * The domain name of the dependency. Domain names may be fully qualified or may contain a * wildcard.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly domainName?: string;
+  /**
+   * Human-readable supplemental information about the dependency and when it is applicable.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * The list of connection details for this endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpointDetails?: EndpointDetail[];
+}
+
+/** Details about the connection between the Batch service and the endpoint. */
+export interface EndpointDetail {
+  /**
+   * The port an endpoint is connected to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly port?: number;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -887,7 +960,7 @@ export interface ProjectEnvironmentType extends Resource {
   /** Id of a subscription that the environment type will be mapped to. The environment's resources will be deployed into this subscription. */
   deploymentTargetId?: string;
   /** Defines whether this Environment Type can be used in this Project. */
-  status?: EnableStatus;
+  status?: EnvironmentTypeEnableStatus;
   /** The role definition assigned to the environment creator on backing resources. */
   creatorRoleAssignment?: ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment;
   /** Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs. */
@@ -910,7 +983,7 @@ export interface Schedule extends Resource {
   /** The IANA timezone id at which the schedule should execute. */
   timeZone?: string;
   /** Indicates whether or not this scheduled task is enabled. */
-  state?: EnableStatus;
+  state?: ScheduleEnableStatus;
   /**
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -949,6 +1022,8 @@ export interface ProjectUpdate extends TrackedResourceUpdate {
   devCenterId?: string;
   /** Description of the project. */
   description?: string;
+  /** When specified, limits the maximum number of Dev Boxes a single user can create across all pools in the project. This will have no effect on existing Dev Boxes when reduced. */
+  maxDevBoxesPerUser?: number;
 }
 
 /** Partial update of a Dev Box definition resource. */
@@ -973,6 +1048,8 @@ export interface PoolUpdate extends TrackedResourceUpdate {
   licenseType?: LicenseType;
   /** Indicates whether owners of Dev Boxes in this pool are added as local administrators on the Dev Box. */
   localAdministrator?: LocalAdminStatus;
+  /** Stop on disconnect configuration settings for Dev Boxes created in this pool. */
+  stopOnDisconnect?: StopOnDisconnectConfiguration;
 }
 
 /** The schedule properties for partial update. Properties not provided in the update request will not be changed. */
@@ -986,7 +1063,7 @@ export interface ScheduleUpdate extends TrackedResourceUpdate {
   /** The IANA timezone id at which the schedule should execute. */
   timeZone?: string;
   /** Indicates whether or not this scheduled task is enabled. */
-  state?: EnableStatus;
+  state?: ScheduleEnableStatus;
 }
 
 /** The network connection properties for partial update. Properties not provided in the update request will not be changed. */
@@ -1011,7 +1088,7 @@ export interface ProjectProperties extends ProjectUpdateProperties {
    */
   readonly provisioningState?: ProvisioningState;
   /**
-   * The URI of the resource.
+   * The URI of the Dev Center resource this project is associated with.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly devCenterUri?: string;
@@ -1107,6 +1184,16 @@ export interface OperationStatus extends OperationStatusResult {
 /** Properties of a Pool */
 export interface PoolProperties extends PoolUpdateProperties {
   /**
+   * Overall health status of the Pool. Indicates whether or not the Pool is available to create Dev Boxes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly healthStatus?: HealthStatus;
+  /**
+   * Details on the Pool health status to help diagnose issues. This is only populated when the pool status indicates the pool is in a non-healthy state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly healthStatusDetails?: HealthStatusDetail[];
+  /**
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1150,7 +1237,7 @@ export interface DevCenter extends TrackedResource {
    */
   readonly provisioningState?: ProvisioningState;
   /**
-   * The URI of the resource.
+   * The URI of the Dev Center.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly devCenterUri?: string;
@@ -1162,13 +1249,15 @@ export interface Project extends TrackedResource {
   devCenterId?: string;
   /** Description of the project. */
   description?: string;
+  /** When specified, limits the maximum number of Dev Boxes a single user can create across all pools in the project. This will have no effect on existing Dev Boxes when reduced. */
+  maxDevBoxesPerUser?: number;
   /**
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
   /**
-   * The URI of the resource.
+   * The URI of the Dev Center resource this project is associated with.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly devCenterUri?: string;
@@ -1216,6 +1305,18 @@ export interface Pool extends TrackedResource {
   licenseType?: LicenseType;
   /** Indicates whether owners of Dev Boxes in this pool are added as local administrators on the Dev Box. */
   localAdministrator?: LocalAdminStatus;
+  /** Stop on disconnect configuration settings for Dev Boxes created in this pool. */
+  stopOnDisconnect?: StopOnDisconnectConfiguration;
+  /**
+   * Overall health status of the Pool. Indicates whether or not the Pool is available to create Dev Boxes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly healthStatus?: HealthStatus;
+  /**
+   * Details on the Pool health status to help diagnose issues. This is only populated when the pool status indicates the pool is in a non-healthy state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly healthStatusDetails?: HealthStatusDetail[];
   /**
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1283,6 +1384,11 @@ export interface Image extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Indicates whether this image has hibernate enabled. Not all images are capable of supporting hibernation. To find out more see https://aka.ms/devbox/hibernate
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hibernateSupport?: HibernateSupport;
 }
 
 /** Represents an image version. */
@@ -1424,18 +1530,18 @@ export type CreatedByType = string;
 
 /** Known values of {@link HealthCheckStatus} that the service accepts. */
 export enum KnownHealthCheckStatus {
+  /** Unknown */
+  Unknown = "Unknown",
   /** Pending */
   Pending = "Pending",
   /** Running */
   Running = "Running",
   /** Passed */
   Passed = "Passed",
-  /** Failed */
-  Failed = "Failed",
   /** Warning */
   Warning = "Warning",
-  /** Unknown */
-  Unknown = "Unknown"
+  /** Failed */
+  Failed = "Failed"
 }
 
 /**
@@ -1443,12 +1549,12 @@ export enum KnownHealthCheckStatus {
  * {@link KnownHealthCheckStatus} can be used interchangeably with HealthCheckStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Unknown** \
  * **Pending** \
  * **Running** \
  * **Passed** \
- * **Failed** \
  * **Warning** \
- * **Unknown**
+ * **Failed**
  */
 export type HealthCheckStatus = string;
 
@@ -1469,6 +1575,24 @@ export enum KnownDomainJoinType {
  * **AzureADJoin**
  */
 export type DomainJoinType = string;
+
+/** Known values of {@link HibernateSupport} that the service accepts. */
+export enum KnownHibernateSupport {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for HibernateSupport. \
+ * {@link KnownHibernateSupport} can be used interchangeably with HibernateSupport,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type HibernateSupport = string;
 
 /** Known values of {@link CatalogSyncState} that the service accepts. */
 export enum KnownCatalogSyncState {
@@ -1494,8 +1618,8 @@ export enum KnownCatalogSyncState {
  */
 export type CatalogSyncState = string;
 
-/** Known values of {@link EnableStatus} that the service accepts. */
-export enum KnownEnableStatus {
+/** Known values of {@link EnvironmentTypeEnableStatus} that the service accepts. */
+export enum KnownEnvironmentTypeEnableStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
@@ -1503,14 +1627,14 @@ export enum KnownEnableStatus {
 }
 
 /**
- * Defines values for EnableStatus. \
- * {@link KnownEnableStatus} can be used interchangeably with EnableStatus,
+ * Defines values for EnvironmentTypeEnableStatus. \
+ * {@link KnownEnvironmentTypeEnableStatus} can be used interchangeably with EnvironmentTypeEnableStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled** \
  * **Disabled**
  */
-export type EnableStatus = string;
+export type EnvironmentTypeEnableStatus = string;
 
 /** Known values of {@link ImageValidationStatus} that the service accepts. */
 export enum KnownImageValidationStatus {
@@ -1538,24 +1662,6 @@ export enum KnownImageValidationStatus {
  * **TimedOut**
  */
 export type ImageValidationStatus = string;
-
-/** Known values of {@link HibernateSupport} that the service accepts. */
-export enum KnownHibernateSupport {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled"
-}
-
-/**
- * Defines values for HibernateSupport. \
- * {@link KnownHibernateSupport} can be used interchangeably with HibernateSupport,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled** \
- * **Enabled**
- */
-export type HibernateSupport = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
@@ -1626,6 +1732,33 @@ export enum KnownCheckNameAvailabilityReason {
  */
 export type CheckNameAvailabilityReason = string;
 
+/** Known values of {@link HealthStatus} that the service accepts. */
+export enum KnownHealthStatus {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Pending */
+  Pending = "Pending",
+  /** Healthy */
+  Healthy = "Healthy",
+  /** Warning */
+  Warning = "Warning",
+  /** Unhealthy */
+  Unhealthy = "Unhealthy"
+}
+
+/**
+ * Defines values for HealthStatus. \
+ * {@link KnownHealthStatus} can be used interchangeably with HealthStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Pending** \
+ * **Healthy** \
+ * **Warning** \
+ * **Unhealthy**
+ */
+export type HealthStatus = string;
+
 /** Known values of {@link LicenseType} that the service accepts. */
 export enum KnownLicenseType {
   /** WindowsClient */
@@ -1659,6 +1792,24 @@ export enum KnownLocalAdminStatus {
  */
 export type LocalAdminStatus = string;
 
+/** Known values of {@link StopOnDisconnectEnableStatus} that the service accepts. */
+export enum KnownStopOnDisconnectEnableStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for StopOnDisconnectEnableStatus. \
+ * {@link KnownStopOnDisconnectEnableStatus} can be used interchangeably with StopOnDisconnectEnableStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type StopOnDisconnectEnableStatus = string;
+
 /** Known values of {@link ScheduledType} that the service accepts. */
 export enum KnownScheduledType {
   /** StopDevBox */
@@ -1688,6 +1839,24 @@ export enum KnownScheduledFrequency {
  * **Daily**
  */
 export type ScheduledFrequency = string;
+
+/** Known values of {@link ScheduleEnableStatus} that the service accepts. */
+export enum KnownScheduleEnableStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ScheduleEnableStatus. \
+ * {@link KnownScheduleEnableStatus} can be used interchangeably with ScheduleEnableStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ScheduleEnableStatus = string;
 /** Defines values for SkuTier. */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
@@ -1753,20 +1922,14 @@ export interface DevCentersDeleteOptionalParams
 
 /** Optional parameters. */
 export interface DevCentersListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type DevCentersListBySubscriptionNextResponse = DevCenterListResult;
 
 /** Optional parameters. */
 export interface DevCentersListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type DevCentersListByResourceGroupNextResponse = DevCenterListResult;
@@ -1833,20 +1996,14 @@ export interface ProjectsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ProjectsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type ProjectsListBySubscriptionNextResponse = ProjectListResult;
 
 /** Optional parameters. */
 export interface ProjectsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ProjectsListByResourceGroupNextResponse = ProjectListResult;
@@ -1908,20 +2065,14 @@ export interface AttachedNetworksDeleteOptionalParams
 
 /** Optional parameters. */
 export interface AttachedNetworksListByProjectNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProjectNext operation. */
 export type AttachedNetworksListByProjectNextResponse = AttachedNetworkListResult;
 
 /** Optional parameters. */
 export interface AttachedNetworksListByDevCenterNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDevCenterNext operation. */
 export type AttachedNetworksListByDevCenterNextResponse = AttachedNetworkListResult;
@@ -1966,10 +2117,7 @@ export interface GalleriesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface GalleriesListByDevCenterNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDevCenterNext operation. */
 export type GalleriesListByDevCenterNextResponse = GalleryListResult;
@@ -2002,20 +2150,14 @@ export type ImagesGetResponse = Image;
 
 /** Optional parameters. */
 export interface ImagesListByDevCenterNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDevCenterNext operation. */
 export type ImagesListByDevCenterNextResponse = ImageListResult;
 
 /** Optional parameters. */
 export interface ImagesListByGalleryNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByGalleryNext operation. */
 export type ImagesListByGalleryNextResponse = ImageListResult;
@@ -2102,10 +2244,7 @@ export interface CatalogsSyncOptionalParams
 
 /** Optional parameters. */
 export interface CatalogsListByDevCenterNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDevCenterNext operation. */
 export type CatalogsListByDevCenterNextResponse = CatalogListResult;
@@ -2147,10 +2286,7 @@ export interface EnvironmentTypesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface EnvironmentTypesListByDevCenterNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDevCenterNext operation. */
 export type EnvironmentTypesListByDevCenterNextResponse = EnvironmentTypeListResult;
@@ -2174,10 +2310,7 @@ export type ProjectAllowedEnvironmentTypesGetResponse = AllowedEnvironmentType;
 
 /** Optional parameters. */
 export interface ProjectAllowedEnvironmentTypesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ProjectAllowedEnvironmentTypesListNextResponse = AllowedEnvironmentTypeListResult;
@@ -2219,10 +2352,7 @@ export interface ProjectEnvironmentTypesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ProjectEnvironmentTypesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ProjectEnvironmentTypesListNextResponse = ProjectEnvironmentTypeListResult;
@@ -2296,20 +2426,14 @@ export type DevBoxDefinitionsGetByProjectResponse = DevBoxDefinition;
 
 /** Optional parameters. */
 export interface DevBoxDefinitionsListByDevCenterNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDevCenterNext operation. */
 export type DevBoxDefinitionsListByDevCenterNextResponse = DevBoxDefinitionListResult;
 
 /** Optional parameters. */
 export interface DevBoxDefinitionsListByProjectNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProjectNext operation. */
 export type DevBoxDefinitionsListByProjectNextResponse = DevBoxDefinitionListResult;
@@ -2368,10 +2492,7 @@ export type SkusListBySubscriptionResponse = SkuListResult;
 
 /** Optional parameters. */
 export interface SkusListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type SkusListBySubscriptionNextResponse = SkuListResult;
@@ -2424,11 +2545,17 @@ export interface PoolsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Optional parameters. */
-export interface PoolsListByProjectNextOptionalParams
+export interface PoolsRunHealthChecksOptionalParams
   extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface PoolsListByProjectNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProjectNext operation. */
 export type PoolsListByProjectNextResponse = PoolListResult;
@@ -2494,10 +2621,7 @@ export interface SchedulesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface SchedulesListByPoolNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPoolNext operation. */
 export type SchedulesListByPoolNextResponse = ScheduleListResult;
@@ -2589,34 +2713,42 @@ export interface NetworkConnectionsRunHealthChecksOptionalParams
 }
 
 /** Optional parameters. */
-export interface NetworkConnectionsListBySubscriptionNextOptionalParams
+export interface NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams
   extends coreClient.OperationOptions {
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   top?: number;
 }
+
+/** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
+export type NetworkConnectionsListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
+
+/** Optional parameters. */
+export interface NetworkConnectionsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type NetworkConnectionsListBySubscriptionNextResponse = NetworkConnectionListResult;
 
 /** Optional parameters. */
 export interface NetworkConnectionsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type NetworkConnectionsListByResourceGroupNextResponse = NetworkConnectionListResult;
 
 /** Optional parameters. */
 export interface NetworkConnectionsListHealthDetailsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHealthDetailsNext operation. */
 export type NetworkConnectionsListHealthDetailsNextResponse = HealthCheckStatusDetailsListResult;
+
+/** Optional parameters. */
+export interface NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOutboundNetworkDependenciesEndpointsNext operation. */
+export type NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
 
 /** Optional parameters. */
 export interface DevCenterClientOptionalParams

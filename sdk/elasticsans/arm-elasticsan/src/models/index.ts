@@ -8,50 +8,78 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** List of operations supported by the RP. */
-export interface ElasticSanOperationListResult {
-  /** An array of operations supported by the ElasticSan RP. */
-  value: ElasticSanRPOperation[];
-  /** URI to fetch the next section of the paginated response. */
-  nextLink?: string;
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
+  /**
+   * List of operations supported by the resource provider
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Operation[];
+  /**
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
-/** Description of a ElasticSan RP Operation */
-export interface ElasticSanRPOperation {
-  /** The name of the operation being performed on this particular object */
-  name: string;
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
   /**
-   * Indicates whether the operation applies to data-plane.
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
   /**
-   * Additional metadata about RP operation.
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly display?: ElasticSanOperationDisplay;
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
 }
 
-/** Metadata about an operation. */
-export interface ElasticSanOperationDisplay {
-  /** Localized friendly form of the resource provider name. */
-  provider: string;
-  /** Localized friendly form of the resource type related to this action/operation. */
-  resource: string;
-  /** Localized friendly name for the operation, as it should be shown to the user. */
-  operation: string;
-  /** Localized friendly description for the operation, as it should be shown to the user. */
-  description: string;
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
 }
 
-/** The resource management error response. */
-export interface ErrorModel {
-  /** RP error response. */
-  error?: ErrorResponse;
-}
-
-/** The resource management error response. */
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
   /**
    * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -71,7 +99,7 @@ export interface ErrorResponse {
    * The error details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: ErrorResponse[];
+  readonly details?: ErrorDetail[];
   /**
    * The error additional info.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -100,6 +128,11 @@ export interface SkuInformationList {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: SkuInformation[];
+  /**
+   * URI to fetch the next section of the paginated response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** ElasticSAN SKU and its properties */
@@ -161,7 +194,7 @@ export interface SKUCapability {
 /** List of Elastic Sans */
 export interface ElasticSanList {
   /** An array of Elastic San objects. */
-  value: ElasticSan[];
+  value?: ElasticSan[];
   /**
    * URI to fetch the next section of the paginated response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -175,6 +208,49 @@ export interface Sku {
   name: SkuName;
   /** The sku tier. */
   tier?: SkuTier;
+}
+
+/** Response for PrivateEndpoint */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** Response for Private Link Service Connection state */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -193,27 +269,6 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-/** The resource model definition. */
-export interface Resource {
-  /**
-   * Azure resource identifier.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Azure resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Azure resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Azure resource tags. */
-  tags?: { [propertyName: string]: string };
-}
-
 /** Response for ElasticSan update request. */
 export interface ElasticSanUpdate {
   /** Update tags */
@@ -227,7 +282,7 @@ export interface ElasticSanUpdate {
 /** List of Volume Groups */
 export interface VolumeGroupList {
   /** An array of Volume Groups objects. */
-  value: VolumeGroup[];
+  value?: VolumeGroup[];
   /**
    * URI to fetch the next section of the paginated response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -256,8 +311,6 @@ export interface VirtualNetworkRule {
 
 /** Volume Group request. */
 export interface VolumeGroupUpdate {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
   /** Type of storage target */
   protocolType?: StorageTargetType;
   /** Type of encryption */
@@ -302,8 +355,6 @@ export interface IscsiTargetInfo {
 
 /** Response for Volume request. */
 export interface VolumeUpdate {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
   /** Volume size. */
   sizeGiB?: number;
 }
@@ -311,7 +362,7 @@ export interface VolumeUpdate {
 /** List of Volumes */
 export interface VolumeList {
   /** An array of Volume objects. */
-  value: Volume[];
+  value?: Volume[];
   /**
    * URI to fetch the next section of the paginated response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -319,62 +370,72 @@ export interface VolumeList {
   readonly nextLink?: string;
 }
 
-/** The resource model definition for a ARM tracked top level resource. */
-export interface TrackedResource extends Resource {
-  /** The geo-location where the resource lives. */
-  location?: string;
-}
-
-/** Response for Volume Group request. */
-export interface VolumeGroup extends Resource {
+/** List of private endpoint connections associated with SAN */
+export interface PrivateEndpointConnectionListResult {
+  /** Array of private endpoint connections */
+  value?: PrivateEndpointConnection[];
   /**
-   * Resource metadata required by ARM RPC
+   * URI to fetch the next section of the paginated response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemData?: SystemData;
+  readonly nextLink?: string;
+}
+
+/** A list of private link resources */
+export interface PrivateLinkResourceListResult {
+  /** Array of private link resources */
+  value?: PrivateLinkResource[];
   /**
-   * State of the operation on the resource.
+   * URI to fetch the next section of the paginated response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/**  Response for PrivateEndpoint Connection object */
+export interface PrivateEndpointConnection extends Resource {
+  /**
+   * Provisioning State of Private Endpoint connection resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningStates;
-  /** Type of storage target */
-  protocolType?: StorageTargetType;
-  /** Type of encryption */
-  encryption?: EncryptionType;
-  /** A collection of rules governing the accessibility from specific network locations. */
-  networkAcls?: NetworkRuleSet;
+  /** Private Endpoint resource */
+  privateEndpoint?: PrivateEndpoint;
+  /** Private Link Service Connection State. */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /**  List of resources private endpoint is mapped */
+  groupIds?: string[];
 }
 
-/** Response for Volume request. */
-export interface Volume extends Resource {
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** A private link resource */
+export interface PrivateLinkResource extends Resource {
   /**
-   * Resource metadata required by ARM RPC
+   * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemData?: SystemData;
+  readonly groupId?: string;
   /**
-   * Unique Id of the volume in GUID format
+   * The private link resource required member names.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly volumeId?: string;
-  /** State of the operation on the resource. */
-  creationData?: SourceCreationData;
-  /** Volume size. */
-  sizeGiB?: number;
-  /**
-   * Storage target information
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly storageTarget?: IscsiTargetInfo;
+  readonly requiredMembers?: string[];
+  /** The private link resource Private link DNS zone name. */
+  requiredZoneNames?: string[];
 }
 
 /** Response for ElasticSan request. */
 export interface ElasticSan extends TrackedResource {
-  /**
-   * Resource metadata required by ARM RPC
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** resource sku */
   sku: Sku;
   /** Logical zone for Elastic San resource; example: ["1"]. */
@@ -413,7 +474,121 @@ export interface ElasticSan extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly totalSizeTiB?: number;
+  /**
+   * The list of Private Endpoint Connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
 }
+
+/** Response for Volume Group request. */
+export interface VolumeGroup extends ProxyResource {
+  /**
+   * State of the operation on the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStates;
+  /** Type of storage target */
+  protocolType?: StorageTargetType;
+  /** Type of encryption */
+  encryption?: EncryptionType;
+  /** A collection of rules governing the accessibility from specific network locations. */
+  networkAcls?: NetworkRuleSet;
+  /**
+   * The list of Private Endpoint Connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+}
+
+/** Response for Volume request. */
+export interface Volume extends ProxyResource {
+  /**
+   * Unique Id of the volume in GUID format
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly volumeId?: string;
+  /** State of the operation on the resource. */
+  creationData?: SourceCreationData;
+  /** Volume size. */
+  sizeGiB: number;
+  /**
+   * Storage target information
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageTarget?: IscsiTargetInfo;
+}
+
+/** Defines headers for ElasticSans_update operation. */
+export interface ElasticSansUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for ElasticSans_delete operation. */
+export interface ElasticSansDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for VolumeGroups_update operation. */
+export interface VolumeGroupsUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for VolumeGroups_delete operation. */
+export interface VolumeGroupsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for Volumes_update operation. */
+export interface VolumesUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for Volumes_delete operation. */
+export interface VolumesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
+  location?: string;
+}
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system"
+}
+
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal"
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
@@ -483,6 +658,30 @@ export enum KnownProvisioningStates {
  * **Deleting**
  */
 export type ProvisioningStates = string;
+
+/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
+  Pending = "Pending",
+  /** Approved */
+  Approved = "Approved",
+  /** Failed */
+  Failed = "Failed",
+  /** Rejected */
+  Rejected = "Rejected"
+}
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Failed** \
+ * **Rejected**
+ */
+export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -589,7 +788,7 @@ export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type OperationsListResponse = ElasticSanOperationListResult;
+export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface SkusListOptionalParams extends coreClient.OperationOptions {
@@ -774,6 +973,48 @@ export interface VolumesListByVolumeGroupNextOptionalParams
 
 /** Contains response data for the listByVolumeGroupNext operation. */
 export type VolumesListByVolumeGroupNextResponse = VolumeList;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListByElasticSanOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByElasticSan operation. */
+export type PrivateLinkResourcesListByElasticSanResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface ElasticSanManagementOptionalParams

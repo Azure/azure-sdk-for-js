@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the status of service.
  *
  * @summary Gets the status of service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-03-15/examples/CosmosDBDataTransferServiceGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBDataTransferServiceGet.json
  */
 async function dataTransferServiceGet() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -33,7 +33,7 @@ async function dataTransferServiceGet() {
  * This sample demonstrates how to Gets the status of service.
  *
  * @summary Gets the status of service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-03-15/examples/CosmosDBGraphAPIComputeServiceGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBGraphAPIComputeServiceGet.json
  */
 async function graphApiComputeServiceGet() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -50,7 +50,7 @@ async function graphApiComputeServiceGet() {
  * This sample demonstrates how to Gets the status of service.
  *
  * @summary Gets the status of service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-03-15/examples/CosmosDBMaterializedViewsBuilderServiceGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBMaterializedViewsBuilderServiceGet.json
  */
 async function materializedViewsBuilderServiceGet() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -67,7 +67,7 @@ async function materializedViewsBuilderServiceGet() {
  * This sample demonstrates how to Gets the status of service.
  *
  * @summary Gets the status of service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-03-15/examples/CosmosDBSqlDedicatedGatewayServiceGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBSqlDedicatedGatewayServiceGet.json
  */
 async function sqlDedicatedGatewayServiceGet() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

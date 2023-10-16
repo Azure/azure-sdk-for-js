@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RedisLinkedServerWithProperties,
   LinkedServerListOptionalParams,
@@ -24,7 +24,7 @@ import {
 export interface LinkedServer {
   /**
    * Gets the list of linked servers associated with this redis cache (requires Premium SKU).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the redis cache.
    * @param options The options parameters.
    */
@@ -35,7 +35,7 @@ export interface LinkedServer {
   ): PagedAsyncIterableIterator<RedisLinkedServerWithProperties>;
   /**
    * Adds a linked server to the Redis cache (requires Premium SKU).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param linkedServerName The name of the linked server that is being added to the Redis cache.
    * @param parameters Parameters supplied to the Create Linked server operation.
@@ -48,14 +48,14 @@ export interface LinkedServer {
     parameters: RedisLinkedServerCreateParameters,
     options?: LinkedServerCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkedServerCreateResponse>,
+    SimplePollerLike<
+      OperationState<LinkedServerCreateResponse>,
       LinkedServerCreateResponse
     >
   >;
   /**
    * Adds a linked server to the Redis cache (requires Premium SKU).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param linkedServerName The name of the linked server that is being added to the Redis cache.
    * @param parameters Parameters supplied to the Create Linked server operation.
@@ -70,7 +70,7 @@ export interface LinkedServer {
   ): Promise<LinkedServerCreateResponse>;
   /**
    * Deletes the linked server from a redis cache (requires Premium SKU).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the redis cache.
    * @param linkedServerName The name of the linked server that is being added to the Redis cache.
    * @param options The options parameters.
@@ -80,10 +80,10 @@ export interface LinkedServer {
     name: string,
     linkedServerName: string,
     options?: LinkedServerDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the linked server from a redis cache (requires Premium SKU).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the redis cache.
    * @param linkedServerName The name of the linked server that is being added to the Redis cache.
    * @param options The options parameters.
@@ -96,7 +96,7 @@ export interface LinkedServer {
   ): Promise<void>;
   /**
    * Gets the detailed information about a linked server of a redis cache (requires Premium SKU).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the redis cache.
    * @param linkedServerName The name of the linked server.
    * @param options The options parameters.

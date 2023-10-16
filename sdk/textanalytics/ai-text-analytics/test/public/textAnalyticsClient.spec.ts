@@ -2039,7 +2039,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             assert.ok(doc1.entities);
             const doc1Entity1 = doc1.entities[0];
             assert.equal(doc1Entity1.text, "Baby");
-            assert.equal(doc1Entity1.category, "Age");
+            assert.equal(doc1Entity1.category, "FamilyRelation");
             assert.equal(doc1Entity1.normalizedText, "Infant");
             assert.isUndefined(doc1Entity1.assertion?.association);
             assert.isUndefined(doc1Entity1.assertion?.conditionality);
@@ -2049,7 +2049,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(doc1Entity2.category, "Diagnosis");
             assert.equal(doc1Entity2.assertion?.certainty, "negativePossible");
             assert.equal(doc1Entity2.normalizedText, "Meningitis");
-            assert.isUndefined(doc1Entity2.assertion?.association);
+            assert.equal(doc1Entity2.assertion?.association, "other");
             assert.isUndefined(doc1Entity2.assertion?.conditionality);
 
             const doc1Entity3 = doc1.entities[2];
@@ -2057,7 +2057,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(doc1Entity3.normalizedText, "Fever");
             assert.equal(doc1Entity3.category, "SymptomOrSign");
             assert.isUndefined(doc1Entity3.assertion?.association);
-            assert.isUndefined(doc1Entity3.assertion?.conditionality);
+            assert.equal(doc1Entity3.assertion?.conditionality, "hypothetical");
 
             const doc1Entity4 = doc1.entities[3];
             assert.equal(doc1Entity4.text, "mother");
@@ -2072,7 +2072,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(doc1Entity5.normalizedText, "penicillins");
             assert.equal(doc1Entity5.assertion?.certainty, "neutralPossible");
             assert.isUndefined(doc1Entity5.assertion?.association);
-            assert.isUndefined(doc1Entity5.assertion?.conditionality);
+            assert.equal(doc1Entity5.assertion?.conditionality, "conditional");
 
             const doc1Entity6 = doc1.entities[5];
             assert.equal(doc1Entity6.text, "baby");

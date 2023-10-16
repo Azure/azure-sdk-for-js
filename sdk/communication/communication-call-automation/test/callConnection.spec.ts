@@ -15,9 +15,16 @@ import {
   AddParticipantResult,
   TransferCallResult,
   RemoveParticipantResult,
+  MuteParticipantsResult,
+  CancelAddParticipantResult,
+  AddParticipantEventResult,
+  TransferCallToParticipantEventResult,
+  RemoveParticipantEventResult,
+  CancelAddParticipantEventResult,
+  AddParticipantCancelled,
 } from "../src";
 import Sinon, { SinonStubbedInstance } from "sinon";
-import { CALL_TARGET_ID } from "./utils/connectionUtils";
+import { CALL_TARGET_ID, CALL_TARGET_ID_2 } from "./utils/connectionUtils";
 import {
   createRecorder,
   createTestUser,
@@ -155,7 +162,11 @@ describe("CallConnection Unit Tests", () => {
 
   it("AddParticipant", async () => {
     // mocks
-    const addParticipantResultMock: AddParticipantResult = {};
+    const addParticipantResultMock: AddParticipantResult = {
+      waitForEventProcessor: async () => {
+        return {} as AddParticipantEventResult;
+      },
+    };
     callConnection.addParticipant.returns(
       new Promise((resolve) => {
         resolve(addParticipantResultMock);
@@ -177,7 +188,11 @@ describe("CallConnection Unit Tests", () => {
 
   it("TransferCallToParticipant", async () => {
     // mocks
-    const transferCallResultMock: TransferCallResult = {};
+    const transferCallResultMock: TransferCallResult = {
+      waitForEventProcessor: async () => {
+        return {} as TransferCallToParticipantEventResult;
+      },
+    };
     callConnection.transferCallToParticipant.returns(
       new Promise((resolve) => {
         resolve(transferCallResultMock);
@@ -199,9 +214,45 @@ describe("CallConnection Unit Tests", () => {
       .catch((error) => console.error(error));
   });
 
+  it("TransferCallToParticipantWithTransferee", async () => {
+    // mocks
+    const transferCallResultMock: TransferCallResult = {
+      waitForEventProcessor: async () => {
+        return {} as TransferCallToParticipantEventResult;
+      },
+    };
+    callConnection.transferCallToParticipant.returns(
+      new Promise((resolve) => {
+        resolve(transferCallResultMock);
+      })
+    );
+
+    const transferee = { communicationUserId: CALL_TARGET_ID_2 };
+
+    const promiseResult = callConnection.transferCallToParticipant(target.targetParticipant, {
+      transferee: transferee,
+    });
+
+    // asserts
+    promiseResult
+      .then((result: TransferCallResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(
+          callConnection.transferCallToParticipant.calledWith(target.targetParticipant)
+        );
+        assert.equal(result, transferCallResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
   it("RemoveParticipant", async () => {
     // mocks
-    const removeParticipantResultMock: RemoveParticipantResult = {};
+    const removeParticipantResultMock: RemoveParticipantResult = {
+      waitForEventProcessor: async () => {
+        return {} as RemoveParticipantEventResult;
+      },
+    };
     callConnection.removeParticipant.returns(
       new Promise((resolve) => {
         resolve(removeParticipantResultMock);
@@ -212,7 +263,7 @@ describe("CallConnection Unit Tests", () => {
 
     // asserts
     promiseResult
-      .then((result: TransferCallResult) => {
+      .then((result: RemoveParticipantResult) => {
         assert.isNotNull(result);
         assert.isTrue(callConnection.removeParticipant.calledWith(target.targetParticipant));
         assert.equal(result, removeParticipantResultMock);
@@ -220,9 +271,56 @@ describe("CallConnection Unit Tests", () => {
       })
       .catch((error) => console.error(error));
   });
+
+  it("MuteParticipants", async () => {
+    // mocks
+    const muteParticipantsResultMock: MuteParticipantsResult = {};
+    callConnection.muteParticipants.returns(
+      new Promise((resolve) => {
+        resolve(muteParticipantsResultMock);
+      })
+    );
+
+    const promiseResult = callConnection.muteParticipants(target.targetParticipant);
+
+    // asserts
+    promiseResult
+      .then((result: MuteParticipantsResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(callConnection.muteParticipants.calledWith(target.targetParticipant));
+        assert.equal(result, muteParticipantsResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
+  it("CancelAddParticipant", async () => {
+    const invitationId = "invitationId";
+    const cancelAddParticipantResultMock: CancelAddParticipantResult = {
+      invitationId,
+      waitForEventProcessor: async () => {
+        return {} as CancelAddParticipantEventResult;
+      },
+    };
+    callConnection.cancelAddParticipant.returns(
+      new Promise((resolve) => {
+        resolve(cancelAddParticipantResultMock);
+      })
+    );
+
+    callConnection
+      .cancelAddParticipant(invitationId)
+      .then((result: CancelAddParticipantResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(callConnection.cancelAddParticipant.calledWith(invitationId));
+        assert.equal(result, cancelAddParticipantResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
 });
 
-describe("CallConnection Live Tests", function () {
+describe.skip("SKIP test until Javascript is updated with TextProxy.CallConnection Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;
@@ -366,4 +464,115 @@ describe("CallConnection Live Tests", function () {
     const callEndedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callEndedEvent);
   }).timeout(60000);
+
+  it("Mute a participant", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "add_participant_and_get_call_props";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 20000);
+    callConnectionId = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+    if (incomingCallContext) {
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+    const testUser3: CommunicationUserIdentifier = await createTestUser(recorder);
+    const participantInvite: CallInvite = { targetParticipant: testUser3 };
+    const uniqueId2 = await serviceBusWithNewCall(testUser, testUser3);
+    const callBackUrl2: string = dispatcherCallback + `?q=${uniqueId2}`;
+
+    const addResult = await callConnection.addParticipant(participantInvite);
+    assert.isDefined(addResult);
+
+    // A call needs at least 3 participants to mute a participant. So adding one more participant.
+    const anotherReceiverCallAutomationClient: CallAutomationClient = createCallAutomationClient(
+      recorder,
+      testUser3
+    );
+    const anotherIncomingCallContext = await waitForIncomingCallContext(uniqueId2, 20000);
+    if (anotherIncomingCallContext) {
+      await anotherReceiverCallAutomationClient.answerCall(
+        anotherIncomingCallContext,
+        callBackUrl2
+      );
+    }
+    const participantAddedEvent = await waitForEvent(
+      "AddParticipantSucceeded",
+      callConnectionId,
+      8000
+    );
+    assert.isDefined(participantAddedEvent);
+
+    const muteResult = await callConnection.muteParticipants(testUser2);
+    assert.isDefined(muteResult);
+
+    const participantsUpdatedEvent = await waitForEvent(
+      "ParticipantsUpdated",
+      callConnectionId,
+      8000
+    );
+
+    assert.isDefined(participantsUpdatedEvent);
+    let isMuted = false;
+    const participantsUpdatedEventJson = JSON.parse(JSON.stringify(participantsUpdatedEvent));
+    for (const participant of participantsUpdatedEventJson["participants"]) {
+      if (participant["identifier"]["communicationUserId"] === testUser2.communicationUserId) {
+        isMuted = participant["isMuted"];
+      }
+    }
+    assert.isTrue(isMuted);
+  }).timeout(90000);
+
+  it("Add a participant cancels add participant request", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "cancel_add_participant";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 10000);
+    callConnectionId = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+    if (incomingCallContext) {
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 10000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+    const testUser3: CommunicationUserIdentifier = await createTestUser(recorder);
+    const participantInvite: CallInvite = { targetParticipant: testUser3 };
+
+    const addResult = await callConnection.addParticipant(participantInvite);
+    assert.isDefined(addResult);
+
+    // ensure invitation is sent out
+    await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(3000);
+
+    // cancel add participant
+    await callConnection.cancelAddParticipant(addResult.invitationId!);
+
+    const addParticipantCancelledEvent = (await waitForEvent(
+      "AddParticipantCancelled",
+      callConnectionId,
+      10000
+    )) as AddParticipantCancelled;
+
+    assert.isDefined(addParticipantCancelledEvent);
+    assert.equal(addResult.invitationId, addParticipantCancelledEvent?.invitationId);
+  }).timeout(90000);
 });

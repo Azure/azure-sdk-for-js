@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update an Azure Cosmos DB Cassandra Table
  *
  * @summary Create or update an Azure Cosmos DB Cassandra Table
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-03-15/examples/CosmosDBCassandraTableCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBCassandraTableCreateUpdate.json
  */
 async function cosmosDbCassandraTableCreateUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

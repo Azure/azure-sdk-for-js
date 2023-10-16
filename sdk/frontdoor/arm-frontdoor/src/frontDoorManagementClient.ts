@@ -10,32 +10,32 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  NetworkExperimentProfilesImpl,
-  PreconfiguredEndpointsImpl,
-  ExperimentsImpl,
-  ReportsImpl,
+  PoliciesImpl,
+  ManagedRuleSetsImpl,
   FrontDoorNameAvailabilityImpl,
   FrontDoorNameAvailabilityWithSubscriptionImpl,
   FrontDoorsImpl,
   FrontendEndpointsImpl,
   EndpointsImpl,
   RulesEnginesImpl,
-  PoliciesImpl,
-  ManagedRuleSetsImpl
+  NetworkExperimentProfilesImpl,
+  PreconfiguredEndpointsImpl,
+  ExperimentsImpl,
+  ReportsImpl
 } from "./operations";
 import {
-  NetworkExperimentProfiles,
-  PreconfiguredEndpoints,
-  Experiments,
-  Reports,
+  Policies,
+  ManagedRuleSets,
   FrontDoorNameAvailability,
   FrontDoorNameAvailabilityWithSubscription,
   FrontDoors,
   FrontendEndpoints,
   Endpoints,
   RulesEngines,
-  Policies,
-  ManagedRuleSets
+  NetworkExperimentProfiles,
+  PreconfiguredEndpoints,
+  Experiments,
+  Reports
 } from "./operationsInterfaces";
 import { FrontDoorManagementClientOptionalParams } from "./models";
 
@@ -71,7 +71,7 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-frontdoor/5.1.1`;
+    const packageDetails = `azsdk-js-arm-frontdoor/5.2.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -124,10 +124,8 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.networkExperimentProfiles = new NetworkExperimentProfilesImpl(this);
-    this.preconfiguredEndpoints = new PreconfiguredEndpointsImpl(this);
-    this.experiments = new ExperimentsImpl(this);
-    this.reports = new ReportsImpl(this);
+    this.policies = new PoliciesImpl(this);
+    this.managedRuleSets = new ManagedRuleSetsImpl(this);
     this.frontDoorNameAvailability = new FrontDoorNameAvailabilityImpl(this);
     this.frontDoorNameAvailabilityWithSubscription = new FrontDoorNameAvailabilityWithSubscriptionImpl(
       this
@@ -136,20 +134,22 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
     this.frontendEndpoints = new FrontendEndpointsImpl(this);
     this.endpoints = new EndpointsImpl(this);
     this.rulesEngines = new RulesEnginesImpl(this);
-    this.policies = new PoliciesImpl(this);
-    this.managedRuleSets = new ManagedRuleSetsImpl(this);
+    this.networkExperimentProfiles = new NetworkExperimentProfilesImpl(this);
+    this.preconfiguredEndpoints = new PreconfiguredEndpointsImpl(this);
+    this.experiments = new ExperimentsImpl(this);
+    this.reports = new ReportsImpl(this);
   }
 
-  networkExperimentProfiles: NetworkExperimentProfiles;
-  preconfiguredEndpoints: PreconfiguredEndpoints;
-  experiments: Experiments;
-  reports: Reports;
+  policies: Policies;
+  managedRuleSets: ManagedRuleSets;
   frontDoorNameAvailability: FrontDoorNameAvailability;
   frontDoorNameAvailabilityWithSubscription: FrontDoorNameAvailabilityWithSubscription;
   frontDoors: FrontDoors;
   frontendEndpoints: FrontendEndpoints;
   endpoints: Endpoints;
   rulesEngines: RulesEngines;
-  policies: Policies;
-  managedRuleSets: ManagedRuleSets;
+  networkExperimentProfiles: NetworkExperimentProfiles;
+  preconfiguredEndpoints: PreconfiguredEndpoints;
+  experiments: Experiments;
+  reports: Reports;
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a SQL virtual machine group.
  *
  * @summary Gets a SQL virtual machine group.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/GetSqlVirtualMachineGroup.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/GetSqlVirtualMachineGroup.json
  */
 async function getsASqlVirtualMachineGroup() {
   const subscriptionId =

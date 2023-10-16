@@ -14,8 +14,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DataFlowDebugSessionInfo,
   DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextOptionalParams,
@@ -119,10 +123,8 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     request: CreateDataFlowDebugSessionRequest,
     options?: DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        DataFlowDebugSessionCreateDataFlowDebugSessionResponse
-      >,
+    SimplePollerLike<
+      OperationState<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>,
       DataFlowDebugSessionCreateDataFlowDebugSessionResponse
     >
   > {
@@ -140,7 +142,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -173,13 +175,16 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { request, options },
-      createDataFlowDebugSessionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { request, options },
+      spec: createDataFlowDebugSessionOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DataFlowDebugSessionCreateDataFlowDebugSessionResponse,
+      OperationState<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -273,8 +278,8 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     request: DataFlowDebugCommandRequest,
     options?: DataFlowDebugSessionExecuteCommandOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DataFlowDebugSessionExecuteCommandResponse>,
+    SimplePollerLike<
+      OperationState<DataFlowDebugSessionExecuteCommandResponse>,
       DataFlowDebugSessionExecuteCommandResponse
     >
   > {
@@ -292,7 +297,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -325,13 +330,16 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { request, options },
-      executeCommandOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { request, options },
+      spec: executeCommandOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DataFlowDebugSessionExecuteCommandResponse,
+      OperationState<DataFlowDebugSessionExecuteCommandResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -401,7 +409,7 @@ const createDataFlowDebugSessionOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.request1,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -418,7 +426,7 @@ const queryDataFlowDebugSessionsByWorkspaceOperationSpec: coreClient.OperationSp
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -435,7 +443,7 @@ const addDataFlowOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.request2,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -451,7 +459,7 @@ const deleteDataFlowDebugSessionOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.request3,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -478,7 +486,7 @@ const executeCommandOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.request4,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

@@ -1,5 +1,51 @@
 # Release History
 
+## 3.3.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+- Ensure `AzurePowershellCredential` calls PowerShell with the `-NoProfile`  and "-NonInteractive" flag to avoid loading user profiles for more consistent behavior.  ([#27023](https://github.com/Azure/azure-sdk-for-js/pull/27023))
+- Fixed browser bundling for Azure Developer CLI credential.
+
+### Other Changes
+
+## 3.3.1 (2023-10-10)
+
+### Bug Fixes
+- Bug fixes for developer credentials
+
+## 3.3.0 (2023-08-14)
+
+### Features Added
+-  Enabled support for logging [personally identifiable information](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/PII), required for customer support through the `enableUnsafeSupportLogging` option on `loggingOptions` under `TokenCredentialOptions`.
+- Continuous Access Evaluation (CAE) is now configurable per-request by setting the `enable_cae` keyword argument to `True` in `get_token`. This applies to user credentials and service principal credentials. ([#26614](https://github.com/Azure/azure-sdk-for-js/pull/26614))
+
+### Breaking Changes
+- CP1 client capabilities for CAE is no longer always-on by default for user credentials. This capability will now be configured as-needed in each `getToken` request by each SDK.  ([#26614](https://github.com/Azure/azure-sdk-for-js/pull/26614))
+  - Suffixes are now appended to persistent cache names to indicate whether CAE or non-CAE tokens are stored in the cache. This is to prevent CAE and non-CAE tokens from being mixed/overwritten in the same cache. This could potentially cause issues if you are trying to share the same cache between applications that are using different versions of the Azure Identity library as each application would be reading from a different cache file.
+  - Since CAE is no longer always enabled for user-credentials, the `AZURE_IDENTITY_DISABLE_CP1` environment variable is no longer supported.
+
+## 3.2.4 (2023-07-21)
+
+### Bug Fixes
+- Fixed a bug related to [Managed Identity Credential intermixing wrong scopes](https://github.com/Azure/azure-sdk-for-js/pull/26566) for successive `getToken()` calls.
+
+## 3.2.3 (2023-06-20)
+
+### Bug Fixes
+ - Dependency Upgrades of MSAL libraries to the latest versions for incorporating underlying [bug fix](https://github.com/AzureAD/microsoft-authentication-library-for-js/issues/4879#issuecomment-1462949837) to resolve [this issue](https://github.com/Azure/azure-sdk-for-js/issues/23331).
+### Other Changes
+#### Behavioral breaking change
+- Moved `AzureDeveloperCliCredential` to the end of the `DefaultAzureCredential` chain.
+
+## 3.2.2 (2023-05-15)
+
+### Bug Fixes
+ - Remove console logging in `processMultitenantRequest` for tenant id and resolved tenant.
+
 ## 3.2.1 (2023-05-10)
 
 ### Bug Fixes
@@ -33,7 +79,7 @@
 
 ### Features Added
 
-- Added support to disable instance discovery on AAD credentials.
+- Added support to disable instance discovery on Microsoft Entra credentials.
 - Added `AzureDeveloperCliCredential` [#24180](https://github.com/Azure/azure-sdk-for-js/pull/24180) and added it to the `DefaultAzureCredential` [#24826](https://github.com/Azure/azure-sdk-for-js/pull/24826) auth flow
 - Added support for `WokloadIdentityCredential`[#24830](https://github.com/Azure/azure-sdk-for-js/pull/24830), added it to `DefaultAzureCredential` auth flow and replaced the in-house implementation of `Token Exchange MSI` in `ManagedIdentity` with `WorkloadIdentityCredential`.
 
@@ -109,7 +155,7 @@
 ### Features Added
 
 - Added support in `EnvironmentCredential` to read a certificate password from an environment variable `AZURE_CLIENT_CERTIFICATE_PASSWORD`
-- Added samples for supporting AAD authentication in Azure Redis Cache
+- Added samples for supporting Microsoft Entra authentication in Azure Redis Cache
 
 ### Breaking Changes
 
@@ -649,7 +695,7 @@ This release doesn't have the changes from `1.2.4-beta.1`.
 
 ## 1.0.0-preview.4 (2019-10-07)
 
-- Introduced the `AuthorizationCodeCredential` for performing the [authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with AAD ([PR #5356](https://github.com/Azure/azure-sdk-for-js/pull/5356))
+- Introduced the `AuthorizationCodeCredential` for performing the [authorization code flow](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with Microsoft Entra ID ([PR #5356](https://github.com/Azure/azure-sdk-for-js/pull/5356))
 - Fixed an issue preventing the `ManagedIdentityCredential` from working inside of Azure Function Apps ([PR #5144](https://github.com/Azure/azure-sdk-for-js/pull/5144))
 - Added tracing to `IdentityClient` and credential implementations ([PR #5283](https://github.com/Azure/azure-sdk-for-js/pull/5283))
 - Improved the exception message for `AggregateAuthenticationError` so that errors thrown from `DefaultAzureCredential` are now more actionable ([PR #5409](https://github.com/Azure/azure-sdk-for-js/pull/5409))

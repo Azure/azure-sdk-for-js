@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachinesListHostsOptionalParams,
   VirtualMachinesListHostsResponse,
@@ -40,7 +40,7 @@ export interface VirtualMachines {
     clusterName: string,
     hosts: string[],
     options?: VirtualMachinesRestartHostsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restarts the specified HDInsight cluster hosts.
    * @param resourceGroupName The name of the resource group.

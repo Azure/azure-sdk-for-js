@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { FrontDoorManagementClient } = require("@azure/arm-frontdoor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes an Experiment
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2019-11-01/examples/NetworkExperimentDeleteExperiment.json
  */
 async function deletesAnExperiment() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "MyResourceGroup";
+  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "MyResourceGroup";
   const profileName = "MyProfile";
   const experimentName = "MyExperiment";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function deletesAnExperiment() {
   console.log(result);
 }
 
-deletesAnExperiment().catch(console.error);
+async function main() {
+  deletesAnExperiment();
+}
+
+main().catch(console.error);

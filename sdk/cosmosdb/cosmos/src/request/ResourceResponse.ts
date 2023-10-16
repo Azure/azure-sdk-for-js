@@ -10,7 +10,7 @@ export class ResourceResponse<TResource> {
     public readonly resource: TResource | undefined,
     public readonly headers: CosmosHeaders,
     public readonly statusCode: StatusCode,
-    public readonly diagnostics?: CosmosDiagnostics,
+    public readonly diagnostics: CosmosDiagnostics,
     public readonly substatus?: SubStatusCode
   ) {}
   public get requestCharge(): number {

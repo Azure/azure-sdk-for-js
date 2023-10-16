@@ -16,11 +16,9 @@ export interface Organizations {
   /**
    * Fetch User API Key from internal database, if it was generated and stored while creating the
    * Elasticsearch Organization.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
    * @param options The options parameters.
    */
   getApiKey(
-    resourceGroupName: string,
     options?: OrganizationsGetApiKeyOptionalParams
   ): Promise<OrganizationsGetApiKeyResponse>;
 }

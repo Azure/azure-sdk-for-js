@@ -750,6 +750,12 @@ export const BackupResourceVaultConfig: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      softDeleteRetentionPeriodInDays: {
+        serializedName: "softDeleteRetentionPeriodInDays",
+        type: {
+          name: "Number"
+        }
+      },
       resourceGuardOperationRequests: {
         serializedName: "resourceGuardOperationRequests",
         type: {
@@ -828,6 +834,17 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
           className: "PrivateEndpoint"
         }
       },
+      groupIds: {
+        serializedName: "groupIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       privateLinkServiceConnectionState: {
         serializedName: "privateLinkServiceConnectionState",
         type: {
@@ -871,8 +888,8 @@ export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      actionRequired: {
-        serializedName: "actionRequired",
+      actionsRequired: {
+        serializedName: "actionsRequired",
         type: {
           name: "String"
         }
@@ -1290,8 +1307,8 @@ export const ProtectedItem: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      softDeleteRetentionPeriod: {
-        serializedName: "softDeleteRetentionPeriod",
+      softDeleteRetentionPeriodInDays: {
+        serializedName: "softDeleteRetentionPeriodInDays",
         type: {
           name: "Number"
         }
@@ -3000,6 +3017,40 @@ export const AzureVmWorkloadProtectedItemExtendedInfo: coreClient.CompositeMappe
   }
 };
 
+export const DistributedNodesInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DistributedNodesInfo",
+    modelProperties: {
+      nodeName: {
+        serializedName: "nodeName",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      errorDetail: {
+        serializedName: "errorDetail",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      },
+      sourceResourceId: {
+        serializedName: "sourceResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AzureWorkloadErrorInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4680,33 +4731,13 @@ export const InquiryValidation: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const DistributedNodesInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DistributedNodesInfo",
-    modelProperties: {
-      nodeName: {
-        serializedName: "nodeName",
-        type: {
-          name: "String"
-        }
       },
-      status: {
-        serializedName: "status",
+      protectableItemCount: {
+        serializedName: "protectableItemCount",
+        readOnly: true,
         type: {
-          name: "String"
-        }
-      },
-      errorDetail: {
-        serializedName: "errorDetail",
-        type: {
-          name: "Composite",
-          className: "ErrorDetail"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -6294,6 +6325,18 @@ export const AzureVmWorkloadProtectedItem: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: {
             type: { name: "Composite", className: "KPIResourceHealthDetails" }
+          }
+        }
+      },
+      nodesList: {
+        serializedName: "nodesList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DistributedNodesInfo"
+            }
           }
         }
       }
@@ -8440,6 +8483,12 @@ export const AzureVmWorkloadProtectableItem: coreClient.CompositeMapper = {
           name: "Composite",
           className: "PreBackupValidation"
         }
+      },
+      isProtectable: {
+        serializedName: "isProtectable",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -9178,11 +9227,11 @@ export const AzureVmWorkloadSAPHanaDBInstance: coreClient.CompositeMapper = {
   }
 };
 
-export const AzureVmWorkloadSAPHanaHSR: coreClient.CompositeMapper = {
-  serializedName: "SAPHanaHSR",
+export const AzureVmWorkloadSAPHanaHSRProtectableItem: coreClient.CompositeMapper = {
+  serializedName: "HanaHSRContainer",
   type: {
     name: "Composite",
-    className: "AzureVmWorkloadSAPHanaHSR",
+    className: "AzureVmWorkloadSAPHanaHSRProtectableItem",
     uberParent: "AzureVmWorkloadProtectableItem",
     polymorphicDiscriminator:
       AzureVmWorkloadProtectableItem.type.polymorphicDiscriminator,
@@ -9201,7 +9250,19 @@ export const AzureVmWorkloadSQLAvailabilityGroupProtectableItem: coreClient.Comp
     polymorphicDiscriminator:
       AzureVmWorkloadProtectableItem.type.polymorphicDiscriminator,
     modelProperties: {
-      ...AzureVmWorkloadProtectableItem.type.modelProperties
+      ...AzureVmWorkloadProtectableItem.type.modelProperties,
+      nodesList: {
+        serializedName: "nodesList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DistributedNodesInfo"
+            }
+          }
+        }
+      }
     }
   }
 };
@@ -9542,7 +9603,7 @@ export let discriminators = {
   "AzureVmWorkloadProtectableItem.SAPHanaDatabase": AzureVmWorkloadSAPHanaDatabaseProtectableItem,
   "AzureVmWorkloadProtectableItem.SAPHanaSystem": AzureVmWorkloadSAPHanaSystemProtectableItem,
   "AzureVmWorkloadProtectableItem.SAPHanaDBInstance": AzureVmWorkloadSAPHanaDBInstance,
-  "AzureVmWorkloadProtectableItem.SAPHanaHSR": AzureVmWorkloadSAPHanaHSR,
+  "AzureVmWorkloadProtectableItem.HanaHSRContainer": AzureVmWorkloadSAPHanaHSRProtectableItem,
   "AzureVmWorkloadProtectableItem.SQLAvailabilityGroupContainer": AzureVmWorkloadSQLAvailabilityGroupProtectableItem,
   "AzureVmWorkloadProtectableItem.SQLDataBase": AzureVmWorkloadSQLDatabaseProtectableItem,
   "AzureVmWorkloadProtectableItem.SQLInstance": AzureVmWorkloadSQLInstanceProtectableItem,

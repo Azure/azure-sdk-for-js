@@ -77,30 +77,6 @@ describe("ServiceClient", function () {
       },
     };
 
-    it("should throw when there is a non fqdm as credentialScopes", async () => {
-      const cred: TokenCredential = {
-        getToken: async (_scopes) => {
-          return { token: "testToken", expiresOnTimestamp: 11111 };
-        },
-      };
-      let request: WebResource;
-      try {
-        const client = new ServiceClient(cred, {
-          httpClient: {
-            sendRequest: (req) => {
-              request = req;
-              return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-            },
-          },
-          credentialScopes: ["/lalala//", "https://microsoft.com"],
-        });
-        await client.sendOperationRequest(testArgs, testOperationSpec);
-        assert.fail("Expected to throw");
-      } catch (error: any) {
-        assert.include(error.message, `Invalid URL`);
-      }
-    });
-
     it("should throw when there is no credentialScopes or baseUri", async () => {
       const cred: TokenCredential = {
         getToken: async (_scopes) => {

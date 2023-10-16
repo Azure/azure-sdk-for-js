@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 import {
@@ -103,6 +103,7 @@ import {
   assertResponse,
   ensureCpkIfSpecified,
   getURLPathAndQuery,
+  ParsePathGetPropertiesExtraHeaderValues,
   setURLPath,
   setURLQueries,
 } from "./utils/utils.common";
@@ -130,6 +131,8 @@ export class DataLakePathClient extends StorageClient {
    * blobClient provided by `@azure/storage-blob` package.
    */
   private blobClient: BlobClient;
+
+  private isTokenCredential?: boolean;
 
   /**
    * SetAccessControlRecursiveInternal operation sets the Access Control on a path and sub paths.
@@ -436,6 +439,15 @@ export class DataLakePathClient extends StorageClient {
   ): Promise<PathDeleteResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan("DataLakePathClient-delete", options, async (updatedOptions) => {
+      if (this.isTokenCredential === undefined) {
+        this.isTokenCredential = false;
+        this.pipeline.factories.forEach((factory) => {
+          if (isTokenCredential((factory as any).credential)) {
+            this.isTokenCredential = true;
+          }
+        });
+      }
+      const paginated = recursive === true && this.isTokenCredential === true;
       let continuation: string | undefined;
       let response: PathDeleteResponse;
 
@@ -449,6 +461,7 @@ export class DataLakePathClient extends StorageClient {
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: options.conditions,
             abortSignal: options.abortSignal,
+            paginated,
           })
         );
         continuation = response.continuation;
@@ -671,11 +684,12 @@ export class DataLakePathClient extends StorageClient {
       "DataLakePathClient-getProperties",
       options,
       async (updatedOptions) => {
-        return this.blobClient.getProperties({
+        const response = await this.blobClient.getProperties({
           ...options,
           customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
           tracingOptions: updatedOptions.tracingOptions,
         });
+        return ParsePathGetPropertiesExtraHeaderValues(response as PathGetPropertiesResponse);
       }
     );
   }
@@ -1228,7 +1242,9 @@ export class DataLakeFileClient extends DataLakePathClient {
         customerProvidedKey: toBlobCpkInfo(updatedOptions.customerProvidedKey),
       });
 
-      const response = rawResponse as FileReadResponse;
+      const response = ParsePathGetPropertiesExtraHeaderValues(
+        rawResponse as FileReadResponse
+      ) as FileReadResponse;
       if (!isNode && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
       }
@@ -1278,7 +1294,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           cpkInfo: options.customerProvidedKey,
           flush: options.flush,
           proposedLeaseId: options.proposedLeaseId,
-          leaseDuration: options.leaseDuration,
+          leaseDuration: options.leaseDurationInSeconds,
           leaseAction: options.leaseAction,
         })
       );
@@ -1310,7 +1326,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           modifiedAccessConditions: options.conditions,
           cpkInfo: options.customerProvidedKey,
           proposedLeaseId: options.proposedLeaseId,
-          leaseDuration: options.leaseDuration,
+          leaseDuration: options.leaseDurationInSeconds,
           leaseAction: options.leaseAction,
         })
       );
@@ -1415,6 +1431,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           pathHttpHeaders: options.pathHttpHeaders,
           customerProvidedKey: updatedOptions.customerProvidedKey,
           tracingOptions: updatedOptions.tracingOptions,
+          encryptionContext: updatedOptions.encryptionContext,
         });
         // append() with empty data would return error, so do not continue
         if (size === 0) {
@@ -1553,6 +1570,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           pathHttpHeaders: options.pathHttpHeaders,
           customerProvidedKey: options.customerProvidedKey,
           tracingOptions: updatedOptions.tracingOptions,
+          encryptionContext: updatedOptions.encryptionContext,
         });
 
         // After the File is Create, Lease ID is the only valid request parameter.

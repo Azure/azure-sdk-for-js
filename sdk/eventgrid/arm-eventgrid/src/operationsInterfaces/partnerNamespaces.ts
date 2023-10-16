@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PartnerNamespace,
   PartnerNamespacesListBySubscriptionOptionalParams,
@@ -69,8 +69,8 @@ export interface PartnerNamespaces {
     partnerNamespaceInfo: PartnerNamespace,
     options?: PartnerNamespacesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PartnerNamespacesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PartnerNamespacesCreateOrUpdateResponse>,
       PartnerNamespacesCreateOrUpdateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface PartnerNamespaces {
     resourceGroupName: string,
     partnerNamespaceName: string,
     options?: PartnerNamespacesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete existing partner namespace.
    * @param resourceGroupName The name of the resource group within the user's subscription.
@@ -121,7 +121,7 @@ export interface PartnerNamespaces {
     partnerNamespaceName: string,
     partnerNamespaceUpdateParameters: PartnerNamespaceUpdateParameters,
     options?: PartnerNamespacesUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Asynchronously updates a partner namespace with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.

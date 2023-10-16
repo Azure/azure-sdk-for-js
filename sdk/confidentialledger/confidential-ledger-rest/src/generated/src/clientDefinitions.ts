@@ -18,31 +18,31 @@ import {
 } from "./parameters";
 import {
   GetConstitution200Response,
-  GetConstitutiondefaultResponse,
+  GetConstitutionDefaultResponse,
   ListConsortiumMembers200Response,
-  ListConsortiumMembersdefaultResponse,
+  ListConsortiumMembersDefaultResponse,
   GetEnclaveQuotes200Response,
-  GetEnclaveQuotesdefaultResponse,
+  GetEnclaveQuotesDefaultResponse,
   ListCollections200Response,
-  ListCollectionsdefaultResponse,
+  ListCollectionsDefaultResponse,
   ListLedgerEntries200Response,
-  ListLedgerEntriesdefaultResponse,
+  ListLedgerEntriesDefaultResponse,
   CreateLedgerEntry200Response,
-  CreateLedgerEntrydefaultResponse,
+  CreateLedgerEntryDefaultResponse,
   GetLedgerEntry200Response,
-  GetLedgerEntrydefaultResponse,
+  GetLedgerEntryDefaultResponse,
   GetReceipt200Response,
-  GetReceiptdefaultResponse,
+  GetReceiptDefaultResponse,
   GetTransactionStatus200Response,
-  GetTransactionStatusdefaultResponse,
+  GetTransactionStatusDefaultResponse,
   GetCurrentLedgerEntry200Response,
-  GetCurrentLedgerEntrydefaultResponse,
+  GetCurrentLedgerEntryDefaultResponse,
   DeleteUser204Response,
-  DeleteUserdefaultResponse,
+  DeleteUserDefaultResponse,
   GetUser200Response,
-  GetUserdefaultResponse,
+  GetUserDefaultResponse,
   CreateOrUpdateUser200Response,
-  CreateOrUpdateUserdefaultResponse
+  CreateOrUpdateUserDefaultResponse
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -51,7 +51,7 @@ export interface GetConstitution {
   get(
     options?: GetConstitutionParameters
   ): StreamableMethod<
-    GetConstitution200Response | GetConstitutiondefaultResponse
+    GetConstitution200Response | GetConstitutionDefaultResponse
   >;
 }
 
@@ -60,7 +60,7 @@ export interface ListConsortiumMembers {
   get(
     options?: ListConsortiumMembersParameters
   ): StreamableMethod<
-    ListConsortiumMembers200Response | ListConsortiumMembersdefaultResponse
+    ListConsortiumMembers200Response | ListConsortiumMembersDefaultResponse
   >;
 }
 
@@ -69,7 +69,7 @@ export interface GetEnclaveQuotes {
   get(
     options?: GetEnclaveQuotesParameters
   ): StreamableMethod<
-    GetEnclaveQuotes200Response | GetEnclaveQuotesdefaultResponse
+    GetEnclaveQuotes200Response | GetEnclaveQuotesDefaultResponse
   >;
 }
 
@@ -78,7 +78,7 @@ export interface ListCollections {
   get(
     options?: ListCollectionsParameters
   ): StreamableMethod<
-    ListCollections200Response | ListCollectionsdefaultResponse
+    ListCollections200Response | ListCollectionsDefaultResponse
   >;
 }
 
@@ -87,13 +87,13 @@ export interface ListLedgerEntries {
   get(
     options?: ListLedgerEntriesParameters
   ): StreamableMethod<
-    ListLedgerEntries200Response | ListLedgerEntriesdefaultResponse
+    ListLedgerEntries200Response | ListLedgerEntriesDefaultResponse
   >;
   /** A collection id may optionally be specified. */
   post(
     options: CreateLedgerEntryParameters
   ): StreamableMethod<
-    CreateLedgerEntry200Response | CreateLedgerEntrydefaultResponse
+    CreateLedgerEntry200Response | CreateLedgerEntryDefaultResponse
   >;
 }
 
@@ -102,7 +102,7 @@ export interface GetLedgerEntry {
   get(
     options?: GetLedgerEntryParameters
   ): StreamableMethod<
-    GetLedgerEntry200Response | GetLedgerEntrydefaultResponse
+    GetLedgerEntry200Response | GetLedgerEntryDefaultResponse
   >;
 }
 
@@ -110,7 +110,7 @@ export interface GetReceipt {
   /** Gets a receipt certifying ledger contents at a particular transaction id. */
   get(
     options?: GetReceiptParameters
-  ): StreamableMethod<GetReceipt200Response | GetReceiptdefaultResponse>;
+  ): StreamableMethod<GetReceipt200Response | GetReceiptDefaultResponse>;
 }
 
 export interface GetTransactionStatus {
@@ -118,7 +118,7 @@ export interface GetTransactionStatus {
   get(
     options?: GetTransactionStatusParameters
   ): StreamableMethod<
-    GetTransactionStatus200Response | GetTransactionStatusdefaultResponse
+    GetTransactionStatus200Response | GetTransactionStatusDefaultResponse
   >;
 }
 
@@ -127,7 +127,7 @@ export interface GetCurrentLedgerEntry {
   get(
     options?: GetCurrentLedgerEntryParameters
   ): StreamableMethod<
-    GetCurrentLedgerEntry200Response | GetCurrentLedgerEntrydefaultResponse
+    GetCurrentLedgerEntry200Response | GetCurrentLedgerEntryDefaultResponse
   >;
 }
 
@@ -135,16 +135,16 @@ export interface DeleteUser {
   /** Deletes a user from the Confidential Ledger. */
   delete(
     options?: DeleteUserParameters
-  ): StreamableMethod<DeleteUser204Response | DeleteUserdefaultResponse>;
+  ): StreamableMethod<DeleteUser204Response | DeleteUserDefaultResponse>;
   /** Gets a user. */
   get(
     options?: GetUserParameters
-  ): StreamableMethod<GetUser200Response | GetUserdefaultResponse>;
+  ): StreamableMethod<GetUser200Response | GetUserDefaultResponse>;
   /** A JSON merge patch is applied for existing users */
   patch(
     options: CreateOrUpdateUserParameters
   ): StreamableMethod<
-    CreateOrUpdateUser200Response | CreateOrUpdateUserdefaultResponse
+    CreateOrUpdateUser200Response | CreateOrUpdateUserDefaultResponse
   >;
 }
 

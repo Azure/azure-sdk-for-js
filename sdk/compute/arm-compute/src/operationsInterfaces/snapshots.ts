@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Snapshot,
   SnapshotsListByResourceGroupOptionalParams,
@@ -60,8 +60,8 @@ export interface Snapshots {
     snapshot: Snapshot,
     options?: SnapshotsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SnapshotsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SnapshotsCreateOrUpdateResponse>,
       SnapshotsCreateOrUpdateResponse
     >
   >;
@@ -95,8 +95,8 @@ export interface Snapshots {
     snapshot: SnapshotUpdate,
     options?: SnapshotsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SnapshotsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SnapshotsUpdateResponse>,
       SnapshotsUpdateResponse
     >
   >;
@@ -140,7 +140,7 @@ export interface Snapshots {
     resourceGroupName: string,
     snapshotName: string,
     options?: SnapshotsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a snapshot.
    * @param resourceGroupName The name of the resource group.
@@ -169,8 +169,8 @@ export interface Snapshots {
     grantAccessData: GrantAccessData,
     options?: SnapshotsGrantAccessOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SnapshotsGrantAccessResponse>,
+    SimplePollerLike<
+      OperationState<SnapshotsGrantAccessResponse>,
       SnapshotsGrantAccessResponse
     >
   >;
@@ -201,7 +201,7 @@ export interface Snapshots {
     resourceGroupName: string,
     snapshotName: string,
     options?: SnapshotsRevokeAccessOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Revokes access to a snapshot.
    * @param resourceGroupName The name of the resource group.

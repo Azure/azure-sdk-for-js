@@ -22,7 +22,7 @@ import {
 export interface Notification {
   /**
    * Lists a collection of properties defined within a service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -33,7 +33,7 @@ export interface Notification {
   ): PagedAsyncIterableIterator<NotificationContract>;
   /**
    * Gets the details of the Notification specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param notificationName Notification Name Identifier.
    * @param options The options parameters.
@@ -46,7 +46,7 @@ export interface Notification {
   ): Promise<NotificationGetResponse>;
   /**
    * Create or Update API Management publisher notification.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param notificationName Notification Name Identifier.
    * @param options The options parameters.

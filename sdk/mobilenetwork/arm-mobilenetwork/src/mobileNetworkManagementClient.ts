@@ -17,8 +17,10 @@ import * as coreAuth from "@azure/core-auth";
 import {
   AttachedDataNetworksImpl,
   DataNetworksImpl,
+  DiagnosticsPackagesImpl,
   MobileNetworksImpl,
   OperationsImpl,
+  PacketCapturesImpl,
   PacketCoreControlPlanesImpl,
   PacketCoreControlPlaneVersionsImpl,
   PacketCoreDataPlanesImpl,
@@ -32,8 +34,10 @@ import {
 import {
   AttachedDataNetworks,
   DataNetworks,
+  DiagnosticsPackages,
   MobileNetworks,
   Operations,
+  PacketCaptures,
   PacketCoreControlPlanes,
   PacketCoreControlPlaneVersions,
   PacketCoreDataPlanes,
@@ -48,25 +52,41 @@ import { MobileNetworkManagementClientOptionalParams } from "./models";
 
 export class MobileNetworkManagementClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
   apiVersion: string;
 
   /**
    * Initializes a new instance of the MobileNetworkManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: MobileNetworkManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: MobileNetworkManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | MobileNetworkManagementClientOptionalParams
+      | string,
+    options?: MobileNetworkManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -78,7 +98,7 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-mobilenetwork/2.0.1`;
+    const packageDetails = `azsdk-js-arm-mobilenetwork/3.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -131,11 +151,13 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-11-01";
+    this.apiVersion = options.apiVersion || "2023-06-01";
     this.attachedDataNetworks = new AttachedDataNetworksImpl(this);
     this.dataNetworks = new DataNetworksImpl(this);
+    this.diagnosticsPackages = new DiagnosticsPackagesImpl(this);
     this.mobileNetworks = new MobileNetworksImpl(this);
     this.operations = new OperationsImpl(this);
+    this.packetCaptures = new PacketCapturesImpl(this);
     this.packetCoreControlPlanes = new PacketCoreControlPlanesImpl(this);
     this.packetCoreControlPlaneVersions = new PacketCoreControlPlaneVersionsImpl(
       this
@@ -180,8 +202,10 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
 
   attachedDataNetworks: AttachedDataNetworks;
   dataNetworks: DataNetworks;
+  diagnosticsPackages: DiagnosticsPackages;
   mobileNetworks: MobileNetworks;
   operations: Operations;
+  packetCaptures: PacketCaptures;
   packetCoreControlPlanes: PacketCoreControlPlanes;
   packetCoreControlPlaneVersions: PacketCoreControlPlaneVersions;
   packetCoreDataPlanes: PacketCoreDataPlanes;

@@ -225,8 +225,6 @@ Determine the language of a piece of text.
 
 The `countryHint` parameter is optional, but can assist the service in providing correct output if the country of origin is known. If provided, it should be set to an ISO-3166 Alpha-2 two-letter country code (such as "us" for the United States or "jp" for Japan) or to the value `"none"`. If the parameter is not provided, then the default `"us"` (United States) model will be used. If you do not know the country of origin of the document, then the parameter `"none"` should be used, and the Language service will apply a model that is tuned for an unknown country of origin.
 
-To enable script detection, set the `modelVersion` option to `2022-04-20-preview`.
-
 ```javascript
 const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-language-text");
 
@@ -257,9 +255,6 @@ async function main() {
         primaryLanguage.confidenceScore,
         ")"
       );
-      if (primaryLanguage.script) {
-        console.log(`Detected script: ${primaryLanguage.script}`); 
-      }
       if 
     } else {
       console.error("Encountered an error:", result.error);
@@ -370,8 +365,6 @@ main();
 ### Abstractive Summarization
 
 Abstractive summarization generates a summary for the input articles. Abstractive summarization is different from extractive summarization in that extractive summarization is the strategy of concatenating extracted sentences from the input document into a summary, while abstractive summarization involves paraphrasing the document using novel sentences. 
-
-To get started, submit a request for access [here](https://aka.ms/applyforgatedsummarizationfeatures).
 
 ```javascript
 const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-text");

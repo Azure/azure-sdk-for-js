@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Snapshot,
   SnapshotsListByResourceGroupNextOptionalParams,
@@ -190,8 +194,8 @@ export class SnapshotsImpl implements Snapshots {
     snapshot: Snapshot,
     options?: SnapshotsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SnapshotsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SnapshotsCreateOrUpdateResponse>,
       SnapshotsCreateOrUpdateResponse
     >
   > {
@@ -201,7 +205,7 @@ export class SnapshotsImpl implements Snapshots {
     ): Promise<SnapshotsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -234,13 +238,16 @@ export class SnapshotsImpl implements Snapshots {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, snapshotName, snapshot, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, snapshotName, snapshot, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SnapshotsCreateOrUpdateResponse,
+      OperationState<SnapshotsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -286,8 +293,8 @@ export class SnapshotsImpl implements Snapshots {
     snapshot: SnapshotUpdate,
     options?: SnapshotsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SnapshotsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SnapshotsUpdateResponse>,
       SnapshotsUpdateResponse
     >
   > {
@@ -297,7 +304,7 @@ export class SnapshotsImpl implements Snapshots {
     ): Promise<SnapshotsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -330,13 +337,16 @@ export class SnapshotsImpl implements Snapshots {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, snapshotName, snapshot, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, snapshotName, snapshot, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SnapshotsUpdateResponse,
+      OperationState<SnapshotsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -398,14 +408,14 @@ export class SnapshotsImpl implements Snapshots {
     resourceGroupName: string,
     snapshotName: string,
     options?: SnapshotsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -438,13 +448,13 @@ export class SnapshotsImpl implements Snapshots {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, snapshotName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, snapshotName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -512,8 +522,8 @@ export class SnapshotsImpl implements Snapshots {
     grantAccessData: GrantAccessData,
     options?: SnapshotsGrantAccessOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SnapshotsGrantAccessResponse>,
+    SimplePollerLike<
+      OperationState<SnapshotsGrantAccessResponse>,
       SnapshotsGrantAccessResponse
     >
   > {
@@ -523,7 +533,7 @@ export class SnapshotsImpl implements Snapshots {
     ): Promise<SnapshotsGrantAccessResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -556,15 +566,18 @@ export class SnapshotsImpl implements Snapshots {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, snapshotName, grantAccessData, options },
-      grantAccessOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, snapshotName, grantAccessData, options },
+      spec: grantAccessOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SnapshotsGrantAccessResponse,
+      OperationState<SnapshotsGrantAccessResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -606,14 +619,14 @@ export class SnapshotsImpl implements Snapshots {
     resourceGroupName: string,
     snapshotName: string,
     options?: SnapshotsRevokeAccessOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -646,15 +659,15 @@ export class SnapshotsImpl implements Snapshots {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, snapshotName, options },
-      revokeAccessOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, snapshotName, options },
+      spec: revokeAccessOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

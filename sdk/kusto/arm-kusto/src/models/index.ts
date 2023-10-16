@@ -179,22 +179,83 @@ export interface Resource {
   readonly type?: string;
 }
 
-/** An error response from Kusto. */
-export interface CloudError {
-  /** An error response from Kusto. */
-  error?: CloudErrorBody;
+/** Represents a properties of a cluster that is part of a migration. */
+export interface MigrationClusterProperties {
+  /**
+   * The resource ID of the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The public URL of the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uri?: string;
+  /**
+   * The public data ingestion URL of the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataIngestionUri?: string;
+  /**
+   * The role of the cluster in the migration process.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly role?: MigrationClusterRole;
 }
 
-/** An error response from Kusto. */
-export interface CloudErrorBody {
-  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
-  /** A message describing the error, intended to be suitable for displaying in a user interface. */
-  message?: string;
-  /** The target of the particular error. For example, the name of the property in error. */
-  target?: string;
-  /** A list of additional details about the error. */
-  details?: CloudErrorBody[];
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** A cluster migrate request. */
+export interface ClusterMigrateRequest {
+  /** Resource ID of the destination cluster or kusto pool. */
+  clusterResourceId: string;
 }
 
 /** A principal assignment check name availability request. */
@@ -426,8 +487,24 @@ export interface AzureCapacity {
 
 /** The list Kusto databases operation response. */
 export interface DatabaseListResult {
+  /** Link to the next page of results */
+  nextLink?: string;
   /** The list of Kusto databases. */
   value?: DatabaseUnion[];
+}
+
+/** The request to invite a follower to a database. */
+export interface DatabaseInviteFollowerRequest {
+  /** The email of the invited user for which the follower invitation is generated. */
+  inviteeEmail: string;
+  /** Table level sharing specifications */
+  tableLevelSharingProperties?: TableLevelSharingProperties;
+}
+
+/** The result returned from a follower invitation generation request. */
+export interface DatabaseInviteFollowerResult {
+  /** The generated invitation token. */
+  generatedInvitation?: string;
 }
 
 /** A principal assignment check name availability request. */
@@ -650,6 +727,12 @@ export interface DatabaseStatistics {
   size?: number;
 }
 
+/** The database suspension details. If the database is suspended, this object contains information related to the database's suspension state. */
+export interface SuspensionDetails {
+  /** The starting date and time of the suspension state. */
+  suspensionStartDate?: Date;
+}
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
@@ -737,6 +820,11 @@ export interface ClusterUpdate extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * Properties of the peer cluster involved in a migration to/from this cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationCluster?: MigrationClusterProperties;
 }
 
 /** A private link resource */
@@ -1045,6 +1133,11 @@ export interface Cluster extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * Properties of the peer cluster involved in a migration to/from this cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationCluster?: MigrationClusterProperties;
 }
 
 /** Class representing a read write database. */
@@ -1070,6 +1163,13 @@ export interface ReadWriteDatabase extends Database {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isFollowed?: boolean;
+  /** KeyVault properties for the database encryption. */
+  keyVaultProperties?: KeyVaultProperties;
+  /**
+   * The database suspension details. If the database is suspended, this object contains information related to the database's suspension state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suspensionDetails?: SuspensionDetails;
 }
 
 /** Class representing a read only following database. */
@@ -1123,6 +1223,11 @@ export interface ReadOnlyFollowingDatabase extends Database {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly databaseShareOrigin?: DatabaseShareOrigin;
+  /**
+   * The database suspension details. If the database is suspended, this object contains information related to the database's suspension state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suspensionDetails?: SuspensionDetails;
 }
 
 /** Class representing an event hub data connection. */
@@ -1260,31 +1365,169 @@ export interface CosmosDbDataConnection extends DataConnection {
 
 /** Defines headers for Clusters_update operation. */
 export interface ClustersUpdateHeaders {
-  /** URL to query for status of the operation. */
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_delete operation. */
+export interface ClustersDeleteHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_stop operation. */
+export interface ClustersStopHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_start operation. */
+export interface ClustersStartHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_migrate operation. */
+export interface ClustersMigrateHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_detachFollowerDatabases operation. */
+export interface ClustersDetachFollowerDatabasesHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_diagnoseVirtualNetwork operation. */
+export interface ClustersDiagnoseVirtualNetworkHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_addLanguageExtensions operation. */
+export interface ClustersAddLanguageExtensionsHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_removeLanguageExtensions operation. */
+export interface ClustersRemoveLanguageExtensionsHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ClusterPrincipalAssignments_delete operation. */
+export interface ClusterPrincipalAssignmentsDeleteHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Databases_createOrUpdate operation. */
+export interface DatabasesCreateOrUpdateHeaders {
+  /** URL to query the status of the operation. */
   azureAsyncOperation?: string;
 }
 
 /** Defines headers for Databases_update operation. */
 export interface DatabasesUpdateHeaders {
-  /** URL to query for status of the operation. */
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Databases_delete operation. */
+export interface DatabasesDeleteHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for AttachedDatabaseConfigurations_createOrUpdate operation. */
+export interface AttachedDatabaseConfigurationsCreateOrUpdateHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for AttachedDatabaseConfigurations_delete operation. */
+export interface AttachedDatabaseConfigurationsDeleteHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ManagedPrivateEndpoints_createOrUpdate operation. */
+export interface ManagedPrivateEndpointsCreateOrUpdateHeaders {
+  /** URL to query the status of the operation. */
   azureAsyncOperation?: string;
 }
 
 /** Defines headers for ManagedPrivateEndpoints_update operation. */
 export interface ManagedPrivateEndpointsUpdateHeaders {
-  /** URL to query for status of the operation. */
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ManagedPrivateEndpoints_delete operation. */
+export interface ManagedPrivateEndpointsDeleteHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for DatabasePrincipalAssignments_delete operation. */
+export interface DatabasePrincipalAssignmentsDeleteHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Scripts_createOrUpdate operation. */
+export interface ScriptsCreateOrUpdateHeaders {
+  /** URL to query the status of the operation. */
   azureAsyncOperation?: string;
 }
 
 /** Defines headers for Scripts_update operation. */
 export interface ScriptsUpdateHeaders {
-  /** URL to query for status of the operation. */
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Scripts_delete operation. */
+export interface ScriptsDeleteHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for DataConnections_dataConnectionValidation operation. */
+export interface DataConnectionsDataConnectionValidationHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for DataConnections_createOrUpdate operation. */
+export interface DataConnectionsCreateOrUpdateHeaders {
+  /** URL to query the status of the operation. */
   azureAsyncOperation?: string;
 }
 
 /** Defines headers for DataConnections_update operation. */
 export interface DataConnectionsUpdateHeaders {
-  /** URL to query for status of the operation. */
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for DataConnections_delete operation. */
+export interface DataConnectionsDeleteHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for OperationsResultsLocation_get operation. */
+export interface OperationsResultsLocationGetHeaders {
+  /** URL to query the status of the operation. */
   azureAsyncOperation?: string;
 }
 
@@ -1577,7 +1820,9 @@ export enum KnownState {
   /** Starting */
   Starting = "Starting",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
+  /** Migrated */
+  Migrated = "Migrated"
 }
 
 /**
@@ -1593,7 +1838,8 @@ export enum KnownState {
  * **Stopping** \
  * **Stopped** \
  * **Starting** \
- * **Updating**
+ * **Updating** \
+ * **Migrated**
  */
 export type State = string;
 
@@ -1654,10 +1900,6 @@ export enum KnownLanguageExtensionImageName {
   R = "R",
   /** Python365 */
   Python365 = "Python3_6_5",
-  /** Python3912 */
-  Python3912 = "Python3_9_12",
-  /** Python3912IncludeDeepLearning */
-  Python3912IncludeDeepLearning = "Python3_9_12IncludeDeepLearning",
   /** Python3108 */
   Python3108 = "Python3_10_8"
 }
@@ -1669,8 +1911,6 @@ export enum KnownLanguageExtensionImageName {
  * ### Known values supported by the service
  * **R** \
  * **Python3_6_5** \
- * **Python3_9_12** \
- * **Python3_9_12IncludeDeepLearning** \
  * **Python3_10_8**
  */
 export type LanguageExtensionImageName = string;
@@ -1746,6 +1986,24 @@ export enum KnownPublicIPType {
  * **DualStack**
  */
 export type PublicIPType = string;
+
+/** Known values of {@link MigrationClusterRole} that the service accepts. */
+export enum KnownMigrationClusterRole {
+  /** Source */
+  Source = "Source",
+  /** Destination */
+  Destination = "Destination"
+}
+
+/**
+ * Defines values for MigrationClusterRole. \
+ * {@link KnownMigrationClusterRole} can be used interchangeably with MigrationClusterRole,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Source** \
+ * **Destination**
+ */
+export type MigrationClusterRole = string;
 
 /** Known values of {@link Reason} that the service accepts. */
 export enum KnownReason {
@@ -2326,6 +2584,15 @@ export interface ClustersStartOptionalParams
 }
 
 /** Optional parameters. */
+export interface ClustersMigrateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface ClustersListFollowerDatabasesOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2484,7 +2751,12 @@ export type DatabasesCheckNameAvailabilityResponse = CheckNameResult;
 
 /** Optional parameters. */
 export interface DatabasesListByClusterOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** limit the number of results */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
+  skiptoken?: string;
+}
 
 /** Contains response data for the listByCluster operation. */
 export type DatabasesListByClusterResponse = DatabaseListResult;
@@ -2553,6 +2825,13 @@ export interface DatabasesRemovePrincipalsOptionalParams
 
 /** Contains response data for the removePrincipals operation. */
 export type DatabasesRemovePrincipalsResponse = DatabasePrincipalListResult;
+
+/** Optional parameters. */
+export interface DatabasesListByClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByClusterNext operation. */
+export type DatabasesListByClusterNextResponse = DatabaseListResult;
 
 /** Optional parameters. */
 export interface AttachedDatabaseConfigurationsCheckNameAvailabilityOptionalParams
@@ -2649,6 +2928,13 @@ export interface ManagedPrivateEndpointsDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface DatabaseInviteFollowerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the inviteFollower operation. */
+export type DatabaseInviteFollowerResponse = DatabaseInviteFollowerResult;
 
 /** Optional parameters. */
 export interface DatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams
@@ -2884,6 +3170,9 @@ export type OperationsResultsGetResponse = OperationResult;
 /** Optional parameters. */
 export interface OperationsResultsLocationGetOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type OperationsResultsLocationGetResponse = OperationsResultsLocationGetHeaders;
 
 /** Optional parameters. */
 export interface KustoManagementClientOptionalParams

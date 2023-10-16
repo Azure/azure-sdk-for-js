@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Authorize the replication connection on the source volume
  *
  * @summary Authorize the replication connection on the source volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/Volumes_AuthorizeReplication.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Volumes_AuthorizeReplication.json
  */
 async function volumesAuthorizeReplication() {
   const subscriptionId =

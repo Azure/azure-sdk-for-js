@@ -257,6 +257,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnection
     },
+    201: {
+      bodyMapper: Mappers.PrivateEndpointConnection
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

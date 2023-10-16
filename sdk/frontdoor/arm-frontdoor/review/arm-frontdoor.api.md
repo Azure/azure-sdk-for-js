@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
@@ -138,6 +138,17 @@ export interface CustomRuleList {
 }
 
 // @public
+export interface DefaultErrorResponse {
+    error?: DefaultErrorResponseError;
+}
+
+// @public
+export interface DefaultErrorResponseError {
+    readonly code?: string;
+    readonly message?: string;
+}
+
+// @public
 export type DynamicCompressionEnabled = string;
 
 // @public
@@ -148,7 +159,7 @@ export interface Endpoint {
 
 // @public
 export interface Endpoints {
-    beginPurgeContent(resourceGroupName: string, frontDoorName: string, contentFilePaths: PurgeParameters, options?: EndpointsPurgeContentOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginPurgeContent(resourceGroupName: string, frontDoorName: string, contentFilePaths: PurgeParameters, options?: EndpointsPurgeContentOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPurgeContentAndWait(resourceGroupName: string, frontDoorName: string, contentFilePaths: PurgeParameters, options?: EndpointsPurgeContentOptionalParams): Promise<void>;
 }
 
@@ -213,11 +224,11 @@ export interface ExperimentList {
 
 // @public
 export interface Experiments {
-    beginCreateOrUpdate(resourceGroupName: string, profileName: string, experimentName: string, parameters: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ExperimentsCreateOrUpdateResponse>, ExperimentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, profileName: string, experimentName: string, parameters: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsCreateOrUpdateResponse>, ExperimentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, profileName: string, experimentName: string, parameters: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<ExperimentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, profileName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, profileName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, profileName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, profileName: string, experimentName: string, parameters: ExperimentUpdateModel, options?: ExperimentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ExperimentsUpdateResponse>, ExperimentsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, profileName: string, experimentName: string, parameters: ExperimentUpdateModel, options?: ExperimentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsUpdateResponse>, ExperimentsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, profileName: string, experimentName: string, parameters: ExperimentUpdateModel, options?: ExperimentsUpdateOptionalParams): Promise<ExperimentsUpdateResponse>;
     get(resourceGroupName: string, profileName: string, experimentName: string, options?: ExperimentsGetOptionalParams): Promise<ExperimentsGetResponse>;
     listByProfile(resourceGroupName: string, profileName: string, options?: ExperimentsListByProfileOptionalParams): PagedAsyncIterableIterator<Experiment>;
@@ -292,6 +303,9 @@ export interface FrontDoor extends Resource {
     backendPoolsSettings?: BackendPoolsSettings;
     readonly cname?: string;
     enabledState?: FrontDoorEnabledState;
+    readonly extendedProperties?: {
+        [propertyName: string]: string;
+    };
     friendlyName?: string;
     readonly frontdoorId?: string;
     frontendEndpoints?: FrontendEndpoint[];
@@ -390,6 +404,9 @@ export type FrontDoorNameAvailabilityWithSubscriptionCheckResponse = CheckNameAv
 // @public
 export interface FrontDoorProperties extends FrontDoorUpdateParameters {
     readonly cname?: string;
+    readonly extendedProperties?: {
+        [propertyName: string]: string;
+    };
     readonly frontdoorId?: string;
     readonly provisioningState?: string;
     readonly resourceState?: FrontDoorResourceState;
@@ -413,9 +430,9 @@ export type FrontDoorResourceState = string;
 
 // @public
 export interface FrontDoors {
-    beginCreateOrUpdate(resourceGroupName: string, frontDoorName: string, frontDoorParameters: FrontDoor, options?: FrontDoorsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<FrontDoorsCreateOrUpdateResponse>, FrontDoorsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, frontDoorName: string, frontDoorParameters: FrontDoor, options?: FrontDoorsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FrontDoorsCreateOrUpdateResponse>, FrontDoorsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, frontDoorName: string, frontDoorParameters: FrontDoor, options?: FrontDoorsCreateOrUpdateOptionalParams): Promise<FrontDoorsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, frontDoorName: string, options?: FrontDoorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, frontDoorName: string, options?: FrontDoorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, frontDoorName: string, options?: FrontDoorsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, frontDoorName: string, options?: FrontDoorsGetOptionalParams): Promise<FrontDoorsGetResponse>;
     list(options?: FrontDoorsListOptionalParams): PagedAsyncIterableIterator<FrontDoor>;
@@ -524,9 +541,9 @@ export interface FrontendEndpointProperties extends FrontendEndpointUpdateParame
 
 // @public
 export interface FrontendEndpoints {
-    beginDisableHttps(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: FrontendEndpointsDisableHttpsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDisableHttps(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: FrontendEndpointsDisableHttpsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDisableHttpsAndWait(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: FrontendEndpointsDisableHttpsOptionalParams): Promise<void>;
-    beginEnableHttps(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, customHttpsConfiguration: CustomHttpsConfiguration, options?: FrontendEndpointsEnableHttpsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginEnableHttps(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, customHttpsConfiguration: CustomHttpsConfiguration, options?: FrontendEndpointsEnableHttpsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginEnableHttpsAndWait(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, customHttpsConfiguration: CustomHttpsConfiguration, options?: FrontendEndpointsEnableHttpsOptionalParams): Promise<void>;
     get(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: FrontendEndpointsGetOptionalParams): Promise<FrontendEndpointsGetResponse>;
     listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: FrontendEndpointsListByFrontDoorOptionalParams): PagedAsyncIterableIterator<FrontendEndpoint>;
@@ -640,6 +657,7 @@ export interface KeyVaultCertificateSourceParametersVault {
 // @public
 export enum KnownActionType {
     Allow = "Allow",
+    AnomalyScoring = "AnomalyScoring",
     Block = "Block",
     Log = "Log",
     Redirect = "Redirect"
@@ -778,7 +796,9 @@ export enum KnownFrontDoorResourceState {
     Disabled = "Disabled",
     Disabling = "Disabling",
     Enabled = "Enabled",
-    Enabling = "Enabling"
+    Enabling = "Enabling",
+    Migrated = "Migrated",
+    Migrating = "Migrating"
 }
 
 // @public
@@ -1204,11 +1224,11 @@ export type MinimumTLSVersion = string;
 
 // @public
 export interface NetworkExperimentProfiles {
-    beginCreateOrUpdate(profileName: string, resourceGroupName: string, parameters: Profile, options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<NetworkExperimentProfilesCreateOrUpdateResponse>, NetworkExperimentProfilesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(profileName: string, resourceGroupName: string, parameters: Profile, options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NetworkExperimentProfilesCreateOrUpdateResponse>, NetworkExperimentProfilesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(profileName: string, resourceGroupName: string, parameters: Profile, options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams): Promise<NetworkExperimentProfilesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, profileName: string, options?: NetworkExperimentProfilesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, profileName: string, options?: NetworkExperimentProfilesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, profileName: string, options?: NetworkExperimentProfilesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, profileName: string, parameters: ProfileUpdateModel, options?: NetworkExperimentProfilesUpdateOptionalParams): Promise<PollerLike<PollOperationState<NetworkExperimentProfilesUpdateResponse>, NetworkExperimentProfilesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, profileName: string, parameters: ProfileUpdateModel, options?: NetworkExperimentProfilesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NetworkExperimentProfilesUpdateResponse>, NetworkExperimentProfilesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, profileName: string, parameters: ProfileUpdateModel, options?: NetworkExperimentProfilesUpdateOptionalParams): Promise<NetworkExperimentProfilesUpdateResponse>;
     get(resourceGroupName: string, profileName: string, options?: NetworkExperimentProfilesGetOptionalParams): Promise<NetworkExperimentProfilesGetResponse>;
     list(options?: NetworkExperimentProfilesListOptionalParams): PagedAsyncIterableIterator<Profile>;
@@ -1285,12 +1305,15 @@ export type Operator = string;
 
 // @public
 export interface Policies {
-    beginCreateOrUpdate(resourceGroupName: string, policyName: string, parameters: WebApplicationFirewallPolicy, options?: PoliciesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PoliciesCreateOrUpdateResponse>, PoliciesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, policyName: string, parameters: WebApplicationFirewallPolicy, options?: PoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PoliciesCreateOrUpdateResponse>, PoliciesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, policyName: string, parameters: WebApplicationFirewallPolicy, options?: PoliciesCreateOrUpdateOptionalParams): Promise<PoliciesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, policyName: string, options?: PoliciesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, policyName: string, options?: PoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, policyName: string, options?: PoliciesDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, policyName: string, parameters: TagsObject, options?: PoliciesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PoliciesUpdateResponse>, PoliciesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, policyName: string, parameters: TagsObject, options?: PoliciesUpdateOptionalParams): Promise<PoliciesUpdateResponse>;
     get(resourceGroupName: string, policyName: string, options?: PoliciesGetOptionalParams): Promise<PoliciesGetResponse>;
     list(resourceGroupName: string, options?: PoliciesListOptionalParams): PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
+    listBySubscription(options?: PoliciesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
 }
 
 // @public
@@ -1316,6 +1339,20 @@ export interface PoliciesGetOptionalParams extends coreClient.OperationOptions {
 export type PoliciesGetResponse = WebApplicationFirewallPolicy;
 
 // @public
+export interface PoliciesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PoliciesListBySubscriptionNextResponse = WebApplicationFirewallPolicyList;
+
+// @public
+export interface PoliciesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PoliciesListBySubscriptionResponse = WebApplicationFirewallPolicyList;
+
+// @public
 export interface PoliciesListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1328,6 +1365,15 @@ export interface PoliciesListOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type PoliciesListResponse = WebApplicationFirewallPolicyList;
+
+// @public
+export interface PoliciesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PoliciesUpdateResponse = WebApplicationFirewallPolicy;
 
 // @public
 export type PolicyEnabledState = string;
@@ -1573,9 +1619,9 @@ export interface RulesEngineRule {
 
 // @public
 export interface RulesEngines {
-    beginCreateOrUpdate(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, rulesEngineParameters: RulesEngine, options?: RulesEnginesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<RulesEnginesCreateOrUpdateResponse>, RulesEnginesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, rulesEngineParameters: RulesEngine, options?: RulesEnginesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RulesEnginesCreateOrUpdateResponse>, RulesEnginesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, rulesEngineParameters: RulesEngine, options?: RulesEnginesCreateOrUpdateOptionalParams): Promise<RulesEnginesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: RulesEnginesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: RulesEnginesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: RulesEnginesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: RulesEnginesGetOptionalParams): Promise<RulesEnginesGetResponse>;
     listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: RulesEnginesListByFrontDoorOptionalParams): PagedAsyncIterableIterator<RulesEngine>;

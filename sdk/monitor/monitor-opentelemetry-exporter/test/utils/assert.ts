@@ -9,6 +9,7 @@ import {
   RequestData,
   TelemetryItem as Envelope,
   KnownContextTagKeys,
+  MonitorDomain,
 } from "../../src/generated";
 import { TelemetryItem as EnvelopeMapper } from "../../src/generated/models/mappers";
 
@@ -85,11 +86,12 @@ export const assertCount = (actual: Envelope[], expectations: Expectation[]): vo
 export const assertTraceExpectation = (actual: Envelope[], expectations: Expectation[]): void => {
   for (const expectation of expectations) {
     let envelope: any = null;
-    if (expectation.data!.baseData!.name) {
+
+    if (expectation.data?.baseData?.name) {
       envelope = actual.filter((e) => {
         return (
-          (e.data!.baseData as RequestData).name ===
-          (expectation.data!.baseData as RequestData).name
+          (e.data!.baseData as MonitorDomain).name ===
+          (expectation.data!.baseData as MonitorDomain).name
         );
       });
     } else {
@@ -101,7 +103,7 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
       assert.ok(
         false,
         `assertExpectation: could not find exported envelope: ${
-          (expectation.data?.baseData as RequestData).name
+          (expectation.data?.baseData as MonitorDomain).name
         }`
       );
     }
@@ -110,8 +112,10 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
       const serializedKey = EnvelopeMapper.type.modelProperties![key]?.serializedName ?? undefined;
       switch (key) {
         case "children":
-          assertTrace(actual, expectation);
-          assertTraceExpectation(actual, expectation.children);
+          if (expectation.children.length > 0) {
+            assertTrace(actual, expectation);
+            assertTraceExpectation(actual, expectation.children);
+          }
           break;
         case "data":
           if (envelope[0].data) {
@@ -163,7 +167,51 @@ export const assertMetricExpectation = (actual: Envelope[], expectations: Expect
           }
           break;
         case "children":
-          //Do not check for children
+          // Do not check for children
+          break;
+        default:
+          assert.ok(serializedKey, `Serialized key for ${key}`);
+          assert.strictEqual(
+            envelope[0][serializedKey as keyof Envelope], // as keyof Serialized(Envelope)
+            value,
+            `envelope.${serializedKey} should be equal\nActual: ${envelope[0][key]}\nExpected: ${value}`
+          );
+      }
+    }
+  }
+};
+
+export const assertLogExpectation = (actual: Envelope[], expectations: Expectation[]): void => {
+  for (const expectation of expectations) {
+    let envelope: any = null;
+    if (expectation.data!.baseData!.name) {
+      envelope = actual.filter((e) => {
+        return (e.data!.baseData as any).name === (expectation.data!.baseData as any).name;
+      });
+    } else {
+      envelope = actual.filter((e) => {
+        return e.name === expectation.name;
+      });
+    }
+    if (envelope.length !== 1) {
+      assert.ok(
+        false,
+        `assertExpectation: could not find exported envelope: ${
+          (expectation.data?.baseData as any).name
+        }`
+      );
+    }
+
+    for (const [key, value] of Object.entries(expectation) as [keyof Expectation, unknown][]) {
+      const serializedKey = EnvelopeMapper.type.modelProperties![key]?.serializedName ?? undefined;
+      switch (key) {
+        case "data":
+          if (envelope[0].data) {
+            assertData(envelope[0].data, value as MonitorBase);
+          }
+          break;
+        case "children":
+          // Do not check for children
           break;
         default:
           assert.ok(serializedKey, `Serialized key for ${key}`);

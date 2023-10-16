@@ -1,16 +1,38 @@
 # Release History
 
-## 1.11.0 (Unreleased)
+## 1.12.2 (Unreleased)
 
 ### Features Added
-
-- Add a policy `auxiliaryAuthenticationHeaderPolicy` for external tokens to `x-ms-authorization-auxiliary` header. This header will be used when creating a cross-tenant application we may need to handle authentication requests for resources that are in different tenants. [PR #25270](https://github.com/Azure/azure-sdk-for-js/pull/25270)
 
 ### Breaking Changes
 
 ### Bugs Fixed
+- Support Cloudflare workers by only setting the available fields in the `Request` class for the Fetch API.
 
 ### Other Changes
+
+## 1.12.1 (2023-09-07)
+
+### Other Changes
+
+- Set `init.duplex` to `"half"` when streaming body via `fetch()` [PR #26890](https://github.com/Azure/azure-sdk-for-js/pull/26890)
+- Defer Error construction [PR #26897](https://github.com/Azure/azure-sdk-for-js/pull/26897) 
+
+## 1.12.0 (2023-08-08)
+
+### Features Added
+
+- Add CommonTelemetryOptions in PipelineOptions to allow customizing the client request id header name [PR #26424](https://github.com/Azure/azure-sdk-for-js/pull/26424)
+
+### Bugs Fixed
+
+- Fix a TypeError in React Native when `Platform.constants` is undefined [Issue #26609](https://github.com/Azure/azure-sdk-for-js/issues/26609)
+
+## 1.11.0 (2023-06-01)
+
+### Features Added
+
+- Add a policy `auxiliaryAuthenticationHeaderPolicy` for external tokens to `x-ms-authorization-auxiliary` header. This header will be used when creating a cross-tenant application we may need to handle authentication requests for resources that are in different tenants. [PR #25270](https://github.com/Azure/azure-sdk-for-js/pull/25270)
 
 ## 1.10.3 (2023-04-06)
 
@@ -125,7 +147,7 @@
 
 ### Bugs Fixed
 
-- Updated the HTTP tracing span names to conform to the [OpenTelemetry Specification](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md#name). [#19838](https://github.com/Azure/azure-sdk-for-js/pull/19838)
+- Updated the HTTP tracing span names to conform to the [OpenTelemetry Specification](https://github.com/open-telemetry/semantic-conventions/blob/4040095eda0159e38edfe7084ed32d3077a6ffb0/docs/http/http-spans.md#name). [#19838](https://github.com/Azure/azure-sdk-for-js/pull/19838)
 - New HTTP spans will use the `HTTP <VERB>` convention instead of using the URL path.
 - Addressed an issue where policy order might change in cases where there are no policies inside a phase specified by an "afterPhase" constraint. [#20129](https://github.com/Azure/azure-sdk-for-js/pull/20129)
 

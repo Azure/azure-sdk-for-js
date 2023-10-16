@@ -15,9 +15,9 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Delete a Traffic Controller Association
+ * This sample demonstrates how to Delete a Association
  *
- * @summary Delete a Traffic Controller Association
+ * @summary Delete a Association
  * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/cadl/examples/AssociationDelete.json
  */
 async function deleteAssociation() {
@@ -25,8 +25,8 @@ async function deleteAssociation() {
     process.env["SERVICENETWORKING_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["SERVICENETWORKING_RESOURCE_GROUP"] || "rg1";
-  const trafficControllerName = "TC1";
-  const associationName = "associatedvnet-2";
+  const trafficControllerName = "tc1";
+  const associationName = "as1";
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(
     credential,

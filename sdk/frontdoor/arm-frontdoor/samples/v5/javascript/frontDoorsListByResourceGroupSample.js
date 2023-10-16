@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { FrontDoorManagementClient } = require("@azure/arm-frontdoor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all of the Front Doors within a resource group under a subscription.
  *
  * @summary Lists all of the Front Doors within a resource group under a subscription.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2020-05-01/examples/FrontdoorList.json
+ * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorList.json
  */
 async function listFrontDoorsInAResourceGroup() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,4 +30,8 @@ async function listFrontDoorsInAResourceGroup() {
   console.log(resArray);
 }
 
-listFrontDoorsInAResourceGroup().catch(console.error);
+async function main() {
+  listFrontDoorsInAResourceGroup();
+}
+
+main().catch(console.error);

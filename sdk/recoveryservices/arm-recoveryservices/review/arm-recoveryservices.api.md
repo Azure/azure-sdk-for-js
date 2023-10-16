@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AlertsState = string;
@@ -131,6 +131,15 @@ export type CreatedByType = string;
 export type CrossRegionRestore = string;
 
 // @public
+export interface CrossSubscriptionRestoreSettings {
+    // (undocumented)
+    crossSubscriptionRestoreState?: CrossSubscriptionRestoreState;
+}
+
+// @public
+export type CrossSubscriptionRestoreState = string;
+
+// @public
 export interface DNSZone {
     subResource?: VaultSubResourceType;
 }
@@ -238,6 +247,13 @@ export enum KnownCrossRegionRestore {
 }
 
 // @public
+export enum KnownCrossSubscriptionRestoreState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    PermanentlyDisabled = "PermanentlyDisabled"
+}
+
+// @public
 export enum KnownImmutabilityState {
     Disabled = "Disabled",
     Locked = "Locked",
@@ -248,6 +264,13 @@ export enum KnownImmutabilityState {
 export enum KnownInfrastructureEncryptionState {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownMultiUserAuthorization {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Invalid = "Invalid"
 }
 
 // @public
@@ -295,9 +318,25 @@ export enum KnownResourceMoveState {
 }
 
 // @public
+export enum KnownSecureScoreLevel {
+    Adequate = "Adequate",
+    Maximum = "Maximum",
+    Minimum = "Minimum",
+    None = "None"
+}
+
+// @public
 export enum KnownSkuName {
     RS0 = "RS0",
     Standard = "Standard"
+}
+
+// @public
+export enum KnownSoftDeleteState {
+    AlwaysON = "AlwaysON",
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Invalid = "Invalid"
 }
 
 // @public
@@ -359,6 +398,9 @@ export interface MonitoringSummary {
     unHealthyVmCount?: number;
     unsupportedProviderCount?: number;
 }
+
+// @public
+export type MultiUserAuthorization = string;
 
 // @public
 export interface NameInfo {
@@ -652,8 +694,18 @@ export type ResourceIdentityType = string;
 export type ResourceMoveState = string;
 
 // @public
+export interface RestoreSettings {
+    crossSubscriptionRestoreSettings?: CrossSubscriptionRestoreSettings;
+}
+
+// @public
+export type SecureScoreLevel = string;
+
+// @public
 export interface SecuritySettings {
     immutabilitySettings?: ImmutabilitySettings;
+    readonly multiUserAuthorization?: MultiUserAuthorization;
+    softDeleteSettings?: SoftDeleteSettings;
 }
 
 // @public
@@ -667,6 +719,16 @@ export interface Sku {
 
 // @public
 export type SkuName = string;
+
+// @public
+export interface SoftDeleteSettings {
+    softDeleteRetentionPeriodInDays?: number;
+    // (undocumented)
+    softDeleteState?: SoftDeleteState;
+}
+
+// @public
+export type SoftDeleteState = string;
 
 // @public
 export type StandardTierStorageRedundancy = string;
@@ -813,6 +875,8 @@ export interface VaultProperties {
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     redundancySettings?: VaultPropertiesRedundancySettings;
+    restoreSettings?: RestoreSettings;
+    readonly secureScore?: SecureScoreLevel;
     securitySettings?: SecuritySettings;
     upgradeDetails?: UpgradeDetails;
 }
@@ -841,9 +905,9 @@ export interface VaultPropertiesRedundancySettings {
 
 // @public
 export interface Vaults {
-    beginCreateOrUpdate(resourceGroupName: string, vaultName: string, vault: Vault, options?: VaultsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VaultsCreateOrUpdateResponse>, VaultsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, vaultName: string, vault: Vault, options?: VaultsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VaultsCreateOrUpdateResponse>, VaultsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, vaultName: string, vault: Vault, options?: VaultsCreateOrUpdateOptionalParams): Promise<VaultsCreateOrUpdateResponse>;
-    beginUpdate(resourceGroupName: string, vaultName: string, vault: PatchVault, options?: VaultsUpdateOptionalParams): Promise<PollerLike<PollOperationState<VaultsUpdateResponse>, VaultsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, vaultName: string, vault: PatchVault, options?: VaultsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VaultsUpdateResponse>, VaultsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, vaultName: string, vault: PatchVault, options?: VaultsUpdateOptionalParams): Promise<VaultsUpdateResponse>;
     delete(resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, vaultName: string, options?: VaultsGetOptionalParams): Promise<VaultsGetResponse>;

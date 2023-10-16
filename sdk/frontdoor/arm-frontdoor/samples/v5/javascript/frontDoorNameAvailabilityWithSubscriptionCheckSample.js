@@ -10,15 +10,16 @@
 // Licensed under the MIT License.
 const { FrontDoorManagementClient } = require("@azure/arm-frontdoor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Check the availability of a Front Door subdomain.
  *
  * @summary Check the availability of a Front Door subdomain.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2020-05-01/examples/CheckFrontdoorNameAvailabilityWithSubscription.json
+ * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/CheckFrontdoorNameAvailabilityWithSubscription.json
  */
 async function checkNameAvailabilityWithSubscription() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const checkFrontDoorNameAvailabilityInput = {
     name: "sampleName",
     type: "Microsoft.Network/frontDoors/frontendEndpoints",
@@ -31,4 +32,8 @@ async function checkNameAvailabilityWithSubscription() {
   console.log(result);
 }
 
-checkNameAvailabilityWithSubscription().catch(console.error);
+async function main() {
+  checkNameAvailabilityWithSubscription();
+}
+
+main().catch(console.error);

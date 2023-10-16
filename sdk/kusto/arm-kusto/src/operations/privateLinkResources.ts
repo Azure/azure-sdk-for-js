@@ -35,7 +35,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 
   /**
    * Returns the list of private link resources.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
@@ -93,7 +93,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 
   /**
    * Returns the list of private link resources.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
@@ -110,7 +110,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 
   /**
    * Gets a private link resource.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param privateLinkResourceName The name of the private link resource.
    * @param options The options parameters.
@@ -139,7 +139,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkResourceListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -161,7 +161,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkResource
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

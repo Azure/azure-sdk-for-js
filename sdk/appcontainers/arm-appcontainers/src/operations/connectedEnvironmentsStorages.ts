@@ -159,8 +159,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageName,
-    Parameters.connectedEnvironmentName
+    Parameters.connectedEnvironmentName,
+    Parameters.storageName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -177,14 +177,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.storageEnvelope1,
+  requestBody: Parameters.storageEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageName,
-    Parameters.connectedEnvironmentName
+    Parameters.connectedEnvironmentName,
+    Parameters.storageName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -206,8 +206,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageName,
-    Parameters.connectedEnvironmentName
+    Parameters.connectedEnvironmentName,
+    Parameters.storageName
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -360,10 +360,10 @@ export const expectation7: AnalyzeBatchResult[] = [
         entities: [
           {
             text: "111000025",
-            category: "PhoneNumber",
+            category: "NZSocialWelfareNumber",
             offset: 18,
             length: 9,
-            confidenceScore: 0.8,
+            confidenceScore: 0.65,
           },
           {
             text: "111000025",
@@ -374,10 +374,10 @@ export const expectation7: AnalyzeBatchResult[] = [
           },
           {
             text: "111000025",
-            category: "NZSocialWelfareNumber",
+            category: "PhoneNumber",
             offset: 18,
             length: 9,
-            confidenceScore: 0.65,
+            confidenceScore: 0.8,
           },
         ],
       },
@@ -388,8 +388,8 @@ export const expectation7: AnalyzeBatchResult[] = [
         entities: [],
       },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
 ];
 
@@ -847,7 +847,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/language-service/language-support",
+            "Invalid language code 'english'. Supported languages: ar,cs,da,fi,hu,no,nl,pl,ru,sv,tr,zh-Hans,ja,ko,en,es,de,fr,pt-PT,pt-BR,it. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       {
@@ -865,8 +865,8 @@ export const expectation10: AnalyzeBatchResult[] = [
         ],
       },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
   {
     kind: "PiiEntityRecognition",
@@ -877,7 +877,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
+            "Invalid language code 'english'. Supported languages: zh-Hans,ja,ko,en,es,de,fr,pt-PT,pt-BR,it. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       {
@@ -887,8 +887,8 @@ export const expectation10: AnalyzeBatchResult[] = [
         entities: [],
       },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
   {
     kind: "KeyPhraseExtraction",
@@ -899,13 +899,13 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/language-service/language-support",
+            "Invalid language code 'english'. Supported languages: de,en,es,fr,it,pt-BR,pt-PT,af,am,ar,as,az,be,bg,bn,br,bs,ca,cs,cy,da,el,eo,et,eu,fa,fi,fil,fy,ga,gd,gl,gu,ha,he,hi,hr,hu,hy,id,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mk,ml,mn,mr,ms,my,ne,nl,no,om,or,pa,pl,ps,ro,ru,sa,sd,si,sk,sl,so,sq,sr,su,sv,sw,ta,te,th,tr,ug,uk,ur,uz,vi,xh,yi,zh-Hans,zh-Hant. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", warnings: [], keyPhrases: ["good food", "restaurant"] },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
 ];
 
@@ -919,13 +919,13 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/language-service/language-support",
+            "Invalid language code 'english'. Supported languages: ar,cs,da,fi,hu,no,nl,pl,ru,sv,tr,zh-Hans,ja,ko,en,es,de,fr,pt-PT,pt-BR,it. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
   {
     kind: "PiiEntityRecognition",
@@ -936,13 +936,13 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
+            "Invalid language code 'english'. Supported languages: zh-Hans,ja,ko,en,es,de,fr,pt-PT,pt-BR,it. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
   {
     kind: "KeyPhraseExtraction",
@@ -953,13 +953,13 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/language-service/language-support",
+            "Invalid language code 'english'. Supported languages: de,en,es,fr,it,pt-BR,pt-PT,af,am,ar,as,az,be,bg,bn,br,bs,ca,cs,cy,da,el,eo,et,eu,fa,fi,fil,fy,ga,gd,gl,gu,ha,he,hi,hr,hu,hy,id,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mk,ml,mn,mr,ms,my,ne,nl,no,om,or,pa,pl,ps,ro,ru,sa,sd,si,sk,sl,so,sq,sr,su,sv,sw,ta,te,th,tr,ug,uk,ur,uz,vi,xh,yi,zh-Hans,zh-Hant. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
 ];
 
@@ -1245,12 +1245,12 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/language-service/language-support",
+            "Invalid language code 'notalanguage'. Supported languages: ar,cs,da,fi,hu,no,nl,pl,ru,sv,tr,zh-Hans,ja,ko,en,es,de,fr,pt-PT,pt-BR,it. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
   {
     kind: "PiiEntityRecognition",
@@ -1260,12 +1260,12 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
+            "Invalid language code 'notalanguage'. Supported languages: zh-Hans,ja,ko,en,es,de,fr,pt-PT,pt-BR,it. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
   {
     kind: "KeyPhraseExtraction",
@@ -1275,12 +1275,12 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/language-service/language-support",
+            "Invalid language code 'notalanguage'. Supported languages: de,en,es,fr,it,pt-BR,pt-PT,af,am,ar,as,az,be,bg,bn,br,bs,ca,cs,cy,da,el,eo,et,eu,fa,fi,fil,fy,ga,gd,gl,gu,ha,he,hi,hr,hu,hy,id,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mk,ml,mn,mr,ms,my,ne,nl,no,om,or,pa,pl,ps,ro,ru,sa,sd,si,sk,sl,so,sq,sr,su,sv,sw,ta,te,th,tr,ug,uk,ur,uz,vi,xh,yi,zh-Hans,zh-Hant. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
 ];
 
@@ -1464,14 +1464,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "MTHICD9", entityId: "997.91" },
               { name: "NANDA-I", entityId: "00905" },
               { name: "NCI", entityId: "C3117" },
-              { name: "NCI_CPTAC", entityId: "C3117" },
-              { name: "NCI_CTCAE", entityId: "E13785" },
-              { name: "NCI_CTRP", entityId: "C3117" },
-              { name: "NCI_FDA", entityId: "1908" },
-              { name: "NCI_GDC", entityId: "C3117" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000458091" },
-              { name: "NCI_NICHD", entityId: "C3117" },
-              { name: "NCI_caDSR", entityId: "C3117" },
               { name: "NOC", entityId: "060808" },
               { name: "OMIM", entityId: "MTHU002068" },
               { name: "PCDS", entityId: "PRB_11000.06" },
@@ -1504,7 +1496,7 @@ export const expectation20: AnalyzeBatchResult[] = [
             category: "Dosage",
             offset: 11,
             length: 5,
-            confidenceScore: 0.98,
+            confidenceScore: 0.99,
           },
           {
             dataSources: [
@@ -1523,11 +1515,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "MSH", entityId: "D007052" },
               { name: "MTHSPL", entityId: "WK2XYI10QM" },
               { name: "NCI", entityId: "C561" },
-              { name: "NCI_CTRP", entityId: "C561" },
-              { name: "NCI_DCP", entityId: "00803" },
-              { name: "NCI_DTP", entityId: "NSC0256857" },
-              { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
               { name: "NDDF", entityId: "002377" },
               { name: "PDQ", entityId: "CDR0000040475" },
               { name: "RCD", entityId: "x02MO" },
@@ -1567,7 +1554,7 @@ export const expectation20: AnalyzeBatchResult[] = [
                   category: "Dosage",
                   offset: 11,
                   length: 5,
-                  confidenceScore: 0.98,
+                  confidenceScore: 0.99,
                 },
                 name: "Dosage",
               },
@@ -1589,11 +1576,6 @@ export const expectation20: AnalyzeBatchResult[] = [
                     { name: "MSH", entityId: "D007052" },
                     { name: "MTHSPL", entityId: "WK2XYI10QM" },
                     { name: "NCI", entityId: "C561" },
-                    { name: "NCI_CTRP", entityId: "C561" },
-                    { name: "NCI_DCP", entityId: "00803" },
-                    { name: "NCI_DTP", entityId: "NSC0256857" },
-                    { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-                    { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
                     { name: "NDDF", entityId: "002377" },
                     { name: "PDQ", entityId: "CDR0000040475" },
                     { name: "RCD", entityId: "x02MO" },
@@ -1638,11 +1620,6 @@ export const expectation20: AnalyzeBatchResult[] = [
                     { name: "MSH", entityId: "D007052" },
                     { name: "MTHSPL", entityId: "WK2XYI10QM" },
                     { name: "NCI", entityId: "C561" },
-                    { name: "NCI_CTRP", entityId: "C561" },
-                    { name: "NCI_DCP", entityId: "00803" },
-                    { name: "NCI_DTP", entityId: "NSC0256857" },
-                    { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-                    { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
                     { name: "NDDF", entityId: "002377" },
                     { name: "PDQ", entityId: "CDR0000040475" },
                     { name: "RCD", entityId: "x02MO" },
@@ -1695,15 +1672,13 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "MDR", entityId: "10021731" },
               { name: "MSH", entityId: "D007223" },
               { name: "NCI", entityId: "C27956" },
-              { name: "NCI_FDA", entityId: "C27956" },
-              { name: "NCI_NICHD", entityId: "C27956" },
               { name: "SNOMEDCT_US", entityId: "133931009" },
             ],
             text: "Baby",
-            category: "Age",
+            category: "FamilyRelation",
             offset: 0,
             length: 4,
-            confidenceScore: 0.94,
+            confidenceScore: 1,
             normalizedText: "Infant",
           },
           {
@@ -1712,7 +1687,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "AOD", entityId: "0000006185" },
               { name: "BI", entityId: "BI00546" },
               { name: "CCPSS", entityId: "1018016" },
-              { name: "CCSR_10", entityId: "NVS001" },
               { name: "CCSR_ICD10CM", entityId: "NVS001" },
               { name: "CHV", entityId: "0000007932" },
               { name: "COSTAR", entityId: "478" },
@@ -1735,12 +1709,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "MSH", entityId: "D008581" },
               { name: "NANDA-I", entityId: "02899" },
               { name: "NCI", entityId: "C26828" },
-              { name: "NCI_CPTAC", entityId: "C26828" },
-              { name: "NCI_CTCAE", entityId: "E11458" },
-              { name: "NCI_FDA", entityId: "2389" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000471780" },
-              { name: "NCI_NICHD", entityId: "C26828" },
-              { name: "NCI_caDSR", entityId: "C26828" },
               { name: "OMIM", entityId: "MTHU005994" },
               { name: "PSY", entityId: "30660" },
               { name: "RCD", entityId: "X000H" },
@@ -1754,7 +1722,7 @@ export const expectation20: AnalyzeBatchResult[] = [
             offset: 24,
             length: 10,
             confidenceScore: 1,
-            assertion: { certainty: "negativePossible" },
+            assertion: { certainty: "negativePossible", association: "other" },
             normalizedText: "Meningitis",
           },
           {
@@ -1765,7 +1733,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "BI", entityId: "BI00751" },
               { name: "CCC", entityId: "K25.2" },
               { name: "CCPSS", entityId: "1017166" },
-              { name: "CCSR_10", entityId: "SYM002" },
               { name: "CCSR_ICD10CM", entityId: "SYM002" },
               { name: "CHV", entityId: "0000005010" },
               { name: "COSTAR", entityId: "300" },
@@ -1794,12 +1761,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "MTHICD9", entityId: "780.60" },
               { name: "NANDA-I", entityId: "01128" },
               { name: "NCI", entityId: "C3038" },
-              { name: "NCI_CTCAE", entityId: "E11102" },
-              { name: "NCI_FDA", entityId: "1858" },
-              { name: "NCI_GDC", entityId: "C3038" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000450108" },
-              { name: "NCI_NICHD", entityId: "C3038" },
-              { name: "NCI_caDSR", entityId: "C3038" },
               { name: "NOC", entityId: "070307" },
               { name: "OMIM", entityId: "MTHU005439" },
               { name: "OMS", entityId: "50.03" },
@@ -1817,7 +1778,8 @@ export const expectation20: AnalyzeBatchResult[] = [
             category: "SymptomOrSign",
             offset: 47,
             length: 5,
-            confidenceScore: 0.98,
+            confidenceScore: 0.99,
+            assertion: { conditionality: "hypothetical" },
             normalizedText: "Fever",
           },
           {
@@ -1833,9 +1795,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "LNC", entityId: "LA10417-6" },
               { name: "MSH", entityId: "D009035" },
               { name: "NCI", entityId: "C25189" },
-              { name: "NCI_CDISC", entityId: "C25189" },
-              { name: "NCI_GDC", entityId: "C25189" },
-              { name: "NCI_caDSR", entityId: "C25189" },
               { name: "PSY", entityId: "32140" },
               { name: "RCD", entityId: "X78ym" },
               { name: "SNMI", entityId: "S-10120" },
@@ -1864,8 +1823,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "MMSL", entityId: "d00116" },
               { name: "MSH", entityId: "D010406" },
               { name: "NCI", entityId: "C1500" },
-              { name: "NCI_DTP", entityId: "NSC0402815" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000045296" },
               { name: "NDDF", entityId: "016121" },
               { name: "PSY", entityId: "37190" },
               { name: "RCD", entityId: "x009C" },
@@ -1878,8 +1835,8 @@ export const expectation20: AnalyzeBatchResult[] = [
             category: "MedicationName",
             offset: 77,
             length: 10,
-            confidenceScore: 0.84,
-            assertion: { certainty: "neutralPossible" },
+            confidenceScore: 0.99,
+            assertion: { conditionality: "conditional", certainty: "neutralPossible" },
             normalizedText: "penicillins",
           },
           {
@@ -1895,8 +1852,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "MDR", entityId: "10021731" },
               { name: "MSH", entityId: "D007223" },
               { name: "NCI", entityId: "C27956" },
-              { name: "NCI_FDA", entityId: "C27956" },
-              { name: "NCI_NICHD", entityId: "C27956" },
               { name: "SNOMEDCT_US", entityId: "133931009" },
             ],
             text: "baby",
@@ -1910,28 +1865,6 @@ export const expectation20: AnalyzeBatchResult[] = [
         entityRelations: [],
         id: "2",
         warnings: [],
-      },
-    ],
-    completedOn,
-    modelVersion,
-  },
-];
-
-export const expectation21: AnalyzeBatchResult[] = [
-  {
-    kind: "Healthcare",
-    results: [
-      {
-        entities: [],
-        entityRelations: [],
-        id: "0",
-        warnings: [
-          {
-            code: "DocumentTruncated",
-            message:
-              "Document is greater than 5120 chars; relations across splits of 5120 chars may be skipped by the model",
-          },
-        ],
       },
     ],
     completedOn,
@@ -1962,11 +1895,6 @@ export const expectation22: AnalyzeBatchResult[] = [
               { name: "MSH", entityId: "D007052" },
               { name: "MTHSPL", entityId: "WK2XYI10QM" },
               { name: "NCI", entityId: "C561" },
-              { name: "NCI_CTRP", entityId: "C561" },
-              { name: "NCI_DCP", entityId: "00803" },
-              { name: "NCI_DTP", entityId: "NSC0256857" },
-              { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
               { name: "NDDF", entityId: "002377" },
               { name: "PDQ", entityId: "CDR0000040475" },
               { name: "RCD", entityId: "x02MO" },
@@ -1982,7 +1910,7 @@ export const expectation22: AnalyzeBatchResult[] = [
             category: "MedicationName",
             offset: 20,
             length: 9,
-            confidenceScore: 0.95,
+            confidenceScore: 1,
             normalizedText: "ibuprofen",
           },
         ],
@@ -2019,11 +1947,6 @@ export const expectation23: AnalyzeBatchResult[] = [
               { name: "MSH", entityId: "D007052" },
               { name: "MTHSPL", entityId: "WK2XYI10QM" },
               { name: "NCI", entityId: "C561" },
-              { name: "NCI_CTRP", entityId: "C561" },
-              { name: "NCI_DCP", entityId: "00803" },
-              { name: "NCI_DTP", entityId: "NSC0256857" },
-              { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
               { name: "NDDF", entityId: "002377" },
               { name: "PDQ", entityId: "CDR0000040475" },
               { name: "RCD", entityId: "x02MO" },
@@ -2039,7 +1962,7 @@ export const expectation23: AnalyzeBatchResult[] = [
             category: "MedicationName",
             offset: 12,
             length: 9,
-            confidenceScore: 0.95,
+            confidenceScore: 1,
             normalizedText: "ibuprofen",
           },
         ],
@@ -2072,10 +1995,10 @@ export const expectation24: AnalyzeBatchResult[] = [
           },
           {
             text: "111000025",
-            category: "PhoneNumber",
+            category: "NZSocialWelfareNumber",
             offset: 44,
             length: 9,
-            confidenceScore: 0.8,
+            confidenceScore: 0.65,
           },
           {
             text: "111000025",
@@ -2086,10 +2009,10 @@ export const expectation24: AnalyzeBatchResult[] = [
           },
           {
             text: "111000025",
-            category: "NZSocialWelfareNumber",
+            category: "PhoneNumber",
             offset: 44,
             length: 9,
-            confidenceScore: 0.65,
+            confidenceScore: 0.8,
           },
         ],
       },
@@ -2101,10 +2024,10 @@ export const expectation24: AnalyzeBatchResult[] = [
         entities: [
           {
             text: "111000025",
-            category: "PhoneNumber",
+            category: "NZSocialWelfareNumber",
             offset: 18,
             length: 9,
-            confidenceScore: 0.8,
+            confidenceScore: 0.65,
           },
           {
             text: "111000025",
@@ -2115,10 +2038,10 @@ export const expectation24: AnalyzeBatchResult[] = [
           },
           {
             text: "111000025",
-            category: "NZSocialWelfareNumber",
+            category: "PhoneNumber",
             offset: 18,
             length: 9,
-            confidenceScore: 0.65,
+            confidenceScore: 0.8,
           },
         ],
       },
@@ -2127,6 +2050,7 @@ export const expectation24: AnalyzeBatchResult[] = [
     modelVersion,
   },
 ];
+
 export const expectation26: AnalyzeBatchResult[] = [
   {
     kind: "Healthcare",
@@ -2163,14 +2087,6 @@ export const expectation26: AnalyzeBatchResult[] = [
               { name: "MTHICD9", entityId: "997.91" },
               { name: "NANDA-I", entityId: "00905" },
               { name: "NCI", entityId: "C3117" },
-              { name: "NCI_CPTAC", entityId: "C3117" },
-              { name: "NCI_CTCAE", entityId: "E13785" },
-              { name: "NCI_CTRP", entityId: "C3117" },
-              { name: "NCI_FDA", entityId: "1908" },
-              { name: "NCI_GDC", entityId: "C3117" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000458091" },
-              { name: "NCI_NICHD", entityId: "C3117" },
-              { name: "NCI_caDSR", entityId: "C3117" },
               { name: "NOC", entityId: "060808" },
               { name: "OMIM", entityId: "MTHU002068" },
               { name: "PCDS", entityId: "PRB_11000.06" },
@@ -2203,7 +2119,7 @@ export const expectation26: AnalyzeBatchResult[] = [
             category: "Dosage",
             offset: 11,
             length: 5,
-            confidenceScore: 0.98,
+            confidenceScore: 0.99,
           },
           {
             dataSources: [
@@ -2222,11 +2138,6 @@ export const expectation26: AnalyzeBatchResult[] = [
               { name: "MSH", entityId: "D007052" },
               { name: "MTHSPL", entityId: "WK2XYI10QM" },
               { name: "NCI", entityId: "C561" },
-              { name: "NCI_CTRP", entityId: "C561" },
-              { name: "NCI_DCP", entityId: "00803" },
-              { name: "NCI_DTP", entityId: "NSC0256857" },
-              { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
               { name: "NDDF", entityId: "002377" },
               { name: "PDQ", entityId: "CDR0000040475" },
               { name: "RCD", entityId: "x02MO" },
@@ -2266,7 +2177,7 @@ export const expectation26: AnalyzeBatchResult[] = [
                   category: "Dosage",
                   offset: 11,
                   length: 5,
-                  confidenceScore: 0.98,
+                  confidenceScore: 0.99,
                 },
                 name: "Dosage",
               },
@@ -2288,11 +2199,6 @@ export const expectation26: AnalyzeBatchResult[] = [
                     { name: "MSH", entityId: "D007052" },
                     { name: "MTHSPL", entityId: "WK2XYI10QM" },
                     { name: "NCI", entityId: "C561" },
-                    { name: "NCI_CTRP", entityId: "C561" },
-                    { name: "NCI_DCP", entityId: "00803" },
-                    { name: "NCI_DTP", entityId: "NSC0256857" },
-                    { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-                    { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
                     { name: "NDDF", entityId: "002377" },
                     { name: "PDQ", entityId: "CDR0000040475" },
                     { name: "RCD", entityId: "x02MO" },
@@ -2337,11 +2243,6 @@ export const expectation26: AnalyzeBatchResult[] = [
                     { name: "MSH", entityId: "D007052" },
                     { name: "MTHSPL", entityId: "WK2XYI10QM" },
                     { name: "NCI", entityId: "C561" },
-                    { name: "NCI_CTRP", entityId: "C561" },
-                    { name: "NCI_DCP", entityId: "00803" },
-                    { name: "NCI_DTP", entityId: "NSC0256857" },
-                    { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-                    { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
                     { name: "NDDF", entityId: "002377" },
                     { name: "PDQ", entityId: "CDR0000040475" },
                     { name: "RCD", entityId: "x02MO" },
@@ -4193,246 +4094,6 @@ export const expectation62: EntityLinkingResult[] = [
     ],
   },
   { id: "2", warnings: [], entities: [] },
-];
-
-export const expectation71: any = [
-  {
-    kind: "EntityRecognition",
-    results: [
-      {
-        id: "0",
-        warnings: [],
-        entities: [
-          {
-            text: "park",
-            category: "Location",
-            offset: 17,
-            subCategory: "Structural",
-            length: 4,
-            confidenceScore: 0.99,
-          },
-        ],
-        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
-        isLanguageDefaulted: false,
-      },
-      {
-        id: "1",
-        warnings: [],
-        entities: [
-          {
-            text: "un",
-            category: "Quantity",
-            subCategory: "Number",
-            offset: 8,
-            length: 2,
-            confidenceScore: 0.8,
-          },
-          { text: "Español", category: "Skill", offset: 31, length: 7, confidenceScore: 0.94 },
-        ],
-        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
-        isLanguageDefaulted: false,
-      },
-      {
-        id: "2",
-        warnings: [],
-        entities: [
-          { text: "猫", category: "Product", offset: 0, length: 1, confidenceScore: 0.42 },
-        ],
-        detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
-        isLanguageDefaulted: false,
-      },
-    ],
-    completedOn,
-    modelVersion,
-  },
-  {
-    kind: "PiiEntityRecognition",
-    results: [
-      {
-        id: "0",
-        warnings: [],
-        redactedText: "I will go to the park.",
-        entities: [],
-        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
-        isLanguageDefaulted: false,
-      },
-      {
-        id: "1",
-        warnings: [],
-        redactedText: "Este es un document escrito en Español.",
-        entities: [],
-        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
-        isLanguageDefaulted: false,
-      },
-      {
-        id: "2",
-        warnings: [],
-        redactedText: "猫は幸せ",
-        entities: [],
-        detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
-        isLanguageDefaulted: false,
-      },
-    ],
-    completedOn,
-    modelVersion,
-  },
-  {
-    kind: "SentimentAnalysis",
-    results: [
-      {
-        id: "0",
-        warnings: [],
-        sentiment: "neutral",
-        confidenceScores: { positive: 0, neutral: 0.99, negative: 0 },
-        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
-        isLanguageDefaulted: false,
-        sentences: [
-          {
-            text: "I will go to the park.",
-            sentiment: "neutral",
-            confidenceScores: { positive: 0, neutral: 0.99, negative: 0 },
-            offset: 0,
-            length: 22,
-            opinions: [],
-          },
-        ],
-      },
-      {
-        id: "1",
-        warnings: [],
-        sentiment: "neutral",
-        confidenceScores: { positive: 0.02, neutral: 0.98, negative: 0 },
-        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
-        isLanguageDefaulted: false,
-        sentences: [
-          {
-            text: "Este es un document escrito en Español.",
-            sentiment: "neutral",
-            confidenceScores: { positive: 0.02, neutral: 0.98, negative: 0 },
-            offset: 0,
-            length: 39,
-            opinions: [],
-          },
-        ],
-      },
-      {
-        id: "2",
-        warnings: [],
-        sentiment: "positive",
-        confidenceScores: { positive: 0.96, neutral: 0.04, negative: 0.01 },
-        detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
-        isLanguageDefaulted: false,
-        sentences: [
-          {
-            text: "猫は幸せ",
-            sentiment: "positive",
-            confidenceScores: { positive: 0.96, neutral: 0.04, negative: 0.01 },
-            offset: 0,
-            length: 4,
-            opinions: [],
-          },
-        ],
-      },
-    ],
-    completedOn,
-    modelVersion,
-  },
-  {
-    kind: "KeyPhraseExtraction",
-    results: [
-      {
-        id: "0",
-        warnings: [],
-        keyPhrases: ["park"],
-        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
-        isLanguageDefaulted: false,
-      },
-      {
-        id: "1",
-        warnings: [],
-        keyPhrases: ["Español", "document"],
-        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
-        isLanguageDefaulted: false,
-      },
-      {
-        id: "2",
-        warnings: [],
-        keyPhrases: [],
-        detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
-        isLanguageDefaulted: false,
-      },
-    ],
-    completedOn,
-    modelVersion,
-  },
-  {
-    kind: "EntityLinking",
-    results: [
-      {
-        id: "0",
-        warnings: [],
-        entities: [],
-        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
-        isLanguageDefaulted: false,
-      },
-      {
-        id: "1",
-        warnings: [],
-        entities: [],
-        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
-        isLanguageDefaulted: false,
-      },
-      {
-        id: "2",
-        error: {
-          code: "UnsupportedLanguageCode",
-          message:
-            "Invalid language code 'ja'. Supported languages: en,es. For additional details see https://aka.ms/language-service/language-support",
-        },
-      },
-    ],
-    completedOn,
-    modelVersion,
-  },
-  {
-    kind: "Healthcare",
-    results: [
-      {
-        entities: [],
-        entityRelations: [],
-        detectedLanguage: { iso6391Name: "en" },
-        id: "0",
-        warnings: [],
-        isLanguageDefaulted: false,
-      },
-      {
-        id: "1",
-        error: {
-          code: "UnsupportedLanguageCode",
-          message:
-            "Invalid language code 'es'. Supported languages: en. For additional details see https://aka.ms/language-service/language-support",
-        },
-      },
-      {
-        id: "2",
-        error: {
-          code: "UnsupportedLanguageCode",
-          message:
-            "Invalid language code 'ja'. Supported languages: en. For additional details see https://aka.ms/language-service/language-support",
-        },
-      },
-    ],
-    completedOn,
-    modelVersion,
-  },
-];
-
-export const expectation72: LanguageDetectionResult[] = [
-  {
-    primaryLanguage: { name: "Hindi", iso6391Name: "hi", confidenceScore: 1, script: "Latin" },
-    id: "0",
-    warnings: [],
-  },
 ];
 
 export const expectation73: AnalyzeBatchResult[] = [

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Invoke a command like nodetool for cassandra maintenance
  *
  * @summary Invoke a command like nodetool for cassandra maintenance
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-03-15/examples/CosmosDBManagedCassandraCommand.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBManagedCassandraCommand.json
  */
 async function cosmosDbManagedCassandraCommand() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

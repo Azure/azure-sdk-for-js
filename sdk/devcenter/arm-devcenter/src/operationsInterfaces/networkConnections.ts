@@ -7,13 +7,15 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NetworkConnection,
   NetworkConnectionsListBySubscriptionOptionalParams,
   NetworkConnectionsListByResourceGroupOptionalParams,
   HealthCheckStatusDetails,
   NetworkConnectionsListHealthDetailsOptionalParams,
+  OutboundEnvironmentEndpoint,
+  NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams,
   NetworkConnectionsGetOptionalParams,
   NetworkConnectionsGetResponse,
   NetworkConnectionsCreateOrUpdateOptionalParams,
@@ -58,6 +60,18 @@ export interface NetworkConnections {
     options?: NetworkConnectionsListHealthDetailsOptionalParams
   ): PagedAsyncIterableIterator<HealthCheckStatusDetails>;
   /**
+   * Lists the endpoints that agents may call as part of Dev Box service administration. These FQDNs
+   * should be allowed for outbound access in order for the Dev Box service to function.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
+   * @param options The options parameters.
+   */
+  listOutboundNetworkDependenciesEndpoints(
+    resourceGroupName: string,
+    networkConnectionName: string,
+    options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams
+  ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
+  /**
    * Gets a network connection resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
@@ -81,8 +95,8 @@ export interface NetworkConnections {
     body: NetworkConnection,
     options?: NetworkConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NetworkConnectionsCreateOrUpdateResponse>,
       NetworkConnectionsCreateOrUpdateResponse
     >
   >;
@@ -112,8 +126,8 @@ export interface NetworkConnections {
     body: NetworkConnectionUpdate,
     options?: NetworkConnectionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkConnectionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NetworkConnectionsUpdateResponse>,
       NetworkConnectionsUpdateResponse
     >
   >;
@@ -140,7 +154,7 @@ export interface NetworkConnections {
     resourceGroupName: string,
     networkConnectionName: string,
     options?: NetworkConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Network Connections resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -174,7 +188,7 @@ export interface NetworkConnections {
     resourceGroupName: string,
     networkConnectionName: string,
     options?: NetworkConnectionsRunHealthChecksOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Triggers a new health check run. The execution and health check result can be tracked via the
    * network Connection health check details

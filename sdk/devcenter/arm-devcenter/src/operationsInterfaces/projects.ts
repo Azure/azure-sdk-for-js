@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Project,
   ProjectsListBySubscriptionOptionalParams,
@@ -65,8 +65,8 @@ export interface Projects {
     body: Project,
     options?: ProjectsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ProjectsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ProjectsCreateOrUpdateResponse>,
       ProjectsCreateOrUpdateResponse
     >
   >;
@@ -96,8 +96,8 @@ export interface Projects {
     body: ProjectUpdate,
     options?: ProjectsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ProjectsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ProjectsUpdateResponse>,
       ProjectsUpdateResponse
     >
   >;
@@ -124,7 +124,7 @@ export interface Projects {
     resourceGroupName: string,
     projectName: string,
     options?: ProjectsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a project resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

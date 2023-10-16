@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   RequestRateByIntervalInput,
   LogAnalyticsExportRequestRateByIntervalOptionalParams,
@@ -46,8 +50,8 @@ export class LogAnalyticsImpl implements LogAnalytics {
     parameters: RequestRateByIntervalInput,
     options?: LogAnalyticsExportRequestRateByIntervalOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LogAnalyticsExportRequestRateByIntervalResponse>,
+    SimplePollerLike<
+      OperationState<LogAnalyticsExportRequestRateByIntervalResponse>,
       LogAnalyticsExportRequestRateByIntervalResponse
     >
   > {
@@ -57,7 +61,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
     ): Promise<LogAnalyticsExportRequestRateByIntervalResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -90,15 +94,18 @@ export class LogAnalyticsImpl implements LogAnalytics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { location, parameters, options },
-      exportRequestRateByIntervalOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { location, parameters, options },
+      spec: exportRequestRateByIntervalOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LogAnalyticsExportRequestRateByIntervalResponse,
+      OperationState<LogAnalyticsExportRequestRateByIntervalResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -135,8 +142,8 @@ export class LogAnalyticsImpl implements LogAnalytics {
     parameters: ThrottledRequestsInput,
     options?: LogAnalyticsExportThrottledRequestsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LogAnalyticsExportThrottledRequestsResponse>,
+    SimplePollerLike<
+      OperationState<LogAnalyticsExportThrottledRequestsResponse>,
       LogAnalyticsExportThrottledRequestsResponse
     >
   > {
@@ -146,7 +153,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
     ): Promise<LogAnalyticsExportThrottledRequestsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -179,15 +186,18 @@ export class LogAnalyticsImpl implements LogAnalytics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { location, parameters, options },
-      exportThrottledRequestsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { location, parameters, options },
+      spec: exportThrottledRequestsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LogAnalyticsExportThrottledRequestsResponse,
+      OperationState<LogAnalyticsExportThrottledRequestsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;

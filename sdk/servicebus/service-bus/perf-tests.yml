@@ -31,17 +31,17 @@ PackageVersions:
   '@azure/logger': source
 
 Tests:
-- Test: send-event-batch
+- Test: send-queue-messages-batch
   Class: BatchSendTest
   Arguments:
   - --size 10240 --batch-size 10
 
-- Test: subscribe
+- Test: process-queue-messages
   Class: SubscribeTest
   Arguments:
   - --message-size 2000 --messages 10000 --mcc 1000
 
-- Test: receive-batch
+- Test: receive-queue-messages-batch
   Class: BatchReceiveTest
   Arguments:
   - --number-of-messages 10000 --message-size 2000 --max-message-count 50

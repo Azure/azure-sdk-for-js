@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VaultSetting,
   ReplicationVaultSettingListOptionalParams,
@@ -63,8 +63,8 @@ export interface ReplicationVaultSetting {
     input: VaultSettingCreationInput,
     options?: ReplicationVaultSettingCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationVaultSettingCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationVaultSettingCreateResponse>,
       ReplicationVaultSettingCreateResponse
     >
   >;

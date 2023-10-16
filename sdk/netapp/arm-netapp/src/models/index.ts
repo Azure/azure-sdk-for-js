@@ -365,6 +365,8 @@ export interface NetAppAccountPatch {
   readonly type?: string;
   /** Resource tags */
   tags?: { [propertyName: string]: string };
+  /** The identity used for the resource. */
+  identity?: ManagedServiceIdentity;
   /**
    * Azure lifecycle management
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -602,6 +604,8 @@ export interface VolumePatch {
   coolAccess?: boolean;
   /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
   coolnessPeriod?: number;
+  /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots. */
+  snapshotDirectoryVisible?: boolean;
 }
 
 /** Set of export policy rules */
@@ -630,6 +634,67 @@ export interface BreakFileLocksRequest {
   clientIp?: string;
   /** Break File locks could be a disruptive operation for application as locks on the volume will be broken, if want to process, set to true. */
   confirmRunningDisruptiveOperation?: boolean;
+}
+
+/** Get group Id list for LDAP User request */
+export interface GetGroupIdListForLdapUserRequest {
+  /** username is required to fetch the group to which user is part of */
+  username: string;
+}
+
+/** Group Id list for Ldap user */
+export interface GetGroupIdListForLdapUserResponse {
+  /** Group Id list */
+  groupIdsForLdapUser?: string[];
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** Break replication request */
@@ -1182,7 +1247,7 @@ export interface VolumeGroupVolumeProperties {
   dataProtection?: VolumePropertiesDataProtection;
   /** Restoring */
   isRestoring?: boolean;
-  /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (default to true). */
+  /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true). */
   snapshotDirectoryVisible?: boolean;
   /** Describe if a volume is KerberosEnabled. To be use with swagger version 2020-05-01 or later */
   kerberosEnabled?: boolean;
@@ -1198,6 +1263,11 @@ export interface VolumeGroupVolumeProperties {
   smbContinuouslyAvailable?: boolean;
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
   throughputMibps?: number;
+  /**
+   * Actual throughput in MiB/s for auto qosType volumes calculated based on size and serviceLevel
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actualThroughputMibps?: number;
   /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
   encryptionKeySource?: EncryptionKeySource;
   /** The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'. */
@@ -1270,6 +1340,11 @@ export interface VolumeGroupVolumeProperties {
   readonly provisionedAvailabilityZone?: string;
   /** Specifies whether volume is a Large Volume or Regular Volume. */
   isLargeVolume?: boolean;
+  /**
+   * Id of the snapshot or backup that the volume is restored from.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly originatingResourceId?: string;
 }
 
 /** List of Subvolumes */
@@ -1663,7 +1738,7 @@ export interface Volume extends TrackedResource {
   dataProtection?: VolumePropertiesDataProtection;
   /** Restoring */
   isRestoring?: boolean;
-  /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (default to true). */
+  /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true). */
   snapshotDirectoryVisible?: boolean;
   /** Describe if a volume is KerberosEnabled. To be use with swagger version 2020-05-01 or later */
   kerberosEnabled?: boolean;
@@ -1679,6 +1754,11 @@ export interface Volume extends TrackedResource {
   smbContinuouslyAvailable?: boolean;
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
   throughputMibps?: number;
+  /**
+   * Actual throughput in MiB/s for auto qosType volumes calculated based on size and serviceLevel
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actualThroughputMibps?: number;
   /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
   encryptionKeySource?: EncryptionKeySource;
   /** The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'. */
@@ -1751,6 +1831,11 @@ export interface Volume extends TrackedResource {
   readonly provisionedAvailabilityZone?: string;
   /** Specifies whether volume is a Large Volume or Regular Volume. */
   isLargeVolume?: boolean;
+  /**
+   * Id of the snapshot or backup that the volume is restored from.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly originatingResourceId?: string;
 }
 
 /** Snapshot policy information */
@@ -1829,40 +1914,13 @@ export interface VolumeQuotaRule extends TrackedResource {
   quotaTarget?: string;
 }
 
-/** Backup policy properties */
-export interface BackupPolicyDetails extends TrackedResource {
-  /**
-   * Backup Policy Resource ID
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backupPolicyId?: string;
-  /**
-   * Azure lifecycle management
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** Daily backups count to keep */
-  dailyBackupsToKeep?: number;
-  /** Weekly backups count to keep */
-  weeklyBackupsToKeep?: number;
-  /** Monthly backups count to keep */
-  monthlyBackupsToKeep?: number;
-  /**
-   * Volumes using current backup policy
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly volumesAssigned?: number;
-  /** The property to decide policy is enabled or not */
-  enabled?: boolean;
-  /**
-   * A list of volumes assigned to this policy
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly volumeBackups?: VolumeBackups[];
-}
-
 /** Defines headers for Volumes_breakFileLocks operation. */
 export interface VolumesBreakFileLocksHeaders {
+  location?: string;
+}
+
+/** Defines headers for Volumes_listGetGroupIdListForLdapUser operation. */
+export interface VolumesListGetGroupIdListForLdapUserHeaders {
   location?: string;
 }
 
@@ -1984,8 +2042,16 @@ export enum KnownRegionStorageToNetworkProximity {
   T1 = "T1",
   /** Standard T2 network connectivity. */
   T2 = "T2",
+  /** Standard AcrossT2 network connectivity. */
+  AcrossT2 = "AcrossT2",
   /** Standard T1 and T2 network connectivity. */
-  T1AndT2 = "T1AndT2"
+  T1AndT2 = "T1AndT2",
+  /** Standard T1 and AcrossT2 network connectivity. */
+  T1AndAcrossT2 = "T1AndAcrossT2",
+  /** Standard T2 and AcrossT2 network connectivity. */
+  T2AndAcrossT2 = "T2AndAcrossT2",
+  /** Standard T1, T2 and AcrossT2 network connectivity. */
+  T1AndT2AndAcrossT2 = "T1AndT2AndAcrossT2"
 }
 
 /**
@@ -1996,7 +2062,11 @@ export enum KnownRegionStorageToNetworkProximity {
  * **Default**: Basic network connectivity. \
  * **T1**: Standard T1 network connectivity. \
  * **T2**: Standard T2 network connectivity. \
- * **T1AndT2**: Standard T1 and T2 network connectivity.
+ * **AcrossT2**: Standard AcrossT2 network connectivity. \
+ * **T1AndT2**: Standard T1 and T2 network connectivity. \
+ * **T1AndAcrossT2**: Standard T1 and AcrossT2 network connectivity. \
+ * **T2AndAcrossT2**: Standard T2 and AcrossT2 network connectivity. \
+ * **T1AndT2AndAcrossT2**: Standard T1, T2 and AcrossT2 network connectivity.
  */
 export type RegionStorageToNetworkProximity = string;
 
@@ -2199,7 +2269,9 @@ export enum KnownVolumeStorageToNetworkProximity {
   /** Standard T1 storage to network connectivity. */
   T1 = "T1",
   /** Standard T2 storage to network connectivity. */
-  T2 = "T2"
+  T2 = "T2",
+  /** Standard AcrossT2 storage to network connectivity. */
+  AcrossT2 = "AcrossT2"
 }
 
 /**
@@ -2209,7 +2281,8 @@ export enum KnownVolumeStorageToNetworkProximity {
  * ### Known values supported by the service
  * **Default**: Basic storage to network connectivity. \
  * **T1**: Standard T1 storage to network connectivity. \
- * **T2**: Standard T2 storage to network connectivity.
+ * **T2**: Standard T2 storage to network connectivity. \
+ * **AcrossT2**: Standard AcrossT2 storage to network connectivity.
  */
 export type VolumeStorageToNetworkProximity = string;
 
@@ -2735,6 +2808,18 @@ export interface VolumesBreakFileLocksOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface VolumesListGetGroupIdListForLdapUserOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the listGetGroupIdListForLdapUser operation. */
+export type VolumesListGetGroupIdListForLdapUserResponse = GetGroupIdListForLdapUserResponse;
 
 /** Optional parameters. */
 export interface VolumesBreakReplicationOptionalParams

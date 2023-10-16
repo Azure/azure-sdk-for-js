@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msalCommon from "@azure/msal-common";
 import * as msalNode from "@azure/msal-node";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { getLogLevel } from "@azure/logger";
@@ -21,10 +20,10 @@ import {
   resolveTenantId,
 } from "../../util/tenantIdUtils";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { AuthenticationRecord } from "../types";
+import { AppType, AuthenticationRecord } from "../types";
 import { AuthenticationRequiredError } from "../../errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { DeveloperSignOnClientId } from "../../constants";
+import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX, DeveloperSignOnClientId } from "../../constants";
 import { IdentityClient } from "../../client/identityClient";
 import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
@@ -45,10 +44,17 @@ export interface MsalNodeOptions extends MsalFlowOptions {
    */
   regionalAuthority?: string;
   /**
-   * Allows logging account information once the authentication flow succeeds.
+   * Allows users to configure settings for logging policy options, allow logging account information and personally identifiable information for customer support.
    */
   loggingOptions?: LogPolicyOptions & {
+    /**
+     * Allows logging account information once the authentication flow succeeds.
+     */
     allowLoggingAccountIdentifiers?: boolean;
+    /**
+     * Allows logging personally identifiable information for customer support.
+     */
+    enableUnsafeSupportLogging?: boolean;
   };
 }
 
@@ -57,7 +63,7 @@ export interface MsalNodeOptions extends MsalFlowOptions {
  * @internal
  */
 let persistenceProvider:
-  | ((options?: TokenCachePersistenceOptions) => Promise<msalCommon.ICachePlugin>)
+  | ((options?: TokenCachePersistenceOptions) => Promise<msalNode.ICachePlugin>)
   | undefined = undefined;
 
 /**
@@ -80,8 +86,18 @@ export const msalNodeFlowCacheControl = {
  * @internal
  */
 export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
-  protected publicApp: msalNode.PublicClientApplication | undefined;
-  protected confidentialApp: msalNode.ConfidentialClientApplication | undefined;
+  // protected publicApp: msalNode.PublicClientApplication | undefined;
+  // protected publicAppCae: msalNode.PublicClientApplication | undefined;
+  // protected confidentialApp: msalNode.ConfidentialClientApplication | undefined;
+  // protected confidentialAppCae: msalNode.ConfidentialClientApplication | undefined;
+  private app: {
+    public?: msalNode.PublicClientApplication;
+    confidential?: msalNode.ConfidentialClientApplication;
+  } = {};
+  private caeApp: {
+    public?: msalNode.PublicClientApplication;
+    confidential?: msalNode.ConfidentialClientApplication;
+  } = {};
   protected msalConfig: msalNode.Configuration;
   protected clientId: string;
   protected tenantId: string;
@@ -90,7 +106,8 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
   protected azureRegion?: string;
-  protected createCachePlugin: (() => Promise<msalCommon.ICachePlugin>) | undefined;
+  protected createCachePlugin: (() => Promise<msalNode.ICachePlugin>) | undefined;
+  protected createCachePluginCae: (() => Promise<msalNode.ICachePlugin>) | undefined;
 
   /**
    * MSAL currently caches the tokens depending on the claims used to retrieve them.
@@ -114,7 +131,16 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
 
     // If persistence has been configured
     if (persistenceProvider !== undefined && options.tokenCachePersistenceOptions?.enabled) {
-      this.createCachePlugin = () => persistenceProvider!(options.tokenCachePersistenceOptions);
+      const nonCaeOptions = {
+        name: `${options.tokenCachePersistenceOptions.name}.${CACHE_NON_CAE_SUFFIX}`,
+        ...options.tokenCachePersistenceOptions,
+      };
+      const caeOptions = {
+        name: `${options.tokenCachePersistenceOptions.name}.${CACHE_CAE_SUFFIX}`,
+        ...options.tokenCachePersistenceOptions,
+      };
+      this.createCachePlugin = () => persistenceProvider!(nonCaeOptions);
+      this.createCachePluginCae = () => persistenceProvider!(caeOptions);
     } else if (options.tokenCachePersistenceOptions?.enabled) {
       throw new Error(
         [
@@ -148,10 +174,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       loggingOptions: options.loggingOptions,
     });
 
-    let clientCapabilities: string[] = ["cp1"];
-    if (process.env.AZURE_IDENTITY_DISABLE_CP1) {
-      clientCapabilities = [];
-    }
+    const clientCapabilities: string[] = [];
 
     return {
       auth: {
@@ -170,9 +193,36 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         loggerOptions: {
           loggerCallback: defaultLoggerCallback(options.logger),
           logLevel: getMSALLogLevel(getLogLevel()),
+          piiLoggingEnabled: options.loggingOptions?.enableUnsafeSupportLogging,
         },
       },
     };
+  }
+  protected getApp(
+    appType: "publicFirst" | "confidentialFirst",
+    enableCae?: boolean
+  ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication;
+  protected getApp(appType: "public", enableCae?: boolean): msalNode.PublicClientApplication;
+
+  protected getApp(
+    appType: "confidential",
+    enableCae?: boolean
+  ): msalNode.ConfidentialClientApplication;
+
+  protected getApp(
+    appType: AppType,
+    enableCae?: boolean
+  ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication {
+    const app = enableCae ? this.caeApp : this.app;
+    if (appType === "publicFirst") {
+      return (app.public || app.confidential)!;
+    } else if (appType === "confidentialFirst") {
+      return (app.confidential || app.public)!;
+    } else if (appType === "confidential") {
+      return app.confidential!;
+    } else {
+      return app.public!;
+    }
   }
 
   /**
@@ -187,17 +237,30 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       });
     }
 
-    if (this.publicApp || this.confidentialApp) {
+    const app = options?.enableCae ? this.caeApp : this.app;
+    if (options?.enableCae) {
+      this.msalConfig.auth.clientCapabilities = ["cp1"];
+    }
+    if (app.public || app.confidential) {
       return;
     }
-
+    if (options?.enableCae && this.createCachePluginCae !== undefined) {
+      this.msalConfig.cache = {
+        cachePlugin: await this.createCachePluginCae(),
+      };
+    }
     if (this.createCachePlugin !== undefined) {
       this.msalConfig.cache = {
         cachePlugin: await this.createCachePlugin(),
       };
     }
 
-    this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);
+    if (options?.enableCae) {
+      this.caeApp.public = new msalNode.PublicClientApplication(this.msalConfig);
+    } else {
+      this.app.public = new msalNode.PublicClientApplication(this.msalConfig);
+    }
+
     if (this.getAssertion) {
       this.msalConfig.auth.clientAssertion = await this.getAssertion();
     }
@@ -207,7 +270,11 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       this.msalConfig.auth.clientAssertion ||
       this.msalConfig.auth.clientCertificate
     ) {
-      this.confidentialApp = new msalNode.ConfidentialClientApplication(this.msalConfig);
+      if (options?.enableCae) {
+        this.caeApp.confidential = new msalNode.ConfidentialClientApplication(this.msalConfig);
+      } else {
+        this.app.confidential = new msalNode.ConfidentialClientApplication(this.msalConfig);
+      }
     } else {
       if (this.requiresConfidential) {
         throw new Error(
@@ -221,10 +288,10 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
    * Allows the cancellation of a MSAL request.
    */
   protected withCancellation(
-    promise: Promise<msalCommon.AuthenticationResult | null>,
+    promise: Promise<msalNode.AuthenticationResult | null>,
     abortSignal?: AbortSignalLike,
     onCancel?: () => void
-  ): Promise<msalCommon.AuthenticationResult | null> {
+  ): Promise<msalNode.AuthenticationResult | null> {
     return new Promise((resolve, reject) => {
       promise
         .then((msalToken) => {
@@ -242,11 +309,11 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   /**
    * Returns the existing account, attempts to load the account from MSAL.
    */
-  async getActiveAccount(): Promise<AuthenticationRecord | undefined> {
+  async getActiveAccount(enableCae = false): Promise<AuthenticationRecord | undefined> {
     if (this.account) {
       return this.account;
     }
-    const cache = this.confidentialApp?.getTokenCache() ?? this.publicApp?.getTokenCache();
+    const cache = this.getApp("confidentialFirst", enableCae).getTokenCache();
     const accountsByTenant = await cache?.getAllAccounts();
 
     if (!accountsByTenant) {
@@ -275,7 +342,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     scopes: string[],
     options?: CredentialFlowGetTokenOptions
   ): Promise<AccessToken> {
-    await this.getActiveAccount();
+    await this.getActiveAccount(options?.enableCae);
     if (!this.account) {
       throw new AuthenticationRequiredError({
         scopes,
@@ -300,13 +367,13 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
        * The following code to retrieve all accounts is done as a workaround in an attempt to force the
        * refresh of the token cache with the token and the account passed in through the
        * `authenticationRecord` parameter. See issue - https://github.com/Azure/azure-sdk-for-js/issues/24349#issuecomment-1496715651
-       * This workaround serves as a workoaround for silent authentication not happening when authenticationRecord is passed.
+       * This workaround serves as a workaround for silent authentication not happening when authenticationRecord is passed.
        */
-      await (this.publicApp || this.confidentialApp)?.getTokenCache().getAllAccounts();
-
+      await this.getApp("publicFirst", options?.enableCae)?.getTokenCache().getAllAccounts();
       const response =
-        (await this.confidentialApp?.acquireTokenSilent(silentRequest)) ??
-        (await this.publicApp!.acquireTokenSilent(silentRequest));
+        (await this.getApp("confidential", options?.enableCae)?.acquireTokenSilent(
+          silentRequest
+        )) ?? (await this.getApp("public", options?.enableCae).acquireTokenSilent(silentRequest));
       return this.handleResult(scopes, this.clientId, response || undefined);
     } catch (err: any) {
       throw this.handleError(scopes, err, options);

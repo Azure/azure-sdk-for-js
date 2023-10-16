@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  CapabilityProperties,
+  FlexibleServerCapability,
   LocationBasedCapabilitiesExecuteOptionalParams
 } from "../models";
 
@@ -23,5 +23,5 @@ export interface LocationBasedCapabilities {
   listExecute(
     locationName: string,
     options?: LocationBasedCapabilitiesExecuteOptionalParams
-  ): PagedAsyncIterableIterator<CapabilityProperties>;
+  ): PagedAsyncIterableIterator<FlexibleServerCapability>;
 }

@@ -10,15 +10,18 @@
 // Licensed under the MIT License.
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all of the Front Doors within an Azure subscription.
  *
  * @summary Lists all of the Front Doors within an Azure subscription.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2020-05-01/examples/FrontdoorListAll.json
+ * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorListAll.json
  */
 async function listAllFrontDoors() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +31,8 @@ async function listAllFrontDoors() {
   console.log(resArray);
 }
 
-listAllFrontDoors().catch(console.error);
+async function main() {
+  listAllFrontDoors();
+}
+
+main().catch(console.error);

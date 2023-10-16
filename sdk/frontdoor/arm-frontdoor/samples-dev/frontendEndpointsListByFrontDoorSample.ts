@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all of the frontend endpoints within a Front Door.
  *
  * @summary Lists all of the frontend endpoints within a Front Door.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2020-05-01/examples/FrontdoorFrontendEndpointList.json
+ * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorFrontendEndpointList.json
  */
 async function listFrontendEndpointsInAFrontDoor() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
   const frontDoorName = "frontDoor1";
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
@@ -33,4 +36,8 @@ async function listFrontendEndpointsInAFrontDoor() {
   console.log(resArray);
 }
 
-listFrontendEndpointsInAFrontDoor().catch(console.error);
+async function main() {
+  listFrontendEndpointsInAFrontDoor();
+}
+
+main().catch(console.error);

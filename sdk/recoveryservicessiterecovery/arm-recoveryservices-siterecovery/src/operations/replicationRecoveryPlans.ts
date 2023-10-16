@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   RecoveryPlan,
   ReplicationRecoveryPlansListNextOptionalParams,
@@ -194,8 +198,8 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     input: CreateRecoveryPlanInput,
     options?: ReplicationRecoveryPlansCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansCreateResponse>,
       ReplicationRecoveryPlansCreateResponse
     >
   > {
@@ -205,7 +209,7 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     ): Promise<ReplicationRecoveryPlansCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -238,13 +242,22 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, recoveryPlanName, input, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceName,
+        resourceGroupName,
+        recoveryPlanName,
+        input,
+        options
+      },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationRecoveryPlansCreateResponse,
+      OperationState<ReplicationRecoveryPlansCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -290,14 +303,14 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     resourceGroupName: string,
     recoveryPlanName: string,
     options?: ReplicationRecoveryPlansDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -330,13 +343,13 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, recoveryPlanName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, recoveryPlanName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -382,8 +395,8 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     input: UpdateRecoveryPlanInput,
     options?: ReplicationRecoveryPlansUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansUpdateResponse>,
       ReplicationRecoveryPlansUpdateResponse
     >
   > {
@@ -393,7 +406,7 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     ): Promise<ReplicationRecoveryPlansUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -426,13 +439,22 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, recoveryPlanName, input, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceName,
+        resourceGroupName,
+        recoveryPlanName,
+        input,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationRecoveryPlansUpdateResponse,
+      OperationState<ReplicationRecoveryPlansUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -479,8 +501,8 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     recoveryPlanName: string,
     options?: ReplicationRecoveryPlansFailoverCancelOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansFailoverCancelResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansFailoverCancelResponse>,
       ReplicationRecoveryPlansFailoverCancelResponse
     >
   > {
@@ -490,7 +512,7 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     ): Promise<ReplicationRecoveryPlansFailoverCancelResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -523,13 +545,16 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, recoveryPlanName, options },
-      failoverCancelOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, recoveryPlanName, options },
+      spec: failoverCancelOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationRecoveryPlansFailoverCancelResponse,
+      OperationState<ReplicationRecoveryPlansFailoverCancelResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -573,8 +598,8 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     recoveryPlanName: string,
     options?: ReplicationRecoveryPlansFailoverCommitOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansFailoverCommitResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansFailoverCommitResponse>,
       ReplicationRecoveryPlansFailoverCommitResponse
     >
   > {
@@ -584,7 +609,7 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     ): Promise<ReplicationRecoveryPlansFailoverCommitResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -617,13 +642,16 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, recoveryPlanName, options },
-      failoverCommitOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, recoveryPlanName, options },
+      spec: failoverCommitOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationRecoveryPlansFailoverCommitResponse,
+      OperationState<ReplicationRecoveryPlansFailoverCommitResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -669,8 +697,8 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     input: RecoveryPlanPlannedFailoverInput,
     options?: ReplicationRecoveryPlansPlannedFailoverOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansPlannedFailoverResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansPlannedFailoverResponse>,
       ReplicationRecoveryPlansPlannedFailoverResponse
     >
   > {
@@ -680,7 +708,7 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     ): Promise<ReplicationRecoveryPlansPlannedFailoverResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -713,13 +741,22 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, recoveryPlanName, input, options },
-      plannedFailoverOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceName,
+        resourceGroupName,
+        recoveryPlanName,
+        input,
+        options
+      },
+      spec: plannedFailoverOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationRecoveryPlansPlannedFailoverResponse,
+      OperationState<ReplicationRecoveryPlansPlannedFailoverResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -766,8 +803,8 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     recoveryPlanName: string,
     options?: ReplicationRecoveryPlansReprotectOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansReprotectResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansReprotectResponse>,
       ReplicationRecoveryPlansReprotectResponse
     >
   > {
@@ -777,7 +814,7 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     ): Promise<ReplicationRecoveryPlansReprotectResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -810,13 +847,16 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, recoveryPlanName, options },
-      reprotectOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, recoveryPlanName, options },
+      spec: reprotectOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationRecoveryPlansReprotectResponse,
+      OperationState<ReplicationRecoveryPlansReprotectResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -862,8 +902,8 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     input: RecoveryPlanTestFailoverInput,
     options?: ReplicationRecoveryPlansTestFailoverOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansTestFailoverResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansTestFailoverResponse>,
       ReplicationRecoveryPlansTestFailoverResponse
     >
   > {
@@ -873,7 +913,7 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     ): Promise<ReplicationRecoveryPlansTestFailoverResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -906,13 +946,22 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, recoveryPlanName, input, options },
-      testFailoverOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceName,
+        resourceGroupName,
+        recoveryPlanName,
+        input,
+        options
+      },
+      spec: testFailoverOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationRecoveryPlansTestFailoverResponse,
+      OperationState<ReplicationRecoveryPlansTestFailoverResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -961,8 +1010,8 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     input: RecoveryPlanTestFailoverCleanupInput,
     options?: ReplicationRecoveryPlansTestFailoverCleanupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansTestFailoverCleanupResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansTestFailoverCleanupResponse>,
       ReplicationRecoveryPlansTestFailoverCleanupResponse
     >
   > {
@@ -972,7 +1021,7 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     ): Promise<ReplicationRecoveryPlansTestFailoverCleanupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1005,13 +1054,22 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, recoveryPlanName, input, options },
-      testFailoverCleanupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceName,
+        resourceGroupName,
+        recoveryPlanName,
+        input,
+        options
+      },
+      spec: testFailoverCleanupOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationRecoveryPlansTestFailoverCleanupResponse,
+      OperationState<ReplicationRecoveryPlansTestFailoverCleanupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1060,8 +1118,8 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     input: RecoveryPlanUnplannedFailoverInput,
     options?: ReplicationRecoveryPlansUnplannedFailoverOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansUnplannedFailoverResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansUnplannedFailoverResponse>,
       ReplicationRecoveryPlansUnplannedFailoverResponse
     >
   > {
@@ -1071,7 +1129,7 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
     ): Promise<ReplicationRecoveryPlansUnplannedFailoverResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1104,13 +1162,22 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, recoveryPlanName, input, options },
-      unplannedFailoverOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceName,
+        resourceGroupName,
+        recoveryPlanName,
+        input,
+        options
+      },
+      spec: unplannedFailoverOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationRecoveryPlansUnplannedFailoverResponse,
+      OperationState<ReplicationRecoveryPlansUnplannedFailoverResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

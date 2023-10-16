@@ -2,7 +2,7 @@
   "name": "@azure/core-http",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "3.0.0",
+  "version": "3.0.2",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -14,7 +14,7 @@
     "clientruntime"
   ],
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "keywords": [
     "isomorphic",
@@ -84,11 +84,11 @@
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "test:node": "npm run clean && tsc -p tsconfig.es.json && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run clean && tsc -p tsconfig.es.json  && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_FILES=true mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 500000 --full-trace --exclude \"test/**/*.browser.ts\" \"test/**/*.ts\""
+    "unit-test:node": "cross-env TS_NODE_FILES=true mocha -r esm -r ts-node/register -r chai/register-should.js --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 500000 --full-trace --exclude \"test/**/*.browser.ts\" \"test/**/*.ts\""
   },
   "sideEffects": false,
   "nyc": {
@@ -113,7 +113,8 @@
         "path": "src/util/constants.ts",
         "prefix": "coreHttpVersion"
       }
-    ]
+    ],
+    "migrationDate": "2023-03-08T18:36:03.000Z"
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
@@ -141,9 +142,9 @@
     "@opentelemetry/api": "^1.4.1",
     "@types/chai": "^4.1.6",
     "@types/express": "^4.16.0",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.0",
-    "@types/sinon": "^9.0.4",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^16.0.0",
+    "@types/sinon": "^10.0.0",
     "@types/tough-cookie": "^4.0.0",
     "@types/trusted-types": "^2.0.0",
     "@types/uuid": "^8.0.0",
@@ -160,7 +161,7 @@
     "karma-firefox-launcher": "^1.1.0",
     "karma-mocha": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^7.1.1",
+    "mocha": "^10.0.0",
     "mocha-junit-reporter": "^2.0.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^15.0.0",
@@ -169,10 +170,11 @@
     "regenerator-runtime": "^0.13.3",
     "rimraf": "^3.0.0",
     "shx": "^0.3.2",
-    "sinon": "^9.0.2",
+    "sinon": "^15.0.0",
     "ts-node": "^10.0.0",
     "typescript": "~5.0.0",
     "uglify-js": "^3.4.9",
-    "xhr-mock": "^2.4.1"
+    "xhr-mock": "^2.4.1",
+    "esm": "^3.2.18"
   }
 }

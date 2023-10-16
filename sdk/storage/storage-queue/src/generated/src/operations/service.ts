@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Service } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClientContext } from "../storageClientContext";
+import { StorageClient } from "../storageClient";
 import {
   QueueServiceProperties,
   ServiceSetPropertiesOptionalParams,
@@ -22,15 +23,15 @@ import {
   ServiceListQueuesSegmentResponse
 } from "../models";
 
-/** Class representing a Service. */
-export class Service {
-  private readonly client: StorageClientContext;
+/** Class containing Service operations. */
+export class ServiceImpl implements Service {
+  private readonly client: StorageClient;
 
   /**
    * Initialize a new instance of the class Service class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClientContext) {
+  constructor(client: StorageClient) {
     this.client = client;
   }
 
@@ -44,14 +45,10 @@ export class Service {
     properties: QueueServiceProperties,
     options?: ServiceSetPropertiesOptionalParams
   ): Promise<ServiceSetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      properties,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { properties, options },
       setPropertiesOperationSpec
-    ) as Promise<ServiceSetPropertiesResponse>;
+    );
   }
 
   /**
@@ -62,13 +59,10 @@ export class Service {
   getProperties(
     options?: ServiceGetPropertiesOptionalParams
   ): Promise<ServiceGetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getPropertiesOperationSpec
-    ) as Promise<ServiceGetPropertiesResponse>;
+    );
   }
 
   /**
@@ -80,13 +74,10 @@ export class Service {
   getStatistics(
     options?: ServiceGetStatisticsOptionalParams
   ): Promise<ServiceGetStatisticsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getStatisticsOperationSpec
-    ) as Promise<ServiceGetStatisticsResponse>;
+    );
   }
 
   /**
@@ -96,19 +87,16 @@ export class Service {
   listQueuesSegment(
     options?: ServiceListQueuesSegmentOptionalParams
   ): Promise<ServiceListQueuesSegmentResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       listQueuesSegmentOperationSpec
-    ) as Promise<ServiceListQueuesSegmentResponse>;
+    );
   }
 }
 // Operation Specifications
-const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
 
-const setPropertiesOperationSpec: coreHttp.OperationSpec = {
+const setPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "PUT",
   responses: {
@@ -138,7 +126,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   mediaType: "xml",
   serializer: xmlSerializer
 };
-const getPropertiesOperationSpec: coreHttp.OperationSpec = {
+const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "GET",
   responses: {
@@ -165,7 +153,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const getStatisticsOperationSpec: coreHttp.OperationSpec = {
+const getStatisticsOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "GET",
   responses: {
@@ -192,7 +180,7 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const listQueuesSegmentOperationSpec: coreHttp.OperationSpec = {
+const listQueuesSegmentOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "GET",
   responses: {

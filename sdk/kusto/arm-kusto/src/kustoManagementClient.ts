@@ -21,6 +21,7 @@ import {
   DatabasesImpl,
   AttachedDatabaseConfigurationsImpl,
   ManagedPrivateEndpointsImpl,
+  DatabaseOperationsImpl,
   DatabasePrincipalAssignmentsImpl,
   ScriptsImpl,
   PrivateEndpointConnectionsImpl,
@@ -37,6 +38,7 @@ import {
   Databases,
   AttachedDatabaseConfigurations,
   ManagedPrivateEndpoints,
+  DatabaseOperations,
   DatabasePrincipalAssignments,
   Scripts,
   PrivateEndpointConnections,
@@ -56,8 +58,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the KustoManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Gets subscription credentials which uniquely identify Microsoft Azure
-   *                       subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -81,7 +82,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-kusto/7.3.1`;
+    const packageDetails = `azsdk-js-arm-kusto/8.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -134,7 +135,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-12-29";
+    this.apiVersion = options.apiVersion || "2023-05-02";
     this.clusters = new ClustersImpl(this);
     this.clusterPrincipalAssignments = new ClusterPrincipalAssignmentsImpl(
       this
@@ -145,6 +146,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       this
     );
     this.managedPrivateEndpoints = new ManagedPrivateEndpointsImpl(this);
+    this.databaseOperations = new DatabaseOperationsImpl(this);
     this.databasePrincipalAssignments = new DatabasePrincipalAssignmentsImpl(
       this
     );
@@ -192,6 +194,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
   databases: Databases;
   attachedDatabaseConfigurations: AttachedDatabaseConfigurations;
   managedPrivateEndpoints: ManagedPrivateEndpoints;
+  databaseOperations: DatabaseOperations;
   databasePrincipalAssignments: DatabasePrincipalAssignments;
   scripts: Scripts;
   privateEndpointConnections: PrivateEndpointConnections;

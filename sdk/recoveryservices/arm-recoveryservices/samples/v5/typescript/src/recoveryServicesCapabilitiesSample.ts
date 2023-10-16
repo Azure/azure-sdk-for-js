@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to API to get details about capabilities provided by Microsoft.RecoveryServices RP
  *
  * @summary API to get details about capabilities provided by Microsoft.RecoveryServices RP
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/Capabilities.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-04-01/examples/Capabilities.json
  */
 async function capabilitiesForMicrosoftRecoveryServicesOrVaults() {
   const subscriptionId =

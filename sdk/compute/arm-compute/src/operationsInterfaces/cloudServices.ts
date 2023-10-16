@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CloudService,
   CloudServicesListAllOptionalParams,
@@ -63,8 +63,8 @@ export interface CloudServices {
     cloudServiceName: string,
     options?: CloudServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CloudServicesCreateOrUpdateResponse>,
       CloudServicesCreateOrUpdateResponse
     >
   >;
@@ -91,8 +91,8 @@ export interface CloudServices {
     cloudServiceName: string,
     options?: CloudServicesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CloudServicesUpdateResponse>,
       CloudServicesUpdateResponse
     >
   >;
@@ -117,7 +117,7 @@ export interface CloudServices {
     resourceGroupName: string,
     cloudServiceName: string,
     options?: CloudServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a cloud service.
    * @param resourceGroupName Name of the resource group.
@@ -161,7 +161,7 @@ export interface CloudServices {
     resourceGroupName: string,
     cloudServiceName: string,
     options?: CloudServicesStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts the cloud service.
    * @param resourceGroupName Name of the resource group.
@@ -184,7 +184,7 @@ export interface CloudServices {
     resourceGroupName: string,
     cloudServiceName: string,
     options?: CloudServicesPowerOffOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Power off the cloud service. Note that resources are still attached and you are getting charged for
    * the resources.
@@ -207,7 +207,7 @@ export interface CloudServices {
     resourceGroupName: string,
     cloudServiceName: string,
     options?: CloudServicesRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restarts one or more role instances in a cloud service.
    * @param resourceGroupName Name of the resource group.
@@ -230,7 +230,7 @@ export interface CloudServices {
     resourceGroupName: string,
     cloudServiceName: string,
     options?: CloudServicesReimageOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Reimage asynchronous operation reinstalls the operating system on instances of web roles or worker
    * roles.
@@ -255,7 +255,7 @@ export interface CloudServices {
     resourceGroupName: string,
     cloudServiceName: string,
     options?: CloudServicesRebuildOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Rebuild Role Instances reinstalls the operating system on instances of web roles or worker roles and
    * initializes the storage resources that are used by them. If you do not want to initialize storage
@@ -279,7 +279,7 @@ export interface CloudServices {
     resourceGroupName: string,
     cloudServiceName: string,
     options?: CloudServicesDeleteInstancesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes role instances in a cloud service.
    * @param resourceGroupName Name of the resource group.

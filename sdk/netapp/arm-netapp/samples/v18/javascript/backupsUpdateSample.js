@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Patch a backup for the volume
  *
  * @summary Patch a backup for the volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/Backups_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Backups_Update.json
  */
 async function backupsUpdate() {
   const subscriptionId =

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EventGridManagementClient } from "../eventGridManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PartnerNamespace,
   PartnerNamespacesListBySubscriptionNextOptionalParams,
@@ -205,8 +209,8 @@ export class PartnerNamespacesImpl implements PartnerNamespaces {
     partnerNamespaceInfo: PartnerNamespace,
     options?: PartnerNamespacesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PartnerNamespacesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PartnerNamespacesCreateOrUpdateResponse>,
       PartnerNamespacesCreateOrUpdateResponse
     >
   > {
@@ -216,7 +220,7 @@ export class PartnerNamespacesImpl implements PartnerNamespaces {
     ): Promise<PartnerNamespacesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -249,18 +253,21 @@ export class PartnerNamespacesImpl implements PartnerNamespaces {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         partnerNamespaceName,
         partnerNamespaceInfo,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PartnerNamespacesCreateOrUpdateResponse,
+      OperationState<PartnerNamespacesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -299,14 +306,14 @@ export class PartnerNamespacesImpl implements PartnerNamespaces {
     resourceGroupName: string,
     partnerNamespaceName: string,
     options?: PartnerNamespacesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -339,13 +346,13 @@ export class PartnerNamespacesImpl implements PartnerNamespaces {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, partnerNamespaceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, partnerNamespaceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -383,14 +390,14 @@ export class PartnerNamespacesImpl implements PartnerNamespaces {
     partnerNamespaceName: string,
     partnerNamespaceUpdateParameters: PartnerNamespaceUpdateParameters,
     options?: PartnerNamespacesUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -423,18 +430,18 @@ export class PartnerNamespacesImpl implements PartnerNamespaces {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         partnerNamespaceName,
         partnerNamespaceUpdateParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -575,7 +582,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.PartnerNamespace
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -713,7 +722,7 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.regenerateKeyRequest2,
+  requestBody: Parameters.regenerateKeyRequest3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

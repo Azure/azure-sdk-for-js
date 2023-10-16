@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { randomUUID } from "@azure/core-util";
 import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { StorageBlobTest } from "./storageTest.spec";
 
@@ -24,7 +24,7 @@ export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTest
 
   constructor() {
     super();
-    this.blobName = generateUuid();
+    this.blobName = randomUUID();
     this.buffer = Buffer.alloc(this.parsedOptions.size.value!);
   }
 

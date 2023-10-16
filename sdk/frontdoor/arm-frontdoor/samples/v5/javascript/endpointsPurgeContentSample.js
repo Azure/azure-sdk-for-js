@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { FrontDoorManagementClient } = require("@azure/arm-frontdoor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Removes a content from Front Door.
  *
  * @summary Removes a content from Front Door.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2020-05-01/examples/FrontdoorPurgeContent.json
+ * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorPurgeContent.json
  */
 async function purgeContentFromFrontDoor() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
   const frontDoorName = "frontDoor1";
   const contentFilePaths = {
     contentPaths: ["/pictures.aspx", "/pictures/*"],
@@ -34,4 +35,8 @@ async function purgeContentFromFrontDoor() {
   console.log(result);
 }
 
-purgeContentFromFrontDoor().catch(console.error);
+async function main() {
+  purgeContentFromFrontDoor();
+}
+
+main().catch(console.error);

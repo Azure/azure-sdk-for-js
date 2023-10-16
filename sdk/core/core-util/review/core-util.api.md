@@ -7,6 +7,22 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 
 // @public
+export type AbortablePromiseBuilder<T> = (abortOptions: {
+    abortSignal?: AbortSignalLike;
+}) => Promise<T>;
+
+// @public
+export interface AbortOptions {
+    abortErrorMsg?: string;
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export function cancelablePromiseRace<T extends unknown[]>(abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[], options?: {
+    abortSignal?: AbortSignalLike;
+}): Promise<T[number]>;
+
+// @public
 export function computeSha256Hash(content: string, encoding: "base64" | "hex"): Promise<string>;
 
 // @public
@@ -16,9 +32,7 @@ export function computeSha256Hmac(key: string, stringToSign: string, encoding: "
 export function createAbortablePromise<T>(buildPromise: (resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void, options?: CreateAbortablePromiseOptions): Promise<T>;
 
 // @public
-export interface CreateAbortablePromiseOptions {
-    abortErrorMsg?: string;
-    abortSignal?: AbortSignalLike;
+export interface CreateAbortablePromiseOptions extends AbortOptions {
     cleanupBeforeAbort?: () => void;
 }
 
@@ -26,10 +40,11 @@ export interface CreateAbortablePromiseOptions {
 export function delay(timeInMs: number, options?: DelayOptions): Promise<void>;
 
 // @public
-export interface DelayOptions {
-    abortErrorMsg?: string;
-    abortSignal?: AbortSignalLike;
+export interface DelayOptions extends AbortOptions {
 }
+
+// @public
+export type EncodingType = "utf-8" | "base64" | "base64url";
 
 // @public
 export function getErrorMessage(e: unknown): string;
@@ -38,7 +53,16 @@ export function getErrorMessage(e: unknown): string;
 export function getRandomIntegerInclusive(min: number, max: number): number;
 
 // @public
+export const isBrowser: boolean;
+
+// @public
+export const isBun: boolean;
+
+// @public
 export function isDefined<T>(thing: T | undefined | null): thing is T;
+
+// @public
+export const isDeno: boolean;
 
 // @public
 export function isError(e: unknown): e is Error;
@@ -53,10 +77,22 @@ export function isObject(input: unknown): input is UnknownObject;
 export function isObjectWithProperties<Thing, PropertyName extends string>(thing: Thing, properties: PropertyName[]): thing is Thing & Record<PropertyName, unknown>;
 
 // @public
+export const isReactNative: boolean;
+
+// @public
+export const isWebWorker: boolean;
+
+// @public
 export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
 
 // @public
 export function randomUUID(): string;
+
+// @public
+export function stringToUint8Array(value: string, format: EncodingType): Uint8Array;
+
+// @public
+export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string;
 
 // @public
 export type UnknownObject = {

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Moves volume to another pool
  *
  * @summary Moves volume to another pool
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/Volumes_PoolChange.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Volumes_PoolChange.json
  */
 async function volumesAuthorizeReplication() {
   const subscriptionId =

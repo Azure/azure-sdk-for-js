@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all of the available Cosmos DB Resource Provider operations.
  *
  * @summary Lists all of the available Cosmos DB Resource Provider operations.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-03-15/examples/CosmosDBOperationsList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBOperationsList.json
  */
 async function cosmosDbOperationsList() {
   const subscriptionId =

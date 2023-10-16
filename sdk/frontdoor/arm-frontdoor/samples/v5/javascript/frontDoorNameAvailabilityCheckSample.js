@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { FrontDoorManagementClient } = require("@azure/arm-frontdoor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Check the availability of a Front Door resource name.
  *
  * @summary Check the availability of a Front Door resource name.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2020-05-01/examples/CheckFrontdoorNameAvailability.json
+ * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/CheckFrontdoorNameAvailability.json
  */
 async function checkNameAvailability() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const checkFrontDoorNameAvailabilityInput = {
     name: "sampleName",
     type: "Microsoft.Network/frontDoors",
@@ -29,4 +31,8 @@ async function checkNameAvailability() {
   console.log(result);
 }
 
-checkNameAvailability().catch(console.error);
+async function main() {
+  checkNameAvailability();
+}
+
+main().catch(console.error);

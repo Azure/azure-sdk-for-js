@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete the specified Backup for a Netapp Account
  *
  * @summary Delete the specified Backup for a Netapp Account
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/Backups_Account_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Backups_Account_Delete.json
  */
 async function accountBackupsDelete() {
   const subscriptionId =

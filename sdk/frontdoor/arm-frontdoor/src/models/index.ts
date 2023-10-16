@@ -13,15 +13,149 @@ export type RouteConfigurationUnion =
   | ForwardingConfiguration
   | RedirectConfiguration;
 
-/** Defines a list of Profiles. It contains a list of Profile objects and a URL link to get the next set of results. */
-export interface ProfileList {
+/** Defines a list of WebApplicationFirewallPolicies. It contains a list of WebApplicationFirewallPolicy objects and a URL link to get the next set of results. */
+export interface WebApplicationFirewallPolicyList {
   /**
-   * List of Profiles within a resource group.
+   * List of WebApplicationFirewallPolicies within a resource group.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: Profile[];
-  /** URL to get the next set of Profile objects if there are any. */
+  readonly value?: WebApplicationFirewallPolicy[];
+  /** URL to get the next set of WebApplicationFirewallPolicy objects if there are any. */
   nextLink?: string;
+}
+
+/** Defines top-level WebApplicationFirewallPolicy configuration settings. */
+export interface PolicySettings {
+  /** Describes if the policy is in enabled or disabled state. Defaults to Enabled if not specified. */
+  enabledState?: PolicyEnabledState;
+  /** Describes if it is in detection mode or prevention mode at policy level. */
+  mode?: PolicyMode;
+  /** If action type is redirect, this field represents redirect URL for the client. */
+  redirectUrl?: string;
+  /** If the action type is block, customer can override the response status code. */
+  customBlockResponseStatusCode?: number;
+  /** If the action type is block, customer can override the response body. The body must be specified in base64 encoding. */
+  customBlockResponseBody?: string;
+  /** Describes if policy managed rules will inspect the request body content. */
+  requestBodyCheck?: PolicyRequestBodyCheck;
+}
+
+/** Defines contents of custom rules */
+export interface CustomRuleList {
+  /** List of rules */
+  rules?: CustomRule[];
+}
+
+/** Defines contents of a web application rule */
+export interface CustomRule {
+  /** Describes the name of the rule. */
+  name?: string;
+  /** Describes priority of the rule. Rules with a lower value will be evaluated before rules with a higher value. */
+  priority: number;
+  /** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
+  enabledState?: CustomRuleEnabledState;
+  /** Describes type of rule. */
+  ruleType: RuleType;
+  /** Time window for resetting the rate limit count. Default is 1 minute. */
+  rateLimitDurationInMinutes?: number;
+  /** Number of allowed requests per client within the time window. */
+  rateLimitThreshold?: number;
+  /** List of match conditions. */
+  matchConditions: MatchCondition[];
+  /** Describes what action to be applied when rule matches. */
+  action: ActionType;
+}
+
+/** Define a match condition. */
+export interface MatchCondition {
+  /** Request variable to compare with. */
+  matchVariable: MatchVariable;
+  /** Match against a specific key from the QueryString, PostArgs, RequestHeader or Cookies variables. Default is null. */
+  selector?: string;
+  /** Comparison type to use for matching with the variable value. */
+  operator: Operator;
+  /** Describes if the result of this condition should be negated. */
+  negateCondition?: boolean;
+  /** List of possible match values. */
+  matchValue: string[];
+  /** List of transforms. */
+  transforms?: TransformType[];
+}
+
+/** Defines the list of managed rule sets for the policy. */
+export interface ManagedRuleSetList {
+  /** List of rule sets. */
+  managedRuleSets?: ManagedRuleSet[];
+}
+
+/** Defines a managed rule set. */
+export interface ManagedRuleSet {
+  /** Defines the rule set type to use. */
+  ruleSetType: string;
+  /** Defines the version of the rule set to use. */
+  ruleSetVersion: string;
+  /** Defines the rule set action. */
+  ruleSetAction?: ManagedRuleSetActionType;
+  /** Describes the exclusions that are applied to all rules in the set. */
+  exclusions?: ManagedRuleExclusion[];
+  /** Defines the rule group overrides to apply to the rule set. */
+  ruleGroupOverrides?: ManagedRuleGroupOverride[];
+}
+
+/** Exclude variables from managed rule evaluation. */
+export interface ManagedRuleExclusion {
+  /** The variable type to be excluded. */
+  matchVariable: ManagedRuleExclusionMatchVariable;
+  /** Comparison operator to apply to the selector when specifying which elements in the collection this exclusion applies to. */
+  selectorMatchOperator: ManagedRuleExclusionSelectorMatchOperator;
+  /** Selector value for which elements in the collection this exclusion applies to. */
+  selector: string;
+}
+
+/** Defines a managed rule group override setting. */
+export interface ManagedRuleGroupOverride {
+  /** Describes the managed rule group to override. */
+  ruleGroupName: string;
+  /** Describes the exclusions that are applied to all rules in the group. */
+  exclusions?: ManagedRuleExclusion[];
+  /** List of rules that will be disabled. If none specified, all rules in the group will be disabled. */
+  rules?: ManagedRuleOverride[];
+}
+
+/** Defines a managed rule group override setting. */
+export interface ManagedRuleOverride {
+  /** Identifier for the managed rule. */
+  ruleId: string;
+  /** Describes if the managed rule is in enabled or disabled state. Defaults to Disabled if not specified. */
+  enabledState?: ManagedRuleEnabledState;
+  /** Describes the override action to be applied when rule matches. */
+  action?: ActionType;
+  /** Describes the exclusions that are applied to this specific rule. */
+  exclusions?: ManagedRuleExclusion[];
+}
+
+/** Defines the Resource ID for a Frontend Endpoint. */
+export interface FrontendEndpointLink {
+  /** Resource ID. */
+  id?: string;
+}
+
+/** Defines the Resource ID for a Routing Rule. */
+export interface RoutingRuleLink {
+  /** Resource ID. */
+  id?: string;
+}
+
+/** Defines the Resource ID for a Security Policy. */
+export interface SecurityPolicyLink {
+  /** Resource ID. */
+  id?: string;
+}
+
+/** The pricing tier of the web application firewall policy. */
+export interface Sku {
+  /** Name of the pricing tier. */
+  name?: SkuName;
 }
 
 /** Common resource representation. */
@@ -61,114 +195,84 @@ export interface ErrorResponse {
   readonly message?: string;
 }
 
-/** Defines modifiable attributes of a Profile */
-export interface ProfileUpdateModel {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The enabled state of the Profile */
-  enabledState?: State;
+/** Error response indicates Front Door service is not able to process the incoming request. The reason is provided in the error message. */
+export interface DefaultErrorResponse {
+  /** Error model. */
+  error?: DefaultErrorResponseError;
 }
 
-/** Defines a list of preconfigured endpoints. */
-export interface PreconfiguredEndpointList {
+/** Error model. */
+export interface DefaultErrorResponseError {
   /**
-   * List of PreconfiguredEndpoints supported by NetworkExperiment.
+   * Error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: PreconfiguredEndpoint[];
-  /** URL to get the next set of PreconfiguredEndpoints if there are any. */
+  readonly code?: string;
+  /**
+   * Error message indicating why the operation failed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** Tags object for patch operations. */
+export interface TagsObject {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** List of managed rule set definitions available for use in a policy. */
+export interface ManagedRuleSetDefinitionList {
+  /**
+   * List of managed rule set definitions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ManagedRuleSetDefinition[];
+  /** URL to retrieve next set of managed rule set definitions. */
   nextLink?: string;
 }
 
-/** Defines a list of Experiments. It contains a list of Experiment objects and a URL link to get the next set of results. */
-export interface ExperimentList {
+/** Describes a managed rule group. */
+export interface ManagedRuleGroupDefinition {
   /**
-   * List of Experiments within a resource group.
+   * Name of the managed rule group.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: Experiment[];
-  /** URL to get the next set of Experiment objects if there are any. */
-  nextLink?: string;
+  readonly ruleGroupName?: string;
+  /**
+   * Description of the managed rule group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * List of rules within the managed rule group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rules?: ManagedRuleDefinition[];
 }
 
-/** Defines the endpoint properties */
-export interface Endpoint {
-  /** The name of the endpoint */
-  name?: string;
-  /** The endpoint URL */
-  endpoint?: string;
-}
-
-/** Defines modifiable attributes of an Experiment */
-export interface ExperimentUpdateModel {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The description of the intent or details of the Experiment */
-  description?: string;
-  /** The state of the Experiment */
-  enabledState?: State;
-}
-
-/** Defines the properties of a latency metric used in the latency scorecard */
-export interface LatencyMetric {
+/** Describes a managed rule definition. */
+export interface ManagedRuleDefinition {
   /**
-   * The name of the Latency Metric
+   * Identifier for the managed rule.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly ruleId?: string;
   /**
-   * The end time of the Latency Scorecard in UTC
+   * Describes the default state for the managed rule.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly endDateTimeUTC?: string;
+  readonly defaultState?: ManagedRuleEnabledState;
   /**
-   * The metric value of the A endpoint
+   * Describes the default action to be applied when the managed rule matches.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly aValue?: number;
+  readonly defaultAction?: ActionType;
   /**
-   * The metric value of the B endpoint
+   * Describes the functionality of the managed rule.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly bValue?: number;
-  /**
-   * The difference in value between endpoint A and B
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly delta?: number;
-  /**
-   * The percent difference between endpoint A and B
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deltaPercent?: number;
-  /**
-   * The lower end of the 95% confidence interval for endpoint A
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly aCLower95CI?: number;
-  /**
-   * The upper end of the 95% confidence interval for endpoint A
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly aHUpper95CI?: number;
-  /**
-   * The lower end of the 95% confidence interval for endpoint B
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly bCLower95CI?: number;
-  /**
-   * The upper end of the 95% confidence interval for endpoint B
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly bUpper95CI?: number;
-}
-
-/** Defines a timeseries datapoint used in a timeseries */
-export interface TimeseriesDataPoint {
-  /** The DateTime of the Timeseries data point in UTC */
-  dateTimeUTC?: string;
-  /** The Value of the Timeseries data point */
-  value?: number;
+  readonly description?: string;
 }
 
 /** Input of CheckNameAvailability API. */
@@ -517,203 +621,125 @@ export interface RulesEngineListResult {
   nextLink?: string;
 }
 
-/** Defines a list of WebApplicationFirewallPolicies. It contains a list of WebApplicationFirewallPolicy objects and a URL link to get the next set of results. */
-export interface WebApplicationFirewallPolicyList {
+/** Defines a list of Profiles. It contains a list of Profile objects and a URL link to get the next set of results. */
+export interface ProfileList {
   /**
-   * List of WebApplicationFirewallPolicies within a resource group.
+   * List of Profiles within a resource group.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: WebApplicationFirewallPolicy[];
-  /** URL to get the next set of WebApplicationFirewallPolicy objects if there are any. */
+  readonly value?: Profile[];
+  /** URL to get the next set of Profile objects if there are any. */
   nextLink?: string;
 }
 
-/** Defines top-level WebApplicationFirewallPolicy configuration settings. */
-export interface PolicySettings {
-  /** Describes if the policy is in enabled or disabled state. Defaults to Enabled if not specified. */
-  enabledState?: PolicyEnabledState;
-  /** Describes if it is in detection mode or prevention mode at policy level. */
-  mode?: PolicyMode;
-  /** If action type is redirect, this field represents redirect URL for the client. */
-  redirectUrl?: string;
-  /** If the action type is block, customer can override the response status code. */
-  customBlockResponseStatusCode?: number;
-  /** If the action type is block, customer can override the response body. The body must be specified in base64 encoding. */
-  customBlockResponseBody?: string;
-  /** Describes if policy managed rules will inspect the request body content. */
-  requestBodyCheck?: PolicyRequestBodyCheck;
+/** Defines modifiable attributes of a Profile */
+export interface ProfileUpdateModel {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The enabled state of the Profile */
+  enabledState?: State;
 }
 
-/** Defines contents of custom rules */
-export interface CustomRuleList {
-  /** List of rules */
-  rules?: CustomRule[];
+/** Defines a list of preconfigured endpoints. */
+export interface PreconfiguredEndpointList {
+  /**
+   * List of PreconfiguredEndpoints supported by NetworkExperiment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: PreconfiguredEndpoint[];
+  /** URL to get the next set of PreconfiguredEndpoints if there are any. */
+  nextLink?: string;
 }
 
-/** Defines contents of a web application rule */
-export interface CustomRule {
-  /** Describes the name of the rule. */
+/** Defines a list of Experiments. It contains a list of Experiment objects and a URL link to get the next set of results. */
+export interface ExperimentList {
+  /**
+   * List of Experiments within a resource group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Experiment[];
+  /** URL to get the next set of Experiment objects if there are any. */
+  nextLink?: string;
+}
+
+/** Defines the endpoint properties */
+export interface Endpoint {
+  /** The name of the endpoint */
   name?: string;
-  /** Describes priority of the rule. Rules with a lower value will be evaluated before rules with a higher value. */
-  priority: number;
-  /** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
-  enabledState?: CustomRuleEnabledState;
-  /** Describes type of rule. */
-  ruleType: RuleType;
-  /** Time window for resetting the rate limit count. Default is 1 minute. */
-  rateLimitDurationInMinutes?: number;
-  /** Number of allowed requests per client within the time window. */
-  rateLimitThreshold?: number;
-  /** List of match conditions. */
-  matchConditions: MatchCondition[];
-  /** Describes what action to be applied when rule matches. */
-  action: ActionType;
+  /** The endpoint URL */
+  endpoint?: string;
 }
 
-/** Define a match condition. */
-export interface MatchCondition {
-  /** Request variable to compare with. */
-  matchVariable: MatchVariable;
-  /** Match against a specific key from the QueryString, PostArgs, RequestHeader or Cookies variables. Default is null. */
-  selector?: string;
-  /** Comparison type to use for matching with the variable value. */
-  operator: Operator;
-  /** Describes if the result of this condition should be negated. */
-  negateCondition?: boolean;
-  /** List of possible match values. */
-  matchValue: string[];
-  /** List of transforms. */
-  transforms?: TransformType[];
+/** Defines modifiable attributes of an Experiment */
+export interface ExperimentUpdateModel {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The description of the intent or details of the Experiment */
+  description?: string;
+  /** The state of the Experiment */
+  enabledState?: State;
 }
 
-/** Defines the list of managed rule sets for the policy. */
-export interface ManagedRuleSetList {
-  /** List of rule sets. */
-  managedRuleSets?: ManagedRuleSet[];
-}
-
-/** Defines a managed rule set. */
-export interface ManagedRuleSet {
-  /** Defines the rule set type to use. */
-  ruleSetType: string;
-  /** Defines the version of the rule set to use. */
-  ruleSetVersion: string;
-  /** Defines the action to take when a managed rule set score threshold is met. */
-  ruleSetAction?: ManagedRuleSetActionType;
-  /** Describes the exclusions that are applied to all rules in the set. */
-  exclusions?: ManagedRuleExclusion[];
-  /** Defines the rule group overrides to apply to the rule set. */
-  ruleGroupOverrides?: ManagedRuleGroupOverride[];
-}
-
-/** Exclude variables from managed rule evaluation. */
-export interface ManagedRuleExclusion {
-  /** The variable type to be excluded. */
-  matchVariable: ManagedRuleExclusionMatchVariable;
-  /** Comparison operator to apply to the selector when specifying which elements in the collection this exclusion applies to. */
-  selectorMatchOperator: ManagedRuleExclusionSelectorMatchOperator;
-  /** Selector value for which elements in the collection this exclusion applies to. */
-  selector: string;
-}
-
-/** Defines a managed rule group override setting. */
-export interface ManagedRuleGroupOverride {
-  /** Describes the managed rule group to override. */
-  ruleGroupName: string;
-  /** Describes the exclusions that are applied to all rules in the group. */
-  exclusions?: ManagedRuleExclusion[];
-  /** List of rules that will be disabled. If none specified, all rules in the group will be disabled. */
-  rules?: ManagedRuleOverride[];
-}
-
-/** Defines a managed rule group override setting. */
-export interface ManagedRuleOverride {
-  /** Identifier for the managed rule. */
-  ruleId: string;
-  /** Describes if the managed rule is in enabled or disabled state. Defaults to Disabled if not specified. */
-  enabledState?: ManagedRuleEnabledState;
-  /** Describes the override action to be applied when rule matches. */
-  action?: ActionType;
-  /** Describes the exclusions that are applied to this specific rule. */
-  exclusions?: ManagedRuleExclusion[];
-}
-
-/** Defines the Resource ID for a Frontend Endpoint. */
-export interface FrontendEndpointLink {
-  /** Resource ID. */
-  id?: string;
-}
-
-/** Defines the Resource ID for a Routing Rule. */
-export interface RoutingRuleLink {
-  /** Resource ID. */
-  id?: string;
-}
-
-/** Defines the Resource ID for a Security Policy. */
-export interface SecurityPolicyLink {
-  /** Resource ID. */
-  id?: string;
-}
-
-/** The pricing tier of the web application firewall policy. */
-export interface Sku {
-  /** Name of the pricing tier. */
-  name?: SkuName;
-}
-
-/** List of managed rule set definitions available for use in a policy. */
-export interface ManagedRuleSetDefinitionList {
+/** Defines the properties of a latency metric used in the latency scorecard */
+export interface LatencyMetric {
   /**
-   * List of managed rule set definitions.
+   * The name of the Latency Metric
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: ManagedRuleSetDefinition[];
-  /** URL to retrieve next set of managed rule set definitions. */
-  nextLink?: string;
+  readonly name?: string;
+  /**
+   * The end time of the Latency Scorecard in UTC
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endDateTimeUTC?: string;
+  /**
+   * The metric value of the A endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly aValue?: number;
+  /**
+   * The metric value of the B endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly bValue?: number;
+  /**
+   * The difference in value between endpoint A and B
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly delta?: number;
+  /**
+   * The percent difference between endpoint A and B
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deltaPercent?: number;
+  /**
+   * The lower end of the 95% confidence interval for endpoint A
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly aCLower95CI?: number;
+  /**
+   * The upper end of the 95% confidence interval for endpoint A
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly aHUpper95CI?: number;
+  /**
+   * The lower end of the 95% confidence interval for endpoint B
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly bCLower95CI?: number;
+  /**
+   * The upper end of the 95% confidence interval for endpoint B
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly bUpper95CI?: number;
 }
 
-/** Describes a managed rule group. */
-export interface ManagedRuleGroupDefinition {
-  /**
-   * Name of the managed rule group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ruleGroupName?: string;
-  /**
-   * Description of the managed rule group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * List of rules within the managed rule group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rules?: ManagedRuleDefinition[];
-}
-
-/** Describes a managed rule definition. */
-export interface ManagedRuleDefinition {
-  /**
-   * Identifier for the managed rule.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ruleId?: string;
-  /**
-   * Describes the default state for the managed rule.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly defaultState?: ManagedRuleEnabledState;
-  /**
-   * Describes the default action to be applied when the managed rule matches.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly defaultAction?: ActionType;
-  /**
-   * Describes the functionality of the managed rule.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
+/** Defines a timeseries datapoint used in a timeseries */
+export interface TimeseriesDataPoint {
+  /** The DateTime of the Timeseries data point in UTC */
+  dateTimeUTC?: string;
+  /** The Value of the Timeseries data point */
+  value?: number;
 }
 
 export interface ErrorDetails {
@@ -732,15 +758,9 @@ export interface ErrorModel {
 
 /** The response body contains the status of the specified asynchronous operation, indicating whether it has succeeded, is in progress, or has failed. Note that this status is distinct from the HTTP status code returned for the Get Operation Status operation itself. If the asynchronous operation succeeded, the response body includes the HTTP status code for the successful request. If the asynchronous operation failed, the response body includes the HTTP status code for the failed request and error information regarding the failure. */
 export interface AzureAsyncOperationResult {
-  /** Status of the Azure async operation. Possible values are: 'InProgress', 'Succeeded', and 'Failed'. */
+  /** Status of the Azure async operation. */
   status?: NetworkOperationStatus;
   error?: ErrorModel;
-}
-
-/** Tags object for patch operations. */
-export interface TagsObject {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
 }
 
 /** Result of the request to list Routing Rules. It contains a list of Routing Rule objects and a URL link to get the next set of results. */
@@ -797,6 +817,124 @@ export interface BackendPoolListResult {
   readonly value?: BackendPool[];
   /** URL to get the next set of BackendPool objects if there are any. */
   nextLink?: string;
+}
+
+/** Defines web application firewall policy. */
+export interface WebApplicationFirewallPolicy extends Resource {
+  /** Gets a unique read-only string that changes whenever the resource is updated. */
+  etag?: string;
+  /** The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified. */
+  sku?: Sku;
+  /** Describes settings for the policy. */
+  policySettings?: PolicySettings;
+  /** Describes custom rules inside the policy. */
+  customRules?: CustomRuleList;
+  /** Describes managed rules inside the policy. */
+  managedRules?: ManagedRuleSetList;
+  /**
+   * Describes Frontend Endpoints associated with this Web Application Firewall policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly frontendEndpointLinks?: FrontendEndpointLink[];
+  /**
+   * Describes Routing Rules associated with this Web Application Firewall policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly routingRuleLinks?: RoutingRuleLink[];
+  /**
+   * Describes Security Policy associated with this Web Application Firewall policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly securityPolicyLinks?: SecurityPolicyLink[];
+  /**
+   * Provisioning state of the policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * Resource status of the policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceState?: PolicyResourceState;
+}
+
+/** Describes the a managed rule set definition. */
+export interface ManagedRuleSetDefinition extends Resource {
+  /**
+   * Provisioning state of the managed rule set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * Id of the managed rule set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ruleSetId?: string;
+  /**
+   * Type of the managed rule set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ruleSetType?: string;
+  /**
+   * Version of the managed rule set type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ruleSetVersion?: string;
+  /**
+   * Rule groups of the managed rule set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ruleGroups?: ManagedRuleGroupDefinition[];
+}
+
+/** Front Door represents a collection of backend endpoints to route traffic to along with rules that specify how traffic is sent there. */
+export interface FrontDoor extends Resource {
+  /** A friendly name for the frontDoor */
+  friendlyName?: string;
+  /** Routing rules associated with this Front Door. */
+  routingRules?: RoutingRule[];
+  /** Load balancing settings associated with this Front Door instance. */
+  loadBalancingSettings?: LoadBalancingSettingsModel[];
+  /** Health probe settings associated with this Front Door instance. */
+  healthProbeSettings?: HealthProbeSettingsModel[];
+  /** Backend pools available to routing rules. */
+  backendPools?: BackendPool[];
+  /** Frontend endpoints available to routing rules. */
+  frontendEndpoints?: FrontendEndpoint[];
+  /** Settings for all backendPools */
+  backendPoolsSettings?: BackendPoolsSettings;
+  /** Operational status of the Front Door load balancer. Permitted values are 'Enabled' or 'Disabled' */
+  enabledState?: FrontDoorEnabledState;
+  /**
+   * Resource status of the Front Door.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceState?: FrontDoorResourceState;
+  /**
+   * Provisioning state of the Front Door.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The host that each frontendEndpoint must CNAME to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cname?: string;
+  /**
+   * The Id of the frontdoor.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly frontdoorId?: string;
+  /**
+   * Rules Engine Configurations available to routing rules.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rulesEngines?: RulesEngine[];
+  /**
+   * Key-Value pair representing additional properties for frontdoor.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extendedProperties?: { [propertyName: string]: string };
 }
 
 /** Defines an Network Experiment Profile and lists of Experiments */
@@ -915,119 +1053,6 @@ export interface Timeseries extends Resource {
   timeseriesData?: TimeseriesDataPoint[];
 }
 
-/** Front Door represents a collection of backend endpoints to route traffic to along with rules that specify how traffic is sent there. */
-export interface FrontDoor extends Resource {
-  /** A friendly name for the frontDoor */
-  friendlyName?: string;
-  /** Routing rules associated with this Front Door. */
-  routingRules?: RoutingRule[];
-  /** Load balancing settings associated with this Front Door instance. */
-  loadBalancingSettings?: LoadBalancingSettingsModel[];
-  /** Health probe settings associated with this Front Door instance. */
-  healthProbeSettings?: HealthProbeSettingsModel[];
-  /** Backend pools available to routing rules. */
-  backendPools?: BackendPool[];
-  /** Frontend endpoints available to routing rules. */
-  frontendEndpoints?: FrontendEndpoint[];
-  /** Settings for all backendPools */
-  backendPoolsSettings?: BackendPoolsSettings;
-  /** Operational status of the Front Door load balancer. Permitted values are 'Enabled' or 'Disabled' */
-  enabledState?: FrontDoorEnabledState;
-  /**
-   * Resource status of the Front Door.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceState?: FrontDoorResourceState;
-  /**
-   * Provisioning state of the Front Door.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * The host that each frontendEndpoint must CNAME to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cname?: string;
-  /**
-   * The Id of the frontdoor.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly frontdoorId?: string;
-  /**
-   * Rules Engine Configurations available to routing rules.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rulesEngines?: RulesEngine[];
-}
-
-/** Defines web application firewall policy. */
-export interface WebApplicationFirewallPolicy extends Resource {
-  /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
-  /** The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified. */
-  sku?: Sku;
-  /** Describes settings for the policy. */
-  policySettings?: PolicySettings;
-  /** Describes custom rules inside the policy. */
-  customRules?: CustomRuleList;
-  /** Describes managed rules inside the policy. */
-  managedRules?: ManagedRuleSetList;
-  /**
-   * Describes Frontend Endpoints associated with this Web Application Firewall policy.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly frontendEndpointLinks?: FrontendEndpointLink[];
-  /**
-   * Describes Routing Rules associated with this Web Application Firewall policy.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly routingRuleLinks?: RoutingRuleLink[];
-  /**
-   * Describes Security Policy associated with this Web Application Firewall policy.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly securityPolicyLinks?: SecurityPolicyLink[];
-  /**
-   * Provisioning state of the policy.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * Resource status of the policy.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceState?: PolicyResourceState;
-}
-
-/** Describes the a managed rule set definition. */
-export interface ManagedRuleSetDefinition extends Resource {
-  /**
-   * Provisioning state of the managed rule set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * Id of the managed rule set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ruleSetId?: string;
-  /**
-   * Type of the managed rule set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ruleSetType?: string;
-  /**
-   * Version of the managed rule set type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ruleSetVersion?: string;
-  /**
-   * Rule groups of the managed rule set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ruleGroups?: ManagedRuleGroupDefinition[];
-}
-
 /** The JSON object that contains the properties required to create a Rules Engine Configuration. */
 export interface RulesEngineProperties extends RulesEngineUpdateParameters {
   /**
@@ -1096,6 +1121,11 @@ export interface FrontDoorProperties extends FrontDoorUpdateParameters {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly rulesEngines?: RulesEngine[];
+  /**
+   * Key-Value pair representing additional properties for frontdoor.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extendedProperties?: { [propertyName: string]: string };
 }
 
 /** The JSON object that contains the properties required to create a routing rule. */
@@ -1300,8 +1330,335 @@ export interface FrontendEndpointProperties
   readonly customHttpsConfiguration?: CustomHttpsConfiguration;
 }
 
-/** Known values of {@link NetworkExperimentResourceState} that the service accepts. */
-export enum KnownNetworkExperimentResourceState {
+/** Known values of {@link PolicyEnabledState} that the service accepts. */
+export enum KnownPolicyEnabledState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for PolicyEnabledState. \
+ * {@link KnownPolicyEnabledState} can be used interchangeably with PolicyEnabledState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type PolicyEnabledState = string;
+
+/** Known values of {@link PolicyMode} that the service accepts. */
+export enum KnownPolicyMode {
+  /** Prevention */
+  Prevention = "Prevention",
+  /** Detection */
+  Detection = "Detection"
+}
+
+/**
+ * Defines values for PolicyMode. \
+ * {@link KnownPolicyMode} can be used interchangeably with PolicyMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Prevention** \
+ * **Detection**
+ */
+export type PolicyMode = string;
+
+/** Known values of {@link PolicyRequestBodyCheck} that the service accepts. */
+export enum KnownPolicyRequestBodyCheck {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for PolicyRequestBodyCheck. \
+ * {@link KnownPolicyRequestBodyCheck} can be used interchangeably with PolicyRequestBodyCheck,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type PolicyRequestBodyCheck = string;
+
+/** Known values of {@link CustomRuleEnabledState} that the service accepts. */
+export enum KnownCustomRuleEnabledState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for CustomRuleEnabledState. \
+ * {@link KnownCustomRuleEnabledState} can be used interchangeably with CustomRuleEnabledState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type CustomRuleEnabledState = string;
+
+/** Known values of {@link RuleType} that the service accepts. */
+export enum KnownRuleType {
+  /** MatchRule */
+  MatchRule = "MatchRule",
+  /** RateLimitRule */
+  RateLimitRule = "RateLimitRule"
+}
+
+/**
+ * Defines values for RuleType. \
+ * {@link KnownRuleType} can be used interchangeably with RuleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MatchRule** \
+ * **RateLimitRule**
+ */
+export type RuleType = string;
+
+/** Known values of {@link MatchVariable} that the service accepts. */
+export enum KnownMatchVariable {
+  /** RemoteAddr */
+  RemoteAddr = "RemoteAddr",
+  /** RequestMethod */
+  RequestMethod = "RequestMethod",
+  /** QueryString */
+  QueryString = "QueryString",
+  /** PostArgs */
+  PostArgs = "PostArgs",
+  /** RequestUri */
+  RequestUri = "RequestUri",
+  /** RequestHeader */
+  RequestHeader = "RequestHeader",
+  /** RequestBody */
+  RequestBody = "RequestBody",
+  /** Cookies */
+  Cookies = "Cookies",
+  /** SocketAddr */
+  SocketAddr = "SocketAddr"
+}
+
+/**
+ * Defines values for MatchVariable. \
+ * {@link KnownMatchVariable} can be used interchangeably with MatchVariable,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RemoteAddr** \
+ * **RequestMethod** \
+ * **QueryString** \
+ * **PostArgs** \
+ * **RequestUri** \
+ * **RequestHeader** \
+ * **RequestBody** \
+ * **Cookies** \
+ * **SocketAddr**
+ */
+export type MatchVariable = string;
+
+/** Known values of {@link Operator} that the service accepts. */
+export enum KnownOperator {
+  /** Any */
+  Any = "Any",
+  /** IPMatch */
+  IPMatch = "IPMatch",
+  /** GeoMatch */
+  GeoMatch = "GeoMatch",
+  /** Equal */
+  Equal = "Equal",
+  /** Contains */
+  Contains = "Contains",
+  /** LessThan */
+  LessThan = "LessThan",
+  /** GreaterThan */
+  GreaterThan = "GreaterThan",
+  /** LessThanOrEqual */
+  LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThanOrEqual */
+  GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** BeginsWith */
+  BeginsWith = "BeginsWith",
+  /** EndsWith */
+  EndsWith = "EndsWith",
+  /** RegEx */
+  RegEx = "RegEx"
+}
+
+/**
+ * Defines values for Operator. \
+ * {@link KnownOperator} can be used interchangeably with Operator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Any** \
+ * **IPMatch** \
+ * **GeoMatch** \
+ * **Equal** \
+ * **Contains** \
+ * **LessThan** \
+ * **GreaterThan** \
+ * **LessThanOrEqual** \
+ * **GreaterThanOrEqual** \
+ * **BeginsWith** \
+ * **EndsWith** \
+ * **RegEx**
+ */
+export type Operator = string;
+
+/** Known values of {@link TransformType} that the service accepts. */
+export enum KnownTransformType {
+  /** Lowercase */
+  Lowercase = "Lowercase",
+  /** Uppercase */
+  Uppercase = "Uppercase",
+  /** Trim */
+  Trim = "Trim",
+  /** UrlDecode */
+  UrlDecode = "UrlDecode",
+  /** UrlEncode */
+  UrlEncode = "UrlEncode",
+  /** RemoveNulls */
+  RemoveNulls = "RemoveNulls"
+}
+
+/**
+ * Defines values for TransformType. \
+ * {@link KnownTransformType} can be used interchangeably with TransformType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Lowercase** \
+ * **Uppercase** \
+ * **Trim** \
+ * **UrlDecode** \
+ * **UrlEncode** \
+ * **RemoveNulls**
+ */
+export type TransformType = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Allow */
+  Allow = "Allow",
+  /** Block */
+  Block = "Block",
+  /** Log */
+  Log = "Log",
+  /** Redirect */
+  Redirect = "Redirect",
+  /** AnomalyScoring */
+  AnomalyScoring = "AnomalyScoring"
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow** \
+ * **Block** \
+ * **Log** \
+ * **Redirect** \
+ * **AnomalyScoring**
+ */
+export type ActionType = string;
+
+/** Known values of {@link ManagedRuleSetActionType} that the service accepts. */
+export enum KnownManagedRuleSetActionType {
+  /** Block */
+  Block = "Block",
+  /** Log */
+  Log = "Log",
+  /** Redirect */
+  Redirect = "Redirect"
+}
+
+/**
+ * Defines values for ManagedRuleSetActionType. \
+ * {@link KnownManagedRuleSetActionType} can be used interchangeably with ManagedRuleSetActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Block** \
+ * **Log** \
+ * **Redirect**
+ */
+export type ManagedRuleSetActionType = string;
+
+/** Known values of {@link ManagedRuleExclusionMatchVariable} that the service accepts. */
+export enum KnownManagedRuleExclusionMatchVariable {
+  /** RequestHeaderNames */
+  RequestHeaderNames = "RequestHeaderNames",
+  /** RequestCookieNames */
+  RequestCookieNames = "RequestCookieNames",
+  /** QueryStringArgNames */
+  QueryStringArgNames = "QueryStringArgNames",
+  /** RequestBodyPostArgNames */
+  RequestBodyPostArgNames = "RequestBodyPostArgNames",
+  /** RequestBodyJsonArgNames */
+  RequestBodyJsonArgNames = "RequestBodyJsonArgNames"
+}
+
+/**
+ * Defines values for ManagedRuleExclusionMatchVariable. \
+ * {@link KnownManagedRuleExclusionMatchVariable} can be used interchangeably with ManagedRuleExclusionMatchVariable,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RequestHeaderNames** \
+ * **RequestCookieNames** \
+ * **QueryStringArgNames** \
+ * **RequestBodyPostArgNames** \
+ * **RequestBodyJsonArgNames**
+ */
+export type ManagedRuleExclusionMatchVariable = string;
+
+/** Known values of {@link ManagedRuleExclusionSelectorMatchOperator} that the service accepts. */
+export enum KnownManagedRuleExclusionSelectorMatchOperator {
+  /** Equals */
+  Equals = "Equals",
+  /** Contains */
+  Contains = "Contains",
+  /** StartsWith */
+  StartsWith = "StartsWith",
+  /** EndsWith */
+  EndsWith = "EndsWith",
+  /** EqualsAny */
+  EqualsAny = "EqualsAny"
+}
+
+/**
+ * Defines values for ManagedRuleExclusionSelectorMatchOperator. \
+ * {@link KnownManagedRuleExclusionSelectorMatchOperator} can be used interchangeably with ManagedRuleExclusionSelectorMatchOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals** \
+ * **Contains** \
+ * **StartsWith** \
+ * **EndsWith** \
+ * **EqualsAny**
+ */
+export type ManagedRuleExclusionSelectorMatchOperator = string;
+
+/** Known values of {@link ManagedRuleEnabledState} that the service accepts. */
+export enum KnownManagedRuleEnabledState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for ManagedRuleEnabledState. \
+ * {@link KnownManagedRuleEnabledState} can be used interchangeably with ManagedRuleEnabledState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type ManagedRuleEnabledState = string;
+
+/** Known values of {@link PolicyResourceState} that the service accepts. */
+export enum KnownPolicyResourceState {
   /** Creating */
   Creating = "Creating",
   /** Enabling */
@@ -1317,8 +1674,8 @@ export enum KnownNetworkExperimentResourceState {
 }
 
 /**
- * Defines values for NetworkExperimentResourceState. \
- * {@link KnownNetworkExperimentResourceState} can be used interchangeably with NetworkExperimentResourceState,
+ * Defines values for PolicyResourceState. \
+ * {@link KnownPolicyResourceState} can be used interchangeably with PolicyResourceState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Creating** \
@@ -1328,130 +1685,28 @@ export enum KnownNetworkExperimentResourceState {
  * **Disabled** \
  * **Deleting**
  */
-export type NetworkExperimentResourceState = string;
+export type PolicyResourceState = string;
 
-/** Known values of {@link State} that the service accepts. */
-export enum KnownState {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
+/** Known values of {@link SkuName} that the service accepts. */
+export enum KnownSkuName {
+  /** ClassicAzureFrontDoor */
+  ClassicAzureFrontDoor = "Classic_AzureFrontDoor",
+  /** StandardAzureFrontDoor */
+  StandardAzureFrontDoor = "Standard_AzureFrontDoor",
+  /** PremiumAzureFrontDoor */
+  PremiumAzureFrontDoor = "Premium_AzureFrontDoor"
 }
 
 /**
- * Defines values for State. \
- * {@link KnownState} can be used interchangeably with State,
+ * Defines values for SkuName. \
+ * {@link KnownSkuName} can be used interchangeably with SkuName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Classic_AzureFrontDoor** \
+ * **Standard_AzureFrontDoor** \
+ * **Premium_AzureFrontDoor**
  */
-export type State = string;
-
-/** Known values of {@link EndpointType} that the service accepts. */
-export enum KnownEndpointType {
-  /** AFD */
-  AFD = "AFD",
-  /** AzureRegion */
-  AzureRegion = "AzureRegion",
-  /** CDN */
-  CDN = "CDN",
-  /** ATM */
-  ATM = "ATM"
-}
-
-/**
- * Defines values for EndpointType. \
- * {@link KnownEndpointType} can be used interchangeably with EndpointType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AFD** \
- * **AzureRegion** \
- * **CDN** \
- * **ATM**
- */
-export type EndpointType = string;
-
-/** Known values of {@link LatencyScorecardAggregationInterval} that the service accepts. */
-export enum KnownLatencyScorecardAggregationInterval {
-  /** Daily */
-  Daily = "Daily",
-  /** Weekly */
-  Weekly = "Weekly",
-  /** Monthly */
-  Monthly = "Monthly"
-}
-
-/**
- * Defines values for LatencyScorecardAggregationInterval. \
- * {@link KnownLatencyScorecardAggregationInterval} can be used interchangeably with LatencyScorecardAggregationInterval,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Daily** \
- * **Weekly** \
- * **Monthly**
- */
-export type LatencyScorecardAggregationInterval = string;
-
-/** Known values of {@link TimeseriesAggregationInterval} that the service accepts. */
-export enum KnownTimeseriesAggregationInterval {
-  /** Hourly */
-  Hourly = "Hourly",
-  /** Daily */
-  Daily = "Daily"
-}
-
-/**
- * Defines values for TimeseriesAggregationInterval. \
- * {@link KnownTimeseriesAggregationInterval} can be used interchangeably with TimeseriesAggregationInterval,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Hourly** \
- * **Daily**
- */
-export type TimeseriesAggregationInterval = string;
-
-/** Known values of {@link TimeseriesType} that the service accepts. */
-export enum KnownTimeseriesType {
-  /** MeasurementCounts */
-  MeasurementCounts = "MeasurementCounts",
-  /** LatencyP50 */
-  LatencyP50 = "LatencyP50",
-  /** LatencyP75 */
-  LatencyP75 = "LatencyP75",
-  /** LatencyP95 */
-  LatencyP95 = "LatencyP95"
-}
-
-/**
- * Defines values for TimeseriesType. \
- * {@link KnownTimeseriesType} can be used interchangeably with TimeseriesType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **MeasurementCounts** \
- * **LatencyP50** \
- * **LatencyP75** \
- * **LatencyP95**
- */
-export type TimeseriesType = string;
-
-/** Known values of {@link AggregationInterval} that the service accepts. */
-export enum KnownAggregationInterval {
-  /** Hourly */
-  Hourly = "Hourly",
-  /** Daily */
-  Daily = "Daily"
-}
-
-/**
- * Defines values for AggregationInterval. \
- * {@link KnownAggregationInterval} can be used interchangeably with AggregationInterval,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Hourly** \
- * **Daily**
- */
-export type AggregationInterval = string;
+export type SkuName = string;
 
 /** Known values of {@link Availability} that the service accepts. */
 export enum KnownAvailability {
@@ -1484,7 +1739,11 @@ export enum KnownFrontDoorResourceState {
   /** Disabled */
   Disabled = "Disabled",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
+  /** Migrating */
+  Migrating = "Migrating",
+  /** Migrated */
+  Migrated = "Migrated"
 }
 
 /**
@@ -1497,7 +1756,9 @@ export enum KnownFrontDoorResourceState {
  * **Enabled** \
  * **Disabling** \
  * **Disabled** \
- * **Deleting**
+ * **Deleting** \
+ * **Migrating** \
+ * **Migrated**
  */
 export type FrontDoorResourceState = string;
 
@@ -1969,332 +2230,8 @@ export enum KnownFrontDoorEnabledState {
  */
 export type FrontDoorEnabledState = string;
 
-/** Known values of {@link PolicyEnabledState} that the service accepts. */
-export enum KnownPolicyEnabledState {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled"
-}
-
-/**
- * Defines values for PolicyEnabledState. \
- * {@link KnownPolicyEnabledState} can be used interchangeably with PolicyEnabledState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled** \
- * **Enabled**
- */
-export type PolicyEnabledState = string;
-
-/** Known values of {@link PolicyMode} that the service accepts. */
-export enum KnownPolicyMode {
-  /** Prevention */
-  Prevention = "Prevention",
-  /** Detection */
-  Detection = "Detection"
-}
-
-/**
- * Defines values for PolicyMode. \
- * {@link KnownPolicyMode} can be used interchangeably with PolicyMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Prevention** \
- * **Detection**
- */
-export type PolicyMode = string;
-
-/** Known values of {@link PolicyRequestBodyCheck} that the service accepts. */
-export enum KnownPolicyRequestBodyCheck {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled"
-}
-
-/**
- * Defines values for PolicyRequestBodyCheck. \
- * {@link KnownPolicyRequestBodyCheck} can be used interchangeably with PolicyRequestBodyCheck,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled** \
- * **Enabled**
- */
-export type PolicyRequestBodyCheck = string;
-
-/** Known values of {@link CustomRuleEnabledState} that the service accepts. */
-export enum KnownCustomRuleEnabledState {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled"
-}
-
-/**
- * Defines values for CustomRuleEnabledState. \
- * {@link KnownCustomRuleEnabledState} can be used interchangeably with CustomRuleEnabledState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled** \
- * **Enabled**
- */
-export type CustomRuleEnabledState = string;
-
-/** Known values of {@link RuleType} that the service accepts. */
-export enum KnownRuleType {
-  /** MatchRule */
-  MatchRule = "MatchRule",
-  /** RateLimitRule */
-  RateLimitRule = "RateLimitRule"
-}
-
-/**
- * Defines values for RuleType. \
- * {@link KnownRuleType} can be used interchangeably with RuleType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **MatchRule** \
- * **RateLimitRule**
- */
-export type RuleType = string;
-
-/** Known values of {@link MatchVariable} that the service accepts. */
-export enum KnownMatchVariable {
-  /** RemoteAddr */
-  RemoteAddr = "RemoteAddr",
-  /** RequestMethod */
-  RequestMethod = "RequestMethod",
-  /** QueryString */
-  QueryString = "QueryString",
-  /** PostArgs */
-  PostArgs = "PostArgs",
-  /** RequestUri */
-  RequestUri = "RequestUri",
-  /** RequestHeader */
-  RequestHeader = "RequestHeader",
-  /** RequestBody */
-  RequestBody = "RequestBody",
-  /** Cookies */
-  Cookies = "Cookies",
-  /** SocketAddr */
-  SocketAddr = "SocketAddr"
-}
-
-/**
- * Defines values for MatchVariable. \
- * {@link KnownMatchVariable} can be used interchangeably with MatchVariable,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **RemoteAddr** \
- * **RequestMethod** \
- * **QueryString** \
- * **PostArgs** \
- * **RequestUri** \
- * **RequestHeader** \
- * **RequestBody** \
- * **Cookies** \
- * **SocketAddr**
- */
-export type MatchVariable = string;
-
-/** Known values of {@link Operator} that the service accepts. */
-export enum KnownOperator {
-  /** Any */
-  Any = "Any",
-  /** IPMatch */
-  IPMatch = "IPMatch",
-  /** GeoMatch */
-  GeoMatch = "GeoMatch",
-  /** Equal */
-  Equal = "Equal",
-  /** Contains */
-  Contains = "Contains",
-  /** LessThan */
-  LessThan = "LessThan",
-  /** GreaterThan */
-  GreaterThan = "GreaterThan",
-  /** LessThanOrEqual */
-  LessThanOrEqual = "LessThanOrEqual",
-  /** GreaterThanOrEqual */
-  GreaterThanOrEqual = "GreaterThanOrEqual",
-  /** BeginsWith */
-  BeginsWith = "BeginsWith",
-  /** EndsWith */
-  EndsWith = "EndsWith",
-  /** RegEx */
-  RegEx = "RegEx"
-}
-
-/**
- * Defines values for Operator. \
- * {@link KnownOperator} can be used interchangeably with Operator,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Any** \
- * **IPMatch** \
- * **GeoMatch** \
- * **Equal** \
- * **Contains** \
- * **LessThan** \
- * **GreaterThan** \
- * **LessThanOrEqual** \
- * **GreaterThanOrEqual** \
- * **BeginsWith** \
- * **EndsWith** \
- * **RegEx**
- */
-export type Operator = string;
-
-/** Known values of {@link TransformType} that the service accepts. */
-export enum KnownTransformType {
-  /** Lowercase */
-  Lowercase = "Lowercase",
-  /** Uppercase */
-  Uppercase = "Uppercase",
-  /** Trim */
-  Trim = "Trim",
-  /** UrlDecode */
-  UrlDecode = "UrlDecode",
-  /** UrlEncode */
-  UrlEncode = "UrlEncode",
-  /** RemoveNulls */
-  RemoveNulls = "RemoveNulls"
-}
-
-/**
- * Defines values for TransformType. \
- * {@link KnownTransformType} can be used interchangeably with TransformType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Lowercase** \
- * **Uppercase** \
- * **Trim** \
- * **UrlDecode** \
- * **UrlEncode** \
- * **RemoveNulls**
- */
-export type TransformType = string;
-
-/** Known values of {@link ActionType} that the service accepts. */
-export enum KnownActionType {
-  /** Allow */
-  Allow = "Allow",
-  /** Block */
-  Block = "Block",
-  /** Log */
-  Log = "Log",
-  /** Redirect */
-  Redirect = "Redirect"
-}
-
-/**
- * Defines values for ActionType. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Allow** \
- * **Block** \
- * **Log** \
- * **Redirect**
- */
-export type ActionType = string;
-
-/** Known values of {@link ManagedRuleSetActionType} that the service accepts. */
-export enum KnownManagedRuleSetActionType {
-  /** Block */
-  Block = "Block",
-  /** Log */
-  Log = "Log",
-  /** Redirect */
-  Redirect = "Redirect"
-}
-
-/**
- * Defines values for ManagedRuleSetActionType. \
- * {@link KnownManagedRuleSetActionType} can be used interchangeably with ManagedRuleSetActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Block** \
- * **Log** \
- * **Redirect**
- */
-export type ManagedRuleSetActionType = string;
-
-/** Known values of {@link ManagedRuleExclusionMatchVariable} that the service accepts. */
-export enum KnownManagedRuleExclusionMatchVariable {
-  /** RequestHeaderNames */
-  RequestHeaderNames = "RequestHeaderNames",
-  /** RequestCookieNames */
-  RequestCookieNames = "RequestCookieNames",
-  /** QueryStringArgNames */
-  QueryStringArgNames = "QueryStringArgNames",
-  /** RequestBodyPostArgNames */
-  RequestBodyPostArgNames = "RequestBodyPostArgNames",
-  /** RequestBodyJsonArgNames */
-  RequestBodyJsonArgNames = "RequestBodyJsonArgNames"
-}
-
-/**
- * Defines values for ManagedRuleExclusionMatchVariable. \
- * {@link KnownManagedRuleExclusionMatchVariable} can be used interchangeably with ManagedRuleExclusionMatchVariable,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **RequestHeaderNames** \
- * **RequestCookieNames** \
- * **QueryStringArgNames** \
- * **RequestBodyPostArgNames** \
- * **RequestBodyJsonArgNames**
- */
-export type ManagedRuleExclusionMatchVariable = string;
-
-/** Known values of {@link ManagedRuleExclusionSelectorMatchOperator} that the service accepts. */
-export enum KnownManagedRuleExclusionSelectorMatchOperator {
-  /** Equals */
-  Equals = "Equals",
-  /** Contains */
-  Contains = "Contains",
-  /** StartsWith */
-  StartsWith = "StartsWith",
-  /** EndsWith */
-  EndsWith = "EndsWith",
-  /** EqualsAny */
-  EqualsAny = "EqualsAny"
-}
-
-/**
- * Defines values for ManagedRuleExclusionSelectorMatchOperator. \
- * {@link KnownManagedRuleExclusionSelectorMatchOperator} can be used interchangeably with ManagedRuleExclusionSelectorMatchOperator,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Equals** \
- * **Contains** \
- * **StartsWith** \
- * **EndsWith** \
- * **EqualsAny**
- */
-export type ManagedRuleExclusionSelectorMatchOperator = string;
-
-/** Known values of {@link ManagedRuleEnabledState} that the service accepts. */
-export enum KnownManagedRuleEnabledState {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled"
-}
-
-/**
- * Defines values for ManagedRuleEnabledState. \
- * {@link KnownManagedRuleEnabledState} can be used interchangeably with ManagedRuleEnabledState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled** \
- * **Enabled**
- */
-export type ManagedRuleEnabledState = string;
-
-/** Known values of {@link PolicyResourceState} that the service accepts. */
-export enum KnownPolicyResourceState {
+/** Known values of {@link NetworkExperimentResourceState} that the service accepts. */
+export enum KnownNetworkExperimentResourceState {
   /** Creating */
   Creating = "Creating",
   /** Enabling */
@@ -2310,8 +2247,8 @@ export enum KnownPolicyResourceState {
 }
 
 /**
- * Defines values for PolicyResourceState. \
- * {@link KnownPolicyResourceState} can be used interchangeably with PolicyResourceState,
+ * Defines values for NetworkExperimentResourceState. \
+ * {@link KnownNetworkExperimentResourceState} can be used interchangeably with NetworkExperimentResourceState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Creating** \
@@ -2321,28 +2258,130 @@ export enum KnownPolicyResourceState {
  * **Disabled** \
  * **Deleting**
  */
-export type PolicyResourceState = string;
+export type NetworkExperimentResourceState = string;
 
-/** Known values of {@link SkuName} that the service accepts. */
-export enum KnownSkuName {
-  /** ClassicAzureFrontDoor */
-  ClassicAzureFrontDoor = "Classic_AzureFrontDoor",
-  /** StandardAzureFrontDoor */
-  StandardAzureFrontDoor = "Standard_AzureFrontDoor",
-  /** PremiumAzureFrontDoor */
-  PremiumAzureFrontDoor = "Premium_AzureFrontDoor"
+/** Known values of {@link State} that the service accepts. */
+export enum KnownState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
 }
 
 /**
- * Defines values for SkuName. \
- * {@link KnownSkuName} can be used interchangeably with SkuName,
+ * Defines values for State. \
+ * {@link KnownState} can be used interchangeably with State,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Classic_AzureFrontDoor** \
- * **Standard_AzureFrontDoor** \
- * **Premium_AzureFrontDoor**
+ * **Enabled** \
+ * **Disabled**
  */
-export type SkuName = string;
+export type State = string;
+
+/** Known values of {@link EndpointType} that the service accepts. */
+export enum KnownEndpointType {
+  /** AFD */
+  AFD = "AFD",
+  /** AzureRegion */
+  AzureRegion = "AzureRegion",
+  /** CDN */
+  CDN = "CDN",
+  /** ATM */
+  ATM = "ATM"
+}
+
+/**
+ * Defines values for EndpointType. \
+ * {@link KnownEndpointType} can be used interchangeably with EndpointType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AFD** \
+ * **AzureRegion** \
+ * **CDN** \
+ * **ATM**
+ */
+export type EndpointType = string;
+
+/** Known values of {@link LatencyScorecardAggregationInterval} that the service accepts. */
+export enum KnownLatencyScorecardAggregationInterval {
+  /** Daily */
+  Daily = "Daily",
+  /** Weekly */
+  Weekly = "Weekly",
+  /** Monthly */
+  Monthly = "Monthly"
+}
+
+/**
+ * Defines values for LatencyScorecardAggregationInterval. \
+ * {@link KnownLatencyScorecardAggregationInterval} can be used interchangeably with LatencyScorecardAggregationInterval,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Daily** \
+ * **Weekly** \
+ * **Monthly**
+ */
+export type LatencyScorecardAggregationInterval = string;
+
+/** Known values of {@link TimeseriesAggregationInterval} that the service accepts. */
+export enum KnownTimeseriesAggregationInterval {
+  /** Hourly */
+  Hourly = "Hourly",
+  /** Daily */
+  Daily = "Daily"
+}
+
+/**
+ * Defines values for TimeseriesAggregationInterval. \
+ * {@link KnownTimeseriesAggregationInterval} can be used interchangeably with TimeseriesAggregationInterval,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Hourly** \
+ * **Daily**
+ */
+export type TimeseriesAggregationInterval = string;
+
+/** Known values of {@link TimeseriesType} that the service accepts. */
+export enum KnownTimeseriesType {
+  /** MeasurementCounts */
+  MeasurementCounts = "MeasurementCounts",
+  /** LatencyP50 */
+  LatencyP50 = "LatencyP50",
+  /** LatencyP75 */
+  LatencyP75 = "LatencyP75",
+  /** LatencyP95 */
+  LatencyP95 = "LatencyP95"
+}
+
+/**
+ * Defines values for TimeseriesType. \
+ * {@link KnownTimeseriesType} can be used interchangeably with TimeseriesType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MeasurementCounts** \
+ * **LatencyP50** \
+ * **LatencyP75** \
+ * **LatencyP95**
+ */
+export type TimeseriesType = string;
+
+/** Known values of {@link AggregationInterval} that the service accepts. */
+export enum KnownAggregationInterval {
+  /** Hourly */
+  Hourly = "Hourly",
+  /** Daily */
+  Daily = "Daily"
+}
+
+/**
+ * Defines values for AggregationInterval. \
+ * {@link KnownAggregationInterval} can be used interchangeably with AggregationInterval,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Hourly** \
+ * **Daily**
+ */
+export type AggregationInterval = string;
 
 /** Known values of {@link NetworkOperationStatus} that the service accepts. */
 export enum KnownNetworkOperationStatus {
@@ -2478,28 +2517,28 @@ export type ResourceType =
   | "Microsoft.Network/frontDoors/frontendEndpoints";
 
 /** Optional parameters. */
-export interface NetworkExperimentProfilesListOptionalParams
+export interface PoliciesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type NetworkExperimentProfilesListResponse = ProfileList;
+export type PoliciesListResponse = WebApplicationFirewallPolicyList;
 
 /** Optional parameters. */
-export interface NetworkExperimentProfilesListByResourceGroupOptionalParams
+export interface PoliciesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByResourceGroup operation. */
-export type NetworkExperimentProfilesListByResourceGroupResponse = ProfileList;
+/** Contains response data for the listBySubscription operation. */
+export type PoliciesListBySubscriptionResponse = WebApplicationFirewallPolicyList;
 
 /** Optional parameters. */
-export interface NetworkExperimentProfilesGetOptionalParams
+export interface PoliciesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type NetworkExperimentProfilesGetResponse = Profile;
+export type PoliciesGetResponse = WebApplicationFirewallPolicy;
 
 /** Optional parameters. */
-export interface NetworkExperimentProfilesCreateOrUpdateOptionalParams
+export interface PoliciesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -2508,10 +2547,10 @@ export interface NetworkExperimentProfilesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type NetworkExperimentProfilesCreateOrUpdateResponse = Profile;
+export type PoliciesCreateOrUpdateResponse = WebApplicationFirewallPolicy;
 
 /** Optional parameters. */
-export interface NetworkExperimentProfilesUpdateOptionalParams
+export interface PoliciesUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -2520,10 +2559,10 @@ export interface NetworkExperimentProfilesUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type NetworkExperimentProfilesUpdateResponse = Profile;
+export type PoliciesUpdateResponse = WebApplicationFirewallPolicy;
 
 /** Optional parameters. */
-export interface NetworkExperimentProfilesDeleteOptionalParams
+export interface PoliciesDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -2532,110 +2571,32 @@ export interface NetworkExperimentProfilesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface NetworkExperimentProfilesListNextOptionalParams
+export interface PoliciesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type NetworkExperimentProfilesListNextResponse = ProfileList;
+export type PoliciesListNextResponse = WebApplicationFirewallPolicyList;
 
 /** Optional parameters. */
-export interface NetworkExperimentProfilesListByResourceGroupNextOptionalParams
+export interface PoliciesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByResourceGroupNext operation. */
-export type NetworkExperimentProfilesListByResourceGroupNextResponse = ProfileList;
+/** Contains response data for the listBySubscriptionNext operation. */
+export type PoliciesListBySubscriptionNextResponse = WebApplicationFirewallPolicyList;
 
 /** Optional parameters. */
-export interface PreconfiguredEndpointsListOptionalParams
+export interface ManagedRuleSetsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PreconfiguredEndpointsListResponse = PreconfiguredEndpointList;
+export type ManagedRuleSetsListResponse = ManagedRuleSetDefinitionList;
 
 /** Optional parameters. */
-export interface PreconfiguredEndpointsListNextOptionalParams
+export interface ManagedRuleSetsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PreconfiguredEndpointsListNextResponse = PreconfiguredEndpointList;
-
-/** Optional parameters. */
-export interface ExperimentsListByProfileOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByProfile operation. */
-export type ExperimentsListByProfileResponse = ExperimentList;
-
-/** Optional parameters. */
-export interface ExperimentsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ExperimentsGetResponse = Experiment;
-
-/** Optional parameters. */
-export interface ExperimentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ExperimentsCreateOrUpdateResponse = Experiment;
-
-/** Optional parameters. */
-export interface ExperimentsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type ExperimentsUpdateResponse = Experiment;
-
-/** Optional parameters. */
-export interface ExperimentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ExperimentsListByProfileNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByProfileNext operation. */
-export type ExperimentsListByProfileNextResponse = ExperimentList;
-
-/** Optional parameters. */
-export interface ReportsGetLatencyScorecardsOptionalParams
-  extends coreClient.OperationOptions {
-  /** The end DateTime of the Latency Scorecard in UTC */
-  endDateTimeUTC?: string;
-  /** The country associated with the Latency Scorecard. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
-  country?: string;
-}
-
-/** Contains response data for the getLatencyScorecards operation. */
-export type ReportsGetLatencyScorecardsResponse = LatencyScorecard;
-
-/** Optional parameters. */
-export interface ReportsGetTimeseriesOptionalParams
-  extends coreClient.OperationOptions {
-  /** The country associated with the Timeseries. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
-  country?: string;
-  /** The specific endpoint */
-  endpoint?: string;
-}
-
-/** Contains response data for the getTimeseries operation. */
-export type ReportsGetTimeseriesResponse = Timeseries;
+export type ManagedRuleSetsListNextResponse = ManagedRuleSetDefinitionList;
 
 /** Optional parameters. */
 export interface FrontDoorNameAvailabilityCheckOptionalParams
@@ -2805,21 +2766,28 @@ export interface RulesEnginesListByFrontDoorNextOptionalParams
 export type RulesEnginesListByFrontDoorNextResponse = RulesEngineListResult;
 
 /** Optional parameters. */
-export interface PoliciesListOptionalParams
+export interface NetworkExperimentProfilesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PoliciesListResponse = WebApplicationFirewallPolicyList;
+export type NetworkExperimentProfilesListResponse = ProfileList;
 
 /** Optional parameters. */
-export interface PoliciesGetOptionalParams
+export interface NetworkExperimentProfilesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type NetworkExperimentProfilesListByResourceGroupResponse = ProfileList;
+
+/** Optional parameters. */
+export interface NetworkExperimentProfilesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PoliciesGetResponse = WebApplicationFirewallPolicy;
+export type NetworkExperimentProfilesGetResponse = Profile;
 
 /** Optional parameters. */
-export interface PoliciesCreateOrUpdateOptionalParams
+export interface NetworkExperimentProfilesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -2828,10 +2796,22 @@ export interface PoliciesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PoliciesCreateOrUpdateResponse = WebApplicationFirewallPolicy;
+export type NetworkExperimentProfilesCreateOrUpdateResponse = Profile;
 
 /** Optional parameters. */
-export interface PoliciesDeleteOptionalParams
+export interface NetworkExperimentProfilesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type NetworkExperimentProfilesUpdateResponse = Profile;
+
+/** Optional parameters. */
+export interface NetworkExperimentProfilesDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -2840,25 +2820,110 @@ export interface PoliciesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface PoliciesListNextOptionalParams
+export interface NetworkExperimentProfilesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PoliciesListNextResponse = WebApplicationFirewallPolicyList;
+export type NetworkExperimentProfilesListNextResponse = ProfileList;
 
 /** Optional parameters. */
-export interface ManagedRuleSetsListOptionalParams
+export interface NetworkExperimentProfilesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type NetworkExperimentProfilesListByResourceGroupNextResponse = ProfileList;
+
+/** Optional parameters. */
+export interface PreconfiguredEndpointsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ManagedRuleSetsListResponse = ManagedRuleSetDefinitionList;
+export type PreconfiguredEndpointsListResponse = PreconfiguredEndpointList;
 
 /** Optional parameters. */
-export interface ManagedRuleSetsListNextOptionalParams
+export interface PreconfiguredEndpointsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ManagedRuleSetsListNextResponse = ManagedRuleSetDefinitionList;
+export type PreconfiguredEndpointsListNextResponse = PreconfiguredEndpointList;
+
+/** Optional parameters. */
+export interface ExperimentsListByProfileOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByProfile operation. */
+export type ExperimentsListByProfileResponse = ExperimentList;
+
+/** Optional parameters. */
+export interface ExperimentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ExperimentsGetResponse = Experiment;
+
+/** Optional parameters. */
+export interface ExperimentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ExperimentsCreateOrUpdateResponse = Experiment;
+
+/** Optional parameters. */
+export interface ExperimentsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ExperimentsUpdateResponse = Experiment;
+
+/** Optional parameters. */
+export interface ExperimentsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ExperimentsListByProfileNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByProfileNext operation. */
+export type ExperimentsListByProfileNextResponse = ExperimentList;
+
+/** Optional parameters. */
+export interface ReportsGetLatencyScorecardsOptionalParams
+  extends coreClient.OperationOptions {
+  /** The end DateTime of the Latency Scorecard in UTC */
+  endDateTimeUTC?: string;
+  /** The country associated with the Latency Scorecard. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
+  country?: string;
+}
+
+/** Contains response data for the getLatencyScorecards operation. */
+export type ReportsGetLatencyScorecardsResponse = LatencyScorecard;
+
+/** Optional parameters. */
+export interface ReportsGetTimeseriesOptionalParams
+  extends coreClient.OperationOptions {
+  /** The country associated with the Timeseries. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
+  country?: string;
+  /** The specific endpoint */
+  endpoint?: string;
+}
+
+/** Contains response data for the getTimeseries operation. */
+export type ReportsGetTimeseriesResponse = Timeseries;
 
 /** Optional parameters. */
 export interface FrontDoorManagementClientOptionalParams

@@ -27,7 +27,6 @@ import {
   expectation18,
   expectation19,
   expectation20,
-  expectation21,
   expectation22,
   expectation23,
   expectation24,
@@ -43,24 +42,14 @@ import {
   expectation9,
   expectation30,
   expectation31,
-  expectation71,
 } from "./expectations";
-import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
-
-const FIXME1 = {
-  // FIXME: remove this check when the service updates its message
-  excludedAdditionalProps: ["message"],
-};
-
-const FIXME2 = {
-  // FIXME: remove this check when the service returns warnings in document results, see https://dev.azure.com/msazure/Cognitive%20Services/_workitems/edit/15772270
-  excludedAdditionalProps: ["warnings"],
-};
+import { authModes, windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
 
 const excludedSummarizationProperties = {
   excludedAdditionalProps: ["text", "rankScore", "offset", "length"],
 };
-matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
+
+matrix(authModes, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalysisClient;
@@ -382,7 +371,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation30, {
-              ...FIXME2,
               ...excludedSummarizationProperties,
             });
           });
@@ -403,7 +391,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation31, {
-              ...FIXME2,
               ...excludedSummarizationProperties,
             });
           });
@@ -538,28 +525,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
           });
-
-          // TODO: Unskip when hear back from service team on 'DocumentTruncated' warning
-          it.skip("big document causes a warning", async function () {
-            let text = "";
-            for (let i = 0; i < 5121; ++i) {
-              text = text + "x";
-            }
-            const docs = [text];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.Healthcare,
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation21, FIXME1);
-          });
         });
 
         it("unique multiple actions per type are allowed", async function () {
@@ -615,7 +580,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionsResults(await poller.pollUntilDone(), expectation10, FIXME1);
+          await assertActionsResults(await poller.pollUntilDone(), expectation10);
         });
 
         it("all documents with errors and multiple actions", async function () {
@@ -649,7 +614,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionsResults(await poller.pollUntilDone(), expectation11, FIXME1);
+          await assertActionsResults(await poller.pollUntilDone(), expectation11);
         });
 
         it("output order is same as the input's one with multiple actions", async function () {
@@ -804,43 +769,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation15);
         });
 
-        // TODO: Unskip when hear back from service team on 'isLanguageDefaulted' property
-        it.skip("whole batch input with auto language detection", async function () {
-          const docs = [
-            "I will go to the park.",
-            "Este es un document escrito en Español.",
-            "猫は幸せ",
-          ];
-          const poller = await client.beginAnalyzeBatch(
-            [
-              {
-                kind: AnalyzeBatchActionNames.EntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.PiiEntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.SentimentAnalysis,
-              },
-              {
-                kind: AnalyzeBatchActionNames.KeyPhraseExtraction,
-              },
-              {
-                kind: AnalyzeBatchActionNames.EntityLinking,
-              },
-              {
-                kind: AnalyzeBatchActionNames.Healthcare,
-              },
-            ],
-            docs,
-            "auto",
-            {
-              updateIntervalInMs: pollingInterval,
-            }
-          );
-          await assertActionsResults(await poller.pollUntilDone(), expectation71);
-        });
-
         it("invalid language hint", async function () {
           const docs = ["This should fail because we're passing in an invalid language hint"];
           const poller = await client.beginAnalyzeBatch(
@@ -861,7 +789,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionsResults(await poller.pollUntilDone(), expectation16, FIXME1);
+          await assertActionsResults(await poller.pollUntilDone(), expectation16);
         });
 
         it("paged results with custom page size", async function () {
@@ -1005,7 +933,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         });
 
         describe("stringIndexType", function () {
-          it("family emoji wit skin tone modifier", async function () {
+          it("family emoji with skin tone modifier", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987"];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -1023,7 +951,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation18);
           });
 
-          it("family emoji wit skin tone modifier with Utf16CodeUnit", async function () {
+          it("family emoji with skin tone modifier with Utf16CodeUnit", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -1041,7 +969,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation22);
           });
 
-          it("family emoji wit skin tone modifier with UnicodeCodePoint", async function () {
+          it("family emoji with skin tone modifier with UnicodeCodePoint", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
             const poller = await client.beginAnalyzeBatch(
               [

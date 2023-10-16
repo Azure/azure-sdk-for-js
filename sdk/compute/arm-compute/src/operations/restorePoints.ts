@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   RestorePoint,
   RestorePointsCreateOptionalParams,
@@ -50,8 +54,8 @@ export class RestorePointsImpl implements RestorePoints {
     parameters: RestorePoint,
     options?: RestorePointsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RestorePointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<RestorePointsCreateResponse>,
       RestorePointsCreateResponse
     >
   > {
@@ -61,7 +65,7 @@ export class RestorePointsImpl implements RestorePoints {
     ): Promise<RestorePointsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -94,19 +98,22 @@ export class RestorePointsImpl implements RestorePoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         restorePointCollectionName,
         restorePointName,
         parameters,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RestorePointsCreateResponse,
+      OperationState<RestorePointsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -151,14 +158,14 @@ export class RestorePointsImpl implements RestorePoints {
     restorePointCollectionName: string,
     restorePointName: string,
     options?: RestorePointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -191,18 +198,18 @@ export class RestorePointsImpl implements RestorePoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         restorePointCollectionName,
         restorePointName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -328,7 +335,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand4],
+  queryParameters: [Parameters.apiVersion, Parameters.expand6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

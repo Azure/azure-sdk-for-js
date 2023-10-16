@@ -39,6 +39,9 @@ import {
   VolumesRevertOptionalParams,
   VolumesResetCifsPasswordOptionalParams,
   VolumesBreakFileLocksOptionalParams,
+  GetGroupIdListForLdapUserRequest,
+  VolumesListGetGroupIdListForLdapUserOptionalParams,
+  VolumesListGetGroupIdListForLdapUserResponse,
   VolumesBreakReplicationOptionalParams,
   ReestablishReplicationRequest,
   VolumesReestablishReplicationOptionalParams,
@@ -889,6 +892,119 @@ export class VolumesImpl implements Volumes {
       accountName,
       poolName,
       volumeName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Returns the list of group Ids for a specific LDAP User
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body Returns group Id list for a specific LDAP user
+   * @param options The options parameters.
+   */
+  async beginListGetGroupIdListForLdapUser(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: GetGroupIdListForLdapUserRequest,
+    options?: VolumesListGetGroupIdListForLdapUserOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesListGetGroupIdListForLdapUserResponse>,
+      VolumesListGetGroupIdListForLdapUserResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<VolumesListGetGroupIdListForLdapUserResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        body,
+        options
+      },
+      spec: listGetGroupIdListForLdapUserOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VolumesListGetGroupIdListForLdapUserResponse,
+      OperationState<VolumesListGetGroupIdListForLdapUserResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Returns the list of group Ids for a specific LDAP User
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body Returns group Id list for a specific LDAP user
+   * @param options The options parameters.
+   */
+  async beginListGetGroupIdListForLdapUserAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: GetGroupIdListForLdapUserRequest,
+    options?: VolumesListGetGroupIdListForLdapUserOptionalParams
+  ): Promise<VolumesListGetGroupIdListForLdapUserResponse> {
+    const poller = await this.beginListGetGroupIdListForLdapUser(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      body,
       options
     );
     return poller.pollUntilDone();
@@ -2112,12 +2228,47 @@ const breakFileLocksOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const listGetGroupIdListForLdapUserOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/getGroupIdListForLdapUser",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetGroupIdListForLdapUserResponse
+    },
+    201: {
+      bodyMapper: Mappers.GetGroupIdListForLdapUserResponse
+    },
+    202: {
+      bodyMapper: Mappers.GetGroupIdListForLdapUserResponse
+    },
+    204: {
+      bodyMapper: Mappers.GetGroupIdListForLdapUserResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body11,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const breakReplicationOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/breakReplication",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.body11,
+  requestBody: Parameters.body12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2136,7 +2287,7 @@ const reestablishReplicationOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/reestablishReplication",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.body12,
+  requestBody: Parameters.body13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2231,7 +2382,7 @@ const authorizeReplicationOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/authorizeReplication",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.body13,
+  requestBody: Parameters.body14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2266,7 +2417,7 @@ const poolChangeOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/poolChange",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.body14,
+  requestBody: Parameters.body15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2285,7 +2436,7 @@ const relocateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/relocate",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.body15,
+  requestBody: Parameters.body16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Share } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClientContext } from "../storageClientContext";
+import { StorageClient } from "../storageClient";
 import {
   ShareCreateOptionalParams,
   ShareCreateResponse,
@@ -48,15 +49,15 @@ import {
   ShareRestoreResponse
 } from "../models";
 
-/** Class representing a Share. */
-export class Share {
-  private readonly client: StorageClientContext;
+/** Class containing Share operations. */
+export class ShareImpl implements Share {
+  private readonly client: StorageClient;
 
   /**
    * Initialize a new instance of the class Share class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClientContext) {
+  constructor(client: StorageClient) {
     this.client = client;
   }
 
@@ -66,13 +67,7 @@ export class Share {
    * @param options The options parameters.
    */
   create(options?: ShareCreateOptionalParams): Promise<ShareCreateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      createOperationSpec
-    ) as Promise<ShareCreateResponse>;
+    return this.client.sendOperationRequest({ options }, createOperationSpec);
   }
 
   /**
@@ -83,13 +78,10 @@ export class Share {
   getProperties(
     options?: ShareGetPropertiesOptionalParams
   ): Promise<ShareGetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getPropertiesOperationSpec
-    ) as Promise<ShareGetPropertiesResponse>;
+    );
   }
 
   /**
@@ -98,13 +90,7 @@ export class Share {
    * @param options The options parameters.
    */
   delete(options?: ShareDeleteOptionalParams): Promise<ShareDeleteResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      deleteOperationSpec
-    ) as Promise<ShareDeleteResponse>;
+    return this.client.sendOperationRequest({ options }, deleteOperationSpec);
   }
 
   /**
@@ -115,13 +101,10 @@ export class Share {
   acquireLease(
     options?: ShareAcquireLeaseOptionalParams
   ): Promise<ShareAcquireLeaseResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       acquireLeaseOperationSpec
-    ) as Promise<ShareAcquireLeaseResponse>;
+    );
   }
 
   /**
@@ -134,14 +117,10 @@ export class Share {
     leaseId: string,
     options?: ShareReleaseLeaseOptionalParams
   ): Promise<ShareReleaseLeaseResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      leaseId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { leaseId, options },
       releaseLeaseOperationSpec
-    ) as Promise<ShareReleaseLeaseResponse>;
+    );
   }
 
   /**
@@ -154,14 +133,10 @@ export class Share {
     leaseId: string,
     options?: ShareChangeLeaseOptionalParams
   ): Promise<ShareChangeLeaseResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      leaseId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { leaseId, options },
       changeLeaseOperationSpec
-    ) as Promise<ShareChangeLeaseResponse>;
+    );
   }
 
   /**
@@ -174,14 +149,10 @@ export class Share {
     leaseId: string,
     options?: ShareRenewLeaseOptionalParams
   ): Promise<ShareRenewLeaseResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      leaseId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { leaseId, options },
       renewLeaseOperationSpec
-    ) as Promise<ShareRenewLeaseResponse>;
+    );
   }
 
   /**
@@ -192,13 +163,10 @@ export class Share {
   breakLease(
     options?: ShareBreakLeaseOptionalParams
   ): Promise<ShareBreakLeaseResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       breakLeaseOperationSpec
-    ) as Promise<ShareBreakLeaseResponse>;
+    );
   }
 
   /**
@@ -208,13 +176,10 @@ export class Share {
   createSnapshot(
     options?: ShareCreateSnapshotOptionalParams
   ): Promise<ShareCreateSnapshotResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       createSnapshotOperationSpec
-    ) as Promise<ShareCreateSnapshotResponse>;
+    );
   }
 
   /**
@@ -226,14 +191,10 @@ export class Share {
     sharePermission: SharePermission,
     options?: ShareCreatePermissionOptionalParams
   ): Promise<ShareCreatePermissionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      sharePermission,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { sharePermission, options },
       createPermissionOperationSpec
-    ) as Promise<ShareCreatePermissionResponse>;
+    );
   }
 
   /**
@@ -245,14 +206,10 @@ export class Share {
     filePermissionKey: string,
     options?: ShareGetPermissionOptionalParams
   ): Promise<ShareGetPermissionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      filePermissionKey,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { filePermissionKey, options },
       getPermissionOperationSpec
-    ) as Promise<ShareGetPermissionResponse>;
+    );
   }
 
   /**
@@ -262,13 +219,10 @@ export class Share {
   setProperties(
     options?: ShareSetPropertiesOptionalParams
   ): Promise<ShareSetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       setPropertiesOperationSpec
-    ) as Promise<ShareSetPropertiesResponse>;
+    );
   }
 
   /**
@@ -278,13 +232,10 @@ export class Share {
   setMetadata(
     options?: ShareSetMetadataOptionalParams
   ): Promise<ShareSetMetadataResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       setMetadataOperationSpec
-    ) as Promise<ShareSetMetadataResponse>;
+    );
   }
 
   /**
@@ -294,13 +245,10 @@ export class Share {
   getAccessPolicy(
     options?: ShareGetAccessPolicyOptionalParams
   ): Promise<ShareGetAccessPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getAccessPolicyOperationSpec
-    ) as Promise<ShareGetAccessPolicyResponse>;
+    );
   }
 
   /**
@@ -310,13 +258,10 @@ export class Share {
   setAccessPolicy(
     options?: ShareSetAccessPolicyOptionalParams
   ): Promise<ShareSetAccessPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       setAccessPolicyOperationSpec
-    ) as Promise<ShareSetAccessPolicyResponse>;
+    );
   }
 
   /**
@@ -326,13 +271,10 @@ export class Share {
   getStatistics(
     options?: ShareGetStatisticsOptionalParams
   ): Promise<ShareGetStatisticsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getStatisticsOperationSpec
-    ) as Promise<ShareGetStatisticsResponse>;
+    );
   }
 
   /**
@@ -340,21 +282,15 @@ export class Share {
    * @param options The options parameters.
    */
   restore(options?: ShareRestoreOptionalParams): Promise<ShareRestoreResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      restoreOperationSpec
-    ) as Promise<ShareRestoreResponse>;
+    return this.client.sendOperationRequest({ options }, restoreOperationSpec);
   }
 }
 // Operation Specifications
-const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
@@ -380,7 +316,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const getPropertiesOperationSpec: coreHttp.OperationSpec = {
+const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "GET",
   responses: {
@@ -406,7 +342,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "DELETE",
   responses: {
@@ -433,7 +369,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
+const acquireLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
@@ -463,7 +399,7 @@ const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
+const releaseLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
@@ -492,7 +428,7 @@ const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const changeLeaseOperationSpec: coreHttp.OperationSpec = {
+const changeLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
@@ -522,7 +458,7 @@ const changeLeaseOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const renewLeaseOperationSpec: coreHttp.OperationSpec = {
+const renewLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
@@ -551,7 +487,7 @@ const renewLeaseOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const breakLeaseOperationSpec: coreHttp.OperationSpec = {
+const breakLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
@@ -581,7 +517,7 @@ const breakLeaseOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const createSnapshotOperationSpec: coreHttp.OperationSpec = {
+const createSnapshotOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
@@ -607,7 +543,7 @@ const createSnapshotOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const createPermissionOperationSpec: coreHttp.OperationSpec = {
+const createPermissionOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
@@ -627,15 +563,15 @@ const createPermissionOperationSpec: coreHttp.OperationSpec = {
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.version
+    Parameters.version,
+    Parameters.accept1,
+    Parameters.contentType1,
+    Parameters.fileRequestIntent
   ],
-  isXML: false,
-  contentType: "application/xml; charset=utf-8",
-  serializer: xmlSerializer
+  mediaType: "json",
+  serializer
 };
-const getPermissionOperationSpec: coreHttp.OperationSpec = {
+const getPermissionOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "GET",
   responses: {
@@ -656,12 +592,13 @@ const getPermissionOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept2,
     Parameters.filePermissionKey
   ],
   serializer
 };
-const setPropertiesOperationSpec: coreHttp.OperationSpec = {
+const setPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
@@ -690,7 +627,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const setMetadataOperationSpec: coreHttp.OperationSpec = {
+const setMetadataOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
@@ -717,7 +654,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
+const getAccessPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "GET",
   responses: {
@@ -755,7 +692,7 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
+const setAccessPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
@@ -785,7 +722,7 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   mediaType: "xml",
   serializer: xmlSerializer
 };
-const getStatisticsOperationSpec: coreHttp.OperationSpec = {
+const getStatisticsOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "GET",
   responses: {
@@ -812,7 +749,7 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const restoreOperationSpec: coreHttp.OperationSpec = {
+const restoreOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {

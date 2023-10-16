@@ -9,11 +9,12 @@ import {
   EventHubProducerClient,
   OperationOptions,
 } from "./index";
-import { isDefined, isObjectWithProperties } from "@azure/core-util";
+import { isDefined, isObjectWithProperties, AbortOptions } from "@azure/core-util";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AwaitableQueue } from "./impl/awaitableQueue";
 import { getPromiseParts } from "./util/getPromiseParts";
 import { logger } from "./logger";
+import { cancelablePromiseRace } from "@azure/core-util";
 
 export interface BatchingPartitionChannelProps {
   loopAbortSignal: AbortSignalLike;
@@ -153,7 +154,6 @@ export class BatchingPartitionChannel {
    */
   private async _startPublishLoop() {
     let batch: EventDataBatch | undefined;
-    let futureEvent = this._eventQueue.shift();
     // `eventToAddToBatch` is used to keep track of an event that has been removed
     // from the queue, but has not yet been added to a batch.
     // This prevents losing an event if a `sendBatch` or `createBatch` call fails
@@ -171,7 +171,18 @@ export class BatchingPartitionChannel {
 
         const event =
           eventToAddToBatch ??
-          (await Promise.race([futureEvent, delay<void>(maximumTimeToWaitForEvent)]));
+          (await cancelablePromiseRace<[EventData | AmqpAnnotatedMessage, void]>(
+            [
+              (abortOptions: AbortOptions) => this._eventQueue.shift(abortOptions),
+              (abortOptions: AbortOptions) =>
+                delay<void>(
+                  maximumTimeToWaitForEvent,
+                  abortOptions.abortSignal,
+                  abortOptions.abortErrorMsg
+                ),
+            ],
+            { abortSignal: this._loopAbortSignal }
+          ));
 
         if (!event) {
           // We didn't receive an event within the allotted time.
@@ -184,8 +195,6 @@ export class BatchingPartitionChannel {
           continue;
         } else if (!eventToAddToBatch) {
           eventToAddToBatch = event;
-          // We received an event, so get a promise for the next one.
-          futureEvent = this._eventQueue.shift();
         }
 
         const didAdd = batch.tryAdd(event);

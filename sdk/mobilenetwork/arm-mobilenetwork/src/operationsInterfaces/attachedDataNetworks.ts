@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AttachedDataNetwork,
   AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams,
@@ -51,7 +51,7 @@ export interface AttachedDataNetworks {
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
     options?: AttachedDataNetworksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified attached data network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -100,8 +100,8 @@ export interface AttachedDataNetworks {
     parameters: AttachedDataNetwork,
     options?: AttachedDataNetworksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AttachedDataNetworksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AttachedDataNetworksCreateOrUpdateResponse>,
       AttachedDataNetworksCreateOrUpdateResponse
     >
   >;

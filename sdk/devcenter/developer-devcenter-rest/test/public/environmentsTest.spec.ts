@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert, expect } from "chai";
+import { Context } from "mocha";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import {
@@ -17,7 +18,10 @@ import {
   EnvironmentOutput,
 } from "../../src/index";
 
-describe("Deployment Environments Operations Tests", () => {
+const testPollingOptions = {
+  intervalInMs: isPlaybackMode() ? 0 : undefined,
+};
+describe("DevCenter Environments Operations Test", () => {
   let recorder: Recorder;
   let client: AzureDevCenterClient;
 
@@ -252,7 +256,7 @@ describe("Deployment Environments Operations Tests", () => {
       "Environment creation should return 201 created."
     );
 
-    const environmentCreatePoller = getLongRunningPoller(client, environmentCreateResponse);
+    const environmentCreatePoller = getLongRunningPoller(client, environmentCreateResponse, testPollingOptions);
     const environmentCreateResult = await environmentCreatePoller.pollUntilDone();
 
     if (isUnexpected(environmentCreateResult)) {
@@ -291,7 +295,7 @@ describe("Deployment Environments Operations Tests", () => {
       "Environment delete should return 202 accepted."
     );
 
-    const environmentDeletePoller = getLongRunningPoller(client, environmentDeleteResponse);
+    const environmentDeletePoller = getLongRunningPoller(client, environmentDeleteResponse, testPollingOptions);
     const environmentDeleteResult = await environmentDeletePoller.pollUntilDone();
 
     if (isUnexpected(environmentDeleteResult)) {

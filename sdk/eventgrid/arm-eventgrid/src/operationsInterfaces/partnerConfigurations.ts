@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PartnerConfiguration,
   PartnerConfigurationsListByResourceGroupOptionalParams,
@@ -66,8 +66,8 @@ export interface PartnerConfigurations {
     partnerConfigurationInfo: PartnerConfiguration,
     options?: PartnerConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PartnerConfigurationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PartnerConfigurationsCreateOrUpdateResponse>,
       PartnerConfigurationsCreateOrUpdateResponse
     >
   >;
@@ -90,7 +90,7 @@ export interface PartnerConfigurations {
   beginDelete(
     resourceGroupName: string,
     options?: PartnerConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete existing partner configuration.
    * @param resourceGroupName The name of the resource group within the user's subscription.
@@ -111,8 +111,8 @@ export interface PartnerConfigurations {
     partnerConfigurationUpdateParameters: PartnerConfigurationUpdateParameters,
     options?: PartnerConfigurationsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PartnerConfigurationsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PartnerConfigurationsUpdateResponse>,
       PartnerConfigurationsUpdateResponse
     >
   >;

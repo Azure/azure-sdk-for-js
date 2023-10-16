@@ -243,6 +243,30 @@ describe("DataLakeFileSystemClient", () => {
     await dirClient.delete();
   });
 
+  it("listPaths - Encryption context", async function (this: Context) {
+    const encryptionContext = "EncryptionContext";
+
+    const cClient = serviceClient.getFileSystemClient(
+      recorder.variable(fileSystemName, getUniqueName(fileSystemName))
+    );
+    await cClient.create();
+
+    const fileClient = cClient.getFileClient(recorder.variable(`file`, getUniqueName(`file`)));
+    await fileClient.create({ encryptionContext: encryptionContext });
+
+    const dirClient = cClient.getFileClient(recorder.variable(`dir`, getUniqueName(`dir`)));
+    await dirClient.create({ encryptionContext: encryptionContext });
+
+    const result = (await cClient.listPaths().byPage().next()).value as FileSystemListPathsResponse;
+
+    assert.equal(result.pathItems!.length, 2);
+    assert.equal(result.pathItems![0].encryptionContext, encryptionContext);
+    assert.equal(result.pathItems![1].encryptionContext, encryptionContext);
+
+    await fileClient.delete();
+    await dirClient.delete();
+  });
+
   it("listPaths - PagedAsyncIterableIterator with Encryption Scope", async function (this: Context) {
     let encryptionScopeName;
     try {
@@ -1020,6 +1044,43 @@ describe("DataLakeFileSystemClient with soft delete", () => {
 
     const directoryUndeleteResponse = await fileSystemClient.undeletePath(
       directoryName,
+      directoryDeleteResponse.deletionId ?? ""
+    );
+
+    assert.ok(directoryUndeleteResponse.pathClient instanceof DataLakeDirectoryClient);
+
+    assert.ok(await directoryUndeleteResponse.pathClient.exists());
+    await directoryUndeleteResponse.pathClient.delete();
+  });
+
+  it("Undelete file and directory - with directory dots", async () => {
+    const fileBaseName = recorder.variable("file", getUniqueName(`file`));
+    const fileClient = fileSystemClient.getFileClient(fileBaseName);
+    await fileClient.create();
+    const fileDeleteResponse = await fileClient.delete();
+    assert.ok(fileDeleteResponse.deletionId);
+
+    const fileNameWithDirDots = "./adir/.././anotherdir/./../" + fileBaseName;
+
+    const fileundeleteResponse = await fileSystemClient.undeletePath(
+      fileNameWithDirDots,
+      fileDeleteResponse.deletionId ?? ""
+    );
+
+    assert.ok(fileundeleteResponse.pathClient instanceof DataLakeFileClient);
+
+    assert.ok(await fileundeleteResponse.pathClient.exists());
+    await fileundeleteResponse.pathClient.delete();
+
+    const directoryBaseName = recorder.variable("directory", getUniqueName(`directory`));
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryBaseName);
+    await directoryClient.create();
+    const directoryDeleteResponse = await directoryClient.delete();
+    assert.ok(directoryDeleteResponse.deletionId);
+
+    const directoryNameWithDirDots = "./adir/.././anotherdir/./../" + directoryBaseName;
+    const directoryUndeleteResponse = await fileSystemClient.undeletePath(
+      directoryNameWithDirDots,
       directoryDeleteResponse.deletionId ?? ""
     );
 

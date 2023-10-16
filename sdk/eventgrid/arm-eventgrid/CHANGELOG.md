@@ -1,6 +1,6 @@
 # Release History
 
-## 14.1.1 (Unreleased)
+## 14.2.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,322 @@
 
 ### Other Changes
 
+## 14.2.0-beta.1 (2023-05-18)
+    
+**Features**
+
+  - Added operation group CaCertificates
+  - Added operation group ClientGroups
+  - Added operation group Clients
+  - Added operation group Namespaces
+  - Added operation group NamespaceTopicEventSubscriptions
+  - Added operation group NamespaceTopics
+  - Added operation group PartnerDestinations
+  - Added operation group PermissionBindings
+  - Added operation group TopicSpaces
+  - Added Interface AzureADPartnerClientAuthentication
+  - Added Interface BoolEqualsFilter
+  - Added Interface CaCertificate
+  - Added Interface CaCertificatesCreateOrUpdateOptionalParams
+  - Added Interface CaCertificatesDeleteHeaders
+  - Added Interface CaCertificatesDeleteOptionalParams
+  - Added Interface CaCertificatesGetOptionalParams
+  - Added Interface CaCertificatesListByNamespaceNextOptionalParams
+  - Added Interface CaCertificatesListByNamespaceOptionalParams
+  - Added Interface CaCertificatesListResult
+  - Added Interface ChannelsDeleteHeaders
+  - Added Interface Client
+  - Added Interface ClientAuthentication
+  - Added Interface ClientAuthenticationSettings
+  - Added Interface ClientCertificateAuthentication
+  - Added Interface ClientCertificateSubjectDistinguishedName
+  - Added Interface ClientCertificateThumbprint
+  - Added Interface ClientGroup
+  - Added Interface ClientGroupsCreateOrUpdateOptionalParams
+  - Added Interface ClientGroupsDeleteHeaders
+  - Added Interface ClientGroupsDeleteOptionalParams
+  - Added Interface ClientGroupsGetOptionalParams
+  - Added Interface ClientGroupsListByNamespaceNextOptionalParams
+  - Added Interface ClientGroupsListByNamespaceOptionalParams
+  - Added Interface ClientGroupsListResult
+  - Added Interface ClientsCreateOrUpdateOptionalParams
+  - Added Interface ClientsDeleteHeaders
+  - Added Interface ClientsDeleteOptionalParams
+  - Added Interface ClientsGetOptionalParams
+  - Added Interface ClientsListByNamespaceNextOptionalParams
+  - Added Interface ClientsListByNamespaceOptionalParams
+  - Added Interface ClientsListResult
+  - Added Interface DeliveryConfiguration
+  - Added Interface DomainEventSubscriptionsDeleteHeaders
+  - Added Interface DomainsDeleteHeaders
+  - Added Interface DomainTopicEventSubscriptionsDeleteHeaders
+  - Added Interface DomainTopicsDeleteHeaders
+  - Added Interface DynamicRoutingEnrichment
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface EventSubscriptionsDeleteHeaders
+  - Added Interface ExtendedLocation
+  - Added Interface Filter
+  - Added Interface FiltersConfiguration
+  - Added Interface IsNotNullFilter
+  - Added Interface IsNullOrUndefinedFilter
+  - Added Interface Namespace
+  - Added Interface NamespaceRegenerateKeyRequest
+  - Added Interface NamespacesCreateOrUpdateOptionalParams
+  - Added Interface NamespacesDeleteHeaders
+  - Added Interface NamespacesDeleteOptionalParams
+  - Added Interface NamespacesGetOptionalParams
+  - Added Interface NamespaceSharedAccessKeys
+  - Added Interface NamespaceSku
+  - Added Interface NamespacesListByResourceGroupNextOptionalParams
+  - Added Interface NamespacesListByResourceGroupOptionalParams
+  - Added Interface NamespacesListBySubscriptionNextOptionalParams
+  - Added Interface NamespacesListBySubscriptionOptionalParams
+  - Added Interface NamespacesListResult
+  - Added Interface NamespacesListSharedAccessKeysOptionalParams
+  - Added Interface NamespacesRegenerateKeyHeaders
+  - Added Interface NamespacesRegenerateKeyOptionalParams
+  - Added Interface NamespacesUpdateHeaders
+  - Added Interface NamespacesUpdateOptionalParams
+  - Added Interface NamespaceTopic
+  - Added Interface NamespaceTopicEventSubscriptionsCreateOrUpdateOptionalParams
+  - Added Interface NamespaceTopicEventSubscriptionsDeleteHeaders
+  - Added Interface NamespaceTopicEventSubscriptionsDeleteOptionalParams
+  - Added Interface NamespaceTopicEventSubscriptionsGetOptionalParams
+  - Added Interface NamespaceTopicEventSubscriptionsListByNamespaceTopicNextOptionalParams
+  - Added Interface NamespaceTopicEventSubscriptionsListByNamespaceTopicOptionalParams
+  - Added Interface NamespaceTopicEventSubscriptionsUpdateHeaders
+  - Added Interface NamespaceTopicEventSubscriptionsUpdateOptionalParams
+  - Added Interface NamespaceTopicsCreateOrUpdateOptionalParams
+  - Added Interface NamespaceTopicsDeleteHeaders
+  - Added Interface NamespaceTopicsDeleteOptionalParams
+  - Added Interface NamespaceTopicsGetOptionalParams
+  - Added Interface NamespaceTopicsListByNamespaceNextOptionalParams
+  - Added Interface NamespaceTopicsListByNamespaceOptionalParams
+  - Added Interface NamespaceTopicsListResult
+  - Added Interface NamespaceTopicsListSharedAccessKeysOptionalParams
+  - Added Interface NamespaceTopicsRegenerateKeyHeaders
+  - Added Interface NamespaceTopicsRegenerateKeyOptionalParams
+  - Added Interface NamespaceTopicsUpdateHeaders
+  - Added Interface NamespaceTopicsUpdateOptionalParams
+  - Added Interface NamespaceTopicUpdateParameters
+  - Added Interface NamespaceUpdateParameters
+  - Added Interface NumberGreaterThanFilter
+  - Added Interface NumberGreaterThanOrEqualsFilter
+  - Added Interface NumberInFilter
+  - Added Interface NumberInRangeFilter
+  - Added Interface NumberLessThanFilter
+  - Added Interface NumberLessThanOrEqualsFilter
+  - Added Interface NumberNotInFilter
+  - Added Interface NumberNotInRangeFilter
+  - Added Interface PartnerClientAuthentication
+  - Added Interface PartnerConfigurationsDeleteHeaders
+  - Added Interface PartnerDestination
+  - Added Interface PartnerDestinationInfo
+  - Added Interface PartnerDestinationsActivateOptionalParams
+  - Added Interface PartnerDestinationsCreateOrUpdateOptionalParams
+  - Added Interface PartnerDestinationsDeleteHeaders
+  - Added Interface PartnerDestinationsDeleteOptionalParams
+  - Added Interface PartnerDestinationsGetOptionalParams
+  - Added Interface PartnerDestinationsListByResourceGroupNextOptionalParams
+  - Added Interface PartnerDestinationsListByResourceGroupOptionalParams
+  - Added Interface PartnerDestinationsListBySubscriptionNextOptionalParams
+  - Added Interface PartnerDestinationsListBySubscriptionOptionalParams
+  - Added Interface PartnerDestinationsListResult
+  - Added Interface PartnerDestinationsUpdateHeaders
+  - Added Interface PartnerDestinationsUpdateOptionalParams
+  - Added Interface PartnerDestinationUpdateParameters
+  - Added Interface PartnerEventSubscriptionDestination
+  - Added Interface PartnerNamespacesDeleteHeaders
+  - Added Interface PartnerRegistrationsCreateOrUpdateHeaders
+  - Added Interface PartnerRegistrationsDeleteHeaders
+  - Added Interface PartnerTopicEventSubscriptionsDeleteHeaders
+  - Added Interface PartnerTopicsDeleteHeaders
+  - Added Interface PartnerUpdateDestinationInfo
+  - Added Interface PermissionBinding
+  - Added Interface PermissionBindingsCreateOrUpdateOptionalParams
+  - Added Interface PermissionBindingsDeleteHeaders
+  - Added Interface PermissionBindingsDeleteOptionalParams
+  - Added Interface PermissionBindingsGetOptionalParams
+  - Added Interface PermissionBindingsListByNamespaceNextOptionalParams
+  - Added Interface PermissionBindingsListByNamespaceOptionalParams
+  - Added Interface PermissionBindingsListResult
+  - Added Interface PrivateEndpointConnectionsDeleteHeaders
+  - Added Interface QueueInfo
+  - Added Interface ResourceMoveChangeHistory
+  - Added Interface ResourceSku
+  - Added Interface RoutingEnrichments
+  - Added Interface RoutingIdentityInfo
+  - Added Interface StaticRoutingEnrichment
+  - Added Interface StringBeginsWithFilter
+  - Added Interface StringContainsFilter
+  - Added Interface StringEndsWithFilter
+  - Added Interface StringInFilter
+  - Added Interface StringNotBeginsWithFilter
+  - Added Interface StringNotContainsFilter
+  - Added Interface StringNotEndsWithFilter
+  - Added Interface StringNotInFilter
+  - Added Interface Subscription
+  - Added Interface SubscriptionsListResult
+  - Added Interface SubscriptionUpdateParameters
+  - Added Interface SystemTopicEventSubscriptionsDeleteHeaders
+  - Added Interface SystemTopicsDeleteHeaders
+  - Added Interface TopicEventSubscriptionsDeleteHeaders
+  - Added Interface TopicsConfiguration
+  - Added Interface TopicsDeleteHeaders
+  - Added Interface TopicSpace
+  - Added Interface TopicSpacesConfiguration
+  - Added Interface TopicSpacesCreateOrUpdateOptionalParams
+  - Added Interface TopicSpacesDeleteHeaders
+  - Added Interface TopicSpacesDeleteOptionalParams
+  - Added Interface TopicSpacesGetOptionalParams
+  - Added Interface TopicSpacesListByNamespaceNextOptionalParams
+  - Added Interface TopicSpacesListByNamespaceOptionalParams
+  - Added Interface TopicSpacesListResult
+  - Added Interface TopicsRegenerateKeyHeaders
+  - Added Interface UpdateTopicSpacesConfigurationInfo
+  - Added Interface WebhookPartnerDestinationInfo
+  - Added Interface WebhookUpdatePartnerDestinationInfo
+  - Added Type Alias AlternativeAuthenticationNameSource
+  - Added Type Alias CaCertificateProvisioningState
+  - Added Type Alias CaCertificatesCreateOrUpdateResponse
+  - Added Type Alias CaCertificatesGetResponse
+  - Added Type Alias CaCertificatesListByNamespaceNextResponse
+  - Added Type Alias CaCertificatesListByNamespaceResponse
+  - Added Type Alias ClientCertificateValidationScheme
+  - Added Type Alias ClientGroupProvisioningState
+  - Added Type Alias ClientGroupsCreateOrUpdateResponse
+  - Added Type Alias ClientGroupsGetResponse
+  - Added Type Alias ClientGroupsListByNamespaceNextResponse
+  - Added Type Alias ClientGroupsListByNamespaceResponse
+  - Added Type Alias ClientProvisioningState
+  - Added Type Alias ClientsCreateOrUpdateResponse
+  - Added Type Alias ClientsGetResponse
+  - Added Type Alias ClientsListByNamespaceNextResponse
+  - Added Type Alias ClientsListByNamespaceResponse
+  - Added Type Alias ClientState
+  - Added Type Alias DeliveryMode
+  - Added Type Alias DeliverySchema
+  - Added Type Alias EventInputSchema
+  - Added Type Alias FilterOperatorType
+  - Added Type Alias FilterUnion
+  - Added Type Alias NamespaceProvisioningState
+  - Added Type Alias NamespacesCreateOrUpdateResponse
+  - Added Type Alias NamespacesGetResponse
+  - Added Type Alias NamespacesListByResourceGroupNextResponse
+  - Added Type Alias NamespacesListByResourceGroupResponse
+  - Added Type Alias NamespacesListBySubscriptionNextResponse
+  - Added Type Alias NamespacesListBySubscriptionResponse
+  - Added Type Alias NamespacesListSharedAccessKeysResponse
+  - Added Type Alias NamespacesRegenerateKeyResponse
+  - Added Type Alias NamespacesUpdateResponse
+  - Added Type Alias NamespaceTopicEventSubscriptionsCreateOrUpdateResponse
+  - Added Type Alias NamespaceTopicEventSubscriptionsGetResponse
+  - Added Type Alias NamespaceTopicEventSubscriptionsListByNamespaceTopicNextResponse
+  - Added Type Alias NamespaceTopicEventSubscriptionsListByNamespaceTopicResponse
+  - Added Type Alias NamespaceTopicEventSubscriptionsUpdateResponse
+  - Added Type Alias NamespaceTopicProvisioningState
+  - Added Type Alias NamespaceTopicsCreateOrUpdateResponse
+  - Added Type Alias NamespaceTopicsGetResponse
+  - Added Type Alias NamespaceTopicsListByNamespaceNextResponse
+  - Added Type Alias NamespaceTopicsListByNamespaceResponse
+  - Added Type Alias NamespaceTopicsListSharedAccessKeysResponse
+  - Added Type Alias NamespaceTopicsRegenerateKeyResponse
+  - Added Type Alias NamespaceTopicsUpdateResponse
+  - Added Type Alias PartnerClientAuthenticationType
+  - Added Type Alias PartnerClientAuthenticationUnion
+  - Added Type Alias PartnerDestinationActivationState
+  - Added Type Alias PartnerDestinationInfoUnion
+  - Added Type Alias PartnerDestinationProvisioningState
+  - Added Type Alias PartnerDestinationsActivateResponse
+  - Added Type Alias PartnerDestinationsCreateOrUpdateResponse
+  - Added Type Alias PartnerDestinationsGetResponse
+  - Added Type Alias PartnerDestinationsListByResourceGroupNextResponse
+  - Added Type Alias PartnerDestinationsListByResourceGroupResponse
+  - Added Type Alias PartnerDestinationsListBySubscriptionNextResponse
+  - Added Type Alias PartnerDestinationsListBySubscriptionResponse
+  - Added Type Alias PartnerDestinationsUpdateResponse
+  - Added Type Alias PartnerEndpointType
+  - Added Type Alias PartnerUpdateDestinationInfoUnion
+  - Added Type Alias PermissionBindingProvisioningState
+  - Added Type Alias PermissionBindingsCreateOrUpdateResponse
+  - Added Type Alias PermissionBindingsGetResponse
+  - Added Type Alias PermissionBindingsListByNamespaceNextResponse
+  - Added Type Alias PermissionBindingsListByNamespaceResponse
+  - Added Type Alias PermissionType
+  - Added Type Alias PrivateEndpointConnectionsDeleteResponse
+  - Added Type Alias PublisherType
+  - Added Type Alias ResourceKind
+  - Added Type Alias RoutingIdentityType
+  - Added Type Alias Sku
+  - Added Type Alias SkuName
+  - Added Type Alias StaticRoutingEnrichmentType
+  - Added Type Alias SubscriptionProvisioningState
+  - Added Type Alias TlsVersion
+  - Added Type Alias TopicsDeleteResponse
+  - Added Type Alias TopicSpaceProvisioningState
+  - Added Type Alias TopicSpacesConfigurationState
+  - Added Type Alias TopicSpacesCreateOrUpdateResponse
+  - Added Type Alias TopicSpacesGetResponse
+  - Added Type Alias TopicSpacesListByNamespaceNextResponse
+  - Added Type Alias TopicSpacesListByNamespaceResponse
+  - Interface Channel has a new optional parameter partnerDestinationInfo
+  - Interface ChannelUpdateParameters has a new optional parameter partnerDestinationInfo
+  - Interface Domain has a new optional parameter eventTypeInfo
+  - Interface Domain has a new optional parameter minimumTlsVersionAllowed
+  - Interface Domain has a new optional parameter sku
+  - Interface DomainUpdateParameters has a new optional parameter eventTypeInfo
+  - Interface DomainUpdateParameters has a new optional parameter minimumTlsVersionAllowed
+  - Interface DomainUpdateParameters has a new optional parameter sku
+  - Interface PartnerNamespace has a new optional parameter minimumTlsVersionAllowed
+  - Interface PartnerNamespaceUpdateParameters has a new optional parameter minimumTlsVersionAllowed
+  - Interface Topic has a new optional parameter eventTypeInfo
+  - Interface Topic has a new optional parameter extendedLocation
+  - Interface Topic has a new optional parameter kind
+  - Interface Topic has a new optional parameter minimumTlsVersionAllowed
+  - Interface Topic has a new optional parameter sku
+  - Interface TopicTypeInfo has a new optional parameter areRegionalAndGlobalSourcesSupported
+  - Interface TopicUpdateParameters has a new optional parameter eventTypeInfo
+  - Interface TopicUpdateParameters has a new optional parameter minimumTlsVersionAllowed
+  - Interface TopicUpdateParameters has a new optional parameter sku
+  - Interface VerifiedPartner has a new optional parameter partnerDestinationDetails
+  - Interface WebHookEventSubscriptionDestination has a new optional parameter minimumTlsVersionAllowed
+  - Type of parameter endpointType of interface EventSubscriptionDestination is changed from "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction" to "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction" | "PartnerDestination"
+  - Added Enum KnownAlternativeAuthenticationNameSource
+  - Added Enum KnownCaCertificateProvisioningState
+  - Added Enum KnownClientCertificateValidationScheme
+  - Added Enum KnownClientGroupProvisioningState
+  - Added Enum KnownClientProvisioningState
+  - Added Enum KnownClientState
+  - Added Enum KnownDeliveryMode
+  - Added Enum KnownDeliverySchema
+  - Added Enum KnownEventInputSchema
+  - Added Enum KnownFilterOperatorType
+  - Added Enum KnownNamespaceProvisioningState
+  - Added Enum KnownNamespaceTopicProvisioningState
+  - Added Enum KnownPartnerClientAuthenticationType
+  - Added Enum KnownPartnerDestinationActivationState
+  - Added Enum KnownPartnerDestinationProvisioningState
+  - Added Enum KnownPartnerEndpointType
+  - Added Enum KnownPermissionBindingProvisioningState
+  - Added Enum KnownPermissionType
+  - Added Enum KnownPublisherType
+  - Added Enum KnownResourceKind
+  - Added Enum KnownRoutingIdentityType
+  - Added Enum KnownSku
+  - Added Enum KnownSkuName
+  - Added Enum KnownStaticRoutingEnrichmentType
+  - Added Enum KnownSubscriptionProvisioningState
+  - Added Enum KnownTlsVersion
+  - Added Enum KnownTopicSpaceProvisioningState
+  - Added Enum KnownTopicSpacesConfigurationState
+  - Enum KnownChannelProvisioningState has a new value IdleDueToMirroredPartnerDestinationDeletion
+  - Enum KnownChannelType has a new value PartnerDestination
+  - Enum KnownEndpointType has a new value PartnerDestination
+  - Enum KnownPrivateEndpointConnectionsParentType has a new value Namespaces
+    
+    
 ## 14.1.0 (2023-01-10)
     
 **Features**
@@ -396,4 +712,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

@@ -162,13 +162,14 @@ function buildOperation(
   allowInsecureConnection?: boolean,
   httpClient?: HttpClient
 ): StreamableMethod {
+  allowInsecureConnection = options.allowInsecureConnection ?? allowInsecureConnection;
   return {
     then: function (onFulfilled, onrejected) {
       return sendRequest(
         method,
         url,
         pipeline,
-        { allowInsecureConnection, ...options },
+        { ...options, allowInsecureConnection },
         httpClient
       ).then(onFulfilled, onrejected);
     },
@@ -177,7 +178,7 @@ function buildOperation(
         method,
         url,
         pipeline,
-        { allowInsecureConnection, ...options },
+        { ...options, allowInsecureConnection },
         httpClient
       );
     },
@@ -186,7 +187,7 @@ function buildOperation(
         method,
         url,
         pipeline,
-        { allowInsecureConnection, ...options },
+        { ...options, allowInsecureConnection },
         httpClient
       );
     },

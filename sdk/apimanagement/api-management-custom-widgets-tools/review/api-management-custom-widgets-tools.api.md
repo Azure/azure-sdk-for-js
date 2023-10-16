@@ -4,6 +4,8 @@
 
 ```ts
 
+import { InteractiveBrowserCredentialNodeOptions } from '@azure/identity';
+
 // @public
 export const APIM_ASK_FOR_SECRETS_MESSAGE_KEY = "askForSecretsMSAPIM";
 
@@ -38,7 +40,13 @@ export function buildBlobDataPath(name: string): string;
 export function buildOnChange<Values extends ValuesCommon>(): OnChange<Values>;
 
 // @public
-export function deployNodeJS(serviceInformation: ServiceInformation, name: string, fallbackConfigPath?: string, rootLocal?: string): Promise<void>;
+export type DeployConfig = {
+    rootLocal?: string;
+    interactiveBrowserCredentialOptions?: InteractiveBrowserCredentialNodeOptions;
+};
+
+// @public
+export function deployNodeJS(serviceInformation: ServiceInformation, name: string, fallbackConfigPath?: string, { rootLocal, interactiveBrowserCredentialOptions, }?: DeployConfig): Promise<void>;
 
 // @public
 export interface EditorData<Values extends ValuesCommon> extends PortalData {
@@ -75,6 +83,16 @@ export type Secrets = {
     apiVersion: string;
     userId?: string;
     token?: string;
+    parentLocation: {
+        host: string;
+        hostname: string;
+        href: string;
+        origin: string;
+        pathname: string;
+        port: string;
+        protocol: string;
+        search: string;
+    };
 };
 
 // @public

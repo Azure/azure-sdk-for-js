@@ -14,7 +14,11 @@ import {
   DataSourceSqlServerConnectionStringPatch,
   MetricsAdvisorAdministrationClient,
 } from "../../src";
-import { createRecordedAdminClient, makeCredential } from "./util/recordedClients";
+import {
+  createRecordedAdminClient,
+  getRecorderUniqueVariable,
+  makeCredential,
+} from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure/test-utils";
 
@@ -27,19 +31,25 @@ describe("DataSourceCredential", () => {
   let servicePrincipalCredName: string;
   let servicePrincipalInKVCredName: string;
 
-  beforeEach(function (this: Context) {
-    ({ recorder, client } = createRecordedAdminClient(this, makeCredential(false)));
+  beforeEach(async function (this: Context) {
+    ({ recorder, client } = await createRecordedAdminClient(this, makeCredential(false)));
     if (recorder && !sqlServerCredName) {
-      sqlServerCredName = recorder.getUniqueName("js-test-sqlServerCred-");
+      sqlServerCredName = getRecorderUniqueVariable(recorder, "js-test-sqlServerCred-");
     }
     if (recorder && !datalakeCredName) {
-      datalakeCredName = recorder.getUniqueName("js-test-datalakeCred-");
+      datalakeCredName = getRecorderUniqueVariable(recorder, "js-test-datalakeCred-");
     }
     if (recorder && !servicePrincipalCredName) {
-      servicePrincipalCredName = recorder.getUniqueName("js-test-servicePrincipalCred-");
+      servicePrincipalCredName = getRecorderUniqueVariable(
+        recorder,
+        "js-test-servicePrincipalCred-"
+      );
     }
     if (recorder && !servicePrincipalInKVCredName) {
-      servicePrincipalInKVCredName = recorder.getUniqueName("js-test-servicePrincipalInKVCred-");
+      servicePrincipalInKVCredName = getRecorderUniqueVariable(
+        recorder,
+        "js-test-servicePrincipalInKVCred-"
+      );
     }
   });
 

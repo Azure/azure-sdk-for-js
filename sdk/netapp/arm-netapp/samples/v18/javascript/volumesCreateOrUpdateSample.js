@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update the specified volume within the capacity pool
  *
  * @summary Create or update the specified volume within the capacity pool
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/Volumes_CreateOrUpdate.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Volumes_CreateOrUpdate.json
  */
 async function volumesCreateOrUpdate() {
   const subscriptionId =

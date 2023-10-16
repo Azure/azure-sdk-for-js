@@ -5,107 +5,33 @@
 ```ts
 
 import { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
-import { Instrumentation } from '@opentelemetry/instrumentation';
 import { InstrumentationConfig } from '@opentelemetry/instrumentation';
-import { Meter } from '@opentelemetry/api';
-import { MeterProvider } from '@opentelemetry/sdk-metrics';
-import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
 import { Resource } from '@opentelemetry/resources';
-import { Span } from '@opentelemetry/sdk-trace-base';
-import { SpanProcessor } from '@opentelemetry/sdk-trace-base';
-import { Tracer } from '@opentelemetry/sdk-trace-base';
-import { TracerProvider } from '@opentelemetry/api';
 
 // @public
-export class AzureMonitorOpenTelemetryClient {
-    constructor(config?: AzureMonitorOpenTelemetryConfig);
-    flush(): Promise<void>;
-    getConfig(): AzureMonitorOpenTelemetryConfig;
-    getMetricHandler(): MetricHandler;
-    getTraceHandler(): TraceHandler;
-    shutdown(): Promise<void>;
-}
-
-// @public
-export class AzureMonitorOpenTelemetryConfig implements IConfig {
-    constructor();
-    azureMonitorExporterConfig?: AzureMonitorExporterOptions;
-    enableAutoCollectNativeMetrics?: boolean;
-    enableAutoCollectPerformance: boolean;
-    enableAutoCollectStandardMetrics: boolean;
-    instrumentations: IInstrumentationsConfig;
-    set resource(resource: Resource);
-    get resource(): Resource;
-    samplingRatio: number;
-}
-
-// @public
-export interface IConfig {
-    azureMonitorExporterConfig?: AzureMonitorExporterOptions;
-    enableAutoCollectNativeMetrics?: boolean;
-    enableAutoCollectPerformance?: boolean;
-    enableAutoCollectStandardMetrics?: boolean;
-    instrumentations?: IInstrumentationsConfig;
+export interface AzureMonitorOpenTelemetryOptions {
+    azureMonitorExporterOptions?: AzureMonitorExporterOptions;
+    instrumentationOptions?: InstrumentationOptions;
     resource?: Resource;
     samplingRatio?: number;
 }
 
 // @public
-export interface IInstrumentationsConfig {
-    azureSdk: InstrumentationConfig;
-    http: InstrumentationConfig;
-    mongoDb: InstrumentationConfig;
-    mySql: InstrumentationConfig;
-    postgreSql: InstrumentationConfig;
-    redis: InstrumentationConfig;
-    redis4: InstrumentationConfig;
+export interface InstrumentationOptions {
+    azureSdk?: InstrumentationConfig;
+    http?: InstrumentationConfig;
+    mongoDb?: InstrumentationConfig;
+    mySql?: InstrumentationConfig;
+    postgreSql?: InstrumentationConfig;
+    redis?: InstrumentationConfig;
+    redis4?: InstrumentationConfig;
 }
 
 // @public
-export class MetricHandler {
-    constructor(_config: AzureMonitorOpenTelemetryConfig);
-    flush(): Promise<void>;
-    getMeter(): Meter;
-    getMeterProvider(): MeterProvider;
-    // @internal
-    _getPerformanceCounterMetrics(): _PerformanceCounterMetrics | undefined;
-    // @internal
-    _getStandardMetrics(): _StandardMetrics | undefined;
-    shutdown(): Promise<void>;
-}
-
-// @internal
-export class _PerformanceCounterMetrics {
-    constructor(_config: AzureMonitorOpenTelemetryConfig, options?: {
-        collectionInterval: number;
-    });
-    flush(): Promise<void>;
-    _recordSpan(span: ReadableSpan): void;
-    shutdown(): void;
-}
-
-// @internal
-export class _StandardMetrics {
-    constructor(_config: AzureMonitorOpenTelemetryConfig, options?: {
-        collectionInterval: number;
-    });
-    flush(): Promise<void>;
-    _markSpanAsProcessed(span: Span): void;
-    _recordSpan(span: ReadableSpan): void;
-    shutdown(): void;
-}
+export function shutdownAzureMonitor(): void;
 
 // @public
-export class TraceHandler {
-    constructor(_config: AzureMonitorOpenTelemetryConfig, _metricHandler?: MetricHandler | undefined);
-    addInstrumentation(instrumentation?: Instrumentation): void;
-    addSpanProcessor(spanProcessor: SpanProcessor): void;
-    disableInstrumentations(): void;
-    flush(): Promise<void>;
-    getTracer(): Tracer;
-    getTracerProvider(): TracerProvider;
-    shutdown(): Promise<void>;
-}
+export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void;
 
 // (No @packageDocumentation comment for this package)
 

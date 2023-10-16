@@ -11,35 +11,6 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export interface Account {
-    beginCreateAndUpdate(resourceGroupName: string, resourceName: string, accountResource: AccountResource, options?: AccountCreateAndUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AccountCreateAndUpdateResponse>, AccountCreateAndUpdateResponse>>;
-    beginCreateAndUpdateAndWait(resourceGroupName: string, resourceName: string, accountResource: AccountResource, options?: AccountCreateAndUpdateOptionalParams): Promise<AccountCreateAndUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, options?: AccountDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, options?: AccountGetOptionalParams): Promise<AccountGetResponse>;
-    update(resourceGroupName: string, resourceName: string, accountResource: AccountPatchResource, options?: AccountUpdateOptionalParams): Promise<AccountUpdateResponse>;
-}
-
-// @public
-export interface AccountCreateAndUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type AccountCreateAndUpdateResponse = AccountResource;
-
-// @public
-export interface AccountDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AccountGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccountGetResponse = AccountResource;
-
-// @public
 export interface AccountPatchResource extends TagUpdate {
 }
 
@@ -72,9 +43,34 @@ export interface AccountResourceSystemData {
 
 // @public
 export interface Accounts {
+    beginCreateAndUpdate(resourceGroupName: string, resourceName: string, accountResource: AccountResource, options?: AccountsCreateAndUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AccountsCreateAndUpdateResponse>, AccountsCreateAndUpdateResponse>>;
+    beginCreateAndUpdateAndWait(resourceGroupName: string, resourceName: string, accountResource: AccountResource, options?: AccountsCreateAndUpdateOptionalParams): Promise<AccountsCreateAndUpdateResponse>;
+    delete(resourceGroupName: string, resourceName: string, options?: AccountsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, resourceName: string, options?: AccountsGetOptionalParams): Promise<AccountsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: AccountsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AccountResource>;
     listBySubscription(options?: AccountsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AccountResource>;
+    update(resourceGroupName: string, resourceName: string, accountResource: AccountPatchResource, options?: AccountsUpdateOptionalParams): Promise<AccountsUpdateResponse>;
 }
+
+// @public
+export interface AccountsCreateAndUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AccountsCreateAndUpdateResponse = AccountResource;
+
+// @public
+export interface AccountsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AccountsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccountsGetResponse = AccountResource;
 
 // @public
 export interface AccountsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -105,11 +101,11 @@ export interface AccountsListBySubscriptionOptionalParams extends coreClient.Ope
 export type AccountsListBySubscriptionResponse = AccountResourceList;
 
 // @public
-export interface AccountUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AccountsUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AccountUpdateResponse = AccountResource;
+export type AccountsUpdateResponse = AccountResource;
 
 // @public
 export type ActionType = string;
@@ -146,13 +142,11 @@ export class GraphServices extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: GraphServicesOptionalParams);
     // (undocumented)
-    account: Account;
-    // (undocumented)
     accounts: Accounts;
     // (undocumented)
     apiVersion: string;
     // (undocumented)
-    operationOperations: OperationOperations;
+    operations: Operations;
     // (undocumented)
     subscriptionId: string;
 }
@@ -209,29 +203,29 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationListNextResponse = OperationListResult;
-
-// @public
-export interface OperationListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationListResponse = OperationListResult;
-
-// @public
 export interface OperationListResult {
     readonly nextLink?: string;
     readonly value?: Operation[];
 }
 
 // @public
-export interface OperationOperations {
-    list(options?: OperationListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;

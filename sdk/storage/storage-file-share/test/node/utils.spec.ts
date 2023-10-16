@@ -3,12 +3,8 @@
 
 import { assert } from "chai";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "../utils";
-import { Context } from "mocha";
 
 describe("Utility Helpers Node.js only", () => {
-  let recorder: Recorder;
   const protocol = "https";
   const endpointSuffix = "core.windows.net";
   const accountName = "myaccount";
@@ -33,14 +29,6 @@ describe("Utility Helpers Node.js only", () => {
       "extractConnectionStringParts().accountName is different than expected."
     );
   }
-
-  beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-  });
-
-  afterEach(async function () {
-    await recorder.stop();
-  });
 
   it("extractConnectionStringParts throws error when passed an invalid protocol in the connection string", async () => {
     try {

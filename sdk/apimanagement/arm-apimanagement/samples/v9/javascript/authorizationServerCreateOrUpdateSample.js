@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates new authorization server or updates an existing authorization server.
  *
  * @summary Creates new authorization server or updates an existing authorization server.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateAuthorizationServer.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAuthorizationServer.json
  */
 async function apiManagementCreateAuthorizationServer() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -38,6 +38,8 @@ async function apiManagementCreateAuthorizationServer() {
     resourceOwnerUsername: "un",
     supportState: true,
     tokenEndpoint: "https://www.contoso.com/oauth2/token",
+    useInApiDocumentation: true,
+    useInTestConsole: false,
   };
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);

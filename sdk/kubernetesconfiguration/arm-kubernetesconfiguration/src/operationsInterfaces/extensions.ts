@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Extension,
   ExtensionsListOptionalParams,
@@ -62,8 +62,8 @@ export interface Extensions {
     extension: Extension,
     options?: ExtensionsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExtensionsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ExtensionsCreateResponse>,
       ExtensionsCreateResponse
     >
   >;
@@ -126,7 +126,7 @@ export interface Extensions {
     clusterName: string,
     extensionName: string,
     options?: ExtensionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Kubernetes Cluster Extension. This will cause the Agent to Uninstall the extension from the
    * cluster.
@@ -168,8 +168,8 @@ export interface Extensions {
     patchExtension: PatchExtension,
     options?: ExtensionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExtensionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ExtensionsUpdateResponse>,
       ExtensionsUpdateResponse
     >
   >;

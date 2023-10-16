@@ -13,13 +13,19 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MySQLManagementFlexibleServerClient } from "../mySQLManagementFlexibleServerClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Configuration,
   ConfigurationsListByServerNextOptionalParams,
   ConfigurationsListByServerOptionalParams,
   ConfigurationsListByServerResponse,
+  ConfigurationsCreateOrUpdateOptionalParams,
+  ConfigurationsCreateOrUpdateResponse,
   ConfigurationsUpdateOptionalParams,
   ConfigurationsUpdateResponse,
   ConfigurationsGetOptionalParams,
@@ -131,25 +137,25 @@ export class ConfigurationsImpl implements Configurations {
    * @param parameters The required parameters for updating a server configuration.
    * @param options The options parameters.
    */
-  async beginUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     serverName: string,
     configurationName: string,
     parameters: Configuration,
-    options?: ConfigurationsUpdateOptionalParams
+    options?: ConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationsUpdateResponse>,
-      ConfigurationsUpdateResponse
+    SimplePollerLike<
+      OperationState<ConfigurationsCreateOrUpdateResponse>,
+      ConfigurationsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ConfigurationsUpdateResponse> => {
+    ): Promise<ConfigurationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -182,13 +188,128 @@ export class ConfigurationsImpl implements Configurations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, configurationName, parameters, options },
-      updateOperationSpec
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serverName,
+        configurationName,
+        parameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ConfigurationsCreateOrUpdateResponse,
+      OperationState<ConfigurationsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates a configuration of a server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param configurationName The name of the server configuration.
+   * @param parameters The required parameters for updating a server configuration.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    configurationName: string,
+    parameters: Configuration,
+    options?: ConfigurationsCreateOrUpdateOptionalParams
+  ): Promise<ConfigurationsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      serverName,
+      configurationName,
+      parameters,
+      options
     );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Updates a configuration of a server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param configurationName The name of the server configuration.
+   * @param parameters The required parameters for updating a server configuration.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    configurationName: string,
+    parameters: Configuration,
+    options?: ConfigurationsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConfigurationsUpdateResponse>,
+      ConfigurationsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ConfigurationsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serverName,
+        configurationName,
+        parameters,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ConfigurationsUpdateResponse,
+      OperationState<ConfigurationsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -252,8 +373,8 @@ export class ConfigurationsImpl implements Configurations {
     parameters: ConfigurationListForBatchUpdate,
     options?: ConfigurationsBatchUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationsBatchUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationsBatchUpdateResponse>,
       ConfigurationsBatchUpdateResponse
     >
   > {
@@ -263,7 +384,7 @@ export class ConfigurationsImpl implements Configurations {
     ): Promise<ConfigurationsBatchUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -296,15 +417,18 @@ export class ConfigurationsImpl implements Configurations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, parameters, options },
-      batchUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serverName, parameters, options },
+      spec: batchUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ConfigurationsBatchUpdateResponse,
+      OperationState<ConfigurationsBatchUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -371,6 +495,40 @@ export class ConfigurationsImpl implements Configurations {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/configurations/{configurationName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Configuration
+    },
+    201: {
+      bodyMapper: Mappers.Configuration
+    },
+    202: {
+      bodyMapper: Mappers.Configuration
+    },
+    204: {
+      bodyMapper: Mappers.Configuration
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.configurationName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/configurations/{configurationName}",
@@ -392,7 +550,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -449,7 +607,7 @@ const batchUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -473,7 +631,13 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.tags,
+    Parameters.keyword,
+    Parameters.page,
+    Parameters.pageSize
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

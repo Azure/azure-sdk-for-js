@@ -14,7 +14,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient";
 import {
-  CapabilityProperties,
+  FlexibleServerCapability,
   LocationBasedCapabilitiesExecuteNextOptionalParams,
   LocationBasedCapabilitiesExecuteOptionalParams,
   LocationBasedCapabilitiesExecuteResponse,
@@ -43,7 +43,7 @@ export class LocationBasedCapabilitiesImpl
   public listExecute(
     locationName: string,
     options?: LocationBasedCapabilitiesExecuteOptionalParams
-  ): PagedAsyncIterableIterator<CapabilityProperties> {
+  ): PagedAsyncIterableIterator<FlexibleServerCapability> {
     const iter = this.executePagingAll(locationName, options);
     return {
       next() {
@@ -65,7 +65,7 @@ export class LocationBasedCapabilitiesImpl
     locationName: string,
     options?: LocationBasedCapabilitiesExecuteOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<CapabilityProperties[]> {
+  ): AsyncIterableIterator<FlexibleServerCapability[]> {
     let result: LocationBasedCapabilitiesExecuteResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -91,7 +91,7 @@ export class LocationBasedCapabilitiesImpl
   private async *executePagingAll(
     locationName: string,
     options?: LocationBasedCapabilitiesExecuteOptionalParams
-  ): AsyncIterableIterator<CapabilityProperties> {
+  ): AsyncIterableIterator<FlexibleServerCapability> {
     for await (const page of this.executePagingPage(locationName, options)) {
       yield* page;
     }

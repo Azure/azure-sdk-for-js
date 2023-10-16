@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.89.0",
+  "rushVersion": "5.106.0",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "7.32.2",
+  "pnpmVersion": "8.7.5",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -34,7 +34,7 @@
    * Specify a SemVer range to ensure developers use a NodeJS version that is appropriate
    * for your repo.
    */
-  "nodeSupportedVersionRange": ">=14.0.0",
+  "nodeSupportedVersionRange": ">=16.0.0",
   /**
    * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
    * spend six months in a stabilization period before the first Long Term Support (LTS) version.
@@ -346,6 +346,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/defender-easm",
+      "projectFolder": "sdk/easm/defender-easm-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/confidential-ledger",
       "projectFolder": "sdk/confidentialledger/confidential-ledger-rest",
       "versionPolicyName": "client"
@@ -353,6 +358,11 @@
     {
       "packageName": "@azure-rest/ai-anomaly-detector",
       "projectFolder": "sdk/anomalydetector/ai-anomaly-detector-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/ai-content-safety",
+      "projectFolder": "sdk/contentsafety/ai-content-safety-rest",
       "versionPolicyName": "client"
     },
     {
@@ -378,6 +388,11 @@
     {
       "packageName": "@azure/ai-language-textauthoring",
       "projectFolder": "sdk/cognitivelanguage/ai-language-textauthoring",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/openai",
+      "projectFolder": "sdk/openai/openai",
       "versionPolicyName": "client"
     },
     {
@@ -451,6 +466,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-tiering",
+      "projectFolder": "sdk/communication/communication-tiering",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-tools/communication-alpha-ids",
       "projectFolder": "sdk/communication/communication-alpha-ids",
       "versionPolicyName": "client"
@@ -468,6 +488,11 @@
     {
       "packageName": "@azure/communication-job-router",
       "projectFolder": "sdk/communication/communication-job-router",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/communication-job-router",
+      "projectFolder": "sdk/communication/communication-job-router-rest",
       "versionPolicyName": "client"
     },
     {
@@ -491,6 +516,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-sse",
+      "projectFolder": "sdk/core/core-sse",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-client",
       "projectFolder": "sdk/core/core-client",
       "versionPolicyName": "core"
@@ -498,6 +528,7 @@
     {
       "packageName": "@azure/core-http",
       "projectFolder": "sdk/core/core-http",
+      "decoupledLocalDependencies": ["@azure/core-tracing"],
       "versionPolicyName": "core"
     },
     {
@@ -588,6 +619,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
+      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
       "versionPolicyName": "client"
     },
     {
@@ -642,11 +674,13 @@
     },
     {
       "packageName": "@azure-rest/maps-render",
-      "projectFolder": "sdk/maps/maps-render-rest"
+      "projectFolder": "sdk/maps/maps-render-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-rest/maps-geolocation",
-      "projectFolder": "sdk/maps/maps-geolocation-rest"
+      "projectFolder": "sdk/maps/maps-geolocation-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-rest/maps-search",
@@ -671,6 +705,11 @@
     {
       "packageName": "@azure/schema-registry-avro",
       "projectFolder": "sdk/schemaregistry/schema-registry-avro",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/schema-registry-json",
+      "projectFolder": "sdk/schemaregistry/schema-registry-json",
       "versionPolicyName": "client"
     },
     {
@@ -759,8 +798,18 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/template-dpg",
+      "projectFolder": "sdk/template/template-dpg",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/eslint-plugin-azure-sdk",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure-tool/eslint-plugin-azure-sdk-helper",
+      "projectFolder": "common/tools/eslint-plugin-azure-sdk-helper",
       "versionPolicyName": "utility"
     },
     {
@@ -1379,6 +1428,16 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/health-insights-cancerprofiling",
+      "projectFolder": "sdk/healthinsights/health-insights-cancerprofiling-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/health-insights-clinicalmatching",
+      "projectFolder": "sdk/healthinsights/health-insights-clinicalmatching-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-deploymentmanager",
       "projectFolder": "sdk/deploymentmanager/arm-deploymentmanager",
       "versionPolicyName": "management"
@@ -1944,11 +2003,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-liftrqumulo",
-      "projectFolder": "sdk/liftrqumulo/arm-liftrqumulo",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-storagemover",
       "projectFolder": "sdk/storagemover/arm-storagemover",
       "versionPolicyName": "management"
@@ -1981,6 +2035,96 @@
     {
       "packageName": "@azure/arm-selfhelp",
       "projectFolder": "sdk/selfhelp/arm-selfhelp",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-costmanagement",
+      "projectFolder": "sdk/cost-management/arm-costmanagement",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-networkcloud",
+      "projectFolder": "sdk/networkcloud/arm-networkcloud",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-baremetalinfrastructure",
+      "projectFolder": "sdk/baremetalinfrastructure/arm-baremetalinfrastructure",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-qumulo",
+      "projectFolder": "sdk/liftrqumulo/arm-qumulo",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerservicefleet",
+      "projectFolder": "sdk/containerservice/arm-containerservicefleet",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cosmosdbforpostgresql",
+      "projectFolder": "sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managednetworkfabric",
+      "projectFolder": "sdk/managednetworkfabric/arm-managednetworkfabric",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-iotfirmwaredefense",
+      "projectFolder": "sdk/iotfirmwaredefense/arm-iotfirmwaredefense",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-quantum",
+      "projectFolder": "sdk/quantum/arm-quantum",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sphere",
+      "projectFolder": "sdk/sphere/arm-sphere",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-maintenance",
+      "projectFolder": "sdk/maintenance/arm-maintenance",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcesdeploymentstacks",
+      "projectFolder": "sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-apicenter",
+      "projectFolder": "sdk/apicenter/arm-apicenter",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hdinsightcontainers",
+      "projectFolder": "sdk/hdinsight/arm-hdinsightcontainers",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-defendereasm",
+      "projectFolder": "sdk/defendereasm/arm-defendereasm",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hybridconnectivity",
+      "projectFolder": "sdk/hybridconnectivity/arm-hybridconnectivity",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-tests/perf-monitor-opentelemetry",
+      "projectFolder": "sdk/monitor/perf-tests/monitor-opentelemetry",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure/arm-playwrighttesting",
+      "projectFolder": "sdk/playwrighttesting/arm-playwrighttesting",
       "versionPolicyName": "management"
     }
   ]

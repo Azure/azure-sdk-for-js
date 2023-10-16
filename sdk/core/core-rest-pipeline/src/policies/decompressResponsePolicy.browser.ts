@@ -5,8 +5,6 @@
  * NOTE: When moving this file, please update "browser" section in package.json
  */
 
-const NotSupported = new Error("decompressResponsePolicy is not supported in browser environment");
-
 export const decompressResponsePolicyName = "decompressResponsePolicy";
 
 /**
@@ -14,5 +12,5 @@ export const decompressResponsePolicyName = "decompressResponsePolicy";
  * to use it will raise an error.
  */
 export function decompressResponsePolicy(): never {
-  throw NotSupported;
+  throw new Error("decompressResponsePolicy is not supported in browser environment");
 }

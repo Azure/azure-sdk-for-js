@@ -146,3 +146,6 @@ export function getTagsOrUndefined(value?: any): string[] | undefined {
   }
   return result.split(",");
 }
+
+export type NullableRecord = Record<string, string | undefined>;
+export type NonNullableRecord = Record<string, NonNullable<NullableRecord[string]>>;

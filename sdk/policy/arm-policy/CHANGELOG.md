@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.4 (Unreleased)
+## 5.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,36 @@
 
 ### Other Changes
 
+## 5.1.0 (2023-05-18)
+    
+**Features**
+
+  - Interface DataPolicyManifestsListNextOptionalParams no longer has parameter filter
+  - Interface PolicyAssignmentsListForManagementGroupNextOptionalParams no longer has parameter filter
+  - Interface PolicyAssignmentsListForManagementGroupNextOptionalParams no longer has parameter top
+  - Interface PolicyAssignmentsListForResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface PolicyAssignmentsListForResourceGroupNextOptionalParams no longer has parameter top
+  - Interface PolicyAssignmentsListForResourceNextOptionalParams no longer has parameter filter
+  - Interface PolicyAssignmentsListForResourceNextOptionalParams no longer has parameter top
+  - Interface PolicyAssignmentsListNextOptionalParams no longer has parameter filter
+  - Interface PolicyAssignmentsListNextOptionalParams no longer has parameter top
+  - Interface PolicyDefinitionsListBuiltInNextOptionalParams no longer has parameter filter
+  - Interface PolicyDefinitionsListBuiltInNextOptionalParams no longer has parameter top
+  - Interface PolicyDefinitionsListByManagementGroupNextOptionalParams no longer has parameter filter
+  - Interface PolicyDefinitionsListByManagementGroupNextOptionalParams no longer has parameter top
+  - Interface PolicyDefinitionsListNextOptionalParams no longer has parameter filter
+  - Interface PolicyDefinitionsListNextOptionalParams no longer has parameter top
+  - Interface PolicyExemptionsListForManagementGroupNextOptionalParams no longer has parameter filter
+  - Interface PolicyExemptionsListForResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface PolicyExemptionsListForResourceNextOptionalParams no longer has parameter filter
+  - Interface PolicyExemptionsListNextOptionalParams no longer has parameter filter
+  - Interface PolicySetDefinitionsListBuiltInNextOptionalParams no longer has parameter filter
+  - Interface PolicySetDefinitionsListBuiltInNextOptionalParams no longer has parameter top
+  - Interface PolicySetDefinitionsListByManagementGroupNextOptionalParams no longer has parameter filter
+  - Interface PolicySetDefinitionsListByManagementGroupNextOptionalParams no longer has parameter top
+  - Interface PolicySetDefinitionsListNextOptionalParams no longer has parameter filter
+  - Interface PolicySetDefinitionsListNextOptionalParams no longer has parameter top
+    
 ## 5.0.3 (2022-11-28)
 
 **Features**
@@ -40,4 +70,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

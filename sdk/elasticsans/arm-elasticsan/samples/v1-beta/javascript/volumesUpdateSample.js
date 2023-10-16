@@ -16,18 +16,15 @@ require("dotenv").config();
  * This sample demonstrates how to Update an Volume.
  *
  * @summary Update an Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/Volumes_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2022-12-01-preview/examples/Volumes_Update_MaximumSet_Gen.json
  */
 async function volumesUpdateMaximumSetGen() {
-  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
-  const elasticSanName = "ti7q-k952-1qB3J_5";
-  const volumeGroupName = "u_5I_1j4t3";
-  const volumeName = "9132y";
-  const parameters = {
-    sizeGiB: 9,
-    tags: { key1864: "aaaaaaaaa" },
-  };
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
+  const elasticSanName = "elasticsanname";
+  const volumeGroupName = "volumegroupname";
+  const volumeName = "volumename";
+  const parameters = { sizeGiB: 11 };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.volumes.beginUpdateAndWait(
@@ -44,14 +41,14 @@ async function volumesUpdateMaximumSetGen() {
  * This sample demonstrates how to Update an Volume.
  *
  * @summary Update an Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/Volumes_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2022-12-01-preview/examples/Volumes_Update_MinimumSet_Gen.json
  */
 async function volumesUpdateMinimumSetGen() {
-  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
-  const elasticSanName = "ti7q-k952-1qB3J_5";
-  const volumeGroupName = "u_5I_1j4t3";
-  const volumeName = "9132y";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
+  const elasticSanName = "elasticsanname";
+  const volumeGroupName = "volumegroupname";
+  const volumeName = "volumename";
   const parameters = {};
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);

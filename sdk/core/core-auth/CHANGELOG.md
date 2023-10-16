@@ -1,6 +1,6 @@
 # Release History
 
-## 1.4.1 (Unreleased)
+## 1.5.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,11 @@
 
 ### Other Changes
 
+## 1.5.0 (2023-08-03)
+
+### Features Added
+
+- Added `enableCae` option to `GetTokenOptions` to enable Continuous Access Evaluation in [PR #26614](https://github.com/Azure/azure-sdk-for-js/pull/26614).
 ## 1.4.0 (2022-08-04)
 
 ### Features Added

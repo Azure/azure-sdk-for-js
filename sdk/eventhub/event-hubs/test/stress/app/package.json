@@ -1,0 +1,29 @@
+{
+  "name": "stress-test-track-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "npm run build && node dist/src/scenarioNoActivity.js --testDurationInMs=10000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "applicationinsights": "^1.8.8",
+    "@azure/event-hubs": "5.10.0",
+    "@azure/storage-blob": "latest",
+    "@azure/eventhubs-checkpointstore-blob": "1.0.1",
+    "@azure/core-amqp": "3.2.0",
+    "dotenv": "^16.0.0",
+    "minimist": "^1.2.8",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "@types/minimist": "^1.2.1",
+    "@types/node": "^16.0.0",
+    "@types/uuid": "^8.3.0",
+    "typescript": "~5.0.0"
+  }
+}

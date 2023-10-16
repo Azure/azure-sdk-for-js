@@ -1,8 +1,8 @@
 {
-  "commit": "7a65f22cf67826187f75981e914c7e679039257b",
+  "commit": "ac98588da3cf3c3e043568adc8a6cc122ad8d6a7",
   "readme": "specification/cosmos-db/resource-manager/readme.md",
-  "autorest_command": "autorest --version=3.9.3 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\cosmos-db\\resource-manager\\readme.md --use=@autorest/typescript@6.0.0-rc.10 --generate-sample=true",
+  "autorest_command": "autorest --version=3.9.3 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\cosmos-db\\resource-manager\\readme.md --use=@autorest/typescript@6.0.2 --generate-sample=true",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "release_tool": "@azure-tools/js-sdk-release-tools@2.6.2",
-  "use": "@autorest/typescript@6.0.0-rc.10"
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.0",
+  "use": "@autorest/typescript@6.0.2"
 }

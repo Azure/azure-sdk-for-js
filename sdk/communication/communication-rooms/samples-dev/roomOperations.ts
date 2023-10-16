@@ -36,11 +36,13 @@ export async function main() {
   var validFrom = new Date(Date.now());
   var validForDays = 10;
   var validUntil = addDays(validFrom, validForDays);
+  var pstnDialOutEnabled = true;
 
   // options payload to create a room
   const createRoomOptions: CreateRoomOptions = {
     validFrom: validFrom,
     validUntil: validUntil,
+    pstnDialOutEnabled: pstnDialOutEnabled,
     participants: [
       {
         id: user1.user,
@@ -68,6 +70,7 @@ export async function main() {
   const updateRoomOptions: UpdateRoomOptions = {
     validFrom,
     validUntil: addDays(validUntil, 10),
+    pstnDialOutEnabled: pstnDialOutEnabled,
   };
 
   // updates the specified room with the request payload
@@ -76,6 +79,15 @@ export async function main() {
   printRoom(updateRoom);
 
   console.log(`Deleting room with id: ${roomId}...`);
+
+  // list available rooms
+  console.log("List all active rooms");
+  const listRooms = await roomsClient.listRooms();
+  for await (const roomModel of listRooms) {
+    printRoom(roomModel);
+  }
+
+  console.log("Successfully list all active rooms.");
 
   // deletes the specified room
   await roomsClient.deleteRoom(roomId);
@@ -90,7 +102,8 @@ export async function main() {
 function printRoom(room: CommunicationRoom): void {
   console.log(`Room ID: ${room.id}`);
   console.log(`Valid From: ${room.validFrom}`);
-  console.log(`Valid Until: ${room.validUntil}\n\n`);
+  console.log(`Valid Until: ${room.validUntil}`);
+  console.log(`PstnDialOutEnabled: ${room.pstnDialOutEnabled}\n\n`);
 }
 
 /**

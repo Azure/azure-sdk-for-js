@@ -1,0 +1,9 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": { "@azure-rest/health-insights-cancerprofiling": ["./src/index"] }
+  },
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
+}

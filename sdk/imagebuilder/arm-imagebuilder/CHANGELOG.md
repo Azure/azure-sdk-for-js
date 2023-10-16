@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 3.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 3.0.0 (2023-03-24)
     
 **Features**
@@ -112,4 +122,4 @@
     
 ## 1.0.0 (2022-01-10)
 
-The package of @azure/arm-imagebuilder is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+The package of @azure/arm-imagebuilder is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

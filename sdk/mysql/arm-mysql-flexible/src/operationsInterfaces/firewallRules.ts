@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FirewallRule,
   FirewallRulesListByServerOptionalParams,
@@ -47,8 +47,8 @@ export interface FirewallRules {
     parameters: FirewallRule,
     options?: FirewallRulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FirewallRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FirewallRulesCreateOrUpdateResponse>,
       FirewallRulesCreateOrUpdateResponse
     >
   >;
@@ -79,7 +79,7 @@ export interface FirewallRules {
     serverName: string,
     firewallRuleName: string,
     options?: FirewallRulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a firewall rule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

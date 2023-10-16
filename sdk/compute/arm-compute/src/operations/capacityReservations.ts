@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CapacityReservation,
   CapacityReservationsListByCapacityReservationGroupNextOptionalParams,
@@ -146,8 +150,8 @@ export class CapacityReservationsImpl implements CapacityReservations {
     parameters: CapacityReservation,
     options?: CapacityReservationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CapacityReservationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CapacityReservationsCreateOrUpdateResponse>,
       CapacityReservationsCreateOrUpdateResponse
     >
   > {
@@ -157,7 +161,7 @@ export class CapacityReservationsImpl implements CapacityReservations {
     ): Promise<CapacityReservationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -190,19 +194,22 @@ export class CapacityReservationsImpl implements CapacityReservations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         capacityReservationGroupName,
         capacityReservationName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CapacityReservationsCreateOrUpdateResponse,
+      OperationState<CapacityReservationsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -251,8 +258,8 @@ export class CapacityReservationsImpl implements CapacityReservations {
     parameters: CapacityReservationUpdate,
     options?: CapacityReservationsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CapacityReservationsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CapacityReservationsUpdateResponse>,
       CapacityReservationsUpdateResponse
     >
   > {
@@ -262,7 +269,7 @@ export class CapacityReservationsImpl implements CapacityReservations {
     ): Promise<CapacityReservationsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -295,19 +302,22 @@ export class CapacityReservationsImpl implements CapacityReservations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         capacityReservationGroupName,
         capacityReservationName,
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CapacityReservationsUpdateResponse,
+      OperationState<CapacityReservationsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -353,14 +363,14 @@ export class CapacityReservationsImpl implements CapacityReservations {
     capacityReservationGroupName: string,
     capacityReservationName: string,
     options?: CapacityReservationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -393,18 +403,18 @@ export class CapacityReservationsImpl implements CapacityReservations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         capacityReservationGroupName,
         capacityReservationName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -604,7 +614,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand7],
+  queryParameters: [Parameters.apiVersion, Parameters.expand9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

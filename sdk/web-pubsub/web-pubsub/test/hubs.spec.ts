@@ -52,7 +52,7 @@ describe("HubClient", function () {
     let client: WebPubSubServiceClient;
     let lastResponse: FullOperationResponse | undefined;
     const credential = createTestCredential();
-    function onResponse(response: FullOperationResponse) {
+    function onResponse(response: FullOperationResponse): void {
       lastResponse = response;
     }
     beforeEach(async function () {
@@ -86,6 +86,7 @@ describe("HubClient", function () {
       await client.sendToAll("hello", {
         contentType: "text/plain",
         filter: "userId ne 'user1'",
+        messageTtlSeconds: 60,
         onResponse,
       });
       assert.equal(lastResponse?.status, 202);

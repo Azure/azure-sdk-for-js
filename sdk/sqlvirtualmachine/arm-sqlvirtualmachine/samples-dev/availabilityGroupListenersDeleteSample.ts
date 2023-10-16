@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an availability group listener.
  *
  * @summary Deletes an availability group listener.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/DeleteAvailabilityGroupListener.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/DeleteAvailabilityGroupListener.json
  */
 async function deletesAnAvailabilityGroupListener() {
   const subscriptionId =

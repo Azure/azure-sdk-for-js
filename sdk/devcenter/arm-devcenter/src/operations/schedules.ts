@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevCenterClient } from "../devCenterClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Schedule,
   SchedulesListByPoolNextOptionalParams,
@@ -194,8 +198,8 @@ export class SchedulesImpl implements Schedules {
     body: Schedule,
     options?: SchedulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SchedulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SchedulesCreateOrUpdateResponse>,
       SchedulesCreateOrUpdateResponse
     >
   > {
@@ -205,7 +209,7 @@ export class SchedulesImpl implements Schedules {
     ): Promise<SchedulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -238,15 +242,25 @@ export class SchedulesImpl implements Schedules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, projectName, poolName, scheduleName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        projectName,
+        poolName,
+        scheduleName,
+        body,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SchedulesCreateOrUpdateResponse,
+      OperationState<SchedulesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -297,8 +311,8 @@ export class SchedulesImpl implements Schedules {
     body: ScheduleUpdate,
     options?: SchedulesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SchedulesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SchedulesUpdateResponse>,
       SchedulesUpdateResponse
     >
   > {
@@ -308,7 +322,7 @@ export class SchedulesImpl implements Schedules {
     ): Promise<SchedulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -341,15 +355,25 @@ export class SchedulesImpl implements Schedules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, projectName, poolName, scheduleName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        projectName,
+        poolName,
+        scheduleName,
+        body,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SchedulesUpdateResponse,
+      OperationState<SchedulesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -397,14 +421,14 @@ export class SchedulesImpl implements Schedules {
     poolName: string,
     scheduleName: string,
     options?: SchedulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -437,15 +461,15 @@ export class SchedulesImpl implements Schedules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, projectName, poolName, scheduleName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, projectName, poolName, scheduleName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -653,7 +677,6 @@ const listByPoolNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

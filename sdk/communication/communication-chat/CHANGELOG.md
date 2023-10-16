@@ -1,14 +1,10 @@
 # Release History
 
-## 1.3.2 (Unreleased)
+## 1.3.2 (2023-08-24)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Updated to @azure/communication-signaling@1.0.0-beta.20. Added EUDB real-time notification support. `https://*.trouter.teams.microsoft.com` and `https://teams.microsoft.com` needs to be allowed for real-time notifications.
 
 ## 1.3.1 (2023-02-28)
 

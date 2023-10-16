@@ -84,7 +84,7 @@ export interface JobRouter {
   ): Promise<JobRouterGetJobResponse>;
   /**
    * Deletes a job and all of its traces.
-   * @param id
+   * @param id Id of the job
    * @param options The options parameters.
    */
   deleteJob(

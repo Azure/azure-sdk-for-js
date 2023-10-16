@@ -11,14 +11,18 @@ import {
   isCommunicationUserIdentifier,
   isPhoneNumberIdentifier,
   isUnknownIdentifier,
+  SerializedCommunicationIdentifier,
+  isMicrosoftTeamsUserIdentifier,
+  MicrosoftTeamsUserIdentifier,
 } from "@azure/communication-common";
 import {
   CallParticipantInternal,
   CommunicationIdentifierModel,
   CommunicationIdentifierModelKind,
-  CommunicationUserIdentifierModel,
+  KnownCommunicationCloudEnvironmentModel,
   KnownCommunicationIdentifierModelKind,
   PhoneNumberIdentifierModel,
+  CommunicationUserIdentifierModel,
 } from "../generated/src";
 import { CallParticipant } from "../models/models";
 
@@ -96,6 +100,19 @@ export function communicationIdentifierConverter(
     return phoneNumberIdentifier;
   }
 
+  if (
+    kind === KnownCommunicationIdentifierModelKind.MicrosoftTeamsUser &&
+    identifierModel.microsoftTeamsUser !== undefined
+  ) {
+    const microsoftTeamsUserIdentifier: MicrosoftTeamsUserIdentifier = {
+      rawId: rawId,
+      microsoftTeamsUserId: identifierModel.microsoftTeamsUser.userId,
+      isAnonymous: identifierModel.microsoftTeamsUser.isAnonymous,
+      cloud: identifierModel.microsoftTeamsUser.cloud as KnownCommunicationCloudEnvironmentModel,
+    };
+    return microsoftTeamsUserIdentifier;
+  }
+
   const unknownIdentifier: UnknownIdentifier = {
     id: rawId ? rawId : "",
   };
@@ -106,32 +123,36 @@ export function communicationIdentifierConverter(
 export function communicationIdentifierModelConverter(
   identifier: CommunicationIdentifier
 ): CommunicationIdentifierModel {
+  const serializedIdentifier: SerializedCommunicationIdentifier =
+    serializeCommunicationIdentifier(identifier);
   if (isCommunicationUserIdentifier(identifier)) {
     const communicationUserIdentifierModel: CommunicationIdentifierModel = {
-      rawId: identifier.communicationUserId,
       kind: KnownCommunicationIdentifierModelKind.CommunicationUser,
-      communicationUser: {
-        id: identifier.communicationUserId,
-      },
+      ...serializedIdentifier,
     };
     return communicationUserIdentifierModel;
   }
 
   if (isPhoneNumberIdentifier(identifier)) {
     const phoneNumberIdentifierModel: CommunicationIdentifierModel = {
-      rawId: identifier.rawId,
       kind: KnownCommunicationIdentifierModelKind.PhoneNumber,
-      phoneNumber: {
-        value: identifier.phoneNumber,
-      },
+      ...serializedIdentifier,
     };
     return phoneNumberIdentifierModel;
   }
 
+  if (isMicrosoftTeamsUserIdentifier(identifier)) {
+    const microsoftTeamsUserIdentifierModel: CommunicationIdentifierModel = {
+      kind: KnownCommunicationIdentifierModelKind.MicrosoftTeamsUser,
+      ...serializedIdentifier,
+    };
+    return microsoftTeamsUserIdentifierModel;
+  }
+
   if (isUnknownIdentifier(identifier)) {
     const unknownIdentifierModel: CommunicationIdentifierModel = {
-      rawId: identifier.id,
       kind: KnownCommunicationIdentifierModelKind.Unknown,
+      ...serializedIdentifier,
     };
     return unknownIdentifierModel;
   }

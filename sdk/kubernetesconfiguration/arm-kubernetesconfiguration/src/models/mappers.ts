@@ -287,6 +287,48 @@ export const SystemData: coreClient.CompositeMapper = {
   }
 };
 
+export const Plan: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Plan",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      publisher: {
+        serializedName: "publisher",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      product: {
+        serializedName: "product",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      promotionCode: {
+        serializedName: "promotionCode",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -613,6 +655,147 @@ export const BucketDefinition: coreClient.CompositeMapper = {
   }
 };
 
+export const AzureBlobDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureBlobDefinition",
+    modelProperties: {
+      url: {
+        serializedName: "url",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      containerName: {
+        serializedName: "containerName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      timeoutInSeconds: {
+        defaultValue: 600,
+        serializedName: "timeoutInSeconds",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      syncIntervalInSeconds: {
+        defaultValue: 600,
+        serializedName: "syncIntervalInSeconds",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      servicePrincipal: {
+        serializedName: "servicePrincipal",
+        type: {
+          name: "Composite",
+          className: "ServicePrincipalDefinition"
+        }
+      },
+      accountKey: {
+        serializedName: "accountKey",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      sasToken: {
+        serializedName: "sasToken",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      managedIdentity: {
+        serializedName: "managedIdentity",
+        type: {
+          name: "Composite",
+          className: "ManagedIdentityDefinition"
+        }
+      },
+      localAuthRef: {
+        serializedName: "localAuthRef",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServicePrincipalDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServicePrincipalDefinition",
+    modelProperties: {
+      clientId: {
+        serializedName: "clientId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientSecret: {
+        serializedName: "clientSecret",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientCertificate: {
+        serializedName: "clientCertificate",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientCertificatePassword: {
+        serializedName: "clientCertificatePassword",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientCertificateSendChain: {
+        defaultValue: false,
+        serializedName: "clientCertificateSendChain",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedIdentityDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedIdentityDefinition",
+    modelProperties: {
+      clientId: {
+        serializedName: "clientId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const KustomizationDefinition: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -677,6 +860,78 @@ export const KustomizationDefinition: coreClient.CompositeMapper = {
       force: {
         defaultValue: false,
         serializedName: "force",
+        type: {
+          name: "Boolean"
+        }
+      },
+      wait: {
+        defaultValue: true,
+        serializedName: "wait",
+        type: {
+          name: "Boolean"
+        }
+      },
+      postBuild: {
+        serializedName: "postBuild",
+        type: {
+          name: "Composite",
+          className: "PostBuildDefinition"
+        }
+      }
+    }
+  }
+};
+
+export const PostBuildDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PostBuildDefinition",
+    modelProperties: {
+      substitute: {
+        serializedName: "substitute",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      substituteFrom: {
+        serializedName: "substituteFrom",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubstituteFromDefinition"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SubstituteFromDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubstituteFromDefinition",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      optional: {
+        defaultValue: false,
+        serializedName: "optional",
         type: {
           name: "Boolean"
         }
@@ -883,6 +1138,13 @@ export const FluxConfigurationPatch: coreClient.CompositeMapper = {
           className: "BucketPatchDefinition"
         }
       },
+      azureBlob: {
+        serializedName: "properties.azureBlob",
+        type: {
+          name: "Composite",
+          className: "AzureBlobPatchDefinition"
+        }
+      },
       kustomizations: {
         serializedName: "properties.kustomizations",
         nullable: true,
@@ -1031,6 +1293,144 @@ export const BucketPatchDefinition: coreClient.CompositeMapper = {
   }
 };
 
+export const AzureBlobPatchDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureBlobPatchDefinition",
+    modelProperties: {
+      url: {
+        serializedName: "url",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      containerName: {
+        serializedName: "containerName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      timeoutInSeconds: {
+        serializedName: "timeoutInSeconds",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      syncIntervalInSeconds: {
+        serializedName: "syncIntervalInSeconds",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      servicePrincipal: {
+        serializedName: "servicePrincipal",
+        type: {
+          name: "Composite",
+          className: "ServicePrincipalPatchDefinition"
+        }
+      },
+      accountKey: {
+        serializedName: "accountKey",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      sasToken: {
+        serializedName: "sasToken",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      managedIdentity: {
+        serializedName: "managedIdentity",
+        type: {
+          name: "Composite",
+          className: "ManagedIdentityPatchDefinition"
+        }
+      },
+      localAuthRef: {
+        serializedName: "localAuthRef",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServicePrincipalPatchDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServicePrincipalPatchDefinition",
+    modelProperties: {
+      clientId: {
+        serializedName: "clientId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientSecret: {
+        serializedName: "clientSecret",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientCertificate: {
+        serializedName: "clientCertificate",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientCertificatePassword: {
+        serializedName: "clientCertificatePassword",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientCertificateSendChain: {
+        serializedName: "clientCertificateSendChain",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedIdentityPatchDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedIdentityPatchDefinition",
+    modelProperties: {
+      clientId: {
+        serializedName: "clientId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const KustomizationPatchDefinition: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1088,6 +1488,20 @@ export const KustomizationPatchDefinition: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Boolean"
+        }
+      },
+      wait: {
+        serializedName: "wait",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      postBuild: {
+        serializedName: "postBuild",
+        type: {
+          name: "Composite",
+          className: "PostBuildDefinition"
         }
       }
     }
@@ -1363,6 +1777,13 @@ export const Extension: coreClient.CompositeMapper = {
           className: "SystemData"
         }
       },
+      plan: {
+        serializedName: "plan",
+        type: {
+          name: "Composite",
+          className: "Plan"
+        }
+      },
       extensionType: {
         serializedName: "properties.extensionType",
         type: {
@@ -1413,8 +1834,8 @@ export const Extension: coreClient.CompositeMapper = {
           value: { type: { name: "String" } }
         }
       },
-      installedVersion: {
-        serializedName: "properties.installedVersion",
+      currentVersion: {
+        serializedName: "properties.currentVersion",
         readOnly: true,
         nullable: true,
         type: {
@@ -1470,6 +1891,14 @@ export const Extension: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ExtensionPropertiesAksAssignedIdentity"
+        }
+      },
+      isSystemExtension: {
+        defaultValue: false,
+        serializedName: "properties.isSystemExtension",
+        readOnly: true,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1528,6 +1957,13 @@ export const FluxConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "BucketDefinition"
+        }
+      },
+      azureBlob: {
+        serializedName: "properties.azureBlob",
+        type: {
+          name: "Composite",
+          className: "AzureBlobDefinition"
         }
       },
       kustomizations: {
@@ -1592,6 +2028,20 @@ export const FluxConfiguration: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "DateTime"
+        }
+      },
+      waitForReconciliation: {
+        serializedName: "properties.waitForReconciliation",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      reconciliationWaitDuration: {
+        serializedName: "properties.reconciliationWaitDuration",
+        nullable: true,
+        type: {
+          name: "String"
         }
       },
       complianceState: {

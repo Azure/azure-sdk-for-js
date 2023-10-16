@@ -3,9 +3,12 @@
 import { OperationType, ResourceType, isReadRequest } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { Location, DatabaseAccount } from "./documents";
-import { MetadataLookUpType, RequestContext, RequestOptions } from "./index";
+import { RequestOptions } from "./index";
 import { Constants } from "./common/constants";
 import { ResourceResponse } from "./request";
+import { MetadataLookUpType } from "./CosmosDiagnostics";
+import { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
+import { withMetadataDiagnostics } from "./utils/diagnostics";
 
 /**
  * @hidden
@@ -31,12 +34,15 @@ export class GlobalEndpointManager {
   private unavailableReadableLocations: Location[] = [];
   private unavailableWriteableLocations: Location[] = [];
 
+  public preferredLocationsCount: number;
   /**
    * @param options - The document client instance.
+   * @internal
    */
   constructor(
     options: CosmosClientOptions,
     private readDatabaseAccount: (
+      diagnosticNode: DiagnosticNodeInternal,
       opts: RequestOptions
     ) => Promise<ResourceResponse<DatabaseAccount>>
   ) {
@@ -45,20 +51,21 @@ export class GlobalEndpointManager {
     this.enableEndpointDiscovery = options.connectionPolicy.enableEndpointDiscovery;
     this.isRefreshing = false;
     this.preferredLocations = this.options.connectionPolicy.preferredLocations;
+    this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
   }
 
   /**
    * Gets the current read endpoint from the endpoint cache.
    */
-  public async getReadEndpoint(): Promise<string> {
-    return this.resolveServiceEndpoint(ResourceType.item, OperationType.Read);
+  public async getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string> {
+    return this.resolveServiceEndpoint(diagnosticNode, ResourceType.item, OperationType.Read);
   }
 
   /**
    * Gets the current write endpoint from the endpoint cache.
    */
-  public async getWriteEndpoint(): Promise<string> {
-    return this.resolveServiceEndpoint(ResourceType.item, OperationType.Replace);
+  public async getWriteEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string> {
+    return this.resolveServiceEndpoint(diagnosticNode, ResourceType.item, OperationType.Replace);
   }
 
   public async getReadEndpoints(): Promise<ReadonlyArray<string>> {
@@ -69,8 +76,11 @@ export class GlobalEndpointManager {
     return this.writeableLocations.map((loc) => loc.databaseAccountEndpoint);
   }
 
-  public async markCurrentLocationUnavailableForRead(endpoint: string): Promise<void> {
-    await this.refreshEndpointList();
+  public async markCurrentLocationUnavailableForRead(
+    diagnosticNode: DiagnosticNodeInternal,
+    endpoint: string
+  ): Promise<void> {
+    await this.refreshEndpointList(diagnosticNode);
     const location = this.readableLocations.find((loc) => loc.databaseAccountEndpoint === endpoint);
     if (location) {
       location.unavailable = true;
@@ -79,8 +89,11 @@ export class GlobalEndpointManager {
     }
   }
 
-  public async markCurrentLocationUnavailableForWrite(endpoint: string): Promise<void> {
-    await this.refreshEndpointList();
+  public async markCurrentLocationUnavailableForWrite(
+    diagnosticNode: DiagnosticNodeInternal,
+    endpoint: string
+  ): Promise<void> {
+    await this.refreshEndpointList(diagnosticNode);
     const location = this.writeableLocations.find(
       (loc) => loc.databaseAccountEndpoint === endpoint
     );
@@ -108,32 +121,39 @@ export class GlobalEndpointManager {
   }
 
   public async resolveServiceEndpoint(
+    diagnosticNode: DiagnosticNodeInternal,
     resourceType: ResourceType,
     operationType: OperationType,
-    requestContext?: RequestContext
+    startServiceEndpointIndex: number = 0 // Represents the starting index for selecting servers.
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
+
     if (!this.options.connectionPolicy.enableEndpointDiscovery) {
+      diagnosticNode.addData({ readFromCache: true }, "default_endpoint");
+      diagnosticNode.recordEndpointResolution(this.defaultEndpoint);
       return this.defaultEndpoint;
     }
 
     // If getting the database account, always use the user provided endpoint
     if (resourceType === ResourceType.none) {
+      diagnosticNode.addData({ readFromCache: true }, "none_resource");
+      diagnosticNode.recordEndpointResolution(this.defaultEndpoint);
       return this.defaultEndpoint;
     }
 
     if (this.readableLocations.length === 0 || this.writeableLocations.length === 0) {
-      const { resource: databaseAccount, diagnostics } = await this.readDatabaseAccount({
-        urlConnection: this.defaultEndpoint,
-      });
-      this.writeableLocations = databaseAccount.writableLocations;
-      this.readableLocations = databaseAccount.readableLocations;
-      if (requestContext !== undefined) {
-        requestContext.diagnosticContext.recordMetaDataLookup(
-          diagnostics,
-          MetadataLookUpType.DatabaseAccountLookUp
-        );
-      }
+      const resourceResponse = await withMetadataDiagnostics(
+        async (metadataNode: DiagnosticNodeInternal) => {
+          return this.readDatabaseAccount(metadataNode, {
+            urlConnection: this.defaultEndpoint,
+          });
+        },
+        diagnosticNode,
+        MetadataLookUpType.DatabaseAccountLookUp
+      );
+
+      this.writeableLocations = resourceResponse.resource.writableLocations;
+      this.readableLocations = resourceResponse.resource.readableLocations;
     }
 
     const locations = isReadRequest(operationType)
@@ -142,8 +162,13 @@ export class GlobalEndpointManager {
 
     let location;
     // If we have preferred locations, try each one in order and use the first available one
-    if (this.preferredLocations && this.preferredLocations.length > 0) {
-      for (const preferredLocation of this.preferredLocations) {
+    if (
+      this.preferredLocations &&
+      this.preferredLocations.length > 0 &&
+      startServiceEndpointIndex < this.preferredLocations.length
+    ) {
+      for (let i = startServiceEndpointIndex; i < this.preferredLocations.length; i++) {
+        const preferredLocation = this.preferredLocations[i];
         location = locations.find(
           (loc) =>
             loc.unavailable !== true &&
@@ -157,14 +182,18 @@ export class GlobalEndpointManager {
 
     // If no preferred locations or one did not match, just grab the first one that is available
     if (!location) {
-      location = locations.find((loc) => {
+      const startIndexValid =
+        startServiceEndpointIndex >= 0 && startServiceEndpointIndex < locations.length;
+      const locationsToSearch = startIndexValid
+        ? locations.slice(startServiceEndpointIndex)
+        : locations;
+      location = locationsToSearch.find((loc) => {
         return loc.unavailable !== true;
       });
     }
+
     location = location ? location : { name: "", databaseAccountEndpoint: this.defaultEndpoint };
-    if (requestContext !== undefined) {
-      requestContext.diagnosticContext.recordEndpointContactEvent(location);
-    }
+    diagnosticNode.recordEndpointResolution(location.databaseAccountEndpoint);
     return location.databaseAccountEndpoint;
   }
 
@@ -174,10 +203,10 @@ export class GlobalEndpointManager {
    *  and then updating the locations cache.
    *  We skip the refreshing if enableEndpointDiscovery is set to False
    */
-  public async refreshEndpointList(): Promise<void> {
+  public async refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     if (!this.isRefreshing && this.enableEndpointDiscovery) {
       this.isRefreshing = true;
-      const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint();
+      const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint(diagnosticNode);
       if (databaseAccount) {
         this.refreshStaleUnavailableLocations();
         this.refreshEndpoints(databaseAccount);
@@ -256,10 +285,12 @@ export class GlobalEndpointManager {
    * use the endpoints for the preferred locations in the order they are specified to get
    * the database account.
    */
-  private async getDatabaseAccountFromAnyEndpoint(): Promise<DatabaseAccount> {
+  private async getDatabaseAccountFromAnyEndpoint(
+    diagnosticNode: DiagnosticNodeInternal
+  ): Promise<DatabaseAccount> {
     try {
       const options = { urlConnection: this.defaultEndpoint };
-      const { resource: databaseAccount } = await this.readDatabaseAccount(options);
+      const { resource: databaseAccount } = await this.readDatabaseAccount(diagnosticNode, options);
       return databaseAccount;
       // If for any reason(non - globaldb related), we are not able to get the database
       // account from the above call to readDatabaseAccount,
@@ -279,7 +310,10 @@ export class GlobalEndpointManager {
             location
           );
           const options = { urlConnection: locationalEndpoint };
-          const { resource: databaseAccount } = await this.readDatabaseAccount(options);
+          const { resource: databaseAccount } = await this.readDatabaseAccount(
+            diagnosticNode,
+            options
+          );
           if (databaseAccount) {
             return databaseAccount;
           }

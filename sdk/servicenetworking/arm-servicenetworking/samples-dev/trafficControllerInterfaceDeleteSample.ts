@@ -25,7 +25,7 @@ async function deleteTrafficController() {
     process.env["SERVICENETWORKING_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["SERVICENETWORKING_RESOURCE_GROUP"] || "rg1";
-  const trafficControllerName = "TC1";
+  const trafficControllerName = "tc1";
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(
     credential,

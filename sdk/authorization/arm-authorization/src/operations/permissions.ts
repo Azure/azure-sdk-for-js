@@ -328,7 +328,7 @@ const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -349,7 +349,7 @@ const listForResourceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -357,7 +357,7 @@ const listForResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.resourceName2
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -401,7 +401,7 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.resourceName2
   ],
   headerParameters: [Parameters.accept],
   serializer

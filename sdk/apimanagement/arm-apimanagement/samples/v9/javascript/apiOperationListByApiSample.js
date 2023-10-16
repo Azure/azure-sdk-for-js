@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists a collection of the operations for the specified API.
  *
  * @summary Lists a collection of the operations for the specified API.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListApiOperations.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiOperations.json
  */
 async function apiManagementListApiOperations() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

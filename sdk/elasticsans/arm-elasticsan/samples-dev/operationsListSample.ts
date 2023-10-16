@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of ElasticSan operations.
  *
  * @summary Gets a list of ElasticSan operations.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2022-12-01-preview/examples/Operations_List_MaximumSet_Gen.json
  */
 async function operationsListMaximumSetGen() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function operationsListMaximumSetGen() {
  * This sample demonstrates how to Gets a list of ElasticSan operations.
  *
  * @summary Gets a list of ElasticSan operations.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2022-12-01-preview/examples/Operations_List_MinimumSet_Gen.json
  */
 async function operationsListMinimumSetGen() {
   const subscriptionId =

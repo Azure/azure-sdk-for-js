@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
+import { getQSU, getSASConnectionStringFromEnvironment, uriSanitizers } from "./utils";
 import { QueueClient } from "../src/QueueClient";
-import { record, delay, Recorder } from "@azure-tools/test-recorder";
+import { delay, Recorder } from "@azure-tools/test-recorder";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
-import { recorderEnvSetup } from "./utils/index.browser";
+import { getUniqueName, recorderEnvSetup } from "./utils/index.browser";
 import { Context } from "mocha";
 
 describe("QueueClient messageId methods", () => {
@@ -17,9 +17,11 @@ describe("QueueClient messageId methods", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const queueServiceClient = getQSU();
-    queueName = recorder.getUniqueName("queue");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const queueServiceClient = getQSU(recorder);
+    queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
@@ -204,7 +206,9 @@ describe("QueueClient messageId methods", () => {
 
   it("verify messageID and queueName passed to the client", async () => {
     const newClient = new QueueClient(
-      extractConnectionStringParts(getSASConnectionStringFromEnvironment()).url + "/" + queueName
+      extractConnectionStringParts(getSASConnectionStringFromEnvironment(recorder)).url +
+        "/" +
+        queueName
     );
     assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
   });

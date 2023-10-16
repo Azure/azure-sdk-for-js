@@ -21,7 +21,7 @@ import { ResourceConnectorManagementClientOptionalParams } from "./models";
 export class ResourceConnectorManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the ResourceConnectorManagementClient class.
@@ -33,12 +33,28 @@ export class ResourceConnectorManagementClient extends coreClient.ServiceClient 
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: ResourceConnectorManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: ResourceConnectorManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | ResourceConnectorManagementClientOptionalParams
+      | string,
+    options?: ResourceConnectorManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -50,7 +66,7 @@ export class ResourceConnectorManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-resourceconnector/1.0.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-resourceconnector/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

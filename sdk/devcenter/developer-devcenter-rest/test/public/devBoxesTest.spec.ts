@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert, expect } from "chai";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
@@ -19,7 +19,11 @@ import {
   DevBoxesCreateDevBoxParameters,
 } from "../../src/index";
 
-describe("DevBox Operations Tests", () => {
+const testPollingOptions = {
+  intervalInMs: isPlaybackMode() ? 0 : undefined,
+};
+
+describe("DevCenter Dev Boxes Operations Test", () => {
   let recorder: Recorder;
   let client: AzureDevCenterClient;
 
@@ -395,7 +399,7 @@ describe("DevBox Operations Tests", () => {
 
     assert.equal(devBoxCreateResponse.status, "201", "Dev Box creation should return 201 Created.");
 
-    const devBoxCreatePoller = getLongRunningPoller(client, devBoxCreateResponse);
+    const devBoxCreatePoller = getLongRunningPoller(client, devBoxCreateResponse, testPollingOptions);
     const devBoxCreateResult = await devBoxCreatePoller.pollUntilDone();
 
     if (isUnexpected(devBoxCreateResult)) {
@@ -428,7 +432,7 @@ describe("DevBox Operations Tests", () => {
 
     assert.equal(devBoxDeleteResponse.status, "202", "Delete Dev Box should return 202 Accepted.");
 
-    const devBoxDeletePoller = getLongRunningPoller(client, devBoxDeleteResponse);
+    const devBoxDeletePoller = getLongRunningPoller(client, devBoxDeleteResponse, testPollingOptions);
     const devBoxDeleteResult = await devBoxDeletePoller.pollUntilDone();
 
     if (isUnexpected(devBoxDeleteResult)) {

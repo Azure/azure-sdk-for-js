@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { FrontDoorManagementClient } from "../frontDoorManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Profile,
   NetworkExperimentProfilesListNextOptionalParams,
@@ -227,8 +231,8 @@ export class NetworkExperimentProfilesImpl
     parameters: Profile,
     options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkExperimentProfilesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NetworkExperimentProfilesCreateOrUpdateResponse>,
       NetworkExperimentProfilesCreateOrUpdateResponse
     >
   > {
@@ -238,7 +242,7 @@ export class NetworkExperimentProfilesImpl
     ): Promise<NetworkExperimentProfilesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -271,13 +275,16 @@ export class NetworkExperimentProfilesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { profileName, resourceGroupName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { profileName, resourceGroupName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkExperimentProfilesCreateOrUpdateResponse,
+      OperationState<NetworkExperimentProfilesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -319,8 +326,8 @@ export class NetworkExperimentProfilesImpl
     parameters: ProfileUpdateModel,
     options?: NetworkExperimentProfilesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkExperimentProfilesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NetworkExperimentProfilesUpdateResponse>,
       NetworkExperimentProfilesUpdateResponse
     >
   > {
@@ -330,7 +337,7 @@ export class NetworkExperimentProfilesImpl
     ): Promise<NetworkExperimentProfilesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -363,13 +370,16 @@ export class NetworkExperimentProfilesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, profileName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, profileName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkExperimentProfilesUpdateResponse,
+      OperationState<NetworkExperimentProfilesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -408,14 +418,14 @@ export class NetworkExperimentProfilesImpl
     resourceGroupName: string,
     profileName: string,
     options?: NetworkExperimentProfilesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -448,13 +458,13 @@ export class NetworkExperimentProfilesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, profileName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, profileName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -527,7 +537,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -544,11 +554,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -565,11 +575,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.profileName
   ],
   headerParameters: [Parameters.accept],
@@ -596,12 +606,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.profileName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -629,12 +639,12 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.profileName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -654,11 +664,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.profileName
   ],
   headerParameters: [Parameters.accept],
@@ -675,7 +685,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -695,11 +704,10 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

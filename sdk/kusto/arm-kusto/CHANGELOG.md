@@ -1,6 +1,6 @@
 # Release History
 
-## 7.3.1 (Unreleased)
+## 8.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,68 @@
 
 ### Other Changes
 
+## 8.0.0 (2023-07-05)
+    
+**Features**
+
+  - Added operation group DatabaseOperations
+  - Added operation Clusters.beginMigrate
+  - Added operation Clusters.beginMigrateAndWait
+  - Added Interface AttachedDatabaseConfigurationsCreateOrUpdateHeaders
+  - Added Interface AttachedDatabaseConfigurationsDeleteHeaders
+  - Added Interface ClusterMigrateRequest
+  - Added Interface ClusterPrincipalAssignmentsDeleteHeaders
+  - Added Interface ClustersAddLanguageExtensionsHeaders
+  - Added Interface ClustersDeleteHeaders
+  - Added Interface ClustersDetachFollowerDatabasesHeaders
+  - Added Interface ClustersDiagnoseVirtualNetworkHeaders
+  - Added Interface ClustersMigrateHeaders
+  - Added Interface ClustersMigrateOptionalParams
+  - Added Interface ClustersRemoveLanguageExtensionsHeaders
+  - Added Interface ClustersStartHeaders
+  - Added Interface ClustersStopHeaders
+  - Added Interface DatabaseInviteFollowerOptionalParams
+  - Added Interface DatabaseInviteFollowerRequest
+  - Added Interface DatabaseInviteFollowerResult
+  - Added Interface DatabasePrincipalAssignmentsDeleteHeaders
+  - Added Interface DatabasesCreateOrUpdateHeaders
+  - Added Interface DatabasesDeleteHeaders
+  - Added Interface DatabasesListByClusterNextOptionalParams
+  - Added Interface DataConnectionsCreateOrUpdateHeaders
+  - Added Interface DataConnectionsDataConnectionValidationHeaders
+  - Added Interface DataConnectionsDeleteHeaders
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface ManagedPrivateEndpointsCreateOrUpdateHeaders
+  - Added Interface ManagedPrivateEndpointsDeleteHeaders
+  - Added Interface MigrationClusterProperties
+  - Added Interface OperationsResultsLocationGetHeaders
+  - Added Interface PrivateEndpointConnectionsDeleteHeaders
+  - Added Interface ScriptsCreateOrUpdateHeaders
+  - Added Interface ScriptsDeleteHeaders
+  - Added Interface SuspensionDetails
+  - Added Type Alias DatabaseInviteFollowerResponse
+  - Added Type Alias DatabasesListByClusterNextResponse
+  - Added Type Alias MigrationClusterRole
+  - Added Type Alias OperationsResultsLocationGetResponse
+  - Interface Cluster has a new optional parameter migrationCluster
+  - Interface ClusterUpdate has a new optional parameter migrationCluster
+  - Interface DatabaseListResult has a new optional parameter nextLink
+  - Interface DatabasesListByClusterOptionalParams has a new optional parameter skiptoken
+  - Interface DatabasesListByClusterOptionalParams has a new optional parameter top
+  - Interface ReadOnlyFollowingDatabase has a new optional parameter suspensionDetails
+  - Interface ReadWriteDatabase has a new optional parameter keyVaultProperties
+  - Interface ReadWriteDatabase has a new optional parameter suspensionDetails
+  - Added Enum KnownMigrationClusterRole
+  - Enum KnownState has a new value Migrated
+
+**Breaking Changes**
+
+  - Enum KnownLanguageExtensionImageName no longer has value Python3912
+  - Enum KnownLanguageExtensionImageName no longer has value Python3912IncludeDeepLearning
+    
+    
 ## 7.3.0 (2023-02-07)
     
 **Features**
@@ -165,4 +227,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

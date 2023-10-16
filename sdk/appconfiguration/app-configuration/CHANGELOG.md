@@ -1,5 +1,36 @@
 # Release History
 
+## 1.5.0-beta.3 (Unreleased)
+
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.5.0-beta.2 (2023-10-10)
+
+### Features Added
+
+- Allow setting `updateIntervalInMs` in `CreateSnapshotOptions`
+
+### Other Changes
+
+- Rename `Snapshot` -> `ConfigurationSnapshot`
+- Rename the properties `retentionPeriod` -> `retentionPeriodInSeconds`, `size` -> `sizeInBytes` for `ConfigurationSnapshot`
+- Rename the type `CompositionType` -> `SnapshotComposition`, `SnapshotStatus` -> `ConfigurationSnapshotStatus`
+- Update the method signature for `archiveSnapshot` and `updateSnapshot` to take in a snapshot name as a parameter
+
+## 1.5.0-beta.1 (2023-07-14)
+
+### Features Added
+
+- With the new preview API version `2022-11-01-preview`, added configuration settings snapshot feature that allows users to create a point-in-time snapshot of their configuration store.
+  [#24535](https://github.com/Azure/azure-sdk-for-js/pull/24535)
+
 ## 1.4.1 (2023-04-24)
 
 ### Features Added
@@ -8,7 +39,7 @@
 ### Bugs Fixed
 
 - "\0" as the `labelFilter` in the listing methods `AppConfgurationClient#listConfigurationSettings` would return the settings without any labels. Docs were updated to reflect that.
-   [#21309](https://github.com/Azure/azure-sdk-for-js/pull/21039)
+  [#21309](https://github.com/Azure/azure-sdk-for-js/pull/21039)
 - [#25463](https://github.com/Azure/azure-sdk-for-js/pull/25463) If the app configuration endpoint ends withs a slash(`/`), the requests made using the `AppConfigurationClient` hit 401 error owing to `Bearer error="invalid_token", error_description="Authorization token failed validation"`. The issue is fixed as part of [#20766](https://github.com/Azure/azure-sdk-for-js/pull/20766).
 
 ### Other Changes

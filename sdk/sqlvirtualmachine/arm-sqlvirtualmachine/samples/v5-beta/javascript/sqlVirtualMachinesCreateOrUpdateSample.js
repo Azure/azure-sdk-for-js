@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a SQL virtual machine.
  *
  * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/CreateOrUpdateVirtualMachineWithVMGroup.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateVirtualMachineWithVMGroup.json
  */
 async function createsOrUpdatesASqlVirtualMachineAndJoinsItToASqlVirtualMachineGroup() {
   const subscriptionId =
@@ -50,7 +50,7 @@ async function createsOrUpdatesASqlVirtualMachineAndJoinsItToASqlVirtualMachineG
  * This sample demonstrates how to Creates or updates a SQL virtual machine.
  *
  * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/CreateOrUpdateSqlVirtualMachineAutomatedBackupWeekly.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineAutomatedBackupWeekly.json
  */
 async function createsOrUpdatesASqlVirtualMachineForAutomatedBackUpSettingsWithWeeklyAndDaysOfTheWeekToRunTheBackUp() {
   const subscriptionId =
@@ -117,7 +117,7 @@ async function createsOrUpdatesASqlVirtualMachineForAutomatedBackUpSettingsWithW
  * This sample demonstrates how to Creates or updates a SQL virtual machine.
  *
  * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/CreateOrUpdateSqlVirtualMachineStorageConfigurationEXTEND.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineStorageConfigurationEXTEND.json
  */
 async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToExtendDataLogOrTempDbStoragePool() {
   const subscriptionId =
@@ -147,7 +147,7 @@ async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettings
  * This sample demonstrates how to Creates or updates a SQL virtual machine.
  *
  * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/CreateOrUpdateSqlVirtualMachineStorageConfigurationNEW.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineStorageConfigurationNEW.json
  */
 async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToNewDataLogAndTempDbStoragePool() {
   const subscriptionId =
@@ -188,7 +188,7 @@ async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettings
  * This sample demonstrates how to Creates or updates a SQL virtual machine.
  *
  * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/CreateOrUpdateSqlVirtualMachineMAX.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineMAX.json
  */
 async function createsOrUpdatesASqlVirtualMachineWithMaxParameters() {
   const subscriptionId =
@@ -234,6 +234,9 @@ async function createsOrUpdatesASqlVirtualMachineWithMaxParameters() {
     location: "northeurope",
     serverConfigurationsManagementSettings: {
       additionalFeaturesServerConfigurations: { isRServicesEnabled: false },
+      azureAdAuthenticationSettings: {
+        clientId: "11111111-2222-3333-4444-555555555555",
+      },
       sqlConnectivityUpdateSettings: {
         connectivityType: "PRIVATE",
         port: 1433,
@@ -276,7 +279,7 @@ async function createsOrUpdatesASqlVirtualMachineWithMaxParameters() {
  * This sample demonstrates how to Creates or updates a SQL virtual machine.
  *
  * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/CreateOrUpdateSqlVirtualMachineMIN.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineMIN.json
  */
 async function createsOrUpdatesASqlVirtualMachineWithMinParameters() {
   const subscriptionId =

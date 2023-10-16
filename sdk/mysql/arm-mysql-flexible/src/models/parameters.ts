@@ -12,13 +12,16 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  AzureADAdministrator as AzureADAdministratorMapper,
+  BackupAndExportRequest as BackupAndExportRequestMapper,
+  Configuration as ConfigurationMapper,
+  ConfigurationListForBatchUpdate as ConfigurationListForBatchUpdateMapper,
+  Database as DatabaseMapper,
+  FirewallRule as FirewallRuleMapper,
   Server as ServerMapper,
   ServerForUpdate as ServerForUpdateMapper,
   ServerRestartParameter as ServerRestartParameterMapper,
-  FirewallRule as FirewallRuleMapper,
-  Database as DatabaseMapper,
-  Configuration as ConfigurationMapper,
-  ConfigurationListForBatchUpdate as ConfigurationListForBatchUpdateMapper,
+  ServerGtidSetParameter as ServerGtidSetParameterMapper,
   VirtualNetworkSubnetUsageParameter as VirtualNetworkSubnetUsageParameterMapper,
   NameAvailabilityRequest as NameAvailabilityRequestMapper
 } from "../models/mappers";
@@ -37,7 +40,7 @@ export const contentType: OperationParameter = {
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ServerMapper
+  mapper: AzureADAdministratorMapper
 };
 
 export const accept: OperationParameter = {
@@ -67,7 +70,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-05-01",
+    defaultValue: "2021-12-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -108,6 +111,9 @@ export const resourceGroupName: OperationURLParameter = {
 export const serverName: OperationURLParameter = {
   parameterPath: "serverName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9][-a-z0-9]*(?<!-)$")
+    },
     serializedName: "serverName",
     required: true,
     type: {
@@ -116,14 +122,15 @@ export const serverName: OperationURLParameter = {
   }
 };
 
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ServerForUpdateMapper
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ServerRestartParameterMapper
+export const administratorName: OperationURLParameter = {
+  parameterPath: "administratorName",
+  mapper: {
+    serializedName: "administratorName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const nextLink: OperationURLParameter = {
@@ -138,10 +145,46 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-09-30-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const backupName: OperationURLParameter = {
   parameterPath: "backupName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
     serializedName: "backupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: BackupAndExportRequestMapper
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ConfigurationMapper
+};
+
+export const configurationName: OperationURLParameter = {
+  parameterPath: "configurationName",
+  mapper: {
+    serializedName: "configurationName",
     required: true,
     type: {
       name: "String"
@@ -151,16 +194,45 @@ export const backupName: OperationURLParameter = {
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: FirewallRuleMapper
+  mapper: ConfigurationListForBatchUpdateMapper
 };
 
-export const firewallRuleName: OperationURLParameter = {
-  parameterPath: "firewallRuleName",
+export const tags: OperationQueryParameter = {
+  parameterPath: ["options", "tags"],
   mapper: {
-    serializedName: "firewallRuleName",
-    required: true,
+    serializedName: "tags",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const keyword: OperationQueryParameter = {
+  parameterPath: ["options", "keyword"],
+  mapper: {
+    serializedName: "keyword",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const page: OperationQueryParameter = {
+  parameterPath: ["options", "page"],
+  mapper: {
+    serializedName: "page",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const pageSize: OperationQueryParameter = {
+  parameterPath: ["options", "pageSize"],
+  mapper: {
+    serializedName: "pageSize",
+    type: {
+      name: "Number"
     }
   }
 };
@@ -183,13 +255,13 @@ export const databaseName: OperationURLParameter = {
 
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ConfigurationMapper
+  mapper: FirewallRuleMapper
 };
 
-export const configurationName: OperationURLParameter = {
-  parameterPath: "configurationName",
+export const firewallRuleName: OperationURLParameter = {
+  parameterPath: "firewallRuleName",
   mapper: {
-    serializedName: "configurationName",
+    serializedName: "firewallRuleName",
     required: true,
     type: {
       name: "String"
@@ -199,7 +271,22 @@ export const configurationName: OperationURLParameter = {
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ConfigurationListForBatchUpdateMapper
+  mapper: ServerMapper
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ServerForUpdateMapper
+};
+
+export const parameters8: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ServerRestartParameterMapper
+};
+
+export const parameters9: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ServerGtidSetParameterMapper
 };
 
 export const locationName: OperationURLParameter = {
@@ -213,7 +300,7 @@ export const locationName: OperationURLParameter = {
   }
 };
 
-export const parameters7: OperationParameter = {
+export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: VirtualNetworkSubnetUsageParameterMapper
 };

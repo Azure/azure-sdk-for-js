@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RulesEngine,
   RulesEnginesListByFrontDoorOptionalParams,
@@ -61,8 +61,8 @@ export interface RulesEngines {
     rulesEngineParameters: RulesEngine,
     options?: RulesEnginesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RulesEnginesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RulesEnginesCreateOrUpdateResponse>,
       RulesEnginesCreateOrUpdateResponse
     >
   >;
@@ -94,7 +94,7 @@ export interface RulesEngines {
     frontDoorName: string,
     rulesEngineName: string,
     options?: RulesEnginesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Rules Engine Configuration with the specified parameters.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.

@@ -15,6 +15,7 @@ import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent";
 import { SqlQuerySpec } from "./SqlQuerySpec";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -99,8 +100,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     }
   }
 
-  public async nextItem(): Promise<Response<any>> {
-    return this.endpoint.nextItem();
+  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+    return this.endpoint.nextItem(diagnosticNode);
   }
 
   // Removed callback here beacuse it wouldn't have ever worked...
@@ -108,21 +109,23 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     return this.endpoint.hasMoreResults();
   }
 
-  public async fetchMore(): Promise<Response<any>> {
+  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     // if the wrapped endpoint has different implementation for fetchMore use that
     // otherwise use the default implementation
     if (typeof this.endpoint.fetchMore === "function") {
-      return this.endpoint.fetchMore();
+      return this.endpoint.fetchMore(diagnosticNode);
     } else {
       this.fetchBuffer = [];
       this.fetchMoreRespHeaders = getInitialHeader();
-      return this._fetchMoreImplementation();
+      return this._fetchMoreImplementation(diagnosticNode);
     }
   }
 
-  private async _fetchMoreImplementation(): Promise<Response<any>> {
+  private async _fetchMoreImplementation(
+    diagnosticNode: DiagnosticNodeInternal
+  ): Promise<Response<any>> {
     try {
-      const { result: item, headers } = await this.endpoint.nextItem();
+      const { result: item, headers } = await this.endpoint.nextItem(diagnosticNode);
       mergeHeaders(this.fetchMoreRespHeaders, headers);
       if (item === undefined) {
         // no more results
@@ -148,7 +151,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         } else {
           // recursively fetch more
           // TODO: is recursion a good idea?
-          return this._fetchMoreImplementation();
+          return this._fetchMoreImplementation(diagnosticNode);
         }
       }
     } catch (err: any) {

@@ -14,6 +14,7 @@ import {
 import {
   Cluster as ClusterMapper,
   ClusterUpdate as ClusterUpdateMapper,
+  ClusterMigrateRequest as ClusterMigrateRequestMapper,
   FollowerDatabaseDefinition as FollowerDatabaseDefinitionMapper,
   ClusterCheckNameRequest as ClusterCheckNameRequestMapper,
   LanguageExtensionsList as LanguageExtensionsListMapper,
@@ -26,6 +27,7 @@ import {
   AttachedDatabaseConfiguration as AttachedDatabaseConfigurationMapper,
   ManagedPrivateEndpointsCheckNameRequest as ManagedPrivateEndpointsCheckNameRequestMapper,
   ManagedPrivateEndpoint as ManagedPrivateEndpointMapper,
+  DatabaseInviteFollowerRequest as DatabaseInviteFollowerRequestMapper,
   DatabasePrincipalAssignmentCheckNameRequest as DatabasePrincipalAssignmentCheckNameRequestMapper,
   DatabasePrincipalAssignment as DatabasePrincipalAssignmentMapper,
   Script as ScriptMapper,
@@ -63,6 +65,10 @@ export const $host: OperationURLParameter = {
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
@@ -74,6 +80,9 @@ export const resourceGroupName: OperationURLParameter = {
 export const clusterName: OperationURLParameter = {
   parameterPath: "clusterName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$")
+    },
     serializedName: "clusterName",
     required: true,
     type: {
@@ -85,6 +94,9 @@ export const clusterName: OperationURLParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "subscriptionId",
     required: true,
     type: {
@@ -96,7 +108,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-12-29",
+    defaultValue: "2023-05-02",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -147,6 +159,11 @@ export const parameters1: OperationParameter = {
   mapper: ClusterUpdateMapper
 };
 
+export const clusterMigrateRequest: OperationParameter = {
+  parameterPath: "clusterMigrateRequest",
+  mapper: ClusterMigrateRequestMapper
+};
+
 export const followerDatabaseToRemove: OperationParameter = {
   parameterPath: "followerDatabaseToRemove",
   mapper: FollowerDatabaseDefinitionMapper
@@ -160,6 +177,9 @@ export const clusterName1: OperationParameter = {
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "location",
     required: true,
     type: {
@@ -198,6 +218,9 @@ export const principalAssignmentName: OperationParameter = {
 export const principalAssignmentName1: OperationURLParameter = {
   parameterPath: "principalAssignmentName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$")
+    },
     serializedName: "principalAssignmentName",
     required: true,
     type: {
@@ -216,9 +239,36 @@ export const resourceName: OperationParameter = {
   mapper: CheckNameRequestMapper
 };
 
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    constraints: {
+      InclusiveMaximum: 1000,
+      InclusiveMinimum: 5
+    },
+    serializedName: "$top",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const skiptoken: OperationQueryParameter = {
+  parameterPath: ["options", "skiptoken"],
+  mapper: {
+    serializedName: "$skiptoken",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const databaseName: OperationURLParameter = {
   parameterPath: "databaseName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$")
+    },
     serializedName: "databaseName",
     required: true,
     type: {
@@ -261,6 +311,9 @@ export const resourceName1: OperationParameter = {
 export const attachedDatabaseConfigurationName: OperationURLParameter = {
   parameterPath: "attachedDatabaseConfigurationName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$")
+    },
     serializedName: "attachedDatabaseConfigurationName",
     required: true,
     type: {
@@ -282,6 +335,9 @@ export const resourceName2: OperationParameter = {
 export const managedPrivateEndpointName: OperationURLParameter = {
   parameterPath: "managedPrivateEndpointName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$")
+    },
     serializedName: "managedPrivateEndpointName",
     required: true,
     type: {
@@ -295,12 +351,17 @@ export const parameters5: OperationParameter = {
   mapper: ManagedPrivateEndpointMapper
 };
 
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DatabaseInviteFollowerRequestMapper
+};
+
 export const principalAssignmentName2: OperationParameter = {
   parameterPath: "principalAssignmentName",
   mapper: DatabasePrincipalAssignmentCheckNameRequestMapper
 };
 
-export const parameters6: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: DatabasePrincipalAssignmentMapper
 };
@@ -308,6 +369,9 @@ export const parameters6: OperationParameter = {
 export const scriptName: OperationURLParameter = {
   parameterPath: "scriptName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$")
+    },
     serializedName: "scriptName",
     required: true,
     type: {
@@ -316,7 +380,7 @@ export const scriptName: OperationURLParameter = {
   }
 };
 
-export const parameters7: OperationParameter = {
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: ScriptMapper
 };
@@ -329,6 +393,9 @@ export const scriptName1: OperationParameter = {
 export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$")
+    },
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
@@ -337,7 +404,7 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   }
 };
 
-export const parameters8: OperationParameter = {
+export const parameters9: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper
 };
@@ -345,6 +412,9 @@ export const parameters8: OperationParameter = {
 export const privateLinkResourceName: OperationURLParameter = {
   parameterPath: "privateLinkResourceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$")
+    },
     serializedName: "privateLinkResourceName",
     required: true,
     type: {
@@ -353,7 +423,7 @@ export const privateLinkResourceName: OperationURLParameter = {
   }
 };
 
-export const parameters9: OperationParameter = {
+export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: DataConnectionValidationMapper
 };
@@ -366,6 +436,9 @@ export const dataConnectionName: OperationParameter = {
 export const dataConnectionName1: OperationURLParameter = {
   parameterPath: "dataConnectionName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$")
+    },
     serializedName: "dataConnectionName",
     required: true,
     type: {
@@ -374,7 +447,7 @@ export const dataConnectionName1: OperationURLParameter = {
   }
 };
 
-export const parameters10: OperationParameter = {
+export const parameters11: OperationParameter = {
   parameterPath: "parameters",
   mapper: DataConnectionMapper
 };
@@ -382,6 +455,9 @@ export const parameters10: OperationParameter = {
 export const operationId: OperationURLParameter = {
   parameterPath: "operationId",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "operationId",
     required: true,
     type: {

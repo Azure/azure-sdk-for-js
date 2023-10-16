@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DiskAccess,
   DiskAccessesListByResourceGroupNextOptionalParams,
@@ -284,8 +288,8 @@ export class DiskAccessesImpl implements DiskAccesses {
     diskAccess: DiskAccess,
     options?: DiskAccessesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DiskAccessesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DiskAccessesCreateOrUpdateResponse>,
       DiskAccessesCreateOrUpdateResponse
     >
   > {
@@ -295,7 +299,7 @@ export class DiskAccessesImpl implements DiskAccesses {
     ): Promise<DiskAccessesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -328,13 +332,16 @@ export class DiskAccessesImpl implements DiskAccesses {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, diskAccessName, diskAccess, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, diskAccessName, diskAccess, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DiskAccessesCreateOrUpdateResponse,
+      OperationState<DiskAccessesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -380,8 +387,8 @@ export class DiskAccessesImpl implements DiskAccesses {
     diskAccess: DiskAccessUpdate,
     options?: DiskAccessesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DiskAccessesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DiskAccessesUpdateResponse>,
       DiskAccessesUpdateResponse
     >
   > {
@@ -391,7 +398,7 @@ export class DiskAccessesImpl implements DiskAccesses {
     ): Promise<DiskAccessesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -424,13 +431,16 @@ export class DiskAccessesImpl implements DiskAccesses {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, diskAccessName, diskAccess, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, diskAccessName, diskAccess, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DiskAccessesUpdateResponse,
+      OperationState<DiskAccessesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -492,14 +502,14 @@ export class DiskAccessesImpl implements DiskAccesses {
     resourceGroupName: string,
     diskAccessName: string,
     options?: DiskAccessesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -532,13 +542,13 @@ export class DiskAccessesImpl implements DiskAccesses {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, diskAccessName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, diskAccessName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -629,8 +639,8 @@ export class DiskAccessesImpl implements DiskAccesses {
     privateEndpointConnection: PrivateEndpointConnection,
     options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DiskAccessesUpdateAPrivateEndpointConnectionResponse>,
+    SimplePollerLike<
+      OperationState<DiskAccessesUpdateAPrivateEndpointConnectionResponse>,
       DiskAccessesUpdateAPrivateEndpointConnectionResponse
     >
   > {
@@ -640,7 +650,7 @@ export class DiskAccessesImpl implements DiskAccesses {
     ): Promise<DiskAccessesUpdateAPrivateEndpointConnectionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -673,19 +683,22 @@ export class DiskAccessesImpl implements DiskAccesses {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         diskAccessName,
         privateEndpointConnectionName,
         privateEndpointConnection,
         options
       },
-      updateAPrivateEndpointConnectionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateAPrivateEndpointConnectionOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DiskAccessesUpdateAPrivateEndpointConnectionResponse,
+      OperationState<DiskAccessesUpdateAPrivateEndpointConnectionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -761,14 +774,14 @@ export class DiskAccessesImpl implements DiskAccesses {
     diskAccessName: string,
     privateEndpointConnectionName: string,
     options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -801,18 +814,18 @@ export class DiskAccessesImpl implements DiskAccesses {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         diskAccessName,
         privateEndpointConnectionName,
         options
       },
-      deleteAPrivateEndpointConnectionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteAPrivateEndpointConnectionOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

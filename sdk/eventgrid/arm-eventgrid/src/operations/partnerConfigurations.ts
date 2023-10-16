@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EventGridManagementClient } from "../eventGridManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PartnerConfiguration,
   PartnerConfigurationsListByResourceGroupOptionalParams,
@@ -183,8 +187,8 @@ export class PartnerConfigurationsImpl implements PartnerConfigurations {
     partnerConfigurationInfo: PartnerConfiguration,
     options?: PartnerConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PartnerConfigurationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PartnerConfigurationsCreateOrUpdateResponse>,
       PartnerConfigurationsCreateOrUpdateResponse
     >
   > {
@@ -194,7 +198,7 @@ export class PartnerConfigurationsImpl implements PartnerConfigurations {
     ): Promise<PartnerConfigurationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -227,13 +231,16 @@ export class PartnerConfigurationsImpl implements PartnerConfigurations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, partnerConfigurationInfo, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, partnerConfigurationInfo, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PartnerConfigurationsCreateOrUpdateResponse,
+      OperationState<PartnerConfigurationsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -267,14 +274,14 @@ export class PartnerConfigurationsImpl implements PartnerConfigurations {
   async beginDelete(
     resourceGroupName: string,
     options?: PartnerConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -307,13 +314,13 @@ export class PartnerConfigurationsImpl implements PartnerConfigurations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -344,8 +351,8 @@ export class PartnerConfigurationsImpl implements PartnerConfigurations {
     partnerConfigurationUpdateParameters: PartnerConfigurationUpdateParameters,
     options?: PartnerConfigurationsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PartnerConfigurationsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PartnerConfigurationsUpdateResponse>,
       PartnerConfigurationsUpdateResponse
     >
   > {
@@ -355,7 +362,7 @@ export class PartnerConfigurationsImpl implements PartnerConfigurations {
     ): Promise<PartnerConfigurationsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -388,13 +395,20 @@ export class PartnerConfigurationsImpl implements PartnerConfigurations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, partnerConfigurationUpdateParameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        partnerConfigurationUpdateParameters,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PartnerConfigurationsUpdateResponse,
+      OperationState<PartnerConfigurationsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

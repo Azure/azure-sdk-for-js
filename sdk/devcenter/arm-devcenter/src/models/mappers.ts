@@ -305,6 +305,15 @@ export const ProjectUpdateProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      maxDevBoxesPerUser: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "maxDevBoxesPerUser",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -902,24 +911,6 @@ export const ImageReference: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      publisher: {
-        serializedName: "publisher",
-        type: {
-          name: "String"
-        }
-      },
-      offer: {
-        serializedName: "offer",
-        type: {
-          name: "String"
-        }
-      },
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -1489,6 +1480,29 @@ export const PoolListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const HealthStatusDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthStatusDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PoolUpdateProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1516,6 +1530,34 @@ export const PoolUpdateProperties: coreClient.CompositeMapper = {
         serializedName: "localAdministrator",
         type: {
           name: "String"
+        }
+      },
+      stopOnDisconnect: {
+        serializedName: "stopOnDisconnect",
+        type: {
+          name: "Composite",
+          className: "StopOnDisconnectConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const StopOnDisconnectConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StopOnDisconnectConfiguration",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      gracePeriodMinutes: {
+        serializedName: "gracePeriodMinutes",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -1739,6 +1781,115 @@ export const HealthCheck: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OutboundEnvironmentEndpointCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OutboundEnvironmentEndpointCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OutboundEnvironmentEndpoint"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OutboundEnvironmentEndpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OutboundEnvironmentEndpoint",
+    modelProperties: {
+      category: {
+        serializedName: "category",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      endpoints: {
+        serializedName: "endpoints",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EndpointDependency"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const EndpointDependency: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EndpointDependency",
+    modelProperties: {
+      domainName: {
+        serializedName: "domainName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      endpointDetails: {
+        serializedName: "endpointDetails",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EndpointDetail"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const EndpointDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EndpointDetail",
+    modelProperties: {
+      port: {
+        serializedName: "port",
+        readOnly: true,
+        type: {
+          name: "Number"
         }
       }
     }
@@ -2116,6 +2267,15 @@ export const ProjectUpdate: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      maxDevBoxesPerUser: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.maxDevBoxesPerUser",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -2185,6 +2345,13 @@ export const PoolUpdate: coreClient.CompositeMapper = {
         serializedName: "properties.localAdministrator",
         type: {
           name: "String"
+        }
+      },
+      stopOnDisconnect: {
+        serializedName: "properties.stopOnDisconnect",
+        type: {
+          name: "Composite",
+          className: "StopOnDisconnectConfiguration"
         }
       }
     }
@@ -2454,6 +2621,26 @@ export const PoolProperties: coreClient.CompositeMapper = {
     className: "PoolProperties",
     modelProperties: {
       ...PoolUpdateProperties.type.modelProperties,
+      healthStatus: {
+        serializedName: "healthStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      healthStatusDetails: {
+        serializedName: "healthStatusDetails",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HealthStatusDetail"
+            }
+          }
+        }
+      },
       provisioningState: {
         serializedName: "provisioningState",
         readOnly: true,
@@ -2568,6 +2755,15 @@ export const Project: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      maxDevBoxesPerUser: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "properties.maxDevBoxesPerUser",
+        type: {
+          name: "Number"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -2678,6 +2874,33 @@ export const Pool: coreClient.CompositeMapper = {
         serializedName: "properties.localAdministrator",
         type: {
           name: "String"
+        }
+      },
+      stopOnDisconnect: {
+        serializedName: "properties.stopOnDisconnect",
+        type: {
+          name: "Composite",
+          className: "StopOnDisconnectConfiguration"
+        }
+      },
+      healthStatus: {
+        serializedName: "properties.healthStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      healthStatusDetails: {
+        serializedName: "properties.healthStatusDetails",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HealthStatusDetail"
+            }
+          }
         }
       },
       provisioningState: {
@@ -2800,6 +3023,13 @@ export const Image: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      hibernateSupport: {
+        serializedName: "properties.hibernateSupport",
         readOnly: true,
         type: {
           name: "String"
