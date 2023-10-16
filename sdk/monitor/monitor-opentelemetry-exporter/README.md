@@ -23,7 +23,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Distributed Tracing
 
-Add the exporter to your existing OpenTelemetry tracer provider (`NodeTracerProvider` / `BasicTracerProvider`)
+Add the exporter to your existing OpenTelemetry Tracer Provider (`NodeTracerProvider` / `BasicTracerProvider`)
 
 ```js
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
@@ -37,6 +37,7 @@ const provider = new NodeTracerProvider({
     [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
   }),
 });
+// Register Tracer Provider as global
 provider.register();
 
 // Create an exporter instance
@@ -45,7 +46,7 @@ const exporter = new AzureMonitorTraceExporter({
     process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>"
 });
 
-// Add the exporter to the provider
+// Add the exporter to the Provider
 provider.addSpanProcessor(
   new BatchSpanProcessor(exporter, {
     bufferTimeout: 15000,
@@ -56,16 +57,14 @@ provider.addSpanProcessor(
 
 ### Metrics
 
-Add the exporter to your existing OpenTelemetry tracer provider (`NodeTracerProvider` / `BasicTracerProvider`)
+Add the exporter to your existing OpenTelemetry Meter Provider (`MeterProvider`)
 
 ```js
+const { metrics } = require("@opentelemetry/api");
 const { MeterProvider, PeriodicExportingMetricReader } = require("@opentelemetry/sdk-metrics");
 const { AzureMonitorMetricExporter } = require("@azure/monitor-opentelemetry-exporter");
-const { Resource } = require("@opentelemetry/resources");
-const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
 
 // Add the exporter into the MetricReader and register it with the MeterProvider
-const provider = new MeterProvider();
 const exporter = new AzureMonitorMetricExporter({
   connectionString:
     process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
@@ -74,12 +73,37 @@ const metricReaderOptions = {
   exporter: exporter,
 };
 const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-provider.addMetricReader(metricReader);
+const meterProvider = new MeterProvider();
+meterProvider.addMetricReader(metricReader);
+
+// Register Meter Provider as global
+ metrics.setGlobalMeterProvider(meterProvider);
+
 ```
 
 ### Logs
 
-Coming Soon
+Add the Log Exporter to your existing OpenTelemetry Logger Provider (`LoggerProvider`)
+
+```js
+const { logs } = require("@opentelemetry/api-logs");
+const { LoggerProvider, BatchLogRecordProcessor } = require("@opentelemetry/sdk-logs");
+const { AzureMonitorLogExporter } = require("@azure/monitor-opentelemetry-exporter");
+
+// Add the Log exporter into the logRecordProcessor and register it with the LoggerProvider
+const exporter = new AzureMonitorLogExporter({
+  connectionString:
+    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+});
+const logRecordProcessor = new BatchLogRecordProcessor(exporter);
+const loggerProvider = new LoggerProvider();
+loggerProvider.addLogRecordProcessor(logRecordProcessor);
+
+// Register logger Provider as global
+logs.setGlobalLoggerProvider(loggerProvider);
+
+```
+
 
 ### Sampling
 
