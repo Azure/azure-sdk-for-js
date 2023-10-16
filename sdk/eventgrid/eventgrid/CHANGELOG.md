@@ -1,6 +1,6 @@
 # Release History
 
-## 4.13.1 (Unreleased)
+## 4.15.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,47 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.15.0 (2023-10-12)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged`
+  - `Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated`
+  - `Microsoft.Communication.RouterWorkerDeregistered`
+  - `Microsoft.Communication.RouterWorkerRegistered`
+  - `Microsoft.Communication.RouterJobCancelled`
+  - `Microsoft.Communication.RouterJobClassificationFailed`
+  - `Microsoft.Communication.RouterJobClassified`
+  - `Microsoft.Communication.RouterJobClosed`
+  - `Microsoft.Communication.RouterJobCompleted`
+  - `Microsoft.Communication.RouterJobDeleted`
+  - `Microsoft.Communication.RouterJobExceptionTriggered`
+  - `Microsoft.Communication.RouterJobQueued`
+  - `Microsoft.Communication.RouterJobReceived`
+  - `Microsoft.Communication.RouterJobSchedulingFailed`
+  - `Microsoft.Communication.RouterJobUnassigned`
+  - `Microsoft.Communication.RouterJobWaitingForActivation`
+  - `Microsoft.Communication.RouterJobWorkerSelectorsExpire`
+  - `Microsoft.Communication.RouterWorkerDeleted`
+  - `Microsoft.Communication.RouterWorkerOfferAccepted`
+  - `Microsoft.Communication.RouterWorkerOfferDeclined`
+  - `Microsoft.Communication.RouterWorkerOfferExpired`
+  - `Microsoft.Communication.RouterWorkerOfferIssued`
+  - `Microsoft.Communication.RouterWorkerOfferRevoked`
+
+## 4.14.0 (2023-09-14)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.EventGrid.MQTTClientCreatedOrUpdated`
+  - `Microsoft.EventGrid.MQTTClientDeleted`
+  - `Microsoft.EventGrid.MQTTClientSessionConnected`
+  - `Microsoft.EventGrid.MQTTClientSessionDisconnected`
 
 ## 4.13.0 (2023-06-08)
 

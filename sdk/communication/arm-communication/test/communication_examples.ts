@@ -61,7 +61,7 @@ describe("CommunicationService test", () => {
   });
 
   it("communicationService create test", async function () {
-    const res = await client.communicationServices.beginCreateOrUpdateAndWait(resourceGroup, communicationServiceName, { location: location, dataLocation: "UnitedStates" });
+    const res = await client.communicationServices.beginCreateOrUpdateAndWait(resourceGroup, communicationServiceName, { location: location, dataLocation: "UnitedStates" }, testPollingOptions);
     assert.notEqual(res.id, undefined);
   });
 
@@ -75,7 +75,7 @@ describe("CommunicationService test", () => {
     for await (let item of client.communicationServices.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    assert.equal(resArray.length, 2);//have existing resource when testing in this release time
   });
 
   it("communicationService delete test", async function () {
@@ -84,6 +84,6 @@ describe("CommunicationService test", () => {
     for await (let item of client.communicationServices.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 0);
+    assert.equal(resArray.length, 1);//have existing resource when testing in this release time
   });
 });

@@ -29,7 +29,7 @@
     "./dist/index.js": "./dist-esm/storage-file-datalake/src/index.js"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -133,15 +133,15 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^3.3.0",
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure/test-utils-perf": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^16.0.0",
     "@types/sinon": "^10.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
@@ -162,7 +162,7 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^7.1.1",
+    "mocha": "^10.0.0",
     "mocha-junit-reporter": "^2.0.0",
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a new Kubernetes Source Control Configuration.
  *
  * @summary Create a new Kubernetes Source Control Configuration.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/CreateSourceControlConfiguration.json
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/CreateSourceControlConfiguration.json
  */
 async function createSourceControlConfiguration() {
   const subscriptionId =

@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { MetadataLookUpType } from "../CosmosDiagnostics";
 import { PartitionKeyRange } from "../client/Container/PartitionKeyRange";
 import { ClientContext } from "../ClientContext";
 import { getIdFromLink } from "../common/helper";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import { withMetadataDiagnostics } from "../utils/diagnostics";
 import { createCompleteRoutingMap } from "./CollectionRoutingMapFactory";
 import { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap";
 import { QueryRange } from "./QueryRange";
@@ -55,9 +57,15 @@ export class PartitionKeyRangeCache {
     collectionLink: string,
     diagnosticNode: DiagnosticNodeInternal
   ): Promise<InMemoryCollectionRoutingMap> {
-    const { resources } = await this.clientContext
-      .queryPartitionKeyRanges(collectionLink)
-      .fetchAllInternal(diagnosticNode);
+    const { resources } = await withMetadataDiagnostics(
+      async (metadataDiagnostics: DiagnosticNodeInternal) => {
+        return this.clientContext
+          .queryPartitionKeyRanges(collectionLink)
+          .fetchAllInternal(metadataDiagnostics);
+      },
+      diagnosticNode,
+      MetadataLookUpType.PartitionKeyRangeLookUp
+    );
     return createCompleteRoutingMap(resources.map((r) => [r, true]));
   }
 }

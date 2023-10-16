@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Application,
   ApplicationsListByResourceGroupOptionalParams,
@@ -25,14 +25,22 @@ import {
   ApplicationsCreateOrUpdateByIdOptionalParams,
   ApplicationsCreateOrUpdateByIdResponse,
   ApplicationsUpdateByIdOptionalParams,
-  ApplicationsUpdateByIdResponse
+  ApplicationsUpdateByIdResponse,
+  ApplicationsRefreshPermissionsOptionalParams,
+  ApplicationsListAllowedUpgradePlansOptionalParams,
+  ApplicationsListAllowedUpgradePlansResponse,
+  UpdateAccessDefinition,
+  ApplicationsUpdateAccessOptionalParams,
+  ListTokenRequest,
+  ApplicationsListTokensOptionalParams,
+  ApplicationsListTokensResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Applications. */
 export interface Applications {
   /**
-   * Gets all the applications within a resource group.
+   * Lists all the applications within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -41,7 +49,7 @@ export interface Applications {
     options?: ApplicationsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<Application>;
   /**
-   * Gets all the applications within a subscription.
+   * Lists all the applications within a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
@@ -68,7 +76,7 @@ export interface Applications {
     resourceGroupName: string,
     applicationName: string,
     options?: ApplicationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the managed application.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -81,7 +89,7 @@ export interface Applications {
     options?: ApplicationsDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Creates a new managed application.
+   * Creates or updates a managed application.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationName The name of the managed application.
    * @param parameters Parameters supplied to the create or update a managed application.
@@ -93,13 +101,13 @@ export interface Applications {
     parameters: Application,
     options?: ApplicationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationsCreateOrUpdateResponse>,
       ApplicationsCreateOrUpdateResponse
     >
   >;
   /**
-   * Creates a new managed application.
+   * Creates or updates a managed application.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationName The name of the managed application.
    * @param parameters Parameters supplied to the create or update a managed application.
@@ -112,13 +120,28 @@ export interface Applications {
     options?: ApplicationsCreateOrUpdateOptionalParams
   ): Promise<ApplicationsCreateOrUpdateResponse>;
   /**
-   * Updates an existing managed application. The only value that can be updated via PATCH currently is
-   * the tags.
+   * Updates an existing managed application.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationName The name of the managed application.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
+    resourceGroupName: string,
+    applicationName: string,
+    options?: ApplicationsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ApplicationsUpdateResponse>,
+      ApplicationsUpdateResponse
+    >
+  >;
+  /**
+   * Updates an existing managed application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     applicationName: string,
     options?: ApplicationsUpdateOptionalParams
@@ -144,7 +167,7 @@ export interface Applications {
   beginDeleteById(
     applicationId: string,
     options?: ApplicationsDeleteByIdOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the managed application.
    * @param applicationId The fully qualified ID of the managed application, including the managed
@@ -157,7 +180,7 @@ export interface Applications {
     options?: ApplicationsDeleteByIdOptionalParams
   ): Promise<void>;
   /**
-   * Creates a new managed application.
+   * Creates or updates a managed application.
    * @param applicationId The fully qualified ID of the managed application, including the managed
    *                      application name and the managed application resource type. Use the format,
    *                      /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name}
@@ -169,13 +192,13 @@ export interface Applications {
     parameters: Application,
     options?: ApplicationsCreateOrUpdateByIdOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationsCreateOrUpdateByIdResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationsCreateOrUpdateByIdResponse>,
       ApplicationsCreateOrUpdateByIdResponse
     >
   >;
   /**
-   * Creates a new managed application.
+   * Creates or updates a managed application.
    * @param applicationId The fully qualified ID of the managed application, including the managed
    *                      application name and the managed application resource type. Use the format,
    *                      /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name}
@@ -188,15 +211,102 @@ export interface Applications {
     options?: ApplicationsCreateOrUpdateByIdOptionalParams
   ): Promise<ApplicationsCreateOrUpdateByIdResponse>;
   /**
-   * Updates an existing managed application. The only value that can be updated via PATCH currently is
-   * the tags.
+   * Updates an existing managed application.
    * @param applicationId The fully qualified ID of the managed application, including the managed
    *                      application name and the managed application resource type. Use the format,
    *                      /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name}
    * @param options The options parameters.
    */
-  updateById(
+  beginUpdateById(
+    applicationId: string,
+    options?: ApplicationsUpdateByIdOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ApplicationsUpdateByIdResponse>,
+      ApplicationsUpdateByIdResponse
+    >
+  >;
+  /**
+   * Updates an existing managed application.
+   * @param applicationId The fully qualified ID of the managed application, including the managed
+   *                      application name and the managed application resource type. Use the format,
+   *                      /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name}
+   * @param options The options parameters.
+   */
+  beginUpdateByIdAndWait(
     applicationId: string,
     options?: ApplicationsUpdateByIdOptionalParams
   ): Promise<ApplicationsUpdateByIdResponse>;
+  /**
+   * Refresh Permissions for application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param options The options parameters.
+   */
+  beginRefreshPermissions(
+    resourceGroupName: string,
+    applicationName: string,
+    options?: ApplicationsRefreshPermissionsOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Refresh Permissions for application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param options The options parameters.
+   */
+  beginRefreshPermissionsAndWait(
+    resourceGroupName: string,
+    applicationName: string,
+    options?: ApplicationsRefreshPermissionsOptionalParams
+  ): Promise<void>;
+  /**
+   * List allowed upgrade plans for application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param options The options parameters.
+   */
+  listAllowedUpgradePlans(
+    resourceGroupName: string,
+    applicationName: string,
+    options?: ApplicationsListAllowedUpgradePlansOptionalParams
+  ): Promise<ApplicationsListAllowedUpgradePlansResponse>;
+  /**
+   * Update access for application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param parameters Request body parameters to list tokens.
+   * @param options The options parameters.
+   */
+  beginUpdateAccess(
+    resourceGroupName: string,
+    applicationName: string,
+    parameters: UpdateAccessDefinition,
+    options?: ApplicationsUpdateAccessOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Update access for application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param parameters Request body parameters to list tokens.
+   * @param options The options parameters.
+   */
+  beginUpdateAccessAndWait(
+    resourceGroupName: string,
+    applicationName: string,
+    parameters: UpdateAccessDefinition,
+    options?: ApplicationsUpdateAccessOptionalParams
+  ): Promise<void>;
+  /**
+   * List tokens for application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param parameters Request body parameters to list tokens.
+   * @param options The options parameters.
+   */
+  listTokens(
+    resourceGroupName: string,
+    applicationName: string,
+    parameters: ListTokenRequest,
+    options?: ApplicationsListTokensOptionalParams
+  ): Promise<ApplicationsListTokensResponse>;
 }

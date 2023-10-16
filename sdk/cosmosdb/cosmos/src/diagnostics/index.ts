@@ -8,7 +8,7 @@ import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel";
 export * from "./DiagnosticWriter";
 export * from "./DiagnosticFormatter";
 
-const DefaultDiagnosticLevelValue = CosmosDbDiagnosticLevel.info;
+export const DefaultDiagnosticLevelValue = CosmosDbDiagnosticLevel.info;
 
 const diagnosticLevelFromEnv =
   (typeof process !== "undefined" &&
@@ -30,13 +30,11 @@ if (isNonEmptyString(diagnosticLevelFromEnv)) {
     console.error(
       `${
         Constants.CosmosDbDiagnosticLevelEnvVarName
-      } set to unknown diagnostic level '${diagnosticLevelFromEnv}'; Setting Cosmos Db diagnostic level to silent. Acceptable values: ${acceptableDiagnosticLevelValues.join(
+      } set to unknown diagnostic level '${diagnosticLevelFromEnv}'; Setting Cosmos Db diagnostic level to info. Acceptable values: ${acceptableDiagnosticLevelValues.join(
         ", "
       )}.`
     );
   }
-} else {
-  setDiagnosticLevel(DefaultDiagnosticLevelValue);
 }
 
 export function setDiagnosticLevel(level?: CosmosDbDiagnosticLevel): void {
@@ -50,10 +48,7 @@ export function setDiagnosticLevel(level?: CosmosDbDiagnosticLevel): void {
   cosmosDiagnosticLevel = level;
 }
 
-/**
- * Retrieves the currently specified diagnostic level.
- */
-export function getDiagnosticLevel(): CosmosDbDiagnosticLevel {
+export function getDiagnosticLevelFromEnvironment(): CosmosDbDiagnosticLevel | undefined {
   return cosmosDiagnosticLevel;
 }
 
@@ -61,4 +56,13 @@ function isCosmosDiagnosticLevel(
   diagnosticLevel: string
 ): diagnosticLevel is CosmosDbDiagnosticLevel {
   return acceptableDiagnosticLevelValues.includes(diagnosticLevel);
+}
+
+export function determineDiagnosticLevel(
+  diagnosticLevelFromClientConfig: CosmosDbDiagnosticLevel,
+  diagnosticLevelFromEnvironment: CosmosDbDiagnosticLevel
+): CosmosDbDiagnosticLevel {
+  const diagnosticLevelFromEnvOrClient =
+    diagnosticLevelFromEnvironment ?? diagnosticLevelFromClientConfig; // Diagnostic Setting from environment gets first priority.
+  return diagnosticLevelFromEnvOrClient ?? DefaultDiagnosticLevelValue; // Diagnostic Setting supplied in Client config gets second priority.
 }

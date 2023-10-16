@@ -81,7 +81,7 @@ describe("Search test", () => {
       sku: {
         name: "standard"
       }
-    });
+    }, testPollingOptions);
     assert.equal(res.name, searchServiceName);
   });
 

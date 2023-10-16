@@ -46,7 +46,7 @@ describe("Json Config", () => {
       process.env = env;
       const config = JsonConfig.getInstance();
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.connectionString,
+        config.azureMonitorExporterOptions?.connectionString,
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
       );
     });
@@ -58,7 +58,7 @@ describe("Json Config", () => {
       process.env = env;
       const config = JsonConfig.getInstance();
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.connectionString,
+        config.azureMonitorExporterOptions?.connectionString,
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
       );
     });
@@ -75,11 +75,11 @@ describe("Json Config", () => {
       process.env = env;
       const config = JsonConfig.getInstance();
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.connectionString,
+        config.azureMonitorExporterOptions?.connectionString,
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
       );
-      assert.deepStrictEqual(config.azureMonitorExporterConfig?.disableOfflineStorage, true);
-      assert.deepStrictEqual(config.azureMonitorExporterConfig?.storageDirectory, "testPath");
+      assert.deepStrictEqual(config.azureMonitorExporterOptions?.disableOfflineStorage, true);
+      assert.deepStrictEqual(config.azureMonitorExporterOptions?.storageDirectory, "testPath");
       assert.deepStrictEqual(config.samplingRatio, 0.3, "Wrong samplingRatio");
       assert.deepStrictEqual(
         config.instrumentationOptions?.azureSdk?.enabled,
@@ -112,9 +112,49 @@ describe("Json Config", () => {
       process.env = env;
       const config = JsonConfig.getInstance();
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.connectionString,
+        config.azureMonitorExporterOptions?.connectionString,
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
       );
+    });
+
+    it("JSON config through env variable", () => {
+      const env = <{ [id: string]: string }>{};
+
+      let inputJson = {
+        azureMonitorExporterOptions: {
+          connectionString: "testConnString",
+          storageDirectory: "teststorageDirectory",
+          disableOfflineStorage: true,
+        },
+        samplingRatio: 1,
+        instrumentationOptions: {
+          http: { enabled: true },
+          azureSdk: { enabled: false },
+          mongoDb: { enabled: false },
+          mySql: { enabled: false },
+          postgreSql: { enabled: false },
+          redis: { enabled: false },
+          redis4: { enabled: false },
+        },
+      };
+      env["APPLICATIONINSIGHTS_CONFIGURATION_CONTENT"] = JSON.stringify(inputJson);
+      process.env = env;
+      const config = JsonConfig.getInstance();
+
+      assert.strictEqual(config.samplingRatio, 1);
+      assert.strictEqual(config.instrumentationOptions?.http?.enabled, true);
+      assert.strictEqual(config.instrumentationOptions?.azureSdk?.enabled, false);
+      assert.strictEqual(config.instrumentationOptions?.mongoDb?.enabled, false);
+      assert.strictEqual(config.instrumentationOptions?.mySql?.enabled, false);
+      assert.strictEqual(config.instrumentationOptions?.postgreSql?.enabled, false);
+      assert.strictEqual(config.instrumentationOptions?.redis?.enabled, false);
+      assert.strictEqual(config.instrumentationOptions?.redis4?.enabled, false);
+      assert.strictEqual(config.azureMonitorExporterOptions?.connectionString, "testConnString");
+      assert.strictEqual(
+        config.azureMonitorExporterOptions?.storageDirectory,
+        "teststorageDirectory"
+      );
+      assert.strictEqual(config.azureMonitorExporterOptions?.disableOfflineStorage, true);
     });
   });
 });

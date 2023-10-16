@@ -44,7 +44,6 @@
     "esm/**/*.d.ts.map",
     "src/**/*.ts",
     "README.md",
-    "rollup.config.js",
     "tsconfig.json"
   ],
   "scripts": {

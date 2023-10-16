@@ -5,6 +5,8 @@ import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-a
 import { GetCompletionsOptions, GetEmbeddingsOptions } from "../generated/src/models/options.js";
 import { OpenAIClientOptions } from "../generated/src/index.js";
 import {
+  getAudioTranscription,
+  getAudioTranslation,
   getChatCompletions,
   getImages,
   listChatCompletions,
@@ -22,7 +24,15 @@ import { OpenAIContext } from "../generated/src/rest/index.js";
 import { createOpenAI } from "../generated/src/api/OpenAIContext.js";
 import { GetChatCompletionsOptions } from "./api/models.js";
 import { ImageGenerationOptions } from "./models/options.js";
-import { PipelinePolicy } from "@azure/core-rest-pipeline";
+import { nonAzurePolicy } from "./api/policies/nonAzure.js";
+import { formDataPolicyName, formDataWithFileUploadPolicy } from "./api/policies/formDataPolicy.js";
+import {
+  AudioResult,
+  AudioResultFormat,
+  AudioResultSimpleJson,
+  GetAudioTranscriptionOptions,
+  GetAudioTranslationOptions,
+} from "./models/audio.js";
 
 function createOpenAIEndpoint(version: number): string {
   return `https://api.openai.com/v${version}`;
@@ -131,11 +141,14 @@ export class OpenAIClient {
               ...(opts.additionalPolicies ?? []),
               {
                 position: "perCall",
-                policy: getPolicy(),
+                policy: nonAzurePolicy(),
               },
             ],
           }),
     });
+
+    this._client.pipeline.removePolicy({ name: formDataPolicyName });
+    this._client.pipeline.addPolicy(formDataWithFileUploadPolicy());
   }
 
   private setModel(model: string, options: { model?: string }): void {
@@ -236,32 +249,100 @@ export class OpenAIClient {
   ): Promise<ImageGenerations> {
     return getImages(this._client, prompt, options);
   }
-}
 
-function getPolicy(): PipelinePolicy {
-  const policy: PipelinePolicy = {
-    name: "openAiEndpoint",
-    sendRequest: (request, next) => {
-      const obj = new URL(request.url);
-      const parts = obj.pathname.split("/");
-      switch (parts[parts.length - 1]) {
-        case "completions":
-          if (parts[parts.length - 2] === "chat") {
-            obj.pathname = `/${parts[1]}/chat/completions`;
-          } else {
-            obj.pathname = `/${parts[1]}/completions`;
-          }
-          break;
-        case "embeddings":
-          obj.pathname = `/${parts[1]}/embeddings`;
-          break;
-        case "generations:submit":
-          obj.pathname = `/${parts[1]}/images/generations`;
-      }
-      obj.searchParams.delete("api-version");
-      request.url = obj.toString();
-      return next(request);
-    },
-  };
-  return policy;
+  /**
+   * Returns the transcription of an audio file in a simple JSON format.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param fileContent - The content of the audio file to transcribe.
+   * @param options - The options for this audio transcription request.
+   * @returns The audio transcription result in a simple JSON format.
+   */
+  async getAudioTranscription(
+    deploymentName: string,
+    fileContent: Uint8Array,
+    options?: GetAudioTranscriptionOptions
+  ): Promise<AudioResultSimpleJson>;
+  /**
+   * Returns the transcription of an audio file.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param fileContent - The content of the audio file to transcribe.
+   * @param format - The format of the result object. See {@link AudioResultFormat} for possible values.
+   * @param options - The options for this audio transcription request.
+   * @returns The audio transcription result in a format of your choice.
+   */
+  async getAudioTranscription<Format extends AudioResultFormat>(
+    deploymentName: string,
+    fileContent: Uint8Array,
+    format: Format,
+    options?: GetAudioTranscriptionOptions
+  ): Promise<AudioResult<Format>>;
+  // implementation
+  async getAudioTranscription<Format extends AudioResultFormat>(
+    deploymentName: string,
+    fileContent: Uint8Array,
+    formatOrOptions?: Format | GetAudioTranscriptionOptions,
+    inputOptions?: GetAudioTranscriptionOptions
+  ): Promise<AudioResult<Format>> {
+    const options =
+      inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
+    const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
+    this.setModel(deploymentName, options);
+    if (response_format === undefined) {
+      return getAudioTranscription(this._client, deploymentName, fileContent, options) as Promise<
+        AudioResult<Format>
+      >;
+    }
+    return getAudioTranscription(
+      this._client,
+      deploymentName,
+      fileContent,
+      response_format,
+      options
+    );
+  }
+
+  /**
+   * Returns the translation of an audio file.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param fileContent - The content of the audio file to translate.
+   * @param options - The options for this audio translation request.
+   * @returns The audio translation result.
+   */
+  async getAudioTranslation(
+    deploymentName: string,
+    fileContent: Uint8Array,
+    options?: GetAudioTranslationOptions
+  ): Promise<AudioResultSimpleJson>;
+  /**
+   * Returns the translation of an audio file.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param fileContent - The content of the audio file to translate.
+   * @param format - The format of the result object. See {@link AudioResultFormat} for possible values.
+   * @param options - The options for this audio translation request.
+   * @returns The audio translation result.
+   */
+  async getAudioTranslation<Format extends AudioResultFormat>(
+    deploymentName: string,
+    fileContent: Uint8Array,
+    format: Format,
+    options?: GetAudioTranslationOptions
+  ): Promise<AudioResult<Format>>;
+  // implementation
+  async getAudioTranslation<Format extends AudioResultFormat>(
+    deploymentName: string,
+    fileContent: Uint8Array,
+    formatOrOptions?: Format | GetAudioTranslationOptions,
+    inputOptions?: GetAudioTranslationOptions
+  ): Promise<AudioResult<Format>> {
+    const options =
+      inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
+    const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
+    this.setModel(deploymentName, options);
+    if (response_format === undefined) {
+      return getAudioTranslation(this._client, deploymentName, fileContent, options) as Promise<
+        AudioResult<Format>
+      >;
+    }
+    return getAudioTranslation(this._client, deploymentName, fileContent, response_format, options);
+  }
 }

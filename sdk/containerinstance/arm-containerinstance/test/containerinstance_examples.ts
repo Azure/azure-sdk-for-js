@@ -128,7 +128,7 @@ describe("ContainerInstance test", () => {
   });
 
   it("containerGroups delete test", async function () {
-    const res = await client.containerGroups.beginDeleteAndWait(resourceGroup, containerGroupName);
+    const res = await client.containerGroups.beginDeleteAndWait(resourceGroup, containerGroupName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.containerGroups.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

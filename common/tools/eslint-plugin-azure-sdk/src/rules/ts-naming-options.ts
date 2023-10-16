@@ -21,7 +21,7 @@ export = {
     "require client method option parameter type names to be suffixed with Options and prefixed with the method name"
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
-    const parserServices = context.parserServices as ParserServices;
+    const parserServices = context.sourceCode.parserServices as ParserServices;
     if (parserServices.program === undefined) {
       return {};
     }

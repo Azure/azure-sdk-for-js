@@ -1,5 +1,5 @@
 {
-  "version": "0.1",
+  "version": "0.2",
   "language": "en",
   "languageId": "typescript,javascript",
   "dictionaries": [
@@ -68,6 +68,7 @@
     "eastus",
     "ECONNRESET",
     "Eloqua",
+    "entra",
     "Esdni",
     "ESDNI",
     "etags",
@@ -108,6 +109,7 @@
     "PLREGON",
     "pnpm",
     "prettierrc",
+    "pstn",
     "pwsh",
     "Rasterize",
     "reoffer",
@@ -182,6 +184,7 @@
         "Adls",
         "adlsgen",
         "bangla",
+        "beider",
         "Bokmaal",
         "Decompounder",
         "haase",
@@ -197,7 +200,9 @@
         "Rslp",
         "sorani",
         "Sorani",
-        "beider"
+        "Vectorizable",
+        "vectorizer",
+        "vectorizers"
       ]
     },
     {
@@ -311,6 +316,13 @@
       "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
       "words": [
         "Dicom"
+      ]
+    },
+    {
+      "filename": "sdk/identity/**/*.md",
+      "words": [
+        "MSAL",
+        "PKCE"
       ]
     },
     {

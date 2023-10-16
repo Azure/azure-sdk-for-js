@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all Source Control Configurations.
  *
  * @summary List all Source Control Configurations.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/ListSourceControlConfiguration.json
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/ListSourceControlConfiguration.json
  */
 async function listSourceControlConfiguration() {
   const subscriptionId = process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";

@@ -8,6 +8,7 @@ import * as path from "path";
 import { FileSystemPersist } from "../../src/platform/nodejs/persist/fileSystemPersist";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import { promisify } from "util";
+import { FileAccessControl } from "../../src/platform/nodejs/persist/fileAccessControl";
 
 const statAsync = promisify(fs.stat);
 const readdirAsync = promisify(fs.readdir);
@@ -91,7 +92,7 @@ describe("FileSystemPersist", () => {
     });
 
     it("custom storageDirectory", async () => {
-      let customPath = path.join(os.tmpdir(), "TestFolder");
+      const customPath = path.join(os.tmpdir(), "TestFolder");
       const tempDir = path.join(
         customPath,
         "Microsoft",
@@ -108,6 +109,18 @@ describe("FileSystemPersist", () => {
       const success = await persister.push(envelopes);
       assert.strictEqual(success, true);
       await assertFirstFile(tempDir, JSON.parse(JSON.stringify(envelopes)));
+    });
+
+    it("should disable the perister if OS_PROVIDES_FILE_PROTECTION is disabled", () => {
+      FileAccessControl.OS_PROVIDES_FILE_PROTECTION = false;
+      const persister = new FileSystemPersist(instrumentationKey);
+      assert.strictEqual(persister["_enabled"], false);
+      FileAccessControl.OS_PROVIDES_FILE_PROTECTION = true;
+    });
+
+    it("should disable the perister if no instrumentation key is provided", () => {
+      const persister = new FileSystemPersist("");
+      assert.strictEqual(persister["_enabled"], false);
     });
   });
 

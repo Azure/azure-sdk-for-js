@@ -129,7 +129,7 @@ describe("RecoveryServicesBackup test", () => {
 
   it("protectionPolicies delete test", async function () {
     const resArray = new Array();
-    const res = await client.protectionPolicies.beginDeleteAndWait(vaultsname, resourceGroup, resourcename
+    const res = await client.protectionPolicies.beginDeleteAndWait(vaultsname, resourceGroup, resourcename, testPollingOptions
     )
   });
 

@@ -11,11 +11,11 @@
     "@azure/test-utils-perf": "^1.0.0",
     "@azure/keyvault-keys": "^4.2.1",
     "dotenv": "^16.0.0",
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^3.3.0",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@types/node": "^14.0.0",
+    "@types/node": "^16.0.0",
     "eslint": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
