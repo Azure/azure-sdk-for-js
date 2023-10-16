@@ -57,7 +57,7 @@ module.exports = function (config) {
       "AZURE_CLIENT_SECRET",
       "AZURE_CLIENT_ID",
       "AZURE_TENANT_ID",
-      "SUBSCRIPTIONID",
+      "SUBSCRIPTION_ID",
       "RESOURCEGROUPNAME",
       "WORKSPACENAME",
       "RECORDINGS_RELATIVE_PATH",

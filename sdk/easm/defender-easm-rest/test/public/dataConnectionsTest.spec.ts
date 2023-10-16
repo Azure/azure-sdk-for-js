@@ -18,7 +18,7 @@ describe("Data Connections Test", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    const subscription_id = assertEnvironmentVariable("SUBSCRIPTIONID");
+    const subscription_id = assertEnvironmentVariable("SUBSCRIPTION_ID");
     const resource_group = assertEnvironmentVariable("RESOURCEGROUPNAME");
     const workspace_name = assertEnvironmentVariable("WORKSPACENAME");
     const endpoint = assertEnvironmentVariable("ENDPOINT");
