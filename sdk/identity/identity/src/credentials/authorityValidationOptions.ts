@@ -4,7 +4,7 @@
 /**
  * Provides options to configure how the Identity library
  * does authority validation during authentication requests
- * to Azure Active Directory.
+ * to Microsoft Entra ID.
  */
 export interface AuthorityValidationOptions {
   /**
