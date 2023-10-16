@@ -382,7 +382,11 @@ describe("JsonProtocol", function () {
     tests.forEach(({ testName, message, assertFunc }) => {
       it(`parse message test ${testName}`, () => {
         const parsedMsg = protocol.parseMessages(JSON.stringify(message));
-        assertFunc(parsedMsg!);
+        if (!Array.isArray(parsedMsg)) {
+          assertFunc(parsedMsg!);
+        } else {
+          throw new Error("should not be an array");
+        }
       });
     });
   });
