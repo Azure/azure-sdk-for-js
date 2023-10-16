@@ -339,7 +339,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
       )
       .post();
 
-    const devBoxStopPoller = getLongRunningPoller(client, stopDevBoxResponse);
+    const devBoxStopPoller = getLongRunningPoller(client, stopDevBoxResponse, testPollingOptions);
     const devBoxStopResult = await devBoxStopPoller.pollUntilDone();
 
     if (isUnexpected(devBoxStopResult)) {
@@ -362,7 +362,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
       )
       .post();
 
-    const devBoxStartPoller = getLongRunningPoller(client, startDevBoxResponse);
+    const devBoxStartPoller = getLongRunningPoller(client, startDevBoxResponse, testPollingOptions);
     const devBoxStartResult = await devBoxStartPoller.pollUntilDone();
 
     if (isUnexpected(devBoxStartResult)) {
