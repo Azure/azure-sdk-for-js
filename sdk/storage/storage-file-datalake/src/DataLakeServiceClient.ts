@@ -5,16 +5,19 @@ import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import {
-  AnonymousCredential,
+import{  
   BlobServiceClient,
   ServiceGetPropertiesOptions,
   ServiceSetPropertiesOptions,
   ServiceSetPropertiesResponse,
+} from "@azure/storage-blob"
+import {
   Pipeline,
   StoragePipelineOptions,
+  isPipelineLike,
   newPipeline,
-} from "@azure/storage-blob";
+} from "./Pipeline";
+import { AnonymousCredential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 
 import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient";
@@ -143,7 +146,7 @@ export class DataLakeServiceClient extends StorageClient {
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions,
   ) {
-    if (credentialOrPipeline instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipeline)) {
       super(url, credentialOrPipeline);
     } else {
       let credential;

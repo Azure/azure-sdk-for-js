@@ -8,6 +8,7 @@
   "types": "./types/latest/storage-file-datalake.d.ts",
   "browser": {
     "./dist-esm/storage-file-datalake/src/index.js": "./dist-esm/storage-file-datalake/src/index.browser.js",
+    "./dist-esm/storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2.js": "./dist-esm/storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2.browser.js",
     "./dist-esm/storage-file-datalake/src/credentials/StorageSharedKeyCredential.js": "./dist-esm/storage-file-datalake/src/credentials/StorageSharedKeyCredential.browser.js",
     "./dist-esm/storage-file-datalake/src/credentials/UserDelegationKeyCredential.js": "./dist-esm/storage-file-datalake/src/credentials/UserDelegationKeyCredential.browser.js",
     "./dist-esm/storage-file-datalake/src/utils/utils.node.js": "./dist-esm/storage-file-datalake/src/utils/utils.browser.js",
@@ -47,8 +48,8 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
+    "unit-test:browser": "dev-tool run test:browser",
+    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -115,6 +116,7 @@
     "@azure/core-paging": "^1.1.1",
     "@azure/core-rest-pipeline": "^1.10.1",
     "@azure/core-tracing": "^1.0.0",
+    "@azure/core-xml": "^1.3.2",
     "@azure/core-util": "^1.1.1",
     "@azure/logger": "^1.0.0",
     "@azure/storage-blob": "^12.23.0-beta.1",

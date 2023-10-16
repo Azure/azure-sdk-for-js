@@ -14,6 +14,7 @@ import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
   FileSASPermissions,
   generateFileSASQueryParameters,
+  getFileServiceAccountAudience,
   newPipeline,
   ShareClient,
   ShareDirectoryClient,
@@ -25,6 +26,7 @@ import {
   bodyToString,
   configureStorageClient,
   createRandomLocalFile,
+  getAccountName,
   getBlobServiceClient,
   getBSU,
   getTokenCredential,
@@ -33,6 +35,7 @@ import {
   uriSanitizers,
 } from "../utils";
 import { isNode } from "@azure/core-util";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("FileClient Node.js only", () => {
   let shareName: string;
@@ -80,6 +83,53 @@ describe("FileClient Node.js only", () => {
       await shareClient.delete();
     }
     await recorder.stop();
+  });
+
+  it("Default audience should work", async () => {
+    await fileClient.create(1024);
+    const fileClientWithOAuthToken = new ShareFileClient(
+      fileClient.url,
+      createTestCredential(),
+      { fileRequestIntent: "backup" }
+    );
+    configureStorageClient(recorder, fileClientWithOAuthToken);
+
+    const exist = await fileClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Customized audience should work", async () => {
+    await fileClient.create(1024);
+    const fileClientWithOAuthToken = new ShareFileClient(
+      fileClient.url,
+      createTestCredential(),
+      {
+        audience: getFileServiceAccountAudience(getAccountName()),
+        fileRequestIntent: "backup",
+      }
+    );
+    configureStorageClient(recorder, fileClientWithOAuthToken);
+    const exist = await fileClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Bad audience should fail", async () => {
+    await fileClient.create(1024);
+    const fileClientWithOAuthToken = new ShareFileClient(
+      fileClient.url,
+      createTestCredential(),
+      {
+        audience: "https://badaudience.file.core.windows.net/.default",
+        fileRequestIntent: "backup",
+      }
+    );
+    configureStorageClient(recorder, fileClientWithOAuthToken);
+    try {
+      await fileClientWithOAuthToken.exists();
+      assert.fail("Should fail with 403");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 403);
+    }
   });
 
   it("uploadData - large Buffer as data", async function () {

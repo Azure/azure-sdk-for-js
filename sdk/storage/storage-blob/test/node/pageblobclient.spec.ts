@@ -12,6 +12,7 @@ import {
   getStorageAccessTokenWithDefaultCredential,
   getUniqueName,
   configureBlobStorageClient,
+  SimpleTokenCredential,
 } from "../utils";
 import {
   newPipeline,
@@ -23,13 +24,14 @@ import {
   BlobSASPermissions,
   BlobServiceClient,
   StorageBlobAudience,
+  getBlobServiceAccountAudience,
 } from "../../src";
 import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { Context } from "mocha";
-import { DefaultAzureCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("PageBlobClient Node.js only", () => {
   let containerName: string;
@@ -70,16 +72,73 @@ describe("PageBlobClient Node.js only", () => {
     await recorder.stop();
   });
 
-  // needs special setup to record
-  it.skip("fetch a blob for disk with challenge Bearer token", async function (this: Context): Promise<void> {
+  it("Default audience should work", async () => {
+    await pageBlobClient.create(1024);
+    const pageBlobClientWithOAuthToken = new PageBlobClient(
+      pageBlobClient.url,
+      createTestCredential(),
+    );
+    configureBlobStorageClient(recorder, pageBlobClientWithOAuthToken);
+    const exist = await pageBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Customized audience should work", async () => {
+    await pageBlobClient.create(1024);
+    const pageBlobClientWithOAuthToken = new PageBlobClient(
+      pageBlobClient.url,
+      createTestCredential(),
+      {
+        audience: [getBlobServiceAccountAudience(blobServiceClient.accountName)],
+      }
+    );
+    configureBlobStorageClient(recorder, pageBlobClientWithOAuthToken);
+    const exist = await pageBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Bearer token challenge should work", async () => {
+    await pageBlobClient.create(1024);
+
+    // To validate that bad audience should fail.
+    const authToken = await createTestCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default"
+    );
+    assert.isNotNull(authToken);
+    const pageBlobClientWithPlainOAuthToken = new PageBlobClient(
+      pageBlobClient.url,
+      new SimpleTokenCredential(authToken!.token)
+    );
+    configureBlobStorageClient(recorder, pageBlobClientWithPlainOAuthToken);
+
+    try {
+      await pageBlobClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+    const blockBlobClientWithOAuthToken = new PageBlobClient(
+      pageBlobClient.url,
+      createTestCredential(),
+      {
+        audience: ["https://badaudience.blob.core.windows.net/.default"],
+      }
+    );
+    configureBlobStorageClient(recorder, blockBlobClientWithOAuthToken);
+    const exist = await blockBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("fetch a blob for disk with challenge Bearer token", async function (this: Context): Promise<void> {
     if (isLiveMode()) {
       this.skip();
     }
     const diskBlobClient = new PageBlobClient(
-      "https://md-hdd-jxsm54fzq3jc.z8.blob.storage.azure.net/wmkmgnjxxnjt/abcd?sv=2018-03-28&sr=b&si=9a01f5e5-ae40-4251-917d-66ac35cda429&sig=***",
-      new DefaultAzureCredential(),
+      "https://md-hdd-jxsm54fzq3jc.z8.blob.storage.azure.net/g15jvgx5jcgz/abcd?sv=2018-03-28&sr=b&si=76fa4842-d48b-45a8-ae15-a5bee9d8c5de&sig=***",
+      createTestCredential(),
     );
 
+    configureBlobStorageClient(recorder, diskBlobClient);
     const result = await diskBlobClient.getProperties();
     assert.ok(result.contentLength);
   });
@@ -91,7 +150,7 @@ describe("PageBlobClient Node.js only", () => {
     }
     const diskBlobClient = new PageBlobClient(
       "https://md-hdd-jxsm54fzq3jc.z8.blob.storage.azure.net/wmkmgnjxxnjt/abcd?sv=2018-03-28&sr=b&si=9a01f5e5-ae40-4251-917d-66ac35cda429&sig=***",
-      new DefaultAzureCredential(),
+      createTestCredential(),
       {
         audience: StorageBlobAudience.DiskComputeOAuthScopes,
       },

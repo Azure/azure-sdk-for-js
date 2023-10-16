@@ -13,7 +13,6 @@ import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/storage-blob';
 import { BlobLeaseClient } from '@azure/storage-blob';
 import { BlobQueryArrowConfiguration } from '@azure/storage-blob';
-import { CommonOptions } from '@azure/storage-blob';
 import { ContainerRenameResponse } from '@azure/storage-blob';
 import { ContainerUndeleteResponse } from '@azure/storage-blob';
 import * as coreClient from '@azure/core-client';
@@ -23,24 +22,29 @@ import { Credential as Credential_2 } from '@azure/storage-blob';
 import { CredentialPolicy } from '@azure/storage-blob';
 import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
 import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
-import { HttpHeaders } from '@azure/storage-blob';
-import { HttpOperationResponse } from '@azure/storage-blob';
-import { HttpRequestBody } from '@azure/storage-blob';
-import { IHttpClient } from '@azure/storage-blob';
+import { ExtendedServiceClientOptions } from '@azure/core-http-compat';
+import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
+import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
+import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+import { isPipelineLike } from '@azure/storage-blob';
+import { KeepAliveOptions } from '@azure/core-http-compat';
 import { Lease } from '@azure/storage-blob';
 import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
 import { ModifiedAccessConditions as ModifiedAccessConditions_3 } from '@azure/storage-blob';
-import { newPipeline } from '@azure/storage-blob';
+import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/storage-blob';
+import { PipelineLike } from '@azure/storage-blob';
+import { PipelineOptions } from '@azure/storage-blob';
+import { ProxySettings } from '@azure/core-rest-pipeline';
 import { Readable } from 'stream';
-import { RequestBodyType } from '@azure/core-rest-pipeline';
-import { RequestPolicy } from '@azure/storage-blob';
-import { RequestPolicyFactory } from '@azure/storage-blob';
-import { RequestPolicyOptions } from '@azure/storage-blob';
+import { RequestPolicy } from '@azure/core-http-compat';
+import { RequestPolicyFactory } from '@azure/core-http-compat';
+import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
 import { RestError } from '@azure/core-rest-pipeline';
+import { ServiceClientOptions } from '@azure/storage-blob';
 import { ServiceGetPropertiesOptions } from '@azure/storage-blob';
 import { ServiceListContainersSegmentResponse } from '@azure/storage-blob';
 import { ServiceRenameContainerOptions } from '@azure/storage-blob';
@@ -48,17 +52,17 @@ import { ServiceSetPropertiesOptions } from '@azure/storage-blob';
 import { ServiceSetPropertiesResponse } from '@azure/storage-blob';
 import { StorageBrowserPolicy } from '@azure/storage-blob';
 import { StorageBrowserPolicyFactory } from '@azure/storage-blob';
-import { StorageOAuthScopes } from '@azure/storage-blob';
-import { StoragePipelineOptions } from '@azure/storage-blob';
 import { StorageRetryOptions } from '@azure/storage-blob';
 import { StorageRetryPolicy } from '@azure/storage-blob';
 import { StorageRetryPolicyFactory } from '@azure/storage-blob';
+import { StorageRetryPolicyType } from '@azure/storage-blob';
 import { StorageSharedKeyCredential } from '@azure/storage-blob';
 import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
+import { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { UserDelegationKeyModel } from '@azure/storage-blob';
-import { WebResource } from '@azure/storage-blob';
+import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 import { WithResponse } from '@azure/storage-blob';
 
 // @public
@@ -255,7 +259,11 @@ export interface CommonGenerateSasUrlOptions {
     version?: string;
 }
 
-export { CommonOptions }
+// @public
+export interface CommonOptions {
+    // (undocumented)
+    tracingOptions?: OperationTracingOptions;
+}
 
 // @public (undocumented)
 export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
@@ -293,7 +301,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 export class DataLakeFileClient extends DataLakePathClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    append(body: RequestBodyType, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
+    append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: FileCreateOptions): Promise<FileCreateResponse>;
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
@@ -1076,13 +1084,22 @@ export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: D
 // @public
 export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: DataLakeSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
 
+// @public (undocumented)
+export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceClientOptions;
+
+// @public (undocumented)
+export function getCredentialFromPipeline(pipeline: PipelineLike): StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
+
+// @public (undocumented)
+export function getDataLakeServiceAccountAudience(storageAccountName: string): string;
+
 export { HttpHeaders }
 
 export { HttpOperationResponse }
 
 export { HttpRequestBody }
 
-export { IHttpClient }
+export { isPipelineLike }
 
 export { Lease }
 
@@ -1180,7 +1197,8 @@ export interface Metadata {
 // @public (undocumented)
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_3, "ifTags">;
 
-export { newPipeline }
+// @public
+export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public (undocumented)
 export interface Path {
@@ -1796,6 +1814,10 @@ export interface PathUpdateHeaders {
 
 export { Pipeline }
 
+export { PipelineLike }
+
+export { PipelineOptions }
+
 // @public (undocumented)
 export type PublicAccessType = "filesystem" | "file";
 
@@ -1816,6 +1838,7 @@ export interface RemovePathAccessControlItem {
     entityId?: string;
 }
 
+export { RequestPolicy as IHttpClient }
 export { RequestPolicy }
 
 export { RequestPolicyFactory }
@@ -1898,6 +1921,8 @@ export interface SASQueryParametersOptions {
     userDelegationKey?: UserDelegationKey;
 }
 
+export { ServiceClientOptions }
+
 // @public
 export interface ServiceGenerateAccountSasUrlOptions {
     encryptionScope?: string;
@@ -1976,15 +2001,31 @@ export { StorageBrowserPolicy }
 
 export { StorageBrowserPolicyFactory }
 
-export { StorageOAuthScopes }
+// @public
+export enum StorageDataLakeAudience {
+    StorageOAuthScopes = "https://storage.azure.com/.default"
+}
 
-export { StoragePipelineOptions }
+// @public (undocumented)
+export const StorageOAuthScopes: string | string[];
+
+// @public
+export interface StoragePipelineOptions {
+    audience?: string;
+    httpClient?: RequestPolicy;
+    keepAliveOptions?: KeepAliveOptions;
+    proxyOptions?: ProxySettings;
+    retryOptions?: StorageRetryOptions;
+    userAgentOptions?: UserAgentPolicyOptions;
+}
 
 export { StorageRetryOptions }
 
 export { StorageRetryPolicy }
 
 export { StorageRetryPolicyFactory }
+
+export { StorageRetryPolicyType }
 
 export { StorageSharedKeyCredential }
 

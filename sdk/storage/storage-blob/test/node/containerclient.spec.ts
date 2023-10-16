@@ -5,12 +5,13 @@ import { assert } from "chai";
 
 import {
   configureBlobStorageClient,
+  SimpleTokenCredential,
   getBSU,
   getConnectionStringFromEnvironment,
   getUniqueName,
   recorderEnvSetup,
 } from "../utils";
-import { PublicAccessType } from "../../src";
+import { PublicAccessType, getBlobServiceAccountAudience } from "../../src";
 import {
   ContainerClient,
   newPipeline,
@@ -22,6 +23,7 @@ import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("ContainerClient Node.js only", () => {
   let containerName: string;
@@ -43,7 +45,59 @@ describe("ContainerClient Node.js only", () => {
     await recorder.stop();
   });
 
-  it("getAccessPolicy", async function () {
+  it("Default audience should work", async () => {
+    const containerClientWithOAuthToken = new ContainerClient(
+      containerClient.url,
+      createTestCredential(),
+    );
+    configureBlobStorageClient(recorder, containerClientWithOAuthToken);
+    const exists = await containerClientWithOAuthToken.exists();
+    assert.strictEqual(true, exists);
+  });
+
+  it("Customized audience should work", async () => {
+    const containerClientWithOAuthToken = new ContainerClient(
+      containerClient.url,
+      createTestCredential(),
+      {
+        audience: [getBlobServiceAccountAudience(blobServiceClient.accountName)],
+      }
+    );
+    configureBlobStorageClient(recorder, containerClientWithOAuthToken);
+    const exists = await containerClientWithOAuthToken.exists();
+    assert.strictEqual(true, exists);
+  });
+
+  it("Bearer token challenge should work", async () => {
+    // Validate that bad audience should fail first.
+    const authToken = await createTestCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default"
+    );
+    assert.isNotNull(authToken);
+    const containerClientWithPlainOAuthToken = new ContainerClient(
+      containerClient.url,
+      new SimpleTokenCredential(authToken!.token)
+    );
+    configureBlobStorageClient(recorder, containerClientWithPlainOAuthToken);
+
+    try {
+      await containerClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+    const containerClientWithOAuthToken = new ContainerClient(
+      containerClient.url,
+      createTestCredential(),
+      {
+        audience: ["https://badaudience.blob.core.windows.net/.default"],
+      }
+    );
+    configureBlobStorageClient(recorder, containerClientWithOAuthToken);
+    await containerClientWithOAuthToken.getProperties();
+  });
+
+  it("getAccessPolicy", async () => {
     const result = await containerClient.getAccessPolicy();
     assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);

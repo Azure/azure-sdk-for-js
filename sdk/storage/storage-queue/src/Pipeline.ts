@@ -30,20 +30,20 @@ import { parseXML, stringifyXML } from "@azure/core-xml";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log";
-import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { StorageRetryOptions, StorageRetryPolicyFactory } from "../../storage-blob/src/StorageRetryPolicyFactory";
+import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
+import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 import {
   StorageOAuthScopes,
-  StorageBlobLoggingAllowedHeaderNames,
-  StorageBlobLoggingAllowedQueryParameters,
+  StorageQueueLoggingAllowedHeaderNames,
+  StorageQueueLoggingAllowedQueryParameters,
   SDK_VERSION,
 } from "./utils/constants";
-import { getCachedDefaultHttpClient } from "./utils/cache";
-import { storageBrowserPolicy } from "./policies/StorageBrowserPolicyV2";
-import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2";
-import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2";
-import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
+import { getCachedDefaultHttpClient } from "../../storage-blob/src/utils/cache";
+import { storageBrowserPolicy } from "../../storage-blob/src/policies/StorageBrowserPolicyV2";
+import { storageRetryPolicy } from "../../storage-blob/src/policies/StorageRetryPolicyV2";
+import { storageSharedKeyCredentialPolicy } from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2";
+import { StorageBrowserPolicyFactory } from "../../storage-blob/src/StorageBrowserPolicyFactory";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -201,7 +201,7 @@ export interface StoragePipelineOptions {
    * The audience used to retrieve an AAD token.
    * By default, audience 'https://storage.azure.com/.default' will be used.
    */
-  audience?: string | string[];
+  audience?: string;
 }
 
 /**
@@ -270,8 +270,8 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     corePipeline = createClientPipeline({
       ...restOptions,
       loggingOptions: {
-        additionalAllowedHeaderNames: StorageBlobLoggingAllowedHeaderNames,
-        additionalAllowedQueryParameters: StorageBlobLoggingAllowedQueryParameters,
+        additionalAllowedHeaderNames: StorageQueueLoggingAllowedHeaderNames,
+        additionalAllowedQueryParameters: StorageQueueLoggingAllowedQueryParameters,
         logger: logger.info,
       },
       userAgentOptions: {

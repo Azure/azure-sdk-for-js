@@ -10,40 +10,49 @@ import {
   RequestPolicyOptionsLike as RequestPolicyOptions,
   WebResourceLike as WebResource,
   KeepAliveOptions,
-  ExtendedServiceClientOptions,
-  convertHttpClient,
-  createRequestPolicyFactoryPolicy,
-  HttpPipelineLogLevel,
+   ExtendedServiceClientOptions,
+   convertHttpClient,
+   createRequestPolicyFactoryPolicy,
+   HttpPipelineLogLevel,
 } from "@azure/core-http-compat";
 import {
   RequestBodyType as HttpRequestBody,
   ProxySettings as ProxyOptions,
   UserAgentPolicyOptions as UserAgentOptions,
-  bearerTokenAuthenticationPolicy,
-  Pipeline as CorePipeline,
-  decompressResponsePolicyName,
-  PipelinePolicy,
-  HttpClient,
+   bearerTokenAuthenticationPolicy,
+   Pipeline as CorePipeline,
+   decompressResponsePolicyName,
+   PipelinePolicy,
+   HttpClient,
 } from "@azure/core-rest-pipeline";
 import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/core-client";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log";
-import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
+import { StorageRetryOptions, StorageRetryPolicyFactory } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { AnonymousCredential } from "@azure/storage-blob";
 import {
   StorageOAuthScopes,
-  StorageBlobLoggingAllowedHeaderNames,
-  StorageBlobLoggingAllowedQueryParameters,
+  StorageDataLakeLoggingAllowedHeaderNames,
+  StorageDataLakeLoggingAllowedQueryParameters,
   SDK_VERSION,
 } from "./utils/constants";
-import { getCachedDefaultHttpClient } from "./utils/cache";
-import { storageBrowserPolicy } from "./policies/StorageBrowserPolicyV2";
-import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2";
-import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2";
-import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
+import { getCachedDefaultHttpClient } from "../../storage-blob/src/utils/cache";
+import { storageBrowserPolicy } from "../../storage-blob/src/policies/StorageBrowserPolicyV2";
+import { storageRetryPolicy } from "../../storage-blob/src/policies/StorageRetryPolicyV2";
+import { storageSharedKeyCredentialPolicy } from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2";
+import { StorageBrowserPolicyFactory } from "@azure/storage-blob";
+
+
+import { 
+  ServiceClientOptions,
+  PipelineOptions,
+  PipelineLike,
+  isPipelineLike,
+  Pipeline,
+} from "@azure/storage-blob"
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -57,121 +66,12 @@ export {
   RequestPolicyFactory,
   RequestPolicy,
   RequestPolicyOptions,
+  ServiceClientOptions,
+  PipelineOptions,
+  PipelineLike,
+  Pipeline,
+  isPipelineLike,
 };
-
-/**
- * A subset of `@azure/core-http` ServiceClientOptions
- */
-export interface ServiceClientOptions {
-  /**
-   * Optional. Configures the HTTP client to send requests and receive responses.
-   */
-  httpClient?: IHttpClient;
-  /**
-   * Optional. Overrides the default policy factories.
-   */
-  requestPolicyFactories?:
-    | RequestPolicyFactory[]
-    | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
-}
-
-/**
- * Option interface for Pipeline constructor.
- */
-export interface PipelineOptions {
-  /**
-   * Optional. Configures the HTTP client to send requests and receive responses.
-   */
-  httpClient?: IHttpClient;
-}
-
-/**
- * An interface for the {@link Pipeline} class containing HTTP request policies.
- * You can create a default Pipeline by calling {@link newPipeline}.
- * Or you can create a Pipeline with your own policies by the constructor of Pipeline.
- *
- * Refer to {@link newPipeline} and provided policies before implementing your
- * customized Pipeline.
- */
-export interface PipelineLike {
-  /**
-   * A list of chained request policy factories.
-   */
-  readonly factories: RequestPolicyFactory[];
-  /**
-   * Configures pipeline logger and HTTP client.
-   */
-  readonly options: PipelineOptions;
-  /**
-   * Transfer Pipeline object to ServiceClientOptions object which is required by
-   * ServiceClient constructor.
-   *
-   * @returns The ServiceClientOptions object from this Pipeline.
-   */
-  toServiceClientOptions(): ServiceClientOptions;
-}
-
-/**
- * A helper to decide if a given argument satisfies the Pipeline contract
- * @param pipeline - An argument that may be a Pipeline
- * @returns true when the argument satisfies the Pipeline contract
- */
-export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike {
-  if (!pipeline || typeof pipeline !== "object") {
-    return false;
-  }
-
-  const castPipeline = pipeline as PipelineLike;
-
-  return (
-    Array.isArray(castPipeline.factories) &&
-    typeof castPipeline.options === "object" &&
-    typeof castPipeline.toServiceClientOptions === "function"
-  );
-}
-
-/**
- * A Pipeline class containing HTTP request policies.
- * You can create a default Pipeline by calling {@link newPipeline}.
- * Or you can create a Pipeline with your own policies by the constructor of Pipeline.
- *
- * Refer to {@link newPipeline} and provided policies before implementing your
- * customized Pipeline.
- */
-export class Pipeline implements PipelineLike {
-  /**
-   * A list of chained request policy factories.
-   */
-  public readonly factories: RequestPolicyFactory[];
-  /**
-   * Configures pipeline logger and HTTP client.
-   */
-  public readonly options: PipelineOptions;
-
-  /**
-   * Creates an instance of Pipeline. Customize HTTPClient by implementing IHttpClient interface.
-   *
-   * @param factories -
-   * @param options -
-   */
-  constructor(factories: RequestPolicyFactory[], options: PipelineOptions = {}) {
-    this.factories = factories;
-    this.options = options;
-  }
-
-  /**
-   * Transfer Pipeline object to ServiceClientOptions object which is required by
-   * ServiceClient constructor.
-   *
-   * @returns The ServiceClientOptions object from this Pipeline.
-   */
-  public toServiceClientOptions(): ServiceClientOptions {
-    return {
-      httpClient: this.options.httpClient,
-      requestPolicyFactories: this.factories,
-    };
-  }
-}
 
 /**
  * Options interface for the {@link newPipeline} function.
@@ -201,7 +101,7 @@ export interface StoragePipelineOptions {
    * The audience used to retrieve an AAD token.
    * By default, audience 'https://storage.azure.com/.default' will be used.
    */
-  audience?: string | string[];
+  audience?: string;
 }
 
 /**
@@ -270,8 +170,8 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     corePipeline = createClientPipeline({
       ...restOptions,
       loggingOptions: {
-        additionalAllowedHeaderNames: StorageBlobLoggingAllowedHeaderNames,
-        additionalAllowedQueryParameters: StorageBlobLoggingAllowedQueryParameters,
+        additionalAllowedHeaderNames: StorageDataLakeLoggingAllowedHeaderNames,
+        additionalAllowedQueryParameters: StorageDataLakeLoggingAllowedQueryParameters,
         logger: logger.info,
       },
       userAgentOptions: {

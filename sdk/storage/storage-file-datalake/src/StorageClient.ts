@@ -4,16 +4,24 @@ import { TokenCredential } from "@azure/core-auth";
 import { StorageContextClient } from "./StorageContextClient";
 import { StorageClient as StorageClientContext } from "./generated/src";
 import {
-  AnonymousCredential,
   Pipeline,
+  PipelineLike,
   StoragePipelineOptions,
-  BlobServiceClient,
-} from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+} from "./Pipeline";
+import { BlobServiceClient, AnonymousCredential } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms";
 import { escapeURLPath, getAccountNameFromUrl, getURLScheme, iEqual } from "./utils/utils.common";
 import { ExtendedServiceClientOptions } from "@azure/core-http-compat";
 import { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
+import { OperationTracingOptions } from "@azure/core-tracing";
+
+/**
+ * An interface for options common to every remote operation.
+ */
+export interface CommonOptions {
+  tracingOptions?: OperationTracingOptions;
+}
 
 // This function relies on the Pipeline already being initialized by a storage-blob client
 function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions {
@@ -90,7 +98,7 @@ export abstract class StorageClient {
    * @param url - url to resource
    * @param pipeline - request policy pipeline.
    */
-  protected constructor(url: string, pipeline: Pipeline) {
+  protected constructor(url: string, pipeline: PipelineLike) {
     // URL should be encoded and only once, protocol layer shouldn't encode URL again
     this.url = escapeURLPath(url);
     this.blobEndpointUrl = toBlobEndpointUrl(this.url);
@@ -111,7 +119,7 @@ export abstract class StorageClient {
 
     this.isHttps = iEqual(getURLScheme(this.url) || "", "https");
 
-    this.credential = blobClient.credential;
+    this.credential = (blobClient as any).credential;
 
     // Override protocol layer's default content-type
     const storageClientContext = this.storageClientContext as any;

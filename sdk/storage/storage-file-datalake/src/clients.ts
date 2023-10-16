@@ -4,13 +4,16 @@ import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 import {
-  AnonymousCredential,
-  BlobClient,
-  BlockBlobClient,
+  isPipelineLike,
   newPipeline,
   Pipeline,
   StoragePipelineOptions,
-} from "@azure/storage-blob";
+} from "./Pipeline";
+import {
+  BlobClient,
+  BlockBlobClient,
+} from "@azure/storage-blob"
+import { AnonymousCredential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { Readable } from "stream";
 
@@ -258,7 +261,7 @@ export class DataLakePathClient extends StorageClient {
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions,
   ) {
-    if (credentialOrPipeline instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipeline)) {
       super(url, credentialOrPipeline);
     } else {
       let credential;
@@ -446,6 +449,10 @@ export class DataLakePathClient extends StorageClient {
             this.isTokenCredential = true;
           }
         });
+
+        if (isTokenCredential((this.pipeline as any)._credential)) {
+          this.isTokenCredential = true;
+        }
       }
       const paginated = recursive === true && this.isTokenCredential === true;
       let continuation: string | undefined;
@@ -1063,7 +1070,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions,
   ) {
-    if (credentialOrPipeline instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipeline)) {
       super(url, credentialOrPipeline);
     } else {
       let credential;

@@ -1065,6 +1065,9 @@ export function generateAccountSASQueryParameters(accountSASSignatureValues: Acc
 // @public
 export function generateFileSASQueryParameters(fileSASSignatureValues: FileSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
+// @public (undocumented)
+export function getFileServiceAccountAudience(storageAccountName: string): string;
+
 // @public
 export interface HandleItem {
     // (undocumented)
@@ -1226,7 +1229,7 @@ export interface Metrics {
 }
 
 // @public
-export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential?: Credential_2 | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
 export type PermissionCopyModeType = "source" | "override";
@@ -1249,6 +1252,7 @@ export interface PipelineLike {
 // @public
 export interface PipelineOptions {
     httpClient?: RequestPolicy;
+    shareTokenIntent?: ShareTokenIntent;
 }
 
 // @public
@@ -1420,8 +1424,7 @@ export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool";
 // @public
 export class ShareClient extends StorageClient {
     constructor(connectionString: string, name: string, options?: ShareClientOptions);
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: ShareClientOptions);
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential, options?: ShareClientOptions);
+    constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     create(options?: ShareCreateOptions): Promise<ShareCreateResponse>;
     createDirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
@@ -1560,7 +1563,7 @@ export type ShareDeleteResponse = WithResponse<ShareDeleteHeaders, ShareDeleteHe
 
 // @public
 export class ShareDirectoryClient extends StorageClient {
-    constructor(url: string, credential?: AnonymousCredential | StorageSharedKeyCredential | TokenCredential, options?: ShareClientOptions);
+    constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
     createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
@@ -1607,7 +1610,7 @@ export interface ShareExistsOptions extends CommonOptions {
 
 // @public
 export class ShareFileClient extends StorageClient {
-    constructor(url: string, credential?: AnonymousCredential | StorageSharedKeyCredential | TokenCredential, options?: ShareClientOptions);
+    constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
@@ -1887,8 +1890,8 @@ export class ShareSASPermissions {
 
 // @public
 export class ShareServiceClient extends StorageClient {
-    constructor(url: string, credential?: AnonymousCredential | StorageSharedKeyCredential | TokenCredential, options?: ShareClientOptions);
-    constructor(url: string, pipeline: Pipeline, options?: ShareClientOptions);
+    constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     createShare(shareName: string, options?: ShareCreateOptions): Promise<{
         shareCreateResponse: ShareCreateResponse;
         shareClient: ShareClient;
@@ -2027,11 +2030,16 @@ export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
 }
 
 // @public
+export enum StorageFileAudience {
+    StorageOAuthScopes = "https://storage.azure.com/.default"
+}
+
+// @public
 export const StorageOAuthScopes: string | string[];
 
 // @public
 export interface StoragePipelineOptions {
-    audience?: string | string[];
+    audience?: string;
     httpClient?: RequestPolicy;
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxySettings;
@@ -2045,13 +2053,13 @@ export interface StorageRetryOptions {
     readonly maxTries?: number;
     readonly retryDelayInMs?: number;
     readonly retryPolicyType?: StorageRetryPolicyType;
-    readonly secondaryHost?: string;
     readonly tryTimeoutInMs?: number;
 }
 
 // @public
 export class StorageRetryPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: StorageRetryOptions);
+    // Warning: (ae-forgotten-export) The symbol "StorageRetryOptions_2" needs to be exported by the entry point index.d.ts
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: StorageRetryOptions_2);
     protected attemptSendRequest(request: WebResource, secondaryHas404: boolean, attempt: number): Promise<HttpOperationResponse>;
     sendRequest(request: WebResource): Promise<HttpOperationResponse>;
     protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: HttpOperationResponse, err?: RestError): boolean;

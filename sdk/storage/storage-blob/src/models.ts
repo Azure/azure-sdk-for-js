@@ -332,6 +332,10 @@ export enum StorageBlobAudience {
   DiskComputeOAuthScopes = "https://disk.compute.azure.com/.default",
 }
 
+export function getBlobServiceAccountAudience(storageAccountName: string): string {
+  return `https://${storageAccountName}.blob.core.windows.net/.default`;
+}
+
 /**
  * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.
  */

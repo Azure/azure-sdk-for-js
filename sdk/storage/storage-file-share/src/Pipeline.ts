@@ -31,19 +31,21 @@ import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log";
 import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
+import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
+import { Credential } from "../../storage-blob/src/credentials/Credential";
 import {
   StorageOAuthScopes,
-  StorageBlobLoggingAllowedHeaderNames,
-  StorageBlobLoggingAllowedQueryParameters,
+  StorageFileLoggingAllowedHeaderNames,
+  StorageFileLoggingAllowedQueryParameters,
   SDK_VERSION,
 } from "./utils/constants";
-import { getCachedDefaultHttpClient } from "./utils/cache";
-import { storageBrowserPolicy } from "./policies/StorageBrowserPolicyV2";
-import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2";
-import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2";
-import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
+import { getCachedDefaultHttpClient } from "../../storage-blob/src/utils/cache";
+import { storageBrowserPolicy } from "../../storage-blob/src/policies/StorageBrowserPolicyV2";
+import { storageRetryPolicy } from "../../storage-blob/src/policies/StorageRetryPolicyV2";
+import { storageSharedKeyCredentialPolicy } from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2";
+import { StorageBrowserPolicyFactory } from "../../storage-blob/src/StorageBrowserPolicyFactory";
+import { ShareTokenIntent } from "./generatedModels";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -83,6 +85,10 @@ export interface PipelineOptions {
    * Optional. Configures the HTTP client to send requests and receive responses.
    */
   httpClient?: IHttpClient;
+  /**
+   * Intent of using TokenCredential in file requests.
+   */
+  shareTokenIntent?: ShareTokenIntent;
 }
 
 /**
@@ -201,7 +207,7 @@ export interface StoragePipelineOptions {
    * The audience used to retrieve an AAD token.
    * By default, audience 'https://storage.azure.com/.default' will be used.
    */
-  audience?: string | string[];
+  audience?: string;
 }
 
 /**
@@ -212,7 +218,7 @@ export interface StoragePipelineOptions {
  * @returns A new Pipeline object.
  */
 export function newPipeline(
-  credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+  credential?: Credential | TokenCredential,
   pipelineOptions: StoragePipelineOptions = {},
 ): Pipeline {
   if (!credential) {
@@ -270,8 +276,8 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     corePipeline = createClientPipeline({
       ...restOptions,
       loggingOptions: {
-        additionalAllowedHeaderNames: StorageBlobLoggingAllowedHeaderNames,
-        additionalAllowedQueryParameters: StorageBlobLoggingAllowedQueryParameters,
+        additionalAllowedHeaderNames: StorageFileLoggingAllowedHeaderNames,
+        additionalAllowedQueryParameters: StorageFileLoggingAllowedQueryParameters,
         logger: logger.info,
       },
       userAgentOptions: {

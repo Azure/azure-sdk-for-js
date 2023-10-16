@@ -8,21 +8,28 @@ export * from "./DataLakeLeaseClient";
 export * from "./models";
 export * from "./utils/DataLakeAclChangeFailedError";
 export {
-  BlobServiceProperties as DataLakeServiceProperties,
-  ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
   Pipeline,
+  PipelineLike,
+  PipelineOptions,
+  isPipelineLike,
   newPipeline,
-  CommonOptions,
   StoragePipelineOptions,
+  ServiceClientOptions,
+} from "./Pipeline";
+export { 
   AnonymousCredential,
-  Credential,
   AnonymousCredentialPolicy,
+  Credential,
   CredentialPolicy,
   StorageBrowserPolicy,
   StorageBrowserPolicyFactory,
+  StorageRetryOptions,
   StorageRetryPolicy,
+  StorageRetryPolicyType,
   StorageRetryPolicyFactory,
-} from "@azure/storage-blob";
+  BlobServiceProperties as DataLakeServiceProperties,
+  ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse, } from '@azure/storage-blob';
+export { CommonOptions } from "./StorageClient";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
 export { RestError } from "@azure/core-rest-pipeline";
 export { logger } from "./log";

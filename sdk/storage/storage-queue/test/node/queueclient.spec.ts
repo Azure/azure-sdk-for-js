@@ -8,15 +8,18 @@ import {
   getUniqueName,
   recorderEnvSetup,
   configureStorageClient,
+  SimpleTokenCredential,
 } from "../utils";
 import { Recorder } from "@azure-tools/test-recorder";
-import { newPipeline, QueueClient } from "../../src";
+import { getQueueServiceAccountAudience, newPipeline, QueueClient, QueueServiceClient } from "../../src";
 import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { Context } from "mocha";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("QueueClient Node.js only", () => {
   let queueName: string;
+  let queueServiceClient: QueueServiceClient;
   let queueClient: QueueClient;
 
   let recorder: Recorder;
@@ -24,7 +27,7 @@ describe("QueueClient Node.js only", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
-    const queueServiceClient = getQSU(recorder);
+    queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
@@ -33,6 +36,61 @@ describe("QueueClient Node.js only", () => {
   afterEach(async function () {
     await queueClient.delete();
     await recorder.stop();
+  });
+
+  it("QueueClient default audience should work", async () => {
+    const queueClientWithOAuthToken = new QueueClient(
+      queueClient.url,
+      createTestCredential()
+    );
+
+    configureStorageClient(recorder, queueClientWithOAuthToken);
+    const exist = await queueClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("QueueClient customized audience should work", async () => {
+    const queueClientWithOAuthToken = new QueueClient(
+      queueClient.url,
+      createTestCredential(),
+      { audience: getQueueServiceAccountAudience(queueServiceClient.accountName) }
+    );
+
+    configureStorageClient(recorder, queueClientWithOAuthToken);
+    const exist = await queueClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("QueueClient Bearer token challenge should work", async () => {
+    // Validate that bad audience should fail first.
+    const authToken = await createTestCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default"
+    );
+    assert.isNotNull(authToken);
+    const queueClientWithPlainOAuthToken = new QueueClient(
+      queueClient.url,
+      new SimpleTokenCredential(authToken!.token)
+    );
+
+    configureStorageClient(recorder, queueClientWithPlainOAuthToken);
+
+    try {
+      await queueClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
+    const queueClientWithOAuthToken = new QueueClient(
+      queueClient.url,
+      createTestCredential(),
+      {
+        audience: "https://badaudience.blob.core.windows.net/.default",
+      }
+    );
+    configureStorageClient(recorder, queueClientWithOAuthToken);
+    const exist = await queueClientWithOAuthToken.exists();
+    assert.equal(exist, true);
   });
 
   it("getAccessPolicy", async () => {

@@ -4,12 +4,15 @@ import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import {
   ContainerClient,
-  AnonymousCredential,
+} from "@azure/storage-blob";
+import {
+  isPipelineLike,
   newPipeline,
   Pipeline,
   StoragePipelineOptions,
-} from "@azure/storage-blob";
+} from "./Pipeline";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { AnonymousCredential } from "@azure/storage-blob";
 
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
 import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations";
@@ -120,7 +123,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions,
   ) {
-    if (credentialOrPipeline instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipeline)) {
       super(url, credentialOrPipeline);
     } else {
       let credential;
