@@ -108,9 +108,6 @@
   - Added Enum KnownCreatedByType
   - Added Enum KnownTranscriptContentType
   - Added Enum KnownUserConsent
-
-**Breaking Changes**
-
   - Class MicrosoftSupport has a new signature
     
     
