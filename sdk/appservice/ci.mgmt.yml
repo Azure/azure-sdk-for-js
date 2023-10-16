@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-                
+
 trigger:
   branches:
     include:
@@ -36,5 +36,6 @@ extends:
         safeName: azurearmappservice
       - name: azure-arm-appservice-profile-2020-09-01-hybrid
         safeName: azurearmappserviceprofile20200901hybrid
+
       - name: azure-rest-arm-appservice
         safeName: azurerestarmappservice
