@@ -38,7 +38,7 @@ const credentialName = "EnvironmentCredential";
 const logger = credentialLogger(credentialName);
 
 /**
- * Enables authentication to Azure Active Directory using a client secret or certificate, or as a user
+ * Enables authentication to Microsoft Entra ID using a client secret or certificate, or as a user
  * with a username and password.
  */
 export class EnvironmentCredential implements TokenCredential {
@@ -50,7 +50,7 @@ export class EnvironmentCredential implements TokenCredential {
    * Creates an instance of the EnvironmentCredential class and decides what credential to use depending on the available environment variables.
    *
    * Required environment variables:
-   * - `AZURE_TENANT_ID`: The Azure Active Directory tenant (directory) ID.
+   * - `AZURE_TENANT_ID`: The Microsoft Entra tenant (directory) ID.
    * - `AZURE_CLIENT_ID`: The client (application) ID of an App Registration in the tenant.
    *
    * If setting the AZURE_TENANT_ID, then you can also set the additionally allowed tenants
@@ -127,7 +127,7 @@ export class EnvironmentCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - Optional parameters. See {@link GetTokenOptions}.

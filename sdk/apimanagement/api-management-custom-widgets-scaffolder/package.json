@@ -41,7 +41,7 @@
     "build:browser": "tsc -p . && dev-tool run bundle --browser-test=false",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:test": "echo skip",
-    "bundle:bin": "rollup -c rollup.config.bin.js",
+    "bundle:bin": "rollup -c rollup.config.bin.mjs",
     "build:samples": "echo skip",
     "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false && npm run bundle:bin && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/templates/**\" \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -99,7 +99,7 @@
     "inquirer": "^8.2.4",
     "yargs": "^17.0.1",
     "yargs-parser": "^21.0.1",
-    "rollup": "^2.66.1",
-    "@rollup/plugin-node-resolve": "^13.1.3"
+    "rollup": "^3.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0"
   }
 }

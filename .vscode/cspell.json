@@ -68,6 +68,7 @@
     "eastus",
     "ECONNRESET",
     "Eloqua",
+    "entra",
     "Esdni",
     "ESDNI",
     "etags",
@@ -183,6 +184,7 @@
         "Adls",
         "adlsgen",
         "bangla",
+        "beider",
         "Bokmaal",
         "Decompounder",
         "haase",
@@ -198,7 +200,9 @@
         "Rslp",
         "sorani",
         "Sorani",
-        "beider"
+        "Vectorizable",
+        "vectorizer",
+        "vectorizers"
       ]
     },
     {
@@ -312,6 +316,13 @@
       "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
       "words": [
         "Dicom"
+      ]
+    },
+    {
+      "filename": "sdk/identity/**/*.md",
+      "words": [
+        "MSAL",
+        "PKCE"
       ]
     },
     {

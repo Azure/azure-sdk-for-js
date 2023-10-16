@@ -72,6 +72,22 @@ describe("tenantIdUtils", () => {
     });
   });
 
+  describe("test checkTenantId for error with invalid inputs", () => {
+    for (const inputTenant of [";", '"', "`", "=", "%", "(", ")", "{", "}", "|"]) {
+      it(`when tenant ID has invalid character "${inputTenant}" `, () => {
+        const allParams: any[] = [];
+        const fakeLogger = {
+          info: (...params: any) => allParams.push(params),
+        };
+        const logger = credentialLogger("title", fakeLogger as any);
+        assert.throws(() => {
+          checkTenantId(logger, inputTenant);
+        }, "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names.");
+        assert.equal(allParams.length, 1);
+      });
+    }
+  });
+
   describe("resolveTenantId", () => {
     it("should throw if the tenant ID is invalid", () => {
       const allParams: any[] = [];
