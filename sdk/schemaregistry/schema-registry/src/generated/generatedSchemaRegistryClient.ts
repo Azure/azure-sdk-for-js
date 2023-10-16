@@ -54,14 +54,14 @@ export class GeneratedSchemaRegistryClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "https://{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "https://{endpoint}"
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2022-10";
+    this.apiVersion = options.apiVersion || "2023-07-01";
     this.schema = new SchemaImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }

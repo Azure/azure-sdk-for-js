@@ -62,6 +62,8 @@ export enum KnownSchemaFormats {
   Avro = "Avro",
   /** JSON */
   Json = "Json",
+  /** Protobuf */
+  Protobuf = "Protobuf",
   /** Schemas of the custom format will be treated as an opaque string */
   Custom = "Custom",
 }
