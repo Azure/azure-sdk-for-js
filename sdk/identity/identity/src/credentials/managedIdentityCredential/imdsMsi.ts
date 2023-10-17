@@ -132,7 +132,7 @@ export const imdsMsi: MSI = {
 
         // This MSI uses the imdsEndpoint to get the token, which only uses http://
         request.allowInsecureConnection = true;
-        let response;
+        let response: PipelineResponse;
         try {
           logger.info(`${msiName}: Pinging the Azure IMDS endpoint`);
           response = await identityClient.sendRequest(request);
