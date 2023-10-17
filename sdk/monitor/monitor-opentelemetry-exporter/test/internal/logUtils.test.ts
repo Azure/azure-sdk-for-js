@@ -20,23 +20,13 @@ import {
   TelemetryExceptionDetails,
 } from "../../src/generated";
 import { TelemetryItem as Envelope } from "../../src/generated";
-import { LogRecord, Logger, LoggerProvider } from "@opentelemetry/sdk-logs";
-import { LoggerProviderConfig } from "@opentelemetry/sdk-logs/build/src/types";
+import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import { logToEnvelope } from "../../src/utils/logUtils";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
+import { SeverityNumber } from "@opentelemetry/api-logs";
+import { HrTime, TraceFlags } from "@opentelemetry/api";
 
 const context = getInstance();
-
-const providerConfig: LoggerProviderConfig = {
-  resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "testServiceInstanceID",
-    [SemanticResourceAttributes.SERVICE_NAME]: "testServiceName",
-    [SemanticResourceAttributes.SERVICE_NAMESPACE]: "testServiceNamespace",
-  }),
-};
-
-const loggerProvider = new LoggerProvider(providerConfig);
-const logger = loggerProvider.getLogger("default") as Logger;
 
 function assertEnvelope(
   envelope?: Envelope,
@@ -65,6 +55,8 @@ function assertEnvelope(
   const expectedServiceTags: Tags = {
     [KnownContextTagKeys.AiCloudRole]: "testServiceNamespace.testServiceName",
     [KnownContextTagKeys.AiCloudRoleInstance]: "testServiceInstanceID",
+    [KnownContextTagKeys.AiOperationId]: "1f1008dc8e270e85c40a0d7c3939b278",
+    [KnownContextTagKeys.AiOperationParentId]: "5e107261f64fa53e",
   };
   assert.deepStrictEqual(envelope.tags, {
     ...context.tags,
@@ -78,17 +70,41 @@ function assertEnvelope(
 const emptyMeasurements: Measurements = {};
 
 describe("logUtils.ts", () => {
+  let testLogRecord: any = {
+    resource: new Resource({
+      [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "testServiceInstanceID",
+      [SemanticResourceAttributes.SERVICE_NAME]: "testServiceName",
+      [SemanticResourceAttributes.SERVICE_NAMESPACE]: "testServiceNamespace",
+    }),
+    instrumentationScope: {
+      name: "scope_name_1",
+      version: "0.1.0",
+      schemaUrl: "http://url.to.schema",
+    },
+    hrTime: [1680253513, 123241635] as HrTime,
+    hrTimeObserved: [1680253513, 123241635] as HrTime,
+    attributes: {
+      "some-attribute": "some attribute value",
+    },
+    severityNumber: SeverityNumber.INFO,
+    severityText: "Information",
+    body: "some_log_body",
+    spanContext: {
+      traceFlags: TraceFlags.SAMPLED,
+      traceId: "1f1008dc8e270e85c40a0d7c3939b278",
+      spanId: "5e107261f64fa53e",
+    },
+  };
+
   describe("#logToEnvelope", () => {
     it("should create a Message Envelope for Logs", () => {
-      const log = new LogRecord(logger, {
-        body: "Test message",
-        severityNumber: 12,
-      });
-      const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
-      log.setAttributes({
+      const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
+      testLogRecord.body = "Test message";
+      testLogRecord.severityLevel = "Information";
+      testLogRecord.attributes = {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
-      });
+      };
       const expectedProperties = {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
@@ -101,7 +117,7 @@ describe("logUtils.ts", () => {
         measurements: {},
       };
 
-      const envelope = logToEnvelope(log, "ikey");
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assertEnvelope(
         envelope,
         "Microsoft.ApplicationInsights.Message",
@@ -115,17 +131,16 @@ describe("logUtils.ts", () => {
     });
 
     it("should create a TelemetryExceptionData Envelope for logs with exception attributes", () => {
-      const log = new LogRecord(logger, {
-        body: "Test exception",
-        severityNumber: 22,
-      });
-      const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
-      log.setAttributes({
+      testLogRecord.body = "Test exception";
+      testLogRecord.severityNumber = 22;
+
+      const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
+      testLogRecord.attributes = {
         "extra.attribute": "foo",
         [SemanticAttributes.EXCEPTION_TYPE]: "test exception type",
         [SemanticAttributes.EXCEPTION_MESSAGE]: "test exception message",
         [SemanticAttributes.EXCEPTION_STACKTRACE]: "test exception stack",
-      });
+      };
       const expectedProperties = {
         "extra.attribute": "foo",
       };
@@ -144,7 +159,7 @@ describe("logUtils.ts", () => {
         measurements: {},
       };
 
-      const envelope = logToEnvelope(log, "ikey");
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assertEnvelope(
         envelope,
         "Microsoft.ApplicationInsights.Exception",
@@ -165,17 +180,14 @@ describe("logUtils.ts", () => {
         severityLevel: "Verbose",
         version: 2,
       };
-      const log = new LogRecord(logger, {
-        body: JSON.stringify(data),
-        attributes: {
-          "_MS.baseType": "MessageData",
-        },
-      });
-      const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
-      log.setAttributes({
+      testLogRecord.attributes = {
+        "_MS.baseType": "MessageData",
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
-      });
+      };
+      testLogRecord.body = JSON.stringify(data);
+
+      const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
       const expectedProperties = {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
@@ -188,7 +200,7 @@ describe("logUtils.ts", () => {
         measurements: {},
       };
 
-      const envelope = logToEnvelope(log, "ikey");
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assertEnvelope(
         envelope,
         "Microsoft.ApplicationInsights.Message",
@@ -214,17 +226,13 @@ describe("logUtils.ts", () => {
         ],
         version: 2,
       };
-      const log = new LogRecord(logger, {
-        body: JSON.stringify(data),
-        attributes: {
-          "_MS.baseType": "ExceptionData",
-        },
-      });
-      const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
-      log.setAttributes({
+      testLogRecord.attributes = {
+        "_MS.baseType": "ExceptionData",
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
-      });
+      };
+      testLogRecord.body = JSON.stringify(data);
+      const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
       const expectedProperties = {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
@@ -244,7 +252,7 @@ describe("logUtils.ts", () => {
         measurements: {},
       };
 
-      const envelope = logToEnvelope(log, "ikey");
+      const envelope = logToEnvelope(testLogRecord, "ikey");
       assertEnvelope(
         envelope,
         "Microsoft.ApplicationInsights.Exception",
@@ -267,17 +275,13 @@ describe("logUtils.ts", () => {
         message: "testMessage",
         version: 2,
       };
-      const log = new LogRecord(logger, {
-        body: JSON.stringify(data),
-        attributes: {
-          "_MS.baseType": "AvailabilityData",
-        },
-      });
-      const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
-      log.setAttributes({
+      testLogRecord.attributes = {
+        "_MS.baseType": "AvailabilityData",
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
-      });
+      };
+      testLogRecord.body = JSON.stringify(data);
+      const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
       const expectedProperties = {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
@@ -294,7 +298,7 @@ describe("logUtils.ts", () => {
         measurements: {},
       };
 
-      const envelope = logToEnvelope(log, "ikey");
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assertEnvelope(
         envelope,
         "Microsoft.ApplicationInsights.Availability",
@@ -316,17 +320,13 @@ describe("logUtils.ts", () => {
         referredUri: "testreferredUri",
         version: 2,
       };
-      const log = new LogRecord(logger, {
-        body: JSON.stringify(data),
-        attributes: {
-          "_MS.baseType": "PageViewData",
-        },
-      });
-      const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
-      log.setAttributes({
+      testLogRecord.attributes = {
+        "_MS.baseType": "PageViewData",
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
-      });
+      };
+      testLogRecord.body = JSON.stringify(data);
+      const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
       const expectedProperties = {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
@@ -342,7 +342,7 @@ describe("logUtils.ts", () => {
         measurements: {},
       };
 
-      const envelope = logToEnvelope(log, "ikey");
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assertEnvelope(
         envelope,
         "Microsoft.ApplicationInsights.PageView",
@@ -360,17 +360,13 @@ describe("logUtils.ts", () => {
         name: "testName",
         version: 2,
       };
-      const log = new LogRecord(logger, {
-        body: JSON.stringify(data),
-        attributes: {
-          "_MS.baseType": "EventData",
-        },
-      });
-      const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
-      log.setAttributes({
+      testLogRecord.attributes = {
+        "_MS.baseType": "EventData",
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
-      });
+      };
+      testLogRecord.body = JSON.stringify(data);
+      const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
       const expectedProperties = {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
@@ -382,7 +378,7 @@ describe("logUtils.ts", () => {
         measurements: {},
       };
 
-      const envelope = logToEnvelope(log, "ikey");
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assertEnvelope(
         envelope,
         "Microsoft.ApplicationInsights.Event",
@@ -397,18 +393,14 @@ describe("logUtils.ts", () => {
   });
 
   it("should parse objects if passed as the message field of a legacy ApplicationInsights log", () => {
-    const log = new LogRecord(logger, {
-      body: '{"message":{"nested":{"nested2":{"test":"test"}}},"severityLevel":"Information","version":2}',
-      severityNumber: 12,
-      attributes: {
-        "_MS.baseType": "MessageData",
-      },
-    });
-    const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
-    log.setAttributes({
+    testLogRecord.attributes = {
+      "_MS.baseType": "MessageData",
       "extra.attribute": "foo",
       [SemanticAttributes.MESSAGE_TYPE]: "test message type",
-    });
+    };
+    testLogRecord.body =
+      '{"message":{"nested":{"nested2":{"test":"test"}}},"severityLevel":"Information","version":2}';
+    const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
     const expectedProperties = {
       "extra.attribute": "foo",
       [SemanticAttributes.MESSAGE_TYPE]: "test message type",
@@ -421,7 +413,7 @@ describe("logUtils.ts", () => {
       measurements: {},
     };
 
-    const envelope = logToEnvelope(log, "ikey");
+    const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
     console.log("TEST ENVELOPE!!!", envelope);
     assertEnvelope(
       envelope,
