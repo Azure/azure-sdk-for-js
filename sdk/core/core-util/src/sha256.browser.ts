@@ -99,7 +99,7 @@ export async function computeSha256Hmac(
     stringToSignBytes
   );
 
-  return uint8ArrayToString(signature, encoding);
+  return uint8ArrayToString(new Uint8Array(signature), encoding);
 }
 
 /**
@@ -114,5 +114,5 @@ export async function computeSha256Hash(
   const contentBytes = stringToUint8Array(content, "utf-8");
   const digest = await getCrypto().digest({ name: "SHA-256" }, contentBytes);
 
-  return uint8ArrayToString(digest, encoding);
+  return uint8ArrayToString(new Uint8Array(digest), encoding);
 }

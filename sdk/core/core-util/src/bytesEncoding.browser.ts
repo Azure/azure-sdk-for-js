@@ -16,7 +16,7 @@ export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";
  * @param format - the format we use to encode the byte
  * @returns a string of the encoded string
  */
-export function uint8ArrayToString(bytes: ArrayBufferLike, format: EncodingType): string {
+export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string {
   switch (format) {
     case "utf-8":
       return uint8ArrayToUtf8String(bytes);
@@ -52,7 +52,7 @@ export function stringToUint8Array(value: string, format: EncodingType): Uint8Ar
  * Decodes a Uint8Array into a Base64 string.
  * @internal
  */
-export function uint8ArrayToBase64(bytes: ArrayBufferLike): string {
+export function uint8ArrayToBase64(bytes: Uint8Array): string {
   return btoa([...new Uint8Array(bytes)].map((x) => String.fromCharCode(x)).join(""));
 }
 
@@ -60,7 +60,7 @@ export function uint8ArrayToBase64(bytes: ArrayBufferLike): string {
  * Decodes a Uint8Array into a Base64Url string.
  * @internal
  */
-export function uint8ArrayToBase64Url(bytes: ArrayBufferLike): string {
+export function uint8ArrayToBase64Url(bytes: Uint8Array): string {
   return uint8ArrayToBase64(bytes).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
 }
 
@@ -68,7 +68,7 @@ export function uint8ArrayToBase64Url(bytes: ArrayBufferLike): string {
  * Decodes a Uint8Array into a javascript string.
  * @internal
  */
-export function uint8ArrayToUtf8String(uint8Array: ArrayBufferLike): string {
+export function uint8ArrayToUtf8String(uint8Array: Uint8Array): string {
   const decoder = new TextDecoder();
   const dataString = decoder.decode(uint8Array);
   return dataString;
@@ -78,7 +78,7 @@ export function uint8ArrayToUtf8String(uint8Array: ArrayBufferLike): string {
  * Decodes a Uint8Array into a hex string
  * @internal
  */
-export function uint8ArrayToHexString(uint8Array: ArrayBufferLike): string {
+export function uint8ArrayToHexString(uint8Array: Uint8Array): string {
   return [...new Uint8Array(uint8Array)].map((x) => x.toString(16).padStart(2, "0")).join("");
 }
 

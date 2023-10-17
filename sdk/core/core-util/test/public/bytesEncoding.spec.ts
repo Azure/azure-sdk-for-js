@@ -106,7 +106,7 @@ describe("bytesEncoding", function () {
     it("encodes a byte", function () {
       const bytes = new Uint8Array(256).map((_, index) => index);
       bytes.forEach((_, index) => {
-        const hex = uint8ArrayToString(bytes.buffer.slice(index, index + 1), "hex");
+        const hex = uint8ArrayToString(bytes.slice(index, index + 1), "hex");
         assert.equal(hex.length, 2, "Unexpected length for hex value.");
         assert.equal(parseInt(hex, 16), index, "Unexpected hex value.");
       });
@@ -114,7 +114,7 @@ describe("bytesEncoding", function () {
 
     it("encodes bytes", function () {
       const bytes = new Uint8Array([97, 122, 117, 114, 101]); // 'azure' in utf8
-      const hex = uint8ArrayToString(bytes.buffer, "hex");
+      const hex = uint8ArrayToString(bytes, "hex");
       assert.equal(hex, "617a757265", "Unexpected hex value.");
     });
   });

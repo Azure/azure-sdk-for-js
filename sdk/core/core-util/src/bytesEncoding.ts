@@ -10,7 +10,7 @@ export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";
  * @param format - the format we use to encode the byte
  * @returns a string of the encoded string
  */
-export function uint8ArrayToString(bytes: ArrayBufferLike, format: EncodingType): string {
+export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string {
   return Buffer.from(bytes).toString(format);
 }
 

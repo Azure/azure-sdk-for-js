@@ -92,7 +92,7 @@ export function randomUUID(): string;
 export function stringToUint8Array(value: string, format: EncodingType): Uint8Array;
 
 // @public
-export function uint8ArrayToString(bytes: ArrayBufferLike, format: EncodingType): string;
+export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string;
 
 // @public
 export type UnknownObject = {
