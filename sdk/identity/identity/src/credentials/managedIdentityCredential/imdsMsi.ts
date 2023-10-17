@@ -154,7 +154,7 @@ export const imdsMsi: MSI = {
             )
           ) {
             logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
-            logger.info(`${msiName}: ${(response as any).bodyAsText}`);
+            logger.info(`${msiName}: ${response.bodyAsText}`);
             return false;
           }
         }
