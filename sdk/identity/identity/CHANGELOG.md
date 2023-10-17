@@ -12,6 +12,7 @@
 
 ### Other Changes
 - Fixed links to documentation.
+- Further improvements to tenant and scope validation.
 
 ## 3.3.1 (2023-10-10)
 
