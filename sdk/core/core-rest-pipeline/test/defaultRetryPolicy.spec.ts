@@ -34,23 +34,22 @@ describe("defaultRetryPolicy", function () {
     assert.strictEqual(next.callCount, 1);
     assert.isTrue(catchCalled);
   });
+  
+  ["ETIMEDOUT", "ESOCKETTIMEDOUT", "ECONNREFUSED", "ENOENT", "ENOTFOUND"].forEach((errorCode) => {
+    it(`It should give up after the default maxRetries is reached for ${errorCode} error`, async () => {
+      const request = createPipelineRequest({
+        url: "https://bing.com",
+      });
+      const policy = defaultRetryPolicy();
+      const clock = sinon.useFakeTimers();
 
-  it("It should give up after the default maxRetries is reached", async () => {
-    const errorLists = ["ETIMEDOUT", "ESOCKETTIMEDOUT", "ECONNREFUSED", "ENOENT", "ENOTFOUND"];
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-    });
-    const policy = defaultRetryPolicy();
-    const clock = sinon.useFakeTimers();
+      const testError = new RestError("Test Error!", { code: errorCode });
 
-    for (const errorCode of errorLists) {    
-      let testError = new RestError("Test Error!", { code: errorCode });
-
-      let next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
       next.rejects(testError);
 
       let catchCalled = false;
-      let promise = policy.sendRequest(request, next);
+      const promise = policy.sendRequest(request, next);
       promise.catch((e) => {
         catchCalled = true;
         assert.strictEqual(e, testError);
@@ -58,7 +57,7 @@ describe("defaultRetryPolicy", function () {
       await clock.runAllAsync();
       assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
       assert.isTrue(catchCalled);
-    }
+    });
   });
 
   it("It should not retry on RestError with status 416", async () => {
