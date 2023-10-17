@@ -40,7 +40,7 @@ An `AggregateAuthenticationError` will be raised by `ChainedTokenCredential` wit
 
 ### AuthenticationError
 
-The `AuthenticationError` is used to indicate a failure to authenticate with Azure Active Directory (Azure AD). The `errorResponse` field contains more details about the specific failure.
+The `AuthenticationError` is used to indicate a failure to authenticate with Microsoft Entra ID. The `errorResponse` field contains more details about the specific failure.
 
 ```ts
 import * from "@azure/identity";
@@ -56,7 +56,7 @@ async function main() {
     // Retrieving the properties of the existing keys in that specific Key Vault.
     console.log(await client.listPropertiesOfKeys().next());
   } catch (error) {
-    console.log("Azure Active Directory service response with error", error.errorResponse);
+    console.log("Microsoft Entra ID service response with error", error.errorResponse);
   }
 }
 
@@ -96,7 +96,7 @@ The `CredentialUnavailableError` is used to indicate that the credential can't a
 
 ## Find relevant information in error messages
 
-`AuthenticationRequiredError` is thrown when unexpected errors occurred while a credential is authenticating. This can include errors received from requests to the Azure AD Security Token Service (STS) and often contains information helpful to diagnosis. Consider the following `AuthenticationRequiredError` message:
+`AuthenticationRequiredError` is thrown when unexpected errors occurred while a credential is authenticating. This can include errors received from requests to the Microsoft Entra Security Token Service (STS) and often contains information helpful to diagnosis. Consider the following `AuthenticationRequiredError` message:
 
 ` AuthenticationRequiredError: invalid_request: 9002331 - [2022-02-04 00:28:06Z]: AADSTS9002331: Application '6b666991-4567-4982-9981-61877200efy1'(kaghiya-identity) is configured for use by Microsoft Account users only. Please use the /consumers endpoint to serve this request.
 Trace ID: 00a7e15c-4557-4974-91d5-886428b00e00
@@ -108,7 +108,7 @@ This error contains several pieces of information:
 
 - **Failing Credential Type**: The type of credential that failed to authenticate. This can be helpful when diagnosing issues with chained credential types, such as `DefaultAzureCredential` or `ChainedTokenCredential`.
 
-- **STS Error Code and Message**: The error code and message returned from the Azure AD STS. This can give insight into the specific reason the request failed. In this specific case, the request failed because the provided client secret is incorrect. For more information, see [Azure AD STS error codes](https://learn.microsoft.com/azure/active-directory/develop/reference-aadsts-error-codes#aadsts-error-codes).
+- **STS Error Code and Message**: The error code and message returned from the Microsoft Entra STS. This can give insight into the specific reason the request failed. In this specific case, the request failed because the provided client secret is incorrect. For more information, see [Microsoft Entra STS error codes](https://learn.microsoft.com/azure/active-directory/develop/reference-aadsts-error-codes#aadsts-error-codes).
 
 - **Correlation ID and Timestamp**: The correlation ID and call timestamp used to identify the request in server-side logs. This information can be useful to support engineers when diagnosing unexpected STS failures.
 
@@ -188,7 +188,7 @@ const credential = new DefaultAzureCredential({
 
 ## Permission issues
 
-If you're using app registration to authenticate the service, ensure the app registration has the correct permissions and role assignments in the service you want to use. For example, if you want to have access to the Azure App Configuration service through Azure AD, ensure your app registration has the permissions and role assignments for access to Azure AD. You can either be assigned the role directly or be in a group that's assigned the role. The "Contributor" and the "Owner" roles allow you to manage the App Configuration resource. In this case, you can either use "App Configuration Data Owner" directly on the user or the Azure AD group. Alternatively, use "Owner" on the Azure AD group. While the App Configuration data can be accessed using access keys, these keys don't grant direct access to the data using Azure AD.
+If you're using app registration to authenticate the service, ensure the app registration has the correct permissions and role assignments in the service you want to use. For example, if you want to have access to the Azure App Configuration service through Microsoft Entra ID, ensure your app registration has the permissions and role assignments for access to Microsoft Entra ID. You can either be assigned the role directly or be in a group that's assigned the role. The "Contributor" and the "Owner" roles allow you to manage the App Configuration resource. In this case, you can either use "App Configuration Data Owner" directly on the user or the Microsoft Entra group. Alternatively, use "Owner" on the Microsoft Entra group. While the App Configuration data can be accessed using access keys, these keys don't grant direct access to the data using Microsoft Entra ID.
 
 ## Troubleshoot default Azure credential authentication issues
 
@@ -228,13 +228,13 @@ Follow the troubleshooting guidelines below for the respective authentication ty
 
 ### Two-factor authentication required error
 
-The `UsernamePasswordCredential` works only for users whose two-factor authentication has been disabled in Azure AD. You can change the multi-factor authentication in the Azure portal with the steps [here](https://learn.microsoft.com/azure/active-directory/authentication/howto-mfa-userstates#change-the-status-for-a-user).
+The `UsernamePasswordCredential` works only for users whose two-factor authentication has been disabled in Microsoft Entra ID. You can change the multi-factor authentication in the Azure portal with the steps [here](https://learn.microsoft.com/azure/active-directory/authentication/howto-mfa-userstates#change-the-status-for-a-user).
 
 ### Request body must contain the following parameter: 'client_assertion' or 'client_secret'
 
-The error `The request body must contain the following parameter: 'client_assertion' or 'client_secret'`, occurs because of how the Azure AD app is configured. The Azure AD app registration seems to be configured as a confidential app. The `UsernamePasswordCredential` works only with public clients and doesn't support confidential apps. To support confidential apps, use either `ClientSecretCredential` or `ClientCertificateCredential` instead.
+The error `The request body must contain the following parameter: 'client_assertion' or 'client_secret'`, occurs because of how the Microsoft Entra app is configured. The Microsoft Entra app registration seems to be configured as a confidential app. The `UsernamePasswordCredential` works only with public clients and doesn't support confidential apps. To support confidential apps, use either `ClientSecretCredential` or `ClientCertificateCredential` instead.
 
-To allow public client authentication on your Azure AD tenant:
+To allow public client authentication on your Microsoft Entra tenant:
 
 1. In the Azure portal, navigate to the **Authentication** page.
 2. Scroll to the bottom of the page. You'll see something that says **Allow public client flows**. Near that, you'll see a **yes** / **no** toggle. Set this toggle to **yes**.
@@ -247,7 +247,7 @@ After that, you shouldn't need to specify a client secret to authenticate with t
 
 #### Client Id
 
-The Client ID is the app ID of the registered app / service principal in Azure AD. It's a required parameter for `ClientSecretCredential`, `ClientCertificateCredential`, and `ClientAssertionCredential`. If you've already created your service principal, you can retrieve the client/app ID by following the instructions [here](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#get-tenant-and-app-id-values-for-signing-in).
+The Client ID is the app ID of the registered app / service principal in Microsoft Entra ID. It's a required parameter for `ClientSecretCredential`, `ClientCertificateCredential`, and `ClientAssertionCredential`. If you've already created your service principal, you can retrieve the client/app ID by following the instructions [here](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#get-tenant-and-app-id-values-for-signing-in).
 
 #### Tenant Id
 
@@ -460,7 +460,7 @@ If the preceding command isn't working properly, follow the instructions to reso
 
 | Error |Description| Mitigation |
 |---|---|---|  
-|`CredentialUnavailableException` raised with message. "WorkloadIdentityCredential authentication unavailable. The workload options are not fully configured."|The `WorkloadIdentityCredential` requires `clientId`, `tenantId`, and `tokenFilePath` to authenticate with Azure Active Directory.| <ul><li>If using `DefaultAzureCredential` then:</li><ul><li>Ensure client ID is specified via the `workloadIdentityClientId` option or the `AZURE_CLIENT_ID` environment variable.</li><li>Ensure tenant ID is specified via the `AZURE_TENANT_ID` environment variable.</li><li>Ensure the token file path is specified via the `AZURE_FEDERATED_TOKEN_FILE` environment variable.</li><li>Ensure the authority host is specified via the `AZURE_AUTHORITY_HOST` environment variable.</ul><li>If using `WorkloadIdentityCredential` then:</li><ul><li>Ensure the tenant ID is specified via the `tenantId` options to the credential constructor or the `AZURE_TENANT_ID` environment variable.</li><li>Ensure client ID is specified via the `clientId` options to the credential constructor.</li><li>Ensure the token file path is specified via the `tokenFilePath` options to credential constructor or the `AZURE_FEDERATED_TOKEN_FILE` environment variable. </li></ul></li><li>Consult the [product troubleshooting guide](https://azure.github.io/azure-workload-identity/docs/troubleshooting.html) for other issues.</li></ul> |
+|`CredentialUnavailableException` raised with message. "WorkloadIdentityCredential authentication unavailable. The workload options are not fully configured."|The `WorkloadIdentityCredential` requires `clientId`, `tenantId`, and `tokenFilePath` to authenticate with Microsoft Entra ID.| <ul><li>If using `DefaultAzureCredential` then:</li><ul><li>Ensure client ID is specified via the `workloadIdentityClientId` option or the `AZURE_CLIENT_ID` environment variable.</li><li>Ensure tenant ID is specified via the `AZURE_TENANT_ID` environment variable.</li><li>Ensure the token file path is specified via the `AZURE_FEDERATED_TOKEN_FILE` environment variable.</li><li>Ensure the authority host is specified via the `AZURE_AUTHORITY_HOST` environment variable.</ul><li>If using `WorkloadIdentityCredential` then:</li><ul><li>Ensure the tenant ID is specified via the `tenantId` options to the credential constructor or the `AZURE_TENANT_ID` environment variable.</li><li>Ensure client ID is specified via the `clientId` options to the credential constructor.</li><li>Ensure the token file path is specified via the `tokenFilePath` options to credential constructor or the `AZURE_FEDERATED_TOKEN_FILE` environment variable. </li></ul></li><li>Consult the [product troubleshooting guide](https://azure.github.io/azure-workload-identity/docs/troubleshooting.html) for other issues.</li></ul> |
 
 ## Troubleshoot multi-tenant authentication issues
 

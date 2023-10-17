@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msalCommon from "@azure/msal-common";
 import * as msalNode from "@azure/msal-node";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { getLogLevel } from "@azure/logger";
@@ -64,7 +63,7 @@ export interface MsalNodeOptions extends MsalFlowOptions {
  * @internal
  */
 let persistenceProvider:
-  | ((options?: TokenCachePersistenceOptions) => Promise<msalCommon.ICachePlugin>)
+  | ((options?: TokenCachePersistenceOptions) => Promise<msalNode.ICachePlugin>)
   | undefined = undefined;
 
 /**
@@ -107,8 +106,8 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
   protected azureRegion?: string;
-  protected createCachePlugin: (() => Promise<msalCommon.ICachePlugin>) | undefined;
-  protected createCachePluginCae: (() => Promise<msalCommon.ICachePlugin>) | undefined;
+  protected createCachePlugin: (() => Promise<msalNode.ICachePlugin>) | undefined;
+  protected createCachePluginCae: (() => Promise<msalNode.ICachePlugin>) | undefined;
 
   /**
    * MSAL currently caches the tokens depending on the claims used to retrieve them.
@@ -289,10 +288,10 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
    * Allows the cancellation of a MSAL request.
    */
   protected withCancellation(
-    promise: Promise<msalCommon.AuthenticationResult | null>,
+    promise: Promise<msalNode.AuthenticationResult | null>,
     abortSignal?: AbortSignalLike,
     onCancel?: () => void
-  ): Promise<msalCommon.AuthenticationResult | null> {
+  ): Promise<msalNode.AuthenticationResult | null> {
     return new Promise((resolve, reject) => {
       promise
         .then((msalToken) => {
