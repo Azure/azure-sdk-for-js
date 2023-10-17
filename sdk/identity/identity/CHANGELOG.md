@@ -1,10 +1,6 @@
 # Release History
 
-## 3.3.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 3.3.2 (2023-10-17)
 
 ### Bugs Fixed
 - Ensure `AzurePowershellCredential` calls PowerShell with the `-NoProfile`  and "-NonInteractive" flag to avoid loading user profiles for more consistent behavior. ([#27023](https://github.com/Azure/azure-sdk-for-js/pull/27023))
@@ -20,7 +16,6 @@
 
 ### Bug Fixes
 - Bug fixes for developer credentials
-
 
 ## 3.3.0 (2023-08-14)
 
