@@ -52,6 +52,7 @@ export class Recorder {
   private sessionFile?: string;
   private assetsJson?: string;
   private variables: Record<string, string>;
+  private matcherSet: boolean = false;
 
   constructor(private testContext?: Test | undefined) {
     logger.info(`[Recorder#constructor] Creating a recorder instance in ${getTestMode()} mode`);
@@ -217,7 +218,10 @@ export class Recorder {
    */
   async start(options: RecorderStartOptions): Promise<void> {
     if (isBrowser && isPlaybackMode()) {
-      await this.setMatcher("CustomDefaultMatcher", { excludedHeaders: ["Accept-Language"] })
+      if (!this.matcherSet) {
+        await this.setMatcher("CustomDefaultMatcher");
+        this.matcherSet = true;
+      }
     }
     if (isLiveMode()) return;
     logger.info(`[Recorder#start] Starting the recorder in ${getTestMode()} mode`);
@@ -382,13 +386,25 @@ export class Recorder {
   /**
    * Sets the matcher for the current recording to the matcher specified.
    */
-  async setMatcher(matcher: Matcher, options?: CustomMatcherOptions): Promise<void> {
+  async setMatcher(matcher: Matcher, options: CustomMatcherOptions = {}): Promise<void> {
     if (isPlaybackMode()) {
       if (!this.httpClient) {
         throw new RecorderError("httpClient should be defined in playback mode");
       }
 
-      await setMatcher(Recorder.url, this.httpClient, matcher, this.recordingId, options);
+      const excludedHeaders = isBrowser ? (options.excludedHeaders ?? []).concat("Accept-Language") : options.excludedHeaders;
+
+      const updatedOptions = {
+        ...options,
+        excludedHeaders,
+      };
+      if (matcher === "BodilessMatcher") {
+        updatedOptions.compareBodies = false;
+        await setMatcher(Recorder.url, this.httpClient, "CustomDefaultMatcher", this.recordingId, updatedOptions);
+      } else {
+        await setMatcher(Recorder.url, this.httpClient, matcher, this.recordingId, updatedOptions);
+      }
+      this.matcherSet = true;
     }
   }
 
