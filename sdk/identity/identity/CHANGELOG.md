@@ -11,7 +11,7 @@
 - Fixed browser bundling for Azure Developer CLI credential.
 
 ### Other Changes
-
+- Updated docs links.
 ## 3.3.1 (2023-10-10)
 
 ### Bug Fixes
