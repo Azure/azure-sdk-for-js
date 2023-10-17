@@ -47,7 +47,7 @@ describe("baremetalinfrastructure test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new BareMetalInfrastructureClient(credential, subscriptionId, recorder.configureClientOptions({ endpoint: "https://eastus2euap.management.azure.com/", credentialScopes: "https://management.azure.com/.default" }));
+    client = new BareMetalInfrastructureClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
