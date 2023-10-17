@@ -34,7 +34,7 @@
    * Specify a SemVer range to ensure developers use a NodeJS version that is appropriate
    * for your repo.
    */
-  "nodeSupportedVersionRange": ">=14.0.0",
+  "nodeSupportedVersionRange": ">=16.0.0",
   /**
    * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
    * spend six months in a stabilization period before the first Long Term Support (LTS) version.
@@ -346,6 +346,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/defender-easm",
+      "projectFolder": "sdk/easm/defender-easm-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/confidential-ledger",
       "projectFolder": "sdk/confidentialledger/confidential-ledger-rest",
       "versionPolicyName": "client"
@@ -483,6 +488,11 @@
     {
       "packageName": "@azure/communication-job-router",
       "projectFolder": "sdk/communication/communication-job-router",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/communication-job-router",
+      "projectFolder": "sdk/communication/communication-job-router-rest",
       "versionPolicyName": "client"
     },
     {

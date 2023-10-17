@@ -18,7 +18,7 @@ export { KeyType, KnownKeyTypes, KeyOperation };
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "7.4";
+export const LATEST_API_VERSION = "7.5-preview.1";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -231,6 +231,12 @@ export interface KeyProperties {
    * A {@link KeyReleasePolicy} object specifying the rules under which the key can be exported.
    */
   releasePolicy?: KeyReleasePolicy;
+
+  /**
+   * The underlying HSM Platform.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hsmPlatform?: string;
 }
 
 /**
