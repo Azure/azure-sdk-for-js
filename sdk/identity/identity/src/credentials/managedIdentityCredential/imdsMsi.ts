@@ -148,7 +148,11 @@ export const imdsMsi: MSI = {
           return false;
         }
         if ((response as PipelineResponse).status === 403) {
-         if ((response as PipelineResponse).bodyAsText?.includes("A socket operation was attempted to an unreachable network")) {
+          if (
+            (response as PipelineResponse).bodyAsText?.includes(
+              "A socket operation was attempted to an unreachable network"
+            )
+          ) {
             logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
             logger.info(`${msiName}: ${(response as any).bodyAsText}`);
             return false;

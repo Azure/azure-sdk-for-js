@@ -275,7 +275,7 @@ describe("ManagedIdentityCredential", function () {
         { error: netError },
       ],
     });
-    
+
     assert.ok(error!.message!.indexOf("Network unreachable.") > -1);
     assert(error!.name, "CredentialUnavailableError");
   });
@@ -285,7 +285,10 @@ describe("ManagedIdentityCredential", function () {
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
       insecureResponses: [
-        createResponse(403,{"message": "connecting to 169.254.169.254:80: connecting to 169.254.169.254:80: dial tcp 169.254.169.254:80: connectex: A socket operation was attempted to an unreachable network."}),
+        createResponse(403, {
+          message:
+            "connecting to 169.254.169.254:80: connecting to 169.254.169.254:80: dial tcp 169.254.169.254:80: connectex: A socket operation was attempted to an unreachable network.",
+        }),
       ],
     });
 
