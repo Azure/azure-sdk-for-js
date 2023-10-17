@@ -42,7 +42,9 @@ export function resolveTenantId(
 /**
  * @internal
  */
-export function resolveAdditionallyAllowedTenantIds(additionallyAllowedTenants?: string[]): string[] {
+export function resolveAdditionallyAllowedTenantIds(
+  additionallyAllowedTenants?: string[]
+): string[] {
   if (!additionallyAllowedTenants || additionallyAllowedTenants.length === 0) {
     return [];
   }
