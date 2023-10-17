@@ -134,7 +134,7 @@ describe("Cosmosdb test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  it("databaseAccount delete test", async function () {
+  it("databaseAccount delete for cassandraResources test", async function () {
     await client.databaseAccounts.beginDeleteAndWait(
       resourceGroupName,
       accountName,
