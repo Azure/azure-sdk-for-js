@@ -43,5 +43,5 @@ export const testDateSchemaObject: avro.schema.RecordType = {
 export const testDateSchema = JSON.stringify(testDateSchemaObject);
 export const testTransaction = {
   amount: 32,
-  time: new Date("Thu Nov 05 2015 11:38:05 GMT-0800 (PST)"),
+  time: new Date("Thu Nov 05 275759 11:38:05 GMT-0800 (PST)"),
 };

@@ -563,6 +563,24 @@ describe("Error scenarios", function () {
         }
       );
     });
+    it("long with logical DateTime type", async function () {
+      await assertError(
+        serializer.serialize(
+          {
+            time: new Date("Wed Sep 13 275760 11:38:05 GMT-0800 (PST)"),
+          },
+          JSON.stringify({
+            type: "record",
+            name: "User",
+            namespace: "validation",
+            fields: [{ name: "time", type: { type: "long", logicalType: "timestamp-millis" } }],
+          })
+        ),
+        {
+          causeMessage: /invalid "long": null/,
+        }
+      );
+    });
     it("float", async function () {
       await assertError(
         serializer.serialize(
