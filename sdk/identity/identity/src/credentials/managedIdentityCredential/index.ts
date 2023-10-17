@@ -337,6 +337,19 @@ export class ManagedIdentityCredential implements TokenCredential {
         );
       }
 
+      // This is a special case for Docker Desktop which responds with a 403 with a message that contains "A socket operation was attempted to an unreachable network"
+      // rather than just timing out, as expected.
+      if (err.statusCode === 403 || err.code === 403) {
+        if (err.message.includes("A socket operation was attempted to an unreachable network")) {
+          const error = new CredentialUnavailableError(
+            `${ManagedIdentityCredential.name}: Unavailable. Network unreachable. Message: ${err.message}`
+          );
+
+          logger.getToken.info(formatError(scopes, error));
+          throw error;
+        }
+      }
+
       // If the error has no status code, we can assume there was no available identity.
       // This will throw silently during any ChainedTokenCredential.
       if (err.statusCode === undefined) {

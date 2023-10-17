@@ -5,6 +5,10 @@
 ### Bugs Fixed
 - Ensure `AzurePowershellCredential` calls PowerShell with the `-NoProfile`  and "-NonInteractive" flag to avoid loading user profiles for more consistent behavior. ([#27023](https://github.com/Azure/azure-sdk-for-js/pull/27023))
 - Fixed browser bundling for Azure Developer CLI credential. ([Identity] update mapping for browser for azd (#27097))
+- `ManagedIdentityCredential` will fall through to the next credential in the chain in the case that Docker Desktop returns a 403 response when attempting to access the IMDS endpoint.([#27050](https://github.com/Azure/azure-sdk-for-js/pull/27050)).
+
+### Other Changes
+- The default IMDS probe request timeout in `ManagedIdentityCredential` has been increased to 1 second from 0.3 seconds to reduce the likelihood of false negatives.
 
 ### Other Changes
 
@@ -12,6 +16,7 @@
 
 ### Bug Fixes
 - Bug fixes for developer credentials
+
 
 ## 3.3.0 (2023-08-14)
 
