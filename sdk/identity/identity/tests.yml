@@ -7,23 +7,14 @@ stages:
       ServiceDirectory: identity
       TimeoutInMinutes: 120
       SupportedClouds: 'Public,UsGov,China,Canary'
-      PreSteps:
-        - pwsh: |
-            [System.Convert]::FromBase64String($env:PFX_CONTENTS) | Set-Content -Path $(Agent.TempDirectory)/test.pfx -AsByteStream
-            Set-Content -Path $(Agent.TempDirectory)/test.pem -Value $env:PEM_CONTENTS
-            [System.Convert]::FromBase64String($env:SNI_CONTENTS) | Set-Content -Path $(Agent.TempDirectory)/testsni.pfx -AsByteStream
-            Set-Content -Path $(Agent.TempDirectory)/testsni.pem -Value $env:SNI_PEM_CONTENTS
-          env:
-            PFX_CONTENTS: $(net-identity-spcert-pfx)
-            PEM_CONTENTS: $(net-identity-spcert-pem)
-            SNI_CONTENTS: $(net-identity-spcert-sni)
-            SNI_PEM_CONTENTS: $(net-identity-spcert-sni-pem)
+      CloudConfig:
+        Public:
+          SubscriptionConfigurations:
+            - $(sub-config-azure-cloud-test-resources)
+            # Contains alternate tenant, AAD app and cert info for testing
+            - $(sub-config-identity-test-resources)
+            - $(sub-config-identity-test-resources-js)
       EnvVars:
-        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
-        IDENTITY_SP_CERT_PFX: $(Agent.TempDirectory)/test.pfx
-        IDENTITY_SP_CERT_PEM: $(Agent.TempDirectory)/test.pem
-        IDENTITY_SP_CERT_SNI: $(Agent.TempDirectory)/testsni.pfx
-        IDENTITY_SP_CERT_SNI_PEM: $(Agent.TempDirectory)/testsni.pem
-        IDENTITY_PEM_CONTENTS: $(net-identity-spcert-pem)
+        AZURE_CLIENT_ID: $(IDENTITY_CLIENT_ID)
+        AZURE_CLIENT_SECRET: $(IDENTITY_CLIENT_SECRET)
+        AZURE_TENANT_ID: $(IDENTITY_TENANT_ID)

@@ -8,6 +8,7 @@ import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
 import child_process from "child_process";
 import {
+  checkTenantId,
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
@@ -93,7 +94,10 @@ export class AzureCliCredential implements TokenCredential {
    * @param options - Options, to optionally allow multi-tenant requests.
    */
   constructor(options?: AzureCliCredentialOptions) {
-    this.tenantId = options?.tenantId;
+    if (options?.tenantId) {
+      checkTenantId(logger, options?.tenantId);
+      this.tenantId = options?.tenantId;
+    }
     this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
@@ -101,7 +105,7 @@ export class AzureCliCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
@@ -118,6 +122,9 @@ export class AzureCliCredential implements TokenCredential {
       this.additionallyAllowedTenantIds
     );
 
+    if (tenantId) {
+      checkTenantId(logger, tenantId);
+    }
     const scope = typeof scopes === "string" ? scopes : scopes[0];
     logger.getToken.info(`Using the scope ${scope}`);
 

@@ -39,7 +39,7 @@ export async function withAuth(
   const info = await getTokenInfo(context.tokenCredential, audience);
   await setupClaimNegotiation(context, audience, info, timeoutInMs, logger, options);
   await callback();
-  async function createTask() {
+  async function createTask(): Promise<void> {
     try {
       const info2 = await getTokenInfo(context.tokenCredential, audience);
       await setupClaimNegotiation(context, audience, info2, timeoutInMs, logger, options);
@@ -104,9 +104,12 @@ async function getAadToken(cred: TokenCredential): Promise<TokenInfo> {
   };
 }
 
-function getSharedKeyBasedToken(cred: SasTokenProvider, audience: string): TokenInfo {
+async function getSharedKeyBasedToken(
+  cred: SasTokenProvider,
+  audience: string
+): Promise<TokenInfo> {
   return {
-    token: cred.getToken(audience),
+    token: await cred.getToken(audience),
     type: TokenType.CbsTokenTypeSas,
     timeToLiveInMs: 45 * 60 * 1000,
   };

@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Data Tables client library samples for TypeScript",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "build": "tsc",

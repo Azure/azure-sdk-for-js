@@ -51,7 +51,7 @@ export type ClientCertificateCredentialPEMConfiguration =
   | ClientCertificatePEMCertificatePath;
 
 /**
- * Enables authentication to Azure Active Directory using a PEM-encoded
+ * Enables authentication to Microsoft Entra ID using a PEM-encoded
  * certificate that is assigned to an App Registration. More information
  * on how to configure certificate authentication can be found here:
  *
@@ -65,9 +65,9 @@ export class ClientCertificateCredential implements TokenCredential {
 
   /**
    * Creates an instance of the ClientCertificateCredential with the details
-   * needed to authenticate against Azure Active Directory with a certificate.
+   * needed to authenticate against Microsoft Entra ID with a certificate.
    *
-   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param certificatePath - The path to a PEM-encoded public/private key certificate on the filesystem.
    * @param options - Options for configuring the client which makes the authentication request.
@@ -80,9 +80,9 @@ export class ClientCertificateCredential implements TokenCredential {
   );
   /**
    * Creates an instance of the ClientCertificateCredential with the details
-   * needed to authenticate against Azure Active Directory with a certificate.
+   * needed to authenticate against Microsoft Entra ID with a certificate.
    *
-   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param configuration - Other parameters required, including the path of the certificate on the filesystem.
    *                        If the type is ignored, we will throw the value of the path to a PEM certificate.
@@ -96,9 +96,9 @@ export class ClientCertificateCredential implements TokenCredential {
   );
   /**
    * Creates an instance of the ClientCertificateCredential with the details
-   * needed to authenticate against Azure Active Directory with a certificate.
+   * needed to authenticate against Microsoft Entra ID with a certificate.
    *
-   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param configuration - Other parameters required, including the PEM-encoded certificate as a string.
    *                        If the type is ignored, we will throw the value of the PEM-encoded certificate.
@@ -159,7 +159,7 @@ export class ClientCertificateCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.

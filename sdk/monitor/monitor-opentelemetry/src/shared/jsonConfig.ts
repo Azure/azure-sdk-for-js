@@ -18,7 +18,7 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   public samplingRatio?: number;
   /** Azure Monitor Exporter Configuration */
-  public azureMonitorExporterConfig?: AzureMonitorExporterOptions;
+  public azureMonitorExporterOptions?: AzureMonitorExporterOptions;
   /**
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
@@ -69,7 +69,7 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
     }
     try {
       const jsonConfig: AzureMonitorOpenTelemetryOptions = JSON.parse(jsonString);
-      this.azureMonitorExporterConfig = jsonConfig.azureMonitorExporterConfig;
+      this.azureMonitorExporterOptions = jsonConfig.azureMonitorExporterOptions;
       this.samplingRatio = jsonConfig.samplingRatio;
       this.instrumentationOptions = jsonConfig.instrumentationOptions;
     } catch (err) {

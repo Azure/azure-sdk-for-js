@@ -170,7 +170,7 @@ const listByInstancePoolOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion4, Parameters.expandChildren],
+  queryParameters: [Parameters.apiVersion5, Parameters.expandChildren],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

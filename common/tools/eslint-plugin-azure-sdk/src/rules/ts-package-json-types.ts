@@ -25,7 +25,7 @@ export = {
       outer: "types",
       expected: false,
     });
-    const fileName = context.getFilename();
+    const fileName = context.filename;
     return stripPath(fileName) === "package.json"
       ? ({
           // callback functions

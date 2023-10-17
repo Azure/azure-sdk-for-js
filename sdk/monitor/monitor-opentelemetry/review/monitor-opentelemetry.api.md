@@ -10,7 +10,7 @@ import { Resource } from '@opentelemetry/resources';
 
 // @public
 export interface AzureMonitorOpenTelemetryOptions {
-    azureMonitorExporterConfig?: AzureMonitorExporterOptions;
+    azureMonitorExporterOptions?: AzureMonitorExporterOptions;
     instrumentationOptions?: InstrumentationOptions;
     resource?: Resource;
     samplingRatio?: number;

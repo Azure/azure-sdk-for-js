@@ -155,7 +155,7 @@ export class Database {
           return this.readInternal(node);
         },
         diagnosticNode,
-        MetadataLookUpType.DatabaseAccountLookUp
+        MetadataLookUpType.DatabaseLookUp
       );
 
       const path = "/offers";

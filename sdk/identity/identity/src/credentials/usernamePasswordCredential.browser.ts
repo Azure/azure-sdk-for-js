@@ -17,7 +17,7 @@ import { tracingClient } from "../util/tracing";
 const logger = credentialLogger("UsernamePasswordCredential");
 
 /**
- * Enables authentication to Azure Active Directory with a user's
+ * Enables authentication to Microsoft Entra ID with a user's
  * username and password. This credential requires a high degree of
  * trust so you should only use it when other, more secure credential
  * types can't be used.
@@ -32,10 +32,10 @@ export class UsernamePasswordCredential implements TokenCredential {
 
   /**
    * Creates an instance of the UsernamePasswordCredential with the details
-   * needed to authenticate against Azure Active Directory with a username
+   * needed to authenticate against Microsoft Entra ID with a username
    * and password.
    *
-   * @param tenantIdOrName - The Azure Active Directory tenant (directory) ID or name.
+   * @param tenantIdOrName - The Microsoft Entra tenant (directory) ID or name.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param username - The user account's e-mail address (user name).
    * @param password - The user account's account password
@@ -61,7 +61,7 @@ export class UsernamePasswordCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
+   * Authenticates with Microsoft Entra ID and returns an access token if
    * successful.  If authentication cannot be performed at this time, this method may
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.

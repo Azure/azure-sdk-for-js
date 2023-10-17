@@ -139,10 +139,8 @@ import {
   RecoverableDatabasesImpl,
   RestorableDroppedDatabasesImpl,
   ServerConfigurationOptionsImpl,
-  ServersImpl,
   StartStopManagedInstanceSchedulesImpl,
   TransparentDataEncryptionsImpl,
-  FailoverGroupsImpl,
   IPv6FirewallRulesImpl,
   SqlVulnerabilityAssessmentBaselineImpl,
   SqlVulnerabilityAssessmentBaselinesImpl,
@@ -158,7 +156,9 @@ import {
   DatabaseSqlVulnerabilityAssessmentRuleBaselinesImpl,
   DatabaseSqlVulnerabilityAssessmentScanResultImpl,
   DatabaseSqlVulnerabilityAssessmentScansImpl,
-  DatabaseSqlVulnerabilityAssessmentsSettingsImpl
+  DatabaseSqlVulnerabilityAssessmentsSettingsImpl,
+  ServersImpl,
+  FailoverGroupsImpl
 } from "./operations";
 import {
   DataMaskingPolicies,
@@ -290,10 +290,8 @@ import {
   RecoverableDatabases,
   RestorableDroppedDatabases,
   ServerConfigurationOptions,
-  Servers,
   StartStopManagedInstanceSchedules,
   TransparentDataEncryptions,
-  FailoverGroups,
   IPv6FirewallRules,
   SqlVulnerabilityAssessmentBaseline,
   SqlVulnerabilityAssessmentBaselines,
@@ -309,7 +307,9 @@ import {
   DatabaseSqlVulnerabilityAssessmentRuleBaselines,
   DatabaseSqlVulnerabilityAssessmentScanResult,
   DatabaseSqlVulnerabilityAssessmentScans,
-  DatabaseSqlVulnerabilityAssessmentsSettings
+  DatabaseSqlVulnerabilityAssessmentsSettings,
+  Servers,
+  FailoverGroups
 } from "./operationsInterfaces";
 import { SqlManagementClientOptionalParams } from "./models";
 
@@ -344,7 +344,7 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-sql/10.1.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-sql/10.1.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -630,12 +630,10 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     this.recoverableDatabases = new RecoverableDatabasesImpl(this);
     this.restorableDroppedDatabases = new RestorableDroppedDatabasesImpl(this);
     this.serverConfigurationOptions = new ServerConfigurationOptionsImpl(this);
-    this.servers = new ServersImpl(this);
     this.startStopManagedInstanceSchedules = new StartStopManagedInstanceSchedulesImpl(
       this
     );
     this.transparentDataEncryptions = new TransparentDataEncryptionsImpl(this);
-    this.failoverGroups = new FailoverGroupsImpl(this);
     this.iPv6FirewallRules = new IPv6FirewallRulesImpl(this);
     this.sqlVulnerabilityAssessmentBaseline = new SqlVulnerabilityAssessmentBaselineImpl(
       this
@@ -682,6 +680,8 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     this.databaseSqlVulnerabilityAssessmentsSettings = new DatabaseSqlVulnerabilityAssessmentsSettingsImpl(
       this
     );
+    this.servers = new ServersImpl(this);
+    this.failoverGroups = new FailoverGroupsImpl(this);
   }
 
   dataMaskingPolicies: DataMaskingPolicies;
@@ -813,10 +813,8 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   recoverableDatabases: RecoverableDatabases;
   restorableDroppedDatabases: RestorableDroppedDatabases;
   serverConfigurationOptions: ServerConfigurationOptions;
-  servers: Servers;
   startStopManagedInstanceSchedules: StartStopManagedInstanceSchedules;
   transparentDataEncryptions: TransparentDataEncryptions;
-  failoverGroups: FailoverGroups;
   iPv6FirewallRules: IPv6FirewallRules;
   sqlVulnerabilityAssessmentBaseline: SqlVulnerabilityAssessmentBaseline;
   sqlVulnerabilityAssessmentBaselines: SqlVulnerabilityAssessmentBaselines;
@@ -833,4 +831,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   databaseSqlVulnerabilityAssessmentScanResult: DatabaseSqlVulnerabilityAssessmentScanResult;
   databaseSqlVulnerabilityAssessmentScans: DatabaseSqlVulnerabilityAssessmentScans;
   databaseSqlVulnerabilityAssessmentsSettings: DatabaseSqlVulnerabilityAssessmentsSettings;
+  servers: Servers;
+  failoverGroups: FailoverGroups;
 }

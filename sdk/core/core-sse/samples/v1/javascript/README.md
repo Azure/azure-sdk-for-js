@@ -2,9 +2,9 @@
 
 These sample programs show how to use the JavaScript client libraries for Azure SDK Core in some common scenarios.
 
-| **File Name**     | **Description**               |
-| ----------------- | ----------------------------- |
-| [toSSE.js][tosse] | processes server-sent events. |
+| **File Name**                           | **Description**               |
+| --------------------------------------- | ----------------------------- |
+| [iterateSseStream.js][iteratessestream] | processes server-sent events. |
 
 ## Prerequisites
 
@@ -31,20 +31,20 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node toSSE.js
+node iterateSseStream.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node toSSE.js
+npx cross-env  node iterateSseStream.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[tosse]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-sse/samples/v1/javascript/toSSE.js
-[apiref]: https://docs.microsoft.com/javascript/api
+[iteratessestream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-sse/samples/v1/javascript/iterateSseStream.js
+[apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-sse/README.md

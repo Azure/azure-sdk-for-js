@@ -8,6 +8,7 @@ import {
   MeterProviderOptions,
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
+  View,
 } from "@opentelemetry/sdk-metrics";
 import { InternalConfig } from "../shared/config";
 import { StandardMetrics } from "./standardMetrics";
@@ -36,11 +37,35 @@ export class MetricHandler {
     if (!process.env[APPLICATION_INSIGHTS_NO_STANDARD_METRICS]) {
       this._standardMetrics = new StandardMetrics(this._config);
     }
+    // Adding Views of instrumentations will allow customer to add Metric Readers after, and get access to previously created metrics using the views shared state
+    const views: View[] = [];
+    if (config.instrumentationOptions.azureSdk?.enabled) {
+      views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-azure-sdk" }));
+    }
+    if (config.instrumentationOptions.http?.enabled) {
+      views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-http" }));
+    }
+    if (config.instrumentationOptions.mongoDb?.enabled) {
+      views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-mongodb" }));
+    }
+    if (config.instrumentationOptions.mySql?.enabled) {
+      views.push(new View({ meterName: "@opentelemetry/instrumentation-mysql" }));
+    }
+    if (config.instrumentationOptions.postgreSql?.enabled) {
+      views.push(new View({ meterName: "@opentelemetry/instrumentation-pg" }));
+    }
+    if (config.instrumentationOptions.redis4?.enabled) {
+      views.push(new View({ meterName: "@opentelemetry/instrumentation-redis-4" }));
+    }
+    if (config.instrumentationOptions.redis?.enabled) {
+      views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-redis" }));
+    }
     const meterProviderConfig: MeterProviderOptions = {
       resource: this._config.resource,
+      views: views,
     };
     this._meterProvider = new MeterProvider(meterProviderConfig);
-    this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterConfig);
+    this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
     let metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
       exportIntervalMillis: options?.collectionInterval || this._collectionInterval,

@@ -202,6 +202,8 @@ export interface StartRecordingOptions extends OperationOptions {
   recordingChannel?: RecordingChannel;
   /** The format type of call recording. */
   recordingFormat?: RecordingFormat;
+  /** Pause on start call recording option. */
+  pauseOnStart?: boolean;
   /**
    * The sequential order in which audio channels are assigned to participants in the unmixed recording.
    * When 'recordingChannelType' is set to 'unmixed' and `audioChannelParticipantOrdering` is not specified,
@@ -266,6 +268,14 @@ export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
  * Options to send Dtmf tone.
  */
 export interface SendDtmfOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+  /** Call back URI override for this request */
+  callbackUrl?: string;
+}
+
+/** Options for cancelling add participant request. */
+export interface CancelAddParticipantOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
   /** Call back URI override for this request */

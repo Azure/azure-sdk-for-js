@@ -1,6 +1,6 @@
 # Azure Identity client library for JavaScript
 
-The Azure Identity library provides [Azure Active Directory (Azure AD)](https://learn.microsoft.com/azure/active-directory/fundamentals/active-directory-whatis) token authentication through a set of convenient [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) implementations.
+The Azure Identity library provides [Microsoft Entra ID](https://learn.microsoft.com/azure/active-directory/fundamentals/active-directory-whatis) ([formerly Azure Active Directory](https://learn.microsoft.com/azure/active-directory/fundamentals/new-name)) token authentication through a set of convenient [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) implementations.
 
 For examples of various credentials, see the [Azure Identity examples page](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md).
 
@@ -9,7 +9,7 @@ Key links:
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity)
 - [Package (npm)](https://www.npmjs.com/package/@azure/identity)
 - [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/identity)
-- [Azure AD documentation](https://azure.microsoft.com/services/active-directory/)
+- [Microsoft Entra ID documentation](https://azure.microsoft.com/services/active-directory/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v2)
 
 ## Getting started
@@ -110,13 +110,13 @@ To authenticate Azure SDK clients within web browsers, we offer the `Interactive
 
 ## Key concepts
 
-If this is your first time using `@azure/identity` or the Microsoft Identity platform (Azure AD), read [Using `@azure/identity` with Microsoft Identity Platform](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/using-azure-identity.md) first. This document provides a deeper understanding of the platform and how to configure your Azure account correctly.
+If this is your first time using `@azure/identity` or Microsoft Entra ID, read [Using `@azure/identity` with Microsoft Entra ID](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/using-azure-identity.md) first. This document provides a deeper understanding of the platform and how to configure your Azure account correctly.
 
 ### Credentials
 
 A credential is a class which contains or can obtain the data needed for a service client to authenticate requests. Service clients across the Azure SDK accept credentials when they're constructed. Service clients use those credentials to authenticate requests to the service.
 
-The Azure Identity library focuses on OAuth authentication with Azure AD, and it offers a variety of credential classes capable of acquiring an Azure AD token to authenticate service requests. All of the credential classes in this library are implementations of the [TokenCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-auth/src/tokenCredential.ts) abstract class, and any of them can be used by to construct service clients capable of authenticating with a TokenCredential.
+The Azure Identity library focuses on OAuth authentication with Microsoft Entra ID, and it offers a variety of credential classes capable of acquiring a Microsoft Entra token to authenticate service requests. All of the credential classes in this library are implementations of the [TokenCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-auth/src/tokenCredential.ts) abstract class, and any of them can be used by to construct service clients capable of authenticating with a TokenCredential.
 
 See [Credential Classes](#credential-classes).
 
@@ -217,7 +217,7 @@ For examples of how to use managed identity for authentication, see [the example
 
 ## Cloud configuration
 
-Credentials default to authenticating to the Azure AD endpoint for Azure Public Cloud. To access resources in other clouds, such as Azure Government or a private cloud, configure credentials with the `authorityHost` argument in the constructor. The `AzureAuthorityHosts` interface defines authorities for well-known clouds. For the US Government cloud, you could instantiate a credential this way:
+Credentials default to authenticating to the Microsoft Entra endpoint for Azure Public Cloud. To access resources in other clouds, such as Azure Government or a private cloud, configure credentials with the `authorityHost` argument in the constructor. The `AzureAuthorityHosts` interface defines authorities for well-known clouds. For the US Government cloud, you could instantiate a credential this way:
 
 ```typescript
 import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
@@ -243,7 +243,7 @@ Not all credentials require this configuration. Credentials that authenticate th
 | [`ChainedTokenCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/chainedtokencredential?view=azure-node-latest)       | Allows users to define custom authentication flows composing multiple credentials.                               | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#chaining-credentials)                                            |
 | [`EnvironmentCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/environmentcredential?view=azure-node-latest)         | Authenticates a service principal or user via credential information specified in environment variables.         | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-environment-credentials) |
 | [`ManagedIdentityCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/managedidentitycredential?view=azure-node-latest) | Authenticates the managed identity of an Azure resource.                                                         | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-with-managed-identity)                   |
-| [`WorkloadIdentityCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/workloadidentitycredential?view=azure-node-latest)| Supports [Azure AD workload identity](https://learn.microsoft.com/azure/aks/workload-identity-overview) on Kubernetes. | |
+| [`WorkloadIdentityCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/workloadidentitycredential?view=azure-node-latest)| Supports [Microsoft Entra Workload ID](https://learn.microsoft.com/azure/aks/workload-identity-overview) on Kubernetes. | |
 
 ### Authenticate service principals
 
@@ -280,16 +280,16 @@ Not all credentials require this configuration. Credentials that authenticate th
 
 | Variable name         | Value                                   |
 | --------------------- | --------------------------------------- |
-| `AZURE_CLIENT_ID`     | ID of an Azure AD application           |
-| `AZURE_TENANT_ID`     | ID of the application's Azure AD tenant |
+| `AZURE_CLIENT_ID`     | ID of a Microsoft Entra application           |
+| `AZURE_TENANT_ID`     | ID of the application's Microsoft Entra tenant |
 | `AZURE_CLIENT_SECRET` | one of the application's client secrets |
 
 #### Service principal with certificate
 
 | Variable name                       | Value                                                        |
 | ----------------------------------- | ------------------------------------------------------------ |
-| `AZURE_CLIENT_ID`                   | ID of an Azure AD application                                |
-| `AZURE_TENANT_ID`                   | ID of the application's Azure AD tenant                      |
+| `AZURE_CLIENT_ID`                   | ID of a Microsoft Entra application                                |
+| `AZURE_TENANT_ID`                   | ID of the application's Microsoft Entra tenant                      |
 | `AZURE_CLIENT_CERTIFICATE_PATH`     | path to a PEM-encoded certificate file including private key |
 | `AZURE_CLIENT_CERTIFICATE_PASSWORD` | password of the certificate file, if any                     |
 
@@ -297,8 +297,8 @@ Not all credentials require this configuration. Credentials that authenticate th
 
 | Variable name     | Value                                   |
 | ----------------- | --------------------------------------- |
-| `AZURE_CLIENT_ID` | ID of an Azure AD application           |
-| `AZURE_TENANT_ID` | ID of the application's Azure AD tenant |
+| `AZURE_CLIENT_ID` | ID of a Microsoft Entra application           |
+| `AZURE_TENANT_ID` | ID of the application's Microsoft Entra tenant |
 | `AZURE_USERNAME`  | a username (usually an email address)   |
 | `AZURE_PASSWORD`  | that user's password                    |
 
@@ -314,7 +314,7 @@ Token caching is a feature provided by the Azure Identity library that allows ap
 
 - Cache tokens in memory (default) and on disk (opt-in).
 - Improve resilience and performance.
-- Reduce the number of requests made to Azure AD to obtain access tokens.
+- Reduce the number of requests made to Microsoft Entra ID to obtain access tokens.
 
 The Azure Identity library offers both in-memory and persistent disk caching. For more details, see the [token caching documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TOKEN_CACHING.md).
 
@@ -330,7 +330,7 @@ API documentation for this library can be found on our [documentation site](http
 
 ### Client library support
 
-Client and management libraries listed on the [Azure SDK releases page](https://azure.github.io/azure-sdk/releases/latest/js.html) that support Azure AD authentication accept credentials from this library. Learn more about using these libraries in their documentation, which is linked from the releases page.
+Client and management libraries listed on the [Azure SDK releases page](https://azure.github.io/azure-sdk/releases/latest/js.html) that support Microsoft Entra authentication accept credentials from this library. Learn more about using these libraries in their documentation, which is linked from the releases page.
 
 ### Known issues
 

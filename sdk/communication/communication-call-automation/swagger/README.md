@@ -11,8 +11,9 @@ description: Call Automation Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: V2023-01-15-preview
-input-file: https://github.com/williamzhao87/azure-rest-api-specs/blob/18fef29e753a6637d5639874ab20825003ae2077/specification/communication/data-plane/CallAutomation/preview/2023-01-15-preview/communicationservicescallautomation.json
+tag: package-2023-01-15-preview
+require: 
+  - https://github.com/williamzhao87/azure-rest-api-specs/blob/5b7321a923a30b83b978e3a30ed1d497e35052fd/specification/communication/data-plane/CallAutomation/readme.md
 package-version: 1.0.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
@@ -55,4 +56,79 @@ directive:
 - rename-model:
     from: SsmlSource
     to: SsmlSourceInternal
+- rename-model:
+    from: AddParticipantSucceeded
+    to: RestAddParticipantSucceeded
+- rename-model:
+    from: AddParticipantFailed
+    to: RestAddParticipantFailed
+- rename-model:
+    from: RemoveParticipantSucceeded
+    to: RestRemoveParticipantSucceeded
+- rename-model:
+    from: RemoveParticipantFailed
+    to: RestRemoveParticipantFailed
+- rename-model:
+    from: CallConnected
+    to: RestCallConnected
+- rename-model:
+    from: CallDisconnected
+    to: RestCallDisconnected
+- rename-model:
+    from: CallTransferAccepted
+    to: RestCallTransferAccepted
+- rename-model:
+    from: CallTransferFailed
+    to: RestCallTransferFailed
+- rename-model:
+    from: RecordingStateChanged
+    to: RestRecordingStateChanged
+- rename-model:
+    from: ParticipantsUpdated
+    to: RestParticipantsUpdated
+- rename-model:
+    from: PlayCompleted
+    to: RestPlayCompleted
+- rename-model:
+    from: PlayFailed
+    to: RestPlayFailed
+- rename-model:
+    from: PlayCanceled
+    to: RestPlayCanceled
+- rename-model:
+    from: RecognizeCompleted
+    to: RestRecognizeCompleted
+- rename-model:
+    from: RecognizeFailed
+    to: RestRecognizeFailed
+- rename-model:
+    from: RecognizeCanceled
+    to: RestRecognizeCanceled
+- rename-model:
+    from: ResultInformation
+    to: RestResultInformation
+- rename-model:
+    from: ContinuousDtmfRecognitionToneReceived
+    to: RestContinuousDtmfRecognitionToneReceived
+- rename-model:
+    from: ContinuousDtmfRecognitionToneFailed
+    to: RestContinuousDtmfRecognitionToneFailed
+- rename-model:
+    from: ContinuousDtmfRecognitionStopped
+    to: RestContinuousDtmfRecognitionStopped
+- rename-model:
+    from: SendDtmfCompleted
+    to: RestSendDtmfCompleted
+- rename-model:
+    from: SendDtmfFailed
+    to: RestSendDtmfFailed
+- rename-model:
+    from: ToneInfo
+    to: RestToneInfo
+- rename-model:
+    from: AddParticipantCancelled
+    to: RestAddParticipantCancelled
+- rename-model:
+    from: CancelAddParticipantFailed
+    to: RestCancelAddParticipantFailed
 ```

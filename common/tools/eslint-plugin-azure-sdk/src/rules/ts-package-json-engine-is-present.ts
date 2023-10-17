@@ -13,7 +13,7 @@ import { Rule } from "eslint";
  * definition of LTS Node versions
  * * needs updating as definitions change
  */
-const LTS = ">=14.0.0";
+const LTS = ">=16.0.0";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -45,7 +45,7 @@ export = {
       inner: "node",
       expected: options.nodeVersionOverride || LTS,
     });
-    return stripPath(context.getFilename()) === "package.json"
+    return stripPath(context.filename) === "package.json"
       ? ({
           // callback functions
 

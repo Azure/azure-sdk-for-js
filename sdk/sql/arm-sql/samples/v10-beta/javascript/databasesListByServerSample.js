@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of databases.
  *
  * @summary Gets a list of databases.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListVCoreDatabasesEnclaveTypeByServer.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ListVCoreDatabasesEnclaveTypeByServer.json
  */
 async function getsAListOfDatabasesConfiguredWithEnclaveType() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function getsAListOfDatabasesConfiguredWithEnclaveType() {
  * This sample demonstrates how to Gets a list of databases.
  *
  * @summary Gets a list of databases.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListVCoreDatabasesByServer.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ListVCoreDatabasesByServer.json
  */
 async function getsAListOfDatabases() {
   const subscriptionId =
