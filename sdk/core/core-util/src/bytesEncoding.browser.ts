@@ -8,7 +8,7 @@ declare global {
 }
 
 /** The supported character encoding type */
-export type EncodingType = "utf-8" | "base64" | "base64url";
+export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";
 
 /**
  * The helper that transforms bytes with specific character encoding into string
@@ -16,7 +16,7 @@ export type EncodingType = "utf-8" | "base64" | "base64url";
  * @param format - the format we use to encode the byte
  * @returns a string of the encoded string
  */
-export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string {
+export function uint8ArrayToString(bytes: ArrayBufferLike, format: EncodingType): string {
   switch (format) {
     case "utf-8":
       return uint8ArrayToUtf8String(bytes);
@@ -24,6 +24,8 @@ export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): str
       return uint8ArrayToBase64(bytes);
     case "base64url":
       return uint8ArrayToBase64Url(bytes);
+    case "hex":
+      return uint8ArrayToHexString(bytes);
   }
 }
 
@@ -41,6 +43,8 @@ export function stringToUint8Array(value: string, format: EncodingType): Uint8Ar
       return base64ToUint8Array(value);
     case "base64url":
       return base64UrlToUint8Array(value);
+    case "hex":
+      return hexStringToUint8Array(value);
   }
 }
 
@@ -48,17 +52,15 @@ export function stringToUint8Array(value: string, format: EncodingType): Uint8Ar
  * Decodes a Uint8Array into a Base64 string.
  * @internal
  */
-export function uint8ArrayToBase64(uint8Array: Uint8Array): string {
-  const decoder = new TextDecoder();
-  const dataString = decoder.decode(uint8Array);
-  return btoa(dataString);
+export function uint8ArrayToBase64(bytes: ArrayBufferLike): string {
+  return btoa([...new Uint8Array(bytes)].map((x) => String.fromCharCode(x)).join(""));
 }
 
 /**
  * Decodes a Uint8Array into a Base64Url string.
  * @internal
  */
-export function uint8ArrayToBase64Url(bytes: Uint8Array): string {
+export function uint8ArrayToBase64Url(bytes: ArrayBufferLike): string {
   return uint8ArrayToBase64(bytes).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
 }
 
@@ -66,10 +68,18 @@ export function uint8ArrayToBase64Url(bytes: Uint8Array): string {
  * Decodes a Uint8Array into a javascript string.
  * @internal
  */
-export function uint8ArrayToUtf8String(uint8Array: Uint8Array): string {
+export function uint8ArrayToUtf8String(uint8Array: ArrayBufferLike): string {
   const decoder = new TextDecoder();
   const dataString = decoder.decode(uint8Array);
   return dataString;
+}
+
+/**
+ * Decodes a Uint8Array into a hex string
+ * @internal
+ */
+export function uint8ArrayToHexString(uint8Array: ArrayBufferLike): string {
+  return [...new Uint8Array(uint8Array)].map((x) => x.toString(16).padStart(2, "0")).join("");
 }
 
 /**
@@ -95,4 +105,12 @@ export function base64ToUint8Array(value: string): Uint8Array {
 export function base64UrlToUint8Array(value: string): Uint8Array {
   const base64String = value.replace(/-/g, "+").replace(/_/g, "/");
   return base64ToUint8Array(base64String);
+}
+
+/**
+ * Encodes a hex string into a Uint8Array
+ * @internal
+ */
+export function hexStringToUint8Array(value: string): Uint8Array {
+  return new Uint8Array(value.match(/../g)!.map((x) => parseInt(x, 16)));
 }

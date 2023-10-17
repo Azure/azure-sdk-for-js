@@ -1,21 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isBrowser, isNode } from "../../../src";
-import { stringToUint8Array, uint8ArrayToString } from "../../../src/bytesEncoding";
+import { stringToUint8Array, uint8ArrayToString } from "../../src/bytesEncoding";
 import { assert } from "chai";
 
-describe("Base64", function () {
-  describe("isBrowser (node)", function () {
-    it("should return true", async function () {
-      assert.isTrue(isBrowser);
-    });
-  });
-  describe("isNode (node)", function () {
-    it("should return false", async function () {
-      assert.isFalse(isNode);
-    });
-  });
+describe("bytesEncoding", function () {
   describe("base64ToBytes", function () {
     it("converts a base64 string to bytes", function () {
       const input = "YXp1cmU="; // 'azure' in base64.
@@ -110,6 +99,37 @@ describe("Base64", function () {
         const output = uint8ArrayToString(scenario.bytes, "base64url");
         assert.equal(output, scenario.expected, "Incorrect conversion of bytes to base64.");
       }
+    });
+  });
+
+  describe("bytes to hex", function () {
+    it("encodes a byte", function () {
+      const bytes = new Uint8Array(256).map((_, index) => index);
+      bytes.forEach((_, index) => {
+        const hex = uint8ArrayToString(bytes.buffer.slice(index, index + 1), "hex");
+        assert.equal(hex.length, 2, "Unexpected length for hex value.");
+        assert.equal(parseInt(hex, 16), index, "Unexpected hex value.");
+      });
+    });
+
+    it("encodes bytes", function () {
+      const bytes = new Uint8Array([97, 122, 117, 114, 101]); // 'azure' in utf8
+      const hex = uint8ArrayToString(bytes.buffer, "hex");
+      assert.equal(hex, "617a757265", "Unexpected hex value.");
+    });
+  });
+
+  describe("hex to bytes", function () {
+    it("decodes bytes", function () {
+      const hex = "617a757265";
+      const bytes = stringToUint8Array(hex, "hex");
+
+      assert.equal(bytes.length, 5);
+      assert.equal(bytes[0], 97);
+      assert.equal(bytes[1], 122);
+      assert.equal(bytes[2], 117);
+      assert.equal(bytes[3], 114);
+      assert.equal(bytes[4], 101);
     });
   });
 });

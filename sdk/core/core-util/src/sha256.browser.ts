@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { base64ToBytes, bufferToBase64 } from "./base64.browser";
-import { bufferToHex } from "./hex";
-import { utf8ToBytes } from "./utf8.browser";
+import { stringToUint8Array, uint8ArrayToString } from "./bytesEncoding.browser";
 
 // stubs for browser self.crypto
 interface JsonWebKey {}
@@ -79,8 +77,8 @@ export async function computeSha256Hmac(
   encoding: "base64" | "hex"
 ): Promise<string> {
   const crypto = getCrypto();
-  const keyBytes = base64ToBytes(key);
-  const stringToSignBytes = utf8ToBytes(stringToSign);
+  const keyBytes = stringToUint8Array(key, "base64");
+  const stringToSignBytes = stringToUint8Array(stringToSign, "utf-8");
 
   const cryptoKey = await crypto.importKey(
     "raw",
@@ -101,12 +99,7 @@ export async function computeSha256Hmac(
     stringToSignBytes
   );
 
-  switch (encoding) {
-    case "base64":
-      return bufferToBase64(signature);
-    case "hex":
-      return bufferToHex(signature);
-  }
+  return uint8ArrayToString(signature, encoding);
 }
 
 /**
@@ -118,13 +111,8 @@ export async function computeSha256Hash(
   content: string,
   encoding: "base64" | "hex"
 ): Promise<string> {
-  const contentBytes = utf8ToBytes(content);
+  const contentBytes = stringToUint8Array(content, "utf-8");
   const digest = await getCrypto().digest({ name: "SHA-256" }, contentBytes);
 
-  switch (encoding) {
-    case "base64":
-      return bufferToBase64(digest);
-    case "hex":
-      return bufferToHex(digest);
-  }
+  return uint8ArrayToString(digest, encoding);
 }

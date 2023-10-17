@@ -44,7 +44,7 @@ export interface DelayOptions extends AbortOptions {
 }
 
 // @public
-export type EncodingType = "utf-8" | "base64" | "base64url";
+export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";
 
 // @public
 export function getErrorMessage(e: unknown): string;
@@ -92,7 +92,7 @@ export function randomUUID(): string;
 export function stringToUint8Array(value: string, format: EncodingType): Uint8Array;
 
 // @public
-export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string;
+export function uint8ArrayToString(bytes: ArrayBufferLike, format: EncodingType): string;
 
 // @public
 export type UnknownObject = {
