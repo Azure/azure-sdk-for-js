@@ -271,6 +271,7 @@ describe("ManagedIdentityCredential", function () {
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential(),
       insecureResponses: [
+        createResponse(200), // IMDS Endpoint ping
         { error: netError },
       ],
     });

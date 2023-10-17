@@ -5,6 +5,7 @@ import { delay, isError } from "@azure/core-util";
 import { GetTokenOptions } from "@azure/core-auth";
 import {
   PipelineRequestOptions,
+  PipelineResponse,
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
@@ -146,8 +147,8 @@ export const imdsMsi: MSI = {
           logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
           return false;
         }
-        if ((response as any).status === 403) {
-         if ((response as any).bodyAsText.includes("A socket operation was attempted to an unreachable network")) {
+        if ((response as PipelineResponse).status === 403) {
+         if ((response as PipelineResponse).bodyAsText?.includes("A socket operation was attempted to an unreachable network")) {
             logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
             logger.info(`${msiName}: ${(response as any).bodyAsText}`);
             return false;
