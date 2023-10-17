@@ -60,7 +60,7 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
  * Azure Kubernetes Services, Azure Service Fabric instances and inside of the Azure Cloud Shell.
  *
  * More information about configuring managed identities can be found here:
- * https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
+ * https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
  */
 export class ManagedIdentityCredential implements TokenCredential {
   private identityClient: IdentityClient;

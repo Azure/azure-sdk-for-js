@@ -4,7 +4,7 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
 import { MsalAuthorizationCode } from "../msal/nodeFlows/msalAuthorizationCode";
@@ -119,7 +119,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
 
     // TODO: Validate tenant if provided
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
 

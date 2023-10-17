@@ -4,7 +4,7 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions";
 import { MsalClientAssertion } from "../msal/nodeFlows/msalClientAssertion";
@@ -46,7 +46,7 @@ export class ClientAssertionCredential implements TokenCredential {
       );
     }
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
     this.clientId = clientId;

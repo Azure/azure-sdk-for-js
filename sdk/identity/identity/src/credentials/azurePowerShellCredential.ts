@@ -9,7 +9,7 @@ import { CredentialUnavailableError } from "../errors";
 import {
   checkTenantId,
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { processUtils } from "../util/processUtils";
 import { tracingClient } from "../util/tracing";
@@ -117,7 +117,7 @@ export class AzurePowerShellCredential implements TokenCredential {
       checkTenantId(logger, options?.tenantId);
       this.tenantId = options?.tenantId;
     }
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
     this.timeout = options?.processTimeoutInMs;

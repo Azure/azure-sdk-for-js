@@ -178,7 +178,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     "12345678-1234-1234-1234-123456789012'",
   ]) {
     const tenantIdErrorMessage =
-      "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names.";
+      "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://learn.microsoft.com/partner-center/find-ids-and-domain-names.";
     it(`rejects invalid tenant id "${tenantId}" in getToken`, async function () {
       const credential = new AzureDeveloperCliCredential();
       await assert.isRejected(
