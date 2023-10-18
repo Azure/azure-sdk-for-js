@@ -124,12 +124,21 @@ describe("bytesEncoding", function () {
       const hex = "617a757265";
       const bytes = stringToUint8Array(hex, "hex");
 
-      assert.equal(bytes.length, 5);
-      assert.equal(bytes[0], 97);
-      assert.equal(bytes[1], 122);
-      assert.equal(bytes[2], 117);
-      assert.equal(bytes[3], 114);
-      assert.equal(bytes[4], 101);
+      assert.sameOrderedMembers([...bytes], [0x61, 0x7a, 0x75, 0x72, 0x65]);
+    });
+
+    it("truncates with odd number of characters", function () {
+      const invalid = "abc";
+      const bytes = stringToUint8Array(invalid, "hex");
+
+      assert.sameOrderedMembers([...bytes], [0xab]);
+    });
+
+    it("truncates upon encountering invalid hex digits", function () {
+      const invalid = "0102xx03";
+      const bytes = stringToUint8Array(invalid, "hex");
+
+      assert.sameOrderedMembers([...bytes], [0x01, 0x02]);
     });
   });
 });

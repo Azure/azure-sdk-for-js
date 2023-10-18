@@ -53,7 +53,7 @@ export function stringToUint8Array(value: string, format: EncodingType): Uint8Ar
  * @internal
  */
 export function uint8ArrayToBase64(bytes: Uint8Array): string {
-  return btoa([...new Uint8Array(bytes)].map((x) => String.fromCharCode(x)).join(""));
+  return btoa([...bytes].map((x) => String.fromCharCode(x)).join(""));
 }
 
 /**
@@ -68,9 +68,9 @@ export function uint8ArrayToBase64Url(bytes: Uint8Array): string {
  * Decodes a Uint8Array into a javascript string.
  * @internal
  */
-export function uint8ArrayToUtf8String(uint8Array: Uint8Array): string {
+export function uint8ArrayToUtf8String(bytes: Uint8Array): string {
   const decoder = new TextDecoder();
-  const dataString = decoder.decode(uint8Array);
+  const dataString = decoder.decode(bytes);
   return dataString;
 }
 
@@ -78,8 +78,8 @@ export function uint8ArrayToUtf8String(uint8Array: Uint8Array): string {
  * Decodes a Uint8Array into a hex string
  * @internal
  */
-export function uint8ArrayToHexString(uint8Array: Uint8Array): string {
-  return [...new Uint8Array(uint8Array)].map((x) => x.toString(16).padStart(2, "0")).join("");
+export function uint8ArrayToHexString(bytes: Uint8Array): string {
+  return [...bytes].map((x) => x.toString(16).padStart(2, "0")).join("");
 }
 
 /**
@@ -107,10 +107,25 @@ export function base64UrlToUint8Array(value: string): Uint8Array {
   return base64ToUint8Array(base64String);
 }
 
+const hexDigits = new Set("0123456789abcdefABCDEF");
+
 /**
  * Encodes a hex string into a Uint8Array
  * @internal
  */
 export function hexStringToUint8Array(value: string): Uint8Array {
-  return new Uint8Array(value.match(/../g)!.map((x) => parseInt(x, 16)));
+  // If value has odd length, the last character will be ignored, consistent with NodeJS Buffer behavior
+  const bytes = new Uint8Array(value.length / 2);
+  for (let i = 0; i < value.length / 2; ++i) {
+    const highNibble = value[2 * i];
+    const lowNibble = value[2 * i + 1];
+    if (!hexDigits.has(highNibble) || !hexDigits.has(lowNibble)) {
+      // Replicate Node Buffer behavior by exiting early when we encounter an invalid byte
+      return bytes.slice(0, i);
+    }
+
+    bytes[i] = parseInt(`${highNibble}${lowNibble}`, 16);
+  }
+
+  return bytes;
 }
