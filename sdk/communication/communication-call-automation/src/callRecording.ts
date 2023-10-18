@@ -197,8 +197,8 @@ export class CallRecording {
     if (recordingStream) {
       recordingStream.pipe(destinationStream);
       const finish = new Promise<void>((resolve, reject) => {
-        destinationStream.on('finish', resolve);
-        destinationStream.on('error', reject);
+        destinationStream.on("finish", resolve);
+        destinationStream.on("error", reject);
       });
       await finish;
     } else {
@@ -220,11 +220,11 @@ export class CallRecording {
     const result = this.contentDownloader.download(sourceLocationUrl, options);
     const recordingStream = (await result).readableStreamBody;
     if (recordingStream) {
-      const writeFileStream = fs.createWriteStream(destinationPath)
+      const writeFileStream = fs.createWriteStream(destinationPath);
       recordingStream.pipe(fs.createWriteStream(destinationPath));
       const finish = new Promise<void>((resolve, reject) => {
-        writeFileStream.on('finish', resolve);
-        writeFileStream.on('error', reject);
+        writeFileStream.on("finish", resolve);
+        writeFileStream.on("error", reject);
       });
       await finish;
     } else {
