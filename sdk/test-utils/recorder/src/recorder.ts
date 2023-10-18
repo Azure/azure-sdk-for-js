@@ -52,7 +52,7 @@ export class Recorder {
   private sessionFile?: string;
   private assetsJson?: string;
   private variables: Record<string, string>;
-  private matcherSet: boolean = false;
+  private matcherSet = false;
 
   constructor(private testContext?: Test | undefined) {
     logger.info(`[Recorder#constructor] Creating a recorder instance in ${getTestMode()} mode`);
@@ -220,7 +220,6 @@ export class Recorder {
     if (isBrowser && isPlaybackMode()) {
       if (!this.matcherSet) {
         await this.setMatcher("CustomDefaultMatcher");
-        this.matcherSet = true;
       }
     }
     if (isLiveMode()) return;
@@ -392,7 +391,9 @@ export class Recorder {
         throw new RecorderError("httpClient should be defined in playback mode");
       }
 
-      const excludedHeaders = isBrowser ? (options.excludedHeaders ?? []).concat("Accept-Language") : options.excludedHeaders;
+      const excludedHeaders = isBrowser
+        ? (options.excludedHeaders ?? []).concat("Accept-Language")
+        : options.excludedHeaders;
 
       const updatedOptions = {
         ...options,
@@ -400,7 +401,13 @@ export class Recorder {
       };
       if (matcher === "BodilessMatcher") {
         updatedOptions.compareBodies = false;
-        await setMatcher(Recorder.url, this.httpClient, "CustomDefaultMatcher", this.recordingId, updatedOptions);
+        await setMatcher(
+          Recorder.url,
+          this.httpClient,
+          "CustomDefaultMatcher",
+          this.recordingId,
+          updatedOptions
+        );
       } else {
         await setMatcher(Recorder.url, this.httpClient, matcher, this.recordingId, updatedOptions);
       }
