@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { AccessToken, TokenCredential } from "@azure/core-auth";
+import { AccessToken, TokenCredential } from "../src/auth/tokenCredential";
 import {
   PipelinePolicy,
   PipelineResponse,

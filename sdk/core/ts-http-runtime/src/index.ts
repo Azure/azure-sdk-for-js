@@ -68,3 +68,4 @@ export {
 } from "./policies/bearerTokenAuthenticationPolicy";
 export { AbortSignalLike } from "./abort-controller/AbortSignalLike";
 export { AbortError } from "./abort-controller/AbortError";
+export { AccessToken, GetTokenOptions, TokenCredential } from "./auth/tokenCredential";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential";
 import { AzureLogger } from "@azure/logger";
 import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";

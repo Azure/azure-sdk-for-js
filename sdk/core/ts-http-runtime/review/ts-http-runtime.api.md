@@ -6,12 +6,10 @@
 
 /// <reference types="node" />
 
-import { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
 import { Debugger } from '@azure/logger';
-import { GetTokenOptions } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
-import { TokenCredential } from '@azure/core-auth';
+import { TracingContext } from '@azure/core-tracing';
 
 // @public
 export class AbortError extends Error {
@@ -23,6 +21,12 @@ export interface AbortSignalLike {
     readonly aborted: boolean;
     addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
     removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
+}
+
+// @public
+export interface AccessToken {
+    expiresOnTimestamp: number;
+    token: string;
 }
 
 // @public
@@ -123,6 +127,20 @@ export type FormDataValue = string | Blob;
 
 // @public
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
+
+// @public
+export interface GetTokenOptions {
+    abortSignal?: AbortSignalLike;
+    claims?: string;
+    enableCae?: boolean;
+    requestOptions?: {
+        timeout?: number;
+    };
+    tenantId?: string;
+    tracingOptions?: {
+        tracingContext?: TracingContext;
+    };
+}
 
 // @public
 export interface HttpClient {
@@ -348,6 +366,11 @@ export interface TlsSettings {
     key?: string | Buffer | Array<Buffer | KeyObject> | undefined;
     passphrase?: string | undefined;
     pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
+}
+
+// @public
+export interface TokenCredential {
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
 // @public

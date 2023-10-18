@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken } from "@azure/core-auth";
+import { AccessToken } from "./auth/tokenCredential";
 
 /**
  * Defines the default token refresh buffer duration.
