@@ -4,677 +4,688 @@
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse } from "@azure-rest/core-client";
 import {
-  ProjectListResultOutput,
+  PagedProjectOutput,
   CloudErrorOutput,
   ProjectOutput,
-  PoolListResultOutput,
-  PoolOutput,
-  ScheduleListResultOutput,
-  ScheduleOutput,
-  DevBoxListResultOutput,
-  DevBoxOutput,
   OperationStatusOutput,
+  PagedPoolOutput,
+  PoolOutput,
+  PagedScheduleOutput,
+  ScheduleOutput,
+  PagedDevBoxOutput,
+  DevBoxOutput,
   RemoteConnectionOutput,
-  DevBoxActionsListResultOutput,
+  PagedDevBoxActionOutput,
   DevBoxActionOutput,
-  DevBoxActionsDelayMultipleResultOutput,
-  EnvironmentListResultOutput,
+  PagedDevBoxActionDelayResultOutput,
+  PagedEnvironmentOutput,
   EnvironmentOutput,
-  CatalogListResultOutput,
+  PagedCatalogOutput,
   CatalogOutput,
-  EnvironmentDefinitionListResultOutput,
+  PagedEnvironmentDefinitionOutput,
   EnvironmentDefinitionOutput,
-  EnvironmentTypeListResultOutput
+  PagedEnvironmentTypeOutput,
 } from "./outputModels";
 
-/** Lists all projects. */
-export interface DevCenterListProjects200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface ListProjects200Response extends HttpResponse {
   status: "200";
-  body: ProjectListResultOutput;
+  body: PagedProjectOutput;
 }
 
-/** Lists all projects. */
-export interface DevCenterListProjectsDefaultResponse extends HttpResponse {
+export interface ListProjectsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface ListProjectsDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
+  headers: RawHttpHeaders & ListProjectsDefaultHeaders;
 }
 
-/** Gets a project. */
-export interface DevCenterGetProject200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface GetProject200Response extends HttpResponse {
   status: "200";
   body: ProjectOutput;
 }
 
-/** Gets a project. */
-export interface DevCenterGetProjectDefaultResponse extends HttpResponse {
-  status: string;
-  body: CloudErrorOutput;
-}
-
-/** Lists available pools */
-export interface DevBoxesListPools200Response extends HttpResponse {
-  status: "200";
-  body: PoolListResultOutput;
-}
-
-export interface DevBoxesListPoolsDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface GetProjectDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Lists available pools */
-export interface DevBoxesListPoolsDefaultResponse extends HttpResponse {
+export interface GetProjectDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesListPoolsDefaultHeaders;
+  headers: RawHttpHeaders & GetProjectDefaultHeaders;
 }
 
-/** Gets a pool */
-export interface DevBoxesGetPool200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface GetProjectOperationStatus200Response extends HttpResponse {
+  status: "200";
+  body: OperationStatusOutput;
+}
+
+export interface GetProjectOperationStatusDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetProjectOperationStatusDefaultResponse extends HttpResponse {
+  status: string;
+  body: CloudErrorOutput;
+  headers: RawHttpHeaders & GetProjectOperationStatusDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface ListPools200Response extends HttpResponse {
+  status: "200";
+  body: PagedPoolOutput;
+}
+
+export interface ListPoolsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface ListPoolsDefaultResponse extends HttpResponse {
+  status: string;
+  body: CloudErrorOutput;
+  headers: RawHttpHeaders & ListPoolsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetPool200Response extends HttpResponse {
   status: "200";
   body: PoolOutput;
 }
 
-export interface DevBoxesGetPoolDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface GetPoolDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Gets a pool */
-export interface DevBoxesGetPoolDefaultResponse extends HttpResponse {
+export interface GetPoolDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesGetPoolDefaultHeaders;
+  headers: RawHttpHeaders & GetPoolDefaultHeaders;
 }
 
-/** Lists available schedules for a pool. */
-export interface DevBoxesListSchedules200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface ListSchedules200Response extends HttpResponse {
   status: "200";
-  body: ScheduleListResultOutput;
+  body: PagedScheduleOutput;
 }
 
-export interface DevBoxesListSchedulesDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface ListSchedulesDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Lists available schedules for a pool. */
-export interface DevBoxesListSchedulesDefaultResponse extends HttpResponse {
+export interface ListSchedulesDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesListSchedulesDefaultHeaders;
+  headers: RawHttpHeaders & ListSchedulesDefaultHeaders;
 }
 
-/** Gets a schedule. */
-export interface DevBoxesGetSchedule200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface GetSchedule200Response extends HttpResponse {
   status: "200";
   body: ScheduleOutput;
 }
 
-export interface DevBoxesGetScheduleDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface GetScheduleDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Gets a schedule. */
-export interface DevBoxesGetScheduleDefaultResponse extends HttpResponse {
+export interface GetScheduleDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesGetScheduleDefaultHeaders;
+  headers: RawHttpHeaders & GetScheduleDefaultHeaders;
 }
 
-/** Lists Dev Boxes that the caller has access to in the DevCenter. */
-export interface DevBoxesListAllDevBoxes200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface ListDevBoxes200Response extends HttpResponse {
   status: "200";
-  body: DevBoxListResultOutput;
+  body: PagedDevBoxOutput;
 }
 
-export interface DevBoxesListAllDevBoxesDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface ListDevBoxesDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Lists Dev Boxes that the caller has access to in the DevCenter. */
-export interface DevBoxesListAllDevBoxesDefaultResponse extends HttpResponse {
+export interface ListDevBoxesDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesListAllDevBoxesDefaultHeaders;
+  headers: RawHttpHeaders & ListDevBoxesDefaultHeaders;
 }
 
-/** Lists Dev Boxes in the Dev Center for a particular user. */
-export interface DevBoxesListAllDevBoxesByUser200Response extends HttpResponse {
-  status: "200";
-  body: DevBoxListResultOutput;
-}
-
-export interface DevBoxesListAllDevBoxesByUserDefaultHeaders {
-  /** The error code for specific error that occurred. */
-  "x-ms-error-code"?: string;
-}
-
-/** Lists Dev Boxes in the Dev Center for a particular user. */
-export interface DevBoxesListAllDevBoxesByUserDefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesListAllDevBoxesByUserDefaultHeaders;
-}
-
-/** Lists Dev Boxes in the project for a particular user. */
-export interface DevBoxesListDevBoxes200Response extends HttpResponse {
-  status: "200";
-  body: DevBoxListResultOutput;
-}
-
-export interface DevBoxesListDevBoxesDefaultHeaders {
-  /** The error code for specific error that occurred. */
-  "x-ms-error-code"?: string;
-}
-
-/** Lists Dev Boxes in the project for a particular user. */
-export interface DevBoxesListDevBoxesDefaultResponse extends HttpResponse {
-  status: string;
-  body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesListDevBoxesDefaultHeaders;
-}
-
-/** Gets a Dev Box */
-export interface DevBoxesGetDevBox200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface GetDevBox200Response extends HttpResponse {
   status: "200";
   body: DevBoxOutput;
 }
 
-export interface DevBoxesGetDevBoxDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface GetDevBoxDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Gets a Dev Box */
-export interface DevBoxesGetDevBoxDefaultResponse extends HttpResponse {
+export interface GetDevBoxDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesGetDevBoxDefaultHeaders;
+  headers: RawHttpHeaders & GetDevBoxDefaultHeaders;
 }
 
-/** Creates or replaces a Dev Box. */
-export interface DevBoxesCreateDevBox200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface CreateDevBox200Response extends HttpResponse {
   status: "200";
   body: DevBoxOutput;
 }
 
-/** Creates or replaces a Dev Box. */
-export interface DevBoxesCreateDevBox201Response extends HttpResponse {
+export interface CreateDevBox201Headers {
+  location: string;
+  "operation-location": string;
+}
+
+/** The request has succeeded and a new resource has been created as a result. */
+export interface CreateDevBox201Response extends HttpResponse {
   status: "201";
   body: DevBoxOutput;
+  headers: RawHttpHeaders & CreateDevBox201Headers;
 }
 
-export interface DevBoxesCreateDevBoxDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface CreateDevBoxDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Creates or replaces a Dev Box. */
-export interface DevBoxesCreateDevBoxDefaultResponse extends HttpResponse {
+export interface CreateDevBoxDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesCreateDevBoxDefaultHeaders;
+  headers: RawHttpHeaders & CreateDevBoxDefaultHeaders;
 }
 
-export interface DevBoxesDeleteDevBox202Headers {
-  /** URL to query for status of the operation. */
-  "operation-location"?: string;
+/** The final response for long-running CreateDevBox operation */
+export interface CreateDevBoxLogicalResponse extends HttpResponse {
+  status: "200";
+  body: DevBoxOutput;
 }
 
-/** Deletes a Dev Box. */
-export interface DevBoxesDeleteDevBox202Response extends HttpResponse {
+export interface DeleteDevBox202Headers {
+  location: string;
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface DeleteDevBox202Response extends HttpResponse {
   status: "202";
   body: OperationStatusOutput;
-  headers: RawHttpHeaders & DevBoxesDeleteDevBox202Headers;
+  headers: RawHttpHeaders & DeleteDevBox202Headers;
 }
 
-/** Deletes a Dev Box. */
-export interface DevBoxesDeleteDevBox204Response extends HttpResponse {
+/** There is no content to send for this request, but the headers may be useful. */
+export interface DeleteDevBox204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
-export interface DevBoxesDeleteDevBoxDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface DeleteDevBoxDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Deletes a Dev Box. */
-export interface DevBoxesDeleteDevBoxDefaultResponse extends HttpResponse {
+export interface DeleteDevBoxDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesDeleteDevBoxDefaultHeaders;
+  headers: RawHttpHeaders & DeleteDevBoxDefaultHeaders;
 }
 
-export interface DevBoxesStartDevBox202Headers {
-  /** URL to query for status of the operation. */
-  "operation-location"?: string;
+/** The final response for long-running DeleteDevBox operation */
+export interface DeleteDevBoxLogicalResponse extends HttpResponse {
+  status: "200";
+  body: OperationStatusOutput;
 }
 
-/** Starts a Dev Box */
-export interface DevBoxesStartDevBox202Response extends HttpResponse {
+export interface StartDevBox202Headers {
+  /** The location for monitoring the operation state. */
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface StartDevBox202Response extends HttpResponse {
   status: "202";
   body: OperationStatusOutput;
-  headers: RawHttpHeaders & DevBoxesStartDevBox202Headers;
+  headers: RawHttpHeaders & StartDevBox202Headers;
 }
 
-export interface DevBoxesStartDevBoxDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface StartDevBoxDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Starts a Dev Box */
-export interface DevBoxesStartDevBoxDefaultResponse extends HttpResponse {
+export interface StartDevBoxDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesStartDevBoxDefaultHeaders;
+  headers: RawHttpHeaders & StartDevBoxDefaultHeaders;
 }
 
-export interface DevBoxesStopDevBox202Headers {
-  /** URL to query for status of the operation. */
-  "operation-location"?: string;
+/** The final response for long-running StartDevBox operation */
+export interface StartDevBoxLogicalResponse extends HttpResponse {
+  status: "200";
+  body: OperationStatusOutput;
 }
 
-/** Stops a Dev Box */
-export interface DevBoxesStopDevBox202Response extends HttpResponse {
+export interface StopDevBox202Headers {
+  /** The location for monitoring the operation state. */
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface StopDevBox202Response extends HttpResponse {
   status: "202";
   body: OperationStatusOutput;
-  headers: RawHttpHeaders & DevBoxesStopDevBox202Headers;
+  headers: RawHttpHeaders & StopDevBox202Headers;
 }
 
-export interface DevBoxesStopDevBoxDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface StopDevBoxDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Stops a Dev Box */
-export interface DevBoxesStopDevBoxDefaultResponse extends HttpResponse {
+export interface StopDevBoxDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesStopDevBoxDefaultHeaders;
+  headers: RawHttpHeaders & StopDevBoxDefaultHeaders;
 }
 
-export interface DevBoxesRestartDevBox202Headers {
-  /** URL to query for status of the operation. */
-  "operation-location"?: string;
+/** The final response for long-running StopDevBox operation */
+export interface StopDevBoxLogicalResponse extends HttpResponse {
+  status: "200";
+  body: OperationStatusOutput;
 }
 
-/** Restarts a Dev Box */
-export interface DevBoxesRestartDevBox202Response extends HttpResponse {
+export interface RestartDevBox202Headers {
+  /** The location for monitoring the operation state. */
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface RestartDevBox202Response extends HttpResponse {
   status: "202";
   body: OperationStatusOutput;
-  headers: RawHttpHeaders & DevBoxesRestartDevBox202Headers;
+  headers: RawHttpHeaders & RestartDevBox202Headers;
 }
 
-export interface DevBoxesRestartDevBoxDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface RestartDevBoxDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Restarts a Dev Box */
-export interface DevBoxesRestartDevBoxDefaultResponse extends HttpResponse {
+export interface RestartDevBoxDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesRestartDevBoxDefaultHeaders;
+  headers: RawHttpHeaders & RestartDevBoxDefaultHeaders;
 }
 
-/** Gets RDP Connection info */
-export interface DevBoxesGetRemoteConnection200Response extends HttpResponse {
+/** The final response for long-running RestartDevBox operation */
+export interface RestartDevBoxLogicalResponse extends HttpResponse {
+  status: "200";
+  body: OperationStatusOutput;
+}
+
+/** The request has succeeded. */
+export interface GetRemoteConnection200Response extends HttpResponse {
   status: "200";
   body: RemoteConnectionOutput;
 }
 
-export interface DevBoxesGetRemoteConnectionDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface GetRemoteConnectionDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Gets RDP Connection info */
-export interface DevBoxesGetRemoteConnectionDefaultResponse
-  extends HttpResponse {
+export interface GetRemoteConnectionDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesGetRemoteConnectionDefaultHeaders;
+  headers: RawHttpHeaders & GetRemoteConnectionDefaultHeaders;
 }
 
-/** Lists actions on a Dev Box. */
-export interface DevBoxesListActions200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface ListActions200Response extends HttpResponse {
   status: "200";
-  body: DevBoxActionsListResultOutput;
+  body: PagedDevBoxActionOutput;
 }
 
-export interface DevBoxesListActionsDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface ListActionsDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Lists actions on a Dev Box. */
-export interface DevBoxesListActionsDefaultResponse extends HttpResponse {
+export interface ListActionsDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesListActionsDefaultHeaders;
+  headers: RawHttpHeaders & ListActionsDefaultHeaders;
 }
 
-/** Gets an action. */
-export interface DevBoxesGetAction200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface GetAction200Response extends HttpResponse {
   status: "200";
   body: DevBoxActionOutput;
 }
 
-export interface DevBoxesGetActionDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface GetActionDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Gets an action. */
-export interface DevBoxesGetActionDefaultResponse extends HttpResponse {
+export interface GetActionDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesGetActionDefaultHeaders;
+  headers: RawHttpHeaders & GetActionDefaultHeaders;
 }
 
-/** Skips an occurrence of an action. */
-export interface DevBoxesSkipAction204Response extends HttpResponse {
+/** There is no content to send for this request, but the headers may be useful. */
+export interface SkipAction204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
-export interface DevBoxesSkipActionDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface SkipActionDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Skips an occurrence of an action. */
-export interface DevBoxesSkipActionDefaultResponse extends HttpResponse {
+export interface SkipActionDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesSkipActionDefaultHeaders;
+  headers: RawHttpHeaders & SkipActionDefaultHeaders;
 }
 
-/** Delays the occurrence of an action. */
-export interface DevBoxesDelayAction200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface DelayAction200Response extends HttpResponse {
   status: "200";
   body: DevBoxActionOutput;
 }
 
-export interface DevBoxesDelayActionDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface DelayActionDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Delays the occurrence of an action. */
-export interface DevBoxesDelayActionDefaultResponse extends HttpResponse {
+export interface DelayActionDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesDelayActionDefaultHeaders;
+  headers: RawHttpHeaders & DelayActionDefaultHeaders;
 }
 
-/** Delays all actions. */
-export interface DevBoxesDelayAllActions200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface DelayAllActions200Response extends HttpResponse {
   status: "200";
-  body: DevBoxActionsDelayMultipleResultOutput;
+  body: PagedDevBoxActionDelayResultOutput;
 }
 
-export interface DevBoxesDelayAllActionsDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface DelayAllActionsDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Delays all actions. */
-export interface DevBoxesDelayAllActionsDefaultResponse extends HttpResponse {
+export interface DelayAllActionsDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DevBoxesDelayAllActionsDefaultHeaders;
+  headers: RawHttpHeaders & DelayAllActionsDefaultHeaders;
 }
 
-/** Lists the environments for a project. */
-export interface DeploymentEnvironmentsListAllEnvironments200Response
-  extends HttpResponse {
+/** The request has succeeded. */
+export interface ListAllDevBoxes200Response extends HttpResponse {
   status: "200";
-  body: EnvironmentListResultOutput;
+  body: PagedDevBoxOutput;
 }
 
-export interface DeploymentEnvironmentsListAllEnvironmentsDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface ListAllDevBoxesDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Lists the environments for a project. */
-export interface DeploymentEnvironmentsListAllEnvironmentsDefaultResponse
-  extends HttpResponse {
+export interface ListAllDevBoxesDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders &
-    DeploymentEnvironmentsListAllEnvironmentsDefaultHeaders;
+  headers: RawHttpHeaders & ListAllDevBoxesDefaultHeaders;
 }
 
-/** Lists the environments for a project and user. */
-export interface DeploymentEnvironmentsListEnvironments200Response
-  extends HttpResponse {
+/** The request has succeeded. */
+export interface ListAllDevBoxesByUser200Response extends HttpResponse {
   status: "200";
-  body: EnvironmentListResultOutput;
+  body: PagedDevBoxOutput;
 }
 
-export interface DeploymentEnvironmentsListEnvironmentsDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface ListAllDevBoxesByUserDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Lists the environments for a project and user. */
-export interface DeploymentEnvironmentsListEnvironmentsDefaultResponse
-  extends HttpResponse {
+export interface ListAllDevBoxesByUserDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders &
-    DeploymentEnvironmentsListEnvironmentsDefaultHeaders;
+  headers: RawHttpHeaders & ListAllDevBoxesByUserDefaultHeaders;
 }
 
-/** Gets an environment */
-export interface DeploymentEnvironmentsGetEnvironment200Response
-  extends HttpResponse {
+/** The request has succeeded. */
+export interface ListAllEnvironments200Response extends HttpResponse {
+  status: "200";
+  body: PagedEnvironmentOutput;
+}
+
+export interface ListAllEnvironmentsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface ListAllEnvironmentsDefaultResponse extends HttpResponse {
+  status: string;
+  body: CloudErrorOutput;
+  headers: RawHttpHeaders & ListAllEnvironmentsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface ListEnvironments200Response extends HttpResponse {
+  status: "200";
+  body: PagedEnvironmentOutput;
+}
+
+export interface ListEnvironmentsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface ListEnvironmentsDefaultResponse extends HttpResponse {
+  status: string;
+  body: CloudErrorOutput;
+  headers: RawHttpHeaders & ListEnvironmentsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetEnvironment200Response extends HttpResponse {
   status: "200";
   body: EnvironmentOutput;
 }
 
-export interface DeploymentEnvironmentsGetEnvironmentDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface GetEnvironmentDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Gets an environment */
-export interface DeploymentEnvironmentsGetEnvironmentDefaultResponse
-  extends HttpResponse {
+export interface GetEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DeploymentEnvironmentsGetEnvironmentDefaultHeaders;
+  headers: RawHttpHeaders & GetEnvironmentDefaultHeaders;
 }
 
-export interface DeploymentEnvironmentsCreateOrUpdateEnvironment201Headers {
-  /** URL to query for status of the operation. */
-  "operation-location"?: string;
+export interface CreateOrUpdateEnvironment201Headers {
+  /** The location for monitoring the operation state. */
+  "operation-location": string;
 }
 
-/** Creates or updates an environment. */
-export interface DeploymentEnvironmentsCreateOrUpdateEnvironment201Response
-  extends HttpResponse {
+/** The request has succeeded and a new resource has been created as a result. */
+export interface CreateOrUpdateEnvironment201Response extends HttpResponse {
   status: "201";
   body: EnvironmentOutput;
-  headers: RawHttpHeaders &
-    DeploymentEnvironmentsCreateOrUpdateEnvironment201Headers;
+  headers: RawHttpHeaders & CreateOrUpdateEnvironment201Headers;
 }
 
-export interface DeploymentEnvironmentsCreateOrUpdateEnvironmentDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface CreateOrUpdateEnvironmentDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Creates or updates an environment. */
-export interface DeploymentEnvironmentsCreateOrUpdateEnvironmentDefaultResponse
-  extends HttpResponse {
+export interface CreateOrUpdateEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders &
-    DeploymentEnvironmentsCreateOrUpdateEnvironmentDefaultHeaders;
+  headers: RawHttpHeaders & CreateOrUpdateEnvironmentDefaultHeaders;
 }
 
-export interface DeploymentEnvironmentsDeleteEnvironment202Headers {
-  /** URL to query for status of the operation. */
-  "operation-location"?: string;
+/** The final response for long-running CreateOrUpdateEnvironment operation */
+export interface CreateOrUpdateEnvironmentLogicalResponse extends HttpResponse {
+  status: "200";
+  body: EnvironmentOutput;
 }
 
-/** Deletes an environment and all its associated resources */
-export interface DeploymentEnvironmentsDeleteEnvironment202Response
-  extends HttpResponse {
+export interface DeleteEnvironment202Headers {
+  location: string;
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface DeleteEnvironment202Response extends HttpResponse {
   status: "202";
   body: OperationStatusOutput;
-  headers: RawHttpHeaders & DeploymentEnvironmentsDeleteEnvironment202Headers;
+  headers: RawHttpHeaders & DeleteEnvironment202Headers;
 }
 
-/** Deletes an environment and all its associated resources */
-export interface DeploymentEnvironmentsDeleteEnvironment204Response
-  extends HttpResponse {
+/** There is no content to send for this request, but the headers may be useful. */
+export interface DeleteEnvironment204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
-export interface DeploymentEnvironmentsDeleteEnvironmentDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface DeleteEnvironmentDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Deletes an environment and all its associated resources */
-export interface DeploymentEnvironmentsDeleteEnvironmentDefaultResponse
-  extends HttpResponse {
+export interface DeleteEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders &
-    DeploymentEnvironmentsDeleteEnvironmentDefaultHeaders;
+  headers: RawHttpHeaders & DeleteEnvironmentDefaultHeaders;
 }
 
-/** Lists all of the catalogs available for a project. */
-export interface DeploymentEnvironmentsListCatalogs200Response
-  extends HttpResponse {
+/** The final response for long-running DeleteEnvironment operation */
+export interface DeleteEnvironmentLogicalResponse extends HttpResponse {
   status: "200";
-  body: CatalogListResultOutput;
+  body: OperationStatusOutput;
 }
 
-export interface DeploymentEnvironmentsListCatalogsDefaultHeaders {
-  /** The error code for specific error that occurred. */
+/** The request has succeeded. */
+export interface ListCatalogs200Response extends HttpResponse {
+  status: "200";
+  body: PagedCatalogOutput;
+}
+
+export interface ListCatalogsDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Lists all of the catalogs available for a project. */
-export interface DeploymentEnvironmentsListCatalogsDefaultResponse
-  extends HttpResponse {
+export interface ListCatalogsDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DeploymentEnvironmentsListCatalogsDefaultHeaders;
+  headers: RawHttpHeaders & ListCatalogsDefaultHeaders;
 }
 
-/** Gets the specified catalog within the project */
-export interface DeploymentEnvironmentsGetCatalog200Response
-  extends HttpResponse {
+/** The request has succeeded. */
+export interface GetCatalog200Response extends HttpResponse {
   status: "200";
   body: CatalogOutput;
 }
 
-export interface DeploymentEnvironmentsGetCatalogDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface GetCatalogDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Gets the specified catalog within the project */
-export interface DeploymentEnvironmentsGetCatalogDefaultResponse
+export interface GetCatalogDefaultResponse extends HttpResponse {
+  status: string;
+  body: CloudErrorOutput;
+  headers: RawHttpHeaders & GetCatalogDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface ListEnvironmentDefinitions200Response extends HttpResponse {
+  status: "200";
+  body: PagedEnvironmentDefinitionOutput;
+}
+
+export interface ListEnvironmentDefinitionsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface ListEnvironmentDefinitionsDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders & DeploymentEnvironmentsGetCatalogDefaultHeaders;
+  headers: RawHttpHeaders & ListEnvironmentDefinitionsDefaultHeaders;
 }
 
-/** Lists all environment definitions available for a project. */
-export interface DeploymentEnvironmentsListEnvironmentDefinitions200Response
+/** The request has succeeded. */
+export interface ListEnvironmentDefinitionsByCatalog200Response
   extends HttpResponse {
   status: "200";
-  body: EnvironmentDefinitionListResultOutput;
+  body: PagedEnvironmentDefinitionOutput;
 }
 
-export interface DeploymentEnvironmentsListEnvironmentDefinitionsDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface ListEnvironmentDefinitionsByCatalogDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Lists all environment definitions available for a project. */
-export interface DeploymentEnvironmentsListEnvironmentDefinitionsDefaultResponse
+export interface ListEnvironmentDefinitionsByCatalogDefaultResponse
   extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders &
-    DeploymentEnvironmentsListEnvironmentDefinitionsDefaultHeaders;
+  headers: RawHttpHeaders & ListEnvironmentDefinitionsByCatalogDefaultHeaders;
 }
 
-/** Lists all environment definitions available within a catalog. */
-export interface DeploymentEnvironmentsListEnvironmentDefinitionsByCatalog200Response
-  extends HttpResponse {
-  status: "200";
-  body: EnvironmentDefinitionListResultOutput;
-}
-
-export interface DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogDefaultHeaders {
-  /** The error code for specific error that occurred. */
-  "x-ms-error-code"?: string;
-}
-
-/** Lists all environment definitions available within a catalog. */
-export interface DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogDefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: CloudErrorOutput;
-  headers: RawHttpHeaders &
-    DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogDefaultHeaders;
-}
-
-/** Get an environment definition from a catalog. */
-export interface DeploymentEnvironmentsGetEnvironmentDefinition200Response
-  extends HttpResponse {
+/** The request has succeeded. */
+export interface GetEnvironmentDefinition200Response extends HttpResponse {
   status: "200";
   body: EnvironmentDefinitionOutput;
 }
 
-export interface DeploymentEnvironmentsGetEnvironmentDefinitionDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface GetEnvironmentDefinitionDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Get an environment definition from a catalog. */
-export interface DeploymentEnvironmentsGetEnvironmentDefinitionDefaultResponse
-  extends HttpResponse {
+export interface GetEnvironmentDefinitionDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders &
-    DeploymentEnvironmentsGetEnvironmentDefinitionDefaultHeaders;
+  headers: RawHttpHeaders & GetEnvironmentDefinitionDefaultHeaders;
 }
 
-/** Lists all environment types configured for a project. */
-export interface DeploymentEnvironmentsListEnvironmentTypes200Response
-  extends HttpResponse {
+/** The request has succeeded. */
+export interface ListEnvironmentTypes200Response extends HttpResponse {
   status: "200";
-  body: EnvironmentTypeListResultOutput;
+  body: PagedEnvironmentTypeOutput;
 }
 
-export interface DeploymentEnvironmentsListEnvironmentTypesDefaultHeaders {
-  /** The error code for specific error that occurred. */
+export interface ListEnvironmentTypesDefaultHeaders {
+  /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-/** Lists all environment types configured for a project. */
-export interface DeploymentEnvironmentsListEnvironmentTypesDefaultResponse
-  extends HttpResponse {
+export interface ListEnvironmentTypesDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders &
-    DeploymentEnvironmentsListEnvironmentTypesDefaultHeaders;
+  headers: RawHttpHeaders & ListEnvironmentTypesDefaultHeaders;
 }

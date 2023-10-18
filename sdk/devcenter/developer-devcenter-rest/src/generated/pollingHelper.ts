@@ -3,14 +3,39 @@
 
 import { Client, HttpResponse } from "@azure-rest/core-client";
 import {
+  CreateHttpPollerOptions,
   LongRunningOperation,
-  LroEngine,
-  LroEngineOptions,
   LroResponse,
-  PollerLike,
-  PollOperationState
+  OperationState,
+  SimplePollerLike,
+  createHttpPoller,
 } from "@azure/core-lro";
-
+import {
+  CreateDevBox200Response,
+  CreateDevBox201Response,
+  CreateDevBoxDefaultResponse,
+  CreateDevBoxLogicalResponse,
+  DeleteDevBox202Response,
+  DeleteDevBox204Response,
+  DeleteDevBoxDefaultResponse,
+  DeleteDevBoxLogicalResponse,
+  StartDevBox202Response,
+  StartDevBoxDefaultResponse,
+  StartDevBoxLogicalResponse,
+  StopDevBox202Response,
+  StopDevBoxDefaultResponse,
+  StopDevBoxLogicalResponse,
+  RestartDevBox202Response,
+  RestartDevBoxDefaultResponse,
+  RestartDevBoxLogicalResponse,
+  CreateOrUpdateEnvironment201Response,
+  CreateOrUpdateEnvironmentDefaultResponse,
+  CreateOrUpdateEnvironmentLogicalResponse,
+  DeleteEnvironment202Response,
+  DeleteEnvironment204Response,
+  DeleteEnvironmentDefaultResponse,
+  DeleteEnvironmentLogicalResponse,
+} from "./responses";
 /**
  * Helper function that builds a Poller object to help polling a long running operation.
  * @param client - Client to use for sending the request to get additional pages.
@@ -18,11 +43,75 @@ import {
  * @param options - Options to set a resume state or custom polling interval.
  * @returns - A poller object to poll for operation state updates and eventually get the final response.
  */
-export function getLongRunningPoller<TResult extends HttpResponse>(
+export async function getLongRunningPoller<
+  TResult extends CreateDevBoxLogicalResponse | CreateDevBoxDefaultResponse
+>(
+  client: Client,
+  initialResponse:
+    | CreateDevBox200Response
+    | CreateDevBox201Response
+    | CreateDevBoxDefaultResponse,
+  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export async function getLongRunningPoller<
+  TResult extends DeleteDevBoxLogicalResponse | DeleteDevBoxDefaultResponse
+>(
+  client: Client,
+  initialResponse:
+    | DeleteDevBox202Response
+    | DeleteDevBox204Response
+    | DeleteDevBoxDefaultResponse,
+  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export async function getLongRunningPoller<
+  TResult extends StartDevBoxLogicalResponse | StartDevBoxDefaultResponse
+>(
+  client: Client,
+  initialResponse: StartDevBox202Response | StartDevBoxDefaultResponse,
+  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export async function getLongRunningPoller<
+  TResult extends StopDevBoxLogicalResponse | StopDevBoxDefaultResponse
+>(
+  client: Client,
+  initialResponse: StopDevBox202Response | StopDevBoxDefaultResponse,
+  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export async function getLongRunningPoller<
+  TResult extends RestartDevBoxLogicalResponse | RestartDevBoxDefaultResponse
+>(
+  client: Client,
+  initialResponse: RestartDevBox202Response | RestartDevBoxDefaultResponse,
+  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export async function getLongRunningPoller<
+  TResult extends
+    | CreateOrUpdateEnvironmentLogicalResponse
+    | CreateOrUpdateEnvironmentDefaultResponse
+>(
+  client: Client,
+  initialResponse:
+    | CreateOrUpdateEnvironment201Response
+    | CreateOrUpdateEnvironmentDefaultResponse,
+  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export async function getLongRunningPoller<
+  TResult extends
+    | DeleteEnvironmentLogicalResponse
+    | DeleteEnvironmentDefaultResponse
+>(
+  client: Client,
+  initialResponse:
+    | DeleteEnvironment202Response
+    | DeleteEnvironment204Response
+    | DeleteEnvironmentDefaultResponse,
+  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export async function getLongRunningPoller<TResult extends HttpResponse>(
   client: Client,
   initialResponse: TResult,
-  options: LroEngineOptions<TResult, PollOperationState<TResult>> = {}
-): PollerLike<PollOperationState<TResult>, TResult> {
+  options: CreateHttpPollerOptions<TResult, OperationState<TResult>> = {}
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>> {
   const poller: LongRunningOperation<TResult> = {
     requestMethod: initialResponse.request.method,
     requestPath: initialResponse.request.url,
@@ -44,16 +133,17 @@ export function getLongRunningPoller<TResult extends HttpResponse>(
       lroResponse.rawResponse.headers["x-ms-original-url"] =
         initialResponse.request.url;
       return lroResponse;
-    }
+    },
   };
 
-  return new LroEngine(poller, options);
+  options.resolveOnUnsuccessful = options.resolveOnUnsuccessful ?? true;
+  return createHttpPoller(poller, options);
 }
 
 /**
- * Converts a Rest Client response to a response that the LRO engine knows about
+ * Converts a Rest Client response to a response that the LRO implementation understands
  * @param response - a rest client http response
- * @returns - An LRO response that the LRO engine can work with
+ * @returns - An LRO response that the LRO implementation understands
  */
 function getLroResponse<TResult extends HttpResponse>(
   response: TResult
@@ -69,7 +159,7 @@ function getLroResponse<TResult extends HttpResponse>(
     rawResponse: {
       ...response,
       statusCode: Number.parseInt(response.status),
-      body: response.body
-    }
+      body: response.body,
+    },
   };
 }

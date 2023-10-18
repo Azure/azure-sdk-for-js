@@ -4,237 +4,219 @@
 import { RequestParameters } from "@azure-rest/core-client";
 import { DevBox, Environment } from "./models";
 
-export interface DevCenterListProjectsQueryParamProperties {
+export interface ListProjectsQueryParamProperties {
   /** An OData filter clause to apply to the operation. */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
   top?: number;
 }
 
-export interface DevCenterListProjectsQueryParam {
-  queryParameters?: DevCenterListProjectsQueryParamProperties;
+export interface ListProjectsQueryParam {
+  queryParameters?: ListProjectsQueryParamProperties;
 }
 
-export type DevCenterListProjectsParameters = DevCenterListProjectsQueryParam &
-  RequestParameters;
-export type DevCenterGetProjectParameters = RequestParameters;
+export type ListProjectsParameters = ListProjectsQueryParam & RequestParameters;
+export type GetProjectParameters = RequestParameters;
+export type GetProjectOperationStatusParameters = RequestParameters;
 
-export interface DevBoxesListPoolsQueryParamProperties {
-  /** The maximum number of resources to return from the operation. Example: 'top=10'. */
-  top?: number;
-  /** An OData filter clause to apply to the operation. */
-  filter?: string;
-}
-
-export interface DevBoxesListPoolsQueryParam {
-  queryParameters?: DevBoxesListPoolsQueryParamProperties;
-}
-
-export type DevBoxesListPoolsParameters = DevBoxesListPoolsQueryParam &
-  RequestParameters;
-export type DevBoxesGetPoolParameters = RequestParameters;
-
-export interface DevBoxesListSchedulesQueryParamProperties {
-  /** The maximum number of resources to return from the operation. Example: 'top=10'. */
-  top?: number;
-  /** An OData filter clause to apply to the operation. */
-  filter?: string;
-}
-
-export interface DevBoxesListSchedulesQueryParam {
-  queryParameters?: DevBoxesListSchedulesQueryParamProperties;
-}
-
-export type DevBoxesListSchedulesParameters = DevBoxesListSchedulesQueryParam &
-  RequestParameters;
-export type DevBoxesGetScheduleParameters = RequestParameters;
-
-export interface DevBoxesListAllDevBoxesQueryParamProperties {
+export interface ListPoolsQueryParamProperties {
   /** An OData filter clause to apply to the operation. */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
   top?: number;
 }
 
-export interface DevBoxesListAllDevBoxesQueryParam {
-  queryParameters?: DevBoxesListAllDevBoxesQueryParamProperties;
+export interface ListPoolsQueryParam {
+  queryParameters?: ListPoolsQueryParamProperties;
 }
 
-export type DevBoxesListAllDevBoxesParameters = DevBoxesListAllDevBoxesQueryParam &
-  RequestParameters;
+export type ListPoolsParameters = ListPoolsQueryParam & RequestParameters;
+export type GetPoolParameters = RequestParameters;
 
-export interface DevBoxesListAllDevBoxesByUserQueryParamProperties {
+export interface ListSchedulesQueryParamProperties {
   /** An OData filter clause to apply to the operation. */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
   top?: number;
 }
 
-export interface DevBoxesListAllDevBoxesByUserQueryParam {
-  queryParameters?: DevBoxesListAllDevBoxesByUserQueryParamProperties;
+export interface ListSchedulesQueryParam {
+  queryParameters?: ListSchedulesQueryParamProperties;
 }
 
-export type DevBoxesListAllDevBoxesByUserParameters = DevBoxesListAllDevBoxesByUserQueryParam &
+export type ListSchedulesParameters = ListSchedulesQueryParam &
   RequestParameters;
+export type GetScheduleParameters = RequestParameters;
 
-export interface DevBoxesListDevBoxesQueryParamProperties {
+export interface ListDevBoxesQueryParamProperties {
   /** An OData filter clause to apply to the operation. */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
   top?: number;
 }
 
-export interface DevBoxesListDevBoxesQueryParam {
-  queryParameters?: DevBoxesListDevBoxesQueryParamProperties;
+export interface ListDevBoxesQueryParam {
+  queryParameters?: ListDevBoxesQueryParamProperties;
 }
 
-export type DevBoxesListDevBoxesParameters = DevBoxesListDevBoxesQueryParam &
-  RequestParameters;
-export type DevBoxesGetDevBoxParameters = RequestParameters;
+export type ListDevBoxesParameters = ListDevBoxesQueryParam & RequestParameters;
+export type GetDevBoxParameters = RequestParameters;
 
-export interface DevBoxesCreateDevBoxBodyParam {
+export interface CreateDevBoxBodyParam {
   /** Represents a environment. */
   body: DevBox;
 }
 
-export interface DevBoxesCreateDevBoxMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
+export type CreateDevBoxParameters = CreateDevBoxBodyParam & RequestParameters;
+export type DeleteDevBoxParameters = RequestParameters;
+export type StartDevBoxParameters = RequestParameters;
 
-export type DevBoxesCreateDevBoxParameters = DevBoxesCreateDevBoxMediaTypesParam &
-  DevBoxesCreateDevBoxBodyParam &
-  RequestParameters;
-export type DevBoxesDeleteDevBoxParameters = RequestParameters;
-export type DevBoxesStartDevBoxParameters = RequestParameters;
-
-export interface DevBoxesStopDevBoxQueryParamProperties {
+export interface StopDevBoxQueryParamProperties {
   /** Optional parameter to hibernate the dev box. */
   hibernate?: boolean;
 }
 
-export interface DevBoxesStopDevBoxQueryParam {
-  queryParameters?: DevBoxesStopDevBoxQueryParamProperties;
+export interface StopDevBoxQueryParam {
+  queryParameters?: StopDevBoxQueryParamProperties;
 }
 
-export type DevBoxesStopDevBoxParameters = DevBoxesStopDevBoxQueryParam &
-  RequestParameters;
-export type DevBoxesRestartDevBoxParameters = RequestParameters;
-export type DevBoxesGetRemoteConnectionParameters = RequestParameters;
-export type DevBoxesListActionsParameters = RequestParameters;
-export type DevBoxesGetActionParameters = RequestParameters;
-export type DevBoxesSkipActionParameters = RequestParameters;
+export type StopDevBoxParameters = StopDevBoxQueryParam & RequestParameters;
+export type RestartDevBoxParameters = RequestParameters;
+export type GetRemoteConnectionParameters = RequestParameters;
+export type ListActionsParameters = RequestParameters;
+export type GetActionParameters = RequestParameters;
+export type SkipActionParameters = RequestParameters;
 
-export interface DevBoxesDelayActionQueryParamProperties {
+export interface DelayActionQueryParamProperties {
   /** The time to delay the Dev Box action or actions until. */
   until: Date | string;
 }
 
-export interface DevBoxesDelayActionQueryParam {
-  queryParameters: DevBoxesDelayActionQueryParamProperties;
+export interface DelayActionQueryParam {
+  queryParameters: DelayActionQueryParamProperties;
 }
 
-export type DevBoxesDelayActionParameters = DevBoxesDelayActionQueryParam &
-  RequestParameters;
+export type DelayActionParameters = DelayActionQueryParam & RequestParameters;
 
-export interface DevBoxesDelayAllActionsQueryParamProperties {
+export interface DelayAllActionsQueryParamProperties {
   /** The time to delay the Dev Box action or actions until. */
   until: Date | string;
 }
 
-export interface DevBoxesDelayAllActionsQueryParam {
-  queryParameters: DevBoxesDelayAllActionsQueryParamProperties;
+export interface DelayAllActionsQueryParam {
+  queryParameters: DelayAllActionsQueryParamProperties;
 }
 
-export type DevBoxesDelayAllActionsParameters = DevBoxesDelayAllActionsQueryParam &
+export type DelayAllActionsParameters = DelayAllActionsQueryParam &
   RequestParameters;
 
-export interface DeploymentEnvironmentsListAllEnvironmentsQueryParamProperties {
+export interface ListAllDevBoxesQueryParamProperties {
+  /** An OData filter clause to apply to the operation. */
+  filter?: string;
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
   top?: number;
 }
 
-export interface DeploymentEnvironmentsListAllEnvironmentsQueryParam {
-  queryParameters?: DeploymentEnvironmentsListAllEnvironmentsQueryParamProperties;
+export interface ListAllDevBoxesQueryParam {
+  queryParameters?: ListAllDevBoxesQueryParamProperties;
 }
 
-export type DeploymentEnvironmentsListAllEnvironmentsParameters = DeploymentEnvironmentsListAllEnvironmentsQueryParam &
+export type ListAllDevBoxesParameters = ListAllDevBoxesQueryParam &
   RequestParameters;
 
-export interface DeploymentEnvironmentsListEnvironmentsQueryParamProperties {
+export interface ListAllDevBoxesByUserQueryParamProperties {
+  /** An OData filter clause to apply to the operation. */
+  filter?: string;
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
   top?: number;
 }
 
-export interface DeploymentEnvironmentsListEnvironmentsQueryParam {
-  queryParameters?: DeploymentEnvironmentsListEnvironmentsQueryParamProperties;
+export interface ListAllDevBoxesByUserQueryParam {
+  queryParameters?: ListAllDevBoxesByUserQueryParamProperties;
 }
 
-export type DeploymentEnvironmentsListEnvironmentsParameters = DeploymentEnvironmentsListEnvironmentsQueryParam &
+export type ListAllDevBoxesByUserParameters = ListAllDevBoxesByUserQueryParam &
   RequestParameters;
-export type DeploymentEnvironmentsGetEnvironmentParameters = RequestParameters;
 
-export interface DeploymentEnvironmentsCreateOrUpdateEnvironmentBodyParam {
+export interface ListAllEnvironmentsQueryParamProperties {
+  /** The maximum number of resources to return from the operation. Example: 'top=10'. */
+  top: number;
+}
+
+export interface ListAllEnvironmentsQueryParam {
+  queryParameters: ListAllEnvironmentsQueryParamProperties;
+}
+
+export type ListAllEnvironmentsParameters = ListAllEnvironmentsQueryParam &
+  RequestParameters;
+
+export interface ListEnvironmentsQueryParamProperties {
+  /** The maximum number of resources to return from the operation. Example: 'top=10'. */
+  top: number;
+}
+
+export interface ListEnvironmentsQueryParam {
+  queryParameters: ListEnvironmentsQueryParamProperties;
+}
+
+export type ListEnvironmentsParameters = ListEnvironmentsQueryParam &
+  RequestParameters;
+export type GetEnvironmentParameters = RequestParameters;
+
+export interface CreateOrUpdateEnvironmentBodyParam {
   /** Represents an environment. */
   body: Environment;
 }
 
-export interface DeploymentEnvironmentsCreateOrUpdateEnvironmentMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
+export type CreateOrUpdateEnvironmentParameters =
+  CreateOrUpdateEnvironmentBodyParam & RequestParameters;
+export type DeleteEnvironmentParameters = RequestParameters;
 
-export type DeploymentEnvironmentsCreateOrUpdateEnvironmentParameters = DeploymentEnvironmentsCreateOrUpdateEnvironmentMediaTypesParam &
-  DeploymentEnvironmentsCreateOrUpdateEnvironmentBodyParam &
-  RequestParameters;
-export type DeploymentEnvironmentsDeleteEnvironmentParameters = RequestParameters;
-
-export interface DeploymentEnvironmentsListCatalogsQueryParamProperties {
+export interface ListCatalogsQueryParamProperties {
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
-  top?: number;
+  top: number;
 }
 
-export interface DeploymentEnvironmentsListCatalogsQueryParam {
-  queryParameters?: DeploymentEnvironmentsListCatalogsQueryParamProperties;
+export interface ListCatalogsQueryParam {
+  queryParameters: ListCatalogsQueryParamProperties;
 }
 
-export type DeploymentEnvironmentsListCatalogsParameters = DeploymentEnvironmentsListCatalogsQueryParam &
-  RequestParameters;
-export type DeploymentEnvironmentsGetCatalogParameters = RequestParameters;
+export type ListCatalogsParameters = ListCatalogsQueryParam & RequestParameters;
+export type GetCatalogParameters = RequestParameters;
 
-export interface DeploymentEnvironmentsListEnvironmentDefinitionsQueryParamProperties {
+export interface ListEnvironmentDefinitionsQueryParamProperties {
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
-  top?: number;
+  top: number;
 }
 
-export interface DeploymentEnvironmentsListEnvironmentDefinitionsQueryParam {
-  queryParameters?: DeploymentEnvironmentsListEnvironmentDefinitionsQueryParamProperties;
+export interface ListEnvironmentDefinitionsQueryParam {
+  queryParameters: ListEnvironmentDefinitionsQueryParamProperties;
 }
 
-export type DeploymentEnvironmentsListEnvironmentDefinitionsParameters = DeploymentEnvironmentsListEnvironmentDefinitionsQueryParam &
-  RequestParameters;
+export type ListEnvironmentDefinitionsParameters =
+  ListEnvironmentDefinitionsQueryParam & RequestParameters;
 
-export interface DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogQueryParamProperties {
+export interface ListEnvironmentDefinitionsByCatalogQueryParamProperties {
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
-  top?: number;
+  top: number;
 }
 
-export interface DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogQueryParam {
-  queryParameters?: DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogQueryParamProperties;
+export interface ListEnvironmentDefinitionsByCatalogQueryParam {
+  queryParameters: ListEnvironmentDefinitionsByCatalogQueryParamProperties;
 }
 
-export type DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogParameters = DeploymentEnvironmentsListEnvironmentDefinitionsByCatalogQueryParam &
-  RequestParameters;
-export type DeploymentEnvironmentsGetEnvironmentDefinitionParameters = RequestParameters;
+export type ListEnvironmentDefinitionsByCatalogParameters =
+  ListEnvironmentDefinitionsByCatalogQueryParam & RequestParameters;
+export type GetEnvironmentDefinitionParameters = RequestParameters;
 
-export interface DeploymentEnvironmentsListEnvironmentTypesQueryParamProperties {
+export interface ListEnvironmentTypesQueryParamProperties {
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
-  top?: number;
+  top: number;
 }
 
-export interface DeploymentEnvironmentsListEnvironmentTypesQueryParam {
-  queryParameters?: DeploymentEnvironmentsListEnvironmentTypesQueryParamProperties;
+export interface ListEnvironmentTypesQueryParam {
+  queryParameters: ListEnvironmentTypesQueryParamProperties;
 }
 
-export type DeploymentEnvironmentsListEnvironmentTypesParameters = DeploymentEnvironmentsListEnvironmentTypesQueryParam &
+export type ListEnvironmentTypesParameters = ListEnvironmentTypesQueryParam &
   RequestParameters;

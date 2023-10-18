@@ -4,12 +4,12 @@
 import {
   getPagedAsyncIterator,
   PagedAsyncIterableIterator,
-  PagedResult
+  PagedResult,
 } from "@azure/core-paging";
 import {
   Client,
   createRestError,
-  PathUncheckedResponse
+  PathUncheckedResponse,
 } from "@azure-rest/core-client";
 
 /**
@@ -84,9 +84,9 @@ export function paginate<TResponse extends PathUncheckedResponse>(
             const values = getElements<TElement>(result.body, itemName);
             return {
               page: values,
-              nextPageLink: nextLink
+              nextPageLink: nextLink,
             };
-          }
+          },
   };
 
   return getPagedAsyncIterator(pagedResult);
@@ -143,7 +143,7 @@ function checkPagingRequest(response: PathUncheckedResponse): void {
     "206",
     "207",
     "208",
-    "226"
+    "226",
   ];
   if (!Http2xxStatusCodes.includes(response.status)) {
     throw createRestError(
