@@ -116,3 +116,12 @@ export {
   TypeSpecRuntimeLogLevel,
   TypeSpecRuntimeClientLogger,
 } from "./logger/logger";
+// client
+export { createRestError } from "./client/restError";
+export {
+  addCredentialPipelinePolicy,
+  AddCredentialPipelinePolicyOptions,
+} from "./client/clientHelpers";
+export { operationOptionsToRequestParameters } from "./client/operationOptionHelpers";
+export * from "./client/getClient";
+export * from "./client/common";

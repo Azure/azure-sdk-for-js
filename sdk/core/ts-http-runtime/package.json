@@ -16,6 +16,7 @@
     "./dist-esm/src/util/uuidUtils.js": "./dist-esm/src/util/uuidUtils.browser.js",
     "./dist-esm/src/util/bytesEncoding.js": "./dist-esm/src/util/bytesEncoding.browser.js",
     "./dist-esm/src/logger/log.js": "./dist-esm/src/logger/log.browser.js",
+    "./dist-esm/src/client/helpers/isReadableStream.js": "./dist-esm/src/client/helpers/isReadableStream.browser.js",
     "process": false
   },
   "react-native": {

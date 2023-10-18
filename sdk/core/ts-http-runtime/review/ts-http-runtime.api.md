@@ -36,6 +36,22 @@ export interface AccessToken {
 }
 
 // @public
+export function addCredentialPipelinePolicy(pipeline: Pipeline, baseUrl: string, options?: AddCredentialPipelinePolicyOptions): void;
+
+// @public
+export interface AddCredentialPipelinePolicyOptions {
+    clientOptions?: ClientOptions;
+    // Warning: (ae-forgotten-export) The symbol "KeyCredential" needs to be exported by the entry point index.d.ts
+    credential?: TokenCredential | KeyCredential;
+}
+
+// @public
+export interface AdditionalPolicyConfig {
+    policy: PipelinePolicy;
+    position: "perCall" | "perRetry";
+}
+
+// @public
 export interface AddPipelineOptions {
     afterPhase?: PipelinePhase;
     afterPolicies?: string[];
@@ -95,6 +111,27 @@ export interface ChallengeCallbacks {
 }
 
 // @public
+export interface Client {
+    path: Function;
+    pathUnchecked: PathUnchecked;
+    pipeline: Pipeline;
+}
+
+// @public
+export type ClientOptions = PipelineOptions & {
+    credentials?: {
+        scopes?: string[];
+        apiKeyHeaderName?: string;
+    };
+    baseUrl?: string;
+    apiVersion?: string;
+    allowInsecureConnection?: boolean;
+    additionalPolicies?: AdditionalPolicyConfig[];
+    httpClient?: HttpClient;
+    loggingOptions?: LogPolicyOptions;
+};
+
+// @public
 export function computeSha256Hash(content: string, encoding: "base64" | "hex"): Promise<string>;
 
 // @public
@@ -122,6 +159,9 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
 
 // @public
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest;
+
+// @public
+export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 
 // @public
 export function createTracingClient(options: TracingClientOptions): TracingClient;
@@ -161,6 +201,20 @@ export { DelayOptions_2 as DelayOptions }
 export type EncodingType = "utf-8" | "base64" | "base64url";
 
 // @public
+export interface ErrorModel {
+    code: string;
+    details: Array<ErrorModel>;
+    innererror?: InnerError;
+    message: string;
+    target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error: ErrorModel;
+}
+
+// @public
 export type FormDataMap = {
     [key: string]: FormDataValue | FormDataValue[];
 };
@@ -173,6 +227,19 @@ export const formDataPolicyName = "formDataPolicy";
 
 // @public
 export type FormDataValue = string | Blob;
+
+// @public
+export interface FullOperationResponse extends PipelineResponse {
+    parsedBody?: RequestBodyType;
+    rawHeaders?: RawHttpHeaders;
+    request: PipelineRequest;
+}
+
+// @public
+export function getClient(baseUrl: string, options?: ClientOptions): Client;
+
+// @public
+export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
 
 // @public
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
@@ -198,6 +265,11 @@ export interface GetTokenOptions {
 }
 
 // @public
+export type HttpBrowserStreamResponse = HttpResponse & {
+    body?: ReadableStream<Uint8Array>;
+};
+
+// @public
 export interface HttpClient {
     sendRequest: SendRequest;
 }
@@ -215,6 +287,25 @@ export interface HttpHeaders extends Iterable<[string, string]> {
 
 // @public
 export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
+
+// @public
+export type HttpNodeStreamResponse = HttpResponse & {
+    body?: NodeJS.ReadableStream;
+};
+
+// @public
+export type HttpResponse = {
+    request: PipelineRequest;
+    headers: RawHttpHeaders;
+    body: unknown;
+    status: string;
+};
+
+// @public
+export interface InnerError {
+    code: string;
+    innererror?: InnerError;
+}
 
 // @public
 export interface Instrumenter {
@@ -295,6 +386,27 @@ export interface LogPolicyOptions {
 export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
 
 // @public
+export interface OperationOptions {
+    abortSignal?: AbortSignalLike;
+    onResponse?: RawResponseCallback;
+    requestOptions?: OperationRequestOptions;
+    tracingOptions?: OperationTracingOptions;
+}
+
+// @public
+export function operationOptionsToRequestParameters(options: OperationOptions): RequestParameters;
+
+// @public
+export interface OperationRequestOptions {
+    allowInsecureConnection?: boolean;
+    headers?: RawHttpHeadersInput;
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    skipUrlEncoding?: boolean;
+    timeout?: number;
+}
+
+// @public
 export interface OperationTracingOptions {
     tracingContext?: TracingContext;
 }
@@ -306,6 +418,21 @@ export type OptionsWithTracingContext<Options extends {
     tracingOptions: {
         tracingContext: TracingContext;
     };
+};
+
+// @public
+export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
+pathParameter: string,
+...pathParameters: PathParameters<Tail>
+] : [
+];
+
+// @public
+export type PathUnchecked = <TPath extends string>(path: TPath, ...args: PathParameters<TPath>) => ResourceMethods<StreamableMethod>;
+
+// @public
+export type PathUncheckedResponse = HttpResponse & {
+    body: any;
 };
 
 // @public
@@ -435,6 +562,9 @@ export type RawHttpHeaders = {
 export type RawHttpHeadersInput = Record<string, string | number | boolean>;
 
 // @public
+export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown) => void;
+
+// @public
 export function redirectPolicy(options?: RedirectPolicyOptions): PipelinePolicy;
 
 // @public
@@ -449,9 +579,39 @@ export interface RedirectPolicyOptions {
 export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
 
 // @public
+export type RequestParameters = {
+    headers?: RawHttpHeadersInput;
+    accept?: string;
+    body?: unknown;
+    queryParameters?: Record<string, unknown>;
+    contentType?: string;
+    allowInsecureConnection?: boolean;
+    skipUrlEncoding?: boolean;
+    pathParameters?: Record<string, any>;
+    timeout?: number;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    abortSignal?: AbortSignalLike;
+    tracingOptions?: OperationTracingOptions;
+    onResponse?: RawResponseCallback;
+};
+
+// @public
 export type Resolved<T> = T extends {
     then(onfulfilled: infer F): any;
 } ? F extends (value: infer V) => any ? Resolved<V> : never : T;
+
+// @public
+export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>> {
+    delete: (options?: RequestParameters) => TResponse;
+    get: (options?: RequestParameters) => TResponse;
+    head: (options?: RequestParameters) => TResponse;
+    options: (options?: RequestParameters) => TResponse;
+    patch: (options?: RequestParameters) => TResponse;
+    post: (options?: RequestParameters) => TResponse;
+    put: (options?: RequestParameters) => TResponse;
+    trace: (options?: RequestParameters) => TResponse;
+}
 
 // @public
 export class RestError extends Error {
@@ -488,6 +648,12 @@ export type SpanStatusError = {
 // @public
 export type SpanStatusSuccess = {
     status: "success";
+};
+
+// @public
+export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
+    asNodeStream: () => Promise<HttpNodeStreamResponse>;
+    asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
 };
 
 // @public
