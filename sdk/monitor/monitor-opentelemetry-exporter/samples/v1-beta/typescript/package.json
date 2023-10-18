@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Monitor Trace Exporter client library samples for TypeScript (Beta)",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -44,7 +44,7 @@
     "@opentelemetry/sdk-metrics": "^1.17.0"
   },
   "devDependencies": {
-    "@types/node": "^14.0.0",
+    "@types/node": "^16.0.0",
     "typescript": "~5.0.0",
     "rimraf": "latest"
   }

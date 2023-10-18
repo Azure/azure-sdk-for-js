@@ -6,7 +6,7 @@ The `InteractiveBrowserCredential` uses [Authorization Code Flow][AuthCodeFlow],
 
 ## For Node.js
 
-For Node.js, if a `clientId` is provided, the Azure Active Directory application will need to be configured to have a "Mobile and desktop applications" redirect endpoint. Follow our guide on [setting up Redirect URIs for Desktop apps that calls to web APIs](https://docs.microsoft.com/azure/active-directory/develop/scenario-desktop-app-registration#redirect-uris).
+For Node.js, if a `clientId` is provided, the Microsoft Entra application will need to be configured to have a "Mobile and desktop applications" redirect endpoint. Follow our guide on [setting up Redirect URIs for Desktop apps that calls to web APIs](https://learn.microsoft.com/azure/active-directory/develop/scenario-desktop-app-registration#redirect-uris).
 
 When using `InteractiveBrowserCredential` on Node, you may specify a `clientId` and `tenantId`, but otherwise we try to authenticate using a public client that's available for all Azure accounts and the default tenant of your account. For Node, this credential uses a web server to fulfill the redirection. This web server tries to use the port `80` by default. A `redirectUri` can be provided to determine the proper redirection URI with the adequate port, as follows:
 
@@ -16,14 +16,14 @@ const credential = new InteractiveBrowserCredential({
   clientId: "my-client-id",
   // You may provide a tenant ID based on the resource you are trying to access.
   tenantId: "my-tenant-id",
-  // You may provide a redirectUri based on the redirectUri configured in your AAD application:
+  // You may provide a redirectUri based on the redirectUri configured in your Microsoft Entra application:
   redirectUri: "http://localhost:8080/"
 });
 ```
 
 ## For browsers
 
-Follow the instructions for [creating and configuring an Azure Active Directory application to authenticate a single-page application](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow) to correctly mark your redirect URI as enabled for CORS.
+Follow the instructions for [creating and configuring a Microsoft Entra application to authenticate a single-page application](https://learn.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow) to correctly mark your redirect URI as enabled for CORS.
 
 When using `InteractiveBrowserCredential` in the browser, you will be required to pass a `clientId` in the constructor parameters, such as:
 
@@ -33,12 +33,12 @@ const credential = new InteractiveBrowserCredential({
   clientId: "my-client-id",
   // You may provide a tenant ID based on the resource you are trying to access.
   tenantId: "my-tenant-id",
-  // You may provide a redirectUri based on the redirectUri configured in your AAD application:
+  // You may provide a redirectUri based on the redirectUri configured in your Microsoft Entra application:
   redirectUri: "http://localhost:8080/"
 });
 ```
 
-Azure Active Directory enterprise applications configured with redirect URIs for `Web` environments are no longer supported by the Authorization Code Flow. You will have to configure your AAD application to use Single Page Application redirect URis (type `spa`).
+Microsoft Entra enterprise applications configured with redirect URIs for `Web` environments are no longer supported by the Authorization Code Flow. You will have to configure your Microsoft Entra application to use Single Page Application redirect URis (type `spa`).
 
 ### CORS error
 

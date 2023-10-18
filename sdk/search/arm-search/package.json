@@ -48,8 +48,8 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "@types/node": "^16.0.0",
-    "ts-node": "^10.0.0",
-    "@azure/dev-tool": "^1.0.0"
+    "@azure/dev-tool": "^1.0.0",
+    "ts-node": "^10.0.0"
   },
   "repository": {
     "type": "git",
@@ -70,14 +70,13 @@
     "src/**/*.ts",
     "README.md",
     "LICENSE",
-    "rollup.config.js",
     "tsconfig.json",
     "review/*",
     "CHANGELOG.md",
     "types/*"
   ],
   "scripts": {
-    "build": "npm run clean && tsc && rollup -c 2>&1 && npm run minify && mkdirp ./review && npm run extract-api",
+    "build": "npm run clean && tsc && dev-tool run bundle && npm run minify && mkdirp ./review && npm run extract-api",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "prepack": "npm run build",
     "pack": "npm pack 2>&1",
