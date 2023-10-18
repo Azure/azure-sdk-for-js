@@ -42,7 +42,7 @@ export interface DeviceCodeCredentialOptions
   extends InteractiveCredentialOptions,
     CredentialPersistenceOptions {
   /**
-   * The Azure Active Directory tenant (directory) ID.
+   * The Microsoft Entra tenant (directory) ID.
    */
   tenantId?: string;
   /**
