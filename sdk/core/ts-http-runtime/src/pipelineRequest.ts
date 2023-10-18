@@ -13,7 +13,7 @@ import {
 import { createHttpHeaders } from "./httpHeaders";
 import { AbortSignalLike } from "./abort-controller/AbortSignalLike";
 import { randomUUID } from "@azure/core-util";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import { OperationTracingOptions } from "./tracing/interfaces";
 
 /**
  * Settings to initialize a request.

@@ -69,3 +69,22 @@ export {
 export { AbortSignalLike } from "./abort-controller/AbortSignalLike";
 export { AbortError } from "./abort-controller/AbortError";
 export { AccessToken, GetTokenOptions, TokenCredential } from "./auth/tokenCredential";
+export {
+  Instrumenter,
+  InstrumenterSpanOptions,
+  OperationTracingOptions,
+  OptionsWithTracingContext,
+  Resolved,
+  SpanStatus,
+  SpanStatusError,
+  SpanStatusSuccess,
+  TracingClient,
+  TracingClientOptions,
+  TracingContext,
+  TracingSpan,
+  TracingSpanKind,
+  TracingSpanLink,
+  TracingSpanOptions,
+} from "./tracing/interfaces";
+export { useInstrumenter } from "./tracing/instrumenter";
+export { createTracingClient } from "./tracing/tracingClient";

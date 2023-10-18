@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  TracingClient,
-  TracingContext,
-  TracingSpan,
-  createTracingClient,
-} from "@azure/core-tracing";
+import { TracingClient, TracingContext, TracingSpan } from "../tracing/interfaces";
+import { createTracingClient } from "../tracing/tracingClient";
 import { SDK_VERSION } from "../constants";
 import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";

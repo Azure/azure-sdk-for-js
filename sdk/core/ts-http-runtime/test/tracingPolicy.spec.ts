@@ -19,8 +19,8 @@ import {
   TracingContext,
   TracingSpan,
   TracingSpanOptions,
-  useInstrumenter,
-} from "@azure/core-tracing";
+} from "../src/tracing/interfaces";
+import { useInstrumenter } from "../src/tracing/instrumenter";
 
 class MockSpan implements TracingSpan {
   spanAttributes: Record<string, unknown> = {};

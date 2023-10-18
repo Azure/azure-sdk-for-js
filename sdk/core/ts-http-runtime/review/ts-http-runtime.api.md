@@ -8,8 +8,6 @@
 
 import { AzureLogger } from '@azure/logger';
 import { Debugger } from '@azure/logger';
-import { OperationTracingOptions } from '@azure/core-tracing';
-import { TracingContext } from '@azure/core-tracing';
 
 // @public
 export class AbortError extends Error {
@@ -99,6 +97,9 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest;
 
 // @public
+export function createTracingClient(options: TracingClientOptions): TracingClient;
+
+// @public
 export function decompressResponsePolicy(): PipelinePolicy;
 
 // @public
@@ -162,6 +163,24 @@ export interface HttpHeaders extends Iterable<[string, string]> {
 export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 
 // @public
+export interface Instrumenter {
+    createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
+    parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
+    startSpan(name: string, spanOptions: InstrumenterSpanOptions): {
+        span: TracingSpan;
+        tracingContext: TracingContext;
+    };
+    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
+}
+
+// @public
+export interface InstrumenterSpanOptions extends TracingSpanOptions {
+    packageName: string;
+    packageVersion?: string;
+    tracingContext?: TracingContext;
+}
+
+// @public
 export interface InternalPipelineOptions extends PipelineOptions {
     loggingOptions?: LogPolicyOptions;
 }
@@ -187,6 +206,20 @@ export interface LogPolicyOptions {
     additionalAllowedQueryParameters?: string[];
     logger?: Debugger;
 }
+
+// @public
+export interface OperationTracingOptions {
+    tracingContext?: TracingContext;
+}
+
+// @public
+export type OptionsWithTracingContext<Options extends {
+    tracingOptions?: OperationTracingOptions;
+}> = Options & {
+    tracingOptions: {
+        tracingContext: TracingContext;
+    };
+};
 
 // @public
 export interface Pipeline {
@@ -326,6 +359,11 @@ export interface RedirectPolicyOptions {
 export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
 
 // @public
+export type Resolved<T> = T extends {
+    then(onfulfilled: infer F): any;
+} ? F extends (value: infer V) => any ? Resolved<V> : never : T;
+
+// @public
 export class RestError extends Error {
     constructor(message: string, options?: RestErrorOptions);
     code?: string;
@@ -347,6 +385,20 @@ export interface RestErrorOptions {
 
 // @public
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
+
+// @public
+export type SpanStatus = SpanStatusSuccess | SpanStatusError;
+
+// @public
+export type SpanStatusError = {
+    status: "error";
+    error?: Error | string;
+};
+
+// @public
+export type SpanStatusSuccess = {
+    status: "success";
+};
 
 // @public
 export interface TelemetryOptions {
@@ -374,6 +426,36 @@ export interface TokenCredential {
 }
 
 // @public
+export interface TracingClient {
+    createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
+    parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
+    startSpan<Options extends {
+        tracingOptions?: OperationTracingOptions;
+    }>(name: string, operationOptions?: Options, spanOptions?: TracingSpanOptions): {
+        span: TracingSpan;
+        updatedOptions: OptionsWithTracingContext<Options>;
+    };
+    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
+    withSpan<Options extends {
+        tracingOptions?: OperationTracingOptions;
+    }, Callback extends (updatedOptions: Options, span: Omit<TracingSpan, "end">) => ReturnType<Callback>>(name: string, operationOptions: Options, callback: Callback, spanOptions?: TracingSpanOptions): Promise<Resolved<ReturnType<Callback>>>;
+}
+
+// @public
+export interface TracingClientOptions {
+    namespace: string;
+    packageName: string;
+    packageVersion?: string;
+}
+
+// @public
+export interface TracingContext {
+    deleteValue(key: symbol): TracingContext;
+    getValue(key: symbol): unknown;
+    setValue(key: symbol, value: unknown): TracingContext;
+}
+
+// @public
 export function tracingPolicy(options?: TracingPolicyOptions): PipelinePolicy;
 
 // @public
@@ -385,9 +467,41 @@ export interface TracingPolicyOptions {
 }
 
 // @public
+export interface TracingSpan {
+    end(): void;
+    isRecording(): boolean;
+    recordException(exception: Error | string): void;
+    setAttribute(name: string, value: unknown): void;
+    setStatus(status: SpanStatus): void;
+}
+
+// @public
+export type TracingSpanKind = "client" | "server" | "producer" | "consumer" | "internal";
+
+// @public
+export interface TracingSpanLink {
+    attributes?: {
+        [key: string]: unknown;
+    };
+    tracingContext: TracingContext;
+}
+
+// @public
+export interface TracingSpanOptions {
+    spanAttributes?: {
+        [key: string]: unknown;
+    };
+    spanKind?: TracingSpanKind;
+    spanLinks?: TracingSpanLink[];
+}
+
+// @public
 export type TransferProgressEvent = {
     loadedBytes: number;
 };
+
+// @public
+export function useInstrumenter(instrumenter: Instrumenter): void;
 
 // @public
 export function userAgentPolicy(options?: UserAgentPolicyOptions): PipelinePolicy;
