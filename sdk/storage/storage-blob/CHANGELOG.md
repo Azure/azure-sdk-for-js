@@ -1,10 +1,11 @@
 # Release History
 
-## 12.17.0-beta.1 (Unreleased)
+## 12.17.0-beta.1 (2023-10-18)
 
 ### Features Added
 
 - Added support for service version 2023-11-03.
+- Added method to generate audience for blob servcie for a storage account.
 
 ## 12.16.0 (2023-09-14)
 
