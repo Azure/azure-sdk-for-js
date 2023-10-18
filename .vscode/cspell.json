@@ -68,6 +68,7 @@
     "eastus",
     "ECONNRESET",
     "Eloqua",
+    "entra",
     "Esdni",
     "ESDNI",
     "etags",
@@ -315,6 +316,13 @@
       "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
       "words": [
         "Dicom"
+      ]
+    },
+    {
+      "filename": "sdk/identity/**/*.md",
+      "words": [
+        "MSAL",
+        "PKCE"
       ]
     },
     {

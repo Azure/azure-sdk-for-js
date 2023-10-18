@@ -16,7 +16,7 @@ import {
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
   resolveTenantId,
 } from "../../util/tenantIdUtils";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -121,7 +121,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.tokenCredentialOptions?.additionallyAllowedTenants
     );
     this.clientId = this.msalConfig.auth.clientId;

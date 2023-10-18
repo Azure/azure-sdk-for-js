@@ -80,8 +80,13 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
       method: request.method,
       headers: headers,
       signal: abortController.signal,
-      credentials: request.withCredentials ? "include" : "same-origin",
-      cache: "no-store",
+      // Cloudflare doesn't implement the full Fetch API spec
+      // because of some of it doesn't make sense in the edge.
+      // See https://github.com/cloudflare/workerd/issues/902
+      ...("credentials" in Request.prototype
+        ? { credentials: request.withCredentials ? "include" : "same-origin" }
+        : {}),
+      ...("cache" in Request.prototype ? { cache: "no-store" } : {}),
     };
 
     // According to https://fetch.spec.whatwg.org/#fetch-method,

@@ -10,8 +10,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const clientId = process.env.AZURE_CLIENT_ID; // The app registration client Id in the AAD tenant
-const tenantId = process.env.AZURE_TENANT_ID; // The tenant ID in Azure Active Directory
+const clientId = process.env.AZURE_CLIENT_ID; // The app registration client Id in the Microsoft Entra tenant
+const tenantId = process.env.AZURE_TENANT_ID; // The tenant ID in Microsoft Entra ID
 
 async function main(): Promise<void> {
   const credential = new InteractiveBrowserCredential({
