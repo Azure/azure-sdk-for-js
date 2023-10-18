@@ -53,6 +53,8 @@ extends:
         safeName: azurecommunicationrooms
       - name: azure-communication-job-router
         safeName: azurecommunicationjobrouter
+      - name: azure-rest-communication-job-router
+        safeName: azurerestcommunicationjobrouter
       - name: azure-tools-communication-toll-free-verification
         safeName: azuretoolscommunicationtollfreeverification
       - name: azure-communication-call-automation
