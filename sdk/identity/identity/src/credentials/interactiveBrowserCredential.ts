@@ -63,6 +63,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       tokenCredentialOptions: options,
       logger,
       redirectUri,
+      browserCustomizedOptions: (options as InteractiveBrowserCredentialNodeOptions).browserCustomizedOptions
     });
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
