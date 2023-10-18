@@ -49,19 +49,6 @@ export interface AuthorizeRequestOptions {
 }
 
 // @public
-export function auxiliaryAuthenticationHeaderPolicy(options: AuxiliaryAuthenticationHeaderPolicyOptions): PipelinePolicy;
-
-// @public
-export const auxiliaryAuthenticationHeaderPolicyName = "auxiliaryAuthenticationHeaderPolicy";
-
-// @public
-export interface AuxiliaryAuthenticationHeaderPolicyOptions {
-    credentials?: TokenCredential[];
-    logger?: AzureLogger;
-    scopes: string | string[];
-}
-
-// @public
 export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
 
 // @public
@@ -107,19 +94,6 @@ export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): Pipelin
 
 // @public
 export interface DefaultRetryPolicyOptions extends PipelineRetryOptions {
-}
-
-// @public
-export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
-
-// @public
-export const exponentialRetryPolicyName = "exponentialRetryPolicy";
-
-// @public
-export interface ExponentialRetryPolicyOptions {
-    maxRetries?: number;
-    maxRetryDelayInMs?: number;
-    retryDelayInMs?: number;
 }
 
 // @public
@@ -184,12 +158,6 @@ export interface LogPolicyOptions {
     additionalAllowedQueryParameters?: string[];
     logger?: Debugger;
 }
-
-// @public
-export function ndJsonPolicy(): PipelinePolicy;
-
-// @public
-export const ndJsonPolicyName = "ndJsonPolicy";
 
 // @public
 export interface Pipeline {
@@ -349,72 +317,11 @@ export interface RestErrorOptions {
 }
 
 // @public
-export interface RetryInformation {
-    response?: PipelineResponse;
-    responseError?: RestError;
-    retryCount: number;
-}
-
-// @public
-export interface RetryModifiers {
-    errorToThrow?: RestError;
-    redirectTo?: string;
-    retryAfterInMs?: number;
-    skipStrategy?: boolean;
-}
-
-// @public
-export function retryPolicy(strategies: RetryStrategy[], options?: RetryPolicyOptions): PipelinePolicy;
-
-// @public
-export interface RetryPolicyOptions {
-    logger?: AzureLogger;
-    maxRetries?: number;
-}
-
-// @public
-export interface RetryStrategy {
-    logger?: AzureLogger;
-    name: string;
-    retry(state: RetryInformation): RetryModifiers;
-}
-
-// @public
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
-
-// @public
-export function setClientRequestIdPolicy(requestIdHeaderName?: string): PipelinePolicy;
-
-// @public
-export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
-
-// @public
-export function systemErrorRetryPolicy(options?: SystemErrorRetryPolicyOptions): PipelinePolicy;
-
-// @public
-export const systemErrorRetryPolicyName = "systemErrorRetryPolicy";
-
-// @public
-export interface SystemErrorRetryPolicyOptions {
-    maxRetries?: number;
-    maxRetryDelayInMs?: number;
-    retryDelayInMs?: number;
-}
 
 // @public
 export interface TelemetryOptions {
     clientRequestIdHeaderName?: string;
-}
-
-// @public
-export function throttlingRetryPolicy(options?: ThrottlingRetryPolicyOptions): PipelinePolicy;
-
-// @public
-export const throttlingRetryPolicyName = "throttlingRetryPolicy";
-
-// @public
-export interface ThrottlingRetryPolicyOptions {
-    maxRetries?: number;
 }
 
 // @public

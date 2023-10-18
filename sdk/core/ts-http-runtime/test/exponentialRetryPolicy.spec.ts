@@ -9,8 +9,8 @@ import {
   SendRequest,
   createHttpHeaders,
   createPipelineRequest,
-  exponentialRetryPolicy,
 } from "../src";
+import { exponentialRetryPolicy } from "../src/policies/exponentialRetryPolicy";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("exponentialRetryPolicy", function () {

@@ -7,8 +7,8 @@ import {
   SendRequest,
   createHttpHeaders,
   createPipelineRequest,
-  retryPolicy,
 } from "../src";
+import { retryPolicy } from "../src/policies/retryPolicy";
 import { AbortController } from "@azure/abort-controller";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 import { assert } from "chai";

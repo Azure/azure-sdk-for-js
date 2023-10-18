@@ -6,13 +6,8 @@ import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 import { Context } from "mocha";
 import * as sinon from "sinon";
-import {
-  PipelineResponse,
-  SendRequest,
-  createHttpHeaders,
-  createPipelineRequest,
-  throttlingRetryPolicy,
-} from "../src";
+import { PipelineResponse, SendRequest, createHttpHeaders, createPipelineRequest } from "../src";
+import { throttlingRetryPolicy } from "../src/policies/throttlingRetryPolicy";
 import { AbortController } from "@azure/abort-controller";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 

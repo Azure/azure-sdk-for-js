@@ -71,7 +71,7 @@ function tryCreateTracingClient(): TracingClient | undefined {
   try {
     return createTracingClient({
       namespace: "",
-      packageName: "@azure/core-rest-pipeline",
+      packageName: "@typespec/ts-http-runtime",
       packageVersion: SDK_VERSION,
     });
   } catch (e: unknown) {

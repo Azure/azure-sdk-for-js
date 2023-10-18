@@ -42,15 +42,6 @@ export {
   decompressResponsePolicy,
   decompressResponsePolicyName,
 } from "./policies/decompressResponsePolicy";
-export {
-  exponentialRetryPolicy,
-  ExponentialRetryPolicyOptions,
-  exponentialRetryPolicyName,
-} from "./policies/exponentialRetryPolicy";
-export {
-  setClientRequestIdPolicy,
-  setClientRequestIdPolicyName,
-} from "./policies/setClientRequestIdPolicy";
 export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy";
 export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy";
 export {
@@ -58,18 +49,6 @@ export {
   redirectPolicyName,
   RedirectPolicyOptions,
 } from "./policies/redirectPolicy";
-export {
-  systemErrorRetryPolicy,
-  SystemErrorRetryPolicyOptions,
-  systemErrorRetryPolicyName,
-} from "./policies/systemErrorRetryPolicy";
-export {
-  throttlingRetryPolicy,
-  throttlingRetryPolicyName,
-  ThrottlingRetryPolicyOptions,
-} from "./policies/throttlingRetryPolicy";
-export { retryPolicy, RetryPolicyOptions } from "./policies/retryPolicy";
-export { RetryStrategy, RetryInformation, RetryModifiers } from "./retryStrategies/retryStrategy";
 export { tracingPolicy, tracingPolicyName, TracingPolicyOptions } from "./policies/tracingPolicy";
 export { defaultRetryPolicy, DefaultRetryPolicyOptions } from "./policies/defaultRetryPolicy";
 export {
@@ -87,9 +66,3 @@ export {
   AuthorizeRequestOptions,
   AuthorizeRequestOnChallengeOptions,
 } from "./policies/bearerTokenAuthenticationPolicy";
-export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
-export {
-  auxiliaryAuthenticationHeaderPolicy,
-  AuxiliaryAuthenticationHeaderPolicyOptions,
-  auxiliaryAuthenticationHeaderPolicyName,
-} from "./policies/auxiliaryAuthenticationHeaderPolicy";

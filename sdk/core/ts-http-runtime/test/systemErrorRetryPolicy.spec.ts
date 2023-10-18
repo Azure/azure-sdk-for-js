@@ -9,8 +9,8 @@ import {
   SendRequest,
   createHttpHeaders,
   createPipelineRequest,
-  systemErrorRetryPolicy,
 } from "../src";
+import { systemErrorRetryPolicy } from "../src/policies/systemErrorRetryPolicy";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("systemErrorRetryPolicy", function () {
