@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msalCommon from "@azure/msal-common";
-
+import * as msalCommon from "@azure/msal-node";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors";
@@ -10,9 +9,12 @@ import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AbortError } from "@azure/abort-controller";
 import { MsalFlowOptions } from "./flows";
-import { isNode } from "@azure/core-util";
-import { v4 as uuidv4 } from "uuid";
+import { isNode, randomUUID } from "@azure/core-util";
 import { AzureLogLevel } from "@azure/logger";
+
+export interface ILoggerCallback {
+  (level: msalCommon.LogLevel, message: string, containsPii: boolean): void;
+}
 
 /**
  * Latest AuthenticationRecord version
@@ -93,7 +95,7 @@ export function getKnownAuthorities(
 export const defaultLoggerCallback: (
   logger: CredentialLogger,
   platform?: "Node" | "Browser"
-) => msalCommon.ILoggerCallback =
+) => ILoggerCallback =
   (logger: CredentialLogger, platform: "Node" | "Browser" = isNode ? "Node" : "Browser") =>
   (level, message, containsPii): void => {
     if (containsPii) {
@@ -155,7 +157,7 @@ export class MsalBaseUtilities {
    * Generates a UUID
    */
   generateUuid(): string {
-    return uuidv4();
+    return randomUUID();
   }
 
   /**

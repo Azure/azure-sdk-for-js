@@ -4,7 +4,6 @@
 import { EnvironmentCredential } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import * as dotenv from "dotenv";
 import { Constants as CoreAmqpConstants } from "@azure/core-amqp";
 import { isObjectWithProperties } from "@azure/core-util";
 import Long from "long";
@@ -34,8 +33,6 @@ import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/
 
 const should = chai.should();
 chai.use(chaiAsPromised);
-
-dotenv.config();
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
