@@ -34,7 +34,7 @@ describe("defaultRetryPolicy", function () {
     assert.strictEqual(next.callCount, 1);
     assert.isTrue(catchCalled);
   });
-  
+
   ["ETIMEDOUT", "ESOCKETTIMEDOUT", "ECONNREFUSED", "ENOENT", "ENOTFOUND"].forEach((errorCode) => {
     it(`It should give up after the default maxRetries is reached for ${errorCode} error`, async () => {
       const request = createPipelineRequest({
