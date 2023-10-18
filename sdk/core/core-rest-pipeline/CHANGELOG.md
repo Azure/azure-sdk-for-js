@@ -7,6 +7,7 @@
 ### Breaking Changes
 
 ### Bugs Fixed
+- Support Cloudflare workers by only setting the available fields in the `Request` class for the Fetch API.
 
 ### Other Changes
 

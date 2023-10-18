@@ -29,7 +29,7 @@ export interface InteractiveBrowserCredentialNodeOptions
   redirectUri?: string | (() => string);
 
   /**
-   * The Azure Active Directory tenant (directory) ID.
+   * The Microsoft Entra tenant (directory) ID.
    */
   tenantId?: string;
 
@@ -57,7 +57,7 @@ export interface InteractiveBrowserCredentialInBrowserOptions extends Interactiv
   redirectUri?: string | (() => string);
 
   /**
-   * The Azure Active Directory tenant (directory) ID.
+   * The Microsoft Entra tenant (directory) ID.
    */
   tenantId?: string;
 

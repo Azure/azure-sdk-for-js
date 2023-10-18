@@ -9,7 +9,7 @@ import { CredentialUnavailableError } from "../errors";
 import {
   checkTenantId,
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { processUtils } from "../util/processUtils";
 import { tracingClient } from "../util/tracing";
@@ -117,7 +117,7 @@ export class AzurePowerShellCredential implements TokenCredential {
       checkTenantId(logger, options?.tenantId);
       this.tenantId = options?.tenantId;
     }
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
     this.timeout = options?.processTimeoutInMs;
@@ -176,7 +176,7 @@ export class AzurePowerShellCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If the authentication cannot be performed through PowerShell, a {@link CredentialUnavailableError} will be thrown.
    *
    * @param scopes - The list of scopes for which the token will have access.
