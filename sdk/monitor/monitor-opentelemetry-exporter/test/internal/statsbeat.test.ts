@@ -264,9 +264,10 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       it("should track duration", async () => {
         const mockExport = sandbox.stub(statsbeat["networkAzureExporter"], "export");
         statsbeat.countSuccess(100);
-        statsbeat.countSuccess(100);
-        statsbeat.countSuccess(200);
-        statsbeat.countSuccess(200);
+        statsbeat.countRetry(206);
+        statsbeat.countFailure(200, 500);
+        statsbeat.countThrottle(402);
+        statsbeat.countException({ name: "Statsbeat", message: "Statsbeat Exception" });
 
         await new Promise((resolve) => setTimeout(resolve, 120));
         assert.ok(mockExport.called);
