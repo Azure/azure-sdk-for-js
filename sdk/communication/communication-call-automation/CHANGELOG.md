@@ -18,3 +18,4 @@ Call Automation enables developers to build call workflows. Personalise customer
 - Start/Stop continuous DTMF recognition by subscribing/unsubscribing to tones.
 - Send DTMF tones to a participant in the call.
 - Mute participants in the call.
+- StartRecording now accepts PauseOnStart.

@@ -3,7 +3,7 @@
 
 import {
   checkTenantId,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
   resolveTenantId,
 } from "../../src/util/tenantIdUtils";
 import { DeveloperSignOnClientId } from "../../src/constants";
@@ -15,7 +15,7 @@ describe("tenantIdUtils", () => {
     it("should set to empty if resolveAddionallyAllowedTenantIds is passed null/undefined", () => {
       let additionallyAllowedTenants: string[] | undefined;
 
-      const result = resolveAddionallyAllowedTenantIds(additionallyAllowedTenants);
+      const result = resolveAdditionallyAllowedTenantIds(additionallyAllowedTenants);
 
       assert.equal(result.length, 0);
     });
@@ -23,7 +23,7 @@ describe("tenantIdUtils", () => {
     it("should set back to ALL TENANTS '*' if includes '*'", () => {
       const additionallyAllowedTenants = ["123", "456", "789", "*"];
 
-      const result = resolveAddionallyAllowedTenantIds(additionallyAllowedTenants);
+      const result = resolveAdditionallyAllowedTenantIds(additionallyAllowedTenants);
 
       assert.equal(result.length, 1);
       assert.equal(result[0], "*");
@@ -32,7 +32,7 @@ describe("tenantIdUtils", () => {
     it("should flow through if tenants are set and doesn't include '*'", () => {
       const additionallyAllowedTenants = ["123", "456"];
 
-      const result = resolveAddionallyAllowedTenantIds(additionallyAllowedTenants);
+      const result = resolveAdditionallyAllowedTenantIds(additionallyAllowedTenants);
 
       assert.equal(result.length, 2);
       assert.equal(result[0], "123");
@@ -70,6 +70,22 @@ describe("tenantIdUtils", () => {
 
       assert.equal(allParams.length, 0);
     });
+  });
+
+  describe("test checkTenantId for error with invalid inputs", () => {
+    for (const inputTenant of [";", '"', "`", "=", "%", "(", ")", "{", "}", "|"]) {
+      it(`when tenant ID has invalid character "${inputTenant}" `, () => {
+        const allParams: any[] = [];
+        const fakeLogger = {
+          info: (...params: any) => allParams.push(params),
+        };
+        const logger = credentialLogger("title", fakeLogger as any);
+        assert.throws(() => {
+          checkTenantId(logger, inputTenant);
+        }, "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://learn.microsoft.com/partner-center/find-ids-and-domain-names.");
+        assert.equal(allParams.length, 1);
+      });
+    }
   });
 
   describe("resolveTenantId", () => {
