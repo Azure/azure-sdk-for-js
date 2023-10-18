@@ -537,6 +537,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@typespec/ts-http-runtime",
+      "projectFolder": "sdk/core/ts-http-runtime",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-lro",
       "projectFolder": "sdk/core/core-lro",
       "versionPolicyName": "core"
