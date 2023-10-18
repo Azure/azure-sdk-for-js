@@ -27,7 +27,7 @@ function resetCommandStack(): void {
 describe("AzurePowerShellCredential", function () {
   const scope = "https://vault.azure.net/.default";
   const tenantIdErrorMessage =
-    "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names.";
+    "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://learn.microsoft.com/partner-center/find-ids-and-domain-names.";
   afterEach(() => {
     resetCommandStack();
   });
