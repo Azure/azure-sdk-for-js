@@ -10,7 +10,7 @@ import {
   ShareClient,
   getFileServiceAccountAudience,
 } from "../../src";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -40,7 +40,12 @@ describe("DirectoryClient Node.js only", () => {
     await recorder.stop();
   });
 
-  it("Default audience should work", async () => {
+  it("Default audience should work", async function (this: Context) {
+    // Pipeline config doesn't support well for file OAuth, disable live test for now.
+    // Should add this back after pipeline config is enabled.
+    if (isLiveMode()) {
+      this.skip();
+    }
     const dirClientWithOAuthToken = new ShareDirectoryClient(
       dirClient.url,
       new DefaultAzureCredential(),
@@ -50,7 +55,12 @@ describe("DirectoryClient Node.js only", () => {
     assert.equal(exist, true);
   });
 
-  it("Customized audience should work", async () => {
+  it("Customized audience should work", async function (this: Context) {
+    // Pipeline config doesn't support well for file OAuth, disable live test for now.
+    // Should add this back after pipeline config is enabled.
+    if (isLiveMode()) {
+      this.skip();
+    }
     const dirClientWithOAuthToken = new ShareDirectoryClient(
       dirClient.url,
       new DefaultAzureCredential(),
@@ -63,7 +73,12 @@ describe("DirectoryClient Node.js only", () => {
     assert.equal(exist, true);
   });
 
-  it("Bad audience should fail", async () => {
+  it("Bad audience should fail", async function (this: Context) {
+    // Pipeline config doesn't support well for file OAuth, disable live test for now.
+    // Should add this back after pipeline config is enabled.
+    if (isLiveMode()) {
+      this.skip();
+    }
     const dirClientWithOAuthToken = new ShareDirectoryClient(
       dirClient.url,
       new DefaultAzureCredential(),

@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 
 import {
   getFileServiceAccountAudience,
@@ -40,7 +40,12 @@ describe("ShareClient Node.js only", () => {
     await recorder.stop();
   });
 
-  it("Default audience should work", async () => {
+  it("Default audience should work", async function (this: Context) {
+    // Pipeline config doesn't support well for file OAuth, disable live test for now.
+    // Should add this back after pipeline config is enabled.
+    if (isLiveMode()) {
+      this.skip();
+    }
     const directoryName = recorder.getUniqueName("dir");
     const directoryClient = shareClient.getDirectoryClient(directoryName);
 
@@ -59,7 +64,12 @@ describe("ShareClient Node.js only", () => {
     assert.equal(getPermissionResp.errorCode, undefined);
   });
 
-  it("Customized audience should work", async () => {
+  it("Customized audience should work", async function (this: Context) {
+    // Pipeline config doesn't support well for file OAuth, disable live test for now.
+    // Should add this back after pipeline config is enabled.
+    if (isLiveMode()) {
+      this.skip();
+    }
     const directoryName = recorder.getUniqueName("dir");
     const directoryClient = shareClient.getDirectoryClient(directoryName);
 
@@ -81,7 +91,12 @@ describe("ShareClient Node.js only", () => {
     assert.equal(getPermissionResp.errorCode, undefined);
   });
 
-  it("Bad audience should fail", async () => {
+  it("Bad audience should fail", async function (this: Context) {
+    // Pipeline config doesn't support well for file OAuth, disable live test for now.
+    // Should add this back after pipeline config is enabled.
+    if (isLiveMode()) {
+      this.skip();
+    }
     const directoryName = recorder.getUniqueName("dir");
     const directoryClient = shareClient.getDirectoryClient(directoryName);
 
