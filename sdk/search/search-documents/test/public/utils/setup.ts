@@ -12,7 +12,7 @@ import {
 import { Hotel } from "./interfaces";
 import { delay } from "../../../src/serviceUtils";
 import { assert } from "chai";
-import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { OpenAIClient } from "@azure/openai";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
@@ -233,7 +233,9 @@ export async function createIndex(
   };
 
   if (serviceVersion.includes("Preview")) {
-    const vectorSearchConfiguration = "algorithm-configuration";
+    const algorithm = "algorithm-configuration";
+    const vectorizer = "vectorizer";
+    const profile = "profile";
 
     hotelIndex.fields.push({
       type: "Collection(Edm.Single)",
@@ -241,21 +243,32 @@ export async function createIndex(
       searchable: true,
       vectorSearchDimensions: 1536,
       hidden: true,
-      vectorSearchConfiguration,
+      vectorSearchProfile: profile,
     });
 
     hotelIndex.vectorSearch = {
-      algorithmConfigurations: [
+      algorithms: [
         {
-          name: vectorSearchConfiguration,
-          kind: "hnsw",
+          name: algorithm,
+          kind: "exhaustiveKnn",
           parameters: {
             metric: "dotProduct",
           },
         },
       ],
+      vectorizers: [
+        {
+          kind: "azureOpenAI",
+          name: vectorizer,
+          azureOpenAIParameters: {
+            apiKey: env.OPENAI_KEY,
+            deploymentId: env.OPENAI_DEPLOYMENT_NAME,
+            resourceUri: env.OPENAI_ENDPOINT,
+          },
+        },
+      ],
+      profiles: [{ name: profile, vectorizer, algorithm }],
     };
-
     hotelIndex.semanticSettings = {
       configurations: [
         {

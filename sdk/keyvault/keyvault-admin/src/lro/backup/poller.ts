@@ -11,7 +11,7 @@ import { KeyVaultBackupResult } from "../../backupClientModels";
 
 export interface KeyVaultBackupPollerOptions extends KeyVaultAdminPollerOptions {
   blobStorageUri: string;
-  sasToken: string;
+  sasToken?: string;
 }
 
 /**
