@@ -221,7 +221,7 @@ export class CallRecording {
     const recordingStream = (await result).readableStreamBody;
     if (recordingStream) {
       const writeFileStream = fs.createWriteStream(destinationPath);
-      recordingStream.pipe(fs.createWriteStream(destinationPath));
+      recordingStream.pipe(writeFileStream);
       const finish = new Promise<void>((resolve, reject) => {
         writeFileStream.on("finish", resolve);
         writeFileStream.on("error", reject);
