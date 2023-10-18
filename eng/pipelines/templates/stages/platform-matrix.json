@@ -20,7 +20,8 @@
     "NodeTestVersion": [
       "16.x",
       "18.x",
-      "20.x"
+      "20.x",
+      "21.x"
     ],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
