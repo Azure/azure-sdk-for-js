@@ -10,7 +10,7 @@ import {
 } from "./interactiveBrowserCredentialOptions";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { AuthenticationRecord } from "../msal/types";
 import { MsalFlow } from "../msal/flows";
@@ -54,7 +54,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         : options.redirectUri || "http://localhost";
 
     this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
 

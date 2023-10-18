@@ -4,7 +4,7 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { ClientCertificateCredentialOptions } from "./clientCertificateCredentialOptions";
 import { MsalClientCertificate } from "../msal/nodeFlows/msalClientCertificate";
@@ -55,7 +55,7 @@ export type ClientCertificateCredentialPEMConfiguration =
  * certificate that is assigned to an App Registration. More information
  * on how to configure certificate authentication can be found here:
  *
- * https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-azure-ad
+ * https://learn.microsoft.com/en-us/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-azure-ad
  *
  */
 export class ClientCertificateCredential implements TokenCredential {
@@ -121,7 +121,7 @@ export class ClientCertificateCredential implements TokenCredential {
     }
 
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
 

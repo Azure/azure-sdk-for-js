@@ -436,6 +436,21 @@
       "words": [
         "protobuf"
       ]
+    },
+    {
+      "filename": "sdk/easm/defender-easm-rest/review/defender-easm.api.md",
+      "words": [
+        "Alexa",
+        "alexa",
+        "Asns",
+        "asns",
+        "cnames",
+        "Easm",
+        "easm",
+        "nxdomain",
+        "Whois",
+        "whois"
+      ]
     }
   ]
 }
