@@ -10,7 +10,7 @@ const BrowserNotSupportedError = new Error(
 const logger = credentialLogger("ClientCertificateCredential");
 
 /**
- * Enables authentication to Azure Active Directory using a PEM-encoded
+ * Enables authentication to Microsoft Entra ID using a PEM-encoded
  * certificate that is assigned to an App Registration.
  */
 export class ClientCertificateCredential implements TokenCredential {

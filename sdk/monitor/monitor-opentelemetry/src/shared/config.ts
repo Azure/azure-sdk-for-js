@@ -55,10 +55,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       redis4: { enabled: false },
     };
     this._resource = this._getDefaultResource();
-    // Merge JSON configuration file if available
-    this._mergeConfig();
-    // Check for explicitly passed options when instantiating client
-    // This will take precedence over other settings
+
     if (options) {
       // Merge default with provided options
       this.azureMonitorExporterOptions = Object.assign(
@@ -72,6 +69,8 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       this.resource = Object.assign(this.resource, options.resource);
       this.samplingRatio = options.samplingRatio || this.samplingRatio;
     }
+    // JSON configuration will take precedence over other settings
+    this._mergeConfig();
   }
 
   private _mergeConfig() {

@@ -45,6 +45,7 @@ describe("Transformations", () => {
         expires: date,
         created: date,
         updated: date,
+        hsmPlatform: "hsmPlatform",
       },
       releasePolicy,
       tags: {
@@ -81,6 +82,7 @@ describe("Transformations", () => {
         recoveryLevel: "Recoverable",
         recoverableDays: 1,
         managed: false,
+        hsmPlatform: "hsmPlatform",
       },
     };
 
@@ -105,6 +107,7 @@ describe("Transformations", () => {
         created: date,
         updated: date,
         exportable: false,
+        hsmPlatform: "hsmPlatform",
       },
       tags: {
         tag_name: "tag_value",
@@ -147,6 +150,7 @@ describe("Transformations", () => {
         recoveryId: "recovery-id",
         scheduledPurgeDate: date,
         deletedOn: date,
+        hsmPlatform: "hsmPlatform",
       },
     };
 
@@ -166,6 +170,7 @@ describe("Transformations", () => {
         expires: date,
         created: date,
         updated: date,
+        hsmPlatform: "hsmPlatform",
       },
       tags: {
         tag_name: "tag_value",
@@ -201,6 +206,7 @@ describe("Transformations", () => {
         recoveryId: "recovery-id",
         scheduledPurgeDate: date,
         deletedOn: date,
+        hsmPlatform: "hsmPlatform",
       },
     };
 
@@ -220,6 +226,7 @@ describe("Transformations", () => {
         expires: date,
         created: date,
         updated: date,
+        hsmPlatform: "hsmPlatform",
       },
       tags: {
         tag_name: "tag_value",
@@ -246,6 +253,7 @@ describe("Transformations", () => {
       recoveryLevel: "Recoverable",
       recoverableDays: 1,
       managed: false,
+      hsmPlatform: "hsmPlatform",
     };
 
     const key: KeyProperties = getKeyPropertiesFromKeyItem(item);
