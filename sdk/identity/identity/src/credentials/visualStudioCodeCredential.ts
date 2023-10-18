@@ -5,7 +5,7 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { AzureAuthorityHosts } from "../constants";
 import { CredentialUnavailableError } from "../errors";
@@ -132,7 +132,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
       this.tenantId = CommonTenantId;
     }
 
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
 
