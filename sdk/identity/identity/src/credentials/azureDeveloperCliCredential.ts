@@ -9,7 +9,7 @@ import child_process from "child_process";
 import {
   checkTenantId,
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { tracingClient } from "../util/tracing";
 import { ensureValidScopeForDevTimeCreds } from "../util/scopeUtils";
@@ -85,11 +85,11 @@ const logger = credentialLogger("AzureDeveloperCliCredential");
  * Azure Developer CLI is a command-line interface tool that allows developers to create, manage, and deploy
  * resources in Azure. It's built on top of the Azure CLI and provides additional functionality specific
  * to Azure developers. It allows users to authenticate as a user and/or a service principal against
- * <a href="https://learn.microsoft.com/azure/active-directory/fundamentals/">Azure Active Directory (Azure AD)
- * </a>. The AzureDeveloperCliCredential authenticates in a development environment and acquires a token on behalf of
+ * <a href="https://learn.microsoft.com/azure/active-directory/fundamentals/">Microsoft Entra ID</a>. The
+ * AzureDeveloperCliCredential authenticates in a development environment and acquires a token on behalf of
  * the logged-in user or service principal in the Azure Developer CLI. It acts as the Azure Developer CLI logged in user or
  * service principal and executes an Azure CLI command underneath to authenticate the application against
- * Azure Active Directory.
+ * Microsoft Entra ID.
  *
  * <h2> Configure AzureDeveloperCliCredential </h2>
  *
@@ -124,14 +124,14 @@ export class AzureDeveloperCliCredential implements TokenCredential {
       checkTenantId(logger, options?.tenantId);
       this.tenantId = options?.tenantId;
     }
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
     this.timeout = options?.processTimeoutInMs;
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.

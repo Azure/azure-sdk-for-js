@@ -10,7 +10,7 @@ import child_process from "child_process";
 import {
   checkTenantId,
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { tracingClient } from "../util/tracing";
 
@@ -98,14 +98,14 @@ export class AzureCliCredential implements TokenCredential {
       checkTenantId(logger, options?.tenantId);
       this.tenantId = options?.tenantId;
     }
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
     this.timeout = options?.processTimeoutInMs;
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
