@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isBrowser, isBun, isDeno, isNode, isReactNative, isWebWorker } from "../../../src";
+import { isBrowser, isBun, isDeno, isNode, isReactNative, isWebWorker } from "../../src";
 import { assert } from "chai";
 
 describe("checkEnvironment (browser)", function () {

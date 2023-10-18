@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { base64ToBytes, bufferToBase64 } from "../../../src/util/base64.browser";
+import { base64ToBytes, bufferToBase64 } from "../../src/util/base64.browser";
 import { assert } from "chai";
 
 describe("Base64", function () {
