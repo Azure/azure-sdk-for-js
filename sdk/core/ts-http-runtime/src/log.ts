@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createClientLogger } from "@azure/logger";
-export const logger = createClientLogger("core-rest-pipeline");
+import { createClientLogger } from "./logger/logger";
+export const logger = createClientLogger("ts-http-runtime");

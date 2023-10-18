@@ -110,3 +110,9 @@ export {
   isWebWorker,
 } from "./util/checkEnvironment";
 export { uint8ArrayToString, stringToUint8Array, EncodingType } from "./util/bytesEncoding";
+export {
+  Debugger,
+  TypeSpecRuntimeLogger,
+  TypeSpecRuntimeLogLevel,
+  TypeSpecRuntimeClientLogger,
+} from "./logger/logger";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureLogger } from "@azure/logger";
+import { TypeSpecRuntimeLogger } from "../logger/logger";
 import { PipelineResponse } from "../interfaces";
 import { RestError } from "../restError";
 
@@ -57,7 +57,7 @@ export interface RetryStrategy {
   /**
    * Logger. If it's not provided, a default logger for all retry strategies is used.
    */
-  logger?: AzureLogger;
+  logger?: TypeSpecRuntimeLogger;
   /**
    * Function that determines how to proceed with the subsequent requests.
    * @param state - Retry state

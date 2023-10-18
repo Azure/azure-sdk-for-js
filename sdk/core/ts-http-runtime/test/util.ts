@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureLogger } from "@azure/logger";
+import { TypeSpecRuntimeLogger } from "../src/logger/logger";
 
 export function makeTestLogger(): {
-  logger: AzureLogger;
+  logger: TypeSpecRuntimeLogger;
   params: { info: string[]; error: string[] };
 } {
   const logParams: {
@@ -15,14 +15,14 @@ export function makeTestLogger(): {
     error: [],
   };
 
-  const logger: AzureLogger = {
+  const logger: TypeSpecRuntimeLogger = {
     info(...params) {
       logParams.info.push(params.join(" "));
     },
     error(...params) {
       logParams.error.push(params.join(" "));
     },
-  } as AzureLogger;
+  } as TypeSpecRuntimeLogger;
 
   return {
     logger,

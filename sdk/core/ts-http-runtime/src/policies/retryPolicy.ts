@@ -4,11 +4,10 @@
 import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { delay } from "../util/helpers";
-import { createClientLogger } from "@azure/logger";
 import { RetryStrategy } from "../retryStrategies/retryStrategy";
 import { RestError } from "../restError";
 import { AbortError } from "../abort-controller/AbortError";
-import { AzureLogger } from "@azure/logger";
+import { TypeSpecRuntimeLogger, createClientLogger } from "../logger/logger";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
 
 const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
@@ -29,7 +28,7 @@ export interface RetryPolicyOptions {
   /**
    * Logger. If it's not provided, a default logger is used.
    */
-  logger?: AzureLogger;
+  logger?: TypeSpecRuntimeLogger;
 }
 
 /**

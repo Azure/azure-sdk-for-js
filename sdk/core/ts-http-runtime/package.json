@@ -14,7 +14,9 @@
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js",
     "./dist-esm/src/util/sha256.js": "./dist-esm/src/util/sha256.browser.js",
     "./dist-esm/src/util/uuidUtils.js": "./dist-esm/src/util/uuidUtils.browser.js",
-    "./dist-esm/src/util/bytesEncoding.js": "./dist-esm/src/util/bytesEncoding.browser.js"
+    "./dist-esm/src/util/bytesEncoding.js": "./dist-esm/src/util/bytesEncoding.browser.js",
+    "./dist-esm/src/logger/log.js": "./dist-esm/src/logger/log.browser.js",
+    "process": false
   },
   "react-native": {
     "./dist/index.js": "./dist-esm/src/index.js",
@@ -88,7 +90,6 @@
     "migrationDate": "2023-03-08T18:36:03.000Z"
   },
   "dependencies": {
-    "@azure/logger": "^1.0.0",
     "form-data": "^4.0.0",
     "tslib": "^2.2.0",
     "http-proxy-agent": "^5.0.0",

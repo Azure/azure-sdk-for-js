@@ -6,9 +6,6 @@
 
 /// <reference types="node" />
 
-import { AzureLogger } from '@azure/logger';
-import { Debugger } from '@azure/logger';
-
 // @public
 export type AbortablePromiseBuilder<T> = (abortOptions: {
     abortSignal?: AbortSignalLike;
@@ -58,7 +55,7 @@ export interface Agent {
 // @public
 export interface AuthorizeRequestOnChallengeOptions {
     getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
-    logger?: AzureLogger;
+    logger?: TypeSpecRuntimeLogger;
     request: PipelineRequest;
     response: PipelineResponse;
     scopes: string[];
@@ -67,7 +64,7 @@ export interface AuthorizeRequestOnChallengeOptions {
 // @public
 export interface AuthorizeRequestOptions {
     getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
-    logger?: AzureLogger;
+    logger?: TypeSpecRuntimeLogger;
     request: PipelineRequest;
     scopes: string[];
 }
@@ -82,7 +79,7 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
 export interface BearerTokenAuthenticationPolicyOptions {
     challengeCallbacks?: ChallengeCallbacks;
     credential?: TokenCredential;
-    logger?: AzureLogger;
+    logger?: TypeSpecRuntimeLogger;
     scopes: string | string[];
 }
 
@@ -128,6 +125,16 @@ export function createPipelineRequest(options: PipelineRequestOptions): Pipeline
 
 // @public
 export function createTracingClient(options: TracingClientOptions): TracingClient;
+
+// @public
+export interface Debugger {
+    (...args: any[]): void;
+    destroy: () => boolean;
+    enabled: boolean;
+    extend: (namespace: string) => Debugger;
+    log: (...args: any[]) => void;
+    namespace: string;
+}
 
 // @public
 export function decompressResponsePolicy(): PipelinePolicy;
@@ -585,6 +592,23 @@ export interface TracingSpanOptions {
 export type TransferProgressEvent = {
     loadedBytes: number;
 };
+
+// @public
+export type TypeSpecRuntimeClientLogger = Debugger;
+
+// @public
+export const TypeSpecRuntimeLogger: TypeSpecRuntimeClientLogger;
+
+// @public
+export interface TypeSpecRuntimeLogger {
+    error: Debugger;
+    info: Debugger;
+    verbose: Debugger;
+    warning: Debugger;
+}
+
+// @public
+export type TypeSpecRuntimeLogLevel = "verbose" | "info" | "warning" | "error";
 
 // @public
 export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string;

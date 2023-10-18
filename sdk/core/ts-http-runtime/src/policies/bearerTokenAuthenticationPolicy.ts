@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential";
-import { AzureLogger } from "@azure/logger";
+import { TypeSpecRuntimeLogger } from "../logger/logger";
 import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { createTokenCycler } from "../util/tokenCycler";
@@ -32,7 +32,7 @@ export interface AuthorizeRequestOptions {
   /**
    * A logger, if one was sent through the HTTP pipeline.
    */
-  logger?: AzureLogger;
+  logger?: TypeSpecRuntimeLogger;
 }
 
 /**
@@ -58,7 +58,7 @@ export interface AuthorizeRequestOnChallengeOptions {
   /**
    * A logger, if one was sent through the HTTP pipeline.
    */
-  logger?: AzureLogger;
+  logger?: TypeSpecRuntimeLogger;
 }
 
 /**
@@ -99,7 +99,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
   /**
    * A logger can be sent for debugging purposes.
    */
-  logger?: AzureLogger;
+  logger?: TypeSpecRuntimeLogger;
 }
 
 /**
