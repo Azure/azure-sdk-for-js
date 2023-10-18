@@ -23,7 +23,7 @@ export interface WebPubSubClientProtocol {
    * Creates WebPubSubMessage objects from the specified serialized representation.
    * @param input - The serialized representation
    */
-  parseMessages(input: string | ArrayBuffer | Buffer): WebPubSubMessage | null;
+  parseMessages(input: string | ArrayBuffer | Buffer): WebPubSubMessage[] | WebPubSubMessage | null;
 
   /**
    * Write WebPubSubMessage to string or ArrayBuffer

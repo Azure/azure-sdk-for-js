@@ -120,19 +120,13 @@ export function isUnexpected(
     | UpsertClassificationPolicyDefaultResponse
 ): response is UpsertClassificationPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetClassificationPolicy200Response
-    | GetClassificationPolicyDefaultResponse
+  response: GetClassificationPolicy200Response | GetClassificationPolicyDefaultResponse
 ): response is GetClassificationPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | DeleteClassificationPolicy204Response
-    | DeleteClassificationPolicyDefaultResponse
+  response: DeleteClassificationPolicy204Response | DeleteClassificationPolicyDefaultResponse
 ): response is DeleteClassificationPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListClassificationPolicies200Response
-    | ListClassificationPoliciesDefaultResponse
+  response: ListClassificationPolicies200Response | ListClassificationPoliciesDefaultResponse
 ): response is ListClassificationPoliciesDefaultResponse;
 export function isUnexpected(
   response:
@@ -141,19 +135,13 @@ export function isUnexpected(
     | UpsertDistributionPolicyDefaultResponse
 ): response is UpsertDistributionPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetDistributionPolicy200Response
-    | GetDistributionPolicyDefaultResponse
+  response: GetDistributionPolicy200Response | GetDistributionPolicyDefaultResponse
 ): response is GetDistributionPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | DeleteDistributionPolicy204Response
-    | DeleteDistributionPolicyDefaultResponse
+  response: DeleteDistributionPolicy204Response | DeleteDistributionPolicyDefaultResponse
 ): response is DeleteDistributionPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListDistributionPolicies200Response
-    | ListDistributionPoliciesDefaultResponse
+  response: ListDistributionPolicies200Response | ListDistributionPoliciesDefaultResponse
 ): response is ListDistributionPoliciesDefaultResponse;
 export function isUnexpected(
   response:
@@ -165,20 +153,13 @@ export function isUnexpected(
   response: GetExceptionPolicy200Response | GetExceptionPolicyDefaultResponse
 ): response is GetExceptionPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | DeleteExceptionPolicy204Response
-    | DeleteExceptionPolicyDefaultResponse
+  response: DeleteExceptionPolicy204Response | DeleteExceptionPolicyDefaultResponse
 ): response is DeleteExceptionPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListExceptionPolicies200Response
-    | ListExceptionPoliciesDefaultResponse
+  response: ListExceptionPolicies200Response | ListExceptionPoliciesDefaultResponse
 ): response is ListExceptionPoliciesDefaultResponse;
 export function isUnexpected(
-  response:
-    | UpsertQueue200Response
-    | UpsertQueue201Response
-    | UpsertQueueDefaultResponse
+  response: UpsertQueue200Response | UpsertQueue201Response | UpsertQueueDefaultResponse
 ): response is UpsertQueueDefaultResponse;
 export function isUnexpected(
   response: GetQueue200Response | GetQueueDefaultResponse
@@ -190,10 +171,7 @@ export function isUnexpected(
   response: ListQueues200Response | ListQueuesDefaultResponse
 ): response is ListQueuesDefaultResponse;
 export function isUnexpected(
-  response:
-    | UpsertJob200Response
-    | UpsertJob201Response
-    | UpsertJobDefaultResponse
+  response: UpsertJob200Response | UpsertJob201Response | UpsertJobDefaultResponse
 ): response is UpsertJobDefaultResponse;
 export function isUnexpected(
   response: GetJob200Response | GetJobDefaultResponse
@@ -211,10 +189,7 @@ export function isUnexpected(
   response: CompleteJobAction200Response | CompleteJobActionDefaultResponse
 ): response is CompleteJobActionDefaultResponse;
 export function isUnexpected(
-  response:
-    | CloseJobAction200Response
-    | CloseJobAction202Response
-    | CloseJobActionDefaultResponse
+  response: CloseJobAction200Response | CloseJobAction202Response | CloseJobActionDefaultResponse
 ): response is CloseJobActionDefaultResponse;
 export function isUnexpected(
   response: ListJobs200Response | ListJobsDefaultResponse
@@ -235,10 +210,7 @@ export function isUnexpected(
   response: GetQueueStatistics200Response | GetQueueStatisticsDefaultResponse
 ): response is GetQueueStatisticsDefaultResponse;
 export function isUnexpected(
-  response:
-    | UpsertWorker200Response
-    | UpsertWorker201Response
-    | UpsertWorkerDefaultResponse
+  response: UpsertWorker200Response | UpsertWorker201Response | UpsertWorkerDefaultResponse
 ): response is UpsertWorkerDefaultResponse;
 export function isUnexpected(
   response: GetWorker200Response | GetWorkerDefaultResponse
@@ -390,24 +362,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || ""
+        );
 
         if (!isMatched) {
           found = false;
