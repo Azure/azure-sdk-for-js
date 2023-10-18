@@ -10,6 +10,7 @@ import {
   getSenderClosedErrorMsg,
   throwErrorIfConnectionClosed,
   throwIfNotValidServiceBusMessage,
+  throwTypeErrorIfNotInstanceOfParameterType,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
 } from "./util/errors";
@@ -297,6 +298,12 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       this._context.connectionId,
       "scheduledEnqueueTimeUtc",
       scheduledEnqueueTimeUtc
+    );
+    throwTypeErrorIfNotInstanceOfParameterType(
+      this._context.connectionId,
+      "scheduledEnqueueTimeUtc",
+      scheduledEnqueueTimeUtc,
+      Date
     );
     throwTypeErrorIfParameterMissing(this._context.connectionId, "messages", messages);
     const messagesToSchedule = Array.isArray(messages) ? messages : [messages];

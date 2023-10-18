@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Key Vault Certificates client library samples for JavaScript",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "repository": {
     "type": "git",
