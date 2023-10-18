@@ -7,7 +7,8 @@ import { createPipelineRequest } from "../../src/pipelineRequest";
 import { png } from "./mocks/encodedPng";
 import sinon from "sinon";
 import { createHttpHeaders } from "../../src/httpHeaders";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "../../src/abort-controller/AbortError";
+import { AbortSignalLike } from "../../src/abort-controller/AbortSignalLike";
 import { delay } from "../../src/util/helpers";
 
 const streamBody = new ReadableStream({

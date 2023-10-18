@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "./abort-controller/AbortSignalLike";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**

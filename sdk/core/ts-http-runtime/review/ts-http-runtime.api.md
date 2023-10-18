@@ -6,13 +6,24 @@
 
 /// <reference types="node" />
 
-import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
 import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export class AbortError extends Error {
+    constructor(message?: string);
+}
+
+// @public
+export interface AbortSignalLike {
+    readonly aborted: boolean;
+    addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
+    removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
+}
 
 // @public
 export interface AddPipelineOptions {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError } from "@azure/abort-controller";
+import { AbortError } from "./abort-controller/AbortError";
 import {
   HttpClient,
   HttpHeaders,

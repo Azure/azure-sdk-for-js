@@ -11,7 +11,7 @@ import {
   TransferProgressEvent,
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "./abort-controller/AbortSignalLike";
 import { randomUUID } from "@azure/core-util";
 import { OperationTracingOptions } from "@azure/core-tracing";
 

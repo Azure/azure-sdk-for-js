@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "../abort-controller/AbortError";
+import { AbortSignalLike } from "../abort-controller/AbortSignalLike";
 import { PipelineResponse } from "../interfaces";
 
 const StandardAbortMessage = "The operation was aborted.";

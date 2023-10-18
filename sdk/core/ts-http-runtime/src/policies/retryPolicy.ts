@@ -7,7 +7,7 @@ import { delay } from "../util/helpers";
 import { createClientLogger } from "@azure/logger";
 import { RetryStrategy } from "../retryStrategies/retryStrategy";
 import { RestError } from "../restError";
-import { AbortError } from "@azure/abort-controller";
+import { AbortError } from "../abort-controller/AbortError";
 import { AzureLogger } from "@azure/logger";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
 

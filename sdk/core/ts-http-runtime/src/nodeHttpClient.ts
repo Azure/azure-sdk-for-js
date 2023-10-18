@@ -5,7 +5,7 @@ import * as http from "http";
 import * as https from "https";
 import * as zlib from "zlib";
 import { Transform } from "stream";
-import { AbortController, AbortError } from "@azure/abort-controller";
+import { AbortError } from "./abort-controller/AbortError";
 import {
   HttpClient,
   HttpHeaders,
