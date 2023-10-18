@@ -3,7 +3,7 @@
 
 import { PipelineResponse } from "../interfaces";
 import { RestError } from "../restError";
-import { getRandomIntegerInclusive } from "@azure/core-util";
+import { getRandomIntegerInclusive } from "../util/random";
 import { RetryStrategy } from "./retryStrategy";
 import { isThrottlingRetryResponse } from "./throttlingRetryStrategy";
 

@@ -88,3 +88,25 @@ export {
 } from "./tracing/interfaces";
 export { useInstrumenter } from "./tracing/instrumenter";
 export { createTracingClient } from "./tracing/tracingClient";
+// from core-util
+export { delay, DelayOptions } from "./util/delay";
+export { AbortOptions, cancelablePromiseRace, AbortablePromiseBuilder } from "./util/aborterUtils";
+export {
+  createAbortablePromise,
+  CreateAbortablePromiseOptions,
+} from "./util/createAbortablePromise";
+export { getRandomIntegerInclusive } from "./util/random";
+export { isObject, UnknownObject } from "./util/object";
+export { isError, getErrorMessage } from "./util/error";
+export { computeSha256Hash, computeSha256Hmac } from "./util/sha256";
+export { isDefined, isObjectWithProperties, objectHasProperty } from "./util/typeGuards";
+export { randomUUID } from "./util/uuidUtils";
+export {
+  isBrowser,
+  isBun,
+  isNode,
+  isDeno,
+  isReactNative,
+  isWebWorker,
+} from "./util/checkEnvironment";
+export { uint8ArrayToString, stringToUint8Array, EncodingType } from "./util/bytesEncoding";

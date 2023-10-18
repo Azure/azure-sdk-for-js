@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { UnknownObject, isObject } from "@azure/core-util";
+import { UnknownObject, isObject } from "./object";
 
 /**
  * @internal

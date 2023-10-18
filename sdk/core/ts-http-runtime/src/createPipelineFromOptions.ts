@@ -11,7 +11,7 @@ import { ProxySettings } from ".";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
 import { defaultRetryPolicy } from "./policies/defaultRetryPolicy";
 import { formDataPolicy } from "./policies/formDataPolicy";
-import { isNode } from "@azure/core-util";
+import { isNode } from "./util/checkEnvironment";
 import { proxyPolicy } from "./policies/proxyPolicy";
 import { tlsPolicy } from "./policies/tlsPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";

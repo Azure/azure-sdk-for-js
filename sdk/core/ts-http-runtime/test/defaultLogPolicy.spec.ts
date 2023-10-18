@@ -7,7 +7,7 @@ import { assert } from "chai";
 import { createHttpHeaders } from "../src/httpHeaders";
 import { createPipelineFromOptions } from "../src/createPipelineFromOptions";
 import { createPipelineRequest } from "../src/pipelineRequest";
-import { isNode } from "@azure/core-util";
+import { isNode } from "../src/util/checkEnvironment";
 import sinon from "sinon";
 
 describe("defaultLogPolicy", function () {

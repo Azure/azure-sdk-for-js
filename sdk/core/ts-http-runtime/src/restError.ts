@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isError } from "@azure/core-util";
+import { isError } from "./util/error";
 import { PipelineRequest, PipelineResponse } from "./interfaces";
 import { custom } from "./util/inspect";
 import { Sanitizer } from "./util/sanitizer";

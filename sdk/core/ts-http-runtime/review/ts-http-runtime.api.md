@@ -10,8 +10,19 @@ import { AzureLogger } from '@azure/logger';
 import { Debugger } from '@azure/logger';
 
 // @public
+export type AbortablePromiseBuilder<T> = (abortOptions: {
+    abortSignal?: AbortSignalLike;
+}) => Promise<T>;
+
+// @public
 export class AbortError extends Error {
     constructor(message?: string);
+}
+
+// @public
+export interface AbortOptions {
+    abortErrorMsg?: string;
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -76,9 +87,28 @@ export interface BearerTokenAuthenticationPolicyOptions {
 }
 
 // @public
+export function cancelablePromiseRace<T extends unknown[]>(abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[], options?: {
+    abortSignal?: AbortSignalLike;
+}): Promise<T[number]>;
+
+// @public
 export interface ChallengeCallbacks {
     authorizeRequest?(options: AuthorizeRequestOptions): Promise<void>;
     authorizeRequestOnChallenge?(options: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
+}
+
+// @public
+export function computeSha256Hash(content: string, encoding: "base64" | "hex"): Promise<string>;
+
+// @public
+export function computeSha256Hmac(key: string, stringToSign: string, encoding: "base64" | "hex"): Promise<string>;
+
+// @public
+export function createAbortablePromise<T>(buildPromise: (resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void, options?: CreateAbortablePromiseOptions): Promise<T>;
+
+// @public
+export interface CreateAbortablePromiseOptions extends AbortOptions {
+    cleanupBeforeAbort?: () => void;
 }
 
 // @public
@@ -113,6 +143,17 @@ export interface DefaultRetryPolicyOptions extends PipelineRetryOptions {
 }
 
 // @public
+export function delay(timeInMs: number, options?: DelayOptions_2): Promise<void>;
+
+// @public
+interface DelayOptions_2 extends AbortOptions {
+}
+export { DelayOptions_2 as DelayOptions }
+
+// @public
+export type EncodingType = "utf-8" | "base64" | "base64url";
+
+// @public
 export type FormDataMap = {
     [key: string]: FormDataValue | FormDataValue[];
 };
@@ -128,6 +169,12 @@ export type FormDataValue = string | Blob;
 
 // @public
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
+
+// @public
+export function getErrorMessage(e: unknown): string;
+
+// @public
+export function getRandomIntegerInclusive(min: number, max: number): number;
 
 // @public
 export interface GetTokenOptions {
@@ -186,7 +233,37 @@ export interface InternalPipelineOptions extends PipelineOptions {
 }
 
 // @public
+export const isBrowser: boolean;
+
+// @public
+export const isBun: boolean;
+
+// @public
+export function isDefined<T>(thing: T | undefined | null): thing is T;
+
+// @public
+export const isDeno: boolean;
+
+// @public
+export function isError(e: unknown): e is Error;
+
+// @public
+export const isNode: boolean;
+
+// @public
+export function isObject(input: unknown): input is UnknownObject;
+
+// @public
+export function isObjectWithProperties<Thing, PropertyName extends string>(thing: Thing, properties: PropertyName[]): thing is Thing & Record<PropertyName, unknown>;
+
+// @public
+export const isReactNative: boolean;
+
+// @public
 export function isRestError(e: unknown): e is RestError;
+
+// @public
+export const isWebWorker: boolean;
 
 // @public
 export interface KeyObject {
@@ -206,6 +283,9 @@ export interface LogPolicyOptions {
     additionalAllowedQueryParameters?: string[];
     logger?: Debugger;
 }
+
+// @public
+export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
 
 // @public
 export interface OperationTracingOptions {
@@ -337,6 +417,9 @@ export interface PxfObject {
 }
 
 // @public
+export function randomUUID(): string;
+
+// @public
 export type RawHttpHeaders = {
     [headerName: string]: string;
 };
@@ -399,6 +482,9 @@ export type SpanStatusError = {
 export type SpanStatusSuccess = {
     status: "success";
 };
+
+// @public
+export function stringToUint8Array(value: string, format: EncodingType): Uint8Array;
 
 // @public
 export interface TelemetryOptions {
@@ -498,6 +584,14 @@ export interface TracingSpanOptions {
 // @public
 export type TransferProgressEvent = {
     loadedBytes: number;
+};
+
+// @public
+export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string;
+
+// @public
+export type UnknownObject = {
+    [s: string]: unknown;
 };
 
 // @public
