@@ -60,7 +60,7 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
  * Azure Kubernetes Services, Azure Service Fabric instances and inside of the Azure Cloud Shell.
  *
  * More information about configuring managed identities can be found here:
- * https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
+ * https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
  */
 export class ManagedIdentityCredential implements TokenCredential {
   private identityClient: IdentityClient;
@@ -130,6 +130,7 @@ export class ManagedIdentityCredential implements TokenCredential {
      */
     this.confidentialApp = new ConfidentialClientApplication({
       auth: {
+        authority: "https://login.microsoftonline.com/managed_identity",
         clientId: this.clientId ?? DeveloperSignOnClientId,
         clientSecret: "dummy-secret",
         cloudDiscoveryMetadata:
@@ -219,7 +220,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    * If an unexpected error occurs, an {@link AuthenticationError} will be thrown with the details of the failure.
    *
@@ -247,7 +248,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         } else {
           const appTokenParameters: AppTokenProviderParameters = {
             correlationId: this.identityClient.getCorrelationId(),
-            tenantId: options?.tenantId || "organizations",
+            tenantId: options?.tenantId || "managed_identity",
             scopes: Array.isArray(scopes) ? scopes : [scopes],
             claims: options?.claims,
           };
@@ -335,6 +336,19 @@ export class ManagedIdentityCredential implements TokenCredential {
         throw new CredentialUnavailableError(
           `${ManagedIdentityCredential.name}: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`
         );
+      }
+
+      // This is a special case for Docker Desktop which responds with a 403 with a message that contains "A socket operation was attempted to an unreachable network"
+      // rather than just timing out, as expected.
+      if (err.statusCode === 403 || err.code === 403) {
+        if (err.message.includes("A socket operation was attempted to an unreachable network")) {
+          const error = new CredentialUnavailableError(
+            `${ManagedIdentityCredential.name}: Unavailable. Network unreachable. Message: ${err.message}`
+          );
+
+          logger.getToken.info(formatError(scopes, error));
+          throw error;
+        }
       }
 
       // If the error has no status code, we can assume there was no available identity.
