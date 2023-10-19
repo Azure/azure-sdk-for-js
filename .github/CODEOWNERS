@@ -337,17 +337,11 @@
 /sdk/cosmosdb/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-<<<<<<< HEAD
 /sdk/connectedvmware/arm-connectedvmware/ @qiaozha @MaryGao
-/sdk/connectedvmware/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/cosmosdbforpostgresql/arm-cosmosdbforpostgresql/ @qiaozha @MaryGao
-/sdk/cosmosdbforpostgresql/ci.mgmt.yml @qiaozha @MaryGao
-=======
 /sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/ @qiaozha @MaryGao
 /sdk/cosmosforpostgresql/ci.mgmt.yml @qiaozha @MaryGao
->>>>>>> main
 
 # PRLabel: %Mgmt
 /sdk/customer-insights/arm-customerinsights/ @qiaozha @MaryGao
