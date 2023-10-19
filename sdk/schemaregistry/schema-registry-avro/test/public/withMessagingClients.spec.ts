@@ -25,7 +25,8 @@ import { createTestSerializer } from "./utils/mockedSerializer";
 import { matrix } from "@azure/test-utils";
 import { testGroup } from "./utils/dummies";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import { removeSchema } from "./utils/mockedRegistryClient";
+import { createPipelineWithCredential, removeSchemas } from "./utils/mockedRegistryClient";
+import { HttpClient, Pipeline, createDefaultHttpClient } from "@azure/core-rest-pipeline";
 
 /**
  * An interface to group different bits needed by the tests for each messaging service
@@ -99,6 +100,9 @@ describe("With messaging clients", function () {
       let recorder: Recorder;
       let serializer: AvroSerializer<any>;
       let schemaName: string;
+      let schemaList: string[] = [];
+      let httpClient: HttpClient;
+      let pipeline: Pipeline;
 
       async function roundtrip(settings: {
         client: MessagingTestClient<any>;
@@ -159,6 +163,11 @@ describe("With messaging clients", function () {
         }
       }
 
+      before(async function () {
+        httpClient = createDefaultHttpClient();
+        pipeline = createPipelineWithCredential();
+      });
+
       beforeEach(async function () {
         recorder = new Recorder(this.currentTest);
         serializer = await createTestSerializer({
@@ -172,7 +181,9 @@ describe("With messaging clients", function () {
       });
 
       afterEach(async function () {
-        await removeSchema(schemaName);
+        schemaList.push(schemaName);
+        await removeSchemas(schemaList, pipeline, httpClient);
+        schemaList = [];
       });
 
       it("Test schema with fields of type int/string/boolean/float/bytes", async () => {

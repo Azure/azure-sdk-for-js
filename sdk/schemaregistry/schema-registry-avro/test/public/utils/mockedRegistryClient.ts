@@ -12,15 +12,16 @@ import {
   SchemaRegistryClient,
 } from "@azure/schema-registry";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { testGroup, testSchemaName, testSchemaIds } from "./dummies";
+import { testGroup, testSchemaIds } from "./dummies";
 import { v4 as uuid } from "uuid";
 import { Recorder, assertEnvironmentVariable, env, isLiveMode } from "@azure-tools/test-recorder";
 import {
   createPipelineRequest,
-  createDefaultHttpClient,
   createHttpHeaders,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
+  Pipeline,
+  HttpClient,
 } from "@azure/core-rest-pipeline";
 type UpdatedSchemaDescription = Required<Omit<SchemaDescription, "version">>;
 
@@ -143,31 +144,39 @@ export function createTestRegistry(
       })
     : createMockedTestRegistry();
 }
+export function createPipelineWithCredential(): Pipeline {
+  const DEFAULT_SCOPE = "https://eventhubs.azure.net/.default";
+  const pipeline = createEmptyPipeline();
+  const credential = createTestCredential();
+  const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
+  pipeline.addPolicy(authPolicy);
+  return pipeline;
+}
 
-export async function removeSchema(
-  schemaName: string = testSchemaName,
-  groupName: string = testGroup,
-  apiVersion: string = "2022-10"
+export async function removeSchemas(
+  schemaNamesList: string[],
+  pipeline: Pipeline,
+  client: HttpClient
 ): Promise<void> {
   if (!isLiveMode()) {
     return;
   }
 
-  const endpoint = assertEnvironmentVariable("SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE");
-  const url = `${endpoint}/$schemagroups/${groupName}/schemas/${schemaName}/?api-version=${apiVersion}`;
-  const DEFAULT_SCOPE = "https://eventhubs.azure.net/.default";
-  const request = createPipelineRequest({
-    url,
-    method: "DELETE",
-    timeout: 0,
-    withCredentials: true,
-    headers: createHttpHeaders({}),
-    allowInsecureConnection: new URL(url).protocol !== "https:",
-  });
-  const client = createDefaultHttpClient();
-  const pipeline = createEmptyPipeline();
-  const credential = createTestCredential();
-  const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
-  pipeline.addPolicy(authPolicy);
-  await pipeline.sendRequest(client, request);
+  function formatRequest(schemaName: string, apiVersion: string = "2022-10") {
+    const endpoint = assertEnvironmentVariable("SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE");
+    const url = `${endpoint}/$schemagroups/${testGroup}/schemas/${schemaName}/?api-version=${apiVersion}`;
+    return createPipelineRequest({
+      url,
+      method: "DELETE",
+      timeout: 0,
+      withCredentials: true,
+      headers: createHttpHeaders({}),
+      allowInsecureConnection: new URL(url).protocol !== "https:",
+    });
+  }
+
+  for (const schemaName of schemaNamesList) {
+    const request = formatRequest(schemaName);
+    await pipeline.sendRequest(client, request);
+  }
 }

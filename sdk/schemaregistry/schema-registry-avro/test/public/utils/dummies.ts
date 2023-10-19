@@ -40,7 +40,6 @@ export const testDateSchemaObject: avro.schema.RecordType = {
     { name: "time", type: { type: "long", logicalType: "timestamp-millis" } },
   ],
 };
-export const testDateSchema = JSON.stringify(testDateSchemaObject);
 export const testTransaction = {
   amount: 32,
   time: new Date("Thu Nov 05 275759 11:38:05 GMT-0800 (PST)"),
