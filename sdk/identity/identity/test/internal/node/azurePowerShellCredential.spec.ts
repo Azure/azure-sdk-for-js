@@ -245,7 +245,8 @@ describe("AzurePowerShellCredential", function () {
     "12345678-1234-1234-1234-123456789012;",
     "12345678-1234-1234-1234-123456789012,",
   ]) {
-    const testCase = tenantId === " " ? "whitespace" : tenantId === "\0" ? "null character" : `"${tenantId}"`;
+    const testCase =
+      tenantId === " " ? "whitespace" : tenantId === "\0" ? "null character" : `"${tenantId}"`;
     it(`rejects invalid tenant id of ${testCase} in getToken`, async function () {
       const credential = new AzurePowerShellCredential();
       await assert.isRejected(
@@ -263,7 +264,12 @@ describe("AzurePowerShellCredential", function () {
   }
 
   for (const inputScope of ["scope |", "", "\0", "scope;", "scope,", "scope'", "scope&"]) {
-    const testCase = inputScope === "" ? "empty string" : inputScope === "\0" ? "null character" : `"${inputScope}"`;
+    const testCase =
+      inputScope === ""
+        ? "empty string"
+        : inputScope === "\0"
+        ? "null character"
+        : `"${inputScope}"`;
     it(`rejects invalid scope of ${testCase}`, async function () {
       const credential = new AzurePowerShellCredential();
       await assert.isRejected(

@@ -257,7 +257,8 @@ az login --scope https://test.windows.net/.default`;
   ]) {
     const tenantIdErrorMessage =
       "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://learn.microsoft.com/partner-center/find-ids-and-domain-names.";
-    const testCase = tenantId === " " ? "whitespace" : tenantId === "\0" ? "null character" : `"${tenantId}"`;
+    const testCase =
+      tenantId === " " ? "whitespace" : tenantId === "\0" ? "null character" : `"${tenantId}"`;
     it(`rejects invalid tenant id of ${testCase} in getToken`, async function () {
       const credential = new AzureCliCredential();
       await assert.isRejected(
@@ -276,7 +277,12 @@ az login --scope https://test.windows.net/.default`;
   }
 
   for (const inputScope of ["scope |", "", "\0", "scope;", "scope,", "scope'", "scope&"]) {
-    const testCase = inputScope === "" ? "empty string" : inputScope === "\0" ? "null character" : `"${inputScope}"`;
+    const testCase =
+      inputScope === ""
+        ? "empty string"
+        : inputScope === "\0"
+        ? "null character"
+        : `"${inputScope}"`;
     it(`rejects invalid scope of ${testCase}`, async function () {
       const credential = new AzureCliCredential();
       await assert.isRejected(
