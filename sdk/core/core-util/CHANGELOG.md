@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Improved `isNode` to be false when `isDeno` is true due to Deno implementing `process.version.node`
+
 ### Other Changes
 
 ## 1.5.0 (2023-09-25)
