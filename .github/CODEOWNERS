@@ -872,6 +872,9 @@
 /sdk/sphere/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/web-pubsub/arm-webpubsub/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/maintenance/arm-maintenance/ @qiaozha @MaryGao
 /sdk/maintenance/ci.mgmt.yml @qiaozha @MaryGao
 
