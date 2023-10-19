@@ -366,6 +366,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-chat-protocol",
+      "projectFolder": "sdk/machinelearning/ai-chat-protocol",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-form-recognizer",
       "projectFolder": "sdk/formrecognizer/ai-form-recognizer",
       "versionPolicyName": "client"

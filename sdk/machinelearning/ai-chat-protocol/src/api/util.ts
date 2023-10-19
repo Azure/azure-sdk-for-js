@@ -8,10 +8,11 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
-
-export {
-  createChatProtocol,
-  ChatProtocolClientOptions,
-  ChatProtocolContext,
-} from "./ChatProtocolContext.js";
-export { createStreaming, create } from "./operations.js";
+export function wrapError<T>(f: () => T, message: string): T {
+  try {
+    const result = f();
+    return result;
+  } catch (cause) {
+    throw new Error(message, { cause });
+  }
+}

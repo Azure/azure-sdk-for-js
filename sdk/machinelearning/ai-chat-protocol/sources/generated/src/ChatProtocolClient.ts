@@ -1,37 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
 import { KeyCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import {
+  StreamingChatCompletionOptions,
+  ChatCompletionChunk,
+  ChatCompletionOptions,
+  ChatCompletion,
+} from "./models/models.js";
+import { CreateStreamingOptions, CreateOptions } from "./models/options.js";
+import {
+  createChatProtocol,
   ChatProtocolClientOptions,
   ChatProtocolContext,
-  create,
-  createChatProtocol,
   createStreaming,
+  create,
 } from "./api/index.js";
-import {
-  ChatCompletion,
-  ChatCompletionChunk,
-  ChatMessage,
-  ChatCompletionOptions as GeneratedChatCompletionOptions,
-} from "./models/models.js";
-import { CompletionOptions } from "./models/options.js";
 
 export { ChatProtocolClientOptions } from "./api/ChatProtocolContext.js";
 
 export class ChatProtocolClient {
+  private _client: ChatProtocolContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
-  private _client: ChatProtocolContext;
 
   /** Azure APIs for the Azure Chat protocol. */
   constructor(
@@ -45,23 +37,17 @@ export class ChatProtocolClient {
 
   /** Creates a new streaming chat completion. */
   createStreaming(
-    messages: ChatMessage[],
-    options: CompletionOptions = { requestOptions: {} }
-  ): AsyncIterable<ChatCompletionChunk> {
-    return createStreaming(this._client, messages, options);
+    body: StreamingChatCompletionOptions,
+    options: CreateStreamingOptions = { requestOptions: {} }
+  ): Promise<ChatCompletionChunk> {
+    return createStreaming(this._client, body, options);
   }
 
   /** Creates a new chat completion. */
   create(
-    messages: ChatMessage[],
-    options: CompletionOptions = { requestOptions: {} }
+    body: ChatCompletionOptions,
+    options: CreateOptions = { requestOptions: {} }
   ): Promise<ChatCompletion> {
-    let body: GeneratedChatCompletionOptions = {
-      messages: messages,
-      stream: false,
-      sessionState: options.sessionState,
-      context: options.context,
-    };
     return create(this._client, body, options);
   }
 }

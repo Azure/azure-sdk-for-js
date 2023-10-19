@@ -14,6 +14,9 @@ dependencies:
   '@rush-temp/ai-anomaly-detector':
     specifier: file:./projects/ai-anomaly-detector.tgz
     version: file:projects/ai-anomaly-detector.tgz
+  '@rush-temp/ai-chat-protocol':
+    specifier: file:./projects/ai-chat-protocol.tgz
+    version: file:projects/ai-chat-protocol.tgz
   '@rush-temp/ai-content-safety':
     specifier: file:./projects/ai-content-safety.tgz
     version: file:projects/ai-content-safety.tgz
@@ -9183,6 +9186,26 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/ai-chat-protocol.tgz:
+    resolution: {integrity: sha512-g3QRabZ/Y5wT2G9++DVbfxuMmHoWTixQ0F+kP/7rdA97aq8deiByUpv7PeYaAR/+PURWwBm+Co2UhJyy0cPYIg==, tarball: file:projects/ai-chat-protocol.tgz}
+    name: '@rush-temp/ai-chat-protocol'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
+      '@types/node': 16.18.58
+      autorest: 3.6.3
+      dotenv: 16.3.1
+      eslint: 8.51.0
+      mkdirp: 2.1.6
+      prettier: 2.8.8
+      rimraf: 5.0.5
+      source-map-support: 0.5.21
+      tslib: 2.6.2
+      typescript: 5.0.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/ai-content-safety.tgz:

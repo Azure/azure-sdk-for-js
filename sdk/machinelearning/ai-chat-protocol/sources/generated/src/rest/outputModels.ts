@@ -1,142 +1,104 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-/** The configuration for a streaming chat completion request. */
-export interface StreamingChatCompletionOptions {
-  /** The collection of context messages associated with this completion request. */
-  messages: ChatMessage[];
-  /** Indicates whether the completion is a streaming or non-streaming completion. */
-  stream: true;
-  /**
-   * Field that allows the chat app to store and retrieve data, the structure of such data is dependant on the backend
-   * being used. The client must send back the data in this field unchanged in subsequent requests, until the chat app
-   * sends a new one. The data in this field can be used to implement stateful services, such as remembering previous
-   * conversations or user preferences.
-   */
-  sessionState?: any;
-  /**
-   * Context allows the chat app to receive extra parameters from the client, such as temperature, functions, or
-   * customer_info. These parameters are specific to the chat app and not understood by the generic clients.
-   */
-  context?: Record<string, any>;
-}
-
 /** A single, role-attributed message within a chat completion interaction. */
-export interface ChatMessage {
+export interface ChatMessageOutput {
   /** The text associated with the message. */
   content: string;
-  /** The role associated with the message. */
-  role: ChatRole;
+  /**
+   * The role associated with the message.
+   *
+   * Possible values: user, system, assistant
+   */
+  role: string;
   /**
    * Field that allows the chat app to store and retrieve data, the structure of such data is dependant on the backend
    * being used. The client must send back the data in this field unchanged in subsequent requests, until the chat app
    * sends a new one. The data in this field can be used to implement stateful services, such as remembering previous
    * conversations or user preferences.
    */
-  sessionState?: any;
+  session_state?: any;
 }
 
 /** A single response to a streaming completion request. */
-export interface ChatCompletionChunk {
+export interface ChatCompletionChunkOutput {
   /** The collection of choice deltas received in this chunk. */
-  choices: ChoiceDelta[];
+  choices: Array<ChoiceDeltaOutput>;
 }
 
 /** The representation of an incremental choice received in a streaming completion. */
-export interface ChoiceDelta {
+export interface ChoiceDeltaOutput {
   /** The index of the of the chat choice, relative to the other choices in the same completion. */
   index: number;
   /** The partial message received for this choice. */
-  delta: ChatMessageDelta;
+  delta: ChatMessageDeltaOutput;
   /**
    * Field that allows the chat app to store and retrieve data, the structure of such data is dependant on the backend
    * being used. The client must send back the data in this field unchanged in subsequent requests, until the chat app
    * sends a new one. The data in this field can be used to implement stateful services, such as remembering previous
    * conversations or user preferences.
    */
-  sessionState?: any;
+  session_state?: any;
   /**
    * Context allows the chat app to receive extra parameters from the client, such as temperature, functions, or
    * customer_info. These parameters are specific to the chat app and not understood by the generic clients.
    */
   context?: Record<string, any>;
-  /** The reason this chat completion completed its generation. */
-  finishReason?: FinishReason;
+  /**
+   * The reason this chat completion completed its generation.
+   *
+   * Possible values: stop, length
+   */
+  finish_reason?: string;
 }
 
 /** The representation of a delta message received in a streaming completion. */
-export interface ChatMessageDelta {
+export interface ChatMessageDeltaOutput {
   /** An incremental part of the text associated with the message. */
   content?: string;
-  /** The role associated with the message. */
-  role?: ChatRole;
+  /**
+   * The role associated with the message.
+   *
+   * Possible values: user, system, assistant
+   */
+  role?: string;
   /**
    * Field that allows the chat app to store and retrieve data, the structure of such data is dependant on the backend
    * being used. The client must send back the data in this field unchanged in subsequent requests, until the chat app
    * sends a new one. The data in this field can be used to implement stateful services, such as remembering previous
    * conversations or user preferences.
    */
-  sessionState?: any;
-}
-
-/** The configuration for a chat completion request. */
-export interface ChatCompletionOptions {
-  /** The collection of context messages associated with this completion request. */
-  messages: ChatMessage[];
-  /** Indicates whether the completion is a streaming or non-streaming completion. */
-  stream: false;
-  /**
-   * Field that allows the chat app to store and retrieve data, the structure of such data is dependant on the backend
-   * being used. The client must send back the data in this field unchanged in subsequent requests, until the chat app
-   * sends a new one. The data in this field can be used to implement stateful services, such as remembering previous
-   * conversations or user preferences.
-   */
-  sessionState?: any;
-  /**
-   * Context allows the chat app to receive extra parameters from the client, such as temperature, functions, or
-   * customer_info. These parameters are specific to the chat app and not understood by the generic clients.
-   */
-  context?: Record<string, any>;
+  session_state?: any;
 }
 
 /** Representation of the response to a chat completion request. */
-export interface ChatCompletion {
+export interface ChatCompletionOutput {
   /** The collection of generated completions. */
-  choices: ChatChoice[];
+  choices: Array<ChatChoiceOutput>;
 }
 
 /** The representation of a single generated completion. */
-export interface ChatChoice {
+export interface ChatChoiceOutput {
   /** The index of the of the chat choice, relative to the other choices in the same completion. */
   index: number;
   /** The chat message for a given chat completion. */
-  message: ChatMessage;
+  message: ChatMessageOutput;
   /**
    * Field that allows the chat app to store and retrieve data, the structure of such data is dependant on the backend
    * being used. The client must send back the data in this field unchanged in subsequent requests, until the chat app
    * sends a new one. The data in this field can be used to implement stateful services, such as remembering previous
    * conversations or user preferences.
    */
-  sessionState?: any;
+  session_state?: any;
   /**
    * Context allows the chat app to receive extra parameters from the client, such as temperature, functions, or
    * customer_info. These parameters are specific to the chat app and not understood by the generic clients.
    */
   context?: Record<string, any>;
-  /** The reason this chat completion completed its generation. */
-  finishReason: FinishReason;
+  /**
+   * The reason this chat completion completed its generation.
+   *
+   * Possible values: stop, length
+   */
+  finish_reason: string;
 }
-
-/** A representation of the intended purpose of a message. */
-/** "user", "system", "assistant" */
-export type ChatRole = string;
-/** Representation of the reason why a chat session has finished processing. */
-/** "stop", "length" */
-export type FinishReason = string;

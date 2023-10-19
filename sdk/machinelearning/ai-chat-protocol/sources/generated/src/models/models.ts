@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
 /** The configuration for a streaming chat completion request. */
 export interface StreamingChatCompletionOptions {
   /** The collection of context messages associated with this completion request. */
@@ -42,6 +35,10 @@ export interface ChatMessage {
    */
   sessionState?: any;
 }
+
+/** A representation of the intended purpose of a message. */
+/** "user", "system", "assistant" */
+export type ChatRole = string;
 
 /** A single response to a streaming completion request. */
 export interface ChatCompletionChunk {
@@ -85,6 +82,10 @@ export interface ChatMessageDelta {
    */
   sessionState?: any;
 }
+
+/** Representation of the reason why a chat session has finished processing. */
+/** "stop", "length" */
+export type FinishReason = string;
 
 /** The configuration for a chat completion request. */
 export interface ChatCompletionOptions {
@@ -133,10 +134,3 @@ export interface ChatChoice {
   /** The reason this chat completion completed its generation. */
   finishReason: FinishReason;
 }
-
-/** A representation of the intended purpose of a message. */
-/** "user", "system", "assistant" */
-export type ChatRole = string;
-/** Representation of the reason why a chat session has finished processing. */
-/** "stop", "length" */
-export type FinishReason = string;

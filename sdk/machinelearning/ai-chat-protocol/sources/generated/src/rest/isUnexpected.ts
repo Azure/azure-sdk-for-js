@@ -1,34 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
+import { CreateStreaming200Response, CreateStreamingDefaultResponse } from "./responses.js";
 
-import {
-  Create200Response,
-  CreateDefaultResponse,
-  CreateStreaming200Response,
-  CreateStreamingDefaultResponse,
-} from "./responses.js";
+const responseMap: Record<string, string[]> = { "POST /chat": ["200"] };
 
-export function isUnexpected(
-  response: Create200Response | CreateDefaultResponse
-): response is CreateDefaultResponse;
 export function isUnexpected(
   response: CreateStreaming200Response | CreateStreamingDefaultResponse
 ): response is CreateStreamingDefaultResponse;
 export function isUnexpected(
-  response:
-    | CreateStreaming200Response
-    | CreateStreamingDefaultResponse
-    | Create200Response
-    | CreateDefaultResponse
-): response is CreateDefaultResponse | CreateStreamingDefaultResponse {
+  response: CreateStreaming200Response | CreateStreamingDefaultResponse
+): response is CreateStreamingDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
@@ -36,14 +18,19 @@ export function isUnexpected(
   if (!pathDetails) {
     pathDetails = getParametrizedPathSuccess(method, url.pathname);
   }
-
   return !pathDetails.includes(response.status);
 }
 
 function getParametrizedPathSuccess(method: string, path: string): string[] {
   const pathParts = path.split("/");
+
+  // Traverse list to match the longest candidate
+  // matchedLen: the length of candidate path
+  // matchedValue: the matched status code array
   let matchedLen = -1,
     matchedValue: string[] = [];
+
+  // Iterate the responseMap to find a match
   for (const [key, value] of Object.entries(responseMap)) {
     // Extracting the path from the map key which is in format
     // GET /path/foo
@@ -99,5 +86,3 @@ function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
 }
-
-const responseMap: Record<string, string[]> = { "POST /chat": ["200"] };
