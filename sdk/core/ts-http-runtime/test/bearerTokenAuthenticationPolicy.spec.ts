@@ -60,7 +60,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
   it("refreshes the token on initial request", async () => {
     const expiresOn = Date.now() + 1000 * 60; // One minute later.
-    const credential = new MockRefreshAzureCredential(expiresOn);
+    const credential = new MockRefreshCredential(expiresOn);
     const request = createPipelineRequest({ url: "https://example.com" });
 
     const successResponse: PipelineResponse = {
@@ -80,7 +80,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
   it("refreshes the token during the refresh window", async () => {
     const expireDelayMs = defaultRefreshWindow + 5000;
     let tokenExpiration = Date.now() + expireDelayMs;
-    const credential = new MockRefreshAzureCredential(tokenExpiration);
+    const credential = new MockRefreshCredential(tokenExpiration);
 
     const request = createPipelineRequest({ url: "https://example.com" });
     const successResponse: PipelineResponse = {
@@ -120,7 +120,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const startTime = Date.now();
     const tokenExpiration = startTime + expireDelayMs;
     const getTokenDelay = 100;
-    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay, clock);
+    const credential = new MockRefreshCredential(tokenExpiration, getTokenDelay, clock);
 
     const request = createPipelineRequest({ url: "https://example.com" });
     const successResponse: PipelineResponse = {
@@ -151,7 +151,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const startTime = Date.now();
     const tokenExpiration = startTime + expireDelayMs;
     const getTokenDelay = 100;
-    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay, clock);
+    const credential = new MockRefreshCredential(tokenExpiration, getTokenDelay, clock);
 
     const request = createPipelineRequest({ url: "https://example.com" });
     const successResponse: PipelineResponse = {
@@ -186,7 +186,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const startTime = Date.now();
     const tokenExpiration = startTime + defaultRefreshWindow + expireDelayMs;
     const getTokenDelay = 100;
-    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay, clock);
+    const credential = new MockRefreshCredential(tokenExpiration, getTokenDelay, clock);
 
     const request = createPipelineRequest({ url: "https://example.com" });
     const successResponse: PipelineResponse = {
@@ -226,7 +226,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
   it("throws if the target URI doesn't start with 'https'", async () => {
     const expireDelayMs = defaultRefreshWindow + 5000;
     const tokenExpiration = Date.now() + expireDelayMs;
-    const credential = new MockRefreshAzureCredential(tokenExpiration);
+    const credential = new MockRefreshCredential(tokenExpiration);
 
     const request = createPipelineRequest({ url: "http://example.com" });
     const policy = createBearerTokenPolicy("test-scope", credential);
@@ -256,7 +256,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
   }
 });
 
-class MockRefreshAzureCredential implements TokenCredential {
+class MockRefreshCredential implements TokenCredential {
   public authCount = 0;
   public shouldThrow: boolean = false;
 

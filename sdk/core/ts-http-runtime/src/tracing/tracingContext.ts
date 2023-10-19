@@ -5,8 +5,8 @@ import { TracingContext, TracingSpan } from "./interfaces";
 
 /** @internal */
 export const knownContextKeys = {
-  span: Symbol.for("@azure/core-tracing span"),
-  namespace: Symbol.for("@azure/core-tracing namespace"),
+  span: Symbol.for("@typespec/ts-http-runtime span"),
+  namespace: Symbol.for("@typespec/ts-http-runtime namespace"),
 };
 
 /**

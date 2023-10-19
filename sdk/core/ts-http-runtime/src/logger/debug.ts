@@ -19,9 +19,9 @@ export interface Debug {
   /**
    * Enables a particular set of namespaces.
    * To enable multiple separate them with commas, e.g. "info,debug".
-   * Supports wildcards, e.g. "azure:*"
-   * Supports skip syntax, e.g. "azure:*,-azure:storage:*" will enable
-   * everything under azure except for things under azure:storage.
+   * Supports wildcards, e.g. "typeSpecRuntime:*"
+   * Supports skip syntax, e.g. "typeSpecRuntime:*,-typeSpecRuntime:storage:*" will enable
+   * everything under typeSpecRuntime except for things under typeSpecRuntime:storage.
    */
   enable: (namespaces: string) => void;
   /**

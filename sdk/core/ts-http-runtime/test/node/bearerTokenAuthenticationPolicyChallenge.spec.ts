@@ -104,7 +104,7 @@ async function authorizeRequestOnChallenge(
   return true;
 }
 
-class MockRefreshAzureCredential implements TokenCredential {
+class MockRefreshCredential implements TokenCredential {
   public authCount = 0;
   public scopesAndClaims: { scope: string | string[]; challengeClaims: string | undefined }[] = [];
   public getTokenResponses: (AccessToken | null)[];
@@ -161,7 +161,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
 
     const expiresOn = Date.now() + 5000;
     const getTokenResponse = { token: "mock-token", expiresOnTimestamp: expiresOn };
-    const credential = new MockRefreshAzureCredential([getTokenResponse]);
+    const credential = new MockRefreshCredential([getTokenResponse]);
 
     const pipeline = createEmptyPipeline();
     let firstRequest: boolean = true;
@@ -275,7 +275,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       { token: "mock-token2", expiresOnTimestamp: Date.now() + 100000 },
       { token: "mock-token3", expiresOnTimestamp: Date.now() + 100000 },
     ];
-    const credential = new MockRefreshAzureCredential([...getTokenResponses]);
+    const credential = new MockRefreshCredential([...getTokenResponses]);
 
     const pipeline = createEmptyPipeline();
     let firstRequest: boolean = true;
@@ -397,7 +397,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       // ensure the token will not expire
       { token: "mock-token-challenge", expiresOnTimestamp: Date.now() + 180000 },
     ];
-    const credential = new MockRefreshAzureCredential([...getTokenResponses]);
+    const credential = new MockRefreshCredential([...getTokenResponses]);
 
     const pipeline = createEmptyPipeline();
     const bearerPolicy = bearerTokenAuthenticationPolicy({
@@ -456,7 +456,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
 
   it("service errors without challenges should bubble up", async function () {
     const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
-    const credential = new MockRefreshAzureCredential([]);
+    const credential = new MockRefreshCredential([]);
 
     const pipeline = createEmptyPipeline();
     let firstRequest: boolean = true;

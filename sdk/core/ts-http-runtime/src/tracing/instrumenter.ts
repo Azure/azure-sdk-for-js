@@ -56,7 +56,7 @@ export function createDefaultInstrumenter(): Instrumenter {
 let instrumenterImplementation: Instrumenter | undefined;
 
 /**
- * Extends the Azure SDK with support for a given instrumenter implementation.
+ * Extends the SDK with support for a given instrumenter implementation.
  *
  * @param instrumenter - The instrumenter implementation to use.
  */

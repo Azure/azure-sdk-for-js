@@ -6,12 +6,12 @@ import { parseHeaderValueAsNumber } from "../util/helpers";
 import { RetryStrategy } from "./retryStrategy";
 
 /**
- * The header that comes back from Azure services representing
+ * The header that comes back from services representing
  * the amount of time (minimum) to wait to retry (in seconds or timestamp after which we can retry).
  */
 const RetryAfterHeader = "Retry-After";
 /**
- * The headers that come back from Azure services representing
+ * The headers that come back from services representing
  * the amount of time (minimum) to wait to retry.
  *
  * "retry-after-ms", "x-ms-retry-after-ms" : milliseconds

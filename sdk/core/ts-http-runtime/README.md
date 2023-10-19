@@ -86,7 +86,7 @@ const customPolicy = {
       // Do something special if this policy sees Forbidden
     }
     return result;
-  }
+  },
 };
 ```
 
@@ -134,7 +134,7 @@ export interface AddPolicyOptions {
 
 `beforePolicies` are policies that the new policy must execute before and `afterPolicies` are policies that the new policy must happen after. Similarly, `afterPhase` means the policy must only execute after the specified phase has occurred.
 
-This syntax allows custom policy authors to express any necessary relationships between their own policies and the built-in policies provided by `@azure/ts-http-runtime` when creating a pipeline using `createPipelineFromOptions`.
+This syntax allows custom policy authors to express any necessary relationships between their own policies and the built-in policies provided by `@typespec/ts-http-runtime` when creating a pipeline using `createPipelineFromOptions`.
 
 Implementers are also able to remove policies by name or phase, in the case that they wish to modify an existing `Pipeline` without having to create a new one using `createEmptyPipeline`. The `clone` method is particularly useful when recreating a `Pipeline` without modifying the original.
 
