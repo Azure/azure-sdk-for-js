@@ -52,8 +52,7 @@ describe("Keyvault test", () => {
     client = new KeyVaultManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
-    const currentDate: Date = new Date();
-    vaultName = "myvaultzzzz" + currentDate.getMonth() + currentDate.getDay();
+    vaultName = "myvaultzzzz" + "231019";
   });
 
   afterEach(async function () {
