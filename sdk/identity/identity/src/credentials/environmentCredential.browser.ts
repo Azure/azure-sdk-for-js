@@ -10,7 +10,7 @@ const BrowserNotSupportedError = new Error(
 const logger = credentialLogger("EnvironmentCredential");
 
 /**
- * Enables authentication to Azure Active Directory using client secret
+ * Enables authentication to Microsoft Entra ID using client secret
  * details configured in environment variables
  */
 export class EnvironmentCredential implements TokenCredential {

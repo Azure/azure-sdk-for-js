@@ -101,7 +101,7 @@
 /sdk/communication/communication-common/ @AikoBB @maximrytych-ms @mjafferi-msft
 
 # PRLabel: %Container Registry
-/sdk/containerregistry/ @jeremymeng @timovv
+/sdk/containerregistry/ @jeremymeng @timovv @Azure/azsdk-acr
 
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @abkolant-MSFT @simorenoh @v1k1
@@ -125,7 +125,7 @@
 /sdk/iot/ @xirzec
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @timovv
+/sdk/keyvault/ @timovv @Azure/azsdk-keyvault
 
 # PRLabel: %OpenTelemetryInstrumentation
 /sdk/instrumentation/ @joheredi @mpodwysocki
@@ -184,7 +184,7 @@
 /sdk/contentsafety/ @bowgong @mengai @minjuewu
 
 # PRLabel: %Search
-/sdk/search/ @dgetu @xirzec
+/sdk/search/ @dgetu @xirzec @Azure/azsdk-search
 
 # PRLabel: %Mixed Reality
 /sdk/mixedreality/ @RamonArguelles

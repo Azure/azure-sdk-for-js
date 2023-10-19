@@ -57,9 +57,10 @@ describe("MetricHandler", () => {
 
   it("should observe instruments during collection", async () => {
     createHandler();
-    MetricsApi.getMeter("testMeter").createCounter("testCounter", {
+    let counter = MetricsApi.getMeter("testMeter").createCounter("testCounter", {
       description: "testDescription",
     });
+    counter.add(2);
     await new Promise((resolve) => setTimeout(resolve, 120));
     assert.ok(exportStub.called);
     const resourceMetrics = exportStub.args[0][0];
