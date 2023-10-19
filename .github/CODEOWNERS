@@ -396,7 +396,7 @@
 /sdk/devtestlabs/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/devcenter/ @qiaozha @MaryGao
+/sdk/devcenter/arm-devcenter @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/digitaltwins/arm-digitaltwins/ @qiaozha @MaryGao
