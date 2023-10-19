@@ -411,17 +411,9 @@
 /sdk/domainservices/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-<<<<<<< HEAD
-/sdk/edgegateway/arm-edgegateway/ @qiaozha @MaryGao
-/sdk/edgegateway/ci.mgmt.yml @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 /sdk/elasticsans/arm-elasticsan/ @qiaozha @MaryGao
-/sdk/elasticsans/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-=======
->>>>>>> main
 /sdk/eventgrid/arm-eventgrid/ @qiaozha @MaryGao
 /sdk/eventgrid/ci.mgmt.yml @qiaozha @MaryGao
 
