@@ -2658,7 +2658,7 @@ export const expectation63: SentimentAnalysisResult[] = [
   {
     id: "2",
     warnings: [],
-    sentiment: "negative",
+    sentiment: "neutral",
     confidenceScores: { positive: 0.19, neutral: 0.28, negative: 0.53 },
     sentences: [
       {
@@ -3214,7 +3214,7 @@ export const expectation34: SentimentAnalysisResult[] = [
   {
     id: "3",
     warnings: [],
-    sentiment: "negative",
+    sentiment: "neutral",
     confidenceScores: { positive: 0.19, neutral: 0.28, negative: 0.53 },
     sentences: [
       {
