@@ -1,0 +1,15 @@
+{
+  "buildCacheEnabled": true,
+  "cacheProvider": "local-only",
+
+  // to enable Azure Blob Storage cache, use the following instead.
+  // Use the real storage account name then follow instructions at
+  //   https://rushjs.io/pages/maintainer/build_cache/#user-authentication
+  // to authenticate.
+  // "cacheProvider": "azure-blob-storage",
+  // "azureBlobStorageConfiguration": {
+  //   "storageAccountName": "replace with account name",
+  //   "storageContainerName": "rush-build-cache",
+  //   "isCacheWriteAllowed": false
+  // }
+}
