@@ -31,8 +31,11 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
   interruptPrompt?: boolean;
   /** Time to wait for first input after prompt. */
   initialSilenceTimeoutInSeconds?: number;
-  /** Call back Url override for this request */
-  overrideCallbackUrl?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
 
 /** The recognize configuration specific to Dtmf. */
@@ -131,8 +134,11 @@ export interface RejectCallOptions extends OperationOptions {
 export interface TransferCallToParticipantOptions extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Call back Url override for this request */
-  overrideCallbackUrl?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
   /** Participant that is being transferred away */
   transferee?: CommunicationIdentifier;
 }
@@ -146,8 +152,11 @@ export interface AddParticipantOptions extends OperationOptions {
   invitationTimeoutInSeconds?: number;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Call back Url override for this request */
-  overrideCallbackUrl?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
 
 /**
@@ -156,8 +165,11 @@ export interface AddParticipantOptions extends OperationOptions {
 export interface RemoveParticipantsOption extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Call back Url override for this request */
-  overrideCallbackUrl?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
 
 /**
@@ -176,8 +188,11 @@ export interface PlayOptions extends OperationOptions {
   loop?: boolean;
   /** The value to identify context of the operation. */
   operationContext?: string;
-  /** Call back Url override for this request */
-  overrideCallbackUrl?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
 
 /**
@@ -265,8 +280,11 @@ export interface DownloadRecordingOptions extends OperationOptions {
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
-  /** Call back Url override for this request */
-  overrideCallbackUrl?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
 
 /**
@@ -275,14 +293,20 @@ export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
 export interface SendDtmfTonesOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
-  /** Call back Url override for this request */
-  overrideCallbackUrl?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
 
 /** Options for cancelling add participant request. */
 export interface CancelAddParticipantOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
-  /** Call back Url override for this request */
-  overrideCallbackUrl?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
