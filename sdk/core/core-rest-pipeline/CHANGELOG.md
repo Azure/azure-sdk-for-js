@@ -1,15 +1,11 @@
 # Release History
 
-## 1.12.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.12.2 (2023-10-23)
 
 ### Bugs Fixed
-- Support Cloudflare workers by only setting the available fields in the `Request` class for the Fetch API.
-
-### Other Changes
+- Support Cloudflare workers by only setting the available fields in the `Request` class for the Fetch API. [PR #27423](https://github.com/Azure/azure-sdk-for-js/pull/27423)
+- Add `ENOTFOUND` code to exponential retry policy. [PR #27437](https://github.com/Azure/azure-sdk-for-js/pull/27437)
+- Clean up the `abortListener` signal only after the stream response bodyis finished [PR #27205](https://github.com/Azure/azure-sdk-for-js/pull/27205)
 
 ## 1.12.1 (2023-09-07)
 
