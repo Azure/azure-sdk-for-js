@@ -759,7 +759,6 @@
 
 # PRLabel: %Mgmt
 /sdk/storagemover/arm-storagemover/ @qiaozha @MaryGao
-/sdk/storagemover/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/storageimportexport/arm-storageimportexport/ @qiaozha @MaryGao
