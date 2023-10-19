@@ -528,7 +528,9 @@
     {
       "packageName": "@azure/core-http",
       "projectFolder": "sdk/core/core-http",
-      "decoupledLocalDependencies": ["@azure/core-tracing"],
+      "decoupledLocalDependencies": [
+        "@azure/core-tracing"
+      ],
       "versionPolicyName": "core"
     },
     {
@@ -619,7 +621,9 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
+      "decoupledLocalDependencies": [
+        "@azure/keyvault-keys"
+      ],
       "versionPolicyName": "client"
     },
     {
@@ -2126,6 +2130,11 @@
       "packageName": "@azure/arm-playwrighttesting",
       "projectFolder": "sdk/playwrighttesting/arm-playwrighttesting",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/defender-easm-rest",
+      "projectFolder": "sdk/easm/defendereasm-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
