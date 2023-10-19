@@ -31,7 +31,7 @@ matrix([[true, false]], async function (useAad: boolean) {
       { scopes: ["chat", "voip"], description: "ChatVoipScopes" },
       { scopes: ["chat", "chat.join", "chat.join.limited"], description: "AllChatScopes" },
       { scopes: ["voip", "voip.join"], description: "AllVoipScopes" },
-      { scopes: ["chat.join", "voip.join"], description: "ChatJoinVoipJoinScopes" }
+      { scopes: ["chat.join", "voip.join"], description: "ChatJoinVoipJoinScopes" },
     ];
 
     beforeEach(async function (this: Context) {
@@ -55,7 +55,11 @@ matrix([[true, false]], async function (useAad: boolean) {
 
     tokenScopeScenarios.forEach((scenario) =>
       it(`successfully creates a user and token <${scenario.description}>`, async function () {
-        const { user: newUser, token, expiresOn } = await client.createUserAndToken(scenario.scopes as TokenScope[]);
+        const {
+          user: newUser,
+          token,
+          expiresOn,
+        } = await client.createUserAndToken(scenario.scopes as TokenScope[]);
         assert.isTrue(isCommunicationUserIdentifier(newUser));
         assert.isString(newUser.communicationUserId);
         assert.isString(token);
