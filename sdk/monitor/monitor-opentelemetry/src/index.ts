@@ -45,7 +45,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
     autoDetectResources: true,
     logRecordProcessor: logHandler.getLogRecordProcessor(),
     metricReader: metricHandler.getMetricReader(),
-    views: metricHandler.geViews(),
+    views: metricHandler.getViews(),
     instrumentations: traceHandler.getInstrumentations(),
     resource: config.resource,
     sampler: traceHandler.getSampler(),
