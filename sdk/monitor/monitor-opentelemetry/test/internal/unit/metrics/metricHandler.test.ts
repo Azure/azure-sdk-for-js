@@ -49,7 +49,7 @@ describe("MetricHandler", () => {
         })
     );
     const meterProvider = new MeterProvider({
-      views: handler.geViews(),
+      views: handler.getViews(),
     });
     meterProvider.addMetricReader(handler.getMetricReader());
     MetricsApi.setGlobalMeterProvider(meterProvider);
