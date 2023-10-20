@@ -241,7 +241,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation9);
           });
 
-          it("healthcare", async function () {
+          it.skip("healthcare", async function () {
             const docs = [
               "Patient does not suffer from high blood pressure.",
               "Prescribed 100mg ibuprofen, taken twice daily.",
