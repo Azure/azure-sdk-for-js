@@ -47,6 +47,22 @@ export interface HttpHeaders extends Iterable<[string, string]> {
   toJSON(options?: { preserveCase?: boolean }): RawHttpHeaders;
 }
 
+export interface FileLike {
+  stream: ReadableStream | NodeJS.ReadableStream | (() => ReadableStream | NodeJS.ReadableStream);
+  type?: string;
+  name?: string;
+}
+
+export interface BodyPart {
+  headers: HttpHeaders;
+  body: ReadableStream | NodeJS.ReadableStream | Uint8Array;
+}
+
+export interface MultipartRequestBody {
+  parts: BodyPart[];
+  boundary?: string;
+}
+
 /**
  * Types of bodies supported on the request.
  * NodeJS.ReadableStream and () =\> NodeJS.ReadableStream is Node only.
@@ -61,6 +77,7 @@ export type RequestBodyType =
   | ArrayBuffer
   | ArrayBufferView
   | FormData
+  | MultipartRequestBody
   | string
   | null;
 
@@ -312,7 +329,7 @@ export interface ProxySettings {
 /**
  * Each form data entry can be a string or (in the browser) a Blob.
  */
-export type FormDataValue = string | Blob;
+export type FormDataValue = string | Blob | ReadableStream | FileLike;
 
 /**
  * A simple object that provides form data, as if from a browser form.

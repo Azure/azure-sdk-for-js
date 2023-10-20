@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import FormData from "form-data";
-import { FormDataMap, PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
+import { createHttpHeaders } from "../httpHeaders";
+import {
+  BodyPart,
+  FileLike,
+  FormDataMap,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 
 /**
@@ -45,40 +52,64 @@ function wwwFormUrlEncode(formData: FormDataMap): string {
   return urlSearchParams.toString();
 }
 
+function isFileLike(maybeFile: any): maybeFile is FileLike {
+  return (
+    maybeFile?.stream !== undefined &&
+    ((typeof ReadableStream !== "undefined" && maybeFile.stream instanceof ReadableStream) ||
+      typeof maybeFile.stream?.pipe === "function" ||
+      typeof maybeFile.stream === "function")
+  );
+}
+
+const encoder = new TextEncoder();
+
 async function prepareFormData(formData: FormDataMap, request: PipelineRequest): Promise<void> {
-  const requestForm = new FormData();
-  for (const formKey of Object.keys(formData)) {
-    const formValue = formData[formKey];
-    if (Array.isArray(formValue)) {
-      for (const subValue of formValue) {
-        requestForm.append(formKey, subValue);
-      }
-    } else {
-      requestForm.append(formKey, formValue);
-    }
+  // clear request.formData
+  request.formData = undefined;
+
+  // validate content type (multipart/form-data)
+  const contentType = request.headers.get("content-type");
+  if (contentType && !contentType.startsWith("multipart/form-data")) {
+    // content type is specified and is not multipart/form-data. Exit.
+    return;
   }
 
-  request.body = requestForm;
-  request.formData = undefined;
-  const contentType = request.headers.get("Content-Type");
-  if (contentType && contentType.indexOf("multipart/form-data") !== -1) {
-    request.headers.set(
-      "Content-Type",
-      `multipart/form-data; boundary=${requestForm.getBoundary()}`
-    );
-  }
-  try {
-    const contentLength = await new Promise<number>((resolve, reject) => {
-      requestForm.getLength((err, length) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(length);
+  request.headers.set("content-type", contentType ?? "multipart/form-data");
+
+  // set body to MultipartRequestBody using content from FormDataMap
+  const parts: BodyPart[] = [];
+
+  for (const [fieldName, values] of Object.entries(formData)) {
+    for (const value of Array.isArray(values) ? values : [values]) {
+      if (typeof value === "string") {
+        parts.push({
+          headers: createHttpHeaders({
+            "content-disposition": `form-data; name="${fieldName}"`,
+          }),
+          body: encoder.encode(value),
+        });
+      } else if (isFileLike(value)) {
+        const fileName = value.name || "blob";
+        const headers = createHttpHeaders();
+        headers.set("content-disposition", `form-data; name="${fieldName}"; filename="${fileName}"`);
+        if (value.type) {
+          headers.set("content-type", value.type);
         }
-      });
-    });
-    request.headers.set("Content-Length", contentLength);
-  } catch (e: any) {
-    // ignore setting the length if this fails
+
+        parts.push({
+          headers,
+          body: typeof value.stream === "function" ? value.stream() : value.stream,
+        });
+      } else if (typeof ReadableStream !== "undefined" && value instanceof ReadableStream) {
+        parts.push({
+          headers: createHttpHeaders({
+            "content-disposition": `form-data; name=${fieldName}; filename=blob`,
+          }),
+          body: value,
+        });
+      }
+    }
+
+    request.body = { parts };
   }
 }

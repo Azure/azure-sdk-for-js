@@ -133,8 +133,10 @@ export function formDataPolicy(): PipelinePolicy;
 // @public
 export const formDataPolicyName = "formDataPolicy";
 
+// Warning: (ae-forgotten-export) The symbol "FileLike" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type FormDataValue = string | Blob;
+export type FormDataValue = string | Blob | ReadableStream | FileLike;
 
 // @public
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
@@ -325,8 +327,10 @@ export interface RedirectPolicyOptions {
     maxRetries?: number;
 }
 
+// Warning: (ae-forgotten-export) The symbol "MultipartRequestBody" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | MultipartRequestBody | string | null;
 
 // @public
 export class RestError extends Error {

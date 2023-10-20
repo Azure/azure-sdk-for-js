@@ -16,6 +16,7 @@ import { proxyPolicy } from "./policies/proxyPolicy";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
 import { tlsPolicy } from "./policies/tlsPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
+import { multipartPolicy } from "./policies/multipartPolicy";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -88,6 +89,7 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   }
 
   pipeline.addPolicy(formDataPolicy());
+  pipeline.addPolicy(multipartPolicy());
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
   pipeline.addPolicy(setClientRequestIdPolicy(options.telemetryOptions?.clientRequestIdHeaderName));
   pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });

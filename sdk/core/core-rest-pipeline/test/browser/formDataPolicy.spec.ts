@@ -10,13 +10,15 @@ import {
   createPipelineRequest,
   formDataPolicy,
 } from "../../src";
+import { isMultipartRequestBody } from "../../src/policies/multipartPolicy";
+import { BodyPart } from "../../src/interfaces";
 
-describe("formDataPolicy", function () {
-  afterEach(function () {
+describe("formDataPolicy", function() {
+  afterEach(function() {
     sinon.restore();
   });
 
-  it("prepares x-www-form-urlencoded form data correctly", async function () {
+  it("prepares x-www-form-urlencoded form data correctly", async function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       headers: createHttpHeaders({
@@ -46,7 +48,7 @@ describe("formDataPolicy", function () {
     );
   });
 
-  it("prepares x-www-form-urlencoded form data correctly for array value", async function () {
+  it("prepares x-www-form-urlencoded form data correctly for array value", async function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       headers: createHttpHeaders({
@@ -70,7 +72,7 @@ describe("formDataPolicy", function () {
     assert.strictEqual(result.request.body, `a=va&b=vb&c=vc1&c=vc2`);
   });
 
-  it("prepares multipart/form-data form data correctly", async function () {
+  it("prepares multipart/form-data form data correctly", async function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       headers: createHttpHeaders({
@@ -93,17 +95,26 @@ describe("formDataPolicy", function () {
     assert.isUndefined(result.request.formData);
     const body = result.request.body as any;
     assert.ok(body, "expecting valid body");
-    let length = 0;
-    for (const entry of body.entries()) {
-      length++;
-      if (entry[0] === "a") {
-        assert.strictEqual(entry[1], "va");
-      } else if (entry[0] === "b") {
-        assert.strictEqual(entry[1], "v:b");
-      } else {
-        assert.fail(`unexpected form data key ${entry[0]}`);
+    assert.ok(isMultipartRequestBody(body), "expecting body to be MultipartRequestBody");
+    const parts = (body as any).parts as BodyPart[];
+    const enc = new TextEncoder();
+    assert.ok(parts.length === 2, "need 2 parts");
+    assert.deepEqual(parts[0],
+      {
+        headers: createHttpHeaders({
+          "content-disposition": `form-data; name="a"`,
+        }),
+        body: enc.encode("va"),
       }
-    }
-    assert.strictEqual(length, 2, "expecting two entries in form data");
+    );
+    assert.deepEqual(parts[1],
+      {
+        headers: createHttpHeaders({
+          "content-disposition": `form-data; name="b"`,
+        }),
+        body: enc.encode("vb"),
+      }
+    );
+
   });
 });

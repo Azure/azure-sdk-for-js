@@ -11,6 +11,7 @@ import {
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
+import { isMultipartRequestBody } from "./policies/multipartPolicy";
 
 function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
@@ -82,6 +83,9 @@ class XhrHttpClient implements HttpClient {
     const body = typeof request.body === "function" ? request.body() : request.body;
     if (isNodeReadableStream(body) || isReadableStream(body)) {
       throw new Error("streams are not supported in XhrHttpClient.");
+    }
+    if (isMultipartRequestBody(body)) {
+      throw new Error("encountered unhandled multipart request body");
     }
 
     xhr.send(body === undefined ? null : body);
