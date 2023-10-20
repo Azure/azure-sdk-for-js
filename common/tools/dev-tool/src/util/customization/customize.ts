@@ -295,11 +295,11 @@ function isSelfImport(module: string, file: SourceFile): boolean {
     projectPath = projectPath.getParent() as Directory;
   }
   // e.g: ./sources/generated/src
-  let relativeOriginal = originalDir.replace(/\\/g, '/').replace(projectPath.getPath(), ".");
+  const relativeOriginal = originalDir.replace(/\\/g, '/').replace(projectPath.getPath(), ".");
   // e.g: ./sources/customizations
-  let relativeCustom = customDir.replace(/\\/g, '/').replace(projectPath.getPath(), ".");
+  const relativeCustom = customDir.replace(/\\/g, '/').replace(projectPath.getPath(), ".");
   // e.g: ./sources/
-  let prefix = commonPrefix(relativeOriginal, relativeCustom);
+  const prefix = commonPrefix(relativeOriginal, relativeCustom);
   // e.g generated/src
   let originalSuffix = relativeOriginal.substring(prefix.length);
   // e.g generated/src/
@@ -309,9 +309,9 @@ function isSelfImport(module: string, file: SourceFile): boolean {
   if (index < 0) {
     return false;
   }
-  let moduleRelative = module.substring(index + originalSuffix.length);
-  let a = file.getFilePath().replace(/\\/g, '/').replace(/\.ts$/, ".js");
-  if (a.endsWith(moduleRelative)) {
+  const moduleRelative = module.substring(index + originalSuffix.length);
+  const sanitizedPath = file.getFilePath().replace(/\\/g, '/').replace(/\.ts$/, ".js");
+  if (sanitizedPath.endsWith(moduleRelative)) {
     return true;
   }
   return false;
