@@ -11617,11 +11617,15 @@ packages:
     dev: false
 
   file:projects/arm-devcenter.tgz:
-    resolution: {integrity: sha512-BXcR0a41bFUFZq1RpP3Lm+xj/oeoe27g96QrE8ezjT2WUJjGLIUCCmjNodOAVg0uq/b2IoajYgmDaMzPu4TwYA==, tarball: file:projects/arm-devcenter.tgz}
+    resolution: {integrity: sha512-thVMKpxuWouZX1ZrjCXcHFnKe7tSfMNfzQRBBcvQ13RPrQlB8JHdcUOJ/+oEPGoJ8JafcWH3TFL64orb/atfQg==, tarball: file:projects/arm-devcenter.tgz}
     name: '@rush-temp/arm-devcenter'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
+      '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
+      '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
+      '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
+      '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
       '@types/chai': 4.3.9
       '@types/node': 16.18.58
       chai: 4.3.10
@@ -11629,7 +11633,9 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3(@types/node@16.18.58)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)
       tslib: 2.6.2
       typescript: 5.0.4
