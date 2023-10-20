@@ -8,16 +8,16 @@ import { AzureDeveloperDevCenterClient } from "./clientDefinitions";
 
 /**
  * Initialize a new instance of `AzureDeveloperDevCenterClient`
- * @param endpoint - The DevCenter-specific URI to operate on.
+ * @param devCenterEndpoint - The DevCenter-specific URI to operate on.
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
-  endpoint: string,
+  devCenterEndpoint: string,
   credentials: TokenCredential,
   options: ClientOptions = {}
 ): AzureDeveloperDevCenterClient {
-  const baseUrl = options.baseUrl ?? `${endpoint}`;
+  const baseUrl = options.baseUrl ?? `${devCenterEndpoint}`;
   options.apiVersion = options.apiVersion ?? "2023-04-01";
   options = {
     ...options,

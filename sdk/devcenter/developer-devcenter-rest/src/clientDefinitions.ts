@@ -17,8 +17,8 @@ import {
   StopDevBoxParameters,
   RestartDevBoxParameters,
   GetRemoteConnectionParameters,
-  ListActionsParameters,
-  GetActionParameters,
+  ListDevBoxActionsParameters,
+  GetDevBoxActionParameters,
   SkipActionParameters,
   DelayActionParameters,
   DelayAllActionsParameters,
@@ -69,10 +69,10 @@ import {
   RestartDevBoxDefaultResponse,
   GetRemoteConnection200Response,
   GetRemoteConnectionDefaultResponse,
-  ListActions200Response,
-  ListActionsDefaultResponse,
-  GetAction200Response,
-  GetActionDefaultResponse,
+  ListDevBoxActions200Response,
+  ListDevBoxActionsDefaultResponse,
+  GetDevBoxAction200Response,
+  GetDevBoxActionDefaultResponse,
   SkipAction204Response,
   SkipActionDefaultResponse,
   DelayAction200Response,
@@ -221,18 +221,22 @@ export interface GetRemoteConnection {
   >;
 }
 
-export interface ListActions {
+export interface ListDevBoxActions {
   /** Lists actions on a Dev Box. */
   get(
-    options?: ListActionsParameters
-  ): StreamableMethod<ListActions200Response | ListActionsDefaultResponse>;
+    options?: ListDevBoxActionsParameters
+  ): StreamableMethod<
+    ListDevBoxActions200Response | ListDevBoxActionsDefaultResponse
+  >;
 }
 
-export interface GetAction {
+export interface GetDevBoxAction {
   /** Gets an action. */
   get(
-    options?: GetActionParameters
-  ): StreamableMethod<GetAction200Response | GetActionDefaultResponse>;
+    options?: GetDevBoxActionParameters
+  ): StreamableMethod<
+    GetDevBoxAction200Response | GetDevBoxActionDefaultResponse
+  >;
 }
 
 export interface SkipAction {
@@ -450,7 +454,7 @@ export interface Routes {
     projectName: string,
     userId: string,
     devBoxName: string
-  ): ListActions;
+  ): ListDevBoxActions;
   /** Resource for '/projects/\{projectName\}/users/\{userId\}/devboxes/\{devBoxName\}/actions/\{actionName\}' has methods for the following verbs: get */
   (
     path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}",
@@ -458,7 +462,7 @@ export interface Routes {
     userId: string,
     devBoxName: string,
     actionName: string
-  ): GetAction;
+  ): GetDevBoxAction;
   /** Resource for '/projects/\{projectName\}/users/\{userId\}/devboxes/\{devBoxName\}/actions/\{actionName\}:skip' has methods for the following verbs: post */
   (
     path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}:skip",

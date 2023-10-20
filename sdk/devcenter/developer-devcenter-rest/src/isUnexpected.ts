@@ -39,10 +39,10 @@ import {
   RestartDevBoxDefaultResponse,
   GetRemoteConnection200Response,
   GetRemoteConnectionDefaultResponse,
-  ListActions200Response,
-  ListActionsDefaultResponse,
-  GetAction200Response,
-  GetActionDefaultResponse,
+  ListDevBoxActions200Response,
+  ListDevBoxActionsDefaultResponse,
+  GetDevBoxAction200Response,
+  GetDevBoxActionDefaultResponse,
   SkipAction204Response,
   SkipActionDefaultResponse,
   DelayAction200Response,
@@ -222,11 +222,11 @@ export function isUnexpected(
   response: GetRemoteConnection200Response | GetRemoteConnectionDefaultResponse
 ): response is GetRemoteConnectionDefaultResponse;
 export function isUnexpected(
-  response: ListActions200Response | ListActionsDefaultResponse
-): response is ListActionsDefaultResponse;
+  response: ListDevBoxActions200Response | ListDevBoxActionsDefaultResponse
+): response is ListDevBoxActionsDefaultResponse;
 export function isUnexpected(
-  response: GetAction200Response | GetActionDefaultResponse
-): response is GetActionDefaultResponse;
+  response: GetDevBoxAction200Response | GetDevBoxActionDefaultResponse
+): response is GetDevBoxActionDefaultResponse;
 export function isUnexpected(
   response: SkipAction204Response | SkipActionDefaultResponse
 ): response is SkipActionDefaultResponse;
@@ -331,10 +331,10 @@ export function isUnexpected(
     | RestartDevBoxDefaultResponse
     | GetRemoteConnection200Response
     | GetRemoteConnectionDefaultResponse
-    | ListActions200Response
-    | ListActionsDefaultResponse
-    | GetAction200Response
-    | GetActionDefaultResponse
+    | ListDevBoxActions200Response
+    | ListDevBoxActionsDefaultResponse
+    | GetDevBoxAction200Response
+    | GetDevBoxActionDefaultResponse
     | SkipAction204Response
     | SkipActionDefaultResponse
     | DelayAction200Response
@@ -386,8 +386,8 @@ export function isUnexpected(
   | StopDevBoxDefaultResponse
   | RestartDevBoxDefaultResponse
   | GetRemoteConnectionDefaultResponse
-  | ListActionsDefaultResponse
-  | GetActionDefaultResponse
+  | ListDevBoxActionsDefaultResponse
+  | GetDevBoxActionDefaultResponse
   | SkipActionDefaultResponse
   | DelayActionDefaultResponse
   | DelayAllActionsDefaultResponse

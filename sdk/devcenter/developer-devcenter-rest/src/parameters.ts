@@ -83,13 +83,13 @@ export interface StopDevBoxQueryParam {
 export type StopDevBoxParameters = StopDevBoxQueryParam & RequestParameters;
 export type RestartDevBoxParameters = RequestParameters;
 export type GetRemoteConnectionParameters = RequestParameters;
-export type ListActionsParameters = RequestParameters;
-export type GetActionParameters = RequestParameters;
+export type ListDevBoxActionsParameters = RequestParameters;
+export type GetDevBoxActionParameters = RequestParameters;
 export type SkipActionParameters = RequestParameters;
 
 export interface DelayActionQueryParamProperties {
   /** The time to delay the Dev Box action or actions until. */
-  until: Date | string;
+  delayUntil: Date | string;
 }
 
 export interface DelayActionQueryParam {
@@ -100,7 +100,7 @@ export type DelayActionParameters = DelayActionQueryParam & RequestParameters;
 
 export interface DelayAllActionsQueryParamProperties {
   /** The time to delay the Dev Box action or actions until. */
-  until: Date | string;
+  delayUntil: Date | string;
 }
 
 export interface DelayAllActionsQueryParam {

@@ -353,37 +353,37 @@ export interface GetRemoteConnectionDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface ListActions200Response extends HttpResponse {
+export interface ListDevBoxActions200Response extends HttpResponse {
   status: "200";
   body: PagedDevBoxActionOutput;
 }
 
-export interface ListActionsDefaultHeaders {
+export interface ListDevBoxActionsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ListActionsDefaultResponse extends HttpResponse {
+export interface ListDevBoxActionsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ListActionsDefaultHeaders;
+  headers: RawHttpHeaders & ListDevBoxActionsDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface GetAction200Response extends HttpResponse {
+export interface GetDevBoxAction200Response extends HttpResponse {
   status: "200";
   body: DevBoxActionOutput;
 }
 
-export interface GetActionDefaultHeaders {
+export interface GetDevBoxActionDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface GetActionDefaultResponse extends HttpResponse {
+export interface GetDevBoxActionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & GetActionDefaultHeaders;
+  headers: RawHttpHeaders & GetDevBoxActionDefaultHeaders;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
