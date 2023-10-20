@@ -13,7 +13,7 @@ import {
   removeSchemas,
 } from "./utils/mockedRegistryClient";
 import { createTestSerializer } from "./utils/mockedSerializer";
-import { testDateSchemaObject, testGroup, testSchemaName } from "./utils/dummies";
+import { testGroup, testSchemaName } from "./utils/dummies";
 import { v4 as uuid } from "uuid";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { HttpClient, Pipeline, createDefaultHttpClient } from "@azure/core-rest-pipeline";
@@ -985,7 +985,15 @@ describe("Error scenarios", function () {
       const schema = await registry.registerSchema({
         name: testSchemaName,
         groupName: testGroup,
-        definition: JSON.stringify(testDateSchemaObject),
+        definition: JSON.stringify({
+          type: "record",
+          name: "AvroUser",
+          namespace: "com.azure.schemaregistry.samples",
+          fields: [
+            { name: "amount", type: "int" },
+            { name: "time", type: { type: "long", logicalType: "timestamp-millis" } },
+          ],
+        }),
         format: "avro",
       });
       // This represents a date that cannot be serialized in JS

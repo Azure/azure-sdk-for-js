@@ -31,16 +31,3 @@ export const testSchemaIds = [
 export const testSchema = JSON.stringify(testSchemaObject);
 export const testValue = { name: "Nick", favoriteNumber: 42 };
 export const testAvroType = avro.Type.forSchema(testSchemaObject, { omitRecordMethods: true });
-export const testDateSchemaObject: avro.schema.RecordType = {
-  type: "record",
-  name: "AvroUser",
-  namespace: "com.azure.schemaregistry.samples",
-  fields: [
-    { name: "amount", type: "int" },
-    { name: "time", type: { type: "long", logicalType: "timestamp-millis" } },
-  ],
-};
-export const testTransaction = {
-  amount: 32,
-  time: new Date("Thu Nov 05 275759 11:38:05 GMT-0800 (PST)"),
-};

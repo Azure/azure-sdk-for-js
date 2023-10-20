@@ -172,7 +172,6 @@ export async function removeSchemas(
       timeout: 0,
       withCredentials: true,
       headers: createHttpHeaders({}),
-      allowInsecureConnection: new URL(url).protocol !== "https:",
     });
   }
 

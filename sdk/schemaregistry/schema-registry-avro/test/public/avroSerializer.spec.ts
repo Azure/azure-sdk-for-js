@@ -11,10 +11,8 @@ import {
   testAvroType,
   testGroup,
   testSchema,
-  testTransaction,
   testValue,
   testSchemaName,
-  testDateSchemaObject,
 } from "./utils/dummies";
 import { Context } from "mocha";
 import { AvroSerializer, MessageContent } from "../../src/";
@@ -117,9 +115,26 @@ describe("AvroSerializer", async function () {
       autoRegisterSchemas: true,
       groupName: testGroup,
     });
+    const testTransaction = {
+      type: "record",
+      name: "AvroUser",
+      namespace: "com.azure.schemaregistry.samples",
+      fields: [
+        { name: "amount", type: "int" },
+        { name: "time", type: { type: "long", logicalType: "timestamp-millis" } },
+      ],
+    };
     const message = await serializer.serialize(
-      testTransaction,
-      JSON.stringify(testDateSchemaObject)
+    testTransaction,
+      JSON.stringify({
+        type: "record",
+        name: "AvroUser",
+        namespace: "com.azure.schemaregistry.samples",
+        fields: [
+          { name: "amount", type: "int" },
+          { name: "time", type: { type: "long", logicalType: "timestamp-millis" } },
+        ],
+      })
     );
     assert.isDefined(message);
     assert.deepStrictEqual(await serializer.deserialize(message), testTransaction);
