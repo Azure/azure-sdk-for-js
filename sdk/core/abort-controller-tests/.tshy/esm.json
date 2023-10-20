@@ -6,7 +6,9 @@
     "../src/**/*.tsx"
   ],
   "exclude": [
-    ".././src/native-browser.mts"
+    ".././src/native-browser.mts",
+    ".././src/native-deno.mts",
+    ".././src/native-bun.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build-tmp/esm"

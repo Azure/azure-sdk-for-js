@@ -7,9 +7,9 @@
   ],
   "exclude": [
     ".././src/native-browser.mts",
-    ".././src/native-bun.mts"
+    ".././src/native-deno.mts"
   ],
   "compilerOptions": {
-    "outDir": "../.tshy-build-tmp/deno"
+    "outDir": "../.tshy-build-tmp/bun"
   }
 }

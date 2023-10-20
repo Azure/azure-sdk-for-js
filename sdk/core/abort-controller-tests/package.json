@@ -24,6 +24,10 @@
         "types": "./dist/deno/index.d.ts",
         "default": "./dist/deno/index.js"
       },
+      "bun": {
+        "types": "./dist/bun/index.d.ts",
+        "default": "./dist/bun/index.js"
+      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -64,7 +68,8 @@
     ],
     "esmDialects": [
       "browser",
-      "deno"
+      "deno",
+      "bun"
     ]
   },
   "imports": {

@@ -5,7 +5,10 @@
     "../src/**/*.mts",
     "../src/**/*.tsx"
   ],
-  "exclude": [],
+  "exclude": [
+    ".././src/native-deno.mts",
+    ".././src/native-bun.mts"
+  ],
   "compilerOptions": {
     "outDir": "../.tshy-build-tmp/browser"
   }
