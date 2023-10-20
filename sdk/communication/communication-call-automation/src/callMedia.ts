@@ -110,7 +110,7 @@ export class CallMedia {
    * @param playOptions - Additional attributes for play.
    */
   public async play(
-    playSources: FileSource[] | TextSource[] | SsmlSource[],
+    playSources: (FileSource | TextSource | SsmlSource)[],
     playTo: CommunicationIdentifier[],
     playOptions: PlayOptions = { loop: false }
   ): Promise<void> {
@@ -138,7 +138,7 @@ export class CallMedia {
    * @param playOptions - Additional attributes for play.
    */
   public async playToAll(
-    playSources: FileSource[] | TextSource[] | SsmlSource[],
+    playSources: (FileSource | TextSource | SsmlSource)[],
     playOptions: PlayOptions = { loop: false }
   ): Promise<void> {
     const playRequest: PlayRequest = {
