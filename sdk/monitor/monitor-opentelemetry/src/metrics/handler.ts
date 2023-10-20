@@ -70,7 +70,7 @@ export class MetricHandler {
     return this._metricReader;
   }
 
-  public geViews(): View[] {
+  public getViews(): View[] {
     return this._views;
   }
 
