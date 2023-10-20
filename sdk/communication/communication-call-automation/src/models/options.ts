@@ -140,9 +140,9 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUrl?: string;
-  /** Participant that is being transferred away */
+  /** Transferee is the participant who is transferred away. */
   transferee?: CommunicationIdentifier;
-  /** Used by customer to send custom context to targets */
+  /** Used by customer to send custom context to targets. */
   customContext?: CustomContext;
 }
 

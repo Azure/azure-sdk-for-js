@@ -153,7 +153,7 @@ export interface CallInvite {
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
-  /** Used by customer to send custom context to targets */
+  /** Used by customer to send custom context to targets. */
   customContext?: CustomContext;
 }
 
