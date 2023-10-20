@@ -1,12 +1,18 @@
 # Release History
 
-## 1.5.1 (Unreleased)
+## 1.6.0 (Unreleased)
 
 ### Features Added
+
+- Add support for hex encoding to `uint8ArrayToString` and `stringToUint8Array`
+- Fix bug when `uint8ArrayToString` with Base64 encoding would not decode binary data 
+  containing bytes which are not valid ISO/IEC 8859-1 (latin1) characters.
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Improved `isNode` to be false when `isDeno` is true due to Deno implementing `process.version.node`
 
 ### Other Changes
 

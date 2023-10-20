@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update an applicationGroup.
  *
  * @summary Update an applicationGroup.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/ApplicationGroup_Update.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ApplicationGroup_Update.json
  */
 async function applicationGroupsUpdate() {
   const subscriptionId =
@@ -26,6 +26,7 @@ async function applicationGroupsUpdate() {
   const applicationGroup = {
     description: "des1",
     friendlyName: "friendly",
+    showInFeed: true,
     tags: { tag1: "value1", tag2: "value2" },
   };
   const options = { applicationGroup };

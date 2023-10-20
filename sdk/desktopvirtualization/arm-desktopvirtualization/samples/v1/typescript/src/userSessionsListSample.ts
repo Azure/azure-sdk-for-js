@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List userSessions.
  *
  * @summary List userSessions.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/UserSession_List.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/UserSession_List.json
  */
 async function userSessionList() {
   const subscriptionId =
