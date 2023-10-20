@@ -127,6 +127,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation5);
           });
 
+          // The operation never starts and stay stuck in "notStarted" state
           it.skip("entity linking", async function () {
             const docs = [
               "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
