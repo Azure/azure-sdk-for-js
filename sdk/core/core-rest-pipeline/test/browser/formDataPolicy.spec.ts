@@ -13,12 +13,12 @@ import {
 import { isMultipartRequestBody } from "../../src/policies/multipartPolicy";
 import { BodyPart } from "../../src/interfaces";
 
-describe("formDataPolicy", function() {
-  afterEach(function() {
+describe("formDataPolicy", function () {
+  afterEach(function () {
     sinon.restore();
   });
 
-  it("prepares x-www-form-urlencoded form data correctly", async function() {
+  it("prepares x-www-form-urlencoded form data correctly", async function () {
     const request = createPipelineRequest({
       url: "https://bing.com",
       headers: createHttpHeaders({
@@ -48,7 +48,7 @@ describe("formDataPolicy", function() {
     );
   });
 
-  it("prepares x-www-form-urlencoded form data correctly for array value", async function() {
+  it("prepares x-www-form-urlencoded form data correctly for array value", async function () {
     const request = createPipelineRequest({
       url: "https://bing.com",
       headers: createHttpHeaders({
@@ -72,7 +72,7 @@ describe("formDataPolicy", function() {
     assert.strictEqual(result.request.body, `a=va&b=vb&c=vc1&c=vc2`);
   });
 
-  it("prepares multipart/form-data form data correctly", async function() {
+  it("prepares multipart/form-data form data correctly", async function () {
     const request = createPipelineRequest({
       url: "https://bing.com",
       headers: createHttpHeaders({
@@ -99,22 +99,17 @@ describe("formDataPolicy", function() {
     const parts = (body as any).parts as BodyPart[];
     const enc = new TextEncoder();
     assert.ok(parts.length === 2, "need 2 parts");
-    assert.deepEqual(parts[0],
-      {
-        headers: createHttpHeaders({
-          "content-disposition": `form-data; name="a"`,
-        }),
-        body: enc.encode("va"),
-      }
-    );
-    assert.deepEqual(parts[1],
-      {
-        headers: createHttpHeaders({
-          "content-disposition": `form-data; name="b"`,
-        }),
-        body: enc.encode("vb"),
-      }
-    );
-
+    assert.deepEqual(parts[0], {
+      headers: createHttpHeaders({
+        "content-disposition": `form-data; name="a"`,
+      }),
+      body: enc.encode("va"),
+    });
+    assert.deepEqual(parts[1], {
+      headers: createHttpHeaders({
+        "content-disposition": `form-data; name="b"`,
+      }),
+      body: enc.encode("vb"),
+    });
   });
 });

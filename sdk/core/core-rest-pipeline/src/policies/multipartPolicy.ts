@@ -6,7 +6,6 @@ import { concatenateStreams, toStream } from "../util/stream";
 export const multipartPolicyName = "multipartPolicy";
 
 function generateBoundary() {
-  // todo actually randomly generate;
   return `----AzSDKFormBoundary${randomUUID()}`;
 }
 
@@ -19,7 +18,6 @@ function createBodyStream(
   boundary: string
 ): ReadableStream | NodeJS.ReadableStream {
   const streams = [
-    // start with the boundary
     stringToUint8Array(`--${boundary}\r\n`, "utf-8"),
     ...parts.flatMap((part) => [
       stringToUint8Array(encodeHeaders(part.headers), "utf-8"),

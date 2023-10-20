@@ -91,7 +91,10 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
       } else if (isFileLike(value)) {
         const fileName = value.name || "blob";
         const headers = createHttpHeaders();
-        headers.set("content-disposition", `form-data; name="${fieldName}"; filename="${fileName}"`);
+        headers.set(
+          "content-disposition",
+          `form-data; name="${fieldName}"; filename="${fileName}"`
+        );
         if (value.type) {
           headers.set("content-type", value.type);
         }

@@ -10,15 +10,15 @@ import { createPipelineRequest } from "../src/pipelineRequest";
 import { isNode } from "@azure/core-util";
 import sinon from "sinon";
 
-describe("defaultLogPolicy", function() {
-  it("should be invoked on every retry", async function() {
+describe("defaultLogPolicy", function () {
+  it("should be invoked on every retry", async function () {
     const request = createPipelineRequest({
       url: "https://bing.com",
     });
 
     const testSignPolicy: PipelinePolicy = {
       name: "testSignPolicy",
-      sendRequest: async function(req, next) {
+      sendRequest: async function (req, next) {
         const response = await next(req);
         return response;
       },
@@ -51,7 +51,7 @@ describe("defaultLogPolicy", function() {
 
     const order: string[] = [];
     for (const policy of orderedPolicies) {
-      const stub = sinon.stub(policy, "sendRequest").callsFake(async function(req, next) {
+      const stub = sinon.stub(policy, "sendRequest").callsFake(async function (req, next) {
         order.push(policy.name);
         return stub.wrappedMethod(req, next);
       });
@@ -59,7 +59,7 @@ describe("defaultLogPolicy", function() {
 
     await pipeline.sendRequest(
       {
-        sendRequest: async function(req) {
+        sendRequest: async function (req) {
           return { headers: createHttpHeaders(), request: req, status: 500 };
         },
       },
