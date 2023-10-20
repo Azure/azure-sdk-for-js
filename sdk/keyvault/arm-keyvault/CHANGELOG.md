@@ -1,15 +1,16 @@
 # Release History
+    
+## 3.1.0 (2023-10-18)
+    
+**Features**
 
-## 3.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ManagedServiceIdentity
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias ManagedServiceIdentityType
+  - Interface ManagedHsmResource has a new optional parameter identity
+  - Added Enum KnownManagedServiceIdentityType
+    
+    
 ## 3.0.0 (2023-04-10)
     
 **Features**

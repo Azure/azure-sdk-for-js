@@ -13,3 +13,4 @@ export * from "./volumeGroups";
 export * from "./volumes";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
+export * from "./volumeSnapshots";
