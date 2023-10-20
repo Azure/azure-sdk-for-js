@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SasTokenProvider, createSasTokenProvider } from "./sasTokenProvider.js";
+import { SasTokenCredential } from "./sasTokenCredential.js";
 
 /**
  * Defines an object with possible properties defined in T.
@@ -77,16 +77,16 @@ export interface NotificationHubsConnectionStringProperties {
 }
 
 /**
- * Creates a SasTokenProvider from a shared access key and shared access key name.
+ * Creates a SasTokenCredential from a shared access key and shared access key name.
  * @param sharedAccessKey - The shared access key value.
  * @param sharedAccessKeyName - The shared access key name.
- * @returns A SasTokenProvider with the given shared access token information.
+ * @returns A SasTokenCredential with the given shared access token information.
  */
-export function createTokenProviderFromConnection(
+export function createTokenCredentialFromConnection(
   sharedAccessKey: string,
   sharedAccessKeyName: string
-): SasTokenProvider {
-  return createSasTokenProvider({ sharedAccessKey, sharedAccessKeyName });
+): SasTokenCredential {
+  return new SasTokenCredential({ sharedAccessKey, sharedAccessKeyName });
 }
 
 /**

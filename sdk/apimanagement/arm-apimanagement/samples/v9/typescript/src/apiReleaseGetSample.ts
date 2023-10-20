@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns the details of an API release.
  *
  * @summary Returns the details of an API release.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetApiRelease.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiRelease.json
  */
 async function apiManagementGetApiRelease() {
   const subscriptionId =

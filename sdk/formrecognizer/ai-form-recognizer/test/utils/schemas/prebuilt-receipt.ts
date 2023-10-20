@@ -3,8 +3,8 @@
 
 // Model:       prebuilt-receipt
 // Description: Extract key information from receipts.
-// API Version: 2023-02-28-preview
-// Created:     Wed Apr 05 2023
+// API Version: 2023-07-31
+// Created:     Tue Aug 01 2023
 
 import * as fr from "../../../src";
 
@@ -705,8 +705,8 @@ function modelInfo() {
   return {
     modelId: "prebuilt-receipt",
     description: "Extract key information from receipts.",
-    createdOn: "2023-02-28T00:00:00.000Z",
-    apiVersion: "2023-02-28-preview",
+    createdOn: "2023-07-31T00:00:00.000Z",
+    apiVersion: "2023-07-31",
     docTypes: {
       receipt: {
         buildMode: "template",

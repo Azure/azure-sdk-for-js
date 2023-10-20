@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import CustomWidgetBlobService, { Config } from "./CustomWidgetBlobService";
+import { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
 import { APIM_CONFIG_FILE_NAME } from "../paths";
 import fs from "fs";
 import getStorageSasUrl from "./getStorageSasUrl";
@@ -21,24 +22,41 @@ export type ServiceInformation = {
 };
 
 /**
+ * Optional options object for configuring the deployment function.
+ *
+ * @param rootLocal - optional, root of the local folder with compiled project to be exported (by default "./dist")
+ * @param interactiveBrowserCredentialOptions - options for InteractiveBrowserCredential for Node or InBrowser from \@azure/identity
+ */
+export type DeployConfig = {
+  rootLocal?: string;
+  interactiveBrowserCredentialOptions?: InteractiveBrowserCredentialNodeOptions;
+};
+
+/**
  * Deploys everything from /dist folder to the API Management DevPortals' blob storage.
  *
  * @param serviceInformation - service information for deployment
  * @param name - name of the widget to be deployed
  * @param fallbackConfigPath - local path to the config file (by default "./static/config.msapim.json")
- * @param rootLocal - optional, root of the local folder with compiled project to be exported (by default "./dist")
+ * @param config - optional config object
  */
 async function deploy(
   serviceInformation: ServiceInformation,
   name: string,
   fallbackConfigPath = "./static/" + APIM_CONFIG_FILE_NAME,
-  rootLocal: string = "./dist/"
+  {
+    rootLocal = "./dist/",
+    interactiveBrowserCredentialOptions = { redirectUri: "http://localhost:1337" },
+  }: DeployConfig = {}
 ): Promise<void> {
   console.log("\n\n");
   console.log("Starting deploy process of custom widget: " + name);
   console.log("Please, sign in to your Azure account when prompted\n");
 
-  const blobStorageUrl = await getStorageSasUrl(serviceInformation);
+  const blobStorageUrl = await getStorageSasUrl(
+    serviceInformation,
+    interactiveBrowserCredentialOptions
+  );
   const customWidgetBlobService = new CustomWidgetBlobService(blobStorageUrl, name);
 
   let config: Config | undefined;

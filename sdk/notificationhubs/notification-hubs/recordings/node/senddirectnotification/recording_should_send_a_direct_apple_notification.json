@@ -13,9 +13,9 @@
         "Content-Type": "application/json;charset=utf-8",
         "ServiceBusNotification-DeviceHandle": "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0",
         "ServiceBusNotification-Format": "apple",
-        "User-Agent": "azsdk-js-messaging-notificationhubs/1.0.0-beta.9 core-rest-pipeline/1.10.1 Node/v19.2.0 OS/(arm64-Darwin-22.2.0)",
+        "User-Agent": "azsdk-js-messaging-notificationhubs/1.0.3 core-rest-pipeline/1.11.1 Node/v18.17.0 OS/(arm64-Darwin-22.6.0)",
         "x-ms-azsdk-telemetry": "class=NotificationHubsServiceClient;method=sendNotification",
-        "x-ms-client-request-id": "a14b51ec-bb9a-46fc-9490-fa6724434f2d",
+        "x-ms-client-request-id": "2599ed47-63f7-4536-87fb-f7d5fd928cf0",
         "x-ms-version": "2020-06"
       },
       "RequestBody": {
@@ -26,12 +26,12 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "Content-Length": "0",
-        "Date": "Wed, 14 Dec 2022 20:24:18 GMT",
-        "Location": "https://azuresdktestns.servicebus.windows.net/hub_name/messages/NH-20221214202418767-fd9a43ac4b0a4d70911bd9f28a0f42ec-09?api-version=2020-06",
+        "Date": "Thu, 03 Aug 2023 15:53:54 GMT",
+        "Location": "https://azuresdktestns.servicebus.windows.net/hub_name/messages/NH-20230803155355238-23cfaa9cd29144c8a8e05c08336d5153-07?api-version=2020-06",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=2592000",
-        "TrackingId": "2c073372-22e5-48b7-bef8-1c24d686bc8b",
-        "x-ms-correlation-request-id": "a43e811f-d36d-413f-a3c5-14f1983c938c",
+        "TrackingId": "bd4cfa67-0e76-4d20-bc68-97eba684f876",
+        "x-ms-correlation-request-id": "df36dbdd-4d32-4c68-a0ee-674ea9e8fde3",
         "X-Powered-By": "Azure Notification Hubs"
       },
       "ResponseBody": null

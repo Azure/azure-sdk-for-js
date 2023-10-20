@@ -270,7 +270,7 @@ export interface WebPubSubClientOptions {
 export interface WebPubSubClientProtocol {
     readonly isReliableSubProtocol: boolean;
     readonly name: string;
-    parseMessages(input: string | ArrayBuffer | Buffer): WebPubSubMessage | null;
+    parseMessages(input: string | ArrayBuffer | Buffer): WebPubSubMessage[] | WebPubSubMessage | null;
     writeMessage(message: WebPubSubMessage): string | ArrayBuffer;
 }
 

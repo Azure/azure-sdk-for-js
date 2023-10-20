@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Checks if Certificate entity is assigned to Gateway entity as Certificate Authority.
  *
  * @summary Checks if Certificate entity is assigned to Gateway entity as Certificate Authority.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadGatewayCertificateAuthority.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadGatewayCertificateAuthority.json
  */
 async function apiManagementHeadGatewayCertificateAuthority() {
   const subscriptionId =

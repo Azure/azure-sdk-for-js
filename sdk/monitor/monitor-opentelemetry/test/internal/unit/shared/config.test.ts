@@ -7,10 +7,11 @@ import * as sinon from "sinon";
 import * as http from "http";
 import * as https from "https";
 
-import { AzureMonitorOpenTelemetryConfig } from "../../../../src/shared";
+import { InternalConfig } from "../../../../src/shared";
 import { JsonConfig } from "../../../../src/shared/jsonConfig";
 import { Resource } from "@opentelemetry/resources";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
+import { AzureMonitorOpenTelemetryOptions } from "../../../../src/shared/types";
 
 describe("Library/Config", () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -37,31 +38,21 @@ describe("Library/Config", () => {
       );
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath; // Load JSON config
       process.env = env;
-      const config = new AzureMonitorOpenTelemetryConfig();
+      const config = new InternalConfig();
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig.connectionString,
+        config.azureMonitorExporterOptions.connectionString,
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
       );
       assert.deepStrictEqual(config.samplingRatio, 0.3, "Wrong samplingRatio");
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.disableOfflineStorage,
+        config.azureMonitorExporterOptions?.disableOfflineStorage,
         true,
         "Wrong disableOfflineStorage"
       );
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.storageDirectory,
+        config.azureMonitorExporterOptions?.storageDirectory,
         "testPath",
         "Wrong storageDirectory"
-      );
-      assert.deepStrictEqual(
-        config.enableAutoCollectPerformance,
-        false,
-        "Wrong enableAutoCollectPerformance"
-      );
-      assert.deepStrictEqual(
-        config.enableAutoCollectStandardMetrics,
-        false,
-        "Wrong enableAutoCollectStandardMetrics"
       );
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
@@ -79,19 +70,94 @@ describe("Library/Config", () => {
       assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, true, "Wrong redis4");
     });
 
+    it("JSON config values take precedence over others", () => {
+      const env = <{ [id: string]: string }>{};
+
+      let jsonOptions = {
+        azureMonitorExporterOptions: {
+          connectionString: "testConnString",
+          storageDirectory: "teststorageDirectory",
+          disableOfflineStorage: true,
+        },
+        samplingRatio: 1,
+        instrumentationOptions: {
+          http: { enabled: true },
+          azureSdk: { enabled: true },
+          mongoDb: { enabled: true },
+          mySql: { enabled: true },
+          postgreSql: { enabled: true },
+          redis: { enabled: true },
+          redis4: { enabled: true },
+        },
+      };
+      env["APPLICATIONINSIGHTS_CONFIGURATION_CONTENT"] = JSON.stringify(jsonOptions);
+      process.env = env;
+
+      let options: AzureMonitorOpenTelemetryOptions = {
+        azureMonitorExporterOptions: {
+          connectionString: "testConnStringOther",
+          storageDirectory: "teststorageDirectoryOther",
+          disableOfflineStorage: false,
+        },
+        samplingRatio: 0.5,
+        instrumentationOptions: {
+          http: { enabled: false },
+          azureSdk: { enabled: false },
+          mongoDb: { enabled: false },
+          mySql: { enabled: false },
+          postgreSql: { enabled: false },
+          redis: { enabled: false },
+          redis4: { enabled: false },
+        },
+      };
+
+      const config = new InternalConfig(options);
+      assert.strictEqual(config.samplingRatio, jsonOptions.samplingRatio);
+      assert.strictEqual(
+        config.instrumentationOptions?.http?.enabled,
+        jsonOptions.instrumentationOptions.http.enabled
+      );
+      assert.strictEqual(
+        config.instrumentationOptions?.azureSdk?.enabled,
+        jsonOptions.instrumentationOptions.azureSdk.enabled
+      );
+      assert.strictEqual(
+        config.instrumentationOptions?.mongoDb?.enabled,
+        jsonOptions.instrumentationOptions.mongoDb.enabled
+      );
+      assert.strictEqual(
+        config.instrumentationOptions?.mySql?.enabled,
+        jsonOptions.instrumentationOptions.mySql.enabled
+      );
+      assert.strictEqual(
+        config.instrumentationOptions?.postgreSql?.enabled,
+        jsonOptions.instrumentationOptions.postgreSql.enabled
+      );
+      assert.strictEqual(
+        config.instrumentationOptions?.redis?.enabled,
+        jsonOptions.instrumentationOptions.redis.enabled
+      );
+      assert.strictEqual(
+        config.instrumentationOptions?.redis4?.enabled,
+        jsonOptions.instrumentationOptions.redis4.enabled
+      );
+      assert.strictEqual(
+        config.azureMonitorExporterOptions?.connectionString,
+        jsonOptions.azureMonitorExporterOptions.connectionString
+      );
+      assert.strictEqual(
+        config.azureMonitorExporterOptions?.storageDirectory,
+        jsonOptions.azureMonitorExporterOptions.storageDirectory
+      );
+      assert.strictEqual(
+        config.azureMonitorExporterOptions?.disableOfflineStorage,
+        jsonOptions.azureMonitorExporterOptions.disableOfflineStorage
+      );
+    });
+
     it("Default config", () => {
-      const config = new AzureMonitorOpenTelemetryConfig();
+      const config = new InternalConfig();
       assert.deepStrictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
-      assert.deepStrictEqual(
-        config.enableAutoCollectPerformance,
-        true,
-        "Wrong enableAutoCollectPerformance"
-      );
-      assert.deepStrictEqual(
-        config.enableAutoCollectStandardMetrics,
-        true,
-        "Wrong enableAutoCollectStandardMetrics"
-      );
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
         false,
@@ -111,18 +177,74 @@ describe("Library/Config", () => {
       assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, false, "Wrong redis");
       assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, false, "Wrong redis4");
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.disableOfflineStorage,
+        config.azureMonitorExporterOptions?.disableOfflineStorage,
         undefined,
         "Wrong disableOfflineStorage"
       );
       assert.deepStrictEqual(
-        config.azureMonitorExporterConfig?.storageDirectory,
+        config.azureMonitorExporterOptions?.storageDirectory,
         undefined,
         "Wrong storageDirectory"
       );
-      assert.deepStrictEqual(config.otlpTraceExporterConfig, {}, "Wrong otlpTraceExporterConfig ");
-      assert.deepStrictEqual(config.otlpMetricExporterConfig, {}, "Wrong otlpTraceExporterConfig ");
-      assert.deepStrictEqual(config.otlpLogExporterConfig, {}, "Wrong otlpTraceExporterConfig ");
+    });
+
+    it("Partial configurations are supported", () => {
+      const env = <{ [id: string]: string }>{};
+
+      let jsonOptions = {
+        azureMonitorExporterOptions: {
+          storageDirectory: "teststorageDirectory",
+        },
+        samplingRatio: 0.7,
+        instrumentationOptions: {
+          redis4: { enabled: true },
+        },
+      };
+      env["APPLICATIONINSIGHTS_CONFIGURATION_CONTENT"] = JSON.stringify(jsonOptions);
+      process.env = env;
+
+      let options: AzureMonitorOpenTelemetryOptions = {
+        azureMonitorExporterOptions: {
+          connectionString: "testConnectionString",
+        },
+        instrumentationOptions: {
+          http: { enabled: false },
+        },
+      };
+
+      const config = new InternalConfig(options);
+      assert.deepStrictEqual(config.samplingRatio, 0.7, "Wrong samplingRatio");
+      assert.deepStrictEqual(
+        config.azureMonitorExporterOptions?.storageDirectory,
+        "teststorageDirectory",
+        "Wrong storageDirectory"
+      );
+      assert.deepStrictEqual(
+        config.azureMonitorExporterOptions?.connectionString,
+        "testConnectionString",
+        "Wrong connectionString"
+      );
+      assert.deepStrictEqual(config.instrumentationOptions.http?.enabled, false, "Wrong http");
+      assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, true, "Wrong redis4");
+
+      // Default values
+      assert.deepStrictEqual(
+        config.instrumentationOptions.azureSdk?.enabled,
+        false,
+        "Wrong azureSdk"
+      );
+      assert.deepStrictEqual(
+        config.instrumentationOptions.mongoDb?.enabled,
+        false,
+        "Wrong mongoDb"
+      );
+      assert.deepStrictEqual(config.instrumentationOptions.mySql?.enabled, false, "Wrong mySql");
+      assert.deepStrictEqual(
+        config.instrumentationOptions.postgreSql?.enabled,
+        false,
+        "Wrong postgreSql"
+      );
+      assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, false, "Wrong redis");
     });
   });
 
@@ -133,33 +255,33 @@ describe("Library/Config", () => {
     });
 
     it("should initialize valid values", () => {
-      const config = new AzureMonitorOpenTelemetryConfig();
-      config.azureMonitorExporterConfig.connectionString =
+      const config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
-      assert.ok(typeof config.azureMonitorExporterConfig?.connectionString === "string");
+      assert.ok(typeof config.azureMonitorExporterOptions?.connectionString === "string");
       assert.ok(typeof config.samplingRatio === "number");
     });
 
     it("instrumentation key validation-valid key passed", () => {
       const warnStub = sandbox.stub(console, "warn");
-      const config = new AzureMonitorOpenTelemetryConfig();
-      config.azureMonitorExporterConfig.connectionString =
+      const config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
       assert.ok(warnStub.notCalled, "warning was not raised");
     });
 
     it("instrumentation key validation-invalid key passed", () => {
       const warnStub = sandbox.stub(console, "warn");
-      const config = new AzureMonitorOpenTelemetryConfig();
-      config.azureMonitorExporterConfig.connectionString =
+      const config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111bbbb1ccc8dddeeeeffff3333";
       assert.ok(warnStub.calledOn, "warning was raised");
     });
 
     it("instrumentation key validation-invalid key passed", () => {
       const warnStub = sandbox.stub(console, "warn");
-      const config = new AzureMonitorOpenTelemetryConfig();
-      config.azureMonitorExporterConfig.connectionString = "abc";
+      const config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString = "abc";
       assert.ok(warnStub.calledOn, "warning was raised");
     });
   });
@@ -172,7 +294,7 @@ describe("OpenTelemetry Resource", () => {
     customAttributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID] = "testServiceInstanceId";
     customAttributes[SemanticResourceAttributes.CONTAINER_ID] = "testContainerId";
     let customResource = new Resource(customAttributes);
-    const config = new AzureMonitorOpenTelemetryConfig();
+    const config = new InternalConfig();
     config.resource = customResource;
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME],
@@ -189,7 +311,7 @@ describe("OpenTelemetry Resource", () => {
   });
 
   it("Default values", () => {
-    const config = new AzureMonitorOpenTelemetryConfig();
+    const config = new InternalConfig();
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_NAME],
       "opentelemetry"
@@ -217,7 +339,7 @@ describe("OpenTelemetry Resource", () => {
     env.OTEL_RESOURCE_ATTRIBUTES =
       "service.name=testServiceName,service.instance.id=testServiceInstance,k8s.cluster.name=testClusterName,k8s.node.name=testNodeName";
     process.env = env;
-    const config = new AzureMonitorOpenTelemetryConfig();
+    const config = new InternalConfig();
     process.env = originalEnv;
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME],

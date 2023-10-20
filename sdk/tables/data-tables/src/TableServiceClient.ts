@@ -10,7 +10,11 @@ import {
   SetPropertiesOptions,
   SetPropertiesResponse,
 } from "./generatedModels";
-import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
+import {
+  InternalClientPipelineOptions,
+  OperationOptions,
+  ServiceClientOptions,
+} from "@azure/core-client";
 import {
   ListTableItemsOptions,
   TableItem,
@@ -161,21 +165,18 @@ export class TableServiceClient {
     const clientOptions =
       (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
-    clientOptions.endpoint = clientOptions.endpoint || this.url;
-
-    const internalPipelineOptions: InternalClientPipelineOptions = {
+    const internalPipelineOptions: ServiceClientOptions & InternalClientPipelineOptions = {
       ...clientOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames],
-        },
-        deserializationOptions: {
-          parseXML,
-        },
-        serializationOptions: {
-          stringifyXML,
-        },
+      endpoint: clientOptions.endpoint || this.url,
+      loggingOptions: {
+        logger: logger.info,
+        additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames],
+      },
+      deserializationOptions: {
+        parseXML,
+      },
+      serializationOptions: {
+        stringifyXML,
       },
     };
     const client = new GeneratedClient(this.url, internalPipelineOptions);

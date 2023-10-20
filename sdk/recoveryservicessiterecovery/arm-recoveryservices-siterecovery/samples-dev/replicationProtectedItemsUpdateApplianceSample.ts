@@ -13,17 +13,24 @@ import {
   SiteRecoveryManagementClient
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to update appliance of an ASR replication protected item.
  *
  * @summary The operation to update appliance of an ASR replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationProtectedItems_UpdateAppliance.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_UpdateAppliance.json
  */
 async function updatesApplianceForReplicationProtectedItem() {
-  const subscriptionId = "7c943c1b-5122-4097-90c8-861411bdd574";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "7c943c1b-5122-4097-90c8-861411bdd574";
   const resourceName = "Ayan-0106-SA-Vault";
-  const resourceGroupName = "Ayan-0106-SA-RG";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
+    "Ayan-0106-SA-RG";
   const fabricName = "Ayan-0106-SA-Vaultreplicationfabric";
   const protectionContainerName = "Ayan-0106-SA-Vaultreplicationcontainer";
   const replicatedProtectedItemName =
@@ -50,4 +57,8 @@ async function updatesApplianceForReplicationProtectedItem() {
   console.log(result);
 }
 
-updatesApplianceForReplicationProtectedItem().catch(console.error);
+async function main() {
+  updatesApplianceForReplicationProtectedItem();
+}
+
+main().catch(console.error);

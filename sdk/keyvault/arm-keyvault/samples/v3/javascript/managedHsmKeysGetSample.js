@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the current version of the specified key from the specified managed HSM.
  *
  * @summary Gets the current version of the specified key from the specified managed HSM.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/managedHsmGetKey.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/managedHsmGetKey.json
  */
 async function getAKey() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves gateway keys.
  *
  * @summary Retrieves gateway keys.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGatewayListKeys.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGatewayListKeys.json
  */
 async function apiManagementGatewayListKeys() {
   const subscriptionId =

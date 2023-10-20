@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MigrationItem,
   ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams,
@@ -110,8 +110,8 @@ export interface ReplicationMigrationItems {
     input: EnableMigrationInput,
     options?: ReplicationMigrationItemsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsCreateResponse>,
       ReplicationMigrationItemsCreateResponse
     >
   >;
@@ -152,7 +152,7 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     options?: ReplicationMigrationItemsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete an ASR migration item.
    * @param resourceName The name of the recovery services vault.
@@ -191,8 +191,8 @@ export interface ReplicationMigrationItems {
     input: UpdateMigrationItemInput,
     options?: ReplicationMigrationItemsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsUpdateResponse>,
       ReplicationMigrationItemsUpdateResponse
     >
   >;
@@ -236,8 +236,8 @@ export interface ReplicationMigrationItems {
     migrateInput: MigrateInput,
     options?: ReplicationMigrationItemsMigrateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsMigrateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsMigrateResponse>,
       ReplicationMigrationItemsMigrateResponse
     >
   >;
@@ -281,8 +281,8 @@ export interface ReplicationMigrationItems {
     pauseReplicationInput: PauseReplicationInput,
     options?: ReplicationMigrationItemsPauseReplicationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsPauseReplicationResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsPauseReplicationResponse>,
       ReplicationMigrationItemsPauseReplicationResponse
     >
   >;
@@ -326,8 +326,8 @@ export interface ReplicationMigrationItems {
     resumeReplicationInput: ResumeReplicationInput,
     options?: ReplicationMigrationItemsResumeReplicationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsResumeReplicationResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsResumeReplicationResponse>,
       ReplicationMigrationItemsResumeReplicationResponse
     >
   >;
@@ -371,8 +371,8 @@ export interface ReplicationMigrationItems {
     input: ResyncInput,
     options?: ReplicationMigrationItemsResyncOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsResyncResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsResyncResponse>,
       ReplicationMigrationItemsResyncResponse
     >
   >;
@@ -416,8 +416,8 @@ export interface ReplicationMigrationItems {
     testMigrateInput: TestMigrateInput,
     options?: ReplicationMigrationItemsTestMigrateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsTestMigrateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsTestMigrateResponse>,
       ReplicationMigrationItemsTestMigrateResponse
     >
   >;
@@ -461,8 +461,8 @@ export interface ReplicationMigrationItems {
     testMigrateCleanupInput: TestMigrateCleanupInput,
     options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsTestMigrateCleanupResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsTestMigrateCleanupResponse>,
       ReplicationMigrationItemsTestMigrateCleanupResponse
     >
   >;

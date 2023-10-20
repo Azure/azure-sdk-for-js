@@ -178,6 +178,7 @@ export interface AcsEmailEngagementTrackingReportReceivedEventData {
     engagement: AcsUserEngagement;
     engagementContext: string;
     messageId: string;
+    recipient: string;
     sender: string;
     userActionTimestamp: string;
     userAgent: string;
@@ -229,6 +230,243 @@ export interface AcsRecordingFileStatusUpdatedEventData {
 export interface AcsRecordingStorageInfo {
     recordingChunks: AcsRecordingChunkInfo[];
 }
+
+// @public
+export interface AcsRouterChannelConfiguration {
+    capacityCostPerJob: number;
+    channelId: string;
+    maxNumberOfJobs: number;
+}
+
+// @public
+export interface AcsRouterCommunicationError {
+    code: string;
+    details: AcsRouterCommunicationError[];
+    innererror: AcsRouterCommunicationError;
+    message: string;
+    target: string;
+}
+
+// @public
+export interface AcsRouterEventData {
+    channelId: string;
+    channelReference: string;
+    jobId: string;
+}
+
+// @public
+export type AcsRouterJobCancelledEventData = AcsRouterJobEventData & {
+    note: string;
+    dispositionCode: string;
+};
+
+// @public
+export type AcsRouterJobClassificationFailedEventData = AcsRouterJobEventData & {
+    classificationPolicyId: string;
+    errors: AcsRouterCommunicationError[];
+};
+
+// @public
+export type AcsRouterJobClassifiedEventData = AcsRouterJobEventData & {
+    queueDetails: AcsRouterQueueDetails;
+    classificationPolicyId: string;
+    priority: number;
+    attachedWorkerSelectors: AcsRouterWorkerSelector[];
+};
+
+// @public
+export type AcsRouterJobClosedEventData = AcsRouterJobEventData & {
+    assignmentId: string;
+    workerId: string;
+    dispositionCode: string;
+};
+
+// @public
+export type AcsRouterJobCompletedEventData = AcsRouterJobEventData & {
+    assignmentId: string;
+    workerId: string;
+};
+
+// @public
+export type AcsRouterJobDeletedEventData = AcsRouterJobEventData & {};
+
+// @public
+export type AcsRouterJobEventData = AcsRouterEventData & {
+    queueId: string;
+    labels: {
+        [propertyName: string]: string;
+    };
+    tags: {
+        [propertyName: string]: string;
+    };
+};
+
+// @public
+export type AcsRouterJobExceptionTriggeredEventData = AcsRouterJobEventData & {
+    ruleKey: string;
+    exceptionRuleId: string;
+};
+
+// @public
+export type AcsRouterJobQueuedEventData = AcsRouterJobEventData & {
+    priority: number;
+    attachedWorkerSelectors: AcsRouterWorkerSelector[];
+    requestedWorkerSelectors: AcsRouterWorkerSelector[];
+};
+
+// @public
+export type AcsRouterJobReceivedEventData = AcsRouterJobEventData & {
+    jobStatus?: AcsRouterJobStatus;
+    classificationPolicyId?: string;
+    priority?: number;
+    requestedWorkerSelectors?: AcsRouterWorkerSelector[];
+    scheduledOn?: string;
+    unavailableForMatching: boolean;
+};
+
+// @public
+export type AcsRouterJobSchedulingFailedEventData = AcsRouterJobEventData & {
+    priority: number;
+    expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
+    expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
+    scheduledOn: string;
+    failureReason: string;
+};
+
+// @public
+export type AcsRouterJobStatus = string;
+
+// @public
+export type AcsRouterJobUnassignedEventData = AcsRouterJobEventData & {
+    assignmentId: string;
+    workerId: string;
+};
+
+// @public
+export type AcsRouterJobWaitingForActivationEventData = AcsRouterJobEventData & {
+    priority?: number;
+    expiredAttachedWorkerSelectors?: AcsRouterWorkerSelector[];
+    expiredRequestedWorkerSelectors?: AcsRouterWorkerSelector[];
+    scheduledOn?: string;
+    unavailableForMatching: boolean;
+};
+
+// @public
+export type AcsRouterJobWorkerSelectorsExpiredEventData = AcsRouterJobEventData & {
+    expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
+    expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
+};
+
+// @public
+export type AcsRouterLabelOperator = string;
+
+// @public
+export interface AcsRouterQueueDetails {
+    id: string;
+    labels: {
+        [propertyName: string]: string;
+    };
+    name: string;
+}
+
+// @public
+export type AcsRouterWorkerDeletedEventData = AcsRouterWorkerEventData & {};
+
+// @public
+export interface AcsRouterWorkerDeregisteredEventData {
+    workerId: string;
+}
+
+// @public
+export type AcsRouterWorkerEventData = AcsRouterEventData & {
+    workerId: string;
+};
+
+// @public
+export type AcsRouterWorkerOfferAcceptedEventData = AcsRouterWorkerEventData & {
+    queueId: string;
+    offerId: string;
+    assignmentId: string;
+    jobPriority: number;
+    workerLabels: {
+        [propertyName: string]: string;
+    };
+    workerTags: {
+        [propertyName: string]: string;
+    };
+    jobLabels: {
+        [propertyName: string]: string;
+    };
+    jobTags: {
+        [propertyName: string]: string;
+    };
+};
+
+// @public
+export type AcsRouterWorkerOfferDeclinedEventData = AcsRouterWorkerEventData & {
+    queueId: string;
+    offerId: string;
+};
+
+// @public
+export type AcsRouterWorkerOfferExpiredEventData = AcsRouterWorkerEventData & {
+    queueId: string;
+    offerId: string;
+};
+
+// @public
+export type AcsRouterWorkerOfferIssuedEventData = AcsRouterWorkerEventData & {
+    queueId: string;
+    offerId: string;
+    jobPriority: number;
+    workerLabels: {
+        [propertyName: string]: string;
+    };
+    offeredOn: string;
+    expiresOn: string;
+    workerTags: {
+        [propertyName: string]: string;
+    };
+    jobLabels: {
+        [propertyName: string]: string;
+    };
+    jobTags: {
+        [propertyName: string]: string;
+    };
+};
+
+// @public
+export type AcsRouterWorkerOfferRevokedEventData = AcsRouterWorkerEventData & {
+    queueId: string;
+    offerId: string;
+};
+
+// @public
+export interface AcsRouterWorkerRegisteredEventData {
+    channelConfigurations: AcsRouterChannelConfiguration[];
+    labels: {
+        [propertyName: string]: string;
+    };
+    queueAssignments: AcsRouterQueueDetails[];
+    tags: {
+        [propertyName: string]: string;
+    };
+    totalCapacity: number;
+    workerId: string;
+}
+
+// @public
+export interface AcsRouterWorkerSelector {
+    expirationTime: string;
+    key: string;
+    labelOperator: AcsRouterLabelOperator;
+    labelValue: any;
+    state: AcsRouterWorkerSelectorState;
+    ttlSeconds: number;
+}
+
+// @public
+export type AcsRouterWorkerSelectorState = string;
 
 // @public
 export interface AcsSmsDeliveryAttempt {
@@ -415,6 +653,19 @@ export interface AppConfigurationKeyValueModifiedEventData {
     label: string;
     syncToken: string;
 }
+
+// @public
+export type AppConfigurationSnapshotCreatedEventData = AppConfigurationSnapshotEventData & {};
+
+// @public
+export interface AppConfigurationSnapshotEventData {
+    etag: string;
+    name: string;
+    syncToken: string;
+}
+
+// @public
+export type AppConfigurationSnapshotModifiedEventData = AppConfigurationSnapshotEventData & {};
 
 // @public
 export interface AppEventTypeDetail {
@@ -700,6 +951,45 @@ export interface EventGridEvent<T> {
 }
 
 // @public
+export type EventGridMqttClientCreatedOrUpdatedEventData = EventGridMqttClientEventData & {
+    state: EventGridMqttClientState;
+    createdOn: string;
+    updatedOn: string;
+    attributes: {
+        [propertyName: string]: string;
+    };
+};
+
+// @public
+export type EventGridMqttClientDeletedEventData = EventGridMqttClientEventData & {};
+
+// @public
+export type EventGridMqttClientDisconnectionReason = string;
+
+// @public
+export interface EventGridMqttClientEventData {
+    clientAuthenticationName: string;
+    clientName: string;
+    namespaceName: string;
+}
+
+// @public
+export type EventGridMqttClientSessionConnectedEventData = EventGridMqttClientEventData & {
+    clientSessionName: string;
+    sequenceNumber: number;
+};
+
+// @public
+export type EventGridMqttClientSessionDisconnectedEventData = EventGridMqttClientEventData & {
+    clientSessionName: string;
+    sequenceNumber: number;
+    disconnectionReason: EventGridMqttClientDisconnectionReason;
+};
+
+// @public
+export type EventGridMqttClientState = string;
+
+// @public
 export class EventGridPublisherClient<T extends InputSchema> {
     constructor(endpointUrl: string, inputSchema: T, credential: KeyCredential | SASCredential | TokenCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
@@ -937,6 +1227,55 @@ export interface KeyVaultSecretNewVersionCreatedEventData {
 }
 
 // @public
+export const enum KnownAcsRouterJobStatus {
+    // (undocumented)
+    Assigned = "Assigned",
+    // (undocumented)
+    Cancelled = "Cancelled",
+    // (undocumented)
+    ClassificationFailed = "ClassificationFailed",
+    // (undocumented)
+    Closed = "Closed",
+    // (undocumented)
+    Completed = "Completed",
+    // (undocumented)
+    Created = "Created",
+    // (undocumented)
+    PendingClassification = "PendingClassification",
+    // (undocumented)
+    PendingSchedule = "PendingSchedule",
+    // (undocumented)
+    Queued = "Queued",
+    // (undocumented)
+    Scheduled = "Scheduled",
+    // (undocumented)
+    ScheduleFailed = "ScheduleFailed",
+    // (undocumented)
+    WaitingForActivation = "WaitingForActivation"
+}
+
+// @public
+export const enum KnownAcsRouterLabelOperator {
+    // (undocumented)
+    Equal = "Equal",
+    // (undocumented)
+    Greater = "Greater",
+    // (undocumented)
+    GreaterThanOrEqual = "GreaterThanOrEqual",
+    // (undocumented)
+    Less = "Less",
+    // (undocumented)
+    LessThanOrEqual = "LessThanOrEqual",
+    NotEqual = "NotEqual"
+}
+
+// @public
+export const enum KnownAcsRouterWorkerSelectorState {
+    Active = "active",
+    Expired = "expired"
+}
+
+// @public
 export const enum KnownAppAction {
     ChangedAppSettings = "ChangedAppSettings",
     Completed = "Completed",
@@ -956,6 +1295,29 @@ export const enum KnownAsyncStatus {
     Completed = "Completed",
     Failed = "Failed",
     Started = "Started"
+}
+
+// @public
+export const enum KnownEventGridMqttClientDisconnectionReason {
+    ClientAuthenticationError = "ClientAuthenticationError",
+    ClientAuthorizationError = "ClientAuthorizationError",
+    ClientError = "ClientError",
+    ClientInitiatedDisconnect = "ClientInitiatedDisconnect",
+    ConnectionLost = "ConnectionLost",
+    IpForbidden = "IpForbidden",
+    QuotaExceeded = "QuotaExceeded",
+    ServerError = "ServerError",
+    ServerInitiatedDisconnect = "ServerInitiatedDisconnect",
+    SessionOverflow = "SessionOverflow",
+    SessionTakenOver = "SessionTakenOver"
+}
+
+// @public
+export const enum KnownEventGridMqttClientState {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1438,6 +1800,36 @@ export interface ResourceHttpRequest {
 }
 
 // @public
+export type ResourceNotificationsHealthResourcesAnnotatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
+
+// @public
+export type ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData = ResourceNotificationsResourceUpdatedEventData & {};
+
+// @public
+export interface ResourceNotificationsOperationalDetails {
+    resourceEventTime: string;
+}
+
+// @public
+export interface ResourceNotificationsResourceUpdatedDetails {
+    id: string;
+    location: string;
+    name: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    tags: string;
+    type: string;
+}
+
+// @public
+export interface ResourceNotificationsResourceUpdatedEventData {
+    apiVersion: string;
+    operationalDetails: ResourceNotificationsOperationalDetails;
+    resourceDetails: ResourceNotificationsResourceUpdatedDetails;
+}
+
+// @public
 export interface ResourceWriteCancelEventData {
     authorization: ResourceAuthorization;
     claims: {
@@ -1728,6 +2120,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.ApiManagement.UserUpdated": ApiManagementUserUpdatedEventData;
     "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
     "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
+    "Microsoft.AppConfiguration.SnapshotCreated": AppConfigurationSnapshotCreatedEventData;
+    "Microsoft.AppConfiguration.SnapshotModified": AppConfigurationSnapshotModifiedEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
     "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
     "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
@@ -1745,6 +2139,27 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.EmailEngagementTrackingReportReceived": AcsEmailEngagementTrackingReportReceivedEventData;
     "Microsoft.Communication.IncomingCall": AcsIncomingCallEventData;
     "Microsoft.Communication.RecordingFileStatusUpdated": AcsRecordingFileStatusUpdatedEventData;
+    "Microsoft.Communication.RouterJobCancelled": AcsRouterJobCancelledEventData;
+    "Microsoft.Communication.RouterJobClassificationFailed": AcsRouterJobClassificationFailedEventData;
+    "Microsoft.Communication.RouterJobClassified": AcsRouterJobClassifiedEventData;
+    "Microsoft.Communication.RouterJobClosed": AcsRouterJobClosedEventData;
+    "Microsoft.Communication.RouterJobCompleted": AcsRouterJobCompletedEventData;
+    "Microsoft.Communication.RouterJobDeleted": AcsRouterJobDeletedEventData;
+    "Microsoft.Communication.RouterJobExceptionTriggered": AcsRouterJobExceptionTriggeredEventData;
+    "Microsoft.Communication.RouterJobQueued": AcsRouterJobQueuedEventData;
+    "Microsoft.Communication.RouterJobReceived": AcsRouterJobReceivedEventData;
+    "Microsoft.Communication.RouterJobSchedulingFailed": AcsRouterJobSchedulingFailedEventData;
+    "Microsoft.Communication.RouterJobUnassigned": AcsRouterJobUnassignedEventData;
+    "Microsoft.Communication.RouterJobWaitingForActivation": AcsRouterJobWaitingForActivationEventData;
+    "Microsoft.Communication.RouterJobWorkerSelectorsExpire": AcsRouterJobWorkerSelectorsExpiredEventData;
+    "Microsoft.Communication.RouterWorkerDeleted": AcsRouterWorkerDeletedEventData;
+    "Microsoft.Communication.RouterWorkerDeregistered": AcsRouterWorkerDeregisteredEventData;
+    "Microsoft.Communication.RouterWorkerOfferAccepted": AcsRouterWorkerOfferAcceptedEventData;
+    "Microsoft.Communication.RouterWorkerOfferDeclined": AcsRouterWorkerOfferDeclinedEventData;
+    "Microsoft.Communication.RouterWorkerOfferExpired": AcsRouterWorkerOfferExpiredEventData;
+    "Microsoft.Communication.RouterWorkerOfferIssued": AcsRouterWorkerOfferIssuedEventData;
+    "Microsoft.Communication.RouterWorkerOfferRevoked": AcsRouterWorkerOfferRevokedEventData;
+    "Microsoft.Communication.RouterWorkerRegistered": AcsRouterWorkerRegisteredEventData;
     "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
     "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
     "Microsoft.Communication.UserDisconnected": AcsUserDisconnectedEventData;
@@ -1766,6 +2181,10 @@ export interface SystemEventNameToEventData {
     "Microsoft.Devices.DeviceDeleted": IotHubDeviceDeletedEventData;
     "Microsoft.Devices.DeviceDisconnected": IotHubDeviceDisconnectedEventData;
     "Microsoft.Devices.DeviceTelemetry": IotHubDeviceTelemetryEventData;
+    "Microsoft.EventGrid.MQTTClientCreatedOrUpdated": EventGridMqttClientCreatedOrUpdatedEventData;
+    "Microsoft.EventGrid.MQTTClientDeleted": EventGridMqttClientDeletedEventData;
+    "Microsoft.EventGrid.MQTTClientSessionConnected": EventGridMqttClientSessionConnectedEventData;
+    "Microsoft.EventGrid.MQTTClientSessionDisconnected": EventGridMqttClientSessionDisconnectedEventData;
     "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
     "Microsoft.EventGrid.SubscriptionValidationEvent": SubscriptionValidationEventData;
     "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
@@ -1821,6 +2240,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
     "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
     "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
+    "Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged": ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData;
+    "Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated": ResourceNotificationsHealthResourcesAnnotatedEventData;
     "Microsoft.Resources.ResourceActionCancel": ResourceActionCancelEventData;
     "Microsoft.Resources.ResourceActionFailure": ResourceActionFailureEventData;
     "Microsoft.Resources.ResourceActionSuccess": ResourceActionSuccessEventData;

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ScriptExecution,
   ScriptExecutionsListNextOptionalParams,
@@ -174,8 +178,8 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
     scriptExecution: ScriptExecution,
     options?: ScriptExecutionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ScriptExecutionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ScriptExecutionsCreateOrUpdateResponse>,
       ScriptExecutionsCreateOrUpdateResponse
     >
   > {
@@ -185,7 +189,7 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
     ): Promise<ScriptExecutionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -218,19 +222,22 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         scriptExecutionName,
         scriptExecution,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ScriptExecutionsCreateOrUpdateResponse,
+      OperationState<ScriptExecutionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -274,14 +281,14 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
     privateCloudName: string,
     scriptExecutionName: string,
     options?: ScriptExecutionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -314,13 +321,18 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateCloudName, scriptExecutionName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        privateCloudName,
+        scriptExecutionName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -399,7 +411,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ScriptExecutionsList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -421,7 +433,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ScriptExecution
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -453,7 +465,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ScriptExecution
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.scriptExecution,
@@ -462,7 +474,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName,
+    Parameters.privateCloudName1,
     Parameters.scriptExecutionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -479,7 +491,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -502,7 +514,7 @@ const getExecutionLogsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ScriptExecution
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.scriptOutputStreamType,
@@ -526,7 +538,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ScriptExecutionsList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [

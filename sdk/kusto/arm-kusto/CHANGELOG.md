@@ -1,5 +1,60 @@
 # Release History
     
+## 8.1.0 (2023-10-11)
+    
+**Features**
+
+  - Added operation group SandboxCustomImages
+  - Added Interface SandboxCustomImage
+  - Added Interface SandboxCustomImagesCheckNameAvailabilityOptionalParams
+  - Added Interface SandboxCustomImagesCheckNameRequest
+  - Added Interface SandboxCustomImagesCreateOrUpdateOptionalParams
+  - Added Interface SandboxCustomImagesDeleteHeaders
+  - Added Interface SandboxCustomImagesDeleteOptionalParams
+  - Added Interface SandboxCustomImagesGetOptionalParams
+  - Added Interface SandboxCustomImagesListByClusterOptionalParams
+  - Added Interface SandboxCustomImagesListResult
+  - Added Interface SandboxCustomImagesUpdateHeaders
+  - Added Interface SandboxCustomImagesUpdateOptionalParams
+  - Added Type Alias Language
+  - Added Type Alias SandboxCustomImagesCheckNameAvailabilityResponse
+  - Added Type Alias SandboxCustomImagesCreateOrUpdateResponse
+  - Added Type Alias SandboxCustomImagesGetResponse
+  - Added Type Alias SandboxCustomImagesListByClusterResponse
+  - Added Type Alias SandboxCustomImagesUpdateResponse
+  - Added Type Alias VnetState
+  - Interface AttachedDatabaseConfigurationsDeleteHeaders has a new optional parameter location
+  - Interface ClusterPrincipalAssignmentsDeleteHeaders has a new optional parameter location
+  - Interface ClustersAddLanguageExtensionsHeaders has a new optional parameter location
+  - Interface ClustersDeleteHeaders has a new optional parameter location
+  - Interface ClustersDetachFollowerDatabasesHeaders has a new optional parameter location
+  - Interface ClustersDiagnoseVirtualNetworkHeaders has a new optional parameter location
+  - Interface ClustersMigrateHeaders has a new optional parameter location
+  - Interface ClustersRemoveLanguageExtensionsHeaders has a new optional parameter location
+  - Interface ClustersStartHeaders has a new optional parameter location
+  - Interface ClustersStopHeaders has a new optional parameter location
+  - Interface ClustersUpdateHeaders has a new optional parameter location
+  - Interface ClusterUpdate has a new optional parameter zones
+  - Interface DatabasePrincipalAssignmentsDeleteHeaders has a new optional parameter location
+  - Interface DatabasesDeleteHeaders has a new optional parameter location
+  - Interface DatabasesUpdateHeaders has a new optional parameter location
+  - Interface DataConnectionsDataConnectionValidationHeaders has a new optional parameter location
+  - Interface DataConnectionsDeleteHeaders has a new optional parameter location
+  - Interface DataConnectionsUpdateHeaders has a new optional parameter location
+  - Interface EndpointDetail has a new optional parameter ipAddress
+  - Interface LanguageExtension has a new optional parameter languageExtensionCustomImageName
+  - Interface ManagedPrivateEndpointsDeleteHeaders has a new optional parameter location
+  - Interface ManagedPrivateEndpointsUpdateHeaders has a new optional parameter location
+  - Interface PrivateEndpointConnectionsDeleteHeaders has a new optional parameter location
+  - Interface ScriptsDeleteHeaders has a new optional parameter location
+  - Interface ScriptsUpdateHeaders has a new optional parameter location
+  - Interface VirtualNetworkConfiguration has a new optional parameter state
+  - Added Enum KnownLanguage
+  - Added Enum KnownVnetState
+  - Enum KnownLanguageExtensionImageName has a new value Python3108DL
+  - Enum KnownLanguageExtensionImageName has a new value PythonCustomImage
+    
+    
 ## 8.0.0 (2023-07-05)
     
 **Features**
@@ -217,4 +272,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

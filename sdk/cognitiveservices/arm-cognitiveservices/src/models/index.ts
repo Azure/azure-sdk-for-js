@@ -161,6 +161,11 @@ export interface AccountProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly commitmentPlanAssociations?: CommitmentPlanAssociation[];
+  /**
+   * The abuse penalty.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly abusePenalty?: AbusePenalty;
 }
 
 /** SkuCapability indicates the capability of a certain feature. */
@@ -366,6 +371,16 @@ export interface CommitmentPlanAssociation {
   commitmentPlanLocation?: string;
 }
 
+/** The abuse penalty. */
+export interface AbusePenalty {
+  /** The action of AbusePenalty. */
+  action?: AbusePenaltyAction;
+  /** The percentage of rate limit. */
+  rateLimitPercentage?: number;
+  /** The datetime of expiration of the AbusePenalty. */
+  expiration?: Date;
+}
+
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponse {
   /** The error object. */
@@ -499,6 +514,8 @@ export interface AccountSku {
 
 /** The response to a list usage request. */
 export interface UsageListResult {
+  /** The link used to get the next page of Usages. */
+  nextLink?: string;
   /** The list of usages for Cognitive Service account. */
   value?: Usage[];
 }
@@ -543,13 +560,41 @@ export interface DeploymentModel {
   format?: string;
   /** Deployment model name. */
   name?: string;
-  /** Deployment model version. */
+  /** Optional. Deployment model version. If version is not specified, a default version will be assigned. The default version is different for different models and might change when there is new version available for a model. Default version for a model could be found from list models API. */
   version?: string;
+  /** Optional. Deployment model source ARM resource ID. */
+  source?: string;
   /**
    * The call rate limit Cognitive Services account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly callRateLimit?: CallRateLimit;
+}
+
+/** Describes an available Cognitive Services Model SKU. */
+export interface ModelSku {
+  /** The name of the model SKU. */
+  name?: string;
+  /** The usage name of the model SKU. */
+  usageName?: string;
+  /** The datetime of deprecation of the model SKU. */
+  deprecationDate?: Date;
+  /** The capacity configuration. */
+  capacity?: CapacityConfig;
+  /** The list of rateLimit. */
+  rateLimits?: CallRateLimit[];
+}
+
+/** The capacity configuration. */
+export interface CapacityConfig {
+  /** The minimum capacity. */
+  minimum?: number;
+  /** The maximum capacity. */
+  maximum?: number;
+  /** The minimal incremental between allowed values for capacity. */
+  step?: number;
+  /** The default capacity. */
+  default?: number;
 }
 
 /** Cognitive Services account ModelDeprecationInfo. */
@@ -703,6 +748,24 @@ export interface CommitmentCost {
   overageMeterId?: string;
 }
 
+/** The list of cognitive services models. */
+export interface ModelListResult {
+  /** The link used to get the next page of Model. */
+  nextLink?: string;
+  /** Gets the list of Cognitive Services accounts Model and their properties. */
+  value?: Model[];
+}
+
+/** Cognitive Services Model. */
+export interface Model {
+  /** Model Metadata. */
+  model?: AccountModel;
+  /** The Kind of the Model. */
+  kind?: string;
+  /** The SKU of the Model. */
+  skuName?: string;
+}
+
 /** Check Domain availability parameter. */
 export interface CheckDomainAvailabilityParameter {
   /** The subdomain name to use. */
@@ -794,6 +857,10 @@ export interface DeploymentProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly callRateLimit?: CallRateLimit;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly rateLimits?: ThrottlingRule[];
+  /** Deployment model version upgrade option. */
+  versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
 }
 
 /** Properties of Cognitive Services account deployment model. */
@@ -844,6 +911,11 @@ export interface CommitmentPlanProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly last?: CommitmentPeriod;
+  /**
+   * The list of ProvisioningIssue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningIssues?: string[];
 }
 
 /** Cognitive Services account commitment period. */
@@ -908,6 +980,10 @@ export interface ProxyResource extends Resource {}
 export interface AccountModel extends DeploymentModel {
   /** Base Model Identifier. */
   baseModel?: DeploymentModel;
+  /** If the model is default version. */
+  isDefaultVersion?: boolean;
+  /** The list of Model Sku. */
+  skus?: ModelSku[];
   /** The max capacity. */
   maxCapacity?: number;
   /** The capabilities. */
@@ -967,6 +1043,8 @@ export interface Account extends AzureEntityResource {
 
 /** Cognitive Services account deployment. */
 export interface Deployment extends ProxyResource {
+  /** The resource model definition representing SKU */
+  sku?: Sku;
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1240,6 +1318,24 @@ export enum KnownRoutingMethods {
  */
 export type RoutingMethods = string;
 
+/** Known values of {@link AbusePenaltyAction} that the service accepts. */
+export enum KnownAbusePenaltyAction {
+  /** Throttle */
+  Throttle = "Throttle",
+  /** Block */
+  Block = "Block"
+}
+
+/**
+ * Defines values for AbusePenaltyAction. \
+ * {@link KnownAbusePenaltyAction} can be used interchangeably with AbusePenaltyAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Throttle** \
+ * **Block**
+ */
+export type AbusePenaltyAction = string;
+
 /** Known values of {@link ResourceSkuRestrictionsReasonCode} that the service accepts. */
 export enum KnownResourceSkuRestrictionsReasonCode {
   /** QuotaId */
@@ -1376,7 +1472,9 @@ export enum KnownHostingModel {
   /** ConnectedContainer */
   ConnectedContainer = "ConnectedContainer",
   /** DisconnectedContainer */
-  DisconnectedContainer = "DisconnectedContainer"
+  DisconnectedContainer = "DisconnectedContainer",
+  /** ProvisionedWeb */
+  ProvisionedWeb = "ProvisionedWeb"
 }
 
 /**
@@ -1386,7 +1484,8 @@ export enum KnownHostingModel {
  * ### Known values supported by the service
  * **Web** \
  * **ConnectedContainer** \
- * **DisconnectedContainer**
+ * **DisconnectedContainer** \
+ * **ProvisionedWeb**
  */
 export type HostingModel = string;
 
@@ -1403,7 +1502,11 @@ export enum KnownDeploymentProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Succeeded */
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -1416,7 +1519,9 @@ export enum KnownDeploymentProvisioningState {
  * **Deleting** \
  * **Moving** \
  * **Failed** \
- * **Succeeded**
+ * **Succeeded** \
+ * **Disabled** \
+ * **Canceled**
  */
 export type DeploymentProvisioningState = string;
 
@@ -1437,6 +1542,27 @@ export enum KnownDeploymentScaleType {
  * **Manual**
  */
 export type DeploymentScaleType = string;
+
+/** Known values of {@link DeploymentModelVersionUpgradeOption} that the service accepts. */
+export enum KnownDeploymentModelVersionUpgradeOption {
+  /** OnceNewDefaultVersionAvailable */
+  OnceNewDefaultVersionAvailable = "OnceNewDefaultVersionAvailable",
+  /** OnceCurrentVersionExpired */
+  OnceCurrentVersionExpired = "OnceCurrentVersionExpired",
+  /** NoAutoUpgrade */
+  NoAutoUpgrade = "NoAutoUpgrade"
+}
+
+/**
+ * Defines values for DeploymentModelVersionUpgradeOption. \
+ * {@link KnownDeploymentModelVersionUpgradeOption} can be used interchangeably with DeploymentModelVersionUpgradeOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OnceNewDefaultVersionAvailable** \
+ * **OnceCurrentVersionExpired** \
+ * **NoAutoUpgrade**
+ */
+export type DeploymentModelVersionUpgradeOption = string;
 
 /** Known values of {@link CommitmentPlanProvisioningState} that the service accepts. */
 export enum KnownCommitmentPlanProvisioningState {
@@ -1639,6 +1765,22 @@ export interface ResourceSkusListNextOptionalParams
 export type ResourceSkusListNextResponse = ResourceSkuListResult;
 
 /** Optional parameters. */
+export interface UsagesListOptionalParams extends coreClient.OperationOptions {
+  /** An OData filter expression that describes a subset of usages to return. The supported parameter is name.value (name of the metric, can have an or of multiple names). */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type UsagesListResponse = UsageListResult;
+
+/** Optional parameters. */
+export interface UsagesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type UsagesListNextResponse = UsageListResult;
+
+/** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1682,6 +1824,19 @@ export interface CommitmentTiersListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type CommitmentTiersListNextResponse = CommitmentTierListResult;
+
+/** Optional parameters. */
+export interface ModelsListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ModelsListResponse = ModelListResult;
+
+/** Optional parameters. */
+export interface ModelsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ModelsListNextResponse = ModelListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListOptionalParams

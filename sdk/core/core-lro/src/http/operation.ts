@@ -54,18 +54,25 @@ function findResourceLocation(inputs: {
     case "DELETE": {
       return undefined;
     }
+    case "PATCH": {
+      return getDefault() ?? requestPath;
+    }
     default: {
-      switch (resourceLocationConfig) {
-        case "azure-async-operation": {
-          return undefined;
-        }
-        case "original-uri": {
-          return requestPath;
-        }
-        case "location":
-        default: {
-          return location;
-        }
+      return getDefault();
+    }
+  }
+
+  function getDefault() {
+    switch (resourceLocationConfig) {
+      case "azure-async-operation": {
+        return undefined;
+      }
+      case "original-uri": {
+        return requestPath;
+      }
+      case "location":
+      default: {
+        return location;
       }
     }
   }

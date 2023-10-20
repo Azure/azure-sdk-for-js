@@ -4,7 +4,7 @@
 import Sinon, { createSandbox } from "sinon";
 import { AzureDeveloperCliCredential } from "../../../src/credentials/azureDeveloperCliCredential";
 import { GetTokenOptions } from "@azure/core-auth";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import child_process from "child_process";
 
 describe("AzureDeveloperCliCredential (internal)", function () {
@@ -12,7 +12,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
   let stdout: string = "";
   let stderr: string = "";
   let azdArgs: string[][] = [];
-  let azdOptions: { cwd: string; shell: boolean }[] = [];
+  let azdOptions: { cwd: string }[] = [];
 
   beforeEach(async function () {
     sandbox = createSandbox();
@@ -22,7 +22,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       .stub(child_process, "execFile")
       .callsFake((_file, args, options, callback): child_process.ChildProcess => {
         azdArgs.push(args as string[]);
-        azdOptions.push(options as { cwd: string; shell: boolean });
+        azdOptions.push(options as { cwd: string });
         if (callback) {
           callback(null, stdout, stderr);
         }
@@ -48,9 +48,8 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     assert.deepEqual(
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azdOptions[0].cwd),
-        shell: azdOptions[0].shell,
       },
-      { cwd: true, shell: true }
+      { cwd: true }
     );
   });
 
@@ -78,9 +77,8 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     assert.deepEqual(
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azdOptions[0].cwd),
-        shell: azdOptions[0].shell,
       },
-      { cwd: true, shell: true }
+      { cwd: true }
     );
   });
 
@@ -108,9 +106,8 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     assert.deepEqual(
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azdOptions[0].cwd),
-        shell: azdOptions[0].shell,
       },
-      { cwd: true, shell: true }
+      { cwd: true }
     );
   });
 
@@ -166,4 +163,53 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       assert.equal(error.message, "mock other access token error");
     }
   });
+
+  for (const tenantId of [
+    "&quot;invalid-tenant-id&quot;",
+    " ",
+    "12345678-1234-1234-1234-123456789012|",
+    "12345678-1234-1234-1234-123456789012 |",
+    "<",
+    ">",
+    "\0",
+    "<12345678-1234-1234-1234-123456789012>",
+    "12345678-1234-1234-1234-123456789012&",
+    "12345678-1234-1234-1234-123456789012;",
+    "12345678-1234-1234-1234-123456789012'",
+  ]) {
+    const tenantIdErrorMessage =
+      "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://learn.microsoft.com/partner-center/find-ids-and-domain-names.";
+    const testCase =
+      tenantId === " " ? "whitespace" : tenantId === "\0" ? "null character" : `"${tenantId}"`;
+    it(`rejects invalid tenant id of ${testCase} in getToken`, async function () {
+      const credential = new AzureDeveloperCliCredential();
+      await assert.isRejected(
+        credential.getToken("https://service/.default", {
+          tenantId: tenantId,
+        }),
+        tenantIdErrorMessage
+      );
+    });
+    it(`rejects invalid tenant id of ${testCase} in constructor`, function () {
+      assert.throws(() => {
+        new AzureDeveloperCliCredential({ tenantId: tenantId });
+      }, tenantIdErrorMessage);
+    });
+  }
+
+  for (const inputScope of ["scope |", "", "\0", "scope;", "scope,", "scope'", "scope&"]) {
+    const testCase =
+      inputScope === ""
+        ? "empty string"
+        : inputScope === "\0"
+        ? "null character"
+        : `"${inputScope}"`;
+    it(`rejects invalid scope of ${testCase}`, async function () {
+      const credential = new AzureDeveloperCliCredential();
+      await assert.isRejected(
+        credential.getToken(inputScope),
+        "Invalid scope was specified by the user or calling client"
+      );
+    });
+  }
 });

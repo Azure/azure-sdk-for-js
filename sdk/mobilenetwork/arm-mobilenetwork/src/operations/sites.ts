@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MobileNetworkManagementClient } from "../mobileNetworkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Site,
   SitesListByMobileNetworkNextOptionalParams,
@@ -28,6 +32,8 @@ import {
   TagsObject,
   SitesUpdateTagsOptionalParams,
   SitesUpdateTagsResponse,
+  SiteDeletePacketCore,
+  SitesDeletePacketCoreOptionalParams,
   SitesListByMobileNetworkNextResponse
 } from "../models";
 
@@ -141,14 +147,14 @@ export class SitesImpl implements Sites {
     mobileNetworkName: string,
     siteName: string,
     options?: SitesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -181,15 +187,15 @@ export class SitesImpl implements Sites {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, mobileNetworkName, siteName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, mobileNetworkName, siteName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -253,8 +259,8 @@ export class SitesImpl implements Sites {
     parameters: Site,
     options?: SitesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SitesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SitesCreateOrUpdateResponse>,
       SitesCreateOrUpdateResponse
     >
   > {
@@ -264,7 +270,7 @@ export class SitesImpl implements Sites {
     ): Promise<SitesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -297,15 +303,24 @@ export class SitesImpl implements Sites {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, mobileNetworkName, siteName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        mobileNetworkName,
+        siteName,
+        parameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SitesCreateOrUpdateResponse,
+      OperationState<SitesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -373,6 +388,105 @@ export class SitesImpl implements Sites {
       { resourceGroupName, mobileNetworkName, options },
       listByMobileNetworkOperationSpec
     );
+  }
+
+  /**
+   * Deletes a packet core under the specified mobile network site.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param siteName The name of the mobile network site.
+   * @param parameters Parameters supplied to delete a packet core under a site.
+   * @param options The options parameters.
+   */
+  async beginDeletePacketCore(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    siteName: string,
+    parameters: SiteDeletePacketCore,
+    options?: SitesDeletePacketCoreOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        mobileNetworkName,
+        siteName,
+        parameters,
+        options
+      },
+      spec: deletePacketCoreOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a packet core under the specified mobile network site.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param siteName The name of the mobile network site.
+   * @param parameters Parameters supplied to delete a packet core under a site.
+   * @param options The options parameters.
+   */
+  async beginDeletePacketCoreAndWait(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    siteName: string,
+    parameters: SiteDeletePacketCore,
+    options?: SitesDeletePacketCoreOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDeletePacketCore(
+      resourceGroupName,
+      mobileNetworkName,
+      siteName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -465,7 +579,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters14,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -523,6 +637,32 @@ const listByMobileNetworkOperationSpec: coreClient.OperationSpec = {
     Parameters.mobileNetworkName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const deletePacketCoreOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/sites/{siteName}/deletePacketCore",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters17,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.mobileNetworkName,
+    Parameters.siteName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listByMobileNetworkNextOperationSpec: coreClient.OperationSpec = {

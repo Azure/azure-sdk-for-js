@@ -291,6 +291,12 @@ export const SearchRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      semanticQuery: {
+        serializedName: "semanticQuery",
+        type: {
+          name: "String"
+        }
+      },
       semanticConfiguration: {
         serializedName: "semanticConfiguration",
         type: {
@@ -386,31 +392,43 @@ export const SearchRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      vector: {
-        serializedName: "vector",
+      vectorQueries: {
+        serializedName: "vectorQueries",
         type: {
-          name: "Composite",
-          className: "Vector"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VectorQuery"
+            }
+          }
+        }
+      },
+      vectorFilterMode: {
+        serializedName: "vectorFilterMode",
+        type: {
+          name: "String"
         }
       }
     }
   }
 };
 
-export const Vector: coreClient.CompositeMapper = {
+export const VectorQuery: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Vector",
+    className: "VectorQuery",
+    uberParent: "VectorQuery",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind"
+    },
     modelProperties: {
-      value: {
-        serializedName: "value",
+      kind: {
+        serializedName: "kind",
+        required: true,
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
+          name: "String"
         }
       },
       kNearestNeighborsCount: {
@@ -423,6 +441,12 @@ export const Vector: coreClient.CompositeMapper = {
         serializedName: "fields",
         type: {
           name: "String"
+        }
+      },
+      exhaustive: {
+        serializedName: "exhaustive",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -989,4 +1013,53 @@ export const AutocompleteRequest: coreClient.CompositeMapper = {
       }
     }
   }
+};
+
+export const RawVectorQuery: coreClient.CompositeMapper = {
+  serializedName: "vector",
+  type: {
+    name: "Composite",
+    className: "RawVectorQuery",
+    uberParent: "VectorQuery",
+    polymorphicDiscriminator: VectorQuery.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...VectorQuery.type.modelProperties,
+      vector: {
+        serializedName: "vector",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VectorizableTextQuery: coreClient.CompositeMapper = {
+  serializedName: "text",
+  type: {
+    name: "Composite",
+    className: "VectorizableTextQuery",
+    uberParent: "VectorQuery",
+    polymorphicDiscriminator: VectorQuery.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...VectorQuery.type.modelProperties,
+      text: {
+        serializedName: "text",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export let discriminators = {
+  VectorQuery: VectorQuery,
+  "VectorQuery.vector": RawVectorQuery,
+  "VectorQuery.text": VectorizableTextQuery
 };

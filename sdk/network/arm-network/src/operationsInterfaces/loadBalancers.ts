@@ -24,7 +24,9 @@ import {
   LoadBalancersSwapPublicIpAddressesOptionalParams,
   QueryInboundNatRulePortMappingRequest,
   LoadBalancersListInboundNatRulePortMappingsOptionalParams,
-  LoadBalancersListInboundNatRulePortMappingsResponse
+  LoadBalancersListInboundNatRulePortMappingsResponse,
+  LoadBalancersMigrateToIpBasedOptionalParams,
+  LoadBalancersMigrateToIpBasedResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -180,4 +182,15 @@ export interface LoadBalancers {
     parameters: QueryInboundNatRulePortMappingRequest,
     options?: LoadBalancersListInboundNatRulePortMappingsOptionalParams
   ): Promise<LoadBalancersListInboundNatRulePortMappingsResponse>;
+  /**
+   * Migrate load balancer to IP Based
+   * @param groupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param options The options parameters.
+   */
+  migrateToIpBased(
+    groupName: string,
+    loadBalancerName: string,
+    options?: LoadBalancersMigrateToIpBasedOptionalParams
+  ): Promise<LoadBalancersMigrateToIpBasedResponse>;
 }

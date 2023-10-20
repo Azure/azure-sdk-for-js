@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a trusted access role binding.
  *
  * @summary Delete a trusted access role binding.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-05-02-preview/examples/TrustedAccessRoleBindings_Delete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-08-02-preview/examples/TrustedAccessRoleBindings_Delete.json
  */
 async function deleteATrustedAccessRoleBinding() {
   const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
@@ -25,7 +25,7 @@ async function deleteATrustedAccessRoleBinding() {
   const trustedAccessRoleBindingName = "binding1";
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.trustedAccessRoleBindings.delete(
+  const result = await client.trustedAccessRoleBindings.beginDeleteAndWait(
     resourceGroupName,
     resourceName,
     trustedAccessRoleBindingName

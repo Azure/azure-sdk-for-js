@@ -10,12 +10,12 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/service
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/0cfd102a6ecb172f04ec915732bd8ca6f6b2a7af/specification/search/data-plane/Azure.Search/preview/2023-07-01-Preview/searchservice.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b62ddd0ffb844fbfb688a04546800d60645a18ef/specification/search/data-plane/Azure.Search/preview/2023-10-01-Preview/searchservice.json
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-alpha.17.20220318.1"
 core-http-compat-mode: true
-package-version: 12.0.0-beta.2
+package-version: 12.0.0-beta.4
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
@@ -315,23 +315,23 @@ directive:
 
 ### Rename Dimensions
 
- To ensure alignment with `VectorSearchConfiguration` in intellisense and documentation, rename the `Dimensions` to `VectorSearchDimensions`.
+To ensure alignment with `VectorSearchConfiguration` in intellisense and documentation, rename the `Dimensions` to `VectorSearchDimensions`.
 
 ```yaml
 directive:
-- from: swagger-document
-  where: $.definitions.SearchField.properties.dimensions
-  transform: $["x-ms-client-name"] = "vectorSearchDimensions";
+  - from: swagger-document
+    where: $.definitions.SearchField.properties.dimensions
+    transform: $["x-ms-client-name"] = "vectorSearchDimensions";
 ```
 
 ### Add `arm-id` format for `AuthResourceId`
 
- Add `"format": "arm-id"` for `AuthResourceId` to generate as [Azure.Core.ResourceIdentifier]
- (https://learn.microsoft.com/dotnet/api/azure.core.resourceidentifier?view=azure-dotnet).
+Add `"format": "arm-id"` for `AuthResourceId` to generate as [Azure.Core.ResourceIdentifier]
+(https://learn.microsoft.com/dotnet/api/azure.core.resourceidentifier?view=azure-dotnet).
 
 ```yaml
 directive:
-- from: swagger-document
-  where: $.definitions.WebApiSkill.properties.authResourceId
-  transform: $["x-ms-format"] = "arm-id";
+  - from: swagger-document
+    where: $.definitions.WebApiSkill.properties.authResourceId
+    transform: $["x-ms-format"] = "arm-id";
 ```

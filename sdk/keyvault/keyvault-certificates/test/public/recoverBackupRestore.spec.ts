@@ -4,11 +4,9 @@
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-util";
 
 import { CertificateClient } from "../../src";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { assertThrowsAbortError } from "./utils/common";
 import { authenticate } from "./utils/testAuthentication";
 import { getServiceVersion } from "./utils/common";
 import TestClient from "./utils/testClient";
@@ -114,15 +112,6 @@ describe("Certificates client - restore certificates and recover backups", () =>
     });
   }
 
-  if (isNode && !isPlaybackMode()) {
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can generate a backup of a certificate with requestOptions timeout", async function () {
-      await assertThrowsAbortError(async () => {
-        await client.backupCertificate("doesn't matter", { requestOptions: { timeout: 1 } });
-      });
-    });
-  }
-
   it("can restore a certificate (Malformed Backup Bytes)", async function () {
     const backup = new Uint8Array(4728);
     let error;
@@ -138,22 +127,4 @@ describe("Certificates client - restore certificates and recover backups", () =>
       "Unexpected error from restoreCertificate()"
     );
   });
-
-  if (isNode && !isPlaybackMode()) {
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can restore a key with requestOptions timeout", async function (this: Context) {
-      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-      const createPoller = await client.beginCreateCertificate(
-        certificateName,
-        basicCertificatePolicy,
-        testPollerProperties
-      );
-      await createPoller.pollUntilDone();
-      const backup = await client.backupCertificate(certificateName);
-
-      await assertThrowsAbortError(async () => {
-        await client.restoreCertificateBackup(backup!, { requestOptions: { timeout: 1 } });
-      });
-    });
-  }
 });

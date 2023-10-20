@@ -37,6 +37,9 @@ import {
   UnmuteParticipantsRequest,
   CallConnectionUnmuteOptionalParams,
   CallConnectionUnmuteResponse,
+  CancelAddParticipantRequest,
+  CallConnectionCancelAddParticipantOptionalParams,
+  CallConnectionCancelAddParticipantResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse,
   CallConnectionGetParticipantsNextResponse
@@ -56,7 +59,7 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * Get participants from a call.
+   * Get participants from a call. Recording and transcription bots are omitted from this list.
    * @param callConnectionId The call connection Id
    * @param options The options parameters.
    */
@@ -187,7 +190,7 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * Get participants from a call.
+   * Get participants from a call. Recording and transcription bots are omitted from this list.
    * @param callConnectionId The call connection Id
    * @param options The options parameters.
    */
@@ -266,6 +269,23 @@ export class CallConnectionImpl implements CallConnection {
     return this.client.sendOperationRequest(
       { callConnectionId, unmuteParticipantsRequest, options },
       unmuteOperationSpec
+    );
+  }
+
+  /**
+   * Cancel add participant operation.
+   * @param callConnectionId The call connection Id
+   * @param cancelAddParticipantRequest Cancellation request.
+   * @param options The options parameters.
+   */
+  cancelAddParticipant(
+    callConnectionId: string,
+    cancelAddParticipantRequest: CancelAddParticipantRequest,
+    options?: CallConnectionCancelAddParticipantOptionalParams
+  ): Promise<CallConnectionCancelAddParticipantResponse> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, cancelAddParticipantRequest, options },
+      cancelAddParticipantOperationSpec
     );
   }
 
@@ -474,6 +494,30 @@ const unmuteOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.unmuteParticipantsRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestID,
+    Parameters.repeatabilityFirstSent
+  ],
+  mediaType: "json",
+  serializer
+};
+const cancelAddParticipantOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/calling/callConnections/{callConnectionId}/participants:cancelAddParticipant",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      bodyMapper: Mappers.CancelAddParticipantResponse
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: Parameters.cancelAddParticipantRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [

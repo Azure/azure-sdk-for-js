@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AdvisorManagementClient } = require("@azure/arm-advisor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create/Overwrite Azure Advisor configuration.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/CreateConfiguration.json
  */
 async function putConfigurations() {
-  const subscriptionId = "subscriptionId";
+  const subscriptionId = process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
   const configurationName = "default";
   const resourceGroup = "resourceGroup";
   const configContract = {
@@ -52,4 +53,8 @@ async function putConfigurations() {
   console.log(result);
 }
 
-putConfigurations().catch(console.error);
+async function main() {
+  putConfigurations();
+}
+
+main().catch(console.error);

@@ -14,6 +14,12 @@ import {
   ManagedClustersListByResourceGroupOptionalParams,
   OutboundEnvironmentEndpoint,
   ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
+  GuardrailsAvailableVersion,
+  ManagedClustersListGuardrailsVersionsOptionalParams,
+  MeshRevisionProfile,
+  ManagedClustersListMeshRevisionProfilesOptionalParams,
+  MeshUpgradeProfile,
+  ManagedClustersListMeshUpgradeProfilesOptionalParams,
   ManagedClustersGetOSOptionsOptionalParams,
   ManagedClustersGetOSOptionsResponse,
   ManagedClustersListKubernetesVersionsOptionalParams,
@@ -55,7 +61,13 @@ import {
   ManagedClustersRunCommandOptionalParams,
   ManagedClustersRunCommandResponse,
   ManagedClustersGetCommandResultOptionalParams,
-  ManagedClustersGetCommandResultResponse
+  ManagedClustersGetCommandResultResponse,
+  ManagedClustersGetGuardrailsVersionsOptionalParams,
+  ManagedClustersGetGuardrailsVersionsResponse,
+  ManagedClustersGetMeshRevisionProfileOptionalParams,
+  ManagedClustersGetMeshRevisionProfileResponse,
+  ManagedClustersGetMeshUpgradeProfileOptionalParams,
+  ManagedClustersGetMeshUpgradeProfileResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -89,6 +101,36 @@ export interface ManagedClusters {
     resourceName: string,
     options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
+  /**
+   * Contains list of Guardrails version along with its support info and whether it is a default version.
+   * @param location The name of Azure region.
+   * @param options The options parameters.
+   */
+  listGuardrailsVersions(
+    location: string,
+    options?: ManagedClustersListGuardrailsVersionsOptionalParams
+  ): PagedAsyncIterableIterator<GuardrailsAvailableVersion>;
+  /**
+   * Contains extra metadata on each revision, including supported revisions, cluster compatibility and
+   * available upgrades
+   * @param location The name of Azure region.
+   * @param options The options parameters.
+   */
+  listMeshRevisionProfiles(
+    location: string,
+    options?: ManagedClustersListMeshRevisionProfilesOptionalParams
+  ): PagedAsyncIterableIterator<MeshRevisionProfile>;
+  /**
+   * Lists available upgrades for all service meshes in a specific cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  listMeshUpgradeProfiles(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersListMeshUpgradeProfilesOptionalParams
+  ): PagedAsyncIterableIterator<MeshUpgradeProfile>;
   /**
    * Gets supported OS options in the specified subscription.
    * @param location The name of Azure region.
@@ -522,4 +564,40 @@ export interface ManagedClusters {
     commandId: string,
     options?: ManagedClustersGetCommandResultOptionalParams
   ): Promise<ManagedClustersGetCommandResultResponse>;
+  /**
+   * Contains Guardrails version along with its support info and whether it is a default version.
+   * @param location The name of Azure region.
+   * @param version Guardrails version
+   * @param options The options parameters.
+   */
+  getGuardrailsVersions(
+    location: string,
+    version: string,
+    options?: ManagedClustersGetGuardrailsVersionsOptionalParams
+  ): Promise<ManagedClustersGetGuardrailsVersionsResponse>;
+  /**
+   * Contains extra metadata on the revision, including supported revisions, cluster compatibility and
+   * available upgrades
+   * @param location The name of Azure region.
+   * @param mode The mode of the mesh.
+   * @param options The options parameters.
+   */
+  getMeshRevisionProfile(
+    location: string,
+    mode: string,
+    options?: ManagedClustersGetMeshRevisionProfileOptionalParams
+  ): Promise<ManagedClustersGetMeshRevisionProfileResponse>;
+  /**
+   * Gets available upgrades for a service mesh in a cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param mode The mode of the mesh.
+   * @param options The options parameters.
+   */
+  getMeshUpgradeProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    mode: string,
+    options?: ManagedClustersGetMeshUpgradeProfileOptionalParams
+  ): Promise<ManagedClustersGetMeshUpgradeProfileResponse>;
 }

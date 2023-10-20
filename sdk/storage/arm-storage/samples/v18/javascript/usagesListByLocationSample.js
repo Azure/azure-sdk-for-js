@@ -10,15 +10,16 @@
 // Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the current usage count and the limit for the resources of the location under the subscription.
  *
  * @summary Gets the current usage count and the limit for the resources of the location under the subscription.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountListLocationUsage.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountListLocationUsage.json
  */
 async function usageList() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "eastus2(stage)";
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
@@ -29,4 +30,8 @@ async function usageList() {
   console.log(resArray);
 }
 
-usageList().catch(console.error);
+async function main() {
+  usageList();
+}
+
+main().catch(console.error);

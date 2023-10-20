@@ -63,3 +63,10 @@ export function isNonePartitionKeyValue(value: unknown): value is NonePartitionK
 export function isNullPartitionKeyValue(value: unknown): value is NullPartitionKeyType {
   return value === NullPartitionKeyLiteral;
 }
+/**
+ * Verify validity of partition key.
+ * @internal
+ */
+export function isPartitionKey(partitionKey: unknown): boolean {
+  return isPrimitivePartitionKeyValue(partitionKey) || Array.isArray(partitionKey);
+}

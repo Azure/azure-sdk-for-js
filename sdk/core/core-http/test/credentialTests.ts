@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 /* eslint-disable no-unused-expressions */
 
-import "chai/register-should";
 import * as base64 from "../src/util/base64";
 import * as msRest from "../src";
 

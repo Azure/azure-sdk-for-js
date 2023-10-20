@@ -16,6 +16,7 @@ import {
   AccountSASServices,
   generateAccountSASQueryParameters,
   SASProtocol,
+  ShareClientConfig,
 } from "../../src";
 import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { newPipeline } from "../../../storage-blob/src/Pipeline";
@@ -29,7 +30,8 @@ export * from "./testutils.common";
 export function getGenericBSU(
   recorder: Recorder,
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
+  config?: ShareClientConfig
 ): ShareServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
@@ -46,7 +48,7 @@ export function getGenericBSU(
   const credentials = new StorageSharedKeyCredential(accountName, accountKey);
   const pipeline = newPipeline(credentials);
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
-  const client = new ShareServiceClient(filePrimaryURL, pipeline);
+  const client = new ShareServiceClient(filePrimaryURL, pipeline, config);
   configureStorageClient(recorder, client);
   return client;
 }
@@ -57,8 +59,30 @@ export function getBlobServiceClient(recorder: Recorder): BlobServiceClient {
   return client;
 }
 
-export function getBSU(recorder: Recorder): ShareServiceClient {
-  return getGenericBSU(recorder, "");
+export function getTokenBSU(
+  recorder: Recorder,
+  accountType: string = "",
+  accountNameSuffix: string = "",
+  shareClientConfig?: ShareClientConfig
+): ShareServiceClient {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+
+  const accountName = env[accountNameEnvVar];
+
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  const credential = getTokenCredential();
+  const pipeline = newPipeline(credential);
+  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
+  const client = new ShareServiceClient(blobPrimaryURL, pipeline, shareClientConfig);
+  configureStorageClient(recorder, client);
+  return client;
+}
+
+export function getBSU(recorder: Recorder, config?: ShareClientConfig): ShareServiceClient {
+  return getGenericBSU(recorder, "", "", config);
 }
 
 export function getAlternateBSU(recorder: Recorder): ShareServiceClient {

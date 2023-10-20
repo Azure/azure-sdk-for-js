@@ -19,7 +19,8 @@ import {
   IpPrefixPatch,
   IpPrefixesUpdateOptionalParams,
   IpPrefixesUpdateResponse,
-  IpPrefixesDeleteOptionalParams
+  IpPrefixesDeleteOptionalParams,
+  IpPrefixesDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +45,7 @@ export interface IpPrefixes {
   /**
    * Implements IP Prefix PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipPrefixName Name of the IP Prefix
+   * @param ipPrefixName Name of the IP Prefix.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -62,7 +63,7 @@ export interface IpPrefixes {
   /**
    * Implements IP Prefix PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipPrefixName Name of the IP Prefix
+   * @param ipPrefixName Name of the IP Prefix.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -75,7 +76,7 @@ export interface IpPrefixes {
   /**
    * Implements IP Prefix GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipPrefixName Name of the IP Prefix
+   * @param ipPrefixName Name of the IP Prefix.
    * @param options The options parameters.
    */
   get(
@@ -86,7 +87,7 @@ export interface IpPrefixes {
   /**
    * API to update certain properties of the IP Prefix resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipPrefixName Name of the IP Prefix
+   * @param ipPrefixName Name of the IP Prefix.
    * @param body IP Prefix properties to update.
    * @param options The options parameters.
    */
@@ -104,7 +105,7 @@ export interface IpPrefixes {
   /**
    * API to update certain properties of the IP Prefix resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipPrefixName Name of the IP Prefix
+   * @param ipPrefixName Name of the IP Prefix.
    * @param body IP Prefix properties to update.
    * @param options The options parameters.
    */
@@ -117,23 +118,28 @@ export interface IpPrefixes {
   /**
    * Implements IP Prefix DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipPrefixName Name of the IP Prefix
+   * @param ipPrefixName Name of the IP Prefix.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     ipPrefixName: string,
     options?: IpPrefixesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<IpPrefixesDeleteResponse>,
+      IpPrefixesDeleteResponse
+    >
+  >;
   /**
    * Implements IP Prefix DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipPrefixName Name of the IP Prefix
+   * @param ipPrefixName Name of the IP Prefix.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     ipPrefixName: string,
     options?: IpPrefixesDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<IpPrefixesDeleteResponse>;
 }

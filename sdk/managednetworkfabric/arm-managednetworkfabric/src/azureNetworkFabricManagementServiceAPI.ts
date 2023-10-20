@@ -16,6 +16,8 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   AccessControlListsImpl,
+  InternetGatewaysImpl,
+  InternetGatewayRulesImpl,
   IpCommunitiesImpl,
   IpExtendedCommunitiesImpl,
   IpPrefixesImpl,
@@ -23,6 +25,7 @@ import {
   L3IsolationDomainsImpl,
   InternalNetworksImpl,
   ExternalNetworksImpl,
+  NeighborGroupsImpl,
   NetworkDeviceSkusImpl,
   NetworkDevicesImpl,
   NetworkInterfacesImpl,
@@ -30,13 +33,17 @@ import {
   NetworkFabricSkusImpl,
   NetworkFabricsImpl,
   NetworkToNetworkInterconnectsImpl,
-  NetworkRackSkusImpl,
+  NetworkPacketBrokersImpl,
   NetworkRacksImpl,
+  NetworkTapRulesImpl,
+  NetworkTapsImpl,
   OperationsImpl,
   RoutePoliciesImpl
 } from "./operations";
 import {
   AccessControlLists,
+  InternetGateways,
+  InternetGatewayRules,
   IpCommunities,
   IpExtendedCommunities,
   IpPrefixes,
@@ -44,6 +51,7 @@ import {
   L3IsolationDomains,
   InternalNetworks,
   ExternalNetworks,
+  NeighborGroups,
   NetworkDeviceSkus,
   NetworkDevices,
   NetworkInterfaces,
@@ -51,8 +59,10 @@ import {
   NetworkFabricSkus,
   NetworkFabrics,
   NetworkToNetworkInterconnects,
-  NetworkRackSkus,
+  NetworkPacketBrokers,
   NetworkRacks,
+  NetworkTapRules,
+  NetworkTaps,
   Operations,
   RoutePolicies
 } from "./operationsInterfaces";
@@ -66,7 +76,7 @@ export class AzureNetworkFabricManagementServiceAPI extends coreClient.ServiceCl
   /**
    * Initializes a new instance of the AzureNetworkFabricManagementServiceAPI class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -90,7 +100,7 @@ export class AzureNetworkFabricManagementServiceAPI extends coreClient.ServiceCl
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-managednetworkfabric/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-managednetworkfabric/1.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -143,8 +153,10 @@ export class AzureNetworkFabricManagementServiceAPI extends coreClient.ServiceCl
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-02-01-preview";
+    this.apiVersion = options.apiVersion || "2023-06-15";
     this.accessControlLists = new AccessControlListsImpl(this);
+    this.internetGateways = new InternetGatewaysImpl(this);
+    this.internetGatewayRules = new InternetGatewayRulesImpl(this);
     this.ipCommunities = new IpCommunitiesImpl(this);
     this.ipExtendedCommunities = new IpExtendedCommunitiesImpl(this);
     this.ipPrefixes = new IpPrefixesImpl(this);
@@ -152,6 +164,7 @@ export class AzureNetworkFabricManagementServiceAPI extends coreClient.ServiceCl
     this.l3IsolationDomains = new L3IsolationDomainsImpl(this);
     this.internalNetworks = new InternalNetworksImpl(this);
     this.externalNetworks = new ExternalNetworksImpl(this);
+    this.neighborGroups = new NeighborGroupsImpl(this);
     this.networkDeviceSkus = new NetworkDeviceSkusImpl(this);
     this.networkDevices = new NetworkDevicesImpl(this);
     this.networkInterfaces = new NetworkInterfacesImpl(this);
@@ -161,8 +174,10 @@ export class AzureNetworkFabricManagementServiceAPI extends coreClient.ServiceCl
     this.networkToNetworkInterconnects = new NetworkToNetworkInterconnectsImpl(
       this
     );
-    this.networkRackSkus = new NetworkRackSkusImpl(this);
+    this.networkPacketBrokers = new NetworkPacketBrokersImpl(this);
     this.networkRacks = new NetworkRacksImpl(this);
+    this.networkTapRules = new NetworkTapRulesImpl(this);
+    this.networkTaps = new NetworkTapsImpl(this);
     this.operations = new OperationsImpl(this);
     this.routePolicies = new RoutePoliciesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -197,6 +212,8 @@ export class AzureNetworkFabricManagementServiceAPI extends coreClient.ServiceCl
   }
 
   accessControlLists: AccessControlLists;
+  internetGateways: InternetGateways;
+  internetGatewayRules: InternetGatewayRules;
   ipCommunities: IpCommunities;
   ipExtendedCommunities: IpExtendedCommunities;
   ipPrefixes: IpPrefixes;
@@ -204,6 +221,7 @@ export class AzureNetworkFabricManagementServiceAPI extends coreClient.ServiceCl
   l3IsolationDomains: L3IsolationDomains;
   internalNetworks: InternalNetworks;
   externalNetworks: ExternalNetworks;
+  neighborGroups: NeighborGroups;
   networkDeviceSkus: NetworkDeviceSkus;
   networkDevices: NetworkDevices;
   networkInterfaces: NetworkInterfaces;
@@ -211,8 +229,10 @@ export class AzureNetworkFabricManagementServiceAPI extends coreClient.ServiceCl
   networkFabricSkus: NetworkFabricSkus;
   networkFabrics: NetworkFabrics;
   networkToNetworkInterconnects: NetworkToNetworkInterconnects;
-  networkRackSkus: NetworkRackSkus;
+  networkPacketBrokers: NetworkPacketBrokers;
   networkRacks: NetworkRacks;
+  networkTapRules: NetworkTapRules;
+  networkTaps: NetworkTaps;
   operations: Operations;
   routePolicies: RoutePolicies;
 }

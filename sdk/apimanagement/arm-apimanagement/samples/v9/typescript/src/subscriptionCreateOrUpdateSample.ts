@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates the subscription of specified user to the specified product.
  *
  * @summary Creates or updates the subscription of specified user to the specified product.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateSubscription.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateSubscription.json
  */
 async function apiManagementCreateSubscription() {
   const subscriptionId =

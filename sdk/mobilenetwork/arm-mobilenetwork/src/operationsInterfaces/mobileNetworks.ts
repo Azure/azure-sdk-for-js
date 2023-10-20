@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MobileNetwork,
   MobileNetworksListBySubscriptionOptionalParams,
@@ -51,7 +51,7 @@ export interface MobileNetworks {
     resourceGroupName: string,
     mobileNetworkName: string,
     options?: MobileNetworksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -87,8 +87,8 @@ export interface MobileNetworks {
     parameters: MobileNetwork,
     options?: MobileNetworksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MobileNetworksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MobileNetworksCreateOrUpdateResponse>,
       MobileNetworksCreateOrUpdateResponse
     >
   >;

@@ -31,14 +31,32 @@ import {
   NetworkFabricsCreateResponse,
   NetworkFabricsGetOptionalParams,
   NetworkFabricsGetResponse,
-  NetworkFabricPatchParameters,
+  NetworkFabricPatch,
   NetworkFabricsUpdateOptionalParams,
   NetworkFabricsUpdateResponse,
   NetworkFabricsDeleteOptionalParams,
+  NetworkFabricsDeleteResponse,
   NetworkFabricsProvisionOptionalParams,
   NetworkFabricsProvisionResponse,
   NetworkFabricsDeprovisionOptionalParams,
   NetworkFabricsDeprovisionResponse,
+  UpdateVersion,
+  NetworkFabricsUpgradeOptionalParams,
+  NetworkFabricsUpgradeResponse,
+  NetworkFabricsRefreshConfigurationOptionalParams,
+  NetworkFabricsRefreshConfigurationResponse,
+  UpdateAdministrativeState,
+  NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams,
+  NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse,
+  NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams,
+  NetworkFabricsUpdateInfraManagementBfdConfigurationResponse,
+  ValidateConfigurationProperties,
+  NetworkFabricsValidateConfigurationOptionalParams,
+  NetworkFabricsValidateConfigurationResponse,
+  NetworkFabricsGetTopologyOptionalParams,
+  NetworkFabricsGetTopologyResponse,
+  NetworkFabricsCommitConfigurationOptionalParams,
+  NetworkFabricsCommitConfigurationResponse,
   NetworkFabricsListByResourceGroupNextResponse,
   NetworkFabricsListBySubscriptionNextResponse
 } from "../models";
@@ -182,7 +200,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   /**
    * Create Network Fabric resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the Network Fabric
+   * @param networkFabricName Name of the Network Fabric.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -256,7 +274,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   /**
    * Create Network Fabric resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the Network Fabric
+   * @param networkFabricName Name of the Network Fabric.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -278,7 +296,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   /**
    * Get Network Fabric resource details.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the Network Fabric
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
   get(
@@ -295,14 +313,14 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   /**
    * Update certain properties of the Network Fabric resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the Network Fabric
+   * @param networkFabricName Name of the Network Fabric.
    * @param body Network Fabric properties to update.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     networkFabricName: string,
-    body: NetworkFabricPatchParameters,
+    body: NetworkFabricPatch,
     options?: NetworkFabricsUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -369,14 +387,14 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   /**
    * Update certain properties of the Network Fabric resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the Network Fabric
+   * @param networkFabricName Name of the Network Fabric.
    * @param body Network Fabric properties to update.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    body: NetworkFabricPatchParameters,
+    body: NetworkFabricPatch,
     options?: NetworkFabricsUpdateOptionalParams
   ): Promise<NetworkFabricsUpdateResponse> {
     const poller = await this.beginUpdate(
@@ -391,18 +409,23 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   /**
    * Delete Network Fabric resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the Network Fabric
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkFabricsDeleteResponse>,
+      NetworkFabricsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<NetworkFabricsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -443,7 +466,10 @@ export class NetworkFabricsImpl implements NetworkFabrics {
       args: { resourceGroupName, networkFabricName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      NetworkFabricsDeleteResponse,
+      OperationState<NetworkFabricsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -455,14 +481,14 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   /**
    * Delete Network Fabric resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the Network Fabric
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<NetworkFabricsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkFabricName,
@@ -502,7 +528,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   /**
    * Provisions the underlying resources in the given Network Fabric instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
   async beginProvision(
@@ -574,7 +600,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   /**
    * Provisions the underlying resources in the given Network Fabric instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
   async beginProvisionAndWait(
@@ -593,7 +619,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   /**
    * Deprovisions the underlying resources in the given Network Fabric instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
   async beginDeprovision(
@@ -665,7 +691,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   /**
    * Deprovisions the underlying resources in the given Network Fabric instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
   async beginDeprovisionAndWait(
@@ -674,6 +700,675 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     options?: NetworkFabricsDeprovisionOptionalParams
   ): Promise<NetworkFabricsDeprovisionResponse> {
     const poller = await this.beginDeprovision(
+      resourceGroupName,
+      networkFabricName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Upgrades the version of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Network Fabric properties to update.
+   * @param options The options parameters.
+   */
+  async beginUpgrade(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: UpdateVersion,
+    options?: NetworkFabricsUpgradeOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkFabricsUpgradeResponse>,
+      NetworkFabricsUpgradeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<NetworkFabricsUpgradeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkFabricName, body, options },
+      spec: upgradeOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkFabricsUpgradeResponse,
+      OperationState<NetworkFabricsUpgradeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Upgrades the version of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Network Fabric properties to update.
+   * @param options The options parameters.
+   */
+  async beginUpgradeAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: UpdateVersion,
+    options?: NetworkFabricsUpgradeOptionalParams
+  ): Promise<NetworkFabricsUpgradeResponse> {
+    const poller = await this.beginUpgrade(
+      resourceGroupName,
+      networkFabricName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Refreshes the configuration of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param options The options parameters.
+   */
+  async beginRefreshConfiguration(
+    resourceGroupName: string,
+    networkFabricName: string,
+    options?: NetworkFabricsRefreshConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkFabricsRefreshConfigurationResponse>,
+      NetworkFabricsRefreshConfigurationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<NetworkFabricsRefreshConfigurationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkFabricName, options },
+      spec: refreshConfigurationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkFabricsRefreshConfigurationResponse,
+      OperationState<NetworkFabricsRefreshConfigurationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Refreshes the configuration of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param options The options parameters.
+   */
+  async beginRefreshConfigurationAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    options?: NetworkFabricsRefreshConfigurationOptionalParams
+  ): Promise<NetworkFabricsRefreshConfigurationResponse> {
+    const poller = await this.beginRefreshConfiguration(
+      resourceGroupName,
+      networkFabricName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Updates the Workload Management BFD Configuration of the underlying resources in the given Network
+   * Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateWorkloadManagementBfdConfiguration(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<
+        NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse
+      >,
+      NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkFabricName, body, options },
+      spec: updateWorkloadManagementBfdConfigurationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse,
+      OperationState<
+        NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates the Workload Management BFD Configuration of the underlying resources in the given Network
+   * Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateWorkloadManagementBfdConfigurationAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams
+  ): Promise<NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse> {
+    const poller = await this.beginUpdateWorkloadManagementBfdConfiguration(
+      resourceGroupName,
+      networkFabricName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Updates the Infra Management BFD Configuration of the underlying resources in the given Network
+   * Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateInfraManagementBfdConfiguration(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<
+        NetworkFabricsUpdateInfraManagementBfdConfigurationResponse
+      >,
+      NetworkFabricsUpdateInfraManagementBfdConfigurationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<NetworkFabricsUpdateInfraManagementBfdConfigurationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkFabricName, body, options },
+      spec: updateInfraManagementBfdConfigurationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkFabricsUpdateInfraManagementBfdConfigurationResponse,
+      OperationState<
+        NetworkFabricsUpdateInfraManagementBfdConfigurationResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates the Infra Management BFD Configuration of the underlying resources in the given Network
+   * Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateInfraManagementBfdConfigurationAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams
+  ): Promise<NetworkFabricsUpdateInfraManagementBfdConfigurationResponse> {
+    const poller = await this.beginUpdateInfraManagementBfdConfiguration(
+      resourceGroupName,
+      networkFabricName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Validates the configuration of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Validate configuration properties.
+   * @param options The options parameters.
+   */
+  async beginValidateConfiguration(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: ValidateConfigurationProperties,
+    options?: NetworkFabricsValidateConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkFabricsValidateConfigurationResponse>,
+      NetworkFabricsValidateConfigurationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<NetworkFabricsValidateConfigurationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkFabricName, body, options },
+      spec: validateConfigurationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkFabricsValidateConfigurationResponse,
+      OperationState<NetworkFabricsValidateConfigurationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Validates the configuration of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Validate configuration properties.
+   * @param options The options parameters.
+   */
+  async beginValidateConfigurationAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: ValidateConfigurationProperties,
+    options?: NetworkFabricsValidateConfigurationOptionalParams
+  ): Promise<NetworkFabricsValidateConfigurationResponse> {
+    const poller = await this.beginValidateConfiguration(
+      resourceGroupName,
+      networkFabricName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets Topology of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param options The options parameters.
+   */
+  async beginGetTopology(
+    resourceGroupName: string,
+    networkFabricName: string,
+    options?: NetworkFabricsGetTopologyOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkFabricsGetTopologyResponse>,
+      NetworkFabricsGetTopologyResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<NetworkFabricsGetTopologyResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkFabricName, options },
+      spec: getTopologyOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkFabricsGetTopologyResponse,
+      OperationState<NetworkFabricsGetTopologyResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Gets Topology of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param options The options parameters.
+   */
+  async beginGetTopologyAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    options?: NetworkFabricsGetTopologyOptionalParams
+  ): Promise<NetworkFabricsGetTopologyResponse> {
+    const poller = await this.beginGetTopology(
+      resourceGroupName,
+      networkFabricName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Atomic update of the given Network Fabric instance. Sync update of NFA resources at Fabric level.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param options The options parameters.
+   */
+  async beginCommitConfiguration(
+    resourceGroupName: string,
+    networkFabricName: string,
+    options?: NetworkFabricsCommitConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkFabricsCommitConfigurationResponse>,
+      NetworkFabricsCommitConfigurationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<NetworkFabricsCommitConfigurationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkFabricName, options },
+      spec: commitConfigurationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkFabricsCommitConfigurationResponse,
+      OperationState<NetworkFabricsCommitConfigurationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Atomic update of the given Network Fabric instance. Sync update of NFA resources at Fabric level.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param options The options parameters.
+   */
+  async beginCommitConfigurationAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    options?: NetworkFabricsCommitConfigurationOptionalParams
+  ): Promise<NetworkFabricsCommitConfigurationResponse> {
+    const poller = await this.beginCommitConfiguration(
       resourceGroupName,
       networkFabricName,
       options
@@ -737,7 +1432,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body26,
+  requestBody: Parameters.body32,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -792,7 +1487,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body27,
+  requestBody: Parameters.body33,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -809,10 +1504,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.NetworkFabricsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.NetworkFabricsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.NetworkFabricsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.NetworkFabricsDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -871,16 +1574,16 @@ const provisionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.NetworkFabricsProvisionHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
     },
     201: {
-      headersMapper: Mappers.NetworkFabricsProvisionHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
     },
     202: {
-      headersMapper: Mappers.NetworkFabricsProvisionHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
     },
     204: {
-      headersMapper: Mappers.NetworkFabricsProvisionHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -902,16 +1605,241 @@ const deprovisionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.NetworkFabricsDeprovisionHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
     },
     201: {
-      headersMapper: Mappers.NetworkFabricsDeprovisionHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
     },
     202: {
-      headersMapper: Mappers.NetworkFabricsDeprovisionHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
     },
     204: {
-      headersMapper: Mappers.NetworkFabricsDeprovisionHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkFabricName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const upgradeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/upgrade",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    201: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    202: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    204: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body27,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkFabricName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const refreshConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/refreshConfiguration",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    201: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    202: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    204: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkFabricName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateWorkloadManagementBfdConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/updateWorkloadManagementBfdConfiguration",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    201: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    202: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    204: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkFabricName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const updateInfraManagementBfdConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/updateInfraManagementBfdConfiguration",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    201: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    202: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    204: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkFabricName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const validateConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/validateConfiguration",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    201: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    202: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    204: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body34,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkFabricName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const getTopologyOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/getTopology",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    201: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    202: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    204: {
+      bodyMapper: Mappers.ValidateConfigurationResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkFabricName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const commitConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/commitConfiguration",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    201: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    202: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    204: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

@@ -23,13 +23,10 @@ import {
   UpdateAdministrativeState,
   L2IsolationDomainsUpdateAdministrativeStateOptionalParams,
   L2IsolationDomainsUpdateAdministrativeStateResponse,
-  EnableDisableOnResources,
-  L2IsolationDomainsClearArpTableOptionalParams,
-  L2IsolationDomainsClearArpTableResponse,
-  L2IsolationDomainsClearNeighborTableOptionalParams,
-  L2IsolationDomainsClearNeighborTableResponse,
-  L2IsolationDomainsGetArpEntriesOptionalParams,
-  L2IsolationDomainsGetArpEntriesResponse
+  L2IsolationDomainsValidateConfigurationOptionalParams,
+  L2IsolationDomainsValidateConfigurationResponse,
+  L2IsolationDomainsCommitConfigurationOptionalParams,
+  L2IsolationDomainsCommitConfigurationResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,7 +52,7 @@ export interface L2IsolationDomains {
    * Creates layer 2 network connectivity between compute nodes within a rack and across racks.The
    * configuration is applied on the devices only after the isolation domain is enabled.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2 Isolation Domain
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -74,7 +71,7 @@ export interface L2IsolationDomains {
    * Creates layer 2 network connectivity between compute nodes within a rack and across racks.The
    * configuration is applied on the devices only after the isolation domain is enabled.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2 Isolation Domain
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -87,7 +84,7 @@ export interface L2IsolationDomains {
   /**
    * Implements L2 Isolation Domain GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2 Isolation Domain
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param options The options parameters.
    */
   get(
@@ -98,7 +95,7 @@ export interface L2IsolationDomains {
   /**
    * API to update certain properties of the L2 Isolation Domain resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2 Isolation Domain
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param body API to update certain properties of the L2 Isolation Domain resource..
    * @param options The options parameters.
    */
@@ -116,7 +113,7 @@ export interface L2IsolationDomains {
   /**
    * API to update certain properties of the L2 Isolation Domain resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2 Isolation Domain
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param body API to update certain properties of the L2 Isolation Domain resource..
    * @param options The options parameters.
    */
@@ -129,7 +126,7 @@ export interface L2IsolationDomains {
   /**
    * Deletes layer 2 connectivity between compute nodes by managed by named L2 Isolation name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2 Isolation Domain
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param options The options parameters.
    */
   beginDelete(
@@ -140,7 +137,7 @@ export interface L2IsolationDomains {
   /**
    * Deletes layer 2 connectivity between compute nodes by managed by named L2 Isolation name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2 Isolation Domain
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -151,7 +148,7 @@ export interface L2IsolationDomains {
   /**
    * Enables isolation domain across the fabric or on specified racks.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -169,7 +166,7 @@ export interface L2IsolationDomains {
   /**
    * Enables isolation domain across the fabric or on specified racks.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -180,92 +177,57 @@ export interface L2IsolationDomains {
     options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams
   ): Promise<L2IsolationDomainsUpdateAdministrativeStateResponse>;
   /**
-   * Clears ARP tables for this Isolation Domain.
+   * Validates the configuration of the resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
-   * @param body Request payload.
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param options The options parameters.
    */
-  beginClearArpTable(
+  beginValidateConfiguration(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L2IsolationDomainsClearArpTableOptionalParams
+    options?: L2IsolationDomainsValidateConfigurationOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<L2IsolationDomainsClearArpTableResponse>,
-      L2IsolationDomainsClearArpTableResponse
+      OperationState<L2IsolationDomainsValidateConfigurationResponse>,
+      L2IsolationDomainsValidateConfigurationResponse
     >
   >;
   /**
-   * Clears ARP tables for this Isolation Domain.
+   * Validates the configuration of the resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
-   * @param body Request payload.
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param options The options parameters.
    */
-  beginClearArpTableAndWait(
+  beginValidateConfigurationAndWait(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L2IsolationDomainsClearArpTableOptionalParams
-  ): Promise<L2IsolationDomainsClearArpTableResponse>;
+    options?: L2IsolationDomainsValidateConfigurationOptionalParams
+  ): Promise<L2IsolationDomainsValidateConfigurationResponse>;
   /**
-   * Clears IPv6 neighbors for this Isolation Domain.
+   * Commits the configuration of the given resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
-   * @param body Request payload.
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param options The options parameters.
    */
-  beginClearNeighborTable(
+  beginCommitConfiguration(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L2IsolationDomainsClearNeighborTableOptionalParams
+    options?: L2IsolationDomainsCommitConfigurationOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<L2IsolationDomainsClearNeighborTableResponse>,
-      L2IsolationDomainsClearNeighborTableResponse
+      OperationState<L2IsolationDomainsCommitConfigurationResponse>,
+      L2IsolationDomainsCommitConfigurationResponse
     >
   >;
   /**
-   * Clears IPv6 neighbors for this Isolation Domain.
+   * Commits the configuration of the given resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
-   * @param body Request payload.
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param options The options parameters.
    */
-  beginClearNeighborTableAndWait(
+  beginCommitConfigurationAndWait(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L2IsolationDomainsClearNeighborTableOptionalParams
-  ): Promise<L2IsolationDomainsClearNeighborTableResponse>;
-  /**
-   * Clears IPv6 neighbors for this Isolation Domain.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
-   * @param options The options parameters.
-   */
-  beginGetArpEntries(
-    resourceGroupName: string,
-    l2IsolationDomainName: string,
-    options?: L2IsolationDomainsGetArpEntriesOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<L2IsolationDomainsGetArpEntriesResponse>,
-      L2IsolationDomainsGetArpEntriesResponse
-    >
-  >;
-  /**
-   * Clears IPv6 neighbors for this Isolation Domain.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
-   * @param options The options parameters.
-   */
-  beginGetArpEntriesAndWait(
-    resourceGroupName: string,
-    l2IsolationDomainName: string,
-    options?: L2IsolationDomainsGetArpEntriesOptionalParams
-  ): Promise<L2IsolationDomainsGetArpEntriesResponse>;
+    options?: L2IsolationDomainsCommitConfigurationOptionalParams
+  ): Promise<L2IsolationDomainsCommitConfigurationResponse>;
 }
