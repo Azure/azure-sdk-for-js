@@ -100,7 +100,7 @@ describe("With messaging clients", function () {
       let recorder: Recorder;
       let serializer: AvroSerializer<any>;
       let schemaName: string;
-      let schemaList: string[] = [];
+      const schemaList: string[] = [];
       let httpClient: HttpClient;
       let pipeline: Pipeline;
 
@@ -183,7 +183,6 @@ describe("With messaging clients", function () {
       afterEach(async function () {
         schemaList.push(schemaName);
         await removeSchemas(schemaList, pipeline, httpClient);
-        schemaList = [];
       });
 
       it("Test schema with fields of type int/string/boolean/float/bytes", async () => {

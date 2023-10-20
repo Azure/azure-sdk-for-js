@@ -4345,7 +4345,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231019
+      typescript: 5.3.0-dev.20231020
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -8952,8 +8952,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231019:
-    resolution: {integrity: sha512-fdexB8vj46ZSMsAg6g5aSNjThPegwT73WYwNM1DLmEnt0+fKPmmyft3LzfUR1CMHtcQNic5hl+0FeNTv7l232Q==}
+  /typescript@5.3.0-dev.20231020:
+    resolution: {integrity: sha512-7C4VN/XIuL4MDSf06bSrCHUL4bZq8RMt58jZ5DdwoGZmBlnPE2YEm1gxygeUws72yvvlJJzU3BL89RMQjg7R9Q==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -20553,10 +20553,11 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-UTFvl9+k4wGyNHO6oE6gaWQO1kMShJOS9WhIu1jSiek2o4YBT4nIZbbYqL7665315Qmi9JY74fcR2mCWiW5/Jg==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-7UHODYLRN2TJNZVeUdOR7hpbc9ZnxCr+k2N++P2LkG/eGowd46TdLmP29tQUV1fXJDhAkZlv6oy0A4kXsOeOsw==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
+      '@azure/schema-registry': 1.2.0
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.55)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-inject': 5.0.3(rollup@2.79.1)

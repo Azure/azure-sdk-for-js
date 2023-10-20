@@ -34,7 +34,7 @@ describe("AvroSerializer", async function () {
   let noAutoRegisterOptions: CreateTestSerializerOptions<any>;
   let recorder: Recorder;
   let registry: SchemaRegistry;
-  let schemaNamesList: string[] = [];
+  const schemaNamesList: string[] = [];
   let client: HttpClient;
   let pipeline: Pipeline;
 
@@ -56,7 +56,6 @@ describe("AvroSerializer", async function () {
 
   afterEach(async function (this: Context) {
     await removeSchemas(schemaNamesList, pipeline, client);
-    schemaNamesList = [];
   });
 
   it("serializes to the expected format", async () => {
@@ -127,7 +126,6 @@ describe("AvroSerializer", async function () {
   });
 
   it("works with trivial example in README", async () => {
-    schemaNamesList = [];
     const serializer = await createTestSerializer({ recorder });
 
     // Example Avro schema

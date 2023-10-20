@@ -22,6 +22,7 @@ import {
   createEmptyPipeline,
   Pipeline,
   HttpClient,
+  PipelineRequest,
 } from "@azure/core-rest-pipeline";
 type UpdatedSchemaDescription = Required<Omit<SchemaDescription, "version">>;
 
@@ -162,7 +163,7 @@ export async function removeSchemas(
     return;
   }
 
-  function formatRequest(schemaName: string, apiVersion: string = "2022-10") {
+  function formatRequest(schemaName: string, apiVersion: string = "2022-10"): PipelineRequest {
     const endpoint = assertEnvironmentVariable("SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE");
     const url = `${endpoint}/$schemagroups/${testGroup}/schemas/${schemaName}/?api-version=${apiVersion}`;
     return createPipelineRequest({
@@ -179,4 +180,6 @@ export async function removeSchemas(
     const request = formatRequest(schemaName);
     await pipeline.sendRequest(client, request);
   }
+
+  schemaNamesList.length = 0;
 }

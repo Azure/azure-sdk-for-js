@@ -25,7 +25,7 @@ describe("Error scenarios", function () {
   let registry: SchemaRegistry;
   let serializerNoAutoReg: AvroSerializer;
   let recorder: Recorder;
-  let schemaList: string[] = [];
+  const schemaList: string[] = [];
   let client: HttpClient;
   let pipeline: Pipeline;
 
@@ -61,7 +61,6 @@ describe("Error scenarios", function () {
       after(async function () {
         schemaList.push(testSchemaName);
         await removeSchemas(schemaList, pipeline, client);
-        schemaList = [];
       });
 
       it("schema to serialize with is not found", async function () {
@@ -87,7 +86,6 @@ describe("Error scenarios", function () {
     describe("With auto register schema", function () {
       afterEach(async function () {
         await removeSchemas(schemaList, pipeline, client);
-        schemaList = [];
       });
       it("invalid reader schema", async function () {
         const writerSchema = {
@@ -134,7 +132,7 @@ describe("Error scenarios", function () {
             causeMessage: /missing array items/,
           }
         );
-        schemaList.push(`${writerSchema.namespace}.${writerSchema.name}}`);
+        schemaList.push(`${writerSchema.namespace}.${writerSchema.name}`);
       });
       it("incompatible reader schema", async function () {
         const writerSchema = {
@@ -182,7 +180,7 @@ describe("Error scenarios", function () {
             causeMessage: /no matching field for default-less validation.AvroUser.age/,
           }
         );
-        schemaList.push(`${writerSchema.namespace}.${writerSchema.name}}`);
+        schemaList.push(`${writerSchema.namespace}.${writerSchema.name}`);
       });
       it("invalid writer schema at time of deserializing", async function (this: Context) {
         /**
@@ -449,7 +447,6 @@ describe("Error scenarios", function () {
     afterEach(async function () {
       schemaList.push("validation.User");
       await removeSchemas(schemaList, pipeline, client);
-      schemaList = [];
     });
 
     it("schema is still registered if serialization fails", async function (this: Context) {
@@ -867,7 +864,6 @@ describe("Error scenarios", function () {
     afterEach(async function () {
       schemaList.push("validation.User");
       await removeSchemas(schemaList, pipeline, client);
-      schemaList = [];
     });
 
     it("record", async function () {
@@ -983,7 +979,6 @@ describe("Error scenarios", function () {
   describe("Deserialized value validation", function () {
     afterEach(async function () {
       await removeSchemas(schemaList, pipeline, client);
-      schemaList = [];
     });
 
     it("long with logical DateTime type", async function () {
