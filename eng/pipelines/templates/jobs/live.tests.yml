@@ -41,7 +41,6 @@ parameters:
   type: boolean
   default: false
 
-
 jobs:
   - job:
     dependsOn: ${{ parameters.DependsOn }}
@@ -160,12 +159,6 @@ jobs:
 
       - ${{ parameters.PostSteps }}
 
-      - script: echo 'TestType is $(TestType)'
-      - script: echo 'PublishCodeCoverage is $(PublishCodeCoverage)'
-      - script: echo 'TestResultsFiles is $(TestResultsFiles)'
-      - script: echo 'PackagePath is $(PackagePath)'
-      - script: echo 'SourcesDirectory is $(Build.SourcesDirectory)'
-
       - script: |
           node ../../../common/scripts/install-run-rushx.js execute:samples
         displayName: "Execute Samples"
@@ -195,21 +188,6 @@ jobs:
         inputs:
           codeCoverageTool: Cobertura
           summaryFileLocation: "$(PackagePath)/coverage/cobertura-coverage.xml"
-
-      - script: |
-          nyc --reporter=cobertura --reporter=html \
-          npm test -- --reporter mocha-junit-reporter --reporter-options mochaFile=./test-results.xml
-        displayName: "Build code coverage report"
-
-      - task: PublishCodeCoverageResults@1
-        displayName: "Publish NodeJs Code Coverage to DevOps 2"
-        continueOnError: true
-        condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),eq(variables['PublishCodeCoverage'], true))
-        inputs:
-          codeCoverageTool: Cobertura #JaCoCo
-          summaryFileLocation: $(PackagePath)/**/*coverage.xml
-          #pathToSources: $(PackagePath)
-          reportDirectory: $(PackagePath)/**/coverage
 
       - task: PublishPipelineArtifact@1
         displayName: "Publish Browser Code Coverage Report Artifact"
