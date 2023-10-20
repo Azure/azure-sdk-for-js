@@ -3,12 +3,15 @@
 
 export {
   Agent,
+  BodyPart,
+  FileLike,
   FormDataMap,
   FormDataValue,
   HttpClient,
   HttpHeaders,
   HttpMethods,
   KeyObject,
+  MultipartRequestBody,
   PipelineRequest,
   PipelineResponse,
   PipelineRetryOptions,

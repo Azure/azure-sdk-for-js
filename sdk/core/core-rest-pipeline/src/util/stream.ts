@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Duplex, PassThrough, Readable } from "stream";
 
 function isNodeReadableStream(x: any): x is NodeJS.ReadableStream {
@@ -39,7 +42,7 @@ export function concatenateStreams(
   });
 
   const output = new PassThrough();
-  for (let stream of streams) {
+  for (const stream of streams) {
     const done = stream === streams.at(-1);
     stream.pipe(output, { end: done });
   }

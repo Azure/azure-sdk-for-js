@@ -9,9 +9,9 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   formDataPolicy,
-} from "../../src";
-import { isMultipartRequestBody } from "../../src/policies/multipartPolicy";
-import { BodyPart } from "../../src/interfaces";
+} from "../src";
+import { isMultipartRequestBody } from "../src/policies/multipartPolicy";
+import { BodyPart } from "../src/interfaces";
 
 describe("formDataPolicy", function () {
   afterEach(function () {

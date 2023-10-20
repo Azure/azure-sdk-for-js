@@ -75,6 +75,14 @@ export interface BearerTokenAuthenticationPolicyOptions {
     scopes: string | string[];
 }
 
+// @public (undocumented)
+export interface BodyPart {
+    // (undocumented)
+    body: ReadableStream | NodeJS.ReadableStream | Uint8Array;
+    // (undocumented)
+    headers: HttpHeaders;
+}
+
 // @public
 export interface ChallengeCallbacks {
     authorizeRequest?(options: AuthorizeRequestOptions): Promise<void>;
@@ -122,6 +130,16 @@ export interface ExponentialRetryPolicyOptions {
     retryDelayInMs?: number;
 }
 
+// @public (undocumented)
+export interface FileLike {
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    stream: ReadableStream | NodeJS.ReadableStream | (() => ReadableStream | NodeJS.ReadableStream);
+    // (undocumented)
+    type?: string;
+}
+
 // @public
 export type FormDataMap = {
     [key: string]: FormDataValue | FormDataValue[];
@@ -133,8 +151,6 @@ export function formDataPolicy(): PipelinePolicy;
 // @public
 export const formDataPolicyName = "formDataPolicy";
 
-// Warning: (ae-forgotten-export) The symbol "FileLike" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type FormDataValue = string | Blob | ReadableStream | FileLike;
 
@@ -185,6 +201,14 @@ export interface LogPolicyOptions {
     additionalAllowedHeaderNames?: string[];
     additionalAllowedQueryParameters?: string[];
     logger?: Debugger;
+}
+
+// @public (undocumented)
+export interface MultipartRequestBody {
+    // (undocumented)
+    boundary?: string;
+    // (undocumented)
+    parts: BodyPart[];
 }
 
 // @public
@@ -327,8 +351,6 @@ export interface RedirectPolicyOptions {
     maxRetries?: number;
 }
 
-// Warning: (ae-forgotten-export) The symbol "MultipartRequestBody" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | MultipartRequestBody | string | null;
 

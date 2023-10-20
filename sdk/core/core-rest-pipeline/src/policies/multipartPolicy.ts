@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
 import { BodyPart, HttpHeaders, MultipartRequestBody, RequestBodyType } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";

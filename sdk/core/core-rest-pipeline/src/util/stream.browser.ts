@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 function uint8ArrayToStream(data: Uint8Array): ReadableStream {
   return new ReadableStream({
     start(controller) {
@@ -6,7 +9,9 @@ function uint8ArrayToStream(data: Uint8Array): ReadableStream {
   });
 }
 
-export function toStream(source: ReadableStream | NodeJS.ReadableStream | Uint8Array | Blob) {
+export function toStream(
+  source: ReadableStream | NodeJS.ReadableStream | Uint8Array | Blob
+): ReadableStream {
   if (source instanceof Uint8Array) {
     return uint8ArrayToStream(source);
   } else if (source instanceof Blob) {
