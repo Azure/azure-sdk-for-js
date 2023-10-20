@@ -1,0 +1,73 @@
+{
+  "name": "@azure/abort-controller-tests",
+  "sdk-type": "client",
+  "version": "1.1.1",
+  "description": "Microsoft Azure SDK for JavaScript - Aborter Tests",
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/abort-controller/README.md",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "sideEffects": false,
+  "type": "module",
+  "private": "true",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "deno": {
+        "types": "./dist/deno/index.d.ts",
+        "default": "./dist/deno/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      }
+    }
+  },
+  "scripts": {
+    "build": "npm run clean && tshy",
+    "clean": "rimraf dist",
+    "unit-test:browser": "npm run build && web-test-runner dist/browser/**/*.spec.js --node-resolve",
+    "unit-test:node": "npm run build && mocha --exclude  \"src/**/browser/*.spec.ts\" \"src/**/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
+  "dependencies": {
+    "@azure/abort-controller": "^1.0.0",
+    "tslib": "^2.6.2"
+  },
+  "devDependencies": {
+    "@esm-bundle/chai": "^4.3.4-fix.0",
+    "@types/chai": "^4.3.9",
+    "@types/mocha": "^10.0.3",
+    "@types/node": "^20.8.7",
+    "@web/test-runner": "^0.17.2",
+    "esm": "^3.2.25",
+    "mocha": "^10.2.0",
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.1",
+    "tshy": "^1.6.0",
+    "typescript": "^5.2.2"
+  },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm"
+    ],
+    "esmDialects": [
+      "browser",
+      "deno"
+    ]
+  },
+  "imports": {
+    "#native": "./src/native.ts"
+  }
+}

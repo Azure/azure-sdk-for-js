@@ -301,6 +301,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/abort-controller-tests",
+      "projectFolder": "sdk/core/abort-controller-tests",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/app-configuration",
       "projectFolder": "sdk/appconfiguration/app-configuration",
       "versionPolicyName": "client"
