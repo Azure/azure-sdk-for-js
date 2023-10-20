@@ -12392,7 +12392,7 @@ packages:
     dev: false
 
   file:projects/arm-kusto.tgz:
-    resolution: {integrity: sha512-5QgAhqUEDXANrHi1p9vUznDtYb2rimge+UMHtFfZyKr/l1TM1s4kG/r42PgdejqYbXy1sRNMd4+FhCaQt4nbeQ==, tarball: file:projects/arm-kusto.tgz}
+    resolution: {integrity: sha512-QepR8TP9gTKegQR3mbfpB4uB7hyMCL5yEeHLGnBR4p/IbrG9eS99brsWW0uAEHhiXGJvCd+wSMrtBRzQ4C+Z2Q==, tarball: file:projects/arm-kusto.tgz}
     name: '@rush-temp/arm-kusto'
     version: 0.0.0
     dependencies:
@@ -12404,7 +12404,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)
       tslib: 2.6.2
       typescript: 5.0.4
