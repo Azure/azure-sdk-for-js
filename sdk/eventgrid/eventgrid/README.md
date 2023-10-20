@@ -255,11 +255,11 @@ await client.send([
 `EventGridDeserializer` can be used to deserialize events delivered by Event Grid. When deserializing an event, you need to know the schema used to deliver the event. In this example we have events being delivered to an Azure Service Bus Queue in the Cloud Events schema. Using the Service Bus SDK we can receive these events from the Service Bus Queue and then deserialize them using `EventGridDeserializer` and use `isSystemEvent` to detect what type of events they are.
 
 ```js
-import { EventGridDeserializer, isSystemEvent } from "@azure/eventgrid";
+const { EventGridDeserializer, isSystemEvent } = require("@azure/eventgrid");
 
-async function main(): Promise<void> {
-  const deserializer: EventGridDeserializer = new EventGridDeserializer();
-  const message: any = {
+async function main() {
+  const deserializer = new EventGridDeserializer();
+  const message = {
     id: "5bc888aa-c2f4-11ea-b3de-0242ac130004",
     source:
       "/subscriptions/<subscriptionid>/resourceGroups/dummy-rg/providers/Microsoft.EventGrid/topics/dummy-topic",
