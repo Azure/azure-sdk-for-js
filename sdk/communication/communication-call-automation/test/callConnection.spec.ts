@@ -440,7 +440,7 @@ describe("CallConnection Live Tests", function () {
     assert.isDefined(callEndedEvent);
   }).timeout(60000);
 
-  it.skip("Mute a participant", async function () {
+  it("Mute a participant", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "add_participant_and_get_call_props";
