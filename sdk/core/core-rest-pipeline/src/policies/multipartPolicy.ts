@@ -62,14 +62,13 @@ export function multipartPolicy(): PipelinePolicy {
         const parsedHeader = contentTypeHeader.match(/^(multipart\/[^ ;]+)(; *boundary=(.+))?$/);
         if (!parsedHeader) {
           throw new Error(
-            `Got multipart request body, but Content-Type header was set to non-multipart MIME type: ${contentTypeHeader}`
+            `Got multipart request body, but content-type header was not multipart: ${contentTypeHeader}`
           );
         }
 
         const parsedContentType = parsedHeader[1];
         const parsedBoundary = parsedHeader[3];
 
-        // if boundary is already there don't update content type
         if (parsedBoundary) {
           if (boundary && boundary !== parsedBoundary) {
             throw new Error(
@@ -79,12 +78,11 @@ export function multipartPolicy(): PipelinePolicy {
             boundary = parsedBoundary;
           }
         } else {
-          boundary = generateBoundary();
+          boundary ??= generateBoundary();
           request.headers.set("Content-Type", `${parsedContentType}; boundary=${boundary}`);
         }
       } else {
-        // default to multipart/mixed
-        boundary = generateBoundary();
+        boundary ??= generateBoundary();
         request.headers.set("Content-Type", `multipart/mixed; boundary=${boundary}`);
       }
 
