@@ -110,7 +110,7 @@ export class CallMedia {
    * @param playOptions - Additional attributes for play.
    */
   public async play(
-    playSources: FileSource[] | TextSource[] | SsmlSource[],
+    playSources: (FileSource | TextSource | SsmlSource)[],
     playTo: CommunicationIdentifier[],
     playOptions: PlayOptions = { loop: false }
   ): Promise<void> {
@@ -121,7 +121,7 @@ export class CallMedia {
         loop: false,
       },
       operationContext: playOptions.operationContext,
-      overrideCallbackUri: playOptions.overrideCallbackUrl,
+      operationCallbackUri: playOptions.operationCallbackUrl,
     };
 
     if (playOptions.loop !== undefined) {
@@ -138,7 +138,7 @@ export class CallMedia {
    * @param playOptions - Additional attributes for play.
    */
   public async playToAll(
-    playSources: FileSource[] | TextSource[] | SsmlSource[],
+    playSources: (FileSource | TextSource | SsmlSource)[],
     playOptions: PlayOptions = { loop: false }
   ): Promise<void> {
     const playRequest: PlayRequest = {
@@ -148,7 +148,7 @@ export class CallMedia {
         loop: false,
       },
       operationContext: playOptions.operationContext,
-      overrideCallbackUri: playOptions.overrideCallbackUrl,
+      operationCallbackUri: playOptions.operationCallbackUrl,
     };
 
     if (playOptions.loop !== undefined) {
@@ -190,7 +190,7 @@ export class CallMedia {
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
-        overrideCallbackUri: recognizeOptions.overrideCallbackUrl,
+        operationCallbackUri: recognizeOptions.operationCallbackUrl,
       };
     } else if (recognizeOptions.kind === "callMediaRecognizeChoiceOptions") {
       const recognizeOptionsInternal: RecognizeOptions = {
@@ -211,7 +211,7 @@ export class CallMedia {
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
-        overrideCallbackUri: recognizeOptions.overrideCallbackUrl,
+        operationCallbackUri: recognizeOptions.operationCallbackUrl,
       };
     } else if (recognizeOptions.kind === "callMediaRecognizeSpeechOptions") {
       const speechOptions: SpeechOptions = {
@@ -237,7 +237,7 @@ export class CallMedia {
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
-        overrideCallbackUri: recognizeOptions.overrideCallbackUrl,
+        operationCallbackUri: recognizeOptions.operationCallbackUrl,
       };
     } else if (recognizeOptions.kind === "callMediaRecognizeSpeechOrDtmfOptions") {
       const dtmfOptionsInternal: DtmfOptions = {
@@ -271,7 +271,7 @@ export class CallMedia {
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
-        overrideCallbackUri: recognizeOptions.overrideCallbackUrl,
+        operationCallbackUri: recognizeOptions.operationCallbackUrl,
       };
     }
     throw new Error("Invalid recognizeOptions");
@@ -336,7 +336,7 @@ export class CallMedia {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       operationContext: continuousDtmfRecognitionOptions.operationContext,
-      overrideCallbackUri: continuousDtmfRecognitionOptions.overrideCallbackUrl,
+      operationCallbackUri: continuousDtmfRecognitionOptions.operationCallbackUrl,
     };
     return this.callMedia.stopContinuousDtmfRecognition(
       this.callConnectionId,
@@ -360,7 +360,7 @@ export class CallMedia {
       tones: tones,
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       operationContext: sendDtmfTonesOptions.operationContext,
-      overrideCallbackUri: sendDtmfTonesOptions.overrideCallbackUrl,
+      operationCallbackUri: sendDtmfTonesOptions.operationCallbackUrl,
     };
     const optionsInternal = {
       ...sendDtmfTonesOptions,

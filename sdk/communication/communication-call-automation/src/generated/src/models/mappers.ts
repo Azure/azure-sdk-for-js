@@ -427,10 +427,40 @@ export const TransferToParticipantRequest: coreClient.CompositeMapper = {
           className: "CommunicationIdentifierModel"
         }
       },
-      overrideCallbackUri: {
-        serializedName: "overrideCallbackUri",
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
         type: {
           name: "String"
+        }
+      },
+      customContext: {
+        serializedName: "customContext",
+        type: {
+          name: "Composite",
+          className: "CustomContext"
+        }
+      }
+    }
+  }
+};
+
+export const CustomContext: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomContext",
+    modelProperties: {
+      voipHeaders: {
+        serializedName: "voipHeaders",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      sipHeaders: {
+        serializedName: "sipHeaders",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -495,8 +525,8 @@ export const PlayRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      overrideCallbackUri: {
-        serializedName: "overrideCallbackUri",
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
         type: {
           name: "String"
         }
@@ -680,8 +710,8 @@ export const RecognizeRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      overrideCallbackUri: {
-        serializedName: "overrideCallbackUri",
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
         type: {
           name: "String"
         }
@@ -863,8 +893,8 @@ export const ContinuousDtmfRecognitionRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      overrideCallbackUri: {
-        serializedName: "overrideCallbackUri",
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
         type: {
           name: "String"
         }
@@ -903,8 +933,8 @@ export const SendDtmfTonesRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      overrideCallbackUri: {
-        serializedName: "overrideCallbackUri",
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
         type: {
           name: "String"
         }
@@ -1019,10 +1049,17 @@ export const AddParticipantRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      overrideCallbackUri: {
-        serializedName: "overrideCallbackUri",
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
         type: {
           name: "String"
+        }
+      },
+      customContext: {
+        serializedName: "customContext",
+        type: {
+          name: "Composite",
+          className: "CustomContext"
         }
       }
     }
@@ -1075,8 +1112,8 @@ export const RemoveParticipantRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      overrideCallbackUri: {
-        serializedName: "overrideCallbackUri",
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
         type: {
           name: "String"
         }
@@ -1161,8 +1198,8 @@ export const CancelAddParticipantRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      overrideCallbackUri: {
-        serializedName: "overrideCallbackUri",
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
         type: {
           name: "String"
         }
@@ -1777,13 +1814,6 @@ export const CancelAddParticipantSucceeded: coreClient.CompositeMapper = {
         serializedName: "operationContext",
         type: {
           name: "String"
-        }
-      },
-      participant: {
-        serializedName: "participant",
-        type: {
-          name: "Composite",
-          className: "CommunicationIdentifierModel"
         }
       },
       invitationId: {
