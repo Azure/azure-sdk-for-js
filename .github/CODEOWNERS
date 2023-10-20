@@ -414,6 +414,9 @@
 /sdk/domainservices/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/elasticsans/arm-elasticsan/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/eventgrid/arm-eventgrid/ @qiaozha @MaryGao
 /sdk/eventgrid/ci.mgmt.yml @qiaozha @MaryGao
 

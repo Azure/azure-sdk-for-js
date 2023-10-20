@@ -11941,7 +11941,7 @@ packages:
     dev: false
 
   file:projects/arm-elasticsan.tgz:
-    resolution: {integrity: sha512-RHmioQK3UhNuHeZIqKoETBiMv82nSZUiCoBedZWBLtWTHWJonGSnYQFLnu41fkWrPr7jVgKM+2++uATlQyRKeA==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-ij5rsHUSk7/9tKTSAsQeflEP/u5xKXqUZa3PYikeJ405IR6FOb69b29b4hDPW0uU4PW/fbrX+frZBMhteCBRHg==, tarball: file:projects/arm-elasticsan.tgz}
     name: '@rush-temp/arm-elasticsan'
     version: 0.0.0
     dependencies:
@@ -11953,7 +11953,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)
       tslib: 2.6.2
       typescript: 5.0.4
