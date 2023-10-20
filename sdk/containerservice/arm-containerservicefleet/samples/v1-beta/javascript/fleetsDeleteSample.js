@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a Fleet
  *
  * @summary Delete a Fleet
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-06-15-preview/examples/Fleets_Delete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-08-15-preview/examples/Fleets_Delete.json
  */
 async function deletesAFleetResourceAsynchronouslyWithALongRunningOperation() {
   const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";

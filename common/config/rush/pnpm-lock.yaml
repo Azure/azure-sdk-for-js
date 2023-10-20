@@ -11031,7 +11031,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservicefleet.tgz:
-    resolution: {integrity: sha512-5VC5HT8MInpuL79XeEv0C8we8OkmhTzJeu8QCtmG7OQ/XsGf2eZjQ+ZfsrLAmud+CgwVk5/K3xDOqZ0Yacf5TA==, tarball: file:projects/arm-containerservicefleet.tgz}
+    resolution: {integrity: sha512-7I0PoZ1AOonkQnN0kywkQkJRiPj6usuPU1laUcIPJvU2eWTCVi7HgyPymV/2f6dSsTf05VOzJ5ENER8K0i8Ofw==, tarball: file:projects/arm-containerservicefleet.tgz}
     name: '@rush-temp/arm-containerservicefleet'
     version: 0.0.0
     dependencies:
@@ -11043,7 +11043,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)
       tslib: 2.6.2
       typescript: 5.0.4
