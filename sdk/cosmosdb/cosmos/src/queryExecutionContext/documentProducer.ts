@@ -7,6 +7,7 @@ import {
   getIdFromLink,
   getPathFromLink,
   ResourceType,
+  RUConsumed,
   StatusCodes,
   SubStatusCodes,
 } from "../common";
@@ -45,7 +46,7 @@ export class DocumentProducer {
     collectionLink: string,
     query: SqlQuerySpec,
     targetPartitionKeyRange: PartitionKeyRange,
-    options: FeedOptions
+    public options: FeedOptions
   ) {
     // TODO: any options
     this.collectionLink = collectionLink;
@@ -156,7 +157,10 @@ export class DocumentProducer {
   /**
    * Fetches and bufferes the next page of results and executes the given callback
    */
-  public async bufferMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async bufferMore(
+    diagnosticNode: DiagnosticNodeInternal,
+    ruConsumed?: RUConsumed
+  ): Promise<Response<any>> {
     if (this.err) {
       throw this.err;
     }
@@ -184,7 +188,15 @@ export class DocumentProducer {
         headerResponse[Constants.HttpHeaders.QueryMetrics][this.targetPartitionKeyRange.id] =
           queryMetrics;
       }
-
+      ruConsumed.ruConsumed += parseFloat(headerResponse[Constants.HttpHeaders.RequestCharge]);
+      console.log(
+        "RU value currently and capacity",
+        ruConsumed.ruConsumed,
+        this.options.ruCapacity
+      );
+      if (ruConsumed.ruConsumed > this.options.ruCapacity) {
+        throw new Error("max RU breached");
+      }
       return { result: resources, headers: headerResponse };
     } catch (err: any) {
       // TODO: any error
@@ -199,7 +211,8 @@ export class DocumentProducer {
           headers: err.headers,
         };
       } else {
-        this._updateStates(err, err.resources === undefined);
+        // this._updateStates(err, err.resources === undefined);
+        this._updateStates(undefined, false);
         throw err;
       }
     }
@@ -217,15 +230,19 @@ export class DocumentProducer {
   /**
    * Fetches the next element in the DocumentProducer.
    */
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async nextItem(
+    diagnosticNode: DiagnosticNodeInternal,
+    ruConsumed?: RUConsumed
+  ): Promise<Response<any>> {
     if (this.err) {
       this._updateStates(this.err, undefined);
       throw this.err;
     }
 
     try {
-      const { result, headers } = await this.current(diagnosticNode);
-
+      console.log("Document Produ nextItem", ruConsumed);
+      const { result, headers } = await this.current(diagnosticNode, ruConsumed);
+      console.log("Document Producer nextItem current success", ruConsumed);
       const fetchResult = this.fetchResults.shift();
       this._updateStates(undefined, result === undefined);
       if (fetchResult.feedResponse !== result) {
@@ -241,7 +258,8 @@ export class DocumentProducer {
           return { result: fetchResult.feedResponse, headers };
       }
     } catch (err: any) {
-      this._updateStates(err, err.item === undefined);
+      // this._updateStates(err, err.item === undefined);
+      this._updateStates(undefined, false);
       throw err;
     }
   }
@@ -249,7 +267,10 @@ export class DocumentProducer {
   /**
    * Retrieve the current element on the DocumentProducer.
    */
-  public async current(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async current(
+    diagnosticNode: DiagnosticNodeInternal,
+    ruConsumed?: RUConsumed
+  ): Promise<Response<any>> {
     // If something is buffered just give that
     if (this.fetchResults.length > 0) {
       const fetchResult = this.fetchResults[0];
@@ -278,9 +299,9 @@ export class DocumentProducer {
         headers: this._getAndResetActiveResponseHeaders(),
       };
     }
-
     // If there are no more bufferd items and there are still items to be fetched then buffer more
-    const { result, headers } = await this.bufferMore(diagnosticNode);
+    const { result, headers } = await this.bufferMore(diagnosticNode, ruConsumed);
+    console.log("Document Producer current bufferMore success", ruConsumed);
     mergeHeaders(this.respHeaders, headers);
     if (result === undefined) {
       return { result: undefined, headers: this.respHeaders };

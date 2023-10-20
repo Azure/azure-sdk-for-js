@@ -159,6 +159,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           resources = response.result;
           childDiagnosticNode.recordQueryResult(resources, CosmosDbDiagnosticLevel.debugUnsafe);
           responseHeaders = response.headers;
+
           this.continuationToken = responseHeaders[Constants.HttpHeaders.Continuation];
           if (!this.continuationToken) {
             ++this.currentPartitionIndex;
@@ -174,9 +175,11 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
               : undefined;
           }
         } catch (err: any) {
-          this.state = DefaultQueryExecutionContext.STATES.ended;
+          // error due to RU cap breach
+          this.state = DefaultQueryExecutionContext.STATES.inProgress;
           // return callback(err, undefined, responseHeaders);
           // TODO: Error and data being returned is an antipattern, this might broken
+          new Error("Test Error");
           throw err;
         }
 

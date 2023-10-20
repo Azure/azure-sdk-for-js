@@ -16,6 +16,7 @@ import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import { RUConsumed } from "../common/helper";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -112,20 +113,23 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     // if the wrapped endpoint has different implementation for fetchMore use that
     // otherwise use the default implementation
+    const ruConsumed: RUConsumed = { ruConsumed: 0 };
     if (typeof this.endpoint.fetchMore === "function") {
       return this.endpoint.fetchMore(diagnosticNode);
     } else {
       this.fetchBuffer = [];
       this.fetchMoreRespHeaders = getInitialHeader();
-      return this._fetchMoreImplementation(diagnosticNode);
+      return this._fetchMoreImplementation(diagnosticNode, ruConsumed);
     }
   }
 
   private async _fetchMoreImplementation(
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
+    ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     try {
-      const { result: item, headers } = await this.endpoint.nextItem(diagnosticNode);
+      console.log("Pipeline QE fetchMoreImplementation", ruConsumed);
+      const { result: item, headers } = await this.endpoint.nextItem(diagnosticNode, ruConsumed);
       mergeHeaders(this.fetchMoreRespHeaders, headers);
       if (item === undefined) {
         // no more results
@@ -151,7 +155,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         } else {
           // recursively fetch more
           // TODO: is recursion a good idea?
-          return this._fetchMoreImplementation(diagnosticNode);
+          return this._fetchMoreImplementation(diagnosticNode, ruConsumed);
         }
       }
     } catch (err: any) {
