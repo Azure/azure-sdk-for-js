@@ -29,8 +29,8 @@ export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, "ca
 // @public
 export interface AddParticipantOptions extends OperationOptions {
     invitationTimeoutInSeconds?: number;
+    operationCallbackUrl?: string;
     operationContext?: string;
-    overrideCallbackUrl?: string;
 }
 
 // @public
@@ -134,6 +134,7 @@ export interface CallDisconnected extends Omit<RestCallDisconnected, "callConnec
 
 // @public
 export interface CallInvite {
+    customContext?: CustomContext;
     readonly sourceCallIdNumber?: PhoneNumberIdentifier;
     // (undocumented)
     sourceDisplayName?: string;
@@ -155,8 +156,8 @@ export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
 export class CallMedia {
     constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, options?: CallAutomationApiClientOptionalParams);
     cancelAllOperations(): Promise<void>;
-    play(playSources: FileSource[] | TextSource[] | SsmlSource[], playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
-    playToAll(playSources: FileSource[] | TextSource[] | SsmlSource[], playOptions?: PlayOptions): Promise<void>;
+    play(playSources: (FileSource | TextSource | SsmlSource)[], playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
+    playToAll(playSources: (FileSource | TextSource | SsmlSource)[], playOptions?: PlayOptions): Promise<void>;
     // Warning: (ae-forgotten-export) The symbol "Tone" needs to be exported by the entry point index.d.ts
     sendDtmfTones(tones: Tone[], targetParticipant: CommunicationIdentifier, sendDtmfTonesOptions?: SendDtmfTonesOptions): Promise<SendDtmfTonesResult>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
@@ -187,8 +188,8 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
     initialSilenceTimeoutInSeconds?: number;
     interruptCallMediaOperation?: boolean;
     interruptPrompt?: boolean;
+    operationCallbackUrl?: string;
     operationContext?: string;
-    overrideCallbackUrl?: string;
     playPrompt?: FileSource | TextSource | SsmlSource;
     // @deprecated (undocumented)
     stopCurrentOperations?: boolean;
@@ -271,8 +272,8 @@ export interface CancelAddParticipantFailed extends Omit<RestCancelAddParticipan
 
 // @public
 export interface CancelAddParticipantOptions extends OperationOptions {
+    operationCallbackUrl?: string;
     operationContext?: string;
-    overrideCallbackUrl?: string;
 }
 
 // @public
@@ -300,8 +301,8 @@ export interface ChannelAffinity {
 
 // @public
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
+    operationCallbackUrl?: string;
     operationContext?: string;
-    overrideCallbackUrl?: string;
 }
 
 // @public
@@ -345,6 +346,23 @@ export interface CreateCallOptions extends OperationOptions {
 
 // @public
 export type CreateCallResult = CallResult;
+
+// @public
+export class CustomContext {
+    constructor(sipHeaders: {
+        [key: string]: string;
+    }, voipHeaders: {
+        [key: string]: string;
+    });
+    // Warning: (ae-forgotten-export) The symbol "CustomContextHeader" needs to be exported by the entry point index.d.ts
+    add(header: CustomContextHeader): void;
+    sipHeaders: {
+        [key: string]: string;
+    };
+    voipHeaders: {
+        [key: string]: string;
+    };
+}
 
 // @public
 export type DeleteRecordingOptions = OperationOptions;
@@ -466,8 +484,8 @@ export interface PlayFailed extends Omit<RestPlayFailed, "callConnectionId" | "s
 // @public
 export interface PlayOptions extends OperationOptions {
     loop?: boolean;
+    operationCallbackUrl?: string;
     operationContext?: string;
-    overrideCallbackUrl?: string;
 }
 
 // @public
@@ -567,8 +585,8 @@ export interface RemoveParticipantResult {
 
 // @public
 export interface RemoveParticipantsOption extends OperationOptions {
+    operationCallbackUrl?: string;
     operationContext?: string;
-    overrideCallbackUrl?: string;
 }
 
 // @public
@@ -654,7 +672,6 @@ export interface RestCancelAddParticipantSucceeded {
     correlationId?: string;
     invitationId?: string;
     operationContext?: string;
-    participant?: CommunicationIdentifierModel;
     serverCallId?: string;
 }
 
@@ -851,13 +868,31 @@ export interface SendDtmfTonesFailed extends Omit<RestSendDtmfTonesFailed, "call
 
 // @public
 export interface SendDtmfTonesOptions extends OperationOptions {
+    operationCallbackUrl?: string;
     operationContext?: string;
-    overrideCallbackUrl?: string;
 }
 
 // @public
 export interface SendDtmfTonesResult {
     operationContext?: string;
+}
+
+// @public
+export interface SIPCustomHeader extends CustomContextHeader {
+}
+
+// @public
+export class SIPCustomHeader implements CustomContextHeader {
+    constructor(key: string, value: string);
+}
+
+// @public
+export interface SIPUserToUserHeader extends CustomContextHeader {
+}
+
+// @public
+export class SIPUserToUserHeader implements CustomContextHeader {
+    constructor(value: string);
 }
 
 // @public
@@ -913,8 +948,9 @@ export interface TransferCallResult {
 
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
+    customContext?: CustomContext;
+    operationCallbackUrl?: string;
     operationContext?: string;
-    overrideCallbackUrl?: string;
     transferee?: CommunicationIdentifier;
 }
 
@@ -922,6 +958,15 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
 export enum VoiceKind {
     Female = "female",
     Male = "male"
+}
+
+// @public
+export interface VoipHeader extends CustomContextHeader {
+}
+
+// @public
+export class VoipHeader implements CustomContextHeader {
+    constructor(key: string, value: string);
 }
 
 // (No @packageDocumentation comment for this package)

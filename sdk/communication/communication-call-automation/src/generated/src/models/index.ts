@@ -157,10 +157,23 @@ export interface TransferToParticipantRequest {
   targetParticipant: CommunicationIdentifierModel;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Transferee is the participant who is transferring the call. */
+  /** Transferee is the participant who is transferred away. */
   transferee?: CommunicationIdentifierModel;
-  /** The callback URI to override the main callback URI. */
-  overrideCallbackUri?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+  /** Used by customer to send custom context to targets */
+  customContext?: CustomContext;
+}
+
+/** The custom context which will be sent to the target */
+export interface CustomContext {
+  /** Custom context VoiP headers */
+  voipHeaders?: { [propertyName: string]: string };
+  /** Custom context SIP headers */
+  sipHeaders?: { [propertyName: string]: string };
 }
 
 /** The response payload for transferring the call. */
@@ -181,8 +194,11 @@ export interface PlayRequest {
   playOptions?: PlayOptionsInternal;
   /** The value to identify context of the operation. */
   operationContext?: string;
-  /** The callback URI to override the main callback URI. */
-  overrideCallbackUri?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
 }
 
 export interface PlaySourceInternal {
@@ -245,8 +261,11 @@ export interface RecognizeRequest {
   recognizeOptions: RecognizeOptions;
   /** The value to identify context of the operation. */
   operationContext?: string;
-  /** The callback URI to override the main callback URI. */
-  overrideCallbackUri?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
 }
 
 export interface RecognizeOptions {
@@ -297,8 +316,11 @@ export interface ContinuousDtmfRecognitionRequest {
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;
-  /** The callback URI to override the main callback URI. */
-  overrideCallbackUri?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
 }
 
 export interface SendDtmfTonesRequest {
@@ -308,8 +330,11 @@ export interface SendDtmfTonesRequest {
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;
-  /** The callback URI to override the main callback URI. */
-  overrideCallbackUri?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
 }
 
 export interface SendDtmfTonesResult {
@@ -354,8 +379,13 @@ export interface AddParticipantRequest {
   invitationTimeoutInSeconds?: number;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** The callback URI to override the main callback URI. */
-  overrideCallbackUri?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+  /** Used by customer to send custom context to targets */
+  customContext?: CustomContext;
 }
 
 /** The response payload for adding participants to the call. */
@@ -374,8 +404,11 @@ export interface RemoveParticipantRequest {
   participantToRemove: CommunicationIdentifierModel;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** The callback URI to override the main callback URI. */
-  overrideCallbackUri?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
 }
 
 /** The response payload for removing participants of the call. */
@@ -407,8 +440,11 @@ export interface CancelAddParticipantRequest {
   invitationId: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** The callback URI to override the main callback URI. */
-  overrideCallbackUri?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
 }
 
 /** Response payload for cancel add participant request. */
@@ -626,8 +662,6 @@ export interface CancelAddParticipantSucceeded {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Participant that has been cancelled. */
-  participant?: CommunicationIdentifierModel;
   /** Invitation ID used to cancel the request. */
   invitationId?: string;
 }
