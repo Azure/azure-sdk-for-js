@@ -185,6 +185,10 @@ export class CallConnection {
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
       operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
+      customContext: {
+        sipHeaders: targetParticipant.customContext?.sipHeaders,
+        voipHeaders: targetParticipant.customContext?.voipHeaders,
+      },
     };
     const optionsInternal = {
       ...options,
@@ -222,6 +226,10 @@ export class CallConnection {
       operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
       transferee: options.transferee && communicationIdentifierModelConverter(options.transferee),
+      customContext: {
+        sipHeaders: options.customContext?.sipHeaders,
+        voipHeaders: options.customContext?.voipHeaders,
+      },
     };
     const optionsInternal = {
       ...options,

@@ -15,6 +15,7 @@ import {
   RecordingFormat,
   CallLocator,
   ChannelAffinity,
+  CustomContext,
 } from "./models";
 
 /** Options to configure the recognize operation. */
@@ -141,6 +142,8 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
   operationCallbackUrl?: string;
   /** Participant that is being transferred away */
   transferee?: CommunicationIdentifier;
+  /** Used by customer to send custom context to targets */
+  customContext?: CustomContext;
 }
 
 /** Options to add participants. */

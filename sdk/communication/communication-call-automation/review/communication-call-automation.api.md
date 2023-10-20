@@ -134,6 +134,7 @@ export interface CallDisconnected extends Omit<RestCallDisconnected, "callConnec
 
 // @public
 export interface CallInvite {
+    customContext?: CustomContext;
     readonly sourceCallIdNumber?: PhoneNumberIdentifier;
     // (undocumented)
     sourceDisplayName?: string;
@@ -345,6 +346,23 @@ export interface CreateCallOptions extends OperationOptions {
 
 // @public
 export type CreateCallResult = CallResult;
+
+// @public
+export class CustomContext {
+    constructor(sipHeaders: {
+        [key: string]: string;
+    }, voipHeaders: {
+        [key: string]: string;
+    });
+    // Warning: (ae-forgotten-export) The symbol "CustomContextHeader" needs to be exported by the entry point index.d.ts
+    add(header: CustomContextHeader): void;
+    sipHeaders: {
+        [key: string]: string;
+    };
+    voipHeaders: {
+        [key: string]: string;
+    };
+}
 
 // @public
 export type DeleteRecordingOptions = OperationOptions;
@@ -860,6 +878,24 @@ export interface SendDtmfTonesResult {
 }
 
 // @public
+export interface SIPCustomHeader extends CustomContextHeader {
+}
+
+// @public
+export class SIPCustomHeader implements CustomContextHeader {
+    constructor(key: string, value: string);
+}
+
+// @public
+export interface SIPUserToUserHeader extends CustomContextHeader {
+}
+
+// @public
+export class SIPUserToUserHeader implements CustomContextHeader {
+    constructor(value: string);
+}
+
+// @public
 export interface SsmlSource extends PlaySource {
     // (undocumented)
     customVoiceEndpointId?: string;
@@ -912,6 +948,7 @@ export interface TransferCallResult {
 
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
+    customContext?: CustomContext;
     operationCallbackUrl?: string;
     operationContext?: string;
     transferee?: CommunicationIdentifier;
@@ -921,6 +958,15 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
 export enum VoiceKind {
     Female = "female",
     Male = "male"
+}
+
+// @public
+export interface VoipHeader extends CustomContextHeader {
+}
+
+// @public
+export class VoipHeader implements CustomContextHeader {
+    constructor(key: string, value: string);
 }
 
 // (No @packageDocumentation comment for this package)
