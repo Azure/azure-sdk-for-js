@@ -117,6 +117,15 @@ export interface AzurePowerShellCredentialOptions extends MultiTenantTokenCreden
 }
 
 // @public
+export interface BrowserCustomizationOptions {
+    // (undocumented)
+    browserCustomizationOptions?: {
+        errorMessage: string;
+        successMessage: string;
+    };
+}
+
+// @public
 export type BrowserLoginStyle = "redirect" | "popup";
 
 // @public
@@ -281,10 +290,8 @@ export interface InteractiveBrowserCredentialInBrowserOptions extends Interactiv
     tenantId?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BrowserCustomizedOptions" needs to be exported by the entry point index.d.ts
-//
 // @public
-export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions, BrowserCustomizedOptions {
+export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions, BrowserCustomizationOptions {
     clientId?: string;
     loginHint?: string;
     redirectUri?: string | (() => string);

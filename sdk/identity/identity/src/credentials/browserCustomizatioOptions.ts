@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-
 /**
  * Shared configuration options for browser customization
  */
@@ -12,8 +11,8 @@ export interface BrowserCustomizationOptions {
      */
     errorMessage: string;
     /**
-   * Format for success messages for display in browser
-   */
+     * Format for success messages for display in browser
+     */
     successMessage: string;
   };
 }

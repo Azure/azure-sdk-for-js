@@ -17,7 +17,7 @@ export interface MsalOpenBrowserOptions extends MsalNodeOptions {
   browserCustomizationOptions?: {
     errorMessage?: string;
     successMessage?: string;
-  }
+  };
 }
 
 /**
@@ -61,7 +61,7 @@ export class MsalOpenBrowser extends MsalNode {
         correlationId: options?.correlationId,
         loginHint: this.loginHint,
         errorTemplate: this.errorTemplate,
-        successTemplate: this.successTemplate
+        successTemplate: this.successTemplate,
       });
       return this.handleResult(scopes, this.clientId, result || undefined);
     } catch (err: any) {
