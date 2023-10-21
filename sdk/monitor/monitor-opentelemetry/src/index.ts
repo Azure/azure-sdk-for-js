@@ -3,6 +3,7 @@
 
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
+import { NodeSDK, NodeSDKConfiguration } from "@opentelemetry/sdk-node";
 import { InternalConfig } from "./shared/config";
 import { MetricHandler } from "./metrics";
 import { TraceHandler } from "./traces/handler";
@@ -20,9 +21,7 @@ export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./shar
 
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 
-let metricHandler: MetricHandler;
-let traceHandler: TraceHandler;
-let logHandler: LogHandler;
+let sdk: NodeSDK;
 
 /**
  * Initialize Azure Monitor Distro
@@ -35,19 +34,35 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   metrics.disable();
   trace.disable();
   logs.disable();
+
   // Create internal handlers
-  metricHandler = new MetricHandler(config);
-  traceHandler = new TraceHandler(config, metricHandler);
-  logHandler = new LogHandler(config, metricHandler);
+  const metricHandler = new MetricHandler(config);
+  const traceHandler = new TraceHandler(config, metricHandler);
+  const logHandler = new LogHandler(config, metricHandler);
+
+  // Initialize OpenTelemetry SDK
+  const sdkConfig: Partial<NodeSDKConfiguration> = {
+    autoDetectResources: true,
+    logRecordProcessor: logHandler.getLogRecordProcessor(),
+    metricReader: metricHandler.getMetricReader(),
+    views: metricHandler.getViews(),
+    instrumentations: traceHandler.getInstrumentations(),
+    resource: config.resource,
+    sampler: traceHandler.getSampler(),
+    spanProcessor: traceHandler.getSpanProcessor(),
+  };
+  sdk = new NodeSDK(sdkConfig);
+  sdk.start();
+  // Add extra SpanProcessors, MetricReaders and LogRecordProcessors
+  traceHandler.start();
+  logHandler.start();
 }
 
 /**
  * Shutdown Azure Monitor Distro
  */
 export function shutdownAzureMonitor() {
-  metricHandler.shutdown();
-  traceHandler.shutdown();
-  logHandler.shutdown();
+  sdk?.shutdown();
 }
 
 function _setStatsbeatFeatures(config: InternalConfig) {
