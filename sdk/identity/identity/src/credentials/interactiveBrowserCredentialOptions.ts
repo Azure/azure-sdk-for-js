@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BrowserCustomizedOptions } from "./browserCustomizedOptions";
+import { BrowserCustomizationOptions } from "./browserCustomizatioOptions";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { InteractiveCredentialOptions } from "./interactiveCredentialOptions";
 
@@ -21,8 +21,8 @@ export type BrowserLoginStyle = "redirect" | "popup";
  */
 export interface InteractiveBrowserCredentialNodeOptions
   extends InteractiveCredentialOptions,
-    CredentialPersistenceOptions,
-    BrowserCustomizedOptions {
+  CredentialPersistenceOptions,
+  BrowserCustomizationOptions {
   /**
    * Gets the redirect URI of the application. This should be same as the value
    * in the application registration portal.  Defaults to `window.location.href`.

@@ -14,9 +14,9 @@ import open from "open";
 export interface MsalOpenBrowserOptions extends MsalNodeOptions {
   redirectUri?: string;
   loginHint?: string;
-  browserCustomizedOptions?: {
-    htmlMessageError?: string;
-    htmlMessageSuccess?: string;
+  browserCustomizationOptions?: {
+    errorMessage?: string;
+    successMessage?: string;
   }
 }
 
@@ -41,8 +41,8 @@ export class MsalOpenBrowser extends MsalNode {
   constructor(options: MsalOpenBrowserOptions) {
     super(options);
     this.loginHint = options.loginHint;
-    this.errorTemplate = options.browserCustomizedOptions?.htmlMessageError;
-    this.successTemplate = options.browserCustomizedOptions?.htmlMessageSuccess;
+    this.errorTemplate = options.browserCustomizationOptions?.errorMessage;
+    this.successTemplate = options.browserCustomizationOptions?.successMessage;
     this.logger = credentialLogger("Node.js MSAL Open Browser");
   }
 
