@@ -7,7 +7,7 @@
 - Add format fields to response
 - Add support for a format only search
 
-## 1.3.0-beta.1 (Unreleased)
+## 1.3.0-beta.1 (2023-07-21)
 
 ### Features Added
 - Number Lookup API public preview
@@ -16,18 +16,22 @@
 ## 1.2.0 (2023-03-28)
 
 ### Features Added
+
 - Added support for SIP routing API version `2023-03-01`, releasing SIP routing functionality from public preview to GA.
 - Added environment variable `AZURE_TEST_DOMAIN` for SIP routing tests to support domain verification.
 
 ### Breaking Changes
+
 - Changed public methods `getTrunks` to `listTrunks` and `getRoutes` to `listRoutes`.
 
 ## 1.2.0-beta.4 (2023-01-10)
+
 - Adds support for Azure Communication Services Phone Numbers Browse API Methods.
 - Adds support for Direct routing configuration management.
 
 ### Features Added
-- Added support for API version `2022-12-01`, giving users the ability to: 
+
+- Added support for API version `2022-12-01`, giving users the ability to:
   - Get all supported countries
   - Get all supported localities given a country code.
   - Get all Toll-Free area codes from a given country code.

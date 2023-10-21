@@ -242,7 +242,6 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
 
 // @public
 export interface SearchOperatorInformationOptions extends OperationOptions {
-    // (undocumented)
     formatOnly: boolean;
 }
 
