@@ -41,4 +41,28 @@ describe(`PhoneNumbersClient - look up phone number`, function () {
       assert.strictEqual(error.message, "Can only accept one phoneNumber");
     }
   });
+
+  it("respects format only option", async function (this: Context) {
+    const phoneNumbers = [getPhoneNumber()];
+    let operatorInformation = await client.searchOperatorInformation(phoneNumbers);
+
+    let resultPhoneNumber = operatorInformation.values
+      ? operatorInformation.values[0].phoneNumber
+      : "";
+    assert.strictEqual(resultPhoneNumber, phoneNumbers[0]);
+    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].nationalFormat : null);
+    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].internationalFormat : null);
+    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].operatorDetails : null);
+
+    operatorInformation = await client.searchOperatorInformation(phoneNumbers, { "formatOnly": true });
+
+    resultPhoneNumber = operatorInformation.values
+      ? operatorInformation.values[0].phoneNumber
+      : "";
+    assert.strictEqual(resultPhoneNumber, phoneNumbers[0]);
+    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].nationalFormat : null);
+    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].internationalFormat : null);
+    assert.isNull(operatorInformation.values ? operatorInformation.values[0].operatorDetails : null);
+
+  }).timeout(60000);
 });

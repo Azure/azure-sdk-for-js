@@ -229,7 +229,7 @@ export interface PhoneNumbers {
     options?: PhoneNumbersReleasePhoneNumberOptionalParams
   ): Promise<PhoneNumbersReleasePhoneNumberResponse>;
   /**
-   * Searches for operator information for a given list of phone numbers.
+   * Searches for number format and operator information for a given list of phone numbers.
    * @param options The options parameters.
    */
   operatorInformationSearch(

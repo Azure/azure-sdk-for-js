@@ -964,7 +964,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
   }
 
   /**
-   * Searches for operator information for a given list of phone numbers.
+   * Searches for number format and operator information for a given list of phone numbers.
    * @param options The options parameters.
    */
   async operatorInformationSearch(
@@ -1407,7 +1407,7 @@ const operatorInformationSearchOperationSpec: coreClient.OperationSpec = {
     parameterPath: { phoneNumbers: ["options", "phoneNumbers"] },
     mapper: { ...Mappers.OperatorInformationRequest, required: true }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.options],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

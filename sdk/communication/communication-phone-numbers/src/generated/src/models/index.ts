@@ -246,9 +246,13 @@ export interface OperatorInformationResult {
 export interface OperatorInformation {
   /** E.164 formatted string representation of the phone number */
   phoneNumber?: string;
+  /** National format of the phone number */
+  nationalFormat?: string;
+  /** International format of the phone number */
+  internationalFormat?: string;
   /** Type of service associated with the phone number */
   numberType?: OperatorNumberType;
-  /** ISO country code associated with the phone number. */
+  /** ISO 3166-1 two character ('alpha-2') code associated with the phone number. */
   isoCountryCode?: string;
   /** Represents metadata describing the operator of a phone number */
   operatorDetails?: OperatorDetails;
@@ -529,6 +533,8 @@ export interface PhoneNumbersOperatorInformationSearchOptionalParams
   extends coreClient.OperationOptions {
   /** Phone number(s) whose operator information is being requested */
   phoneNumbers?: string[];
+  /** The options for modifying an operator information search */
+  options?: string;
 }
 
 /** Contains response data for the operatorInformationSearch operation. */
