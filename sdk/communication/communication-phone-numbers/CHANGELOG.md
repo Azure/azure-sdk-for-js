@@ -1,5 +1,12 @@
 # Release History
 
+## 1.3.0-beta.2 (Unreleased)
+
+### Features Added
+- Update Number Lookup Preview
+- Add format fields to response
+- Add support for a format only search
+
 ## 1.3.0-beta.1 (Unreleased)
 
 ### Features Added
