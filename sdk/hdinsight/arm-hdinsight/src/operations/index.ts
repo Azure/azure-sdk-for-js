@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./clusters";
 export * from "./applications";
-export * from "./locations";
+export * from "./clusters";
 export * from "./configurations";
 export * from "./extensions";
-export * from "./scriptActions";
-export * from "./scriptExecutionHistory";
+export * from "./locations";
 export * from "./operations";
-export * from "./virtualMachines";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
+export * from "./scriptActions";
+export * from "./scriptExecutionHistory";
+export * from "./virtualMachines";

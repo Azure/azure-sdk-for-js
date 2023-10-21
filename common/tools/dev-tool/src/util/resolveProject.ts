@@ -37,8 +37,8 @@ declare global {
         require?: string;
         types?: string;
         [extraTypes: `types@${string}`]: string;
-      }
-    },
+      };
+    };
     typesVersions?: {
       [k: string]: {
         [k: string]: string[];
@@ -120,6 +120,8 @@ async function isAzureSDKPackage(fileName: string): Promise<boolean> {
   const f = await import(fileName);
 
   if (/^@azure(-[a-z]+)?\//.test(f.name)) {
+    return true;
+  } else if (f.name.startsWith("@typespec")) {
     return true;
   } else {
     return false;

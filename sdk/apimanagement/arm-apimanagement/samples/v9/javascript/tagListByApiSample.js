@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all Tags associated with the API.
  *
  * @summary Lists all Tags associated with the API.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListApiTags.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiTags.json
  */
 async function apiManagementListApiTags() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

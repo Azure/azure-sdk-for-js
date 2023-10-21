@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Public settings.
  *
  * @summary Public settings.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListTenantSettings.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListTenantSettings.json
  */
 async function apiManagementListTenantSettings() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

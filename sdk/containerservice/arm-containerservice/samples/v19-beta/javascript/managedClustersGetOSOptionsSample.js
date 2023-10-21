@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets supported OS options in the specified subscription.
  *
  * @summary Gets supported OS options in the specified subscription.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-05-02-preview/examples/ContainerServiceGetOSOptions.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-08-02-preview/examples/ContainerServiceGetOSOptions.json
  */
 async function getContainerServiceOSOptions() {
   const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";

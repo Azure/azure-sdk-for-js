@@ -4,7 +4,7 @@
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createTracingClient } from "@azure/core-tracing";
 import { TracingClient } from "@azure/core-tracing";
-import { SDK_VERSION } from "./constants";
+import { FORM_RECOGNIZER_API_VERSION, SDK_VERSION } from "./constants";
 import {
   AnalyzeDocumentRequest,
   AnalyzeResultOperation,
@@ -23,11 +23,7 @@ import {
 } from "./lro/analysis";
 import { OperationContext, lro } from "./lro/util/poller";
 import { AnalyzeDocumentOptions } from "./options/AnalyzeDocumentOptions";
-import {
-  DEFAULT_GENERATED_CLIENT_OPTIONS,
-  DocumentAnalysisClientOptions,
-  FormRecognizerApiVersion,
-} from "./options/FormRecognizerClientOptions";
+import { DocumentAnalysisClientOptions } from "./options/FormRecognizerClientOptions";
 import { DocumentModel } from "./documentModel";
 import { makeServiceClient, Mappers, SERIALIZER } from "./util";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -66,7 +62,6 @@ import { ClassifyDocumentOptions } from "./options/ClassifyDocumentOptions";
 export class DocumentAnalysisClient {
   private _restClient: GeneratedClient;
   private _tracing: TracingClient;
-  private _apiVersion: FormRecognizerApiVersion;
 
   /**
    * Create a `DocumentAnalysisClient` instance from a resource endpoint and a an Azure Identity `TokenCredential`.
@@ -137,8 +132,6 @@ export class DocumentAnalysisClient {
       packageVersion: SDK_VERSION,
       namespace: "Microsoft.CognitiveServices",
     });
-
-    this._apiVersion = options.apiVersion ?? DEFAULT_GENERATED_CLIENT_OPTIONS.apiVersion;
   }
 
   // #region Analysis
@@ -418,12 +411,13 @@ export class DocumentAnalysisClient {
       ? { modelId: model, apiVersion: undefined, transformResult: (v: AnalyzeResult) => v }
       : model;
 
-    if (requestApiVersion && requestApiVersion !== this._apiVersion) {
+    if (requestApiVersion && requestApiVersion !== FORM_RECOGNIZER_API_VERSION) {
       throw new Error(
         [
-          `API Version mismatch: the provided model wants version: ${requestApiVersion}, but the client is using ${this._apiVersion}.`,
+          `API Version mismatch: the provided model wants version: ${requestApiVersion},`,
+          `but the client is using ${FORM_RECOGNIZER_API_VERSION}.`,
           "The API version of the model must match the client's API version.",
-        ].join("\n")
+        ].join(" ")
       );
     }
 

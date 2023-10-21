@@ -234,6 +234,7 @@ export interface ErrorResponse {
 // @public
 interface Event_2 extends ProxyResource {
     additionalInformation?: EventPropertiesAdditionalInformation;
+    argQuery?: string;
     article?: EventPropertiesArticle;
     description?: string;
     duration?: number;
@@ -241,6 +242,7 @@ interface Event_2 extends ProxyResource {
     enableMicrosoftSupport?: boolean;
     eventLevel?: EventLevelValues;
     eventSource?: EventSourceValues;
+    eventSubType?: EventSubTypeValues;
     eventType?: EventTypeValues;
     externalIncidentId?: string;
     faqs?: Faq[];
@@ -254,6 +256,8 @@ interface Event_2 extends ProxyResource {
     lastUpdateTime?: Date;
     level?: LevelValues;
     links?: Link[];
+    maintenanceId?: string;
+    maintenanceType?: string;
     platformInitiated?: boolean;
     priority?: number;
     reason?: string;
@@ -299,6 +303,11 @@ export type EventGetByTenantIdAndTrackingIdResponse = Event_2;
 // @public
 export interface EventImpactedResource extends ProxyResource {
     info?: KeyValueItem[];
+    readonly maintenanceEndTime?: string;
+    readonly maintenanceStartTime?: string;
+    readonly resourceGroup?: string;
+    readonly resourceName?: string;
+    readonly status?: string;
     readonly targetRegion?: string;
     readonly targetResourceId?: string;
     readonly targetResourceType?: string;
@@ -411,6 +420,9 @@ export type EventSourceValues = string;
 
 // @public
 export type EventStatusValues = string;
+
+// @public
+export type EventSubTypeValues = string;
 
 // @public
 export type EventTypeValues = string;
@@ -554,6 +566,11 @@ export enum KnownEventStatusValues {
 }
 
 // @public
+export enum KnownEventSubTypeValues {
+    Retirement = "Retirement"
+}
+
+// @public
 export enum KnownEventTypeValues {
     EmergingIssues = "EmergingIssues",
     HealthAdvisory = "HealthAdvisory",
@@ -686,6 +703,7 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftResourceHealthOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: MicrosoftResourceHealthOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -709,7 +727,7 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
     // (undocumented)
     securityAdvisoryImpactedResources: SecurityAdvisoryImpactedResources;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public

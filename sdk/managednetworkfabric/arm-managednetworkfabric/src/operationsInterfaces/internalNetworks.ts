@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   InternalNetwork,
-  InternalNetworksListOptionalParams,
+  InternalNetworksListByL3IsolationDomainOptionalParams,
   InternalNetworksCreateOptionalParams,
   InternalNetworksCreateResponse,
   InternalNetworksGetOptionalParams,
@@ -24,15 +24,8 @@ import {
   InternalNetworksUpdateAdministrativeStateResponse,
   InternalNetworksUpdateBgpAdministrativeStateOptionalParams,
   InternalNetworksUpdateBgpAdministrativeStateResponse,
-  InternalNetworksUpdateBfdForBgpAdministrativeStateOptionalParams,
-  InternalNetworksUpdateBfdForBgpAdministrativeStateResponse,
-  EnableDisableOnResources,
-  InternalNetworksClearIpv6NeighborsOptionalParams,
-  InternalNetworksClearIpv6NeighborsResponse,
-  InternalNetworksClearArpEntriesOptionalParams,
-  InternalNetworksClearArpEntriesResponse,
-  InternalNetworksUpdateBfdForStaticRouteAdministrativeStateOptionalParams,
-  InternalNetworksUpdateBfdForStaticRouteAdministrativeStateResponse
+  InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
+  InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,19 +34,19 @@ export interface InternalNetworks {
   /**
    * Displays InternalNetworks list by resource group GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
-  list(
+  listByL3IsolationDomain(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: InternalNetworksListOptionalParams
+    options?: InternalNetworksListByL3IsolationDomainOptionalParams
   ): PagedAsyncIterableIterator<InternalNetwork>;
   /**
    * Creates InternalNetwork PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param internalNetworkName Name of the InternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param internalNetworkName Name of the Internal Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -72,8 +65,8 @@ export interface InternalNetworks {
   /**
    * Creates InternalNetwork PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param internalNetworkName Name of the InternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param internalNetworkName Name of the Internal Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -87,8 +80,8 @@ export interface InternalNetworks {
   /**
    * Gets a InternalNetworks.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param internalNetworkName Name of the InternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param internalNetworkName Name of the Internal Network.
    * @param options The options parameters.
    */
   get(
@@ -100,8 +93,8 @@ export interface InternalNetworks {
   /**
    * Updates a InternalNetworks.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param internalNetworkName Name of the InternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param internalNetworkName Name of the Internal Network.
    * @param body InternalNetwork properties to update. Only annotations are supported.
    * @param options The options parameters.
    */
@@ -120,8 +113,8 @@ export interface InternalNetworks {
   /**
    * Updates a InternalNetworks.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param internalNetworkName Name of the InternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param internalNetworkName Name of the Internal Network.
    * @param body InternalNetwork properties to update. Only annotations are supported.
    * @param options The options parameters.
    */
@@ -135,8 +128,8 @@ export interface InternalNetworks {
   /**
    * Implements InternalNetworks DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param internalNetworkName Name of the InternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param internalNetworkName Name of the Internal Network.
    * @param options The options parameters.
    */
   beginDelete(
@@ -148,8 +141,8 @@ export interface InternalNetworks {
   /**
    * Implements InternalNetworks DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param internalNetworkName Name of the InternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param internalNetworkName Name of the Internal Network.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -161,8 +154,8 @@ export interface InternalNetworks {
   /**
    * Update Administrative state of  InternalNetworks on resources referred by their resource ids.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param internalNetworkName Name of the InternalNetwork.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param internalNetworkName Name of the Internal Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -181,8 +174,8 @@ export interface InternalNetworks {
   /**
    * Update Administrative state of  InternalNetworks on resources referred by their resource ids.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param internalNetworkName Name of the InternalNetwork.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param internalNetworkName Name of the Internal Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -196,8 +189,8 @@ export interface InternalNetworks {
   /**
    * Update BGP state for internalNetwork. Allowed only on edge devices.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param internalNetworkName Name of the InternalNetwork.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param internalNetworkName Name of the Internal Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -216,8 +209,8 @@ export interface InternalNetworks {
   /**
    * Update BGP state for internalNetwork. Allowed only on edge devices.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param internalNetworkName Name of the InternalNetwork.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param internalNetworkName Name of the Internal Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -229,149 +222,40 @@ export interface InternalNetworks {
     options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams
   ): Promise<InternalNetworksUpdateBgpAdministrativeStateResponse>;
   /**
-   * Update BfdForBgp for internalNetwork.
+   * Update Static Route BFD administrative state for internalNetwork.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param internalNetworkName Name of the InternalNetwork.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param internalNetworkName Name of the Internal Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
-  beginUpdateBfdForBgpAdministrativeState(
+  beginUpdateStaticRouteBfdAdministrativeState(
     resourceGroupName: string,
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateBfdForBgpAdministrativeStateOptionalParams
+    options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<
-        InternalNetworksUpdateBfdForBgpAdministrativeStateResponse
+        InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
       >,
-      InternalNetworksUpdateBfdForBgpAdministrativeStateResponse
+      InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
     >
   >;
   /**
-   * Update BfdForBgp for internalNetwork.
+   * Update Static Route BFD administrative state for internalNetwork.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param internalNetworkName Name of the InternalNetwork.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param internalNetworkName Name of the Internal Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
-  beginUpdateBfdForBgpAdministrativeStateAndWait(
+  beginUpdateStaticRouteBfdAdministrativeStateAndWait(
     resourceGroupName: string,
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateBfdForBgpAdministrativeStateOptionalParams
-  ): Promise<InternalNetworksUpdateBfdForBgpAdministrativeStateResponse>;
-  /**
-   * clearIpv6Neighbors for internalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param internalNetworkName Name of the InternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  beginClearIpv6Neighbors(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    internalNetworkName: string,
-    body: EnableDisableOnResources,
-    options?: InternalNetworksClearIpv6NeighborsOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<InternalNetworksClearIpv6NeighborsResponse>,
-      InternalNetworksClearIpv6NeighborsResponse
-    >
-  >;
-  /**
-   * clearIpv6Neighbors for internalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param internalNetworkName Name of the InternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  beginClearIpv6NeighborsAndWait(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    internalNetworkName: string,
-    body: EnableDisableOnResources,
-    options?: InternalNetworksClearIpv6NeighborsOptionalParams
-  ): Promise<InternalNetworksClearIpv6NeighborsResponse>;
-  /**
-   * clearArpEntries for internalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param internalNetworkName Name of the InternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  beginClearArpEntries(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    internalNetworkName: string,
-    body: EnableDisableOnResources,
-    options?: InternalNetworksClearArpEntriesOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<InternalNetworksClearArpEntriesResponse>,
-      InternalNetworksClearArpEntriesResponse
-    >
-  >;
-  /**
-   * clearArpEntries for internalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param internalNetworkName Name of the InternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  beginClearArpEntriesAndWait(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    internalNetworkName: string,
-    body: EnableDisableOnResources,
-    options?: InternalNetworksClearArpEntriesOptionalParams
-  ): Promise<InternalNetworksClearArpEntriesResponse>;
-  /**
-   * Update BfdForStaticRoutes for internalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param internalNetworkName Name of the InternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  beginUpdateBfdForStaticRouteAdministrativeState(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    internalNetworkName: string,
-    body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateBfdForStaticRouteAdministrativeStateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<
-        InternalNetworksUpdateBfdForStaticRouteAdministrativeStateResponse
-      >,
-      InternalNetworksUpdateBfdForStaticRouteAdministrativeStateResponse
-    >
-  >;
-  /**
-   * Update BfdForStaticRoutes for internalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param internalNetworkName Name of the InternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  beginUpdateBfdForStaticRouteAdministrativeStateAndWait(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    internalNetworkName: string,
-    body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateBfdForStaticRouteAdministrativeStateOptionalParams
-  ): Promise<
-    InternalNetworksUpdateBfdForStaticRouteAdministrativeStateResponse
-  >;
+    options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
+  ): Promise<InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse>;
 }

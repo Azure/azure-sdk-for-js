@@ -15,6 +15,7 @@ export type ActionType = string;
 
 // @public
 export interface AllowedEnvironmentType extends Resource {
+    readonly displayName?: string;
     readonly provisioningState?: ProvisioningState;
 }
 
@@ -119,10 +120,65 @@ export interface Capability {
 // @public
 export interface Catalog extends Resource {
     adoGit?: GitCatalog;
+    readonly connectionState?: CatalogConnectionState;
     gitHub?: GitCatalog;
+    readonly lastConnectionTime?: Date;
+    readonly lastSyncStats?: SyncStats;
     readonly lastSyncTime?: Date;
     readonly provisioningState?: ProvisioningState;
     readonly syncState?: CatalogSyncState;
+    syncType?: CatalogSyncType;
+}
+
+// @public
+export interface CatalogConflictError {
+    readonly name?: string;
+    readonly path?: string;
+}
+
+// @public
+export type CatalogConnectionState = string;
+
+// @public
+export interface CatalogDevBoxDefinitions {
+    get(resourceGroupName: string, devCenterName: string, catalogName: string, devBoxDefinitionName: string, options?: CatalogDevBoxDefinitionsGetOptionalParams): Promise<CatalogDevBoxDefinitionsGetResponse>;
+    getErrorDetails(resourceGroupName: string, devCenterName: string, catalogName: string, devBoxDefinitionName: string, options?: CatalogDevBoxDefinitionsGetErrorDetailsOptionalParams): Promise<CatalogDevBoxDefinitionsGetErrorDetailsResponse>;
+    listByCatalog(resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogDevBoxDefinitionsListByCatalogOptionalParams): PagedAsyncIterableIterator<DevBoxDefinition>;
+}
+
+// @public
+export interface CatalogDevBoxDefinitionsGetErrorDetailsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CatalogDevBoxDefinitionsGetErrorDetailsResponse = CatalogResourceValidationErrorDetails;
+
+// @public
+export interface CatalogDevBoxDefinitionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CatalogDevBoxDefinitionsGetResponse = DevBoxDefinition;
+
+// @public
+export interface CatalogDevBoxDefinitionsListByCatalogNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CatalogDevBoxDefinitionsListByCatalogNextResponse = DevBoxDefinitionListResult;
+
+// @public
+export interface CatalogDevBoxDefinitionsListByCatalogOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type CatalogDevBoxDefinitionsListByCatalogResponse = DevBoxDefinitionListResult;
+
+// @public
+export interface CatalogErrorDetails {
+    code?: string;
+    message?: string;
 }
 
 // @public
@@ -133,13 +189,26 @@ export interface CatalogListResult {
 
 // @public
 export interface CatalogProperties extends CatalogUpdateProperties {
+    readonly connectionState?: CatalogConnectionState;
+    readonly lastConnectionTime?: Date;
+    readonly lastSyncStats?: SyncStats;
     readonly lastSyncTime?: Date;
     readonly provisioningState?: ProvisioningState;
     readonly syncState?: CatalogSyncState;
 }
 
 // @public
+export interface CatalogResourceValidationErrorDetails {
+    readonly errors?: CatalogErrorDetails[];
+}
+
+// @public
+export type CatalogResourceValidationStatus = string;
+
+// @public
 export interface Catalogs {
+    beginConnect(resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsConnectOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginConnectAndWait(resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsConnectOptionalParams): Promise<void>;
     beginCreateOrUpdate(resourceGroupName: string, devCenterName: string, catalogName: string, body: Catalog, options?: CatalogsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CatalogsCreateOrUpdateResponse>, CatalogsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, devCenterName: string, catalogName: string, body: Catalog, options?: CatalogsCreateOrUpdateOptionalParams): Promise<CatalogsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -149,7 +218,14 @@ export interface Catalogs {
     beginUpdate(resourceGroupName: string, devCenterName: string, catalogName: string, body: CatalogUpdate, options?: CatalogsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CatalogsUpdateResponse>, CatalogsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, devCenterName: string, catalogName: string, body: CatalogUpdate, options?: CatalogsUpdateOptionalParams): Promise<CatalogsUpdateResponse>;
     get(resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsGetOptionalParams): Promise<CatalogsGetResponse>;
+    getSyncErrorDetails(resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsGetSyncErrorDetailsOptionalParams): Promise<CatalogsGetSyncErrorDetailsResponse>;
     listByDevCenter(resourceGroupName: string, devCenterName: string, options?: CatalogsListByDevCenterOptionalParams): PagedAsyncIterableIterator<Catalog>;
+}
+
+// @public
+export interface CatalogsConnectOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -173,6 +249,13 @@ export interface CatalogsGetOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type CatalogsGetResponse = Catalog;
+
+// @public
+export interface CatalogsGetSyncErrorDetailsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CatalogsGetSyncErrorDetailsResponse = SyncErrorDetails;
 
 // @public
 export interface CatalogsListByDevCenterNextOptionalParams extends coreClient.OperationOptions {
@@ -205,12 +288,22 @@ export interface CatalogsUpdateOptionalParams extends coreClient.OperationOption
 export type CatalogsUpdateResponse = Catalog;
 
 // @public
+export interface CatalogSyncError {
+    readonly errorDetails?: CatalogErrorDetails[];
+    readonly path?: string;
+}
+
+// @public
 export type CatalogSyncState = string;
+
+// @public
+export type CatalogSyncType = string;
 
 // @public
 export interface CatalogUpdate {
     adoGit?: GitCatalog;
     gitHub?: GitCatalog;
+    syncType?: CatalogSyncType;
     tags?: {
         [propertyName: string]: string;
     };
@@ -220,6 +313,7 @@ export interface CatalogUpdate {
 export interface CatalogUpdateProperties {
     adoGit?: GitCatalog;
     gitHub?: GitCatalog;
+    syncType?: CatalogSyncType;
 }
 
 // @public
@@ -267,6 +361,80 @@ export interface CloudErrorBody {
 export type CreatedByType = string;
 
 // @public
+export interface CustomerManagedKeyEncryption {
+    keyEncryptionKeyIdentity?: CustomerManagedKeyEncryptionKeyIdentity;
+    keyEncryptionKeyUrl?: string;
+}
+
+// @public
+export interface CustomerManagedKeyEncryptionKeyIdentity {
+    delegatedIdentityClientId?: string;
+    identityType?: IdentityType;
+    userAssignedIdentityResourceId?: string;
+}
+
+// @public
+export interface CustomizationTask extends ProxyResource {
+    readonly inputs?: {
+        [propertyName: string]: CustomizationTaskInput;
+    };
+    readonly timeout?: number;
+    readonly validationStatus?: CatalogResourceValidationStatus;
+}
+
+// @public
+export interface CustomizationTaskInput {
+    readonly description?: string;
+    readonly required?: boolean;
+    readonly type?: CustomizationTaskInputType;
+}
+
+// @public
+export type CustomizationTaskInputType = string;
+
+// @public
+export interface CustomizationTaskListResult {
+    readonly nextLink?: string;
+    readonly value?: CustomizationTask[];
+}
+
+// @public
+export interface CustomizationTasks {
+    get(resourceGroupName: string, devCenterName: string, catalogName: string, taskName: string, options?: CustomizationTasksGetOptionalParams): Promise<CustomizationTasksGetResponse>;
+    getErrorDetails(resourceGroupName: string, devCenterName: string, catalogName: string, taskName: string, options?: CustomizationTasksGetErrorDetailsOptionalParams): Promise<CustomizationTasksGetErrorDetailsResponse>;
+    listByCatalog(resourceGroupName: string, devCenterName: string, catalogName: string, options?: CustomizationTasksListByCatalogOptionalParams): PagedAsyncIterableIterator<CustomizationTask>;
+}
+
+// @public
+export interface CustomizationTasksGetErrorDetailsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CustomizationTasksGetErrorDetailsResponse = CatalogResourceValidationErrorDetails;
+
+// @public
+export interface CustomizationTasksGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CustomizationTasksGetResponse = CustomizationTask;
+
+// @public
+export interface CustomizationTasksListByCatalogNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CustomizationTasksListByCatalogNextResponse = CustomizationTaskListResult;
+
+// @public
+export interface CustomizationTasksListByCatalogOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type CustomizationTasksListByCatalogResponse = CustomizationTaskListResult;
+
+// @public
 export interface DevBoxDefinition extends TrackedResource {
     readonly activeImageReference?: ImageReference;
     hibernateSupport?: HibernateSupport;
@@ -276,6 +444,7 @@ export interface DevBoxDefinition extends TrackedResource {
     osStorageType?: string;
     readonly provisioningState?: ProvisioningState;
     sku?: Sku;
+    readonly validationStatus?: CatalogResourceValidationStatus;
 }
 
 // @public
@@ -290,6 +459,7 @@ export interface DevBoxDefinitionProperties extends DevBoxDefinitionUpdateProper
     readonly imageValidationErrorDetails?: ImageValidationErrorDetails;
     readonly imageValidationStatus?: ImageValidationStatus;
     readonly provisioningState?: ProvisioningState;
+    readonly validationStatus?: CatalogResourceValidationStatus;
 }
 
 // @public
@@ -393,6 +563,8 @@ export interface DevBoxDefinitionUpdateProperties {
 // @public
 export interface DevCenter extends TrackedResource {
     readonly devCenterUri?: string;
+    displayName?: string;
+    encryption?: Encryption;
     identity?: ManagedServiceIdentity;
     readonly provisioningState?: ProvisioningState;
 }
@@ -407,13 +579,19 @@ export class DevCenterClient extends coreClient.ServiceClient {
     // (undocumented)
     attachedNetworks: AttachedNetworks;
     // (undocumented)
+    catalogDevBoxDefinitions: CatalogDevBoxDefinitions;
+    // (undocumented)
     catalogs: Catalogs;
     // (undocumented)
     checkNameAvailability: CheckNameAvailability;
     // (undocumented)
+    customizationTasks: CustomizationTasks;
+    // (undocumented)
     devBoxDefinitions: DevBoxDefinitions;
     // (undocumented)
     devCenters: DevCenters;
+    // (undocumented)
+    environmentDefinitions: EnvironmentDefinitions;
     // (undocumented)
     environmentTypes: EnvironmentTypes;
     // (undocumented)
@@ -457,6 +635,12 @@ export interface DevCenterClientOptionalParams extends coreClient.ServiceClientO
 export interface DevCenterListResult {
     readonly nextLink?: string;
     readonly value?: DevCenter[];
+}
+
+// @public
+export interface DevCenterProperties extends DevCenterUpdateProperties {
+    readonly devCenterUri?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -542,11 +726,24 @@ export type DevCentersUpdateResponse = DevCenter;
 
 // @public
 export interface DevCenterUpdate extends TrackedResourceUpdate {
+    displayName?: string;
+    encryption?: Encryption;
     identity?: ManagedServiceIdentity;
 }
 
 // @public
+export interface DevCenterUpdateProperties {
+    displayName?: string;
+    encryption?: Encryption;
+}
+
+// @public
 export type DomainJoinType = string;
+
+// @public (undocumented)
+export interface Encryption {
+    customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
+}
 
 // @public
 export interface EndpointDependency {
@@ -561,6 +758,66 @@ export interface EndpointDetail {
 }
 
 // @public
+export interface EnvironmentDefinition extends ProxyResource {
+    readonly description?: string;
+    readonly parameters?: EnvironmentDefinitionParameter[];
+    readonly templatePath?: string;
+    readonly validationStatus?: CatalogResourceValidationStatus;
+}
+
+// @public
+export interface EnvironmentDefinitionListResult {
+    readonly nextLink?: string;
+    readonly value?: EnvironmentDefinition[];
+}
+
+// @public
+export interface EnvironmentDefinitionParameter {
+    readonly description?: string;
+    readonly id?: string;
+    readonly name?: string;
+    readonly readOnly?: boolean;
+    readonly required?: boolean;
+    readonly type?: ParameterType;
+}
+
+// @public
+export interface EnvironmentDefinitions {
+    get(resourceGroupName: string, devCenterName: string, catalogName: string, environmentDefinitionName: string, options?: EnvironmentDefinitionsGetOptionalParams): Promise<EnvironmentDefinitionsGetResponse>;
+    getErrorDetails(resourceGroupName: string, devCenterName: string, catalogName: string, environmentDefinitionName: string, options?: EnvironmentDefinitionsGetErrorDetailsOptionalParams): Promise<EnvironmentDefinitionsGetErrorDetailsResponse>;
+    listByCatalog(resourceGroupName: string, devCenterName: string, catalogName: string, options?: EnvironmentDefinitionsListByCatalogOptionalParams): PagedAsyncIterableIterator<EnvironmentDefinition>;
+}
+
+// @public
+export interface EnvironmentDefinitionsGetErrorDetailsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EnvironmentDefinitionsGetErrorDetailsResponse = CatalogResourceValidationErrorDetails;
+
+// @public
+export interface EnvironmentDefinitionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EnvironmentDefinitionsGetResponse = EnvironmentDefinition;
+
+// @public
+export interface EnvironmentDefinitionsListByCatalogNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EnvironmentDefinitionsListByCatalogNextResponse = EnvironmentDefinitionListResult;
+
+// @public
+export interface EnvironmentDefinitionsListByCatalogOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type EnvironmentDefinitionsListByCatalogResponse = EnvironmentDefinitionListResult;
+
+// @public
 export interface EnvironmentRole {
     readonly description?: string;
     readonly roleName?: string;
@@ -568,6 +825,7 @@ export interface EnvironmentRole {
 
 // @public
 export interface EnvironmentType extends Resource {
+    displayName?: string;
     readonly provisioningState?: ProvisioningState;
     tags?: {
         [propertyName: string]: string;
@@ -581,6 +839,11 @@ export type EnvironmentTypeEnableStatus = string;
 export interface EnvironmentTypeListResult {
     readonly nextLink?: string;
     readonly value?: EnvironmentType[];
+}
+
+// @public
+export interface EnvironmentTypeProperties extends EnvironmentTypeUpdateProperties {
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -634,9 +897,15 @@ export type EnvironmentTypesUpdateResponse = EnvironmentType;
 
 // @public
 export interface EnvironmentTypeUpdate {
+    displayName?: string;
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface EnvironmentTypeUpdateProperties {
+    displayName?: string;
 }
 
 // @public
@@ -769,6 +1038,9 @@ export interface HealthStatusDetail {
 export type HibernateSupport = string;
 
 // @public
+export type IdentityType = string;
+
+// @public
 interface Image_2 extends ProxyResource {
     readonly description?: string;
     readonly hibernateSupport?: HibernateSupport;
@@ -893,11 +1165,31 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownCatalogConnectionState {
+    Connected = "Connected",
+    Disconnected = "Disconnected"
+}
+
+// @public
+export enum KnownCatalogResourceValidationStatus {
+    Failed = "Failed",
+    Pending = "Pending",
+    Succeeded = "Succeeded",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownCatalogSyncState {
     Canceled = "Canceled",
     Failed = "Failed",
     InProgress = "InProgress",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownCatalogSyncType {
+    Manual = "Manual",
+    Scheduled = "Scheduled"
 }
 
 // @public
@@ -912,6 +1204,13 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownCustomizationTaskInputType {
+    Boolean = "boolean",
+    Number = "number",
+    String = "string"
 }
 
 // @public
@@ -952,6 +1251,13 @@ export enum KnownHibernateSupport {
 }
 
 // @public
+export enum KnownIdentityType {
+    DelegatedResourceIdentity = "delegatedResourceIdentity",
+    SystemAssignedIdentity = "systemAssignedIdentity",
+    UserAssignedIdentity = "userAssignedIdentity"
+}
+
+// @public
 export enum KnownImageValidationStatus {
     Failed = "Failed",
     Pending = "Pending",
@@ -984,6 +1290,16 @@ export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownParameterType {
+    Array = "array",
+    Boolean = "boolean",
+    Integer = "integer",
+    Number = "number",
+    Object = "object",
+    String = "string"
 }
 
 // @public
@@ -1023,6 +1339,12 @@ export enum KnownScheduleEnableStatus {
 }
 
 // @public
+export enum KnownSingleSignOnStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownStopOnDisconnectEnableStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1031,6 +1353,12 @@ export enum KnownStopOnDisconnectEnableStatus {
 // @public
 export enum KnownUsageUnit {
     Count = "Count"
+}
+
+// @public
+export enum KnownVirtualNetworkType {
+    Managed = "Managed",
+    Unmanaged = "Unmanaged"
 }
 
 // @public
@@ -1313,15 +1641,23 @@ export interface OutboundEnvironmentEndpointCollection {
 }
 
 // @public
+export type ParameterType = string;
+
+// @public
 export interface Pool extends TrackedResource {
+    readonly devBoxCount?: number;
     devBoxDefinitionName?: string;
+    displayName?: string;
     readonly healthStatus?: HealthStatus;
     readonly healthStatusDetails?: HealthStatusDetail[];
     licenseType?: LicenseType;
     localAdministrator?: LocalAdminStatus;
+    managedVirtualNetworkRegions?: string[];
     networkConnectionName?: string;
     readonly provisioningState?: ProvisioningState;
+    singleSignOnStatus?: SingleSignOnStatus;
     stopOnDisconnect?: StopOnDisconnectConfiguration;
+    virtualNetworkType?: VirtualNetworkType;
 }
 
 // @public
@@ -1332,6 +1668,7 @@ export interface PoolListResult {
 
 // @public
 export interface PoolProperties extends PoolUpdateProperties {
+    readonly devBoxCount?: number;
     readonly healthStatus?: HealthStatus;
     readonly healthStatusDetails?: HealthStatusDetail[];
     readonly provisioningState?: ProvisioningState;
@@ -1406,19 +1743,27 @@ export type PoolsUpdateResponse = Pool;
 // @public
 export interface PoolUpdate extends TrackedResourceUpdate {
     devBoxDefinitionName?: string;
+    displayName?: string;
     licenseType?: LicenseType;
     localAdministrator?: LocalAdminStatus;
+    managedVirtualNetworkRegions?: string[];
     networkConnectionName?: string;
+    singleSignOnStatus?: SingleSignOnStatus;
     stopOnDisconnect?: StopOnDisconnectConfiguration;
+    virtualNetworkType?: VirtualNetworkType;
 }
 
 // @public
 export interface PoolUpdateProperties {
     devBoxDefinitionName?: string;
+    displayName?: string;
     licenseType?: LicenseType;
     localAdministrator?: LocalAdminStatus;
+    managedVirtualNetworkRegions?: string[];
     networkConnectionName?: string;
+    singleSignOnStatus?: SingleSignOnStatus;
     stopOnDisconnect?: StopOnDisconnectConfiguration;
+    virtualNetworkType?: VirtualNetworkType;
 }
 
 // @public
@@ -1426,6 +1771,7 @@ export interface Project extends TrackedResource {
     description?: string;
     devCenterId?: string;
     readonly devCenterUri?: string;
+    displayName?: string;
     maxDevBoxesPerUser?: number;
     readonly provisioningState?: ProvisioningState;
 }
@@ -1462,6 +1808,8 @@ export type ProjectAllowedEnvironmentTypesListResponse = AllowedEnvironmentTypeL
 export interface ProjectEnvironmentType extends Resource {
     creatorRoleAssignment?: ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment;
     deploymentTargetId?: string;
+    displayName?: string;
+    readonly environmentCount?: number;
     identity?: ManagedServiceIdentity;
     location?: string;
     readonly provisioningState?: ProvisioningState;
@@ -1482,6 +1830,8 @@ export interface ProjectEnvironmentTypeListResult {
 
 // @public
 export interface ProjectEnvironmentTypeProperties extends ProjectEnvironmentTypeUpdateProperties {
+    displayName?: string;
+    readonly environmentCount?: number;
     readonly provisioningState?: ProvisioningState;
 }
 
@@ -1655,6 +2005,7 @@ export type ProjectsUpdateResponse = Project;
 export interface ProjectUpdate extends TrackedResourceUpdate {
     description?: string;
     devCenterId?: string;
+    displayName?: string;
     maxDevBoxesPerUser?: number;
 }
 
@@ -1662,6 +2013,7 @@ export interface ProjectUpdate extends TrackedResourceUpdate {
 export interface ProjectUpdateProperties {
     description?: string;
     devCenterId?: string;
+    displayName?: string;
     maxDevBoxesPerUser?: number;
 }
 
@@ -1803,6 +2155,9 @@ export interface ScheduleUpdateProperties {
 }
 
 // @public
+export type SingleSignOnStatus = string;
+
+// @public
 export interface Sku {
     capacity?: number;
     family?: string;
@@ -1850,6 +2205,23 @@ export interface StopOnDisconnectConfiguration {
 export type StopOnDisconnectEnableStatus = string;
 
 // @public
+export interface SyncErrorDetails {
+    readonly conflicts?: CatalogConflictError[];
+    readonly errors?: CatalogSyncError[];
+    readonly operationError?: CatalogErrorDetails;
+}
+
+// @public
+export interface SyncStats {
+    readonly added?: number;
+    readonly removed?: number;
+    readonly synchronizationErrors?: number;
+    readonly unchanged?: number;
+    readonly updated?: number;
+    readonly validationErrors?: number;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -1878,6 +2250,7 @@ export interface TrackedResourceUpdate {
 // @public
 export interface Usage {
     currentValue?: number;
+    id?: string;
     limit?: number;
     name?: UsageName;
     unit?: UsageUnit;
@@ -1923,6 +2296,9 @@ export interface UserRoleAssignmentValue {
         [propertyName: string]: EnvironmentRole;
     };
 }
+
+// @public
+export type VirtualNetworkType = string;
 
 // (No @packageDocumentation comment for this package)
 

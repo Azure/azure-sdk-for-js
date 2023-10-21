@@ -12,6 +12,7 @@ import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PageSettings } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -36,15 +37,15 @@ export interface CancelExceptionAction extends ExceptionAction {
 }
 
 // @public
-export interface CancelJobOptions extends JobRouterCancelJobActionOptionalParams {
+export interface CancelJobOptions extends OperationOptions {
     dispositionCode?: string;
     note?: string;
 }
 
 // @public
-export interface CancelJobResponse extends Omit<JobRouterCancelJobActionResponse, "body"> {
-    body?: JSONValue;
-}
+export type CancelJobResponse = {
+    body: JSONValue;
+};
 
 // @public
 export interface ChannelConfiguration {
@@ -82,32 +83,32 @@ export interface CloseJobOptions extends JobRouterCloseJobActionOptionalParams {
 }
 
 // @public
-export interface CloseJobResponse extends Omit<JobRouterCloseJobActionResponse, "body"> {
-    body?: JSONValue;
-}
+export type CloseJobResponse = {
+    body: JSONValue;
+};
 
 // @public
-export interface CompleteJobOptions extends JobRouterCompleteJobActionOptionalParams {
+export interface CompleteJobOptions extends OperationOptions {
     note?: string;
 }
 
 // @public
-export interface CompleteJobResponse extends Omit<JobRouterCompleteJobActionResponse, "body"> {
-    body?: JSONValue;
-}
+export type CompleteJobResponse = {
+    body: JSONValue;
+};
 
 // @public
 export interface ConditionalQueueSelectorAttachment extends QueueSelectorAttachment {
     condition: RouterRuleUnion;
     kind: "conditional";
-    queueSelectors: RouterQueueSelectorGenerated[];
+    queueSelectors: RouterQueueSelector[];
 }
 
 // @public
 export interface ConditionalWorkerSelectorAttachment extends WorkerSelectorAttachment {
     condition: RouterRuleUnion;
     kind: "conditional";
-    workerSelectors: RouterWorkerSelectorGenerated[];
+    workerSelectors: RouterWorkerSelector[];
 }
 
 // @public
@@ -141,12 +142,11 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
     classificationPolicyId?: string;
     dispositionCode?: string;
     labels?: JSONObject;
-    // (undocumented)
     matchingMode?: RouterJobMatchingMode;
     notes?: RouterJobNote[];
     priority?: number;
     queueId?: string;
-    requestedWorkerSelectors?: RouterWorkerSelectorGenerated[];
+    requestedWorkerSelectors?: RouterWorkerSelector[];
     tags?: JSONObject;
 }
 
@@ -181,9 +181,9 @@ export interface DeclineJobOfferRequest {
 }
 
 // @public
-export interface DeclineJobOfferResponse extends Omit<JobRouterDeclineJobActionResponse, "body"> {
-    body?: JSONValue;
-}
+export type DeclineJobOfferResponse = {
+    body: JSONValue;
+};
 
 // @public
 export interface DirectMapRouterRule extends RouterRule {
@@ -227,7 +227,7 @@ export interface ExceptionAction {
 }
 
 // @public (undocumented)
-export type ExceptionActionUnion = ExceptionAction | CancelExceptionAction | ManualReclassifyExceptionAction | ReclassifyExceptionActionGenerated;
+export type ExceptionActionUnion = ExceptionAction | CancelExceptionAction | ManualReclassifyExceptionAction | ReclassifyExceptionAction;
 
 // @public
 export interface ExceptionPolicy {
@@ -290,16 +290,6 @@ export interface FunctionRouterRuleCredential {
     functionKey?: string;
 }
 
-// @public (undocumented)
-export interface JobMatchingModeGenerated {
-    // (undocumented)
-    modeType?: JobMatchModeType;
-    queueAndMatchMode?: any;
-    // (undocumented)
-    scheduleAndSuspendMode?: ScheduleAndSuspendMode;
-    suspendMode?: any;
-}
-
 // @public
 export type JobMatchModeType = string;
 
@@ -357,11 +347,6 @@ export interface JobRouterCancelJobActionOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type JobRouterCancelJobActionResponse = {
-    body: any;
-};
-
-// @public
 export class JobRouterClient {
     constructor(connectionString: string, options?: JobRouterClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: JobRouterClientOptions);
@@ -379,8 +364,10 @@ export class JobRouterClient {
     getJobQueuePosition(jobId: string, options?: OperationOptions): Promise<RouterJobPositionDetails>;
     getQueueStatistics(queueId: string, options?: OperationOptions): Promise<RouterQueueStatistics>;
     getWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
-    listJobs(options?: ListJobsOptions): PagedAsyncIterableIterator<RouterJobItem>;
-    listWorkers(options?: ListWorkersOptions): PagedAsyncIterableIterator<RouterWorkerItem>;
+    // Warning: (ae-forgotten-export) The symbol "RouterJobItem_2" needs to be exported by the entry point index.d.ts
+    listJobs(options?: ListJobsOptions): TransformingPagedAsyncIterableIterator<RouterJobItem_2, RouterJobItem>;
+    // Warning: (ae-forgotten-export) The symbol "RouterWorkerItem_2" needs to be exported by the entry point index.d.ts
+    listWorkers(options?: ListWorkersOptions): TransformingPagedAsyncIterableIterator<RouterWorkerItem_2, RouterWorkerItem>;
     reclassifyJob(jobId: string, options?: ReclassifyJobOptions): Promise<ReclassifyJobResponse>;
     unassignJob(jobId: string, assignmentId: string, options?: UnassignJobOptions): Promise<UnassignJobResponse>;
     updateJob(jobId: string, options?: UpdateJobOptions): Promise<RouterJobResponse>;
@@ -400,19 +387,9 @@ export interface JobRouterCloseJobActionOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type JobRouterCloseJobActionResponse = {
-    body: any;
-};
-
-// @public
 export interface JobRouterCompleteJobActionOptionalParams extends coreClient.OperationOptions {
     note?: string;
 }
-
-// @public
-export type JobRouterCompleteJobActionResponse = {
-    body: any;
-};
 
 // @public
 export interface JobRouterDeclineJobActionOptionalParams extends coreClient.OperationOptions {
@@ -420,19 +397,9 @@ export interface JobRouterDeclineJobActionOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type JobRouterDeclineJobActionResponse = {
-    body: any;
-};
-
-// @public
 export interface JobRouterReclassifyJobActionOptionalParams extends coreClient.OperationOptions {
     reclassifyJobRequest?: any;
 }
-
-// @public
-export type JobRouterReclassifyJobActionResponse = {
-    body: any;
-};
 
 // @public
 export interface JobRouterUnassignJobActionOptionalParams extends coreClient.OperationOptions {
@@ -447,146 +414,63 @@ export interface JobRouterUpsertJobOptionalParams extends coreClient.OperationOp
 export interface JobRouterUpsertWorkerOptionalParams extends coreClient.OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface JSONArray extends ArrayLike<JSONValue> {
 }
 
-// @public (undocumented)
+// @public
 export interface JSONObject {
     // (undocumented)
     [key: string]: JSONValue;
 }
 
 // @public
-export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
-
-// @public
-export enum KnownExpressionRouterRuleLanguage {
-    PowerFx = "powerFx"
-}
-
-// @public
-export enum KnownJobMatchModeType {
-    QueueAndMatchMode = "queueAndMatchMode",
-    ScheduleAndSuspendMode = "scheduleAndSuspendMode",
-    SuspendMode = "suspendMode"
-}
-
-// @public
-export enum KnownLabelOperator {
-    Equal = "equal",
-    GreaterThan = "greaterThan",
-    GreaterThanEqual = "greaterThanEqual",
-    LessThan = "lessThan",
-    LessThanEqual = "lessThanEqual",
-    NotEqual = "notEqual"
-}
-
-// @public
-export enum KnownRouterJobStatus {
-    Assigned = "assigned",
-    Cancelled = "cancelled",
-    ClassificationFailed = "classificationFailed",
-    Closed = "closed",
-    Completed = "completed",
-    Created = "created",
-    PendingClassification = "pendingClassification",
-    PendingSchedule = "pendingSchedule",
-    Queued = "queued",
-    Scheduled = "scheduled",
-    ScheduleFailed = "scheduleFailed",
-    WaitingForActivation = "waitingForActivation"
-}
-
-// @public
-export enum KnownRouterJobStatusSelector {
-    Active = "active",
-    All = "all",
-    Assigned = "assigned",
-    Cancelled = "cancelled",
-    ClassificationFailed = "classificationFailed",
-    Closed = "closed",
-    Completed = "completed",
-    Created = "created",
-    PendingClassification = "pendingClassification",
-    PendingSchedule = "pendingSchedule",
-    Queued = "queued",
-    Scheduled = "scheduled",
-    ScheduleFailed = "scheduleFailed",
-    WaitingForActivation = "waitingForActivation"
-}
-
-// @public
-export enum KnownRouterWorkerSelectorStatus {
-    Active = "active",
-    Expired = "expired"
-}
-
-// @public
-export enum KnownRouterWorkerState {
-    Active = "active",
-    Draining = "draining",
-    Inactive = "inactive"
-}
-
-// @public
-export enum KnownRouterWorkerStateSelector {
-    Active = "active",
-    All = "all",
-    Draining = "draining",
-    Inactive = "inactive"
-}
-
-// @public
-export enum KnownScoringRuleParameterSelector {
-    JobLabels = "jobLabels",
-    WorkerSelectors = "workerSelectors"
-}
+export type JSONValue = boolean | number | string | JSONArray | JSONObject;
 
 // @public
 export type LabelOperator = string;
 
 // @public
 export interface ListClassificationPoliciesOptions extends OperationOptions {
-    maxpagesize?: number;
+    maxPageSize?: number;
 }
 
 // @public
 export interface ListDistributionPoliciesOptions extends OperationOptions {
-    maxpagesize?: number;
+    maxPageSize?: number;
 }
 
 // @public
 export interface ListExceptionPoliciesOptions extends OperationOptions {
-    maxpagesize?: number;
+    maxPageSize?: number;
 }
 
 // @public
 export interface ListJobsOptions extends OperationOptions {
     channelId?: string;
     classificationPolicyId?: string;
-    jobStateSelector?: RouterJobStatusSelector;
-    maxpagesize?: number;
+    maxPageSize?: number;
     queueId?: string;
     scheduledAfter?: Date;
     scheduledBefore?: Date;
+    statusSelector?: RouterJobStatusSelector;
 }
 
 // @public
 export interface ListPageSettings {
-    continuationToken?: string | null;
+    continuationToken?: string;
 }
 
 // @public
 export interface ListQueuesOptions extends OperationOptions {
-    maxpagesize?: number;
+    maxPageSize?: number;
 }
 
 // @public
 export interface ListWorkersOptions extends OperationOptions {
     channelId?: string;
     hasCapacity?: boolean;
-    maxpagesize?: number;
+    maxPageSize?: number;
     queueId?: string;
     status?: RouterWorkerStateSelector;
 }
@@ -601,7 +485,7 @@ export interface ManualReclassifyExceptionAction extends ExceptionAction {
     kind: "manual-reclassify";
     priority?: number;
     queueId?: string;
-    workerSelectors?: RouterWorkerSelectorGenerated[];
+    workerSelectors?: RouterWorkerSelector[];
 }
 
 // @public
@@ -625,7 +509,7 @@ export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttac
     labelOperator: LabelOperator;
 }
 
-// @public (undocumented)
+// @public
 export interface QueueAndMatchMode {
 }
 
@@ -645,22 +529,15 @@ export type QueueSelectorAttachmentUnion = QueueSelectorAttachment | Conditional
 
 // @public
 export interface QueueWeightedAllocation {
-    queueSelectors: RouterQueueSelectorGenerated[];
+    queueSelectors: RouterQueueSelector[];
     weight: number;
 }
 
 // @public
-export interface ReclassifyExceptionAction extends Omit<ReclassifyExceptionActionGenerated, "labelsToUpsert"> {
-    labelsToUpsert?: JSONObject;
-}
-
-// @public
-export interface ReclassifyExceptionActionGenerated extends ExceptionAction {
+export interface ReclassifyExceptionAction extends ExceptionAction {
     classificationPolicyId?: string;
     kind: "reclassify";
-    labelsToUpsert?: {
-        [propertyName: string]: any;
-    };
+    labelsToUpsert?: JSONObject;
 }
 
 // @public
@@ -669,9 +546,9 @@ export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOption
 }
 
 // @public
-export interface ReclassifyJobResponse extends Omit<JobRouterReclassifyJobActionResponse, "body"> {
-    body?: JSONValue;
-}
+export type ReclassifyJobResponse = {
+    body: JSONValue;
+};
 
 // @public
 export interface RoundRobinMode extends DistributionMode {
@@ -679,8 +556,25 @@ export interface RoundRobinMode extends DistributionMode {
 }
 
 // @public
-export interface RouterJob extends Omit<RouterJobGenerated, "labels" | "tags"> {
+export interface RouterJob {
+    readonly assignments?: {
+        [propertyName: string]: RouterJobAssignment;
+    };
+    readonly attachedWorkerSelectors?: RouterWorkerSelector[];
+    channelId?: string;
+    channelReference?: string;
+    classificationPolicyId?: string;
+    dispositionCode?: string;
+    readonly enqueuedAt?: Date;
+    readonly id?: string;
     labels?: JSONObject;
+    matchingMode?: RouterJobMatchingMode;
+    notes?: RouterJobNote[];
+    priority?: number;
+    queueId?: string;
+    requestedWorkerSelectors?: RouterWorkerSelector[];
+    readonly scheduledAt?: Date;
+    readonly status?: RouterJobStatus;
     tags?: JSONObject;
 }
 
@@ -694,57 +588,23 @@ export interface RouterJobAssignment {
 }
 
 // @public
-export interface RouterJobGenerated {
-    readonly assignments?: {
-        [propertyName: string]: RouterJobAssignment;
-    };
-    readonly attachedWorkerSelectors?: RouterWorkerSelectorGenerated[];
-    channelId?: string;
-    channelReference?: string;
-    classificationPolicyId?: string;
-    dispositionCode?: string;
-    readonly enqueuedAt?: Date;
-    readonly id?: string;
-    labels?: {
-        [propertyName: string]: any;
-    };
-    // (undocumented)
-    matchingMode?: JobMatchingModeGenerated;
-    notes?: {
-        [propertyName: string]: string;
-    };
-    priority?: number;
-    queueId?: string;
-    requestedWorkerSelectors?: RouterWorkerSelectorGenerated[];
-    readonly scheduledAt?: Date;
-    readonly status?: RouterJobStatus;
-    tags?: {
-        [propertyName: string]: any;
-    };
+export interface RouterJobItem {
+    etag?: string;
+    job?: RouterJob;
 }
 
 // @public
-export interface RouterJobItem {
-    etag?: string;
-    job?: RouterJobGenerated;
-}
-
-// @public (undocumented)
-export interface RouterJobMatchingMode extends JobMatchingModeGenerated {
-    // (undocumented)
+export interface RouterJobMatchingMode {
     modeType?: JobMatchModeType;
-    // (undocumented)
     queueAndMatchMode?: QueueAndMatchMode;
-    // (undocumented)
     scheduleAndSuspendMode?: ScheduleAndSuspendMode;
-    // (undocumented)
     suspendMode?: SuspendMode;
 }
 
 // @public
 export interface RouterJobNote {
+    addedAt: Date;
     message: string;
-    time: Date;
 }
 
 // @public
@@ -778,25 +638,18 @@ export type RouterJobStatus = string;
 export type RouterJobStatusSelector = string;
 
 // @public
-export interface RouterQueue extends Omit<RouterQueueGenerated, "labels"> {
-    labels?: JSONObject;
-}
-
-// @public
-export interface RouterQueueGenerated {
+export interface RouterQueue {
     distributionPolicyId?: string;
     exceptionPolicyId?: string;
     readonly id?: string;
-    labels?: {
-        [propertyName: string]: any;
-    };
+    labels?: JSONObject;
     name?: string;
 }
 
 // @public
 export interface RouterQueueItem {
     etag?: string;
-    queue?: RouterQueueGenerated;
+    queue?: RouterQueue;
 }
 
 // @public (undocumented)
@@ -806,15 +659,10 @@ export interface RouterQueueResponse extends RouterQueue {
 }
 
 // @public
-export interface RouterQueueSelector extends Omit<RouterQueueSelectorGenerated, "value"> {
-    value?: JSONValue;
-}
-
-// @public
-export interface RouterQueueSelectorGenerated {
+export interface RouterQueueSelector {
     key: string;
     labelOperator: LabelOperator;
-    value?: any;
+    value?: JSONValue;
 }
 
 // @public
@@ -833,13 +681,23 @@ export interface RouterRule {
 }
 
 // @public (undocumented)
-export type RouterRuleUnion = RouterRule | DirectMapRouterRule | ExpressionRouterRule | FunctionRouterRule | StaticRouterRuleGenerated | WebhookRouterRule;
+export type RouterRuleUnion = RouterRule | DirectMapRouterRule | ExpressionRouterRule | FunctionRouterRule | WebhookRouterRule | StaticRouterRule;
 
 // @public
-export interface RouterWorker extends Omit<RouterWorkerGenerated, "queueAssignments" | "labels" | "tags"> {
+export interface RouterWorker {
+    readonly assignedJobs?: RouterWorkerAssignment[];
+    availableForOffers?: boolean;
+    channelConfigurations?: {
+        [propertyName: string]: ChannelConfiguration;
+    };
+    readonly id?: string;
     labels?: JSONObject;
+    readonly loadRatio?: number;
+    readonly offers?: RouterJobOffer[];
     queueAssignments?: JSONObject;
+    readonly state?: RouterWorkerState;
     tags?: JSONObject;
+    totalCapacity?: number;
 }
 
 // @public
@@ -851,32 +709,9 @@ export interface RouterWorkerAssignment {
 }
 
 // @public
-export interface RouterWorkerGenerated {
-    readonly assignedJobs?: RouterWorkerAssignment[];
-    availableForOffers?: boolean;
-    channelConfigurations?: {
-        [propertyName: string]: ChannelConfiguration;
-    };
-    readonly id?: string;
-    labels?: {
-        [propertyName: string]: any;
-    };
-    readonly loadRatio?: number;
-    readonly offers?: RouterJobOffer[];
-    queueAssignments?: {
-        [propertyName: string]: any;
-    };
-    readonly state?: RouterWorkerState;
-    tags?: {
-        [propertyName: string]: any;
-    };
-    totalCapacity?: number;
-}
-
-// @public
 export interface RouterWorkerItem {
     etag?: string;
-    worker?: RouterWorkerGenerated;
+    worker?: RouterWorker;
 }
 
 // @public (undocumented)
@@ -886,19 +721,14 @@ export interface RouterWorkerResponse extends RouterWorker {
 }
 
 // @public
-export interface RouterWorkerSelector extends Omit<RouterWorkerSelectorGenerated, "value"> {
-    value?: JSONValue;
-}
-
-// @public
-export interface RouterWorkerSelectorGenerated {
+export interface RouterWorkerSelector {
     expedite?: boolean;
     expiresAfterSeconds?: number;
     readonly expiresAt?: Date;
     key: string;
     labelOperator: LabelOperator;
     readonly status?: RouterWorkerSelectorStatus;
-    value?: any;
+    value?: JSONValue;
 }
 
 // @public
@@ -909,6 +739,12 @@ export type RouterWorkerState = string;
 
 // @public
 export type RouterWorkerStateSelector = string;
+
+// @public
+export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachment {
+    kind: "rule-engine";
+    rule: RouterRuleUnion;
+}
 
 // @public
 export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachment {
@@ -942,28 +778,37 @@ export type ScoringRuleParameterSelector = string;
 // @public
 export interface StaticQueueSelectorAttachment extends QueueSelectorAttachment {
     kind: "static";
-    queueSelector: RouterQueueSelectorGenerated;
+    queueSelector: RouterQueueSelector;
 }
 
 // @public
-export interface StaticRouterRule extends Omit<StaticRouterRuleGenerated, "value"> {
-    value?: JSONValue;
-}
-
-// @public
-export interface StaticRouterRuleGenerated extends RouterRule {
+export interface StaticRouterRule extends RouterRule {
     kind: "static-rule";
-    value?: any;
+    value?: JSONValue;
 }
 
 // @public
 export interface StaticWorkerSelectorAttachment extends WorkerSelectorAttachment {
     kind: "static";
-    workerSelector: RouterWorkerSelectorGenerated;
+    workerSelector: RouterWorkerSelector;
+}
+
+// @public
+export interface SuspendMode {
 }
 
 // @public (undocumented)
-export interface SuspendMode {
+export type Transformer<TFrom, TTo> = (input: TFrom) => TTo;
+
+// @public (undocumented)
+export class TransformingPagedAsyncIterableIterator<TElement, TTransformed, TPage = TElement[], TTransformedPage = TTransformed[], TPageSettings = PageSettings> {
+    // (undocumented)
+    [Symbol.asyncIterator](): TransformingPagedAsyncIterableIterator<TElement, TTransformed, TPage, TTransformedPage, TPageSettings>;
+    constructor(internalIterator: PagedAsyncIterableIterator<TElement, TPage, TPageSettings>, transform: Transformer<TElement, TTransformed>);
+    // (undocumented)
+    byPage(settings?: TPageSettings): AsyncIterableIterator<TTransformedPage>;
+    // (undocumented)
+    next(): Promise<IteratorResult<TTransformed>>;
 }
 
 // @public
@@ -1013,12 +858,11 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
     classificationPolicyId?: string;
     dispositionCode?: string;
     labels?: JSONObject;
-    // (undocumented)
     matchingMode?: RouterJobMatchingMode;
-    notes?: Array<RouterJobNote>;
+    notes?: RouterJobNote[];
     priority?: number;
     queueId?: string;
-    requestedWorkerSelectors?: RouterWorkerSelectorGenerated[];
+    requestedWorkerSelectors?: RouterWorkerSelector[];
     tags?: JSONObject;
 }
 
@@ -1079,9 +923,7 @@ export type WorkerSelectorAttachmentUnion = WorkerSelectorAttachment | Condition
 // @public
 export interface WorkerWeightedAllocation {
     weight: number;
-    workerSelectors: RouterWorkerSelectorGenerated[];
+    workerSelectors: RouterWorkerSelector[];
 }
-
-// (No @packageDocumentation comment for this package)
 
 ```

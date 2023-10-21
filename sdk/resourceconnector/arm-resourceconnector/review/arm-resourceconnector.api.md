@@ -352,12 +352,13 @@ export class ResourceConnectorManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ResourceConnectorManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: ResourceConnectorManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
     appliances: Appliances;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public

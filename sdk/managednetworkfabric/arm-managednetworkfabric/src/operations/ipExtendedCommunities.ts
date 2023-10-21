@@ -35,6 +35,7 @@ import {
   IpExtendedCommunitiesUpdateOptionalParams,
   IpExtendedCommunitiesUpdateResponse,
   IpExtendedCommunitiesDeleteOptionalParams,
+  IpExtendedCommunitiesDeleteResponse,
   IpExtendedCommunitiesListByResourceGroupNextResponse,
   IpExtendedCommunitiesListBySubscriptionNextResponse
 } from "../models";
@@ -178,7 +179,7 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   /**
    * Implements IP Extended Community PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community
+   * @param ipExtendedCommunityName Name of the IP Extended Community.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -252,7 +253,7 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   /**
    * Implements IP Extended Community PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community
+   * @param ipExtendedCommunityName Name of the IP Extended Community.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -274,7 +275,7 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   /**
    * Implements IP Extended Community GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community
+   * @param ipExtendedCommunityName Name of the IP Extended Community.
    * @param options The options parameters.
    */
   get(
@@ -291,7 +292,7 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   /**
    * API to update certain properties of the IP Extended Community resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community
+   * @param ipExtendedCommunityName Name of the IP Extended Community.
    * @param body IP Extended Community properties to update.
    * @param options The options parameters.
    */
@@ -365,7 +366,7 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   /**
    * API to update certain properties of the IP Extended Community resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community
+   * @param ipExtendedCommunityName Name of the IP Extended Community.
    * @param body IP Extended Community properties to update.
    * @param options The options parameters.
    */
@@ -387,18 +388,23 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   /**
    * Implements IP Extended Community DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community
+   * @param ipExtendedCommunityName Name of the IP Extended Community.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     ipExtendedCommunityName: string,
     options?: IpExtendedCommunitiesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<IpExtendedCommunitiesDeleteResponse>,
+      IpExtendedCommunitiesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<IpExtendedCommunitiesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -439,7 +445,10 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
       args: { resourceGroupName, ipExtendedCommunityName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      IpExtendedCommunitiesDeleteResponse,
+      OperationState<IpExtendedCommunitiesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -451,14 +460,14 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   /**
    * Implements IP Extended Community DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community
+   * @param ipExtendedCommunityName Name of the IP Extended Community.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     ipExtendedCommunityName: string,
     options?: IpExtendedCommunitiesDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<IpExtendedCommunitiesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       ipExtendedCommunityName,
@@ -551,7 +560,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -606,7 +615,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body5,
+  requestBody: Parameters.body10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -623,10 +632,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

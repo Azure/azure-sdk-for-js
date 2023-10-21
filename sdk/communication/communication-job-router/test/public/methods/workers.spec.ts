@@ -70,12 +70,23 @@ describe("JobRouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should update a worker", async function () {
-      const patch: RouterWorker = { ...workerRequest, totalCapacity: 1010 };
-      const result = await client.updateWorker(workerId, patch);
+      const updatePatch = {
+        ...workerRequest,
+        totalCapacity: 100,
+        labels: { label1: "label1value" },
+        tags: { tag1: "tag1value" },
+      };
+      const updateResult = await client.updateWorker(workerId, updatePatch);
 
-      assert.isDefined(result);
-      assert.isDefined(result?.id);
-      assert.equal(result.totalCapacity, patch.totalCapacity);
+      const removePatch = { ...workerRequest, tags: null! };
+      const removeResult = await client.updateWorker(workerId, removePatch);
+
+      assert.isDefined(updateResult);
+      assert.isDefined(updateResult?.id);
+      assert.isDefined(removeResult);
+      assert.isDefined(removeResult?.id);
+      assert.equal(updateResult.totalCapacity, updatePatch.totalCapacity);
+      assert.isEmpty(removeResult.tags);
     }).timeout(timeoutMs);
 
     it("should register and deregister a worker", async function () {
@@ -100,7 +111,7 @@ describe("JobRouterClient", function () {
 
     it("should list workers", async function () {
       const result: RouterWorker[] = [];
-      for await (const worker of client.listWorkers({ maxpagesize: 20 })) {
+      for await (const worker of client.listWorkers({ maxPageSize: 20 })) {
         result.push(worker.worker!);
       }
 

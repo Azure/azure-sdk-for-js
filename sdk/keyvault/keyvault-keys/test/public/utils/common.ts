@@ -3,21 +3,6 @@
 
 import { SupportedVersions, TestFunctionWrapper, supports } from "@azure/test-utils";
 import { env } from "@azure-tools/test-recorder";
-import { assert } from "@azure/test-utils";
-
-export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
-  let passed = false;
-  try {
-    await cb();
-    passed = true;
-  } catch (e: any) {
-    console.log(`name: ${e.name}, message: ${e.message}`);
-    assert.equal(e.name, "AbortError");
-  }
-  if (passed) {
-    throw new Error("Expected cb to throw an AbortError");
-  }
-}
 
 /**
  * The known API versions that we support.

@@ -19,6 +19,7 @@ export type AddOrUpdateParticipantsOptions = OperationOptions;
 export interface CommunicationRoom {
     createdOn: Date;
     id: string;
+    pstnDialOutEnabled: boolean;
     validFrom: Date;
     validUntil: Date;
 }
@@ -26,6 +27,7 @@ export interface CommunicationRoom {
 // @public
 export interface CreateRoomOptions extends OperationOptions {
     participants?: RoomParticipantPatch[];
+    pstnDialOutEnabled?: boolean;
     validFrom?: Date;
     validUntil?: Date;
 }
@@ -80,6 +82,7 @@ export interface RoomsClientOptions extends CommonClientOptions {
 
 // @public
 export interface UpdateRoomOptions extends OperationOptions {
+    pstnDialOutEnabled?: boolean;
     validFrom?: Date;
     validUntil?: Date;
 }

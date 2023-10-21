@@ -1,14 +1,30 @@
 # Release History
 
-## 1.3.3 (Unreleased)
+## 1.6.0 (2023-10-23)
 
 ### Features Added
 
-### Breaking Changes
+- Add support for hex encoding to `uint8ArrayToString` and `stringToUint8Array`
+- Fix bug when `uint8ArrayToString` with Base64 encoding would not decode binary data 
+  containing bytes which are not valid ISO/IEC 8859-1 (latin1) characters.
 
 ### Bugs Fixed
 
-### Other Changes
+- Improved `isNode` to be false when `isDeno` is true due to Deno implementing `process.version.node`
+
+## 1.5.0 (2023-09-25)
+
+### Features Added
+
+- Adds helper method `cancelablePromiseRace`, an abstraction that leverages `"promise.race()"` and aborts the losers of the race as soon as the first promise settles.
+  [PR #26748](https://github.com/Azure/azure-sdk-for-js/pull/26748)
+
+## 1.4.0 (2023-08-03)
+
+### Features Added
+
+- Adds extra environment checks for browser or other environments [PR #26018](https://github.com/Azure/azure-sdk-for-js/pull/26018)
+- Add helper functions `uint8ArrayToString` and `stringToUint8Array` for transform between string and bytes array with different character encodings.
 
 ## 1.3.2 (2023-05-05)
 

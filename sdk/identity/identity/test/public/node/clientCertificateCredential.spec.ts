@@ -118,7 +118,7 @@ describe("ClientCertificateCredential", function () {
       error = e;
     }
     assert.equal(error?.name, "CredentialUnavailableError");
-    assert.ok(error?.message.includes("could not resolve endpoints"));
+    assert.ok(error?.message.includes("endpoints_resolution_error"));
   });
 
   it("supports tracing", async function (this: Context) {

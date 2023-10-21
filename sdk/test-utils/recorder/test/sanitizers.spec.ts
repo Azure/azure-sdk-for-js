@@ -23,9 +23,39 @@ import { v4 as generateUuid } from "uuid";
     });
 
     beforeEach(async function () {
+      env.TEST_VARIABLE_1 = "the answer!";
+      env.TEST_VARIABLE_2 = "answer!";
       recorder = new Recorder(this.currentTest);
       client = new ServiceClient(recorder.configureClientOptions({ baseUri: TEST_SERVER_URL }));
       currentValue = isPlaybackMode() ? fakeSecretValue : secretValue;
+    });
+
+    describe("envSetupForPlayback", () => {
+      afterEach(async () => {
+        await recorder.stop();
+      });
+
+      it("Handles overlapping environment variables", async () => {
+        const envSetupForPlayback = {
+          TEST_VARIABLE_2: "Variable2",
+          TEST_VARIABLE_1: "Variable1",
+        };
+
+        await recorder.start({ envSetupForPlayback });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response/aaa`,
+            body: "aaaaa",
+            method: "POST",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
+          },
+          {
+            val: isPlaybackMode() ? "I am Variable1" : "I am the answer!",
+          }
+        );
+      });
     });
 
     describe("Sanitizers - functionalities", () => {

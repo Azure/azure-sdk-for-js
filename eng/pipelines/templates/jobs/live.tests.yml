@@ -72,6 +72,7 @@ jobs:
           parameters:
             SubscriptionConfiguration: ${{ parameters.CloudConfig.SubscriptionConfiguration }}
             SubscriptionConfigurations: ${{ parameters.CloudConfig.SubscriptionConfigurations }}
+            EnvVars: ${{ parameters.EnvVars }}
 
         - ${{ if parameters.TestResourceDirectories }}:
           - ${{ each directory in parameters.TestResourceDirectories }}:
@@ -137,10 +138,8 @@ jobs:
 
       - template: ../steps/use-node-test-version.yml
 
-      # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-      # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |
-          node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
+          node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
         displayName: "Integration test libraries"
         workingDirectory: $(PackagePath)
         condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
@@ -150,7 +149,7 @@ jobs:
           ${{ insert }}: ${{ parameters.EnvVars }}
 
       - script: |
-          node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
+          node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
         displayName: "Integration test libraries"
         workingDirectory: $(PackageTestPath)
         condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))

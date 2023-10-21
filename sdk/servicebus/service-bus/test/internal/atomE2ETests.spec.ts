@@ -4,7 +4,6 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
-import * as dotenv from "dotenv";
 import {
   CorrelationRuleFilter,
   ServiceBusReceivedMessage,
@@ -20,8 +19,6 @@ import { getConnectionString } from "../public/utils/testutils2";
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
 const should = chai.should();
-
-dotenv.config();
 
 const serviceBusAtomManagementClient: ServiceBusAdministrationClient =
   new ServiceBusAdministrationClient(getConnectionString());

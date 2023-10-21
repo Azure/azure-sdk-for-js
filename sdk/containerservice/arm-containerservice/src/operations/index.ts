@@ -10,6 +10,7 @@ export * from "./operations";
 export * from "./managedClusters";
 export * from "./maintenanceConfigurations";
 export * from "./agentPools";
+export * from "./machines";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
 export * from "./resolvePrivateLinkServiceId";

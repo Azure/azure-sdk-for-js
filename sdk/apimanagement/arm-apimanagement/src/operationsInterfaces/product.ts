@@ -29,7 +29,7 @@ import {
 export interface Product {
   /**
    * Lists a collection of products in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -40,7 +40,7 @@ export interface Product {
   ): PagedAsyncIterableIterator<ProductContract>;
   /**
    * Lists a collection of products associated with tags.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -51,7 +51,7 @@ export interface Product {
   ): PagedAsyncIterableIterator<TagResourceContract>;
   /**
    * Gets the entity state (Etag) version of the product specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -64,7 +64,7 @@ export interface Product {
   ): Promise<ProductGetEntityTagResponse>;
   /**
    * Gets the details of the product specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -77,7 +77,7 @@ export interface Product {
   ): Promise<ProductGetResponse>;
   /**
    * Creates or Updates a product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param parameters Create or update parameters.
@@ -92,7 +92,7 @@ export interface Product {
   ): Promise<ProductCreateOrUpdateResponse>;
   /**
    * Update existing product details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -110,7 +110,7 @@ export interface Product {
   ): Promise<ProductUpdateResponse>;
   /**
    * Delete product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header

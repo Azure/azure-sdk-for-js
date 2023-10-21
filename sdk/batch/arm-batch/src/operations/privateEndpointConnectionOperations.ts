@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BatchManagementClient } from "../batchManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionListByBatchAccountNextOptionalParams,
@@ -186,8 +190,8 @@ export class PrivateEndpointConnectionOperationsImpl
     parameters: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionUpdateResponse>,
       PrivateEndpointConnectionUpdateResponse
     >
   > {
@@ -197,7 +201,7 @@ export class PrivateEndpointConnectionOperationsImpl
     ): Promise<PrivateEndpointConnectionUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -230,21 +234,24 @@ export class PrivateEndpointConnectionOperationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         privateEndpointConnectionName,
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PrivateEndpointConnectionUpdateResponse,
+      OperationState<PrivateEndpointConnectionUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -291,8 +298,8 @@ export class PrivateEndpointConnectionOperationsImpl
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionDeleteResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionDeleteResponse>,
       PrivateEndpointConnectionDeleteResponse
     >
   > {
@@ -302,7 +309,7 @@ export class PrivateEndpointConnectionOperationsImpl
     ): Promise<PrivateEndpointConnectionDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -335,20 +342,23 @@ export class PrivateEndpointConnectionOperationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         privateEndpointConnectionName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PrivateEndpointConnectionDeleteResponse,
+      OperationState<PrivateEndpointConnectionDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -525,7 +535,6 @@ const listByBatchAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.maxresults],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

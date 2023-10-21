@@ -554,7 +554,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/currentSensitivityLabels",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters73,
+  requestBody: Parameters.parameters70,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
@@ -669,7 +669,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters72,
+  requestBody: Parameters.parameters69,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,

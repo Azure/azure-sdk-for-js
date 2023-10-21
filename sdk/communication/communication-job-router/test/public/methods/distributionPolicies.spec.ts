@@ -55,21 +55,30 @@ describe("JobRouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should update a distribution policy", async function () {
-      const patch: DistributionPolicy = { ...distributionPolicyRequest, name: "new-name" };
-      const result = await administrationClient.updateDistributionPolicy(
+      const updatePatch = { ...distributionPolicyRequest, name: "new-name" };
+      const updateResult = await administrationClient.updateDistributionPolicy(
         distributionPolicyId,
-        patch
+        updatePatch
       );
 
-      assert.isDefined(result);
-      assert.isDefined(result.id);
-      assert.equal(result.name, patch.name);
+      const removePatch = { ...distributionPolicyRequest, name: null! };
+      const removeResult = await administrationClient.updateDistributionPolicy(
+        distributionPolicyId,
+        removePatch
+      );
+
+      assert.isDefined(updateResult);
+      assert.isDefined(updateResult.id);
+      assert.isDefined(removeResult);
+      assert.isDefined(removeResult.id);
+      assert.equal(updateResult.name, updatePatch.name);
+      assert.isUndefined(removeResult.name);
     }).timeout(timeoutMs);
 
     it("should list distribution policies", async function () {
       const result: DistributionPolicy[] = [];
       for await (const policy of administrationClient.listDistributionPolicies({
-        maxpagesize: 20,
+        maxPageSize: 20,
       })) {
         result.push(policy.distributionPolicy!);
       }

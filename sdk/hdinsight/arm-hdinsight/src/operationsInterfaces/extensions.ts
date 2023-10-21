@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ClusterMonitoringRequest,
   ExtensionsEnableMonitoringOptionalParams,
@@ -41,7 +41,7 @@ export interface Extensions {
     clusterName: string,
     parameters: ClusterMonitoringRequest,
     options?: ExtensionsEnableMonitoringOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Enables the Operations Management Suite (OMS) on the HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -76,7 +76,7 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     options?: ExtensionsDisableMonitoringOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disables the Operations Management Suite (OMS) on the HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -100,7 +100,7 @@ export interface Extensions {
     clusterName: string,
     parameters: AzureMonitorRequest,
     options?: ExtensionsEnableAzureMonitorOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Enables the Azure Monitor on the HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -135,7 +135,7 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     options?: ExtensionsDisableAzureMonitorOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disables the Azure Monitor on the HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -161,7 +161,7 @@ export interface Extensions {
     extensionName: string,
     parameters: Extension,
     options?: ExtensionsCreateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Creates an HDInsight cluster extension.
    * @param resourceGroupName The name of the resource group.
@@ -202,7 +202,7 @@ export interface Extensions {
     clusterName: string,
     extensionName: string,
     options?: ExtensionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified extension for HDInsight cluster.
    * @param resourceGroupName The name of the resource group.

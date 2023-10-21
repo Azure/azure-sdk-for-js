@@ -9,6 +9,11 @@
 import * as coreClient from "@azure/core-client";
 import * as coreHttpCompat from "@azure/core-http-compat";
 
+export type VectorQueryUnion =
+  | VectorQuery
+  | RawVectorQuery
+  | VectorizableTextQuery;
+
 /** Describes an error condition for the Azure Cognitive Search API. */
 export interface SearchError {
   /**
@@ -142,9 +147,11 @@ export interface SearchRequest {
   scoringParameters?: string[];
   /** The name of a scoring profile to evaluate match scores for matching documents in order to sort the results. */
   scoringProfile?: string;
+  /** Allows setting a separate search query that will be solely used for semantic reranking, semantic captions and semantic answers. Is useful for scenarios where there is a need to use different queries between the base retrieval and ranking phase, and the L2 semantic phase. */
+  semanticQuery?: string;
   /** The name of a semantic configuration that will be used when processing documents for queries of type semantic. */
   semanticConfiguration?: string;
-  /** Allows the user to choose whether a semantic call should fail completely (default / current behavior), or to return partial results. */
+  /** Allows the user to choose whether a semantic call should fail completely, or to return partial results (default). */
   semanticErrorHandling?: SemanticErrorHandling;
   /** Allows the user to set an upper bound on the amount of time it takes for semantic enrichment to finish processing before the request fails. */
   semanticMaxWaitInMilliseconds?: number;
@@ -173,17 +180,21 @@ export interface SearchRequest {
   /** The comma-separated list of field names used for semantic search. */
   semanticFields?: string;
   /** The query parameters for vector and hybrid search queries. */
-  vector?: Vector;
+  vectorQueries?: VectorQueryUnion[];
+  /** Determines whether or not filters are applied before or after the vector search is performed. Default is 'preFilter'. */
+  vectorFilterMode?: VectorFilterMode;
 }
 
 /** The query parameters for vector and hybrid search queries. */
-export interface Vector {
-  /** The vector representation of a search query. */
-  value?: number[];
+export interface VectorQuery {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "vector" | "text";
   /** Number of nearest neighbors to return as top hits. */
   kNearestNeighborsCount?: number;
   /** Vector Fields of type Collection(Edm.Single) to be included in the vector searched. */
   fields?: string;
+  /** When true, triggers an exhaustive k-nearest neighbor search across all vectors within the vector index. Useful for scenarios where exact matches are critical, such as determining ground truth values. */
+  exhaustive?: boolean;
 }
 
 /** Contains a document found by a search query, plus associated metadata. */
@@ -448,6 +459,22 @@ export interface AutocompleteRequest {
   top?: number;
 }
 
+/** The query parameters to use for vector search when a raw vector value is provided. */
+export type RawVectorQuery = VectorQuery & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "vector";
+  /** The vector representation of a search query. */
+  vector?: number[];
+};
+
+/** The query parameters to use for vector search when a text value that needs to be vectorized is provided. */
+export type VectorizableTextQuery = VectorQuery & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "text";
+  /** The text to be vectorized to perform a vector search query. */
+  text?: string;
+};
+
 /** Parameter group */
 export interface SearchOptions {
   /** A value that specifies whether to fetch the total count of results. Default is false. Setting this value to true may have a performance impact. Note that the count returned is an approximation. */
@@ -472,9 +499,11 @@ export interface SearchOptions {
   scoringParameters?: string[];
   /** The name of a scoring profile to evaluate match scores for matching documents in order to sort the results. */
   scoringProfile?: string;
+  /** Allows setting a separate search query that will be solely used for semantic reranking, semantic captions and semantic answers. Is useful for scenarios where there is a need to use different queries between the base retrieval and ranking phase, and the L2 semantic phase. */
+  semanticQuery?: string;
   /** The name of the semantic configuration that lists which fields should be used for semantic ranking, captions, highlights, and answers */
   semanticConfiguration?: string;
-  /** Allows the user to choose whether a semantic call should fail completely, or to return partial results. */
+  /** Allows the user to choose whether a semantic call should fail completely, or to return partial results (default). */
   semanticErrorHandling?: SemanticErrorHandling;
   /** Allows the user to set an upper bound on the amount of time it takes for semantic enrichment to finish processing before the request fails. */
   semanticMaxWaitInMilliseconds?: number;
@@ -548,20 +577,20 @@ export interface AutocompleteOptions {
   top?: number;
 }
 
-/** Known values of {@link ApiVersion20230701Preview} that the service accepts. */
-export enum KnownApiVersion20230701Preview {
-  /** Api Version '2023-07-01-Preview' */
-  TwoThousandTwentyThree0701Preview = "2023-07-01-Preview"
+/** Known values of {@link ApiVersion20231001Preview} that the service accepts. */
+export enum KnownApiVersion20231001Preview {
+  /** Api Version '2023-10-01-Preview' */
+  TwoThousandTwentyThree1001Preview = "2023-10-01-Preview"
 }
 
 /**
- * Defines values for ApiVersion20230701Preview. \
- * {@link KnownApiVersion20230701Preview} can be used interchangeably with ApiVersion20230701Preview,
+ * Defines values for ApiVersion20231001Preview. \
+ * {@link KnownApiVersion20231001Preview} can be used interchangeably with ApiVersion20231001Preview,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2023-07-01-Preview**: Api Version '2023-07-01-Preview'
+ * **2023-10-01-Preview**: Api Version '2023-10-01-Preview'
  */
-export type ApiVersion20230701Preview = string;
+export type ApiVersion20231001Preview = string;
 
 /** Known values of {@link SemanticErrorHandling} that the service accepts. */
 export enum KnownSemanticErrorHandling {
@@ -934,6 +963,42 @@ export enum KnownQueryCaptionType {
  * **extractive**: Extracts captions from the matching documents that contain passages relevant to the search query.
  */
 export type QueryCaptionType = string;
+
+/** Known values of {@link VectorQueryKind} that the service accepts. */
+export enum KnownVectorQueryKind {
+  /** Vector query where a raw vector value is provided. */
+  Vector = "vector",
+  /** Vector query where a text value that needs to be vectorized is provided. */
+  $DO_NOT_NORMALIZE$_text = "text"
+}
+
+/**
+ * Defines values for VectorQueryKind. \
+ * {@link KnownVectorQueryKind} can be used interchangeably with VectorQueryKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **vector**: Vector query where a raw vector value is provided. \
+ * **text**: Vector query where a text value that needs to be vectorized is provided.
+ */
+export type VectorQueryKind = string;
+
+/** Known values of {@link VectorFilterMode} that the service accepts. */
+export enum KnownVectorFilterMode {
+  /** The filter will be applied after the candidate set of vector results is returned. Depending on the filter selectivity, this can result in fewer results than requested by the parameter 'k'. */
+  PostFilter = "postFilter",
+  /** The filter will be applied before the search query. */
+  PreFilter = "preFilter"
+}
+
+/**
+ * Defines values for VectorFilterMode. \
+ * {@link KnownVectorFilterMode} can be used interchangeably with VectorFilterMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **postFilter**: The filter will be applied after the candidate set of vector results is returned. Depending on the filter selectivity, this can result in fewer results than requested by the parameter 'k'. \
+ * **preFilter**: The filter will be applied before the search query.
+ */
+export type VectorFilterMode = string;
 
 /** Known values of {@link SemanticPartialResponseReason} that the service accepts. */
 export enum KnownSemanticPartialResponseReason {

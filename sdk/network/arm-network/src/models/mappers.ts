@@ -2767,6 +2767,42 @@ export const AzureWebCategoryListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const BastionHostPropertiesFormatNetworkAcls: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BastionHostPropertiesFormatNetworkAcls",
+    modelProperties: {
+      ipRules: {
+        serializedName: "ipRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IPRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IPRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IPRule",
+    modelProperties: {
+      addressPrefix: {
+        serializedName: "addressPrefix",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Sku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5766,6 +5802,46 @@ export const InboundNatRulePortMapping: coreClient.CompositeMapper = {
   }
 };
 
+export const MigrateLoadBalancerToIpBasedRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MigrateLoadBalancerToIpBasedRequest",
+    modelProperties: {
+      pools: {
+        serializedName: "pools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MigratedPools: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MigratedPools",
+    modelProperties: {
+      migratedPools: {
+        serializedName: "migratedPools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const NatGatewayListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6656,6 +6732,13 @@ export const EffectiveConnectivityConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -6736,6 +6819,13 @@ export const ConfigurationGroup: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
         readOnly: true,
         type: {
           name: "String"
@@ -12651,6 +12741,43 @@ export const VirtualNetworkDdosProtectionStatusResult: coreClient.CompositeMappe
   }
 };
 
+export const VirtualNetworkGatewayAutoScaleConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkGatewayAutoScaleConfiguration",
+    modelProperties: {
+      bounds: {
+        serializedName: "bounds",
+        type: {
+          name: "Composite",
+          className: "VirtualNetworkGatewayAutoScaleBounds"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualNetworkGatewayAutoScaleBounds: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkGatewayAutoScaleBounds",
+    modelProperties: {
+      min: {
+        serializedName: "min",
+        type: {
+          name: "Number"
+        }
+      },
+      max: {
+        serializedName: "max",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualNetworkGatewaySku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -18203,6 +18330,12 @@ export const Subnet: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      defaultOutboundAccess: {
+        serializedName: "properties.defaultOutboundAccess",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -18487,6 +18620,12 @@ export const BackendAddressPool: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SubResource"
+        }
+      },
+      syncMode: {
+        serializedName: "properties.syncMode",
+        type: {
+          name: "String"
         }
       }
     }
@@ -21177,6 +21316,13 @@ export const FirewallPolicyRuleCollectionGroup: coreClient.CompositeMapper = {
       },
       type: {
         serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      size: {
+        serializedName: "properties.size",
         readOnly: true,
         type: {
           name: "String"
@@ -25274,6 +25420,13 @@ export const ApplicationGateway: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ApplicationGatewayGlobalConfiguration"
         }
+      },
+      defaultPredefinedSslPolicy: {
+        serializedName: "properties.defaultPredefinedSslPolicy",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -25592,6 +25745,20 @@ export const BastionHost: coreClient.CompositeMapper = {
         serializedName: "properties.dnsName",
         type: {
           name: "String"
+        }
+      },
+      virtualNetwork: {
+        serializedName: "properties.virtualNetwork",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
+      networkAcls: {
+        serializedName: "properties.networkAcls",
+        type: {
+          name: "Composite",
+          className: "BastionHostPropertiesFormatNetworkAcls"
         }
       },
       provisioningState: {
@@ -26482,6 +26649,13 @@ export const FirewallPolicy: coreClient.CompositeMapper = {
           className: "ManagedServiceIdentity"
         }
       },
+      size: {
+        serializedName: "properties.size",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       ruleCollectionGroups: {
         serializedName: "properties.ruleCollectionGroups",
         readOnly: true,
@@ -26914,6 +27088,13 @@ export const NetworkManager: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
         readOnly: true,
         type: {
           name: "String"
@@ -27666,6 +27847,13 @@ export const VirtualNetworkGateway: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      autoScaleConfiguration: {
+        serializedName: "properties.autoScaleConfiguration",
+        type: {
+          name: "Composite",
+          className: "VirtualNetworkGatewayAutoScaleConfiguration"
+        }
+      },
       ipConfigurations: {
         serializedName: "properties.ipConfigurations",
         type: {
@@ -27828,6 +28016,12 @@ export const VirtualNetworkGateway: coreClient.CompositeMapper = {
         serializedName: "properties.allowRemoteVnetTraffic",
         type: {
           name: "Boolean"
+        }
+      },
+      adminState: {
+        serializedName: "properties.adminState",
+        type: {
+          name: "String"
         }
       }
     }
@@ -29455,6 +29649,13 @@ export const ActiveSecurityAdminRule: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -29567,6 +29768,13 @@ export const ActiveDefaultSecurityAdminRule: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -29675,6 +29883,13 @@ export const ConnectivityConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -29701,6 +29916,13 @@ export const NetworkGroup: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
         readOnly: true,
         type: {
           name: "String"
@@ -29825,6 +30047,13 @@ export const SecurityAdminConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -29863,6 +30092,13 @@ export const AdminRuleCollection: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
         readOnly: true,
         type: {
           name: "String"
@@ -29998,6 +30234,13 @@ export const EffectiveSecurityAdminRule: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -30106,6 +30349,13 @@ export const EffectiveDefaultSecurityAdminRule: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
         readOnly: true,
         type: {
           name: "String"
@@ -30561,6 +30811,13 @@ export const AdminRule: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -30668,6 +30925,13 @@ export const DefaultAdminRule: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGuid: {
+        serializedName: "properties.resourceGuid",
         readOnly: true,
         type: {
           name: "String"

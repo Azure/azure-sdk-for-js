@@ -1,5 +1,30 @@
 # Release History
 
+## 1.2.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.2.0-beta.2 (2023-08-21)
+
+- Added `batchMetricsAuthScope` property to `MetricsBatchQueryClientOptions` object.
+- Added integration test cases for `MetricsBatchQueryClient`.
+
+### Breaking Changes
+
+- In the `MetricsBatchOptionalParams` object, the casing of property names `endtime`, `orderby`, and `starttime` changed to `endTime`, `orderBy`, and `startTime` respectively.
+- In the `MetricsBatchQueryClientOptions` object, the `batchEndPoint` has been removed as optional property. Instead, this has been changed to mandatory parameter in the `MetricsBatchQueryClient` class.
+- In the `MetricsBatchOptionalParams` object, the data type properties of `startTime` & `endTime` have been changed from `string` to `Date`.
+
+## 1.2.0-beta.1 (2023-08-11)
+
+- Added `MetricsBatchQueryClient` to support batch querying of metrics.
+
 ## 1.1.1 (2023-06-08)
 
 ### Bugs Fixed
@@ -22,7 +47,7 @@
 ### Other Changes
 
 - Added alias `fortyEightHours` for ISO8601 value `P48H` under `Durations` object.
-- Deprecated alias name `fourtyEightHours` and fixed the ISO8601 value  to be `P48H` instead of `P2D` under `Durations` object.
+- Deprecated alias name `fourtyEightHours` and fixed the ISO8601 value to be `P48H` instead of `P2D` under `Durations` object.
 
 ## 1.1.0-beta.1 (2023-05-02)
 
@@ -31,6 +56,7 @@
 - Added Resource centric query logs api for `LogsIngestionClient`.
 
 ## 1.0.3 (2022-10-05)
+
 ### Bugs Fixed
 
 - #23349 Fixed endpoint resolution to allow endpoints from sovereign clouds
@@ -40,6 +66,7 @@
 ### Bugs Fixed
 
 - Fixed a typo in the string for user-provided scope for `MetricsQueryClient` and `LogsQueryClient`.
+
 ## 1.0.1 (2022-02-10)
 
 ### Bugs Fixed

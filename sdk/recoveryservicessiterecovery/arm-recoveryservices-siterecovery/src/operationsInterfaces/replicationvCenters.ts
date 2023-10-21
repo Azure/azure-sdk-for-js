@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VCenter,
   ReplicationvCentersListByReplicationFabricsOptionalParams,
@@ -86,8 +86,8 @@ export interface ReplicationvCenters {
     addVCenterRequest: AddVCenterRequest,
     options?: ReplicationvCentersCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationvCentersCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationvCentersCreateResponse>,
       ReplicationvCentersCreateResponse
     >
   >;
@@ -124,7 +124,7 @@ export interface ReplicationvCenters {
     fabricName: string,
     vcenterName: string,
     options?: ReplicationvCentersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to remove(unregister) a registered vCenter server from the vault.
    * @param resourceName The name of the recovery services vault.
@@ -159,8 +159,8 @@ export interface ReplicationvCenters {
     updateVCenterRequest: UpdateVCenterRequest,
     options?: ReplicationvCentersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationvCentersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationvCentersUpdateResponse>,
       ReplicationvCentersUpdateResponse
     >
   >;

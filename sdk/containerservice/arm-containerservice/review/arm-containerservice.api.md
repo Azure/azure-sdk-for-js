@@ -17,6 +17,9 @@ export interface AbsoluteMonthlySchedule {
 }
 
 // @public
+export type AddonAutoscaling = string;
+
+// @public
 export interface AgentPool extends SubResource {
     availabilityZones?: string[];
     capacityReservationGroupID?: string;
@@ -58,6 +61,7 @@ export interface AgentPool extends SubResource {
     scaleDownMode?: ScaleDownMode;
     scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
     scaleSetPriority?: ScaleSetPriority;
+    securityProfile?: AgentPoolSecurityProfile;
     spotMaxPrice?: number;
     tags?: {
         [propertyName: string]: string;
@@ -157,6 +161,11 @@ export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOpti
 export type AgentPoolsDeleteResponse = AgentPoolsDeleteHeaders;
 
 // @public
+export interface AgentPoolSecurityProfile {
+    sshAccess?: AgentPoolSSHAccess;
+}
+
+// @public
 export interface AgentPoolsGetAvailableAgentPoolVersionsOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -192,6 +201,9 @@ export interface AgentPoolsListOptionalParams extends coreClient.OperationOption
 export type AgentPoolsListResponse = AgentPoolListResult;
 
 // @public
+export type AgentPoolSSHAccess = string;
+
+// @public
 export interface AgentPoolsUpgradeNodeImageVersionHeaders {
     azureAsyncOperation?: string;
 }
@@ -224,6 +236,7 @@ export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
 
 // @public
 export interface AgentPoolUpgradeSettings {
+    drainTimeoutInMinutes?: number;
     maxSurge?: string;
 }
 
@@ -265,6 +278,12 @@ export interface ClusterUpgradeSettings {
 export type Code = string;
 
 // @public
+export interface CompatibleVersions {
+    name?: string;
+    versions?: string[];
+}
+
+// @public
 export type ConnectionStatus = string;
 
 // @public (undocumented)
@@ -276,6 +295,8 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     agentPools: AgentPools;
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    machines: Machines;
     // (undocumented)
     maintenanceConfigurations: MaintenanceConfigurations;
     // (undocumented)
@@ -360,12 +381,6 @@ export interface ContainerServiceSshPublicKey {
 }
 
 // @public
-export type ControlledValues = string;
-
-// @public
-export type ControlPlaneUpgradeOverride = string;
-
-// @public
 export type CreatedByType = string;
 
 // @public
@@ -396,6 +411,14 @@ export interface DateSpan {
 }
 
 // @public
+export interface DelegatedResource {
+    location?: string;
+    referralResource?: string;
+    resourceId?: string;
+    tenantId?: string;
+}
+
+// @public
 export interface EndpointDependency {
     domainName?: string;
     endpointDetails?: EndpointDetail[];
@@ -407,6 +430,26 @@ export interface EndpointDetail {
     ipAddress?: string;
     port?: number;
     protocol?: string;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -431,12 +474,32 @@ export function getContinuationToken(page: unknown): string | undefined;
 export type GPUInstanceProfile = string;
 
 // @public
+export interface GuardrailsAvailableVersion extends Resource {
+    properties: GuardrailsAvailableVersionsProperties;
+}
+
+// @public
+export interface GuardrailsAvailableVersionsList {
+    readonly nextLink?: string;
+    value?: GuardrailsAvailableVersion[];
+}
+
+// @public
+export interface GuardrailsAvailableVersionsProperties {
+    readonly isDefaultVersion?: boolean;
+    readonly support?: GuardrailsSupport;
+}
+
+// @public
 export interface GuardrailsProfile {
     excludedNamespaces?: string[];
     level: Level;
     readonly systemExcludedNamespaces?: string[];
-    version: string;
+    version?: string;
 }
+
+// @public
+export type GuardrailsSupport = string;
 
 // @public
 export type IpFamily = string;
@@ -451,8 +514,22 @@ export interface IPTag {
 export type IpvsScheduler = string;
 
 // @public
+export interface IstioCertificateAuthority {
+    plugin?: IstioPluginCertificateAuthority;
+}
+
+// @public
 export interface IstioComponents {
+    egressGateways?: IstioEgressGateway[];
     ingressGateways?: IstioIngressGateway[];
+}
+
+// @public
+export interface IstioEgressGateway {
+    enabled: boolean;
+    nodeSelector?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -465,17 +542,40 @@ export interface IstioIngressGateway {
 export type IstioIngressGatewayMode = string;
 
 // @public
+export interface IstioPluginCertificateAuthority {
+    certChainObjectName?: string;
+    certObjectName?: string;
+    keyObjectName?: string;
+    keyVaultId?: string;
+    rootCertObjectName?: string;
+}
+
+// @public
 export interface IstioServiceMesh {
+    certificateAuthority?: IstioCertificateAuthority;
     components?: IstioComponents;
+    revisions?: string[];
 }
 
 // @public
 export type KeyVaultNetworkAccessTypes = string;
 
 // @public
+export enum KnownAddonAutoscaling {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownAgentPoolMode {
     System = "System",
     User = "User"
+}
+
+// @public
+export enum KnownAgentPoolSSHAccess {
+    Disabled = "Disabled",
+    LocalUser = "LocalUser"
 }
 
 // @public
@@ -502,17 +602,6 @@ export enum KnownConnectionStatus {
     Disconnected = "Disconnected",
     Pending = "Pending",
     Rejected = "Rejected"
-}
-
-// @public
-export enum KnownControlledValues {
-    RequestsAndLimits = "RequestsAndLimits",
-    RequestsOnly = "RequestsOnly"
-}
-
-// @public
-export enum KnownControlPlaneUpgradeOverride {
-    IgnoreKubernetesDeprecations = "IgnoreKubernetesDeprecations"
 }
 
 // @public
@@ -549,6 +638,12 @@ export enum KnownGPUInstanceProfile {
     MIG3G = "MIG3g",
     MIG4G = "MIG4g",
     MIG7G = "MIG7g"
+}
+
+// @public
+export enum KnownGuardrailsSupport {
+    Preview = "Preview",
+    Stable = "Stable"
 }
 
 // @public
@@ -662,7 +757,8 @@ export enum KnownNetworkPluginMode {
 export enum KnownNetworkPolicy {
     Azure = "azure",
     Calico = "calico",
-    Cilium = "cilium"
+    Cilium = "cilium",
+    None = "none"
 }
 
 // @public
@@ -780,14 +876,6 @@ export enum KnownType {
 }
 
 // @public
-export enum KnownUpdateMode {
-    Auto = "Auto",
-    Initial = "Initial",
-    Off = "Off",
-    Recreate = "Recreate"
-}
-
-// @public
 export enum KnownUpgradeChannel {
     NodeImage = "node-image",
     None = "none",
@@ -877,6 +965,61 @@ export interface LinuxOSConfig {
 
 // @public
 export type LoadBalancerSku = string;
+
+// @public
+export interface Machine extends SubResource {
+    readonly properties?: MachineProperties;
+}
+
+// @public
+export interface MachineIpAddress {
+    readonly family?: IpFamily;
+    readonly ip?: string;
+}
+
+// @public
+export interface MachineListResult {
+    readonly nextLink?: string;
+    value?: Machine[];
+}
+
+// @public
+export interface MachineNetworkProperties {
+    readonly ipAddresses?: MachineIpAddress[];
+}
+
+// @public
+export interface MachineProperties {
+    readonly network?: MachineNetworkProperties;
+    readonly resourceId?: string;
+}
+
+// @public
+export interface Machines {
+    get(resourceGroupName: string, resourceName: string, agentPoolName: string, machineName: string, options?: MachinesGetOptionalParams): Promise<MachinesGetResponse>;
+    list(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: MachinesListOptionalParams): PagedAsyncIterableIterator<Machine>;
+}
+
+// @public
+export interface MachinesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MachinesGetResponse = Machine;
+
+// @public
+export interface MachinesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MachinesListNextResponse = MachineListResult;
+
+// @public
+export interface MachinesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MachinesListResponse = MachineListResult;
 
 // @public
 export interface MaintenanceConfiguration extends SubResource {
@@ -975,6 +1118,7 @@ export interface ManagedCluster extends TrackedResource {
     kubernetesVersion?: string;
     linuxProfile?: ContainerServiceLinuxProfile;
     readonly maxAgentPools?: number;
+    metricsProfile?: ManagedClusterMetricsProfile;
     networkProfile?: ContainerServiceNetworkProfile;
     nodeResourceGroup?: string;
     nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile;
@@ -985,6 +1129,7 @@ export interface ManagedCluster extends TrackedResource {
     privateLinkResources?: PrivateLinkResource[];
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
+    readonly resourceUID?: string;
     securityProfile?: ManagedClusterSecurityProfile;
     serviceMeshProfile?: ServiceMeshProfile;
     servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
@@ -1072,6 +1217,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     scaleDownMode?: ScaleDownMode;
     scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
     scaleSetPriority?: ScaleSetPriority;
+    securityProfile?: AgentPoolSecurityProfile;
     spotMaxPrice?: number;
     tags?: {
         [propertyName: string]: string;
@@ -1103,7 +1249,25 @@ export interface ManagedClusterAutoUpgradeProfile {
 
 // @public
 export interface ManagedClusterAzureMonitorProfile {
+    logs?: ManagedClusterAzureMonitorProfileLogs;
     metrics?: ManagedClusterAzureMonitorProfileMetrics;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfileAppMonitoring {
+    enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
+    enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfileContainerInsights {
+    enabled?: boolean;
+    logAnalyticsWorkspaceResourceId?: string;
+    windowsHostLogs?: ManagedClusterAzureMonitorProfileWindowsHostLogs;
 }
 
 // @public
@@ -1113,9 +1277,26 @@ export interface ManagedClusterAzureMonitorProfileKubeStateMetrics {
 }
 
 // @public
+export interface ManagedClusterAzureMonitorProfileLogs {
+    appMonitoring?: ManagedClusterAzureMonitorProfileAppMonitoring;
+    containerInsights?: ManagedClusterAzureMonitorProfileContainerInsights;
+}
+
+// @public
 export interface ManagedClusterAzureMonitorProfileMetrics {
+    appMonitoringOpenTelemetryMetrics?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics;
     enabled: boolean;
     kubeStateMetrics?: ManagedClusterAzureMonitorProfileKubeStateMetrics;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfileWindowsHostLogs {
+    enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterCostAnalysis {
+    enabled?: boolean;
 }
 
 // @public
@@ -1129,6 +1310,9 @@ export interface ManagedClusterHttpProxyConfig {
 
 // @public
 export interface ManagedClusterIdentity {
+    delegatedResources?: {
+        [propertyName: string]: DelegatedResource;
+    };
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
@@ -1144,7 +1328,7 @@ export interface ManagedClusterIngressProfile {
 
 // @public
 export interface ManagedClusterIngressProfileWebAppRouting {
-    dnsZoneResourceId?: string;
+    dnsZoneResourceIds?: string[];
     enabled?: boolean;
     readonly identity?: UserAssignedIdentity;
 }
@@ -1186,6 +1370,11 @@ export interface ManagedClusterLoadBalancerProfileOutboundIPs {
 // @public
 export interface ManagedClusterManagedOutboundIPProfile {
     count?: number;
+}
+
+// @public
+export interface ManagedClusterMetricsProfile {
+    costAnalysis?: ManagedClusterCostAnalysis;
 }
 
 // @public
@@ -1271,7 +1460,11 @@ export interface ManagedClusterPoolUpgradeProfileUpgradesItem {
 // @public
 export interface ManagedClusterPropertiesAutoScalerProfile {
     balanceSimilarNodeGroups?: string;
+    daemonsetEvictionForEmptyNodes?: boolean;
+    daemonsetEvictionForOccupiedNodes?: boolean;
     expander?: Expander;
+    expanders?: Expander[];
+    ignoreDaemonsetsUtilization?: boolean;
     maxEmptyBulkDelete?: string;
     maxGracefulTerminationSec?: string;
     maxNodeProvisionTime?: string;
@@ -1324,6 +1517,9 @@ export interface ManagedClusters {
     get(resourceGroupName: string, resourceName: string, options?: ManagedClustersGetOptionalParams): Promise<ManagedClustersGetResponse>;
     getAccessProfile(resourceGroupName: string, resourceName: string, roleName: string, options?: ManagedClustersGetAccessProfileOptionalParams): Promise<ManagedClustersGetAccessProfileResponse>;
     getCommandResult(resourceGroupName: string, resourceName: string, commandId: string, options?: ManagedClustersGetCommandResultOptionalParams): Promise<ManagedClustersGetCommandResultResponse>;
+    getGuardrailsVersions(location: string, version: string, options?: ManagedClustersGetGuardrailsVersionsOptionalParams): Promise<ManagedClustersGetGuardrailsVersionsResponse>;
+    getMeshRevisionProfile(location: string, mode: string, options?: ManagedClustersGetMeshRevisionProfileOptionalParams): Promise<ManagedClustersGetMeshRevisionProfileResponse>;
+    getMeshUpgradeProfile(resourceGroupName: string, resourceName: string, mode: string, options?: ManagedClustersGetMeshUpgradeProfileOptionalParams): Promise<ManagedClustersGetMeshUpgradeProfileResponse>;
     getOSOptions(location: string, options?: ManagedClustersGetOSOptionsOptionalParams): Promise<ManagedClustersGetOSOptionsResponse>;
     getUpgradeProfile(resourceGroupName: string, resourceName: string, options?: ManagedClustersGetUpgradeProfileOptionalParams): Promise<ManagedClustersGetUpgradeProfileResponse>;
     list(options?: ManagedClustersListOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
@@ -1331,7 +1527,10 @@ export interface ManagedClusters {
     listClusterAdminCredentials(resourceGroupName: string, resourceName: string, options?: ManagedClustersListClusterAdminCredentialsOptionalParams): Promise<ManagedClustersListClusterAdminCredentialsResponse>;
     listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options?: ManagedClustersListClusterMonitoringUserCredentialsOptionalParams): Promise<ManagedClustersListClusterMonitoringUserCredentialsResponse>;
     listClusterUserCredentials(resourceGroupName: string, resourceName: string, options?: ManagedClustersListClusterUserCredentialsOptionalParams): Promise<ManagedClustersListClusterUserCredentialsResponse>;
+    listGuardrailsVersions(location: string, options?: ManagedClustersListGuardrailsVersionsOptionalParams): PagedAsyncIterableIterator<GuardrailsAvailableVersion>;
     listKubernetesVersions(location: string, options?: ManagedClustersListKubernetesVersionsOptionalParams): Promise<ManagedClustersListKubernetesVersionsResponse>;
+    listMeshRevisionProfiles(location: string, options?: ManagedClustersListMeshRevisionProfilesOptionalParams): PagedAsyncIterableIterator<MeshRevisionProfile>;
+    listMeshUpgradeProfiles(resourceGroupName: string, resourceName: string, options?: ManagedClustersListMeshUpgradeProfilesOptionalParams): PagedAsyncIterableIterator<MeshUpgradeProfile>;
     listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, resourceName: string, options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
 }
 
@@ -1380,6 +1579,7 @@ export interface ManagedClusterSecurityProfile {
     customCATrustCertificates?: Uint8Array[];
     defender?: ManagedClusterSecurityProfileDefender;
     imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
+    imageIntegrity?: ManagedClusterSecurityProfileImageIntegrity;
     nodeRestriction?: ManagedClusterSecurityProfileNodeRestriction;
     workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
 }
@@ -1399,6 +1599,11 @@ export interface ManagedClusterSecurityProfileDefenderSecurityMonitoring {
 export interface ManagedClusterSecurityProfileImageCleaner {
     enabled?: boolean;
     intervalHours?: number;
+}
+
+// @public
+export interface ManagedClusterSecurityProfileImageIntegrity {
+    enabled?: boolean;
 }
 
 // @public
@@ -1435,6 +1640,27 @@ export interface ManagedClustersGetCommandResultOptionalParams extends coreClien
 
 // @public
 export type ManagedClustersGetCommandResultResponse = RunCommandResult;
+
+// @public
+export interface ManagedClustersGetGuardrailsVersionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersGetGuardrailsVersionsResponse = GuardrailsAvailableVersion;
+
+// @public
+export interface ManagedClustersGetMeshRevisionProfileOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersGetMeshRevisionProfileResponse = MeshRevisionProfile;
+
+// @public
+export interface ManagedClustersGetMeshUpgradeProfileOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersGetMeshUpgradeProfileResponse = MeshUpgradeProfile;
 
 // @public
 export interface ManagedClustersGetOptionalParams extends coreClient.OperationOptions {
@@ -1510,11 +1736,53 @@ export interface ManagedClustersListClusterUserCredentialsOptionalParams extends
 export type ManagedClustersListClusterUserCredentialsResponse = CredentialResults;
 
 // @public
+export interface ManagedClustersListGuardrailsVersionsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListGuardrailsVersionsNextResponse = GuardrailsAvailableVersionsList;
+
+// @public
+export interface ManagedClustersListGuardrailsVersionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListGuardrailsVersionsResponse = GuardrailsAvailableVersionsList;
+
+// @public
 export interface ManagedClustersListKubernetesVersionsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type ManagedClustersListKubernetesVersionsResponse = KubernetesVersionListResult;
+
+// @public
+export interface ManagedClustersListMeshRevisionProfilesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListMeshRevisionProfilesNextResponse = MeshRevisionProfileList;
+
+// @public
+export interface ManagedClustersListMeshRevisionProfilesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListMeshRevisionProfilesResponse = MeshRevisionProfileList;
+
+// @public
+export interface ManagedClustersListMeshUpgradeProfilesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListMeshUpgradeProfilesNextResponse = MeshUpgradeProfileList;
+
+// @public
+export interface ManagedClustersListMeshUpgradeProfilesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListMeshUpgradeProfilesResponse = MeshUpgradeProfileList;
 
 // @public
 export interface ManagedClustersListNextOptionalParams extends coreClient.OperationOptions {
@@ -1782,15 +2050,53 @@ export interface ManagedClusterWorkloadAutoScalerProfileKeda {
 
 // @public (undocumented)
 export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
-    controlledValues: ControlledValues;
+    addonAutoscaling?: AddonAutoscaling;
     enabled: boolean;
-    updateMode: UpdateMode;
 }
 
 // @public (undocumented)
 export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface MeshRevision {
+    compatibleWith?: CompatibleVersions[];
+    revision?: string;
+    upgrades?: string[];
+}
+
+// @public
+export interface MeshRevisionProfile extends ProxyResource {
+    properties?: MeshRevisionProfileProperties;
+}
+
+// @public
+export interface MeshRevisionProfileList {
+    readonly nextLink?: string;
+    value?: MeshRevisionProfile[];
+}
+
+// @public
+export interface MeshRevisionProfileProperties {
+    // (undocumented)
+    meshRevisions?: MeshRevision[];
+}
+
+// @public
+export interface MeshUpgradeProfile extends ProxyResource {
+    properties?: MeshUpgradeProfileProperties;
+}
+
+// @public
+export interface MeshUpgradeProfileList {
+    readonly nextLink?: string;
+    value?: MeshUpgradeProfile[];
+}
+
+// @public
+export interface MeshUpgradeProfileProperties extends MeshRevision {
 }
 
 // @public
@@ -1999,6 +2305,10 @@ export interface PrivateLinkServiceConnectionState {
 
 // @public
 export type Protocol = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type PublicNetworkAccess = string;
@@ -2270,22 +2580,36 @@ export type TrustedAccessRoleBindingProvisioningState = string;
 
 // @public
 export interface TrustedAccessRoleBindings {
-    createOrUpdate(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, trustedAccessRoleBinding: TrustedAccessRoleBinding, options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, trustedAccessRoleBinding: TrustedAccessRoleBinding, options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TrustedAccessRoleBindingsCreateOrUpdateResponse>, TrustedAccessRoleBindingsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, trustedAccessRoleBinding: TrustedAccessRoleBinding, options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<TrustedAccessRoleBindingsDeleteResponse>, TrustedAccessRoleBindingsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsDeleteOptionalParams): Promise<TrustedAccessRoleBindingsDeleteResponse>;
     get(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsGetOptionalParams): Promise<TrustedAccessRoleBindingsGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: TrustedAccessRoleBindingsListOptionalParams): PagedAsyncIterableIterator<TrustedAccessRoleBinding>;
 }
 
 // @public
 export interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
 export type TrustedAccessRoleBindingsCreateOrUpdateResponse = TrustedAccessRoleBinding;
 
 // @public
-export interface TrustedAccessRoleBindingsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface TrustedAccessRoleBindingsDeleteHeaders {
+    location?: string;
 }
+
+// @public
+export interface TrustedAccessRoleBindingsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TrustedAccessRoleBindingsDeleteResponse = TrustedAccessRoleBindingsDeleteHeaders;
 
 // @public
 export interface TrustedAccessRoleBindingsGetOptionalParams extends coreClient.OperationOptions {
@@ -2346,14 +2670,11 @@ export type TrustedAccessRolesListResponse = TrustedAccessRoleListResult;
 export type Type = string;
 
 // @public
-export type UpdateMode = string;
-
-// @public
 export type UpgradeChannel = string;
 
 // @public
 export interface UpgradeOverrideSettings {
-    controlPlaneOverrides?: ControlPlaneUpgradeOverride[];
+    forceUpgrade?: boolean;
     until?: Date;
 }
 

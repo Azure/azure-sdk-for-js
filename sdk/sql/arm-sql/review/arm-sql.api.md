@@ -290,8 +290,10 @@ export interface Database extends TrackedResource {
     readonly earliestRestoreDate?: Date;
     elasticPoolId?: string;
     encryptionProtector?: string;
+    encryptionProtectorAutoRotation?: boolean;
     readonly failoverGroupId?: string;
     federatedClientId?: string;
+    freeLimitExhaustionBehavior?: FreeLimitExhaustionBehavior;
     highAvailabilityReplicaCount?: number;
     identity?: DatabaseIdentity;
     readonly isInfraEncryptionEnabled?: boolean;
@@ -326,6 +328,7 @@ export interface Database extends TrackedResource {
     sourceDatabaseId?: string;
     sourceResourceId?: string;
     readonly status?: DatabaseStatus;
+    useFreeLimit?: boolean;
     zoneRedundant?: boolean;
 }
 
@@ -1263,8 +1266,10 @@ export interface DatabaseUpdate {
     readonly earliestRestoreDate?: Date;
     elasticPoolId?: string;
     encryptionProtector?: string;
+    encryptionProtectorAutoRotation?: boolean;
     readonly failoverGroupId?: string;
     federatedClientId?: string;
+    freeLimitExhaustionBehavior?: FreeLimitExhaustionBehavior;
     highAvailabilityReplicaCount?: number;
     identity?: DatabaseIdentity;
     readonly isInfraEncryptionEnabled?: boolean;
@@ -1299,6 +1304,7 @@ export interface DatabaseUpdate {
     tags?: {
         [propertyName: string]: string;
     };
+    useFreeLimit?: boolean;
     zoneRedundant?: boolean;
 }
 
@@ -1773,13 +1779,16 @@ export interface EditionCapability {
 
 // @public
 export interface ElasticPool extends TrackedResource {
+    availabilityZone?: AvailabilityZoneType;
     readonly creationDate?: Date;
     highAvailabilityReplicaCount?: number;
     readonly kind?: string;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
     maxSizeBytes?: number;
+    minCapacity?: number;
     perDatabaseSettings?: ElasticPoolPerDatabaseSettings;
+    preferredEnclaveType?: AlwaysEncryptedEnclaveType;
     sku?: Sku;
     readonly state?: ElasticPoolState;
     zoneRedundant?: boolean;
@@ -2056,11 +2065,14 @@ export type ElasticPoolsUpdateResponse = ElasticPool;
 
 // @public
 export interface ElasticPoolUpdate {
+    availabilityZone?: AvailabilityZoneType;
     highAvailabilityReplicaCount?: number;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
     maxSizeBytes?: number;
+    minCapacity?: number;
     perDatabaseSettings?: ElasticPoolPerDatabaseSettings;
+    preferredEnclaveType?: AlwaysEncryptedEnclaveType;
     sku?: Sku;
     tags?: {
         [propertyName: string]: string;
@@ -2337,6 +2349,7 @@ export interface FailoverGroupListResult {
 // @public
 export interface FailoverGroupReadOnlyEndpoint {
     failoverPolicy?: ReadOnlyEndpointFailoverPolicy;
+    targetServer?: string;
 }
 
 // @public
@@ -2358,6 +2371,8 @@ export interface FailoverGroups {
     beginFailoverAndWait(resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsFailoverOptionalParams): Promise<FailoverGroupsFailoverResponse>;
     beginForceFailoverAllowDataLoss(resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsForceFailoverAllowDataLossOptionalParams): Promise<SimplePollerLike<OperationState<FailoverGroupsForceFailoverAllowDataLossResponse>, FailoverGroupsForceFailoverAllowDataLossResponse>>;
     beginForceFailoverAllowDataLossAndWait(resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsForceFailoverAllowDataLossOptionalParams): Promise<FailoverGroupsForceFailoverAllowDataLossResponse>;
+    beginTryPlannedBeforeForcedFailover(resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams): Promise<SimplePollerLike<OperationState<FailoverGroupsTryPlannedBeforeForcedFailoverResponse>, FailoverGroupsTryPlannedBeforeForcedFailoverResponse>>;
+    beginTryPlannedBeforeForcedFailoverAndWait(resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams): Promise<FailoverGroupsTryPlannedBeforeForcedFailoverResponse>;
     beginUpdate(resourceGroupName: string, serverName: string, failoverGroupName: string, parameters: FailoverGroupUpdate, options?: FailoverGroupsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FailoverGroupsUpdateResponse>, FailoverGroupsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, serverName: string, failoverGroupName: string, parameters: FailoverGroupUpdate, options?: FailoverGroupsUpdateOptionalParams): Promise<FailoverGroupsUpdateResponse>;
     get(resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsGetOptionalParams): Promise<FailoverGroupsGetResponse>;
@@ -2419,6 +2434,21 @@ export interface FailoverGroupsListByServerOptionalParams extends coreClient.Ope
 export type FailoverGroupsListByServerResponse = FailoverGroupListResult;
 
 // @public
+export interface FailoverGroupsTryPlannedBeforeForcedFailoverHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FailoverGroupsTryPlannedBeforeForcedFailoverResponse = FailoverGroup;
+
+// @public
 export interface FailoverGroupsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2430,6 +2460,7 @@ export type FailoverGroupsUpdateResponse = FailoverGroup;
 // @public
 export interface FailoverGroupUpdate {
     databases?: string[];
+    partnerServers?: PartnerInfo[];
     readOnlyEndpoint?: FailoverGroupReadOnlyEndpoint;
     readWriteEndpoint?: FailoverGroupReadWriteEndpoint;
     tags?: {
@@ -2502,6 +2533,9 @@ export interface FirewallRulesReplaceOptionalParams extends coreClient.Operation
 
 // @public
 export type FirewallRulesReplaceResponse = FirewallRule;
+
+// @public
+export type FreeLimitExhaustionBehavior = string;
 
 // @public
 export interface GeoBackupPolicies {
@@ -3777,6 +3811,12 @@ export enum KnownExternalGovernanceStatus {
 export enum KnownFailoverGroupReplicationRole {
     Primary = "Primary",
     Secondary = "Secondary"
+}
+
+// @public
+export enum KnownFreeLimitExhaustionBehavior {
+    AutoPause = "AutoPause",
+    BillOverUsage = "BillOverUsage"
 }
 
 // @public
@@ -5141,6 +5181,7 @@ export interface ManagedDatabase extends TrackedResource {
     readonly defaultSecondaryLocation?: string;
     readonly earliestRestorePoint?: Date;
     readonly failoverGroupId?: string;
+    isLedgerOn?: boolean;
     lastBackupName?: string;
     longTermRetentionBackupResourceId?: string;
     recoverableDatabaseId?: string;
@@ -5782,6 +5823,7 @@ export interface ManagedDatabaseUpdate {
     readonly defaultSecondaryLocation?: string;
     readonly earliestRestorePoint?: Date;
     readonly failoverGroupId?: string;
+    isLedgerOn?: boolean;
     lastBackupName?: string;
     longTermRetentionBackupResourceId?: string;
     recoverableDatabaseId?: string;
@@ -7449,6 +7491,7 @@ export type PrincipalType = string;
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResource {
+    readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpointProperty;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
     readonly provisioningState?: PrivateEndpointProvisioningState;
@@ -8369,6 +8412,7 @@ export interface Server extends TrackedResource {
     federatedClientId?: string;
     readonly fullyQualifiedDomainName?: string;
     identity?: ResourceIdentity;
+    isIPv6Enabled?: ServerNetworkAccessFlag;
     keyId?: string;
     readonly kind?: string;
     minimalTlsVersion?: string;
@@ -9375,6 +9419,7 @@ export interface ServerUpdate {
     federatedClientId?: string;
     readonly fullyQualifiedDomainName?: string;
     identity?: ResourceIdentity;
+    isIPv6Enabled?: ServerNetworkAccessFlag;
     keyId?: string;
     minimalTlsVersion?: string;
     primaryUserAssignedIdentityId?: string;
@@ -10046,6 +10091,7 @@ export interface SqlVulnerabilityAssessmentScanRecord extends ProxyResource {
     readonly errors?: SqlVulnerabilityAssessmentScanError[];
     readonly highSeverityFailedRulesCount?: number;
     readonly isBaselineApplied?: boolean;
+    readonly lastScanTime?: Date;
     readonly lowSeverityFailedRulesCount?: number;
     readonly mediumSeverityFailedRulesCount?: number;
     readonly scanId?: string;

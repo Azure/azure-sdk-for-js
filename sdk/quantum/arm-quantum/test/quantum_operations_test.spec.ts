@@ -93,7 +93,7 @@ describe("quantum test", () => {
 
   it("workspaces delete test", async function () {
     const resArray = new Array();
-    const res = await client.workspaces.beginDeleteAndWait(resourceGroup, resourcename
+    const res = await client.workspaces.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions
     )
     for await (let item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

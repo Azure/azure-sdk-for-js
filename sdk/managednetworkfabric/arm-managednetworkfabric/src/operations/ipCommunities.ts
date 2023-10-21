@@ -35,6 +35,7 @@ import {
   IpCommunitiesUpdateOptionalParams,
   IpCommunitiesUpdateResponse,
   IpCommunitiesDeleteOptionalParams,
+  IpCommunitiesDeleteResponse,
   IpCommunitiesListByResourceGroupNextResponse,
   IpCommunitiesListBySubscriptionNextResponse
 } from "../models";
@@ -53,7 +54,7 @@ export class IpCommunitiesImpl implements IpCommunities {
   }
 
   /**
-   * Implements IpCommunities list by resource group GET method.
+   * Implements IP Communities list by resource group GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -122,7 +123,7 @@ export class IpCommunitiesImpl implements IpCommunities {
   }
 
   /**
-   * Implements IpCommunities list by subscription GET method.
+   * Implements IP Communities list by subscription GET method.
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -178,7 +179,7 @@ export class IpCommunitiesImpl implements IpCommunities {
   /**
    * Implements an IP Community PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipCommunityName Name of the IP Community
+   * @param ipCommunityName Name of the IP Community.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -252,7 +253,7 @@ export class IpCommunitiesImpl implements IpCommunities {
   /**
    * Implements an IP Community PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipCommunityName Name of the IP Community
+   * @param ipCommunityName Name of the IP Community.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -291,7 +292,7 @@ export class IpCommunitiesImpl implements IpCommunities {
   /**
    * API to update certain properties of the IP Community resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipCommunityName Name of the IP Community
+   * @param ipCommunityName Name of the IP Community.
    * @param body IP Community properties to update.
    * @param options The options parameters.
    */
@@ -365,7 +366,7 @@ export class IpCommunitiesImpl implements IpCommunities {
   /**
    * API to update certain properties of the IP Community resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipCommunityName Name of the IP Community
+   * @param ipCommunityName Name of the IP Community.
    * @param body IP Community properties to update.
    * @param options The options parameters.
    */
@@ -394,11 +395,16 @@ export class IpCommunitiesImpl implements IpCommunities {
     resourceGroupName: string,
     ipCommunityName: string,
     options?: IpCommunitiesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<IpCommunitiesDeleteResponse>,
+      IpCommunitiesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<IpCommunitiesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -439,7 +445,10 @@ export class IpCommunitiesImpl implements IpCommunities {
       args: { resourceGroupName, ipCommunityName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      IpCommunitiesDeleteResponse,
+      OperationState<IpCommunitiesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -458,7 +467,7 @@ export class IpCommunitiesImpl implements IpCommunities {
     resourceGroupName: string,
     ipCommunityName: string,
     options?: IpCommunitiesDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<IpCommunitiesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       ipCommunityName,
@@ -468,7 +477,7 @@ export class IpCommunitiesImpl implements IpCommunities {
   }
 
   /**
-   * Implements IpCommunities list by resource group GET method.
+   * Implements IP Communities list by resource group GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -483,7 +492,7 @@ export class IpCommunitiesImpl implements IpCommunities {
   }
 
   /**
-   * Implements IpCommunities list by subscription GET method.
+   * Implements IP Communities list by subscription GET method.
    * @param options The options parameters.
    */
   private _listBySubscription(
@@ -551,7 +560,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.body7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -606,7 +615,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body3,
+  requestBody: Parameters.body8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -623,10 +632,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipCommunities/{ipCommunityName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.IpCommunitiesDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.IpCommunitiesDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.IpCommunitiesDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.IpCommunitiesDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

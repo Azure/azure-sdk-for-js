@@ -25,7 +25,7 @@ export = {
       inner: "url",
       expected: "https://github.com/Azure/azure-sdk-for-js/issues",
     });
-    return stripPath(context.getFilename()) === "package.json"
+    return stripPath(context.filename) === "package.json"
       ? ({
           // callback functions
 

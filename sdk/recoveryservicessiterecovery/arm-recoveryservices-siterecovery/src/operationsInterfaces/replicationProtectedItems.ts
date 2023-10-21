@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ReplicationProtectedItem,
   ReplicationProtectedItemsListByReplicationProtectionContainersOptionalParams,
@@ -136,8 +136,8 @@ export interface ReplicationProtectedItems {
     input: EnableProtectionInput,
     options?: ReplicationProtectedItemsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsCreateResponse>,
       ReplicationProtectedItemsCreateResponse
     >
   >;
@@ -180,7 +180,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     options?: ReplicationProtectedItemsPurgeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete or purge a replication protected item. This operation will force delete the
    * replication protected item. Use the remove operation on replication protected item to perform a
@@ -221,8 +221,8 @@ export interface ReplicationProtectedItems {
     updateProtectionInput: UpdateReplicationProtectedItemInput,
     options?: ReplicationProtectedItemsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsUpdateResponse>,
       ReplicationProtectedItemsUpdateResponse
     >
   >;
@@ -266,8 +266,8 @@ export interface ReplicationProtectedItems {
     addDisksInput: AddDisksInput,
     options?: ReplicationProtectedItemsAddDisksOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsAddDisksResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsAddDisksResponse>,
       ReplicationProtectedItemsAddDisksResponse
     >
   >;
@@ -311,8 +311,8 @@ export interface ReplicationProtectedItems {
     applyRecoveryPointInput: ApplyRecoveryPointInput,
     options?: ReplicationProtectedItemsApplyRecoveryPointOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsApplyRecoveryPointResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsApplyRecoveryPointResponse>,
       ReplicationProtectedItemsApplyRecoveryPointResponse
     >
   >;
@@ -354,8 +354,8 @@ export interface ReplicationProtectedItems {
     replicatedProtectedItemName: string,
     options?: ReplicationProtectedItemsFailoverCancelOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsFailoverCancelResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsFailoverCancelResponse>,
       ReplicationProtectedItemsFailoverCancelResponse
     >
   >;
@@ -395,8 +395,8 @@ export interface ReplicationProtectedItems {
     replicatedProtectedItemName: string,
     options?: ReplicationProtectedItemsFailoverCommitOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsFailoverCommitResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsFailoverCommitResponse>,
       ReplicationProtectedItemsFailoverCommitResponse
     >
   >;
@@ -438,8 +438,8 @@ export interface ReplicationProtectedItems {
     failoverInput: PlannedFailoverInput,
     options?: ReplicationProtectedItemsPlannedFailoverOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsPlannedFailoverResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsPlannedFailoverResponse>,
       ReplicationProtectedItemsPlannedFailoverResponse
     >
   >;
@@ -483,7 +483,7 @@ export interface ReplicationProtectedItems {
     replicatedProtectedItemName: string,
     disableProtectionInput: DisableProtectionInput,
     options?: ReplicationProtectedItemsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to disable replication on a replication protected item. This will also remove the
    * item.
@@ -525,8 +525,8 @@ export interface ReplicationProtectedItems {
     removeDisksInput: RemoveDisksInput,
     options?: ReplicationProtectedItemsRemoveDisksOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsRemoveDisksResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsRemoveDisksResponse>,
       ReplicationProtectedItemsRemoveDisksResponse
     >
   >;
@@ -569,8 +569,8 @@ export interface ReplicationProtectedItems {
     replicatedProtectedItemName: string,
     options?: ReplicationProtectedItemsRepairReplicationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsRepairReplicationResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsRepairReplicationResponse>,
       ReplicationProtectedItemsRepairReplicationResponse
     >
   >;
@@ -613,8 +613,8 @@ export interface ReplicationProtectedItems {
     reprotectInput: ReverseReplicationInput,
     options?: ReplicationProtectedItemsReprotectOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsReprotectResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsReprotectResponse>,
       ReplicationProtectedItemsReprotectResponse
     >
   >;
@@ -658,8 +658,8 @@ export interface ReplicationProtectedItems {
     resolveHealthInput: ResolveHealthInput,
     options?: ReplicationProtectedItemsResolveHealthErrorsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsResolveHealthErrorsResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsResolveHealthErrorsResponse>,
       ReplicationProtectedItemsResolveHealthErrorsResponse
     >
   >;
@@ -703,8 +703,8 @@ export interface ReplicationProtectedItems {
     switchProviderInput: SwitchProviderInput,
     options?: ReplicationProtectedItemsSwitchProviderOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsSwitchProviderResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsSwitchProviderResponse>,
       ReplicationProtectedItemsSwitchProviderResponse
     >
   >;
@@ -748,8 +748,8 @@ export interface ReplicationProtectedItems {
     testfailoverInput: TestFailoverInput,
     options?: ReplicationProtectedItemsTestFailoverOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsTestFailoverResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsTestFailoverResponse>,
       ReplicationProtectedItemsTestFailoverResponse
     >
   >;
@@ -793,8 +793,8 @@ export interface ReplicationProtectedItems {
     cleanupInput: TestFailoverCleanupInput,
     options?: ReplicationProtectedItemsTestFailoverCleanupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsTestFailoverCleanupResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsTestFailoverCleanupResponse>,
       ReplicationProtectedItemsTestFailoverCleanupResponse
     >
   >;
@@ -838,8 +838,8 @@ export interface ReplicationProtectedItems {
     failoverInput: UnplannedFailoverInput,
     options?: ReplicationProtectedItemsUnplannedFailoverOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsUnplannedFailoverResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsUnplannedFailoverResponse>,
       ReplicationProtectedItemsUnplannedFailoverResponse
     >
   >;
@@ -883,8 +883,8 @@ export interface ReplicationProtectedItems {
     applianceUpdateInput: UpdateApplianceForReplicationProtectedItemInput,
     options?: ReplicationProtectedItemsUpdateApplianceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectedItemsUpdateApplianceResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsUpdateApplianceResponse>,
       ReplicationProtectedItemsUpdateApplianceResponse
     >
   >;
@@ -930,10 +930,8 @@ export interface ReplicationProtectedItems {
     updateMobilityServiceRequest: UpdateMobilityServiceRequest,
     options?: ReplicationProtectedItemsUpdateMobilityServiceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        ReplicationProtectedItemsUpdateMobilityServiceResponse
-      >,
+    SimplePollerLike<
+      OperationState<ReplicationProtectedItemsUpdateMobilityServiceResponse>,
       ReplicationProtectedItemsUpdateMobilityServiceResponse
     >
   >;

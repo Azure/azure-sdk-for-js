@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified Subscription entity.
  *
  * @summary Gets the specified Subscription entity.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetSubscription.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetSubscription.json
  */
 async function apiManagementGetSubscription() {
   const subscriptionId =

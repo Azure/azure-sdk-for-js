@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
  *
  * @summary To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-05-02-preview/examples/PrivateEndpointConnectionsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-08-02-preview/examples/PrivateEndpointConnectionsList.json
  */
 async function listPrivateEndpointConnectionsByManagedCluster() {
   const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";

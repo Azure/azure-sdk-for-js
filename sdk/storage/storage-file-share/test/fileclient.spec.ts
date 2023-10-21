@@ -7,7 +7,13 @@ import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
 
-import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
+import {
+  FileStartCopyOptions,
+  ShareClient,
+  ShareDirectoryClient,
+  ShareFileClient,
+  ShareServiceClient,
+} from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
@@ -16,6 +22,7 @@ import {
   bodyToString,
   compareBodyWithUint8Array,
   getBSU,
+  getTokenBSU,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
@@ -1548,5 +1555,1149 @@ describe("ShareFileClient - Verify Name Properties", () => {
       fileName,
       "FileClient name is not the same as the baseName of the provided file URI"
     );
+  });
+});
+
+describe("FileClient - OAuth", () => {
+  let shareName: string;
+  let shareClient: ShareClient;
+  let shareClientWithKeyCredential: ShareClient;
+  let dirName: string;
+  let dirClient: ShareDirectoryClient;
+  let fileName: string;
+  let fileClient: ShareFileClient;
+  const content = "Hello World";
+  let recorder: Recorder;
+
+  const fullFileAttributes = new FileSystemAttributes();
+  fullFileAttributes.readonly = true;
+  fullFileAttributes.hidden = true;
+  fullFileAttributes.system = true;
+  fullFileAttributes.archive = true;
+  fullFileAttributes.temporary = true;
+  fullFileAttributes.offline = true;
+  fullFileAttributes.notContentIndexed = true;
+  fullFileAttributes.noScrubData = true;
+
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
+        },
+        uriSanitizers,
+      },
+      ["record", "playback"]
+    );
+    let serviceClient: ShareServiceClient;
+    try {
+      serviceClient = getTokenBSU(recorder, "", "", { fileRequestIntent: "backup" });
+    } catch (err) {
+      this.skip();
+    }
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    shareClientWithKeyCredential = getBSU(recorder).getShareClient(shareName);
+    await shareClientWithKeyCredential.create();
+
+    dirName = recorder.variable("dir", getUniqueName("dir"));
+    dirClient = shareClient.getDirectoryClient(dirName);
+
+    await dirClient.create();
+
+    fileName = recorder.variable("file", getUniqueName("file"));
+    fileClient = dirClient.getFileClient(fileName);
+  });
+
+  afterEach(async function (this: Context) {
+    if (!this.currentTest?.isPending()) {
+      await shareClientWithKeyCredential.delete({ deleteSnapshots: "include" });
+      await recorder.stop();
+    }
+  });
+
+  it("create", async () => {
+    const cResp = await fileClient.create(content.length);
+    assert.equal(cResp.errorCode, undefined);
+    assert.equal(cResp.fileAttributes!, "Archive");
+    assert.ok(cResp.fileChangeOn!);
+    assert.ok(cResp.fileCreatedOn!);
+    assert.ok(cResp.fileId!);
+    assert.ok(cResp.fileLastWriteOn!);
+    assert.ok(cResp.fileParentId!);
+    assert.ok(cResp.filePermissionKey!);
+
+    const result = await fileClient.download(0);
+    assert.deepStrictEqual(
+      await bodyToString(result, content.length),
+      "\u0000".repeat(content.length)
+    );
+  });
+
+  it("setProperties", async function () {
+    await fileClient.create(content.length);
+    await fileClient.setProperties();
+
+    const result = await fileClient.getProperties();
+    assert.equal(result.errorCode, undefined);
+    assert.equal(result.fileAttributes!, "Archive");
+    assert.ok(result.fileCreatedOn!);
+    assert.ok(result.fileLastWriteOn!);
+    assert.ok(result.filePermissionKey!);
+    assert.ok(result.fileChangeOn!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!);
+    assert.ok(result.lastModified);
+    assert.deepStrictEqual(result.metadata, {});
+    assert.ok(!result.cacheControl);
+    assert.ok(!result.contentType);
+    assert.ok(!result.contentMD5);
+    assert.ok(!result.contentEncoding);
+    assert.ok(!result.contentLanguage);
+    assert.ok(!result.contentDisposition);
+  });
+
+  it("setHTTPHeaders", async () => {
+    await fileClient.create(content.length);
+    await fileClient.setHttpHeaders({});
+    const result = await fileClient.getProperties();
+
+    assert.ok(result.lastModified);
+    assert.deepStrictEqual(result.metadata, {});
+    assert.ok(!result.cacheControl);
+    assert.ok(!result.contentType);
+    assert.ok(!result.contentMD5);
+    assert.ok(!result.contentEncoding);
+    assert.ok(!result.contentLanguage);
+    assert.ok(!result.contentDisposition);
+  });
+
+  it("delete", async () => {
+    await fileClient.create(content.length);
+    await fileClient.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const res = await fileClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceNotFound");
+
+    await fileClient.create(content.length);
+    const res2 = await fileClient.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
+
+  it("exists", async () => {
+    assert.ok(!(await fileClient.exists()));
+    await fileClient.create(content.length);
+    assert.ok(await fileClient.exists());
+  });
+
+  it("startCopyFromURL", async () => {
+    await fileClient.create(1024);
+    const newFileClient = dirClient.getFileClient(
+      recorder.variable("copiedfile", getUniqueName("copiedfile"))
+    );
+    const result = await newFileClient.startCopyFromURL(fileClient.url);
+    assert.ok(result.copyId);
+
+    const properties1 = await fileClient.getProperties();
+    const properties2 = await newFileClient.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+
+    if (isLiveMode()) {
+      // A service feature is being rolling out which will sanitize the sig field
+      // so we remove it before comparing urls.
+      assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+
+      const sanitizedActualUrl = new URL(properties2.copySource!);
+      sanitizedActualUrl.searchParams.set("sig", "");
+
+      const sanitizedExpectedUrl = new URL(fileClient.url);
+      sanitizedExpectedUrl.searchParams.set("sig", "");
+
+      assert.strictEqual(
+        sanitizedActualUrl.toString(),
+        sanitizedExpectedUrl.toString(),
+        "copySource does not match original source"
+      );
+    }
+  });
+
+  it("abortCopyFromURL should failed for a completed copy operation", async () => {
+    await fileClient.create(content.length);
+    const newFileClient = dirClient.getFileClient(
+      recorder.variable("copiedfile", getUniqueName("copiedfile"))
+    );
+    const result = await newFileClient.startCopyFromURL(fileClient.url);
+    assert.ok(result.copyId);
+    await delay(1 * 1000);
+
+    try {
+      await newFileClient.abortCopyFromURL(result.copyId!);
+      assert.fail(
+        "AbortCopyFromURL should be failed and throw exception for an completed copy operation."
+      );
+    } catch (err: any) {
+      assert.ok(true);
+    }
+  });
+
+  it("resize", async () => {
+    await fileClient.create(content.length);
+    const properties = await fileClient.getProperties();
+    assert.deepStrictEqual(properties.contentLength, content.length);
+
+    await fileClient.resize(1);
+    const updatedProperties = await fileClient.getProperties();
+    assert.deepStrictEqual(updatedProperties.contentLength, 1);
+  });
+
+  it("uploadData", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadData(isNode ? Buffer.from(content) : new Blob([content]));
+    const response = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(response), content);
+  });
+
+  it("uploadRange", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    const response = await fileClient.download(0, 8);
+    assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
+  });
+
+  it("clearRange", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(1, 8);
+
+    const result = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(result, 10), "H" + "\u0000".repeat(8) + "d");
+  });
+
+  it("getRangeList", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(1, 8);
+
+    const result = await fileClient.getRangeList();
+    assert.deepStrictEqual(result.rangeList.length, 1);
+    assert.deepStrictEqual(result.rangeList[0], { start: 0, end: 9 });
+  });
+
+  it("getRangeListDiff with share snapshot", async function (this: Context) {
+    await fileClient.create(512 * 4 + 1);
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const snapshotRes = await shareClientWithKeyCredential.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+
+    await fileClient.clearRange(0, 1024);
+    await fileClient.uploadRange("World", 1023, 5);
+
+    const snapshotRes2 = await shareClientWithKeyCredential.createSnapshot();
+    assert.ok(snapshotRes2.snapshot);
+
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes2.snapshot!);
+    const result = await fileClientWithShareSnapShot.getRangeListDiff(snapshotRes.snapshot!);
+
+    assert.ok(result.clearRanges);
+    assert.deepStrictEqual(result.clearRanges!.length, 1);
+    assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
+
+    assert.ok(result.ranges);
+    assert.deepStrictEqual(result.ranges!.length, 1);
+    assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
+  });
+
+  it("download", async () => {
+    await fileClient.create(content.length);
+    await fileClient.uploadRange(content, 0, content.length);
+    const result = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+  });
+
+  it("listHandles should work", async () => {
+    await fileClient.create(10);
+
+    const result = (await fileClient.listHandles().byPage().next()).value;
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
+    }
+  });
+
+  it("forceCloseAllHandles should work", async () => {
+    await fileClient.create(10);
+
+    // TODO: Open or create a handle - Has to be tested locally
+
+    assert.deepStrictEqual(
+      await fileClient.forceCloseAllHandles(),
+      { closedHandlesCount: 0, closeFailureCount: 0 },
+      "Error in forceCloseAllHandles"
+    );
+  });
+
+  it("forceCloseHandle should work", async () => {
+    await fileClient.create(10);
+
+    // TODO: Open or create a handle
+
+    const result = (await fileClient.listHandles().byPage().next()).value;
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      await dirClient.forceCloseHandle(handle.handleId);
+    }
+  });
+
+  it("rename", async () => {
+    await fileClient.create(1024);
+    const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
+    const result = await fileClient.rename(destFileName);
+    assert.ok(
+      result.destinationFileClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    // Validate destination existence.
+    await result.destinationFileClient.getProperties();
+
+    assert.equal(await fileClient.exists(), false);
+  });
+});
+
+describe("FileClient - AllowTrailingDots - True", () => {
+  let shareName: string;
+  let shareClient: ShareClient;
+  let dirName: string;
+  let dirClient: ShareDirectoryClient;
+  let fileName: string;
+  let fileNameWithTrailingDots: string;
+  let fileClient: ShareFileClient;
+  const content = "Hello World";
+  let recorder: Recorder;
+
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-file-rename-source"],
+        },
+        uriSanitizers,
+      },
+      ["record", "playback"]
+    );
+    const serviceClient = getBSU(recorder, {
+      allowSourceTrailingDot: true,
+      allowTrailingDot: true,
+    });
+    shareName = recorder.variable("file", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    dirName = recorder.variable("dir", getUniqueName("dir")) + "....";
+    dirClient = shareClient.getDirectoryClient(dirName);
+
+    await dirClient.create();
+
+    fileName = recorder.variable("file", getUniqueName("file"));
+    fileNameWithTrailingDots = fileName + "....";
+    fileClient = dirClient.getFileClient(fileNameWithTrailingDots);
+  });
+
+  afterEach(async function (this: Context) {
+    if (!this.currentTest?.isPending()) {
+      await shareClient.delete({ deleteSnapshots: "include" });
+      await recorder.stop();
+    }
+  });
+
+  it("create", async () => {
+    await fileClient.create(content.length);
+
+    let foundFile = false;
+    for await (const item of dirClient.listFilesAndDirectories()) {
+      if (item.name === fileNameWithTrailingDots) {
+        assert.equal(item.kind, "file");
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "The file with trailing dot should have been created.");
+  });
+
+  it("setProperties with default parameters", async function () {
+    await fileClient.create(content.length);
+    await fileClient.setProperties();
+
+    const result = await fileClient.getProperties();
+    assert.equal(result.errorCode, undefined);
+    assert.equal(result.fileAttributes!, "Archive");
+    assert.ok(result.fileCreatedOn!);
+    assert.ok(result.fileLastWriteOn!);
+    assert.ok(result.filePermissionKey!);
+    assert.ok(result.fileChangeOn!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!);
+    assert.ok(result.lastModified);
+    assert.deepStrictEqual(result.metadata, {});
+    assert.ok(!result.cacheControl);
+    assert.ok(!result.contentType);
+    assert.ok(!result.contentMD5);
+    assert.ok(!result.contentEncoding);
+    assert.ok(!result.contentLanguage);
+    assert.ok(!result.contentDisposition);
+  });
+
+  it("setMetadata with new metadata set", async () => {
+    await fileClient.create(content.length);
+    const metadata = {
+      a: "a",
+      b: "b",
+    };
+    await fileClient.setMetadata(metadata);
+    const result = await fileClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it("setHTTPHeaders with default parameters", async () => {
+    await fileClient.create(content.length);
+    await fileClient.setHttpHeaders({});
+    const result = await fileClient.getProperties();
+
+    assert.ok(result.lastModified);
+    assert.deepStrictEqual(result.metadata, {});
+    assert.ok(!result.cacheControl);
+    assert.ok(!result.contentType);
+    assert.ok(!result.contentMD5);
+    assert.ok(!result.contentEncoding);
+    assert.ok(!result.contentLanguage);
+    assert.ok(!result.contentDisposition);
+  });
+
+  it("delete", async () => {
+    await fileClient.create(content.length);
+    await fileClient.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const res = await fileClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceNotFound");
+
+    await fileClient.create(content.length);
+    const res2 = await fileClient.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
+
+  it("exists", async () => {
+    assert.ok(!(await fileClient.exists()));
+    await fileClient.create(content.length);
+    assert.ok(await fileClient.exists());
+  });
+
+  it("startCopyFromURL", async () => {
+    await fileClient.create(1024);
+    const copiedFileName = recorder.variable("copiedfile", getUniqueName("copiedfile"));
+    const copiedFileNameWithTrailingDots = copiedFileName + "...";
+    const newFileClient = dirClient.getFileClient(copiedFileNameWithTrailingDots);
+    const result = await newFileClient.startCopyFromURL(fileClient.url);
+    assert.ok(result.copyId);
+
+    let foundFile = false;
+    for await (const item of dirClient.listFilesAndDirectories()) {
+      if (item.name === copiedFileNameWithTrailingDots) {
+        assert.equal(item.kind, "file");
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "The copied file should exist.");
+
+    const properties1 = await fileClient.getProperties();
+    const properties2 = await newFileClient.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+
+    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+  });
+
+  it("abortCopyFromURL should failed for a completed copy operation", async () => {
+    await fileClient.create(content.length);
+    const copiedFileName = recorder.variable("copiedfile", getUniqueName("copiedfile"));
+    const copiedFileNameWithTrailingDots = copiedFileName + "...";
+    const newFileClient = dirClient.getFileClient(copiedFileNameWithTrailingDots);
+    const result = await newFileClient.startCopyFromURL(fileClient.url);
+    assert.ok(result.copyId);
+    await delay(1 * 1000);
+
+    try {
+      await newFileClient.abortCopyFromURL(result.copyId!);
+      assert.fail(
+        "AbortCopyFromURL should be failed and throw exception for an completed copy operation."
+      );
+    } catch (err: any) {
+      assert.ok(
+        err.statusCode === 409 && err.code === "NoPendingCopyOperation",
+        "Should got expected error"
+      );
+    }
+  });
+
+  it("resize", async () => {
+    await fileClient.create(content.length);
+    const properties = await fileClient.getProperties();
+    assert.deepStrictEqual(properties.contentLength, content.length);
+
+    await fileClient.resize(1);
+    const updatedProperties = await fileClient.getProperties();
+    assert.deepStrictEqual(updatedProperties.contentLength, 1);
+  });
+
+  it("uploadData", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadData(isNode ? Buffer.from(content) : new Blob([content]));
+    const response = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(response), content);
+  });
+
+  it("uploadRange", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    const response = await fileClient.download(0, 8);
+    assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
+  });
+
+  it("clearRange", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(1, 8);
+
+    const result = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(result, 10), "H" + "\u0000".repeat(8) + "d");
+  });
+
+  it("getRangeList", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(1, 8);
+
+    const result = await fileClient.getRangeList();
+    assert.deepStrictEqual(result.rangeList.length, 1);
+    assert.deepStrictEqual(result.rangeList[0], { start: 0, end: 9 });
+  });
+
+  it("getRangeList with share snapshot", async () => {
+    await fileClient.create(513); // 512-byte aligned
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(0, 513);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes.snapshot!);
+    const result = await fileClientWithShareSnapShot.getRangeList();
+
+    assert.deepStrictEqual(result.rangeList.length, 1);
+    assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
+  });
+
+  it("getRangeListDiff", async function (this: Context) {
+    await fileClient.create(512 * 4 + 1);
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+
+    await fileClient.clearRange(0, 1024);
+    await fileClient.uploadRange("World", 1023, 5);
+    const result = await fileClient.getRangeListDiff(snapshotRes.snapshot!);
+
+    assert.ok(result.clearRanges);
+    assert.deepStrictEqual(result.clearRanges!.length, 1);
+    assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
+
+    assert.ok(result.ranges);
+    assert.deepStrictEqual(result.ranges!.length, 1);
+    assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
+  });
+
+  it("getRangeListDiff with share snapshot", async function (this: Context) {
+    await fileClient.create(512 * 4 + 1);
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+
+    await fileClient.clearRange(0, 1024);
+    await fileClient.uploadRange("World", 1023, 5);
+
+    const snapshotRes2 = await shareClient.createSnapshot();
+    assert.ok(snapshotRes2.snapshot);
+
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes2.snapshot!);
+    const result = await fileClientWithShareSnapShot.getRangeListDiff(snapshotRes.snapshot!);
+
+    assert.ok(result.clearRanges);
+    assert.deepStrictEqual(result.clearRanges!.length, 1);
+    assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
+
+    assert.ok(result.ranges);
+    assert.deepStrictEqual(result.ranges!.length, 1);
+    assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
+  });
+
+  it("download", async () => {
+    await fileClient.create(content.length);
+    await fileClient.uploadRange(content, 0, content.length);
+    const result = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+  });
+
+  it("listHandles should work", async () => {
+    await fileClient.create(10);
+
+    const result = (await fileClient.listHandles().byPage().next()).value;
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
+    }
+  });
+
+  it("forceCloseAllHandles should work", async () => {
+    await fileClient.create(10);
+
+    assert.deepStrictEqual(
+      await fileClient.forceCloseAllHandles(),
+      { closedHandlesCount: 0, closeFailureCount: 0 },
+      "Error in forceCloseAllHandles"
+    );
+  });
+
+  it("forceCloseHandle should work", async () => {
+    await fileClient.create(10);
+
+    const result = (await fileClient.listHandles().byPage().next()).value;
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      await dirClient.forceCloseHandle(handle.handleId);
+    }
+  });
+
+  it("rename", async () => {
+    await fileClient.create(1024);
+    const destFileName = recorder.variable("destfile", getUniqueName("destfile")) + "....";
+    const result = await fileClient.rename(destFileName);
+    assert.ok(
+      result.destinationFileClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    let foundFile = false;
+    for await (const item of shareClient.getDirectoryClient("").listFilesAndDirectories()) {
+      if (item.name === destFileName) {
+        assert.equal(item.kind, "file");
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "Destination should exist.");
+
+    // Validate destination existence.
+    await result.destinationFileClient.getProperties();
+    assert.equal(await fileClient.exists(), false);
+
+    const firstDestClient = result.destinationFileClient;
+    const anotherDestFileName = recorder.variable("destfile1", getUniqueName("destfile1")) + "....";
+    const anotherResult = await firstDestClient.rename(anotherDestFileName);
+
+    foundFile = false;
+    for await (const item of shareClient.getDirectoryClient("").listFilesAndDirectories()) {
+      if (item.name === anotherDestFileName) {
+        assert.equal(item.kind, "file");
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "Destination should exist.");
+
+    // Validate destination existence.
+    await anotherResult.destinationFileClient.getProperties();
+    assert.equal(await firstDestClient.exists(), false);
+  });
+});
+
+describe("FileClient - AllowTrailingDots - False", () => {
+  let shareName: string;
+  let shareClient: ShareClient;
+  let dirName: string;
+  let dirClient: ShareDirectoryClient;
+  let fileName: string;
+  let fileNameWithTrailingDots: string;
+  let fileClient: ShareFileClient;
+  const content = "Hello World";
+  let recorder: Recorder;
+
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-file-rename-source"],
+        },
+        uriSanitizers,
+      },
+      ["record", "playback"]
+    );
+    const serviceClient = getBSU(recorder, {
+      allowSourceTrailingDot: false,
+      allowTrailingDot: false,
+    });
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    dirName = recorder.variable("dir", getUniqueName("dir")) + "....";
+    dirClient = shareClient.getDirectoryClient(dirName);
+
+    await dirClient.create();
+
+    fileName = recorder.variable("file", getUniqueName("file"));
+    fileNameWithTrailingDots = fileName + "....";
+    fileClient = dirClient.getFileClient(fileNameWithTrailingDots);
+  });
+
+  afterEach(async function (this: Context) {
+    if (!this.currentTest?.isPending()) {
+      await shareClient.delete({ deleteSnapshots: "include" });
+      await recorder.stop();
+    }
+  });
+
+  it("create", async () => {
+    await fileClient.create(content.length);
+
+    let foundFile = false;
+    for await (const item of dirClient.listFilesAndDirectories()) {
+      if (item.name === fileName) {
+        assert.equal(item.kind, "file");
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "The file with trailing dot should have been created.");
+  });
+
+  it("setProperties with default parameters", async function () {
+    await fileClient.create(content.length);
+    await fileClient.setProperties();
+
+    const result = await fileClient.getProperties();
+    assert.equal(result.errorCode, undefined);
+    assert.equal(result.fileAttributes!, "Archive");
+    assert.ok(result.fileCreatedOn!);
+    assert.ok(result.fileLastWriteOn!);
+    assert.ok(result.filePermissionKey!);
+    assert.ok(result.fileChangeOn!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!);
+    assert.ok(result.lastModified);
+    assert.deepStrictEqual(result.metadata, {});
+    assert.ok(!result.cacheControl);
+    assert.ok(!result.contentType);
+    assert.ok(!result.contentMD5);
+    assert.ok(!result.contentEncoding);
+    assert.ok(!result.contentLanguage);
+    assert.ok(!result.contentDisposition);
+  });
+
+  it("setMetadata with new metadata set", async () => {
+    await fileClient.create(content.length);
+    const metadata = {
+      a: "a",
+      b: "b",
+    };
+    await fileClient.setMetadata(metadata);
+    const result = await fileClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it("setHTTPHeaders with default parameters", async () => {
+    await fileClient.create(content.length);
+    await fileClient.setHttpHeaders({});
+    const result = await fileClient.getProperties();
+
+    assert.ok(result.lastModified);
+    assert.deepStrictEqual(result.metadata, {});
+    assert.ok(!result.cacheControl);
+    assert.ok(!result.contentType);
+    assert.ok(!result.contentMD5);
+    assert.ok(!result.contentEncoding);
+    assert.ok(!result.contentLanguage);
+    assert.ok(!result.contentDisposition);
+  });
+
+  it("delete", async () => {
+    await fileClient.create(content.length);
+    await fileClient.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const res = await fileClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceNotFound");
+
+    await fileClient.create(content.length);
+    const res2 = await fileClient.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
+
+  it("exists", async () => {
+    assert.ok(!(await fileClient.exists()));
+    await fileClient.create(content.length);
+    assert.ok(await fileClient.exists());
+  });
+
+  it("startCopyFromURL", async () => {
+    await fileClient.create(1024);
+    const copiedFileName = recorder.variable("copiedfile", getUniqueName("copiedfile"));
+    const copiedFileNameWithTrailingDots = copiedFileName + "...";
+    const newFileClient = dirClient.getFileClient(copiedFileNameWithTrailingDots);
+    const result = await newFileClient.startCopyFromURL(fileClient.url);
+    assert.ok(result.copyId);
+
+    let foundFile = false;
+    for await (const item of dirClient.listFilesAndDirectories()) {
+      if (item.name === copiedFileName) {
+        assert.equal(item.kind, "file");
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "The copied file should exist.");
+
+    const properties1 = await fileClient.getProperties();
+    const properties2 = await newFileClient.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+
+    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+  });
+
+  it("abortCopyFromURL should failed for a completed copy operation", async () => {
+    await fileClient.create(content.length);
+    const copiedFileName = recorder.variable("copiedfile", getUniqueName("copiedfile"));
+    const copiedFileNameWithTrailingDots = copiedFileName + "...";
+    const newFileClient = dirClient.getFileClient(copiedFileNameWithTrailingDots);
+    const result = await newFileClient.startCopyFromURL(fileClient.url);
+    assert.ok(result.copyId);
+    await delay(1 * 1000);
+
+    try {
+      await newFileClient.abortCopyFromURL(result.copyId!);
+      assert.fail(
+        "AbortCopyFromURL should be failed and throw exception for an completed copy operation."
+      );
+    } catch (err: any) {
+      assert.ok(
+        err.statusCode === 409 && err.code === "NoPendingCopyOperation",
+        "Should got expected error"
+      );
+    }
+  });
+
+  it("resize", async () => {
+    await fileClient.create(content.length);
+    const properties = await fileClient.getProperties();
+    assert.deepStrictEqual(properties.contentLength, content.length);
+
+    await fileClient.resize(1);
+    const updatedProperties = await fileClient.getProperties();
+    assert.deepStrictEqual(updatedProperties.contentLength, 1);
+  });
+
+  it("uploadData", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadData(isNode ? Buffer.from(content) : new Blob([content]));
+    const response = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(response), content);
+  });
+
+  it("uploadRange", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    const response = await fileClient.download(0, 8);
+    assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
+  });
+
+  it("clearRange", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(1, 8);
+
+    const result = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(result, 10), "H" + "\u0000".repeat(8) + "d");
+  });
+
+  it("getRangeList", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(1, 8);
+
+    const result = await fileClient.getRangeList();
+    assert.deepStrictEqual(result.rangeList.length, 1);
+    assert.deepStrictEqual(result.rangeList[0], { start: 0, end: 9 });
+  });
+
+  it("getRangeList with share snapshot", async () => {
+    await fileClient.create(513); // 512-byte aligned
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(0, 513);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes.snapshot!);
+    const result = await fileClientWithShareSnapShot.getRangeList();
+
+    assert.deepStrictEqual(result.rangeList.length, 1);
+    assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
+  });
+
+  it("getRangeListDiff", async function (this: Context) {
+    await fileClient.create(512 * 4 + 1);
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+
+    await fileClient.clearRange(0, 1024);
+    await fileClient.uploadRange("World", 1023, 5);
+    const result = await fileClient.getRangeListDiff(snapshotRes.snapshot!);
+
+    assert.ok(result.clearRanges);
+    assert.deepStrictEqual(result.clearRanges!.length, 1);
+    assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
+
+    assert.ok(result.ranges);
+    assert.deepStrictEqual(result.ranges!.length, 1);
+    assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
+  });
+
+  it("getRangeListDiff with share snapshot", async function (this: Context) {
+    await fileClient.create(512 * 4 + 1);
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+
+    await fileClient.clearRange(0, 1024);
+    await fileClient.uploadRange("World", 1023, 5);
+
+    const snapshotRes2 = await shareClient.createSnapshot();
+    assert.ok(snapshotRes2.snapshot);
+
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes2.snapshot!);
+    const result = await fileClientWithShareSnapShot.getRangeListDiff(snapshotRes.snapshot!);
+
+    assert.ok(result.clearRanges);
+    assert.deepStrictEqual(result.clearRanges!.length, 1);
+    assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
+
+    assert.ok(result.ranges);
+    assert.deepStrictEqual(result.ranges!.length, 1);
+    assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
+  });
+
+  it("download", async () => {
+    await fileClient.create(content.length);
+    await fileClient.uploadRange(content, 0, content.length);
+    const result = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+  });
+
+  it("listHandles should work", async () => {
+    await fileClient.create(10);
+
+    const result = (await fileClient.listHandles().byPage().next()).value;
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
+    }
+  });
+
+  it("forceCloseAllHandles should work", async () => {
+    await fileClient.create(10);
+
+    assert.deepStrictEqual(
+      await fileClient.forceCloseAllHandles(),
+      { closedHandlesCount: 0, closeFailureCount: 0 },
+      "Error in forceCloseAllHandles"
+    );
+  });
+
+  it("forceCloseHandle should work", async () => {
+    await fileClient.create(10);
+
+    const result = (await fileClient.listHandles().byPage().next()).value;
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      await dirClient.forceCloseHandle(handle.handleId);
+    }
+  });
+
+  it("rename", async () => {
+    await fileClient.create(1024);
+    const destFileBaseName = recorder.variable("destfile", getUniqueName("destfile"));
+    const destFileName = destFileBaseName + "....";
+    const result = await fileClient.rename(destFileName);
+    assert.ok(
+      result.destinationFileClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    let foundFile = false;
+    for await (const item of shareClient.getDirectoryClient("").listFilesAndDirectories()) {
+      if (item.name === destFileBaseName) {
+        assert.equal(item.kind, "file");
+        foundFile = true;
+      }
+    }
+    assert.ok(foundFile, "Destination should exist.");
+
+    // Validate destination existence.
+    await result.destinationFileClient.getProperties();
+    assert.equal(await fileClient.exists(), false);
+
+    const firstDestClient = result.destinationFileClient;
+    const anotherDestFileBaseName = recorder.variable("destfile1", getUniqueName("destfile1"));
+    const anotherDestFileName = anotherDestFileBaseName + ".....";
+    const anotherResult = await firstDestClient.rename(anotherDestFileName);
+    assert.ok(
+      anotherResult.destinationFileClient.name === anotherDestFileName,
+      "Destination name should be expected"
+    );
+
+    foundFile = false;
+    for await (const item of shareClient.getDirectoryClient("").listFilesAndDirectories()) {
+      if (item.name === anotherDestFileBaseName) {
+        assert.equal(item.kind, "file");
+        foundFile = true;
+      }
+    }
+    assert.ok(foundFile, "Destination should exist.");
+
+    // Validate destination existence.
+    await anotherResult.destinationFileClient.getProperties();
+    assert.equal(await firstDestClient.exists(), false);
+  });
+});
+
+describe("FileClient - AllowTrailingDots - Default", () => {
+  let shareName: string;
+  let shareClient: ShareClient;
+  let dirName: string;
+  let dirClient: ShareDirectoryClient;
+  let fileName: string;
+  let fileNameWithTrailingDots: string;
+  let fileClient: ShareFileClient;
+  const content = "Hello World";
+  let recorder: Recorder;
+
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-file-rename-source"],
+        },
+        uriSanitizers,
+      },
+      ["record", "playback"]
+    );
+    const serviceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    dirName = recorder.variable("dir", getUniqueName("dir")) + "....";
+    dirClient = shareClient.getDirectoryClient(dirName);
+
+    await dirClient.create();
+
+    fileName = recorder.variable("file", getUniqueName("file"));
+    fileNameWithTrailingDots = fileName + "....";
+    fileClient = dirClient.getFileClient(fileNameWithTrailingDots);
+  });
+
+  afterEach(async function (this: Context) {
+    if (!this.currentTest?.isPending()) {
+      await shareClient.delete({ deleteSnapshots: "include" });
+      await recorder.stop();
+    }
+  });
+
+  it("create", async () => {
+    await fileClient.create(content.length);
+
+    let foundFile = false;
+    for await (const item of dirClient.listFilesAndDirectories()) {
+      if (item.name === fileName) {
+        assert.equal(item.kind, "file");
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "The file with trailing dots trimmed should have been created.");
+  });
+
+  it("delete", async () => {
+    await fileClient.create(content.length);
+    await fileClient.delete();
   });
 });

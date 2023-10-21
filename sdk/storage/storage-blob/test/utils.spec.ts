@@ -145,6 +145,73 @@ describe("Utility Helpers", () => {
     );
   });
 
+  it("extractConnectionStringParts parses sas connection string with local domain", async () => {
+    const localDomain = `http://localhost:10000/devstoreaccount1`;
+    const sasConnectionString = `BlobEndpoint=${localDomain};
+    SharedAccessSignature=${sharedAccessSignature}`;
+    const connectionStringParts = extractConnectionStringParts(sasConnectionString);
+    assert.equal(
+      "SASConnString",
+      connectionStringParts.kind,
+      "extractConnectionStringParts().kind is different than expected."
+    );
+    assert.equal(
+      localDomain,
+      connectionStringParts.url,
+      "extractConnectionStringParts().url is different than expected."
+    );
+    assert.equal(
+      "devstoreaccount1",
+      connectionStringParts.accountName,
+      "extractConnectionStringParts().accountName is different than expected."
+    );
+  });
+
+  it("extractConnectionStringParts parses sas connection string with localhost and custom port", async () => {
+    const localDomain = `http://localhost:20000`;
+    const sasConnectionString = `BlobEndpoint=${localDomain};
+    SharedAccessSignature=${sharedAccessSignature}`;
+    const connectionStringParts = extractConnectionStringParts(sasConnectionString);
+    assert.equal(
+      "SASConnString",
+      connectionStringParts.kind,
+      "extractConnectionStringParts().kind is different than expected."
+    );
+    assert.equal(
+      localDomain,
+      connectionStringParts.url,
+      "extractConnectionStringParts().url is different than expected."
+    );
+    assert.equal(
+      "",
+      connectionStringParts.accountName,
+      "extractConnectionStringParts().accountName is different than expected."
+    );
+  });
+
+  it("extractConnectionStringParts parses sas connection string with custom domain", async () => {
+    const localDomain = `http://host.docker.internal:10000`;
+    const localAccountName = "devstoreaccount1";
+    const sasConnectionString = `BlobEndpoint=${localDomain};
+    SharedAccessSignature=${sharedAccessSignature};AccountName=${localAccountName}`;
+    const connectionStringParts = extractConnectionStringParts(sasConnectionString);
+    assert.equal(
+      "SASConnString",
+      connectionStringParts.kind,
+      "extractConnectionStringParts().kind is different than expected."
+    );
+    assert.equal(
+      localDomain,
+      connectionStringParts.url,
+      "extractConnectionStringParts().url is different than expected."
+    );
+    assert.equal(
+      localAccountName,
+      connectionStringParts.accountName,
+      "extractConnectionStringParts().accountName is different than expected."
+    );
+  });
+
   it("isIpEndpointStyle", async function () {
     assert.equal(
       isIpEndpointStyle(new URL("https://192.0.0.10:1900/accountName/containerName/blobName")),

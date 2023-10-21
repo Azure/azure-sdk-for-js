@@ -41,6 +41,7 @@ describe("Eventgrid test", () => {
   let resourceGroupName: string;
   let topicName: string;
   let domainName: string;
+  let eventSubscriptionName: string;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -53,6 +54,7 @@ describe("Eventgrid test", () => {
     resourceGroupName = "myjstest";
     topicName = "mytopicxxx";
     domainName = "mydomainxxx";
+    eventSubscriptionName = "myeventSubscription";
   });
 
   afterEach(async function () {
@@ -70,15 +72,6 @@ describe("Eventgrid test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
-  });
-
-  it("topics delete test", async function () {
-    const res = await client.topics.beginDeleteAndWait(resourceGroupName, topicName, testPollingOptions);
-    const resArray = new Array();
-    for await (let item of client.topics.listByResourceGroup(resourceGroupName)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
   });
 
   it("domains create test", async function () {
@@ -107,6 +100,85 @@ describe("Eventgrid test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1)
+  });
+
+  it("domainTopicEventSubscriptions create test", async function () {
+    const res = await client.domainTopicEventSubscriptions.beginCreateOrUpdateAndWait(resourceGroupName,
+      domainName,
+      topicName,
+      eventSubscriptionName,
+      {
+        destination: {
+          endpointType: "WebHook",
+          endpointUrl: "https://testsite230718.azurewebsites.net/api/updates"
+        },
+        filter: {
+          isSubjectCaseSensitive: false,
+          subjectBeginsWith: "ExamplePrefix",
+          subjectEndsWith: "ExampleSuffix"
+        }
+      },
+      testPollingOptions);
+    console.log(res);
+    assert.equal(res.name, eventSubscriptionName);
+  });
+
+  it("domainTopicEventSubscriptions listByResourceGroup test", async function () {
+    const resArray = new Array();
+    for await (let item of client.domainTopicEventSubscriptions.list(
+      resourceGroupName,
+      domainName,
+      topicName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 1);
+    console.log('********************************')
+  });
+
+  it("domainTopicEventSubscriptions update test", async function () {
+    const res = await client.domainTopicEventSubscriptions.beginUpdateAndWait(resourceGroupName,
+      domainName,
+      topicName,
+      eventSubscriptionName,
+      {
+        destination: {
+          endpointType: "WebHook",
+          endpointUrl: "https://testsite230718.azurewebsites.net/api/updates"
+        },
+        filter: {
+          isSubjectCaseSensitive: false,
+          subjectBeginsWith: "ExamplePrefix1",
+          subjectEndsWith: "ExampleSuffix1"
+        }
+      },
+      testPollingOptions);
+    console.log(res);
+    assert.equal(res.name, eventSubscriptionName);
+  });
+
+  it("domainTopicEventSubscriptions delete test", async function () {
+    const res = await client.domainTopicEventSubscriptions.beginDeleteAndWait(
+      resourceGroupName,
+      domainName,
+      topicName,
+      eventSubscriptionName, testPollingOptions);
+    const resArray = new Array();
+    for await (let item of client.domainTopicEventSubscriptions.list(
+      resourceGroupName,
+      domainName,
+      topicName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
+
+  it("topics delete test", async function () {
+    const res = await client.topics.beginDeleteAndWait(resourceGroupName, topicName, testPollingOptions);
+    const resArray = new Array();
+    for await (let item of client.topics.listByResourceGroup(resourceGroupName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
   });
 
   it("domains delete test", async function () {

@@ -3,7 +3,6 @@
 
 /* eslint-disable no-unused-expressions */
 
-import "chai/register-should";
 import * as msRest from "../src";
 import { Mappers } from "./data/TestClient/src/models/mappers";
 import { TestClient } from "./data/TestClient/src/testClient";

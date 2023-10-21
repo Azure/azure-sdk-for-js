@@ -14,6 +14,7 @@ export type ConnectionString = { [key in ConnectionStringKey]?: string };
  */
 export type ConnectionStringKey =
   | "authorization"
+  | "aadaudience"
   | "instrumentationkey"
   | "ingestionendpoint"
   | "liveendpoint"

@@ -25,7 +25,7 @@ async function listDistributionPolicies(): Promise<void> {
   const receivedPagedItems: DistributionPolicyItem[] = [];
 
   for await (const page of routerAdministrationClient
-    .listDistributionPolicies({ maxpagesize: maxPageSize })
+    .listDistributionPolicies({ maxPageSize })
     .byPage()) {
     ++pagesCount;
     console.log("page: " + pagesCount);

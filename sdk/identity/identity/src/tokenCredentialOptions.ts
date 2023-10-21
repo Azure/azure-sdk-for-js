@@ -6,7 +6,7 @@ import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 
 /**
  * Provides options to configure how the Identity library makes authentication
- * requests to Azure Active Directory.
+ * requests to Microsoft Entra ID.
  */
 export interface TokenCredentialOptions extends CommonClientOptions {
   /**
@@ -16,9 +16,16 @@ export interface TokenCredentialOptions extends CommonClientOptions {
    */
   authorityHost?: string;
   /**
-   * Allows logging account information once the authentication flow succeeds.
+   * Allows users to configure settings for logging policy options, allow logging account information and personally identifiable information for customer support.
    */
   loggingOptions?: LogPolicyOptions & {
+    /**
+     * Allows logging account information once the authentication flow succeeds.
+     */
     allowLoggingAccountIdentifiers?: boolean;
+    /**
+     * Allows logging personally identifiable information for customer support.
+     */
+    enableUnsafeSupportLogging?: boolean;
   };
 }

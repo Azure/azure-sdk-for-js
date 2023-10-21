@@ -19,7 +19,10 @@ import {
   SearchRequest as GeneratedSearchRequest,
   Answers,
   QueryAnswerType,
-  Vector as GeneratedVector,
+  VectorQueryUnion as GeneratedVectorQuery,
+  VectorQuery as GeneratedBaseVectorQuery,
+  RawVectorQuery as GeneratedRawVectorQuery,
+  VectorizableTextQuery as GeneratedVectorizableTextQuery,
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
 import { deserialize, serialize } from "./serialization";
@@ -46,7 +49,10 @@ import {
   SelectArray,
   SearchFieldArray,
   AnswersOptions,
-  Vector,
+  BaseVectorQuery,
+  RawVectorQuery,
+  VectorizableTextQuery,
+  VectorQuery,
 } from "./indexModels";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -317,7 +323,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       select,
       orderBy,
       includeTotalCount,
-      vector,
+      vectorQueries,
       answers,
       semanticErrorHandlingMode,
       debugMode,
@@ -331,7 +337,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       select: this.convertSelect<TFields>(select) || "*",
       orderBy: this.convertOrderBy(orderBy),
       includeTotalResultCount: includeTotalCount,
-      vector: this.convertVector(vector),
+      vectorQueries: vectorQueries?.map(this.convertVectorQuery.bind(this)),
       answers: this.convertAnswers(answers),
       semanticErrorHandling: semanticErrorHandlingMode,
       debug: debugMode,
@@ -490,7 +496,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     const { span, updatedOptions } = createSpan("SearchClient-search", options);
 
     try {
-      const pageResult = await this.searchDocuments(searchText, updatedOptions);
+      const pageResult = await this.searchDocuments<TFields>(searchText, updatedOptions);
 
       return {
         ...pageResult,
@@ -843,7 +849,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     return select;
   }
 
-  private convertVectorFields(fields?: SearchFieldArray<TModel>): string | undefined {
+  private convertVectorQueryFields(fields?: SearchFieldArray<TModel>): string | undefined {
     if (fields) {
       return fields.join(",");
     }
@@ -897,10 +903,17 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     return output;
   }
 
-  private convertVector(vector?: Vector<TModel>): GeneratedVector | undefined {
-    if (!vector) {
-      return vector;
+  private convertVectorQuery(): undefined;
+  private convertVectorQuery(vectorQuery: RawVectorQuery<TModel>): GeneratedRawVectorQuery;
+  private convertVectorQuery(
+    vectorQuery: VectorizableTextQuery<TModel>
+  ): GeneratedVectorizableTextQuery;
+  private convertVectorQuery(vectorQuery: BaseVectorQuery<TModel>): GeneratedBaseVectorQuery;
+  private convertVectorQuery(vectorQuery: VectorQuery<TModel>): GeneratedVectorQuery;
+  private convertVectorQuery(vectorQuery?: VectorQuery<TModel>): GeneratedVectorQuery | undefined {
+    if (!vectorQuery) {
+      return vectorQuery;
     }
-    return { ...vector, fields: this.convertVectorFields(vector?.fields) };
+    return { ...vectorQuery, fields: this.convertVectorQueryFields(vectorQuery?.fields) };
   }
 }

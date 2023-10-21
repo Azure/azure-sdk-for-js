@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get Sign Up Settings for the Portal
  *
  * @summary Get Sign Up Settings for the Portal
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementPortalSettingsGetSignUp.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementPortalSettingsGetSignUp.json
  */
 async function apiManagementPortalSettingsGetSignUp() {
   const subscriptionId =

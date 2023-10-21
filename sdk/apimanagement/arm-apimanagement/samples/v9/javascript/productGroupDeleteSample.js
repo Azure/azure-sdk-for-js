@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the association between the specified group and product.
  *
  * @summary Deletes the association between the specified group and product.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteProductGroup.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteProductGroup.json
  */
 async function apiManagementDeleteProductGroup() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

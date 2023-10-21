@@ -41,10 +41,7 @@ import {
   BareMetalMachinesStartOptionalParams,
   BareMetalMachinesStartResponse,
   BareMetalMachinesUncordonOptionalParams,
-  BareMetalMachinesUncordonResponse,
-  BareMetalMachineValidateHardwareParameters,
-  BareMetalMachinesValidateHardwareOptionalParams,
-  BareMetalMachinesValidateHardwareResponse
+  BareMetalMachinesUncordonResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -461,35 +458,4 @@ export interface BareMetalMachines {
     bareMetalMachineName: string,
     options?: BareMetalMachinesUncordonOptionalParams
   ): Promise<BareMetalMachinesUncordonResponse>;
-  /**
-   * Validate the hardware of the provided bare metal machine.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param bareMetalMachineName The name of the bare metal machine.
-   * @param bareMetalMachineValidateHardwareParameters The request body.
-   * @param options The options parameters.
-   */
-  beginValidateHardware(
-    resourceGroupName: string,
-    bareMetalMachineName: string,
-    bareMetalMachineValidateHardwareParameters: BareMetalMachineValidateHardwareParameters,
-    options?: BareMetalMachinesValidateHardwareOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<BareMetalMachinesValidateHardwareResponse>,
-      BareMetalMachinesValidateHardwareResponse
-    >
-  >;
-  /**
-   * Validate the hardware of the provided bare metal machine.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param bareMetalMachineName The name of the bare metal machine.
-   * @param bareMetalMachineValidateHardwareParameters The request body.
-   * @param options The options parameters.
-   */
-  beginValidateHardwareAndWait(
-    resourceGroupName: string,
-    bareMetalMachineName: string,
-    bareMetalMachineValidateHardwareParameters: BareMetalMachineValidateHardwareParameters,
-    options?: BareMetalMachinesValidateHardwareOptionalParams
-  ): Promise<BareMetalMachinesValidateHardwareResponse>;
 }

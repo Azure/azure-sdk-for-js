@@ -116,23 +116,25 @@ testWithServiceTypes((serviceVersion) => {
     });
 
     describe("SAS", () => {
-      function getSas(): string {
+      async function getSas(): Promise<string> {
         const parsed = parseEventHubConnectionString(service.connectionString) as Required<
           | Pick<EventHubConnectionStringProperties, "sharedAccessKey" | "sharedAccessKeyName">
           | Pick<EventHubConnectionStringProperties, "sharedAccessSignature">
         >;
-        return createSasTokenProvider(parsed).getToken(`${service.endpoint}/${service.path}`).token;
+        return (
+          await createSasTokenProvider(parsed).getToken(`${service.endpoint}/${service.path}`)
+        ).token;
       }
 
       describe("using connection string", () => {
-        function getSasConnectionString(): string {
-          const sas = getSas();
+        async function getSasConnectionString(): Promise<string> {
+          const sas = await getSas();
 
           return `Endpoint=${service.endpoint}/;SharedAccessSignature=${sas}`;
         }
 
         it("EventHubConsumerClient", async () => {
-          const sasConnectionString = getSasConnectionString();
+          const sasConnectionString = await getSasConnectionString();
 
           const consumerClient = new EventHubConsumerClient(
             "$Default",
@@ -147,7 +149,7 @@ testWithServiceTypes((serviceVersion) => {
         });
 
         it("EventHubProducerClient", async () => {
-          const sasConnectionString = getSasConnectionString();
+          const sasConnectionString = await getSasConnectionString();
 
           const producerClient = new EventHubProducerClient(sasConnectionString, service.path);
 
@@ -160,7 +162,7 @@ testWithServiceTypes((serviceVersion) => {
 
       describe("using SASCredential", () => {
         it("EventHubConsumerClient", async () => {
-          const sasCredential = new AzureSASCredential(getSas());
+          const sasCredential = new AzureSASCredential(await getSas());
 
           const consumerClient = new EventHubConsumerClient(
             "$Default",
@@ -176,7 +178,7 @@ testWithServiceTypes((serviceVersion) => {
         });
 
         it("EventHubProducerClient", async () => {
-          const sasCredential = new AzureSASCredential(getSas());
+          const sasCredential = new AzureSASCredential(await getSas());
 
           const producerClient = new EventHubProducerClient(
             fullyQualifiedNamespace,
