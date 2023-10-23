@@ -70,6 +70,7 @@ const examplePackageGood = `{
     "@typescript-eslint/parser": "^1.7.0",
     "assert": "^1.4.1",
     "buffer": "^5.2.1",
+    "c8": "^8.0.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^5.2.0",
