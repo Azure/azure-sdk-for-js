@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Stops an UpdateRun.
  *
  * @summary Stops an UpdateRun.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-06-15-preview/examples/UpdateRuns_Stop.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-08-15-preview/examples/UpdateRuns_Stop.json
  */
 async function stopsAnUpdateRun() {
   const subscriptionId =

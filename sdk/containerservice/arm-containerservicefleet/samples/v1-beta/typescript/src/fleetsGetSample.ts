@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a Fleet.
  *
  * @summary Gets a Fleet.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-06-15-preview/examples/Fleets_Get.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-08-15-preview/examples/Fleets_Get.json
  */
 async function getsAFleetResource() {
   const subscriptionId =

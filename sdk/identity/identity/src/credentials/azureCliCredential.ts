@@ -10,7 +10,7 @@ import child_process from "child_process";
 import {
   checkTenantId,
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { tracingClient } from "../util/tracing";
 
@@ -98,7 +98,7 @@ export class AzureCliCredential implements TokenCredential {
       checkTenantId(logger, options?.tenantId);
       this.tenantId = options?.tenantId;
     }
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
     this.timeout = options?.processTimeoutInMs;
