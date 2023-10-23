@@ -7,13 +7,7 @@ import {
   registerTestSchema,
 } from "./utils/mockedSerializer";
 import { assert, use as chaiUse } from "chai";
-import {
-  testAvroType,
-  testGroup,
-  testSchema,
-  testValue,
-  testSchemaName,
-} from "./utils/dummies";
+import { testAvroType, testGroup, testSchema, testValue, testSchemaName } from "./utils/dummies";
 import { Context } from "mocha";
 import { AvroSerializer, MessageContent } from "../../src/";
 import chaiPromises from "chai-as-promised";
@@ -116,16 +110,11 @@ describe("AvroSerializer", async function () {
       groupName: testGroup,
     });
     const testTransaction = {
-      type: "record",
-      name: "AvroUser",
-      namespace: "com.azure.schemaregistry.samples",
-      fields: [
-        { name: "amount", type: "int" },
-        { name: "time", type: { type: "long", logicalType: "timestamp-millis" } },
-      ],
+      amount: 32,
+      time: new Date("Thu Nov 05 2015 11:38:05 GMT-0800 (PST)"),
     };
     const message = await serializer.serialize(
-    testTransaction,
+      testTransaction,
       JSON.stringify({
         type: "record",
         name: "AvroUser",
