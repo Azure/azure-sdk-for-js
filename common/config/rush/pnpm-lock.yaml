@@ -13899,7 +13899,7 @@ packages:
     dev: false
 
   file:projects/arm-postgresql-flexible.tgz:
-    resolution: {integrity: sha512-qkhjYIvF4K1gwoGwEcBsQau2fRbtyPQvaQCuRBW4Cq/3eey6ppqa/D5gKb6FwSn8eVJSwQVpS30LA54bpDgkSA==, tarball: file:projects/arm-postgresql-flexible.tgz}
+    resolution: {integrity: sha512-u/cotoMaAwSiaCtNkwN3BCSyEAUXiqJXCl89lfpGeFR7Yd3LsdegEzb5Jy0z9LMK2HWkkPM+Qf7LFEhGIAaNNg==, tarball: file:projects/arm-postgresql-flexible.tgz}
     name: '@rush-temp/arm-postgresql-flexible'
     version: 0.0.0
     dependencies:
@@ -13911,7 +13911,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)
       tslib: 2.6.2
       typescript: 5.0.4
