@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for MicrosoftSupport.",
-  "version": "2.2.0-beta.1",
+  "version": "2.2.0-beta.2",
   "engines": {
     "node": ">=16.0.0"
   },
