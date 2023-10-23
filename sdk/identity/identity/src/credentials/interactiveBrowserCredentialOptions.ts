@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BrowserCustomizationOptions } from "./browserCustomizatioOptions";
+import { BrowserCustomizationOptions } from "./browserCustomizationOptions";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { InteractiveCredentialOptions } from "./interactiveCredentialOptions";
 
