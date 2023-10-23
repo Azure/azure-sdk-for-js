@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-util",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
   "main": "dist/index.js",
