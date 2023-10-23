@@ -1,10 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import sinon from "sinon";
 import { createHttpHeaders } from "../src/httpHeaders";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces";
+import { PipelineRequest, PipelineResponse, RequestBodyType, SendRequest } from "../src/interfaces";
 import { createPipelineRequest } from "../src/pipelineRequest";
 import { multipartPolicy } from "../src/policies/multipartPolicy";
-import assert from "assert";
+import { assert } from "chai";
 import { PipelineRequestOptions } from "../src/pipelineRequest";
+import { Readable } from "stream";
+import { stringToUint8Array } from "@azure/core-util";
 
 async function performRequest(
   requestOptions: Omit<PipelineRequestOptions, "url" | "method">
@@ -28,7 +33,35 @@ async function performRequest(
   return request;
 }
 
-describe.only("multipartPolicy", function() {
+function assertUint8ArraySame(actual: Uint8Array, expected: Uint8Array, message?: string): void {
+  assert.sameOrderedMembers([...actual], [...expected], message);
+}
+
+async function assertBodyMatches(
+  actual: RequestBodyType | undefined,
+  expected: Uint8Array
+): Promise<void> {
+  if (!actual) {
+    assert.fail("Expected a request body");
+  }
+
+  if (actual instanceof ReadableStream) {
+    const actualBytes = new Uint8Array(await new Response(actual).arrayBuffer());
+    assertUint8ArraySame(actualBytes, expected, "body does not match");
+  } else if (actual instanceof Readable) {
+    const buffers: Buffer[] = [];
+    for await (const buffer of actual) {
+      buffers.push(buffer as Buffer);
+    }
+
+    const actualBytes = new Uint8Array(Buffer.concat(buffers));
+    assertUint8ArraySame(actualBytes, expected, "body does not match");
+  } else {
+    assert.fail(`Requst body of unexpected type: ${actual.toString()}`);
+  }
+}
+
+describe("multipartPolicy", function() {
   it("passes through when request body is not MultipartRequestBody", async function() {
     const request = createPipelineRequest({
       url: "https://example.com",
@@ -81,17 +114,16 @@ describe.only("multipartPolicy", function() {
     });
 
     it("throws when multipart request body present but content-type is not multipart", async function() {
-      assert.rejects(
-        async () =>
-          await performRequest({
-            headers: createHttpHeaders({
-              "content-type": "application/json",
-            }),
-            body: {
-              parts: [],
-            },
+      await assert.isRejected(
+        performRequest({
+          headers: createHttpHeaders({
+            "content-type": "application/json",
           }),
-        "Got multipart request body, but content-type header was not multipart: application/json"
+          body: {
+            parts: [],
+          },
+        }),
+        /Got multipart request body, but content-type header was not multipart: application\/json/
       );
     });
 
@@ -149,7 +181,68 @@ describe.only("multipartPolicy", function() {
     });
   });
 
-  describe("multipart request body", async function() {
+  describe("multipart request body", function() {
+    it("request with no parts matches spec", async function() {
+      const request = await performRequest({
+        body: {
+          boundary: "blah",
+          parts: [],
+        },
+      });
 
-  })
+      await assertBodyMatches(request.body, stringToUint8Array("--blah--", "utf-8"));
+    });
+
+    describe("boundary", function() {
+      it("is present with multiple parts", async function() {
+        const request = await performRequest({
+          body: {
+            boundary: "blah",
+            parts: [
+              {
+                body: stringToUint8Array("part1", "utf-8"),
+                headers: createHttpHeaders(),
+              },
+              {
+                body: stringToUint8Array("part2", "utf-8"),
+                headers: createHttpHeaders(),
+              },
+            ],
+          },
+        });
+
+        await assertBodyMatches(
+          request.body,
+          stringToUint8Array("--blah\r\n\r\npart1\r\n--blah\r\n\r\npart2\r\n--blah--", "utf-8")
+        );
+      });
+    });
+
+    describe("part headers", function() {
+      it("are present when specified", async function() {
+        const request = await performRequest({
+          body: {
+            boundary: "blah",
+            parts: [
+              {
+                body: stringToUint8Array("part1", "utf-8"),
+                headers: createHttpHeaders({
+                  "content-type": "text/plain",
+                  "content-disposition": "form-data; name=aaa",
+                }),
+              },
+            ],
+          },
+        });
+
+        await assertBodyMatches(
+          request.body,
+          stringToUint8Array(
+            "--blah\r\ncontent-type: text/plain\r\ncontent-disposition: form-data; name=aaa\r\n\r\npart1\r\n--blah--",
+            "utf-8"
+          )
+        );
+      });
+    });
+  });
 });

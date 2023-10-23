@@ -42,10 +42,14 @@ export function concatenateStreams(
   });
 
   const output = new PassThrough();
-  for (const stream of streams) {
-    const done = stream === streams.at(-1);
-    stream.pipe(output, { end: done });
-  }
+  (async () => {
+    for (const stream of streams) {
+      const done = stream === streams.at(-1);
+      stream.pipe(output, { end: done });
+      stream.on("error", (error) => output.emit("error", error));
+      await new Promise((resolve) => stream.once("end", resolve));
+    }
+  })();
 
   return output;
 }

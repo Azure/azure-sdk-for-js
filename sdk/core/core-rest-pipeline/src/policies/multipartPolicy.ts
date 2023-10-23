@@ -8,12 +8,12 @@ import { concatenateStreams, toStream } from "../util/stream";
 
 export const multipartPolicyName = "multipartPolicy";
 
-function generateBoundary() {
+function generateBoundary(): string {
   return `----AzSDKFormBoundary${randomUUID()}`;
 }
 
 function encodeHeaders(headers: HttpHeaders): string {
-  return [...headers].map(([name, value]) => `${name}: ${value}`).join("\r\n");
+  return [...headers].map(([name, value]) => `${name}: ${value}\r\n`).join("");
 }
 
 function createBodyStream(
@@ -21,15 +21,14 @@ function createBodyStream(
   boundary: string
 ): ReadableStream | NodeJS.ReadableStream {
   const streams = [
-    stringToUint8Array(`--${boundary}\r\n`, "utf-8"),
+    stringToUint8Array(`--${boundary}`, "utf-8"),
     ...parts.flatMap((part) => [
+      stringToUint8Array("\r\n", "utf-8"),
       stringToUint8Array(encodeHeaders(part.headers), "utf-8"),
-      stringToUint8Array("\r\n\r\n", "utf-8"),
+      stringToUint8Array("\r\n", "utf-8"),
       part.body,
-      // delimiter
-      stringToUint8Array(`\r\n--${boundary}\r\n`, "utf-8"),
+      stringToUint8Array(`\r\n--${boundary}`, "utf-8"),
     ]),
-    // end with --
     stringToUint8Array("--", "utf-8"),
   ].map(toStream);
 
@@ -37,10 +36,9 @@ function createBodyStream(
 }
 
 export function isMultipartRequestBody(
-  body: RequestBodyType | null | undefined
+  body: RequestBodyType | undefined
 ): body is MultipartRequestBody {
   return (
-    body !== null &&
     body !== undefined &&
     typeof body === "object" &&
     Object.prototype.hasOwnProperty.call(body, "parts")

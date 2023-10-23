@@ -47,19 +47,60 @@ export interface HttpHeaders extends Iterable<[string, string]> {
   toJSON(options?: { preserveCase?: boolean }): RawHttpHeaders;
 }
 
+/**
+ * An interface representing a file to be uploaded.
+ * The `File` class satisfies this interface, as does `Blob`, allowing for these objects to be passed directly. If the file to be
+ * uploaded is not represented by a `File` or `Blob`, an object containing a stream and optional file type and file name
+ * can be used instead.
+ */
 export interface FileLike {
+  /**
+   * A stream (or a function that returns a stream) representing the file's contents.
+   */
   stream: ReadableStream | NodeJS.ReadableStream | (() => ReadableStream | NodeJS.ReadableStream);
+
+  /**
+   * The MIME type of the file, if any.
+   */
   type?: string;
+
+  /**
+   * The name of the file. If no file name is present, a placeholder name of 'blob' will be used when submitting a form
+   * containing the file.
+   */
   name?: string;
 }
 
+/**
+ * A part of the request body in a multipart request.
+ */
 export interface BodyPart {
+  /**
+   * The headers for this part of the multipart request.
+   */
   headers: HttpHeaders;
+
+  /**
+   * The body of this multipart request.
+   */
   body: ReadableStream | NodeJS.ReadableStream | Uint8Array;
 }
 
+/**
+ * A request body consisting of multiple parts.
+ */
 export interface MultipartRequestBody {
+  /**
+   * The parts of the request body.
+   */
   parts: BodyPart[];
+
+  /**
+   * The boundary separating each part of the request body.
+   * If not specified, a random boundary will be generated.
+   *
+   * When specified, '--' will be prepended to the boundary in the request to ensure the boundary follows the specification.
+   */
   boundary?: string;
 }
 
