@@ -1,5 +1,11 @@
 # Release History
 
+## 1.6.1 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed Base64 decode in `stringToUint8Array` in browser so that it supports binary that contains UTF-16 characters which have a continuation token.
+
 ## 1.6.0 (2023-10-23)
 
 ### Features Added
