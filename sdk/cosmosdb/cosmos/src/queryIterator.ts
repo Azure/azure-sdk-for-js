@@ -138,6 +138,7 @@ export class QueryIterator<T> {
 
   public async fetchAll(operationOptions?: OperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      console.log(operationOptions);
       return this.fetchAllInternal(diagnosticNode);
     }, this.clientContext);
   }
@@ -176,6 +177,7 @@ export class QueryIterator<T> {
         await this.init();
       }
 
+      console.log(operationOptions);
       let response: Response<any>;
       try {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);

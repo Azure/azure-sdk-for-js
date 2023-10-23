@@ -941,6 +941,8 @@ export interface ErrorBody {
     // (undocumented)
     code: string;
     // (undocumented)
+    fetchedSoFarResults?: any[];
+    // (undocumented)
     message: string;
 }
 
@@ -1362,6 +1364,12 @@ export interface OperationBase {
 export type OperationInput = CreateOperationInput | UpsertOperationInput | ReadOperationInput | DeleteOperationInput | ReplaceOperationInput | PatchOperationInput;
 
 // @public (undocumented)
+export interface OperationOptions {
+    [key: string]: any;
+    ruCapPerOperation?: number;
+}
+
+// @public (undocumented)
 export interface OperationResponse {
     // (undocumented)
     eTag?: string;
@@ -1622,10 +1630,10 @@ export interface QueryInfo {
 export class QueryIterator<T> {
     // Warning: (ae-forgotten-export) The symbol "FetchFunctionCallback" needs to be exported by the entry point index.d.ts
     constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], resourceLink?: string, resourceType?: ResourceType);
-    fetchAll(): Promise<FeedResponse<T>>;
+    fetchAll(operationOptions?: OperationOptions): Promise<FeedResponse<T>>;
     // (undocumented)
     fetchAllInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>>;
-    fetchNext(): Promise<FeedResponse<T>>;
+    fetchNext(operationOptions?: OperationOptions): Promise<FeedResponse<T>>;
     getAsyncIterator(): AsyncIterable<FeedResponse<T>>;
     hasMoreResults(): boolean;
     reset(): void;
@@ -1952,6 +1960,13 @@ export interface RetryOptions {
     fixedRetryIntervalInMilliseconds: number;
     maxRetryAttemptCount: number;
     maxWaitTimeInSeconds: number;
+}
+
+// @public (undocumented)
+export class RUCapPerOperationExceededError extends ErrorResponse {
+    constructor(message?: string, fetchedSoFarResults?: any[]);
+    // (undocumented)
+    readonly code: string;
 }
 
 // @public (undocumented)
