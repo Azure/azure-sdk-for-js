@@ -43,8 +43,8 @@ export function augmentFunction(
 
 function isAugmentingFunction(fn: FunctionDeclaration): boolean {
   const customFunctionContent = fn.getBody()?.getFullText();
-
-  if (customFunctionContent?.includes(`_${fn.getName()}`)) {
+  const fnRegex = new RegExp(`_${fn.getName()}\\s*\\(`);
+  if (customFunctionContent?.match(fnRegex)) {
     return true;
   }
 

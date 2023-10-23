@@ -11,6 +11,7 @@ import { InternalConfig } from "../../../../src/shared";
 import { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
 import { BasicTracerProvider, ReadableSpan, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { ProxyTracerProvider, Span, metrics, trace } from "@opentelemetry/api";
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 
 describe("Library/TraceHandler", () => {
   let http: any = null;
@@ -56,6 +57,10 @@ describe("Library/TraceHandler", () => {
           resolve(spans);
         })
     );
+    const tracerProvider = new NodeTracerProvider();
+    tracerProvider.addSpanProcessor(handler.getSpanProcessor());
+    trace.setGlobalTracerProvider(tracerProvider);
+    handler.start();
 
     // Load Http modules, HTTP instrumentation hook will be created in OpenTelemetry
     http = require("http") as any;
@@ -107,8 +112,8 @@ describe("Library/TraceHandler", () => {
       createHandler({ enabled: true });
       makeHttpRequest()
         .then(() => {
-          handler
-            .flush()
+          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
+            .forceFlush()
             .then(() => {
               assert.ok(exportStub.calledOnce, "Export called");
               const spans = exportStub.args[0][0];
@@ -172,11 +177,11 @@ describe("Library/TraceHandler", () => {
               );
               done();
             })
-            .catch((error) => {
+            .catch((error: Error) => {
               done(error);
             });
         })
-        .catch((error) => {
+        .catch((error: Error) => {
           done(error);
         });
     });
@@ -202,8 +207,8 @@ describe("Library/TraceHandler", () => {
       ).addSpanProcessor(customSpanProcessor);
       makeHttpRequest()
         .then(() => {
-          handler
-            .flush()
+          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
+            .forceFlush()
             .then(() => {
               assert.ok(exportStub.calledOnce, "Export called");
               const spans = exportStub.args[0][0];
@@ -216,7 +221,7 @@ describe("Library/TraceHandler", () => {
               assert.deepStrictEqual(spans[1].attributes["endAttribute"], "SomeValue2");
               done();
             })
-            .catch((error) => {
+            .catch((error: Error) => {
               done(error);
             });
         })
@@ -229,8 +234,8 @@ describe("Library/TraceHandler", () => {
       createHandler({ enabled: true });
       makeHttpRequest()
         .then(() => {
-          handler
-            .flush()
+          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
+            .forceFlush()
             .then(() => {
               assert.ok(exportStub.calledOnce, "Export called");
               const spans = exportStub.args[0][0];
@@ -264,8 +269,8 @@ describe("Library/TraceHandler", () => {
       createHandler(httpConfig);
       makeHttpRequest()
         .then(() => {
-          handler
-            .flush()
+          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
+            .forceFlush()
             .then(() => {
               assert.ok(exportStub.calledOnce, "Export called");
               const spans = exportStub.args[0][0];
@@ -290,8 +295,8 @@ describe("Library/TraceHandler", () => {
       createHandler(httpConfig);
       makeHttpRequest()
         .then(() => {
-          handler
-            .flush()
+          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
+            .forceFlush()
             .then(() => {
               assert.ok(exportStub.calledOnce, "Export called");
               const spans = exportStub.args[0][0];
@@ -314,8 +319,12 @@ describe("Library/TraceHandler", () => {
         .then(() => {
           makeHttpRequest()
             .then(() => {
-              handler
-                .flush()
+              (
+                (
+                  trace.getTracerProvider() as ProxyTracerProvider
+                ).getDelegate() as NodeTracerProvider
+              )
+                .forceFlush()
                 .then(() => {
                   assert.ok(exportStub.notCalled, "Export not called");
                   done();

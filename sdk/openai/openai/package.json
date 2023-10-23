@@ -75,7 +75,7 @@
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "keywords": [
     "node",
@@ -101,13 +101,14 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^3.3.0",
+    "@azure/abort-controller": "^1.1.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
     "@azure/core-rest-pipeline": "^1.12.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^14.0.0",
+    "@types/node": "^18.0.0",
     "builtin-modules": "^3.3.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
@@ -132,7 +133,7 @@
     "puppeteer": "^19.2.2",
     "rimraf": "^3.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.0.0"
+    "typescript": "~5.2.0"
   },
   "dependencies": {
     "@azure-rest/core-client": "^1.1.4",

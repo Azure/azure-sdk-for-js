@@ -24,22 +24,28 @@ export class HttpSender extends BaseSender {
   private readonly appInsightsClient: ApplicationInsightsClient;
   private appInsightsClientOptions: ApplicationInsightsClientOptionalParams;
 
-  constructor(
-    endpointUrl: string,
-    instrumentationKey: string,
-    trackStatsbeat: boolean,
-    options?: AzureMonitorExporterOptions
-  ) {
-    super(endpointUrl, instrumentationKey, trackStatsbeat, options);
+  constructor(options: {
+    endpointUrl: string;
+    instrumentationKey: string;
+    trackStatsbeat: boolean;
+    exporterOptions: AzureMonitorExporterOptions;
+    aadAudience?: string;
+  }) {
+    super(options);
     // Build endpoint using provided configuration or default values
     this.appInsightsClientOptions = {
-      host: endpointUrl,
-      ...options,
+      host: options.endpointUrl,
+      ...options.exporterOptions,
     };
 
     if (this.appInsightsClientOptions.credential) {
       // Add credentialScopes
-      this.appInsightsClientOptions.credentialScopes = [applicationInsightsResource];
+      if (options.aadAudience) {
+        this.appInsightsClientOptions.credentialScopes = [options.aadAudience];
+      } else {
+        // Default
+        this.appInsightsClientOptions.credentialScopes = [applicationInsightsResource];
+      }
     }
     this.appInsightsClient = new ApplicationInsightsClient(this.appInsightsClientOptions);
 

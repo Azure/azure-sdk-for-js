@@ -235,8 +235,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       OperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -342,8 +341,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       OperationState<ManagedPrivateEndpointsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -438,8 +436,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;

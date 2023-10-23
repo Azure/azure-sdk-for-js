@@ -1,6 +1,6 @@
 # Release History
 
-## 4.7.1 (Unreleased)
+## 4.8.0-beta.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- The default service version is now `7.5-preview.1`.
 
 ## 4.7.0 (2023-03-09)
 

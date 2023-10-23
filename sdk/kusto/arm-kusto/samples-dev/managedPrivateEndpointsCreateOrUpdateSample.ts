@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a managed private endpoint.
  *
  * @summary Creates a managed private endpoint.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoManagedPrivateEndpointsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoManagedPrivateEndpointsCreateOrUpdate.json
  */
 async function kustoManagedPrivateEndpointsCreateOrUpdate() {
   const subscriptionId =
