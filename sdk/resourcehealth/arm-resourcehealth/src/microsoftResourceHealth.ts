@@ -43,7 +43,7 @@ import { MicrosoftResourceHealthOptionalParams } from "./models";
 export class MicrosoftResourceHealth extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the MicrosoftResourceHealth class.
@@ -55,12 +55,26 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: MicrosoftResourceHealthOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: MicrosoftResourceHealthOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: MicrosoftResourceHealthOptionalParams | string,
+    options?: MicrosoftResourceHealthOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -72,7 +86,7 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-resourcehealth/4.0.1`;
+    const packageDetails = `azsdk-js-arm-resourcehealth/4.1.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -125,7 +139,7 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-10-01";
+    this.apiVersion = options.apiVersion || "2023-10-01-preview";
     this.availabilityStatuses = new AvailabilityStatusesImpl(this);
     this.operations = new OperationsImpl(this);
     this.metadata = new MetadataImpl(this);

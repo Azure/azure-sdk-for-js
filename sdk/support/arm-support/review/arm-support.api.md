@@ -6,9 +6,60 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export interface ChatTranscriptDetails extends ProxyResource {
+    messages?: MessageProperties[];
+    readonly startTime?: Date;
+}
+
+// @public
+export interface ChatTranscripts {
+    get(supportTicketName: string, chatTranscriptName: string, options?: ChatTranscriptsGetOptionalParams): Promise<ChatTranscriptsGetResponse>;
+    list(supportTicketName: string, options?: ChatTranscriptsListOptionalParams): PagedAsyncIterableIterator<ChatTranscriptDetails>;
+}
+
+// @public
+export interface ChatTranscriptsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ChatTranscriptsGetResponse = ChatTranscriptDetails;
+
+// @public
+export interface ChatTranscriptsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ChatTranscriptsListNextResponse = ChatTranscriptsListResult;
+
+// @public
+export interface ChatTranscriptsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ChatTranscriptsListResponse = ChatTranscriptsListResult;
+
+// @public
+export interface ChatTranscriptsListResult {
+    nextLink?: string;
+    value?: ChatTranscriptDetails[];
+}
+
+// @public
+export interface ChatTranscriptsNoSubscription {
+    get(supportTicketName: string, chatTranscriptName: string, options?: ChatTranscriptsNoSubscriptionGetOptionalParams): Promise<ChatTranscriptsNoSubscriptionGetResponse>;
+}
+
+// @public
+export interface ChatTranscriptsNoSubscriptionGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ChatTranscriptsNoSubscriptionGetResponse = ChatTranscriptDetails;
 
 // @public
 export interface CheckNameAvailabilityInput {
@@ -41,7 +92,7 @@ export type CommunicationDirection = string;
 
 // @public
 export interface Communications {
-    beginCreate(supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsCreateOptionalParams): Promise<PollerLike<PollOperationState<CommunicationsCreateResponse>, CommunicationsCreateResponse>>;
+    beginCreate(supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsCreateOptionalParams): Promise<SimplePollerLike<OperationState<CommunicationsCreateResponse>, CommunicationsCreateResponse>>;
     beginCreateAndWait(supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsCreateOptionalParams): Promise<CommunicationsCreateResponse>;
     checkNameAvailability(supportTicketName: string, checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: CommunicationsCheckNameAvailabilityOptionalParams): Promise<CommunicationsCheckNameAvailabilityResponse>;
     get(supportTicketName: string, communicationName: string, options?: CommunicationsGetOptionalParams): Promise<CommunicationsGetResponse>;
@@ -94,7 +145,47 @@ export interface CommunicationsListResult {
 }
 
 // @public
+export interface CommunicationsNoSubscription {
+    beginCreate(supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsNoSubscriptionCreateOptionalParams): Promise<SimplePollerLike<OperationState<CommunicationsNoSubscriptionCreateResponse>, CommunicationsNoSubscriptionCreateResponse>>;
+    beginCreateAndWait(supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsNoSubscriptionCreateOptionalParams): Promise<CommunicationsNoSubscriptionCreateResponse>;
+    checkNameAvailability(supportTicketName: string, checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: CommunicationsNoSubscriptionCheckNameAvailabilityOptionalParams): Promise<CommunicationsNoSubscriptionCheckNameAvailabilityResponse>;
+    get(supportTicketName: string, communicationName: string, options?: CommunicationsNoSubscriptionGetOptionalParams): Promise<CommunicationsNoSubscriptionGetResponse>;
+}
+
+// @public
+export interface CommunicationsNoSubscriptionCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommunicationsNoSubscriptionCheckNameAvailabilityResponse = CheckNameAvailabilityOutput;
+
+// @public
+export interface CommunicationsNoSubscriptionCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface CommunicationsNoSubscriptionCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CommunicationsNoSubscriptionCreateResponse = CommunicationDetails;
+
+// @public
+export interface CommunicationsNoSubscriptionGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommunicationsNoSubscriptionGetResponse = CommunicationDetails;
+
+// @public
 export type CommunicationType = string;
+
+// @public
+export type Consent = string;
 
 // @public
 export interface ContactProfile {
@@ -110,9 +201,167 @@ export interface ContactProfile {
 }
 
 // @public
-export interface ExceptionResponse {
-    error?: ServiceError;
+export type CreatedByType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
 }
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export interface FileDetails extends ProxyResource {
+    chunkSize?: number;
+    readonly createdOn?: Date;
+    fileSize?: number;
+    numberOfChunks?: number;
+}
+
+// @public
+export interface Files {
+    create(fileWorkspaceName: string, fileName: string, createFileParameters: FileDetails, options?: FilesCreateOptionalParams): Promise<FilesCreateResponse>;
+    get(fileWorkspaceName: string, fileName: string, options?: FilesGetOptionalParams): Promise<FilesGetResponse>;
+    list(fileWorkspaceName: string, options?: FilesListOptionalParams): PagedAsyncIterableIterator<FileDetails>;
+    upload(fileWorkspaceName: string, fileName: string, uploadFile: UploadFile, options?: FilesUploadOptionalParams): Promise<void>;
+}
+
+// @public
+export interface FilesCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FilesCreateResponse = FileDetails;
+
+// @public
+export interface FilesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FilesGetResponse = FileDetails;
+
+// @public
+export interface FilesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FilesListNextResponse = FilesListResult;
+
+// @public
+export interface FilesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FilesListResponse = FilesListResult;
+
+// @public
+export interface FilesListResult {
+    nextLink?: string;
+    value?: FileDetails[];
+}
+
+// @public
+export interface FilesNoSubscription {
+    create(fileWorkspaceName: string, fileName: string, createFileParameters: FileDetails, options?: FilesNoSubscriptionCreateOptionalParams): Promise<FilesNoSubscriptionCreateResponse>;
+    get(fileWorkspaceName: string, fileName: string, options?: FilesNoSubscriptionGetOptionalParams): Promise<FilesNoSubscriptionGetResponse>;
+    list(fileWorkspaceName: string, options?: FilesNoSubscriptionListOptionalParams): PagedAsyncIterableIterator<FileDetails>;
+    upload(fileWorkspaceName: string, fileName: string, uploadFile: UploadFile, options?: FilesNoSubscriptionUploadOptionalParams): Promise<void>;
+}
+
+// @public
+export interface FilesNoSubscriptionCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FilesNoSubscriptionCreateResponse = FileDetails;
+
+// @public
+export interface FilesNoSubscriptionGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FilesNoSubscriptionGetResponse = FileDetails;
+
+// @public
+export interface FilesNoSubscriptionListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FilesNoSubscriptionListNextResponse = FilesListResult;
+
+// @public
+export interface FilesNoSubscriptionListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FilesNoSubscriptionListResponse = FilesListResult;
+
+// @public
+export interface FilesNoSubscriptionUploadOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface FilesUploadOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface FileWorkspaceDetails extends ProxyResource {
+    readonly createdOn?: Date;
+    readonly expirationTime?: Date;
+}
+
+// @public
+export interface FileWorkspaces {
+    create(fileWorkspaceName: string, options?: FileWorkspacesCreateOptionalParams): Promise<FileWorkspacesCreateResponse>;
+    get(fileWorkspaceName: string, options?: FileWorkspacesGetOptionalParams): Promise<FileWorkspacesGetResponse>;
+}
+
+// @public
+export interface FileWorkspacesCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FileWorkspacesCreateResponse = FileWorkspaceDetails;
+
+// @public
+export interface FileWorkspacesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FileWorkspacesGetResponse = FileWorkspaceDetails;
+
+// @public
+export interface FileWorkspacesNoSubscription {
+    create(fileWorkspaceName: string, options?: FileWorkspacesNoSubscriptionCreateOptionalParams): Promise<FileWorkspacesNoSubscriptionCreateResponse>;
+    get(fileWorkspaceName: string, options?: FileWorkspacesNoSubscriptionGetOptionalParams): Promise<FileWorkspacesNoSubscriptionGetResponse>;
+}
+
+// @public
+export interface FileWorkspacesNoSubscriptionCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FileWorkspacesNoSubscriptionCreateResponse = FileWorkspaceDetails;
+
+// @public
+export interface FileWorkspacesNoSubscriptionGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FileWorkspacesNoSubscriptionGetResponse = FileWorkspaceDetails;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -127,6 +376,20 @@ export enum KnownCommunicationDirection {
 export enum KnownCommunicationType {
     Phone = "phone",
     Web = "web"
+}
+
+// @public
+export enum KnownConsent {
+    No = "No",
+    Yes = "Yes"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -149,15 +412,49 @@ export enum KnownStatus {
     Open = "open"
 }
 
+// @public
+export enum KnownTranscriptContentType {
+}
+
+// @public
+export enum KnownUserConsent {
+    No = "No",
+    Yes = "Yes"
+}
+
+// @public
+export interface MessageProperties {
+    body: string;
+    readonly communicationDirection?: CommunicationDirection;
+    readonly contentType?: TranscriptContentType;
+    readonly createdDate?: Date;
+    sender?: string;
+}
+
 // @public (undocumented)
 export class MicrosoftSupport extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftSupportOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: MicrosoftSupportOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    chatTranscripts: ChatTranscripts;
+    // (undocumented)
+    chatTranscriptsNoSubscription: ChatTranscriptsNoSubscription;
+    // (undocumented)
     communications: Communications;
+    // (undocumented)
+    communicationsNoSubscription: CommunicationsNoSubscription;
+    // (undocumented)
+    files: Files;
+    // (undocumented)
+    filesNoSubscription: FilesNoSubscription;
+    // (undocumented)
+    fileWorkspaces: FileWorkspaces;
+    // (undocumented)
+    fileWorkspacesNoSubscription: FileWorkspacesNoSubscription;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -165,9 +462,15 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
     // (undocumented)
     services: Services;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
+    // (undocumented)
+    supportTicketChatTranscriptsNoSubscription: SupportTicketChatTranscriptsNoSubscription;
+    // (undocumented)
+    supportTicketCommunicationsNoSubscription: SupportTicketCommunicationsNoSubscription;
     // (undocumented)
     supportTickets: SupportTickets;
+    // (undocumented)
+    supportTicketsNoSubscription: SupportTicketsNoSubscription;
 }
 
 // @public
@@ -216,6 +519,7 @@ export interface ProblemClassification {
     displayName?: string;
     readonly id?: string;
     readonly name?: string;
+    secondaryConsentEnabled?: SecondaryConsentEnabled[];
     readonly type?: string;
 }
 
@@ -245,6 +549,10 @@ export interface ProblemClassificationsListResult {
 }
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export interface QuotaChangeRequest {
     payload?: string;
     region?: string;
@@ -258,27 +566,32 @@ export interface QuotaTicketDetails {
 }
 
 // @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
+export interface SecondaryConsent {
+    type?: string;
+    userConsent?: UserConsent;
+}
+
+// @public
+export interface SecondaryConsentEnabled {
+    description?: string;
+    type?: string;
+}
+
+// @public
 export interface Service {
     displayName?: string;
     readonly id?: string;
     readonly name?: string;
     resourceTypes?: string[];
     readonly type?: string;
-}
-
-// @public
-export interface ServiceError {
-    code?: string;
-    readonly details?: ServiceErrorDetail[];
-    message?: string;
-    target?: string;
-}
-
-// @public
-export interface ServiceErrorDetail {
-    readonly code?: string;
-    readonly message?: string;
-    target?: string;
 }
 
 // @public
@@ -325,25 +638,71 @@ export interface SupportEngineer {
 }
 
 // @public
+export interface SupportTicketChatTranscriptsNoSubscription {
+    list(supportTicketName: string, options?: SupportTicketChatTranscriptsNoSubscriptionListOptionalParams): PagedAsyncIterableIterator<ChatTranscriptDetails>;
+}
+
+// @public
+export interface SupportTicketChatTranscriptsNoSubscriptionListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SupportTicketChatTranscriptsNoSubscriptionListNextResponse = ChatTranscriptsListResult;
+
+// @public
+export interface SupportTicketChatTranscriptsNoSubscriptionListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SupportTicketChatTranscriptsNoSubscriptionListResponse = ChatTranscriptsListResult;
+
+// @public
+export interface SupportTicketCommunicationsNoSubscription {
+    list(supportTicketName: string, options?: SupportTicketCommunicationsNoSubscriptionListOptionalParams): PagedAsyncIterableIterator<CommunicationDetails>;
+}
+
+// @public
+export interface SupportTicketCommunicationsNoSubscriptionListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SupportTicketCommunicationsNoSubscriptionListNextResponse = CommunicationsListResult;
+
+// @public
+export interface SupportTicketCommunicationsNoSubscriptionListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type SupportTicketCommunicationsNoSubscriptionListResponse = CommunicationsListResult;
+
+// @public
 export interface SupportTicketDetails {
+    advancedDiagnosticConsent?: Consent;
     contactDetails?: ContactProfile;
     readonly createdDate?: Date;
     description?: string;
     readonly enrollmentId?: string;
+    fileWorkspaceName?: string;
     readonly id?: string;
     readonly modifiedDate?: Date;
     readonly name?: string;
     readonly problemClassificationDisplayName?: string;
     problemClassificationId?: string;
+    problemScopingQuestions?: string;
     problemStartTime?: Date;
     quotaTicketDetails?: QuotaTicketDetails;
     require24X7Response?: boolean;
+    secondaryConsent?: SecondaryConsent[];
     readonly serviceDisplayName?: string;
     serviceId?: string;
     serviceLevelAgreement?: ServiceLevelAgreement;
     severity?: SeverityLevel;
     readonly status?: string;
     supportEngineer?: SupportEngineer;
+    readonly supportPlanDisplayName?: string;
+    supportPlanId?: string;
     readonly supportPlanType?: string;
     supportTicketId?: string;
     technicalTicketDetails?: TechnicalTicketDetails;
@@ -353,7 +712,7 @@ export interface SupportTicketDetails {
 
 // @public
 export interface SupportTickets {
-    beginCreate(supportTicketName: string, createSupportTicketParameters: SupportTicketDetails, options?: SupportTicketsCreateOptionalParams): Promise<PollerLike<PollOperationState<SupportTicketsCreateResponse>, SupportTicketsCreateResponse>>;
+    beginCreate(supportTicketName: string, createSupportTicketParameters: SupportTicketDetails, options?: SupportTicketsCreateOptionalParams): Promise<SimplePollerLike<OperationState<SupportTicketsCreateResponse>, SupportTicketsCreateResponse>>;
     beginCreateAndWait(supportTicketName: string, createSupportTicketParameters: SupportTicketDetails, options?: SupportTicketsCreateOptionalParams): Promise<SupportTicketsCreateResponse>;
     checkNameAvailability(checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: SupportTicketsCheckNameAvailabilityOptionalParams): Promise<SupportTicketsCheckNameAvailabilityResponse>;
     get(supportTicketName: string, options?: SupportTicketsGetOptionalParams): Promise<SupportTicketsGetResponse>;
@@ -407,6 +766,68 @@ export interface SupportTicketsListResult {
 }
 
 // @public
+export interface SupportTicketsNoSubscription {
+    beginCreate(supportTicketName: string, createSupportTicketParameters: SupportTicketDetails, options?: SupportTicketsNoSubscriptionCreateOptionalParams): Promise<SimplePollerLike<OperationState<SupportTicketsNoSubscriptionCreateResponse>, SupportTicketsNoSubscriptionCreateResponse>>;
+    beginCreateAndWait(supportTicketName: string, createSupportTicketParameters: SupportTicketDetails, options?: SupportTicketsNoSubscriptionCreateOptionalParams): Promise<SupportTicketsNoSubscriptionCreateResponse>;
+    checkNameAvailability(checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: SupportTicketsNoSubscriptionCheckNameAvailabilityOptionalParams): Promise<SupportTicketsNoSubscriptionCheckNameAvailabilityResponse>;
+    get(supportTicketName: string, options?: SupportTicketsNoSubscriptionGetOptionalParams): Promise<SupportTicketsNoSubscriptionGetResponse>;
+    list(options?: SupportTicketsNoSubscriptionListOptionalParams): PagedAsyncIterableIterator<SupportTicketDetails>;
+    update(supportTicketName: string, updateSupportTicket: UpdateSupportTicket, options?: SupportTicketsNoSubscriptionUpdateOptionalParams): Promise<SupportTicketsNoSubscriptionUpdateResponse>;
+}
+
+// @public
+export interface SupportTicketsNoSubscriptionCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SupportTicketsNoSubscriptionCheckNameAvailabilityResponse = CheckNameAvailabilityOutput;
+
+// @public
+export interface SupportTicketsNoSubscriptionCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface SupportTicketsNoSubscriptionCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SupportTicketsNoSubscriptionCreateResponse = SupportTicketDetails;
+
+// @public
+export interface SupportTicketsNoSubscriptionGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SupportTicketsNoSubscriptionGetResponse = SupportTicketDetails;
+
+// @public
+export interface SupportTicketsNoSubscriptionListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SupportTicketsNoSubscriptionListNextResponse = SupportTicketsListResult;
+
+// @public
+export interface SupportTicketsNoSubscriptionListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type SupportTicketsNoSubscriptionListResponse = SupportTicketsListResult;
+
+// @public
+export interface SupportTicketsNoSubscriptionUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SupportTicketsNoSubscriptionUpdateResponse = SupportTicketDetails;
+
+// @public
 export interface SupportTicketsUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -414,9 +835,22 @@ export interface SupportTicketsUpdateOptionalParams extends coreClient.Operation
 export type SupportTicketsUpdateResponse = SupportTicketDetails;
 
 // @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
 export interface TechnicalTicketDetails {
     resourceId?: string;
 }
+
+// @public
+export type TranscriptContentType = string;
 
 // @public
 export type Type = "Microsoft.Support/supportTickets" | "Microsoft.Support/communications";
@@ -436,10 +870,21 @@ export interface UpdateContactProfile {
 
 // @public
 export interface UpdateSupportTicket {
+    advancedDiagnosticConsent?: Consent;
     contactDetails?: UpdateContactProfile;
+    secondaryConsent?: SecondaryConsent[];
     severity?: SeverityLevel;
     status?: Status;
 }
+
+// @public
+export interface UploadFile {
+    chunkIndex?: number;
+    content?: string;
+}
+
+// @public
+export type UserConsent = string;
 
 // (No @packageDocumentation comment for this package)
 
