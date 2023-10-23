@@ -4,7 +4,7 @@
 
 ```yaml
 package-name: app-configuration
-package-version: "1.5.0-beta.2"
+package-version: "1.5.0-beta.3"
 title: AppConfiguration
 description: App Configuration client
 enable-xml: true
@@ -12,7 +12,7 @@ add-credentials: false
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/preview/2022-11-01-preview/appconfiguration.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/stable/2023-10-01/appconfiguration.json
 model-date-time-as-string: false
 optional-response-headers: true
 sample-generation: false
@@ -101,7 +101,7 @@ directive:
       $["304"]["headers"]["Last-Modified"]["type"] = "string";
 ```
 
-### Rename Properties created -> createdOn, expires -> expiresOn, items_count -> itemCount
+### Rename Properties created -> createdOn, expires -> expiresOn, items_count -> itemCount, retention_period -> retentionPeriodInSeconds, size -> sizeInBytes. Rename type CompositionType -> SnapshotComposition, Status -> ConfigurationSnapshotStatus
 
 ```yaml
 directive:
@@ -111,8 +111,21 @@ directive:
       $.created["x-ms-client-name"] = "createdOn";
       $.items_count["x-ms-client-name"] = "itemCount";
       $.expires["x-ms-client-name"] = "expiresOn";
+      $.retention_period["x-ms-client-name"] = "retentionPeriodInSeconds";
+      $.size["x-ms-client-name"] = "sizeInBytes";
+      $.composition_type["x-ms-enum"].name = "SnapshotComposition";
+      $.status["x-ms-enum"].name = "ConfigurationSnapshotStatus";
 ```
+### Rename Properties key -> keyFilter, label -> labelFilter for KeyValueFilter
 
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.KeyValueFilter.properties
+    transform: >
+      $.key["x-ms-client-name"] = "keyFilter";
+      $.label["x-ms-client-name"] = "labelFilter";
+```
 ### Rename KeyValueFilter -> ConfigurationSettingsFilter
 ```yaml
 directive:
@@ -121,8 +134,8 @@ directive:
     transform: >
       $["x-ms-client-name"] = "ConfigurationSettingsFilter";
 ```
-### Make .name a required field
 
+### Make .name a required field
 ```yaml
 directive:
   - from: swagger-document
@@ -131,6 +144,7 @@ directive:
       $.required = $.required || [];
       $.required.push('name');
 ```
+
 ### Add description for snapshot
 
 ```yaml
@@ -138,6 +152,14 @@ directive:
   - from: swagger-document
     where: $["definitions"]["Snapshot"]
     transform: >
-      $["description"] = "Snapshot details include name, filters, retentionPeriod, expiresOn, size, status, itemCount, and more";
+      $["description"] = "Snapshot details include name, filters, expiresOn, sizeInBytes, status, itemCount, and more";
 
+```
+
+### Rename Snapshot -> ConfigurationSnapshot
+```yaml
+directive:
+  - rename-model:
+      from: Snapshot
+      to: ConfigurationSnapshot
 ```

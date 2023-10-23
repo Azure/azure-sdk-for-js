@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { concurrently } from "concurrently";
+import concurrently from "concurrently";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
 import { isModuleProject } from "../../util/resolveProject";
@@ -33,7 +33,7 @@ export default leafCommand(commandInfo, async (options) => {
     ? updatedArgs?.join(" ")
     : '--timeout 5000000 "dist-esm/test/{,!(browser)/**/}/*.spec.js"';
   const command = {
-    command: `mocha ${defaultMochaArgs} ${mochaArgs}`,
+    command: `c8 mocha ${defaultMochaArgs} ${mochaArgs}`,
     name: "node-tests",
   };
 

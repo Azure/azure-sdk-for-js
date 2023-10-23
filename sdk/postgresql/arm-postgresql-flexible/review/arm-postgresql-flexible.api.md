@@ -1321,6 +1321,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PostgreSQLManagementFlexibleServerClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: PostgreSQLManagementFlexibleServerClientOptionalParams);
     // (undocumented)
     administrators: Administrators;
     // (undocumented)
@@ -1359,7 +1360,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     // (undocumented)
     servers: Servers;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     virtualNetworkSubnetUsage: VirtualNetworkSubnetUsage;
 }
@@ -1676,8 +1677,8 @@ export type StartDataMigrationEnum = string;
 interface Storage_2 {
     autoGrow?: StorageAutoGrow;
     readonly iops?: number;
-    iopsTier?: AzureManagedDiskPerformanceTiers;
     storageSizeGB?: number;
+    tier?: AzureManagedDiskPerformanceTiers;
 }
 export { Storage_2 as Storage }
 

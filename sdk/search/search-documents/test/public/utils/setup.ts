@@ -12,7 +12,7 @@ import {
 import { Hotel } from "./interfaces";
 import { delay } from "../../../src/serviceUtils";
 import { assert } from "chai";
-import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { OpenAIClient } from "@azure/openai";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
@@ -233,7 +233,9 @@ export async function createIndex(
   };
 
   if (serviceVersion.includes("Preview")) {
-    const vectorSearchConfiguration = "algorithm-configuration";
+    const algorithm = "algorithm-configuration";
+    const vectorizer = "vectorizer";
+    const profile = "profile";
 
     hotelIndex.fields.push({
       type: "Collection(Edm.Single)",
@@ -241,21 +243,32 @@ export async function createIndex(
       searchable: true,
       vectorSearchDimensions: 1536,
       hidden: true,
-      vectorSearchConfiguration,
+      vectorSearchProfile: profile,
     });
 
     hotelIndex.vectorSearch = {
-      algorithmConfigurations: [
+      algorithms: [
         {
-          name: vectorSearchConfiguration,
-          kind: "hnsw",
+          name: algorithm,
+          kind: "exhaustiveKnn",
           parameters: {
             metric: "dotProduct",
           },
         },
       ],
+      vectorizers: [
+        {
+          kind: "azureOpenAI",
+          name: vectorizer,
+          azureOpenAIParameters: {
+            apiKey: env.OPENAI_KEY,
+            deploymentId: env.OPENAI_DEPLOYMENT_NAME,
+            resourceUri: env.OPENAI_ENDPOINT,
+          },
+        },
+      ],
+      profiles: [{ name: profile, vectorizer, algorithm }],
     };
-
     hotelIndex.semanticSettings = {
       configurations: [
         {
@@ -297,7 +310,7 @@ export async function populateIndex(
       tags: ["pool", "view", "wifi", "concierge"],
       parkingIncluded: false,
       smokingAllowed: false,
-      lastRenovationDate: new Date(2010, 5, 27),
+      lastRenovationDate: new Date(Date.UTC(2010, 5, 27)),
       rating: 5,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -313,7 +326,7 @@ export async function populateIndex(
       tags: ["motel", "budget"],
       parkingIncluded: true,
       smokingAllowed: true,
-      lastRenovationDate: new Date(1982, 3, 28),
+      lastRenovationDate: new Date(Date.UTC(1982, 3, 28)),
       rating: 1,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -329,7 +342,7 @@ export async function populateIndex(
       tags: ["wifi", "budget"],
       parkingIncluded: true,
       smokingAllowed: false,
-      lastRenovationDate: new Date(1995, 6, 1),
+      lastRenovationDate: new Date(Date.UTC(1995, 6, 1)),
       rating: 4,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -345,7 +358,7 @@ export async function populateIndex(
       tags: ["wifi", "budget"],
       parkingIncluded: true,
       smokingAllowed: false,
-      lastRenovationDate: new Date(1995, 6, 1),
+      lastRenovationDate: new Date(Date.UTC(1995, 6, 1)),
       rating: 4,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -361,7 +374,7 @@ export async function populateIndex(
       tags: ["wifi", "budget"],
       parkingIncluded: true,
       smokingAllowed: false,
-      lastRenovationDate: new Date(2012, 7, 12),
+      lastRenovationDate: new Date(Date.UTC(2012, 7, 12)),
       rating: 4,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -397,7 +410,7 @@ export async function populateIndex(
       tags: ["pool", "air conditioning", "concierge"],
       parkingIncluded: false,
       smokingAllowed: true,
-      lastRenovationDate: new Date(1970, 0, 18),
+      lastRenovationDate: new Date(Date.UTC(1970, 0, 18)),
       rating: 4,
       location: new GeographyPoint({
         longitude: -73.975403,
@@ -444,7 +457,7 @@ export async function populateIndex(
       tags: ["24-hour front desk service", "coffee in lobby", "restaurant"],
       parkingIncluded: false,
       smokingAllowed: true,
-      lastRenovationDate: new Date(1999, 8, 6),
+      lastRenovationDate: new Date(Date.UTC(1999, 8, 6)),
       rating: 3,
       location: new GeographyPoint({
         longitude: -78.940483,

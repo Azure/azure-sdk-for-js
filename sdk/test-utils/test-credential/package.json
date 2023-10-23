@@ -7,7 +7,7 @@
   "module": "dist-esm/src/index.js",
   "types": "types/tools-test-credential.d.ts",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -61,11 +61,11 @@
     "@azure/dev-tool": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@types/node": "^14.0.0",
+    "@types/node": "^16.0.0",
     "eslint": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "ts-node": "^10.0.0"
   }
 }

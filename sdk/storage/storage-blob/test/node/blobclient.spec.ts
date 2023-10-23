@@ -609,8 +609,8 @@ describe("BlobClient Node.js only", () => {
 
     const response = await blockBlobClient.query("select * from BlobStorage", {
       conditions: {
-        ifModifiedSince: new Date("2010/01/01"),
-        ifUnmodifiedSince: new Date("2100/01/01"),
+        ifModifiedSince: new Date(Date.UTC(2010, 0, 1)),
+        ifUnmodifiedSince: new Date(Date.UTC(2100, 0, 1)),
         ifMatch: uploadResponse.etag,
         ifNoneMatch: "invalidetag",
       },
@@ -625,7 +625,7 @@ describe("BlobClient Node.js only", () => {
     try {
       await blockBlobClient.query("select * from BlobStorage", {
         conditions: {
-          ifModifiedSince: new Date("2100/01/01"),
+          ifModifiedSince: new Date(Date.UTC(2100, 0, 1)),
         },
       });
     } catch (err: any) {

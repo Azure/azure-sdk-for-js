@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List UpdateRun resources by Fleet
  *
  * @summary List UpdateRun resources by Fleet
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-06-15-preview/examples/UpdateRuns_ListByFleet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-08-15-preview/examples/UpdateRuns_ListByFleet.json
  */
 async function listsTheUpdateRunResourcesByFleet() {
   const subscriptionId =
