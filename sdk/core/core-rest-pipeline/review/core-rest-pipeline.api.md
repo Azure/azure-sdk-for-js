@@ -75,11 +75,9 @@ export interface BearerTokenAuthenticationPolicyOptions {
     scopes: string | string[];
 }
 
-// @public (undocumented)
+// @public
 export interface BodyPart {
-    // (undocumented)
     body: ReadableStream | NodeJS.ReadableStream | Uint8Array;
-    // (undocumented)
     headers: HttpHeaders;
 }
 
@@ -130,13 +128,10 @@ export interface ExponentialRetryPolicyOptions {
     retryDelayInMs?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface FileLike {
-    // (undocumented)
     name?: string;
-    // (undocumented)
     stream: ReadableStream | NodeJS.ReadableStream | (() => ReadableStream | NodeJS.ReadableStream);
-    // (undocumented)
     type?: string;
 }
 
@@ -203,11 +198,9 @@ export interface LogPolicyOptions {
     logger?: Debugger;
 }
 
-// @public (undocumented)
+// @public
 export interface MultipartRequestBody {
-    // (undocumented)
     boundary?: string;
-    // (undocumented)
     parts: BodyPart[];
 }
 
