@@ -44,7 +44,7 @@ export function concatenateStreams(
     for (const stream of streams) {
       await stream.pipeTo(output.writable, { preventClose: true });
     }
-    output.writable.close();
+    await output.writable.close();
   })();
 
   return output.readable;

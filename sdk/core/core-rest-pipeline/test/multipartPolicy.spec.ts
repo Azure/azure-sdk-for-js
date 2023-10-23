@@ -227,8 +227,8 @@ describe("multipartPolicy", function() {
               {
                 body: stringToUint8Array("part1", "utf-8"),
                 headers: createHttpHeaders({
-                  "content-type": "text/plain",
-                  "content-disposition": "form-data; name=aaa",
+                  "Content-Type": "text/plain",
+                  "Content-Disposition": "form-data; name=aaa; filename=test.txt",
                 }),
               },
             ],
@@ -238,7 +238,7 @@ describe("multipartPolicy", function() {
         await assertBodyMatches(
           request.body,
           stringToUint8Array(
-            "--blah\r\ncontent-type: text/plain\r\ncontent-disposition: form-data; name=aaa\r\n\r\npart1\r\n--blah--",
+            "--blah\r\nContent-Type: text/plain\r\nContent-Disposition: form-data; name=aaa; filename=test.txt\r\n\r\npart1\r\n--blah--",
             "utf-8"
           )
         );

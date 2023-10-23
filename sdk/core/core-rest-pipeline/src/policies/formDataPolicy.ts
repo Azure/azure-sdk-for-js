@@ -68,13 +68,13 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
   request.formData = undefined;
 
   // validate content type (multipart/form-data)
-  const contentType = request.headers.get("content-type");
+  const contentType = request.headers.get("Content-Type");
   if (contentType && !contentType.startsWith("multipart/form-data")) {
     // content type is specified and is not multipart/form-data. Exit.
     return;
   }
 
-  request.headers.set("content-type", contentType ?? "multipart/form-data");
+  request.headers.set("Content-Type", contentType ?? "multipart/form-data");
 
   // set body to MultipartRequestBody using content from FormDataMap
   const parts: BodyPart[] = [];
@@ -84,7 +84,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
       if (typeof value === "string") {
         parts.push({
           headers: createHttpHeaders({
-            "content-disposition": `form-data; name="${fieldName}"`,
+            "Content-Disposition": `form-data; name="${fieldName}"`,
           }),
           body: encoder.encode(value),
         });
@@ -92,7 +92,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
         const fileName = value.name || "blob";
         const headers = createHttpHeaders();
         headers.set(
-          "content-disposition",
+          "Content-Disposition",
           `form-data; name="${fieldName}"; filename="${fileName}"`
         );
         if (value.type) {
@@ -106,7 +106,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
       } else if (typeof ReadableStream !== "undefined" && value instanceof ReadableStream) {
         parts.push({
           headers: createHttpHeaders({
-            "content-disposition": `form-data; name=${fieldName}; filename=blob`,
+            "Content-Disposition": `form-data; name=${fieldName}; filename=blob`,
           }),
           body: value,
         });
