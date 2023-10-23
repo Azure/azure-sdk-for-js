@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for KustoManagementClient.",
-  "version": "8.1.0",
+  "version": "8.1.1",
   "engines": {
     "node": ">=16.0.0"
   },
