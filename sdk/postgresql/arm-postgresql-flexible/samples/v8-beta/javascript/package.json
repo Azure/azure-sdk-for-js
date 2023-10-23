@@ -27,6 +27,6 @@
   "dependencies": {
     "@azure/arm-postgresql-flexible": "next",
     "dotenv": "latest",
-    "@azure/identity": "^2.0.1"
+    "@azure/identity": "^3.3.0"
   }
 }

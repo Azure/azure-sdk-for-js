@@ -117,7 +117,7 @@
     "nyc": "^15.0.0",
     "rimraf": "^3.0.0",
     "sinon": "^15.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "util": "^0.12.1",
     "dotenv": "^16.0.0",
     "@azure-tools/test-recorder": "^3.0.0",

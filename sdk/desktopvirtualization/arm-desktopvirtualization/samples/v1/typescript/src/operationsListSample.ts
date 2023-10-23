@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all of the available operations the Desktop Virtualization resource provider supports.
  *
  * @summary List all of the available operations the Desktop Virtualization resource provider supports.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/OperationDescription_List.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/OperationDescription_List.json
  */
 async function operationDescriptionList() {
   const subscriptionId =

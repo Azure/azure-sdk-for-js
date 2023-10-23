@@ -88,7 +88,7 @@
     "puppeteer": "^19.2.2",
     "rimraf": "^3.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.0.0"
+    "typescript": "~5.2.0"
   },
   "dependencies": {
     "tslib": "^2.4.0"
