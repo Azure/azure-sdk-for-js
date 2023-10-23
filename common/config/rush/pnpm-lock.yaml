@@ -4435,7 +4435,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231019
+      typescript: 5.3.0-dev.20231022
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9093,8 +9093,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231019:
-    resolution: {integrity: sha512-fdexB8vj46ZSMsAg6g5aSNjThPegwT73WYwNM1DLmEnt0+fKPmmyft3LzfUR1CMHtcQNic5hl+0FeNTv7l232Q==}
+  /typescript@5.3.0-dev.20231022:
+    resolution: {integrity: sha512-g8ICZidqxW5HGoyFFTyMvbHd4EbZlTSXILKT71uyPagM4asj/3JRaOw0A+xgHSf4PrLHAGAbJ7P/JgtbgZNgcw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15003,7 +15003,7 @@ packages:
     dev: false
 
   file:projects/arm-storagemover.tgz:
-    resolution: {integrity: sha512-WbB138b0er5j3sBH4er/I4S4zL50icT/2ooUyQFJZn82xs67zXpr3aQvPCEj+dzdJwEdrBIE6kOpEwXlTYO2iA==, tarball: file:projects/arm-storagemover.tgz}
+    resolution: {integrity: sha512-NvEoejJTrPbrr8JJjsFFk0w3aFh5ZbYTLY0Da1EECQ2mhOzg7Mf9eBebHkYwvEFC2jI4kTan6Kd/om1nrJIbCA==, tarball: file:projects/arm-storagemover.tgz}
     name: '@rush-temp/arm-storagemover'
     version: 0.0.0
     dependencies:
@@ -15015,7 +15015,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)
       tslib: 2.6.2
       typescript: 5.0.4

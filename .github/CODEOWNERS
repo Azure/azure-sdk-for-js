@@ -767,6 +767,9 @@
 /sdk/storagecache/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/storagemover/arm-storagemover/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/storageimportexport/arm-storageimportexport/ @qiaozha @MaryGao
 /sdk/storageimportexport/ci.mgmt.yml @qiaozha @MaryGao
 
