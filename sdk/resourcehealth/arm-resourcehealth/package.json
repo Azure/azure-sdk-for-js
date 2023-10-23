@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for MicrosoftResourceHealth.",
-  "version": "4.1.0-beta.1",
+  "version": "4.1.0-beta.2",
   "engines": {
     "node": ">=16.0.0"
   },
@@ -34,7 +34,7 @@
     "mkdirp": "^2.1.2",
     "rollup": "^2.66.1",
     "rollup-plugin-sourcemaps": "^0.6.3",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "uglify-js": "^3.4.9",
     "rimraf": "^5.0.0",
     "dotenv": "^16.0.0",
