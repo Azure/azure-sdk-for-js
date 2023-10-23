@@ -9,6 +9,10 @@ export interface ErrorBody {
    * @hidden
    */
   additionalErrorInfo?: PartitionedQueryExecutionInfo;
+  /**
+   * @hidden
+   */
+  fetchedSoFarResults?: any[];
 }
 
 /**

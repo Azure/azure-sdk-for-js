@@ -138,44 +138,44 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     //       );
     //     });
     //     const ruConsumed: RUConsumed = { ruConsumed: 0 };
-    //     // Fill up our priority queue with documentProducers
-        targetPartitionQueryExecutionContextList.forEach((documentProducer): void => {
-          // has async callback
-          const throttledFunc = async (): Promise<void> => {
-            try {
-              const { result: document, headers } = await documentProducer.current(
-                this.getDiagnosticNode(),
-                ruConsumed
-              );
-              this._mergeWithActiveResponseHeaders(headers);
-              if (document === undefined) {
-                // no results on this one
-                return;
-              }
-              // if there are matching results in the target ex range add it to the priority queue
-              try {
-                this.orderByPQ.enq(documentProducer);
-              } catch (e: any) {
-                this.err = e;
-              }
-            } catch (err: any) {
-              this._mergeWithActiveResponseHeaders(err.headers);
-              this.err = err;
-            } finally {
-              parallelismSem.leave();
-              this._decrementInitiationLock();
-            }
-          };
-          parallelismSem.take(throttledFunc);
-        });
-      } catch (err: any) {
-        this.err = err;
-        // release the lock
-        this.sem.leave();
-        return;
-      }
-    };
-    this.sem.take(createDocumentProducersAndFillUpPriorityQueueFunc);
+    // //     // Fill up our priority queue with documentProducers
+    //     targetPartitionQueryExecutionContextList.forEach((documentProducer): void => {
+    //       // has async callback
+    //       const throttledFunc = async (): Promise<void> => {
+    //         try {
+    //           const { result: document, headers } = await documentProducer.current(
+    //             this.getDiagnosticNode(),
+    //             ruConsumed
+    //           );
+    //           this._mergeWithActiveResponseHeaders(headers);
+    //           if (document === undefined) {
+    //             // no results on this one
+    //             return;
+    //           }
+    //           // if there are matching results in the target ex range add it to the priority queue
+    //           try {
+    //             this.orderByPQ.enq(documentProducer);
+    //           } catch (e: any) {
+    //             this.err = e;
+    //           }
+    //         } catch (err: any) {
+    //           this._mergeWithActiveResponseHeaders(err.headers);
+    //           this.err = err;
+    //         } finally {
+    //           parallelismSem.leave();
+    //           this._decrementInitiationLock();
+    //         }
+    //       };
+    //       parallelismSem.take(throttledFunc);
+    //     });
+    //   } catch (err: any) {
+    //     this.err = err;
+    //     // release the lock
+    //     this.sem.leave();
+    //     return;
+    //   }
+    // };
+    // this.sem.take(createDocumentProducersAndFillUpPriorityQueueFunc);
   }
 
   createDocumentProducersAndFillUpPriorityQueueFunc = async (

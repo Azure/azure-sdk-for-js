@@ -361,6 +361,6 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
   };
 }
 
-export interface RUConsumed{
+export interface RUConsumed {
   ruConsumed: number;
 }

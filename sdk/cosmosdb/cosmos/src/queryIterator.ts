@@ -26,6 +26,7 @@ import {
   withMetadataDiagnostics,
 } from "./utils/diagnostics";
 import { MetadataLookUpType } from "./CosmosDiagnostics";
+import { OperationOptions } from "./request/OperationOptions";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -135,7 +136,7 @@ export class QueryIterator<T> {
    * Fetch all pages for the query and return a single FeedResponse.
    */
 
-  public async fetchAll(): Promise<FeedResponse<T>> {
+  public async fetchAll(operationOptions?: OperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       return this.fetchAllInternal(diagnosticNode);
     }, this.clientContext);
@@ -162,7 +163,7 @@ export class QueryIterator<T> {
    * and the type of query. Aggregate queries will generally fetch all backend pages
    * before returning the first batch of responses.
    */
-  public async fetchNext(): Promise<FeedResponse<T>> {
+  public async fetchNext(operationOptions?: OperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       this.queryPlanPromise = withMetadataDiagnostics(
         async (metadataNode: DiagnosticNodeInternal) => {

@@ -102,5 +102,4 @@ export interface FeedOptions extends SharedOptions {
    */
   populateIndexMetrics?: boolean;
   ruCapacity?: number;
-  
 }
