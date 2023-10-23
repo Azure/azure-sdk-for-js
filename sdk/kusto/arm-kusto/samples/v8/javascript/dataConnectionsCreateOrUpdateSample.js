@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a data connection.
  *
  * @summary Creates or updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoDataConnectionsCosmosDbCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsCosmosDbCreateOrUpdate.json
  */
 async function kustoDataConnectionsCosmosDbCreateOrUpdate() {
   const subscriptionId =
@@ -54,7 +54,7 @@ async function kustoDataConnectionsCosmosDbCreateOrUpdate() {
  * This sample demonstrates how to Creates or updates a data connection.
  *
  * @summary Creates or updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoDataConnectionsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsCreateOrUpdate.json
  */
 async function kustoDataConnectionsCreateOrUpdate() {
   const subscriptionId =
@@ -88,7 +88,7 @@ async function kustoDataConnectionsCreateOrUpdate() {
  * This sample demonstrates how to Creates or updates a data connection.
  *
  * @summary Creates or updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoDataConnectionsEventGridCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsEventGridCreateOrUpdate.json
  */
 async function kustoDataConnectionsEventGridCreateOrUpdate() {
   const subscriptionId =

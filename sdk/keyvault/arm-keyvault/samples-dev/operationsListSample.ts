@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the available Key Vault Rest API operations.
  *
  * @summary Lists all of the available Key Vault Rest API operations.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/listOperations.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/listOperations.json
  */
 async function listsAvailableRestApiOperations() {
   const subscriptionId =

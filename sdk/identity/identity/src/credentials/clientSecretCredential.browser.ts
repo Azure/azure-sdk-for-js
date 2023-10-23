@@ -6,7 +6,7 @@ import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipel
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
 import { IdentityClient } from "../client/identityClient";
@@ -20,11 +20,11 @@ const logger = credentialLogger("ClientSecretCredential");
 // Please do not disable your browser security features.
 
 /**
- * Enables authentication to Azure Active Directory using a client secret
+ * Enables authentication to Microsoft Entra ID using a client secret
  * that was generated for an App Registration.  More information on how
  * to configure a client secret can be found here:
  *
- * https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-configure-app-access-web-apis#add-credentials-to-your-web-application
+ * https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-configure-app-access-web-apis#add-credentials-to-your-web-application
  *
  */
 export class ClientSecretCredential implements TokenCredential {
@@ -36,10 +36,10 @@ export class ClientSecretCredential implements TokenCredential {
 
   /**
    * Creates an instance of the ClientSecretCredential with the details
-   * needed to authenticate against Azure Active Directory with a client
+   * needed to authenticate against Microsoft Entra ID with a client
    * secret.
    *
-   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param clientSecret - A client secret that was generated for the App Registration.
    * @param options - Options for configuring the client which makes the authentication request.
@@ -52,7 +52,7 @@ export class ClientSecretCredential implements TokenCredential {
   ) {
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
     this.clientId = clientId;
@@ -60,7 +60,7 @@ export class ClientSecretCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
+   * Authenticates with Microsoft Entra ID and returns an access token if
    * successful.  If authentication cannot be performed at this time, this method may
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.

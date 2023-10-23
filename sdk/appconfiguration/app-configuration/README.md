@@ -204,7 +204,7 @@ async function run() {
   const poller = await client.beginCreateSnapshot({
     name:"testsnapshot",
     retentionPeriod: 2592000,
-    filters: [{key, label}],
+    filters: [{keyFilter: key, labelFilter: label}],
   });
   const snapshot = await poller.pollUntilDone();
 }
@@ -217,7 +217,7 @@ You can also use `beginCreateSnapshotAndWait` to have the result of the creation
 const snapshot  = await client.beginCreateSnapshotAndWait({
   name:"testsnapshot",
   retentionPeriod: 2592000,
-  filters: [{key, label}],
+  filters: [{keyFilter: key, labelFilter: label}],
 });
 ```
 
@@ -249,13 +249,14 @@ for await (const snapshot of snapshots) {
 ### Recover and archive the snapshot
 ```javascript
 // Snapshot is in ready status
-let archivedSnapshot = await client.archiveSnapshot({name: "testsnapshot"});
+let archivedSnapshot = await client.archiveSnapshot("testsnapshot");
 console.log("Snapshot updated status is:", archivedSnapshot.status);
 
 // Snapshot is in archive status
-let recoverSnapshot = await client.recoverSnapshot({name: "testsnapshot"});
+let recoverSnapshot = await client.recoverSnapshot("testsnapshot");
 console.log("Snapshot updated status is:", recoverSnapshot.status);
 ```
+
 ## Troubleshooting
 
 ### Logging

@@ -181,9 +181,9 @@ export function createResourceMetricEnvelope(
       if (
         !(
           key.startsWith("_MS.") ||
-          key == SemanticResourceAttributes.TELEMETRY_SDK_VERSION ||
-          key == SemanticResourceAttributes.TELEMETRY_SDK_LANGUAGE ||
-          key == SemanticResourceAttributes.TELEMETRY_SDK_NAME
+          key === SemanticResourceAttributes.TELEMETRY_SDK_VERSION ||
+          key === SemanticResourceAttributes.TELEMETRY_SDK_LANGUAGE ||
+          key === SemanticResourceAttributes.TELEMETRY_SDK_NAME
         )
       ) {
         resourceAttributes[key] = resource.attributes[key] as string;
@@ -191,12 +191,12 @@ export function createResourceMetricEnvelope(
     }
     // Only send event when resource attributes are available
     if (Object.keys(resourceAttributes).length > 0) {
-      let baseData: MetricsData = {
+      const baseData: MetricsData = {
         version: 2,
         metrics: [{ name: "_OTELRESOURCE_", value: 1 }],
         properties: resourceAttributes,
       };
-      let envelope: Envelope = {
+      const envelope: Envelope = {
         name: "Microsoft.ApplicationInsights.Metric",
         time: new Date(),
         sampleRate: 100, // Metrics are never sampled

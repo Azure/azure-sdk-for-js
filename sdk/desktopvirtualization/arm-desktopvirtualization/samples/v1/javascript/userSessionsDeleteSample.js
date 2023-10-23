@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Remove a userSession.
  *
  * @summary Remove a userSession.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/UserSession_Delete.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/UserSession_Delete.json
  */
 async function userSessionDelete() {
   const subscriptionId =
