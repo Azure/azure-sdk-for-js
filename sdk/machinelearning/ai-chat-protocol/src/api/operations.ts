@@ -20,10 +20,7 @@ import { CompletionOptions, CreateOptions } from "../models/options.js";
 import {
   ChatProtocolContext as Client,
   Create200Response,
-  CreateDefaultResponse,
   CreateStreaming200Response,
-  CreateStreamingDefaultResponse,
-  isUnexpected,
 } from "../rest/index.js";
 import { streamSSEs } from "./streaming.js";
 
@@ -31,7 +28,7 @@ export function _createSend(
   context: Client,
   body: ChatCompletionOptions,
   options: CreateOptions = { requestOptions: {} }
-): StreamableMethod<Create200Response | CreateDefaultResponse> {
+): StreamableMethod<Create200Response> {
   return context.path("/chat").post({
     ...operationOptionsToRequestParameters(options),
     body: {
@@ -43,10 +40,8 @@ export function _createSend(
   });
 }
 
-export async function _createDeserialize(
-  result: Create200Response | CreateDefaultResponse
-): Promise<ChatCompletion> {
-  if (isUnexpected(result)) {
+export async function _createDeserialize(result: Create200Response): Promise<ChatCompletion> {
+  if (result.status !== "200") {
     throw result.body;
   }
 
@@ -85,7 +80,7 @@ function _createStreamingSend(
   context: Client,
   messages: ChatMessage[],
   options: CompletionOptions = { requestOptions: {} }
-): StreamableMethod<CreateStreaming200Response | CreateStreamingDefaultResponse> {
+): StreamableMethod<CreateStreaming200Response> {
   return context.path("/chat").post({
     ...operationOptionsToRequestParameters(options),
     body: {

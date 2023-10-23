@@ -2,7 +2,6 @@ import { ChatCompletionChunk, ChatMessage } from "../../generated/src/models/ind
 import {
   ChatProtocolContext as Client,
   CreateStreaming200Response,
-  CreateStreamingDefaultResponse,
 } from "../../generated/src/rest/index.js";
 import { _createDeserialize, _createSend } from "../../generated/src/api/operations.js";
 
@@ -14,7 +13,7 @@ function _createStreamingSend(
   context: Client,
   messages: ChatMessage[],
   options: CompletionOptions = { requestOptions: {} }
-): StreamableMethod<CreateStreaming200Response | CreateStreamingDefaultResponse> {
+): StreamableMethod<CreateStreaming200Response> {
   return context.path("/chat").post({
     ...operationOptionsToRequestParameters(options),
     body: {

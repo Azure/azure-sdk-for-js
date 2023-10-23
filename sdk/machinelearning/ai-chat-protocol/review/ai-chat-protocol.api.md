@@ -8,6 +8,7 @@ import { ClientOptions } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ChatChoice {
@@ -52,7 +53,7 @@ export interface ChatMessageDelta {
 
 // @public (undocumented)
 export class ChatProtocolClient {
-    constructor(endpoint: string, credential: KeyCredential, options?: ChatProtocolClientOptions);
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: ChatProtocolClientOptions);
     create(messages: ChatMessage[], options?: CompletionOptions): Promise<ChatCompletion>;
     // Warning: (ae-forgotten-export) The symbol "CompletionOptions" needs to be exported by the entry point index.d.ts
     createStreaming(messages: ChatMessage[], options?: CompletionOptions): AsyncIterable<ChatCompletionChunk>;

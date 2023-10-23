@@ -11,7 +11,7 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "../logger.js";
-import { KeyCredential } from "@azure/core-auth";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { ChatProtocolContext } from "./clientDefinitions.js";
 
 /**
@@ -22,7 +22,7 @@ import { ChatProtocolContext } from "./clientDefinitions.js";
  */
 export default function createClient(
   endpoint: string,
-  credentials: KeyCredential,
+  credentials: TokenCredential | KeyCredential,
   options: ClientOptions = {}
 ): ChatProtocolContext {
   const baseUrl = options.baseUrl ?? `${endpoint}`;
@@ -30,6 +30,7 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
+      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "api-key",
     },
   };

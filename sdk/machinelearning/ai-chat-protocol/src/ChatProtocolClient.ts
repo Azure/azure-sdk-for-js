@@ -9,7 +9,7 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import {
   ChatProtocolClientOptions,
@@ -36,7 +36,7 @@ export class ChatProtocolClient {
   /** Azure APIs for the Azure Chat protocol. */
   constructor(
     endpoint: string,
-    credential: KeyCredential,
+    credential: KeyCredential | TokenCredential,
     options: ChatProtocolClientOptions = {}
   ) {
     this._client = createChatProtocol(endpoint, credential, options);

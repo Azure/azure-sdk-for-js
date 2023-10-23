@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "@azure/core-auth";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import {
   StreamingChatCompletionOptions,
@@ -28,7 +28,7 @@ export class ChatProtocolClient {
   /** Azure APIs for the Azure Chat protocol. */
   constructor(
     endpoint: string,
-    credential: KeyCredential,
+    credential: KeyCredential | TokenCredential,
     options: ChatProtocolClientOptions = {}
   ) {
     this._client = createChatProtocol(endpoint, credential, options);

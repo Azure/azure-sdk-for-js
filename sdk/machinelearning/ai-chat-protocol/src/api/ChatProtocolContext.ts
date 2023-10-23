@@ -9,7 +9,7 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { KeyCredential } from "@azure/core-auth";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
 import { ChatProtocolContext } from "../rest/index.js";
 import getClient from "../rest/index.js";
@@ -21,7 +21,7 @@ export { ChatProtocolContext } from "../rest/index.js";
 /** Azure APIs for the Azure Chat protocol. */
 export function createChatProtocol(
   endpoint: string,
-  credential: KeyCredential,
+  credential: KeyCredential | TokenCredential,
   options: ChatProtocolClientOptions = {}
 ): ChatProtocolContext {
   const clientContext = getClient(endpoint, credential, options);
