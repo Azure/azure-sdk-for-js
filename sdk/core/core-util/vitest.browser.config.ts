@@ -5,7 +5,6 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   resolve: {
-    mainFields: ["browser"],
     browserField: true,
   },
   test: {
@@ -14,6 +13,9 @@ export default defineConfig({
       headless: true,
       name: "chromium",
       provider: "playwright",
+    },
+    fakeTimers: {
+      toFake: ["setTimeout"],
     },
     watch: false,
     include: ["test/**/*.spec.ts"],
