@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update an applicationGroup.
  *
  * @summary Create or update an applicationGroup.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/ApplicationGroup_Create.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ApplicationGroup_Create.json
  */
 async function applicationGroupCreate() {
   const subscriptionId =
@@ -37,6 +37,7 @@ async function applicationGroupCreate() {
     hostPoolArmPath:
       "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1",
     location: "centralus",
+    showInFeed: true,
     tags: { tag1: "value1", tag2: "value2" }
   };
   const credential = new DefaultAzureCredential();

@@ -18,7 +18,8 @@ import {
   VolumeGroupUpdate as VolumeGroupUpdateMapper,
   Volume as VolumeMapper,
   VolumeUpdate as VolumeUpdateMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
+  Snapshot as SnapshotMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -48,7 +49,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-12-01-preview",
+    defaultValue: "2023-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -198,6 +199,26 @@ export const parameters5: OperationParameter = {
   mapper: VolumeUpdateMapper
 };
 
+export const xMsDeleteSnapshots: OperationParameter = {
+  parameterPath: ["options", "xMsDeleteSnapshots"],
+  mapper: {
+    serializedName: "x-ms-delete-snapshots",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const xMsForceDelete: OperationParameter = {
+  parameterPath: ["options", "xMsForceDelete"],
+  mapper: {
+    serializedName: "x-ms-force-delete",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper
@@ -207,6 +228,27 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
     serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SnapshotMapper
+};
+
+export const snapshotName: OperationURLParameter = {
+  parameterPath: "snapshotName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9]+(?:[._-][a-z0-9]+)*$"),
+      MaxLength: 80,
+      MinLength: 1
+    },
+    serializedName: "snapshotName",
     required: true,
     type: {
       name: "String"

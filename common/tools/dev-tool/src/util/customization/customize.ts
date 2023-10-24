@@ -12,6 +12,7 @@ import {
   TypeAliasDeclaration,
   SourceFile,
   ImportDeclaration,
+  Directory,
 } from "ts-morph";
 import { augmentFunctions } from "./functions";
 import { augmentClasses } from "./classes";
@@ -20,7 +21,7 @@ import { sortSourceFileContents } from "./helpers/preformat";
 import { addHeaderToFiles } from "./helpers/addFileHeaders";
 import { resolveProject } from "../resolveProject";
 import { augmentTypeAliases } from "./aliases";
-import { setCustomizationState, resetCustomizationState } from "./state";
+import { setCustomizationState, resetCustomizationState, getCustomizationState } from "./state";
 import { getNewCustomFiles } from "./helpers/files";
 import { augmentImports } from "./imports";
 
@@ -39,7 +40,7 @@ export async function customize(originalDir: string, customDir: string, outDir: 
     return;
   }
 
-  _originalFolderName = customDir.split("/").pop() ?? _originalFolderName;
+  _originalFolderName = originalDir.replace(commonPrefix(originalDir, customDir), "").replace(/\\/g, "/") ?? _originalFolderName;
 
   // Bring files only present in custom into the output
   copyFilesInCustom(originalDir, customDir, outDir);
@@ -247,14 +248,13 @@ function transformGeneratedImport(moduleSpecifier: string) {
 
 function copyCustomImports(customFile: SourceFile, originalFile: SourceFile) {
   for (const customImport of customFile.getImportDeclarations()) {
+    if (isSelfImport(customImport.getModuleSpecifierValue(), originalFile)) {
+      continue;
+    }
     if (isGeneratedImport(customImport)) {
       const newModuleSpecifier = transformGeneratedImport(customImport.getModuleSpecifierValue());
       customImport.setModuleSpecifier(newModuleSpecifier);
       originalFile.addImportDeclaration(customImport.getStructure());
-    }
-
-    if (customImport.isModuleSpecifierRelative()) {
-      continue;
     }
 
     const originalImport = originalFile.getImportDeclaration(
@@ -273,11 +273,46 @@ function copyCustomImports(customFile: SourceFile, originalFile: SourceFile) {
 
     const allImports = new Set<string>(originalNamedImports);
     for (const customNamedImport of customImport.getNamedImports()) {
-      allImports.add(customNamedImport.getName());
+      allImports.add(customNamedImport.getText());
     }
 
     originalImport?.removeNamedImports();
     originalImport?.addNamedImports(Array.from(allImports));
   }
   originalFile.organizeImports();
+}
+
+function commonPrefix(a: string, b: string) {
+  let i = 0;
+  while (i < a.length && i < b.length && a[i] === b[i]) i++;
+  return a.slice(0, i);
+}
+
+function isSelfImport(module: string, file: SourceFile): boolean {
+  const { customDir, originalDir } = getCustomizationState();
+  let projectPath = file.getDirectory();
+  while (projectPath.getRelativePathTo(customDir).startsWith("..")) {
+    projectPath = projectPath.getParent() as Directory;
+  }
+  // e.g: ./sources/generated/src
+  const relativeOriginal = originalDir.replace(/\\/g, '/').replace(projectPath.getPath(), ".");
+  // e.g: ./sources/customizations
+  const relativeCustom = customDir.replace(/\\/g, '/').replace(projectPath.getPath(), ".");
+  // e.g: ./sources/
+  const prefix = commonPrefix(relativeOriginal, relativeCustom);
+  // e.g generated/src
+  let originalSuffix = relativeOriginal.substring(prefix.length);
+  // e.g generated/src/
+  originalSuffix = originalSuffix.endsWith("/") ? originalSuffix : originalSuffix + "/";
+  // e.g folder/file.js (with the original module being ../../generated/src/folder/file.js)
+  const index = module.search(originalSuffix);
+  if (index < 0) {
+    return false;
+  }
+  const moduleRelative = module.substring(index + originalSuffix.length);
+  const sanitizedPath = file.getFilePath().replace(/\\/g, '/').replace(/\.ts$/, ".js");
+  if (sanitizedPath.endsWith(moduleRelative)) {
+    return true;
+  }
+  return false;
 }

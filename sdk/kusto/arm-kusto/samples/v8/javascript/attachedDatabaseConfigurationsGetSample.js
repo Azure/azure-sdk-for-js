@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns an attached database configuration.
  *
  * @summary Returns an attached database configuration.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoAttachedDatabaseConfigurationsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoAttachedDatabaseConfigurationsGet.json
  */
 async function attachedDatabaseConfigurationsGet() {
   const subscriptionId =

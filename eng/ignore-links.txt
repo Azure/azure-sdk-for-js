@@ -4,5 +4,6 @@ https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-cha
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples/typescript
 https://docs.microsoft.com/javascript/api/@azure/arm-hybridconnectivity?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-hybridconnectivity
+https://docs.microsoft.com/javascript/api/@azure/arm-recoveryservicesdatareplication?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-playwrighttesting?view=azure-node-preview

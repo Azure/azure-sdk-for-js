@@ -65,7 +65,7 @@ import {
 
 export class PostgreSQLManagementFlexibleServerClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
   apiVersion: string;
 
   /**
@@ -78,12 +78,28 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: PostgreSQLManagementFlexibleServerClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: PostgreSQLManagementFlexibleServerClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | PostgreSQLManagementFlexibleServerClientOptionalParams
+      | string,
+    options?: PostgreSQLManagementFlexibleServerClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -95,7 +111,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-postgresql-flexible/8.0.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-postgresql-flexible/8.0.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

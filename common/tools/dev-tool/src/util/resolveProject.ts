@@ -121,6 +121,8 @@ async function isAzureSDKPackage(fileName: string): Promise<boolean> {
 
   if (/^@azure(-[a-z]+)?\//.test(f.name)) {
     return true;
+  } else if (f.name.startsWith("@typespec")) {
+    return true;
   } else {
     return false;
   }
