@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create a UpdateRun
  *
  * @summary Create a UpdateRun
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-06-15-preview/examples/UpdateRuns_CreateOrUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-08-15-preview/examples/UpdateRuns_CreateOrUpdate.json
  */
 async function createAnUpdateRun() {
   const subscriptionId =
@@ -38,6 +38,8 @@ async function createAnUpdateRun() {
         },
       ],
     },
+    updateStrategyId:
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ContainerService/fleets/myFleet/updateStrategies/strategy1",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceFleetClient(credential, subscriptionId);

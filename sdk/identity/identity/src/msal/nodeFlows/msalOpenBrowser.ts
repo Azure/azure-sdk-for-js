@@ -14,6 +14,10 @@ import open from "open";
 export interface MsalOpenBrowserOptions extends MsalNodeOptions {
   redirectUri?: string;
   loginHint?: string;
+  browserCustomizationOptions?: {
+    errorMessage?: string;
+    successMessage?: string;
+  };
 }
 
 /**
@@ -31,10 +35,14 @@ export const interactiveBrowserMockable = {
  */
 export class MsalOpenBrowser extends MsalNode {
   private loginHint?: string;
+  private errorTemplate?: string;
+  private successTemplate?: string;
 
   constructor(options: MsalOpenBrowserOptions) {
     super(options);
     this.loginHint = options.loginHint;
+    this.errorTemplate = options.browserCustomizationOptions?.errorMessage;
+    this.successTemplate = options.browserCustomizationOptions?.successMessage;
     this.logger = credentialLogger("Node.js MSAL Open Browser");
   }
 
@@ -52,6 +60,8 @@ export class MsalOpenBrowser extends MsalNode {
         claims: options?.claims,
         correlationId: options?.correlationId,
         loginHint: this.loginHint,
+        errorTemplate: this.errorTemplate,
+        successTemplate: this.successTemplate,
       });
       return this.handleResult(scopes, this.clientId, result || undefined);
     } catch (err: any) {

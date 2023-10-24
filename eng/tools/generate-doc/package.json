@@ -11,12 +11,12 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "typedoc": "^0.23.15",
+    "typedoc": "^0.25.2",
     "yargs": "^17.5.1"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
     "@types/yargs": "^17.0.12",
-    "typescript": "~5.0.0"
+    "typescript": "~5.2.0"
   }
 }
