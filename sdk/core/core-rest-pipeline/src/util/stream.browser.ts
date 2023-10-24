@@ -48,7 +48,7 @@ export function concatenateStreams(
 
     if (done) {
       reader = streams.shift()?.getReader();
-      return await doPull(controller);
+      await doPull(controller);
     } else {
       controller.enqueue(value);
     }
@@ -57,6 +57,6 @@ export function concatenateStreams(
   return new ReadableStream({
     async pull(controller) {
       await doPull(controller);
-    }
-  })
+    },
+  });
 }

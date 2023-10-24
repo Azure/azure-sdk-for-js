@@ -61,8 +61,8 @@ async function assertBodyMatches(
   }
 }
 
-describe("multipartPolicy", function() {
-  it("passes through when request body is not MultipartRequestBody", async function() {
+describe("multipartPolicy", function () {
+  it("passes through when request body is not MultipartRequestBody", async function () {
     const request = createPipelineRequest({
       url: "https://example.com",
       method: "POST",
@@ -96,8 +96,8 @@ describe("multipartPolicy", function() {
     );
   });
 
-  describe("content-type request header", async function() {
-    it("header is populated to multipart/mixed when not set", async function() {
+  describe("content-type request header", async function () {
+    it("header is populated to multipart/mixed when not set", async function () {
       const request = await performRequest({
         headers: createHttpHeaders({}),
         body: {
@@ -113,7 +113,7 @@ describe("multipartPolicy", function() {
       );
     });
 
-    it("throws when multipart request body present but content-type is not multipart", async function() {
+    it("throws when multipart request body present but content-type is not multipart", async function () {
       await assert.isRejected(
         performRequest({
           headers: createHttpHeaders({
@@ -127,7 +127,7 @@ describe("multipartPolicy", function() {
       );
     });
 
-    it("generates boundary when none specified in existing header", async function() {
+    it("generates boundary when none specified in existing header", async function () {
       const request = await performRequest({
         headers: createHttpHeaders({
           "content-type": "multipart/alternative",
@@ -145,7 +145,7 @@ describe("multipartPolicy", function() {
       );
     });
 
-    it("preserves boundary when it is already specified", async function() {
+    it("preserves boundary when it is already specified", async function () {
       const request = await performRequest({
         headers: createHttpHeaders({
           "content-type": "multipart/form-data; boundary=blah",
@@ -162,7 +162,7 @@ describe("multipartPolicy", function() {
       );
     });
 
-    it("sets the boundary when it is specified in the multipart request body", async function() {
+    it("sets the boundary when it is specified in the multipart request body", async function () {
       const request = await performRequest({
         headers: createHttpHeaders({
           "content-type": "multipart/alternative",
@@ -181,8 +181,8 @@ describe("multipartPolicy", function() {
     });
   });
 
-  describe("multipart request body", function() {
-    it("request with no parts matches spec", async function() {
+  describe("multipart request body", function () {
+    it("request with no parts matches spec", async function () {
       const request = await performRequest({
         body: {
           boundary: "blah",
@@ -193,8 +193,8 @@ describe("multipartPolicy", function() {
       await assertBodyMatches(request.body, stringToUint8Array("--blah--", "utf-8"));
     });
 
-    describe("boundary", function() {
-      it("is present with multiple parts", async function() {
+    describe("boundary", function () {
+      it("is present with multiple parts", async function () {
         const request = await performRequest({
           body: {
             boundary: "blah",
@@ -218,8 +218,8 @@ describe("multipartPolicy", function() {
       });
     });
 
-    describe("part headers", function() {
-      it("are present when specified", async function() {
+    describe("part headers", function () {
+      it("are present when specified", async function () {
         const request = await performRequest({
           body: {
             boundary: "blah",
