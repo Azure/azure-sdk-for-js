@@ -628,7 +628,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.volumeGroupName,
     Parameters.volumeName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.xMsDeleteSnapshots,
+    Parameters.xMsForceDelete
+  ],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {

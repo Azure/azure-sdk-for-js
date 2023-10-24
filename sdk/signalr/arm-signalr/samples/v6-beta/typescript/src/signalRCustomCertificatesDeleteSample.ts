@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a custom certificate.
  *
  * @summary Delete a custom certificate.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/SignalRCustomCertificates_Delete.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalRCustomCertificates_Delete.json
  */
 async function signalRCustomCertificatesDelete() {
   const subscriptionId =

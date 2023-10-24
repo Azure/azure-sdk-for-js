@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a key vault in the specified subscription.
  *
  * @summary Create or update a key vault in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/createVault.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/createVault.json
  */
 async function createANewVaultOrUpdateAnExistingVault() {
   const subscriptionId =
@@ -91,7 +91,7 @@ async function createANewVaultOrUpdateAnExistingVault() {
  * This sample demonstrates how to Create or update a key vault in the specified subscription.
  *
  * @summary Create or update a key vault in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/createVaultWithNetworkAcls.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/createVaultWithNetworkAcls.json
  */
 async function createOrUpdateAVaultWithNetworkAcls() {
   const subscriptionId =
