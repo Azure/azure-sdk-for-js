@@ -19,8 +19,7 @@ require("dotenv").config();
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/Migrations_Create_With_Other_Users.json
  */
 async function migrationsCreateByPassingUserNames() {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigration";
@@ -40,7 +39,7 @@ async function migrationsCreateByPassingUserNames() {
       "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForPostgreSql/servers/testsource",
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const client = new PostgreSQLManagementFlexibleServerClient(credential);
   const result = await client.migrations.create(
     subscriptionId,
     resourceGroupName,
@@ -58,8 +57,7 @@ async function migrationsCreateByPassingUserNames() {
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/Migrations_Create.json
  */
 async function migrationsCreate() {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigration";
@@ -78,7 +76,7 @@ async function migrationsCreate() {
       "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForPostgreSql/servers/testsource",
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const client = new PostgreSQLManagementFlexibleServerClient(credential);
   const result = await client.migrations.create(
     subscriptionId,
     resourceGroupName,

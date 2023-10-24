@@ -399,6 +399,9 @@
 /sdk/devtestlabs/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/devcenter/arm-devcenter @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/digitaltwins/arm-digitaltwins/ @qiaozha @MaryGao
 /sdk/digitaltwins/ci.mgmt.yml @qiaozha @MaryGao
 
@@ -412,6 +415,9 @@
 # PRLabel: %Mgmt
 /sdk/domainservices/arm-domainservices/ @qiaozha @MaryGao
 /sdk/domainservices/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/elasticsans/arm-elasticsan/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/eventgrid/arm-eventgrid/ @qiaozha @MaryGao
@@ -666,6 +672,9 @@
 /sdk/recoveryservicessiterecovery/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/recoveryservicesdatareplication/arm-recoveryservicesdatareplication/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/redis/arm-rediscache/ @qiaozha @MaryGao
 /sdk/redis/ci.mgmt.yml @qiaozha @MaryGao
 
@@ -759,6 +768,9 @@
 # PRLabel: %Mgmt
 /sdk/storagecache/arm-storagecache/ @qiaozha @MaryGao
 /sdk/storagecache/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/storagemover/arm-storagemover/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/storageimportexport/arm-storageimportexport/ @qiaozha @MaryGao

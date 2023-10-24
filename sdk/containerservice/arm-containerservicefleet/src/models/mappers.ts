@@ -287,6 +287,13 @@ export const FleetHubProfile: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      portalFqdn: {
+        serializedName: "portalFqdn",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -326,6 +333,12 @@ export const AgentProfile: coreClient.CompositeMapper = {
     modelProperties: {
       subnetId: {
         serializedName: "subnetId",
+        type: {
+          name: "String"
+        }
+      },
+      vmSize: {
+        serializedName: "vmSize",
         type: {
           name: "String"
         }
@@ -1022,6 +1035,34 @@ export const NodeImageVersion: coreClient.CompositeMapper = {
   }
 };
 
+export const FleetUpdateStrategyListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetUpdateStrategyListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FleetUpdateStrategy"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1155,6 +1196,12 @@ export const UpdateRun: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      updateStrategyId: {
+        serializedName: "properties.updateStrategyId",
+        type: {
+          name: "String"
+        }
+      },
       strategy: {
         serializedName: "properties.strategy",
         type: {
@@ -1174,6 +1221,37 @@ export const UpdateRun: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "UpdateRunStatus"
+        }
+      }
+    }
+  }
+};
+
+export const FleetUpdateStrategy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetUpdateStrategy",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      eTag: {
+        serializedName: "eTag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      strategy: {
+        serializedName: "properties.strategy",
+        type: {
+          name: "Composite",
+          className: "UpdateRunStrategy"
         }
       }
     }
@@ -1355,6 +1433,42 @@ export const UpdateRunsStopHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UpdateRunsStopHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FleetUpdateStrategiesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetUpdateStrategiesCreateOrUpdateHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const FleetUpdateStrategiesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetUpdateStrategiesDeleteHeaders",
     modelProperties: {
       retryAfter: {
         serializedName: "retry-after",
