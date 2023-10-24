@@ -124,14 +124,14 @@ export interface BrokerAuthOptions {
 // @public
 export interface BrokerDisabledOptions {
     enabled: false;
-    legacyEnableMSAPassthrough?: undefined;
+    legacyEnableMsaPassthrough?: undefined;
     parentWindowHandle: undefined;
 }
 
 // @public
 export interface BrokerEnabledOptions {
     enabled: true;
-    legacyEnableMSAPassthrough?: boolean;
+    legacyEnableMsaPassthrough?: boolean;
     parentWindowHandle: Uint8Array;
 }
 

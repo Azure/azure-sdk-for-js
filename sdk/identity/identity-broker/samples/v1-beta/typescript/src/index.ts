@@ -46,7 +46,7 @@ try{
     tenantId: process.env.AZURE_TENANT_ID,    
     brokerOptions: {
       enabled: true,
-      legacyEnableMSAPassthrough: true,
+      legacyEnableMsaPassthrough: true,
       parentWindowHandle: Uint8Array.from(win.getNativeWindowHandle()),      
     },
   };

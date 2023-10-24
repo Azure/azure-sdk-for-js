@@ -17,7 +17,7 @@ export interface BrokerDisabledOptions {
   /**
    * If set to true, MSA account will be passed through, required for WAM authentication.
    */
-  legacyEnableMSAPassthrough?: undefined;
+  legacyEnableMsaPassthrough?: undefined;
   /**
    * Window handle for parent window, required for WAM authentication
    */
@@ -35,7 +35,7 @@ export interface BrokerEnabledOptions {
   /**
    * If set to true, MSA account will be passed through, required for WAM authentication.
    */
-  legacyEnableMSAPassthrough?: boolean;
+  legacyEnableMsaPassthrough?: boolean;
   /**
    * Window handle for parent window, required for WAM authentication
    */

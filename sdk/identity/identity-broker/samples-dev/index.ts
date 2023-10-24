@@ -30,7 +30,7 @@ async function main() {
 
     brokerOptions: {
       enabled: true,
-      legacyEnableMSAPassthrough: true,
+      legacyEnableMsaPassthrough: true,
       parentWindowHandle: Uint8Array.from(win.getNativeWindowHandle()),
     },
   };

@@ -158,7 +158,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       this.getAssertion = options.getAssertion;
     }
     this.enableBroker = options?.brokerOptions?.enabled;
-    this.enableMSAPassthrough = options?.brokerOptions?.legacyEnableMSAPassthrough;
+    this.enableMSAPassthrough = options?.brokerOptions?.legacyEnableMsaPassthrough;
     this.parentWindowHandle = options.brokerOptions?.parentWindowHandle;
 
     // If persistence has been configured
