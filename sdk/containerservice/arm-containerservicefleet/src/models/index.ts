@@ -147,6 +147,11 @@ export interface FleetHubProfile {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kubernetesVersion?: string;
+  /**
+   * The Azure Portal FQDN of the Fleet hub.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly portalFqdn?: string;
 }
 
 /** Access profile for the Fleet hub API server. */
@@ -163,6 +168,8 @@ export interface APIServerAccessProfile {
 export interface AgentProfile {
   /** The ID of the subnet which the Fleet hub node will join on startup. If this is not specified, a vnet and subnet will be generated and used. */
   subnetId?: string;
+  /** The virtual machine size of the Fleet hub. */
+  vmSize?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -290,26 +297,25 @@ export interface UpdateRunListResult {
   nextLink?: string;
 }
 
-/** The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated. */
+/**
+ * Defines the update sequence of the clusters via stages and groups.
+ *
+ * Stages within a run are executed sequentially one after another.
+ * Groups within a stage are executed in parallel.
+ * Member clusters within a group are updated sequentially one after another.
+ *
+ * A valid strategy contains no duplicate groups within or across stages.
+ */
 export interface UpdateRunStrategy {
-  /** The list of stages that compose this update run. */
+  /** The list of stages that compose this update run. Min size: 1. */
   stages: UpdateStage[];
 }
 
-/**
- * Contains the groups to be updated by an UpdateRun.
- * Update order:
- * - Sequential between stages: Stages run sequentially. The previous stage must complete before the next one starts.
- * - Parallel within a stage: Groups within a stage run in parallel.
- * - Sequential within a group: Clusters within a group are updated sequentially.
- */
+/** Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting the next stage. */
 export interface UpdateStage {
   /** The name of the stage. Must be unique within the UpdateRun. */
   name: string;
-  /**
-   * A list of group names that compose the stage.
-   * The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.
-   */
+  /** Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1. */
   groups?: UpdateGroup[];
   /** The time in seconds to wait at the end of this stage before starting the next one. Defaults to 0 seconds if unspecified. */
   afterStageWaitInSeconds?: number;
@@ -318,9 +324,8 @@ export interface UpdateStage {
 /** A group to be updated. */
 export interface UpdateGroup {
   /**
-   * The name of the Fleet member group to update.
-   * It should match the name of an existing FleetMember group.
-   * A group can only appear once across all UpdateStages in the UpdateRun.
+   * Name of the group.
+   * It must match a group name of an existing fleet member.
    */
   name: string;
 }
@@ -498,6 +503,14 @@ export interface NodeImageVersion {
   readonly version?: string;
 }
 
+/** The response of a FleetUpdateStrategy list operation. */
+export interface FleetUpdateStrategyListResult {
+  /** The FleetUpdateStrategy items on this page */
+  value: FleetUpdateStrategy[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -545,7 +558,7 @@ export interface FleetMember extends ProxyResource {
   readonly provisioningState?: FleetMemberProvisioningState;
 }
 
-/** An UpdateRun is a multi-stage process to perform update operations across members of a Fleet. */
+/** A multi-stage process to perform update operations across members of a Fleet. */
 export interface UpdateRun extends ProxyResource {
   /**
    * If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.
@@ -557,6 +570,21 @@ export interface UpdateRun extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: UpdateRunProvisioningState;
+  /**
+   * The resource id of the FleetUpdateStrategy resource to reference.
+   *
+   * When creating a new run, there are three ways to define a strategy for the run:
+   * 1. Define a new strategy in place: Set the "strategy" field.
+   * 2. Use an existing strategy: Set the "updateStrategyId" field. (since 2023-08-15-preview)
+   * 3. Use the default strategy to update all the members one by one: Leave both "updateStrategyId" and "strategy" unset. (since 2023-08-15-preview)
+   *
+   * Setting both "updateStrategyId" and "strategy" is invalid.
+   *
+   * UpdateRuns created by "updateStrategyId" snapshot the referenced UpdateStrategy at the time of creation and store it in the "strategy" field.
+   * Subsequent changes to the referenced FleetUpdateStrategy resource do not propagate.
+   * UpdateRunStrategy changes can be made directly on the "strategy" field before launching the UpdateRun.
+   */
+  updateStrategyId?: string;
   /**
    * The strategy defines the order in which the clusters will be updated.
    * If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single UpdateGroup targeting all members.
@@ -570,6 +598,22 @@ export interface UpdateRun extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: UpdateRunStatus;
+}
+
+/** Defines a multi-stage process to perform update operations across members of a Fleet. */
+export interface FleetUpdateStrategy extends ProxyResource {
+  /**
+   * If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
+  /**
+   * The provisioning state of the UpdateStrategy resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: FleetUpdateStrategyProvisioningState;
+  /** Defines the update sequence of the clusters. */
+  strategy?: UpdateRunStrategy;
 }
 
 /** Defines headers for Fleets_createOrUpdate operation. */
@@ -640,6 +684,20 @@ export interface UpdateRunsStartHeaders {
 
 /** Defines headers for UpdateRuns_stop operation. */
 export interface UpdateRunsStopHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for FleetUpdateStrategies_createOrUpdate operation. */
+export interface FleetUpdateStrategiesCreateOrUpdateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for FleetUpdateStrategies_delete operation. */
+export interface FleetUpdateStrategiesDeleteHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
@@ -880,6 +938,27 @@ export enum KnownUpdateState {
  */
 export type UpdateState = string;
 
+/** Known values of {@link FleetUpdateStrategyProvisioningState} that the service accepts. */
+export enum KnownFleetUpdateStrategyProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for FleetUpdateStrategyProvisioningState. \
+ * {@link KnownFleetUpdateStrategyProvisioningState} can be used interchangeably with FleetUpdateStrategyProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
+ */
+export type FleetUpdateStrategyProvisioningState = string;
+
 /** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
@@ -1113,6 +1192,54 @@ export interface UpdateRunsListByFleetNextOptionalParams
 
 /** Contains response data for the listByFleetNext operation. */
 export type UpdateRunsListByFleetNextResponse = UpdateRunListResult;
+
+/** Optional parameters. */
+export interface FleetUpdateStrategiesListByFleetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFleet operation. */
+export type FleetUpdateStrategiesListByFleetResponse = FleetUpdateStrategyListResult;
+
+/** Optional parameters. */
+export interface FleetUpdateStrategiesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FleetUpdateStrategiesGetResponse = FleetUpdateStrategy;
+
+/** Optional parameters. */
+export interface FleetUpdateStrategiesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The request should only proceed if no entity matches this string. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type FleetUpdateStrategiesCreateOrUpdateResponse = FleetUpdateStrategy;
+
+/** Optional parameters. */
+export interface FleetUpdateStrategiesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface FleetUpdateStrategiesListByFleetNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFleetNext operation. */
+export type FleetUpdateStrategiesListByFleetNextResponse = FleetUpdateStrategyListResult;
 
 /** Optional parameters. */
 export interface ContainerServiceFleetClientOptionalParams

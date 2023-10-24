@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified managed HSM Pool.
  *
  * @summary Gets the specified managed HSM Pool.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/ManagedHsm_Get.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_Get.json
  */
 async function retrieveAManagedHsmPool() {
   const subscriptionId =
