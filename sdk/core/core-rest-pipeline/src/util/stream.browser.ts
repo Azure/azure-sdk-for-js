@@ -5,13 +5,14 @@ function uint8ArrayToStream(data: Uint8Array): ReadableStream {
   return new ReadableStream({
     start(controller) {
       controller.enqueue(data);
+      controller.close();
     },
   });
 }
 
 export function toStream(
-  source: ReadableStream | NodeJS.ReadableStream | Uint8Array | Blob
-): ReadableStream {
+  source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob
+): ReadableStream<Uint8Array> {
   if (source instanceof Uint8Array) {
     return uint8ArrayToStream(source);
   } else if (source instanceof Blob) {
@@ -26,26 +27,36 @@ export function toStream(
 }
 
 export function concatenateStreams(
-  sources: (ReadableStream | NodeJS.ReadableStream | Uint8Array)[]
-): ReadableStream | NodeJS.ReadableStream {
-  const streams = sources.map((x) => {
-    if (x instanceof Uint8Array) {
-      return uint8ArrayToStream(x);
-    } else if (x instanceof ReadableStream) {
-      return x;
+  streams: ReadableStream<Uint8Array>[]
+): ReadableStream<Uint8Array> {
+  let reader = streams.shift()?.getReader();
+
+  async function doPull(controller: ReadableStreamDefaultController): Promise<void> {
+    if (!reader) {
+      controller.close();
+      return;
+    }
+
+    let value: Uint8Array | undefined;
+    let done: boolean | undefined;
+
+    try {
+      ({ value, done } = await reader.read());
+    } catch (e) {
+      controller.error(e);
+    }
+
+    if (done) {
+      reader = streams.shift()?.getReader();
+      return await doPull(controller);
     } else {
-      throw new Error("Can only concatenate ReadableStream or Uint8Array in browser");
+      controller.enqueue(value);
     }
-  });
+  }
 
-  const output = new TransformStream();
-  // TODO potential for unhandled rejection?
-  (async () => {
-    for (const stream of streams) {
-      await stream.pipeTo(output.writable, { preventClose: true });
+  return new ReadableStream({
+    async pull(controller) {
+      await doPull(controller);
     }
-    await output.writable.close();
-  })();
-
-  return output.readable;
+  })
 }
