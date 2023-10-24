@@ -93,7 +93,7 @@ export { VisualStudioCodeCredentialOptions } from "./credentials/visualStudioCod
 export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 export { WorkloadIdentityCredential } from "./credentials/workloadIdentityCredential";
 export { WorkloadIdentityCredentialOptions } from "./credentials/workloadIdentityCredentialOptions";
-
+export { BrowserCustomizationOptions } from "./credentials/browserCustomizationOptions";
 export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";

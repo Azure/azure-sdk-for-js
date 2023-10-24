@@ -19,10 +19,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/GetPrivateDnsZoneSuffix.json
  */
 async function getPrivateDnsZoneSuffix() {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const client = new PostgreSQLManagementFlexibleServerClient(credential);
   const result = await client.getPrivateDnsZoneSuffix.execute();
   console.log(result);
 }

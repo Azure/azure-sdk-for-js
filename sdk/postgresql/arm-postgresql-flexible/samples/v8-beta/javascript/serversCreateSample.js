@@ -106,7 +106,7 @@ async function createANewServer() {
         "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourcegroups/testrg/providers/Microsoft.Network/privateDnsZones/test-private-dns-zone.postgres.database.azure.com",
     },
     sku: { name: "Standard_D4s_v3", tier: "GeneralPurpose" },
-    storage: { autoGrow: "Disabled", iopsTier: "P20", storageSizeGB: 512 },
+    storage: { autoGrow: "Disabled", storageSizeGB: 512, tier: "P20" },
     tags: { elasticServer: "1" },
     version: "12",
   };
@@ -148,7 +148,7 @@ async function createANewServerWithActiveDirectoryAuthenticationEnabled() {
         "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourcegroups/testrg/providers/Microsoft.Network/privateDnsZones/test-private-dns-zone.postgres.database.azure.com",
     },
     sku: { name: "Standard_D4s_v3", tier: "GeneralPurpose" },
-    storage: { autoGrow: "Disabled", iopsTier: "P20", storageSizeGB: 512 },
+    storage: { autoGrow: "Disabled", storageSizeGB: 512, tier: "P20" },
     tags: { elasticServer: "1" },
     version: "12",
   };

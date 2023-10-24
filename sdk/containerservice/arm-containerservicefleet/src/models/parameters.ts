@@ -16,7 +16,8 @@ import {
   FleetPatch as FleetPatchMapper,
   FleetMember as FleetMemberMapper,
   FleetMemberUpdate as FleetMemberUpdateMapper,
-  UpdateRun as UpdateRunMapper
+  UpdateRun as UpdateRunMapper,
+  FleetUpdateStrategy as FleetUpdateStrategyMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -46,7 +47,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-06-15-preview",
+    defaultValue: "2023-08-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -199,4 +200,25 @@ export const updateRunName: OperationURLParameter = {
 export const resource2: OperationParameter = {
   parameterPath: "resource",
   mapper: UpdateRunMapper
+};
+
+export const updateStrategyName: OperationURLParameter = {
+  parameterPath: "updateStrategyName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"),
+      MaxLength: 50,
+      MinLength: 1
+    },
+    serializedName: "updateStrategyName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const resource3: OperationParameter = {
+  parameterPath: "resource",
+  mapper: FleetUpdateStrategyMapper
 };
