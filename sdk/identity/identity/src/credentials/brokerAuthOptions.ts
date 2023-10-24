@@ -3,7 +3,7 @@
 import { BrokerOptions } from "../msal/nodeFlows/brokerOptions";
 
 /**
- * Configuration options for Interactive Browser credentials
+ * Configuration options for InteractiveBrowserCredential
  * to support WAM Broker Authentication.
  */
 
