@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ErrorModel } from "@azure-rest/core-client";
 import { Paged } from "@azure/core-paging";
 
 /** Operation info. */
@@ -56,7 +57,7 @@ export interface OperationDetailsOutputParent {
   /** List of key-value tag attributes associated with the document model. */
   tags?: Record<string, string>;
   /** Encountered error. */
-  error?: ErrorModelOutput;
+  error?: ErrorModel;
   kind: string;
 }
 
@@ -83,7 +84,7 @@ export interface DocumentModelBuildOperationDetailsOutput {
   /** List of key-value tag attributes associated with the document model. */
   tags?: Record<string, string>;
   /** Encountered error. */
-  error?: ErrorModelOutput;
+  error?: ErrorModel;
   /** Operation result upon success. */
   result?: DocumentModelDetailsOutput;
   /** Type of operation. */
@@ -213,7 +214,7 @@ export interface AnalyzeResultOperationOutput {
   /** Date and time (UTC) when the status was last updated. */
   lastUpdatedDateTime: string;
   /** Encountered error during document analysis. */
-  error?: ErrorModelOutput;
+  error?: ErrorModel;
   /** Document analysis result. */
   analyzeResult?: AnalyzeResultOutput;
 }
@@ -744,10 +745,7 @@ export interface ClassifierDocumentTypeDetailsOutput {
 }
 
 /** Get Operation response object. */
-export type OperationDetailsOutput =
-  | DocumentModelComposeOperationDetailsOutput
-  | DocumentModelCopyToOperationDetailsOutput
-  | DocumentClassifierBuildOperationDetailsOutput;
+export type OperationDetailsOutput = DocumentModelBuildOperationDetailsOutput;
 /** Paged collection of OperationSummary items */
 export type PagedOperationSummaryOutput = Paged<OperationSummaryOutput>;
 /** Paged collection of DocumentModelSummary items */
