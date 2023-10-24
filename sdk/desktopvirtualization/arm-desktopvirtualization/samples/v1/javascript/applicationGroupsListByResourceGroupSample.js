@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List applicationGroups.
  *
  * @summary List applicationGroups.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/ApplicationGroup_ListByResourceGroup.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ApplicationGroup_ListByResourceGroup.json
  */
 async function applicationGroupListByResourceGroup() {
   const subscriptionId =

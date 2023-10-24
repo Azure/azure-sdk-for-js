@@ -18,13 +18,15 @@ import {
   OperationsImpl,
   FleetsImpl,
   FleetMembersImpl,
-  UpdateRunsImpl
+  UpdateRunsImpl,
+  FleetUpdateStrategiesImpl
 } from "./operations";
 import {
   Operations,
   Fleets,
   FleetMembers,
-  UpdateRuns
+  UpdateRuns,
+  FleetUpdateStrategies
 } from "./operationsInterfaces";
 import { ContainerServiceFleetClientOptionalParams } from "./models";
 
@@ -60,7 +62,7 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-containerservicefleet/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-containerservicefleet/1.0.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -113,11 +115,12 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-06-15-preview";
+    this.apiVersion = options.apiVersion || "2023-08-15-preview";
     this.operations = new OperationsImpl(this);
     this.fleets = new FleetsImpl(this);
     this.fleetMembers = new FleetMembersImpl(this);
     this.updateRuns = new UpdateRunsImpl(this);
+    this.fleetUpdateStrategies = new FleetUpdateStrategiesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -153,4 +156,5 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
   fleets: Fleets;
   fleetMembers: FleetMembers;
   updateRuns: UpdateRuns;
+  fleetUpdateStrategies: FleetUpdateStrategies;
 }

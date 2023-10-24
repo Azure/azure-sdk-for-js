@@ -1,6 +1,6 @@
 # Release History
 
-## 8.0.0-beta.3 (Unreleased)
+## 8.0.0-beta.4 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,152 @@
 
 ### Other Changes
 
+## 8.0.0-beta.3 (2023-10-16)
+    
+**Features**
+
+  - Added operation group FlexibleServer
+  - Added operation group LogFiles
+  - Added operation group LtrBackupOperations
+  - Added operation group Migrations
+  - Added operation group ServerCapabilities
+  - Added Interface AdminCredentials
+  - Added Interface BackupRequestBase
+  - Added Interface BackupSettings
+  - Added Interface BackupStoreDetails
+  - Added Interface CapabilityBase
+  - Added Interface CheckMigrationNameAvailabilityOptionalParams
+  - Added Interface DbServerMetadata
+  - Added Interface FlexibleServerCapability
+  - Added Interface FlexibleServerStartLtrBackupExceptionHeaders
+  - Added Interface FlexibleServerStartLtrBackupHeaders
+  - Added Interface FlexibleServerStartLtrBackupOptionalParams
+  - Added Interface FlexibleServerTriggerLtrPreBackupExceptionHeaders
+  - Added Interface FlexibleServerTriggerLtrPreBackupHeaders
+  - Added Interface FlexibleServerTriggerLtrPreBackupOptionalParams
+  - Added Interface LogFile
+  - Added Interface LogFileListResult
+  - Added Interface LogFilesListByServerNextOptionalParams
+  - Added Interface LogFilesListByServerOptionalParams
+  - Added Interface LtrBackupOperationsGetOptionalParams
+  - Added Interface LtrBackupOperationsListByServerNextOptionalParams
+  - Added Interface LtrBackupOperationsListByServerOptionalParams
+  - Added Interface LtrBackupRequest
+  - Added Interface LtrBackupResponse
+  - Added Interface LtrPreBackupRequest
+  - Added Interface LtrPreBackupResponse
+  - Added Interface LtrServerBackupOperation
+  - Added Interface LtrServerBackupOperationList
+  - Added Interface MigrationNameAvailabilityResource
+  - Added Interface MigrationResource
+  - Added Interface MigrationResourceForPatch
+  - Added Interface MigrationResourceListResult
+  - Added Interface MigrationsCreateOptionalParams
+  - Added Interface MigrationsDeleteOptionalParams
+  - Added Interface MigrationSecretParameters
+  - Added Interface MigrationsGetOptionalParams
+  - Added Interface MigrationsListByTargetServerNextOptionalParams
+  - Added Interface MigrationsListByTargetServerOptionalParams
+  - Added Interface MigrationStatus
+  - Added Interface MigrationSubStateDetails
+  - Added Interface MigrationsUpdateOptionalParams
+  - Added Interface ServerCapabilitiesListNextOptionalParams
+  - Added Interface ServerCapabilitiesListOptionalParams
+  - Added Interface ServerSku
+  - Added Interface ServerSkuCapability
+  - Added Interface StorageMbCapability
+  - Added Type Alias AzureManagedDiskPerformanceTiers
+  - Added Type Alias CancelEnum
+  - Added Type Alias CapabilityStatus
+  - Added Type Alias CheckMigrationNameAvailabilityResponse
+  - Added Type Alias ExecutionStatus
+  - Added Type Alias FastProvisioningSupportedEnum
+  - Added Type Alias FlexibleServerStartLtrBackupResponse
+  - Added Type Alias FlexibleServerTriggerLtrPreBackupResponse
+  - Added Type Alias GeoBackupSupportedEnum
+  - Added Type Alias HaMode
+  - Added Type Alias KeyStatusEnum
+  - Added Type Alias LogFilesListByServerNextResponse
+  - Added Type Alias LogFilesListByServerResponse
+  - Added Type Alias LogicalReplicationOnSourceDbEnum
+  - Added Type Alias LtrBackupOperationsGetResponse
+  - Added Type Alias LtrBackupOperationsListByServerNextResponse
+  - Added Type Alias LtrBackupOperationsListByServerResponse
+  - Added Type Alias MigrationDetailsLevel
+  - Added Type Alias MigrationListFilter
+  - Added Type Alias MigrationMode
+  - Added Type Alias MigrationNameAvailabilityReason
+  - Added Type Alias MigrationsCreateResponse
+  - Added Type Alias MigrationsGetResponse
+  - Added Type Alias MigrationsListByTargetServerNextResponse
+  - Added Type Alias MigrationsListByTargetServerResponse
+  - Added Type Alias MigrationState
+  - Added Type Alias MigrationSubState
+  - Added Type Alias MigrationsUpdateResponse
+  - Added Type Alias OnlineResizeSupportedEnum
+  - Added Type Alias OverwriteDbsInTargetEnum
+  - Added Type Alias RestrictedEnum
+  - Added Type Alias ServerCapabilitiesListNextResponse
+  - Added Type Alias ServerCapabilitiesListResponse
+  - Added Type Alias StartDataMigrationEnum
+  - Added Type Alias StorageAutoGrow
+  - Added Type Alias StorageAutoGrowthSupportedEnum
+  - Added Type Alias TriggerCutoverEnum
+  - Added Type Alias ZoneRedundantHaAndGeoBackupSupportedEnum
+  - Added Type Alias ZoneRedundantHaSupportedEnum
+  - Interface DataEncryption has a new optional parameter geoBackupEncryptionKeyStatus
+  - Interface DataEncryption has a new optional parameter geoBackupKeyURI
+  - Interface DataEncryption has a new optional parameter geoBackupUserAssignedIdentityId
+  - Interface DataEncryption has a new optional parameter primaryEncryptionKeyStatus
+  - Interface FastProvisioningEditionCapability has a new optional parameter serverCount
+  - Interface FastProvisioningEditionCapability has a new optional parameter supportedTier
+  - Interface FlexibleServerEditionCapability has a new optional parameter defaultSkuName
+  - Interface FlexibleServerEditionCapability has a new optional parameter supportedServerSkus
+  - Interface ServerForUpdate has a new optional parameter network
+  - Interface Storage_2 has a new optional parameter autoGrow
+  - Interface Storage_2 has a new optional parameter iops
+  - Interface Storage_2 has a new optional parameter tier
+  - Interface StorageEditionCapability has a new optional parameter defaultStorageSizeMb
+  - Interface StorageEditionCapability has a new optional parameter supportedStorageMb
+  - Interface UserAssignedIdentity has a new optional parameter tenantId
+  - Added Enum KnownAzureManagedDiskPerformanceTiers
+  - Added Enum KnownCancelEnum
+  - Added Enum KnownExecutionStatus
+  - Added Enum KnownFastProvisioningSupportedEnum
+  - Added Enum KnownGeoBackupSupportedEnum
+  - Added Enum KnownHaMode
+  - Added Enum KnownKeyStatusEnum
+  - Added Enum KnownLogicalReplicationOnSourceDbEnum
+  - Added Enum KnownMigrationDetailsLevel
+  - Added Enum KnownMigrationListFilter
+  - Added Enum KnownMigrationMode
+  - Added Enum KnownMigrationNameAvailabilityReason
+  - Added Enum KnownMigrationState
+  - Added Enum KnownMigrationSubState
+  - Added Enum KnownOnlineResizeSupportedEnum
+  - Added Enum KnownOverwriteDbsInTargetEnum
+  - Added Enum KnownRestrictedEnum
+  - Added Enum KnownStartDataMigrationEnum
+  - Added Enum KnownStorageAutoGrow
+  - Added Enum KnownStorageAutoGrowthSupportedEnum
+  - Added Enum KnownTriggerCutoverEnum
+  - Added Enum KnownZoneRedundantHaAndGeoBackupSupportedEnum
+  - Added Enum KnownZoneRedundantHaSupportedEnum
+  - Enum KnownCreateMode has a new value ReviveDropped
+  - Enum KnownServerVersion has a new value Fifteen
+  - Class PostgreSQLManagementFlexibleServerClient has a new signature
+
+**Breaking Changes**
+
+  - Interface FlexibleServerEditionCapability no longer has parameter supportedServerVersions
+  - Interface ServerVersionCapability no longer has parameter supportedVcores
+  - Interface StorageEditionCapability no longer has parameter supportedStorageMB
+  - Interface StorageTierCapability no longer has parameter isBaseline
+  - Interface StorageTierCapability no longer has parameter tierName
+  - Type of parameter value of interface CapabilitiesListResult is changed from CapabilityProperties[] to FlexibleServerCapability[]
+  - Enum KnownIdentityType no longer has value SystemAssigned
+    
+    
 ## 8.0.0-beta.2 (2023-05-26)
     
 **Features**
@@ -153,8 +299,151 @@
   - Interface StorageTierCapability no longer has parameter tierName
   - Type of parameter value of interface CapabilitiesListResult is changed from CapabilityProperties[] to FlexibleServerCapability[]
   - Enum KnownIdentityType no longer has value SystemAssigned
+
+
+## 8.0.0-beta.1 (2023-05-22)
     
+**Features**
+
+  - Added operation group FlexibleServer
+  - Added operation group LogFiles
+  - Added operation group LtrBackupOperations
+  - Added operation group Migrations
+  - Added operation group ServerCapabilities
+  - Added Interface AdminCredentials
+  - Added Interface BackupRequestBase
+  - Added Interface BackupSettings
+  - Added Interface BackupStoreDetails
+  - Added Interface CapabilityBase
+  - Added Interface CheckMigrationNameAvailabilityOptionalParams
+  - Added Interface DbServerMetadata
+  - Added Interface FlexibleServerCapability
+  - Added Interface FlexibleServerStartLtrBackupExceptionHeaders
+  - Added Interface FlexibleServerStartLtrBackupHeaders
+  - Added Interface FlexibleServerStartLtrBackupOptionalParams
+  - Added Interface FlexibleServerTriggerLtrPreBackupExceptionHeaders
+  - Added Interface FlexibleServerTriggerLtrPreBackupHeaders
+  - Added Interface FlexibleServerTriggerLtrPreBackupOptionalParams
+  - Added Interface LogFile
+  - Added Interface LogFileListResult
+  - Added Interface LogFilesListByServerNextOptionalParams
+  - Added Interface LogFilesListByServerOptionalParams
+  - Added Interface LtrBackupOperationsGetOptionalParams
+  - Added Interface LtrBackupOperationsListByServerNextOptionalParams
+  - Added Interface LtrBackupOperationsListByServerOptionalParams
+  - Added Interface LtrBackupRequest
+  - Added Interface LtrBackupResponse
+  - Added Interface LtrPreBackupRequest
+  - Added Interface LtrPreBackupResponse
+  - Added Interface LtrServerBackupOperation
+  - Added Interface LtrServerBackupOperationList
+  - Added Interface MigrationNameAvailabilityResource
+  - Added Interface MigrationResource
+  - Added Interface MigrationResourceForPatch
+  - Added Interface MigrationResourceListResult
+  - Added Interface MigrationsCreateOptionalParams
+  - Added Interface MigrationsDeleteOptionalParams
+  - Added Interface MigrationSecretParameters
+  - Added Interface MigrationsGetOptionalParams
+  - Added Interface MigrationsListByTargetServerNextOptionalParams
+  - Added Interface MigrationsListByTargetServerOptionalParams
+  - Added Interface MigrationStatus
+  - Added Interface MigrationSubStateDetails
+  - Added Interface MigrationsUpdateOptionalParams
+  - Added Interface ServerCapabilitiesListNextOptionalParams
+  - Added Interface ServerCapabilitiesListOptionalParams
+  - Added Interface ServerSku
+  - Added Interface ServerSkuAutoGenerated
+  - Added Interface StorageMbCapability
+  - Added Type Alias AzureManagedDiskPerformanceTiers
+  - Added Type Alias CancelEnum
+  - Added Type Alias CapabilityStatus
+  - Added Type Alias CheckMigrationNameAvailabilityResponse
+  - Added Type Alias ExecutionStatus
+  - Added Type Alias FastProvisioningSupportedEnum
+  - Added Type Alias FlexibleServerStartLtrBackupResponse
+  - Added Type Alias FlexibleServerTriggerLtrPreBackupResponse
+  - Added Type Alias GeoBackupSupportedEnum
+  - Added Type Alias HaMode
+  - Added Type Alias KeyStatusEnum
+  - Added Type Alias LogFilesListByServerNextResponse
+  - Added Type Alias LogFilesListByServerResponse
+  - Added Type Alias LogicalReplicationOnSourceDbEnum
+  - Added Type Alias LtrBackupOperationsGetResponse
+  - Added Type Alias LtrBackupOperationsListByServerNextResponse
+  - Added Type Alias LtrBackupOperationsListByServerResponse
+  - Added Type Alias MigrationDetailsLevel
+  - Added Type Alias MigrationListFilter
+  - Added Type Alias MigrationMode
+  - Added Type Alias MigrationNameAvailabilityReason
+  - Added Type Alias MigrationsCreateResponse
+  - Added Type Alias MigrationsGetResponse
+  - Added Type Alias MigrationsListByTargetServerNextResponse
+  - Added Type Alias MigrationsListByTargetServerResponse
+  - Added Type Alias MigrationState
+  - Added Type Alias MigrationSubState
+  - Added Type Alias MigrationsUpdateResponse
+  - Added Type Alias OnlineResizeSupportedEnum
+  - Added Type Alias OverwriteDbsInTargetEnum
+  - Added Type Alias RestrictedEnum
+  - Added Type Alias ServerCapabilitiesListNextResponse
+  - Added Type Alias ServerCapabilitiesListResponse
+  - Added Type Alias StartDataMigrationEnum
+  - Added Type Alias StorageAutoGrow
+  - Added Type Alias StorageAutoGrowthSupportedEnum
+  - Added Type Alias TriggerCutoverEnum
+  - Added Type Alias ZoneRedundantHaAndGeoBackupSupportedEnum
+  - Added Type Alias ZoneRedundantHaSupportedEnum
+  - Interface DataEncryption has a new optional parameter geoBackupEncryptionKeyStatus
+  - Interface DataEncryption has a new optional parameter geoBackupKeyURI
+  - Interface DataEncryption has a new optional parameter geoBackupUserAssignedIdentityId
+  - Interface DataEncryption has a new optional parameter primaryEncryptionKeyStatus
+  - Interface FastProvisioningEditionCapability has a new optional parameter serverCount
+  - Interface FastProvisioningEditionCapability has a new optional parameter supportedTier
+  - Interface FlexibleServerEditionCapability has a new optional parameter defaultSkuName
+  - Interface FlexibleServerEditionCapability has a new optional parameter supportedServerSkus
+  - Interface Storage_2 has a new optional parameter autoGrow
+  - Interface Storage_2 has a new optional parameter iops
+  - Interface Storage_2 has a new optional parameter iopsTier
+  - Interface StorageEditionCapability has a new optional parameter defaultStorageSizeMb
+  - Interface StorageEditionCapability has a new optional parameter supportedStorageMb
+  - Added Enum KnownAzureManagedDiskPerformanceTiers
+  - Added Enum KnownCancelEnum
+  - Added Enum KnownExecutionStatus
+  - Added Enum KnownFastProvisioningSupportedEnum
+  - Added Enum KnownGeoBackupSupportedEnum
+  - Added Enum KnownHaMode
+  - Added Enum KnownKeyStatusEnum
+  - Added Enum KnownLogicalReplicationOnSourceDbEnum
+  - Added Enum KnownMigrationDetailsLevel
+  - Added Enum KnownMigrationListFilter
+  - Added Enum KnownMigrationMode
+  - Added Enum KnownMigrationNameAvailabilityReason
+  - Added Enum KnownMigrationState
+  - Added Enum KnownMigrationSubState
+  - Added Enum KnownOnlineResizeSupportedEnum
+  - Added Enum KnownOverwriteDbsInTargetEnum
+  - Added Enum KnownRestrictedEnum
+  - Added Enum KnownStartDataMigrationEnum
+  - Added Enum KnownStorageAutoGrow
+  - Added Enum KnownStorageAutoGrowthSupportedEnum
+  - Added Enum KnownTriggerCutoverEnum
+  - Added Enum KnownZoneRedundantHaAndGeoBackupSupportedEnum
+  - Added Enum KnownZoneRedundantHaSupportedEnum
+  - Enum KnownCreateMode has a new value ReviveDropped
+  - Enum KnownServerVersion has a new value Fifteen
+
+**Breaking Changes**
+
+  - Interface FlexibleServerEditionCapability no longer has parameter supportedServerVersions
+  - Interface ServerVersionCapability no longer has parameter supportedVcores
+  - Interface StorageEditionCapability no longer has parameter supportedStorageMB
+  - Interface StorageTierCapability no longer has parameter isBaseline
+  - Interface StorageTierCapability no longer has parameter tierName
+  - Type of parameter value of interface CapabilitiesListResult is changed from CapabilityProperties[] to FlexibleServerCapability[]
+  - Enum KnownIdentityType no longer has value SystemAssigned
     
+  
 ## 7.1.0 (2023-04-10)
     
 **Features**
@@ -317,4 +606,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

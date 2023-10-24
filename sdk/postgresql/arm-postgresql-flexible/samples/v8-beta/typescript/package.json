@@ -31,11 +31,11 @@
   "dependencies": {
     "@azure/arm-postgresql-flexible": "next",
     "dotenv": "latest",
-    "@azure/identity": "^2.0.1"
+    "@azure/identity": "^3.3.0"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "rimraf": "latest"
   }
 }
