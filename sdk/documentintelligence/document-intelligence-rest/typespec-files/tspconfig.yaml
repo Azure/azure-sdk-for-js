@@ -1,0 +1,14 @@
+emit: [
+  "@azure-tools/typespec-ts"
+]
+options:
+  # Uncomment this line and add "@azure-tools/typespec-python" to your package.json to generate Python code
+  "@azure-tools/typespec-ts":
+    title: DocumentIntelligence
+    generateMetadata: true
+    generateTest: true
+    "emitter-output-dir": "{output-dir}"
+    packageDetails:
+      name: "@azure-rest/document-intelligence"
+      description: "Document Intelligence Rest Client"
+      version: "1.0.0-beta.1"

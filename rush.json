@@ -311,6 +311,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/document-intelligence",
+      "projectFolder": "sdk/documentintelligence/document-intelligence-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-administration",
       "projectFolder": "sdk/purview/purview-administration-rest",
       "versionPolicyName": "client"
