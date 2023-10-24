@@ -48,7 +48,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && dev-tool run bundle --inline-dynamic-imports-for-browser-test=true",
-    "build": "npm run clean && npm run extract-api && tsc -p . && dev-tool run bundle",
+    "build": "npm run clean && npm run extract-api && tsc -p . && dev-tool run bundle --inline-dynamic-imports-for-browser-test=true",
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
