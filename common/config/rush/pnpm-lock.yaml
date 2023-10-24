@@ -14808,7 +14808,7 @@ packages:
     dev: false
 
   file:projects/arm-signalr.tgz:
-    resolution: {integrity: sha512-XwZK9HKTGp/6WT3RVf1DllitORSQcoCzi/ZLjP0QNlbtFqpdb+/sHHlQ/BmTqjDeqLYRRxAoR8GiEePDGm0cHQ==, tarball: file:projects/arm-signalr.tgz}
+    resolution: {integrity: sha512-25h/aLZQWGd7p8XqlDQtyFLuZNSWx0MFOPAqWbFOT54vuClFuHeA2V+dfh+COBbmDKV2bHKBq6uzUZTe0QECow==, tarball: file:projects/arm-signalr.tgz}
     name: '@rush-temp/arm-signalr'
     version: 0.0.0
     dependencies:
@@ -14820,7 +14820,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
