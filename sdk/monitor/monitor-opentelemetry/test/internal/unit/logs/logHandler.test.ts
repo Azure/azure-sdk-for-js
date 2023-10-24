@@ -6,10 +6,11 @@ import sinon from "sinon";
 import { trace, context, isValidTraceId, isValidSpanId } from "@opentelemetry/api";
 import { LogRecord as APILogRecord, logs } from "@opentelemetry/api-logs";
 import { ExportResultCode } from "@opentelemetry/core";
+import { LoggerProvider } from "@opentelemetry/sdk-logs";
 import { LogHandler } from "../../../../src/logs";
 import { MetricHandler } from "../../../../src/metrics";
 import { InternalConfig } from "../../../../src/shared";
-import { TraceHandler } from "../../../../src/traces";
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 
 describe("LogHandler", () => {
   let sandbox: sinon.SinonSandbox;
@@ -35,6 +36,13 @@ describe("LogHandler", () => {
           resolve(logs);
         })
     );
+    const loggerProvider: LoggerProvider = new LoggerProvider();
+    loggerProvider.addLogRecordProcessor(handler.getLogRecordProcessor());
+    logs.setGlobalLoggerProvider(loggerProvider);
+    handler.start();
+
+    const tracerProvider = new NodeTracerProvider();
+    tracerProvider.register();
   });
 
   afterEach(() => {
@@ -42,33 +50,32 @@ describe("LogHandler", () => {
     exportStub.resetHistory();
   });
 
-  describe("#logger", () => {
-    it("constructor", () => {
-      assert.ok(logs.getLoggerProvider(), "LoggerProvider not available");
-      assert.ok(logs.getLogger("testLogger"), "Logger not available");
-    });
+  after(() => {
+    logs.disable();
+    trace.disable();
+  });
 
+  describe("#logger", () => {
     it("export", (done) => {
       // Generate exception Log record
       const logRecord: APILogRecord = {
         body: "testLog",
       };
       logs.getLogger("testLogger").emit(logRecord);
-      handler
-        .flush()
+      (logs.getLoggerProvider() as LoggerProvider)
+        .forceFlush()
         .then(() => {
           let result = exportStub.args;
           assert.strictEqual(result.length, 1);
           assert.strictEqual(result[0][0][0].body, "testLog");
           done();
         })
-        .catch((error) => {
+        .catch((error: Error) => {
           done(error);
         });
     });
 
     it("tracing", (done) => {
-      new TraceHandler(_config, metricHandler);
       trace.getTracer("testTracer").startActiveSpan("test", () => {
         // Generate Log record
         const logRecord: APILogRecord = {
@@ -76,8 +83,8 @@ describe("LogHandler", () => {
           body: "testRecord",
         };
         logs.getLogger("testLogger").emit(logRecord);
-        handler
-          .flush()
+        (logs.getLoggerProvider() as LoggerProvider)
+          .forceFlush()
           .then(() => {
             assert.ok(exportStub.calledOnce, "Export called");
             const logs = exportStub.args[0][0];
@@ -89,7 +96,7 @@ describe("LogHandler", () => {
             assert.deepStrictEqual(logs[0].spanContext.spanId, spanContext?.spanId);
             done();
           })
-          .catch((error) => {
+          .catch((error: Error) => {
             done(error);
           });
       });
@@ -103,8 +110,8 @@ describe("LogHandler", () => {
           body: "testErrorRecord",
         };
         logs.getLogger("testLogger").emit(logRecord);
-        handler
-          .flush()
+        (logs.getLoggerProvider() as LoggerProvider)
+          .forceFlush()
           .then(() => {
             let result = exportStub.args;
             assert.strictEqual(result.length, 1);
@@ -114,7 +121,7 @@ describe("LogHandler", () => {
             );
             done();
           })
-          .catch((error) => {
+          .catch((error: Error) => {
             done(error);
           });
       });
@@ -126,8 +133,8 @@ describe("LogHandler", () => {
           body: "testRecord",
         };
         logs.getLogger("testLogger").emit(logRecord);
-        handler
-          .flush()
+        (logs.getLoggerProvider() as LoggerProvider)
+          .forceFlush()
           .then(() => {
             let result = exportStub.args;
             assert.strictEqual(result.length, 1);
@@ -137,7 +144,7 @@ describe("LogHandler", () => {
             );
             done();
           })
-          .catch((error) => {
+          .catch((error: Error) => {
             done(error);
           });
       });

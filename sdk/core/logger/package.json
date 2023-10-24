@@ -92,13 +92,13 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
     "mocha-junit-reporter": "^2.0.0",
-    "nyc": "^15.0.0",
+    "c8": "^8.0.0",
     "prettier": "^2.5.1",
     "puppeteer": "^19.2.2",
     "rimraf": "^3.0.0",
     "sinon": "^15.0.0",
     "ts-node": "^10.0.0",
-    "typescript": "~5.0.0"
+    "typescript": "~5.2.0"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"
