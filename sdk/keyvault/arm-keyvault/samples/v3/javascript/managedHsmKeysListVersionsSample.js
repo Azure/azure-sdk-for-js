@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the versions of the specified key in the specified managed HSM.
  *
  * @summary Lists the versions of the specified key in the specified managed HSM.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/managedHsmListKeyVersions.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/managedHsmListKeyVersions.json
  */
 async function listKeyVersionsInTheManagedHsm() {
   const subscriptionId =

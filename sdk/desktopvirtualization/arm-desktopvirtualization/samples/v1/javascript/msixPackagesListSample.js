@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List MSIX packages in hostpool.
  *
  * @summary List MSIX packages in hostpool.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/MsixPackage_List.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/MsixPackage_List.json
  */
 async function msixPackageList() {
   const subscriptionId =

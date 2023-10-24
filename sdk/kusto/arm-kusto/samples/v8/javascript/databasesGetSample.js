@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns a database.
  *
  * @summary Returns a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoDatabasesGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasesGet.json
  */
 async function kustoDatabasesGet() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function kustoDatabasesGet() {
  * This sample demonstrates how to Returns a database.
  *
  * @summary Returns a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoSuspendedDatabasesGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoSuspendedDatabasesGet.json
  */
 async function kustoSuspendedDatabasesGet() {
   const subscriptionId =
