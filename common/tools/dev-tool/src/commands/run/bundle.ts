@@ -39,10 +39,52 @@ export const commandInfo = makeCommandInfo(
       default: true,
       description: "include a polyfill for Node.js builtin modules",
     },
+    "inject-node-polyfills": {
+      kind: "boolean",
+      default: false,
+      description: "inject imports for Node.js builtin polyfill modules",
+    },
+    "ignore-missing-node-builtins": {
+      kind: "boolean",
+      default: false,
+      description: "ignore missing Node.js builtin modules",
+    },
+    "inline-dynamic-imports-for-browser-test": {
+      kind: "boolean",
+      default: false,
+      description: "inline dynamic imports for browser test bundle",
+    },
   }
 );
 
 export default leafCommand(commandInfo, async (options) => {
+  const browserTest = options["browser-test"];
+  const injectNodePolyfills = options["inject-node-polyfills"];
+  const ignoreMissingNodeBuiltins = options["ignore-missing-node-builtins"];
+  const polyfillNode = options["polyfill-node"];
+  const inlineDynamicImportsForBrowserTest = options["inline-dynamic-imports-for-browser-test"];
+
+  if (injectNodePolyfills && polyfillNode) {
+    throw new Error(
+      "Cannot use both --inject-node-polyfills and --polyfill-node. Using --inject-node-polyfills is an advanced scenario when you want to have more control on which polyfill libraries to be used."
+    );
+  }
+  if (ignoreMissingNodeBuiltins && !injectNodePolyfills) {
+    log.warn(
+      "This is probably a mistake. --ignore-missing-node-builtins should only be used with --inject-node-polyfills."
+    );
+  }
+  if (!browserTest && injectNodePolyfills) {
+    log.warn(
+      "This is probably a mistake. --inject-node-polyfills shouldn't be used if --browser-test is disabled."
+    );
+  }
+  if (!browserTest && inlineDynamicImportsForBrowserTest) {
+    log.warn(
+      "This is probably a mistake.  --inline-dynamic-imports-for-browser-test shouldn't be used if --browser-test is disabled."
+    );
+  }
+
   const info = await resolveProject(process.cwd());
 
   if (!info.packageJson.module) {
@@ -137,6 +179,14 @@ export default leafCommand(commandInfo, async (options) => {
         file: `dist-test/index.browser.js`,
         format: "umd",
         sourcemap: true,
+        // Dynamic imports are not supported in `umd` so we have to tell
+        // Rollup to inline it. This will inline dynamic imports instead of
+        // creating new chunks to create a single bundle. Only possible if a
+        // single input is provided. **Note that** this will change the
+        // execution order: A module that is only imported
+        // dynamically will be executed immediately if the dynamic import is
+        // inlined.
+        inlineDynamicImports: inlineDynamicImportsForBrowserTest,
       });
     } catch (error: any) {
       log.error(error);
