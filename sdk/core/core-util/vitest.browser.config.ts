@@ -4,9 +4,6 @@
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  resolve: {
-    browserField: true,
-  },
   test: {
     browser: {
       enabled: true,
