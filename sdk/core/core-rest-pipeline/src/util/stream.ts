@@ -1,10 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Duplex, PassThrough, Readable } from "stream";
+import { Duplex, PassThrough } from "stream";
 
-function isNodeReadableStream(x: any): x is NodeJS.ReadableStream {
-  return typeof x.pipe === "function";
+export function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
+  return Boolean(x && typeof (x as NodeJS.ReadableStream).pipe === "function");
+}
+
+export function isWebReadableStream(x: unknown): x is ReadableStream {
+  return Boolean(
+    x &&
+      typeof (x as ReadableStream).getReader === "function" &&
+      typeof (x as ReadableStream).tee === "function"
+  );
+}
+
+export function isReadableStream(x: unknown): x is ReadableStream | NodeJS.ReadableStream {
+  return isNodeReadableStream(x) || isWebReadableStream(x);
 }
 
 export function toStream(
@@ -26,25 +38,14 @@ export function toStream(
 export function concatenateStreams(
   sources: (ReadableStream | NodeJS.ReadableStream)[]
 ): ReadableStream | NodeJS.ReadableStream {
-  const streams = sources.map((x) => {
-    if (x instanceof Uint8Array) {
-      const stream = new Duplex();
-      stream.push(x);
-      stream.push(null);
-      return stream;
-    } else if (Buffer.isBuffer(x)) {
-      return Readable.from(x);
-    } else if (isNodeReadableStream(x)) {
-      return x;
-    } else {
-      throw new Error("Got a browser readable stream!?");
-    }
-  });
+  if (sources.some(isWebReadableStream)) {
+    throw new Error("Browser ReadableStream not currently supported in Node environment");
+  }
 
   const output = new PassThrough();
   (async () => {
-    for (const stream of streams) {
-      const done = stream === streams.at(-1);
+    for (const stream of sources as NodeJS.ReadableStream[]) {
+      const done = stream === sources.at(-1);
       stream.pipe(output, { end: done });
       stream.on("error", (error) => output.emit("error", error));
       await new Promise((resolve) => stream.once("end", resolve));

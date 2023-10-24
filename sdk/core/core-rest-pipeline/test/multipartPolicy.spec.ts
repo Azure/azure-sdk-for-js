@@ -8,8 +8,8 @@ import { createPipelineRequest } from "../src/pipelineRequest";
 import { multipartPolicy } from "../src/policies/multipartPolicy";
 import { assert } from "chai";
 import { PipelineRequestOptions } from "../src/pipelineRequest";
-import { Readable } from "stream";
 import { stringToUint8Array } from "@azure/core-util";
+import { isNodeReadableStream, isWebReadableStream } from "../src/util/stream";
 
 async function performRequest(
   requestOptions: Omit<PipelineRequestOptions, "url" | "method">
@@ -45,10 +45,10 @@ async function assertBodyMatches(
     assert.fail("Expected a request body");
   }
 
-  if (actual instanceof ReadableStream) {
+  if (isWebReadableStream(actual)) {
     const actualBytes = new Uint8Array(await new Response(actual).arrayBuffer());
     assertUint8ArraySame(actualBytes, expected, "body does not match");
-  } else if (actual instanceof Readable) {
+  } else if (isNodeReadableStream(actual)) {
     const buffers: Buffer[] = [];
     for await (const buffer of actual) {
       buffers.push(buffer as Buffer);

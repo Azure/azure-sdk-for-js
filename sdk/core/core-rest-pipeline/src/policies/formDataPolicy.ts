@@ -11,6 +11,7 @@ import {
   SendRequest,
 } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
+import { isReadableStream } from "../util/stream";
 
 /**
  * The programmatic identifier of the formDataPolicy.
@@ -53,11 +54,8 @@ function wwwFormUrlEncode(formData: FormDataMap): string {
 }
 
 function isFileLike(maybeFile: any): maybeFile is FileLike {
-  return (
-    maybeFile?.stream !== undefined &&
-    ((typeof ReadableStream !== "undefined" && maybeFile.stream instanceof ReadableStream) ||
-      typeof maybeFile.stream?.pipe === "function" ||
-      typeof maybeFile.stream === "function")
+  return Boolean(
+    maybeFile && (typeof maybeFile.stream === "function" || isReadableStream(maybeFile))
   );
 }
 
@@ -89,6 +87,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
           body: encoder.encode(value),
         });
       } else if (isFileLike(value)) {
+        // using || instead of ?? here since if value.name is empty we should create a file name
         const fileName = value.name || "blob";
         const headers = createHttpHeaders();
         headers.set(
@@ -103,7 +102,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
           headers,
           body: typeof value.stream === "function" ? value.stream() : value.stream,
         });
-      } else if (typeof ReadableStream !== "undefined" && value instanceof ReadableStream) {
+      } else if (isReadableStream(value)) {
         parts.push({
           headers: createHttpHeaders({
             "Content-Disposition": `form-data; name=${fieldName}; filename=blob`,

@@ -38,11 +38,7 @@ function createBodyStream(
 export function isMultipartRequestBody(
   body: RequestBodyType | undefined
 ): body is MultipartRequestBody {
-  return (
-    body !== undefined &&
-    typeof body === "object" &&
-    Object.prototype.hasOwnProperty.call(body, "parts")
-  );
+  return Boolean(body && Array.isArray((body as MultipartRequestBody).parts));
 }
 
 export function multipartPolicy(): PipelinePolicy {
