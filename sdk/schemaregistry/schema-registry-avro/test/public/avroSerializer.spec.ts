@@ -7,21 +7,33 @@ import {
   registerTestSchema,
 } from "./utils/mockedSerializer";
 import { assert, use as chaiUse } from "chai";
-import { testAvroType, testGroup, testSchema, testValue } from "./utils/dummies";
+import { testAvroType, testGroup, testSchema, testValue, testSchemaName } from "./utils/dummies";
 import { Context } from "mocha";
-import { MessageContent } from "../../src/";
+import { AvroSerializer, MessageContent } from "../../src/";
 import chaiPromises from "chai-as-promised";
-import { createTestRegistry } from "./utils/mockedRegistryClient";
+import {
+  createPipelineWithCredential,
+  createTestRegistry,
+  removeSchemas,
+} from "./utils/mockedRegistryClient";
 import { v4 as uuid } from "uuid";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { SchemaRegistry } from "@azure/schema-registry";
-
+import { HttpClient, Pipeline, createDefaultHttpClient } from "@azure/core-rest-pipeline";
 chaiUse(chaiPromises);
 
 describe("AvroSerializer", async function () {
   let noAutoRegisterOptions: CreateTestSerializerOptions<any>;
   let recorder: Recorder;
   let registry: SchemaRegistry;
+  const schemaNamesList: string[] = [];
+  let client: HttpClient;
+  let pipeline: Pipeline;
+
+  before(async function (this: Context) {
+    client = createDefaultHttpClient();
+    pipeline = createPipelineWithCredential();
+  });
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -30,6 +42,12 @@ describe("AvroSerializer", async function () {
       serializerOptions: { autoRegisterSchemas: false, groupName: testGroup },
       recorder,
     };
+
+    schemaNamesList.push(testSchemaName);
+  });
+
+  afterEach(async function (this: Context) {
+    await removeSchemas(schemaNamesList, pipeline, client);
   });
 
   it("serializes to the expected format", async () => {
@@ -86,27 +104,53 @@ describe("AvroSerializer", async function () {
     assert.deepStrictEqual(await serializer.serialize(testValue, testSchema), message);
   });
 
+  it("serializes and deserializes logical type for timestamp-millis", async () => {
+    const serializer = new AvroSerializer(registry as any, {
+      autoRegisterSchemas: true,
+      groupName: testGroup,
+    });
+    const testTransaction = {
+      amount: 32,
+      time: new Date("Thu Nov 05 2015 11:38:05 GMT-0800 (PST)"),
+    };
+    const message = await serializer.serialize(
+      testTransaction,
+      JSON.stringify({
+        type: "record",
+        name: "AvroUser",
+        namespace: "com.azure.schemaregistry.samples",
+        fields: [
+          { name: "amount", type: "int" },
+          { name: "time", type: { type: "long", logicalType: "timestamp-millis" } },
+        ],
+      })
+    );
+    assert.isDefined(message);
+    assert.deepStrictEqual(await serializer.deserialize(message), testTransaction);
+  });
+
   it("works with trivial example in README", async () => {
     const serializer = await createTestSerializer({ recorder });
 
     // Example Avro schema
-    const schema = JSON.stringify({
+    const schema = {
       type: "record",
       name: "Rating",
       namespace: "my.example",
       fields: [{ name: "score", type: "int" }],
-    });
+    };
 
     // Example value that matches the Avro schema above
     const value = { score: 42 };
 
     // serialize value to a message
-    const message = await serializer.serialize(value, schema);
+    const message = await serializer.serialize(value, JSON.stringify(schema));
 
     // Deserialize message to value
     const deserializedValue = await serializer.deserialize(message);
 
     assert.deepStrictEqual(deserializedValue, value);
+    schemaNamesList.push(`${schema.namespace}.${schema.name}`);
   });
 
   it("deserializes from a compatible reader schema", async () => {
