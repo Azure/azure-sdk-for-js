@@ -17,6 +17,12 @@ describe("bytesEncoding", function () {
       );
     });
 
+    it("converts base64-encoded data containing an emoji (multibyte character) to bytes", function () {
+      const input = "8J+RjQ=="; // thumbs up emoji, hex f0 9f 91 8d
+      const output = stringToUint8Array(input, "base64");
+      assert.deepEqual(output, new Uint8Array([0xf0, 0x9f, 0x91, 0x8d]));
+    });
+
     it("converts a utf-8 string to bytes", function () {
       const input = "\x61\x7A\x75\x72\x65"; // 'azure' in utf8.
 
