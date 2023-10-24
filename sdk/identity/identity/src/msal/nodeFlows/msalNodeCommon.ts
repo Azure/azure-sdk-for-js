@@ -85,8 +85,8 @@ export const msalNodeFlowCacheControl = {
  */
 export let nativeBrokerInfo:
   | {
-      broker: msalNode.INativeBrokerPlugin;
-    }
+    broker: msalNode.INativeBrokerPlugin;
+  }
   | undefined = undefined;
 
 export function hasNativeBroker(): boolean {
@@ -134,7 +134,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected createCachePlugin: (() => Promise<msalNode.ICachePlugin>) | undefined;
   protected createCachePluginCae: (() => Promise<msalNode.ICachePlugin>) | undefined;
   protected createNativeBrokerPlugin: (() => Promise<msalNode.INativeBrokerPlugin>) | undefined;
-  protected enableMSAPassthrough?: boolean;
+  protected enableMsaPassthrough?: boolean;
   protected parentWindowHandle?: Uint8Array;
   protected enableBroker?: boolean;
 
@@ -158,7 +158,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       this.getAssertion = options.getAssertion;
     }
     this.enableBroker = options?.brokerOptions?.enabled;
-    this.enableMSAPassthrough = options?.brokerOptions?.legacyEnableMsaPassthrough;
+    this.enableMsaPassthrough = options?.brokerOptions?.legacyEnableMsaPassthrough;
     this.parentWindowHandle = options.brokerOptions?.parentWindowHandle;
 
     // If persistence has been configured
@@ -427,7 +427,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
           "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle."
         );
       }
-      if (this.enableMSAPassthrough) {
+      if (this.enableMsaPassthrough) {
         silentRequest.tokenQueryParameters["msal_request_type"] = "consumer_passthrough";
       }
     }

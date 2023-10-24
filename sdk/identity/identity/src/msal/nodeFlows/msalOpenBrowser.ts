@@ -75,7 +75,7 @@ export class MsalOpenBrowser extends MsalNode {
           );
         }
 
-        if (this.enableMSAPassthrough) {
+        if (this.enableMsaPassthrough) {
           (interactiveRequest.tokenQueryParameters ??= {})["msal_request_type"] =
             "consumer_passthrough";
         }
