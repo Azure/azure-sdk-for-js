@@ -117,22 +117,34 @@ export interface AzurePowerShellCredentialOptions extends MultiTenantTokenCreden
 }
 
 // @public
+export interface BrokerAuthOptions {
+    brokerOptions: BrokerOptions;
+}
+
+// @public
+export interface BrokerDisabledOptions {
+    enabled: false;
+    legacyEnableMSAPassthrough?: undefined;
+    parentWindowHandle: undefined;
+}
+
+// @public
+export interface BrokerEnabledOptions {
+    enabled: true;
+    legacyEnableMSAPassthrough?: boolean;
+    parentWindowHandle: Uint8Array;
+}
+
+// @public
+export type BrokerOptions = BrokerEnabledOptions | BrokerDisabledOptions;
+
+// @public
 export interface BrowserCustomizationOptions {
-    // (undocumented)
     browserCustomizationOptions?: {
         errorMessage: string;
         successMessage: string;
     };
 }
-export interface BrokerAuthOptions {
-    brokerOptions: BrokerOptions;
-}
-
-// Warning: (ae-forgotten-export) The symbol "BrokerEnabledOptions" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "BrokerDisabledOptions" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export type BrokerOptions = BrokerEnabledOptions | BrokerDisabledOptions;
 
 // @public
 export type BrowserLoginStyle = "redirect" | "popup";
@@ -300,7 +312,7 @@ export interface InteractiveBrowserCredentialInBrowserOptions extends Interactiv
 }
 
 // @public
-export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions, BrowserCustomizationOptions,BrokerAuthOptions {
+export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions, BrowserCustomizationOptions, BrokerAuthOptions {
     clientId?: string;
     loginHint?: string;
     redirectUri?: string | (() => string);

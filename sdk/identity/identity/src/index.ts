@@ -29,7 +29,7 @@ export { AuthorityValidationOptions } from "./credentials/authorityValidationOpt
 // export { RegionalAuthority } from "./regionalAuthority";
 
 export { BrokerAuthOptions } from "./credentials/brokerAuthOptions";
-export { BrokerOptions } from "./msal/nodeFlows/brokerOptions";
+export { BrokerOptions, BrokerEnabledOptions, BrokerDisabledOptions } from "./msal/nodeFlows/brokerOptions";
 export { InteractiveCredentialOptions } from "./credentials/interactiveCredentialOptions";
 
 export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";

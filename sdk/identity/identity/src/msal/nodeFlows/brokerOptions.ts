@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-export type BrokerOptions = BrokerEnabledOptions | BrokerDisabledOptions;
 /**
  * Parameters that enable WAM broker authentication in the InteractiveBrowserCredential.
+ */
+export type BrokerOptions = BrokerEnabledOptions | BrokerDisabledOptions;
+
+/**
+ * Parameters when WAM broker authentication is disabled.
  */
 export interface BrokerDisabledOptions {
   /**
@@ -21,6 +24,9 @@ export interface BrokerDisabledOptions {
   parentWindowHandle: undefined;
 }
 
+/**
+ * Parameters when WAM broker authentication is enabled.
+ */
 export interface BrokerEnabledOptions {
   /**
    * If set to true, broker will be enabled for WAM support on Windows
