@@ -75,8 +75,8 @@ export function concatenateStreams(
   }
 
   return new ReadableStream({
-    async pull(controller) {
-      await doPull(controller);
+    pull(controller) {
+      return doPull(controller);
     },
   });
 }
