@@ -87,17 +87,7 @@ describe("DocumentIntelligenceClient", () => {
     );
     assert.strictEqual(
       result.analyzeResult?.content,
-      `Dr. Avery Smith
-Senior Researcher
-Cloud & Al Department
-avery.smith@contoso.com
-https://www.contoso.com/
-mob: +44 (0) 7911 123456
-tel: +44 (0) 20 9876 5432
-fax: +44 (0) 20 6789 2345
-Contoso
-2 Kingdom Street
-Paddington, London, W2 6BD`
+      `Dr. Avery Smith\nSenior Researcher\nCloud & Al Department\navery.smith@contoso.com\nhttps://www.contoso.com/\nmob: +44 (0) 7911 123456\ntel: +44 (0) 20 9876 5432\nfax: +44 (0) 20 6789 2345\nContoso\n2 Kingdom Street\nPaddington, London, W2 6BD`, "expected content to match"
     );
     assert.strictEqual(
       result.analyzeResult?.documents?.[0].docType,
