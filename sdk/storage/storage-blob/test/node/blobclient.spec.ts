@@ -964,6 +964,10 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
     }
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      { removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
+      ["playback"]
+    );
     blobServiceClient = getBSU(recorder);
     containerClient = blobServiceClient.getContainerClient(containerName);
     blobName = recorder.variable("blob", getUniqueName("blob"));
