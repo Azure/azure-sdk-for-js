@@ -6,8 +6,10 @@ options:
   "@azure-tools/typespec-ts":
     title: DocumentIntelligence
     generateMetadata: true
-    generateTest: true
-    "emitter-output-dir": "{output-dir}"
+    generateTest: false
+    "emitter-output-dir": "/workspaces/azure-sdk-for-js/sdk/documentintelligence/document-intelligence-rest"
+    addCredentials: true
+    credentialScopes: ["https://cognitiveservices.azure.com/.default"]
     packageDetails:
       name: "@azure-rest/document-intelligence"
       description: "Document Intelligence Rest Client"

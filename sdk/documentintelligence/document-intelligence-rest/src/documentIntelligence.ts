@@ -3,7 +3,7 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger";
-import { KeyCredential } from "@azure/core-auth";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { DocumentIntelligenceClient } from "./clientDefinitions";
 
 /**
@@ -14,14 +14,17 @@ import { DocumentIntelligenceClient } from "./clientDefinitions";
  */
 export default function createClient(
   endpoint: string,
-  credentials: KeyCredential,
+  credentials: TokenCredential | KeyCredential,
   options: ClientOptions = {}
 ): DocumentIntelligenceClient {
-  const baseUrl = options.baseUrl ?? `${endpoint}/documentintelligence`;
+  const baseUrl = options.baseUrl ?? `${endpoint}/formrecognizer`;
   options.apiVersion = options.apiVersion ?? "2023-10-31-preview";
   options = {
     ...options,
     credentials: {
+      scopes: options.credentials?.scopes ?? [
+        "https://cognitiveservices.azure.com/.default",
+      ],
       apiKeyHeaderName:
         options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },

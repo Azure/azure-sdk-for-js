@@ -21,6 +21,7 @@ import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { SimplePollerLike } from '@azure/core-lro';
 import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AddressValueOutput {
@@ -486,7 +487,7 @@ export interface CopyAuthorizationOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: KeyCredential, options?: ClientOptions): DocumentIntelligenceClient;
+function createClient(endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): DocumentIntelligenceClient;
 export default createClient;
 
 // @public

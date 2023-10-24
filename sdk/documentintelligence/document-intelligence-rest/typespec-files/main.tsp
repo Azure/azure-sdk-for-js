@@ -13,7 +13,7 @@ using TypeSpec.Http;
 @useAuth(ApiKeyAuth<ApiKeyLocation.header, "Ocp-Apim-Subscription-Key">)
 @service({title: "Document Intelligence"})
 @server(
-  "{endpoint}/documentintelligence",
+  "{endpoint}/formrecognizer",
   "Extracts content, layout, and structured data from documents.",
   {
     @doc("The Document Intelligence service endpoint.")
