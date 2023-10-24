@@ -163,7 +163,7 @@ const examplePackageGood = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }
@@ -318,7 +318,7 @@ const examplePackageBad = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }
