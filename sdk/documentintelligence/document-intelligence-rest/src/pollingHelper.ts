@@ -41,9 +41,7 @@ export async function getLongRunningPoller<
     | AnalyzeDocumentFromStreamDefaultResponse
 >(
   client: Client,
-  initialResponse:
-    | AnalyzeDocumentFromStream202Response
-    | AnalyzeDocumentFromStreamDefaultResponse,
+  initialResponse: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
@@ -76,12 +74,9 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
       // to get the latest status. We use the client provided and the polling path
       // which is an opaque URL provided by caller, the service sends this in one of the following headers: operation-location, azure-asyncoperation or location
       // depending on the lro pattern that the service implements. If non is provided we default to the initial path.
-      const response = await client
-        .pathUnchecked(path ?? initialResponse.request.url)
-        .get();
+      const response = await client.pathUnchecked(path ?? initialResponse.request.url).get();
       const lroResponse = getLroResponse(response as TResult);
-      lroResponse.rawResponse.headers["x-ms-original-url"] =
-        initialResponse.request.url;
+      lroResponse.rawResponse.headers["x-ms-original-url"] = initialResponse.request.url;
       return lroResponse;
     },
   };
@@ -95,13 +90,9 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
  * @param response - a rest client http response
  * @returns - An LRO response that the LRO implementation understands
  */
-function getLroResponse<TResult extends HttpResponse>(
-  response: TResult
-): LroResponse<TResult> {
+function getLroResponse<TResult extends HttpResponse>(response: TResult): LroResponse<TResult> {
   if (Number.isNaN(response.status)) {
-    throw new TypeError(
-      `Status code of the response is not a number. Value: ${response.status}`
-    );
+    throw new TypeError(`Status code of the response is not a number. Value: ${response.status}`);
   }
 
   return {

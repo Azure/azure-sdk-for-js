@@ -311,16 +311,14 @@ export interface ClassifyDocumentFromStreamDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface ClassifyDocumentFromStreamDefaultResponse
-  extends HttpResponse {
+export interface ClassifyDocumentFromStreamDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & ClassifyDocumentFromStreamDefaultHeaders;
 }
 
 /** The final response for long-running classifyDocumentFromStream operation */
-export interface ClassifyDocumentFromStreamLogicalResponse
-  extends HttpResponse {
+export interface ClassifyDocumentFromStreamLogicalResponse extends HttpResponse {
   status: "200";
 }
 

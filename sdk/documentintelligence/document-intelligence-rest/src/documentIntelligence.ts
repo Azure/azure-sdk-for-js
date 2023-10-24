@@ -22,11 +22,8 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://cognitiveservices.azure.com/.default",
-      ],
-      apiKeyHeaderName:
-        options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
+      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
+      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
 
@@ -45,11 +42,7 @@ export default function createClient(
     },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as DocumentIntelligenceClient;
+  const client = getClient(baseUrl, credentials, options) as DocumentIntelligenceClient;
 
   return client;
 }

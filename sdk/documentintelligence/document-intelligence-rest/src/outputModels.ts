@@ -751,5 +751,4 @@ export type PagedOperationSummaryOutput = Paged<OperationSummaryOutput>;
 /** Paged collection of DocumentModelSummary items */
 export type PagedDocumentModelSummaryOutput = Paged<DocumentModelSummaryOutput>;
 /** Paged collection of DocumentClassifierDetails items */
-export type PagedDocumentClassifierDetailsOutput =
-  Paged<DocumentClassifierDetailsOutput>;
+export type PagedDocumentClassifierDetailsOutput = Paged<DocumentClassifierDetailsOutput>;
