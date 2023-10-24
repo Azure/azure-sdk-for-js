@@ -15,7 +15,7 @@ import {
 import { assertAudioResult } from "../utils/asserts.js";
 
 function getModel(authMethod: AuthMethod): string {
-  return authMethod === "OpenAIKey" ? "whisper-1" : "whisper-deployment";
+  return authMethod === "OpenAIKey" ? "whisper-1" : "whisper";
 }
 
 describe("OpenAI", function () {
