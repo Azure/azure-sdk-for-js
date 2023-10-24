@@ -42,6 +42,12 @@ describe("Main functions", () => {
   });
 
   it("should shutdown azureMonitor", () => {
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
     shutdownAzureMonitor();
     const meterProvider = metrics.getMeterProvider() as MeterProvider;
     assert.strictEqual(meterProvider["_shutdown"], true);

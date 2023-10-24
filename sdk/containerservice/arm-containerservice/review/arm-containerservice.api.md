@@ -17,6 +17,9 @@ export interface AbsoluteMonthlySchedule {
 }
 
 // @public
+export type AddonAutoscaling = string;
+
+// @public
 export interface AgentPool extends SubResource {
     availabilityZones?: string[];
     capacityReservationGroupID?: string;
@@ -430,6 +433,26 @@ export interface EndpointDetail {
 }
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export type Expander = string;
 
 // @public
@@ -497,6 +520,7 @@ export interface IstioCertificateAuthority {
 
 // @public
 export interface IstioComponents {
+    egressGateways?: IstioEgressGateway[];
     ingressGateways?: IstioIngressGateway[];
 }
 
@@ -535,6 +559,12 @@ export interface IstioServiceMesh {
 
 // @public
 export type KeyVaultNetworkAccessTypes = string;
+
+// @public
+export enum KnownAddonAutoscaling {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
 
 // @public
 export enum KnownAgentPoolMode {
@@ -727,7 +757,8 @@ export enum KnownNetworkPluginMode {
 export enum KnownNetworkPolicy {
     Azure = "azure",
     Calico = "calico",
-    Cilium = "cilium"
+    Cilium = "cilium",
+    None = "none"
 }
 
 // @public
@@ -1429,7 +1460,11 @@ export interface ManagedClusterPoolUpgradeProfileUpgradesItem {
 // @public
 export interface ManagedClusterPropertiesAutoScalerProfile {
     balanceSimilarNodeGroups?: string;
+    daemonsetEvictionForEmptyNodes?: boolean;
+    daemonsetEvictionForOccupiedNodes?: boolean;
     expander?: Expander;
+    expanders?: Expander[];
+    ignoreDaemonsetsUtilization?: boolean;
     maxEmptyBulkDelete?: string;
     maxGracefulTerminationSec?: string;
     maxNodeProvisionTime?: string;
@@ -2015,6 +2050,7 @@ export interface ManagedClusterWorkloadAutoScalerProfileKeda {
 
 // @public (undocumented)
 export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
+    addonAutoscaling?: AddonAutoscaling;
     enabled: boolean;
 }
 
@@ -2544,22 +2580,36 @@ export type TrustedAccessRoleBindingProvisioningState = string;
 
 // @public
 export interface TrustedAccessRoleBindings {
-    createOrUpdate(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, trustedAccessRoleBinding: TrustedAccessRoleBinding, options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, trustedAccessRoleBinding: TrustedAccessRoleBinding, options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TrustedAccessRoleBindingsCreateOrUpdateResponse>, TrustedAccessRoleBindingsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, trustedAccessRoleBinding: TrustedAccessRoleBinding, options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<TrustedAccessRoleBindingsDeleteResponse>, TrustedAccessRoleBindingsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsDeleteOptionalParams): Promise<TrustedAccessRoleBindingsDeleteResponse>;
     get(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsGetOptionalParams): Promise<TrustedAccessRoleBindingsGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: TrustedAccessRoleBindingsListOptionalParams): PagedAsyncIterableIterator<TrustedAccessRoleBinding>;
 }
 
 // @public
 export interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
 export type TrustedAccessRoleBindingsCreateOrUpdateResponse = TrustedAccessRoleBinding;
 
 // @public
-export interface TrustedAccessRoleBindingsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface TrustedAccessRoleBindingsDeleteHeaders {
+    location?: string;
 }
+
+// @public
+export interface TrustedAccessRoleBindingsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TrustedAccessRoleBindingsDeleteResponse = TrustedAccessRoleBindingsDeleteHeaders;
 
 // @public
 export interface TrustedAccessRoleBindingsGetOptionalParams extends coreClient.OperationOptions {

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates a managed private endpoint.
  *
  * @summary Updates a managed private endpoint.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoManagedPrivateEndpointsUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoManagedPrivateEndpointsUpdate.json
  */
 async function kustoManagedPrivateEndpointsUpdate() {
   const subscriptionId =
