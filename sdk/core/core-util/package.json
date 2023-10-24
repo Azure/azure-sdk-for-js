@@ -8,7 +8,10 @@
   "browser": {
     "./dist-esm/sha256.js": "./dist-esm/sha256.browser.js",
     "./dist-esm/uuidUtils.js": "./dist-esm/uuidUtils.browser.js",
-    "./dist-esm/bytesEncoding.js": "./dist-esm/bytesEncoding.browser.js"
+    "./dist-esm/bytesEncoding.js": "./dist-esm/bytesEncoding.browser.js",
+    "./src/sha256": "./dist-esm/sha256.browser",
+    "./src/uuidUtils": "./dist-esm/uuidUtils.browser",
+    "./src/bytesEncoding": "./dist-esm/bytesEncoding.browser"
   },
   "react-native": {
     "./dist/index.js": "./dist-esm/index.js",
@@ -42,7 +45,7 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "vitest --browser",
+    "unit-test:browser": "vitest -c vitest.browser.config.ts",
     "unit-test:node": "vitest",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
@@ -84,10 +87,12 @@
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",
     "prettier": "^2.5.1",
+    "playwright": "^1.39.0",
     "rimraf": "^3.0.0",
     "typescript": "~5.2.0",
     "ts-node": "^10.0.0",
-    "vitest": "^0.34.6"
+    "vitest": "1.0.0-beta.2",
+    "@vitest/browser": "1.0.0-beta.2"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"
