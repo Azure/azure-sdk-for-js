@@ -14353,7 +14353,7 @@ packages:
     dev: false
 
   file:projects/arm-resourcemover.tgz:
-    resolution: {integrity: sha512-aC19C0Le999rnRw1mobwi7OMjs0boy/EOyRWyiGR30pVKtVmNs0v3JWszldDsIv3/z8V+U1rTFJ6b3WkwaJQ6A==, tarball: file:projects/arm-resourcemover.tgz}
+    resolution: {integrity: sha512-9uta8WGjqgumQNoWeJDSfPr3vFar9KEYyggzyXh2td5NAh2DBzrye7dYbaNZkp3uYSVfqyJS9L1HqZL/T8AYmw==, tarball: file:projects/arm-resourcemover.tgz}
     name: '@rush-temp/arm-resourcemover'
     version: 0.0.0
     dependencies:
@@ -14362,9 +14362,10 @@ packages:
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
