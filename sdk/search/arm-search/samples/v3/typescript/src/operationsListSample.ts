@@ -15,27 +15,26 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets a list of all Search services in the given resource group.
+ * This sample demonstrates how to Lists all of the available REST API operations of the Microsoft.Search provider.
  *
- * @summary Gets a list of all Search services in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchListServicesByResourceGroup.json
+ * @summary Lists all of the available REST API operations of the Microsoft.Search provider.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/OperationsList.json
  */
-async function searchListServicesByResourceGroup() {
-  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
+async function operationsList() {
+  const subscriptionId =
+    process.env["SEARCH_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.services.listByResourceGroup(
-    resourceGroupName
-  )) {
+  for await (let item of client.operations.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  searchListServicesByResourceGroup();
+  operationsList();
 }
 
 main().catch(console.error);
