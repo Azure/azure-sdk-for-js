@@ -16,7 +16,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**     | **Description**       |
 | ----------------- | --------------------- |
-| [index.ts][index] | Demonstrates WAM broker authentication scenario on electron app with the usage of identity broker plugin package along with the InteractiveBrowserCredential from the identity package. |
+| [index.ts][index] | Demonstrates [WAM broker authentication](https://learn.microsoft.com/azure/active-directory/develop/scenario-desktop-acquire-token-wam) scenario on electron app with the usage of identity broker plugin package along with the InteractiveBrowserCredential from the identity package. |
 
 ## Prerequisites
 
