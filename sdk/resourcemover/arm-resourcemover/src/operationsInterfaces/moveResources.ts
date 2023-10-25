@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MoveResource,
   MoveResourcesListOptionalParams,
@@ -46,8 +46,8 @@ export interface MoveResources {
     moveResourceName: string,
     options?: MoveResourcesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MoveResourcesCreateResponse>,
+    SimplePollerLike<
+      OperationState<MoveResourcesCreateResponse>,
       MoveResourcesCreateResponse
     >
   >;
@@ -77,8 +77,8 @@ export interface MoveResources {
     moveResourceName: string,
     options?: MoveResourcesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MoveResourcesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<MoveResourcesDeleteResponse>,
       MoveResourcesDeleteResponse
     >
   >;

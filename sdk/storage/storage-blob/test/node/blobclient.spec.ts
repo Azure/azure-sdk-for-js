@@ -216,6 +216,8 @@ describe("BlobClient Node.js only", () => {
       result3.segment.blobItems![1].properties.accessTier = undefined;
     result3.segment.blobItems![0].properties.accessTierInferred =
       result3.segment.blobItems![1].properties.accessTierInferred = undefined;
+    result3.segment.blobItems![0].properties.lastAccessedOn =
+      result3.segment.blobItems![1].properties.lastAccessedOn = undefined;
 
     assert.deepStrictEqual(
       result3.segment.blobItems![0].properties,

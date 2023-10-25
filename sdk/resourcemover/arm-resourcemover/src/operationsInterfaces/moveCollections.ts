@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MoveCollection,
   MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams,
@@ -88,8 +88,8 @@ export interface MoveCollections {
     moveCollectionName: string,
     options?: MoveCollectionsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MoveCollectionsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<MoveCollectionsDeleteResponse>,
       MoveCollectionsDeleteResponse
     >
   >;
@@ -129,8 +129,8 @@ export interface MoveCollections {
     moveCollectionName: string,
     options?: MoveCollectionsPrepareOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MoveCollectionsPrepareResponse>,
+    SimplePollerLike<
+      OperationState<MoveCollectionsPrepareResponse>,
       MoveCollectionsPrepareResponse
     >
   >;
@@ -162,8 +162,8 @@ export interface MoveCollections {
     moveCollectionName: string,
     options?: MoveCollectionsInitiateMoveOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MoveCollectionsInitiateMoveResponse>,
+    SimplePollerLike<
+      OperationState<MoveCollectionsInitiateMoveResponse>,
       MoveCollectionsInitiateMoveResponse
     >
   >;
@@ -195,8 +195,8 @@ export interface MoveCollections {
     moveCollectionName: string,
     options?: MoveCollectionsCommitOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MoveCollectionsCommitResponse>,
+    SimplePollerLike<
+      OperationState<MoveCollectionsCommitResponse>,
       MoveCollectionsCommitResponse
     >
   >;
@@ -228,8 +228,8 @@ export interface MoveCollections {
     moveCollectionName: string,
     options?: MoveCollectionsDiscardOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MoveCollectionsDiscardResponse>,
+    SimplePollerLike<
+      OperationState<MoveCollectionsDiscardResponse>,
       MoveCollectionsDiscardResponse
     >
   >;
@@ -258,8 +258,8 @@ export interface MoveCollections {
     moveCollectionName: string,
     options?: MoveCollectionsResolveDependenciesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MoveCollectionsResolveDependenciesResponse>,
+    SimplePollerLike<
+      OperationState<MoveCollectionsResolveDependenciesResponse>,
       MoveCollectionsResolveDependenciesResponse
     >
   >;
@@ -287,8 +287,8 @@ export interface MoveCollections {
     moveCollectionName: string,
     options?: MoveCollectionsBulkRemoveOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MoveCollectionsBulkRemoveResponse>,
+    SimplePollerLike<
+      OperationState<MoveCollectionsBulkRemoveResponse>,
       MoveCollectionsBulkRemoveResponse
     >
   >;
