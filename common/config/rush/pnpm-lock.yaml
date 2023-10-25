@@ -10944,7 +10944,7 @@ packages:
     dev: false
 
   file:projects/arm-cdn.tgz:
-    resolution: {integrity: sha512-osjDvDcRSyM4HjkYiFdj+b1ieHWUd72Sz6XfFrG/0pnpFS2M/MPNINLnI7YtAUCnbWFw2bdtBJ0lcWxRRuxpkA==, tarball: file:projects/arm-cdn.tgz}
+    resolution: {integrity: sha512-Pm+39nnri8Sgk1BHgzpHOs6wMZS5NUjM9Fwn57RQWagiM7Ma8jdcafKOpR7+JB+MfR04NmPthHMNaYmX1u3Syw==, tarball: file:projects/arm-cdn.tgz}
     name: '@rush-temp/arm-cdn'
     version: 0.0.0
     dependencies:
@@ -10953,9 +10953,10 @@ packages:
       '@types/node': 16.18.59
       chai: 4.3.10
       cross-env: 7.0.3
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@16.18.59)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
