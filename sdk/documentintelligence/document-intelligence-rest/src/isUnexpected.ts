@@ -4,8 +4,8 @@
 import {
   ListOperations200Response,
   ListOperationsDefaultResponse,
-  GetOperation200Response,
-  GetOperationDefaultResponse,
+  GetDocumentModelBuildOperation200Response,
+  GetDocumentModelBuildOperationDefaultResponse,
   GetResourceInfo200Response,
   GetResourceInfoDefaultResponse,
   GetAnalyzeResult200Response,
@@ -17,13 +17,22 @@ import {
   GetModelDefaultResponse,
   DeleteModel204Response,
   DeleteModelDefaultResponse,
-  BuildDocument202Response,
-  BuildDocumentLogicalResponse,
-  BuildDocumentDefaultResponse,
+  BuildModel202Response,
+  BuildModelLogicalResponse,
+  BuildModelDefaultResponse,
+  ComposeModel202Response,
+  ComposeModelLogicalResponse,
+  ComposeModelDefaultResponse,
   AuthorizeModelCopy200Response,
   AuthorizeModelCopyDefaultResponse,
+  CopyModelTo202Response,
+  CopyModelToLogicalResponse,
+  CopyModelToDefaultResponse,
   ListModels200Response,
   ListModelsDefaultResponse,
+  BuildClassifier202Response,
+  BuildClassifierLogicalResponse,
+  BuildClassifierDefaultResponse,
   ListClassifiers200Response,
   ListClassifiersDefaultResponse,
   GetClassifier200Response,
@@ -35,6 +44,11 @@ import {
   ClassifyDocumentFromStreamDefaultResponse,
   GetClassifyResult200Response,
   GetClassifyResultDefaultResponse,
+  BuildIndex202Response,
+  BuildIndexLogicalResponse,
+  BuildIndexDefaultResponse,
+  Complete200Response,
+  CompleteDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -48,22 +62,33 @@ const responseMap: Record<string, string[]> = {
   "DELETE /documentModels/{modelId}": ["204"],
   "POST /documentModels:build": ["202"],
   "GET /documentModels:build": ["200", "202"],
+  "POST /documentModels:compose": ["202"],
+  "GET /documentModels:compose": ["200", "202"],
   "POST /documentModels:authorizeCopy": ["200"],
+  "POST /documentModels/{modelId}:copyTo": ["202"],
+  "GET /documentModels/{modelId}:copyTo": ["200", "202"],
   "GET /documentModels": ["200"],
+  "POST /documentClassifiers:build": ["202"],
+  "GET /documentClassifiers:build": ["200", "202"],
   "GET /documentClassifiers": ["200"],
   "GET /documentClassifiers/{classifierId}": ["200"],
   "DELETE /documentClassifiers/{classifierId}": ["204"],
   "POST /documentClassifiers/{classifierId}:analyze": ["202"],
   "GET /documentClassifiers/{classifierId}:analyze": ["200", "202"],
   "GET /documentClassifiers/{classifierId}/analyzeResults/{resultId}": ["200"],
+  "POST /chat:build": ["202"],
+  "GET /chat:build": ["200", "202"],
+  "POST /chat/{chatId}:complete": ["200"],
 };
 
 export function isUnexpected(
   response: ListOperations200Response | ListOperationsDefaultResponse
 ): response is ListOperationsDefaultResponse;
 export function isUnexpected(
-  response: GetOperation200Response | GetOperationDefaultResponse
-): response is GetOperationDefaultResponse;
+  response:
+    | GetDocumentModelBuildOperation200Response
+    | GetDocumentModelBuildOperationDefaultResponse
+): response is GetDocumentModelBuildOperationDefaultResponse;
 export function isUnexpected(
   response: GetResourceInfo200Response | GetResourceInfoDefaultResponse
 ): response is GetResourceInfoDefaultResponse;
@@ -83,14 +108,26 @@ export function isUnexpected(
   response: DeleteModel204Response | DeleteModelDefaultResponse
 ): response is DeleteModelDefaultResponse;
 export function isUnexpected(
-  response: BuildDocument202Response | BuildDocumentLogicalResponse | BuildDocumentDefaultResponse
-): response is BuildDocumentDefaultResponse;
+  response: BuildModel202Response | BuildModelLogicalResponse | BuildModelDefaultResponse
+): response is BuildModelDefaultResponse;
+export function isUnexpected(
+  response: ComposeModel202Response | ComposeModelLogicalResponse | ComposeModelDefaultResponse
+): response is ComposeModelDefaultResponse;
 export function isUnexpected(
   response: AuthorizeModelCopy200Response | AuthorizeModelCopyDefaultResponse
 ): response is AuthorizeModelCopyDefaultResponse;
 export function isUnexpected(
+  response: CopyModelTo202Response | CopyModelToLogicalResponse | CopyModelToDefaultResponse
+): response is CopyModelToDefaultResponse;
+export function isUnexpected(
   response: ListModels200Response | ListModelsDefaultResponse
 ): response is ListModelsDefaultResponse;
+export function isUnexpected(
+  response:
+    | BuildClassifier202Response
+    | BuildClassifierLogicalResponse
+    | BuildClassifierDefaultResponse
+): response is BuildClassifierDefaultResponse;
 export function isUnexpected(
   response: ListClassifiers200Response | ListClassifiersDefaultResponse
 ): response is ListClassifiersDefaultResponse;
@@ -110,11 +147,17 @@ export function isUnexpected(
   response: GetClassifyResult200Response | GetClassifyResultDefaultResponse
 ): response is GetClassifyResultDefaultResponse;
 export function isUnexpected(
+  response: BuildIndex202Response | BuildIndexLogicalResponse | BuildIndexDefaultResponse
+): response is BuildIndexDefaultResponse;
+export function isUnexpected(
+  response: Complete200Response | CompleteDefaultResponse
+): response is CompleteDefaultResponse;
+export function isUnexpected(
   response:
     | ListOperations200Response
     | ListOperationsDefaultResponse
-    | GetOperation200Response
-    | GetOperationDefaultResponse
+    | GetDocumentModelBuildOperation200Response
+    | GetDocumentModelBuildOperationDefaultResponse
     | GetResourceInfo200Response
     | GetResourceInfoDefaultResponse
     | GetAnalyzeResult200Response
@@ -126,13 +169,22 @@ export function isUnexpected(
     | GetModelDefaultResponse
     | DeleteModel204Response
     | DeleteModelDefaultResponse
-    | BuildDocument202Response
-    | BuildDocumentLogicalResponse
-    | BuildDocumentDefaultResponse
+    | BuildModel202Response
+    | BuildModelLogicalResponse
+    | BuildModelDefaultResponse
+    | ComposeModel202Response
+    | ComposeModelLogicalResponse
+    | ComposeModelDefaultResponse
     | AuthorizeModelCopy200Response
     | AuthorizeModelCopyDefaultResponse
+    | CopyModelTo202Response
+    | CopyModelToLogicalResponse
+    | CopyModelToDefaultResponse
     | ListModels200Response
     | ListModelsDefaultResponse
+    | BuildClassifier202Response
+    | BuildClassifierLogicalResponse
+    | BuildClassifierDefaultResponse
     | ListClassifiers200Response
     | ListClassifiersDefaultResponse
     | GetClassifier200Response
@@ -144,22 +196,32 @@ export function isUnexpected(
     | ClassifyDocumentFromStreamDefaultResponse
     | GetClassifyResult200Response
     | GetClassifyResultDefaultResponse
+    | BuildIndex202Response
+    | BuildIndexLogicalResponse
+    | BuildIndexDefaultResponse
+    | Complete200Response
+    | CompleteDefaultResponse
 ): response is
   | ListOperationsDefaultResponse
-  | GetOperationDefaultResponse
+  | GetDocumentModelBuildOperationDefaultResponse
   | GetResourceInfoDefaultResponse
   | GetAnalyzeResultDefaultResponse
   | AnalyzeDocumentFromStreamDefaultResponse
   | GetModelDefaultResponse
   | DeleteModelDefaultResponse
-  | BuildDocumentDefaultResponse
+  | BuildModelDefaultResponse
+  | ComposeModelDefaultResponse
   | AuthorizeModelCopyDefaultResponse
+  | CopyModelToDefaultResponse
   | ListModelsDefaultResponse
+  | BuildClassifierDefaultResponse
   | ListClassifiersDefaultResponse
   | GetClassifierDefaultResponse
   | DeleteClassifierDefaultResponse
   | ClassifyDocumentFromStreamDefaultResponse
-  | GetClassifyResultDefaultResponse {
+  | GetClassifyResultDefaultResponse
+  | BuildIndexDefaultResponse
+  | CompleteDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

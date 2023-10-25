@@ -2,11 +2,15 @@
 // Licensed under the MIT license.
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
+import { HttpResponse } from "@azure-rest/core-client";
 import {
   PagedOperationSummaryOutput,
-  OperationDetailsOutput,
+  ErrorResponseOutput,
   DocumentModelBuildOperationDetailsOutput,
+  DocumentModelComposeOperationDetailsOutput,
+  DocumentModelCopyToOperationDetailsOutput,
+  DocumentClassifierBuildOperationDetailsOutput,
+  OperationDetailsOutput,
   ResourceDetailsOutput,
   AnalyzeResultOperationOutput,
   DocumentModelDetailsOutput,
@@ -14,6 +18,7 @@ import {
   PagedDocumentModelSummaryOutput,
   PagedDocumentClassifierDetailsOutput,
   DocumentClassifierDetailsOutput,
+  ChatCompletionOutput,
 } from "./outputModels";
 
 /** The request has succeeded. */
@@ -22,15 +27,53 @@ export interface ListOperations200Response extends HttpResponse {
   body: PagedOperationSummaryOutput;
 }
 
-export interface ListOperationsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ListOperationsDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ListOperationsDefaultHeaders;
+  body: ErrorResponseOutput;
+}
+
+/** The request has succeeded. */
+export interface GetDocumentModelBuildOperation200Response extends HttpResponse {
+  status: "200";
+  body: DocumentModelBuildOperationDetailsOutput;
+}
+
+export interface GetDocumentModelBuildOperationDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** The request has succeeded. */
+export interface GetDocumentModelComposeOperation200Response extends HttpResponse {
+  status: "200";
+  body: DocumentModelComposeOperationDetailsOutput;
+}
+
+export interface GetDocumentModelComposeOperationDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** The request has succeeded. */
+export interface GetDocumentModelCopyToOperation200Response extends HttpResponse {
+  status: "200";
+  body: DocumentModelCopyToOperationDetailsOutput;
+}
+
+export interface GetDocumentModelCopyToOperationDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** The request has succeeded. */
+export interface GetDocumentClassifierBuildOperation200Response extends HttpResponse {
+  status: "200";
+  body: DocumentClassifierBuildOperationDetailsOutput;
+}
+
+export interface GetDocumentClassifierBuildOperationDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
@@ -39,32 +82,9 @@ export interface GetOperation200Response extends HttpResponse {
   body: OperationDetailsOutput;
 }
 
-export interface GetOperationDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface GetOperationDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetOperationDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface GetDocumentBuildOperation200Response extends HttpResponse {
-  status: "200";
-  body: DocumentModelBuildOperationDetailsOutput;
-}
-
-export interface GetDocumentBuildOperationDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetDocumentBuildOperationDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetDocumentBuildOperationDefaultHeaders;
+  body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
@@ -73,15 +93,9 @@ export interface GetResourceInfo200Response extends HttpResponse {
   body: ResourceDetailsOutput;
 }
 
-export interface GetResourceInfoDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface GetResourceInfoDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetResourceInfoDefaultHeaders;
+  body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
@@ -90,15 +104,9 @@ export interface GetAnalyzeResult200Response extends HttpResponse {
   body: AnalyzeResultOperationOutput;
 }
 
-export interface GetAnalyzeResultDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface GetAnalyzeResultDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetAnalyzeResultDefaultHeaders;
+  body: ErrorResponseOutput;
 }
 
 export interface AnalyzeDocumentFromStream202Headers {
@@ -111,15 +119,9 @@ export interface AnalyzeDocumentFromStream202Response extends HttpResponse {
   headers: RawHttpHeaders & AnalyzeDocumentFromStream202Headers;
 }
 
-export interface AnalyzeDocumentFromStreamDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface AnalyzeDocumentFromStreamDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & AnalyzeDocumentFromStreamDefaultHeaders;
+  body: ErrorResponseOutput;
 }
 
 /** The final response for long-running analyzeDocumentFromStream operation */
@@ -137,15 +139,9 @@ export interface AnalyzeDocument202Response extends HttpResponse {
   headers: RawHttpHeaders & AnalyzeDocument202Headers;
 }
 
-export interface AnalyzeDocumentDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface AnalyzeDocumentDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & AnalyzeDocumentDefaultHeaders;
+  body: ErrorResponseOutput;
 }
 
 /** The final response for long-running analyzeDocument operation */
@@ -159,40 +155,48 @@ export interface GetModel200Response extends HttpResponse {
   body: DocumentModelDetailsOutput;
 }
 
-export interface GetModelDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface GetModelDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetModelDefaultHeaders;
+  body: ErrorResponseOutput;
 }
 
-export interface BuildDocument202Headers {
+export interface BuildModel202Headers {
   "operation-location": string;
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface BuildDocument202Response extends HttpResponse {
+export interface BuildModel202Response extends HttpResponse {
   status: "202";
-  headers: RawHttpHeaders & BuildDocument202Headers;
+  headers: RawHttpHeaders & BuildModel202Headers;
 }
 
-export interface BuildDocumentDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface BuildDocumentDefaultResponse extends HttpResponse {
+export interface BuildModelDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & BuildDocumentDefaultHeaders;
+  body: ErrorResponseOutput;
 }
 
-/** The final response for long-running buildDocument operation */
-export interface BuildDocumentLogicalResponse extends HttpResponse {
+/** The final response for long-running buildModel operation */
+export interface BuildModelLogicalResponse extends HttpResponse {
+  status: "200";
+}
+
+export interface ComposeModel202Headers {
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface ComposeModel202Response extends HttpResponse {
+  status: "202";
+  headers: RawHttpHeaders & ComposeModel202Headers;
+}
+
+export interface ComposeModelDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** The final response for long-running composeModel operation */
+export interface ComposeModelLogicalResponse extends HttpResponse {
   status: "200";
 }
 
@@ -202,15 +206,29 @@ export interface AuthorizeModelCopy200Response extends HttpResponse {
   body: CopyAuthorizationOutput;
 }
 
-export interface AuthorizeModelCopyDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface AuthorizeModelCopyDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & AuthorizeModelCopyDefaultHeaders;
+  body: ErrorResponseOutput;
+}
+
+export interface CopyModelTo202Headers {
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface CopyModelTo202Response extends HttpResponse {
+  status: "202";
+  headers: RawHttpHeaders & CopyModelTo202Headers;
+}
+
+export interface CopyModelToDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** The final response for long-running copyModelTo operation */
+export interface CopyModelToLogicalResponse extends HttpResponse {
+  status: "200";
 }
 
 /** The request has succeeded. */
@@ -219,15 +237,9 @@ export interface ListModels200Response extends HttpResponse {
   body: PagedDocumentModelSummaryOutput;
 }
 
-export interface ListModelsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ListModelsDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ListModelsDefaultHeaders;
+  body: ErrorResponseOutput;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
@@ -235,15 +247,29 @@ export interface DeleteModel204Response extends HttpResponse {
   status: "204";
 }
 
-export interface DeleteModelDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface DeleteModelDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & DeleteModelDefaultHeaders;
+  body: ErrorResponseOutput;
+}
+
+export interface BuildClassifier202Headers {
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface BuildClassifier202Response extends HttpResponse {
+  status: "202";
+  headers: RawHttpHeaders & BuildClassifier202Headers;
+}
+
+export interface BuildClassifierDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** The final response for long-running buildClassifier operation */
+export interface BuildClassifierLogicalResponse extends HttpResponse {
+  status: "200";
 }
 
 /** The request has succeeded. */
@@ -252,15 +278,9 @@ export interface ListClassifiers200Response extends HttpResponse {
   body: PagedDocumentClassifierDetailsOutput;
 }
 
-export interface ListClassifiersDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ListClassifiersDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ListClassifiersDefaultHeaders;
+  body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
@@ -269,15 +289,9 @@ export interface GetClassifier200Response extends HttpResponse {
   body: DocumentClassifierDetailsOutput;
 }
 
-export interface GetClassifierDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface GetClassifierDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetClassifierDefaultHeaders;
+  body: ErrorResponseOutput;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
@@ -285,15 +299,9 @@ export interface DeleteClassifier204Response extends HttpResponse {
   status: "204";
 }
 
-export interface DeleteClassifierDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface DeleteClassifierDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & DeleteClassifierDefaultHeaders;
+  body: ErrorResponseOutput;
 }
 
 export interface ClassifyDocumentFromStream202Headers {
@@ -306,15 +314,9 @@ export interface ClassifyDocumentFromStream202Response extends HttpResponse {
   headers: RawHttpHeaders & ClassifyDocumentFromStream202Headers;
 }
 
-export interface ClassifyDocumentFromStreamDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ClassifyDocumentFromStreamDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ClassifyDocumentFromStreamDefaultHeaders;
+  body: ErrorResponseOutput;
 }
 
 /** The final response for long-running classifyDocumentFromStream operation */
@@ -332,15 +334,9 @@ export interface ClassifyDocument202Response extends HttpResponse {
   headers: RawHttpHeaders & ClassifyDocument202Headers;
 }
 
-export interface ClassifyDocumentDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface ClassifyDocumentDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ClassifyDocumentDefaultHeaders;
+  body: ErrorResponseOutput;
 }
 
 /** The final response for long-running classifyDocument operation */
@@ -354,13 +350,38 @@ export interface GetClassifyResult200Response extends HttpResponse {
   body: AnalyzeResultOperationOutput;
 }
 
-export interface GetClassifyResultDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
 export interface GetClassifyResultDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetClassifyResultDefaultHeaders;
+  body: ErrorResponseOutput;
+}
+
+export interface BuildIndex202Headers {
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface BuildIndex202Response extends HttpResponse {
+  status: "202";
+  headers: RawHttpHeaders & BuildIndex202Headers;
+}
+
+export interface BuildIndexDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** The final response for long-running buildIndex operation */
+export interface BuildIndexLogicalResponse extends HttpResponse {
+  status: "200";
+}
+
+/** The request has succeeded. */
+export interface Complete200Response extends HttpResponse {
+  status: "200";
+  body: ChatCompletionOutput;
+}
+
+export interface CompleteDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
 }

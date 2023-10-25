@@ -3,31 +3,45 @@
 
 import {
   ListOperationsParameters,
+  GetDocumentModelBuildOperationParameters,
+  GetDocumentModelComposeOperationParameters,
+  GetDocumentModelCopyToOperationParameters,
+  GetDocumentClassifierBuildOperationParameters,
   GetOperationParameters,
-  GetDocumentBuildOperationParameters,
   GetResourceInfoParameters,
   GetAnalyzeResultParameters,
   AnalyzeDocumentFromStreamParameters,
   AnalyzeDocumentParameters,
   GetModelParameters,
   DeleteModelParameters,
-  BuildDocumentParameters,
+  BuildModelParameters,
+  ComposeModelParameters,
   AuthorizeModelCopyParameters,
+  CopyModelToParameters,
   ListModelsParameters,
+  BuildClassifierParameters,
   ListClassifiersParameters,
   GetClassifierParameters,
   DeleteClassifierParameters,
   ClassifyDocumentFromStreamParameters,
   ClassifyDocumentParameters,
   GetClassifyResultParameters,
+  BuildIndexParameters,
+  CompleteParameters,
 } from "./parameters";
 import {
   ListOperations200Response,
   ListOperationsDefaultResponse,
+  GetDocumentModelBuildOperation200Response,
+  GetDocumentModelBuildOperationDefaultResponse,
+  GetDocumentModelComposeOperation200Response,
+  GetDocumentModelComposeOperationDefaultResponse,
+  GetDocumentModelCopyToOperation200Response,
+  GetDocumentModelCopyToOperationDefaultResponse,
+  GetDocumentClassifierBuildOperation200Response,
+  GetDocumentClassifierBuildOperationDefaultResponse,
   GetOperation200Response,
   GetOperationDefaultResponse,
-  GetDocumentBuildOperation200Response,
-  GetDocumentBuildOperationDefaultResponse,
   GetResourceInfo200Response,
   GetResourceInfoDefaultResponse,
   GetAnalyzeResult200Response,
@@ -40,12 +54,18 @@ import {
   GetModelDefaultResponse,
   DeleteModel204Response,
   DeleteModelDefaultResponse,
-  BuildDocument202Response,
-  BuildDocumentDefaultResponse,
+  BuildModel202Response,
+  BuildModelDefaultResponse,
+  ComposeModel202Response,
+  ComposeModelDefaultResponse,
   AuthorizeModelCopy200Response,
   AuthorizeModelCopyDefaultResponse,
+  CopyModelTo202Response,
+  CopyModelToDefaultResponse,
   ListModels200Response,
   ListModelsDefaultResponse,
+  BuildClassifier202Response,
+  BuildClassifierDefaultResponse,
   ListClassifiers200Response,
   ListClassifiersDefaultResponse,
   GetClassifier200Response,
@@ -58,6 +78,10 @@ import {
   ClassifyDocumentDefaultResponse,
   GetClassifyResult200Response,
   GetClassifyResultDefaultResponse,
+  BuildIndex202Response,
+  BuildIndexDefaultResponse,
+  Complete200Response,
+  CompleteDefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -68,17 +92,36 @@ export interface ListOperations {
   ): StreamableMethod<ListOperations200Response | ListOperationsDefaultResponse>;
 }
 
-export interface GetOperation {
+export interface GetDocumentModelBuildOperation {
+  /** Gets operation info. */
+  get(
+    options?: GetDocumentModelBuildOperationParameters
+  ): StreamableMethod<
+    GetDocumentModelBuildOperation200Response | GetDocumentModelBuildOperationDefaultResponse
+  >;
+  /** Gets operation info. */
+  get(
+    options?: GetDocumentModelComposeOperationParameters
+  ): StreamableMethod<
+    GetDocumentModelComposeOperation200Response | GetDocumentModelComposeOperationDefaultResponse
+  >;
+  /** Gets operation info. */
+  get(
+    options?: GetDocumentModelCopyToOperationParameters
+  ): StreamableMethod<
+    GetDocumentModelCopyToOperation200Response | GetDocumentModelCopyToOperationDefaultResponse
+  >;
+  /** Gets operation info. */
+  get(
+    options?: GetDocumentClassifierBuildOperationParameters
+  ): StreamableMethod<
+    | GetDocumentClassifierBuildOperation200Response
+    | GetDocumentClassifierBuildOperationDefaultResponse
+  >;
   /** Gets operation info. */
   get(
     options?: GetOperationParameters
   ): StreamableMethod<GetOperation200Response | GetOperationDefaultResponse>;
-  /** Gets operation info. */
-  get(
-    options?: GetDocumentBuildOperationParameters
-  ): StreamableMethod<
-    GetDocumentBuildOperation200Response | GetDocumentBuildOperationDefaultResponse
-  >;
 }
 
 export interface GetResourceInfo {
@@ -96,13 +139,13 @@ export interface GetAnalyzeResult {
 }
 
 export interface AnalyzeDocumentFromStream {
-  /** Long running RPC operation template */
+  /** Analyzes document with document model. */
   post(
     options: AnalyzeDocumentFromStreamParameters
   ): StreamableMethod<
     AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamDefaultResponse
   >;
-  /** Long running RPC operation template */
+  /** Analyzes document with document model. */
   post(
     options: AnalyzeDocumentParameters
   ): StreamableMethod<AnalyzeDocument202Response | AnalyzeDocumentDefaultResponse>;
@@ -119,11 +162,18 @@ export interface GetModel {
   ): StreamableMethod<DeleteModel204Response | DeleteModelDefaultResponse>;
 }
 
-export interface BuildDocument {
+export interface BuildModel {
   /** Builds a custom document analysis model. */
   post(
-    options: BuildDocumentParameters
-  ): StreamableMethod<BuildDocument202Response | BuildDocumentDefaultResponse>;
+    options: BuildModelParameters
+  ): StreamableMethod<BuildModel202Response | BuildModelDefaultResponse>;
+}
+
+export interface ComposeModel {
+  /** Creates a new document model from document types of existing document models. */
+  post(
+    options: ComposeModelParameters
+  ): StreamableMethod<ComposeModel202Response | ComposeModelDefaultResponse>;
 }
 
 export interface AuthorizeModelCopy {
@@ -136,11 +186,25 @@ export interface AuthorizeModelCopy {
   ): StreamableMethod<AuthorizeModelCopy200Response | AuthorizeModelCopyDefaultResponse>;
 }
 
+export interface CopyModelTo {
+  /** Copies document model to the target resource, region, and modelId. */
+  post(
+    options: CopyModelToParameters
+  ): StreamableMethod<CopyModelTo202Response | CopyModelToDefaultResponse>;
+}
+
 export interface ListModels {
   /** List all document models */
   get(
     options?: ListModelsParameters
   ): StreamableMethod<ListModels200Response | ListModelsDefaultResponse>;
+}
+
+export interface BuildClassifier {
+  /** Builds a custom document classifier. */
+  post(
+    options: BuildClassifierParameters
+  ): StreamableMethod<BuildClassifier202Response | BuildClassifierDefaultResponse>;
 }
 
 export interface ListClassifiers {
@@ -181,11 +245,25 @@ export interface GetClassifyResult {
   ): StreamableMethod<GetClassifyResult200Response | GetClassifyResultDefaultResponse>;
 }
 
+export interface BuildIndex {
+  /** Builds a chat index from documents. */
+  post(
+    options: BuildIndexParameters
+  ): StreamableMethod<BuildIndex202Response | BuildIndexDefaultResponse>;
+}
+
+export interface Complete {
+  /** Generates a response for the given chat conversation. */
+  post(
+    options: CompleteParameters
+  ): StreamableMethod<Complete200Response | CompleteDefaultResponse>;
+}
+
 export interface Routes {
   /** Resource for '/operations' has methods for the following verbs: get */
   (path: "/operations"): ListOperations;
   /** Resource for '/operations/\{operationId\}' has methods for the following verbs: get */
-  (path: "/operations/{operationId}", operationId: string): GetOperation;
+  (path: "/operations/{operationId}", operationId: string): GetDocumentModelBuildOperation;
   /** Resource for '/info' has methods for the following verbs: get */
   (path: "/info"): GetResourceInfo;
   /** Resource for '/documentModels/\{modelId\}/analyzeResults/\{resultId\}' has methods for the following verbs: get */
@@ -199,11 +277,17 @@ export interface Routes {
   /** Resource for '/documentModels/\{modelId\}' has methods for the following verbs: get, delete */
   (path: "/documentModels/{modelId}", modelId: string): GetModel;
   /** Resource for '/documentModels:build' has methods for the following verbs: post */
-  (path: "/documentModels:build"): BuildDocument;
+  (path: "/documentModels:build"): BuildModel;
+  /** Resource for '/documentModels:compose' has methods for the following verbs: post */
+  (path: "/documentModels:compose"): ComposeModel;
   /** Resource for '/documentModels:authorizeCopy' has methods for the following verbs: post */
   (path: "/documentModels:authorizeCopy"): AuthorizeModelCopy;
+  /** Resource for '/documentModels/\{modelId\}:copyTo' has methods for the following verbs: post */
+  (path: "/documentModels/{modelId}:copyTo", modelId: string): CopyModelTo;
   /** Resource for '/documentModels' has methods for the following verbs: get */
   (path: "/documentModels"): ListModels;
+  /** Resource for '/documentClassifiers:build' has methods for the following verbs: post */
+  (path: "/documentClassifiers:build"): BuildClassifier;
   /** Resource for '/documentClassifiers' has methods for the following verbs: get */
   (path: "/documentClassifiers"): ListClassifiers;
   /** Resource for '/documentClassifiers/\{classifierId\}' has methods for the following verbs: get, delete */
@@ -219,6 +303,10 @@ export interface Routes {
     classifierId: string,
     resultId: string
   ): GetClassifyResult;
+  /** Resource for '/chat:build' has methods for the following verbs: post */
+  (path: "/chat:build"): BuildIndex;
+  /** Resource for '/chat/\{chatId\}:complete' has methods for the following verbs: post */
+  (path: "/chat/{chatId}:complete", chatId: string): Complete;
 }
 
 export type DocumentIntelligenceClient = Client & {

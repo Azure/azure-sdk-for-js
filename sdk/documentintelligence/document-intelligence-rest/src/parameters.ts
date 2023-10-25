@@ -5,19 +5,26 @@ import { RequestParameters } from "@azure-rest/core-client";
 import {
   AnalyzeDocumentRequest,
   BuildDocumentModelRequest,
+  ComposeDocumentModelRequest,
   AuthorizeCopyRequest,
+  CopyAuthorization,
+  BuildDocumentClassifierRequest,
   ClassifyDocumentRequest,
+  CompleteChatRequest,
 } from "./models";
 
 export type ListOperationsParameters = RequestParameters;
+export type GetDocumentModelBuildOperationParameters = RequestParameters;
+export type GetDocumentModelComposeOperationParameters = RequestParameters;
+export type GetDocumentModelCopyToOperationParameters = RequestParameters;
+export type GetDocumentClassifierBuildOperationParameters = RequestParameters;
 export type GetOperationParameters = RequestParameters;
-export type GetDocumentBuildOperationParameters = RequestParameters;
 export type GetResourceInfoParameters = RequestParameters;
 export type GetAnalyzeResultParameters = RequestParameters;
 
 export interface AnalyzeDocumentFromStreamBodyParam {
   /**
-   * Input content
+   * Input content.
    *
    * Value may contain any sequence of octets
    */
@@ -38,16 +45,16 @@ export interface AnalyzeDocumentFromStreamQueryParamProperties {
    * Possible values: textElements, unicodeCodePoint, utf16CodeUnit
    */
   stringIndexType?: string;
+  /** List of optional analysis features. */
+  features?: string[];
+  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
+  queryFields?: string[];
   /**
    * Format of the analyze result top-level content.
    *
    * Possible values: text, markdown
    */
-  contentFormat?: string;
-  /** List of optional analysis features. */
-  features?: string[];
-  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
-  queryFields?: string[];
+  outputContentFormat?: string;
 }
 
 export interface AnalyzeDocumentFromStreamQueryParam {
@@ -55,7 +62,7 @@ export interface AnalyzeDocumentFromStreamQueryParam {
 }
 
 export interface AnalyzeDocumentFromStreamMediaTypesParam {
-  /** Input content type */
+  /** Input content type. */
   contentType:
     | "application/octet-stream"
     | "application/pdf"
@@ -94,16 +101,16 @@ export interface AnalyzeDocumentQueryParamProperties {
    * Possible values: textElements, unicodeCodePoint, utf16CodeUnit
    */
   stringIndexType?: string;
+  /** List of optional analysis features. */
+  features?: string[];
+  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
+  queryFields?: string[];
   /**
    * Format of the analyze result top-level content.
    *
    * Possible values: text, markdown
    */
-  contentFormat?: string;
-  /** List of optional analysis features. */
-  features?: string[];
-  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
-  queryFields?: string[];
+  outputContentFormat?: string;
 }
 
 export interface AnalyzeDocumentQueryParam {
@@ -121,12 +128,19 @@ export type AnalyzeDocumentParameters = AnalyzeDocumentQueryParam &
   RequestParameters;
 export type GetModelParameters = RequestParameters;
 
-export interface BuildDocumentBodyParam {
+export interface BuildModelBodyParam {
   /** Build request parameters. */
   body: BuildDocumentModelRequest;
 }
 
-export type BuildDocumentParameters = BuildDocumentBodyParam & RequestParameters;
+export type BuildModelParameters = BuildModelBodyParam & RequestParameters;
+
+export interface ComposeModelBodyParam {
+  /** Compose request parameters. */
+  body: ComposeDocumentModelRequest;
+}
+
+export type ComposeModelParameters = ComposeModelBodyParam & RequestParameters;
 
 export interface AuthorizeModelCopyBodyParam {
   /** Authorize copy request parameters. */
@@ -134,15 +148,29 @@ export interface AuthorizeModelCopyBodyParam {
 }
 
 export type AuthorizeModelCopyParameters = AuthorizeModelCopyBodyParam & RequestParameters;
+
+export interface CopyModelToBodyParam {
+  /** Copy to request parameters. */
+  body: CopyAuthorization;
+}
+
+export type CopyModelToParameters = CopyModelToBodyParam & RequestParameters;
 export type ListModelsParameters = RequestParameters;
 export type DeleteModelParameters = RequestParameters;
+
+export interface BuildClassifierBodyParam {
+  /** Build request parameters. */
+  body: BuildDocumentClassifierRequest;
+}
+
+export type BuildClassifierParameters = BuildClassifierBodyParam & RequestParameters;
 export type ListClassifiersParameters = RequestParameters;
 export type GetClassifierParameters = RequestParameters;
 export type DeleteClassifierParameters = RequestParameters;
 
 export interface ClassifyDocumentFromStreamBodyParam {
   /**
-   * Input content
+   * Input content.
    *
    * Value may contain any sequence of octets
    */
@@ -161,15 +189,15 @@ export interface ClassifyDocumentFromStreamQueryParamProperties {
    *
    * Possible values: auto, none, perPage
    */
-  split: string;
+  split?: string;
 }
 
 export interface ClassifyDocumentFromStreamQueryParam {
-  queryParameters: ClassifyDocumentFromStreamQueryParamProperties;
+  queryParameters?: ClassifyDocumentFromStreamQueryParamProperties;
 }
 
 export interface ClassifyDocumentFromStreamMediaTypesParam {
-  /** Input content type */
+  /** Input content type. */
   contentType:
     | "application/octet-stream"
     | "application/pdf"
@@ -206,11 +234,11 @@ export interface ClassifyDocumentQueryParamProperties {
    *
    * Possible values: auto, none, perPage
    */
-  split: string;
+  split?: string;
 }
 
 export interface ClassifyDocumentQueryParam {
-  queryParameters: ClassifyDocumentQueryParamProperties;
+  queryParameters?: ClassifyDocumentQueryParamProperties;
 }
 
 export interface ClassifyDocumentMediaTypesParam {
@@ -223,3 +251,39 @@ export type ClassifyDocumentParameters = ClassifyDocumentQueryParam &
   ClassifyDocumentBodyParam &
   RequestParameters;
 export type GetClassifyResultParameters = RequestParameters;
+
+export interface BuildIndexBodyParam {
+  /**
+   * Input content.
+   *
+   * Value may contain any sequence of octets
+   */
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+}
+
+export interface BuildIndexMediaTypesParam {
+  /** Input content type. */
+  contentType:
+    | "application/octet-stream"
+    | "application/pdf"
+    | "image/jpeg"
+    | "image/png"
+    | "image/tiff"
+    | "image/bmp"
+    | "image/heif"
+    | "text/html"
+    | "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    | "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+}
+
+export type BuildIndexParameters = BuildIndexMediaTypesParam &
+  BuildIndexBodyParam &
+  RequestParameters;
+
+export interface CompleteBodyParam {
+  /** Complete chat request parameters. */
+  body: CompleteChatRequest;
+}
+
+export type CompleteParameters = CompleteBodyParam & RequestParameters;

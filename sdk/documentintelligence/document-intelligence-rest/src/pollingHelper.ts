@@ -14,12 +14,24 @@ import {
   AnalyzeDocumentFromStream202Response,
   AnalyzeDocumentFromStreamDefaultResponse,
   AnalyzeDocumentFromStreamLogicalResponse,
-  BuildDocument202Response,
-  BuildDocumentDefaultResponse,
-  BuildDocumentLogicalResponse,
+  BuildModel202Response,
+  BuildModelDefaultResponse,
+  BuildModelLogicalResponse,
+  ComposeModel202Response,
+  ComposeModelDefaultResponse,
+  ComposeModelLogicalResponse,
+  CopyModelTo202Response,
+  CopyModelToDefaultResponse,
+  CopyModelToLogicalResponse,
+  BuildClassifier202Response,
+  BuildClassifierDefaultResponse,
+  BuildClassifierLogicalResponse,
   ClassifyDocumentFromStream202Response,
   ClassifyDocumentFromStreamDefaultResponse,
   ClassifyDocumentFromStreamLogicalResponse,
+  BuildIndex202Response,
+  BuildIndexDefaultResponse,
+  BuildIndexLogicalResponse,
 } from "./responses";
 /**
  * Helper function that builds a Poller object to help polling a long running operation.
@@ -29,10 +41,38 @@ import {
  * @returns - A poller object to poll for operation state updates and eventually get the final response.
  */
 export async function getLongRunningPoller<
-  TResult extends BuildDocumentLogicalResponse | BuildDocumentDefaultResponse
+  TResult extends BuildModelLogicalResponse | BuildModelDefaultResponse
 >(
   client: Client,
-  initialResponse: BuildDocument202Response | BuildDocumentDefaultResponse,
+  initialResponse: BuildModel202Response | BuildModelDefaultResponse,
+  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export async function getLongRunningPoller<
+  TResult extends ComposeModelLogicalResponse | ComposeModelDefaultResponse
+>(
+  client: Client,
+  initialResponse: ComposeModel202Response | ComposeModelDefaultResponse,
+  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export async function getLongRunningPoller<
+  TResult extends CopyModelToLogicalResponse | CopyModelToDefaultResponse
+>(
+  client: Client,
+  initialResponse: CopyModelTo202Response | CopyModelToDefaultResponse,
+  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export async function getLongRunningPoller<
+  TResult extends BuildClassifierLogicalResponse | BuildClassifierDefaultResponse
+>(
+  client: Client,
+  initialResponse: BuildClassifier202Response | BuildClassifierDefaultResponse,
+  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export async function getLongRunningPoller<
+  TResult extends BuildIndexLogicalResponse | BuildIndexDefaultResponse
+>(
+  client: Client,
+  initialResponse: BuildIndex202Response | BuildIndexDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<

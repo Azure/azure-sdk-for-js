@@ -1,4 +1,4 @@
-# Azure DocumentIntelligence REST client library for JavaScript
+# Azure DocumentIntelligence (formerly FormRecognizer) REST client library for JavaScript
 
 Extracts content, layout, and structured data from documents.
 
@@ -23,7 +23,7 @@ Key links:
 
 ### Install the `@azure-rest/document-intelligence` package
 
-Install the Azure DocumentIntelligence REST client REST client library for JavaScript with `npm`:
+Install the Azure DocumentIntelligence (formerly FormRecognizer) REST client REST client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/document-intelligence

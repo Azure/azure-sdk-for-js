@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ErrorModel } from "@azure-rest/core-client";
 import { Paged } from "@azure/core-paging";
 
 /** Operation info. */
 export interface OperationSummaryOutput {
   /** Operation ID */
-  readonly operationId: string;
+  operationId: string;
   /**
    * Operation status.
    *
@@ -23,7 +22,7 @@ export interface OperationSummaryOutput {
   /**
    * Type of operation.
    *
-   * Possible values: documentModelBuild, documentModelCompose, documentModelCopyTo, documentClassifierBuild
+   * Possible values: documentModelBuild, documentModelCompose, documentModelCopyTo, documentClassifierBuild, chatBuild
    */
   kind: string;
   /** URL of the resource targeted by this operation. */
@@ -34,57 +33,38 @@ export interface OperationSummaryOutput {
   tags?: Record<string, string>;
 }
 
-/** Get Operation response object. */
-export interface OperationDetailsOutputParent {
-  /** Operation ID */
-  readonly operationId: string;
-  /**
-   * Operation status.
-   *
-   * Possible values: notStarted, running, failed, succeeded, canceled
-   */
-  status: string;
-  /** Operation progress (0-100). */
-  percentCompleted?: number;
-  /** Date and time (UTC) when the operation was created. */
-  createdDateTime: string;
-  /** Date and time (UTC) when the status was last updated. */
-  lastUpdatedDateTime: string;
-  /** URL of the resource targeted by this operation. */
-  resourceLocation: string;
-  /** API version used to create this operation. */
-  apiVersion?: string;
-  /** List of key-value tag attributes associated with the document model. */
-  tags?: Record<string, string>;
-  /** Encountered error. */
-  error?: ErrorModel;
-  kind: string;
+/** Error response object. */
+export interface ErrorResponseOutput {
+  /** Error info. */
+  error: ErrorModelOutput;
+}
+
+/** Error info. */
+export interface ErrorModelOutput {
+  /** Error code. */
+  code: string;
+  /** Error message. */
+  message: string;
+  /** Target of the error. */
+  target?: string;
+  /** List of detailed errors. */
+  details?: Array<ErrorModelOutput>;
+  /** Detailed error. */
+  innererror?: InnerErrorOutput;
+}
+
+/** Detailed error. */
+export interface InnerErrorOutput {
+  /** Error code. */
+  code: string;
+  /** Error message. */
+  message?: string;
+  /** Detailed error. */
+  innererror?: InnerErrorOutput;
 }
 
 /** Get Operation response object. */
-export interface DocumentModelBuildOperationDetailsOutput {
-  /** Operation ID */
-  readonly operationId: string;
-  /**
-   * Operation status.
-   *
-   * Possible values: notStarted, running, failed, succeeded, canceled
-   */
-  status: string;
-  /** Operation progress (0-100). */
-  percentCompleted?: number;
-  /** Date and time (UTC) when the operation was created. */
-  createdDateTime: string;
-  /** Date and time (UTC) when the status was last updated. */
-  lastUpdatedDateTime: string;
-  /** URL of the resource targeted by this operation. */
-  resourceLocation: string;
-  /** API version used to create this operation. */
-  apiVersion?: string;
-  /** List of key-value tag attributes associated with the document model. */
-  tags?: Record<string, string>;
-  /** Encountered error. */
-  error?: ErrorModel;
+export interface DocumentModelBuildOperationDetailsOutput extends OperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentModelDetailsOutput;
   /** Type of operation. */
@@ -92,19 +72,7 @@ export interface DocumentModelBuildOperationDetailsOutput {
 }
 
 /** Document model info. */
-export interface DocumentModelDetailsOutput {
-  /** Unique document model name. */
-  modelId: string;
-  /** Document model description. */
-  description?: string;
-  /** Date and time (UTC) when the document model was created. */
-  readonly createdDateTime: string;
-  /** Date and time (UTC) when the document model will expire. */
-  readonly expirationDateTime?: string;
-  /** API version used to create this document model. */
-  readonly apiVersion?: string;
-  /** List of key-value tag attributes associated with the document model. */
-  tags?: Record<string, string>;
+export interface DocumentModelDetailsOutput extends DocumentModelSummaryOutput {
   /**
    * Custom document model build mode.
    *
@@ -175,6 +143,112 @@ export interface DocumentFieldSchemaOutput {
   properties?: Record<string, DocumentFieldSchemaOutput>;
 }
 
+/** Document model summary. */
+export interface DocumentModelSummaryOutput {
+  /** Unique document model name. */
+  modelId: string;
+  /** Document model description. */
+  description?: string;
+  /** Date and time (UTC) when the document model was created. */
+  readonly createdDateTime: string;
+  /** Date and time (UTC) when the document model will expire. */
+  readonly expirationDateTime?: string;
+  /** API version used to create this document model. */
+  readonly apiVersion?: string;
+  /** List of key-value tag attributes associated with the document model. */
+  tags?: Record<string, string>;
+}
+
+/** Get Operation response object. */
+export interface DocumentModelComposeOperationDetailsOutput extends OperationDetailsOutputParent {
+  /** Operation result upon success. */
+  result?: DocumentModelDetailsOutput;
+  /** Type of operation. */
+  kind: "documentModelCompose";
+}
+
+/** Get Operation response object. */
+export interface DocumentModelCopyToOperationDetailsOutput extends OperationDetailsOutputParent {
+  /** Operation result upon success. */
+  result?: DocumentModelDetailsOutput;
+  /** Type of operation. */
+  kind: "documentModelCopyTo";
+}
+
+/** Get Operation response object. */
+export interface DocumentClassifierBuildOperationDetailsOutput
+  extends OperationDetailsOutputParent {
+  /** Operation result upon success. */
+  result?: DocumentClassifierDetailsOutput;
+  /** Type of operation. */
+  kind: "documentClassifierBuild";
+}
+
+/** Document classifier info. */
+export interface DocumentClassifierDetailsOutput {
+  /** Unique document classifier name. */
+  classifierId: string;
+  /** Document classifier description. */
+  description?: string;
+  /** Date and time (UTC) when the document classifier was created. */
+  createdDateTime: string;
+  /** Date and time (UTC) when the document classifier will expire. */
+  expirationDateTime?: string;
+  /** API version used to create this document classifier. */
+  apiVersion: string;
+  /** List of document types to classify against. */
+  docTypes: Record<string, ClassifierDocumentTypeDetailsOutput>;
+}
+
+/** Classifier document type info. */
+export interface ClassifierDocumentTypeDetailsOutput {
+  /**
+   * Type of training data source.
+   *
+   * Possible values: url, base64, azureBlob, azureBlobFileList
+   */
+  sourceKind?: string;
+  /**
+   * Azure Blob Storage location containing the training data for a classifier
+   * document type.  Either azureBlobSource or azureBlobFileListSource must be
+   * specified.
+   */
+  azureBlobSource?: AzureBlobContentSourceOutput;
+  /**
+   * Azure Blob Storage file list specifying the training data for a classifier
+   * document type.  Either azureBlobSource or azureBlobFileListSource must be
+   * specified.
+   */
+  azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
+}
+
+/** Get Operation response object. */
+export interface OperationDetailsOutputParent {
+  /** Operation ID */
+  readonly operationId: string;
+  /**
+   * Operation status.
+   *
+   * Possible values: notStarted, running, failed, succeeded, canceled
+   */
+  status: string;
+  /** Operation progress (0-100). */
+  percentCompleted?: number;
+  /** Date and time (UTC) when the operation was created. */
+  createdDateTime: string;
+  /** Date and time (UTC) when the status was last updated. */
+  lastUpdatedDateTime: string;
+  /** URL of the resource targeted by this operation. */
+  resourceLocation: string;
+  /** API version used to create this operation. */
+  apiVersion?: string;
+  /** List of key-value tag attributes associated with the document model. */
+  tags?: Record<string, string>;
+  /** Encountered error. */
+  error?: ErrorModelOutput;
+  kind: string;
+}
+
 /** General information regarding the current resource. */
 export interface ResourceDetailsOutput {
   /** Details regarding custom document models. */
@@ -214,7 +288,7 @@ export interface AnalyzeResultOperationOutput {
   /** Date and time (UTC) when the status was last updated. */
   lastUpdatedDateTime: string;
   /** Encountered error during document analysis. */
-  error?: ErrorModel;
+  error?: ErrorModelOutput;
   /** Document analysis result. */
   analyzeResult?: AnalyzeResultOutput;
 }
@@ -236,7 +310,7 @@ export interface AnalyzeResultOutput {
    *
    * Possible values: text, markdown
    */
-  contentFormat: string;
+  contentFormat?: string;
   /**
    * Concatenate string representation of all textual and visual elements in reading
    * order.
@@ -248,6 +322,12 @@ export interface AnalyzeResultOutput {
   paragraphs?: Array<DocumentParagraphOutput>;
   /** Extracted tables. */
   tables?: Array<DocumentTableOutput>;
+  /** Extracted figures. */
+  figures?: Array<DocumentFigureOutput>;
+  /** Extracted lists. */
+  lists?: Array<DocumentListOutput>;
+  /** Extracted sections. */
+  sections?: Array<DocumentSectionOutput>;
   /** Extracted key-value pairs. */
   keyValuePairs?: Array<DocumentKeyValuePairOutput>;
   /** Extracted font styles. */
@@ -377,7 +457,7 @@ export interface DocumentBarcodeOutput {
    * Possible values: QRCode, PDF417, UPCA, UPCE, Code39, Code128, EAN8, EAN13, DataBar, Code93, Codabar, DataBarExpanded, ITF, MicroQRCode, Aztec, DataMatrix, MaxiCode
    */
   kind: string;
-  /** Barcode value */
+  /** Barcode value. */
   value: string;
   /**
    * Bounding polygon of the barcode, with coordinates specified relative to the
@@ -459,6 +539,10 @@ export interface DocumentTableOutput {
   boundingRegions?: Array<BoundingRegionOutput>;
   /** Location of the table in the reading order concatenated content. */
   spans: Array<DocumentSpanOutput>;
+  /** Caption associated with the table. */
+  caption?: DocumentCaptionOutput;
+  /** List of footnotes associated with the table. */
+  footnotes?: Array<DocumentFootnoteOutput>;
 }
 
 /** An object representing the location and content of a table cell. */
@@ -483,6 +567,76 @@ export interface DocumentTableCellOutput {
   boundingRegions?: Array<BoundingRegionOutput>;
   /** Location of the table cell in the reading order concatenated content. */
   spans: Array<DocumentSpanOutput>;
+  /** Child elements of the table cell. */
+  elements?: string[];
+}
+
+/** A caption object describing a table or figure. */
+export interface DocumentCaptionOutput {
+  /** Content of the caption. */
+  content: string;
+  /** Bounding regions covering the caption. */
+  boundingRegions?: Array<BoundingRegionOutput>;
+  /** Location of the caption in the reading order concatenated content. */
+  spans: Array<DocumentSpanOutput>;
+  /** Child elements of the caption. */
+  elements?: string[];
+}
+
+/** A footnote object describing a table or figure. */
+export interface DocumentFootnoteOutput {
+  /** Content of the footnote. */
+  content: string;
+  /** Bounding regions covering the footnote. */
+  boundingRegions?: Array<BoundingRegionOutput>;
+  /** Location of the footnote in the reading order concatenated content. */
+  spans: Array<DocumentSpanOutput>;
+  /** Child elements of the footnote. */
+  elements?: string[];
+}
+
+/** An object representing a figure in the document. */
+export interface DocumentFigureOutput {
+  /** Bounding regions covering the figure. */
+  boundingRegions?: Array<BoundingRegionOutput>;
+  /** Location of the figure in the reading order concatenated content. */
+  spans: Array<DocumentSpanOutput>;
+  /** Child elements of the figure, excluding any caption or footnotes. */
+  elements?: string[];
+  /** Caption associated with the figure. */
+  caption?: DocumentCaptionOutput;
+  /** List of footnotes associated with the figure. */
+  footnotes?: Array<DocumentFootnoteOutput>;
+}
+
+/** An object representing a list in the document. */
+export interface DocumentListOutput {
+  /** Location of the list in the reading order concatenated content. */
+  spans: Array<DocumentSpanOutput>;
+  /** Items in the list. */
+  items: Array<DocumentListItemOutput>;
+}
+
+/** An object representing a list item in the document. */
+export interface DocumentListItemOutput {
+  /** Level of the list item (1-indexed). */
+  level: number;
+  /** Content of the list item. */
+  content: string;
+  /** Bounding regions covering the list item. */
+  boundingRegions?: Array<BoundingRegionOutput>;
+  /** Location of the list item in the reading order concatenated content. */
+  spans: Array<DocumentSpanOutput>;
+  /** Child elements of the list item. */
+  elements?: string[];
+}
+
+/** An object representing a section in the document. */
+export interface DocumentSectionOutput {
+  /** Location of the section in the reading order concatenated content. */
+  spans: Array<DocumentSpanOutput>;
+  /** Child elements of the section. */
+  elements?: string[];
 }
 
 /**
@@ -690,62 +844,38 @@ export interface CopyAuthorizationOutput {
   expirationDateTime: string;
 }
 
-/** Document model summary. */
-export interface DocumentModelSummaryOutput {
-  /** Unique document model name. */
-  modelId: string;
-  /** Document model description. */
-  description?: string;
-  /** Date and time (UTC) when the document model was created. */
-  readonly createdDateTime: string;
-  /** Date and time (UTC) when the document model will expire. */
-  readonly expirationDateTime?: string;
-  /** API version used to create this document model. */
-  readonly apiVersion?: string;
-  /** List of key-value tag attributes associated with the document model. */
-  tags?: Record<string, string>;
+/** Chat message. */
+export interface ChatMessageOutput {
+  /** Role of the chat message. */
+  role: string;
+  /** Chat message content. */
+  content: string;
+  /** List of citations mentioned in message. */
+  citations?: Array<ChatCitationOutput>;
 }
 
-/** Document classifier info. */
-export interface DocumentClassifierDetailsOutput {
-  /** Unique document classifier name. */
-  classifierId: string;
-  /** Document classifier description. */
-  description?: string;
-  /** Date and time (UTC) when the document classifier was created. */
-  createdDateTime: string;
-  /** Date and time (UTC) when the document classifier will expire. */
-  expirationDateTime?: string;
-  /** API version used to create this document classifier. */
-  apiVersion: string;
-  /** List of document types to classify against. */
-  docTypes: Record<string, ClassifierDocumentTypeDetailsOutput>;
+/** Citation mention. */
+export interface ChatCitationOutput {
+  /** Display label for the citation. */
+  label: string;
+  /** Snippet of cited text. */
+  content: string;
+  /** Bounding regions covering the cited text. */
+  boundingRegions?: Array<BoundingRegionOutput>;
 }
 
-/** Classifier document type info. */
-export interface ClassifierDocumentTypeDetailsOutput {
-  /**
-   * Type of training data source.
-   *
-   * Possible values: url, base64, azureBlob, azureBlobFileList
-   */
-  sourceKind?: string;
-  /**
-   * Azure Blob Storage location containing the training data for a classifier
-   * document type.  Either azureBlobSource or azureBlobFileListSource must be
-   * specified.
-   */
-  azureBlobSource?: AzureBlobContentSourceOutput;
-  /**
-   * Azure Blob Storage file list specifying the training data for a classifier
-   * document type.  Either azureBlobSource or azureBlobFileListSource must be
-   * specified.
-   */
-  azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
+/** Generated response for a chat conversation. */
+export interface ChatCompletionOutput {
+  /** Chat message. */
+  message: ChatMessageOutput;
 }
 
 /** Get Operation response object. */
-export type OperationDetailsOutput = DocumentModelBuildOperationDetailsOutput;
+export type OperationDetailsOutput =
+  | DocumentModelBuildOperationDetailsOutput
+  | DocumentModelComposeOperationDetailsOutput
+  | DocumentModelCopyToOperationDetailsOutput
+  | DocumentClassifierBuildOperationDetailsOutput;
 /** Paged collection of OperationSummary items */
 export type PagedOperationSummaryOutput = Paged<OperationSummaryOutput>;
 /** Paged collection of DocumentModelSummary items */

@@ -3,7 +3,6 @@
 
 import { Context } from "mocha";
 import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import "./env";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",

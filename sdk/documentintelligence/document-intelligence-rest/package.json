@@ -29,7 +29,7 @@
     "review/*"
   ],
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -73,7 +73,7 @@
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
     "autorest": "latest",
-    "@types/node": "^14.0.0",
+    "@types/node": "^16.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "mkdirp": "^2.1.2",
@@ -113,8 +113,5 @@
         "prefix": "userAgentInfo"
       }
     ]
-  },
-  "browser": {
-    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
   }
 }
