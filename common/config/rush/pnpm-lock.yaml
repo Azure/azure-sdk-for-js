@@ -11372,16 +11372,18 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-qrAEdA7rP1MyqbEe+PBnvQmvsDGIVFHwjS1jeG783Yu51ZnVaXODNa+jCfTsvAiCiQma1fexVi56zr7MFF63uA==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-e3cupYW1XXiPDQ0YV+2RpcKoxvTvLljNlJwM9dFFB7vG+ybK7QVixx/uvV4Kwxzd5rPThjAA2fTbW+Hql71wdw==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.59)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
       '@types/node': 16.18.59
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
