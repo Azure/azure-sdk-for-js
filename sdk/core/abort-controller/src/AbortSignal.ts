@@ -24,7 +24,7 @@ export interface AbortSignalLike {
   addEventListener(
     type: "abort",
     listener: (this: AbortSignalLike, ev: any) => any,
-    options?: any
+    options?: any,
   ): void;
   /**
    * Remove "abort" event listener, only support "abort" event.
@@ -32,7 +32,7 @@ export interface AbortSignalLike {
   removeEventListener(
     type: "abort",
     listener: (this: AbortSignalLike, ev: any) => any,
-    options?: any
+    options?: any,
   ): void;
 }
 
@@ -91,7 +91,7 @@ export class AbortSignal implements AbortSignalLike {
   public addEventListener(
     // tslint:disable-next-line:variable-name
     _type: "abort",
-    listener: (this: AbortSignalLike, ev: any) => any
+    listener: (this: AbortSignalLike, ev: any) => any,
   ): void {
     if (!listenersMap.has(this)) {
       throw new TypeError("Expected `this` to be an instance of AbortSignal.");
@@ -110,7 +110,7 @@ export class AbortSignal implements AbortSignalLike {
   public removeEventListener(
     // tslint:disable-next-line:variable-name
     _type: "abort",
-    listener: (this: AbortSignalLike, ev: any) => any
+    listener: (this: AbortSignalLike, ev: any) => any,
   ): void {
     if (!listenersMap.has(this)) {
       throw new TypeError("Expected `this` to be an instance of AbortSignal.");
@@ -129,7 +129,7 @@ export class AbortSignal implements AbortSignalLike {
    */
   dispatchEvent(_event: Event): boolean {
     throw new Error(
-      "This is a stub dispatchEvent implementation that should not be used.  It only exists for type-checking purposes."
+      "This is a stub dispatchEvent implementation that should not be used.  It only exists for type-checking purposes.",
     );
   }
 }

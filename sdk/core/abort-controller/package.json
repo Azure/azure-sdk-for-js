@@ -16,6 +16,22 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "bun": {
+        "types": "./dist/bun/index.d.ts",
+        "default": "./dist/bun/index.js"
+      },
+      "deno": {
+        "types": "./dist/deno/index.d.ts",
+        "default": "./dist/deno/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -29,14 +45,13 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
-    "build:test": "npm run build:tshy && dev-tool run bundle",
-    "build": "npm run clean && npm run build:tshy && api-extractor run --local",
-    "build:tshy": "tshy",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* temp types *.tgz *.log",
+    "build:test": "npm run clean && tshy && dev-tool run build-test",
+    "build": "npm run clean && tshy && api-extractor run --local",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"src/**/*.mts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf -G dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"src/**/*.mts\" \"test/**/*.ts\" \"*.{ts,js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -45,23 +60,20 @@
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "karma start karma.conf.cjs --single-run",
-    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true",
+    "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
+    "unit-test:browser": "vitest -c vitest.browser.config.ts",
+    "unit-test:node": "vitest",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "types": "./dist/commonjs/index.d.ts",
   "files": [
     "dist/",
-    "dist-esm/src/",
     "shims-public.d.ts",
-    "types/src",
-    "types/3.1",
     "README.md",
     "LICENSE"
   ],
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "keywords": [
     "azure",
@@ -75,37 +87,21 @@
     "cloud"
   ],
   "dependencies": {
-    "tslib": "^2.2.0"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
-    "@types/chai": "^4.1.6",
-    "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
-    "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
-    "downlevel-dts": "^0.10.0",
+    "@types/node": "^18.11.9",
+    "@vitest/browser": "1.0.0-beta.2",
     "eslint": "^8.0.0",
-    "esm": "^3.2.25",
-    "karma": "^6.2.0",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-coverage": "^2.0.0",
-    "karma-env-preprocessor": "^0.1.1",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-junit-reporter": "^2.0.1",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.0",
-    "nyc": "^15.0.0",
-    "prettier": "^2.5.1",
-    "rimraf": "^3.0.0",
-    "ts-node": "^10.0.0",
+    "prettier": "^3.0.3",
+    "playwright": "^1.39.0",
+    "rimraf": "^5.0.5",
     "tshy": "^1.4.0",
-    "typescript": "~5.0.0"
+    "typescript": "~5.0.0",
+    "vitest": "1.0.0-beta.2"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"
@@ -118,6 +114,12 @@
     "dialects": [
       "esm",
       "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "bun",
+      "deno",
+      "react-native"
     ]
   }
 }

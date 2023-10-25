@@ -11,6 +11,7 @@ export default subCommand(commandInfo, {
   "test:browser": () => import("./testBrowser"),
   "check-api": () => import("./check-api"),
   bundle: () => import("./bundle"),
+  "build-test": () => import("./build-test"),
 
   // "vendored" is a special command that passes through execution to dev-tool's own commands
   vendored: () => import("./vendored"),
