@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 19.4.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 19.4.0 (2023-10-20)
     
 **Features**
