@@ -4458,7 +4458,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231024
+      typescript: 5.3.0-dev.20231025
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9084,8 +9084,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231024:
-    resolution: {integrity: sha512-g+l6xRJNUswhIYSkjTqICwdZofhieh3P7wLP+Zp1tPgF/EBDKDtG+JvMd/WchTd0GY00Tg3u41dbaySqDA9thw==}
+  /typescript@5.3.0-dev.20231025:
+    resolution: {integrity: sha512-DW0GNkWzKHnI9lcYCVIw5SO5nzlaZ9iHAdcN7zCxt/OJsKg7s33xRtEa5nmPTIC5qvKzLLZboWWBJ+KRD9cKFw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11688,7 +11688,7 @@ packages:
     dev: false
 
   file:projects/arm-datadog.tgz:
-    resolution: {integrity: sha512-HIjB3DvMCVfITEFBXFd8hK5wkXe9ltxc+liPAU9U9Cwfnyfja3guOvXMdVKoePepbRfKcF/da3PKWkyDJrDVlA==, tarball: file:projects/arm-datadog.tgz}
+    resolution: {integrity: sha512-eo3OdsdHJIhWUtuUqTPTJH3omT549QUm9nUGwmPvPhPB9Kp78FWmAFlk/jesK8qzR0fKYiDP5L/+aCut+vAo9g==, tarball: file:projects/arm-datadog.tgz}
     name: '@rush-temp/arm-datadog'
     version: 0.0.0
     dependencies:
@@ -11697,9 +11697,10 @@ packages:
       '@types/node': 16.18.59
       chai: 4.3.10
       cross-env: 7.0.3
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@16.18.59)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -11868,7 +11869,7 @@ packages:
     dev: false
 
   file:projects/arm-devcenter.tgz:
-    resolution: {integrity: sha512-/angxbieMkKcJsQJdqNc+zy25g0XoAOpcDa6DASkRdfp2uNoq/Uj9I3FDFf3lzreh9d0e26JB4Kn8PcPUACleg==, tarball: file:projects/arm-devcenter.tgz}
+    resolution: {integrity: sha512-K5dsNt8WmABkxTXGXEc7EABDWa8n976i5C/w9YM/9FUNfsYCpo8CUkgKH+eIo1dYQ9mq7PLW43LZVU+GOq8LLQ==, tarball: file:projects/arm-devcenter.tgz}
     name: '@rush-temp/arm-devcenter'
     version: 0.0.0
     dependencies:
@@ -12759,7 +12760,7 @@ packages:
     dev: false
 
   file:projects/arm-keyvault.tgz:
-    resolution: {integrity: sha512-f1Y090+FjIYGgVrBYGG1+mRJl2uH27vEsXhQG9zh2By/YXkTNL/gEJuC73RbAu2j5aNA+ygpwG5OoJ8WyV+0zA==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-mJZb076NjWXPWX+BubEqM/+ZwVL4kqwgnl2zEIMwbduph1qBMxpy4Ep+H6ZKVPRkN+cGK9/FGYim6K9gMN2VXQ==, tarball: file:projects/arm-keyvault.tgz}
     name: '@rush-temp/arm-keyvault'
     version: 0.0.0
     dependencies:
@@ -14171,7 +14172,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesdatareplication.tgz:
-    resolution: {integrity: sha512-P2ShC9/4EXm4vIJRDEm1YSx2InnENT2cuOXxSYZCBwpQqxfjeaKienST4FM8v2zV6HL3tM/4H1Qw8Ebl5m4GhQ==, tarball: file:projects/arm-recoveryservicesdatareplication.tgz}
+    resolution: {integrity: sha512-c3iqbkXdtfIbpO1YWP1PzcuD7idEEBAukQ1E07PcuURdAT3yZWGGyMIp/mG6966hs4yaIxK9H0F5l3jdfGVZlw==, tarball: file:projects/arm-recoveryservicesdatareplication.tgz}
     name: '@rush-temp/arm-recoveryservicesdatareplication'
     version: 0.0.0
     dependencies:
@@ -14337,7 +14338,7 @@ packages:
     dev: false
 
   file:projects/arm-resourcehealth.tgz:
-    resolution: {integrity: sha512-Vi11ByWkUqB6+KrUx1OqvaUODlyNFx2dCi0ZBDdCTzTMUmnGIFROrswsFeJ+IzxeOrh4TwHtQAYT8AakTbkRNA==, tarball: file:projects/arm-resourcehealth.tgz}
+    resolution: {integrity: sha512-WfSg3UfoZo/16YZM6vtq4nGyHEoDGifURwH76iVIvEC3Za1wzaSGp8hilf/G+zo//WRTFkbXcxMsq4rjlIvRcQ==, tarball: file:projects/arm-resourcehealth.tgz}
     name: '@rush-temp/arm-resourcehealth'
     version: 0.0.0
     dependencies:
@@ -15161,7 +15162,7 @@ packages:
     dev: false
 
   file:projects/arm-support.tgz:
-    resolution: {integrity: sha512-C3MECBBBJ2MFTOqGTI8ZRsXsYSIMDmwdXs7dsoiwzfAzULzsPclqcCv67S3cQnhEQZ9BXSs8r2S9CnhgEnLd0A==, tarball: file:projects/arm-support.tgz}
+    resolution: {integrity: sha512-VJNVcMTPsYDEREGB+/MlH0VKcKBp6sFBZclB3nfB394j4g5vCkvpk6q1WFcn/d8udHhGo8mI4XiNdfN43Mu6sQ==, tarball: file:projects/arm-support.tgz}
     name: '@rush-temp/arm-support'
     version: 0.0.0
     dependencies:
@@ -17783,7 +17784,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-I2HoDbXKPMnWCzSLvBfSeRvhcEcjo5QbWjR69KuNMGEeNtuyi9ZIYdRhvDkh1jhmXF0pUFIO+gxW1fDLZNHL+w==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-N3MzxkAtHFu1M6+2m0+9fYOpGu66U9JAjLwxrkMPgj/qtovuH2m8lFizg6B4k4mnWSo19Z0kl04vF7nNS9CR6g==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
