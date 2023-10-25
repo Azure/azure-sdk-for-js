@@ -111,7 +111,7 @@
     "@azure/core-auth": "^1.3.0",
     "@azure/core-lro": "^2.2.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-util": "^1.0.0",
+    "@azure/core-util": "^1.6.1",
     "@azure/core-tracing": "^1.0.0",
     "@azure/keyvault-common": "^1.0.0",
     "@azure/logger": "^1.0.0",
