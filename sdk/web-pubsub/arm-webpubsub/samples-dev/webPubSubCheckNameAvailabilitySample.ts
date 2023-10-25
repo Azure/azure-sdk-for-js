@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Checks that the resource name is valid and is not already in use.
  *
  * @summary Checks that the resource name is valid and is not already in use.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/WebPubSub_CheckNameAvailability.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/WebPubSub_CheckNameAvailability.json
  */
 async function webPubSubCheckNameAvailability() {
   const subscriptionId =

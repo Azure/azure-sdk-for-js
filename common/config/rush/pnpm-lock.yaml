@@ -15352,7 +15352,7 @@ packages:
     dev: false
 
   file:projects/arm-webpubsub.tgz:
-    resolution: {integrity: sha512-3BDG1obxAo2otYqCft0Xk2M6I6JMeLMKop3K4E36OC6IpjTImBgGVC5xlOT9r7xcAuksvxZdrBcU6i9+P6/KKg==, tarball: file:projects/arm-webpubsub.tgz}
+    resolution: {integrity: sha512-2Z24vRFOf/cPphBS6yq9Wjispj8iR0j/0LstMZDX17Yv/RR/ti4voCOwMfSoslbUEYV+6UwACiROlYXZX3ILLQ==, tarball: file:projects/arm-webpubsub.tgz}
     name: '@rush-temp/arm-webpubsub'
     version: 0.0.0
     dependencies:
@@ -15364,7 +15364,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@16.18.59)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
