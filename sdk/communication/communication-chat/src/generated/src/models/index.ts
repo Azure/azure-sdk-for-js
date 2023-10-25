@@ -184,7 +184,7 @@ export interface ChatAttachment {
   /** Id of the attachment */
   id: string;
   /** The type of attachment. */
-  attachmentType: AttachmentType;
+  attachmentType: "image";
   /** The file extension of the attachment, if available */
   extension?: string;
   /** The name of the attachment content. */
@@ -351,8 +351,6 @@ export type ChatMessageType =
   | "topicUpdated"
   | "participantAdded"
   | "participantRemoved";
-/** Defines values for AttachmentType. */
-export type AttachmentType = "image" | "file";
 
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsOptionalParams
