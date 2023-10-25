@@ -147,7 +147,7 @@ export function formDataPolicy(): PipelinePolicy;
 export const formDataPolicyName = "formDataPolicy";
 
 // @public
-export type FormDataValue = string | Blob | ReadableStream | FileLike;
+export type FormDataValue = string | FileLike;
 
 // @public
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;

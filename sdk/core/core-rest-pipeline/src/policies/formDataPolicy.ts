@@ -4,14 +4,12 @@
 import { createHttpHeaders } from "../httpHeaders";
 import {
   BodyPart,
-  FileLike,
   FormDataMap,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { isReadableStream } from "../util/stream";
 
 /**
  * The programmatic identifier of the formDataPolicy.
@@ -53,12 +51,6 @@ function wwwFormUrlEncode(formData: FormDataMap): string {
   return urlSearchParams.toString();
 }
 
-function isFileLike(maybeFile: any): maybeFile is FileLike {
-  return Boolean(
-    maybeFile && (typeof maybeFile.stream === "function" || isReadableStream(maybeFile))
-  );
-}
-
 const encoder = new TextEncoder();
 
 async function prepareFormData(formData: FormDataMap, request: PipelineRequest): Promise<void> {
@@ -86,7 +78,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
           }),
           body: encoder.encode(value),
         });
-      } else if (isFileLike(value)) {
+      } else {
         // using || instead of ?? here since if value.name is empty we should create a file name
         const fileName = value.name || "blob";
         const headers = createHttpHeaders();
@@ -95,19 +87,12 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
           `form-data; name="${fieldName}"; filename="${fileName}"`
         );
         if (value.type) {
-          headers.set("content-type", value.type);
+          headers.set("Content-Type", value.type);
         }
 
         parts.push({
           headers,
           body: typeof value.stream === "function" ? value.stream() : value.stream,
-        });
-      } else if (isReadableStream(value)) {
-        parts.push({
-          headers: createHttpHeaders({
-            "Content-Disposition": `form-data; name=${fieldName}; filename=blob`,
-          }),
-          body: value,
         });
       }
     }

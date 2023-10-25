@@ -53,7 +53,7 @@ export function multipartPolicy(): PipelinePolicy {
 
       const contentTypeHeader = request.headers.get("Content-Type");
       if (contentTypeHeader) {
-        const parsedHeader = contentTypeHeader.match(/^(multipart\/[^ ;]+)(; *boundary=(.+))?$/);
+        const parsedHeader = contentTypeHeader.match(/^(multipart\/[^ ;]+)(?:; *boundary=(.+))?$/);
         if (!parsedHeader) {
           throw new Error(
             `Got multipart request body, but content-type header was not multipart: ${contentTypeHeader}`
@@ -61,7 +61,7 @@ export function multipartPolicy(): PipelinePolicy {
         }
 
         const parsedContentType = parsedHeader[1];
-        const parsedBoundary = parsedHeader[3];
+        const parsedBoundary = parsedHeader[2];
 
         if (parsedBoundary) {
           if (boundary && boundary !== parsedBoundary) {

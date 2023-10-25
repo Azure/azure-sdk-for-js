@@ -8,8 +8,9 @@ import { createPipelineRequest } from "../src/pipelineRequest";
 import { multipartPolicy } from "../src/policies/multipartPolicy";
 import { assert } from "chai";
 import { PipelineRequestOptions } from "../src/pipelineRequest";
-import { stringToUint8Array } from "@azure/core-util";
+import { isNode, stringToUint8Array } from "@azure/core-util";
 import { isNodeReadableStream, isWebReadableStream } from "../src/util/stream";
+import { Readable } from "stream";
 
 async function performRequest(
   requestOptions: Omit<PipelineRequestOptions, "url" | "method">
@@ -214,6 +215,80 @@ describe("multipartPolicy", function () {
         await assertBodyMatches(
           request.body,
           stringToUint8Array("--blah\r\n\r\npart1\r\n--blah\r\n\r\npart2\r\n--blah--", "utf-8")
+        );
+      });
+
+      it("supports Uint8Array body", async function () {
+        const request = await performRequest({
+          body: {
+            boundary: "blah",
+            parts: [
+              {
+                body: stringToUint8Array("part", "utf-8"),
+                headers: createHttpHeaders(),
+              },
+            ],
+          },
+        });
+
+        await assertBodyMatches(
+          request.body,
+          stringToUint8Array("--blah\r\n\r\npart\r\n--blah--", "utf-8")
+        );
+      });
+
+      it("supports Node ReadableStream body", async function () {
+        if (!isNode) {
+          this.skip();
+        }
+
+        const body = Readable.from(Buffer.from("part1", "utf-8"));
+
+        const request = await performRequest({
+          body: {
+            boundary: "blah",
+            parts: [
+              {
+                body,
+                headers: createHttpHeaders(),
+              },
+            ],
+          },
+        });
+
+        await assertBodyMatches(
+          request.body,
+          stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--", "utf-8")
+        );
+      });
+
+      it("Supports web ReadableStream body", async function () {
+        if (isNode) {
+          this.skip();
+        }
+
+        const body = new ReadableStream({
+          start(controller) {
+            controller.enqueue(new TextEncoder().encode("part1"));
+            controller.close();
+          },
+        });
+
+        const request = await performRequest({
+          body: {
+            boundary: "blah",
+            parts: [
+              {
+                body,
+                headers: createHttpHeaders(),
+              },
+            ],
+          },
+        });
+
+        await assertBodyMatches(
+          request.body,
+          stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--", "utf-8")
         );
       });
     });

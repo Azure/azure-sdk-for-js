@@ -368,9 +368,9 @@ export interface ProxySettings {
 }
 
 /**
- * Each form data entry can be a string or (in the browser) a Blob.
+ * Each form data entry can be a string or a file-like object (includes Blob or File in the browser)
  */
-export type FormDataValue = string | Blob | ReadableStream | FileLike;
+export type FormDataValue = string | FileLike;
 
 /**
  * A simple object that provides form data, as if from a browser form.
