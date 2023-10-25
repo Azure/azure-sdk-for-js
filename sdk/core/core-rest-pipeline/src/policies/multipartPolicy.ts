@@ -29,7 +29,7 @@ function createBodyStream(
       part.body,
       stringToUint8Array(`\r\n--${boundary}`, "utf-8"),
     ]),
-    stringToUint8Array("--", "utf-8"),
+    stringToUint8Array("--\r\n\r\n", "utf-8"),
   ].map(toStream);
 
   return concatenateStreams(streams);
