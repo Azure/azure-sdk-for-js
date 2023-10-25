@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for CdnManagementClient.",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "engines": {
     "node": ">=16.0.0"
   },
