@@ -54,7 +54,7 @@ import {
   GetAudioTranscriptionOptions,
   GetAudioTranslationOptions,
 } from "../models/audio.js";
-import { createFile } from "./policies/formDataPolicy.js";
+import { createFile } from "./util.js";
 import { renameKeysToCamelCase } from "./util.js";
 
 export function _getEmbeddingsSend(

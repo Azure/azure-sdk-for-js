@@ -18008,7 +18008,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-Ox8o0wC1hS0T7Zfz+Gomqgb1TSWFc26l2t+AnGhjFttpxzkPudU7wgPwGpfLIhw7Uq4jmBz86VOnSwR88FgChg==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-yBqNL0WphQnA0x/J+Ub0Apn77U95dzs73sop3Iiov7ooAqdmYfcr/pINtaSMq/A8KQlkbk1Bc7nYlo6TbPiajw==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -18026,6 +18026,8 @@ packages:
       eslint: 8.50.0
       esm: 3.2.25
       form-data: 4.0.0
+      form-data-encoder: 4.0.1
+      formdata-node: 6.0.3
       http-proxy-agent: 5.0.0
       https-proxy-agent: 5.0.1
       inherits: 2.0.4
@@ -20019,7 +20021,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-0s5WS2skDJjYr4YDV3VCpsZDXvYII1JY3xHtCo114NWN9nHQrlo3UwOtvFs1HOLEThtXAOBHUANUJ8FbHUmroQ==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-gxlAOTArvSDB6BiG0YrsZ3C1K9fO1DCIQXXfm2jRL6jsADn1zoBVHznRBy36dNKiRRYLtuzKjBkVkv09nFZIhA==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:

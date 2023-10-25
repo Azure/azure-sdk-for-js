@@ -9,6 +9,8 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
+import { File } from "formdata-node";
+
 export function wrapError<T>(f: () => T, message: string): T {
   try {
     const result = f();
@@ -42,4 +44,8 @@ export function renameKeysToCamelCase(obj: Record<string, any>): Record<string, 
         : value;
   }
   return obj;
+}
+
+export async function createFile(data: Uint8Array | string): Promise<File> {
+  return new File([data], "placeholder.wav");
 }

@@ -37,7 +37,7 @@ import { ChatCompletions } from "../models/models.js";
 import { getChatCompletionsResult, getCompletionsResult } from "./deserializers.js";
 import { GetChatCompletionsOptions } from "./models.js";
 import { ImageGenerationOptions } from "../models/options.js";
-import { createFile } from "./policies/formDataPolicy.js";
+import { createFile } from "./util.js";
 import { renameKeysToCamelCase } from "./util.js";
 import {
   AudioResult,

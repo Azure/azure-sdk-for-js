@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import FormData from "form-data";
+import { FormData } from "formdata-node";
 import { FormDataMap, PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
+import { FormDataEncoder } from "form-data-encoder";
+import { Readable } from "stream";
 
 /**
  * The programmatic identifier of the formDataPolicy.
@@ -13,7 +15,7 @@ export const formDataPolicyName = "formDataPolicy";
 /**
  * A policy that encodes FormData on the request into the body.
  */
-export function formDataPolicy(): PipelinePolicy {
+export function formDataPolicy(options: { boundary?: string } = {}): PipelinePolicy {
   return {
     name: formDataPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
@@ -23,7 +25,7 @@ export function formDataPolicy(): PipelinePolicy {
           request.body = wwwFormUrlEncode(request.formData);
           request.formData = undefined;
         } else {
-          await prepareFormData(request.formData, request);
+          await prepareFormData(request.formData, request, options.boundary);
         }
       }
       return next(request);
@@ -45,7 +47,11 @@ function wwwFormUrlEncode(formData: FormDataMap): string {
   return urlSearchParams.toString();
 }
 
-async function prepareFormData(formData: FormDataMap, request: PipelineRequest): Promise<void> {
+async function prepareFormData(
+  formData: FormDataMap,
+  request: PipelineRequest,
+  boundary?: string
+): Promise<void> {
   const requestForm = new FormData();
   for (const formKey of Object.keys(formData)) {
     const formValue = formData[formKey];
@@ -57,28 +63,18 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
       requestForm.append(formKey, formValue);
     }
   }
-
-  request.body = requestForm;
+  const encoder = boundary
+    ? new FormDataEncoder(requestForm, boundary)
+    : new FormDataEncoder(requestForm);
+  const body = Readable.from(encoder.encode());
+  request.body = body;
   request.formData = undefined;
   const contentType = request.headers.get("Content-Type");
   if (contentType && contentType.indexOf("multipart/form-data") !== -1) {
-    request.headers.set(
-      "Content-Type",
-      `multipart/form-data; boundary=${requestForm.getBoundary()}`
-    );
+    request.headers.set("Content-Type", encoder.contentType);
   }
-  try {
-    const contentLength = await new Promise<number>((resolve, reject) => {
-      requestForm.getLength((err, length) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(length);
-        }
-      });
-    });
+  const contentLength = encoder.contentLength;
+  if (contentLength !== undefined) {
     request.headers.set("Content-Length", contentLength);
-  } catch (e: any) {
-    // ignore setting the length if this fails
   }
 }
