@@ -14,7 +14,7 @@ import {
 
 // Parent directory imports
 import { CallMedia } from "../src/callMedia";
-import { FileSource, TextSource, SsmlSource, Choice, DtmfTone } from "../src/models/models";
+import { FileSource, TextSource, SsmlSource, RecognitionChoice, DtmfTone } from "../src/models/models";
 import {
   CallMediaRecognizeDtmfOptions,
   CallMediaRecognizeChoiceOptions,
@@ -23,7 +23,7 @@ import {
   CallConnection,
   CallInvite,
   ContinuousDtmfRecognitionOptions,
-  SendDtmfOptions,
+  SendDtmfTonesOptions,
   CallAutomationEventProcessor,
 } from "../src";
 
@@ -78,10 +78,12 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const playSource: FileSource = {
-      url: MEDIA_UR_MP3,
-      kind: "fileSource",
-    };
+    const playSource: FileSource[] = [
+      {
+        url: MEDIA_UR_MP3,
+        kind: "fileSource",
+      },
+    ];
 
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
 
@@ -90,8 +92,8 @@ describe("CallMedia Unit Tests", async function () {
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.playTo[0].rawId, CALL_TARGET_ID);
-    assert.equal(data.playSourceInfo.sourceType, "file");
-    assert.equal(data.playSourceInfo.fileSource.uri, playSource.url);
+    assert.equal(data.playSources[0].kind, "file");
+    assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
   });
 
@@ -101,11 +103,11 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const playSource: TextSource = {
+    const playSource: TextSource[] = [{
       text: "test test test",
       customVoiceEndpointId: "customVoiceEndpointId",
       kind: "textSource",
-    };
+    }];
 
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
 
@@ -114,8 +116,8 @@ describe("CallMedia Unit Tests", async function () {
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.playTo[0].rawId, CALL_TARGET_ID);
-    assert.equal(data.playSourceInfo.sourceType, "text");
-    assert.equal(data.playSourceInfo.textSource.text, playSource.text);
+    assert.equal(data.playSources[0].kind, "text");
+    assert.equal(data.playSources[0].text.text, playSource[0].text);
     assert.equal(request.method, "POST");
   });
 
@@ -125,12 +127,12 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const playSource: SsmlSource = {
+    const playSource: SsmlSource[] = [{
       ssmlText:
         '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US"><voice name="en-US-JennyNeural">Recognize Choice Completed, played through SSML source.</voice></speak>',
       customVoiceEndpointId: "customVoiceEndpointId",
       kind: "ssmlSource",
-    };
+    }];
 
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
 
@@ -139,8 +141,8 @@ describe("CallMedia Unit Tests", async function () {
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.playTo[0].rawId, CALL_TARGET_ID);
-    assert.equal(data.playSourceInfo.sourceType, "ssml");
-    assert.equal(data.playSourceInfo.ssmlSource.ssmlText, playSource.ssmlText);
+    assert.equal(data.playSources[0].kind, "ssml");
+    assert.equal(data.playSources[0].ssml.ssmlText, playSource[0].ssmlText);
     assert.equal(request.method, "POST");
   });
 
@@ -150,10 +152,10 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const playSource: FileSource = {
+    const playSource: FileSource[] = [{
       url: MEDIA_URL_WAV,
       kind: "fileSource",
-    };
+    }];
 
     const playTo: CommunicationIdentifier[] = [];
 
@@ -161,8 +163,8 @@ describe("CallMedia Unit Tests", async function () {
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
-    assert.equal(data.playSourceInfo.sourceType, "file");
-    assert.equal(data.playSourceInfo.fileSource.uri, playSource.url);
+    assert.equal(data.playSources[0].kind, "file");
+    assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
   });
 
@@ -174,10 +176,10 @@ describe("CallMedia Unit Tests", async function () {
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const recognizeOptions: CallMediaRecognizeDtmfOptions = {
       kind: "callMediaRecognizeDtmfOptions",
+      maxTonesToCollect: 5,
     };
-    const maxTonesToCollect = 5;
 
-    await callMedia.startRecognizing(targetParticipant, maxTonesToCollect, recognizeOptions);
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
@@ -192,7 +194,7 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const choice: Choice = {
+    const choice: RecognitionChoice = {
       label: "choice",
       phrases: ["test"],
     };
@@ -200,9 +202,8 @@ describe("CallMedia Unit Tests", async function () {
       choices: [choice],
       kind: "callMediaRecognizeChoiceOptions",
     };
-    const maxTonesToCollect = 5;
 
-    await callMedia.startRecognizing(targetParticipant, maxTonesToCollect, recognizeOptions);
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
@@ -221,14 +222,13 @@ describe("CallMedia Unit Tests", async function () {
       kind: "callMediaRecognizeSpeechOptions",
       speechModelEndpointId: "customModelEndpointId",
     };
-    const maxTonesToCollect = 5;
 
-    await callMedia.startRecognizing(targetParticipant, maxTonesToCollect, recognizeOptions);
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.recognizeInputType, "speech");
-    assert.equal(data.recognizeOptions.speechOptions.endSilenceTimeoutInMs, 2);
+    assert.equal(data.recognizeOptions.speechOptions.endSilenceTimeoutInMs, 2000);
     assert.equal(request.method, "POST");
   });
 
@@ -294,12 +294,12 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const sendDtmfOptions: SendDtmfOptions = {
+    const sendDtmfOptions: SendDtmfTonesOptions = {
       operationContext: "test_operation_context",
     };
     const tones = ["one", "two", "three", "pound"];
 
-    await callMedia.sendDtmf(tones, targetParticipant, sendDtmfOptions);
+    await callMedia.sendDtmfTones(tones, targetParticipant, sendDtmfOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
@@ -328,8 +328,8 @@ describe("CallMedia Unit Tests", async function () {
     const data = JSON.parse(request.body?.toString() || "");
     console.log(data);
     assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
-    assert.equal(data.playSourceInfo.sourceType, "text");
-    assert.equal(data.playSourceInfo.textSource.text, playSource.text);
+    assert.equal(data.playSourceInfo.kind, "text");
+    assert.equal(data.playSourceInfo.text.text, playSource.text);
     assert.equal(data.loop, true);
     assert.equal(request.method, "POST");
   });
@@ -415,10 +415,10 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media C
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource = {
+    const playSource: FileSource[] = [{
       url: fileSourceUrl,
       kind: "fileSource",
-    };
+    }];
 
     await callConnection.getCallMedia().play(playSource, [testUser2]);
     const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
@@ -452,10 +452,10 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media C
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource = {
+    const playSource: FileSource[] = [{
       url: fileSourceUrl,
       kind: "fileSource",
-    };
+    }];
 
     await callConnection.getCallMedia().playToAll(playSource);
 
@@ -491,10 +491,10 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media C
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource = {
+    const playSource: FileSource[] = [{
       url: fileSourceUrl,
       kind: "fileSource",
-    };
+    }];
 
     await callConnection.getCallMedia().playToAll(playSource);
     await callConnection.getCallMedia().cancelAllOperations();
@@ -553,7 +553,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media C
 
     await callConnection.getCallMedia().startContinuousDtmfRecognition(receiverPhoneUser);
 
-    await callConnection.getCallMedia().sendDtmf([DtmfTone.Pound], receiverPhoneUser);
+    await callConnection.getCallMedia().sendDtmfTones([DtmfTone.Pound], receiverPhoneUser);
     const sendDtmfCompleted = await waitForEvent("SendDtmfCompleted", callConnectionId, 8000);
     assert.isDefined(sendDtmfCompleted);
 

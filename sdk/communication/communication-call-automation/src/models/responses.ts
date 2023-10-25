@@ -115,8 +115,8 @@ export interface RemoveParticipantResult {
   ): Promise<RemoveParticipantEventResult>;
 }
 
-/** The response payload for muting participants from the call. */
-export interface MuteParticipantsResult {
+/** The response payload for muting participant from the call. */
+export interface MuteParticipantResult {
   /** The operation context provided by client. */
   operationContext?: string;
 }
@@ -149,8 +149,10 @@ export interface PlayResult {
   ): Promise<PlayEventResult>;
 }
 
-/** The response from send dtmf. */
-export interface SendDtmfResult {
+/** The response payload for sending DTMF tones. */
+export interface SendDtmfTonesResult {
+  /** The operation context provided by client. */
+  operationContext?: string;
   /*
    * Waiting for event processor to process the event
    */

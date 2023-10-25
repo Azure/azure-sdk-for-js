@@ -24,11 +24,11 @@ import {
   RestContinuousDtmfRecognitionToneReceived,
   RestContinuousDtmfRecognitionToneFailed,
   RestContinuousDtmfRecognitionStopped,
-  RestSendDtmfCompleted,
-  RestSendDtmfFailed,
+  RestSendDtmfTonesCompleted,
+  RestSendDtmfTonesFailed,
   RestToneInfo,
   Tone,
-  RestAddParticipantCancelled,
+  RestCancelAddParticipantSucceeded,
   RestCancelAddParticipantFailed,
 } from "../generated/src/models";
 
@@ -55,9 +55,9 @@ export type CallAutomationEvent =
   | ContinuousDtmfRecognitionToneReceived
   | ContinuousDtmfRecognitionToneFailed
   | ContinuousDtmfRecognitionStopped
-  | SendDtmfCompleted
-  | SendDtmfFailed
-  | AddParticipantCancelled
+  | SendDtmfTonesCompleted
+  | SendDtmfTonesFailed
+  | CancelAddParticipantSucceeded
   | CancelAddParticipantFailed;
 
 export interface ResultInformation
@@ -426,9 +426,9 @@ export interface ContinuousDtmfRecognitionStopped
 }
 
 /** Event sent when Dtmf tones send successfully. */
-export interface SendDtmfCompleted
+export interface SendDtmfTonesCompleted
   extends Omit<
-    RestSendDtmfCompleted,
+    RestSendDtmfTonesCompleted,
     "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"
   > {
   /** Call connection ID. */
@@ -442,13 +442,13 @@ export interface SendDtmfCompleted
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
-  kind: "SendDtmfCompleted";
+  kind: "SendDtmfTonesCompleted";
 }
 
 /** Event sent when Dtmf tones send failed. */
-export interface SendDtmfFailed
+export interface SendDtmfTonesFailed
   extends Omit<
-    RestSendDtmfFailed,
+    RestSendDtmfTonesFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"
   > {
   /** Call connection ID. */
@@ -462,13 +462,13 @@ export interface SendDtmfFailed
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
-  kind: "SendDtmfFailed";
+  kind: "SendDtmfTonesFailed";
 }
 
-/** The add participant cancelled event. */
-export interface AddParticipantCancelled
+/** Successful cancel add participant event. */
+export interface CancelAddParticipantSucceeded
   extends Omit<
-    RestAddParticipantCancelled,
+    RestCancelAddParticipantSucceeded,
     | "callConnectionId"
     | "serverCallId"
     | "correlationId"
@@ -489,7 +489,7 @@ export interface AddParticipantCancelled
   /** The participant whoose invitation was cancelled. */
   participant?: CommunicationIdentifier;
   /** kind of this event. */
-  kind: "AddParticipantCancelled";
+  kind: "CancelAddParticipantSucceeded";
 }
 
 /** The failed to cancel add participant event. */

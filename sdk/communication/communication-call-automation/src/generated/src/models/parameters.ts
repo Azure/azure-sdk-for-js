@@ -27,7 +27,7 @@ import {
   StopTranscriptionRequest as StopTranscriptionRequestMapper,
   RecognizeRequest as RecognizeRequestMapper,
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
-  SendDtmfRequest as SendDtmfRequestMapper,
+  SendDtmfTonesRequest as SendDtmfTonesRequestMapper,
   UpdateTranscriptionDataRequest as UpdateTranscriptionDataRequestMapper,
   StartHoldMusicRequest as StartHoldMusicRequestMapper,
   StopHoldMusicRequest as StopHoldMusicRequestMapper,
@@ -79,7 +79,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-01-15-preview",
+    defaultValue: "2023-10-03-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -212,9 +212,9 @@ export const continuousDtmfRecognitionRequest: OperationParameter = {
   mapper: ContinuousDtmfRecognitionRequestMapper
 };
 
-export const sendDtmfRequest: OperationParameter = {
-  parameterPath: "sendDtmfRequest",
-  mapper: SendDtmfRequestMapper
+export const sendDtmfTonesRequest: OperationParameter = {
+  parameterPath: "sendDtmfTonesRequest",
+  mapper: SendDtmfTonesRequestMapper
 };
 
 export const updateTranscriptionDataRequest: OperationParameter = {

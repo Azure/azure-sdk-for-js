@@ -36,7 +36,7 @@ export interface CallConnectionProperties {
   /** Display name of the call if dialing out to a pstn number. */
   sourceDisplayName?: string;
   /** Source identity. */
-  sourceIdentity?: CommunicationIdentifier;
+  source?: CommunicationIdentifier;
   /** The targets of the call. */
   targetParticipants?: CommunicationIdentifier[];
   /** The state of the call connection. */
@@ -48,7 +48,7 @@ export interface CallConnectionProperties {
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
-  answeredByIdentifier?: CommunicationUserIdentifier;
+  answeredby?: CommunicationUserIdentifier;
 }
 
 /** Contract model of an ACS call participant */
@@ -65,8 +65,8 @@ export interface CallLocator {
   kind: CallLocatorType;
 }
 
-/** Defines values for Gender that the service accepts. */
-export enum Gender {
+/** Defines values for VoiceKind that the service accepts. */
+export enum VoiceKind {
   /** Male */
   Male = "male",
   /** Female */
@@ -75,7 +75,7 @@ export enum Gender {
 
 /** The PlaySource model. */
 export interface PlaySource {
-  playSourceId?: string;
+  playsourcacheid?: string;
 }
 
 /** The FileSource model. */
@@ -88,7 +88,7 @@ export interface FileSource extends PlaySource {
 export interface TextSource extends PlaySource {
   text: string;
   sourceLocale?: string;
-  voiceGender?: Gender;
+  voiceKind?: VoiceKind;
   voiceName?: string;
   customVoiceEndpointId?: string;
   readonly kind: "textSource";
@@ -137,8 +137,8 @@ export enum DtmfTone {
   Asterisk = "asterisk",
 }
 
-/** A Recognize Choice */
-export interface Choice {
+/** A Recognition Choice */
+export interface RecognitionChoice {
   /** Identifier for a given choice */
   label: string;
   /** List of phrases to recognize */
@@ -152,6 +152,46 @@ export enum RecognizeInputType {
   Dtmf = "dtmf",
   /** Choices */
   Choices = "choices",
+}
+
+/** Call invitee details. */
+export interface CallInvite {
+  /** The Target's PhoneNumberIdentifier, CommunicationUserIdentifier or MicrosoftTeamsUserIdentifier. */
+  readonly targetParticipant:
+    | PhoneNumberIdentifier
+    | CommunicationUserIdentifier
+    | MicrosoftTeamsUserIdentifier;
+  /** Caller's phone number identifier. */
+  readonly sourceCallIdNumber?: PhoneNumberIdentifier;
+  sourceDisplayName?: string;
+  /** Used by customer to send custom context to targets. */
+  customContext?: CustomContext;
+}
+
+/** The locator type of a call. */
+export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
+
+/** The content type of a call recording. */
+export type RecordingContent = "audio" | "audioVideo";
+
+/** The channel type of a call recording. */
+export type RecordingChannel = "mixed" | "unmixed";
+
+/** The format type of a call recording. */
+export type RecordingFormat = "mp3" | "mp4" | "wav";
+
+/** The storage type of a call recording. */
+export type RecordingStorage = "acs" | "blobStorage";
+
+/** Channel affinity for a participant */
+export interface ChannelAffinity {
+  /** Channel number to which bitstream from a particular participant will be written. */
+  channel?: number;
+  /**
+   * The identifier for the participant whose bitstream will be written to the channel
+   * represented by the channel number.
+   */
+  targetParticipant: CommunicationIdentifier;
 }
 
 interface CustomContextHeader {
@@ -229,44 +269,4 @@ export class CustomContext {
       throw new Error("Unknown custom context header type.");
     }
   }
-}
-
-/** Call invitee details. */
-export interface CallInvite {
-  /** The Target's PhoneNumberIdentifier, CommunicationUserIdentifier or MicrosoftTeamsUserIdentifier. */
-  readonly targetParticipant:
-    | PhoneNumberIdentifier
-    | CommunicationUserIdentifier
-    | MicrosoftTeamsUserIdentifier;
-  /** Caller's phone number identifier. */
-  readonly sourceCallIdNumber?: PhoneNumberIdentifier;
-  sourceDisplayName?: string;
-  /** The Custom Context. */
-  customContext?: CustomContext;
-}
-
-/** The locator type of a call. */
-export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
-
-/** The content type of a call recording. */
-export type RecordingContent = "audio" | "audioVideo";
-
-/** The channel type of a call recording. */
-export type RecordingChannel = "mixed" | "unmixed";
-
-/** The format type of a call recording. */
-export type RecordingFormat = "mp3" | "mp4" | "wav";
-
-/** The storage type of a call recording. */
-export type RecordingStorage = "acs" | "blobStorage";
-
-/** Channel affinity for a participant */
-export interface ChannelAffinity {
-  /** Channel number to which bitstream from a particular participant will be written. */
-  channel?: number;
-  /**
-   * The identifier for the participant whose bitstream will be written to the channel
-   * represented by the channel number.
-   */
-  targetParticipant: CommunicationIdentifier;
 }

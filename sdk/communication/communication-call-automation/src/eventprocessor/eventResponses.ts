@@ -11,13 +11,13 @@ import {
   PlayFailed,
   RemoveParticipantSucceeded,
   RemoveParticipantFailed,
-  SendDtmfCompleted,
-  SendDtmfFailed,
+  SendDtmfTonesCompleted,
+  SendDtmfTonesFailed,
   RecognizeCompleted,
   RecognizeFailed,
   CallTransferAccepted,
   CallTransferFailed,
-  AddParticipantCancelled,
+  CancelAddParticipantSucceeded,
   CancelAddParticipantFailed,
 } from "../models/events";
 
@@ -78,8 +78,8 @@ export interface RemoveParticipantEventResult {
  */
 export interface SendDtmfEventResult {
   isSuccess: boolean;
-  successResult?: SendDtmfCompleted;
-  failureResult?: SendDtmfFailed;
+  successResult?: SendDtmfTonesCompleted;
+  failureResult?: SendDtmfTonesFailed;
 }
 
 /**
@@ -105,6 +105,6 @@ export interface TransferCallToParticipantEventResult {
  */
 export interface CancelAddParticipantEventResult {
   isSuccess: boolean;
-  successResult?: AddParticipantCancelled;
+  successResult?: CancelAddParticipantSucceeded;
   failureResult?: CancelAddParticipantFailed;
 }

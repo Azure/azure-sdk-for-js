@@ -11,10 +11,10 @@ description: Call Automation Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2023-01-15-preview
-require: 
-  - https://github.com/williamzhao87/azure-rest-api-specs/blob/5b7321a923a30b83b978e3a30ed1d497e35052fd/specification/communication/data-plane/CallAutomation/readme.md
-package-version: 1.0.0-beta.1
+tag: package-2023-10-03-preview
+require:
+  - https://github.com/Azure/azure-rest-api-specs/blob/5cdce2b17a359c0201b7d1f606114120413aefe3/specification/communication/data-plane/CallAutomation/readme.md
+package-version: 1.2.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
@@ -117,17 +117,17 @@ directive:
     from: ContinuousDtmfRecognitionStopped
     to: RestContinuousDtmfRecognitionStopped
 - rename-model:
-    from: SendDtmfCompleted
-    to: RestSendDtmfCompleted
+    from: SendDtmfTonesCompleted
+    to: RestSendDtmfTonesCompleted
 - rename-model:
-    from: SendDtmfFailed
-    to: RestSendDtmfFailed
+    from: SendDtmfTonesFailed
+    to: RestSendDtmfTonesFailed
 - rename-model:
     from: ToneInfo
     to: RestToneInfo
 - rename-model:
-    from: AddParticipantCancelled
-    to: RestAddParticipantCancelled
+    from: CancelAddParticipantSucceeded
+    to: RestCancelAddParticipantSucceeded
 - rename-model:
     from: CancelAddParticipantFailed
     to: RestCancelAddParticipantFailed

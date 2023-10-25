@@ -19,8 +19,9 @@ import {
   ContinuousDtmfRecognitionRequest,
   CallMediaStartContinuousDtmfRecognitionOptionalParams,
   CallMediaStopContinuousDtmfRecognitionOptionalParams,
-  SendDtmfRequest,
-  CallMediaSendDtmfOptionalParams,
+  SendDtmfTonesRequest,
+  CallMediaSendDtmfTonesOptionalParams,
+  CallMediaSendDtmfTonesResponse,
   UpdateTranscriptionDataRequest,
   CallMediaUpdateTranscriptionDataOptionalParams,
   StartHoldMusicRequest,
@@ -109,14 +110,14 @@ export interface CallMedia {
   /**
    * Send dtmf tones.
    * @param callConnectionId The call connection id
-   * @param sendDtmfRequest The send dtmf request
+   * @param sendDtmfTonesRequest The send dtmf tones request
    * @param options The options parameters.
    */
-  sendDtmf(
+  sendDtmfTones(
     callConnectionId: string,
-    sendDtmfRequest: SendDtmfRequest,
-    options?: CallMediaSendDtmfOptionalParams
-  ): Promise<void>;
+    sendDtmfTonesRequest: SendDtmfTonesRequest,
+    options?: CallMediaSendDtmfTonesOptionalParams
+  ): Promise<CallMediaSendDtmfTonesResponse>;
   /**
    * API to change transcription language.
    * @param callConnectionId The call connection id
