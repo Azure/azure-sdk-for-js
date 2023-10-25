@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all available skus of the replica resource.
  *
  * @summary List all available skus of the replica resource.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/SignalR_ListReplicaSkus.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalR_ListReplicaSkus.json
  */
 async function signalRListReplicaSkus() {
   const subscriptionId =

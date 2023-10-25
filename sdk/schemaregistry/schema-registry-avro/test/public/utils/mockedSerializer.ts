@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AvroSerializer, AvroSerializerOptions } from "../../../src";
-import { testGroup, testSchema, testSchemaObject } from "./dummies";
+import { testGroup, testSchemaName, testSchema } from "./dummies";
 import { SchemaRegistry } from "@azure/schema-registry";
 import { createTestRegistry } from "./mockedRegistryClient";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -28,7 +28,7 @@ export async function createTestSerializer<T>(
 
 export async function registerTestSchema(registry: SchemaRegistry): Promise<string> {
   const schema = await registry.registerSchema({
-    name: `${testSchemaObject.namespace}.${testSchemaObject.name}`,
+    name: testSchemaName,
     groupName: testGroup,
     definition: testSchema,
     format: "avro",
