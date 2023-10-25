@@ -113,6 +113,9 @@ dependencies:
   '@rush-temp/arm-azureadexternalidentities':
     specifier: file:./projects/arm-azureadexternalidentities.tgz
     version: file:projects/arm-azureadexternalidentities.tgz
+  '@rush-temp/arm-azurelargeinstance':
+    specifier: file:./projects/arm-azurelargeinstance.tgz
+    version: file:projects/arm-azurelargeinstance.tgz
   '@rush-temp/arm-azurestack':
     specifier: file:./projects/arm-azurestack.tgz
     version: file:projects/arm-azurestack.tgz
@@ -2928,7 +2931,7 @@ packages:
   /@types/decompress@4.2.5:
     resolution: {integrity: sha512-LdL+kbcKGs9TzvB/K+OBGzPfDoP6gwwTsykYjodlzUJUUYp/43c1p1jE5YTtz3z4Ml90iruvBXbJ6+kDvb3WSQ==}
     dependencies:
-      '@types/node': 16.18.55
+      '@types/node': 18.18.6
     dev: false
 
   /@types/eslint@8.44.3:
@@ -8956,6 +8959,37 @@ packages:
       code-block-writer: 12.0.0
     dev: false
 
+  /ts-node@10.9.1(@types/node@16.18.55)(typescript@5.0.4):
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 16.18.55
+      acorn: 8.10.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.0.4
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node@10.9.1(@types/node@16.18.55)(typescript@5.2.2):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -10990,6 +11024,37 @@ packages:
       ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+    dev: false
+
+  file:projects/arm-azurelargeinstance.tgz:
+    resolution: {integrity: sha512-lRoW+yYQVVbbcPe85EhalposS+2XsNMVIkR4pTyMahmsw4DS4YTykG6ptm/bJTNFKHYJHrpclDTX6LYpjNgbRA==, tarball: file:projects/arm-azurelargeinstance.tgz}
+    name: '@rush-temp/arm-azurelargeinstance'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.38.0(@types/node@16.18.55)
+      '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
+      '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
+      '@rollup/plugin-multi-entry': 6.0.0(rollup@2.79.1)
+      '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
+      '@types/chai': 4.3.6
+      '@types/mocha': 10.0.2
+      '@types/node': 16.18.55
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3(@types/node@16.18.55)(rollup@2.79.1)
+      ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)
+      tslib: 2.6.2
+      typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -19212,7 +19277,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-I2HoDbXKPMnWCzSLvBfSeRvhcEcjo5QbWjR69KuNMGEeNtuyi9ZIYdRhvDkh1jhmXF0pUFIO+gxW1fDLZNHL+w==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-N3MzxkAtHFu1M6+2m0+9fYOpGu66U9JAjLwxrkMPgj/qtovuH2m8lFizg6B4k4mnWSo19Z0kl04vF7nNS9CR6g==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -20028,7 +20093,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-HPJq35LqAc0O4ZWamZunXj5BkVfVNdv2w1RdY2uw64qwsyHfDNFl2AQ9RSGn9HxJtZopAmf93tueLSiARnjQsg==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-xYnrqVPQaBXxwvLxAX32bPmxIQyZCHNlUmtJoOMxe1ij2h7Mki4+y4OTBA7UVwgqfHWd2FzEClwuZGomo0LpwQ==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
