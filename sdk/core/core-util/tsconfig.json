@@ -12,6 +12,7 @@
     "dist",
     "dist-esm",
     "./samples/**/*.ts",
-    "./test/**/*.ts"
+    "test",
+    "vitest.*.ts"
   ]
 }
