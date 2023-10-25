@@ -9,9 +9,9 @@
     "./dist-esm/sha256.js": "./dist-esm/sha256.browser.js",
     "./dist-esm/uuidUtils.js": "./dist-esm/uuidUtils.browser.js",
     "./dist-esm/bytesEncoding.js": "./dist-esm/bytesEncoding.browser.js",
-    "./src/sha256": "./dist-esm/sha256.browser",
-    "./src/uuidUtils": "./dist-esm/uuidUtils.browser",
-    "./src/bytesEncoding": "./dist-esm/bytesEncoding.browser"
+    "./src/sha256": "./src/sha256.browser",
+    "./src/uuidUtils": "./src/uuidUtils.browser",
+    "./src/bytesEncoding": "./src/bytesEncoding.browser"
   },
   "react-native": {
     "./dist/index.js": "./dist-esm/index.js",
