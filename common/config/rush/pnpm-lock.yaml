@@ -14599,7 +14599,7 @@ packages:
     dev: false
 
   file:projects/arm-selfhelp.tgz:
-    resolution: {integrity: sha512-hDtjdwK6q52cNnlBBFCEYRvBLAzOnHVsYCDK940n10vwjD6SrNXfs5oZNwtDlmq0zrhvwfEzjjSYHo4LP5vTfA==, tarball: file:projects/arm-selfhelp.tgz}
+    resolution: {integrity: sha512-f3NjCJ4stScAVe06nyzO19prRlTBxeEU92pFXQUpswmq/xukuEodiFKoboUNwDRQJoChazvlMI2k3j6ym3gQFg==, tarball: file:projects/arm-selfhelp.tgz}
     name: '@rush-temp/arm-selfhelp'
     version: 0.0.0
     dependencies:
@@ -14611,7 +14611,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@16.18.59)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2

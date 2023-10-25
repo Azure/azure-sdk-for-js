@@ -1,14 +1,10 @@
 {
-  "name": "@azure-samples/arm-selfhelp-ts",
+  "name": "@azure-samples/arm-selfhelp-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for TypeScript",
+  "description": " client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=16.0.0"
-  },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
@@ -29,13 +25,8 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/selfhelp/arm-selfhelp",
   "dependencies": {
-    "@azure/arm-selfhelp": "latest",
+    "@azure/arm-selfhelp": "next",
     "dotenv": "latest",
     "@azure/identity": "^2.0.1"
-  },
-  "devDependencies": {
-    "@types/node": "^16.0.0",
-    "typescript": "~5.2.0",
-    "rimraf": "latest"
   }
 }

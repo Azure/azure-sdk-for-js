@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { HelpRP } from "@azure/arm-selfhelp";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { HelpRP } = require("@azure/arm-selfhelp");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates a diagnostic for the specific resource using solutionId and requiredInputs* from discovery solutions. <br/>Diagnostics tells you precisely the root cause of the issue and the steps to address it. You can get diagnostics once you discover the relevant solution for your Azure issue. <br/><br/> <b>Note: </b> requiredInputs’ from Discovery solutions response must be passed via ‘additionalParameters’ as an input to Diagnostics API.
@@ -26,10 +24,7 @@ async function createsADiagnosticForAKeyVaultResource() {
   const diagnosticsResourceName = "VMNotWorkingInsight";
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
-  const result = await client.diagnostics.beginCreateAndWait(
-    scope,
-    diagnosticsResourceName
-  );
+  const result = await client.diagnostics.beginCreateAndWait(scope, diagnosticsResourceName);
   console.log(result);
 }
 

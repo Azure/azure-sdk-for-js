@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  DiscoverySolutionListOptionalParams,
-  HelpRP
-} from "@azure/arm-selfhelp";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { HelpRP } = require("@azure/arm-selfhelp");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists the relevant Azure diagnostics and solutions using [problemClassification API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP)) AND  resourceUri or resourceType.<br/> Discovery Solutions is the initial entry point within Help API, which identifies relevant Azure diagnostics and solutions. We will do our best to return the most effective solutions based on the type of inputs, in the request URL  <br/><br/> Mandatory input :  problemClassificationId (Use the [problemClassification API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP)) <br/>Optional input: resourceUri OR resource Type <br/><br/> <b>Note: </b>  ‘requiredInputs’ from Discovery solutions response must be passed via ‘additionalParameters’ as an input to Diagnostics and Solutions API.
@@ -27,7 +22,7 @@ async function listDiscoverySolutionsAtResourceScope() {
   const scope =
     "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read";
   const filter = "ProblemClassificationId eq 'SampleProblemClassificationId1'";
-  const options: DiscoverySolutionListOptionalParams = { filter };
+  const options = { filter };
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
   const resArray = new Array();
@@ -46,7 +41,7 @@ async function listDiscoverySolutionsAtResourceScope() {
 async function listDiscoverySolutionsAtSubscriptionScope() {
   const scope = "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6";
   const filter = "ProblemClassificationId eq 'SampleProblemClassificationId1'";
-  const options: DiscoverySolutionListOptionalParams = { filter };
+  const options = { filter };
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
   const resArray = new Array();

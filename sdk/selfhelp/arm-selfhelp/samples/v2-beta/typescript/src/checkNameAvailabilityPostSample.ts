@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CheckNameAvailabilityRequest,
-  DiagnosticsCheckNameAvailabilityOptionalParams,
+  CheckNameAvailabilityPostOptionalParams,
   HelpRP
 } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -19,10 +19,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to This API is used to check the uniqueness of a resource name used for a diagnostic check.
+ * This sample demonstrates how to This API is used to check the uniqueness of a resource name used for a diagnostic, troubleshooter or solutions
  *
- * @summary This API is used to check the uniqueness of a resource name used for a diagnostic check.
- * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/stable/2023-06-01/examples/CheckNameAvailabilityForDiagnosticWhenNameIsAvailable.json
+ * @summary This API is used to check the uniqueness of a resource name used for a diagnostic, troubleshooter or solutions
+ * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2023-09-01-preview/examples/CheckNameAvailabilityForDiagnosticWhenNameIsAvailable.json
  */
 async function exampleWhenNameIsAvailableForADiagnosticResource() {
   const scope = "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6";
@@ -30,20 +30,20 @@ async function exampleWhenNameIsAvailableForADiagnosticResource() {
     name: "sampleName",
     type: "Microsoft.Help/diagnostics"
   };
-  const options: DiagnosticsCheckNameAvailabilityOptionalParams = {
+  const options: CheckNameAvailabilityPostOptionalParams = {
     checkNameAvailabilityRequest
   };
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
-  const result = await client.diagnostics.checkNameAvailability(scope, options);
+  const result = await client.checkNameAvailability.post(scope, options);
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to This API is used to check the uniqueness of a resource name used for a diagnostic check.
+ * This sample demonstrates how to This API is used to check the uniqueness of a resource name used for a diagnostic, troubleshooter or solutions
  *
- * @summary This API is used to check the uniqueness of a resource name used for a diagnostic check.
- * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/stable/2023-06-01/examples/CheckNameAvailabilityForDiagnosticWhenNameIsNotAvailable.json
+ * @summary This API is used to check the uniqueness of a resource name used for a diagnostic, troubleshooter or solutions
+ * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2023-09-01-preview/examples/CheckNameAvailabilityForDiagnosticWhenNameIsNotAvailable.json
  */
 async function exampleWhenNameIsNotAvailableForADiagnosticResource() {
   const scope = "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6";
@@ -51,12 +51,12 @@ async function exampleWhenNameIsNotAvailableForADiagnosticResource() {
     name: "sampleName",
     type: "Microsoft.Help/diagnostics"
   };
-  const options: DiagnosticsCheckNameAvailabilityOptionalParams = {
+  const options: CheckNameAvailabilityPostOptionalParams = {
     checkNameAvailabilityRequest
   };
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
-  const result = await client.diagnostics.checkNameAvailability(scope, options);
+  const result = await client.checkNameAvailability.post(scope, options);
   console.log(result);
 }
 
