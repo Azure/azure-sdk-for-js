@@ -1,12 +1,11 @@
 # Release History
 
-## 1.0.0-beta.7 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.0-beta.7 (2023-10-25)
 
 ### Bugs Fixed
+
+- Support Cloudflare workers by only setting the available fields in the `Request` class for the Fetch API.
+- Wait before stop listening to the abort signal until after the response stream has been drained to allow for aborting prolonged responses.
 
 ### Other Changes
 
