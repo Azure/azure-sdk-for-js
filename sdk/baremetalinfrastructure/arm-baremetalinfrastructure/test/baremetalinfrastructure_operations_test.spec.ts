@@ -47,7 +47,10 @@ describe("baremetalinfrastructure test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new BareMetalInfrastructureClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new BareMetalInfrastructureClient(credential, subscriptionId, recorder.configureClientOptions({
+      endpoint: "https://eastus2euap.management.azure.com/",
+      credentialScopes: "https://management.azure.com/.default"
+    }));
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
@@ -58,11 +61,54 @@ describe("baremetalinfrastructure test", () => {
     await recorder.stop();
   });
 
-  it("operation list test", async function () {
+  it("azureBareMetalStorageInstances create test", async function () {
+    const res = await client.azureBareMetalStorageInstances.create(
+      resourceGroup,
+      resourcename,
+      {
+        azureBareMetalStorageInstanceUniqueIdentifier:
+          "23415635-4d7e-41dc-9598-8194f22c24e9",
+        location: "westus2",
+        storageProperties: {
+          generation: "Gen4",
+          hardwareType: "NetApp",
+          offeringType: "EPIC",
+          provisioningState: "Succeeded",
+          storageBillingProperties: {
+            azureBareMetalStorageInstanceSize: "",
+            billingMode: "PAYG"
+          },
+          storageType: "FC",
+          workloadType: "ODB"
+        },
+        tags: { key: "value" }
+      });
+    assert.equal(res.name, resourcename);
+  });
+
+  it("azureBareMetalStorageInstances get test", async function () {
+    const res = await client.azureBareMetalStorageInstances.get(resourceGroup,
+      resourcename);
+    assert.equal(res.name, resourcename);
+  });
+
+  it("azureBareMetalStorageInstances list test", async function () {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (let item of client.azureBareMetalStorageInstances.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.notEqual(resArray.length, 0);
+    assert.equal(resArray.length, 1);
   });
+
+  it("azureBareMetalStorageInstances delete test", async function () {
+    const resArray = new Array();
+    const res = await client.azureBareMetalStorageInstances.delete(resourceGroup, resourcename
+    )
+    for await (let item of client.azureBareMetalStorageInstances.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
+
+
 })
