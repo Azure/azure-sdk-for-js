@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Duplex, PassThrough } from "stream";
+import { Readable } from "stream";
 
 export function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
-  return Boolean(x && typeof (x as NodeJS.ReadableStream).pipe === "function");
+  return Boolean(x && typeof (x as NodeJS.ReadableStream)["pipe"] === "function");
 }
 
 export function isWebReadableStream(x: unknown): x is ReadableStream {
@@ -23,14 +23,11 @@ export function toStream(
   source: ReadableStream | NodeJS.ReadableStream | Uint8Array | Blob
 ): NodeJS.ReadableStream | ReadableStream {
   if (source instanceof Uint8Array) {
-    const stream = new Duplex();
-    stream.push(source);
-    stream.push(null);
-    return stream;
+    return Readable.from(source);
   } else if (isNodeReadableStream(source)) {
     return source;
   } else {
-    // FIXME: can update to support browser ReadableStream with Node >18 (for Readable.fromWeb)
+    // FIXME: can update to support browser ReadableStream with Node >18 (for Readable.fromWeb; needs update to NodeHttpClient)
     throw new Error("Blob and browser ReadableStream not currently supported in Node environment");
   }
 }
@@ -42,15 +39,13 @@ export function concatenateStreams(
     throw new Error("Browser ReadableStream not currently supported in Node environment");
   }
 
-  const output = new PassThrough();
-  (async () => {
-    for (const stream of sources as NodeJS.ReadableStream[]) {
-      const done = stream === sources.at(-1);
-      stream.pipe(output, { end: done });
-      stream.on("error", (error) => output.emit("error", error));
-      await new Promise((resolve) => stream.once("end", resolve));
-    }
-  })();
-
-  return output;
+  return Readable.from(
+    (async function* () {
+      for (const stream of sources as NodeJS.ReadableStream[]) {
+        for await (const chunk of stream) {
+          yield chunk;
+        }
+      }
+    })()
+  );
 }
