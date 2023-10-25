@@ -337,6 +337,9 @@
 /sdk/cosmosdb/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/connectedvmware/arm-connectedvmware/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/ @qiaozha @MaryGao
 /sdk/cosmosforpostgresql/ci.mgmt.yml @qiaozha @MaryGao
 

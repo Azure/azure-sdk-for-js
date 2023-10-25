@@ -11281,7 +11281,7 @@ packages:
     dev: false
 
   file:projects/arm-connectedvmware.tgz:
-    resolution: {integrity: sha512-GMb0xs8mBmSkxsDbu4ocyil+kk7MRUTydVZ4lJnbxRgsQtFJUF+dJumrDh9OmLM122PiC21NQI3hbMPe8jb/hw==, tarball: file:projects/arm-connectedvmware.tgz}
+    resolution: {integrity: sha512-XcxyNGvLTm8uOBUkuhQfHMVTqOrxNYM/c6X9jfo68QyDS9Gn3I1yo4qAtJ+5GNPDxfUZIomMyvxVreGJr/cU6g==, tarball: file:projects/arm-connectedvmware.tgz}
     name: '@rush-temp/arm-connectedvmware'
     version: 0.0.0
     dependencies:
@@ -11293,7 +11293,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@16.18.59)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
