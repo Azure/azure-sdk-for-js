@@ -6,9 +6,12 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export type AadAuthFailureMode = "http403" | "http401WithBearerChallenge";
 
 // @public
 export type AdminKeyKind = "primary" | "secondary";
@@ -73,6 +76,23 @@ export interface CloudErrorBody {
 }
 
 // @public
+export interface DataPlaneAadOrApiKeyAuthOption {
+    aadAuthFailureMode?: AadAuthFailureMode;
+}
+
+// @public
+export interface DataPlaneAuthOptions {
+    aadOrApiKey?: DataPlaneAadOrApiKeyAuthOption;
+    apiKeyOnly?: Record<string, unknown>;
+}
+
+// @public
+export interface EncryptionWithCmk {
+    readonly encryptionComplianceStatus?: SearchEncryptionComplianceStatus;
+    enforcement?: SearchEncryptionWithCmk;
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -91,6 +111,23 @@ export type IdentityType = "None" | "SystemAssigned";
 // @public
 export interface IpRule {
     value?: string;
+}
+
+// @public
+export enum KnownPrivateLinkServiceConnectionProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Incomplete = "Incomplete",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownSearchSemanticSearch {
+    Disabled = "disabled",
+    Free = "free",
+    Standard = "standard"
 }
 
 // @public
@@ -162,8 +199,10 @@ export interface PrivateEndpointConnectionListResult {
 
 // @public
 export interface PrivateEndpointConnectionProperties {
+    groupId?: string;
     privateEndpoint?: PrivateEndpointConnectionPropertiesPrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState;
+    provisioningState?: PrivateLinkServiceConnectionProvisioningState;
 }
 
 // @public
@@ -258,6 +297,9 @@ export interface PrivateLinkResourcesResult {
 }
 
 // @public
+export type PrivateLinkServiceConnectionProvisioningState = string;
+
+// @public
 export type PrivateLinkServiceConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 
 // @public
@@ -309,11 +351,38 @@ export interface QueryKeysListBySearchServiceOptionalParams extends coreClient.O
 export type QueryKeysListBySearchServiceResponse = ListQueryKeysResult;
 
 // @public
+export interface QuotaUsageResult {
+    currentValue?: number;
+    id?: string;
+    limit?: number;
+    readonly name?: QuotaUsageResultName;
+    unit?: string;
+}
+
+// @public
+export interface QuotaUsageResultName {
+    localizedValue?: string;
+    value?: string;
+}
+
+// @public
+export interface QuotaUsagesListResult {
+    readonly nextLink?: string;
+    readonly value?: QuotaUsageResult[];
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly type?: string;
 }
+
+// @public
+export type SearchEncryptionComplianceStatus = "Compliant" | "NonCompliant";
+
+// @public
+export type SearchEncryptionWithCmk = "Disabled" | "Enabled" | "Unspecified";
 
 // @public (undocumented)
 export class SearchManagementClient extends coreClient.ServiceClient {
@@ -338,6 +407,9 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     sharedPrivateLinkResources: SharedPrivateLinkResources;
     // (undocumented)
     subscriptionId: string;
+    usageBySubscriptionSku(location: string, skuName: string, options?: UsageBySubscriptionSkuOptionalParams): Promise<UsageBySubscriptionSkuResponse>;
+    // (undocumented)
+    usages: Usages;
 }
 
 // @public
@@ -353,7 +425,13 @@ export interface SearchManagementRequestOptions {
 }
 
 // @public
+export type SearchSemanticSearch = string;
+
+// @public
 export interface SearchService extends TrackedResource {
+    authOptions?: DataPlaneAuthOptions;
+    disableLocalAuth?: boolean;
+    encryptionWithCmk?: EncryptionWithCmk;
     hostingMode?: HostingMode;
     identity?: Identity;
     networkRuleSet?: NetworkRuleSet;
@@ -362,6 +440,7 @@ export interface SearchService extends TrackedResource {
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
+    semanticSearch?: SearchSemanticSearch;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
@@ -379,6 +458,9 @@ export type SearchServiceStatus = "running" | "provisioning" | "deleting" | "deg
 
 // @public
 export interface SearchServiceUpdate extends Resource {
+    authOptions?: DataPlaneAuthOptions;
+    disableLocalAuth?: boolean;
+    encryptionWithCmk?: EncryptionWithCmk;
     hostingMode?: HostingMode;
     identity?: Identity;
     location?: string;
@@ -388,6 +470,7 @@ export interface SearchServiceUpdate extends Resource {
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
+    semanticSearch?: SearchSemanticSearch;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
@@ -399,7 +482,7 @@ export interface SearchServiceUpdate extends Resource {
 
 // @public
 export interface Services {
-    beginCreateOrUpdate(resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
     checkNameAvailability(name: string, options?: ServicesCheckNameAvailabilityOptionalParams): Promise<ServicesCheckNameAvailabilityResponse>;
     delete(resourceGroupName: string, searchServiceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
@@ -522,9 +605,9 @@ export type SharedPrivateLinkResourceProvisioningState = "Updating" | "Deleting"
 
 // @public
 export interface SharedPrivateLinkResources {
-    beginCreateOrUpdate(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, sharedPrivateLinkResource: SharedPrivateLinkResource, options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SharedPrivateLinkResourcesCreateOrUpdateResponse>, SharedPrivateLinkResourcesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, sharedPrivateLinkResource: SharedPrivateLinkResource, options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SharedPrivateLinkResourcesCreateOrUpdateResponse>, SharedPrivateLinkResourcesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, sharedPrivateLinkResource: SharedPrivateLinkResource, options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<SharedPrivateLinkResourcesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, options?: SharedPrivateLinkResourcesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, options?: SharedPrivateLinkResourcesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, options?: SharedPrivateLinkResourcesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, options?: SharedPrivateLinkResourcesGetOptionalParams): Promise<SharedPrivateLinkResourcesGetResponse>;
     listByService(resourceGroupName: string, searchServiceName: string, options?: SharedPrivateLinkResourcesListByServiceOptionalParams): PagedAsyncIterableIterator<SharedPrivateLinkResource>;
@@ -592,6 +675,35 @@ export interface TrackedResource extends Resource {
 
 // @public
 export type UnavailableNameReason = string;
+
+// @public
+export interface UsageBySubscriptionSkuOptionalParams extends coreClient.OperationOptions {
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
+}
+
+// @public
+export type UsageBySubscriptionSkuResponse = QuotaUsageResult;
+
+// @public
+export interface Usages {
+    listBySubscription(location: string, options?: UsagesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<QuotaUsageResult>;
+}
+
+// @public
+export interface UsagesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
+}
+
+// @public
+export type UsagesListBySubscriptionNextResponse = QuotaUsagesListResult;
+
+// @public
+export interface UsagesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
+}
+
+// @public
+export type UsagesListBySubscriptionResponse = QuotaUsagesListResult;
 
 // (No @packageDocumentation comment for this package)
 

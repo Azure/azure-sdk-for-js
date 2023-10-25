@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SharedPrivateLinkResource,
   SharedPrivateLinkResourcesListByServiceOptionalParams,
@@ -54,8 +54,8 @@ export interface SharedPrivateLinkResources {
     sharedPrivateLinkResource: SharedPrivateLinkResource,
     options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SharedPrivateLinkResourcesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SharedPrivateLinkResourcesCreateOrUpdateResponse>,
       SharedPrivateLinkResourcesCreateOrUpdateResponse
     >
   >;
@@ -111,7 +111,7 @@ export interface SharedPrivateLinkResources {
     searchServiceName: string,
     sharedPrivateLinkResourceName: string,
     options?: SharedPrivateLinkResourcesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Initiates the deletion of the shared private link resource from the search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
