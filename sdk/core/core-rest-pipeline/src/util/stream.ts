@@ -23,7 +23,7 @@ export function toStream(
   source: ReadableStream | NodeJS.ReadableStream | Uint8Array | Blob
 ): NodeJS.ReadableStream | ReadableStream {
   if (source instanceof Uint8Array) {
-    return Readable.from(source);
+    return Readable.from(Buffer.from(source));
   } else if (isNodeReadableStream(source)) {
     return source;
   } else {
