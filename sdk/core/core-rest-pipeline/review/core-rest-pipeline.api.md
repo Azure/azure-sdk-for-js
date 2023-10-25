@@ -131,6 +131,7 @@ export interface ExponentialRetryPolicyOptions {
 // @public
 export interface FileLike {
     name?: string;
+    size?: number;
     stream: ReadableStream | NodeJS.ReadableStream | (() => ReadableStream | NodeJS.ReadableStream);
     type?: string;
 }
