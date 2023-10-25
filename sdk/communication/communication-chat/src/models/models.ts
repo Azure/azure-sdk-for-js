@@ -11,7 +11,6 @@ export {
   ChatError,
   SendChatMessageResult,
   ChatAttachment,
-  AttachmentType,
 } from "../generated/src/models";
 
 /** Chat thread. */
