@@ -14,21 +14,30 @@ import {
   ResourceMoverServiceAPI
 } from "@azure/arm-resourcemover";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a move collection.
  *
  * @summary Creates or updates a move collection.
- * x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2021-08-01/examples/MoveCollections_Create.json
+ * x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2023-08-01/examples/MoveCollections_Create.json
  */
 async function moveCollectionsCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["RESOURCEMOVER_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["RESOURCEMOVER_RESOURCE_GROUP"] || "rg1";
   const moveCollectionName = "movecollection1";
   const body: MoveCollection = {
     identity: { type: "SystemAssigned" },
     location: "eastus2",
-    properties: { sourceRegion: "eastus", targetRegion: "westus" }
+    properties: {
+      moveType: "RegionToRegion",
+      sourceRegion: "eastus",
+      targetRegion: "westus"
+    }
   };
   const options: MoveCollectionsCreateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
@@ -41,4 +50,8 @@ async function moveCollectionsCreate() {
   console.log(result);
 }
 
-moveCollectionsCreate().catch(console.error);
+async function main() {
+  moveCollectionsCreate();
+}
+
+main().catch(console.error);

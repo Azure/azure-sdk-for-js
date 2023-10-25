@@ -50,7 +50,7 @@
     }
   },
   "variables": {
-    "storageApiVersion": "2019-04-01",
+    "storageApiVersion": "2022-05-01",
     "location": "[resourceGroup().location]",
     "accountName": "[parameters('baseName')]",
     "datalakeAccountName": "[concat('dl', parameters('baseName'))]",
@@ -126,7 +126,8 @@
         "networkAcls": "[variables('networkAcls')]",
         "supportsHttpsTrafficOnly": true,
         "encryption": "[variables('encryption')]",
-        "accessTier": "Hot"
+        "accessTier": "Hot",
+        "minimumTlsVersion": "TLS1_2"
       },
       "resources": [
         {
@@ -202,7 +203,8 @@
         "networkAcls": "[variables('networkAcls')]",
         "supportsHttpsTrafficOnly": true,
         "encryption": "[variables('encryption')]",
-        "accessTier": "Hot"
+        "accessTier": "Hot",
+        "minimumTlsVersion": "TLS1_2"
       }
     },
     {
@@ -220,7 +222,8 @@
         "networkAcls": "[variables('networkAcls')]",
         "supportsHttpsTrafficOnly": true,
         "encryption": "[variables('encryption')]",
-        "accessTier": "Hot"
+        "accessTier": "Hot",
+        "minimumTlsVersion": "TLS1_2"
       },
       "resources": [
         {
@@ -271,7 +274,8 @@
         "networkAcls": "[variables('networkAcls')]",
         "supportsHttpsTrafficOnly": true,
         "encryption": "[variables('encryption')]",
-        "accessTier": "Hot"
+        "accessTier": "Hot",
+        "minimumTlsVersion": "TLS1_2"
       },
       "resources": [
         {
@@ -357,7 +361,8 @@
         "networkAcls": "[variables('networkAcls')]",
         "supportsHttpsTrafficOnly": true,
         "encryption": "[variables('encryption')]",
-        "accessTier": "Hot"
+        "accessTier": "Hot",
+        "minimumTlsVersion": "TLS1_2"
       },
       "resources": [
         {
