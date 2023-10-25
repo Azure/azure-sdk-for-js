@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-hotfix.1 (2023-10-19)
+## 1.0.1 (2023-10-25)
 
 ### Bugs Fixed
 Await on downlaodToPath method will now properly wait untill download completes.
