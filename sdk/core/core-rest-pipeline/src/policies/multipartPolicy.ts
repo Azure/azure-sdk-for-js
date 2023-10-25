@@ -2,15 +2,9 @@
 // Licensed under the MIT license.
 
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
-import {
-  BodyPart,
-  HttpHeaders,
-  MultipartRequestBody,
-  PipelineRequest,
-  RequestBodyType,
-} from "../interfaces";
+import { BodyPart, HttpHeaders, MultipartRequestBody, RequestBodyType } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { concatenateStreams, isReadableStream, toStream } from "../util/stream";
+import { concatenateStreams, toStream } from "../util/stream";
 
 export const multipartPolicyName = "multipartPolicy";
 
@@ -22,27 +16,11 @@ function encodeHeaders(headers: HttpHeaders): string {
   return [...headers].map(([name, value]) => `${name}: ${value}\r\n`).join("");
 }
 
-function calculateTotalLength(
-  sources: (ReadableStream | NodeJS.ReadableStream | Uint8Array | Blob)[]
-): number | undefined {
-  let length = 0;
-
-  for (const source of sources) {
-    if (isReadableStream(sources)) {
-      // cannot get length of a stream
-      return undefined;
-    } else if (typeof (source as Blob).size === "number") {
-      length += (source as Blob).size;
-    } else if (typeof (source as Uint8Array).byteLength === "number") {
-      length += (source as Uint8Array).byteLength;
-    }
-  }
-
-  return length;
-}
-
-function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary: string): void {
-  const sources = [
+function createBodyStream(
+  parts: BodyPart[],
+  boundary: string
+): ReadableStream | NodeJS.ReadableStream {
+  const streams = [
     stringToUint8Array(`--${boundary}`, "utf-8"),
     ...parts.flatMap((part) => [
       stringToUint8Array("\r\n", "utf-8"),
@@ -52,13 +30,9 @@ function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary:
       stringToUint8Array(`\r\n--${boundary}`, "utf-8"),
     ]),
     stringToUint8Array("--\r\n\r\n", "utf-8"),
-  ];
+  ].map(toStream);
 
-  request.body = concatenateStreams(sources.map(toStream));
-  const contentLength = calculateTotalLength(sources);
-  if (contentLength) {
-    request.headers.set("Content-Length", contentLength);
-  }
+  return concatenateStreams(streams);
 }
 
 export function isMultipartRequestBody(
@@ -106,7 +80,8 @@ export function multipartPolicy(): PipelinePolicy {
         request.headers.set("Content-Type", `multipart/mixed; boundary=${boundary}`);
       }
 
-      buildRequestBody(request, request.body.parts, boundary);
+      request.body = createBodyStream(request.body.parts, boundary);
+
       return next(request);
     },
   };

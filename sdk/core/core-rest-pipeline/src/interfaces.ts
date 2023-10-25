@@ -69,11 +69,6 @@ export interface FileLike {
    * containing the file.
    */
   name?: string;
-
-  /**
-   * The size of the file in bytes, if known.
-   */
-  size?: number;
 }
 
 /**
