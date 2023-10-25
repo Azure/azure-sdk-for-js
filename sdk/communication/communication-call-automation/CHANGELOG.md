@@ -3,7 +3,7 @@
 ## 1.0.1 (2023-10-25)
 
 ### Bugs Fixed
-Await on downlaodToPath method will now properly wait untill download completes.
+Await on downloadToPath method will now properly wait untill download completes.
 
 ## 1.0.0 (2023-06-14)
 Call Automation enables developers to build call workflows. Personalise customer interactions by listening to call events and take actions based on your business logic.
