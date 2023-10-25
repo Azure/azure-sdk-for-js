@@ -105,14 +105,14 @@ export class CallMedia {
   /**
    * Play audio to a specific participant.
    *
-   * @param playSources - A PlaySource representing the sources to play.
+   * @param playSources - A PlaySource representing the sources to play. Currently only single play source per request is supported.
    * @param playTo - The targets to play to.
-   * @param playOptions - Additional attributes for play.
+   * @param options - Additional attributes for play.
    */
   public async play(
     playSources: (FileSource | TextSource | SsmlSource)[],
     playTo: CommunicationIdentifier[],
-    playOptions: PlayOptions = { loop: false }
+    options: PlayOptions = { loop: false }
   ): Promise<void> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
@@ -120,26 +120,26 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
-      operationContext: playOptions.operationContext,
-      operationCallbackUri: playOptions.operationCallbackUrl,
+      operationContext: options.operationContext,
+      operationCallbackUri: options.operationCallbackUrl,
     };
 
-    if (playOptions.loop !== undefined) {
+    if (options.loop !== undefined) {
       playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
-      playRequest.playOptions.loop = playOptions.loop;
+      playRequest.playOptions.loop = options.loop;
     }
-    return this.callMedia.play(this.callConnectionId, playRequest, playOptions);
+    return this.callMedia.play(this.callConnectionId, playRequest, options);
   }
 
   /**
    * Play to all participants.
    *
-   * @param playSources - A PlaySource representing the sources to play.
-   * @param playOptions - Additional attributes for play.
+   * @param playSources - A PlaySource representing the sources to play. Currently only single play source per request is supported.
+   * @param options - Additional attributes for play.
    */
   public async playToAll(
     playSources: (FileSource | TextSource | SsmlSource)[],
-    playOptions: PlayOptions = { loop: false }
+    options: PlayOptions = { loop: false }
   ): Promise<void> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
@@ -147,15 +147,15 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
-      operationContext: playOptions.operationContext,
-      operationCallbackUri: playOptions.operationCallbackUrl,
+      operationContext: options.operationContext,
+      operationCallbackUri: options.operationCallbackUrl,
     };
 
-    if (playOptions.loop !== undefined) {
+    if (options.loop !== undefined) {
       playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
-      playRequest.playOptions.loop = playOptions.loop;
+      playRequest.playOptions.loop = options.loop;
     }
-    return this.callMedia.play(this.callConnectionId, playRequest, playOptions);
+    return this.callMedia.play(this.callConnectionId, playRequest, options);
   }
 
   private createRecognizeRequest(
@@ -280,11 +280,11 @@ export class CallMedia {
   /**
    *  Recognize participant input.
    *  @param targetParticipant - Target participant.
-   *  @param recognizeOptions - Different attributes for recognize.
+   *  @param options - Different attributes for recognize.
    * */
   public async startRecognizing(
     targetParticipant: CommunicationIdentifier,
-    recognizeOptions:
+    options:
       | CallMediaRecognizeDtmfOptions
       | CallMediaRecognizeChoiceOptions
       | CallMediaRecognizeSpeechOptions
@@ -292,7 +292,7 @@ export class CallMedia {
   ): Promise<void> {
     return this.callMedia.recognize(
       this.callConnectionId,
-      this.createRecognizeRequest(targetParticipant, recognizeOptions),
+      this.createRecognizeRequest(targetParticipant, options),
       {}
     );
   }
@@ -307,15 +307,15 @@ export class CallMedia {
   /**
    * Start continuous Dtmf recognition by subscribing to tones.
    * @param targetParticipant - Target participant.
-   * @param continuousDtmfRecognitionOptions - Additional attributes for continuous Dtmf recognition.
+   * @param options - Additional attributes for continuous Dtmf recognition.
    * */
   public async startContinuousDtmfRecognition(
     targetParticipant: CommunicationIdentifier,
-    continuousDtmfRecognitionOptions: ContinuousDtmfRecognitionOptions = {}
+    options: ContinuousDtmfRecognitionOptions = {}
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: continuousDtmfRecognitionOptions.operationContext,
+      operationContext: options.operationContext,
     };
     return this.callMedia.startContinuousDtmfRecognition(
       this.callConnectionId,
@@ -327,16 +327,16 @@ export class CallMedia {
   /**
    * Stop continuous Dtmf recognition by unsubscribing to tones.
    * @param targetParticipant - Target participant.
-   * @param continuousDtmfRecognitionOptions - Additional attributes for continuous Dtmf recognition.
+   * @param options - Additional attributes for continuous Dtmf recognition.
    * */
   public async stopContinuousDtmfRecognition(
     targetParticipant: CommunicationIdentifier,
-    continuousDtmfRecognitionOptions: ContinuousDtmfRecognitionOptions = {}
+    options: ContinuousDtmfRecognitionOptions = {}
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: continuousDtmfRecognitionOptions.operationContext,
-      operationCallbackUri: continuousDtmfRecognitionOptions.operationCallbackUrl,
+      operationContext: options.operationContext,
+      operationCallbackUri: options.operationCallbackUrl,
     };
     return this.callMedia.stopContinuousDtmfRecognition(
       this.callConnectionId,
@@ -349,21 +349,21 @@ export class CallMedia {
    * Send Dtmf tones.
    * @param tones - List of tones to be sent to target participant.
    * @param targetParticipant - Target participant.
-   * @param sendDtmfTonesOptions - Additional attributes for send Dtmf tones.
+   * @param options - Additional attributes for send Dtmf tones.
    * */
   public async sendDtmfTones(
     tones: Tone[],
     targetParticipant: CommunicationIdentifier,
-    sendDtmfTonesOptions: SendDtmfTonesOptions = {}
+    options: SendDtmfTonesOptions = {}
   ): Promise<SendDtmfTonesResult> {
     const sendDtmfTonesRequest: SendDtmfTonesRequest = {
       tones: tones,
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: sendDtmfTonesOptions.operationContext,
-      operationCallbackUri: sendDtmfTonesOptions.operationCallbackUrl,
+      operationContext: options.operationContext,
+      operationCallbackUri: options.operationCallbackUrl,
     };
     const optionsInternal = {
-      ...sendDtmfTonesOptions,
+      ...options,
       repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };

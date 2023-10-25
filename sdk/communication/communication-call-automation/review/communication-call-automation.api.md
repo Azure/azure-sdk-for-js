@@ -156,13 +156,13 @@ export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
 export class CallMedia {
     constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, options?: CallAutomationApiClientOptionalParams);
     cancelAllOperations(): Promise<void>;
-    play(playSources: (FileSource | TextSource | SsmlSource)[], playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
-    playToAll(playSources: (FileSource | TextSource | SsmlSource)[], playOptions?: PlayOptions): Promise<void>;
+    play(playSources: (FileSource | TextSource | SsmlSource)[], playTo: CommunicationIdentifier[], options?: PlayOptions): Promise<void>;
+    playToAll(playSources: (FileSource | TextSource | SsmlSource)[], options?: PlayOptions): Promise<void>;
     // Warning: (ae-forgotten-export) The symbol "Tone" needs to be exported by the entry point index.d.ts
-    sendDtmfTones(tones: Tone[], targetParticipant: CommunicationIdentifier, sendDtmfTonesOptions?: SendDtmfTonesOptions): Promise<SendDtmfTonesResult>;
-    startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
-    startRecognizing(targetParticipant: CommunicationIdentifier, recognizeOptions: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<void>;
-    stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
+    sendDtmfTones(tones: Tone[], targetParticipant: CommunicationIdentifier, options?: SendDtmfTonesOptions): Promise<SendDtmfTonesResult>;
+    startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
+    startRecognizing(targetParticipant: CommunicationIdentifier, options: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<void>;
+    stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
 }
 
 // @public
