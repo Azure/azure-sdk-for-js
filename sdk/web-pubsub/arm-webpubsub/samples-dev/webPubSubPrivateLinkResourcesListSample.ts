@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the private link resources that need to be created for a resource.
  *
  * @summary Get the private link resources that need to be created for a resource.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/WebPubSubPrivateLinkResources_List.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/WebPubSubPrivateLinkResources_List.json
  */
 async function webPubSubPrivateLinkResourcesList() {
   const subscriptionId =

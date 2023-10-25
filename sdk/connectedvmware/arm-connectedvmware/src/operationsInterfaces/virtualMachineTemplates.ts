@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachineTemplate,
   VirtualMachineTemplatesListOptionalParams,
@@ -51,8 +51,8 @@ export interface VirtualMachineTemplates {
     virtualMachineTemplateName: string,
     options?: VirtualMachineTemplatesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineTemplatesCreateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineTemplatesCreateResponse>,
       VirtualMachineTemplatesCreateResponse
     >
   >;
@@ -99,7 +99,7 @@ export interface VirtualMachineTemplates {
     resourceGroupName: string,
     virtualMachineTemplateName: string,
     options?: VirtualMachineTemplatesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements virtual machine template DELETE method.
    * @param resourceGroupName The Resource Group Name.
