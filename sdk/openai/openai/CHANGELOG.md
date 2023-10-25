@@ -9,7 +9,7 @@
 
 ### Other Changes
 
-- NodeJS v18 is now the minimum version supported. Check out the [NodeJS release schedule](https://nodejs.org/en/about/releases/) for more information on NodeJS support timelines. And check out the [Microsoft Support Policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md#microsoft-support-policy) for more information on Microsoft support timelines.
+- NodeJS v18 is now the minimum version supported. Check out the [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule) for more information on NodeJS support timelines. And check out the [Microsoft Support Policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md#microsoft-support-policy) for more information on Microsoft support timelines.
 
 ## 1.0.0-beta.6 (2023-09-21)
 
