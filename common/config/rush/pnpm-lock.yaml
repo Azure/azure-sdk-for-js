@@ -13425,7 +13425,7 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-zQfUm/ZJOvGQ8jqy3dUkF/drKAStLR8H6VDPemb0+LtkUh6Fueo5IZiFFb5Rv78+KUrcDQ3+QezMQJQTJU3AwQ==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-jF/H+oRIn7TgVSDj88nmqz81lieeLoHcRovEKK0NqR11mL5ReR2XUiBGfLN9EiCAhAByBjrHorwyb8Uwx632tg==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
@@ -13437,7 +13437,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@16.18.59)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
