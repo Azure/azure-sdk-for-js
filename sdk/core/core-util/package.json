@@ -28,9 +28,9 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
-    "build:test": "tsc -p . && dev-tool run bundle",
+    "build:test": "npx playwright install",
     "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test false && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
