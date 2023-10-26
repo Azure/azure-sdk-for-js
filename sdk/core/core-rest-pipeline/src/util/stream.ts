@@ -17,7 +17,6 @@ export function isWebReadableStream(x: unknown): x is ReadableStream {
 }
 
 function nodeStreamFromWebStream(webStream: ReadableStream): NodeJS.ReadableStream {
-  //grumble
   return Readable.from(
     (async function* () {
       const reader = webStream.getReader();
