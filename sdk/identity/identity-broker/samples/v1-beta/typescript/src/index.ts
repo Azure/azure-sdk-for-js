@@ -48,8 +48,8 @@ app.on("ready", async () => {
       brokerOptions: {
         enabled: true,
         parentWindowHandle: winHandle,
-        legacyEnableMsaPassthrough: true,
-      } as any,
+        legacyEnableMSAPassthrough: true,
+      },
     });
 
     // This is the scope we will use to get a token from the Microsoft Entra token endpoint.
