@@ -21,6 +21,8 @@ import {
   VolumesUpdateOptionalParams,
   VolumesUpdateResponse,
   VolumesDeleteOptionalParams,
+  VolumesPopulateAvailabilityZoneOptionalParams,
+  VolumesPopulateAvailabilityZoneResponse,
   VolumeRevert,
   VolumesRevertOptionalParams,
   VolumesResetCifsPasswordOptionalParams,
@@ -199,6 +201,41 @@ export interface Volumes {
     volumeName: string,
     options?: VolumesDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * This operation will populate availability zone information for a volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginPopulateAvailabilityZone(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesPopulateAvailabilityZoneOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesPopulateAvailabilityZoneResponse>,
+      VolumesPopulateAvailabilityZoneResponse
+    >
+  >;
+  /**
+   * This operation will populate availability zone information for a volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginPopulateAvailabilityZoneAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesPopulateAvailabilityZoneOptionalParams
+  ): Promise<VolumesPopulateAvailabilityZoneResponse>;
   /**
    * Revert a volume to the snapshot specified in the body
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

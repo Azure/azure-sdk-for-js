@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a replica.
  *
  * @summary Create or update a replica.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/SignalRReplicas_CreateOrUpdate.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalRReplicas_CreateOrUpdate.json
  */
 async function signalRReplicasCreateOrUpdate() {
   const subscriptionId =
@@ -26,6 +26,7 @@ async function signalRReplicasCreateOrUpdate() {
   const replicaName = "mySignalRService-eastus";
   const parameters = {
     location: "eastus",
+    resourceStopped: "false",
     sku: { name: "Premium_P1", capacity: 1, tier: "Premium" },
     tags: { key1: "value1" },
   };

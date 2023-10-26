@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-rest-pipeline",
-  "version": "1.12.2",
+  "version": "1.12.3",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -136,7 +136,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^15.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "util": "^0.12.1",
     "ts-node": "^10.0.0",
     "esm": "^3.2.18"

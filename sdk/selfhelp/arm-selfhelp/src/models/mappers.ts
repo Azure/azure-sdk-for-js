@@ -508,12 +508,942 @@ export const DiscoveryResponse: coreClient.CompositeMapper = {
   }
 };
 
+export const SolutionMetadataProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SolutionMetadataProperties",
+    modelProperties: {
+      solutionId: {
+        serializedName: "solutionId",
+        type: {
+          name: "String"
+        }
+      },
+      solutionType: {
+        serializedName: "solutionType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      requiredInputs: {
+        serializedName: "requiredInputs",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SolutionResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SolutionResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SolutionResourceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const SolutionResourceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SolutionResourceProperties",
+    modelProperties: {
+      triggerCriteria: {
+        serializedName: "triggerCriteria",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TriggerCriterion"
+            }
+          }
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      solutionId: {
+        serializedName: "solutionId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      title: {
+        serializedName: "title",
+        type: {
+          name: "String"
+        }
+      },
+      content: {
+        serializedName: "content",
+        type: {
+          name: "String"
+        }
+      },
+      replacementMaps: {
+        serializedName: "replacementMaps",
+        type: {
+          name: "Composite",
+          className: "ReplacementMaps"
+        }
+      },
+      sections: {
+        serializedName: "sections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Section"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TriggerCriterion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TriggerCriterion",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ReplacementMaps: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReplacementMaps",
+    modelProperties: {
+      webResults: {
+        serializedName: "webResults",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WebResult"
+            }
+          }
+        }
+      },
+      diagnostics: {
+        serializedName: "diagnostics",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SolutionsDiagnostic"
+            }
+          }
+        }
+      },
+      troubleshooters: {
+        serializedName: "troubleshooters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SolutionsTroubleshooters"
+            }
+          }
+        }
+      },
+      metricsBasedCharts: {
+        serializedName: "metricsBasedCharts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetricsBasedChart"
+            }
+          }
+        }
+      },
+      videos: {
+        serializedName: "videos",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Video"
+            }
+          }
+        }
+      },
+      videoGroups: {
+        serializedName: "videoGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VideoGroup"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const WebResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebResult",
+    modelProperties: {
+      replacementKey: {
+        serializedName: "replacementKey",
+        type: {
+          name: "String"
+        }
+      },
+      searchResults: {
+        serializedName: "searchResults",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SearchResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SearchResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SearchResult",
+    modelProperties: {
+      solutionId: {
+        serializedName: "solutionId",
+        type: {
+          name: "String"
+        }
+      },
+      content: {
+        serializedName: "content",
+        type: {
+          name: "String"
+        }
+      },
+      title: {
+        serializedName: "title",
+        type: {
+          name: "String"
+        }
+      },
+      confidence: {
+        serializedName: "confidence",
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      resultType: {
+        serializedName: "resultType",
+        type: {
+          name: "String"
+        }
+      },
+      rank: {
+        serializedName: "rank",
+        type: {
+          name: "Number"
+        }
+      },
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SolutionsDiagnostic: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SolutionsDiagnostic",
+    modelProperties: {
+      solutionId: {
+        serializedName: "solutionId",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      statusDetails: {
+        serializedName: "statusDetails",
+        type: {
+          name: "String"
+        }
+      },
+      replacementKey: {
+        serializedName: "replacementKey",
+        type: {
+          name: "String"
+        }
+      },
+      requiredParameters: {
+        serializedName: "requiredParameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      insights: {
+        serializedName: "insights",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Insight"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SolutionsTroubleshooters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SolutionsTroubleshooters",
+    modelProperties: {
+      solutionId: {
+        serializedName: "solutionId",
+        type: {
+          name: "String"
+        }
+      },
+      title: {
+        serializedName: "title",
+        type: {
+          name: "String"
+        }
+      },
+      summary: {
+        serializedName: "summary",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MetricsBasedChart: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MetricsBasedChart",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      aggregationType: {
+        serializedName: "aggregationType",
+        type: {
+          name: "String"
+        }
+      },
+      timeSpanDuration: {
+        serializedName: "timeSpanDuration",
+        type: {
+          name: "String"
+        }
+      },
+      title: {
+        serializedName: "title",
+        type: {
+          name: "String"
+        }
+      },
+      filterGroup: {
+        serializedName: "filterGroup",
+        type: {
+          name: "Composite",
+          className: "FilterGroup"
+        }
+      },
+      replacementKey: {
+        serializedName: "replacementKey",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FilterGroup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FilterGroup",
+    modelProperties: {
+      filter: {
+        serializedName: "filter",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Filter"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Filter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Filter",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      values: {
+        serializedName: "values",
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VideoGroupVideo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VideoGroupVideo",
+    modelProperties: {
+      src: {
+        serializedName: "src",
+        type: {
+          name: "String"
+        }
+      },
+      title: {
+        serializedName: "title",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VideoGroup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VideoGroup",
+    modelProperties: {
+      videos: {
+        serializedName: "videos",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VideoGroupVideo"
+            }
+          }
+        }
+      },
+      replacementKey: {
+        serializedName: "replacementKey",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Section: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Section",
+    modelProperties: {
+      title: {
+        serializedName: "title",
+        type: {
+          name: "String"
+        }
+      },
+      content: {
+        serializedName: "content",
+        type: {
+          name: "String"
+        }
+      },
+      replacementMaps: {
+        serializedName: "replacementMaps",
+        type: {
+          name: "Composite",
+          className: "ReplacementMaps"
+        }
+      }
+    }
+  }
+};
+
+export const SolutionPatchRequestBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SolutionPatchRequestBody",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SolutionResourceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const Step: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Step",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      title: {
+        serializedName: "title",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      guidance: {
+        serializedName: "guidance",
+        type: {
+          name: "String"
+        }
+      },
+      executionStatus: {
+        serializedName: "executionStatus",
+        type: {
+          name: "String"
+        }
+      },
+      executionStatusDescription: {
+        serializedName: "executionStatusDescription",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      isLastStep: {
+        serializedName: "isLastStep",
+        type: {
+          name: "Boolean"
+        }
+      },
+      inputs: {
+        serializedName: "inputs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StepInput"
+            }
+          }
+        }
+      },
+      automatedCheckResults: {
+        serializedName: "automatedCheckResults",
+        type: {
+          name: "Composite",
+          className: "AutomatedCheckResult"
+        }
+      },
+      insights: {
+        serializedName: "insights",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Insight"
+            }
+          }
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const StepInput: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StepInput",
+    modelProperties: {
+      questionId: {
+        serializedName: "questionId",
+        type: {
+          name: "String"
+        }
+      },
+      questionType: {
+        serializedName: "questionType",
+        type: {
+          name: "String"
+        }
+      },
+      questionContent: {
+        serializedName: "questionContent",
+        type: {
+          name: "String"
+        }
+      },
+      questionContentType: {
+        serializedName: "questionContentType",
+        type: {
+          name: "String"
+        }
+      },
+      responseHint: {
+        serializedName: "responseHint",
+        type: {
+          name: "String"
+        }
+      },
+      recommendedOption: {
+        serializedName: "recommendedOption",
+        type: {
+          name: "String"
+        }
+      },
+      selectedOptionValue: {
+        serializedName: "selectedOptionValue",
+        type: {
+          name: "String"
+        }
+      },
+      responseValidationProperties: {
+        serializedName: "responseValidationProperties",
+        type: {
+          name: "Composite",
+          className: "ResponseValidationProperties"
+        }
+      },
+      responseOptions: {
+        serializedName: "responseOptions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResponseOption"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ResponseValidationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResponseValidationProperties",
+    modelProperties: {
+      regex: {
+        serializedName: "regex",
+        type: {
+          name: "String"
+        }
+      },
+      isRequired: {
+        serializedName: "isRequired",
+        type: {
+          name: "Boolean"
+        }
+      },
+      validationErrorMessage: {
+        serializedName: "validationErrorMessage",
+        type: {
+          name: "String"
+        }
+      },
+      maxLength: {
+        serializedName: "maxLength",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ResponseOption: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResponseOption",
+    modelProperties: {
+      key: {
+        serializedName: "key",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AutomatedCheckResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutomatedCheckResult",
+    modelProperties: {
+      result: {
+        serializedName: "result",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContinueRequestBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContinueRequestBody",
+    modelProperties: {
+      stepId: {
+        serializedName: "stepId",
+        type: {
+          name: "String"
+        }
+      },
+      responses: {
+        serializedName: "responses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TroubleshooterResponse"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TroubleshooterResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TroubleshooterResponse",
+    modelProperties: {
+      questionId: {
+        serializedName: "questionId",
+        type: {
+          name: "String"
+        }
+      },
+      questionType: {
+        serializedName: "questionType",
+        type: {
+          name: "String"
+        }
+      },
+      response: {
+        serializedName: "response",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestartTroubleshooterResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestartTroubleshooterResponse",
+    modelProperties: {
+      troubleshooterResourceName: {
+        serializedName: "troubleshooterResourceName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ProxyResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ProxyResource",
     modelProperties: {
       ...Resource.type.modelProperties
+    }
+  }
+};
+
+export const Video: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Video",
+    modelProperties: {
+      ...VideoGroupVideo.type.modelProperties,
+      replacementKey: {
+        serializedName: "replacementKey",
+        type: {
+          name: "String"
+        }
+      }
     }
   }
 };
@@ -580,38 +1510,119 @@ export const SolutionMetadataResource: coreClient.CompositeMapper = {
     className: "SolutionMetadataResource",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
+      solutions: {
+        serializedName: "properties.solutions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SolutionMetadataProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TroubleshooterResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TroubleshooterResource",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
       solutionId: {
         serializedName: "properties.solutionId",
         type: {
           name: "String"
         }
       },
-      solutionType: {
-        serializedName: "properties.solutionType",
+      parameters: {
+        serializedName: "properties.parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      description: {
-        serializedName: "properties.description",
-        type: {
-          name: "String"
-        }
-      },
-      requiredParameterSets: {
-        serializedName: "properties.requiredParameterSets",
+      steps: {
+        serializedName: "properties.steps",
+        readOnly: true,
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "Sequence",
-              element: {
-                type: {
-                  name: "String"
-                }
-              }
+              name: "Composite",
+              className: "Step"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const SolutionUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SolutionUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TroubleshootersContinueHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TroubleshootersContinueHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TroubleshootersEndHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TroubleshootersEndHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TroubleshootersRestartHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TroubleshootersRestartHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }

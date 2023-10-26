@@ -469,6 +469,8 @@ export interface SignalRNetworkACLs {
   publicNetwork?: NetworkACL;
   /** ACLs for requests from private endpoints */
   privateEndpoints?: PrivateEndpointACL[];
+  /** IP rules for filtering public traffic */
+  ipRules?: IPRule[];
 }
 
 /** Network ACL */
@@ -477,6 +479,14 @@ export interface NetworkACL {
   allow?: SignalRRequestType[];
   /** Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
   deny?: SignalRRequestType[];
+}
+
+/** An IP rule */
+export interface IPRule {
+  /** An IP or CIDR or ServiceTag */
+  value?: string;
+  /** Azure Networking ACL Action. */
+  action?: ACLAction;
 }
 
 /** A class represent managed identities used for request and response */
@@ -868,6 +878,18 @@ export interface SignalRResource extends TrackedResource {
    * When set as true, connection with AuthType=aad won't work.
    */
   disableAadAuth?: boolean;
+  /**
+   * Enable or disable the regional endpoint. Default to "Enabled".
+   * When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected.
+   * This property is replica specific. Disable the regional endpoint without replica is not allowed.
+   */
+  regionEndpointEnabled?: string;
+  /**
+   * Stop or start the resource.  Default to "False".
+   * When it's true, the data plane of the resource is shutdown.
+   * When it's false, the data plane of the resource is started.
+   */
+  resourceStopped?: string;
 }
 
 /** A class represent a replica resource. */
@@ -879,6 +901,17 @@ export interface Replica extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Enable or disable the regional endpoint. Default to "Enabled".
+   * When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected.
+   */
+  regionEndpointEnabled?: string;
+  /**
+   * Stop or start the resource.  Default to "false".
+   * When it's true, the data plane of the resource is shutdown.
+   * When it's false, the data plane of the resource is started.
+   */
+  resourceStopped?: string;
 }
 
 /** Defines headers for SignalR_update operation. */

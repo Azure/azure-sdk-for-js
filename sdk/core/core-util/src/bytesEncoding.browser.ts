@@ -95,7 +95,7 @@ export function utf8StringToUint8Array(value: string): Uint8Array {
  * @internal
  */
 export function base64ToUint8Array(value: string): Uint8Array {
-  return new TextEncoder().encode(atob(value));
+  return new Uint8Array([...atob(value)].map((x) => x.charCodeAt(0)));
 }
 
 /**
