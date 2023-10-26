@@ -49,7 +49,7 @@ describe("InteractiveBrowserCredential (internal)", function (this: Mocha.Suite)
         this.skip();
       }
       useIdentityPlugin(nativeBrokerPlugin);
-      let winHandle = Buffer.from("srefleqr93285329lskadjffa");
+      const winHandle = Buffer.from("srefleqr93285329lskadjffa");
       const interactiveBrowserCredentialOptions: InteractiveBrowserCredentialNodeOptions = {
         tenantId: env.AZURE_TENANT_ID,
         clientId: env.AZURE_CLIENT_ID,
@@ -68,7 +68,7 @@ describe("InteractiveBrowserCredential (internal)", function (this: Mocha.Suite)
         const accessToken = await credential.getToken(scope);
         assert.exists(accessToken.token);
         assert.equal(doGetTokenSpy.callCount, 1);
-        let result = await doGetTokenSpy.lastCall.returnValue;
+        const result = await doGetTokenSpy.lastCall.returnValue;
         assert.equal(result.fromNativeBroker, true);
         dump();
       } catch (e) {
