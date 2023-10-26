@@ -122,8 +122,7 @@ describe("formDataPolicy", function () {
 
     describe("file uploads", function () {
       it("can upload a File object", async function () {
-        // NodeHttpClient does not support web streams
-        if (isNode) {
+        if (typeof File === "undefined") {
           this.skip();
         }
 
@@ -150,8 +149,7 @@ describe("formDataPolicy", function () {
       });
 
       it("can upload a Blob object", async function () {
-        // NodeHttpClient does not support web streams
-        if (isNode) {
+        if (typeof Blob === "undefined") {
           this.skip();
         }
 

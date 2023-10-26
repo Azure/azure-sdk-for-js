@@ -275,10 +275,6 @@ describe("multipartPolicy", function () {
       });
 
       it("Supports web ReadableStream body", async function () {
-        if (isNode) {
-          this.skip();
-        }
-
         const body = new ReadableStream({
           start(controller) {
             controller.enqueue(new TextEncoder().encode("part1"));

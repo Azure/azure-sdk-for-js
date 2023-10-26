@@ -16,6 +16,23 @@ export function isWebReadableStream(x: unknown): x is ReadableStream {
   );
 }
 
+function nodeStreamFromWebStream(webStream: ReadableStream): NodeJS.ReadableStream {
+  //grumble
+  return Readable.from(
+    (async function* () {
+      const reader = webStream.getReader();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          return;
+        }
+
+        yield value;
+      }
+    })()
+  );
+}
+
 export function isReadableStream(x: unknown): x is ReadableStream | NodeJS.ReadableStream {
   return isNodeReadableStream(x) || isWebReadableStream(x);
 }
@@ -36,12 +53,12 @@ export function toStream(
   if (source instanceof Uint8Array) {
     return Readable.from(Buffer.from(source));
   } else if (isBlobLike(source)) {
-    return typeof source.stream === "function" ? source.stream() : source.stream;
+    const stream = typeof source.stream === "function" ? source.stream() : source.stream;
+    return isNodeReadableStream(stream) ? stream : nodeStreamFromWebStream(stream);
   } else if (isNodeReadableStream(source)) {
     return source;
   } else {
-    // FIXME: can update to support browser ReadableStream with Node >18 (for Readable.fromWeb; needs update to NodeHttpClient)
-    throw new Error("Blob and browser ReadableStream not currently supported in Node environment");
+    return nodeStreamFromWebStream(source);
   }
 }
 
