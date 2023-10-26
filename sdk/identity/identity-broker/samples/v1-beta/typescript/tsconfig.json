@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

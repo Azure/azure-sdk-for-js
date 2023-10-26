@@ -5,7 +5,7 @@
   "main": "main.js",
   "description": "Azure Identity Brokered Auth Plugin client library samples for JavaScript (Beta)",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "repository": {
     "type": "git",
@@ -23,14 +23,13 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker",
   "scripts": {
-    "start": "electron index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron index.js"
   },
   "dependencies": {
     "@azure/identity-broker": "1.0.0-beta.1",
     "dotenv": "latest",
     "@azure/identity": "4.0.0-beta.1",
-    "electron": "^25.2.0",
+    "electron": "^27.0.0",
     "@azure/logger": "^1.0.4"
   }
 }

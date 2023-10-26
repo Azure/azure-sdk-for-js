@@ -77,8 +77,6 @@
     "@types/sinon": "^10.0.15",
     "@types/wtfnode": "0.7.2",
     "cross-env": "^7.0.2",
-    "dotenv": "^16.0.0",
-    "electron": "^25.2.0",
     "eslint": "^8.0.0",
     "mocha": "^10.0.0",
     "mocha-junit-reporter": "^2.0.0",

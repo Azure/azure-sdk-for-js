@@ -22,12 +22,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
-Before running the samples in Node.js, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
-
-```bash
-npm install -g typescript
-```
-
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
 - [Microsoft Entra App Registration][createinstance_azureactivedirectoryappregistration]
@@ -47,7 +41,7 @@ To run the samples using the published version of the package:
 npm install
 ```
 
-2. Compile the samples:
+2. Compile the sample:
 
 ```bash
 npm run build
@@ -55,16 +49,16 @@ npm run build
 
 3. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
 
-4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+4. Run the Electron Sample using the following command:
 
 ```bash
-node dist/index.js
+npm run start
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZURE_CLIENT_ID="<azure client id>" AZURE_AUTHORITY_HOST="<azure authority host>" AZURE_TENANT_ID="<azure tenant id>" AAD_TEST_SCOPE="<aad test scope>" node dist/index.js
+npx cross-env AZURE_CLIENT_ID="<azure client id>" AZURE_AUTHORITY_HOST="<azure authority host>" AZURE_TENANT_ID="<azure tenant id>" AAD_TEST_SCOPE="<aad test scope>" electron ./dist/index.js
 ```
 
 ## Next Steps

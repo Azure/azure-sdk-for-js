@@ -1,7 +1,10 @@
-import { contextBridge } from 'electron';
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-contextBridge.exposeInMainWorld('versions', {
+import { contextBridge } from "electron";
+
+contextBridge.exposeInMainWorld("versions", {
   node: () => process.versions.node,
   chrome: () => process.versions.chrome,
-  electron: () => process.versions.electron
-})
+  electron: () => process.versions.electron,
+});

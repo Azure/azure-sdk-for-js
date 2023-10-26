@@ -43,16 +43,16 @@ npm install
 
 2. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
 
-3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+3. Run the Electron Sample using the following command:
 
 ```bash
-node index.js
+npm run start
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZURE_CLIENT_ID="<azure client id>" AZURE_AUTHORITY_HOST="<azure authority host>" AZURE_TENANT_ID="<azure tenant id>" AAD_TEST_SCOPE="<aad test scope>" node index.js
+npx cross-env AZURE_CLIENT_ID="<azure client id>" AZURE_AUTHORITY_HOST="<azure authority host>" AZURE_TENANT_ID="<azure tenant id>" AAD_TEST_SCOPE="<aad test scope>" electron index.js
 ```
 
 ## Next Steps
