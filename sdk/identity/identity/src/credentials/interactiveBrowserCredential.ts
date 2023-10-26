@@ -58,7 +58,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     const ibcNodeOptions = options as InteractiveBrowserCredentialNodeOptions;
     if (ibcNodeOptions?.brokerOptions?.enabled) {
-      if (!(ibcNodeOptions?.brokerOptions?.parentWindowHandle)) {
+      if (!ibcNodeOptions?.brokerOptions?.parentWindowHandle) {
         throw new Error(
           "In order to do WAM authentication, `parentWindowHandle` under `brokerOptions` is a required parameter"
         );
