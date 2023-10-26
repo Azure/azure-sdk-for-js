@@ -37,6 +37,35 @@ describe("InteractiveBrowserCredential (internal)", function (this: Mocha.Suite)
 
     await cleanup();
   });
+  it("Throws error when no plugin is imported", async function (this: Mocha.Context) {
+    if (isNode) {
+      // OSX asks for passwords on CI, so we need to skip these tests from our automation
+      if (process.platform !== "win32") {
+        this.skip();
+      }
+      // These tests should not run live because this credential requires user interaction.
+      // currently test with broker is hanging, so skipping in playback mode for the ci
+      if (isLiveMode() || isPlaybackMode()) {
+        this.skip();
+      }
+      const winHandle = Buffer.from("srefleqr93285329lskadjffa");
+      const interactiveBrowserCredentialOptions: InteractiveBrowserCredentialNodeOptions = {
+        tenantId: env.AZURE_TENANT_ID,
+        clientId: env.AZURE_CLIENT_ID,
+        brokerOptions: {
+          enabled: true,
+          parentWindowHandle: winHandle,
+        },
+      };
+      assert.throws(() => {
+        new InteractiveBrowserCredential(
+          recorder.configureClientOptions(interactiveBrowserCredentialOptions)
+        );
+      }, "Broker for WAM was requested to be enabled, but no native broker was configured.")
+    } else {
+      this.skip();
+    }
+  });
   it("Accepts interactiveBrowserCredentialOptions", async function (this: Mocha.Context) {
     if (isNode) {
       // OSX asks for passwords on CI, so we need to skip these tests from our automation
