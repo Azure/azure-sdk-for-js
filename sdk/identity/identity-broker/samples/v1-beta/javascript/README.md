@@ -5,8 +5,6 @@ languages:
 products:
   - azure
   - azure-active-directory
-  - WAM
-  - MSA support
 urlFragment: identity-broker-javascript-beta
 ---
 
