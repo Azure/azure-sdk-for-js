@@ -320,7 +320,7 @@ export class CallConnection {
     } = options;
     const cancelAddParticipantRequest = {
       invitationId,
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext,
       operationCallbackUri,
     };
     const optionsInternal = {
