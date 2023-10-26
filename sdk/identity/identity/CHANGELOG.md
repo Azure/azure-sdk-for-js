@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.1 (2023-10-23)
+## 4.0.0-beta.1 (2023-10-26)
 
 ### Features Added
 - Added `brokerOptions` in `InteractiveBrowserCredential` for authentication broker support such as WAM. This feature works along with the new `@azure/identity-broker` plugin package. Note that this feature is only available in node.
