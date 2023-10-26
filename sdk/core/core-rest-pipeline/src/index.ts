@@ -3,6 +3,7 @@
 
 export {
   Agent,
+  BlobLike,
   BodyPart,
   FileLike,
   FormDataMap,

@@ -76,8 +76,14 @@ export interface BearerTokenAuthenticationPolicyOptions {
 }
 
 // @public
+export interface BlobLike {
+    size?: number;
+    stream: ReadableStream | NodeJS.ReadableStream | (() => ReadableStream | NodeJS.ReadableStream);
+    type?: string;
+}
+
+// @public
 export interface BodyPart {
-    // Warning: (ae-forgotten-export) The symbol "BlobLike" needs to be exported by the entry point index.d.ts
     body: ReadableStream | NodeJS.ReadableStream | Uint8Array | BlobLike;
     headers: HttpHeaders;
 }
@@ -196,6 +202,12 @@ export interface LogPolicyOptions {
     additionalAllowedQueryParameters?: string[];
     logger?: Debugger;
 }
+
+// @public (undocumented)
+export function multipartPolicy(): PipelinePolicy;
+
+// @public (undocumented)
+export const multipartPolicyName = "multipartPolicy";
 
 // @public
 export interface MultipartRequestBody {
