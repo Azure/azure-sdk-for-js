@@ -92,7 +92,7 @@
   "//sampleConfiguration": {
     "productName": "Azure Identity Brokered Auth Plugin",
     "requiredResources": {
-      "Microsoft Entra App Registration": "https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app",
+      "Microsoft Entra App Registration": "https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app"
     }
   }
 }
