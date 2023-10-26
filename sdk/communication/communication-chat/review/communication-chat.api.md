@@ -38,8 +38,11 @@ export interface AddParticipantsRequest {
 }
 
 // @public
+export type AttachmentType = "image";
+
+// @public
 export interface ChatAttachment {
-    attachmentType: "image";
+    attachmentType: AttachmentType;
     extension?: string;
     id: string;
     name?: string;

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommunicationIdentifier, CommunicationIdentifierKind } from "@azure/communication-common";
-import { ChatAttachment, ChatError, ChatMessageType } from "../generated/src";
+import { ChatError, ChatMessageType } from "../generated/src";
 
 export {
   AddChatParticipantsResult,
@@ -10,7 +10,6 @@ export {
   ChatThreadItem,
   ChatError,
   SendChatMessageResult,
-  ChatAttachment,
 } from "../generated/src/models";
 
 /** Chat thread. */
@@ -107,4 +106,23 @@ export interface ListPageSettings {
    * enforces pagination.
    */
   continuationToken?: string;
+}
+
+/** Defines values for AttachmentType. */
+export type AttachmentType = "image";
+
+/** An attachment in a chat message. */
+export interface ChatAttachment {
+  /** Id of the attachment */
+  id: string;
+  /** The type of attachment. */
+  attachmentType: AttachmentType;
+  /** The file extension of the attachment, if available */
+  extension?: string;
+  /** The name of the attachment content. */
+  name?: string;
+  /** The URL where the attachment can be downloaded */
+  url?: string;
+  /** The URL where the preview of attachment can be downloaded */
+  previewUrl?: string;
 }
