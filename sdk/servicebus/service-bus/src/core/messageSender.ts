@@ -226,7 +226,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         throw translateServiceBusError(e);
       }
 
-      if (!this.isOpen()) {
+      if (!this.link) {
         const msg = `[${this.logPrefix}] Cannot send the message. Link is not ready.`;
         logger.warning(msg);
         const amqpError: AmqpError = {
@@ -236,7 +236,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         throw translateServiceBusError(amqpError);
       }
       try {
-        const delivery = await this.link!.send(encodedMessage, {
+        const delivery = await this.link.send(encodedMessage, {
           format: sendBatch ? 0x80013700 : 0,
           timeoutInSeconds: (timeoutInMs - timeTakenByInit - waitingTime) / 1000,
           abortSignal,
