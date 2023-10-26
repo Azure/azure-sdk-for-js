@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the keys in the specified managed HSM.
  *
  * @summary Lists the keys in the specified managed HSM.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/managedHsmListKeys.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/managedHsmListKeys.json
  */
 async function listKeysInTheManagedHsm() {
   const subscriptionId =

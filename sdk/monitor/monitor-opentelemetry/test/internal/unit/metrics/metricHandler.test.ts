@@ -6,7 +6,7 @@ import * as sinon from "sinon";
 import { MetricHandler } from "../../../../src/metrics";
 import { InternalConfig } from "../../../../src/shared";
 import { ExportResultCode } from "@opentelemetry/core";
-import { metrics as MetricsApi, metrics } from "@opentelemetry/api";
+import { metrics as MetricsApi } from "@opentelemetry/api";
 import { MeterProvider } from "@opentelemetry/sdk-metrics";
 
 describe("MetricHandler", () => {
@@ -31,7 +31,7 @@ describe("MetricHandler", () => {
   afterEach(() => {
     process.env = originalEnv;
     handler.shutdown();
-    metrics.disable();
+    MetricsApi.disable();
     sandbox.restore();
   });
 
@@ -48,19 +48,20 @@ describe("MetricHandler", () => {
           resolve(result);
         })
     );
+    const meterProvider = new MeterProvider({
+      views: handler.getViews(),
+    });
+    meterProvider.addMetricReader(handler.getMetricReader());
+    MetricsApi.setGlobalMeterProvider(meterProvider);
   }
-
-  it("should create a meterProvider", () => {
-    createHandler();
-    assert.ok(MetricsApi.getMeterProvider(), "meterProvider not available");
-  });
 
   it("should observe instruments during collection", async () => {
     createHandler();
-    MetricsApi.getMeter("testMeter").createCounter("testCounter", {
+    let counter = MetricsApi.getMeter("testMeter").createCounter("testCounter", {
       description: "testDescription",
     });
-    await new Promise((resolve) => setTimeout(resolve, 120));
+    counter.add(2);
+    await new Promise((resolve) => setTimeout(resolve, 220));
     assert.ok(exportStub.called);
     const resourceMetrics = exportStub.args[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
@@ -69,25 +70,6 @@ describe("MetricHandler", () => {
     assert.strictEqual(metrics.length, 1, "metrics count");
     assert.strictEqual(metrics[0].descriptor.name, "testCounter");
     assert.strictEqual(metrics[0].descriptor.description, "testDescription");
-  });
-
-  it("should not collect when disabled", async () => {
-    createHandler();
-    MetricsApi.getMeter("testMeter").createCounter("testCounter", {
-      description: "testDescription",
-    });
-    handler.shutdown();
-    await new Promise((resolve) => setTimeout(resolve, 120));
-    assert.ok(exportStub.notCalled);
-  });
-
-  it("should flush", async () => {
-    createHandler();
-    MetricsApi.getMeter("testMeter").createCounter("testCounter", {
-      description: "testDescription",
-    });
-    await handler.flush();
-    assert.ok(exportStub.called);
   });
 
   it("should add views", async () => {

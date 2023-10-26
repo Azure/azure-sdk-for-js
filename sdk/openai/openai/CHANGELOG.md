@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.7 (Unreleased)
+## 1.0.0-beta.8 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,17 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.7 (2023-10-25)
+
+### Bugs Fixed
+
+- Support Cloudflare workers by only setting the available fields in the `Request` class for the Fetch API.
+- Wait before stop listening to the abort signal until after the response stream has been drained to allow for aborting prolonged responses.
+
+### Other Changes
+
+- NodeJS v18 is now the minimum version supported. Check out the [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule) for more information on NodeJS support timelines. And check out the [Microsoft Support Policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md#microsoft-support-policy) for more information on Microsoft support timelines.
 
 ## 1.0.0-beta.6 (2023-09-21)
 

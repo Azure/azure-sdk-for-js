@@ -40,7 +40,7 @@
   "devDependencies": {
     "@types/ws": "^7.2.4",
     "@types/node": "^16.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "rimraf": "latest"
   }
 }

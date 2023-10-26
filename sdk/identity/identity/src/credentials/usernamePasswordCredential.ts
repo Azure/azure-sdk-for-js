@@ -4,7 +4,7 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { MsalFlow } from "../msal/flows";
 import { MsalUsernamePassword } from "../msal/nodeFlows/msalUsernamePassword";
@@ -51,7 +51,7 @@ export class UsernamePasswordCredential implements TokenCredential {
     }
 
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
 

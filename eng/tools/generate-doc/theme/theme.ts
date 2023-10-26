@@ -4,6 +4,8 @@ import {
   Options,
   DefaultThemeRenderContext,
   RendererEvent,
+  PageEvent,
+  Reflection,
 } from "typedoc";
 import { toolbar } from "./toolbar.js";
 import { versionPicker, versionPickerScript } from "./versionPicker.js";
@@ -43,8 +45,8 @@ export function loadTheme(app: TypeDocApplication) {
  * in addition to some helper functions.
  */
 export class AzureSdkThemeContext extends DefaultThemeRenderContext {
-  constructor(theme: DefaultTheme, options: Options) {
-    super(theme, options);
+  constructor(theme: DefaultTheme, page: PageEvent<Reflection>, options: Options) {
+    super(theme, page, options);
 
     this.toolbar = (props) => {
       return toolbar(this, props);
@@ -55,8 +57,8 @@ export class AzureSdkThemeContext extends DefaultThemeRenderContext {
 export class AzureSdkTheme extends DefaultTheme {
   private _contextCache?: AzureSdkThemeContext;
 
-  override getRenderContext(): AzureSdkThemeContext {
-    this._contextCache ||= new AzureSdkThemeContext(this, this.application.options);
+  override getRenderContext(pageEvent: PageEvent<Reflection>): AzureSdkThemeContext {
+    this._contextCache ||= new AzureSdkThemeContext(this, pageEvent, this.application.options);
     return this._contextCache;
   }
 }

@@ -6,7 +6,7 @@ import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipel
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
 import { IdentityClient } from "../client/identityClient";
@@ -24,7 +24,7 @@ const logger = credentialLogger("ClientSecretCredential");
  * that was generated for an App Registration.  More information on how
  * to configure a client secret can be found here:
  *
- * https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-configure-app-access-web-apis#add-credentials-to-your-web-application
+ * https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-configure-app-access-web-apis#add-credentials-to-your-web-application
  *
  */
 export class ClientSecretCredential implements TokenCredential {
@@ -52,7 +52,7 @@ export class ClientSecretCredential implements TokenCredential {
   ) {
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
     this.clientId = clientId;

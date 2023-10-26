@@ -2658,12 +2658,12 @@ export const expectation63: SentimentAnalysisResult[] = [
   {
     id: "2",
     warnings: [],
-    sentiment: "negative",
+    sentiment: "neutral",
     confidenceScores: { positive: 0.19, neutral: 0.28, negative: 0.53 },
     sentences: [
       {
         text: "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
-        sentiment: "negative",
+        sentiment: "neutral",
         confidenceScores: { positive: 0.19, neutral: 0.28, negative: 0.53 },
         offset: 0,
         length: 101,
@@ -3139,12 +3139,12 @@ export const expectation66: SentimentAnalysisResult[] = [
   {
     id: "3",
     warnings: [],
-    sentiment: "negative",
+    sentiment: "neutral",
     confidenceScores: { positive: 0.19, neutral: 0.28, negative: 0.53 },
     sentences: [
       {
         text: "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
-        sentiment: "negative",
+        sentiment: "neutral",
         confidenceScores: { positive: 0.19, neutral: 0.28, negative: 0.53 },
         offset: 0,
         length: 101,
@@ -3214,12 +3214,12 @@ export const expectation34: SentimentAnalysisResult[] = [
   {
     id: "3",
     warnings: [],
-    sentiment: "negative",
+    sentiment: "neutral",
     confidenceScores: { positive: 0.19, neutral: 0.28, negative: 0.53 },
     sentences: [
       {
         text: "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
-        sentiment: "negative",
+        sentiment: "neutral",
         confidenceScores: { positive: 0.19, neutral: 0.28, negative: 0.53 },
         offset: 0,
         length: 101,

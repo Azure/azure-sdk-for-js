@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CdnManagementClient } from "../cdnManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CustomDomain,
   CustomDomainsListByEndpointNextOptionalParams,
@@ -204,8 +208,8 @@ export class CustomDomainsImpl implements CustomDomains {
     customDomainProperties: CustomDomainParameters,
     options?: CustomDomainsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomDomainsCreateResponse>,
+    SimplePollerLike<
+      OperationState<CustomDomainsCreateResponse>,
       CustomDomainsCreateResponse
     >
   > {
@@ -215,7 +219,7 @@ export class CustomDomainsImpl implements CustomDomains {
     ): Promise<CustomDomainsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -248,9 +252,9 @@ export class CustomDomainsImpl implements CustomDomains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         profileName,
         endpointName,
@@ -258,10 +262,13 @@ export class CustomDomainsImpl implements CustomDomains {
         customDomainProperties,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CustomDomainsCreateResponse,
+      OperationState<CustomDomainsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -310,14 +317,14 @@ export class CustomDomainsImpl implements CustomDomains {
     endpointName: string,
     customDomainName: string,
     options?: CustomDomainsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -350,19 +357,19 @@ export class CustomDomainsImpl implements CustomDomains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         profileName,
         endpointName,
         customDomainName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -409,8 +416,8 @@ export class CustomDomainsImpl implements CustomDomains {
     customDomainName: string,
     options?: CustomDomainsDisableCustomHttpsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomDomainsDisableCustomHttpsResponse>,
+    SimplePollerLike<
+      OperationState<CustomDomainsDisableCustomHttpsResponse>,
       CustomDomainsDisableCustomHttpsResponse
     >
   > {
@@ -420,7 +427,7 @@ export class CustomDomainsImpl implements CustomDomains {
     ): Promise<CustomDomainsDisableCustomHttpsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -453,19 +460,22 @@ export class CustomDomainsImpl implements CustomDomains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         profileName,
         endpointName,
         customDomainName,
         options
       },
-      disableCustomHttpsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: disableCustomHttpsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CustomDomainsDisableCustomHttpsResponse,
+      OperationState<CustomDomainsDisableCustomHttpsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -512,8 +522,8 @@ export class CustomDomainsImpl implements CustomDomains {
     customDomainName: string,
     options?: CustomDomainsEnableCustomHttpsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomDomainsEnableCustomHttpsResponse>,
+    SimplePollerLike<
+      OperationState<CustomDomainsEnableCustomHttpsResponse>,
       CustomDomainsEnableCustomHttpsResponse
     >
   > {
@@ -523,7 +533,7 @@ export class CustomDomainsImpl implements CustomDomains {
     ): Promise<CustomDomainsEnableCustomHttpsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -565,19 +575,22 @@ export class CustomDomainsImpl implements CustomDomains {
     options = newOptions;
     // #endregion
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         profileName,
         endpointName,
         customDomainName,
         options
       },
-      enableCustomHttpsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: enableCustomHttpsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CustomDomainsEnableCustomHttpsResponse,
+      OperationState<CustomDomainsEnableCustomHttpsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -650,7 +663,7 @@ const listByEndpointOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -673,7 +686,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.customDomainName,
     Parameters.endpointName
   ],
@@ -707,7 +720,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.customDomainName,
     Parameters.endpointName
   ],
@@ -733,7 +746,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.customDomainName,
     Parameters.endpointName
   ],
@@ -766,7 +779,7 @@ const disableCustomHttpsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.customDomainName,
     Parameters.endpointName
   ],
@@ -800,7 +813,7 @@ const enableCustomHttpsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.customDomainName,
     Parameters.endpointName
   ],
@@ -819,12 +832,11 @@ const listByEndpointNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.nextLink,
     Parameters.endpointName
   ],
