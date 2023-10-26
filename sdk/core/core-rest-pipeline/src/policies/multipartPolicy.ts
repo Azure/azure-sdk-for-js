@@ -13,8 +13,6 @@ import {
 import { PipelinePolicy } from "../pipeline";
 import { concatenateStreams, isBlobLike, toStream } from "../util/stream";
 
-export const multipartPolicyName = "multipartPolicy";
-
 function generateBoundary(): string {
   return `----AzSDKFormBoundary${randomUUID()}`;
 }
@@ -77,6 +75,14 @@ export function isMultipartRequestBody(
   return Boolean(body && Array.isArray((body as MultipartRequestBody).parts));
 }
 
+/**
+ * Name of multipart policy
+ */
+export const multipartPolicyName = "multipartPolicy";
+
+/**
+ * Pipeline policy for multipart requests
+ */
 export function multipartPolicy(): PipelinePolicy {
   return {
     name: multipartPolicyName,

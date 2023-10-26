@@ -203,10 +203,10 @@ export interface LogPolicyOptions {
     logger?: Debugger;
 }
 
-// @public (undocumented)
+// @public
 export function multipartPolicy(): PipelinePolicy;
 
-// @public (undocumented)
+// @public
 export const multipartPolicyName = "multipartPolicy";
 
 // @public

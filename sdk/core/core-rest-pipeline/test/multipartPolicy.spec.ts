@@ -109,7 +109,7 @@ describe("multipartPolicy", function () {
       assert.ok(request.headers.has("content-type"), "content-type header expected");
       assert.match(
         request.headers.get("content-type")!,
-        /multipart\/mixed; boundary=[0-9a-zA_Z'()+,-./:=?]/,
+        /multipart\/mixed; boundary=[0-9a-zA-Z'()+,-./:=?]+/,
         "content-type must be multipart/mixed with a valid boundary"
       );
     });
@@ -141,7 +141,7 @@ describe("multipartPolicy", function () {
       assert.ok(request.headers.has("content-type"), "content-type header expected");
       assert.match(
         request.headers.get("content-type")!,
-        /multipart\/alternative; boundary=[0-9a-zA_Z'()+,-./:=?]/,
+        /multipart\/alternative; boundary=[0-9a-zA-Z'()+,-./:=?]+/,
         "content-type must be multipart/alternative with a valid boundary"
       );
     });
