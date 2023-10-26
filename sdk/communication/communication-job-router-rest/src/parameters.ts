@@ -9,11 +9,11 @@ import {
   ExceptionPolicy,
   RouterQueue,
   RouterJob,
-  CancelJobRequest,
-  CompleteJobRequest,
-  CloseJobRequest,
-  UnassignJobRequest,
-  DeclineJobOfferRequest,
+  CancelJobOptions,
+  CompleteJobOptions,
+  CloseJobOptions,
+  UnassignJobOptions,
+  DeclineJobOfferOptions,
   RouterWorker,
 } from "./models";
 
@@ -25,7 +25,8 @@ export interface UpsertClassificationPolicyHeaders {
 }
 
 /** The resource instance. */
-export type ClassificationPolicyResourceMergeAndPatch = Partial<ClassificationPolicy>;
+export type ClassificationPolicyResourceMergeAndPatch =
+  Partial<ClassificationPolicy>;
 
 export interface UpsertClassificationPolicyBodyParam {
   /** The resource instance. */
@@ -41,10 +42,11 @@ export interface UpsertClassificationPolicyMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type UpsertClassificationPolicyParameters = UpsertClassificationPolicyHeaderParam &
-  UpsertClassificationPolicyMediaTypesParam &
-  UpsertClassificationPolicyBodyParam &
-  RequestParameters;
+export type UpsertClassificationPolicyParameters =
+  UpsertClassificationPolicyHeaderParam &
+    UpsertClassificationPolicyMediaTypesParam &
+    UpsertClassificationPolicyBodyParam &
+    RequestParameters;
 export type GetClassificationPolicyParameters = RequestParameters;
 export type DeleteClassificationPolicyParameters = RequestParameters;
 
@@ -57,8 +59,8 @@ export interface ListClassificationPoliciesQueryParam {
   queryParameters?: ListClassificationPoliciesQueryParamProperties;
 }
 
-export type ListClassificationPoliciesParameters = ListClassificationPoliciesQueryParam &
-  RequestParameters;
+export type ListClassificationPoliciesParameters =
+  ListClassificationPoliciesQueryParam & RequestParameters;
 
 export interface UpsertDistributionPolicyHeaders {
   /** The request should only proceed if an entity matches this string. */
@@ -68,7 +70,8 @@ export interface UpsertDistributionPolicyHeaders {
 }
 
 /** The resource instance. */
-export type DistributionPolicyResourceMergeAndPatch = Partial<DistributionPolicy>;
+export type DistributionPolicyResourceMergeAndPatch =
+  Partial<DistributionPolicy>;
 
 export interface UpsertDistributionPolicyBodyParam {
   /** The resource instance. */
@@ -84,10 +87,11 @@ export interface UpsertDistributionPolicyMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type UpsertDistributionPolicyParameters = UpsertDistributionPolicyHeaderParam &
-  UpsertDistributionPolicyMediaTypesParam &
-  UpsertDistributionPolicyBodyParam &
-  RequestParameters;
+export type UpsertDistributionPolicyParameters =
+  UpsertDistributionPolicyHeaderParam &
+    UpsertDistributionPolicyMediaTypesParam &
+    UpsertDistributionPolicyBodyParam &
+    RequestParameters;
 export type GetDistributionPolicyParameters = RequestParameters;
 export type DeleteDistributionPolicyParameters = RequestParameters;
 
@@ -100,8 +104,8 @@ export interface ListDistributionPoliciesQueryParam {
   queryParameters?: ListDistributionPoliciesQueryParamProperties;
 }
 
-export type ListDistributionPoliciesParameters = ListDistributionPoliciesQueryParam &
-  RequestParameters;
+export type ListDistributionPoliciesParameters =
+  ListDistributionPoliciesQueryParam & RequestParameters;
 
 export interface UpsertExceptionPolicyHeaders {
   /** The request should only proceed if an entity matches this string. */
@@ -143,7 +147,8 @@ export interface ListExceptionPoliciesQueryParam {
   queryParameters?: ListExceptionPoliciesQueryParamProperties;
 }
 
-export type ListExceptionPoliciesParameters = ListExceptionPoliciesQueryParam & RequestParameters;
+export type ListExceptionPoliciesParameters = ListExceptionPoliciesQueryParam &
+  RequestParameters;
 
 export interface UpsertQueueHeaders {
   /** The request should only proceed if an entity matches this string. */
@@ -223,28 +228,32 @@ export interface ReclassifyJobActionBodyParam {
   body?: Record<string, string>;
 }
 
-export type ReclassifyJobActionParameters = ReclassifyJobActionBodyParam & RequestParameters;
+export type ReclassifyJobActionParameters = ReclassifyJobActionBodyParam &
+  RequestParameters;
 
 export interface CancelJobActionBodyParam {
   /** Request model for cancelling job. */
-  body?: CancelJobRequest;
+  body?: CancelJobOptions;
 }
 
-export type CancelJobActionParameters = CancelJobActionBodyParam & RequestParameters;
+export type CancelJobActionParameters = CancelJobActionBodyParam &
+  RequestParameters;
 
 export interface CompleteJobActionBodyParam {
   /** Request model for completing job. */
-  body: CompleteJobRequest;
+  body: CompleteJobOptions;
 }
 
-export type CompleteJobActionParameters = CompleteJobActionBodyParam & RequestParameters;
+export type CompleteJobActionParameters = CompleteJobActionBodyParam &
+  RequestParameters;
 
 export interface CloseJobActionBodyParam {
   /** Request model for closing job. */
-  body: CloseJobRequest;
+  body: CloseJobOptions;
 }
 
-export type CloseJobActionParameters = CloseJobActionBodyParam & RequestParameters;
+export type CloseJobActionParameters = CloseJobActionBodyParam &
+  RequestParameters;
 
 export interface ListJobsQueryParamProperties {
   /** Number of objects to return per page. */
@@ -282,18 +291,20 @@ export type GetInQueuePositionParameters = RequestParameters;
 
 export interface UnassignJobActionBodyParam {
   /** Request body for unassign route. */
-  body?: UnassignJobRequest;
+  body?: UnassignJobOptions;
 }
 
-export type UnassignJobActionParameters = UnassignJobActionBodyParam & RequestParameters;
+export type UnassignJobActionParameters = UnassignJobActionBodyParam &
+  RequestParameters;
 export type AcceptJobActionParameters = RequestParameters;
 
 export interface DeclineJobActionBodyParam {
   /** Request model for declining offer. */
-  body?: DeclineJobOfferRequest;
+  body?: DeclineJobOfferOptions;
 }
 
-export type DeclineJobActionParameters = DeclineJobActionBodyParam & RequestParameters;
+export type DeclineJobActionParameters = DeclineJobActionBodyParam &
+  RequestParameters;
 export type GetQueueStatisticsParameters = RequestParameters;
 
 export interface UpsertWorkerHeaders {

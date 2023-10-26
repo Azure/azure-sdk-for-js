@@ -7,8 +7,8 @@ export interface ClassificationPolicy {
   name?: string;
   /** The fallback queue to select if the queue selector doesn't find a match. */
   fallbackQueueId?: string;
-  /** The queue selectors to resolve a queue for a given job. */
-  queueSelectors?: Array<QueueSelectorAttachment>;
+  /** The queue selector attachments used to resolve a queue for a given job. */
+  queueSelectorAttachments?: Array<QueueSelectorAttachment>;
   /**
    * A rule of one of the following types:
    *
@@ -25,8 +25,8 @@ export interface ClassificationPolicy {
    * OAuth2.0 authentication protocol.
    */
   prioritizationRule?: RouterRule;
-  /** The worker label selectors to attach to a given job. */
-  workerSelectors?: Array<WorkerSelectorAttachment>;
+  /** The worker selector attachments used to attach worker selectors to a given job. */
+  workerSelectorAttachments?: Array<WorkerSelectorAttachment>;
 }
 
 /**
@@ -41,7 +41,8 @@ export interface QueueSelectorAttachmentParent {
  * Describes a set of queue selectors that will be attached if the given condition
  * resolves to true
  */
-export interface ConditionalQueueSelectorAttachment extends QueueSelectorAttachmentParent {
+export interface ConditionalQueueSelectorAttachment
+  extends QueueSelectorAttachmentParent {
   /**
    * A rule of one of the following types:
    *
@@ -154,7 +155,7 @@ export interface WebhookRouterRule extends RouterRuleParent {
    * Reference:
    * https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/
    */
-  clientCredential?: Oauth2ClientCredential;
+  clientCredential?: OAuth2WebhookClientCredential;
   /** Uri for Contoso's Web Server. */
   webhookUri?: string;
   /** The type discriminator describing a sub-type of Rule */
@@ -166,7 +167,7 @@ export interface WebhookRouterRule extends RouterRuleParent {
  * Reference:
  * https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/
  */
-export interface Oauth2ClientCredential {
+export interface OAuth2WebhookClientCredential {
   /** ClientId for Contoso Authorization server. */
   clientId?: string;
   /** Client secret for Contoso Authorization server. */
@@ -195,7 +196,8 @@ export interface RouterQueueSelector {
  * Attaches a queue selector where the value is passed through from the job label
  * with the same key
  */
-export interface PassThroughQueueSelectorAttachment extends QueueSelectorAttachmentParent {
+export interface PassThroughQueueSelectorAttachment
+  extends QueueSelectorAttachmentParent {
   /** The label key to query against */
   key: string;
   /**
@@ -209,7 +211,8 @@ export interface PassThroughQueueSelectorAttachment extends QueueSelectorAttachm
 }
 
 /** Attaches queue selectors to a job when the RouterRule is resolved */
-export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachmentParent {
+export interface RuleEngineQueueSelectorAttachment
+  extends QueueSelectorAttachmentParent {
   /**
    * A rule of one of the following types:
    *
@@ -231,7 +234,8 @@ export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachme
 }
 
 /** Describes a queue selector that will be attached to the job */
-export interface StaticQueueSelectorAttachment extends QueueSelectorAttachmentParent {
+export interface StaticQueueSelectorAttachment
+  extends QueueSelectorAttachmentParent {
   /**
    * Describes a condition that must be met against a set of labels for queue
    * selection
@@ -245,7 +249,8 @@ export interface StaticQueueSelectorAttachment extends QueueSelectorAttachmentPa
  * Describes multiple sets of queue selectors, of which one will be selected and
  * attached according to a weighting
  */
-export interface WeightedAllocationQueueSelectorAttachment extends QueueSelectorAttachmentParent {
+export interface WeightedAllocationQueueSelectorAttachment
+  extends QueueSelectorAttachmentParent {
   /** A collection of percentage based weighted allocations. */
   allocations: Array<QueueWeightedAllocation>;
   /** The type discriminator describing the type of queue selector attachment */
@@ -275,7 +280,8 @@ export interface WorkerSelectorAttachmentParent {
  * Describes a set of worker selectors that will be attached if the given
  * condition resolves to true
  */
-export interface ConditionalWorkerSelectorAttachment extends WorkerSelectorAttachmentParent {
+export interface ConditionalWorkerSelectorAttachment
+  extends WorkerSelectorAttachmentParent {
   /**
    * A rule of one of the following types:
    *
@@ -324,7 +330,8 @@ export interface RouterWorkerSelector {
  * Attaches a worker selector where the value is passed through from the job label
  * with the same key
  */
-export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttachmentParent {
+export interface PassThroughWorkerSelectorAttachment
+  extends WorkerSelectorAttachmentParent {
   /** The label key to query against */
   key: string;
   /**
@@ -340,7 +347,8 @@ export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttac
 }
 
 /** Attaches worker selectors to a job when a RouterRule is resolved */
-export interface RuleEngineWorkerSelectorAttachment extends WorkerSelectorAttachmentParent {
+export interface RuleEngineWorkerSelectorAttachment
+  extends WorkerSelectorAttachmentParent {
   /**
    * A rule of one of the following types:
    *
@@ -362,7 +370,8 @@ export interface RuleEngineWorkerSelectorAttachment extends WorkerSelectorAttach
 }
 
 /** Describes a worker selector that will be attached to the job */
-export interface StaticWorkerSelectorAttachment extends WorkerSelectorAttachmentParent {
+export interface StaticWorkerSelectorAttachment
+  extends WorkerSelectorAttachmentParent {
   /**
    * Describes a condition that must be met against a set of labels for worker
    * selection
@@ -376,7 +385,8 @@ export interface StaticWorkerSelectorAttachment extends WorkerSelectorAttachment
  * Describes multiple sets of worker selectors, of which one will be selected and
  * attached according to a weighting
  */
-export interface WeightedAllocationWorkerSelectorAttachment extends WorkerSelectorAttachmentParent {
+export interface WeightedAllocationWorkerSelectorAttachment
+  extends WorkerSelectorAttachmentParent {
   /** A collection of percentage based weighted allocations. */
   allocations: Array<WorkerWeightedAllocation>;
   /** The type discriminator describing the type of worker selector attachment */
@@ -487,7 +497,7 @@ export interface ScoringRuleOptions {
    * Note: If
    * enabled, use BatchSize to set batch size.
    */
-  allowScoringBatchOfWorkers?: boolean;
+  isBatchScoringEnabled?: boolean;
   /**
    * (Optional)
    * If false, will sort scores by ascending order. By default, set to
@@ -515,22 +525,18 @@ export interface RoundRobinMode extends DistributionModeParent {
 export interface ExceptionPolicy {
   /** (Optional) The name of the exception policy. */
   name?: string;
-  /**
-   * (Optional) A dictionary collection of exception rules on the exception policy.
-   * Key is the Id of each exception rule.
-   */
-  exceptionRules?: Record<string, ExceptionRule>;
+  /** (Optional) A collection of exception rules on the exception policy. */
+  exceptionRules?: Array<ExceptionRule>;
 }
 
 /** A rule that defines actions to execute upon a specific trigger. */
 export interface ExceptionRule {
+  /** Id of the exception rule. */
+  id: string;
   /** The trigger for this exception rule */
   trigger: ExceptionTrigger;
-  /**
-   * A dictionary collection of actions to perform once the exception is triggered.
-   * Key is the Id of each exception action.
-   */
-  actions: Record<string, ExceptionAction>;
+  /** A collection of actions to perform once the exception is triggered. */
+  actions: Array<ExceptionAction>;
 }
 
 /** The trigger for this exception rule */
@@ -654,7 +660,7 @@ export interface RouterJob {
   /** A set of non-identifying attributes attached to this job */
   tags?: Record<string, unknown>;
   /** Notes attached to a job, sorted by timestamp */
-  notes?: Record<string, string>;
+  notes?: Array<RouterJobNote>;
   /**
    * The matching mode to be applied to this job.
    *
@@ -686,6 +692,14 @@ export interface RouterJobAssignment {
   closedAt?: Date | string;
 }
 
+/** A note attached to a job. */
+export interface RouterJobNote {
+  /** The message contained in the note. */
+  message: string;
+  /** The time at which the note was added in UTC. If not provided, will default to the current time. */
+  addedAt?: Date | string;
+}
+
 /**
  * The matching mode to be applied to this job.
  *
@@ -700,31 +714,9 @@ export interface RouterJobAssignment {
  * SuspendMode: Used when matching workers
  * to a job needs to be suspended.
  */
-export interface JobMatchingMode {
-  /**
-   * Discriminator value used to differentiate between supported matching mode types.
-   *
-   * Possible values: queueAndMatchMode, scheduleAndSuspendMode, suspendMode
-   */
-  modeType?: string;
-  /**
-   * Describes a matching mode where matching worker to a job is automatically
-   * started after job is queued successfully.
-   */
-  queueAndMatchMode?: QueueAndMatchMode;
-  /**
-   * Describes a matching mode used for scheduling jobs to be queued at a future
-   * time.
-   * At the specified time, matching worker to a job will not start
-   * automatically.
-   */
-  scheduleAndSuspendMode?: ScheduleAndSuspendMode;
-  /** Describes a matching mode where matching worker to a job is suspended. */
-  suspendMode?: SuspendMode;
+export interface JobMatchingModeParent {
+  kind: string;
 }
-
-/** Describes a matching mode where matching worker to a job is automatically started after job is queued successfully. */
-export interface QueueAndMatchMode {}
 
 /**
  * Describes a matching mode used for scheduling jobs to be queued at a future
@@ -732,16 +724,27 @@ export interface QueueAndMatchMode {}
  * At the specified time, matching worker to a job will not start
  * automatically.
  */
-export interface ScheduleAndSuspendMode {
+export interface ScheduleAndSuspendMode extends JobMatchingModeParent {
   /** Scheduled time. */
   scheduleAt: Date | string;
+  /** The type discriminator describing ScheduleAndSuspendMode */
+  kind: "schedule-and-suspend";
+}
+
+/** Describes a matching mode where matching worker to a job is automatically started after job is queued successfully. */
+export interface QueueAndMatchMode extends JobMatchingModeParent {
+  /** The type discriminator describing QueueAndMatchMode */
+  kind: "queue-and-match";
 }
 
 /** Describes a matching mode where matching worker to a job is suspended. */
-export interface SuspendMode {}
+export interface SuspendMode extends JobMatchingModeParent {
+  /** The type discriminator describing SuspendMode */
+  kind: "suspend";
+}
 
 /** Request payload for deleting a job */
-export interface CancelJobRequest {
+export interface CancelJobOptions {
   /**
    * (Optional) A note that will be appended to the jobs' Notes collection with the
    * current timestamp.
@@ -756,7 +759,7 @@ export interface CancelJobRequest {
 }
 
 /** Request payload for completing jobs */
-export interface CompleteJobRequest {
+export interface CompleteJobOptions {
   /** The assignment within the job to complete. */
   assignmentId: string;
   /**
@@ -767,7 +770,7 @@ export interface CompleteJobRequest {
 }
 
 /** Request payload for closing jobs */
-export interface CloseJobRequest {
+export interface CloseJobOptions {
   /** The assignment within which the job is to be closed. */
   assignmentId: string;
   /**
@@ -790,7 +793,7 @@ export interface CloseJobRequest {
 }
 
 /** Request payload for unassigning a job. */
-export interface UnassignJobRequest {
+export interface UnassignJobOptions {
   /**
    * If SuspendMatching is true, then the job is not queued for re-matching with a
    * worker.
@@ -799,7 +802,7 @@ export interface UnassignJobRequest {
 }
 
 /** Request payload for declining offers */
-export interface DeclineJobOfferRequest {
+export interface DeclineJobOfferOptions {
   /**
    * If the RetryOfferAt is not provided, then this job will not be offered again to
    * the worker who declined this job unless
@@ -815,9 +818,9 @@ export interface DeclineJobOfferRequest {
 /** An entity for jobs to be routed to */
 export interface RouterWorker {
   /** The queue(s) that this worker can receive work from. */
-  queueAssignments?: Record<string, RouterQueueAssignment>;
+  queues?: string[];
   /** The total capacity score this worker has to manage multiple concurrent jobs. */
-  totalCapacity?: number;
+  capacity?: number;
   /**
    * A set of key/value pairs that are identifying attributes used by the rules
    * engines to make decisions.
@@ -826,16 +829,15 @@ export interface RouterWorker {
   /** A set of non-identifying attributes attached to this worker. */
   tags?: Record<string, unknown>;
   /** The channel(s) this worker can handle and their impact on the workers capacity. */
-  channelConfigurations?: Record<string, ChannelConfiguration>;
+  channels?: Array<RouterChannel>;
   /** A flag indicating this worker is open to receive offers or not. */
   availableForOffers?: boolean;
 }
 
-/** An assignment of a worker to a queue */
-export interface RouterQueueAssignment {}
-
 /** Represents the capacity a job in this channel will consume from a worker */
-export interface ChannelConfiguration {
+export interface RouterChannel {
+  /** Id of the channel. */
+  channelId: string;
   /**
    * The amount of capacity that an instance of a job of this channel will consume
    * of the total worker capacity.
@@ -910,11 +912,34 @@ export type WorkerSelectorAttachment =
   | StaticWorkerSelectorAttachment
   | WeightedAllocationWorkerSelectorAttachment;
 /** Abstract base class for defining a distribution mode */
-export type DistributionMode = BestWorkerMode | LongestIdleMode | RoundRobinMode;
+export type DistributionMode =
+  | BestWorkerMode
+  | LongestIdleMode
+  | RoundRobinMode;
 /** The trigger for this exception rule */
-export type ExceptionTrigger = QueueLengthExceptionTrigger | WaitTimeExceptionTrigger;
+export type ExceptionTrigger =
+  | QueueLengthExceptionTrigger
+  | WaitTimeExceptionTrigger;
 /** The action to take when the exception is triggered */
 export type ExceptionAction =
   | CancelExceptionAction
   | ManualReclassifyExceptionAction
   | ReclassifyExceptionAction;
+/**
+ * The matching mode to be applied to this job.
+ *
+ * Supported types:
+ *
+ *
+ * QueueAndMatchMode: Used when matching worker to a job is required to be
+ * done right after job is queued.
+ * ScheduleAndSuspendMode: Used for scheduling
+ * jobs to be queued at a future time. At specified time, matching of a worker to
+ * the job will not start automatically.
+ * SuspendMode: Used when matching workers
+ * to a job needs to be suspended.
+ */
+export type JobMatchingMode =
+  | ScheduleAndSuspendMode
+  | QueueAndMatchMode
+  | SuspendMode;
