@@ -10,7 +10,7 @@ import {
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
 import { ExportResultCode } from "@opentelemetry/core";
-import { LoggerProvider, LogRecord, Logger } from "@opentelemetry/sdk-logs";
+import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
 import { Resource } from "@opentelemetry/resources";
 import { StandardMetrics } from "../../../../src/metrics/standardMetrics";
 import { InternalConfig } from "../../../../src/shared";
@@ -50,11 +50,16 @@ describe("#StandardMetricsHandler", () => {
     resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
 
     let loggerProvider = new LoggerProvider({ resource: resource });
-    let logger = loggerProvider.getLogger("testLogger") as Logger;
+    let logger = loggerProvider.getLogger("testLogger") as any;
 
-    let traceLog = new LogRecord(logger, {
-      body: "testMessage",
-    });
+    let traceLog = new LogRecord(
+      logger["_sharedState"],
+      { name: "test" },
+      {
+        body: "testMessage",
+        timestamp: 123,
+      }
+    );
     autoCollect.recordLog(traceLog as any);
     traceLog.attributes["exception.type"] = "testExceptionType";
     autoCollect.recordLog(traceLog as any);
@@ -181,11 +186,16 @@ describe("#StandardMetricsHandler", () => {
     resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
 
     let loggerProvider = new LoggerProvider({ resource: resource });
-    let logger = loggerProvider.getLogger("testLogger") as Logger;
+    let logger = loggerProvider.getLogger("testLogger") as any;
 
-    let traceLog = new LogRecord(logger, {
-      body: "testMessage",
-    });
+    let traceLog = new LogRecord(
+      logger["_sharedState"],
+      { name: "test" },
+      {
+        body: "testMessage",
+        timestamp: 123,
+      }
+    );
     autoCollect.recordLog(traceLog as any);
     traceLog.attributes["exception.type"] = "testExceptionType";
     autoCollect.recordLog(traceLog as any);
@@ -209,7 +219,7 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
     assert.strictEqual(
-      metrics[3].dataPoints[0].attributes["cloudRoleName"],
+      metrics[2].dataPoints[0].attributes["cloudRoleName"],
       "testcloudRoleName.serviceTestName"
     );
   });

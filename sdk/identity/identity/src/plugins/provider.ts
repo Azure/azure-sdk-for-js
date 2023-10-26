@@ -17,8 +17,12 @@ export interface CachePluginControl {
   setPersistence(
     persistenceFactory: (
       options?: TokenCachePersistenceOptions
-    ) => Promise<import("@azure/msal-common").ICachePlugin>
+    ) => Promise<import("@azure/msal-node").ICachePlugin>
   ): void;
+}
+
+export interface NativeBrokerPluginControl {
+  setNativeBroker(nativeBroker: import("@azure/msal-node").INativeBrokerPlugin): void;
 }
 
 /**
@@ -38,5 +42,6 @@ export interface VisualStudioCodeCredentialControl {
  */
 export interface AzurePluginContext {
   cachePluginControl: CachePluginControl;
+  nativeBrokerPluginControl: NativeBrokerPluginControl;
   vsCodeCredentialControl: VisualStudioCodeCredentialControl;
 }

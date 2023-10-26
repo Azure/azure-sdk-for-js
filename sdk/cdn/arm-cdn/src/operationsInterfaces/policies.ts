@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CdnWebApplicationFirewallPolicy,
   PoliciesListOptionalParams,
@@ -57,8 +57,8 @@ export interface Policies {
     cdnWebApplicationFirewallPolicy: CdnWebApplicationFirewallPolicy,
     options?: PoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PoliciesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PoliciesCreateOrUpdateResponse>,
       PoliciesCreateOrUpdateResponse
     >
   >;
@@ -90,8 +90,8 @@ export interface Policies {
     cdnWebApplicationFirewallPolicyPatchParameters: CdnWebApplicationFirewallPolicyPatchParameters,
     options?: PoliciesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PoliciesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PoliciesUpdateResponse>,
       PoliciesUpdateResponse
     >
   >;

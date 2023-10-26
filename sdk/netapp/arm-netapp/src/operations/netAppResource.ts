@@ -12,6 +12,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetAppManagementClient } from "../netAppManagementClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   CheckNameResourceTypes,
   NetAppResourceCheckNameAvailabilityOptionalParams,
   NetAppResourceCheckNameAvailabilityResponse,
@@ -21,7 +27,12 @@ import {
   NetAppResourceCheckQuotaAvailabilityOptionalParams,
   NetAppResourceCheckQuotaAvailabilityResponse,
   NetAppResourceQueryRegionInfoOptionalParams,
-  NetAppResourceQueryRegionInfoResponse
+  NetAppResourceQueryRegionInfoResponse,
+  NetAppResourceQueryNetworkSiblingSetOptionalParams,
+  NetAppResourceQueryNetworkSiblingSetResponse,
+  NetworkFeatures,
+  NetAppResourceUpdateNetworkSiblingSetOptionalParams,
+  NetAppResourceUpdateNetworkSiblingSetResponse
 } from "../models";
 
 /** Class containing NetAppResource operations. */
@@ -111,6 +122,149 @@ export class NetAppResourceImpl implements NetAppResource {
       { location, options },
       queryRegionInfoOperationSpec
     );
+  }
+
+  /**
+   * Get details of the specified network sibling set.
+   * @param location The name of Azure region.
+   * @param networkSiblingSetId Network Sibling Set ID for a group of volumes sharing networking
+   *                            resources in a subnet.
+   * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
+   *                 Microsoft.NetApp/volumes. Example
+   *                 /subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySubnet}
+   * @param options The options parameters.
+   */
+  queryNetworkSiblingSet(
+    location: string,
+    networkSiblingSetId: string,
+    subnetId: string,
+    options?: NetAppResourceQueryNetworkSiblingSetOptionalParams
+  ): Promise<NetAppResourceQueryNetworkSiblingSetResponse> {
+    return this.client.sendOperationRequest(
+      { location, networkSiblingSetId, subnetId, options },
+      queryNetworkSiblingSetOperationSpec
+    );
+  }
+
+  /**
+   * Update the network features of the specified network sibling set.
+   * @param location The name of Azure region.
+   * @param networkSiblingSetId Network Sibling Set ID for a group of volumes sharing networking
+   *                            resources in a subnet.
+   * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
+   *                 Microsoft.NetApp/volumes. Example
+   *                 /subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySubnet}
+   * @param networkSiblingSetStateId Network sibling set state Id identifying the current state of the
+   *                                 sibling set.
+   * @param networkFeatures Network features available to the volume, some such
+   * @param options The options parameters.
+   */
+  async beginUpdateNetworkSiblingSet(
+    location: string,
+    networkSiblingSetId: string,
+    subnetId: string,
+    networkSiblingSetStateId: string,
+    networkFeatures: NetworkFeatures,
+    options?: NetAppResourceUpdateNetworkSiblingSetOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetAppResourceUpdateNetworkSiblingSetResponse>,
+      NetAppResourceUpdateNetworkSiblingSetResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<NetAppResourceUpdateNetworkSiblingSetResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        location,
+        networkSiblingSetId,
+        subnetId,
+        networkSiblingSetStateId,
+        networkFeatures,
+        options
+      },
+      spec: updateNetworkSiblingSetOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetAppResourceUpdateNetworkSiblingSetResponse,
+      OperationState<NetAppResourceUpdateNetworkSiblingSetResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update the network features of the specified network sibling set.
+   * @param location The name of Azure region.
+   * @param networkSiblingSetId Network Sibling Set ID for a group of volumes sharing networking
+   *                            resources in a subnet.
+   * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
+   *                 Microsoft.NetApp/volumes. Example
+   *                 /subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySubnet}
+   * @param networkSiblingSetStateId Network sibling set state Id identifying the current state of the
+   *                                 sibling set.
+   * @param networkFeatures Network features available to the volume, some such
+   * @param options The options parameters.
+   */
+  async beginUpdateNetworkSiblingSetAndWait(
+    location: string,
+    networkSiblingSetId: string,
+    subnetId: string,
+    networkSiblingSetStateId: string,
+    networkFeatures: NetworkFeatures,
+    options?: NetAppResourceUpdateNetworkSiblingSetOptionalParams
+  ): Promise<NetAppResourceUpdateNetworkSiblingSetResponse> {
+    const poller = await this.beginUpdateNetworkSiblingSet(
+      location,
+      networkSiblingSetId,
+      subnetId,
+      networkSiblingSetStateId,
+      networkFeatures,
+      options
+    );
+    return poller.pollUntilDone();
   }
 }
 // Operation Specifications
@@ -213,5 +367,74 @@ const queryRegionInfoOperationSpec: coreClient.OperationSpec = {
     Parameters.location
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const queryNetworkSiblingSetOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/queryNetworkSiblingSet",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkSiblingSet
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: {
+    parameterPath: {
+      networkSiblingSetId: ["networkSiblingSetId"],
+      subnetId: ["subnetId"]
+    },
+    mapper: { ...Mappers.QueryNetworkSiblingSetRequest, required: true }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const updateNetworkSiblingSetOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/updateNetworkSiblingSet",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkSiblingSet
+    },
+    201: {
+      bodyMapper: Mappers.NetworkSiblingSet
+    },
+    202: {
+      bodyMapper: Mappers.NetworkSiblingSet
+    },
+    204: {
+      bodyMapper: Mappers.NetworkSiblingSet
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: {
+    parameterPath: {
+      networkSiblingSetId: ["networkSiblingSetId"],
+      subnetId: ["subnetId"],
+      networkSiblingSetStateId: ["networkSiblingSetStateId"],
+      networkFeatures: ["networkFeatures"]
+    },
+    mapper: { ...Mappers.UpdateNetworkSiblingSetRequest, required: true }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };

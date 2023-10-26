@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-util",
-  "version": "1.5.1",
+  "version": "1.6.2",
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -103,7 +103,7 @@
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "sinon": "^15.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "util": "^0.12.1",
     "ts-node": "^10.0.0"
   },

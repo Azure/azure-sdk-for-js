@@ -1,5 +1,17 @@
 # Release History
 
+## 4.1.0 (Unreleased)
+
+### Features Added
+
+- Add a retryable client error that is thrown when the sender link is not ready.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.0.0 (2023-10-10)
 
 ### Features Added

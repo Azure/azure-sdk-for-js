@@ -6,7 +6,7 @@ import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 
 /**
  * Provides options to configure how the Identity library makes authentication
- * requests to Azure Active Directory.
+ * requests to Microsoft Entra ID.
  */
 export interface TokenCredentialOptions extends CommonClientOptions {
   /**

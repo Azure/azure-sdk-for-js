@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualNetwork,
   VirtualNetworksListOptionalParams,
@@ -51,8 +51,8 @@ export interface VirtualNetworks {
     virtualNetworkName: string,
     options?: VirtualNetworksCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworksCreateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworksCreateResponse>,
       VirtualNetworksCreateResponse
     >
   >;
@@ -99,7 +99,7 @@ export interface VirtualNetworks {
     resourceGroupName: string,
     virtualNetworkName: string,
     options?: VirtualNetworksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements virtual network DELETE method.
    * @param resourceGroupName The Resource Group Name.
