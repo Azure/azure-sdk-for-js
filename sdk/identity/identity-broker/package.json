@@ -43,7 +43,11 @@
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
-    "cloud"
+    "cloud",
+    "azure",
+    "azure-active-directory",
+    "WAM",
+    "MSA support"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -87,15 +91,8 @@
   },
   "//sampleConfiguration": {
     "productName": "Azure Identity Brokered Auth Plugin",
-    "productSlugs": [
-      "azure",
-      "azure-active-directory",
-      "WAM",
-      "MSA support"
-    ],
     "requiredResources": {
       "Microsoft Entra App Registration": "https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app",
-      "Azure Key Vault": "https://learn.microsoft.com/azure/key-vault/quick-create-portal"
     }
   }
 }
