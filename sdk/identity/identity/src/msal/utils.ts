@@ -217,6 +217,17 @@ export class MsalBaseUtilities {
     ) {
       return error;
     }
+    if (error.name === "NativeAuthError") {
+      this.logger.info(
+        formatError(
+          scopes,
+          `Error from the native broker: ${error.message} with status code: ${
+            (error as any).statusCode
+          }`
+        )
+      );
+      return error;
+    }
     return new AuthenticationRequiredError({ scopes, getTokenOptions, message: error.message });
   }
 }
