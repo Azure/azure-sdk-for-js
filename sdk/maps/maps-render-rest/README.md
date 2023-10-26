@@ -212,7 +212,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-render?view=azure-node-preview
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest/samples
 [product_info]: https://docs.microsoft.com/rest/api/maps/render-v2
-[nodejs_release]: https://nodejs.org/about/releases/
+[nodejs_release]: https://github.com/nodejs/release#release-schedule
 [az_subscription]: https://azure.microsoft.com/free/
 [az_maps_account_management]: https://docs.microsoft.com/azure/azure-maps/how-to-manage-account-keys
 [azure_portal]: https://portal.azure.com

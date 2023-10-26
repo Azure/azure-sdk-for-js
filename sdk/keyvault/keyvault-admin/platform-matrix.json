@@ -9,12 +9,12 @@
         }
       },
       "Versions": {
-        "16.x_service_version_7_2": {
-          "NodeTestVersion": "16.x",
+        "18.x_service_version_7_2": {
+          "NodeTestVersion": "18.x",
           "ServiceVersion": "7.2"
         },
-        "18.x": {
-          "NodeTestVersion": "18.x"
+        "20.x": {
+          "NodeTestVersion": "20.x"
         }
       },
       "TestType": "node"

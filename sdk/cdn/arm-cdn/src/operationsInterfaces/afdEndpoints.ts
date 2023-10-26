@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AFDEndpoint,
   AfdEndpointsListByProfileOptionalParams,
@@ -44,7 +44,7 @@ export interface AfdEndpoints {
     options?: AfdEndpointsListByProfileOptionalParams
   ): PagedAsyncIterableIterator<AFDEndpoint>;
   /**
-   * Checks the quota and actual usage of the given AzureFrontDoor endpoint under the given CDN profile.
+   * Checks the quota and actual usage of endpoints under the given Azure Front Door profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group.
@@ -89,8 +89,8 @@ export interface AfdEndpoints {
     endpoint: AFDEndpoint,
     options?: AfdEndpointsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AfdEndpointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<AfdEndpointsCreateResponse>,
       AfdEndpointsCreateResponse
     >
   >;
@@ -130,8 +130,8 @@ export interface AfdEndpoints {
     endpointUpdateProperties: AFDEndpointUpdateParameters,
     options?: AfdEndpointsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AfdEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AfdEndpointsUpdateResponse>,
       AfdEndpointsUpdateResponse
     >
   >;
@@ -168,7 +168,7 @@ export interface AfdEndpoints {
     profileName: string,
     endpointName: string,
     options?: AfdEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing AzureFrontDoor endpoint with the specified endpoint name under the specified
    * subscription, resource group and profile.
@@ -201,7 +201,7 @@ export interface AfdEndpoints {
     endpointName: string,
     contents: AfdPurgeParameters,
     options?: AfdEndpointsPurgeContentOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Removes a content from AzureFrontDoor.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -221,8 +221,8 @@ export interface AfdEndpoints {
     options?: AfdEndpointsPurgeContentOptionalParams
   ): Promise<void>;
   /**
-   * Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.This api
-   * isn't work for apex domain.
+   * Validates the custom domain mapping to ensure it maps to the correct Azure Front Door endpoint in
+   * DNS.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group.

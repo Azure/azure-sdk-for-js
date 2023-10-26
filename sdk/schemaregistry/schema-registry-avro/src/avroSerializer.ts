@@ -13,6 +13,7 @@ import LRUCache from "lru-cache";
 import LRUCacheOptions = LRUCache.Options;
 import { isMessageContent } from "./utility";
 import { logger } from "./logger";
+import { DateType } from "./logicalTypes/dateType";
 
 type AVSCSerializer = avro.Type;
 
@@ -96,7 +97,7 @@ export class AvroSerializer<MessageT = MessageContent> {
          */
         ({
           data,
-          contentType: contentType,
+          contentType,
         } as MessageContent as unknown as MessageT);
   }
 
@@ -242,7 +243,11 @@ function convertMessage<MessageT>(
 
 function getSerializerForSchema(schema: string): AVSCSerializer {
   return wrapError(
-    () => avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true }),
+    () =>
+      avro.Type.forSchema(JSON.parse(schema), {
+        omitRecordMethods: true,
+        logicalTypes: { "timestamp-millis": DateType },
+      }),
     `Parsing Avro schema failed:\n\n\t${schema}\n\nSee 'cause' for more details.`
   );
 }
