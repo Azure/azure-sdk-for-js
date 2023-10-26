@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -528,12 +528,19 @@
     {
       "packageName": "@azure/core-http",
       "projectFolder": "sdk/core/core-http",
-      "decoupledLocalDependencies": ["@azure/core-tracing"],
+      "decoupledLocalDependencies": [
+        "@azure/core-tracing"
+      ],
       "versionPolicyName": "core"
     },
     {
       "packageName": "@azure/core-rest-pipeline",
       "projectFolder": "sdk/core/core-rest-pipeline",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@typespec/ts-http-runtime",
+      "projectFolder": "sdk/core/ts-http-runtime",
       "versionPolicyName": "core"
     },
     {
@@ -619,7 +626,9 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
+      "decoupledLocalDependencies": [
+        "@azure/keyvault-keys"
+      ],
       "versionPolicyName": "client"
     },
     {
@@ -2121,6 +2130,11 @@
       "packageName": "@azure-tests/perf-monitor-opentelemetry",
       "projectFolder": "sdk/monitor/perf-tests/monitor-opentelemetry",
       "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure/arm-recoveryservicesdatareplication",
+      "projectFolder": "sdk/recoveryservicesdatareplication/arm-recoveryservicesdatareplication",
+      "versionPolicyName": "management"
     },
     {
       "packageName": "@azure/arm-playwrighttesting",

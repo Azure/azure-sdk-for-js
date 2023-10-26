@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about the deleted vaults in a subscription.
  *
  * @summary Gets information about the deleted vaults in a subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/listDeletedVaults.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/listDeletedVaults.json
  */
 async function listDeletedVaultsInTheSpecifiedSubscription() {
   const subscriptionId =

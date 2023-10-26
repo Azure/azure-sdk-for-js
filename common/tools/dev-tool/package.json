@@ -64,7 +64,7 @@
     "strip-json-comments": "^5.0.0",
     "ts-node": "^10.0.0",
     "tslib": "^2.2.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "yaml": "^2.3.0",
     "ts-morph": "^20.0.0"
   },
@@ -88,7 +88,7 @@
     "eslint": "^8.0.0",
     "mkdirp": "^1.0.4",
     "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
+    "c8": "^8.0.0",
     "karma": "^6.3.9",
     "rimraf": "^3.0.0"
   }

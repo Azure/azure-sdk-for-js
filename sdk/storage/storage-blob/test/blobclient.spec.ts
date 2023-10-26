@@ -1595,6 +1595,12 @@ describe("BlobClient - ImmutabilityPolicy", () => {
       containerName = getImmutableContainerName();
       recorder = new Recorder(this.currentTest);
       await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers(
+        {
+          uriSanitizers,
+        },
+        ["record", "playback"]
+      );
       blobServiceClient = getBSU(recorder);
 
       containerClient = blobServiceClient.getContainerClient(containerName);

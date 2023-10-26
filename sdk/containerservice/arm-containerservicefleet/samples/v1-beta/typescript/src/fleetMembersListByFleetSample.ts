@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List FleetMember resources by Fleet
  *
  * @summary List FleetMember resources by Fleet
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-06-15-preview/examples/FleetMembers_ListByFleet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-08-15-preview/examples/FleetMembers_ListByFleet.json
  */
 async function listsTheMembersOfAFleet() {
   const subscriptionId =

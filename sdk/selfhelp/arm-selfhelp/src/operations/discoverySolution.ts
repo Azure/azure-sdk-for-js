@@ -35,13 +35,16 @@ export class DiscoverySolutionImpl implements DiscoverySolution {
   }
 
   /**
-   * Solutions Discovery is the initial point of entry within Help API, which helps you identify the
-   * relevant solutions for your Azure issue.<br/><br/> You can discover solutions using resourceUri OR
-   * resourceUri + problemClassificationId.<br/><br/>We will do our best in returning relevant
-   * diagnostics for your Azure issue.<br/><br/> Get the problemClassificationId(s) using this
-   * [reference](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP).<br/><br/>
-   * <b>Note: </b> ‘requiredParameterSets’ from Solutions Discovery API response must be passed via
-   * ‘additionalParameters’ as an input to Diagnostics API.
+   * Lists the relevant Azure diagnostics and solutions using [problemClassification
+   * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP)) AND
+   * resourceUri or resourceType.<br/> Discovery Solutions is the initial entry point within Help API,
+   * which identifies relevant Azure diagnostics and solutions. We will do our best to return the most
+   * effective solutions based on the type of inputs, in the request URL  <br/><br/> Mandatory input :
+   * problemClassificationId (Use the [problemClassification
+   * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP))
+   * <br/>Optional input: resourceUri OR resource Type <br/><br/> <b>Note: </b>  ‘requiredInputs’ from
+   * Discovery solutions response must be passed via ‘additionalParameters’ as an input to Diagnostics
+   * and Solutions API.
    * @param scope This is an extension resource provider and only resource level extension is supported
    *              at the moment.
    * @param options The options parameters.
@@ -100,13 +103,16 @@ export class DiscoverySolutionImpl implements DiscoverySolution {
   }
 
   /**
-   * Solutions Discovery is the initial point of entry within Help API, which helps you identify the
-   * relevant solutions for your Azure issue.<br/><br/> You can discover solutions using resourceUri OR
-   * resourceUri + problemClassificationId.<br/><br/>We will do our best in returning relevant
-   * diagnostics for your Azure issue.<br/><br/> Get the problemClassificationId(s) using this
-   * [reference](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP).<br/><br/>
-   * <b>Note: </b> ‘requiredParameterSets’ from Solutions Discovery API response must be passed via
-   * ‘additionalParameters’ as an input to Diagnostics API.
+   * Lists the relevant Azure diagnostics and solutions using [problemClassification
+   * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP)) AND
+   * resourceUri or resourceType.<br/> Discovery Solutions is the initial entry point within Help API,
+   * which identifies relevant Azure diagnostics and solutions. We will do our best to return the most
+   * effective solutions based on the type of inputs, in the request URL  <br/><br/> Mandatory input :
+   * problemClassificationId (Use the [problemClassification
+   * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP))
+   * <br/>Optional input: resourceUri OR resource Type <br/><br/> <b>Note: </b>  ‘requiredInputs’ from
+   * Discovery solutions response must be passed via ‘additionalParameters’ as an input to Diagnostics
+   * and Solutions API.
    * @param scope This is an extension resource provider and only resource level extension is supported
    *              at the moment.
    * @param options The options parameters.

@@ -125,7 +125,7 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-06-01-preview";
+    this.apiVersion = options.apiVersion || "2023-08-01-preview";
     this.operations = new OperationsImpl(this);
     this.webPubSub = new WebPubSubImpl(this);
     this.usages = new UsagesImpl(this);
