@@ -491,25 +491,17 @@ describe("CallConnection Live Tests", function () {
     const muteResult = await callConnection.muteParticipant(testUser2);
     assert.isDefined(muteResult);
 
-    await new Promise((resolve) => setTimeout(resolve, 10000));
-    const participantsUpdatedEvent = await waitForEvent(
-      "ParticipantsUpdated",
-      callConnectionId,
-      8000
-    );
+    // Delay for 3 seconds, this is to update paticipant details
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    assert.isDefined(participantsUpdatedEvent);
-    let isMuted = false;
-    const participantsUpdatedEventJson = JSON.parse(JSON.stringify(participantsUpdatedEvent));
-    for (const participant of participantsUpdatedEventJson["participants"]) {
-      if (participant["identifier"]["communicationUserId"] === testUser2.communicationUserId) {
-        isMuted = participant["isMuted"];
-      }
-    }
+    const getParticipantResult = await callConnection.getParticipant(testUser2);
+    assert.isDefined(getParticipantResult);
+
+    const isMuted = getParticipantResult.isMuted;
     assert.isTrue(isMuted);
   }).timeout(90000);
 
-  it.skip("Add a participant cancels add participant request", async function () {
+  it("Add a participant cancels add participant request", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "cancel_add_participant";
@@ -540,15 +532,17 @@ describe("CallConnection Live Tests", function () {
     await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(3000);
 
     // cancel add participant
-    await callConnection.cancelAddParticipant(addResult.invitationId!);
+    await callConnection.cancelAddParticipant(addResult.invitationId!, {
+      operationContext: "cancelAddParticipant_operationContext",
+    });
 
-    const addParticipantCancelledEvent = (await waitForEvent(
+    const cancelAddParticipantSucceededEvent = (await waitForEvent(
       "CancelAddParticipantSucceeded",
       callConnectionId,
       10000
     )) as CancelAddParticipantSucceeded;
 
-    assert.isDefined(addParticipantCancelledEvent);
-    assert.equal(addResult.invitationId, addParticipantCancelledEvent?.invitationId);
+    assert.isDefined(cancelAddParticipantSucceededEvent);
+    assert.equal(addResult.invitationId, cancelAddParticipantSucceededEvent?.invitationId);
   }).timeout(90000);
 });

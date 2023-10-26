@@ -497,12 +497,7 @@ export interface SendDtmfTonesFailed
 export interface CancelAddParticipantSucceeded
   extends Omit<
     RestCancelAddParticipantSucceeded,
-    | "callConnectionId"
-    | "serverCallId"
-    | "correlationId"
-    | "participant"
-    | "invitationId"
-    | "operationContext"
+    "callConnectionId" | "serverCallId" | "correlationId" | "invitationId" | "operationContext"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -514,8 +509,6 @@ export interface CancelAddParticipantSucceeded
   invitationId: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** The participant whoose invitation was cancelled. */
-  participant?: CommunicationIdentifier;
   /** kind of this event. */
   kind: "CancelAddParticipantSucceeded";
 }

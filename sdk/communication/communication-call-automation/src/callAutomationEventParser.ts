@@ -130,7 +130,6 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.CancelAddParticipantSucceeded":
       callbackEvent = { kind: "CancelAddParticipantSucceeded" } as CancelAddParticipantSucceeded;
-      parsed.participant = communicationIdentifierConverter(data.participant);
       break;
     case "Microsoft.Communication.CancelAddParticipantFailed":
       callbackEvent = { kind: "CancelAddParticipantFailed" } as CancelAddParticipantFailed;
