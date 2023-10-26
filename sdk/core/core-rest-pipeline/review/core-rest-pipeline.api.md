@@ -77,7 +77,8 @@ export interface BearerTokenAuthenticationPolicyOptions {
 
 // @public
 export interface BodyPart {
-    body: ReadableStream | NodeJS.ReadableStream | Uint8Array;
+    // Warning: (ae-forgotten-export) The symbol "BlobLike" needs to be exported by the entry point index.d.ts
+    body: ReadableStream | NodeJS.ReadableStream | Uint8Array | BlobLike;
     headers: HttpHeaders;
 }
 
@@ -129,10 +130,8 @@ export interface ExponentialRetryPolicyOptions {
 }
 
 // @public
-export interface FileLike {
+export interface FileLike extends BlobLike {
     name?: string;
-    stream: ReadableStream | NodeJS.ReadableStream | (() => ReadableStream | NodeJS.ReadableStream);
-    type?: string;
 }
 
 // @public

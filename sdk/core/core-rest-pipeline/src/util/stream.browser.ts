@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { BlobLike, FileLike } from "../interfaces";
+
 export function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
   return Boolean(x && typeof (x as NodeJS.ReadableStream).pipe === "function");
 }
@@ -17,10 +19,6 @@ export function isReadableStream(x: unknown): x is ReadableStream | NodeJS.Reada
   return isNodeReadableStream(x) || isWebReadableStream(x);
 }
 
-function isBlob(x: any): x is Blob {
-  return Boolean(x && typeof x.stream === "function");
-}
-
 function uint8ArrayToStream(data: Uint8Array): ReadableStream {
   return new ReadableStream({
     start(controller) {
@@ -30,13 +28,23 @@ function uint8ArrayToStream(data: Uint8Array): ReadableStream {
   });
 }
 
+export function isBlobLike(x: unknown): x is BlobLike {
+  return Boolean(
+    x && (typeof (x as BlobLike).stream === "function" || isReadableStream((x as BlobLike).stream))
+  );
+}
+
+export function isFileLike(x: unknown): x is FileLike {
+  return isBlobLike(x);
+}
+
 export function toStream(
-  source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob
-): ReadableStream<Uint8Array> {
+  source: ReadableStream | NodeJS.ReadableStream | Uint8Array | BlobLike
+): ReadableStream | NodeJS.ReadableStream {
   if (source instanceof Uint8Array) {
     return uint8ArrayToStream(source);
-  } else if (isBlob(source)) {
-    return source.stream();
+  } else if (isBlobLike(source)) {
+    return typeof source.stream === "function" ? source.stream() : source.stream;
   } else if (isWebReadableStream(source)) {
     return source;
   } else {

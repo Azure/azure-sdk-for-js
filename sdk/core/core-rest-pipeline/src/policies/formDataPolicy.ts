@@ -92,7 +92,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
 
         parts.push({
           headers,
-          body: typeof value.stream === "function" ? value.stream() : value.stream,
+          body: value,
         });
       }
     }

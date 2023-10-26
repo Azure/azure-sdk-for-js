@@ -11,9 +11,9 @@ import {
   formDataPolicy,
 } from "../src";
 import { isMultipartRequestBody } from "../src/policies/multipartPolicy";
-import { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces";
+import { BlobLike, BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces";
 import { isNode } from "@azure/core-util";
-import { isNodeReadableStream, isWebReadableStream } from "../src/util/stream";
+import { isBlobLike, isNodeReadableStream } from "../src/util/stream";
 import { Readable } from "stream";
 
 describe("formDataPolicy", function () {
@@ -122,8 +122,8 @@ describe("formDataPolicy", function () {
 
     describe("file uploads", function () {
       it("can upload a File object", async function () {
+        // NodeHttpClient does not support web streams
         if (isNode) {
-          // File object introduced in Node 20
           this.skip();
         }
 
@@ -142,15 +142,16 @@ describe("formDataPolicy", function () {
             "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
           })
         );
-        assert.ok(isWebReadableStream(parts[0].body));
+        assert.ok(isBlobLike(parts[0].body));
         const buf = new Uint8Array(
-          await new Response(parts[0].body as ReadableStream).arrayBuffer()
+          await new Response((parts[0].body as any).stream()).arrayBuffer()
         );
         assert.deepEqual([...buf], [1, 2, 3]);
       });
 
       it("can upload a Blob object", async function () {
-        if (isNode && typeof Blob === "undefined") {
+        // NodeHttpClient does not support web streams
+        if (isNode) {
           this.skip();
         }
 
@@ -167,9 +168,9 @@ describe("formDataPolicy", function () {
             "Content-Disposition": `form-data; name="file"; filename="blob"`,
           })
         );
-        assert.ok(isWebReadableStream(parts[0].body));
+        assert.ok(isBlobLike(parts[0].body));
         const buf = new Uint8Array(
-          await new Response(parts[0].body as ReadableStream).arrayBuffer()
+          await new Response((parts[0].body as any).stream()).arrayBuffer()
         );
         assert.deepEqual([...buf], [1, 2, 3]);
       });
@@ -196,10 +197,11 @@ describe("formDataPolicy", function () {
             "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
           })
         );
-        assert.ok(isNodeReadableStream(parts[0].body));
+        assert.ok(isBlobLike(parts[0].body));
+        assert.ok(isNodeReadableStream((parts[0].body as BlobLike).stream));
 
         const buffers: Buffer[] = [];
-        for await (const part of parts[0].body as NodeJS.ReadableStream) {
+        for await (const part of (parts[0].body as BlobLike).stream as NodeJS.ReadableStream) {
           buffers.push(part as Buffer);
         }
 

@@ -191,7 +191,8 @@ describe("multipartPolicy", function () {
         },
       });
 
-      await assertBodyMatches(request.body, stringToUint8Array("--blah--", "utf-8"));
+      const expectedBody = stringToUint8Array("--blah--\r\n\r\n", "utf-8");
+      await assertBodyMatches(request.body, expectedBody);
     });
 
     describe("boundary", function () {
@@ -212,9 +213,15 @@ describe("multipartPolicy", function () {
           },
         });
 
-        await assertBodyMatches(
-          request.body,
-          stringToUint8Array("--blah\r\n\r\npart1\r\n--blah\r\n\r\npart2\r\n--blah--", "utf-8")
+        const expectedBody = stringToUint8Array(
+          "--blah\r\n\r\npart1\r\n--blah\r\n\r\npart2\r\n--blah--\r\n\r\n",
+          "utf-8"
+        );
+        await assertBodyMatches(request.body, expectedBody);
+        assert.equal(
+          request.headers.get("Content-Length"),
+          expectedBody.byteLength.toString(),
+          "Expected Content-Length header to equal length of body"
         );
       });
 
@@ -231,9 +238,12 @@ describe("multipartPolicy", function () {
           },
         });
 
-        await assertBodyMatches(
-          request.body,
-          stringToUint8Array("--blah\r\n\r\npart\r\n--blah--", "utf-8")
+        const expectedBody = stringToUint8Array("--blah\r\n\r\npart\r\n--blah--\r\n\r\n", "utf-8");
+        await assertBodyMatches(request.body, expectedBody);
+        assert.equal(
+          request.headers.get("Content-Length"),
+          expectedBody.byteLength.toString(),
+          "Expected Content-Length header to equal length of body"
         );
       });
 
@@ -256,9 +266,11 @@ describe("multipartPolicy", function () {
           },
         });
 
-        await assertBodyMatches(
-          request.body,
-          stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--", "utf-8")
+        const expectedBody = stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--\r\n\r\n", "utf-8");
+        await assertBodyMatches(request.body, expectedBody);
+        assert.isUndefined(
+          request.headers.get("Content-Length"),
+          "Content-Length value should not be inferred from a stream"
         );
       });
 
@@ -286,9 +298,11 @@ describe("multipartPolicy", function () {
           },
         });
 
-        await assertBodyMatches(
-          request.body,
-          stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--", "utf-8")
+        const expectedBody = stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--\r\n\r\n", "utf-8");
+        await assertBodyMatches(request.body, expectedBody);
+        assert.isUndefined(
+          request.headers.get("Content-Length"),
+          "Content-Length value should not be inferred from a stream"
         );
       });
     });
@@ -310,12 +324,15 @@ describe("multipartPolicy", function () {
           },
         });
 
-        await assertBodyMatches(
-          request.body,
-          stringToUint8Array(
-            "--blah\r\nContent-Type: text/plain\r\nContent-Disposition: form-data; name=aaa; filename=test.txt\r\n\r\npart1\r\n--blah--",
-            "utf-8"
-          )
+        const expectedBody = stringToUint8Array(
+          "--blah\r\nContent-Type: text/plain\r\nContent-Disposition: form-data; name=aaa; filename=test.txt\r\n\r\npart1\r\n--blah--\r\n\r\n",
+          "utf-8"
+        );
+        await assertBodyMatches(request.body, expectedBody);
+        assert.equal(
+          request.headers.get("Content-Length"),
+          expectedBody.byteLength.toString(),
+          "Expected Content-Length header to equal length of body"
         );
       });
     });

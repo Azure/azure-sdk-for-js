@@ -2,9 +2,16 @@
 // Licensed under the MIT license.
 
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
-import { BodyPart, HttpHeaders, MultipartRequestBody, RequestBodyType } from "../interfaces";
+import {
+  BlobLike,
+  BodyPart,
+  HttpHeaders,
+  MultipartRequestBody,
+  PipelineRequest,
+  RequestBodyType,
+} from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { concatenateStreams, toStream } from "../util/stream";
+import { concatenateStreams, isBlobLike, toStream } from "../util/stream";
 
 export const multipartPolicyName = "multipartPolicy";
 
@@ -16,11 +23,35 @@ function encodeHeaders(headers: HttpHeaders): string {
   return [...headers].map(([name, value]) => `${name}: ${value}\r\n`).join("");
 }
 
-function createBodyStream(
-  parts: BodyPart[],
-  boundary: string
-): ReadableStream | NodeJS.ReadableStream {
-  const streams = [
+function getLength(
+  source: Uint8Array | BlobLike | ReadableStream | NodeJS.ReadableStream
+): number | undefined {
+  if (source instanceof Uint8Array) {
+    return source.byteLength;
+  } else if (isBlobLike(source)) {
+    return source.size;
+  } else {
+    return undefined;
+  }
+}
+
+function getTotalLength(
+  sources: (Uint8Array | BlobLike | ReadableStream | NodeJS.ReadableStream)[]
+): number | undefined {
+  let total = 0;
+  for (const source of sources) {
+    const partLength = getLength(source);
+    if (partLength === undefined) {
+      return undefined;
+    } else {
+      total += partLength;
+    }
+  }
+  return total;
+}
+
+function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary: string): void {
+  const sources = [
     stringToUint8Array(`--${boundary}`, "utf-8"),
     ...parts.flatMap((part) => [
       stringToUint8Array("\r\n", "utf-8"),
@@ -30,9 +61,14 @@ function createBodyStream(
       stringToUint8Array(`\r\n--${boundary}`, "utf-8"),
     ]),
     stringToUint8Array("--\r\n\r\n", "utf-8"),
-  ].map(toStream);
+  ];
 
-  return concatenateStreams(streams);
+  const contentLength = getTotalLength(sources);
+  if (contentLength) {
+    request.headers.set("Content-Length", contentLength);
+  }
+
+  request.body = concatenateStreams(sources.map(toStream));
 }
 
 export function isMultipartRequestBody(
@@ -80,8 +116,7 @@ export function multipartPolicy(): PipelinePolicy {
         request.headers.set("Content-Type", `multipart/mixed; boundary=${boundary}`);
       }
 
-      request.body = createBodyStream(request.body.parts, boundary);
-
+      buildRequestBody(request, request.body.parts, boundary);
       return next(request);
     },
   };

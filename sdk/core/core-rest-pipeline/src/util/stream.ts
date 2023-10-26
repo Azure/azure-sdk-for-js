@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { Readable } from "stream";
+import { BlobLike, FileLike } from "../interfaces";
 
 export function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
   return Boolean(x && typeof (x as NodeJS.ReadableStream)["pipe"] === "function");
@@ -19,11 +20,23 @@ export function isReadableStream(x: unknown): x is ReadableStream | NodeJS.Reada
   return isNodeReadableStream(x) || isWebReadableStream(x);
 }
 
+export function isBlobLike(x: unknown): x is BlobLike {
+  return Boolean(
+    x && (typeof (x as BlobLike).stream === "function" || isReadableStream((x as BlobLike).stream))
+  );
+}
+
+export function isFileLike(x: unknown): x is FileLike {
+  return isBlobLike(x);
+}
+
 export function toStream(
-  source: ReadableStream | NodeJS.ReadableStream | Uint8Array | Blob
+  source: ReadableStream | NodeJS.ReadableStream | Uint8Array | BlobLike
 ): NodeJS.ReadableStream | ReadableStream {
   if (source instanceof Uint8Array) {
     return Readable.from(Buffer.from(source));
+  } else if (isBlobLike(source)) {
+    return typeof source.stream === "function" ? source.stream() : source.stream;
   } else if (isNodeReadableStream(source)) {
     return source;
   } else {

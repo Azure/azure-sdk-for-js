@@ -48,22 +48,35 @@ export interface HttpHeaders extends Iterable<[string, string]> {
 }
 
 /**
- * An interface representing a file to be uploaded.
- * The `File` class satisfies this interface, as does `Blob`, allowing for these objects to be passed directly. If the file to be
- * uploaded is not represented by a `File` or `Blob`, an object containing a stream and optional file type and file name
- * can be used instead.
+ * An interface representing a blob.
+ *
+ * `Blob` and `File` objects satisfy this interface, but a ReadableStream (web or Node) can be
+ * used instead by creating an object with the `stream` property set to the stream.
  */
-export interface FileLike {
+export interface BlobLike {
   /**
-   * A stream (or a function that returns a stream) representing the file's contents.
+   * A stream (or a function that returns a stream) representing the blob's contents.
    */
   stream: ReadableStream | NodeJS.ReadableStream | (() => ReadableStream | NodeJS.ReadableStream);
 
   /**
-   * The MIME type of the file, if any.
+   * The MIME type of the blob.
    */
   type?: string;
 
+  /**
+   * The size of the blob.
+   */
+  size?: number;
+}
+
+/**
+ * An interface representing a file to be uploaded.
+ * The `File` class satisfies this interface, allowing for instances to be passed directly. If the file to be
+ * uploaded is not represented by a `File` or `Blob`, an object containing a stream and optional file type and file name
+ * can be used instead.
+ */
+export interface FileLike extends BlobLike {
   /**
    * The name of the file. If no file name is present, a placeholder name of 'blob' will be used when submitting a form
    * containing the file.
@@ -83,7 +96,7 @@ export interface BodyPart {
   /**
    * The body of this multipart request.
    */
-  body: ReadableStream | NodeJS.ReadableStream | Uint8Array;
+  body: ReadableStream | NodeJS.ReadableStream | Uint8Array | BlobLike;
 }
 
 /**
