@@ -85,8 +85,8 @@ export const msalNodeFlowCacheControl = {
  */
 export let nativeBrokerInfo:
   | {
-    broker: msalNode.INativeBrokerPlugin;
-  }
+      broker: msalNode.INativeBrokerPlugin;
+    }
   | undefined = undefined;
 
 export function hasNativeBroker(): boolean {

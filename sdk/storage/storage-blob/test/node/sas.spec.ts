@@ -2745,6 +2745,7 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
       blobServiceClient.credential as StorageSharedKeyCredential
     );
     const sasContainerClient = new ContainerClient(`${containerClient.url}?${containerSAS}`);
+    configureBlobStorageClient(recorder, sasContainerClient);
     const sasBlobClient = sasContainerClient.getBlobClient(blobName);
 
     const minutesLater = new Date(recorder.variable("minutesLater", new Date().toISOString()));

@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { MicrosoftDatadogClient } = require("@azure/arm-datadog");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Configures single-sign-on for this resource.
  *
  * @summary Configures single-sign-on for this resource.
- * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2021-03-01/examples/SingleSignOnConfigurations_CreateOrUpdate.json
+ * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/SingleSignOnConfigurations_CreateOrUpdate.json
  */
 async function singleSignOnConfigurationsCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DATADOG_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const configurationName = "default";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function singleSignOnConfigurationsCreateOrUpdate() {
   console.log(result);
 }
 
-singleSignOnConfigurationsCreateOrUpdate().catch(console.error);
+async function main() {
+  singleSignOnConfigurationsCreateOrUpdate();
+}
+
+main().catch(console.error);

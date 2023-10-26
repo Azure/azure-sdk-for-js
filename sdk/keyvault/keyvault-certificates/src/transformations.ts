@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { uint8ArrayToString } from "@azure/core-util";
 import {
   ArrayOneOrMore,
   CertificateContentType,
@@ -211,6 +212,9 @@ export function getCertificateFromCertificateBundle(
     version: parsedId.version,
     tags: certificateBundle.tags,
     x509Thumbprint: certificateBundle.x509Thumbprint,
+    x509ThumbprintString:
+      certificateBundle.x509Thumbprint &&
+      uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
   };
 
@@ -244,6 +248,9 @@ export function getCertificateWithPolicyFromCertificateBundle(
     version: parsedId.version,
     tags: certificateBundle.tags,
     x509Thumbprint: certificateBundle.x509Thumbprint,
+    x509ThumbprintString:
+      certificateBundle.x509Thumbprint &&
+      uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
   };
 
@@ -294,6 +301,7 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
     id: item.id,
     tags: item.tags,
     x509Thumbprint: item.x509Thumbprint,
+    x509ThumbprintString: item.x509Thumbprint && uint8ArrayToString(item.x509Thumbprint, "hex"),
 
     recoverableDays: item.attributes?.recoverableDays,
     recoveryLevel: item.attributes?.recoveryLevel,
@@ -374,6 +382,9 @@ export function getPropertiesFromCertificateBundle(
     version: parsedId.version,
     tags: certificateBundle.tags,
     x509Thumbprint: certificateBundle.x509Thumbprint,
+    x509ThumbprintString:
+      certificateBundle.x509Thumbprint &&
+      uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
   };
 
