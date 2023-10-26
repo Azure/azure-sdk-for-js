@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AFDOriginGroup,
   AfdOriginGroupsListByProfileOptionalParams,
@@ -39,8 +39,7 @@ export interface AfdOriginGroups {
     options?: AfdOriginGroupsListByProfileOptionalParams
   ): PagedAsyncIterableIterator<AFDOriginGroup>;
   /**
-   * Checks the quota and actual usage of the given AzureFrontDoor origin group under the given CDN
-   * profile.
+   * Checks the quota and actual usage of endpoints under the given Azure Front Door profile..
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group.
@@ -83,8 +82,8 @@ export interface AfdOriginGroups {
     originGroup: AFDOriginGroup,
     options?: AfdOriginGroupsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AfdOriginGroupsCreateResponse>,
+    SimplePollerLike<
+      OperationState<AfdOriginGroupsCreateResponse>,
       AfdOriginGroupsCreateResponse
     >
   >;
@@ -120,8 +119,8 @@ export interface AfdOriginGroups {
     originGroupUpdateProperties: AFDOriginGroupUpdateParameters,
     options?: AfdOriginGroupsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AfdOriginGroupsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AfdOriginGroupsUpdateResponse>,
       AfdOriginGroupsUpdateResponse
     >
   >;
@@ -154,7 +153,7 @@ export interface AfdOriginGroups {
     profileName: string,
     originGroupName: string,
     options?: AfdOriginGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.

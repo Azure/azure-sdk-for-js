@@ -1,5 +1,49 @@
 # Release History
     
+## 19.4.0 (2023-10-20)
+    
+**Features**
+
+  - Added operation ManagedClusters.getMeshRevisionProfile
+  - Added operation ManagedClusters.getMeshUpgradeProfile
+  - Added operation ManagedClusters.listMeshRevisionProfiles
+  - Added operation ManagedClusters.listMeshUpgradeProfiles
+  - Added Interface CompatibleVersions
+  - Added Interface IstioCertificateAuthority
+  - Added Interface IstioComponents
+  - Added Interface IstioEgressGateway
+  - Added Interface IstioIngressGateway
+  - Added Interface IstioPluginCertificateAuthority
+  - Added Interface IstioServiceMesh
+  - Added Interface ManagedClustersGetMeshRevisionProfileOptionalParams
+  - Added Interface ManagedClustersGetMeshUpgradeProfileOptionalParams
+  - Added Interface ManagedClustersListMeshRevisionProfilesNextOptionalParams
+  - Added Interface ManagedClustersListMeshRevisionProfilesOptionalParams
+  - Added Interface ManagedClustersListMeshUpgradeProfilesNextOptionalParams
+  - Added Interface ManagedClustersListMeshUpgradeProfilesOptionalParams
+  - Added Interface MeshRevision
+  - Added Interface MeshRevisionProfile
+  - Added Interface MeshRevisionProfileList
+  - Added Interface MeshRevisionProfileProperties
+  - Added Interface MeshUpgradeProfile
+  - Added Interface MeshUpgradeProfileList
+  - Added Interface MeshUpgradeProfileProperties
+  - Added Interface ProxyResource
+  - Added Interface ServiceMeshProfile
+  - Added Type Alias IstioIngressGatewayMode
+  - Added Type Alias ManagedClustersGetMeshRevisionProfileResponse
+  - Added Type Alias ManagedClustersGetMeshUpgradeProfileResponse
+  - Added Type Alias ManagedClustersListMeshRevisionProfilesNextResponse
+  - Added Type Alias ManagedClustersListMeshRevisionProfilesResponse
+  - Added Type Alias ManagedClustersListMeshUpgradeProfilesNextResponse
+  - Added Type Alias ManagedClustersListMeshUpgradeProfilesResponse
+  - Added Type Alias ServiceMeshMode
+  - Interface ManagedCluster has a new optional parameter resourceUID
+  - Interface ManagedCluster has a new optional parameter serviceMeshProfile
+  - Added Enum KnownIstioIngressGatewayMode
+  - Added Enum KnownServiceMeshMode
+
+    
 ## 19.4.0-beta.2 (2023-10-10)
     
 **Features**
