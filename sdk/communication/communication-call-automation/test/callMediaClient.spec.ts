@@ -14,7 +14,13 @@ import {
 
 // Parent directory imports
 import { CallMedia } from "../src/callMedia";
-import { FileSource, TextSource, SsmlSource, RecognitionChoice, DtmfTone } from "../src/models/models";
+import {
+  FileSource,
+  TextSource,
+  SsmlSource,
+  RecognitionChoice,
+  DtmfTone,
+} from "../src/models/models";
 import {
   CallMediaRecognizeDtmfOptions,
   CallMediaRecognizeChoiceOptions,
@@ -103,11 +109,13 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const playSource: TextSource[] = [{
-      text: "test test test",
-      customVoiceEndpointId: "customVoiceEndpointId",
-      kind: "textSource",
-    }];
+    const playSource: TextSource[] = [
+      {
+        text: "test test test",
+        customVoiceEndpointId: "customVoiceEndpointId",
+        kind: "textSource",
+      },
+    ];
 
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
 
@@ -127,12 +135,14 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const playSource: SsmlSource[] = [{
-      ssmlText:
-        '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US"><voice name="en-US-JennyNeural">Recognize Choice Completed, played through SSML source.</voice></speak>',
-      customVoiceEndpointId: "customVoiceEndpointId",
-      kind: "ssmlSource",
-    }];
+    const playSource: SsmlSource[] = [
+      {
+        ssmlText:
+          '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US"><voice name="en-US-JennyNeural">Recognize Choice Completed, played through SSML source.</voice></speak>',
+        customVoiceEndpointId: "customVoiceEndpointId",
+        kind: "ssmlSource",
+      },
+    ];
 
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
 
@@ -152,10 +162,12 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const playSource: FileSource[] = [{
-      url: MEDIA_URL_WAV,
-      kind: "fileSource",
-    }];
+    const playSource: FileSource[] = [
+      {
+        url: MEDIA_URL_WAV,
+        kind: "fileSource",
+      },
+    ];
 
     const playTo: CommunicationIdentifier[] = [];
 
@@ -415,10 +427,12 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media C
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource[] = [{
-      url: fileSourceUrl,
-      kind: "fileSource",
-    }];
+    const playSource: FileSource[] = [
+      {
+        url: fileSourceUrl,
+        kind: "fileSource",
+      },
+    ];
 
     await callConnection.getCallMedia().play(playSource, [testUser2]);
     const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
@@ -452,10 +466,12 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media C
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource[] = [{
-      url: fileSourceUrl,
-      kind: "fileSource",
-    }];
+    const playSource: FileSource[] = [
+      {
+        url: fileSourceUrl,
+        kind: "fileSource",
+      },
+    ];
 
     await callConnection.getCallMedia().playToAll(playSource);
 
@@ -491,10 +507,12 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media C
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const playSource: FileSource[] = [{
-      url: fileSourceUrl,
-      kind: "fileSource",
-    }];
+    const playSource: FileSource[] = [
+      {
+        url: fileSourceUrl,
+        kind: "fileSource",
+      },
+    ];
 
     await callConnection.getCallMedia().playToAll(playSource);
     await callConnection.getCallMedia().cancelAllOperations();
