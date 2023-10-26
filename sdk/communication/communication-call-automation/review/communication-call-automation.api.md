@@ -283,13 +283,12 @@ export interface CancelAddParticipantResult {
 }
 
 // @public
-export interface CancelAddParticipantSucceeded extends Omit<RestCancelAddParticipantSucceeded, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "invitationId" | "operationContext"> {
+export interface CancelAddParticipantSucceeded extends Omit<RestCancelAddParticipantSucceeded, "callConnectionId" | "serverCallId" | "correlationId" | "invitationId" | "operationContext"> {
     callConnectionId: string;
     correlationId: string;
     invitationId: string;
     kind: "CancelAddParticipantSucceeded";
     operationContext?: string;
-    participant?: CommunicationIdentifier;
     serverCallId: string;
 }
 
