@@ -7,13 +7,15 @@ import { createRecorder } from "./utils/recorderUtils";
 import { Context } from "mocha";
 import DocumentIntelligence, {
   AnalyzeResultOperationOutput,
+  DocumentClassifierDetailsOutput,
   DocumentIntelligenceClient,
-  PagedDocumentModelSummaryOutput,
-  ResourceDetailsOutput,
   getLongRunningPoller,
   isUnexpected,
 } from "../../src";
 import assert from "assert";
+import { getRandomNumber } from "./utils/utils";
+const containerSasUrl = (): string =>
+  assertEnvironmentVariable("FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL");
 
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
@@ -33,8 +35,12 @@ describe("DocumentIntelligenceClient", () => {
   });
 
   it("API Key works - getInfo", async function () {
+    const response = await client.path("/info").get()
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
     assert.strictEqual(
-      ((await client.path("/info").get()).body as ResourceDetailsOutput).customDocumentModels.limit,
+      (response.body).customDocumentModels.limit,
       20000,
       "expected customDocumentModels limit should be 20000"
     );
@@ -46,17 +52,24 @@ describe("DocumentIntelligenceClient", () => {
       createTestCredential(),
       recorder.configureClientOptions(options)
     );
+    const response = await client.path("/info").get()
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
     assert.strictEqual(
-      ((await client.path("/info").get()).body as ResourceDetailsOutput).customDocumentModels.limit,
+      response.body.customDocumentModels.limit,
       20000,
       "expected customDocumentModels limit should be 20000"
     );
   });
 
   it("documentModels get", async function () {
+    const response = await client.path("/documentModels").get();
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
     assert.strictEqual(
-      ((await client.path("/documentModels").get()).body as PagedDocumentModelSummaryOutput)
-        .value[0].apiVersion,
+      response.body.value[0].apiVersion,
       options.apiVersion,
       "expected apiVersion to match"
     );
@@ -73,6 +86,7 @@ describe("DocumentIntelligenceClient", () => {
         },
         queryParameters: { locale: "en-IN" },
       });
+      // add a test for stream
 
     if (isUnexpected(initialResponse)) {
       throw initialResponse.body.error;
@@ -96,4 +110,61 @@ describe("DocumentIntelligenceClient", () => {
       "expected docType to be businessCard"
     );
   });
+
+  it("documentClassifiers build", async function () {
+    const initialResponse = await client.path("/documentClassifiers:build").post({
+      body: {
+        classifierId: recorder.variable(
+          "customClassifierId",
+          `customClassifier${getRandomNumber()}`
+        ),
+        description: "Custom classifier description",
+        docTypes: {
+          foo: {
+            azureBlobSource: {
+              containerUrl: containerSasUrl(),
+            },
+          },
+          bar: {
+            // Adding source kind fails with 400 Invalid Argument
+            azureBlobSource: {
+              containerUrl: containerSasUrl(),
+            },
+          }
+        }
+      }
+    })
+
+    if (isUnexpected(initialResponse)) {
+      throw initialResponse.body.error;
+    }
+    const poller = getLongRunningPoller(client, initialResponse);
+    const result = (await (await poller).pollUntilDone()).body as DocumentClassifierDetailsOutput;
+    assert.strictEqual(
+      result.classifierId,
+      recorder.variable("customClassifierId"),
+      "expected classifierId to match"
+    );
+    assert.strictEqual(
+      result.apiVersion,
+      options.apiVersion,
+      "expected apiVersion to match"
+    );
+  });
+
+  // it("classify from PNG file URL", async function (this: Context) {
+  //   const url = makeTestUrl("/Invoice_1.pdf");
+
+  //   const { classifierId } = await requireClassifier();
+
+  //   const poller = await client.beginClassifyDocumentFromUrl(
+  //     classifierId,
+  //     url,
+  //     testPollingOptions
+  //   );
+
+  //   const result = await poller.pollUntilDone();
+
+  //   assert.oneOf(result.documents?.[0].docType, ["foo", "bar"]);
+  // });
 });
