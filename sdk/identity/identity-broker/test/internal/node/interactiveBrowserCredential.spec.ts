@@ -61,7 +61,7 @@ describe("InteractiveBrowserCredential (internal)", function (this: Mocha.Suite)
         new InteractiveBrowserCredential(
           recorder.configureClientOptions(interactiveBrowserCredentialOptions)
         );
-      }, "Broker for WAM was requested to be enabled, but no native broker was configured.")
+      }, "Broker for WAM was requested to be enabled, but no native broker was configured.");
     } else {
       this.skip();
     }
