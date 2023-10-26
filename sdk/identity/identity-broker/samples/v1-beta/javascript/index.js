@@ -49,7 +49,7 @@ app.on('ready', async () => {
       brokerOptions: {
         enabled: true,
         parentWindowHandle: winHandle,
-        legacyEnableMSAPassthrough: true
+        legacyEnableMsaPassthrough: true
       }
       //redirectUri: "http://localhost:1337"
     });
