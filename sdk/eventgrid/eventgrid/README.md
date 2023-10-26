@@ -265,7 +265,7 @@ async function main() {
       "/subscriptions/<subscriptionid>/resourceGroups/dummy-rg/providers/Microsoft.EventGrid/topics/dummy-topic",
     specversion: "1.0",
     type: "Microsoft.ContainerRegistry.ImagePushed",
-    subject: "",
+    subject: "Test Subject",
     time: "2020-07-10T21:27:12.925Z",
     data: {
       hello: "world",
@@ -274,7 +274,11 @@ async function main() {
   const deserializedMessage = await deserializer.deserializeCloudEvents(message);
   console.log(deserializedMessage);
 
-  if (isSystemEvent("Microsoft.ContainerRegistry.ImagePushed", deserializedMessage[0])) {
+  if (
+    deserializedMessage != null &&
+    deserializedMessage.length !== 0 &&
+    isSystemEvent("Microsoft.ContainerRegistry.ImagePushed", deserializedMessage[0])
+  ) {
     console.log("This is a Microsoft.ContainerRegistry.ImagePushed event");
   }
 }
