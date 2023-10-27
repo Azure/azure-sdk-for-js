@@ -451,6 +451,16 @@
         "Whois",
         "whois"
       ]
+    },
+    {
+      "filename": "sdk/eventgrid/eventgrid/**/**/**.**",
+      "words": [
+        "Dicom",
+        "Agri",
+        "cadl",
+        "deseralization",
+        "tsdoc"
+      ]
     }
   ]
 }

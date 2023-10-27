@@ -22,7 +22,8 @@
     "cloudEventTopicName": "[concat(parameters('baseName'), '-ce')]",
     "customEventTopicName": "[concat(parameters('baseName'), '-cus')]",
     "serviceBusNamespaceName": "[concat(parameters('baseName'), '-ns')]",
-    "serviceBusQueueName": "[concat(parameters('baseName'), '-queue')]"
+    "serviceBusQueueName": "[concat(parameters('baseName'), '-queue')]",
+    "eventgridv2namespace": "[concat(parameters('baseName'), '-egv2ns')]"
   },
   "resources": [
     {
@@ -92,6 +93,57 @@
           "properties": {}
         }
       ]
+    },
+    {
+      "type": "Microsoft.EventGrid/namespaces",
+      "apiVersion": "2023-06-01-preview",
+      "name": "[variables('eventgridv2namespace')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard",
+        "capacity": 1
+      },
+      "properties": {
+        "topicsConfiguration": {},
+        "isZoneRedundant": true,
+        "publicNetworkAccess": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.EventGrid/namespaces/topics",
+      "apiVersion": "2023-06-01-preview",
+      "name": "[concat(variables('eventgridv2namespace'), '/testtopic1')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.EventGrid/namespaces', variables('eventgridv2namespace'))]"
+      ],
+      "properties": {
+        "publisherType": "Custom",
+        "inputSchema": "CloudEventSchemaV1_0",
+        "eventRetentionInDays": 1
+      }
+    },
+    {
+      "type": "Microsoft.EventGrid/namespaces/topics/eventSubscriptions",
+      "apiVersion": "2023-06-01-preview",
+      "name": "[concat(variables('eventgridv2namespace'), '/testtopic1/testsubscription1')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.EventGrid/namespaces/topics', variables('eventgridv2namespace'), 'testtopic1')]",
+        "[resourceId('Microsoft.EventGrid/namespaces', variables('eventgridv2namespace'))]"
+      ],
+      "properties": {
+        "deliveryConfiguration": {
+          "deliveryMode": "Queue",
+          "queue": {
+            "receiveLockDurationInSeconds": 60,
+            "maxDeliveryCount": 10,
+            "eventTimeToLive": "P1D"
+          }
+        },
+        "eventDeliverySchema": "CloudEventSchemaV1_0",
+        "filtersConfiguration": {
+          "includedEventTypes": []
+        }
+      }
     }
   ],
   "outputs": {
@@ -126,6 +178,14 @@
     "SERVICE_BUS_QUEUE_NAME": {
       "type": "string",
       "value": "[variables('serviceBusQueueName')]"
+    },
+    "EVENT_GRID_V2_ENDPOINT": {
+      "type": "string",
+      "value": "[concat('https://', reference(variables('eventgridv2namespace')).topicsConfiguration.hostname)]"
+    },
+    "EVENT_GRID_V2_KEY": {
+      "type": "string",
+      "value": "[listKeys('testtopic1', '2023-06-01-preview').key1]"
     }
   }
 }
