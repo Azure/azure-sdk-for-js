@@ -53,6 +53,10 @@ function wwwFormUrlEncode(formData: FormDataMap): string {
 }
 
 async function prepareFormData(formData: FormDataMap, request: PipelineRequest): Promise<void> {
+  if (request.body) {
+    throw new Error("multipart/form-data request must not have a request body already specified");
+  }
+
   // clear request.formData
   request.formData = undefined;
 

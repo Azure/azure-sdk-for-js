@@ -103,6 +103,31 @@ describe("formDataPolicy", function () {
       return policy.sendRequest(request, next);
     }
 
+    it("throws if request.body is already present", async function () {
+      const request = createPipelineRequest({
+        url: "https://bing.com",
+        headers: createHttpHeaders({
+          "Content-Type": "multipart/form-data",
+        }),
+        formData: {},
+        body: "AAAAAAAAAAAA",
+      });
+      const successResponse: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      };
+      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      next.resolves(successResponse);
+
+      const policy = formDataPolicy();
+
+      assert.isRejected(
+        policy.sendRequest(request, next),
+        /multipart\/form-data request must not have a request body already specified/
+      );
+    });
+
     it("prepares a form with multiple fields correctly", async function () {
       // add field with spooky unicode characters to ensure encoding is working
       const result = await performRequest({ a: "va", b: "vb", c: "👻👻" });
