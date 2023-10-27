@@ -1,0 +1,123 @@
+{
+  "name": "@azure/template-dpg",
+  "version": "1.0.0-beta.1",
+  "description": "Widget Service",
+  "sdk-type": "client",
+  "main": "dist/index.js",
+  "module": "dist-esm/src/index.js",
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./types/src/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist-esm/src/index.js"
+    },
+    "./api": {
+      "types": "./types/src/api/index.d.ts",
+      "import": "./dist-esm/src/api/index.js"
+    },
+    "./rest": {
+      "types": "./types/src/rest/index.d.ts",
+      "import": "./dist-esm/src/rest/index.js"
+    }
+  },
+  "//metadata": {},
+  "types": "types/latest/template-dpg.d.ts",
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:samples": "echo Obsolete",
+    "build:test:browser": "tsc -p . && dev-tool run bundle",
+    "build:test:node": "tsc -p . && dev-tool run bundle",
+    "build:test": "tsc -p . && dev-tool run bundle",
+    "build:output": "node scripts/renameOutput.mjs",
+    "build": "dev-tool customization apply && npm run format && npm run build:test && api-extractor run --local && npm run build:output",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-* temp types *.tgz *.log",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"sources/customizations/**/*.ts\" \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "dev-tool run test:browser",
+    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
+    "lint": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js",
+    "pack": "npm pack 2>&1",
+    "test:browser": "npm run clean && npm run build && npm run integration-test:browser",
+    "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
+    "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "unit-test:browser": "dev-tool run test:browser",
+    "unit-test:node": "dev-tool run test:node-ts-input -- \"test/internal/unit/{,!(browser)/**/}*.spec.ts\" \"test/public/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types",
+    "types/src",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": "github:Azure/azure-sdk-for-js",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template-dpg/README.md",
+  "sideEffects": false,
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure/test-utils": "^1.0.0",
+    "@microsoft/api-extractor": "^7.31.1",
+    "@types/chai": "^4.3.1",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^16.0.0",
+    "chai": "^4.3.6",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.0",
+    "eslint": "^8.16.0",
+    "esm": "^3.2.18",
+    "karma": "^6.4.0",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-coverage": "^2.2.0",
+    "karma-edge-launcher": "^0.4.2",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^2.1.2",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-mocha": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-sourcemap-loader": "^0.3.8",
+    "mocha": "^10.0.0",
+    "mocha-junit-reporter": "^2.0.2",
+    "c8": "^8.0.0",
+    "prettier": "^2.5.1",
+    "puppeteer": "^19.2.2",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.0.0",
+    "typescript": "~5.2.0",
+    "util": "^0.12.4",
+    "@azure-tools/test-credential": "~1.0.0"
+  },
+  "dependencies": {
+    "@azure-rest/core-client": "^1.1.2",
+    "@azure/core-auth": "^1.4.1",
+    "@azure/core-rest-pipeline": "^1.8.1",
+    "@azure/core-util": "^1.1.0",
+    "@azure/logger": "^1.0.3",
+    "tslib": "^2.4.0"
+  }
+}

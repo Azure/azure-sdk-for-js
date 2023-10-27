@@ -4,6 +4,7 @@ import assert from "assert";
 import { ClientContext } from "../../../src/ClientContext";
 import { PartitionKeyRangeCache, QueryRange, SmartRoutingMapProvider } from "../../../src/routing";
 import { MockedClientContext } from "../../public/common/MockClientContext";
+import { createDummyDiagnosticNode } from "../../public/common/TestHelpers";
 
 describe("Smart Routing Map Provider OverlappingRanges", function () {
   const containerLink = "dbs/7JZZAA==/colls/7JZZAOS-JQA=/";
@@ -43,12 +44,20 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
     results1 = results2 = null;
     err1 = err2 = null;
     try {
-      results1 = await smartRoutingMapProvider.getOverlappingRanges(containerLink, queryRanges);
+      results1 = await smartRoutingMapProvider.getOverlappingRanges(
+        containerLink,
+        queryRanges,
+        createDummyDiagnosticNode()
+      );
     } catch (err: any) {
       err1 = err;
     }
     try {
-      results2 = await partitionKeyRangeCache.getOverlappingRanges(containerLink, queryRanges);
+      results2 = await partitionKeyRangeCache.getOverlappingRanges(
+        containerLink,
+        queryRanges,
+        createDummyDiagnosticNode()
+      );
     } catch (err: any) {
       err2 = err;
     }
@@ -66,7 +75,11 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
   ): Promise<void> {
     errorExpected = errorExpected || false;
     try {
-      const results = await provider.getOverlappingRanges(containerLink, queryRanges);
+      const results = await provider.getOverlappingRanges(
+        containerLink,
+        queryRanges,
+        createDummyDiagnosticNode()
+      );
       assert.deepEqual(results, expectedResults);
     } catch (err: any) {
       if (errorExpected) {
@@ -137,12 +150,20 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
     let err1: any;
     let err2: any;
     try {
-      results1 = await provider.getOverlappingRanges(containerLink, queryRanges1);
+      results1 = await provider.getOverlappingRanges(
+        containerLink,
+        queryRanges1,
+        createDummyDiagnosticNode()
+      );
     } catch (err: any) {
       err1 = err;
     }
     try {
-      results2 = await provider.getOverlappingRanges(containerLink, queryRanges2);
+      results2 = await provider.getOverlappingRanges(
+        containerLink,
+        queryRanges2,
+        createDummyDiagnosticNode()
+      );
     } catch (err: any) {
       err2 = err;
     }

@@ -18,9 +18,9 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Update a Traffic Controller Association
+ * This sample demonstrates how to Update a Association
  *
- * @summary Update a Traffic Controller Association
+ * @summary Update a Association
  * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/cadl/examples/AssociationPatch.json
  */
 async function updateAssociation() {
@@ -28,10 +28,14 @@ async function updateAssociation() {
     process.env["SERVICENETWORKING_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["SERVICENETWORKING_RESOURCE_GROUP"] || "rg1";
-  const trafficControllerName = "TC1";
-  const associationName = "associatedvnet-1";
+  const trafficControllerName = "tc1";
+  const associationName = "as1";
   const properties: AssociationUpdate = {
-    properties: { associationType: "subnets", subnet: { id: "subnetFullRef" } }
+    associationType: "subnets",
+    subnet: {
+      id:
+        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet-tc/subnets/tc-subnet"
+    }
   };
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(

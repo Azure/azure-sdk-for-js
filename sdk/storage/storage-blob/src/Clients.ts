@@ -1010,6 +1010,9 @@ export class BlobClient extends StorageClient {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
+      if (blobNameOrOptions && typeof blobNameOrOptions !== "string") {
+        options = blobNameOrOptions as StoragePipelineOptions;
+      }
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrContainerName &&
@@ -3528,6 +3531,9 @@ export class BlockBlobClient extends BlobClient {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
+      if (blobNameOrOptions && typeof blobNameOrOptions !== "string") {
+        options = blobNameOrOptions as StoragePipelineOptions;
+      }
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrContainerName &&

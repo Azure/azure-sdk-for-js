@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SystemTopic,
   SystemTopicsListBySubscriptionOptionalParams,
@@ -65,8 +65,8 @@ export interface SystemTopics {
     systemTopicInfo: SystemTopic,
     options?: SystemTopicsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SystemTopicsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SystemTopicsCreateOrUpdateResponse>,
       SystemTopicsCreateOrUpdateResponse
     >
   >;
@@ -93,7 +93,7 @@ export interface SystemTopics {
     resourceGroupName: string,
     systemTopicName: string,
     options?: SystemTopicsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete existing system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
@@ -118,8 +118,8 @@ export interface SystemTopics {
     systemTopicUpdateParameters: SystemTopicUpdateParameters,
     options?: SystemTopicsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SystemTopicsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SystemTopicsUpdateResponse>,
       SystemTopicsUpdateResponse
     >
   >;

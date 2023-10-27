@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { StorageManagementClient } from "../storageManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   StorageAccount,
   StorageAccountsListNextOptionalParams,
@@ -49,6 +53,11 @@ import {
   StorageAccountsFailoverOptionalParams,
   StorageAccountsHierarchicalNamespaceMigrationOptionalParams,
   StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
+  StorageAccountMigration,
+  StorageAccountsCustomerInitiatedMigrationOptionalParams,
+  MigrationName,
+  StorageAccountsGetCustomerInitiatedMigrationOptionalParams,
+  StorageAccountsGetCustomerInitiatedMigrationResponse,
   BlobRestoreParameters,
   StorageAccountsRestoreBlobRangesOptionalParams,
   StorageAccountsRestoreBlobRangesResponse,
@@ -232,8 +241,8 @@ export class StorageAccountsImpl implements StorageAccounts {
     parameters: StorageAccountCreateParameters,
     options?: StorageAccountsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageAccountsCreateResponse>,
+    SimplePollerLike<
+      OperationState<StorageAccountsCreateResponse>,
       StorageAccountsCreateResponse
     >
   > {
@@ -243,7 +252,7 @@ export class StorageAccountsImpl implements StorageAccounts {
     ): Promise<StorageAccountsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -276,13 +285,16 @@ export class StorageAccountsImpl implements StorageAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, parameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, parameters, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      StorageAccountsCreateResponse,
+      OperationState<StorageAccountsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -524,14 +536,14 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     options?: StorageAccountsFailoverOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -564,15 +576,15 @@ export class StorageAccountsImpl implements StorageAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, options },
-      failoverOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, options },
+      spec: failoverOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -627,14 +639,14 @@ export class StorageAccountsImpl implements StorageAccounts {
     accountName: string,
     requestType: string,
     options?: StorageAccountsHierarchicalNamespaceMigrationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -667,15 +679,15 @@ export class StorageAccountsImpl implements StorageAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, requestType, options },
-      hierarchicalNamespaceMigrationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, requestType, options },
+      spec: hierarchicalNamespaceMigrationOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -722,14 +734,14 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -762,15 +774,15 @@ export class StorageAccountsImpl implements StorageAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, options },
-      abortHierarchicalNamespaceMigrationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, options },
+      spec: abortHierarchicalNamespaceMigrationOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -799,33 +811,31 @@ export class StorageAccountsImpl implements StorageAccounts {
   }
 
   /**
-   * Restore blobs in the specified blob ranges
+   * Account Migration request can be triggered for a storage account to change its redundancy level. The
+   * migration updates the non-zonal redundant storage account to a zonal redundant account or vice-versa
+   * in order to have better reliability and availability. Zone-redundant storage (ZRS) replicates your
+   * storage account synchronously across three Azure availability zones in the primary region.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
-   * @param parameters The parameters to provide for restore blob ranges.
+   * @param parameters The request parameters required to perform storage account migration.
    * @param options The options parameters.
    */
-  async beginRestoreBlobRanges(
+  async beginCustomerInitiatedMigration(
     resourceGroupName: string,
     accountName: string,
-    parameters: BlobRestoreParameters,
-    options?: StorageAccountsRestoreBlobRangesOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<StorageAccountsRestoreBlobRangesResponse>,
-      StorageAccountsRestoreBlobRangesResponse
-    >
-  > {
+    parameters: StorageAccountMigration,
+    options?: StorageAccountsCustomerInitiatedMigrationOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<StorageAccountsRestoreBlobRangesResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -858,15 +868,142 @@ export class StorageAccountsImpl implements StorageAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, parameters, options },
-      restoreBlobRangesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, parameters, options },
+      spec: customerInitiatedMigrationOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Account Migration request can be triggered for a storage account to change its redundancy level. The
+   * migration updates the non-zonal redundant storage account to a zonal redundant account or vice-versa
+   * in order to have better reliability and availability. Zone-redundant storage (ZRS) replicates your
+   * storage account synchronously across three Azure availability zones in the primary region.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param parameters The request parameters required to perform storage account migration.
+   * @param options The options parameters.
+   */
+  async beginCustomerInitiatedMigrationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: StorageAccountMigration,
+    options?: StorageAccountsCustomerInitiatedMigrationOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginCustomerInitiatedMigration(
+      resourceGroupName,
+      accountName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets the status of the ongoing migration for the specified storage account.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param migrationName The name of the Storage Account Migration. It should always be 'default'
+   * @param options The options parameters.
+   */
+  getCustomerInitiatedMigration(
+    resourceGroupName: string,
+    accountName: string,
+    migrationName: MigrationName,
+    options?: StorageAccountsGetCustomerInitiatedMigrationOptionalParams
+  ): Promise<StorageAccountsGetCustomerInitiatedMigrationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, migrationName, options },
+      getCustomerInitiatedMigrationOperationSpec
+    );
+  }
+
+  /**
+   * Restore blobs in the specified blob ranges
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param parameters The parameters to provide for restore blob ranges.
+   * @param options The options parameters.
+   */
+  async beginRestoreBlobRanges(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: BlobRestoreParameters,
+    options?: StorageAccountsRestoreBlobRangesOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StorageAccountsRestoreBlobRangesResponse>,
+      StorageAccountsRestoreBlobRangesResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<StorageAccountsRestoreBlobRangesResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, parameters, options },
+      spec: restoreBlobRangesOperationSpec
+    });
+    const poller = await createHttpPoller<
+      StorageAccountsRestoreBlobRangesResponse,
+      OperationState<StorageAccountsRestoreBlobRangesResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1227,6 +1364,54 @@ const abortHierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec
   headerParameters: [Parameters.accept],
   serializer
 };
+const customerInitiatedMigrationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/startAccountMigration",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated
+    }
+  },
+  requestBody: Parameters.parameters4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getCustomerInitiatedMigrationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/accountMigrations/{migrationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageAccountMigration
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+    Parameters.migrationName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const restoreBlobRangesOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/restoreBlobRanges",
@@ -1245,7 +1430,7 @@ const restoreBlobRangesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BlobRestoreStatus
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1267,7 +1452,7 @@ const revokeUserDelegationKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName2
   ],
   serializer
 };
@@ -1279,7 +1464,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StorageAccountListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1296,7 +1480,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StorageAccountListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

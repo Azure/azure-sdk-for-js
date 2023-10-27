@@ -33,7 +33,7 @@ export function deleteRegistration(
       headers.set("Content-Type", "application/atom+xml;type=entry;charset=utf-8");
       headers.set("If-Match", isDefined(options.etag) ? `"${options.etag}"` : "*");
 
-      const request = createRequest(endpoint, "GET", headers, updatedOptions);
+      const request = createRequest(endpoint, "DELETE", headers, updatedOptions);
       const response = await sendRequest(context, request, 200);
 
       return parseNotificationResponse(response);

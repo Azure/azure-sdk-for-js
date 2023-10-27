@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update the state of specified private endpoint connection associated with the Cognitive Services account.
  *
  * @summary Update the state of specified private endpoint connection associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/PutPrivateEndpointConnection.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/PutPrivateEndpointConnection.json
  */
 async function putPrivateEndpointConnection() {
   const subscriptionId = process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "{subscription-id}";

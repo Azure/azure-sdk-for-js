@@ -24,7 +24,7 @@ function printHelp() {
 Usage:
  gen-model [options] <model-id>
  
-Create a strongly-typed DocumentModel for the Azure Form Recognizer SDK for JavaScript.
+Create a strongly-typed DocumentModel for the Azure Document Intelligence SDK for JavaScript.
 
 Options:
  -h, --help  \tshow this help message

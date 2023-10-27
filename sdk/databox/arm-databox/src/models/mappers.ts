@@ -225,20 +225,21 @@ export const CloudError: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CloudError",
     modelProperties: {
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AdditionalErrorInfo"
+            }
+          }
+        }
+      },
       code: {
         serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
         type: {
           name: "String"
         }
@@ -256,17 +257,16 @@ export const CloudError: coreClient.CompositeMapper = {
           }
         }
       },
-      additionalInfo: {
-        serializedName: "additionalInfo",
-        readOnly: true,
+      message: {
+        serializedName: "message",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AdditionalErrorInfo"
-            }
-          }
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
         }
       }
     }
@@ -278,17 +278,17 @@ export const AdditionalErrorInfo: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AdditionalErrorInfo",
     modelProperties: {
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
       info: {
         serializedName: "info",
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
         }
       }
     }
@@ -390,6 +390,13 @@ export const JobDetails: coreClient.CompositeMapper = {
           className: "Preferences"
         }
       },
+      reverseShippingDetails: {
+        serializedName: "reverseShippingDetails",
+        type: {
+          name: "Composite",
+          className: "ReverseShippingDetails"
+        }
+      },
       copyLogDetails: {
         serializedName: "copyLogDetails",
         readOnly: true,
@@ -417,6 +424,13 @@ export const JobDetails: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      deviceErasureDetails: {
+        serializedName: "deviceErasureDetails",
+        type: {
+          name: "Composite",
+          className: "DeviceErasureDetails"
+        }
+      },
       keyEncryptionKey: {
         serializedName: "keyEncryptionKey",
         type: {
@@ -438,7 +452,13 @@ export const JobDetails: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: ["None", "MoveToCleanUpDevice", "Resume"]
+              allowedValues: [
+                "None",
+                "MoveToCleanUpDevice",
+                "Resume",
+                "Restart",
+                "ReachOutToOperation"
+              ]
             }
           }
         }
@@ -504,7 +524,8 @@ export const JobStages: coreClient.CompositeMapper = {
             "SucceededWithWarnings",
             "WaitingForCustomerActionForKek",
             "WaitingForCustomerActionForCleanUp",
-            "CustomerActionPerformedForCleanUp"
+            "CustomerActionPerformedForCleanUp",
+            "CustomerActionPerformed"
           ]
         }
       },
@@ -677,6 +698,18 @@ export const ShippingAddress: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["None", "Residential", "Commercial"]
+        }
+      },
+      skipAddressValidation: {
+        serializedName: "skipAddressValidation",
+        type: {
+          name: "Boolean"
+        }
+      },
+      taxIdentificationNumber: {
+        serializedName: "taxIdentificationNumber",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1060,11 +1093,31 @@ export const Preferences: coreClient.CompositeMapper = {
           className: "TransportPreferences"
         }
       },
+      reverseTransportPreferences: {
+        serializedName: "reverseTransportPreferences",
+        type: {
+          name: "Composite",
+          className: "TransportPreferences"
+        }
+      },
       encryptionPreferences: {
         serializedName: "encryptionPreferences",
         type: {
           name: "Composite",
           className: "EncryptionPreferences"
+        }
+      },
+      storageAccountAccessTierPreferences: {
+        serializedName: "storageAccountAccessTierPreferences",
+        type: {
+          name: "Sequence",
+          element: {
+            defaultValue: "Archive",
+            isConstant: true,
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -1083,6 +1136,13 @@ export const TransportPreferences: coreClient.CompositeMapper = {
           name: "Enum",
           allowedValues: ["CustomerManaged", "MicrosoftManaged"]
         }
+      },
+      isUpdated: {
+        serializedName: "isUpdated",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -1099,6 +1159,84 @@ export const EncryptionPreferences: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["Enabled", "Disabled"]
+        }
+      },
+      hardwareEncryption: {
+        serializedName: "hardwareEncryption",
+        type: {
+          name: "Enum",
+          allowedValues: ["Enabled", "Disabled"]
+        }
+      }
+    }
+  }
+};
+
+export const ReverseShippingDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReverseShippingDetails",
+    modelProperties: {
+      contactDetails: {
+        serializedName: "contactDetails",
+        type: {
+          name: "Composite",
+          className: "ContactInfo"
+        }
+      },
+      shippingAddress: {
+        serializedName: "shippingAddress",
+        type: {
+          name: "Composite",
+          className: "ShippingAddress"
+        }
+      },
+      isUpdated: {
+        serializedName: "isUpdated",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ContactInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContactInfo",
+    modelProperties: {
+      contactName: {
+        constraints: {
+          MinLength: 1
+        },
+        serializedName: "contactName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      phone: {
+        constraints: {
+          MinLength: 1
+        },
+        serializedName: "phone",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      phoneExtension: {
+        serializedName: "phoneExtension",
+        type: {
+          name: "String"
+        }
+      },
+      mobile: {
+        serializedName: "mobile",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1126,6 +1264,44 @@ export const CopyLogDetails: coreClient.CompositeMapper = {
             "DataBoxHeavy",
             "DataBoxCustomerDisk"
           ]
+        }
+      }
+    }
+  }
+};
+
+export const DeviceErasureDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeviceErasureDetails",
+    modelProperties: {
+      deviceErasureStatus: {
+        serializedName: "deviceErasureStatus",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "InProgress",
+            "Succeeded",
+            "Failed",
+            "Cancelled",
+            "Cancelling",
+            "SucceededWithErrors",
+            "WaitingForCustomerAction",
+            "SucceededWithWarnings",
+            "WaitingForCustomerActionForKek",
+            "WaitingForCustomerActionForCleanUp",
+            "CustomerActionPerformedForCleanUp",
+            "CustomerActionPerformed"
+          ]
+        }
+      },
+      erasureOrDestructionCertificateSasKey: {
+        serializedName: "erasureOrDestructionCertificateSasKey",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -1227,7 +1403,13 @@ export const LastMitigationActionOnJob: coreClient.CompositeMapper = {
         serializedName: "customerResolution",
         type: {
           name: "Enum",
-          allowedValues: ["None", "MoveToCleanUpDevice", "Resume"]
+          allowedValues: [
+            "None",
+            "MoveToCleanUpDevice",
+            "Resume",
+            "Restart",
+            "ReachOutToOperation"
+          ]
         }
       }
     }
@@ -1484,10 +1666,33 @@ export const MitigateJobRequest: coreClient.CompositeMapper = {
     modelProperties: {
       customerResolutionCode: {
         serializedName: "customerResolutionCode",
-        required: true,
         type: {
           name: "Enum",
-          allowedValues: ["None", "MoveToCleanUpDevice", "Resume"]
+          allowedValues: [
+            "None",
+            "MoveToCleanUpDevice",
+            "Resume",
+            "Restart",
+            "ReachOutToOperation"
+          ]
+        }
+      },
+      serialNumberCustomerResolutionMap: {
+        serializedName: "serialNumberCustomerResolutionMap",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "None",
+                "MoveToCleanUpDevice",
+                "Resume",
+                "Restart",
+                "ReachOutToOperation"
+              ]
+            }
+          }
         }
       }
     }
@@ -1698,6 +1903,18 @@ export const SkuInformation: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      countriesWithinCommerceBoundary: {
+        serializedName: "properties.countriesWithinCommerceBoundary",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -2012,6 +2229,20 @@ export const UpdateJobDetails: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ShippingAddress"
+        }
+      },
+      reverseShippingDetails: {
+        serializedName: "reverseShippingDetails",
+        type: {
+          name: "Composite",
+          className: "ReverseShippingDetails"
+        }
+      },
+      preferences: {
+        serializedName: "preferences",
+        type: {
+          name: "Composite",
+          className: "Preferences"
         }
       },
       keyEncryptionKey: {
@@ -2605,6 +2836,33 @@ export const ArmBaseObject: coreClient.CompositeMapper = {
   }
 };
 
+export const GranularCopyLogDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GranularCopyLogDetails",
+    uberParent: "GranularCopyLogDetails",
+    polymorphicDiscriminator: {
+      serializedName: "copyLogDetailsType",
+      clientName: "copyLogDetailsType"
+    },
+    modelProperties: {
+      copyLogDetailsType: {
+        serializedName: "copyLogDetailsType",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "DataBox",
+            "DataBoxDisk",
+            "DataBoxHeavy",
+            "DataBoxCustomerDisk"
+          ]
+        }
+      }
+    }
+  }
+};
+
 export const CopyProgress: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2715,6 +2973,174 @@ export const CopyProgress: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Boolean"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CloudError"
+        }
+      },
+      actions: {
+        serializedName: "actions",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "None",
+                "MoveToCleanUpDevice",
+                "Resume",
+                "Restart",
+                "ReachOutToOperation"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const GranularCopyProgress: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GranularCopyProgress",
+    modelProperties: {
+      storageAccountName: {
+        serializedName: "storageAccountName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      transferType: {
+        serializedName: "transferType",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["ImportToAzure", "ExportFromAzure"]
+        }
+      },
+      dataAccountType: {
+        serializedName: "dataAccountType",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["StorageAccount", "ManagedDisk"]
+        }
+      },
+      accountId: {
+        serializedName: "accountId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      bytesProcessed: {
+        serializedName: "bytesProcessed",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      totalBytesToProcess: {
+        serializedName: "totalBytesToProcess",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      filesProcessed: {
+        serializedName: "filesProcessed",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      totalFilesToProcess: {
+        serializedName: "totalFilesToProcess",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      invalidFilesProcessed: {
+        serializedName: "invalidFilesProcessed",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      invalidFileBytesUploaded: {
+        serializedName: "invalidFileBytesUploaded",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      renamedContainerCount: {
+        serializedName: "renamedContainerCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      filesErroredOut: {
+        serializedName: "filesErroredOut",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      directoriesErroredOut: {
+        serializedName: "directoriesErroredOut",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      invalidDirectoriesProcessed: {
+        serializedName: "invalidDirectoriesProcessed",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      isEnumerationInProgress: {
+        serializedName: "isEnumerationInProgress",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CloudError"
+        }
+      },
+      actions: {
+        serializedName: "actions",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "None",
+                "MoveToCleanUpDevice",
+                "Resume",
+                "Restart",
+                "ReachOutToOperation"
+              ]
+            }
+          }
         }
       }
     }
@@ -2842,6 +3268,32 @@ export const DataBoxDiskCopyProgress: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CloudError"
+        }
+      },
+      actions: {
+        serializedName: "actions",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "None",
+                "MoveToCleanUpDevice",
+                "Resume",
+                "Restart",
+                "ReachOutToOperation"
+              ]
+            }
+          }
         }
       }
     }
@@ -3047,6 +3499,32 @@ export const DataBoxDiskJobDetails: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "DataBoxDiskCopyProgress"
+            }
+          }
+        }
+      },
+      granularCopyProgress: {
+        serializedName: "granularCopyProgress",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataBoxDiskGranularCopyProgress"
+            }
+          }
+        }
+      },
+      granularCopyLogDetails: {
+        serializedName: "granularCopyLogDetails",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataBoxDiskGranularCopyLogDetails"
             }
           }
         }
@@ -3513,6 +3991,22 @@ export const JobResource: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Boolean"
+        }
+      },
+      reverseShippingDetailsUpdate: {
+        serializedName: "properties.reverseShippingDetailsUpdate",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Enabled", "Disabled", "NotSupported"]
+        }
+      },
+      reverseTransportPreferenceUpdate: {
+        serializedName: "properties.reverseTransportPreferenceUpdate",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Enabled", "Disabled", "NotSupported"]
         }
       },
       isPrepareToShipEnabled: {
@@ -4138,6 +4632,48 @@ export const HeavyScheduleAvailabilityRequest: coreClient.CompositeMapper = {
   }
 };
 
+export const DataBoxDiskGranularCopyLogDetails: coreClient.CompositeMapper = {
+  serializedName: "DataBoxCustomerDisk",
+  type: {
+    name: "Composite",
+    className: "DataBoxDiskGranularCopyLogDetails",
+    uberParent: "GranularCopyLogDetails",
+    polymorphicDiscriminator:
+      GranularCopyLogDetails.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...GranularCopyLogDetails.type.modelProperties,
+      serialNumber: {
+        serializedName: "serialNumber",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      accountId: {
+        serializedName: "accountId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      errorLogLink: {
+        serializedName: "errorLogLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      verboseLogLink: {
+        serializedName: "verboseLogLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DataBoxCustomerDiskCopyProgress: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4162,6 +4698,60 @@ export const DataBoxCustomerDiskCopyProgress: coreClient.CompositeMapper = {
   }
 };
 
+export const DataBoxDiskGranularCopyProgress: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataBoxDiskGranularCopyProgress",
+    modelProperties: {
+      ...GranularCopyProgress.type.modelProperties,
+      serialNumber: {
+        serializedName: "serialNumber",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      copyStatus: {
+        serializedName: "copyStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const JobsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "JobsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const JobsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "JobsUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export let discriminators = {
   JobDetails: JobDetails,
   DataAccountDetails: DataAccountDetails,
@@ -4172,6 +4762,7 @@ export let discriminators = {
   ValidationRequest: ValidationRequest,
   JobSecrets: JobSecrets,
   ScheduleAvailabilityRequest: ScheduleAvailabilityRequest,
+  GranularCopyLogDetails: GranularCopyLogDetails,
   "JobDetails.DataBoxCustomerDisk": DataBoxCustomerDiskJobDetails,
   "JobDetails.DataBoxDisk": DataBoxDiskJobDetails,
   "JobDetails.DataBoxHeavy": DataBoxHeavyJobDetails,
@@ -4203,5 +4794,6 @@ export let discriminators = {
   "JobSecrets.DataBox": DataboxJobSecrets,
   "ScheduleAvailabilityRequest.DataBox": DataBoxScheduleAvailabilityRequest,
   "ScheduleAvailabilityRequest.DataBoxDisk": DiskScheduleAvailabilityRequest,
-  "ScheduleAvailabilityRequest.DataBoxHeavy": HeavyScheduleAvailabilityRequest
+  "ScheduleAvailabilityRequest.DataBoxHeavy": HeavyScheduleAvailabilityRequest,
+  "GranularCopyLogDetails.DataBoxCustomerDisk": DataBoxDiskGranularCopyLogDetails
 };

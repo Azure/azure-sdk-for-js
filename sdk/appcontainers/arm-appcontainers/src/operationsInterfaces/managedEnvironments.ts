@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagedEnvironment,
   ManagedEnvironmentsListBySubscriptionOptionalParams,
@@ -20,6 +20,7 @@ import {
   ManagedEnvironmentsCreateOrUpdateResponse,
   ManagedEnvironmentsDeleteOptionalParams,
   ManagedEnvironmentsUpdateOptionalParams,
+  ManagedEnvironmentsUpdateResponse,
   ManagedEnvironmentsGetAuthTokenOptionalParams,
   ManagedEnvironmentsGetAuthTokenResponse
 } from "../models";
@@ -44,7 +45,7 @@ export interface ManagedEnvironments {
     options?: ManagedEnvironmentsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<ManagedEnvironment>;
   /**
-   * Get all workload Profile States for a Premium Managed Environment.
+   * Get all workload Profile States for a Managed Environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
    * @param options The options parameters.
@@ -78,8 +79,8 @@ export interface ManagedEnvironments {
     environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedEnvironmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagedEnvironmentsCreateOrUpdateResponse>,
       ManagedEnvironmentsCreateOrUpdateResponse
     >
   >;
@@ -106,7 +107,7 @@ export interface ManagedEnvironments {
     resourceGroupName: string,
     environmentName: string,
     options?: ManagedEnvironmentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Managed Environment if it does not have any container apps.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -130,7 +131,12 @@ export interface ManagedEnvironments {
     environmentName: string,
     environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedEnvironmentsUpdateResponse>,
+      ManagedEnvironmentsUpdateResponse
+    >
+  >;
   /**
    * Patches a Managed Environment using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -143,7 +149,7 @@ export interface ManagedEnvironments {
     environmentName: string,
     environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsUpdateOptionalParams
-  ): Promise<void>;
+  ): Promise<ManagedEnvironmentsUpdateResponse>;
   /**
    * Checks if resource name is available.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

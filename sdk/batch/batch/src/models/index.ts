@@ -598,8 +598,8 @@ export interface JobConstraints {
    * Batch service will try each Task once, and may then retry up to this limit. For example, if
    * the maximum retry count is 3, Batch tries a Task up to 4 times (one initial try and 3
    * retries). If the maximum retry count is 0, the Batch service does not retry Tasks. If the
-   * maximum retry count is -1, the Batch service retries the Task without limit, however this is
-   * not recommended for a start task or any task. The default value is 0 (no retries)
+   * maximum retry count is -1, the Batch service retries Tasks without limit. The default value is
+   * 0 (no retries).
    */
   maxTaskRetryCount?: number;
 }
@@ -1015,7 +1015,7 @@ export interface TaskConstraints {
    * Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch
    * service does not retry the Task after the first attempt. If the maximum retry count is -1, the
    * Batch service retries the Task without limit, however this is not recommended for a start task
-   * or any task. The default value is 0 (no retries)
+   * or any task. The default value is 0 (no retries).
    */
   maxTaskRetryCount?: number;
 }
@@ -1501,7 +1501,7 @@ export interface StartTask {
    * maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries).
    * If the maximum retry count is 0, the Batch service does not retry the Task. If the maximum
    * retry count is -1, the Batch service retries the Task without limit, however this is not
-   * recommended for a start task or any task. The default value is 0 (no retries)
+   * recommended for a start task or any task. The default value is 0 (no retries).
    */
   maxTaskRetryCount?: number;
   /**
@@ -1519,7 +1519,9 @@ export interface StartTask {
 }
 
 /**
- * An interface representing CertificateReference.
+ * Warning: This object is deprecated and will be removed after February, 2024. Please use the
+ * [Azure KeyVault
+ * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
  * @summary A reference to a Certificate to be installed on Compute Nodes in a Pool.
  */
 export interface CertificateReference {
@@ -1650,6 +1652,11 @@ export interface DataDisk {
  */
 export interface ContainerConfiguration {
   /**
+   * The container technology to be used. Possible values include: 'dockerCompatible',
+   * 'criCompatible'
+   */
+  type: ContainerType;
+  /**
    * The collection of container Image names. This is the full Image reference, as would be
    * specified to "docker pull". An Image will be sourced from the default Docker registry unless
    * the Image is fully qualified with an alternative registry.
@@ -1717,6 +1724,11 @@ export interface VMExtension {
    * redeployed, even with this property set to true.
    */
   autoUpgradeMinorVersion?: boolean;
+  /**
+   * Indicates whether the extension should be automatically upgraded by the platform if there is a
+   * newer version of the extension available.
+   */
+  enableAutomaticUpgrade?: boolean;
   /**
    * JSON formatted public settings for the extension.
    */
@@ -2001,6 +2013,13 @@ export interface NetworkConfiguration {
    * property.
    */
   publicIPAddressConfiguration?: PublicIPAddressConfiguration;
+  /**
+   * Whether this pool should enable accelerated networking. Accelerated networking enables single
+   * root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance.
+   * For more details, see:
+   * https://learn.microsoft.com/azure/virtual-network/accelerated-networking-overview.
+   */
+  enableAcceleratedNetworking?: boolean;
 }
 
 /**
@@ -2264,6 +2283,10 @@ export interface PoolSpecification {
    * query for this location. For Certificates with visibility of 'remoteUser', a 'certs' directory
    * is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are
    * placed in that directory.
+   *
+   * Warning: This property is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    */
   certificateReferences?: CertificateReference[];
   /**
@@ -3608,6 +3631,10 @@ export interface CloudPool {
    * query for this location. For Certificates with visibility of 'remoteUser', a 'certs' directory
    * is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are
    * placed in that directory.
+   *
+   * Warning: This property is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    */
   certificateReferences?: CertificateReference[];
   /**
@@ -3786,6 +3813,10 @@ export interface PoolAddParameter {
    * query for this location. For Certificates with visibility of 'remoteUser', a 'certs' directory
    * is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are
    * placed in that directory.
+   *
+   * Warning: This property is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    */
   certificateReferences?: CertificateReference[];
   /**
@@ -4863,6 +4894,10 @@ export interface ComputeNode {
    * location. For Certificates with visibility of 'remoteUser', a 'certs' directory is created in
    * the user's home directory (e.g., /home/{user-name}/certs) and Certificates are placed in that
    * directory.
+   *
+   * Warning: This property is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    */
   certificateReferences?: CertificateReference[];
   /**
@@ -5216,6 +5251,10 @@ export interface PoolUpdatePropertiesParameter {
    * query for this location. For Certificates with visibility of 'remoteUser', a 'certs' directory
    * is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are
    * placed in that directory.
+   *
+   * Warning: This property is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    */
   certificateReferences: CertificateReference[];
   /**
@@ -5263,6 +5302,10 @@ export interface PoolPatchParameter {
    * location. For Certificates with visibility of 'remoteUser', a 'certs' directory is created in
    * the user's home directory (e.g., /home/{user-name}/certs) and Certificates are placed in that
    * directory.
+   *
+   * Warning: This property is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    */
   certificateReferences?: CertificateReference[];
   /**
@@ -5606,31 +5649,6 @@ export interface PoolListUsageMetricsOptions {
    * returned. Default value: 1000.
    */
   maxResults?: number;
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for getAllLifetimeStatistics operation.
- */
-export interface PoolGetAllLifetimeStatisticsOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
    * 30 seconds. Default value: 30.
@@ -6243,557 +6261,6 @@ export interface AccountListPoolNodeCountsOptions {
    * The maximum number of items to return in the response. Default value: 10.
    */
   maxResults?: number;
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for getAllLifetimeStatistics operation.
- */
-export interface JobGetAllLifetimeStatisticsOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for deleteMethod operation.
- */
-export interface JobDeleteMethodOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service exactly matches the value
-   * specified by the client.
-   */
-  ifMatch?: string;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service does not match the value
-   * specified by the client.
-   */
-  ifNoneMatch?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has been modified since the
-   * specified time.
-   */
-  ifModifiedSince?: Date;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has not been modified since
-   * the specified time.
-   */
-  ifUnmodifiedSince?: Date;
-}
-
-/**
- * Additional parameters for get operation.
- */
-export interface JobGetOptions {
-  /**
-   * An OData $select clause.
-   */
-  select?: string;
-  /**
-   * An OData $expand clause.
-   */
-  expand?: string;
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service exactly matches the value
-   * specified by the client.
-   */
-  ifMatch?: string;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service does not match the value
-   * specified by the client.
-   */
-  ifNoneMatch?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has been modified since the
-   * specified time.
-   */
-  ifModifiedSince?: Date;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has not been modified since
-   * the specified time.
-   */
-  ifUnmodifiedSince?: Date;
-}
-
-/**
- * Additional parameters for patch operation.
- */
-export interface JobPatchOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service exactly matches the value
-   * specified by the client.
-   */
-  ifMatch?: string;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service does not match the value
-   * specified by the client.
-   */
-  ifNoneMatch?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has been modified since the
-   * specified time.
-   */
-  ifModifiedSince?: Date;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has not been modified since
-   * the specified time.
-   */
-  ifUnmodifiedSince?: Date;
-}
-
-/**
- * Additional parameters for update operation.
- */
-export interface JobUpdateOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service exactly matches the value
-   * specified by the client.
-   */
-  ifMatch?: string;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service does not match the value
-   * specified by the client.
-   */
-  ifNoneMatch?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has been modified since the
-   * specified time.
-   */
-  ifModifiedSince?: Date;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has not been modified since
-   * the specified time.
-   */
-  ifUnmodifiedSince?: Date;
-}
-
-/**
- * Additional parameters for disable operation.
- */
-export interface JobDisableOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service exactly matches the value
-   * specified by the client.
-   */
-  ifMatch?: string;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service does not match the value
-   * specified by the client.
-   */
-  ifNoneMatch?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has been modified since the
-   * specified time.
-   */
-  ifModifiedSince?: Date;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has not been modified since
-   * the specified time.
-   */
-  ifUnmodifiedSince?: Date;
-}
-
-/**
- * Additional parameters for enable operation.
- */
-export interface JobEnableOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service exactly matches the value
-   * specified by the client.
-   */
-  ifMatch?: string;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service does not match the value
-   * specified by the client.
-   */
-  ifNoneMatch?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has been modified since the
-   * specified time.
-   */
-  ifModifiedSince?: Date;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has not been modified since
-   * the specified time.
-   */
-  ifUnmodifiedSince?: Date;
-}
-
-/**
- * Additional parameters for terminate operation.
- */
-export interface JobTerminateOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service exactly matches the value
-   * specified by the client.
-   */
-  ifMatch?: string;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service does not match the value
-   * specified by the client.
-   */
-  ifNoneMatch?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has been modified since the
-   * specified time.
-   */
-  ifModifiedSince?: Date;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has not been modified since
-   * the specified time.
-   */
-  ifUnmodifiedSince?: Date;
-}
-
-/**
- * Additional parameters for add operation.
- */
-export interface JobAddOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for list operation.
- */
-export interface JobListOptions {
-  /**
-   * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-jobs.
-   */
-  filter?: string;
-  /**
-   * An OData $select clause.
-   */
-  select?: string;
-  /**
-   * An OData $expand clause.
-   */
-  expand?: string;
-  /**
-   * The maximum number of items to return in the response. A maximum of 1000 Jobs can be returned.
-   * Default value: 1000.
-   */
-  maxResults?: number;
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for listFromJobSchedule operation.
- */
-export interface JobListFromJobScheduleOptions {
-  /**
-   * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-jobs-in-a-job-schedule.
-   */
-  filter?: string;
-  /**
-   * An OData $select clause.
-   */
-  select?: string;
-  /**
-   * An OData $expand clause.
-   */
-  expand?: string;
-  /**
-   * The maximum number of items to return in the response. A maximum of 1000 Jobs can be returned.
-   * Default value: 1000.
-   */
-  maxResults?: number;
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for listPreparationAndReleaseTaskStatus operation.
- */
-export interface JobListPreparationAndReleaseTaskStatusOptions {
-  /**
-   * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-job-preparation-and-release-status.
-   */
-  filter?: string;
-  /**
-   * An OData $select clause.
-   */
-  select?: string;
-  /**
-   * The maximum number of items to return in the response. A maximum of 1000 Tasks can be
-   * returned. Default value: 1000.
-   */
-  maxResults?: number;
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for getTaskCounts operation.
- */
-export interface JobGetTaskCountsOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
    * 30 seconds. Default value: 30.
@@ -7705,6 +7172,532 @@ export interface JobScheduleListOptions {
 }
 
 /**
+ * Additional parameters for deleteMethod operation.
+ */
+export interface JobDeleteMethodOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. Default value: 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service exactly matches the value
+   * specified by the client.
+   */
+  ifMatch?: string;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service does not match the value
+   * specified by the client.
+   */
+  ifNoneMatch?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has been modified since the
+   * specified time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has not been modified since
+   * the specified time.
+   */
+  ifUnmodifiedSince?: Date;
+}
+
+/**
+ * Additional parameters for get operation.
+ */
+export interface JobGetOptions {
+  /**
+   * An OData $select clause.
+   */
+  select?: string;
+  /**
+   * An OData $expand clause.
+   */
+  expand?: string;
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. Default value: 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service exactly matches the value
+   * specified by the client.
+   */
+  ifMatch?: string;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service does not match the value
+   * specified by the client.
+   */
+  ifNoneMatch?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has been modified since the
+   * specified time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has not been modified since
+   * the specified time.
+   */
+  ifUnmodifiedSince?: Date;
+}
+
+/**
+ * Additional parameters for patch operation.
+ */
+export interface JobPatchOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. Default value: 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service exactly matches the value
+   * specified by the client.
+   */
+  ifMatch?: string;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service does not match the value
+   * specified by the client.
+   */
+  ifNoneMatch?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has been modified since the
+   * specified time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has not been modified since
+   * the specified time.
+   */
+  ifUnmodifiedSince?: Date;
+}
+
+/**
+ * Additional parameters for update operation.
+ */
+export interface JobUpdateOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. Default value: 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service exactly matches the value
+   * specified by the client.
+   */
+  ifMatch?: string;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service does not match the value
+   * specified by the client.
+   */
+  ifNoneMatch?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has been modified since the
+   * specified time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has not been modified since
+   * the specified time.
+   */
+  ifUnmodifiedSince?: Date;
+}
+
+/**
+ * Additional parameters for disable operation.
+ */
+export interface JobDisableOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. Default value: 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service exactly matches the value
+   * specified by the client.
+   */
+  ifMatch?: string;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service does not match the value
+   * specified by the client.
+   */
+  ifNoneMatch?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has been modified since the
+   * specified time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has not been modified since
+   * the specified time.
+   */
+  ifUnmodifiedSince?: Date;
+}
+
+/**
+ * Additional parameters for enable operation.
+ */
+export interface JobEnableOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. Default value: 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service exactly matches the value
+   * specified by the client.
+   */
+  ifMatch?: string;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service does not match the value
+   * specified by the client.
+   */
+  ifNoneMatch?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has been modified since the
+   * specified time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has not been modified since
+   * the specified time.
+   */
+  ifUnmodifiedSince?: Date;
+}
+
+/**
+ * Additional parameters for terminate operation.
+ */
+export interface JobTerminateOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. Default value: 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service exactly matches the value
+   * specified by the client.
+   */
+  ifMatch?: string;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service does not match the value
+   * specified by the client.
+   */
+  ifNoneMatch?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has been modified since the
+   * specified time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has not been modified since
+   * the specified time.
+   */
+  ifUnmodifiedSince?: Date;
+}
+
+/**
+ * Additional parameters for add operation.
+ */
+export interface JobAddOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. Default value: 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for list operation.
+ */
+export interface JobListOptions {
+  /**
+   * An OData $filter clause. For more information on constructing this filter, see
+   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-jobs.
+   */
+  filter?: string;
+  /**
+   * An OData $select clause.
+   */
+  select?: string;
+  /**
+   * An OData $expand clause.
+   */
+  expand?: string;
+  /**
+   * The maximum number of items to return in the response. A maximum of 1000 Jobs can be returned.
+   * Default value: 1000.
+   */
+  maxResults?: number;
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. Default value: 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for listFromJobSchedule operation.
+ */
+export interface JobListFromJobScheduleOptions {
+  /**
+   * An OData $filter clause. For more information on constructing this filter, see
+   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-jobs-in-a-job-schedule.
+   */
+  filter?: string;
+  /**
+   * An OData $select clause.
+   */
+  select?: string;
+  /**
+   * An OData $expand clause.
+   */
+  expand?: string;
+  /**
+   * The maximum number of items to return in the response. A maximum of 1000 Jobs can be returned.
+   * Default value: 1000.
+   */
+  maxResults?: number;
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. Default value: 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for listPreparationAndReleaseTaskStatus operation.
+ */
+export interface JobListPreparationAndReleaseTaskStatusOptions {
+  /**
+   * An OData $filter clause. For more information on constructing this filter, see
+   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-job-preparation-and-release-status.
+   */
+  filter?: string;
+  /**
+   * An OData $select clause.
+   */
+  select?: string;
+  /**
+   * The maximum number of items to return in the response. A maximum of 1000 Tasks can be
+   * returned. Default value: 1000.
+   */
+  maxResults?: number;
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. Default value: 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for getTaskCounts operation.
+ */
+export interface JobGetTaskCountsOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. Default value: 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
  * Additional parameters for add operation.
  */
 export interface TaskAddOptions {
@@ -8563,66 +8556,6 @@ export interface AccountListPoolNodeCountsNextOptions {
 /**
  * Additional parameters for listNext operation.
  */
-export interface JobListNextOptions {
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for listFromJobScheduleNext operation.
- */
-export interface JobListFromJobScheduleNextOptions {
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for listPreparationAndReleaseTaskStatusNext operation.
- */
-export interface JobListPreparationAndReleaseTaskStatusNextOptions {
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for listNext operation.
- */
 export interface CertificateListNextOptions {
   /**
    * The caller-generated request identity, in the form of a GUID with no decoration such as curly
@@ -8684,6 +8617,66 @@ export interface FileListFromComputeNodeNextOptions {
  * Additional parameters for listNext operation.
  */
 export interface JobScheduleListNextOptions {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for listNext operation.
+ */
+export interface JobListNextOptions {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for listFromJobScheduleNext operation.
+ */
+export interface JobListFromJobScheduleNextOptions {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for listPreparationAndReleaseTaskStatusNext operation.
+ */
+export interface JobListPreparationAndReleaseTaskStatusNextOptions {
   /**
    * The caller-generated request identity, in the form of a GUID with no decoration such as curly
    * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
@@ -8798,16 +8791,6 @@ export interface PoolListUsageMetricsOptionalParams extends msRest.RequestOption
    * Additional parameters for the operation
    */
   poolListUsageMetricsOptions?: PoolListUsageMetricsOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PoolGetAllLifetimeStatisticsOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  poolGetAllLifetimeStatisticsOptions?: PoolGetAllLifetimeStatisticsOptions;
 }
 
 /**
@@ -8998,170 +8981,6 @@ export interface AccountListPoolNodeCountsNextOptionalParams extends msRest.Requ
    * Additional parameters for the operation
    */
   accountListPoolNodeCountsNextOptions?: AccountListPoolNodeCountsNextOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobGetAllLifetimeStatisticsOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobGetAllLifetimeStatisticsOptions?: JobGetAllLifetimeStatisticsOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobDeleteMethodOptions?: JobDeleteMethodOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobGetOptions?: JobGetOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobPatchOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobPatchOptions?: JobPatchOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobUpdateOptions?: JobUpdateOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobDisableOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobDisableOptions?: JobDisableOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobEnableOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobEnableOptions?: JobEnableOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobTerminateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The text you want to appear as the Job's TerminateReason. The default is 'UserTerminate'.
-   */
-  terminateReason?: string;
-  /**
-   * Additional parameters for the operation
-   */
-  jobTerminateOptions?: JobTerminateOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobAddOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobAddOptions?: JobAddOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobListOptions?: JobListOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobListFromJobScheduleOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobListFromJobScheduleOptions?: JobListFromJobScheduleOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobListPreparationAndReleaseTaskStatusOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobListPreparationAndReleaseTaskStatusOptions?: JobListPreparationAndReleaseTaskStatusOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobGetTaskCountsOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobGetTaskCountsOptions?: JobGetTaskCountsOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobListNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobListNextOptions?: JobListNextOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobListFromJobScheduleNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobListFromJobScheduleNextOptions?: JobListFromJobScheduleNextOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobListPreparationAndReleaseTaskStatusNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobListPreparationAndReleaseTaskStatusNextOptions?: JobListPreparationAndReleaseTaskStatusNextOptions;
 }
 
 /**
@@ -9464,6 +9283,160 @@ export interface JobScheduleListNextOptionalParams extends msRest.RequestOptions
    * Additional parameters for the operation
    */
   jobScheduleListNextOptions?: JobScheduleListNextOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobDeleteMethodOptions?: JobDeleteMethodOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobGetOptions?: JobGetOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobPatchOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobPatchOptions?: JobPatchOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobUpdateOptions?: JobUpdateOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobDisableOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobDisableOptions?: JobDisableOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobEnableOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobEnableOptions?: JobEnableOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobTerminateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The text you want to appear as the Job's TerminateReason. The default is 'UserTerminate'.
+   */
+  terminateReason?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  jobTerminateOptions?: JobTerminateOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobAddOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobAddOptions?: JobAddOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobListOptions?: JobListOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobListFromJobScheduleOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobListFromJobScheduleOptions?: JobListFromJobScheduleOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobListPreparationAndReleaseTaskStatusOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobListPreparationAndReleaseTaskStatusOptions?: JobListPreparationAndReleaseTaskStatusOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobGetTaskCountsOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobGetTaskCountsOptions?: JobGetTaskCountsOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobListNextOptions?: JobListNextOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobListFromJobScheduleNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobListFromJobScheduleNextOptions?: JobListFromJobScheduleNextOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobListPreparationAndReleaseTaskStatusNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobListPreparationAndReleaseTaskStatusNextOptions?: JobListPreparationAndReleaseTaskStatusNextOptions;
 }
 
 /**
@@ -9882,64 +9855,6 @@ export interface AccountListPoolNodeCountsHeaders {
    * the request was made, and the region that Account resides in.
    */
   requestId: string;
-}
-
-/**
- * Defines headers for GetAllLifetimeStatistics operation.
- */
-export interface PoolGetAllLifetimeStatisticsHeaders {
-  /**
-   * The client-request-id provided by the client during the request. This will be returned only if
-   * the return-client-request-id parameter was set to true.
-   */
-  clientRequestId: string;
-  /**
-   * A unique identifier for the request that was made to the Batch service. If a request is
-   * consistently failing and you have verified that the request is properly formulated, you may
-   * use this value to report the error to Microsoft. In your report, include the value of this
-   * request ID, the approximate time that the request was made, the Batch Account against which
-   * the request was made, and the region that Account resides in.
-   */
-  requestId: string;
-  /**
-   * The ETag HTTP response header. This is an opaque string. You can use it to detect whether the
-   * resource has changed between requests. In particular, you can pass the ETag to one of the
-   * If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers.
-   */
-  eTag: string;
-  /**
-   * The time at which the resource was last modified.
-   */
-  lastModified: Date;
-}
-
-/**
- * Defines headers for GetAllLifetimeStatistics operation.
- */
-export interface JobGetAllLifetimeStatisticsHeaders {
-  /**
-   * The client-request-id provided by the client during the request. This will be returned only if
-   * the return-client-request-id parameter was set to true.
-   */
-  clientRequestId: string;
-  /**
-   * A unique identifier for the request that was made to the Batch service. If a request is
-   * consistently failing and you have verified that the request is properly formulated, you may
-   * use this value to report the error to Microsoft. In your report, include the value of this
-   * request ID, the approximate time that the request was made, the Batch Account against which
-   * the request was made, and the region that Account resides in.
-   */
-  requestId: string;
-  /**
-   * The ETag HTTP response header. This is an opaque string. You can use it to detect whether the
-   * resource has changed between requests. In particular, you can pass the ETag to one of the
-   * If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers.
-   */
-  eTag: string;
-  /**
-   * The time at which the resource was last modified.
-   */
-  lastModified: Date;
 }
 
 /**
@@ -12185,27 +12100,6 @@ export interface PoolNodeCountsListResult extends Array<PoolNodeCounts> {
 
 /**
  * @interface
- * An interface representing the CloudJobListResult.
- * @summary The result of listing the Jobs in an Account.
- * @extends Array<CloudJob>
- */
-export interface CloudJobListResult extends Array<CloudJob> {
-  odatanextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the CloudJobListPreparationAndReleaseTaskStatusResult.
- * @summary The result of listing the status of the Job Preparation and Job Release Tasks for a
- * Job.
- * @extends Array<JobPreparationAndReleaseTaskExecutionInformation>
- */
-export interface CloudJobListPreparationAndReleaseTaskStatusResult extends Array<JobPreparationAndReleaseTaskExecutionInformation> {
-  odatanextLink?: string;
-}
-
-/**
- * @interface
  * An interface representing the CertificateListResult.
  * @summary The result of listing the Certificates in the Account.
  * @extends Array<Certificate>
@@ -12232,6 +12126,27 @@ export interface NodeFileListResult extends Array<NodeFile> {
  * @extends Array<CloudJobSchedule>
  */
 export interface CloudJobScheduleListResult extends Array<CloudJobSchedule> {
+  odatanextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the CloudJobListResult.
+ * @summary The result of listing the Jobs in an Account.
+ * @extends Array<CloudJob>
+ */
+export interface CloudJobListResult extends Array<CloudJob> {
+  odatanextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the CloudJobListPreparationAndReleaseTaskStatusResult.
+ * @summary The result of listing the status of the Job Preparation and Job Release Tasks for a
+ * Job.
+ * @extends Array<JobPreparationAndReleaseTaskExecutionInformation>
+ */
+export interface CloudJobListPreparationAndReleaseTaskStatusResult extends Array<JobPreparationAndReleaseTaskExecutionInformation> {
   odatanextLink?: string;
 }
 
@@ -12400,6 +12315,14 @@ export type CachingType = 'none' | 'readonly' | 'readwrite';
  * @enum {string}
  */
 export type StorageAccountType = 'standard_lrs' | 'premium_lrs';
+
+/**
+ * Defines values for ContainerType.
+ * Possible values include: 'dockerCompatible', 'criCompatible'
+ * @readonly
+ * @enum {string}
+ */
+export type ContainerType = 'dockerCompatible' | 'criCompatible';
 
 /**
  * Defines values for DiskEncryptionTarget.
@@ -12736,31 +12659,6 @@ export type PoolListUsageMetricsResponse = PoolListUsageMetricsResult & PoolList
 };
 
 /**
- * Contains response data for the getAllLifetimeStatistics operation.
- */
-export type PoolGetAllLifetimeStatisticsResponse = PoolStatistics & PoolGetAllLifetimeStatisticsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PoolGetAllLifetimeStatisticsHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PoolStatistics;
-    };
-};
-
-/**
  * Contains response data for the add operation.
  */
 export type PoolAddResponse = PoolAddHeaders & {
@@ -13047,261 +12945,6 @@ export type AccountListPoolNodeCountsResponse = PoolNodeCountsListResult & Accou
        * The response body as parsed JSON or XML
        */
       parsedBody: PoolNodeCountsListResult;
-    };
-};
-
-/**
- * Contains response data for the getAllLifetimeStatistics operation.
- */
-export type JobGetAllLifetimeStatisticsResponse = JobStatistics & JobGetAllLifetimeStatisticsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobGetAllLifetimeStatisticsHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobStatistics;
-    };
-};
-
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type JobDeleteResponse = JobDeleteHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobDeleteHeaders;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type JobGetResponse = CloudJob & JobGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobGetHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudJob;
-    };
-};
-
-/**
- * Contains response data for the patch operation.
- */
-export type JobPatchResponse = JobPatchHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobPatchHeaders;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type JobUpdateResponse = JobUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobUpdateHeaders;
-    };
-};
-
-/**
- * Contains response data for the disable operation.
- */
-export type JobDisableResponse = JobDisableHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobDisableHeaders;
-    };
-};
-
-/**
- * Contains response data for the enable operation.
- */
-export type JobEnableResponse = JobEnableHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobEnableHeaders;
-    };
-};
-
-/**
- * Contains response data for the terminate operation.
- */
-export type JobTerminateResponse = JobTerminateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobTerminateHeaders;
-    };
-};
-
-/**
- * Contains response data for the add operation.
- */
-export type JobAddResponse = JobAddHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobAddHeaders;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type JobListResponse = CloudJobListResult & JobListHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobListHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudJobListResult;
-    };
-};
-
-/**
- * Contains response data for the listFromJobSchedule operation.
- */
-export type JobListFromJobScheduleResponse = CloudJobListResult & JobListFromJobScheduleHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobListFromJobScheduleHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudJobListResult;
-    };
-};
-
-/**
- * Contains response data for the listPreparationAndReleaseTaskStatus operation.
- */
-export type JobListPreparationAndReleaseTaskStatusResponse = CloudJobListPreparationAndReleaseTaskStatusResult & JobListPreparationAndReleaseTaskStatusHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobListPreparationAndReleaseTaskStatusHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudJobListPreparationAndReleaseTaskStatusResult;
-    };
-};
-
-/**
- * Contains response data for the getTaskCounts operation.
- */
-export type JobGetTaskCountsResponse = TaskCountsResult & JobGetTaskCountsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobGetTaskCountsHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskCountsResult;
     };
 };
 
@@ -13754,6 +13397,236 @@ export type JobScheduleListResponse = CloudJobScheduleListResult & JobScheduleLi
        * The response body as parsed JSON or XML
        */
       parsedBody: CloudJobScheduleListResult;
+    };
+};
+
+/**
+ * Contains response data for the deleteMethod operation.
+ */
+export type JobDeleteResponse = JobDeleteHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobDeleteHeaders;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type JobGetResponse = CloudJob & JobGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobGetHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudJob;
+    };
+};
+
+/**
+ * Contains response data for the patch operation.
+ */
+export type JobPatchResponse = JobPatchHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobPatchHeaders;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type JobUpdateResponse = JobUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobUpdateHeaders;
+    };
+};
+
+/**
+ * Contains response data for the disable operation.
+ */
+export type JobDisableResponse = JobDisableHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobDisableHeaders;
+    };
+};
+
+/**
+ * Contains response data for the enable operation.
+ */
+export type JobEnableResponse = JobEnableHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobEnableHeaders;
+    };
+};
+
+/**
+ * Contains response data for the terminate operation.
+ */
+export type JobTerminateResponse = JobTerminateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobTerminateHeaders;
+    };
+};
+
+/**
+ * Contains response data for the add operation.
+ */
+export type JobAddResponse = JobAddHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobAddHeaders;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type JobListResponse = CloudJobListResult & JobListHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobListHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudJobListResult;
+    };
+};
+
+/**
+ * Contains response data for the listFromJobSchedule operation.
+ */
+export type JobListFromJobScheduleResponse = CloudJobListResult & JobListFromJobScheduleHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobListFromJobScheduleHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudJobListResult;
+    };
+};
+
+/**
+ * Contains response data for the listPreparationAndReleaseTaskStatus operation.
+ */
+export type JobListPreparationAndReleaseTaskStatusResponse = CloudJobListPreparationAndReleaseTaskStatusResult & JobListPreparationAndReleaseTaskStatusHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobListPreparationAndReleaseTaskStatusHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudJobListPreparationAndReleaseTaskStatusResult;
+    };
+};
+
+/**
+ * Contains response data for the getTaskCounts operation.
+ */
+export type JobGetTaskCountsResponse = TaskCountsResult & JobGetTaskCountsHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobGetTaskCountsHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskCountsResult;
     };
 };
 

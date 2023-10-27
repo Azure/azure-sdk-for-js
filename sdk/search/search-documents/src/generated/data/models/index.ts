@@ -9,6 +9,11 @@
 import * as coreClient from "@azure/core-client";
 import * as coreHttpCompat from "@azure/core-http-compat";
 
+export type VectorQueryUnion =
+  | VectorQuery
+  | RawVectorQuery
+  | VectorizableTextQuery;
+
 /** Describes an error condition for the Azure Cognitive Search API. */
 export interface SearchError {
   /**
@@ -55,6 +60,16 @@ export interface SearchDocumentsResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextPageParameters?: SearchRequest;
+  /**
+   * Reason that a partial response was returned for a semantic search request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly semanticPartialResponseReason?: SemanticPartialResponseReason;
+  /**
+   * Type of partial response that was returned for a semantic search request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly semanticPartialResponseType?: SemanticPartialResponseType;
   /**
    * The sequence of results returned by the query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -132,8 +147,16 @@ export interface SearchRequest {
   scoringParameters?: string[];
   /** The name of a scoring profile to evaluate match scores for matching documents in order to sort the results. */
   scoringProfile?: string;
+  /** Allows setting a separate search query that will be solely used for semantic reranking, semantic captions and semantic answers. Is useful for scenarios where there is a need to use different queries between the base retrieval and ranking phase, and the L2 semantic phase. */
+  semanticQuery?: string;
   /** The name of a semantic configuration that will be used when processing documents for queries of type semantic. */
   semanticConfiguration?: string;
+  /** Allows the user to choose whether a semantic call should fail completely, or to return partial results (default). */
+  semanticErrorHandling?: SemanticErrorHandling;
+  /** Allows the user to set an upper bound on the amount of time it takes for semantic enrichment to finish processing before the request fails. */
+  semanticMaxWaitInMilliseconds?: number;
+  /** Enables a debugging tool that can be used to further explore your Semantic search results. */
+  debug?: QueryDebugMode;
   /** A full-text search query expression; Use "*" or omit this parameter to match all documents. */
   searchText?: string;
   /** The comma-separated list of field names to which to scope the full-text search. When using fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each fielded search expression take precedence over any field names listed in this parameter. */
@@ -156,6 +179,22 @@ export interface SearchRequest {
   captions?: QueryCaptionType;
   /** The comma-separated list of field names used for semantic search. */
   semanticFields?: string;
+  /** The query parameters for vector and hybrid search queries. */
+  vectorQueries?: VectorQueryUnion[];
+  /** Determines whether or not filters are applied before or after the vector search is performed. Default is 'preFilter'. */
+  vectorFilterMode?: VectorFilterMode;
+}
+
+/** The query parameters for vector and hybrid search queries. */
+export interface VectorQuery {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "vector" | "text";
+  /** Number of nearest neighbors to return as top hits. */
+  kNearestNeighborsCount?: number;
+  /** Vector Fields of type Collection(Edm.Single) to be included in the vector searched. */
+  fields?: string;
+  /** When true, triggers an exhaustive k-nearest neighbor search across all vectors within the vector index. Useful for scenarios where exact matches are critical, such as determining ground truth values. */
+  exhaustive?: boolean;
 }
 
 /** Contains a document found by a search query, plus associated metadata. */
@@ -182,6 +221,11 @@ export interface SearchResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly captions?: CaptionResult[];
+  /**
+   * Contains debugging information that can be used to further explore your search results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly documentDebugInfo?: DocumentDebugInfo[];
 }
 
 /** Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.. */
@@ -198,6 +242,71 @@ export interface CaptionResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly highlights?: string;
+}
+
+/** Contains debugging information that can be used to further explore your search results. */
+export interface DocumentDebugInfo {
+  /**
+   * Contains debugging information specific to semantic search queries.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly semantic?: SemanticDebugInfo;
+}
+
+export interface SemanticDebugInfo {
+  /**
+   * The title field that was sent to the semantic enrichment process, as well as how it was used
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly titleField?: QueryResultDocumentSemanticField;
+  /**
+   * The content fields that were sent to the semantic enrichment process, as well as how they were used
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly contentFields?: QueryResultDocumentSemanticField[];
+  /**
+   * The keyword fields that were sent to the semantic enrichment process, as well as how they were used
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keywordFields?: QueryResultDocumentSemanticField[];
+  /**
+   * The raw concatenated strings that were sent to the semantic enrichment process.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rerankerInput?: QueryResultDocumentRerankerInput;
+}
+
+/** Description of fields that were sent to the semantic enrichment process, as well as how they were used */
+export interface QueryResultDocumentSemanticField {
+  /**
+   * The name of the field that was sent to the semantic enrichment process
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The way the field was used for the semantic enrichment process (fully used, partially used, or unused)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: SemanticFieldState;
+}
+
+/** The raw concatenated strings that were sent to the semantic enrichment process. */
+export interface QueryResultDocumentRerankerInput {
+  /**
+   * The raw string for the title field that was used for semantic enrichment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly title?: string;
+  /**
+   * The raw concatenated strings for the content fields that were used for semantic enrichment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly content?: string;
+  /**
+   * The raw concatenated strings for the keyword fields that were used for semantic enrichment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keywords?: string;
 }
 
 /** Response containing suggestion query results from an index. */
@@ -350,6 +459,22 @@ export interface AutocompleteRequest {
   top?: number;
 }
 
+/** The query parameters to use for vector search when a raw vector value is provided. */
+export type RawVectorQuery = VectorQuery & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "vector";
+  /** The vector representation of a search query. */
+  vector?: number[];
+};
+
+/** The query parameters to use for vector search when a text value that needs to be vectorized is provided. */
+export type VectorizableTextQuery = VectorQuery & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "text";
+  /** The text to be vectorized to perform a vector search query. */
+  text?: string;
+};
+
 /** Parameter group */
 export interface SearchOptions {
   /** A value that specifies whether to fetch the total count of results. Default is false. Setting this value to true may have a performance impact. Note that the count returned is an approximation. */
@@ -374,15 +499,23 @@ export interface SearchOptions {
   scoringParameters?: string[];
   /** The name of a scoring profile to evaluate match scores for matching documents in order to sort the results. */
   scoringProfile?: string;
+  /** Allows setting a separate search query that will be solely used for semantic reranking, semantic captions and semantic answers. Is useful for scenarios where there is a need to use different queries between the base retrieval and ranking phase, and the L2 semantic phase. */
+  semanticQuery?: string;
   /** The name of the semantic configuration that lists which fields should be used for semantic ranking, captions, highlights, and answers */
   semanticConfiguration?: string;
+  /** Allows the user to choose whether a semantic call should fail completely, or to return partial results (default). */
+  semanticErrorHandling?: SemanticErrorHandling;
+  /** Allows the user to set an upper bound on the amount of time it takes for semantic enrichment to finish processing before the request fails. */
+  semanticMaxWaitInMilliseconds?: number;
+  /** Enables a debugging tool that can be used to further explore your search results. */
+  debug?: QueryDebugMode;
   /** The list of field names to which to scope the full-text search. When using fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each fielded search expression take precedence over any field names listed in this parameter. */
   searchFields?: string[];
   /** The language of the query. */
   queryLanguage?: QueryLanguage;
   /** Improve search recall by spell-correcting individual search query terms. */
   speller?: Speller;
-  /** This parameter is only valid if the query type is 'semantic'. If set, the query returns answers extracted from key passages in the highest ranked documents. The number of answers returned can be configured by appending the pipe character '|' followed by the 'count-<number of answers>' option after the answers parameter value, such as 'extractive|count-3'. Default count is 1. */
+  /** This parameter is only valid if the query type is 'semantic'. If set, the query returns answers extracted from key passages in the highest ranked documents. The number of answers returned can be configured by appending the pipe character '|' followed by the 'count-<number of answers>' option after the answers parameter value, such as 'extractive|count-3'. Default count is 1. The confidence threshold can be configured by appending the pipe character '|' followed by the 'threshold-<confidence threshold>' option after the answers parameter value, such as 'extractive|threshold-0.9'. Default threshold is 0.7. */
   answers?: Answers;
   /** A value that specifies whether any or all of the search terms must be matched in order to count the document as a match. */
   searchMode?: SearchMode;
@@ -444,20 +577,56 @@ export interface AutocompleteOptions {
   top?: number;
 }
 
-/** Known values of {@link ApiVersion20210430Preview} that the service accepts. */
-export enum KnownApiVersion20210430Preview {
-  /** Api Version '2021-04-30-Preview' */
-  TwoThousandTwentyOne0430Preview = "2021-04-30-Preview"
+/** Known values of {@link ApiVersion20231001Preview} that the service accepts. */
+export enum KnownApiVersion20231001Preview {
+  /** Api Version '2023-10-01-Preview' */
+  TwoThousandTwentyThree1001Preview = "2023-10-01-Preview"
 }
 
 /**
- * Defines values for ApiVersion20210430Preview. \
- * {@link KnownApiVersion20210430Preview} can be used interchangeably with ApiVersion20210430Preview,
+ * Defines values for ApiVersion20231001Preview. \
+ * {@link KnownApiVersion20231001Preview} can be used interchangeably with ApiVersion20231001Preview,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2021-04-30-Preview**: Api Version '2021-04-30-Preview'
+ * **2023-10-01-Preview**: Api Version '2023-10-01-Preview'
  */
-export type ApiVersion20210430Preview = string;
+export type ApiVersion20231001Preview = string;
+
+/** Known values of {@link SemanticErrorHandling} that the service accepts. */
+export enum KnownSemanticErrorHandling {
+  /** If the semantic processing fails, partial results still return. The definition of partial results depends on what semantic step failed and what was the reason for failure. */
+  Partial = "partial",
+  /** If there is an exception during the semantic processing step, the query will fail and return the appropriate HTTP code depending on the error. */
+  Fail = "fail"
+}
+
+/**
+ * Defines values for SemanticErrorHandling. \
+ * {@link KnownSemanticErrorHandling} can be used interchangeably with SemanticErrorHandling,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **partial**: If the semantic processing fails, partial results still return. The definition of partial results depends on what semantic step failed and what was the reason for failure. \
+ * **fail**: If there is an exception during the semantic processing step, the query will fail and return the appropriate HTTP code depending on the error.
+ */
+export type SemanticErrorHandling = string;
+
+/** Known values of {@link QueryDebugMode} that the service accepts. */
+export enum KnownQueryDebugMode {
+  /** No query debugging information will be returned. */
+  Disabled = "disabled",
+  /** Allows the user to further explore their Semantic search results. */
+  Semantic = "semantic"
+}
+
+/**
+ * Defines values for QueryDebugMode. \
+ * {@link KnownQueryDebugMode} can be used interchangeably with QueryDebugMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **disabled**: No query debugging information will be returned. \
+ * **semantic**: Allows the user to further explore their Semantic search results.
+ */
+export type QueryDebugMode = string;
 
 /** Known values of {@link QueryLanguage} that the service accepts. */
 export enum KnownQueryLanguage {
@@ -794,6 +963,102 @@ export enum KnownQueryCaptionType {
  * **extractive**: Extracts captions from the matching documents that contain passages relevant to the search query.
  */
 export type QueryCaptionType = string;
+
+/** Known values of {@link VectorQueryKind} that the service accepts. */
+export enum KnownVectorQueryKind {
+  /** Vector query where a raw vector value is provided. */
+  Vector = "vector",
+  /** Vector query where a text value that needs to be vectorized is provided. */
+  $DO_NOT_NORMALIZE$_text = "text"
+}
+
+/**
+ * Defines values for VectorQueryKind. \
+ * {@link KnownVectorQueryKind} can be used interchangeably with VectorQueryKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **vector**: Vector query where a raw vector value is provided. \
+ * **text**: Vector query where a text value that needs to be vectorized is provided.
+ */
+export type VectorQueryKind = string;
+
+/** Known values of {@link VectorFilterMode} that the service accepts. */
+export enum KnownVectorFilterMode {
+  /** The filter will be applied after the candidate set of vector results is returned. Depending on the filter selectivity, this can result in fewer results than requested by the parameter 'k'. */
+  PostFilter = "postFilter",
+  /** The filter will be applied before the search query. */
+  PreFilter = "preFilter"
+}
+
+/**
+ * Defines values for VectorFilterMode. \
+ * {@link KnownVectorFilterMode} can be used interchangeably with VectorFilterMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **postFilter**: The filter will be applied after the candidate set of vector results is returned. Depending on the filter selectivity, this can result in fewer results than requested by the parameter 'k'. \
+ * **preFilter**: The filter will be applied before the search query.
+ */
+export type VectorFilterMode = string;
+
+/** Known values of {@link SemanticPartialResponseReason} that the service accepts. */
+export enum KnownSemanticPartialResponseReason {
+  /** If 'semanticMaxWaitInMilliseconds' was set and the semantic processing duration exceeded that value. Only the base results were returned. */
+  MaxWaitExceeded = "maxWaitExceeded",
+  /** The request was throttled. Only the base results were returned. */
+  CapacityOverloaded = "capacityOverloaded",
+  /** At least one step of the semantic process failed. */
+  Transient = "transient"
+}
+
+/**
+ * Defines values for SemanticPartialResponseReason. \
+ * {@link KnownSemanticPartialResponseReason} can be used interchangeably with SemanticPartialResponseReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **maxWaitExceeded**: If 'semanticMaxWaitInMilliseconds' was set and the semantic processing duration exceeded that value. Only the base results were returned. \
+ * **capacityOverloaded**: The request was throttled. Only the base results were returned. \
+ * **transient**: At least one step of the semantic process failed.
+ */
+export type SemanticPartialResponseReason = string;
+
+/** Known values of {@link SemanticPartialResponseType} that the service accepts. */
+export enum KnownSemanticPartialResponseType {
+  /** Results without any semantic enrichment or reranking. */
+  BaseResults = "baseResults",
+  /** Results have been reranked with the reranker model and will include semantic captions. They will not include any answers, answers highlights or caption highlights. */
+  RerankedResults = "rerankedResults"
+}
+
+/**
+ * Defines values for SemanticPartialResponseType. \
+ * {@link KnownSemanticPartialResponseType} can be used interchangeably with SemanticPartialResponseType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **baseResults**: Results without any semantic enrichment or reranking. \
+ * **rerankedResults**: Results have been reranked with the reranker model and will include semantic captions. They will not include any answers, answers highlights or caption highlights.
+ */
+export type SemanticPartialResponseType = string;
+
+/** Known values of {@link SemanticFieldState} that the service accepts. */
+export enum KnownSemanticFieldState {
+  /** The field was fully used for semantic enrichment. */
+  Used = "used",
+  /** The field was not used for semantic enrichment. */
+  Unused = "unused",
+  /** The field was partially used for semantic enrichment. */
+  Partial = "partial"
+}
+
+/**
+ * Defines values for SemanticFieldState. \
+ * {@link KnownSemanticFieldState} can be used interchangeably with SemanticFieldState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **used**: The field was fully used for semantic enrichment. \
+ * **unused**: The field was not used for semantic enrichment. \
+ * **partial**: The field was partially used for semantic enrichment.
+ */
+export type SemanticFieldState = string;
 /** Defines values for QueryType. */
 export type QueryType = "simple" | "full" | "semantic";
 /** Defines values for SearchMode. */
@@ -842,7 +1107,7 @@ export interface DocumentsGetOptionalParams
 }
 
 /** Contains response data for the get operation. */
-export type DocumentsGetResponse = Record<string, unknown>;
+export type DocumentsGetResponse = { [propertyName: string]: any };
 
 /** Optional parameters. */
 export interface DocumentsSuggestGetOptionalParams

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachineScaleSetVMExtension,
   VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams,
@@ -40,10 +40,8 @@ export interface VirtualMachineScaleSetVMExtensions {
     extensionParameters: VirtualMachineScaleSetVMExtension,
     options?: VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse>,
       VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse
     >
   >;
@@ -81,8 +79,8 @@ export interface VirtualMachineScaleSetVMExtensions {
     extensionParameters: VirtualMachineScaleSetVMExtensionUpdate,
     options?: VirtualMachineScaleSetVMExtensionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineScaleSetVMExtensionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetVMExtensionsUpdateResponse>,
       VirtualMachineScaleSetVMExtensionsUpdateResponse
     >
   >;
@@ -117,7 +115,7 @@ export interface VirtualMachineScaleSetVMExtensions {
     instanceId: string,
     vmExtensionName: string,
     options?: VirtualMachineScaleSetVMExtensionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the VMSS VM extension.
    * @param resourceGroupName The name of the resource group.

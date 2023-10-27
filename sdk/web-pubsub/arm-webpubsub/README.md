@@ -6,7 +6,7 @@ REST API for Azure WebPubSub Service
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/arm-webpubsub) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-webpubsub) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-webpubsub) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-webpubsub?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

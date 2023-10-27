@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Domain,
   DomainsListBySubscriptionOptionalParams,
@@ -69,8 +69,8 @@ export interface Domains {
     domainInfo: Domain,
     options?: DomainsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DomainsCreateOrUpdateResponse>,
       DomainsCreateOrUpdateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface Domains {
     resourceGroupName: string,
     domainName: string,
     options?: DomainsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete existing domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
@@ -121,7 +121,7 @@ export interface Domains {
     domainName: string,
     domainUpdateParameters: DomainUpdateParameters,
     options?: DomainsUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Asynchronously updates a domain with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.

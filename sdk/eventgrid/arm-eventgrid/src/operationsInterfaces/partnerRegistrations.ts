@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PartnerRegistration,
   PartnerRegistrationsListBySubscriptionOptionalParams,
@@ -64,8 +64,8 @@ export interface PartnerRegistrations {
     partnerRegistrationInfo: PartnerRegistration,
     options?: PartnerRegistrationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PartnerRegistrationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PartnerRegistrationsCreateOrUpdateResponse>,
       PartnerRegistrationsCreateOrUpdateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface PartnerRegistrations {
     resourceGroupName: string,
     partnerRegistrationName: string,
     options?: PartnerRegistrationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a partner registration with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
@@ -116,7 +116,7 @@ export interface PartnerRegistrations {
     partnerRegistrationName: string,
     partnerRegistrationUpdateParameters: PartnerRegistrationUpdateParameters,
     options?: PartnerRegistrationsUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Updates a partner registration with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.

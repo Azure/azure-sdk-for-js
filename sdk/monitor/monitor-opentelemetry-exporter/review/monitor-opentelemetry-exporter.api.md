@@ -11,7 +11,9 @@ import * as coreClient from '@azure/core-client';
 import { ExportResult } from '@opentelemetry/core';
 import { InstrumentType } from '@opentelemetry/sdk-metrics';
 import { Link } from '@opentelemetry/api';
+import type { LogRecordExporter } from '@opentelemetry/sdk-logs';
 import { PushMetricExporter } from '@opentelemetry/sdk-metrics';
+import type { ReadableLogRecord } from '@opentelemetry/sdk-logs';
 import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
 import { ResourceMetrics } from '@opentelemetry/sdk-metrics';
 import { Sampler } from '@opentelemetry/sdk-trace-base';
@@ -36,18 +38,26 @@ export class ApplicationInsightsSampler implements Sampler {
 // @public
 export abstract class AzureMonitorBaseExporter {
     constructor(options?: AzureMonitorExporterOptions, isStatsbeatExporter?: boolean);
-    protected _exportEnvelopes(envelopes: TelemetryItem[]): Promise<ExportResult>;
-    protected _instrumentationKey: string;
-    protected _shutdown(): Promise<void>;
+    protected aadAudience: string | undefined;
+    protected endpointUrl: string;
+    protected instrumentationKey: string;
+    protected trackStatsbeat: boolean;
 }
 
 // @public
 export interface AzureMonitorExporterOptions extends ApplicationInsightsClientOptionalParams {
-    aadTokenCredential?: TokenCredential;
     apiVersion?: ServiceApiVersion;
     connectionString?: string;
+    credential?: TokenCredential;
     disableOfflineStorage?: boolean;
     storageDirectory?: string;
+}
+
+// @public
+export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements LogRecordExporter {
+    constructor(options?: AzureMonitorExporterOptions);
+    export(logs: ReadableLogRecord[], resultCallback: (result: ExportResult) => void): Promise<void>;
+    shutdown(): Promise<void>;
 }
 
 // @public
@@ -55,15 +65,7 @@ export class AzureMonitorMetricExporter extends AzureMonitorBaseExporter impleme
     constructor(options?: AzureMonitorExporterOptions);
     export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void>;
     forceFlush(): Promise<void>;
-    selectAggregationTemporality(_instrumentType: InstrumentType): AggregationTemporality;
-    shutdown(): Promise<void>;
-}
-
-// @public
-export class AzureMonitorStatsbeatExporter extends AzureMonitorBaseExporter implements PushMetricExporter {
-    constructor(options: AzureMonitorExporterOptions);
-    export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void>;
-    forceFlush(): Promise<void>;
+    selectAggregationTemporality(instrumentType: InstrumentType): AggregationTemporality;
     shutdown(): Promise<void>;
 }
 
@@ -75,34 +77,8 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
 }
 
 // @public
-export interface MonitorBase {
-    baseData?: MonitorDomain;
-    baseType?: string;
-}
-
-// @public
-export interface MonitorDomain {
-    [property: string]: any;
-    version: number;
-}
-
-// @public
 export enum ServiceApiVersion {
     V2 = "2020-09-15_Preview"
-}
-
-// @public
-export interface TelemetryItem {
-    data?: MonitorBase;
-    instrumentationKey?: string;
-    name: string;
-    sampleRate?: number;
-    sequence?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    time: Date;
-    version?: number;
 }
 
 // (No @packageDocumentation comment for this package)

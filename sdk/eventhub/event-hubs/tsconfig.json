@@ -9,6 +9,12 @@
       "@azure/event-hubs": ["./src/index"]
     }
   },
-  "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts", "test/perf/track-1/"],
+  "exclude": [
+    "node_modules",
+    "./types/**/*.d.ts",
+    "./samples/**/*.ts",
+    "test/perf/track-1/",
+    "test/stress*"
+  ],
   "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }

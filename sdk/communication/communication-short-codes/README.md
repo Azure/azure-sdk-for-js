@@ -280,6 +280,28 @@ async main function() {
 main();
 ```
 
+### Get short code costs
+Use `listShortCodeCosts` to page through all short code costs eligible by a resource.
+
+```typescript
+import { ShortCodesClient } from "@azure-tools/communication-short-codes";
+
+const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
+const client = new ShortCodesClient(connectionString);
+
+async main function() {
+  // get all eligible short code costs for a resource
+  var shortCodeCosts = await client.listShortCodeCosts();
+
+  // print all short code costs
+  for await (const shortCodeCost of shortCodeCosts) {
+    console.log(`${shortCodeCost}`);
+  }
+}
+
+main();
+```
+
 ## Troubleshooting
 
 ## Next steps

@@ -41,7 +41,7 @@ export class FirewallRulesImpl implements FirewallRules {
 
   /**
    * Gets all firewall rules in the specified redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param options The options parameters.
    */
@@ -117,7 +117,7 @@ export class FirewallRulesImpl implements FirewallRules {
 
   /**
    * Gets all firewall rules in the specified redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param options The options parameters.
    */
@@ -134,7 +134,7 @@ export class FirewallRulesImpl implements FirewallRules {
 
   /**
    * Create or update a redis cache firewall rule
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param ruleName The name of the firewall rule.
    * @param parameters Parameters supplied to the create or update redis firewall rule operation.
@@ -155,7 +155,7 @@ export class FirewallRulesImpl implements FirewallRules {
 
   /**
    * Gets a single firewall rule in a specified redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param ruleName The name of the firewall rule.
    * @param options The options parameters.
@@ -174,7 +174,7 @@ export class FirewallRulesImpl implements FirewallRules {
 
   /**
    * Deletes a single firewall rule in a specified redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param ruleName The name of the firewall rule.
    * @param options The options parameters.
@@ -193,7 +193,7 @@ export class FirewallRulesImpl implements FirewallRules {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.

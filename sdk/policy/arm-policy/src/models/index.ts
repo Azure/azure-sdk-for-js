@@ -701,10 +701,7 @@ export type DataPolicyManifestsListResponse = DataPolicyManifestListResult;
 
 /** Optional parameters. */
 export interface DataPolicyManifestsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: "namespace eq '{value}'". If $filter is not provided, no filtering is performed. If $filter=namespace eq '{value}' is provided, the returned list only includes all data policy manifests that have a namespace matching the provided value. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DataPolicyManifestsListNextResponse = DataPolicyManifestListResult;
@@ -815,48 +812,28 @@ export type PolicyAssignmentsUpdateByIdResponse = PolicyAssignment;
 
 /** Optional parameters. */
 export interface PolicyAssignmentsListForResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
-  filter?: string;
-  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceGroupNext operation. */
 export type PolicyAssignmentsListForResourceGroupNextResponse = PolicyAssignmentListResult;
 
 /** Optional parameters. */
 export interface PolicyAssignmentsListForResourceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
-  filter?: string;
-  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceNext operation. */
 export type PolicyAssignmentsListForResourceNextResponse = PolicyAssignmentListResult;
 
 /** Optional parameters. */
 export interface PolicyAssignmentsListForManagementGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
-  filter?: string;
-  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForManagementGroupNext operation. */
 export type PolicyAssignmentsListForManagementGroupNextResponse = PolicyAssignmentListResult;
 
 /** Optional parameters. */
 export interface PolicyAssignmentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
-  filter?: string;
-  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PolicyAssignmentsListNextResponse = PolicyAssignmentListResult;
@@ -942,36 +919,21 @@ export type PolicyDefinitionsListByManagementGroupResponse = PolicyDefinitionLis
 
 /** Optional parameters. */
 export interface PolicyDefinitionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy definitions whose category match the {value}. */
-  filter?: string;
-  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PolicyDefinitionsListNextResponse = PolicyDefinitionListResult;
 
 /** Optional parameters. */
 export interface PolicyDefinitionsListBuiltInNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy definitions whose category match the {value}. */
-  filter?: string;
-  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBuiltInNext operation. */
 export type PolicyDefinitionsListBuiltInNextResponse = PolicyDefinitionListResult;
 
 /** Optional parameters. */
 export interface PolicyDefinitionsListByManagementGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy definitions whose category match the {value}. */
-  filter?: string;
-  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByManagementGroupNext operation. */
 export type PolicyDefinitionsListByManagementGroupNextResponse = PolicyDefinitionListResult;
@@ -1057,36 +1019,21 @@ export type PolicySetDefinitionsListByManagementGroupResponse = PolicySetDefinit
 
 /** Optional parameters. */
 export interface PolicySetDefinitionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy set definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy set definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy set definitions whose category match the {value}. */
-  filter?: string;
-  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PolicySetDefinitionsListNextResponse = PolicySetDefinitionListResult;
 
 /** Optional parameters. */
 export interface PolicySetDefinitionsListBuiltInNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy set definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy set definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy set definitions whose category match the {value}. */
-  filter?: string;
-  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBuiltInNext operation. */
 export type PolicySetDefinitionsListBuiltInNextResponse = PolicySetDefinitionListResult;
 
 /** Optional parameters. */
 export interface PolicySetDefinitionsListByManagementGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy set definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy set definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy set definitions whose category match the {value}. */
-  filter?: string;
-  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByManagementGroupNext operation. */
 export type PolicySetDefinitionsListByManagementGroupNextResponse = PolicySetDefinitionListResult;
@@ -1151,40 +1098,28 @@ export type PolicyExemptionsListForManagementGroupResponse = PolicyExemptionList
 
 /** Optional parameters. */
 export interface PolicyExemptionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter is not provided, the unfiltered list includes all policy exemptions associated with the scope, including those that apply directly or apply from containing scopes. If $filter=atScope() is provided, the returned list only includes all policy exemptions that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy exemptions that at the given scope. If $filter=excludeExpired() is provided, the returned list only includes all policy exemptions that either haven't expired or didn't set expiration date. If $filter=policyAssignmentId eq '{value}' is provided. the returned list only includes all policy exemptions that are associated with the give policyAssignmentId. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PolicyExemptionsListNextResponse = PolicyExemptionListResult;
 
 /** Optional parameters. */
 export interface PolicyExemptionsListForResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter is not provided, the unfiltered list includes all policy exemptions associated with the scope, including those that apply directly or apply from containing scopes. If $filter=atScope() is provided, the returned list only includes all policy exemptions that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy exemptions that at the given scope. If $filter=excludeExpired() is provided, the returned list only includes all policy exemptions that either haven't expired or didn't set expiration date. If $filter=policyAssignmentId eq '{value}' is provided. the returned list only includes all policy exemptions that are associated with the give policyAssignmentId. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceGroupNext operation. */
 export type PolicyExemptionsListForResourceGroupNextResponse = PolicyExemptionListResult;
 
 /** Optional parameters. */
 export interface PolicyExemptionsListForResourceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter is not provided, the unfiltered list includes all policy exemptions associated with the scope, including those that apply directly or apply from containing scopes. If $filter=atScope() is provided, the returned list only includes all policy exemptions that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy exemptions that at the given scope. If $filter=excludeExpired() is provided, the returned list only includes all policy exemptions that either haven't expired or didn't set expiration date. If $filter=policyAssignmentId eq '{value}' is provided. the returned list only includes all policy exemptions that are associated with the give policyAssignmentId. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceNext operation. */
 export type PolicyExemptionsListForResourceNextResponse = PolicyExemptionListResult;
 
 /** Optional parameters. */
 export interface PolicyExemptionsListForManagementGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter is not provided, the unfiltered list includes all policy exemptions associated with the scope, including those that apply directly or apply from containing scopes. If $filter=atScope() is provided, the returned list only includes all policy exemptions that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy exemptions that at the given scope. If $filter=excludeExpired() is provided, the returned list only includes all policy exemptions that either haven't expired or didn't set expiration date. If $filter=policyAssignmentId eq '{value}' is provided. the returned list only includes all policy exemptions that are associated with the give policyAssignmentId. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForManagementGroupNext operation. */
 export type PolicyExemptionsListForManagementGroupNextResponse = PolicyExemptionListResult;

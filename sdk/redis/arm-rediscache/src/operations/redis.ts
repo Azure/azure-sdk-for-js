@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { RedisManagementClient } from "../redisManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   UpgradeNotification,
   RedisListUpgradeNotificationsNextOptionalParams,
@@ -50,6 +54,8 @@ import {
   RedisImportDataOptionalParams,
   ExportRDBParameters,
   RedisExportDataOptionalParams,
+  RedisFlushCacheOptionalParams,
+  RedisFlushCacheResponse,
   RedisListUpgradeNotificationsNextResponse,
   RedisListByResourceGroupNextResponse,
   RedisListBySubscriptionNextResponse
@@ -70,7 +76,7 @@ export class RedisImpl implements Redis {
 
   /**
    * Gets any upgrade notifications for a Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param history how many minutes in past to look for upgrade notifications
    * @param options The options parameters.
@@ -162,7 +168,7 @@ export class RedisImpl implements Redis {
 
   /**
    * Lists all Redis caches in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -301,7 +307,7 @@ export class RedisImpl implements Redis {
 
   /**
    * Gets any upgrade notifications for a Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param history how many minutes in past to look for upgrade notifications
    * @param options The options parameters.
@@ -320,7 +326,7 @@ export class RedisImpl implements Redis {
 
   /**
    * Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters supplied to the Create Redis operation.
    * @param options The options parameters.
@@ -331,7 +337,7 @@ export class RedisImpl implements Redis {
     parameters: RedisCreateParameters,
     options?: RedisCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<RedisCreateResponse>, RedisCreateResponse>
+    SimplePollerLike<OperationState<RedisCreateResponse>, RedisCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -339,7 +345,7 @@ export class RedisImpl implements Redis {
     ): Promise<RedisCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -372,13 +378,16 @@ export class RedisImpl implements Redis {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, parameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, parameters, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RedisCreateResponse,
+      OperationState<RedisCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -387,7 +396,7 @@ export class RedisImpl implements Redis {
 
   /**
    * Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters supplied to the Create Redis operation.
    * @param options The options parameters.
@@ -409,7 +418,7 @@ export class RedisImpl implements Redis {
 
   /**
    * Update an existing Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters supplied to the Update Redis operation.
    * @param options The options parameters.
@@ -420,7 +429,7 @@ export class RedisImpl implements Redis {
     parameters: RedisUpdateParameters,
     options?: RedisUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<RedisUpdateResponse>, RedisUpdateResponse>
+    SimplePollerLike<OperationState<RedisUpdateResponse>, RedisUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -428,7 +437,7 @@ export class RedisImpl implements Redis {
     ): Promise<RedisUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -461,13 +470,16 @@ export class RedisImpl implements Redis {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RedisUpdateResponse,
+      OperationState<RedisUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -476,7 +488,7 @@ export class RedisImpl implements Redis {
 
   /**
    * Update an existing Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters supplied to the Update Redis operation.
    * @param options The options parameters.
@@ -498,7 +510,7 @@ export class RedisImpl implements Redis {
 
   /**
    * Deletes a Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param options The options parameters.
    */
@@ -506,14 +518,14 @@ export class RedisImpl implements Redis {
     resourceGroupName: string,
     name: string,
     options?: RedisDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -546,13 +558,13 @@ export class RedisImpl implements Redis {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -561,7 +573,7 @@ export class RedisImpl implements Redis {
 
   /**
    * Deletes a Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param options The options parameters.
    */
@@ -576,7 +588,7 @@ export class RedisImpl implements Redis {
 
   /**
    * Gets a Redis cache (resource description).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param options The options parameters.
    */
@@ -593,7 +605,7 @@ export class RedisImpl implements Redis {
 
   /**
    * Lists all Redis caches in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -622,7 +634,7 @@ export class RedisImpl implements Redis {
   /**
    * Retrieve a Redis cache's access keys. This operation requires write permission to the cache
    * resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param options The options parameters.
    */
@@ -640,7 +652,7 @@ export class RedisImpl implements Redis {
   /**
    * Regenerate Redis cache's access keys. This operation requires write permission to the cache
    * resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Specifies which key to regenerate.
    * @param options The options parameters.
@@ -660,7 +672,7 @@ export class RedisImpl implements Redis {
   /**
    * Reboot specified Redis node(s). This operation requires write permission to the cache resource.
    * There can be potential data loss.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Specifies which Redis node(s) to reboot.
    * @param options The options parameters.
@@ -679,7 +691,7 @@ export class RedisImpl implements Redis {
 
   /**
    * Import data into Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters for Redis import operation.
    * @param options The options parameters.
@@ -689,14 +701,14 @@ export class RedisImpl implements Redis {
     name: string,
     parameters: ImportRDBParameters,
     options?: RedisImportDataOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -729,13 +741,13 @@ export class RedisImpl implements Redis {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, parameters, options },
-      importDataOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, parameters, options },
+      spec: importDataOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -744,7 +756,7 @@ export class RedisImpl implements Redis {
 
   /**
    * Import data into Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters for Redis import operation.
    * @param options The options parameters.
@@ -766,7 +778,7 @@ export class RedisImpl implements Redis {
 
   /**
    * Export data from the redis cache to blobs in a container.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters for Redis export operation.
    * @param options The options parameters.
@@ -776,14 +788,14 @@ export class RedisImpl implements Redis {
     name: string,
     parameters: ExportRDBParameters,
     options?: RedisExportDataOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -816,13 +828,13 @@ export class RedisImpl implements Redis {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, parameters, options },
-      exportDataOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, parameters, options },
+      spec: exportDataOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -831,7 +843,7 @@ export class RedisImpl implements Redis {
 
   /**
    * Export data from the redis cache to blobs in a container.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters for Redis export operation.
    * @param options The options parameters.
@@ -852,8 +864,99 @@ export class RedisImpl implements Redis {
   }
 
   /**
+   * Deletes all of the keys in a cache.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName The name of the Redis cache.
+   * @param options The options parameters.
+   */
+  async beginFlushCache(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: RedisFlushCacheOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<RedisFlushCacheResponse>,
+      RedisFlushCacheResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<RedisFlushCacheResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, cacheName, options },
+      spec: flushCacheOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RedisFlushCacheResponse,
+      OperationState<RedisFlushCacheResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes all of the keys in a cache.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName The name of the Redis cache.
+   * @param options The options parameters.
+   */
+  async beginFlushCacheAndWait(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: RedisFlushCacheOptionalParams
+  ): Promise<RedisFlushCacheResponse> {
+    const poller = await this.beginFlushCache(
+      resourceGroupName,
+      cacheName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListUpgradeNotificationsNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param nextLink The nextLink from the previous successful call to the ListUpgradeNotifications
    *                 method.
@@ -873,7 +976,7 @@ export class RedisImpl implements Redis {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -1211,6 +1314,41 @@ const exportDataOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const flushCacheOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/flush",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatusResult,
+      headersMapper: Mappers.RedisFlushCacheHeaders
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult,
+      headersMapper: Mappers.RedisFlushCacheHeaders
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult,
+      headersMapper: Mappers.RedisFlushCacheHeaders
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult,
+      headersMapper: Mappers.RedisFlushCacheHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.cacheName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listUpgradeNotificationsNextOperationSpec: coreClient.OperationSpec = {

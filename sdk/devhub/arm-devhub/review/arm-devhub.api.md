@@ -20,6 +20,26 @@ export interface Acr {
 export type ActionType = string;
 
 // @public
+export interface ArtifactGenerationProperties {
+    appName?: string;
+    builderVersion?: string;
+    dockerfileGenerationMode?: DockerfileGenerationMode;
+    dockerfileOutputDirectory?: string;
+    generationLanguage?: GenerationLanguage;
+    imageName?: string;
+    imageTag?: string;
+    languageVersion?: string;
+    manifestGenerationMode?: ManifestGenerationMode;
+    manifestOutputDirectory?: string;
+    manifestType?: GenerationManifestType;
+    namespace?: string;
+    port?: string;
+}
+
+// @public
+export type AuthorizationStatus = string;
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -46,6 +66,7 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DeveloperHubServiceClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    generatePreviewArtifacts(location: string, parameters: ArtifactGenerationProperties, options?: GeneratePreviewArtifactsOptionalParams): Promise<GeneratePreviewArtifactsResponse>;
     gitHubOAuth(location: string, options?: GitHubOAuthOptionalParams): Promise<GitHubOAuthOperationResponse>;
     gitHubOAuthCallback(location: string, code: string, state: string, options?: GitHubOAuthCallbackOptionalParams): Promise<GitHubOAuthCallbackResponse>;
     listGitHubOAuth(location: string, options?: ListGitHubOAuthOptionalParams): Promise<ListGitHubOAuthResponse>;
@@ -63,6 +84,9 @@ export interface DeveloperHubServiceClientOptionalParams extends coreClient.Serv
     apiVersion?: string;
     endpoint?: string;
 }
+
+// @public
+export type DockerfileGenerationMode = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -83,6 +107,21 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
+
+// @public
+export interface GeneratePreviewArtifactsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GeneratePreviewArtifactsResponse = {
+    [propertyName: string]: string;
+};
+
+// @public
+export type GenerationLanguage = string;
+
+// @public
+export type GenerationManifestType = string;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -135,11 +174,53 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAuthorizationStatus {
+    Authorized = "Authorized",
+    Error = "Error",
+    NotFound = "NotFound"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDockerfileGenerationMode {
+    Disabled = "disabled",
+    Enabled = "enabled"
+}
+
+// @public
+export enum KnownGenerationLanguage {
+    Clojure = "clojure",
+    Csharp = "csharp",
+    Erlang = "erlang",
+    Go = "go",
+    Gomodule = "gomodule",
+    Gradle = "gradle",
+    Java = "java",
+    Javascript = "javascript",
+    Php = "php",
+    Python = "python",
+    Ruby = "ruby",
+    Rust = "rust",
+    Swift = "swift"
+}
+
+// @public
+export enum KnownGenerationManifestType {
+    Helm = "helm",
+    Kube = "kube"
+}
+
+// @public
+export enum KnownManifestGenerationMode {
+    Disabled = "disabled",
+    Enabled = "enabled"
 }
 
 // @public
@@ -164,11 +245,21 @@ export enum KnownPullRequestStatus {
 }
 
 // @public
+export enum KnownWorkflowRunStatus {
+    Completed = "completed",
+    Inprogress = "inprogress",
+    Queued = "queued"
+}
+
+// @public
 export interface ListGitHubOAuthOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type ListGitHubOAuthResponse = GitHubOAuthListResponse;
+
+// @public
+export type ManifestGenerationMode = string;
 
 // @public
 export type ManifestType = string;
@@ -255,16 +346,29 @@ export interface TrackedResource extends Resource {
 export interface Workflow extends TrackedResource {
     acr?: Acr;
     aksResourceId?: string;
-    authStatus?: ManifestType;
+    appName?: string;
+    readonly authStatus?: AuthorizationStatus;
     branchName?: string;
+    builderVersion?: string;
     // (undocumented)
     deploymentProperties?: DeploymentProperties;
     dockerBuildContext?: string;
     dockerfile?: string;
+    dockerfileGenerationMode?: DockerfileGenerationMode;
+    dockerfileOutputDirectory?: string;
+    generationLanguage?: GenerationLanguage;
+    imageName?: string;
+    imageTag?: string;
+    languageVersion?: string;
     // (undocumented)
     lastWorkflowRun?: WorkflowRun;
-    namespace?: string;
+    manifestGenerationMode?: ManifestGenerationMode;
+    manifestOutputDirectory?: string;
+    manifestType?: GenerationManifestType;
+    namespacePropertiesArtifactGenerationPropertiesNamespace?: string;
+    namespacePropertiesGithubWorkflowProfileNamespace?: string;
     oidcCredentials?: GitHubWorkflowProfileOidcCredentials;
+    port?: string;
     readonly prStatus?: PullRequestStatus;
     readonly prURL?: string;
     readonly pullNumber?: number;
@@ -342,8 +446,12 @@ export interface WorkflowOperations {
 export interface WorkflowRun {
     readonly lastRunAt?: Date;
     readonly succeeded?: boolean;
+    workflowRunStatus?: WorkflowRunStatus;
     readonly workflowRunURL?: string;
 }
+
+// @public
+export type WorkflowRunStatus = string;
 
 // @public
 export interface WorkflowUpdateTagsOptionalParams extends coreClient.OperationOptions {

@@ -13,6 +13,9 @@ import {
   PolicyClient
 } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to This operation retrieves the list of all policy exemptions associated with the given subscription that match the optional given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not provided, the unfiltered list includes all policy exemptions associated with the subscription, including those that apply directly or from management groups that contain the given subscription, as well as any applied to objects contained within the subscription.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/preview/2020-07-01-preview/examples/listPolicyExemptionsForSubscription.json
  */
 async function listPolicyExemptionsThatApplyToASubscription() {
-  const subscriptionId = "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
+  const subscriptionId =
+    process.env["POLICY_SUBSCRIPTION_ID"] ||
+    "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const filter = "atScope()";
   const options: PolicyExemptionsListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
@@ -33,4 +38,8 @@ async function listPolicyExemptionsThatApplyToASubscription() {
   console.log(resArray);
 }
 
-listPolicyExemptionsThatApplyToASubscription().catch(console.error);
+async function main() {
+  listPolicyExemptionsThatApplyToASubscription();
+}
+
+main().catch(console.error);

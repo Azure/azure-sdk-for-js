@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DatasetResource,
   DatasetGetDatasetsByWorkspaceOptionalParams,
@@ -41,8 +41,8 @@ export interface DatasetOperations {
     dataset: DatasetResource,
     options?: DatasetCreateOrUpdateDatasetOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatasetCreateOrUpdateDatasetResponse>,
+    SimplePollerLike<
+      OperationState<DatasetCreateOrUpdateDatasetResponse>,
       DatasetCreateOrUpdateDatasetResponse
     >
   >;
@@ -74,7 +74,7 @@ export interface DatasetOperations {
   beginDeleteDataset(
     datasetName: string,
     options?: DatasetDeleteDatasetOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a dataset.
    * @param datasetName The dataset name.
@@ -94,7 +94,7 @@ export interface DatasetOperations {
     datasetName: string,
     request: ArtifactRenameRequest,
     options?: DatasetRenameDatasetOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a dataset.
    * @param datasetName The dataset name.

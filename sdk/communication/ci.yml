@@ -53,11 +53,17 @@ extends:
         safeName: azurecommunicationrooms
       - name: azure-communication-job-router
         safeName: azurecommunicationjobrouter
+      - name: azure-rest-communication-job-router
+        safeName: azurerestcommunicationjobrouter
       - name: azure-tools-communication-toll-free-verification
         safeName: azuretoolscommunicationtollfreeverification
       - name: azure-communication-call-automation
         safeName: azurecommunicationcallautomation
       - name: azure-tools-communication-recipient-verification
         safeName: azuretoolscommunicationrecipientverification
+        skipPublishDocMs: true
+        skipPublishDocGithubIo: true
+      - name: azure-tools-communication-tiering
+        safeName: azuretoolscommunicationtiering
         skipPublishDocMs: true
         skipPublishDocGithubIo: true

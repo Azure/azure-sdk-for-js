@@ -1,0 +1,41 @@
+{
+  "name": "@azure-samples/arm-devcenter-ts-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": " client library samples for TypeScript (Beta)",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/devcenter/arm-devcenter"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devcenter/arm-devcenter",
+  "dependencies": {
+    "@azure/arm-devcenter": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.0.0",
+    "typescript": "~5.2.0",
+    "rimraf": "latest"
+  }
+}

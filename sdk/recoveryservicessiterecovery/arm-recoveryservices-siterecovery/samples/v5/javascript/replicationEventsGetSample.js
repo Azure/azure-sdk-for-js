@@ -10,17 +10,21 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to The operation to get the details of an Azure Site recovery event.
  *
  * @summary The operation to get the details of an Azure Site recovery event.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationEvents_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationEvents_Get.json
  */
 async function getTheDetailsOfAnAzureSiteRecoveryEvent() {
-  const subscriptionId = "c183865e-6077-46f2-a3b1-deb0f4f4650a";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "c183865e-6077-46f2-a3b1-deb0f4f4650a";
   const resourceName = "vault1";
-  const resourceGroupName = "resourceGroupPS1";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "resourceGroupPS1";
   const eventName = "654b71d0-b2ce-4e6e-a861-98528d4bd375";
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -28,4 +32,8 @@ async function getTheDetailsOfAnAzureSiteRecoveryEvent() {
   console.log(result);
 }
 
-getTheDetailsOfAnAzureSiteRecoveryEvent().catch(console.error);
+async function main() {
+  getTheDetailsOfAnAzureSiteRecoveryEvent();
+}
+
+main().catch(console.error);

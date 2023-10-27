@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvVarKeys, getEnvVars, isNode } from "../public/utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import {
   EventHubConsumerClient,
   EventHubProducerClient,
@@ -18,6 +18,7 @@ import debugModule from "debug";
 import { getRuntimeInfo } from "../../src/util/runtimeInfo";
 import { packageJsonInfo } from "../../src/util/constants";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { isNode } from "@azure/test-utils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -151,6 +152,17 @@ testWithServiceTypes((serviceVersion) => {
   });
 
   describe("Create EventHubProducerClient", function (): void {
+    it("the identifier options can be set", async function (): Promise<void> {
+      const identifier = "Test1";
+      const client = new EventHubProducerClient(
+        "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c",
+        "my-event-hub-name",
+        {
+          identifier,
+        }
+      );
+      client.identifier.should.equal(identifier, "The client identifier wasn't set correctly");
+    });
     it("throws when no EntityPath in connection string ", function (): void {
       const connectionString = "Endpoint=sb://abc";
       const test = function (): EventHubProducerClient {

@@ -33,10 +33,7 @@ const containerSasUrl = (): string =>
  * environment.
  */
 matrix(
-  [
-    [/* true, */ false],
-    [DocumentModelBuildMode.Template /* , DocumentModelBuildMode.Neural*/],
-  ] as const,
+  [[true, false], [DocumentModelBuildMode.Template /* , DocumentModelBuildMode.Neural*/]] as const,
   async (useAad, buildMode) => {
     describe(`[${useAad ? "AAD" : "API Key"}] model management`, () => {
       let recorder: Recorder;

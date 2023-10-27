@@ -25,7 +25,7 @@ export = {
     const verifiers = getVerifiers(context, {
       outer: "sdk-type",
     });
-    return stripPath(context.getFilename()) === "package.json"
+    return stripPath(context.filename) === "package.json"
       ? ({
           // callback functions
 

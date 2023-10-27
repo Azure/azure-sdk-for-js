@@ -17,8 +17,11 @@ import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   WorkspacesImpl,
+  PrivateEndpointConnectionsImpl,
+  PrivateLinkResourcesImpl,
   ScalingPlansImpl,
   ScalingPlanPooledSchedulesImpl,
+  ScalingPlanPersonalSchedulesImpl,
   ApplicationGroupsImpl,
   StartMenuItemsImpl,
   ApplicationsImpl,
@@ -32,8 +35,11 @@ import {
 import {
   Operations,
   Workspaces,
+  PrivateEndpointConnections,
+  PrivateLinkResources,
   ScalingPlans,
   ScalingPlanPooledSchedules,
+  ScalingPlanPersonalSchedules,
   ApplicationGroups,
   StartMenuItems,
   Applications,
@@ -78,7 +84,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.0.1`;
+    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -131,11 +137,16 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-09";
+    this.apiVersion = options.apiVersion || "2023-09-05";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.scalingPlans = new ScalingPlansImpl(this);
     this.scalingPlanPooledSchedules = new ScalingPlanPooledSchedulesImpl(this);
+    this.scalingPlanPersonalSchedules = new ScalingPlanPersonalSchedulesImpl(
+      this
+    );
     this.applicationGroups = new ApplicationGroupsImpl(this);
     this.startMenuItems = new StartMenuItemsImpl(this);
     this.applications = new ApplicationsImpl(this);
@@ -178,8 +189,11 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
 
   operations: Operations;
   workspaces: Workspaces;
+  privateEndpointConnections: PrivateEndpointConnections;
+  privateLinkResources: PrivateLinkResources;
   scalingPlans: ScalingPlans;
   scalingPlanPooledSchedules: ScalingPlanPooledSchedules;
+  scalingPlanPersonalSchedules: ScalingPlanPersonalSchedules;
   applicationGroups: ApplicationGroups;
   startMenuItems: StartMenuItems;
   applications: Applications;

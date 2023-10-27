@@ -6,7 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  CallParticipantInternal,
+  CallConnectionGetParticipantsOptionalParams,
   CallConnectionGetCallOptionalParams,
   CallConnectionGetCallResponse,
   CallConnectionHangupCallOptionalParams,
@@ -14,8 +17,6 @@ import {
   TransferToParticipantRequest,
   CallConnectionTransferToParticipantOptionalParams,
   CallConnectionTransferToParticipantResponse,
-  CallConnectionGetParticipantsOptionalParams,
-  CallConnectionGetParticipantsResponse,
   AddParticipantRequest,
   CallConnectionAddParticipantOptionalParams,
   CallConnectionAddParticipantResponse,
@@ -28,12 +29,25 @@ import {
   UnmuteParticipantsRequest,
   CallConnectionUnmuteOptionalParams,
   CallConnectionUnmuteResponse,
+  CancelAddParticipantRequest,
+  CallConnectionCancelAddParticipantOptionalParams,
+  CallConnectionCancelAddParticipantResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a CallConnection. */
 export interface CallConnection {
+  /**
+   * Get participants from a call. Recording and transcription bots are omitted from this list.
+   * @param callConnectionId The call connection Id
+   * @param options The options parameters.
+   */
+  listParticipants(
+    callConnectionId: string,
+    options?: CallConnectionGetParticipantsOptionalParams
+  ): PagedAsyncIterableIterator<CallParticipantInternal>;
   /**
    * Get call connection.
    * @param callConnectionId The call connection id.
@@ -72,15 +86,6 @@ export interface CallConnection {
     transferToParticipantRequest: TransferToParticipantRequest,
     options?: CallConnectionTransferToParticipantOptionalParams
   ): Promise<CallConnectionTransferToParticipantResponse>;
-  /**
-   * Get participants from a call.
-   * @param callConnectionId The call connection Id
-   * @param options The options parameters.
-   */
-  getParticipants(
-    callConnectionId: string,
-    options?: CallConnectionGetParticipantsOptionalParams
-  ): Promise<CallConnectionGetParticipantsResponse>;
   /**
    * Add participants to the call.
    * @param callConnectionId The call connection Id
@@ -125,6 +130,17 @@ export interface CallConnection {
     unmuteParticipantsRequest: UnmuteParticipantsRequest,
     options?: CallConnectionUnmuteOptionalParams
   ): Promise<CallConnectionUnmuteResponse>;
+  /**
+   * Cancel add participant operation.
+   * @param callConnectionId The call connection Id
+   * @param cancelAddParticipantRequest Cancellation request.
+   * @param options The options parameters.
+   */
+  cancelAddParticipant(
+    callConnectionId: string,
+    cancelAddParticipantRequest: CancelAddParticipantRequest,
+    options?: CallConnectionCancelAddParticipantOptionalParams
+  ): Promise<CallConnectionCancelAddParticipantResponse>;
   /**
    * Get participant from a call.
    * @param callConnectionId The call connection Id

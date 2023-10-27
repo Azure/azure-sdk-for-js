@@ -1,6 +1,6 @@
 # Release History
 
-## 6.1.0-beta.2 (Unreleased)
+## 6.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,19 +10,24 @@
 
 ### Other Changes
 
-## 6.1.0-beta.1 (2022-11-15)
+## 6.1.0 (2023-06-02)
     
 **Features**
 
+  - Added operation Profiles.checkTrafficManagerNameAvailabilityV2
   - Added Interface Endpoint
   - Added Interface HeatMapModel
   - Added Interface Profile
+  - Added Interface ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams
   - Added Interface ProxyResource
   - Added Interface TrackedResource
   - Added Interface TrafficManagerGeographicHierarchy
   - Added Interface UserMetricsModel
   - Added Type Alias AlwaysServe
+  - Added Type Alias ProfilesCheckTrafficManagerNameAvailabilityV2Response
   - Added Enum KnownAlwaysServe
+  - Enum KnownEndpointMonitorStatus has a new value Unmonitored
+  - Added function getContinuationToken
     
 ## 6.0.1 (2022-05-05)
 
@@ -38,4 +43,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

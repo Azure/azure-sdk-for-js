@@ -424,7 +424,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     let tokenObject: AccessToken;
     let tokenType: TokenType;
     if (isSasTokenProvider(this._context.tokenCredential)) {
-      tokenObject = this._context.tokenCredential.getToken(this.audience);
+      tokenObject = await this._context.tokenCredential.getToken(this.audience);
       tokenType = TokenType.CbsTokenTypeSas;
 
       // renew sas token in every 45 minutes

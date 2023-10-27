@@ -619,6 +619,12 @@ export interface MonitorsDeleteHeaders {
   retryAfter?: number;
 }
 
+/** Defines headers for Monitors_switchBilling operation. */
+export interface MonitorsSwitchBillingHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
 /** Defines headers for TagRules_createOrUpdate operation. */
 export interface TagRulesCreateOrUpdateHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -1152,6 +1158,9 @@ export type MonitorsListAppServicesResponse = AppServicesListResponse;
 /** Optional parameters. */
 export interface MonitorsSwitchBillingOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Contains response data for the switchBilling operation. */
+export type MonitorsSwitchBillingResponse = NewRelicMonitorResource;
 
 /** Optional parameters. */
 export interface MonitorsListHostsOptionalParams

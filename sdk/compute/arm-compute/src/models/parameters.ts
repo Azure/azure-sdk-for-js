@@ -110,7 +110,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-11-01",
+    defaultValue: "2023-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -223,6 +223,16 @@ export const expand: OperationQueryParameter = {
 export const vmInstanceIDs: OperationParameter = {
   parameterPath: ["options", "vmInstanceIDs"],
   mapper: VirtualMachineScaleSetVMInstanceIDsMapper
+};
+
+export const hibernate: OperationQueryParameter = {
+  parameterPath: ["options", "hibernate"],
+  mapper: {
+    serializedName: "hibernate",
+    type: {
+      name: "Boolean"
+    }
+  }
 };
 
 export const vmInstanceIDs1: OperationParameter = {
@@ -465,12 +475,12 @@ export const parameters8: OperationParameter = {
   mapper: VirtualMachineUpdateMapper
 };
 
-export const hibernate: OperationQueryParameter = {
-  parameterPath: ["options", "hibernate"],
+export const expand3: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
   mapper: {
-    serializedName: "hibernate",
+    serializedName: "$expand",
     type: {
-      name: "Boolean"
+      name: "String"
     }
   }
 };
@@ -479,6 +489,16 @@ export const statusOnly: OperationQueryParameter = {
   parameterPath: ["options", "statusOnly"],
   mapper: {
     serializedName: "statusOnly",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const expand4: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "$expand",
     type: {
       name: "String"
     }
@@ -686,6 +706,34 @@ export const parameters17: OperationParameter = {
   mapper: DedicatedHostUpdateMapper
 };
 
+export const hostGroupName1: OperationURLParameter = {
+  parameterPath: "hostGroupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
+    serializedName: "hostGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const hostName1: OperationURLParameter = {
+  parameterPath: "hostName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
+    serializedName: "hostName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const parameters18: OperationParameter = {
   parameterPath: "parameters",
   mapper: SshPublicKeyResourceMapper
@@ -749,7 +797,7 @@ export const parameters23: OperationParameter = {
   mapper: RestorePointCollectionUpdateMapper
 };
 
-export const expand3: OperationQueryParameter = {
+export const expand5: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -775,7 +823,7 @@ export const restorePointName: OperationURLParameter = {
   }
 };
 
-export const expand4: OperationQueryParameter = {
+export const expand6: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -806,7 +854,7 @@ export const parameters26: OperationParameter = {
   mapper: CapacityReservationGroupUpdateMapper
 };
 
-export const expand5: OperationQueryParameter = {
+export const expand7: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -816,7 +864,7 @@ export const expand5: OperationQueryParameter = {
   }
 };
 
-export const expand6: OperationQueryParameter = {
+export const expand8: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -847,7 +895,7 @@ export const parameters28: OperationParameter = {
   mapper: CapacityReservationUpdateMapper
 };
 
-export const expand7: OperationQueryParameter = {
+export const expand9: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -918,7 +966,7 @@ export const diskName: OperationURLParameter = {
 export const apiVersion1: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-02",
+    defaultValue: "2023-04-02",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1103,7 +1151,7 @@ export const select1: OperationQueryParameter = {
   }
 };
 
-export const expand8: OperationQueryParameter = {
+export const expand10: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -1155,7 +1203,7 @@ export const galleryImageVersion1: OperationParameter = {
   mapper: GalleryImageVersionUpdateMapper
 };
 
-export const expand9: OperationQueryParameter = {
+export const expand11: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",

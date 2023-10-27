@@ -35,7 +35,7 @@ export class Offers {
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
+    return new QueryIterator(this.clientContext, query, options, (diagnosticNode, innerOptions) => {
       return this.clientContext.queryFeed<T>({
         path: "/offers",
         resourceType: ResourceType.offer,
@@ -43,6 +43,7 @@ export class Offers {
         resultFn: (result) => result.Offers,
         query,
         options: innerOptions,
+        diagnosticNode,
       });
     });
   }

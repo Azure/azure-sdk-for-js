@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a managed Cassandra data center. When updating, overwrite all properties. To update only some properties, use PATCH.
  *
  * @summary Create or update a managed Cassandra data center. When updating, overwrite all properties. To update only some properties, use PATCH.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-03-15/examples/CosmosDBManagedCassandraDataCenterCreate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBManagedCassandraDataCenterCreate.json
  */
 async function cosmosDbManagedCassandraDataCenterCreate() {
   const subscriptionId =

@@ -22,9 +22,11 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [piiEntityRecognition.js][piientityrecognition]                       | detects personally-identifiable information                                         |
 | [sentimentAnalysis.js][sentimentanalysis]                             | analyzes the sentiment of a piece of text                                           |
 | [stats.js][stats]                                                     | access statistics about documents and transactions                                  |
+| [abstractiveSummarization.js][abstractivesummarization]               | generates a summary for an article                                                  |
 | [customEntityRecognition.js][customentityrecognition]                 | detects custom text in a piece of text                                              |
 | [customMultiLabelClassification.js][custommultilabelclassification]   | multi-label classification of pieces of text                                        |
 | [customSingleLabelClassification.js][customsinglelabelclassification] | single-label classification of pieces of text                                       |
+| [extractiveSummarization.js][extractivesummarization]                 | extracts a summary from an article                                                  |
 | [healthcare.js][healthcare]                                           | detects healthcare entities in a piece of text                                      |
 | [opinionMining.js][opinionmining]                                     | analyzes the sentiment of a piece of text and mine opinions about different targets |
 | [authenticationMethods.js][authenticationmethods]                     | authenticates a service client using both Azure Active Directory and an API key     |
@@ -80,9 +82,11 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [piientityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/piiEntityRecognition.js
 [sentimentanalysis]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/sentimentAnalysis.js
 [stats]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/stats.js
+[abstractivesummarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/abstractiveSummarization.js
 [customentityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/customEntityRecognition.js
 [custommultilabelclassification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/customMultiLabelClassification.js
 [customsinglelabelclassification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/customSingleLabelClassification.js
+[extractivesummarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/extractiveSummarization.js
 [healthcare]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/healthcare.js
 [opinionmining]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/opinionMining.js
 [authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/authenticationMethods.js

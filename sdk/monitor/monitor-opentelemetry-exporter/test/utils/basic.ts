@@ -16,14 +16,21 @@ import { SpanStatusCode } from "@opentelemetry/api";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import { FlushSpanProcessor } from "./flushSpanProcessor";
 import { Resource } from "@opentelemetry/resources";
-import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
+import {
+  SemanticResourceAttributes,
+  SemanticAttributes,
+} from "@opentelemetry/semantic-conventions";
+import { AzureMonitorLogExporter } from "../../src/export/log";
+import { LoggerProvider, SimpleLogRecordProcessor } from "@opentelemetry/sdk-logs";
+import { SeverityNumber } from "@opentelemetry/api-logs";
 
 function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }
 
 const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
-  instrumentationKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",
+  instrumentationKey:
+    process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
   sampleRate: 100,
 };
 
@@ -35,7 +42,14 @@ export class TraceBasicScenario implements Scenario {
       connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
     });
     this._processor = new FlushSpanProcessor(exporter);
-    const provider = new BasicTracerProvider();
+    const resource = new Resource({
+      "service.name": "testServiceName",
+      "k8s.cluster.name": "testClusterName",
+      "k8s.node.name": "testNodeName",
+      "k8s.namespace.name": "testNamespaceName",
+      "k8s.pod.name": "testPodName",
+    });
+    const provider = new BasicTracerProvider({ resource: resource });
     provider.addSpanProcessor(this._processor);
     provider.register();
   }
@@ -68,7 +82,7 @@ export class TraceBasicScenario implements Scenario {
       },
       ctx
     );
-    let eventAttributes: any = {};
+    const eventAttributes: any = {};
     eventAttributes["SomeAttribute"] = "Test";
     child1.addEvent("TestEvent", eventAttributes);
     child1.end(100);
@@ -86,6 +100,25 @@ export class TraceBasicScenario implements Scenario {
   }
 
   expectation: Expectation[] = [
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Metric",
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          version: 2,
+          metrics: [{ name: "_OTELRESOURCE_", value: 1 }],
+          properties: {
+            "service.name": "testServiceName",
+            "k8s.cluster.name": "testClusterName",
+            "k8s.namespace.name": "testNamespaceName",
+            "k8s.node.name": "testNodeName",
+            "k8s.pod.name": "testPodName",
+          },
+        } as any,
+      },
+      children: [],
+    },
     {
       ...COMMON_ENVELOPE_PARAMS,
       name: "Microsoft.ApplicationInsights.Request",
@@ -190,9 +223,9 @@ export class MetricBasicScenario implements Scenario {
 
   async run(): Promise<void> {
     const meter = this._provider.getMeter("basic");
-    let counter = meter.createCounter("testCounter");
-    let counter2 = meter.createCounter("testCounter2");
-    let histogram = meter.createHistogram("testHistogram");
+    const counter = meter.createCounter("testCounter");
+    const counter2 = meter.createCounter("testCounter2");
+    const histogram = meter.createHistogram("testHistogram");
     let attributes: any = { testAttribute: "testValue" };
     counter.add(1);
     counter.add(2);
@@ -201,7 +234,7 @@ export class MetricBasicScenario implements Scenario {
     histogram.record(2);
     histogram.record(3);
     histogram.record(4);
-    let dependencyDurationMetric = meter.createHistogram("TestDependencyDuration");
+    const dependencyDurationMetric = meter.createHistogram("TestDependencyDuration");
 
     attributes = {
       "Dependency.Success": "False",
@@ -226,7 +259,7 @@ export class MetricBasicScenario implements Scenario {
       "request/resultCode": "200",
     };
 
-    let requestyDurationMetric = meter.createHistogram("TestRequestDuration");
+    const requestyDurationMetric = meter.createHistogram("TestRequestDuration");
     requestyDurationMetric.record(4567, attributes);
     await delay(0);
   }
@@ -356,6 +389,89 @@ export class MetricBasicScenario implements Scenario {
             "cloud/roleName": "my-namespace.my-helloworld-service",
             "request/resultCode": "200",
           },
+        } as any,
+      },
+      children: [],
+    },
+  ];
+}
+
+export class LogBasicScenario implements Scenario {
+  private _processor: any;
+  private _provider: any;
+
+  prepare(): void {
+    const exporter = new AzureMonitorLogExporter({
+      connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
+    });
+    this._processor = new SimpleLogRecordProcessor(exporter);
+    this._provider = new LoggerProvider();
+    this._provider.addLogRecordProcessor(this._processor);
+  }
+
+  async run(): Promise<void> {
+    const logger = this._provider.getLogger("basic");
+
+    // emit a message record
+    logger.emit({
+      severityNumber: SeverityNumber.INFO,
+      severityText: "INFO",
+      body: "test message",
+      attributes: { foo: "bar" },
+    });
+    // emit a exception record
+    const attributes: any = [];
+    attributes[SemanticAttributes.EXCEPTION_TYPE] = "test exception type";
+    attributes[SemanticAttributes.EXCEPTION_MESSAGE] = "test exception message";
+    attributes[SemanticAttributes.EXCEPTION_STACKTRACE] = "test exception stack";
+    logger.emit({
+      severityNumber: SeverityNumber.ERROR,
+      severityText: "ERROR",
+      attributes: attributes,
+    });
+  }
+
+  cleanup(): void {
+    opentelemetry.trace.disable();
+  }
+
+  flush(): Promise<void> {
+    return this._processor.forceFlush();
+  }
+
+  expectation: Expectation[] = [
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Message",
+      data: {
+        baseType: "MessageData",
+        baseData: {
+          version: 2,
+          message: "test message",
+          severityLevel: "Information",
+          properties: {
+            foo: "bar",
+          },
+        } as any,
+      },
+      children: [],
+    },
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Exception",
+      data: {
+        baseType: "ExceptionData",
+        baseData: {
+          version: 2,
+          exceptions: [
+            {
+              typeName: "test exception type",
+              message: "test exception message",
+              hasFullStack: true,
+              stack: "test exception stack",
+            },
+          ],
+          severityLevel: "Error",
         } as any,
       },
       children: [],

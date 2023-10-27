@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BatchManagementClient } from "../batchManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BatchAccount,
   BatchAccountListNextOptionalParams,
@@ -280,7 +284,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
    * you must make sure your network allows outbound access to these endpoints. Failure to allow access
    * to these endpoints may cause Batch to mark the affected nodes as unusable. For more information
    * about creating a pool inside of a virtual network, see
-   * https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
+   * https://docs.microsoft.com/azure/batch/batch-virtual-network.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The options parameters.
@@ -380,8 +384,8 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     parameters: BatchAccountCreateParameters,
     options?: BatchAccountCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BatchAccountCreateResponse>,
+    SimplePollerLike<
+      OperationState<BatchAccountCreateResponse>,
       BatchAccountCreateResponse
     >
   > {
@@ -391,7 +395,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     ): Promise<BatchAccountCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -424,15 +428,18 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, parameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, parameters, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BatchAccountCreateResponse,
+      OperationState<BatchAccountCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -493,14 +500,14 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     options?: BatchAccountDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -533,15 +540,15 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -710,7 +717,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
    * you must make sure your network allows outbound access to these endpoints. Failure to allow access
    * to these endpoints may cause Batch to mark the affected nodes as unusable. For more information
    * about creating a pool inside of a virtual network, see
-   * https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
+   * https://docs.microsoft.com/azure/batch/batch-virtual-network.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The options parameters.
@@ -1084,7 +1091,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1104,7 +1110,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1125,7 +1130,6 @@ const listDetectorsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1147,7 +1151,6 @@ const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.Oper
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

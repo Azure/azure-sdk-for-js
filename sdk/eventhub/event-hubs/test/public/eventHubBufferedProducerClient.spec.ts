@@ -58,6 +58,20 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
+    describe("client options", function (): void {
+      it("the identifier option can be set", async function (): Promise<void> {
+        const identifier = "Test1";
+        client = new EventHubBufferedProducerClient(connectionString, eventHubName, {
+          identifier,
+          async onSendEventsErrorHandler() {
+            throw new Error("Should not have been called");
+          },
+          maxWaitTimeInMs: 1000,
+        });
+        client.identifier.should.equal(identifier, "The client identifier wasn't set correctly");
+      });
+    });
+
     describe("enqueueEvent", () => {
       afterEach("close EventHubBufferedProducerClient", () => {
         return client?.close({ flush: false });

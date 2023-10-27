@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the policy configuration at the API Operation level.
  *
  * @summary Get the policy configuration at the API Operation level.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetApiOperationPolicy.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiOperationPolicy.json
  */
 async function apiManagementGetApiOperationPolicy() {
   const subscriptionId =

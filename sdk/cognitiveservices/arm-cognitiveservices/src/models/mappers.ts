@@ -374,6 +374,13 @@ export const AccountProperties: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      abusePenalty: {
+        serializedName: "abusePenalty",
+        type: {
+          name: "Composite",
+          className: "AbusePenalty"
+        }
       }
     }
   }
@@ -1008,6 +1015,33 @@ export const CommitmentPlanAssociation: coreClient.CompositeMapper = {
   }
 };
 
+export const AbusePenalty: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AbusePenalty",
+    modelProperties: {
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      },
+      rateLimitPercentage: {
+        serializedName: "rateLimitPercentage",
+        type: {
+          name: "Number"
+        }
+      },
+      expiration: {
+        serializedName: "expiration",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1373,6 +1407,12 @@ export const UsageListResult: coreClient.CompositeMapper = {
     name: "Composite",
     className: "UsageListResult",
     modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
       value: {
         serializedName: "value",
         type: {
@@ -1512,11 +1552,96 @@ export const DeploymentModel: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      source: {
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
       callRateLimit: {
         serializedName: "callRateLimit",
         type: {
           name: "Composite",
           className: "CallRateLimit"
+        }
+      }
+    }
+  }
+};
+
+export const ModelSku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ModelSku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      usageName: {
+        serializedName: "usageName",
+        type: {
+          name: "String"
+        }
+      },
+      deprecationDate: {
+        serializedName: "deprecationDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      capacity: {
+        serializedName: "capacity",
+        type: {
+          name: "Composite",
+          className: "CapacityConfig"
+        }
+      },
+      rateLimits: {
+        serializedName: "rateLimits",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CallRateLimit"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CapacityConfig: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapacityConfig",
+    modelProperties: {
+      minimum: {
+        serializedName: "minimum",
+        type: {
+          name: "Number"
+        }
+      },
+      maximum: {
+        serializedName: "maximum",
+        type: {
+          name: "Number"
+        }
+      },
+      step: {
+        serializedName: "step",
+        type: {
+          name: "Number"
+        }
+      },
+      default: {
+        serializedName: "default",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -1884,6 +2009,61 @@ export const CommitmentCost: coreClient.CompositeMapper = {
   }
 };
 
+export const ModelListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ModelListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Model"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Model: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Model",
+    modelProperties: {
+      model: {
+        serializedName: "model",
+        type: {
+          name: "Composite",
+          className: "AccountModel"
+        }
+      },
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      skuName: {
+        serializedName: "skuName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CheckDomainAvailabilityParameter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2114,6 +2294,25 @@ export const DeploymentProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className: "CallRateLimit"
         }
+      },
+      rateLimits: {
+        serializedName: "rateLimits",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ThrottlingRule"
+            }
+          }
+        }
+      },
+      versionUpgradeOption: {
+        serializedName: "versionUpgradeOption",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2230,6 +2429,18 @@ export const CommitmentPlanProperties: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CommitmentPeriod"
+        }
+      },
+      provisioningIssues: {
+        serializedName: "provisioningIssues",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -2377,6 +2588,24 @@ export const AccountModel: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DeploymentModel"
+        }
+      },
+      isDefaultVersion: {
+        serializedName: "isDefaultVersion",
+        type: {
+          name: "Boolean"
+        }
+      },
+      skus: {
+        serializedName: "skus",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ModelSku"
+            }
+          }
         }
       },
       maxCapacity: {
@@ -2533,6 +2762,13 @@ export const Deployment: coreClient.CompositeMapper = {
     className: "Deployment",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
       systemData: {
         serializedName: "systemData",
         type: {

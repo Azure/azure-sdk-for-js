@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachine,
   VirtualMachinesListByLocationOptionalParams,
@@ -106,8 +106,8 @@ export interface VirtualMachines {
     parameters: VirtualMachineCaptureParameters,
     options?: VirtualMachinesCaptureOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachinesCaptureResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachinesCaptureResponse>,
       VirtualMachinesCaptureResponse
     >
   >;
@@ -139,8 +139,8 @@ export interface VirtualMachines {
     parameters: VirtualMachine,
     options?: VirtualMachinesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachinesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachinesCreateOrUpdateResponse>,
       VirtualMachinesCreateOrUpdateResponse
     >
   >;
@@ -171,8 +171,8 @@ export interface VirtualMachines {
     parameters: VirtualMachineUpdate,
     options?: VirtualMachinesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachinesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachinesUpdateResponse>,
       VirtualMachinesUpdateResponse
     >
   >;
@@ -199,7 +199,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete a virtual machine.
    * @param resourceGroupName The name of the resource group.
@@ -244,7 +244,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesConvertToManagedDisksOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Converts virtual machine disks from blob-based to managed disks. Virtual machine must be
    * stop-deallocated before invoking this operation.
@@ -268,7 +268,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesDeallocateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Shuts down the virtual machine and releases the compute resources. You are not billed for the
    * compute resources that this virtual machine uses.
@@ -283,10 +283,10 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * Sets the OS state of the virtual machine to generalized. It is recommended to sysprep the virtual
-   * machine before performing this operation. <br>For Windows, please refer to [Create a managed image
-   * of a generalized VM in
-   * Azure](https://docs.microsoft.com/azure/virtual-machines/windows/capture-image-resource).<br>For
-   * Linux, please refer to [How to create an image of a virtual machine or
+   * machine before performing this operation. For Windows, please refer to [Create a managed image of a
+   * generalized VM in
+   * Azure](https://docs.microsoft.com/azure/virtual-machines/windows/capture-image-resource). For Linux,
+   * please refer to [How to create an image of a virtual machine or
    * VHD](https://docs.microsoft.com/azure/virtual-machines/linux/capture-image).
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
@@ -308,7 +308,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesPowerOffOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the
    * same provisioned resources. You are still charged for this virtual machine.
@@ -331,7 +331,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesReapplyOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to reapply a virtual machine's state.
    * @param resourceGroupName The name of the resource group.
@@ -353,7 +353,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to restart a virtual machine.
    * @param resourceGroupName The name of the resource group.
@@ -375,7 +375,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to start a virtual machine.
    * @param resourceGroupName The name of the resource group.
@@ -397,7 +397,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesRedeployOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Shuts down the virtual machine, moves it to a new node, and powers it back on.
    * @param resourceGroupName The name of the resource group.
@@ -424,7 +424,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesReimageOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Reimages (upgrade the operating system) a virtual machine which don't have a ephemeral OS disk, for
    * virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. NOTE:
@@ -462,7 +462,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     vmName: string,
     options?: VirtualMachinesPerformMaintenanceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to perform maintenance on a virtual machine.
    * @param resourceGroupName The name of the resource group.
@@ -496,8 +496,8 @@ export interface VirtualMachines {
     vmName: string,
     options?: VirtualMachinesAssessPatchesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachinesAssessPatchesResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachinesAssessPatchesResponse>,
       VirtualMachinesAssessPatchesResponse
     >
   >;
@@ -525,8 +525,8 @@ export interface VirtualMachines {
     installPatchesInput: VirtualMachineInstallPatchesParameters,
     options?: VirtualMachinesInstallPatchesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachinesInstallPatchesResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachinesInstallPatchesResponse>,
       VirtualMachinesInstallPatchesResponse
     >
   >;
@@ -556,8 +556,8 @@ export interface VirtualMachines {
     parameters: RunCommandInput,
     options?: VirtualMachinesRunCommandOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachinesRunCommandResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachinesRunCommandResponse>,
       VirtualMachinesRunCommandResponse
     >
   >;

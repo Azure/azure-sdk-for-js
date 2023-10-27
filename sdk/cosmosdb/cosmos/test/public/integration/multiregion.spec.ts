@@ -1,11 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/* eslint-disable no-unused-expressions */
 import assert from "assert";
 import { Suite } from "mocha";
 
-import { CosmosClient, RequestContext } from "../../../src";
+import { CosmosClient } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { PluginOn, PluginConfig, CosmosClientOptions } from "../../../src";
+import { expect } from "chai";
+import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 
@@ -63,6 +66,7 @@ const databaseAccountResponse = {
       '{"maxSqlQueryInputLength":262144,"maxJoinsPerSqlQuery":5,"maxLogicalAndPerSqlQuery":500,"maxLogicalOrPerSqlQuery":500,"maxUdfRefPerSqlQuery":10,"maxInExpressionItemsCount":16000,"queryMaxInMemorySortDocumentCount":500,"maxQueryRequestTimeoutFraction":0.9,"sqlAllowNonFiniteNumbers":false,"sqlAllowAggregateFunctions":true,"sqlAllowSubQuery":true,"sqlAllowScalarSubQuery":true,"allowNewKeywords":true,"sqlAllowLike":false,"sqlAllowGroupByClause":true,"maxSpatialQueryCells":12,"spatialMaxGeometryPointCount":256,"sqlAllowTop":true,"enableSpatialIndexing":true}',
   },
   code: 200,
+  diagnostics: getEmptyCosmosDiagnostics(),
 };
 
 const collectionResponse = {
@@ -106,6 +110,7 @@ const collectionResponse = {
     _conflicts: "conflicts/",
   },
   code: 200,
+  diagnostics: getEmptyCosmosDiagnostics(),
 };
 
 describe("Multi-region tests", function (this: Suite) {
@@ -117,7 +122,7 @@ describe("Multi-region tests", function (this: Suite) {
     const responses = [
       databaseAccountResponse,
       collectionResponse,
-      { code: 200, result: {}, headers: {} },
+      { code: 200, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
     ];
     const options: CosmosClientOptions = {
       endpoint,
@@ -127,7 +132,8 @@ describe("Multi-region tests", function (this: Suite) {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context: RequestContext) => {
+        plugin: async (context, diagNode) => {
+          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           const response = responses[requestIndex];
           if (context.endpoint) {
             lastEndpointCalled = context.endpoint;
@@ -160,7 +166,7 @@ describe("Multi-region tests", function (this: Suite) {
     const responses = [
       databaseAccountResponse,
       collectionResponse,
-      { code: 201, result: {}, headers: {} },
+      { code: 201, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
     ];
     const options: CosmosClientOptions = {
       endpoint,
@@ -170,7 +176,8 @@ describe("Multi-region tests", function (this: Suite) {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context: RequestContext) => {
+        plugin: async (context, diagNode) => {
+          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           const response = responses[requestIndex];
           if (context.endpoint) {
             lastEndpointCalled = context.endpoint;

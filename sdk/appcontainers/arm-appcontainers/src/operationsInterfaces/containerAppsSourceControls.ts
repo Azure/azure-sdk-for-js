@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SourceControl,
   ContainerAppsSourceControlsListByContainerAppOptionalParams,
@@ -60,8 +60,8 @@ export interface ContainerAppsSourceControls {
     sourceControlEnvelope: SourceControl,
     options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContainerAppsSourceControlsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ContainerAppsSourceControlsCreateOrUpdateResponse>,
       ContainerAppsSourceControlsCreateOrUpdateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface ContainerAppsSourceControls {
     containerAppName: string,
     sourceControlName: string,
     options?: ContainerAppsSourceControlsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Container App SourceControl.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

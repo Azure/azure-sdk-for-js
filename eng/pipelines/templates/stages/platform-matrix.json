@@ -17,11 +17,7 @@
         "Pool": "Azure Pipelines"
       }
     },
-    "NodeTestVersion": [
-      "14.x",
-      "16.x",
-      "18.x"
-    ],
+    "NodeTestVersion": ["18.x", "20.x"],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
   },
@@ -48,7 +44,7 @@
           "TestResultsFiles": "**/test-results.browser.xml"
         }
       },
-      "NodeTestVersion": "14.x"
+      "NodeTestVersion": "18.x"
     },
     {
       "Agent": {
@@ -58,11 +54,8 @@
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "14.x",
-      "DependencyVersion": [
-        "max",
-        "min"
-      ],
+      "NodeTestVersion": "18.x",
+      "DependencyVersion": ["max", "min"],
       "TestResultsFiles": "**/test-results.xml"
     }
   ]

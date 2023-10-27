@@ -8,16 +8,54 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const AlphaIdConfiguration: coreClient.CompositeMapper = {
+export const AcquiredAlphaIds: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AlphaIdConfiguration",
+    className: "AcquiredAlphaIds",
     modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        required: true,
+      alphaIds: {
+        serializedName: "alphaIds",
         type: {
-          name: "Boolean"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AlphaId"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AlphaId: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AlphaId",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      countryCode: {
+        serializedName: "countryCode",
+        type: {
+          name: "String"
+        }
+      },
+      purchaseDate: {
+        serializedName: "purchaseDate",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -84,6 +122,42 @@ export const CommunicationError: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CommunicationError"
+        }
+      }
+    }
+  }
+};
+
+export const DynamicAlphaIdConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DynamicAlphaIdConfiguration",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const SupportedCountries: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SupportedCountries",
+    modelProperties: {
+      countries: {
+        serializedName: "countries",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

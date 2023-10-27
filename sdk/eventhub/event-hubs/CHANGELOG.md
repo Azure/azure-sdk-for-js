@@ -1,6 +1,6 @@
 # Release History
 
-## 5.10.1 (Unreleased)
+## 5.11.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,30 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.11.2 (2023-09-25)
+
+### Bugs Fixed
+
+- Fixes a memory leak [#25426](https://github.com/Azure/azure-sdk-for-js/issues/25426) in the `EventHubBufferedProducerClient` when there is no activity for a longer interval after sending some events.
+  [#26748](https://github.com/Azure/azure-sdk-for-js/pull/26748)
+
+## 5.11.1 (2023-06-23)
+
+### Bugs Fixed
+
+- Fix a regression of missing `getToken` calls when renewing tokens.
+
+## 5.11.0 (2023-06-08)
+
+### Features Added
+
+- Adds an option to set an identifier for Event Hubs clients.
+- Adds a property on each Event Hub client that returns the identifier of the client.
+
+### Other Changes
+
+- Use Rhea's prefetch window to prefetch events from the service. This improves the performance of the receiver by reducing the number of round trips to the service. The default prefetch window is 3 \* `maxBatchSize` events. This can be configured by setting the `prefetchCount` option on the `subscribe` method on `EventHubConsumerClient`.
 
 ## 5.10.0 (2023-05-01)
 
@@ -39,11 +63,13 @@
 ## 5.8.0-beta.3 (2022-04-05)
 
 ### Breaking Changes
+
 - `MessageWithMetadata` has been renamed to `MessageContent`.
 - `MessageContent`'s `body` has been renamed to `data`.
 - `MessageAdapter`'s `consumeMessage` and `produceMessage` have been renamed to `consume` and `produce`.
 
 ### Bugs Fixed
+
 - The Uint8Array payload was being stringified first before it gets sent which caused the receiver to treat it as an object instead of a Uint8Array. This is now fixed and Uint8Array is being treated the same as a Buffer.
 - The hashing algorithm used to map partition keys to IDs in the buffered producer is no longer sensitive to the endianness of the local machine [Issue #21190](https://github.com/Azure/azure-sdk-for-js/issues/21190).
 

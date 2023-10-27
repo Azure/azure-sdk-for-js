@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
 import { Constants } from "../common/constants";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { PartitionKeyRangeCache } from "./partitionKeyRangeCache";
 import { QueryRange } from "./QueryRange";
 
@@ -70,7 +71,8 @@ export class SmartRoutingMapProvider {
    */
   public async getOverlappingRanges(
     collectionLink: string,
-    sortedRanges: QueryRange[]
+    sortedRanges: QueryRange[],
+    diagnosticNode: DiagnosticNodeInternal
   ): Promise<any[]> {
     // validate if the list is non- overlapping and sorted                             TODO: any PartitionKeyRanges
     if (!SmartRoutingMapProvider._isSortedAndNonOverlapping(sortedRanges)) {
@@ -84,7 +86,8 @@ export class SmartRoutingMapProvider {
     }
 
     const collectionRoutingMap = await this.partitionKeyRangeCache.onCollectionRoutingMap(
-      collectionLink
+      collectionLink,
+      diagnosticNode
     );
 
     let index = 0;

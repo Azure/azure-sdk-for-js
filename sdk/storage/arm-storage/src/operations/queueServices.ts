@@ -135,7 +135,7 @@ const setServicePropertiesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -174,3 +174,7 @@ code-model-*
 *.cpuprofile
 # Temp typespec files
 TempTypeSpecFiles/
+
+# Symbolic link from project directory to recordings
+_recordings
+sdk/template/template-dpg/src/src

@@ -11,7 +11,6 @@ import {
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
 import { logger } from "./models/logger";
-import { SDK_VERSION } from "./models/constants";
 import {
   AnswerCallRequest,
   CallAutomationApiClient,
@@ -39,7 +38,9 @@ import {
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
 import { v4 as uuidv4 } from "uuid";
-
+import { createCallAutomationAuthPolicy } from "./credential/callAutomationAuthPolicy";
+import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
+import { AnswerCallEventResult, CreateCallEventResult } from "./eventprocessor/eventResponses";
 /**
  * Client options used to configure CallAutomation Client API requests.
  */
@@ -66,6 +67,7 @@ export class CallAutomationClient {
   private readonly sourceIdentity?: CommunicationUserIdentifierModel;
   private readonly credential: TokenCredential | KeyCredential;
   private readonly internalPipelineOptions: InternalPipelineOptions;
+  private readonly callAutomationEventProcessor: CallAutomationEventProcessor;
   /**
    * Initializes a new instance of the CallAutomationClient class.
    * @param connectionString - Connection string to connect to an Azure Communication Service resource.
@@ -94,16 +96,9 @@ export class CallAutomationClient {
     const options = isCallAutomationClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
-    const libInfo = `azsdk-js-communication-call-automation/${SDK_VERSION}`;
 
     if (!options?.userAgentOptions) {
       options.userAgentOptions = {};
-    }
-
-    if (options?.userAgentOptions?.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
     }
 
     this.internalPipelineOptions = {
@@ -116,11 +111,30 @@ export class CallAutomationClient {
     };
 
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
-    const authPolicy = createCommunicationAuthPolicy(credential);
 
     this.credential = credential;
-    this.callAutomationApiClient = new CallAutomationApiClient(url, this.internalPipelineOptions);
-    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+
+    // create event processor
+    this.callAutomationEventProcessor = new CallAutomationEventProcessor();
+
+    // read environment variable for callAutomation auth
+    const customEnabled = process.env.COMMUNICATION_CUSTOM_ENDPOINT_ENABLED;
+    const customUrl = process.env.COMMUNICATION_CUSTOM_URL;
+
+    if (customEnabled?.toLowerCase() === "true" && customUrl) {
+      // add custom header for Call Automation auth when flag is true
+      this.callAutomationApiClient = new CallAutomationApiClient(
+        customUrl,
+        this.internalPipelineOptions
+      );
+      const callAutomationAuthPolicy = createCallAutomationAuthPolicy(credential, url);
+      this.callAutomationApiClient.pipeline.addPolicy(callAutomationAuthPolicy);
+    } else {
+      this.callAutomationApiClient = new CallAutomationApiClient(url, this.internalPipelineOptions);
+      const authPolicy = createCommunicationAuthPolicy(credential);
+      this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+    }
+
     this.sourceIdentity = communicationUserIdentifierModelConverter(options.sourceIdentity);
   }
 
@@ -133,6 +147,7 @@ export class CallAutomationClient {
       callConnectionId,
       this.callAutomationApiClient.endpoint,
       this.credential,
+      this.callAutomationEventProcessor,
       this.internalPipelineOptions
     );
   }
@@ -155,13 +170,20 @@ export class CallAutomationClient {
     return communicationUserIdentifierConverter(this.sourceIdentity);
   }
 
+  /**
+   * Get event processor to work with call automation events
+   */
+  public getEventProcessor(): CallAutomationEventProcessor {
+    return this.callAutomationEventProcessor;
+  }
+
   private async createCallInternal(
     request: CreateCallRequest,
     options?: CreateCallOptions
   ): Promise<CreateCallResult> {
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const {
@@ -192,11 +214,32 @@ export class CallAutomationClient {
         callConnectionId,
         this.callAutomationApiClient.endpoint,
         this.credential,
+        this.callAutomationEventProcessor,
         this.internalPipelineOptions
       );
       const createCallResult: CreateCallResult = {
         callConnectionProperties: callConnectionPropertiesDto,
         callConnection: callConnection,
+        waitForEventProcessor: async (abortSignal, timeoutInMs) => {
+          const createCallEventResult: CreateCallEventResult = {
+            isSuccess: false,
+          };
+          await this.callAutomationEventProcessor.waitForEventProcessor(
+            (event) => {
+              if (event.callConnectionId === callConnectionId && event.kind === "CallConnected") {
+                createCallEventResult.isSuccess = true;
+                createCallEventResult.successResult = event;
+                return true;
+              } else {
+                return false;
+              }
+            },
+            abortSignal,
+            timeoutInMs
+          );
+
+          return createCallEventResult;
+        },
       };
       return createCallResult;
     }
@@ -222,8 +265,8 @@ export class CallAutomationClient {
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
       customContext: {
-        sipHeaders: targetParticipant.sipHeaders,
-        voipHeaders: targetParticipant.voipHeaders,
+        sipHeaders: targetParticipant.customContext?.sipHeaders,
+        voipHeaders: targetParticipant.customContext?.voipHeaders,
       },
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(
         targetParticipant.sourceCallIdNumber
@@ -253,8 +296,8 @@ export class CallAutomationClient {
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
       customContext: {
-        sipHeaders: options.sipHeaders,
-        voipHeaders: options.voipHeaders,
+        sipHeaders: options.customContext?.sipHeaders,
+        voipHeaders: options.customContext?.voipHeaders,
       },
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
@@ -290,7 +333,7 @@ export class CallAutomationClient {
     };
     const optionsInternal = {
       ...operationOptions,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const {
@@ -319,11 +362,31 @@ export class CallAutomationClient {
         callConnectionId,
         this.callAutomationApiClient.endpoint,
         this.credential,
+        this.callAutomationEventProcessor,
         this.internalPipelineOptions
       );
       const answerCallResult: AnswerCallResult = {
         callConnectionProperties: callConnectionProperties,
         callConnection: callConnection,
+        waitForEventProcessor: async (abortSignal, timeoutInMs) => {
+          const answerCallEventResult: AnswerCallEventResult = {
+            isSuccess: false,
+          };
+          await this.callAutomationEventProcessor.waitForEventProcessor(
+            (event) => {
+              if (event.callConnectionId === callConnectionId && event.kind === "CallConnected") {
+                answerCallEventResult.isSuccess = true;
+                answerCallEventResult.successResult = event;
+                return true;
+              } else {
+                return false;
+              }
+            },
+            abortSignal,
+            timeoutInMs
+          );
+          return answerCallEventResult;
+        },
       };
       return answerCallResult;
     }
@@ -346,13 +409,14 @@ export class CallAutomationClient {
       incomingCallContext: incomingCallContext,
       target: communicationIdentifierModelConverter(targetParticipant.targetParticipant),
       customContext: {
-        sipHeaders: targetParticipant.sipHeaders ?? options.sipHeaders ?? undefined,
-        voipHeaders: targetParticipant.voipHeaders ?? options.voipHeaders ?? undefined,
+        sipHeaders: targetParticipant.customContext?.sipHeaders ?? options.sipHeaders ?? undefined,
+        voipHeaders:
+          targetParticipant.customContext?.voipHeaders ?? options.voipHeaders ?? undefined,
       },
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
 
@@ -375,7 +439,7 @@ export class CallAutomationClient {
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
 

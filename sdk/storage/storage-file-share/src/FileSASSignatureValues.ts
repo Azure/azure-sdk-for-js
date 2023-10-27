@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { FileSASPermissions } from "./FileSASPermissions";
 import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";

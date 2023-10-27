@@ -17,14 +17,13 @@ import {
   RetryConfig,
   RetryOperationType,
   RetryOptions,
-  delay,
   retry,
   AmqpAnnotatedMessage,
 } from "@azure/core-amqp";
 import { ServiceBusMessage, toRheaMessage } from "../serviceBusMessage";
 import { ConnectionContext } from "../connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { getUniqueName, waitForTimeoutOrAbortOrResolve } from "../util/utils";
+import { getUniqueName, waitForSendable, waitForTimeoutOrAbortOrResolve } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
 import { CreateMessageBatchOptions } from "../models";
@@ -205,41 +204,16 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         this.link?.session?.outgoing?.available()
       );
 
-      let waitTimeForSendable = 1000;
-      if (!this.link?.sendable() && timeoutInMs - timeTakenByInit > waitTimeForSendable) {
-        logger.verbose(
-          "%s Sender '%s', waiting for 1 second for sender to become sendable",
-          this.logPrefix,
-          this.name
-        );
+      const waitingTime = await waitForSendable(
+        logger,
+        this.logPrefix,
+        this.name,
+        timeoutInMs - timeTakenByInit,
+        this.link,
+        this.link?.session?.outgoing?.available()
+      );
 
-        await delay(waitTimeForSendable);
-
-        logger.verbose(
-          "%s Sender '%s' after waiting for a second, credit: %d available: %d",
-          this.logPrefix,
-          this.name,
-          this.link?.credit,
-          this.link?.session?.outgoing?.available()
-        );
-      } else {
-        waitTimeForSendable = 0;
-      }
-
-      if (!this.link?.sendable()) {
-        // let us retry to send the message after some time.
-        const msg =
-          `[${this.logPrefix}] Sender "${this.name}", ` +
-          `cannot send the message right now. Please try later.`;
-        logger.warning(msg);
-        const amqpError: AmqpError = {
-          condition: ErrorNameConditionMapper.SenderBusyError,
-          description: msg,
-        };
-        throw translateServiceBusError(amqpError);
-      }
-
-      if (timeoutInMs <= timeTakenByInit + waitTimeForSendable) {
+      if (timeoutInMs <= timeTakenByInit + waitingTime) {
         const desc: string =
           `${this.logPrefix} Sender "${this.name}" ` +
           `with address "${this.address}", was not able to send the message right now, due ` +
@@ -252,10 +226,19 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         throw translateServiceBusError(e);
       }
 
+      if (!this.link) {
+        const msg = `[${this.logPrefix}] Cannot send the message. Link is not ready.`;
+        logger.warning(msg);
+        const amqpError: AmqpError = {
+          condition: ErrorNameConditionMapper.SenderNotReadyError,
+          description: msg,
+        };
+        throw translateServiceBusError(amqpError);
+      }
       try {
-        const delivery = await this.link!.send(encodedMessage, {
+        const delivery = await this.link.send(encodedMessage, {
           format: sendBatch ? 0x80013700 : 0,
-          timeoutInSeconds: (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000,
+          timeoutInSeconds: (timeoutInMs - timeTakenByInit - waitingTime) / 1000,
           abortSignal,
         });
         logger.verbose(

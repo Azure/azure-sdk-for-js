@@ -24,5 +24,10 @@
       "@azure/storage-queue": ["./src/index"]
     }
   },
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "./samples-dev/**/*.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./test/**/*.ts",
+    "./samples-dev/**/*.ts",
+    "../storage-blob/src/**/*.ts"
+  ]
 }

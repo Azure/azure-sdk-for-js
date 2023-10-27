@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   createStoredProcedureUri,
   getIdFromLink,
@@ -11,9 +12,11 @@ import {
 import { PartitionKey } from "../../documents/PartitionKey";
 import { undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, ResourceResponse } from "../../request";
+import { readPartitionKeyDefinition } from "../ClientUtils";
 import { Container } from "../Container";
 import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
 import { StoredProcedureResponse } from "./StoredProcedureResponse";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 
 /**
  * Operations for reading, replacing, deleting, or executing a specific, existing stored procedure by id.
@@ -43,21 +46,25 @@ export class StoredProcedure {
    * Read the {@link StoredProcedureDefinition} for the given {@link StoredProcedure}.
    */
   public async read(options?: RequestOptions): Promise<StoredProcedureResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
-    const response = await this.clientContext.read<StoredProcedureDefinition>({
-      path,
-      resourceType: ResourceType.sproc,
-      resourceId: id,
-      options,
-    });
-    return new StoredProcedureResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
+
+      const response = await this.clientContext.read<StoredProcedureDefinition>({
+        path,
+        resourceType: ResourceType.sproc,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new StoredProcedureResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -68,54 +75,60 @@ export class StoredProcedure {
     body: StoredProcedureDefinition,
     options?: RequestOptions
   ): Promise<StoredProcedureResponse> {
-    if (body.body) {
-      body.body = body.body.toString();
-    }
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (body.body) {
+        body.body = body.body.toString();
+      }
 
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
+      const err = {};
+      if (!isResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<StoredProcedureDefinition>({
-      body,
-      path,
-      resourceType: ResourceType.sproc,
-      resourceId: id,
-      options,
-    });
-    return new StoredProcedureResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.replace<StoredProcedureDefinition>({
+        body,
+        path,
+        resourceType: ResourceType.sproc,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new StoredProcedureResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 
   /**
    * Delete the given {@link StoredProcedure}.
    */
   public async delete(options?: RequestOptions): Promise<StoredProcedureResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<StoredProcedureDefinition>({
-      path,
-      resourceType: ResourceType.sproc,
-      resourceId: id,
-      options,
-    });
-    return new StoredProcedureResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.delete<StoredProcedureDefinition>({
+        path,
+        resourceType: ResourceType.sproc,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new StoredProcedureResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -133,22 +146,27 @@ export class StoredProcedure {
     params?: any[],
     options?: RequestOptions
   ): Promise<ResourceResponse<T>> {
-    if (partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
-      partitionKey = undefinedPartitionKey(partitionKeyDefinition);
-    }
-    const response = await this.clientContext.execute<T>({
-      sprocLink: this.url,
-      params,
-      options,
-      partitionKey,
-    });
-    return new ResourceResponse<T>(
-      response.result,
-      response.headers,
-      response.code,
-      response.diagnostics
-    );
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (partitionKey === undefined) {
+        const partitionKeyResponse = await readPartitionKeyDefinition(
+          diagnosticNode,
+          this.container
+        );
+        partitionKey = undefinedPartitionKey(partitionKeyResponse);
+      }
+      const response = await this.clientContext.execute<T>({
+        sprocLink: this.url,
+        params,
+        options,
+        partitionKey,
+        diagnosticNode,
+      });
+      return new ResourceResponse<T>(
+        response.result,
+        response.headers,
+        response.code,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 }

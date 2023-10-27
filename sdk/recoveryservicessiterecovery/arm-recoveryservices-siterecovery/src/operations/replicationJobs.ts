@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Job,
   ReplicationJobsListNextOptionalParams,
@@ -177,8 +181,8 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     jobName: string,
     options?: ReplicationJobsCancelOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsCancelResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsCancelResponse>,
       ReplicationJobsCancelResponse
     >
   > {
@@ -188,7 +192,7 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     ): Promise<ReplicationJobsCancelResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -221,13 +225,16 @@ export class ReplicationJobsImpl implements ReplicationJobs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, jobName, options },
-      cancelOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, jobName, options },
+      spec: cancelOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationJobsCancelResponse,
+      OperationState<ReplicationJobsCancelResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -271,8 +278,8 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     jobName: string,
     options?: ReplicationJobsRestartOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsRestartResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsRestartResponse>,
       ReplicationJobsRestartResponse
     >
   > {
@@ -282,7 +289,7 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     ): Promise<ReplicationJobsRestartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -315,13 +322,16 @@ export class ReplicationJobsImpl implements ReplicationJobs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, jobName, options },
-      restartOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, jobName, options },
+      spec: restartOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationJobsRestartResponse,
+      OperationState<ReplicationJobsRestartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -367,8 +377,8 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     resumeJobParams: ResumeJobParams,
     options?: ReplicationJobsResumeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsResumeResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsResumeResponse>,
       ReplicationJobsResumeResponse
     >
   > {
@@ -378,7 +388,7 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     ): Promise<ReplicationJobsResumeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -411,13 +421,22 @@ export class ReplicationJobsImpl implements ReplicationJobs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, jobName, resumeJobParams, options },
-      resumeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceName,
+        resourceGroupName,
+        jobName,
+        resumeJobParams,
+        options
+      },
+      spec: resumeOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationJobsResumeResponse,
+      OperationState<ReplicationJobsResumeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -464,8 +483,8 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     jobQueryParameter: JobQueryParameter,
     options?: ReplicationJobsExportOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsExportResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsExportResponse>,
       ReplicationJobsExportResponse
     >
   > {
@@ -475,7 +494,7 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     ): Promise<ReplicationJobsExportResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -508,13 +527,16 @@ export class ReplicationJobsImpl implements ReplicationJobs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, jobQueryParameter, options },
-      exportOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, jobQueryParameter, options },
+      spec: exportOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationJobsExportResponse,
+      OperationState<ReplicationJobsExportResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

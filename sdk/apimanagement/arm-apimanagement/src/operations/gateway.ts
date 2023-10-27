@@ -52,7 +52,7 @@ export class GatewayImpl implements Gateway {
 
   /**
    * Lists a collection of gateways registered with service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -136,7 +136,7 @@ export class GatewayImpl implements Gateway {
 
   /**
    * Lists a collection of gateways registered with service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -153,7 +153,7 @@ export class GatewayImpl implements Gateway {
 
   /**
    * Gets the entity state (Etag) version of the Gateway specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -173,7 +173,7 @@ export class GatewayImpl implements Gateway {
 
   /**
    * Gets the details of the Gateway specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -193,7 +193,7 @@ export class GatewayImpl implements Gateway {
 
   /**
    * Creates or updates a Gateway to be used in Api Management instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -215,7 +215,7 @@ export class GatewayImpl implements Gateway {
 
   /**
    * Updates the details of the gateway specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -247,7 +247,7 @@ export class GatewayImpl implements Gateway {
 
   /**
    * Deletes specific Gateway.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -270,7 +270,7 @@ export class GatewayImpl implements Gateway {
 
   /**
    * Retrieves gateway keys.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -290,7 +290,7 @@ export class GatewayImpl implements Gateway {
 
   /**
    * Regenerates specified gateway key invalidating any tokens created with it.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -312,7 +312,7 @@ export class GatewayImpl implements Gateway {
 
   /**
    * Gets the Shared Access Authorization Token for the gateway.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -334,7 +334,7 @@ export class GatewayImpl implements Gateway {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -445,7 +445,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters32,
+  requestBody: Parameters.parameters41,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -475,7 +475,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters32,
+  requestBody: Parameters.parameters41,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -548,7 +548,7 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters33,
+  requestBody: Parameters.parameters42,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -573,7 +573,7 @@ const generateTokenOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters34,
+  requestBody: Parameters.parameters43,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

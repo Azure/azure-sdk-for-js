@@ -81,7 +81,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   // We'll just default the date to Jan 1, 1970 because it's convenient to work with an always-defined date.
   const migrationDate = new Date(
-    project.packageJson[METADATA_KEY].migrationDate ?? "1970-01-01T00:00:00Z"
+    project.packageJson[METADATA_KEY]?.migrationDate ?? "1970-01-01T00:00:00Z"
   );
 
   // Bare command with no sub-mode arguments.
@@ -194,6 +194,72 @@ function areMigrationsApplied(
 }
 
 /**
+ * A record containing information about an attempted migration.
+ */
+export interface MigrationReport {
+  /**
+   * The migration that was attempted.
+   */
+  migration: Migration;
+  /**
+   * The exit state of the migration.
+   */
+  exitState: MigrationExitState;
+}
+
+/**
+ * Begins an unattended migration pass.
+ *
+ * This will run all pending migrations without user interaction. If any migration fails, the migration state will be aborted and the last
+ * exit state will be returned. Otherwise a successful state will be returned indicating that the whole pass completed successfully.
+ *
+ * @param projectPath - the path to the project to run the migrations on
+ * @returns a migration exit state indicating the state of the last attempted migration
+ */
+export async function runUnattendedMigrationPass(projectPath: string): Promise<MigrationReport[]> {
+  const project = await resolveProject(projectPath);
+
+  // Initialize the migration system. We do this here to avoid loading potentially large amounts of modules when not
+  // interacting with migrations.
+
+  await loadMigrations();
+
+  // We'll just default the date to Jan 1, 1970 because it's convenient to work with an always-defined date.
+  const migrationDate = new Date(
+    project.packageJson[METADATA_KEY]?.migrationDate ?? "1970-01-01T00:00:00Z"
+  );
+
+  // Check for a suspended migration.
+  const suspended = await getSuspendedMigration();
+  if (suspended) {
+    log.error(`Migration '${suspended.id}' is currently suspended in package '${suspended.path}'.`);
+    throw new Error("Cannot run unattended migrations while a migration is currently suspended.");
+  }
+
+  const output = [];
+
+  for (const migration of listPendingMigrations(migrationDate)) {
+    const exitState = await runMigration(project, migration);
+
+    output.push({ migration, exitState });
+
+    switch (exitState.kind) {
+      case "success":
+        await onMigrationSuccess(project, migration, /* quiet */ true);
+        break;
+      case "skipped":
+        await onMigrationSkipped(project, migration, /* quiet */ true);
+        break;
+      default:
+        await abortMigration(project, /* quiet */ true);
+        return output;
+    }
+  }
+
+  return output;
+}
+
+/**
  * Begins a new migration pass.
  *
  * @param project - the project to run the migrations on
@@ -230,7 +296,7 @@ async function startMigrationPass(project: ProjectInfo, migrationDate: Date): Pr
   }
 
   log.info(`Starting migration pass for '${project.name}'.`);
-  log.info(`Last migration: ${project.packageJson[METADATA_KEY].migrationDate ?? "never"}`);
+  log.info(`Last migration: ${project.packageJson[METADATA_KEY]?.migrationDate ?? "never"}`);
 
   return runMigrations(pending, project);
 }
@@ -263,7 +329,7 @@ async function runMigrations(pending: Migration[], project: ProjectInfo): Promis
         return false;
       }
       case "skipped": {
-        onMigrationSkipped(project, migration);
+        await onMigrationSkipped(project, migration);
         continue;
       }
       default:
@@ -285,24 +351,32 @@ async function runMigrations(pending: Migration[], project: ProjectInfo): Promis
  * @param project - the project to apply the migration succeeded state to
  * @param migration - the migration that succeeded
  */
-async function onMigrationSuccess(project: ProjectInfo, migration: Migration) {
+async function onMigrationSuccess(
+  project: ProjectInfo,
+  migration: Migration,
+  quiet: boolean = false // eslint-disable-line @typescript-eslint/no-inferrable-types
+): Promise<void> {
   await updateMigrationDate(project, migration);
 
-  await git.commitAll(`dev-tool: applied migration '${migration.id}'`);
+  await git.commitAll(`${project.name}: applied migration '${migration.id}'`);
 
-  log.success(`Migration '${migration.id}' applied successfully.`);
+  !quiet && log.success(`Migration '${migration.id}' applied successfully.`);
 }
 
 /**
  * Updates the repo after a migration was skipped. This includes updating the migration date in the package.json and
  * making a ceremonial commit (even though only the migration date will have changed).
  */
-async function onMigrationSkipped(project: ProjectInfo, migration: Migration) {
+async function onMigrationSkipped(
+  project: ProjectInfo,
+  migration: Migration,
+  quiet: boolean = false // eslint-disable-line @typescript-eslint/no-inferrable-types
+): Promise<void> {
   await updateMigrationDate(project, migration);
 
-  await git.commitAll(`dev-tool: skipped migration '${migration.id}'`);
+  await git.commitAll(`${project.name}: skipped migration '${migration.id}'`);
 
-  log.info(`Skipped migration '${migration.id}'. This package is not eligible.`);
+  !quiet && log.info(`Skipped migration '${migration.id}'. This package is not eligible.`);
 }
 
 /**
@@ -373,15 +447,19 @@ function printMigrationSuspendedWarning(migration: Migration, status: MigrationS
  * @param project - the working project
  * @returns true on success, otherwise false
  */
-async function abortMigration(project: ProjectInfo): Promise<boolean> {
+async function abortMigration(
+  project: ProjectInfo,
+  quiet: boolean = false // eslint-disable-line @typescript-eslint/no-inferrable-types
+): Promise<boolean> {
   const suspendedMigration = await validateSuspendedState(project);
   if (!suspendedMigration) return false;
 
   await removeMigrationStateFile();
 
-  log.warn(
-    `Suspended migration '${suspendedMigration.id}' was aborted. The working tree may be dirty.`
-  );
+  !quiet &&
+    log.warn(
+      `Suspended migration '${suspendedMigration.id}' was aborted. The working tree may be dirty.`
+    );
 
   return true;
 }
@@ -432,9 +510,8 @@ async function continueMigration(project: ProjectInfo): Promise<boolean> {
       printMigrationError(migration, state);
       return false;
     }
-    case "skipped": {
+    case "skipped":
       panic("unreachable: resumed migration should not be skipped");
-    }
     // panic() calls process.exit
     // eslint-disable-next-line no-fallthrough
     default:

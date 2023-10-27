@@ -11,6 +11,12 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export interface AbsoluteMonthlySchedule {
+    dayOfMonth: number;
+    intervalMonths: number;
+}
+
+// @public
 export interface AgentPool extends SubResource {
     availabilityZones?: string[];
     count?: number;
@@ -205,6 +211,7 @@ export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
 
 // @public
 export interface AgentPoolUpgradeSettings {
+    drainTimeoutInMinutes?: number;
     maxSurge?: string;
 }
 
@@ -230,7 +237,18 @@ export interface CloudErrorBody {
 }
 
 // @public
+export interface ClusterUpgradeSettings {
+    overrideSettings?: UpgradeOverrideSettings;
+}
+
+// @public
 export type Code = string;
+
+// @public
+export interface CompatibleVersions {
+    name?: string;
+    versions?: string[];
+}
 
 // @public
 export type ConnectionStatus = string;
@@ -278,7 +296,6 @@ export interface ContainerServiceLinuxProfile {
 // @public
 export interface ContainerServiceNetworkProfile {
     dnsServiceIP?: string;
-    dockerBridgeCidr?: string;
     ipFamilies?: IpFamily[];
     loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
     loadBalancerSku?: LoadBalancerSku;
@@ -325,6 +342,25 @@ export interface CredentialResults {
 }
 
 // @public
+export interface DailySchedule {
+    intervalDays: number;
+}
+
+// @public
+export interface DateSpan {
+    end: Date;
+    start: Date;
+}
+
+// @public
+export interface DelegatedResource {
+    location?: string;
+    referralResource?: string;
+    resourceId?: string;
+    tenantId?: string;
+}
+
+// @public
 export interface EndpointDependency {
     domainName?: string;
     endpointDetails?: EndpointDetail[];
@@ -361,6 +397,50 @@ export type GPUInstanceProfile = string;
 
 // @public
 export type IpFamily = string;
+
+// @public
+export interface IstioCertificateAuthority {
+    plugin?: IstioPluginCertificateAuthority;
+}
+
+// @public
+export interface IstioComponents {
+    egressGateways?: IstioEgressGateway[];
+    ingressGateways?: IstioIngressGateway[];
+}
+
+// @public
+export interface IstioEgressGateway {
+    enabled: boolean;
+    nodeSelector?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface IstioIngressGateway {
+    enabled: boolean;
+    mode: IstioIngressGatewayMode;
+}
+
+// @public
+export type IstioIngressGatewayMode = string;
+
+// @public
+export interface IstioPluginCertificateAuthority {
+    certChainObjectName?: string;
+    certObjectName?: string;
+    keyObjectName?: string;
+    keyVaultId?: string;
+    rootCertObjectName?: string;
+}
+
+// @public
+export interface IstioServiceMesh {
+    certificateAuthority?: IstioCertificateAuthority;
+    components?: IstioComponents;
+    revisions?: string[];
+}
 
 // @public
 export type KeyVaultNetworkAccessTypes = string;
@@ -431,6 +511,12 @@ export enum KnownGPUInstanceProfile {
 export enum KnownIpFamily {
     IPv4 = "IPv4",
     IPv6 = "IPv6"
+}
+
+// @public
+export enum KnownIstioIngressGatewayMode {
+    External = "External",
+    Internal = "Internal"
 }
 
 // @public
@@ -517,6 +603,13 @@ export enum KnownNetworkPolicy {
 }
 
 // @public
+export enum KnownNodeOSUpgradeChannel {
+    NodeImage = "NodeImage",
+    None = "None",
+    Unmanaged = "Unmanaged"
+}
+
+// @public
 export enum KnownOSDiskType {
     Ephemeral = "Ephemeral",
     Managed = "Managed"
@@ -524,6 +617,7 @@ export enum KnownOSDiskType {
 
 // @public
 export enum KnownOssku {
+    AzureLinux = "AzureLinux",
     CBLMariner = "CBLMariner",
     Ubuntu = "Ubuntu",
     Windows2019 = "Windows2019",
@@ -578,8 +672,23 @@ export enum KnownScaleSetPriority {
 }
 
 // @public
+export enum KnownServiceMeshMode {
+    Disabled = "Disabled",
+    Istio = "Istio"
+}
+
+// @public
 export enum KnownSnapshotType {
     NodePool = "NodePool"
+}
+
+// @public
+export enum KnownType {
+    First = "First",
+    Fourth = "Fourth",
+    Last = "Last",
+    Second = "Second",
+    Third = "Third"
 }
 
 // @public
@@ -671,6 +780,7 @@ export type LoadBalancerSku = string;
 
 // @public
 export interface MaintenanceConfiguration extends SubResource {
+    maintenanceWindow?: MaintenanceWindow;
     notAllowedTime?: TimeSpan[];
     readonly systemData?: SystemData;
     timeInWeek?: TimeInWeek[];
@@ -723,6 +833,16 @@ export interface MaintenanceConfigurationsListByManagedClusterOptionalParams ext
 export type MaintenanceConfigurationsListByManagedClusterResponse = MaintenanceConfigurationListResult;
 
 // @public
+export interface MaintenanceWindow {
+    durationHours: number;
+    notAllowedDates?: DateSpan[];
+    schedule: Schedule;
+    startDate?: Date;
+    startTime: string;
+    utcOffset?: string;
+}
+
+// @public
 export interface ManagedCluster extends TrackedResource {
     aadProfile?: ManagedClusterAADProfile;
     addonProfiles?: {
@@ -760,11 +880,14 @@ export interface ManagedCluster extends TrackedResource {
     privateLinkResources?: PrivateLinkResource[];
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
+    readonly resourceUID?: string;
     securityProfile?: ManagedClusterSecurityProfile;
+    serviceMeshProfile?: ServiceMeshProfile;
     servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
     sku?: ManagedClusterSKU;
     storageProfile?: ManagedClusterStorageProfile;
     supportPlan?: KubernetesSupportPlan;
+    upgradeSettings?: ClusterUpgradeSettings;
     windowsProfile?: ManagedClusterWindowsProfile;
     workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
 }
@@ -863,6 +986,7 @@ export interface ManagedClusterAPIServerAccessProfile {
 
 // @public
 export interface ManagedClusterAutoUpgradeProfile {
+    nodeOSUpgradeChannel?: NodeOSUpgradeChannel;
     upgradeChannel?: UpgradeChannel;
 }
 
@@ -893,6 +1017,9 @@ export interface ManagedClusterHttpProxyConfig {
 
 // @public
 export interface ManagedClusterIdentity {
+    delegatedResources?: {
+        [propertyName: string]: DelegatedResource;
+    };
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
@@ -1062,6 +1189,8 @@ export interface ManagedClusters {
     get(resourceGroupName: string, resourceName: string, options?: ManagedClustersGetOptionalParams): Promise<ManagedClustersGetResponse>;
     getAccessProfile(resourceGroupName: string, resourceName: string, roleName: string, options?: ManagedClustersGetAccessProfileOptionalParams): Promise<ManagedClustersGetAccessProfileResponse>;
     getCommandResult(resourceGroupName: string, resourceName: string, commandId: string, options?: ManagedClustersGetCommandResultOptionalParams): Promise<ManagedClustersGetCommandResultResponse>;
+    getMeshRevisionProfile(location: string, mode: string, options?: ManagedClustersGetMeshRevisionProfileOptionalParams): Promise<ManagedClustersGetMeshRevisionProfileResponse>;
+    getMeshUpgradeProfile(resourceGroupName: string, resourceName: string, mode: string, options?: ManagedClustersGetMeshUpgradeProfileOptionalParams): Promise<ManagedClustersGetMeshUpgradeProfileResponse>;
     getOSOptions(location: string, options?: ManagedClustersGetOSOptionsOptionalParams): Promise<ManagedClustersGetOSOptionsResponse>;
     getUpgradeProfile(resourceGroupName: string, resourceName: string, options?: ManagedClustersGetUpgradeProfileOptionalParams): Promise<ManagedClustersGetUpgradeProfileResponse>;
     list(options?: ManagedClustersListOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
@@ -1070,6 +1199,8 @@ export interface ManagedClusters {
     listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options?: ManagedClustersListClusterMonitoringUserCredentialsOptionalParams): Promise<ManagedClustersListClusterMonitoringUserCredentialsResponse>;
     listClusterUserCredentials(resourceGroupName: string, resourceName: string, options?: ManagedClustersListClusterUserCredentialsOptionalParams): Promise<ManagedClustersListClusterUserCredentialsResponse>;
     listKubernetesVersions(location: string, options?: ManagedClustersListKubernetesVersionsOptionalParams): Promise<ManagedClustersListKubernetesVersionsResponse>;
+    listMeshRevisionProfiles(location: string, options?: ManagedClustersListMeshRevisionProfilesOptionalParams): PagedAsyncIterableIterator<MeshRevisionProfile>;
+    listMeshUpgradeProfiles(resourceGroupName: string, resourceName: string, options?: ManagedClustersListMeshUpgradeProfilesOptionalParams): PagedAsyncIterableIterator<MeshUpgradeProfile>;
     listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, resourceName: string, options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
 }
 
@@ -1167,6 +1298,20 @@ export interface ManagedClustersGetCommandResultOptionalParams extends coreClien
 export type ManagedClustersGetCommandResultResponse = RunCommandResult;
 
 // @public
+export interface ManagedClustersGetMeshRevisionProfileOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersGetMeshRevisionProfileResponse = MeshRevisionProfile;
+
+// @public
+export interface ManagedClustersGetMeshUpgradeProfileOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersGetMeshUpgradeProfileResponse = MeshUpgradeProfile;
+
+// @public
 export interface ManagedClustersGetOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1245,6 +1390,34 @@ export interface ManagedClustersListKubernetesVersionsOptionalParams extends cor
 
 // @public
 export type ManagedClustersListKubernetesVersionsResponse = KubernetesVersionListResult;
+
+// @public
+export interface ManagedClustersListMeshRevisionProfilesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListMeshRevisionProfilesNextResponse = MeshRevisionProfileList;
+
+// @public
+export interface ManagedClustersListMeshRevisionProfilesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListMeshRevisionProfilesResponse = MeshRevisionProfileList;
+
+// @public
+export interface ManagedClustersListMeshUpgradeProfilesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListMeshUpgradeProfilesNextResponse = MeshUpgradeProfileList;
+
+// @public
+export interface ManagedClustersListMeshUpgradeProfilesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListMeshUpgradeProfilesResponse = MeshUpgradeProfileList;
 
 // @public
 export interface ManagedClustersListNextOptionalParams extends coreClient.OperationOptions {
@@ -1425,6 +1598,7 @@ export interface ManagedClusterWindowsProfile {
 // @public
 export interface ManagedClusterWorkloadAutoScalerProfile {
     keda?: ManagedClusterWorkloadAutoScalerProfileKeda;
+    verticalPodAutoscaler?: ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler;
 }
 
 // @public
@@ -1432,10 +1606,54 @@ export interface ManagedClusterWorkloadAutoScalerProfileKeda {
     enabled: boolean;
 }
 
+// @public
+export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
+    enabled: boolean;
+}
+
 // @public (undocumented)
 export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface MeshRevision {
+    compatibleWith?: CompatibleVersions[];
+    revision?: string;
+    upgrades?: string[];
+}
+
+// @public
+export interface MeshRevisionProfile extends ProxyResource {
+    properties?: MeshRevisionProfileProperties;
+}
+
+// @public
+export interface MeshRevisionProfileList {
+    readonly nextLink?: string;
+    value?: MeshRevisionProfile[];
+}
+
+// @public
+export interface MeshRevisionProfileProperties {
+    // (undocumented)
+    meshRevisions?: MeshRevision[];
+}
+
+// @public
+export interface MeshUpgradeProfile extends ProxyResource {
+    properties?: MeshUpgradeProfileProperties;
+}
+
+// @public
+export interface MeshUpgradeProfileList {
+    readonly nextLink?: string;
+    value?: MeshUpgradeProfile[];
+}
+
+// @public
+export interface MeshUpgradeProfileProperties extends MeshRevision {
 }
 
 // @public
@@ -1452,6 +1670,9 @@ export type NetworkPluginMode = string;
 
 // @public
 export type NetworkPolicy = string;
+
+// @public
+export type NodeOSUpgradeChannel = string;
 
 // @public
 export interface OperationListResult {
@@ -1616,7 +1837,18 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export type PublicNetworkAccess = string;
+
+// @public
+export interface RelativeMonthlySchedule {
+    dayOfWeek: WeekDay;
+    intervalMonths: number;
+    weekIndex: Type;
+}
 
 // @public
 export interface ResolvePrivateLinkServiceId {
@@ -1672,6 +1904,23 @@ export type ScaleSetEvictionPolicy = string;
 
 // @public
 export type ScaleSetPriority = string;
+
+// @public
+export interface Schedule {
+    absoluteMonthly?: AbsoluteMonthlySchedule;
+    daily?: DailySchedule;
+    relativeMonthly?: RelativeMonthlySchedule;
+    weekly?: WeeklySchedule;
+}
+
+// @public
+export type ServiceMeshMode = string;
+
+// @public
+export interface ServiceMeshProfile {
+    istio?: IstioServiceMesh;
+    mode: ServiceMeshMode;
+}
 
 // @public
 export interface Snapshot extends TrackedResource {
@@ -1834,7 +2083,16 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
+export type Type = string;
+
+// @public
 export type UpgradeChannel = string;
+
+// @public
+export interface UpgradeOverrideSettings {
+    forceUpgrade?: boolean;
+    until?: Date;
+}
 
 // @public
 export interface UserAssignedIdentity {
@@ -1845,6 +2103,12 @@ export interface UserAssignedIdentity {
 
 // @public
 export type WeekDay = string;
+
+// @public
+export interface WeeklySchedule {
+    dayOfWeek: WeekDay;
+    intervalWeeks: number;
+}
 
 // @public
 export interface WindowsGmsaProfile {

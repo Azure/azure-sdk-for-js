@@ -1,14 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
+import {
+  getQSU,
+  getSASConnectionStringFromEnvironment,
+  configureStorageClient,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "./utils";
 import { QueueClient, QueueServiceClient } from "../src";
-import { setSpan, context } from "@azure/core-tracing";
-import { SpanGraph, setTracer } from "@azure/test-utils";
-import { RestError } from "@azure/core-http";
-import { Recorder, record } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "./utils/testutils.common";
+import { assert } from "@azure/test-utils";
+import { RestError } from "@azure/core-rest-pipeline";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("QueueClient", () => {
@@ -19,9 +23,11 @@ describe("QueueClient", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    queueServiceClient = getQSU();
-    queueName = recorder.getUniqueName("queue");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    queueServiceClient = getQSU(recorder);
+    queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
@@ -53,7 +59,7 @@ describe("QueueClient", () => {
   });
 
   it("getProperties negative", async () => {
-    const queueName2 = recorder.getUniqueName("queue", "queue2");
+    const queueName2 = recorder.variable("queue2", getUniqueName("queue2"));
     const queueClient2 = queueServiceClient.getQueueClient(queueName2);
     let error: RestError | undefined;
     try {
@@ -75,7 +81,9 @@ describe("QueueClient", () => {
   });
 
   it("create with all parameters", async () => {
-    const qClient = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
+    const qClient = queueServiceClient.getQueueClient(
+      recorder.variable(queueName, getUniqueName(queueName))
+    );
     const metadata = { key: "value" };
     await qClient.create({ metadata });
     const result = await qClient.getProperties();
@@ -102,7 +110,9 @@ describe("QueueClient", () => {
   it("exists", async () => {
     assert.ok(await queueClient.exists());
 
-    const qClient = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
+    const qClient = queueServiceClient.getQueueClient(
+      recorder.variable(queueName, getUniqueName(queueName))
+    );
     assert.ok(!(await qClient.exists()));
   });
 
@@ -115,13 +125,17 @@ describe("QueueClient", () => {
     assert.ok(!res2.succeeded);
     assert.equal(res2.errorCode, "QueueAlreadyExists");
 
-    queueClient = queueServiceClient.getQueueClient(recorder.getUniqueName("queue2"));
+    queueClient = queueServiceClient.getQueueClient(
+      recorder.variable("queue2", getUniqueName("queue2"))
+    );
     const res3 = await queueClient.createIfNotExists();
     assert.ok(res3.succeeded);
   });
 
   it("deleteIfExists", async () => {
-    const qClient = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
+    const qClient = queueServiceClient.getQueueClient(
+      recorder.variable(queueName, getUniqueName(queueName))
+    );
     const res = await qClient.deleteIfExists();
     assert.ok(!res.succeeded);
     assert.equal(res.errorCode, "QueueNotFound");
@@ -159,7 +173,8 @@ describe("QueueClient", () => {
   });
 
   it("can be created with a sas connection string and a queue name", async () => {
-    const newClient = new QueueClient(getSASConnectionStringFromEnvironment(), queueName);
+    const newClient = new QueueClient(getSASConnectionStringFromEnvironment(recorder), queueName);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -169,11 +184,12 @@ describe("QueueClient", () => {
   });
 
   it("can be created with a sas connection string and a queue name and an option bag", async () => {
-    const newClient = new QueueClient(getSASConnectionStringFromEnvironment(), queueName, {
+    const newClient = new QueueClient(getSASConnectionStringFromEnvironment(recorder), queueName, {
       retryOptions: {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -184,7 +200,7 @@ describe("QueueClient", () => {
 
   it("throws error if constructor queueName parameter is empty", async () => {
     try {
-      new QueueClient(getSASConnectionStringFromEnvironment(), "");
+      new QueueClient(getSASConnectionStringFromEnvironment(recorder), "");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.equal(
@@ -196,46 +212,18 @@ describe("QueueClient", () => {
   });
 
   it("getProperties with tracing", async () => {
-    const tracer = setTracer();
-    const rootSpan = tracer.startSpan("root");
-    await queueClient.getProperties({
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan),
+    await assert.supportsTracing(
+      async (options) => {
+        await queueClient.getProperties(options);
       },
-    });
-    rootSpan.end();
-
-    const rootSpans = tracer.getRootSpans();
-    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
-
-    const expectedGraph: SpanGraph = {
-      roots: [
-        {
-          name: rootSpan.name,
-          children: [
-            {
-              name: "Azure.Storage.Queue.QueueClient-getProperties",
-              children: [
-                {
-                  name: "HTTP GET",
-                  children: [],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    };
-
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
-    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+      ["QueueClient-getProperties"]
+    );
   });
 });
 
 describe("QueueClient - Verify Name Properties", () => {
   const queueName = "queueName";
-  const accountName = "myAccount";
+  const accountName = "myaccount";
 
   function verifyNameProperties(url: string, inputAccountName: string, inputQueueName: string) {
     const newClient = new QueueClient(url);

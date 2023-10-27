@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PrivateDnsManagementClient } = require("@azure/arm-privatedns");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a virtual network link to the specified Private DNS zone.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/VirtualNetworkLinkPut.json
  */
 async function putPrivateDnsZoneVirtualNetworkLink() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const virtualNetworkLinkName = "virtualNetworkLink1";
   const parameters = {
@@ -41,4 +42,8 @@ async function putPrivateDnsZoneVirtualNetworkLink() {
   console.log(result);
 }
 
-putPrivateDnsZoneVirtualNetworkLink().catch(console.error);
+async function main() {
+  putPrivateDnsZoneVirtualNetworkLink();
+}
+
+main().catch(console.error);

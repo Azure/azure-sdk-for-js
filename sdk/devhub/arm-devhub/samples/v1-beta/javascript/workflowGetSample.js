@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a workflow.
  *
  * @summary Gets a workflow.
- * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/Workflow_Get.json
+ * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_Get.json
  */
 async function getWorkflow() {
   const subscriptionId = process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";

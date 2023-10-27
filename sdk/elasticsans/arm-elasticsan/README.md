@@ -6,7 +6,7 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/elasticsans/arm-elasticsan) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-elasticsan) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-elasticsan?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-elasticsan) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

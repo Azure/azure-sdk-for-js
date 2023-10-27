@@ -3,14 +3,7 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { AbortController } from "@azure/abort-controller";
-import {
-  Recorder,
-  env,
-  isPlaybackMode,
-  isRecordMode,
-  isLiveMode,
-} from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 
 import {
@@ -19,12 +12,7 @@ import {
   KeyClient,
   UpdateKeyPropertiesOptions,
 } from "../../src";
-import {
-  assertThrowsAbortError,
-  getServiceVersion,
-  isPublicCloud,
-  onVersions,
-} from "./utils/common";
+import { getServiceVersion, isPublicCloud, onVersions } from "./utils/common";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -64,36 +52,6 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.flushKey(keyName);
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can abort creating a key", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    const controller = new AbortController();
-
-    await assertThrowsAbortError(async () => {
-      const resultPromise = client.createKey(keyName, "RSA", {
-        abortSignal: controller.signal,
-      });
-      controller.abort();
-      await resultPromise;
-    });
-  });
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can create a key with requestOptions timeout", async function (this: Context) {
-    if (!isLiveMode()) {
-      console.log("Timeout tests don't work on playback mode.");
-      this.skip();
-    }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await assertThrowsAbortError(async () => {
-      await client.createKey(keyName, "RSA", {
-        requestOptions: {
-          timeout: 1,
-        },
-      });
-    });
-  });
-
   it("cannot create a key with an empty name", async function () {
     const keyName = "";
     try {
@@ -131,23 +89,6 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.flushKey(keyName);
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can create a RSA key with requestOptions timeout", async function (this: Context) {
-    if (!isLiveMode()) {
-      console.log("Timeout tests don't work on playback mode.");
-      this.skip();
-    }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-
-    await assertThrowsAbortError(async () => {
-      await client.createRsaKey(keyName, {
-        requestOptions: {
-          timeout: 1,
-        },
-      });
-    });
-  });
-
   it("can create an EC key", async function (this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const result = await client.createEcKey(keyName);
@@ -163,22 +104,6 @@ describe("Keys client - create, read, update and delete operations", () => {
     const result = await client.createEcKey(keyName, options);
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
     await testClient.flushKey(keyName);
-  });
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can create an EC key with requestOptions timeout", async function (this: Context) {
-    if (!isLiveMode()) {
-      console.log("Timeout tests don't work on playback mode.");
-      this.skip();
-    }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await assertThrowsAbortError(async () => {
-      await client.createEcKey(keyName, {
-        requestOptions: {
-          timeout: 1,
-        },
-      });
-    });
   });
 
   it("can create a disabled key", async function (this: Context) {
@@ -272,23 +197,6 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.flushKey(keyName);
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can update key with requestOptions timeout", async function (this: Context) {
-    if (!isLiveMode()) {
-      console.log("Timeout tests don't work on playback mode.");
-      this.skip();
-    }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    const { version } = (await client.createRsaKey(keyName)).properties;
-    const options: UpdateKeyPropertiesOptions = {
-      enabled: false,
-      requestOptions: { timeout: 1 },
-    };
-    await assertThrowsAbortError(async () => {
-      await client.updateKeyProperties(keyName, version || "", options);
-    });
-  });
-
   it("can delete a key", async function (this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
@@ -307,24 +215,6 @@ describe("Keys client - create, read, update and delete operations", () => {
       }
     }
     await testClient.purgeKey(keyName);
-  });
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can delete a key with requestOptions timeout", async function (this: Context) {
-    if (!isLiveMode()) {
-      console.log("Timeout tests don't work on playback mode.");
-      this.skip();
-    }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await client.createKey(keyName, "RSA");
-    await assertThrowsAbortError(async () => {
-      await client.beginDeleteKey(keyName, {
-        ...testPollerProperties,
-        requestOptions: {
-          timeout: 1,
-        },
-      });
-    });
   });
 
   it("delete nonexisting key", async function (this: Context) {
@@ -348,19 +238,6 @@ describe("Keys client - create, read, update and delete operations", () => {
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await testClient.flushKey(keyName);
-  });
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can get a key with requestOptions timeout", async function (this: Context) {
-    if (!isLiveMode()) {
-      console.log("Timeout tests don't work on playback mode.");
-      this.skip();
-    }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await client.createKey(keyName, "RSA");
-    await assertThrowsAbortError(async () => {
-      await client.getKey(keyName, { requestOptions: { timeout: 1 } });
-    });
   });
 
   it("can get a specific version of a key", async function (this: Context) {

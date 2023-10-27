@@ -139,6 +139,10 @@ export interface EventHubClientOptions {
    * Value that is appended to the built in user agent string that is passed to the Event Hubs service.
    */
   userAgent?: string;
+  /**
+   * A unique name used to identify the client.  If not provided, a GUID will be used as the identifier
+   */
+  identifier?: string;
 }
 
 /**

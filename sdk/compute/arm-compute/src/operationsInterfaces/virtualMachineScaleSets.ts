@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachineScaleSet,
   VirtualMachineScaleSetsListByLocationOptionalParams,
@@ -33,6 +33,7 @@ import {
   VirtualMachineScaleSetsPowerOffOptionalParams,
   VirtualMachineScaleSetsRestartOptionalParams,
   VirtualMachineScaleSetsStartOptionalParams,
+  VirtualMachineScaleSetsReapplyOptionalParams,
   VirtualMachineScaleSetsRedeployOptionalParams,
   VirtualMachineScaleSetsPerformMaintenanceOptionalParams,
   VirtualMachineScaleSetsUpdateInstancesOptionalParams,
@@ -112,8 +113,8 @@ export interface VirtualMachineScaleSets {
     parameters: VirtualMachineScaleSet,
     options?: VirtualMachineScaleSetsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineScaleSetsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetsCreateOrUpdateResponse>,
       VirtualMachineScaleSetsCreateOrUpdateResponse
     >
   >;
@@ -143,8 +144,8 @@ export interface VirtualMachineScaleSets {
     parameters: VirtualMachineScaleSetUpdate,
     options?: VirtualMachineScaleSetsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineScaleSetsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetsUpdateResponse>,
       VirtualMachineScaleSetsUpdateResponse
     >
   >;
@@ -171,7 +172,7 @@ export interface VirtualMachineScaleSets {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a VM scale set.
    * @param resourceGroupName The name of the resource group.
@@ -206,7 +207,7 @@ export interface VirtualMachineScaleSets {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsDeallocateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and
    * releases the compute resources. You are not billed for the compute resources that this virtual
@@ -232,7 +233,7 @@ export interface VirtualMachineScaleSets {
     vmScaleSetName: string,
     vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs,
     options?: VirtualMachineScaleSetsDeleteInstancesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes virtual machines in a VM scale set.
    * @param resourceGroupName The name of the resource group.
@@ -269,7 +270,7 @@ export interface VirtualMachineScaleSets {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsPowerOffOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still
    * attached and you are getting charged for the resources. Instead, use deallocate to release resources
@@ -293,7 +294,7 @@ export interface VirtualMachineScaleSets {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restarts one or more virtual machines in a VM scale set.
    * @param resourceGroupName The name of the resource group.
@@ -315,7 +316,7 @@ export interface VirtualMachineScaleSets {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts one or more virtual machines in a VM scale set.
    * @param resourceGroupName The name of the resource group.
@@ -328,6 +329,28 @@ export interface VirtualMachineScaleSets {
     options?: VirtualMachineScaleSetsStartOptionalParams
   ): Promise<void>;
   /**
+   * Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  beginReapply(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetsReapplyOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  beginReapplyAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetsReapplyOptionalParams
+  ): Promise<void>;
+  /**
    * Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and
    * powers them back on.
    * @param resourceGroupName The name of the resource group.
@@ -338,7 +361,7 @@ export interface VirtualMachineScaleSets {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsRedeployOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and
    * powers them back on.
@@ -364,7 +387,7 @@ export interface VirtualMachineScaleSets {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsPerformMaintenanceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which
    * are not eligible for perform maintenance will be failed. Please refer to best practices for more
@@ -391,7 +414,7 @@ export interface VirtualMachineScaleSets {
     vmScaleSetName: string,
     vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs,
     options?: VirtualMachineScaleSetsUpdateInstancesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
    * @param resourceGroupName The name of the resource group.
@@ -417,7 +440,7 @@ export interface VirtualMachineScaleSets {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsReimageOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't
    * have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is
@@ -442,7 +465,7 @@ export interface VirtualMachineScaleSets {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsReimageAllOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This
    * operation is only supported for managed disks.
@@ -496,7 +519,7 @@ export interface VirtualMachineScaleSets {
     vmScaleSetName: string,
     parameters: OrchestrationServiceStateInput,
     options?: VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Changes ServiceState property for a given service
    * @param resourceGroupName The name of the resource group.

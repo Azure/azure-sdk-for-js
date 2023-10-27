@@ -2,7 +2,15 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { Constants, ContainerResponse, StatusCodes } from "../../../src";
+import {
+  Constants,
+  ContainerResponse,
+  OperationType,
+  PartitionKeyDefinition,
+  PartitionKeyKind,
+  ResourceType,
+  StatusCodes,
+} from "../../../src";
 import { ContainerDefinition, Database, Container } from "../../../src";
 import { ContainerRequest } from "../../../src";
 import { DataType, IndexedPath, IndexingMode, IndexingPolicy, IndexKind } from "../../../src";
@@ -11,6 +19,8 @@ import {
   removeAllDatabases,
   getTestContainer,
   assertThrowsAsync,
+  addEntropy,
+  testForDiagnostics,
 } from "../common/TestHelpers";
 import { SpatialType } from "../../../src";
 import { GeospatialType } from "../../../src";
@@ -22,7 +32,10 @@ describe("Containers", function (this: Suite) {
   });
 
   describe("Container CRUD", function () {
-    const containerCRUDTest = async function (partitionKey?: string): Promise<void> {
+    const containerCRUDTest = async function (
+      partitionKey?: PartitionKeyDefinition,
+      opts?: Partial<ContainerRequest>
+    ): Promise<void> {
       // create database
       const database = await getTestDatabase("Validate Container CRUD");
 
@@ -31,13 +44,29 @@ describe("Containers", function (this: Suite) {
         id: "sample container",
         indexingPolicy: { indexingMode: IndexingMode.consistent },
         throughput: 400,
+        ...opts,
       };
 
       if (partitionKey) {
         containerDefinition.partitionKey = partitionKey;
       }
 
-      const { resource: containerDef } = await database.containers.create(containerDefinition);
+      const { resource: containerDef } = await testForDiagnostics(
+        async () => {
+          return database.containers.create(containerDefinition);
+        },
+        {
+          locationEndpointsContacted: 1,
+          metadataCallCount: 2,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [
+            {
+              resourceType: ResourceType.container,
+              operationType: OperationType.Create,
+            },
+          ],
+        }
+      );
       const container = database.container(containerDef.id);
       assert.equal(containerDefinition.id, containerDef.id);
       assert.equal("consistent", containerDef.indexingPolicy.indexingMode);
@@ -46,10 +75,26 @@ describe("Containers", function (this: Suite) {
           typeof containerDefinition.partitionKey === "string"
             ? [containerDefinition.partitionKey]
             : containerDefinition.partitionKey.paths;
-        assert.deepEqual(containerDef.partitionKey.paths, comparePaths);
+        assert.deepStrictEqual(containerDef.partitionKey.paths, comparePaths);
       }
       // read containers after creation
-      const { resources: containers } = await database.containers.readAll().fetchAll();
+      const { resources: containers } = await testForDiagnostics(
+        async () => {
+          return database.containers.readAll().fetchAll();
+        },
+        {
+          locationEndpointsContacted: 1,
+          metadataCallCount: 2,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [
+            {
+              resourceType: ResourceType.container,
+              operationType: OperationType.Query,
+            },
+          ],
+        },
+        false
+      );
 
       assert.equal(containers.length, 1, "create should increase the number of containers");
       // query containers
@@ -83,7 +128,23 @@ describe("Containers", function (this: Suite) {
       ];
 
       containerDef.geospatialConfig.type = GeospatialType.Geometry;
-      await container.replace(containerDef);
+
+      await testForDiagnostics(
+        async () => {
+          return container.replace(containerDef);
+        },
+        {
+          locationEndpointsContacted: 1,
+          metadataCallCount: 2,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [
+            {
+              resourceType: ResourceType.container,
+              operationType: OperationType.Replace,
+            },
+          ],
+        }
+      );
 
       // Replacing partition key is not allowed.
       try {
@@ -98,7 +159,7 @@ describe("Containers", function (this: Suite) {
           "response should return error code " + badRequestErrorCode
         );
       } finally {
-        containerDef.partitionKey = { paths: [partitionKey] }; // Resume partition key
+        containerDef.partitionKey = partitionKey; // Resume partition key
       }
       // Replacing id is not allowed.
       try {
@@ -116,11 +177,40 @@ describe("Containers", function (this: Suite) {
       assert.equal(containerDefinition.id, readcontainer.id);
 
       // delete container
-      await container.delete();
-
+      await testForDiagnostics(
+        async () => {
+          return container.delete();
+        },
+        {
+          locationEndpointsContacted: 1,
+          metadataCallCount: 2,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [
+            {
+              resourceType: ResourceType.container,
+              operationType: OperationType.Delete,
+            },
+          ],
+        }
+      );
       // read container after deletion
       try {
-        await container.read();
+        await testForDiagnostics(
+          async () => {
+            return container.read();
+          },
+          {
+            locationEndpointsContacted: 1,
+            metadataCallCount: 2,
+            retryCount: 0,
+            gatewayStatisticsTestSpec: [
+              {
+                resourceType: ResourceType.container,
+                operationType: OperationType.Read,
+              },
+            ],
+          }
+        );
         assert.fail("Must fail to read container after delete");
       } catch (err: any) {
         const notFoundErrorCode = 404;
@@ -133,7 +223,15 @@ describe("Containers", function (this: Suite) {
     });
 
     it("Custom partition key", async function () {
-      await containerCRUDTest("/id");
+      await containerCRUDTest({ paths: ["/id"] });
+    });
+
+    it("Hierarchical partition key", async function () {
+      await containerCRUDTest({
+        paths: ["/id", "/id2"],
+        version: 2,
+        kind: PartitionKeyKind.MultiHash,
+      });
     });
 
     describe("Bad partition key definition", async function () {
@@ -153,9 +251,48 @@ describe("Containers", function (this: Suite) {
         };
 
         try {
-          await database.containers.create(containerDefinition);
+          await testForDiagnostics(
+            async () => {
+              return database.containers.create(containerDefinition);
+            },
+            {
+              locationEndpointsContacted: 1,
+              metadataCallCount: 2,
+              retryCount: 0,
+            }
+          );
+          assert.fail(
+            `Container Creation should have failed, for partitionkey: ${badPartitionKeyDefinition}`
+          );
         } catch (err: any) {
           assert.equal(err.code, 400);
+        }
+      });
+      it("Path contains anything other than AlphaNumeric + '_'", async function () {
+        // create database
+        const database = await getTestDatabase("container CRUD bad partition key");
+
+        // create a container
+        const badPartitionKeyDefinition = "/id ds";
+
+        const containerDefinition: ContainerRequest = {
+          id: "sample container",
+          indexingPolicy: { indexingMode: IndexingMode.consistent },
+          partitionKey: badPartitionKeyDefinition,
+        };
+
+        try {
+          await database.containers.create(containerDefinition);
+          assert.fail(
+            `Container Creation should have failed, for partitionkey: ${badPartitionKeyDefinition}`
+          );
+        } catch (err: any) {
+          assert.strictEqual(
+            true,
+            err.message.includes(
+              "Partition key paths must contain only valid characters and not contain a trailing slash or wildcard character"
+            )
+          );
         }
       });
       it("Is missing leading '/'", async function () {
@@ -173,9 +310,42 @@ describe("Containers", function (this: Suite) {
 
         try {
           await database.containers.create(containerDefinition);
-          console.log("finish");
+          assert.fail(
+            `Container Creation should have failed, for partitionkey: ${badPartitionKeyDefinition}`
+          );
         } catch (err: any) {
           assert.equal(err.message, "Partition key must start with '/'");
+        }
+      });
+      it("Is missing leading '/' - hierarchical partitions", async function () {
+        // create database
+        const database = await getTestDatabase("container CRUD bad partition key");
+
+        // create a container
+        const badPartitionKeyDefinition = ["id", "/id2"];
+
+        const containerDefinition: ContainerRequest = {
+          id: "sample container",
+          indexingPolicy: { indexingMode: IndexingMode.consistent },
+          partitionKey: {
+            paths: badPartitionKeyDefinition,
+            version: 2,
+            kind: PartitionKeyKind.MultiHash,
+          },
+        };
+
+        try {
+          await database.containers.create(containerDefinition);
+          assert.fail(
+            `Container Creation should have failed, for partitionkey: ${badPartitionKeyDefinition}`
+          );
+        } catch (err: any) {
+          assert.strictEqual(
+            true,
+            err.message.includes(
+              "The partition key component definition path 'id' could not be accepted"
+            )
+          );
         }
       });
     });
@@ -391,15 +561,45 @@ describe("createIfNotExists", function () {
     database = await getTestDatabase("containers.createIfNotExists");
   });
 
-  it("should handle container does not exist", async function () {
+  it("create container should work if container does not already exist", async function () {
     const def: ContainerDefinition = { id: "does not exist" };
     const { container } = await database.containers.createIfNotExists(def);
     const { resource: readDef } = await container.read();
     assert.equal(def.id, readDef.id);
   });
 
-  it("should handle container exists", async function () {
+  it("create container should work if container already exists", async function () {
     const def: ContainerDefinition = { id: "does exist" };
+    await database.containers.create(def);
+
+    const { container } = await database.containers.createIfNotExists(def);
+    const { resource: readDef } = await container.read();
+    assert.equal(def.id, readDef.id);
+  });
+
+  it("create container should work if container does not exist - with hierarchical partitions", async function () {
+    const def: ContainerDefinition = {
+      id: "does not exist hierarchical partitions",
+      partitionKey: {
+        paths: ["/key1", "/key2"],
+        kind: PartitionKeyKind.MultiHash,
+        version: 2,
+      },
+    };
+    const { container } = await database.containers.createIfNotExists(def);
+    const { resource: readDef } = await container.read();
+    assert.equal(def.id, readDef.id);
+  });
+
+  it("create container should work if container already exists - with hierarchical partitions", async function () {
+    const def: ContainerDefinition = {
+      id: "does exist hierarchical partitions",
+      partitionKey: {
+        paths: ["/key1", "/key2"],
+        kind: PartitionKeyKind.MultiHash,
+        version: 2,
+      },
+    };
     await database.containers.create(def);
 
     const { container } = await database.containers.createIfNotExists(def);
@@ -483,6 +683,53 @@ describe("container.create", function () {
       maxThroughput: 400,
     };
     assertThrowsAsync(() => database.containers.create(containerRequest));
+  });
+});
+
+describe("Reading items using container", function () {
+  it("should be able to read item based on partition key value", async function () {
+    const container = await getTestContainer("container", undefined, {
+      partitionKey: { paths: ["/key1", "/key2"], kind: PartitionKeyKind.MultiHash, version: 2 },
+    });
+    const itemWithNoPartitionKeySet = addEntropy("item1");
+    const itemWithOnePartitionKeySet = addEntropy("item2");
+    const itemWithBothPartitionKeySet = addEntropy("item3");
+
+    const itemWithNoPartitionKeySetDef = {
+      id: itemWithNoPartitionKeySet,
+    };
+    const itemWithOnePartitionKeySetDef = {
+      id: itemWithOnePartitionKeySet,
+      key1: "a",
+    };
+    const itemWithBothPartitionKeySetDef = {
+      id: itemWithBothPartitionKeySet,
+      key1: "a",
+      key2: "b",
+    };
+
+    await container.items.create(itemWithNoPartitionKeySetDef);
+    const { resource: itemRead1 } = await container.item(itemWithNoPartitionKeySet).read();
+    assert.strictEqual(itemRead1.id, itemWithNoPartitionKeySet);
+
+    await container.items.create(itemWithOnePartitionKeySetDef);
+    const { resource: itemRead2 } = await container
+      .item(itemWithOnePartitionKeySet, ["a", undefined])
+      .read();
+    assert.strictEqual(itemRead2.id, itemWithOnePartitionKeySet);
+
+    try {
+      await container.item(itemWithOnePartitionKeySet, ["a"]).read();
+      assert(false, "Should have thrown exception due to improper partition key passed.");
+    } catch (err: any) {
+      assert.strictEqual(err.code, 400, "Should fail due to improper partition key given");
+    }
+
+    await container.items.create(itemWithBothPartitionKeySetDef);
+    const { resource: itemRead3 } = await container
+      .item(itemWithBothPartitionKeySet, ["a", "b"])
+      .read();
+    assert.strictEqual(itemRead3.id, itemWithBothPartitionKeySet);
   });
 });
 

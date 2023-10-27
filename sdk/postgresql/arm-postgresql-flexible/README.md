@@ -6,7 +6,7 @@ The Microsoft Azure management API provides create, read, update, and delete fun
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/postgresql/arm-postgresql-flexible) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-postgresql-flexible) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-postgresql-flexible) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-postgresql-flexible?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

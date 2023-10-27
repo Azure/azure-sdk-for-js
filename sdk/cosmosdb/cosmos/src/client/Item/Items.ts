@@ -6,7 +6,7 @@ import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
 import { getIdFromLink, getPathFromLink, isItemResourceValid, ResourceType } from "../../common";
-import { extractPartitionKey } from "../../extractPartitionKey";
+import { extractPartitionKeys } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions, Response } from "../../request";
@@ -17,26 +17,40 @@ import { ItemResponse } from "./ItemResponse";
 import {
   Batch,
   isKeyInRange,
-  Operation,
-  getPartitionKeyToHash,
-  decorateOperation,
+  prepareOperations,
   OperationResponse,
   OperationInput,
   BulkOptions,
   decorateBatchOperation,
   splitBatchBasedOnBodySize,
+  BulkOperationResponse,
 } from "../../utils/batch";
-import { hashV1PartitionKey } from "../../utils/hashing/v1";
-import { hashV2PartitionKey } from "../../utils/hashing/v2";
+import { readPartitionKeyDefinition } from "../ClientUtils";
+import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
+import { hashPartitionKey } from "../../utils/hashing/hash";
+import { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import { PartitionKeyRangeCache } from "../../routing";
+import {
+  ChangeFeedPullModelIterator,
+  ChangeFeedIteratorOptions,
+  changeFeedIteratorBuilder,
+} from "../../client/ChangeFeed";
+import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
+import {
+  DiagnosticNodeInternal,
+  DiagnosticNodeType,
+} from "../../diagnostics/DiagnosticNodeInternal";
+import {
+  getEmptyCosmosDiagnostics,
+  withDiagnostics,
+  addDignosticChild,
+} from "../../utils/diagnostics";
 
 /**
  * @hidden
  */
 function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
-  const optionsType = typeof options;
-  return (
-    options && !(optionsType === "string" || optionsType === "boolean" || optionsType === "number")
-  );
+  return options && !(isPrimitivePartitionKeyValue(options) || Array.isArray(options));
 }
 
 /**
@@ -45,15 +59,15 @@ function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
  * @see {@link Item} for reading, replacing, or deleting an existing container; use `.item(id)`.
  */
 export class Items {
+  private partitionKeyRangeCache: PartitionKeyRangeCache;
   /**
    * Create an instance of {@link Items} linked to the parent {@link Container}.
    * @param container - The parent container.
    * @hidden
    */
-  constructor(
-    public readonly container: Container,
-    private readonly clientContext: ClientContext
-  ) {}
+  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {
+    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
+  }
 
   /**
    * Queries all items.
@@ -91,8 +105,11 @@ export class Items {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
 
-    const fetchFunction: FetchFunctionCallback = (innerOptions: FeedOptions) => {
-      return this.clientContext.queryFeed({
+    const fetchFunction: FetchFunctionCallback = async (
+      diagnosticNode: DiagnosticNodeInternal,
+      innerOptions: FeedOptions
+    ) => {
+      const response = await this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.item,
         resourceId: id,
@@ -100,7 +117,9 @@ export class Items {
         query,
         options: innerOptions,
         partitionKey: options.partitionKey,
+        diagnosticNode,
       });
+      return response;
     };
 
     return new QueryIterator(
@@ -127,7 +146,7 @@ export class Items {
    * ```
    */
   public readChangeFeed(
-    partitionKey: string | number | boolean,
+    partitionKey: PartitionKey,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<any>;
   /**
@@ -141,7 +160,7 @@ export class Items {
    * @deprecated Use `changeFeed` instead.
    */
   public readChangeFeed<T>(
-    partitionKey: string | number | boolean,
+    partitionKey: PartitionKey,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T>;
   /**
@@ -150,7 +169,7 @@ export class Items {
    */
   public readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public readChangeFeed<T>(
-    partitionKeyOrChangeFeedOptions?: string | number | boolean | ChangeFeedOptions,
+    partitionKeyOrChangeFeedOptions?: PartitionKey | ChangeFeedOptions,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T> {
     if (isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
@@ -172,7 +191,7 @@ export class Items {
    * ```
    */
   public changeFeed(
-    partitionKey: string | number | boolean,
+    partitionKey: PartitionKey,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<any>;
   /**
@@ -183,7 +202,7 @@ export class Items {
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    */
   public changeFeed<T>(
-    partitionKey: string | number | boolean,
+    partitionKey: PartitionKey,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T>;
   /**
@@ -191,10 +210,10 @@ export class Items {
    */
   public changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public changeFeed<T>(
-    partitionKeyOrChangeFeedOptions?: string | number | boolean | ChangeFeedOptions,
+    partitionKeyOrChangeFeedOptions?: PartitionKey | ChangeFeedOptions,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T> {
-    let partitionKey: string | number | boolean;
+    let partitionKey: PartitionKey;
     if (!changeFeedOptions && isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
       partitionKey = undefined;
       changeFeedOptions = partitionKeyOrChangeFeedOptions;
@@ -212,6 +231,23 @@ export class Items {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
     return new ChangeFeedIterator<T>(this.clientContext, id, path, partitionKey, changeFeedOptions);
+  }
+
+  /**
+   * Returns an iterator to iterate over pages of changes. The iterator returned can be used to fetch changes for a single partition key, feed range or an entire container.
+   */
+  public getChangeFeedIterator<T>(
+    changeFeedIteratorOptions?: ChangeFeedIteratorOptions
+  ): ChangeFeedPullModelIterator<T> {
+    const cfOptions = changeFeedIteratorOptions !== undefined ? changeFeedIteratorOptions : {};
+    validateChangeFeedIteratorOptions(cfOptions);
+    const iterator = changeFeedIteratorBuilder(
+      cfOptions,
+      this.clientContext,
+      this.container,
+      this.partitionKeyRangeCache
+    );
+    return iterator;
   }
 
   /**
@@ -262,44 +298,50 @@ export class Items {
   ): Promise<ItemResponse<T>> {
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
-    if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-      body.id = uuid();
-    }
 
-    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
-    const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
+        body.id = uuid();
+      }
+      const partitionKeyDefinition = await readPartitionKeyDefinition(
+        diagnosticNode,
+        this.container
+      );
+      const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
-    const err = {};
-    if (!isItemResourceValid(body, err)) {
-      throw err;
-    }
+      const err = {};
+      if (!isItemResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.container.url, ResourceType.item);
-    const id = getIdFromLink(this.container.url);
+      const path = getPathFromLink(this.container.url, ResourceType.item);
+      const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<T>({
-      body,
-      path,
-      resourceType: ResourceType.item,
-      resourceId: id,
-      options,
-      partitionKey,
-    });
+      const response = await this.clientContext.create<T>({
+        body,
+        path,
+        resourceType: ResourceType.item,
+        resourceId: id,
+        diagnosticNode,
+        options,
+        partitionKey,
+      });
 
-    const ref = new Item(
-      this.container,
-      (response.result as any).id,
-      partitionKey,
-      this.clientContext
-    );
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      ref,
-      response.diagnostics
-    );
+      const ref = new Item(
+        this.container,
+        (response.result as any).id,
+        this.clientContext,
+        partitionKey
+      );
+      return new ItemResponse(
+        response.result,
+        response.headers,
+        response.code,
+        response.substatus,
+        ref,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -333,46 +375,52 @@ export class Items {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
-    const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      // Generate random document id if the id is missing in the payload and
+      // options.disableAutomaticIdGeneration != true
+      if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
+        body.id = uuid();
+      }
 
-    // Generate random document id if the id is missing in the payload and
-    // options.disableAutomaticIdGeneration != true
-    if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-      body.id = uuid();
-    }
+      const partitionKeyDefinition = await readPartitionKeyDefinition(
+        diagnosticNode,
+        this.container
+      );
+      const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
-    const err = {};
-    if (!isItemResourceValid(body, err)) {
-      throw err;
-    }
+      const err = {};
+      if (!isItemResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.container.url, ResourceType.item);
-    const id = getIdFromLink(this.container.url);
+      const path = getPathFromLink(this.container.url, ResourceType.item);
+      const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.upsert<T>({
-      body,
-      path,
-      resourceType: ResourceType.item,
-      resourceId: id,
-      options,
-      partitionKey,
-    });
+      const response = await this.clientContext.upsert<T>({
+        body,
+        path,
+        resourceType: ResourceType.item,
+        resourceId: id,
+        options,
+        partitionKey,
+        diagnosticNode,
+      });
 
-    const ref = new Item(
-      this.container,
-      (response.result as any).id,
-      partitionKey,
-      this.clientContext
-    );
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      ref,
-      response.diagnostics
-    );
+      const ref = new Item(
+        this.container,
+        (response.result as any).id,
+        this.clientContext,
+        partitionKey
+      );
+      return new ItemResponse(
+        response.result,
+        response.headers,
+        response.code,
+        response.substatus,
+        ref,
+        getEmptyCosmosDiagnostics()
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -407,71 +455,113 @@ export class Items {
     operations: OperationInput[],
     bulkOptions?: BulkOptions,
     options?: RequestOptions
-  ): Promise<OperationResponse[]> {
-    const { resources: partitionKeyRanges } = await this.container
-      .readPartitionKeyRanges()
-      .fetchAll();
-    const { resource: definition } = await this.container.getPartitionKeyDefinition();
-    const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
-      return {
-        min: keyRange.minInclusive,
-        max: keyRange.maxExclusive,
-        rangeId: keyRange.id,
-        indexes: [],
-        operations: [],
-      };
-    });
-    operations
-      .map((operation) => decorateOperation(operation, definition, options))
-      .forEach((operation: Operation, index: number) => {
-        const partitionProp = definition.paths[0].replace("/", "");
-        const isV2 = definition.version && definition.version === 2;
-        const toHashKey = getPartitionKeyToHash(operation, partitionProp);
-        const hashed = isV2 ? hashV2PartitionKey(toHashKey) : hashV1PartitionKey(toHashKey);
-        const batchForKey = batches.find((batch: Batch) => {
-          return isKeyInRange(batch.min, batch.max, hashed);
-        });
-        batchForKey.operations.push(operation);
-        batchForKey.indexes.push(index);
+  ): Promise<BulkOperationResponse> {
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const { resources: partitionKeyRanges } = await this.container
+        .readPartitionKeyRanges()
+        .fetchAll();
+      const partitionKeyDefinition = await readPartitionKeyDefinition(
+        diagnosticNode,
+        this.container
+      );
+      const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
+        return {
+          min: keyRange.minInclusive,
+          max: keyRange.maxExclusive,
+          rangeId: keyRange.id,
+          indexes: [],
+          operations: [],
+        };
       });
 
-    const path = getPathFromLink(this.container.url, ResourceType.item);
+      this.groupOperationsBasedOnPartitionKey(operations, partitionKeyDefinition, options, batches);
 
-    const orderedResponses: OperationResponse[] = [];
-    await Promise.all(
-      batches
-        .filter((batch: Batch) => batch.operations.length)
-        .flatMap((batch: Batch) => splitBatchBasedOnBodySize(batch))
-        .map(async (batch: Batch) => {
-          if (batch.operations.length > 100) {
-            throw new Error("Cannot run bulk request with more than 100 operations per partition");
-          }
-          try {
-            const response = await this.clientContext.bulk({
-              body: batch.operations,
-              partitionKeyRangeId: batch.rangeId,
-              path,
-              resourceId: this.container.url,
-              bulkOptions,
-              options,
-            });
-            response.result.forEach((operationResponse: OperationResponse, index: number) => {
-              orderedResponses[batch.indexes[index]] = operationResponse;
-            });
-          } catch (err: any) {
-            // In the case of 410 errors, we need to recompute the partition key ranges
-            // and redo the batch request, however, 410 errors occur for unsupported
-            // partition key types as well since we don't support them, so for now we throw
-            if (err.code === 410) {
+      const path = getPathFromLink(this.container.url, ResourceType.item);
+
+      const orderedResponses: OperationResponse[] = [];
+      await Promise.all(
+        batches
+          .filter((batch: Batch) => batch.operations.length)
+          .flatMap((batch: Batch) => splitBatchBasedOnBodySize(batch))
+          .map(async (batch: Batch) => {
+            if (batch.operations.length > 100) {
               throw new Error(
-                "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type"
+                "Cannot run bulk request with more than 100 operations per partition"
               );
             }
-            throw new Error(`Bulk request errored with: ${err.message}`);
-          }
-        })
-    );
-    return orderedResponses;
+            try {
+              const response = await addDignosticChild(
+                async (childNode: DiagnosticNodeInternal) =>
+                  this.clientContext.bulk({
+                    body: batch.operations,
+                    partitionKeyRangeId: batch.rangeId,
+                    path,
+                    resourceId: this.container.url,
+                    bulkOptions,
+                    options,
+                    diagnosticNode: childNode,
+                  }),
+                diagnosticNode,
+                DiagnosticNodeType.BATCH_REQUEST
+              );
+              response.result.forEach((operationResponse: OperationResponse, index: number) => {
+                orderedResponses[batch.indexes[index]] = operationResponse;
+              });
+            } catch (err: any) {
+              // In the case of 410 errors, we need to recompute the partition key ranges
+              // and redo the batch request, however, 410 errors occur for unsupported
+              // partition key types as well since we don't support them, so for now we throw
+              if (err.code === 410) {
+                throw new Error(
+                  "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type" +
+                    err.message
+                );
+              }
+              throw new Error(`Bulk request errored with: ${err.message}`);
+            }
+          })
+      );
+      const response: any = orderedResponses;
+      response.diagnostics = diagnosticNode.toDiagnostic(this.clientContext.getClientConfig());
+      return response;
+    }, this.clientContext);
+  }
+
+  /**
+   * Function to create batches based of partition key Ranges.
+   * @param operations - operations to group
+   * @param partitionDefinition - PartitionKey definition of container.
+   * @param options - Request options for bulk request.
+   * @param batches - Groups to be filled with operations.
+   */
+  private groupOperationsBasedOnPartitionKey(
+    operations: OperationInput[],
+    partitionDefinition: PartitionKeyDefinition,
+    options: RequestOptions | undefined,
+    batches: Batch[]
+  ) {
+    operations.forEach((operationInput, index: number) => {
+      const { operation, partitionKey } = prepareOperations(
+        operationInput,
+        partitionDefinition,
+        options
+      );
+      const hashed = hashPartitionKey(
+        assertNotUndefined(
+          partitionKey,
+          "undefined value for PartitionKey is not expected during grouping of bulk operations."
+        ),
+        partitionDefinition
+      );
+      const batchForKey = assertNotUndefined(
+        batches.find((batch: Batch) => {
+          return isKeyInRange(batch.min, batch.max, hashed);
+        }),
+        "No suitable Batch found."
+      );
+      batchForKey.operations.push(operation);
+      batchForKey.indexes.push(index);
+    });
   }
 
   /**
@@ -503,27 +593,30 @@ export class Items {
    */
   public async batch(
     operations: OperationInput[],
-    partitionKey: string = "[{}]",
+    partitionKey?: PartitionKey,
     options?: RequestOptions
   ): Promise<Response<OperationResponse[]>> {
-    operations.map((operation) => decorateBatchOperation(operation, options));
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      operations.map((operation) => decorateBatchOperation(operation, options));
 
-    const path = getPathFromLink(this.container.url, ResourceType.item);
+      const path = getPathFromLink(this.container.url, ResourceType.item);
 
-    if (operations.length > 100) {
-      throw new Error("Cannot run batch request with more than 100 operations per partition");
-    }
-    try {
-      const response: Response<OperationResponse[]> = await this.clientContext.batch({
-        body: operations,
-        partitionKey,
-        path,
-        resourceId: this.container.url,
-        options,
-      });
-      return response;
-    } catch (err: any) {
-      throw new Error(`Batch request error: ${err.message}`);
-    }
+      if (operations.length > 100) {
+        throw new Error("Cannot run batch request with more than 100 operations per partition");
+      }
+      try {
+        const response: Response<OperationResponse[]> = await this.clientContext.batch({
+          body: operations,
+          partitionKey,
+          path,
+          resourceId: this.container.url,
+          options,
+          diagnosticNode,
+        });
+        return response;
+      } catch (err: any) {
+        throw new Error(`Batch request error: ${err.message}`);
+      }
+    }, this.clientContext);
   }
 }

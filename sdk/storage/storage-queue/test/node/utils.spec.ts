@@ -3,8 +3,8 @@
 
 import { assert } from "chai";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "../utils/index.browser";
+import { Recorder } from "@azure-tools/test-recorder";
+import { recorderEnvSetup } from "../utils";
 import { Context } from "mocha";
 
 describe("Utility Helpers Node.js only", () => {
@@ -35,7 +35,8 @@ describe("Utility Helpers Node.js only", () => {
   }
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
   });
 
   afterEach(async function () {

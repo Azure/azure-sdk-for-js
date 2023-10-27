@@ -10,17 +10,24 @@
 // Licensed under the MIT License.
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the details of a migration item.
  *
  * @summary Gets the details of a migration item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationMigrationItems_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationMigrationItems_Get.json
  */
 async function getsTheDetailsOfAMigrationItem() {
-  const subscriptionId = "cb53d0c3-bd59-4721-89bc-06916a9147ef";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "cb53d0c3-bd59-4721-89bc-06916a9147ef";
   const resourceName = "migrationvault";
-  const resourceGroupName = "resourcegroup1";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
+    "resourcegroup1";
   const fabricName = "vmwarefabric1";
   const protectionContainerName = "vmwareContainer1";
   const migrationItemName = "virtualmachine1";
@@ -36,4 +43,8 @@ async function getsTheDetailsOfAMigrationItem() {
   console.log(result);
 }
 
-getsTheDetailsOfAMigrationItem().catch(console.error);
+async function main() {
+  getsTheDetailsOfAMigrationItem();
+}
+
+main().catch(console.error);

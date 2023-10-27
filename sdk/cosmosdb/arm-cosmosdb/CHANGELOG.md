@@ -1,4 +1,298 @@
 # Release History
+
+## 16.0.0-beta.7 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 16.0.0-beta.6 (2023-06-13)
+    
+**Features**
+
+  - Added operation group DataTransferJobs
+  - Added operation group GraphResources
+  - Added operation group MongoClusters
+  - Added operation CassandraClusters.getBackup
+  - Added operation CassandraClusters.listBackups
+  - Added operation CassandraResources.beginCreateUpdateCassandraView
+  - Added operation CassandraResources.beginCreateUpdateCassandraViewAndWait
+  - Added operation CassandraResources.beginDeleteCassandraView
+  - Added operation CassandraResources.beginDeleteCassandraViewAndWait
+  - Added operation CassandraResources.beginMigrateCassandraViewToAutoscale
+  - Added operation CassandraResources.beginMigrateCassandraViewToAutoscaleAndWait
+  - Added operation CassandraResources.beginMigrateCassandraViewToManualThroughput
+  - Added operation CassandraResources.beginMigrateCassandraViewToManualThroughputAndWait
+  - Added operation CassandraResources.beginUpdateCassandraViewThroughput
+  - Added operation CassandraResources.beginUpdateCassandraViewThroughputAndWait
+  - Added operation CassandraResources.getCassandraView
+  - Added operation CassandraResources.getCassandraViewThroughput
+  - Added operation CassandraResources.listCassandraViews
+  - Added operation MongoDBResources.beginListMongoDBCollectionPartitionMerge
+  - Added operation MongoDBResources.beginListMongoDBCollectionPartitionMergeAndWait
+  - Added operation MongoDBResources.beginMongoDBContainerRedistributeThroughput
+  - Added operation MongoDBResources.beginMongoDBContainerRedistributeThroughputAndWait
+  - Added operation MongoDBResources.beginMongoDBContainerRetrieveThroughputDistribution
+  - Added operation MongoDBResources.beginMongoDBContainerRetrieveThroughputDistributionAndWait
+  - Added operation MongoDBResources.beginMongoDBDatabasePartitionMerge
+  - Added operation MongoDBResources.beginMongoDBDatabasePartitionMergeAndWait
+  - Added operation MongoDBResources.beginMongoDBDatabaseRedistributeThroughput
+  - Added operation MongoDBResources.beginMongoDBDatabaseRedistributeThroughputAndWait
+  - Added operation MongoDBResources.beginMongoDBDatabaseRetrieveThroughputDistribution
+  - Added operation MongoDBResources.beginMongoDBDatabaseRetrieveThroughputDistributionAndWait
+  - Added operation SqlResources.beginListSqlContainerPartitionMerge
+  - Added operation SqlResources.beginListSqlContainerPartitionMergeAndWait
+  - Added operation SqlResources.beginSqlContainerRedistributeThroughput
+  - Added operation SqlResources.beginSqlContainerRedistributeThroughputAndWait
+  - Added operation SqlResources.beginSqlContainerRetrieveThroughputDistribution
+  - Added operation SqlResources.beginSqlContainerRetrieveThroughputDistributionAndWait
+  - Added operation SqlResources.beginSqlDatabasePartitionMerge
+  - Added operation SqlResources.beginSqlDatabasePartitionMergeAndWait
+  - Added operation SqlResources.beginSqlDatabaseRedistributeThroughput
+  - Added operation SqlResources.beginSqlDatabaseRedistributeThroughputAndWait
+  - Added operation SqlResources.beginSqlDatabaseRetrieveThroughputDistribution
+  - Added operation SqlResources.beginSqlDatabaseRetrieveThroughputDistributionAndWait
+  - Added Interface AzureBlobDataTransferDataSourceSink
+  - Added Interface BackupResource
+  - Added Interface BackupResourceProperties
+  - Added Interface CassandraClustersGetBackupOptionalParams
+  - Added Interface CassandraClustersListBackupsOptionalParams
+  - Added Interface CassandraResourcesCreateUpdateCassandraViewHeaders
+  - Added Interface CassandraResourcesCreateUpdateCassandraViewOptionalParams
+  - Added Interface CassandraResourcesDeleteCassandraViewHeaders
+  - Added Interface CassandraResourcesDeleteCassandraViewOptionalParams
+  - Added Interface CassandraResourcesGetCassandraViewOptionalParams
+  - Added Interface CassandraResourcesGetCassandraViewThroughputOptionalParams
+  - Added Interface CassandraResourcesListCassandraViewsOptionalParams
+  - Added Interface CassandraResourcesMigrateCassandraViewToAutoscaleHeaders
+  - Added Interface CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams
+  - Added Interface CassandraResourcesMigrateCassandraViewToManualThroughputHeaders
+  - Added Interface CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams
+  - Added Interface CassandraResourcesUpdateCassandraViewThroughputHeaders
+  - Added Interface CassandraResourcesUpdateCassandraViewThroughputOptionalParams
+  - Added Interface CassandraViewCreateUpdateParameters
+  - Added Interface CassandraViewGetPropertiesOptions
+  - Added Interface CassandraViewGetPropertiesResource
+  - Added Interface CassandraViewGetResults
+  - Added Interface CassandraViewListResult
+  - Added Interface CassandraViewResource
+  - Added Interface CheckNameAvailabilityRequest
+  - Added Interface CheckNameAvailabilityResponse
+  - Added Interface ConnectionString
+  - Added Interface CosmosCassandraDataTransferDataSourceSink
+  - Added Interface CosmosMongoDataTransferDataSourceSink
+  - Added Interface CosmosSqlDataTransferDataSourceSink
+  - Added Interface CreateJobRequest
+  - Added Interface DataTransferDataSourceSink
+  - Added Interface DataTransferJobFeedResults
+  - Added Interface DataTransferJobGetResults
+  - Added Interface DataTransferJobProperties
+  - Added Interface DataTransferJobsCancelOptionalParams
+  - Added Interface DataTransferJobsCreateOptionalParams
+  - Added Interface DataTransferJobsGetOptionalParams
+  - Added Interface DataTransferJobsListByDatabaseAccountNextOptionalParams
+  - Added Interface DataTransferJobsListByDatabaseAccountOptionalParams
+  - Added Interface DataTransferJobsPauseOptionalParams
+  - Added Interface DataTransferJobsResumeOptionalParams
+  - Added Interface DiagnosticLogSettings
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponseAutoGenerated
+  - Added Interface FirewallRule
+  - Added Interface FirewallRuleListResult
+  - Added Interface GraphResource
+  - Added Interface GraphResourceCreateUpdateParameters
+  - Added Interface GraphResourceGetPropertiesOptions
+  - Added Interface GraphResourceGetPropertiesResource
+  - Added Interface GraphResourceGetResults
+  - Added Interface GraphResourcesCreateUpdateGraphHeaders
+  - Added Interface GraphResourcesCreateUpdateGraphOptionalParams
+  - Added Interface GraphResourcesDeleteGraphResourceHeaders
+  - Added Interface GraphResourcesDeleteGraphResourceOptionalParams
+  - Added Interface GraphResourcesGetGraphOptionalParams
+  - Added Interface GraphResourcesListGraphsOptionalParams
+  - Added Interface GraphResourcesListResult
+  - Added Interface ListBackups
+  - Added Interface ListConnectionStringsResult
+  - Added Interface MaterializedViewDefinition
+  - Added Interface MergeParameters
+  - Added Interface MongoCluster
+  - Added Interface MongoClusterListResult
+  - Added Interface MongoClusterRestoreParameters
+  - Added Interface MongoClustersCheckNameAvailabilityOptionalParams
+  - Added Interface MongoClustersCreateOrUpdateFirewallRuleOptionalParams
+  - Added Interface MongoClustersCreateOrUpdateOptionalParams
+  - Added Interface MongoClustersDeleteFirewallRuleHeaders
+  - Added Interface MongoClustersDeleteFirewallRuleOptionalParams
+  - Added Interface MongoClustersDeleteHeaders
+  - Added Interface MongoClustersDeleteOptionalParams
+  - Added Interface MongoClustersGetFirewallRuleOptionalParams
+  - Added Interface MongoClustersGetOptionalParams
+  - Added Interface MongoClustersListByResourceGroupNextOptionalParams
+  - Added Interface MongoClustersListByResourceGroupOptionalParams
+  - Added Interface MongoClustersListConnectionStringsOptionalParams
+  - Added Interface MongoClustersListFirewallRulesNextOptionalParams
+  - Added Interface MongoClustersListFirewallRulesOptionalParams
+  - Added Interface MongoClustersListNextOptionalParams
+  - Added Interface MongoClustersListOptionalParams
+  - Added Interface MongoClustersUpdateHeaders
+  - Added Interface MongoClustersUpdateOptionalParams
+  - Added Interface MongoClusterUpdate
+  - Added Interface MongoDBResourcesListMongoDBCollectionPartitionMergeHeaders
+  - Added Interface MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
+  - Added Interface MongoDBResourcesMongoDBContainerRedistributeThroughputHeaders
+  - Added Interface MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams
+  - Added Interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionHeaders
+  - Added Interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams
+  - Added Interface MongoDBResourcesMongoDBDatabasePartitionMergeHeaders
+  - Added Interface MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams
+  - Added Interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputHeaders
+  - Added Interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams
+  - Added Interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionHeaders
+  - Added Interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams
+  - Added Interface NodeGroupProperties
+  - Added Interface NodeGroupSpec
+  - Added Interface PhysicalPartitionId
+  - Added Interface PhysicalPartitionStorageInfo
+  - Added Interface PhysicalPartitionStorageInfoCollection
+  - Added Interface PhysicalPartitionThroughputInfoProperties
+  - Added Interface PhysicalPartitionThroughputInfoResource
+  - Added Interface PhysicalPartitionThroughputInfoResult
+  - Added Interface PhysicalPartitionThroughputInfoResultPropertiesResource
+  - Added Interface ProxyResourceAutoGenerated
+  - Added Interface RedistributeThroughputParameters
+  - Added Interface RedistributeThroughputPropertiesResource
+  - Added Interface ResourceAutoGenerated
+  - Added Interface ResourceRestoreParameters
+  - Added Interface RestoreParametersBase
+  - Added Interface RetrieveThroughputParameters
+  - Added Interface RetrieveThroughputPropertiesResource
+  - Added Interface SqlResourcesListSqlContainerPartitionMergeHeaders
+  - Added Interface SqlResourcesListSqlContainerPartitionMergeOptionalParams
+  - Added Interface SqlResourcesSqlContainerRedistributeThroughputHeaders
+  - Added Interface SqlResourcesSqlContainerRedistributeThroughputOptionalParams
+  - Added Interface SqlResourcesSqlContainerRetrieveThroughputDistributionHeaders
+  - Added Interface SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams
+  - Added Interface SqlResourcesSqlDatabasePartitionMergeHeaders
+  - Added Interface SqlResourcesSqlDatabasePartitionMergeOptionalParams
+  - Added Interface SqlResourcesSqlDatabaseRedistributeThroughputHeaders
+  - Added Interface SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
+  - Added Interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionHeaders
+  - Added Interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
+  - Added Interface TrackedResource
+  - Added Type Alias CassandraClustersGetBackupResponse
+  - Added Type Alias CassandraClustersListBackupsResponse
+  - Added Type Alias CassandraResourcesCreateUpdateCassandraViewResponse
+  - Added Type Alias CassandraResourcesGetCassandraViewResponse
+  - Added Type Alias CassandraResourcesGetCassandraViewThroughputResponse
+  - Added Type Alias CassandraResourcesListCassandraViewsResponse
+  - Added Type Alias CassandraResourcesMigrateCassandraViewToAutoscaleResponse
+  - Added Type Alias CassandraResourcesMigrateCassandraViewToManualThroughputResponse
+  - Added Type Alias CassandraResourcesUpdateCassandraViewThroughputResponse
+  - Added Type Alias CheckNameAvailabilityReason
+  - Added Type Alias DataTransferComponent
+  - Added Type Alias DataTransferDataSourceSinkUnion
+  - Added Type Alias DataTransferJobsCancelResponse
+  - Added Type Alias DataTransferJobsCreateResponse
+  - Added Type Alias DataTransferJobsGetResponse
+  - Added Type Alias DataTransferJobsListByDatabaseAccountNextResponse
+  - Added Type Alias DataTransferJobsListByDatabaseAccountResponse
+  - Added Type Alias DataTransferJobsPauseResponse
+  - Added Type Alias DataTransferJobsResumeResponse
+  - Added Type Alias EnableFullTextQuery
+  - Added Type Alias GraphResourcesCreateUpdateGraphResponse
+  - Added Type Alias GraphResourcesGetGraphResponse
+  - Added Type Alias GraphResourcesListGraphsResponse
+  - Added Type Alias MongoClustersCheckNameAvailabilityResponse
+  - Added Type Alias MongoClustersCreateOrUpdateFirewallRuleResponse
+  - Added Type Alias MongoClustersCreateOrUpdateResponse
+  - Added Type Alias MongoClustersDeleteFirewallRuleResponse
+  - Added Type Alias MongoClustersDeleteResponse
+  - Added Type Alias MongoClustersGetFirewallRuleResponse
+  - Added Type Alias MongoClustersGetResponse
+  - Added Type Alias MongoClustersListByResourceGroupNextResponse
+  - Added Type Alias MongoClustersListByResourceGroupResponse
+  - Added Type Alias MongoClustersListConnectionStringsResponse
+  - Added Type Alias MongoClustersListFirewallRulesNextResponse
+  - Added Type Alias MongoClustersListFirewallRulesResponse
+  - Added Type Alias MongoClustersListNextResponse
+  - Added Type Alias MongoClustersListResponse
+  - Added Type Alias MongoClusterStatus
+  - Added Type Alias MongoClustersUpdateResponse
+  - Added Type Alias MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
+  - Added Type Alias MongoDBResourcesMongoDBContainerRedistributeThroughputResponse
+  - Added Type Alias MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
+  - Added Type Alias MongoDBResourcesMongoDBDatabasePartitionMergeResponse
+  - Added Type Alias MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse
+  - Added Type Alias MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
+  - Added Type Alias NodeKind
+  - Added Type Alias ProvisioningState
+  - Added Type Alias SqlResourcesListSqlContainerPartitionMergeResponse
+  - Added Type Alias SqlResourcesSqlContainerRedistributeThroughputResponse
+  - Added Type Alias SqlResourcesSqlContainerRetrieveThroughputDistributionResponse
+  - Added Type Alias SqlResourcesSqlDatabasePartitionMergeResponse
+  - Added Type Alias SqlResourcesSqlDatabaseRedistributeThroughputResponse
+  - Added Type Alias SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
+  - Added Type Alias ThroughputPolicyType
+  - Interface ARMResourceProperties has a new optional parameter identity
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter diagnosticLogSettings
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enableBurstCapacity
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enableMaterializedViews
+  - Interface DatabaseAccountGetResults has a new optional parameter diagnosticLogSettings
+  - Interface DatabaseAccountGetResults has a new optional parameter enableBurstCapacity
+  - Interface DatabaseAccountGetResults has a new optional parameter enableMaterializedViews
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter diagnosticLogSettings
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter enableBurstCapacity
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter enableMaterializedViews
+  - Interface GremlinDatabaseResource has a new optional parameter createMode
+  - Interface GremlinDatabaseResource has a new optional parameter restoreParameters
+  - Interface GremlinGraphResource has a new optional parameter createMode
+  - Interface GremlinGraphResource has a new optional parameter restoreParameters
+  - Interface MongoDBCollectionResource has a new optional parameter createMode
+  - Interface MongoDBCollectionResource has a new optional parameter restoreParameters
+  - Interface MongoDBDatabaseResource has a new optional parameter createMode
+  - Interface MongoDBDatabaseResource has a new optional parameter restoreParameters
+  - Interface RestoreParameters has a new optional parameter sourceBackupLocation
+  - Interface SqlContainerResource has a new optional parameter createMode
+  - Interface SqlContainerResource has a new optional parameter materializedViewDefinition
+  - Interface SqlContainerResource has a new optional parameter restoreParameters
+  - Interface SqlDatabaseResource has a new optional parameter createMode
+  - Interface SqlDatabaseResource has a new optional parameter restoreParameters
+  - Interface TableResource has a new optional parameter createMode
+  - Interface TableResource has a new optional parameter restoreParameters
+  - Added Enum KnownCheckNameAvailabilityReason
+  - Added Enum KnownDataTransferComponent
+  - Added Enum KnownMongoClusterStatus
+  - Added Enum KnownNodeKind
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownThroughputPolicyType
+  - Enum KnownCreateMode has a new value PointInTimeRestore
+  - Enum KnownOperationType has a new value Recreate
+
+**Breaking Changes**
+
+  - Interface ThroughputSettingsResource no longer has parameter instantMaximumThroughput
+  - Interface ThroughputSettingsResource no longer has parameter softAllowedMaximumThroughput
+  - Enum KnownPublicNetworkAccess no longer has value SecuredByPerimeter
+    
+    
+## 15.5.0 (2023-05-11)
+    
+**Features**
+
+  - Added Interface ContinuousModeProperties
+  - Added Type Alias ContinuousTier
+  - Interface ContinuousModeBackupPolicy has a new optional parameter continuousModeProperties
+  - Interface RestorableDatabaseAccountGetResult has a new optional parameter oldestRestorableTime
+  - Interface ThroughputSettingsResource has a new optional parameter instantMaximumThroughput
+  - Interface ThroughputSettingsResource has a new optional parameter softAllowedMaximumThroughput
+  - Added Enum KnownContinuousTier
+  - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
+    
     
 ## 15.4.0 (2023-04-23)
     
@@ -340,4 +634,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

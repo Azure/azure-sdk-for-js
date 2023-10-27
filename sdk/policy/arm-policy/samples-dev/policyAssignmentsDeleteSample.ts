@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to This operation deletes a policy assignment, given its name and the scope it was created in. The scope of a policy assignment is the part of its ID preceding '/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/deletePolicyAssignment.json
  */
 async function deleteAPolicyAssignment() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policyAssignmentName = "EnforceNaming";
   const credential = new DefaultAzureCredential();
@@ -30,4 +35,8 @@ async function deleteAPolicyAssignment() {
   console.log(result);
 }
 
-deleteAPolicyAssignment().catch(console.error);
+async function main() {
+  deleteAPolicyAssignment();
+}
+
+main().catch(console.error);

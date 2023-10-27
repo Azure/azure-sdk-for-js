@@ -38,7 +38,9 @@ describe("BearerTokenAuthenticationPolicy", function () {
   it("correctly adds an Authentication header with the Bearer token", async function () {
     const mockToken = "token";
     const tokenScopes = ["scope1", "scope2"];
-    const fakeGetToken = fake.returns(Promise.resolve({ token: mockToken, expiresOn: new Date() }));
+    const fakeGetToken = fake.returns(
+      Promise.resolve({ token: mockToken, expiresOnTimestamp: new Date().getTime() })
+    );
     const mockCredential: TokenCredential = {
       getToken: fakeGetToken,
     };

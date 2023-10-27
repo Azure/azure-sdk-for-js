@@ -37,15 +37,15 @@ function sanitizeOptions(args: string[]): Required<ScenarioStreamingReceiveOptio
     },
   });
   return {
-    testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
+    testDurationInMs: options.testDurationInMs || 2 * 24 * 60 * 60 * 1000, // Default = 2 days
     receiveMode: options.receiveMode || "peekLock",
     autoComplete: !!options.autoComplete,
     maxConcurrentCalls: options.maxConcurrentCalls || 100,
     maxAutoRenewLockDurationInMs: options.maxAutoRenewLockDurationInMs || 0,
     manualLockRenewal: options.manualLockRenewal,
-    numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
+    numberOfMessagesPerSend: options.numberOfMessagesPerSend || 0,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
-    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
+    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || 0,
     completeMessageAfterDuration: !!options.completeMessageAfterDuration,
     settleMessageOnReceive: !!options.settleMessageOnReceive,
   };
@@ -72,7 +72,6 @@ export async function scenarioStreamingReceive() {
 
   const stressBase = new ServiceBusStressTester({
     testName: "streamingReceive",
-    snapshotFocus: ["send-info", "receive-info", "message-lock-renewal-info"],
   });
 
   const operation = async (sbClient: ServiceBusClient) => {

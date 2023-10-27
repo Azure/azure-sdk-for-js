@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient, AppConfigurationClientOptions } from "../../../src";
+import {
+  AppConfigurationClient,
+  AppConfigurationClientOptions,
+  ListSnapshotsPage,
+  ConfigurationSnapshot,
+} from "../../../src";
 import {
   ConfigurationSetting,
   ListConfigurationSettingPage,
@@ -31,6 +36,14 @@ export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azuretenantid",
+    },
+    sanitizerOptions: {
+      connectionStringSanitizers: [
+        {
+          fakeConnString: "Endpoint=https://myappconfig.azconfig.io;Id=123456;Secret=123456",
+          actualConnString: env.APPCONFIG_CONNECTION_STRING,
+        },
+      ],
     },
   };
 
@@ -65,9 +78,9 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint {
   };
 }
 
-export function createAppConfigurationClientForTests<
-  Options extends AppConfigurationClientOptions = AppConfigurationClientOptions
->(options?: Options): AppConfigurationClient {
+export function createAppConfigurationClientForTests(
+  options?: AppConfigurationClientOptions
+): AppConfigurationClient {
   const connectionString = env["APPCONFIG_CONNECTION_STRING"];
 
   if (connectionString == null) {
@@ -138,6 +151,33 @@ export async function toSortedArray(
   return settings;
 }
 
+export async function toSortedSnapshotArray(
+  pagedIterator: PagedAsyncIterableIterator<ConfigurationSnapshot, ListSnapshotsPage>,
+  compareFn?: (a: ConfigurationSnapshot, b: ConfigurationSnapshot) => number
+): Promise<ConfigurationSnapshot[]> {
+  const snapshots: ConfigurationSnapshot[] = [];
+
+  for await (const snapshot of pagedIterator) {
+    snapshots.push(snapshot);
+  }
+
+  let snapshotsViaPageIterator: ConfigurationSnapshot[] = [];
+
+  for await (const page of pagedIterator.byPage()) {
+    snapshotsViaPageIterator = snapshotsViaPageIterator.concat(page.items);
+  }
+
+  // just a sanity-check
+  assert.deepEqual(snapshots, snapshotsViaPageIterator);
+
+  snapshots.sort((a, b) =>
+    compareFn
+      ? compareFn(a, b)
+      : `${a.name}-${a.itemCount}-${a.status}`.localeCompare(`${b.name}-${b.itemCount}-${b.status}`)
+  );
+  return snapshots;
+}
+
 export function assertEqualSettings(
   expected: Pick<ConfigurationSetting, "key" | "value" | "label" | "isReadOnly">[],
   actual: ConfigurationSetting[]
@@ -196,4 +236,24 @@ export async function assertThrowsAbortError(
       return e;
     }
   }
+}
+
+/**
+ * Assert 2 snapshots with name, retentionPeriod and filters are equal
+ */
+export function assertEqualSnapshot(
+  snapshot1: ConfigurationSnapshot,
+  snapshot2: ConfigurationSnapshot
+): void {
+  assert.equal(snapshot1.name, snapshot2.name, "Unexpected name in result from getSnapshot().");
+  assert.equal(
+    snapshot1.retentionPeriodInSeconds,
+    snapshot2.retentionPeriodInSeconds,
+    "Unexpected retentionPeriod in result from getSnapshot()."
+  );
+  assert.deepEqual(
+    snapshot1.filters,
+    snapshot2.filters,
+    "Unexpected filters in result from getSnapshot()."
+  );
 }

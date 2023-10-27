@@ -14,7 +14,7 @@ const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-t
 require("dotenv").config();
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["AZURE_LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
+const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
 const apiKey = process.env["AZURE_LANGUAGE_KEY"] || "<api key>";
 const deploymentName = process.env["SINGLE_LABEL_CLASSIFY_DEPLOYMENT_NAME"] || "deployment name";
 const projectName = process.env["SINGLE_LABEL_CLASSIFY_PROJECT_NAME"] || "deployment name";

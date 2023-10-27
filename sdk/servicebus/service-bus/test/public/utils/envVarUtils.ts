@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/core-util";
-
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 /**
  * Enum to abstract away string values used for referencing the Environment Variable names.
  */
@@ -17,10 +16,10 @@ export enum EnvVarNames {
  * Utility to retrieve the environment variable value with given name.
  */
 export function getEnvVarValue(name: string): string | undefined {
-  if (isNode) {
-    return process.env[name];
-  } else {
-    return (self as any).__env__[name];
+  try {
+    return assertEnvironmentVariable(name);
+  } catch {
+    return undefined;
   }
 }
 

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists a collection of resources associated with tags.
  *
  * @summary Lists a collection of resources associated with tags.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListTagResources.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListTagResources.json
  */
 async function apiManagementListTagResources() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

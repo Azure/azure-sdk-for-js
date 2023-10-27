@@ -53,7 +53,7 @@ describe("ContainerService test", () => {
     const credential = createTestCredential();
     client = new ContainerServiceClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroupName = "czwjstest";
+    resourceGroupName = "myjstest";
     resourceName = "myreourcexyz";
   });
 

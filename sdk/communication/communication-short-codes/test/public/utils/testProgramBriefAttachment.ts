@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ProgramBriefAttachment, ShortCodesClient } from "../../../src";
-import { v1 as uuid } from "uuid";
+import { v4 as uuid } from "uuid";
 
 export function getTestProgramBriefAttachment(): ProgramBriefAttachment {
   const attachmentId = uuid();
@@ -23,40 +23,58 @@ export async function doesProgramBriefContainAnyAttachment(
   client: ShortCodesClient,
   programBriefId: string
 ): Promise<boolean> {
-  return doesProgramBriefContainAttachment(client, programBriefId, (_) => true);
+  const attachments = await getProgramBriefAttachments(client, programBriefId, (_) => true);
+  return attachments.length > 0;
 }
 
-export async function doesProgramBriefContainAttachment(
+export async function getProgramBriefAttachmentsWithId(
   client: ShortCodesClient,
   programBriefId: string,
-  predicate: (attachment: ProgramBriefAttachment) => boolean
-): Promise<boolean> {
-  const attachment = await getProgramBriefAttachment(client, programBriefId, predicate);
-  return !!attachment;
-}
-
-export async function getProgramBriefAttachmentWithId(
-  client: ShortCodesClient,
-  programBriefId: string,
-  attachmentId: string
-): Promise<null | ProgramBriefAttachment> {
-  return getProgramBriefAttachment(
-    client,
-    programBriefId,
-    (attachment) => attachment.id === attachmentId
+  attachmentIds: string[]
+): Promise<ProgramBriefAttachment[]> {
+  return getProgramBriefAttachments(client, programBriefId, (attachment) =>
+    attachmentIds.includes(attachment.id)
   );
 }
 
-async function getProgramBriefAttachment(
+export async function getProgramBriefAttachmentsWithIdByPage(
   client: ShortCodesClient,
   programBriefId: string,
-  predicate: (attachment: ProgramBriefAttachment) => boolean
-): Promise<null | ProgramBriefAttachment> {
-  for await (const attachment of client.listUSProgramBriefAttachments(programBriefId)) {
-    if (predicate(attachment)) {
-      return attachment;
+  attachmentIds: string[]
+): Promise<ProgramBriefAttachment[]> {
+  return getProgramBriefAttachments(
+    client,
+    programBriefId,
+    (attachment) => attachmentIds.includes(attachment.id),
+    true
+  );
+}
+
+async function getProgramBriefAttachments(
+  client: ShortCodesClient,
+  programBriefId: string,
+  predicate: (attachment: ProgramBriefAttachment) => boolean,
+  byPage?: boolean
+): Promise<ProgramBriefAttachment[]> {
+  const attachments: ProgramBriefAttachment[] = [];
+  if (byPage) {
+    const attachmentPages = client
+      .listUSProgramBriefAttachments(programBriefId, { top: 1 })
+      .byPage();
+    for await (const page of attachmentPages) {
+      // loop over each item in the page
+      for (const attachment of page) {
+        if (predicate(attachment)) {
+          attachments.push(attachment);
+        }
+      }
+    }
+  } else {
+    for await (const attachment of client.listUSProgramBriefAttachments(programBriefId)) {
+      if (predicate(attachment)) {
+        attachments.push(attachment);
+      }
     }
   }
-
-  return null;
+  return attachments;
 }

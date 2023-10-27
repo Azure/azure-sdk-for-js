@@ -18,6 +18,7 @@ import {
   SentSharesCreateSentShareInvitationParameters,
   SentSharesDeleteSentShareInvitationParameters,
   SentSharesNotifyUserSentShareInvitationParameters,
+  ShareResourcesGetAllShareResourcesParameters,
 } from "./parameters";
 import {
   ReceivedSharesGetReceivedShare200Response,
@@ -54,6 +55,8 @@ import {
   SentSharesDeleteSentShareInvitationDefaultResponse,
   SentSharesNotifyUserSentShareInvitation200Response,
   SentSharesNotifyUserSentShareInvitationDefaultResponse,
+  ShareResourcesGetAllShareResources200Response,
+  ShareResourcesGetAllShareResourcesDefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -193,6 +196,16 @@ export interface SentSharesNotifyUserSentShareInvitation {
   >;
 }
 
+export interface ShareResourcesGetAllShareResources {
+  /** List share resources */
+  get(
+    options?: ShareResourcesGetAllShareResourcesParameters
+  ): StreamableMethod<
+    | ShareResourcesGetAllShareResources200Response
+    | ShareResourcesGetAllShareResourcesDefaultResponse
+  >;
+}
+
 export interface Routes {
   /** Resource for '/receivedShares/\{receivedShareId\}' has methods for the following verbs: get, put, delete */
   (
@@ -228,6 +241,8 @@ export interface Routes {
     sentShareId: string,
     sentShareInvitationId: string
   ): SentSharesNotifyUserSentShareInvitation;
+  /** Resource for '/shareResources' has methods for the following verbs: get */
+  (path: "/shareResources"): ShareResourcesGetAllShareResources;
 }
 
 export type PurviewSharingClient = Client & {

@@ -11,34 +11,6 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export interface AccountBackups {
-    beginDelete(resourceGroupName: string, accountName: string, backupName: string, options?: AccountBackupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, accountName: string, backupName: string, options?: AccountBackupsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, accountName: string, backupName: string, options?: AccountBackupsGetOptionalParams): Promise<AccountBackupsGetResponse>;
-    list(resourceGroupName: string, accountName: string, options?: AccountBackupsListOptionalParams): PagedAsyncIterableIterator<Backup>;
-}
-
-// @public
-export interface AccountBackupsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface AccountBackupsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccountBackupsGetResponse = Backup;
-
-// @public
-export interface AccountBackupsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccountBackupsListResponse = BackupsList;
-
-// @public
 export interface AccountEncryption {
     identity?: EncryptionIdentity;
     keySource?: KeySource;
@@ -167,36 +139,6 @@ export interface AuthorizeRequest {
 export type AvsDataStore = string;
 
 // @public
-export interface Backup extends ProxyResource {
-    readonly backupId?: string;
-    readonly backupType?: BackupType;
-    readonly creationDate?: Date;
-    readonly failureReason?: string;
-    label?: string;
-    location: string;
-    readonly provisioningState?: string;
-    readonly size?: number;
-    useExistingSnapshot?: boolean;
-    readonly volumeName?: string;
-}
-
-// @public
-export interface BackupPatch {
-    readonly backupId?: string;
-    readonly backupType?: BackupType;
-    readonly creationDate?: Date;
-    readonly failureReason?: string;
-    label?: string;
-    readonly provisioningState?: string;
-    readonly size?: number;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    useExistingSnapshot?: boolean;
-    readonly volumeName?: string;
-}
-
-// @public
 export interface BackupPolicies {
     beginCreate(resourceGroupName: string, accountName: string, backupPolicyName: string, body: BackupPolicy, options?: BackupPoliciesCreateOptionalParams): Promise<SimplePollerLike<OperationState<BackupPoliciesCreateResponse>, BackupPoliciesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, backupPolicyName: string, body: BackupPolicy, options?: BackupPoliciesCreateOptionalParams): Promise<BackupPoliciesCreateResponse>;
@@ -265,18 +207,6 @@ export interface BackupPolicy extends TrackedResource {
 }
 
 // @public
-export interface BackupPolicyDetails extends TrackedResource {
-    readonly backupPolicyId?: string;
-    dailyBackupsToKeep?: number;
-    enabled?: boolean;
-    monthlyBackupsToKeep?: number;
-    readonly provisioningState?: string;
-    readonly volumeBackups?: VolumeBackups[];
-    readonly volumesAssigned?: number;
-    weeklyBackupsToKeep?: number;
-}
-
-// @public
 export interface BackupPolicyPatch {
     readonly backupPolicyId?: string;
     dailyBackupsToKeep?: number;
@@ -296,56 +226,9 @@ export interface BackupPolicyPatch {
 }
 
 // @public
-export interface BackupRestoreFiles {
-    destinationVolumeId: string;
-    fileList: string[];
-    restoreFilePath?: string;
-}
-
-// @public
 export interface Backups {
-    beginCreate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, body: Backup, options?: BackupsCreateOptionalParams): Promise<SimplePollerLike<OperationState<BackupsCreateResponse>, BackupsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, body: Backup, options?: BackupsCreateOptionalParams): Promise<BackupsCreateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, options?: BackupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, options?: BackupsDeleteOptionalParams): Promise<void>;
-    beginRestoreFiles(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, body: BackupRestoreFiles, options?: BackupsRestoreFilesOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestoreFilesAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, body: BackupRestoreFiles, options?: BackupsRestoreFilesOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, options?: BackupsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BackupsUpdateResponse>, BackupsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, options?: BackupsUpdateOptionalParams): Promise<BackupsUpdateResponse>;
-    get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, options?: BackupsGetOptionalParams): Promise<BackupsGetResponse>;
-    getStatus(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: BackupsGetStatusOptionalParams): Promise<BackupsGetStatusResponse>;
     getVolumeRestoreStatus(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: BackupsGetVolumeRestoreStatusOptionalParams): Promise<BackupsGetVolumeRestoreStatusResponse>;
-    list(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: BackupsListOptionalParams): PagedAsyncIterableIterator<Backup>;
 }
-
-// @public
-export interface BackupsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type BackupsCreateResponse = Backup;
-
-// @public
-export interface BackupsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface BackupsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BackupsGetResponse = Backup;
-
-// @public
-export interface BackupsGetStatusOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BackupsGetStatusResponse = BackupStatus;
 
 // @public
 export interface BackupsGetVolumeRestoreStatusOptionalParams extends coreClient.OperationOptions {
@@ -353,55 +236,6 @@ export interface BackupsGetVolumeRestoreStatusOptionalParams extends coreClient.
 
 // @public
 export type BackupsGetVolumeRestoreStatusResponse = RestoreStatus;
-
-// @public
-export interface BackupsList {
-    value?: Backup[];
-}
-
-// @public
-export interface BackupsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BackupsListResponse = BackupsList;
-
-// @public
-export interface BackupsRestoreFilesHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface BackupsRestoreFilesOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface BackupStatus {
-    readonly errorMessage?: string;
-    readonly healthy?: boolean;
-    readonly lastTransferSize?: number;
-    readonly lastTransferType?: string;
-    readonly mirrorState?: MirrorState;
-    readonly relationshipStatus?: RelationshipStatus;
-    readonly totalTransferBytes?: number;
-    readonly unhealthyReason?: string;
-}
-
-// @public
-export interface BackupsUpdateOptionalParams extends coreClient.OperationOptions {
-    body?: BackupPatch;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type BackupsUpdateResponse = Backup;
-
-// @public
-export type BackupType = string;
 
 // @public
 export interface BreakFileLocksRequest {
@@ -476,6 +310,9 @@ export interface CloudErrorBody {
 }
 
 // @public
+export type CoolAccessRetrievalPolicy = string;
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -511,6 +348,26 @@ export type EncryptionType = string;
 export type EndpointType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExportPolicyRule {
     allowedClients?: string;
     chownMode?: ChownMode;
@@ -540,6 +397,16 @@ export interface FilePathAvailabilityRequest {
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface GetGroupIdListForLdapUserRequest {
+    username: string;
+}
+
+// @public
+export interface GetGroupIdListForLdapUserResponse {
+    groupIdsForLdapUser?: string[];
+}
 
 // @public
 export interface HourlySchedule {
@@ -577,6 +444,7 @@ export enum KnownActiveDirectoryStatus {
 
 // @public
 export enum KnownApplicationType {
+    Oracle = "ORACLE",
     SAPHana = "SAP-HANA"
 }
 
@@ -584,12 +452,6 @@ export enum KnownApplicationType {
 export enum KnownAvsDataStore {
     Disabled = "Disabled",
     Enabled = "Enabled"
-}
-
-// @public
-export enum KnownBackupType {
-    Manual = "Manual",
-    Scheduled = "Scheduled"
 }
 
 // @public
@@ -612,6 +474,13 @@ export enum KnownCheckQuotaNameResourceTypes {
 export enum KnownChownMode {
     Restricted = "Restricted",
     Unrestricted = "Unrestricted"
+}
+
+// @public
+export enum KnownCoolAccessRetrievalPolicy {
+    Default = "Default",
+    Never = "Never",
+    OnRead = "OnRead"
 }
 
 // @public
@@ -696,7 +565,17 @@ export enum KnownMirrorState {
 // @public
 export enum KnownNetworkFeatures {
     Basic = "Basic",
-    Standard = "Standard"
+    BasicStandard = "Basic_Standard",
+    Standard = "Standard",
+    StandardBasic = "Standard_Basic"
+}
+
+// @public
+export enum KnownNetworkSiblingSetProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -707,10 +586,14 @@ export enum KnownQosType {
 
 // @public
 export enum KnownRegionStorageToNetworkProximity {
+    AcrossT2 = "AcrossT2",
     Default = "Default",
     T1 = "T1",
+    T1AndAcrossT2 = "T1AndAcrossT2",
     T1AndT2 = "T1AndT2",
-    T2 = "T2"
+    T1AndT2AndAcrossT2 = "T1AndT2AndAcrossT2",
+    T2 = "T2",
+    T2AndAcrossT2 = "T2AndAcrossT2"
 }
 
 // @public
@@ -762,6 +645,7 @@ export enum KnownType {
 
 // @public
 export enum KnownVolumeStorageToNetworkProximity {
+    AcrossT2 = "AcrossT2",
     Default = "Default",
     T1 = "T1",
     T2 = "T2"
@@ -878,6 +762,7 @@ export interface NetAppAccountPatch {
     readonly disableShowmount?: boolean;
     encryption?: AccountEncryption;
     readonly id?: string;
+    identity?: ManagedServiceIdentity;
     location?: string;
     readonly name?: string;
     readonly provisioningState?: string;
@@ -892,8 +777,6 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: NetAppManagementClientOptionalParams);
-    // (undocumented)
-    accountBackups: AccountBackups;
     // (undocumented)
     accounts: Accounts;
     // (undocumented)
@@ -935,9 +818,12 @@ export interface NetAppManagementClientOptionalParams extends coreClient.Service
 
 // @public
 export interface NetAppResource {
+    beginUpdateNetworkSiblingSet(location: string, networkSiblingSetId: string, subnetId: string, networkSiblingSetStateId: string, networkFeatures: NetworkFeatures, options?: NetAppResourceUpdateNetworkSiblingSetOptionalParams): Promise<SimplePollerLike<OperationState<NetAppResourceUpdateNetworkSiblingSetResponse>, NetAppResourceUpdateNetworkSiblingSetResponse>>;
+    beginUpdateNetworkSiblingSetAndWait(location: string, networkSiblingSetId: string, subnetId: string, networkSiblingSetStateId: string, networkFeatures: NetworkFeatures, options?: NetAppResourceUpdateNetworkSiblingSetOptionalParams): Promise<NetAppResourceUpdateNetworkSiblingSetResponse>;
     checkFilePathAvailability(location: string, name: string, subnetId: string, options?: NetAppResourceCheckFilePathAvailabilityOptionalParams): Promise<NetAppResourceCheckFilePathAvailabilityResponse>;
     checkNameAvailability(location: string, name: string, typeParam: CheckNameResourceTypes, resourceGroup: string, options?: NetAppResourceCheckNameAvailabilityOptionalParams): Promise<NetAppResourceCheckNameAvailabilityResponse>;
     checkQuotaAvailability(location: string, name: string, typeParam: CheckQuotaNameResourceTypes, resourceGroup: string, options?: NetAppResourceCheckQuotaAvailabilityOptionalParams): Promise<NetAppResourceCheckQuotaAvailabilityResponse>;
+    queryNetworkSiblingSet(location: string, networkSiblingSetId: string, subnetId: string, options?: NetAppResourceQueryNetworkSiblingSetOptionalParams): Promise<NetAppResourceQueryNetworkSiblingSetResponse>;
     queryRegionInfo(location: string, options?: NetAppResourceQueryRegionInfoOptionalParams): Promise<NetAppResourceQueryRegionInfoResponse>;
 }
 
@@ -961,6 +847,13 @@ export interface NetAppResourceCheckQuotaAvailabilityOptionalParams extends core
 
 // @public
 export type NetAppResourceCheckQuotaAvailabilityResponse = CheckAvailabilityResponse;
+
+// @public
+export interface NetAppResourceQueryNetworkSiblingSetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceQueryNetworkSiblingSetResponse = NetworkSiblingSet;
 
 // @public
 export interface NetAppResourceQueryRegionInfoOptionalParams extends coreClient.OperationOptions {
@@ -990,7 +883,41 @@ export interface NetAppResourceQuotaLimitsListOptionalParams extends coreClient.
 export type NetAppResourceQuotaLimitsListResponse = SubscriptionQuotaItemList;
 
 // @public
+export interface NetAppResourceUpdateNetworkSiblingSetHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NetAppResourceUpdateNetworkSiblingSetOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetAppResourceUpdateNetworkSiblingSetResponse = NetworkSiblingSet;
+
+// @public
 export type NetworkFeatures = string;
+
+// @public
+export interface NetworkSiblingSet {
+    networkFeatures?: NetworkFeatures;
+    networkSiblingSetId?: string;
+    networkSiblingSetStateId?: string;
+    nicInfoList?: NicInfo[];
+    readonly provisioningState?: NetworkSiblingSetProvisioningState;
+    subnetId?: string;
+}
+
+// @public
+export type NetworkSiblingSetProvisioningState = string;
+
+// @public
+export interface NicInfo {
+    readonly ipAddress?: string;
+    volumeResourceIds?: string[];
+}
 
 // @public
 export interface Operation {
@@ -1104,6 +1031,12 @@ export interface ProxyResource extends Resource {
 export type QosType = string;
 
 // @public
+export interface QueryNetworkSiblingSetRequest {
+    networkSiblingSetId: string;
+    subnetId: string;
+}
+
+// @public
 export interface QuotaAvailabilityRequest {
     name: string;
     resourceGroup: string;
@@ -1151,7 +1084,7 @@ export interface ReplicationObject {
     endpointType?: EndpointType;
     remoteVolumeRegion?: string;
     remoteVolumeResourceId: string;
-    replicationId?: string;
+    readonly replicationId?: string;
     replicationSchedule?: ReplicationSchedule;
 }
 
@@ -1542,6 +1475,14 @@ export interface TrackedResource extends Resource {
 export type Type = string;
 
 // @public
+export interface UpdateNetworkSiblingSetRequest {
+    networkFeatures: NetworkFeatures;
+    networkSiblingSetId: string;
+    networkSiblingSetStateId: string;
+    subnetId: string;
+}
+
+// @public
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
@@ -1549,12 +1490,14 @@ export interface UserAssignedIdentity {
 
 // @public
 export interface Volume extends TrackedResource {
+    readonly actualThroughputMibps?: number;
     avsDataStore?: AvsDataStore;
     backupId?: string;
     readonly baremetalTenantId?: string;
     capacityPoolResourceId?: string;
     readonly cloneProgress?: number;
     coolAccess?: boolean;
+    coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
     coolnessPeriod?: number;
     creationToken: string;
     dataProtection?: VolumePropertiesDataProtection;
@@ -1579,6 +1522,7 @@ export interface Volume extends TrackedResource {
     readonly mountTargets?: MountTargetProperties[];
     networkFeatures?: NetworkFeatures;
     readonly networkSiblingSetId?: string;
+    readonly originatingResourceId?: string;
     placementRules?: PlacementKeyValuePairs[];
     protocolTypes?: string[];
     readonly provisionedAvailabilityZone?: string;
@@ -1602,13 +1546,6 @@ export interface Volume extends TrackedResource {
     volumeSpecName?: string;
     volumeType?: string;
     zones?: string[];
-}
-
-// @public
-export interface VolumeBackupProperties {
-    backupEnabled?: boolean;
-    backupPolicyId?: string;
-    policyEnforced?: boolean;
 }
 
 // @public
@@ -1695,12 +1632,14 @@ export type VolumeGroupsListByNetAppAccountResponse = VolumeGroupList;
 
 // @public
 export interface VolumeGroupVolumeProperties {
+    readonly actualThroughputMibps?: number;
     avsDataStore?: AvsDataStore;
     backupId?: string;
     readonly baremetalTenantId?: string;
     capacityPoolResourceId?: string;
     readonly cloneProgress?: number;
     coolAccess?: boolean;
+    coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
     coolnessPeriod?: number;
     creationToken: string;
     dataProtection?: VolumePropertiesDataProtection;
@@ -1726,6 +1665,7 @@ export interface VolumeGroupVolumeProperties {
     name?: string;
     networkFeatures?: NetworkFeatures;
     readonly networkSiblingSetId?: string;
+    readonly originatingResourceId?: string;
     placementRules?: PlacementKeyValuePairs[];
     protocolTypes?: string[];
     readonly provisionedAvailabilityZone?: string;
@@ -1752,6 +1692,7 @@ export interface VolumeGroupVolumeProperties {
     readonly volumeGroupName?: string;
     volumeSpecName?: string;
     volumeType?: string;
+    zones?: string[];
 }
 
 // @public
@@ -1763,6 +1704,7 @@ export interface VolumeList {
 // @public
 export interface VolumePatch {
     coolAccess?: boolean;
+    coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
     coolnessPeriod?: number;
     dataProtection?: VolumePatchPropertiesDataProtection;
     defaultGroupQuotaInKiBs?: number;
@@ -1773,6 +1715,9 @@ export interface VolumePatch {
     location?: string;
     readonly name?: string;
     serviceLevel?: ServiceLevel;
+    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
+    smbNonBrowsable?: SmbNonBrowsable;
+    snapshotDirectoryVisible?: boolean;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1784,7 +1729,6 @@ export interface VolumePatch {
 
 // @public
 export interface VolumePatchPropertiesDataProtection {
-    backup?: VolumeBackupProperties;
     snapshot?: VolumeSnapshotProperties;
 }
 
@@ -1795,7 +1739,6 @@ export interface VolumePatchPropertiesExportPolicy {
 
 // @public
 export interface VolumePropertiesDataProtection {
-    backup?: VolumeBackupProperties;
     replication?: ReplicationObject;
     snapshot?: VolumeSnapshotProperties;
     volumeRelocation?: VolumeRelocationProperties;
@@ -1907,8 +1850,12 @@ export interface Volumes {
     beginDeleteReplicationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesDeleteReplicationOptionalParams): Promise<void>;
     beginFinalizeRelocation(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesFinalizeRelocationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginFinalizeRelocationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesFinalizeRelocationOptionalParams): Promise<void>;
+    beginListGetGroupIdListForLdapUser(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: GetGroupIdListForLdapUserRequest, options?: VolumesListGetGroupIdListForLdapUserOptionalParams): Promise<SimplePollerLike<OperationState<VolumesListGetGroupIdListForLdapUserResponse>, VolumesListGetGroupIdListForLdapUserResponse>>;
+    beginListGetGroupIdListForLdapUserAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: GetGroupIdListForLdapUserRequest, options?: VolumesListGetGroupIdListForLdapUserOptionalParams): Promise<VolumesListGetGroupIdListForLdapUserResponse>;
     beginPoolChange(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PoolChangeRequest, options?: VolumesPoolChangeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPoolChangeAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PoolChangeRequest, options?: VolumesPoolChangeOptionalParams): Promise<void>;
+    beginPopulateAvailabilityZone(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesPopulateAvailabilityZoneOptionalParams): Promise<SimplePollerLike<OperationState<VolumesPopulateAvailabilityZoneResponse>, VolumesPopulateAvailabilityZoneResponse>>;
+    beginPopulateAvailabilityZoneAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesPopulateAvailabilityZoneOptionalParams): Promise<VolumesPopulateAvailabilityZoneResponse>;
     beginReestablishReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: ReestablishReplicationRequest, options?: VolumesReestablishReplicationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginReestablishReplicationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: ReestablishReplicationRequest, options?: VolumesReestablishReplicationOptionalParams): Promise<void>;
     beginReInitializeReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesReInitializeReplicationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -1993,6 +1940,21 @@ export interface VolumesGetOptionalParams extends coreClient.OperationOptions {
 export type VolumesGetResponse = Volume;
 
 // @public
+export interface VolumesListGetGroupIdListForLdapUserHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VolumesListGetGroupIdListForLdapUserOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VolumesListGetGroupIdListForLdapUserResponse = GetGroupIdListForLdapUserResponse;
+
+// @public
 export interface VolumesListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2023,6 +1985,21 @@ export interface VolumesPoolChangeOptionalParams extends coreClient.OperationOpt
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface VolumesPopulateAvailabilityZoneHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VolumesPopulateAvailabilityZoneOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VolumesPopulateAvailabilityZoneResponse = Volume;
 
 // @public
 export interface VolumesReestablishReplicationOptionalParams extends coreClient.OperationOptions {

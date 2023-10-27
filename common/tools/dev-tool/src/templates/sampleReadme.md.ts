@@ -4,9 +4,8 @@
 import path from "path";
 import YAML from "yaml";
 
-import prettier from "prettier";
-
 import { SampleReadmeConfiguration } from "../util/samples/info";
+import { format } from "../util/prettier";
 
 /**
  * Renders the frontmatter of the sample README.
@@ -162,7 +161,7 @@ export default (info: SampleReadmeConfiguration): string => {
 
   const language = info.useTypeScript ? "TypeScript" : "JavaScript";
 
-  return prettier.format(
+  return format(
     `${formatFrontmatter(info.frontmatter)}\
 # ${info.productName} client library samples for ${language}${info.isBeta ? " (Beta)" : ""}
 
@@ -246,8 +245,6 @@ ${resourceLinks(info)}
 [package]: ${createReadmeLink(info)}
 ${info.useTypeScript ? "[typescript]: https://www.typescriptlang.org/docs/home.html\n" : ""}\
 `,
-    {
-      parser: "markdown",
-    }
+    "markdown"
   );
 };

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Start a Experiment resource.
  *
  * @summary Start a Experiment resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/StartAExperiment.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-04-15-preview/examples/StartAExperiment.json
  */
 async function startAExperiment() {
   const subscriptionId =

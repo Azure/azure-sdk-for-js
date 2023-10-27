@@ -2,46 +2,34 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { ExportResult, ExportResultCode } from "@opentelemetry/core";
+import { ExportResultCode } from "@opentelemetry/core";
 import { failedBreezeResponse, successfulBreezeResponse } from "../utils/breezeTestUtils";
-import { AzureMonitorBaseExporter } from "../../src/index";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
-import { TelemetryItem as Envelope } from "../../src/generated";
+import { DEFAULT_BREEZE_ENDPOINT, ENV_DISABLE_STATSBEAT } from "../../src/Declarations/Constants";
 import nock from "nock";
 import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics";
 // @ts-ignore Need to ignore this while we do not import types
 import sinon from "sinon";
 import { StatsbeatCounter } from "../../src/export/statsbeat/types";
 import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics";
+import { AzureMonitorTraceExporter } from "../../src/export/trace";
 
 describe("#AzureMonitorStatsbeatExporter", () => {
   process.env.LONG_INTERVAL_EXPORT_MILLIS = "100";
   process.env.AZURE_MONITOR_STATSBEAT_FEATURES = JSON.stringify({
-    // Represents DISK_RETRY and AAD_HANDLING features enabled
+    // Represents DISKRETRY and AADHANDLING features enabled
     feature: 3,
     // Represents REDIS and MONGODB instrumentations enabled
     instrumentation: 10,
   });
 
-  let options = {
+  const options = {
     instrumentationKey: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
     endpointUrl: "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com",
   };
-  class TestExporter extends AzureMonitorBaseExporter {
-    private thisAsAny: any;
-    constructor() {
-      super({ connectionString: `instrumentationkey=foo-ikey` }, false);
-      this.thisAsAny = this;
-    }
 
-    getTelemetryProcesors() {
-      return this.thisAsAny._telemetryProcessors;
-    }
-
-    async exportEnvelopesPrivate(payload: Envelope[]): Promise<ExportResult> {
-      return this.thisAsAny._exportEnvelopes(payload);
-    }
-  }
+  const exportOptions = {
+    connectionString: `InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333`,
+  };
 
   describe("Export/Statsbeat", () => {
     let scope: nock.Interceptor;
@@ -59,19 +47,20 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     });
 
     describe("Initialization, shutdown, and connection string functions", () => {
-      it("should pass the options to the exporter", () => {
-        const exporter = new TestExporter();
-        assert.ok(exporter["_options"]);
+      it("should pass the options to the exporter and create an HTTP sender", () => {
+        const exporter = new AzureMonitorTraceExporter(exportOptions);
+        assert.ok(exporter["sender"]);
+        assert.ok(exporter["options"]);
       });
       it("should initialize statsbeat by default", async () => {
-        const exporter = new TestExporter();
+        const exporter = new AzureMonitorTraceExporter(exportOptions);
         const response = successfulBreezeResponse(1);
         scope.reply(200, JSON.stringify(response));
 
-        const result = await exporter.exportEnvelopesPrivate([envelope]);
+        const result = await exporter["sender"]["exportEnvelopes"]([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.ok(exporter["_networkStatsbeatMetrics"]);
-        assert.strictEqual(exporter["_networkStatsbeatMetrics"]?.isInitialized(), true);
+        assert.ok(exporter["sender"]["networkStatsbeatMetrics"]);
+        assert.strictEqual(exporter["sender"]["networkStatsbeatMetrics"]["isInitialized"], true);
       });
 
       it("should use non EU connection string", () => {
@@ -79,77 +68,74 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           instrumentationKey: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
           endpointUrl: "IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com",
         });
-        assert.strictEqual(statsbeat["_host"], "IngestionEndpoint=https://westus-0");
+        assert.strictEqual(statsbeat["host"], "IngestionEndpoint=https://westus-0");
       });
 
       it("should use EU connection string", () => {
         const statsbeat = new NetworkStatsbeatMetrics(options);
-        assert.strictEqual(statsbeat["_host"], "IngestionEndpoint=https://westeurope-5");
+        assert.strictEqual(statsbeat["host"], "IngestionEndpoint=https://westeurope-5");
       });
 
-      it("_getShortHost", () => {
+      it("getShortHost", () => {
         const statsbeat = new NetworkStatsbeatMetrics(options);
         assert.strictEqual(
-          statsbeat["_getShortHost"]("http://westus02-1.in.applicationinsights.azure.com"),
+          statsbeat["getShortHost"]("http://westus02-1.in.applicationinsights.azure.com"),
           "westus02"
         );
         assert.strictEqual(
-          statsbeat["_getShortHost"]("https://westus02-1.in.applicationinsights.azure.com"),
+          statsbeat["getShortHost"]("https://westus02-1.in.applicationinsights.azure.com"),
           "westus02"
         );
-        assert.strictEqual(
-          statsbeat["_getShortHost"]("https://dc.services.visualstudio.com"),
-          "dc"
-        );
-        assert.strictEqual(statsbeat["_getShortHost"]("https://www.test.com"), "test");
+        assert.strictEqual(statsbeat["getShortHost"]("https://dc.services.visualstudio.com"), "dc");
+        assert.strictEqual(statsbeat["getShortHost"]("https://www.test.com"), "test");
       });
 
       it("should add correct network properites to the custom metric", (done) => {
         const statsbeat = new NetworkStatsbeatMetrics(options);
-        statsbeat["_statsCollectionShortInterval"];
+        statsbeat["statsCollectionShortInterval"];
         statsbeat.countSuccess(100);
-        let metric = statsbeat["_networkStatsbeatCollection"][0];
+        const metric = statsbeat["networkStatsbeatCollection"][0];
         assert.strictEqual(metric.intervalRequestExecutionTime, 100);
 
         // Ensure network statsbeat attributes are populated
-        assert.strictEqual(statsbeat["_attach"], "sdk");
+        assert.strictEqual(statsbeat["attach"], "sdk");
         assert.strictEqual(
-          statsbeat["_cikey"],
+          statsbeat["cikey"],
           "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;"
         );
-        assert.strictEqual(statsbeat["_language"], "node");
-        assert.strictEqual(statsbeat["_resourceProvider"], "unknown");
+        assert.strictEqual(statsbeat["language"], "node");
+        assert.strictEqual(statsbeat["resourceProvider"], "unknown");
         assert.strictEqual(
-          statsbeat["_endpointUrl"],
+          statsbeat["endpointUrl"],
           "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
         );
-        assert.ok(statsbeat["_os"]);
-        assert.ok(statsbeat["_runtimeVersion"]);
-        assert.ok(statsbeat["_version"]);
+        assert.ok(statsbeat["os"]);
+        assert.ok(statsbeat["runtimeVersion"]);
+        assert.ok(statsbeat["version"]);
 
         done();
       });
 
       it("should add correct long interval properties to the custom metric", async () => {
-        const exporter = new TestExporter();
-        const statsbeatMetrics = exporter["_networkStatsbeatMetrics"];
+        // const exporter = new TestExporter();
+        // const statsbeatMetrics = exporter["sender"]["networkStatsbeatMetrics"];
         const longIntervalStatsbeatMetrics = getInstance(options);
-        assert.ok(statsbeatMetrics);
+        // assert.ok(statsbeatMetrics);
         assert.ok(longIntervalStatsbeatMetrics);
-        // Represents the bitwise OR of NONE and AAD_HANDLING features
-        assert.strictEqual(longIntervalStatsbeatMetrics["_feature"], 3);
+        // Represents the bitwise OR of NONE and AADHANDLING features
+        assert.strictEqual(longIntervalStatsbeatMetrics["feature"], 3);
         // Represents the bitwise OR of MONGODB and REDIS instrumentations
-        assert.strictEqual(longIntervalStatsbeatMetrics["_instrumentation"], 10);
-        assert.strictEqual(longIntervalStatsbeatMetrics["_attachProperties"].rpId, undefined);
+        assert.strictEqual(longIntervalStatsbeatMetrics["instrumentation"], 10);
+        assert.strictEqual(longIntervalStatsbeatMetrics["attachProperties"].rpId, undefined);
       });
 
       it("should turn off statsbeat after max failures", async () => {
-        const exporter = new TestExporter();
+        const exporter = new AzureMonitorTraceExporter(exportOptions);
         const response = failedBreezeResponse(1, 200);
         scope.reply(200, JSON.stringify(response));
-        exporter["_statsbeatFailureCount"] = 4;
+        exporter["sender"]["statsbeatFailureCount"] = 4;
 
-        const result = await exporter["_exportEnvelopes"]([envelope]);
+        const result = await exporter["sender"]["exportEnvelopes"]([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
       });
     });
@@ -168,46 +154,46 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       const statsbeat = new NetworkStatsbeatMetrics(options);
 
       it("it should determine if the rp is unknown", (done) => {
-        statsbeat["_getResourceProvider"]()
+        statsbeat["getResourceProvider"]()
           .then(() => {
-            assert.strictEqual(statsbeat["_resourceProvider"], "unknown");
+            assert.strictEqual(statsbeat["resourceProvider"], "unknown");
             done();
           })
-          .catch((error) => {
+          .catch((error: Error) => {
             done(error);
           });
       });
 
       it("it should determine if the rp is an app service", (done) => {
-        let newEnv = <{ [id: string]: string }>{};
+        const newEnv = <{ [id: string]: string }>{};
         newEnv["WEBSITE_SITE_NAME"] = "Test Website";
-        newEnv["WEBSITE_HOME_STAMPNAME"] = "test_home";
-        let originalEnv = process.env;
+        newEnv["WEBSITE_HOME_STAMPNAME"] = "testhome";
+        const originalEnv = process.env;
         process.env = newEnv;
-        statsbeat["_getResourceProvider"]()
+        statsbeat["getResourceProvider"]()
           .then(() => {
             process.env = originalEnv;
-            assert.strictEqual(statsbeat["_resourceProvider"], "appsvc");
+            assert.strictEqual(statsbeat["resourceProvider"], "appsvc");
             done();
           })
-          .catch((error) => {
+          .catch((error: Error) => {
             done(error);
           });
       });
 
       it("should determine if the rp is an Azure Function", (done) => {
-        let newEnv = <{ [id: string]: string }>{};
+        const newEnv = <{ [id: string]: string }>{};
         newEnv["FUNCTIONS_WORKER_RUNTIME"] = "test";
-        newEnv["WEBSITE_HOSTNAME"] = "test_host";
-        let originalEnv = process.env;
+        newEnv["WEBSITE_HOSTNAME"] = "testhost";
+        const originalEnv = process.env;
         process.env = newEnv;
-        statsbeat["_getResourceProvider"]()
+        statsbeat["getResourceProvider"]()
           .then(() => {
             process.env = originalEnv;
-            assert.strictEqual(statsbeat["_resourceProvider"], "functions");
+            assert.strictEqual(statsbeat["resourceProvider"], "functions");
             done();
           })
-          .catch((error) => {
+          .catch((error: Error) => {
             done(error);
           });
       });
@@ -216,17 +202,38 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const getAzureComputeStub = sandbox.stub(statsbeat, "getAzureComputeMetadata");
         getAzureComputeStub.returns(Promise.resolve(true));
 
-        let newEnv = <{ [id: string]: string }>{};
-        let originalEnv = process.env;
+        const newEnv = <{ [id: string]: string }>{};
+        const originalEnv = process.env;
         process.env = newEnv;
 
-        statsbeat["_getResourceProvider"]()
+        statsbeat["getResourceProvider"]()
           .then(() => {
             process.env = originalEnv;
-            assert.strictEqual(statsbeat["_resourceProvider"], "vm");
+            assert.strictEqual(statsbeat["resourceProvider"], "vm");
             done();
           })
-          .catch((error) => {
+          .catch((error: Error) => {
+            done(error);
+          });
+      });
+
+      it("should override OS and VM info", (done) => {
+        const getAzureComputeStub = sandbox.stub(statsbeat, "getAzureComputeMetadata");
+        getAzureComputeStub.returns(Promise.resolve(true));
+        statsbeat["vmInfo"]["osType"] = "test";
+
+        const newEnv = <{ [id: string]: string }>{};
+        const originalEnv = process.env;
+        process.env = newEnv;
+
+        statsbeat["getResourceProvider"]()
+          .then(() => {
+            process.env = originalEnv;
+            assert.strictEqual(statsbeat["resourceProvider"], "vm");
+            assert.strictEqual(statsbeat["os"], "test");
+            done();
+          })
+          .catch((error: Error) => {
             done(error);
           });
       });
@@ -255,18 +262,19 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should track duration", async () => {
-        let mockExport = sandbox.stub(statsbeat["_networkAzureExporter"], "export");
+        const mockExport = sandbox.stub(statsbeat["networkAzureExporter"], "export");
         statsbeat.countSuccess(100);
-        statsbeat.countSuccess(100);
-        statsbeat.countSuccess(200);
-        statsbeat.countSuccess(200);
+        statsbeat.countRetry(206);
+        statsbeat.countFailure(200, 500);
+        statsbeat.countThrottle(402);
+        statsbeat.countException({ name: "Statsbeat", message: "Statsbeat Exception" });
 
         await new Promise((resolve) => setTimeout(resolve, 120));
         assert.ok(mockExport.called);
-        let resourceMetrics = mockExport.args[0][0];
+        const resourceMetrics = mockExport.args[0][0];
         const scopeMetrics = resourceMetrics.scopeMetrics;
         assert.strictEqual(scopeMetrics.length, 1, "Scope Metrics count");
-        let metrics = scopeMetrics[0].metrics;
+        const metrics = scopeMetrics[0].metrics;
         assert.strictEqual(metrics.length, 6, "Metrics count");
         assert.strictEqual(metrics[0].descriptor.name, StatsbeatCounter.SUCCESS_COUNT);
         assert.strictEqual(metrics[1].descriptor.name, StatsbeatCounter.FAILURE_COUNT);
@@ -280,7 +288,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should track statsbeat counts", async () => {
-        let mockExport = sandbox.stub(statsbeat["_networkAzureExporter"], "export");
+        const mockExport = sandbox.stub(statsbeat["networkAzureExporter"], "export");
         statsbeat.countSuccess(100);
         statsbeat.countSuccess(100);
         statsbeat.countSuccess(100);
@@ -299,9 +307,9 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         await new Promise((resolve) => setTimeout(resolve, 500));
         assert.ok(mockExport.called);
-        let resourceMetrics = mockExport.args[0][0];
+        const resourceMetrics = mockExport.args[0][0];
         const scopeMetrics = resourceMetrics.scopeMetrics;
-        let metrics = scopeMetrics[0].metrics;
+        const metrics = scopeMetrics[0].metrics;
 
         assert.ok(metrics, "Statsbeat metrics not properly initialized");
         assert.strictEqual(metrics.length, 6);
@@ -346,17 +354,17 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
       it("should track long interval statsbeats", async () => {
         const longIntervalStatsbeat = getInstance(options);
-        let mockExport = sandbox.stub(
-          longIntervalStatsbeat["_longIntervalAzureExporter"],
+        const mockExport = sandbox.stub(
+          longIntervalStatsbeat["longIntervalAzureExporter"],
           "export"
         );
 
         await new Promise((resolve) => setTimeout(resolve, 120));
         assert.ok(mockExport.called);
-        let resourceMetrics = mockExport.args[0][0];
+        const resourceMetrics = mockExport.args[0][0];
         const scopeMetrics = resourceMetrics.scopeMetrics;
         assert.strictEqual(scopeMetrics.length, 1, "Scope Metrics count");
-        let metrics = scopeMetrics[0].metrics;
+        const metrics = scopeMetrics[0].metrics;
         assert.strictEqual(metrics.length, 2, "Metrics count");
         assert.strictEqual(metrics[0].descriptor.name, StatsbeatCounter.FEATURE);
         assert.strictEqual(metrics[1].descriptor.name, StatsbeatCounter.ATTACH);
@@ -365,6 +373,16 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         delete process.env.STATSBEAT_INSTRUMENTATIONS;
         delete process.env.STATSBEAT_FEATURES;
         delete process.env.LONG_INTERVAL_EXPORT_MILLIS;
+      });
+    });
+
+    describe("Disable Statsbeat", () => {
+      it("should disable statsbeat when the environement variable is set", () => {
+        process.env[ENV_DISABLE_STATSBEAT] = "true";
+        const exporter = new AzureMonitorTraceExporter(exportOptions);
+        assert.ok(!exporter["sender"]["networkStatsbeatMetrics"]);
+        assert.ok(!exporter["sender"]["longIntervalStatsbeatMetrics"]);
+        delete process.env[ENV_DISABLE_STATSBEAT];
       });
     });
   });

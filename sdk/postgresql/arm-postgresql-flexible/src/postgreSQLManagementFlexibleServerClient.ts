@@ -18,37 +18,54 @@ import {
   AdministratorsImpl,
   BackupsImpl,
   LocationBasedCapabilitiesImpl,
+  ServerCapabilitiesImpl,
   CheckNameAvailabilityImpl,
   CheckNameAvailabilityWithLocationImpl,
   ConfigurationsImpl,
   DatabasesImpl,
   FirewallRulesImpl,
   ServersImpl,
+  MigrationsImpl,
   OperationsImpl,
   GetPrivateDnsZoneSuffixImpl,
   ReplicasImpl,
-  VirtualNetworkSubnetUsageImpl
+  LogFilesImpl,
+  VirtualNetworkSubnetUsageImpl,
+  FlexibleServerImpl,
+  LtrBackupOperationsImpl
 } from "./operations";
 import {
   Administrators,
   Backups,
   LocationBasedCapabilities,
+  ServerCapabilities,
   CheckNameAvailability,
   CheckNameAvailabilityWithLocation,
   Configurations,
   Databases,
   FirewallRules,
   Servers,
+  Migrations,
   Operations,
   GetPrivateDnsZoneSuffix,
   Replicas,
-  VirtualNetworkSubnetUsage
+  LogFiles,
+  VirtualNetworkSubnetUsage,
+  FlexibleServer,
+  LtrBackupOperations
 } from "./operationsInterfaces";
-import { PostgreSQLManagementFlexibleServerClientOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  PostgreSQLManagementFlexibleServerClientOptionalParams,
+  MigrationNameAvailabilityResource,
+  CheckMigrationNameAvailabilityOptionalParams,
+  CheckMigrationNameAvailabilityResponse
+} from "./models";
 
 export class PostgreSQLManagementFlexibleServerClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
   apiVersion: string;
 
   /**
@@ -61,12 +78,28 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: PostgreSQLManagementFlexibleServerClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: PostgreSQLManagementFlexibleServerClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | PostgreSQLManagementFlexibleServerClientOptionalParams
+      | string,
+    options?: PostgreSQLManagementFlexibleServerClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -78,7 +111,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-postgresql-flexible/7.1.1`;
+    const packageDetails = `azsdk-js-arm-postgresql-flexible/8.0.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -131,10 +164,11 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-12-01";
+    this.apiVersion = options.apiVersion || "2023-03-01-preview";
     this.administrators = new AdministratorsImpl(this);
     this.backups = new BackupsImpl(this);
     this.locationBasedCapabilities = new LocationBasedCapabilitiesImpl(this);
+    this.serverCapabilities = new ServerCapabilitiesImpl(this);
     this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
     this.checkNameAvailabilityWithLocation = new CheckNameAvailabilityWithLocationImpl(
       this
@@ -143,10 +177,14 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     this.databases = new DatabasesImpl(this);
     this.firewallRules = new FirewallRulesImpl(this);
     this.servers = new ServersImpl(this);
+    this.migrations = new MigrationsImpl(this);
     this.operations = new OperationsImpl(this);
     this.getPrivateDnsZoneSuffix = new GetPrivateDnsZoneSuffixImpl(this);
     this.replicas = new ReplicasImpl(this);
+    this.logFiles = new LogFilesImpl(this);
     this.virtualNetworkSubnetUsage = new VirtualNetworkSubnetUsageImpl(this);
+    this.flexibleServer = new FlexibleServerImpl(this);
+    this.ltrBackupOperations = new LtrBackupOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -178,17 +216,76 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  /**
+   * This method checks whether a proposed migration name is valid and available.
+   * @param subscriptionId The subscription ID of the target database server.
+   * @param resourceGroupName The resource group name of the target database server.
+   * @param targetDbServerName The name of the target database server.
+   * @param parameters The required parameters for checking if a migration name is available.
+   * @param options The options parameters.
+   */
+  checkMigrationNameAvailability(
+    subscriptionId: string,
+    resourceGroupName: string,
+    targetDbServerName: string,
+    parameters: MigrationNameAvailabilityResource,
+    options?: CheckMigrationNameAvailabilityOptionalParams
+  ): Promise<CheckMigrationNameAvailabilityResponse> {
+    return this.sendOperationRequest(
+      {
+        subscriptionId,
+        resourceGroupName,
+        targetDbServerName,
+        parameters,
+        options
+      },
+      checkMigrationNameAvailabilityOperationSpec
+    );
+  }
+
   administrators: Administrators;
   backups: Backups;
   locationBasedCapabilities: LocationBasedCapabilities;
+  serverCapabilities: ServerCapabilities;
   checkNameAvailability: CheckNameAvailability;
   checkNameAvailabilityWithLocation: CheckNameAvailabilityWithLocation;
   configurations: Configurations;
   databases: Databases;
   firewallRules: FirewallRules;
   servers: Servers;
+  migrations: Migrations;
   operations: Operations;
   getPrivateDnsZoneSuffix: GetPrivateDnsZoneSuffix;
   replicas: Replicas;
+  logFiles: LogFiles;
   virtualNetworkSubnetUsage: VirtualNetworkSubnetUsage;
+  flexibleServer: FlexibleServer;
+  ltrBackupOperations: LtrBackupOperations;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const checkMigrationNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{targetDbServerName}/checkMigrationNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MigrationNameAvailabilityResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters10,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId1,
+    Parameters.resourceGroupName1,
+    Parameters.targetDbServerName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};

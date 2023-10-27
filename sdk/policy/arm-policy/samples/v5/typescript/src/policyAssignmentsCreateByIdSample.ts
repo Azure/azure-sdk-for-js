@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PolicyAssignment, PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to This operation creates or updates the policy assignment with the given ID. Policy assignments made on a scope apply to all resources contained in that scope. For example, when you assign a policy to a resource group that policy applies to all resources in the group. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentById.json
  */
 async function createOrUpdatePolicyAssignmentById() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyAssignmentId =
     "providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage";
   const parameters: PolicyAssignment = {
@@ -42,8 +47,6 @@ async function createOrUpdatePolicyAssignmentById() {
   console.log(result);
 }
 
-createOrUpdatePolicyAssignmentById().catch(console.error);
-
 /**
  * This sample demonstrates how to This operation creates or updates the policy assignment with the given ID. Policy assignments made on a scope apply to all resources contained in that scope. For example, when you assign a policy to a resource group that policy applies to all resources in the group. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'.
  *
@@ -51,7 +54,9 @@ createOrUpdatePolicyAssignmentById().catch(console.error);
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentWithIdentityById.json
  */
 async function createOrUpdatePolicyAssignmentWithAManagedIdentityById() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyAssignmentId =
     "providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage";
   const parameters: PolicyAssignment = {
@@ -77,4 +82,9 @@ async function createOrUpdatePolicyAssignmentWithAManagedIdentityById() {
   console.log(result);
 }
 
-createOrUpdatePolicyAssignmentWithAManagedIdentityById().catch(console.error);
+async function main() {
+  createOrUpdatePolicyAssignmentById();
+  createOrUpdatePolicyAssignmentWithAManagedIdentityById();
+}
+
+main().catch(console.error);

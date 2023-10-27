@@ -58,6 +58,7 @@ export class CallRecording {
     startCallRecordingRequest.recordingContentType = options.recordingContent;
     startCallRecordingRequest.recordingFormatType = options.recordingFormat;
     startCallRecordingRequest.recordingStateCallbackUri = options.recordingStateCallbackEndpointUrl;
+    startCallRecordingRequest.pauseOnStart = options.pauseOnStart;
 
     if (options.channelAffinity) {
       startCallRecordingRequest.channelAffinity = [];
@@ -88,7 +89,7 @@ export class CallRecording {
 
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const response = await this.callRecordingImpl.startRecording(
@@ -195,6 +196,11 @@ export class CallRecording {
     const recordingStream = (await result).readableStreamBody;
     if (recordingStream) {
       recordingStream.pipe(destinationStream);
+      const finish = new Promise<void>((resolve, reject) => {
+        destinationStream.on("finish", resolve);
+        destinationStream.on("error", reject);
+      });
+      await finish;
     } else {
       throw Error("failed to get stream");
     }
@@ -214,7 +220,13 @@ export class CallRecording {
     const result = this.contentDownloader.download(sourceLocationUrl, options);
     const recordingStream = (await result).readableStreamBody;
     if (recordingStream) {
-      recordingStream.pipe(fs.createWriteStream(destinationPath));
+      const writeFileStream = fs.createWriteStream(destinationPath);
+      recordingStream.pipe(writeFileStream);
+      const finish = new Promise<void>((resolve, reject) => {
+        writeFileStream.on("finish", resolve);
+        writeFileStream.on("error", reject);
+      });
+      await finish;
     } else {
       throw Error("failed to get stream");
     }

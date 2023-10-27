@@ -59,6 +59,9 @@ describe("GraphServices test", () => {
   });
 
   it("operation list test", async function () {
-    const res = await client.operationOperations.list();
+    const resArray = new Array();
+    for await (let item of client.operations.list()) {
+      resArray.push(item);
+    }
   });
 })

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Account,
   AccountsListByResourceGroupOptionalParams,
@@ -76,8 +76,8 @@ export interface Accounts {
     account: Account,
     options?: AccountsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AccountsCreateResponse>,
+    SimplePollerLike<
+      OperationState<AccountsCreateResponse>,
       AccountsCreateResponse
     >
   >;
@@ -108,8 +108,8 @@ export interface Accounts {
     account: Account,
     options?: AccountsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AccountsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AccountsUpdateResponse>,
       AccountsUpdateResponse
     >
   >;
@@ -136,7 +136,7 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     options?: AccountsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Cognitive Services account from the resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

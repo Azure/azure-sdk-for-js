@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PrivateDnsManagementClient } = require("@azure/arm-privatedns");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes a virtual network link to the specified Private DNS zone. WARNING: In case of a registration virtual network, all auto-registered DNS records in the zone for the virtual network will also be deleted. This operation cannot be undone.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/VirtualNetworkLinkDelete.json
  */
 async function deletePrivateDnsZoneVirtualNetworkLink() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const virtualNetworkLinkName = "virtualNetworkLink1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function deletePrivateDnsZoneVirtualNetworkLink() {
   console.log(result);
 }
 
-deletePrivateDnsZoneVirtualNetworkLink().catch(console.error);
+async function main() {
+  deletePrivateDnsZoneVirtualNetworkLink();
+}
+
+main().catch(console.error);

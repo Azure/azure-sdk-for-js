@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { newPipeline } from "../../src/Pipeline";
+import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
+import { newPipeline } from "../../../storage-blob/src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
 import {
   generateAccountSASQueryParameters,
@@ -12,17 +12,16 @@ import {
   AccountSASServices,
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { env } from "@azure-tools/test-recorder";
-
-// Uncomment if need to enable logger when debugging
-// import {HttpPipelineLogLevel} from "../../src"
-// import {ConsoleHttpPipelineLogger} from "./testutils.common"
+import { env, Recorder } from "@azure-tools/test-recorder";
+import { configureStorageClient } from "./testutils.common";
+export * from "./testutils.common";
 
 export function getGenericQSU(
+  recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = ""
 ): QueueServiceClient {
-  if (env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
+  if ((env.STORAGE_CONNECTION_STRING ?? "").startsWith("UseDevelopmentStorage=true")) {
     // Expected environment variable to run tests with the emulator
     // [Azurite - Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Azurite.azurite)
     // STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true
@@ -31,8 +30,8 @@ export function getGenericQSU(
     const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
     const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
-    const accountName = process.env[accountNameEnvVar];
-    const accountKey = process.env[accountKeyEnvVar];
+    const accountName = env[accountNameEnvVar];
+    const accountKey = env[accountKeyEnvVar];
 
     if (!accountName || !accountKey || accountName === "" || accountKey === "") {
       throw new Error(
@@ -41,26 +40,25 @@ export function getGenericQSU(
     }
 
     const credentials = new StorageSharedKeyCredential(accountName, accountKey);
-    const pipeline = newPipeline(credentials, {
-      // Enable logger when debugging
-      // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-    });
+    const pipeline = newPipeline(credentials);
     const queuePrimaryURL = `https://${accountName}${accountNameSuffix}.queue.core.windows.net/`;
-    return new QueueServiceClient(queuePrimaryURL, pipeline);
+    const client = new QueueServiceClient(queuePrimaryURL, pipeline);
+    configureStorageClient(recorder, client);
+    return client;
   }
 }
 
-export function getQSU(): QueueServiceClient {
-  return getGenericQSU("");
+export function getQSU(recorder: Recorder): QueueServiceClient {
+  return getGenericQSU(recorder, "");
 }
 
-export function getAlternateQSU(): QueueServiceClient {
-  return getGenericQSU("SECONDARY_", "-secondary");
+export function getAlternateQSU(recorder: Recorder): QueueServiceClient {
+  return getGenericQSU(recorder, "SECONDARY_", "-secondary");
 }
 
 export function getConnectionStringFromEnvironment(): string {
   const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
-  const connectionString = process.env[connectionStringEnvVar];
+  const connectionString = env[connectionStringEnvVar];
 
   if (!connectionString) {
     throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
@@ -69,16 +67,14 @@ export function getConnectionStringFromEnvironment(): string {
   return connectionString;
 }
 
-export function getSASConnectionStringFromEnvironment(): string {
+export function getSASConnectionStringFromEnvironment(recorder: Recorder): string {
   const now = new Date();
   now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
   const tmr = new Date();
   tmr.setDate(tmr.getDate() + 1);
-  const queueServiceClient = getQSU();
-  // By default, credential is always the last element of pipeline factories
-  const factories = (queueServiceClient as any).pipeline.factories;
-  const sharedKeyCredential = factories[factories.length - 1];
+  const queueServiceClient = getQSU(recorder);
+  const sharedKeyCredential = queueServiceClient["credential"];
 
   const sas = generateAccountSASQueryParameters(
     {

@@ -22,7 +22,9 @@ import {
   LinkedServerImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
-  AsyncOperationStatusImpl
+  AsyncOperationStatusImpl,
+  AccessPolicyImpl,
+  AccessPolicyAssignmentImpl
 } from "./operations";
 import {
   Operations,
@@ -32,7 +34,9 @@ import {
   LinkedServer,
   PrivateEndpointConnections,
   PrivateLinkResources,
-  AsyncOperationStatus
+  AsyncOperationStatus,
+  AccessPolicy,
+  AccessPolicyAssignment
 } from "./operationsInterfaces";
 import { RedisManagementClientOptionalParams } from "./models";
 
@@ -44,8 +48,7 @@ export class RedisManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the RedisManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Gets subscription credentials which uniquely identify the Microsoft Azure
-   *                       subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -69,7 +72,7 @@ export class RedisManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-rediscache/7.1.2`;
+    const packageDetails = `azsdk-js-arm-rediscache/8.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -122,7 +125,7 @@ export class RedisManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-06-01";
+    this.apiVersion = options.apiVersion || "2023-08-01";
     this.operations = new OperationsImpl(this);
     this.redis = new RedisImpl(this);
     this.firewallRules = new FirewallRulesImpl(this);
@@ -131,6 +134,8 @@ export class RedisManagementClient extends coreClient.ServiceClient {
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.asyncOperationStatus = new AsyncOperationStatusImpl(this);
+    this.accessPolicy = new AccessPolicyImpl(this);
+    this.accessPolicyAssignment = new AccessPolicyAssignmentImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -170,4 +175,6 @@ export class RedisManagementClient extends coreClient.ServiceClient {
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   asyncOperationStatus: AsyncOperationStatus;
+  accessPolicy: AccessPolicy;
+  accessPolicyAssignment: AccessPolicyAssignment;
 }

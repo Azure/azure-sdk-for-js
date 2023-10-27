@@ -8,6 +8,12 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type PartnerDestinationInfoUnion =
+  | PartnerDestinationInfo
+  | WebhookPartnerDestinationInfo;
+export type PartnerUpdateDestinationInfoUnion =
+  | PartnerUpdateDestinationInfo
+  | WebhookUpdatePartnerDestinationInfo;
 export type InputSchemaMappingUnion =
   | InputSchemaMapping
   | JsonInputSchemaMapping;
@@ -15,6 +21,30 @@ export type DeliveryAttributeMappingUnion =
   | DeliveryAttributeMapping
   | StaticDeliveryAttributeMapping
   | DynamicDeliveryAttributeMapping;
+export type DeadLetterDestinationUnion =
+  | DeadLetterDestination
+  | StorageBlobDeadLetterDestination;
+export type FilterUnion =
+  | Filter
+  | NumberInFilter
+  | NumberNotInFilter
+  | NumberLessThanFilter
+  | NumberGreaterThanFilter
+  | NumberLessThanOrEqualsFilter
+  | NumberGreaterThanOrEqualsFilter
+  | BoolEqualsFilter
+  | StringInFilter
+  | StringNotInFilter
+  | StringBeginsWithFilter
+  | StringEndsWithFilter
+  | StringContainsFilter
+  | NumberInRangeFilter
+  | NumberNotInRangeFilter
+  | StringNotBeginsWithFilter
+  | StringNotEndsWithFilter
+  | StringNotContainsFilter
+  | IsNullOrUndefinedFilter
+  | IsNotNullFilter;
 export type EventSubscriptionDestinationUnion =
   | EventSubscriptionDestination
   | WebHookEventSubscriptionDestination
@@ -23,7 +53,8 @@ export type EventSubscriptionDestinationUnion =
   | HybridConnectionEventSubscriptionDestination
   | ServiceBusQueueEventSubscriptionDestination
   | ServiceBusTopicEventSubscriptionDestination
-  | AzureFunctionEventSubscriptionDestination;
+  | AzureFunctionEventSubscriptionDestination
+  | PartnerEventSubscriptionDestination;
 export type AdvancedFilterUnion =
   | AdvancedFilter
   | NumberInAdvancedFilter
@@ -45,9 +76,101 @@ export type AdvancedFilterUnion =
   | StringNotContainsAdvancedFilter
   | IsNullOrUndefinedAdvancedFilter
   | IsNotNullAdvancedFilter;
-export type DeadLetterDestinationUnion =
-  | DeadLetterDestination
-  | StorageBlobDeadLetterDestination;
+export type PartnerClientAuthenticationUnion =
+  | PartnerClientAuthentication
+  | AzureADPartnerClientAuthentication;
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Definition of a Resource. */
+export interface Resource {
+  /**
+   * Fully qualified identifier of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Name of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Type of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Result of the List CA Certificate operation. */
+export interface CaCertificatesListResult {
+  /** A collection of CA Certificate. */
+  value?: CaCertificate[];
+  /** A link for the next page of CA Certificate. */
+  nextLink?: string;
+}
 
 /** Properties of the corresponding partner topic of a Channel. */
 export interface PartnerTopicInfo {
@@ -100,39 +223,36 @@ export interface InlineEventProperties {
   dataSchemaUrl?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
+/** Properties of the corresponding partner destination of a Channel. */
+export interface PartnerDestinationInfo {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "WebHook";
+  /**
+   * Azure subscription ID of the subscriber. The partner destination associated with the channel will be
+   * created under this Azure subscription.
+   */
+  azureSubscriptionId?: string;
+  /**
+   * Azure Resource Group of the subscriber. The partner destination associated with the channel will be
+   * created under this resource group.
+   */
+  resourceGroupName?: string;
+  /** Name of the partner destination associated with the channel. */
+  name?: string;
+  /** Additional context of the partner destination endpoint. */
+  endpointServiceContext?: string;
+  /** Change history of the resource move. */
+  resourceMoveChangeHistory?: ResourceMoveChangeHistory[];
 }
 
-/** Definition of a Resource. */
-export interface Resource {
-  /**
-   * Fully qualified identifier of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
+/** The change history of the resource move. */
+export interface ResourceMoveChangeHistory {
+  /** Azure subscription ID of the resource. */
+  azureSubscriptionId?: string;
+  /** Azure Resource Group of the resource. */
+  resourceGroupName?: string;
+  /** UTC timestamp of when the resource was changed. */
+  changedTimeUtc?: Date;
 }
 
 /** Properties of the Channel update. */
@@ -142,8 +262,16 @@ export interface ChannelUpdateParameters {
    * the channel and corresponding partner topic or partner destination are deleted.
    */
   expirationTimeIfNotActivatedUtc?: Date;
+  /** Partner destination properties which can be updated if the channel is of type PartnerDestination. */
+  partnerDestinationInfo?: PartnerUpdateDestinationInfoUnion;
   /** Partner topic properties which can be updated if the channel is of type PartnerTopic. */
   partnerTopicInfo?: PartnerUpdateTopicInfo;
+}
+
+/** Properties of the corresponding partner destination of a Channel. */
+export interface PartnerUpdateDestinationInfo {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "WebHook";
 }
 
 /** Update properties for the corresponding partner topic of a channel. */
@@ -164,6 +292,61 @@ export interface ChannelsListResult {
 export interface EventSubscriptionFullUrl {
   /** The URL that represents the endpoint of the destination of an event subscription. */
   endpointUrl?: string;
+}
+
+/** Result of the List Client Group operation. */
+export interface ClientGroupsListResult {
+  /** A collection of Client Group. */
+  value?: ClientGroup[];
+  /** A link for the next page of Client Group. */
+  nextLink?: string;
+}
+
+/** The Authentication properties for the client. */
+export interface ClientAuthentication {
+  /** The self signed certificate's thumbprints data used for authentication. */
+  certificateThumbprint?: ClientCertificateThumbprint;
+  /** The CA certificate subject name used for authentication. */
+  certificateSubject?: ClientCertificateSubjectDistinguishedName;
+}
+
+/** Thumbprints are used by the service to validate the device permission when authentication is done using self signed certificate. */
+export interface ClientCertificateThumbprint {
+  /** The primary thumbprint used for validation. */
+  primary?: string;
+  /** The secondary thumbprint used for validation. */
+  secondary?: string;
+}
+
+/**
+ * CA certificate subject distinguished name information used by service to authenticate clients.
+ * For more information, see https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.x509certificates.x500distinguishedname?view=net-6.0#remarks
+ */
+export interface ClientCertificateSubjectDistinguishedName {
+  /** The common name field in the subject name. The allowed limit is 64 characters and it should be specified. */
+  commonName?: string;
+  /** The organization field in the subject name. If present, the allowed limit is 64 characters. */
+  organization?: string;
+  /** The organization unit field in the subject name. If present, the allowed limit is 32 characters. */
+  organizationUnit?: string;
+  /** The country code field in the subject name. If present, the country code should be represented by two-letter code defined in ISO 2166-1 (alpha-2). For example: 'US'. */
+  countryCode?: string;
+}
+
+/** The certificate authentication properties for the client. */
+export interface ClientCertificateAuthentication {
+  /** The validation scheme used to authenticate the client. Default value is SubjectMatchesAuthenticationName. */
+  validationScheme?: ClientCertificateValidationScheme;
+  /** The list of thumbprints that are allowed during client authentication. This property is required only if the validationScheme is 'ThumbprintMatch'. */
+  allowedThumbprints?: string[];
+}
+
+/** Result of the List Client operation. */
+export interface ClientsListResult {
+  /** A collection of Client. */
+  value?: Client[];
+  /** A link for the next page of Client. */
+  nextLink?: string;
 }
 
 /** PrivateEndpoint information. */
@@ -193,6 +376,12 @@ export interface InboundIpRule {
   ipMask?: string;
   /** Action to perform based on the match or no match of the IpMask. */
   action?: IpActionType;
+}
+
+/** Describes an EventGrid Resource Sku. */
+export interface ResourceSku {
+  /** The Sku name of the resource. The possible values are: Basic or Premium. */
+  name?: Sku;
 }
 
 /** The identity information for the resource. */
@@ -225,6 +414,8 @@ export interface DomainUpdateParameters {
   tags?: { [propertyName: string]: string };
   /** Identity information for the resource. */
   identity?: IdentityInfo;
+  /** The Sku pricing tier for the domain. */
+  sku?: ResourceSku;
   /**
    * This determines if traffic is allowed over public network. By default it is enabled.
    * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainUpdateParameterProperties.InboundIpRules" />
@@ -232,6 +423,8 @@ export interface DomainUpdateParameters {
   publicNetworkAccess?: PublicNetworkAccess;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
   inboundIpRules?: InboundIpRule[];
+  /** Minimum TLS version of the publisher allowed to publish to this domain */
+  minimumTlsVersionAllowed?: TlsVersion;
   /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the domain. */
   disableLocalAuth?: boolean;
   /**
@@ -256,6 +449,8 @@ export interface DomainUpdateParameters {
   autoDeleteTopicWithLastSubscription?: boolean;
   /** The data residency boundary for the domain. */
   dataResidencyBoundary?: DataResidencyBoundary;
+  /** The eventTypeInfo for the domain. */
+  eventTypeInfo?: EventTypeInfo;
 }
 
 /** Result of the List Domains operation. */
@@ -302,6 +497,132 @@ export interface DeliveryAttributeMapping {
   name?: string;
 }
 
+/** Properties of the delivery configuration information of the event subscription. */
+export interface DeliveryConfiguration {
+  /** Delivery mode of the event subscription. */
+  deliveryMode?: DeliveryMode;
+  /** This property should be populated when deliveryMode is queue and represents information about the queue subscription. */
+  queue?: QueueInfo;
+}
+
+/** Properties of the Queue info for event subscription. */
+export interface QueueInfo {
+  /**
+   * Maximum period in seconds in which once the message is in received (by the client) state and waiting to be accepted, released or rejected.
+   * If this time elapsed after a message has been received by the client and not transitioned into accepted (not processed), released or rejected,
+   * the message is available for redelivery. This is an optional field, where default is 60 seconds, minimum is 60 seconds and maximum is 300 seconds.
+   */
+  receiveLockDurationInSeconds?: number;
+  /** The maximum delivery count of the events. */
+  maxDeliveryCount?: number;
+  /**
+   * The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination.
+   * Uses the managed identity setup on the parent resource (namely, topic) to acquire the authentication tokens being used during delivery / dead-lettering.
+   */
+  deadLetterDestinationWithResourceIdentity?: DeadLetterWithResourceIdentity;
+  /**
+   * Time span duration in ISO 8601 format that determines how long messages are available to the subscription from the time the message was published.
+   * This duration value is expressed using the following format: \'P(n)Y(n)M(n)DT(n)H(n)M(n)S\', where:
+   *     - (n) is replaced by the value of each time element that follows the (n).
+   *     - P is the duration (or Period) designator and is always placed at the beginning of the duration.
+   *     - Y is the year designator, and it follows the value for the number of years.
+   *     - M is the month designator, and it follows the value for the number of months.
+   *     - W is the week designator, and it follows the value for the number of weeks.
+   *     - D is the day designator, and it follows the value for the number of days.
+   *     - T is the time designator, and it precedes the time components.
+   *     - H is the hour designator, and it follows the value for the number of hours.
+   *     - M is the minute designator, and it follows the value for the number of minutes.
+   *     - S is the second designator, and it follows the value for the number of seconds.
+   * This duration value cannot be set greater than the topic’s EventRetentionInDays. It is is an optional field where its minimum value is 1 minute, and its maximum is determined
+   * by topic’s EventRetentionInDays value. The followings are examples of valid values:
+   *     - \'P0DT23H12M\' or \'PT23H12M\': for duration of 23 hours and 12 minutes.
+   *     - \'P1D\' or \'P1DT0H0M0S\': for duration of 1 day.
+   */
+  eventTimeToLive?: string;
+}
+
+/** Information about the deadletter destination with resource identity. */
+export interface DeadLetterWithResourceIdentity {
+  /** The identity to use when dead-lettering events. */
+  identity?: EventSubscriptionIdentity;
+  /**
+   * Information about the destination where events have to be delivered for the event subscription.
+   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
+   */
+  deadLetterDestination?: DeadLetterDestinationUnion;
+}
+
+/** The identity information with the event subscription. */
+export interface EventSubscriptionIdentity {
+  /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity. */
+  type?: EventSubscriptionIdentityType;
+  /** The user identity associated with the resource. */
+  userAssignedIdentity?: string;
+}
+
+/** Information about the dead letter destination for an event subscription. To configure a deadletter destination, do not directly instantiate an object of this class. Instead, instantiate an object of a derived class. Currently, StorageBlobDeadLetterDestination is the only class that derives from this class. */
+export interface DeadLetterDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "StorageBlob";
+}
+
+/** Filters configuration for the Event Subscription. */
+export interface FiltersConfiguration {
+  /** A list of applicable event types that need to be part of the event subscription. If it is desired to subscribe to all default event types, set the IncludedEventTypes to null. */
+  includedEventTypes?: string[];
+  /** An array of filters that are used for filtering event subscriptions. */
+  filters?: FilterUnion[];
+}
+
+/**
+ * This is the base type that represents a filter. To configure a filter, do not directly instantiate an object of this class. Instead, instantiate
+ * an object of a derived class such as BoolEqualsFilter, NumberInFilter, StringEqualsFilter etc depending on the type of the key based on
+ * which you want to filter.
+ */
+export interface Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType:
+    | "NumberIn"
+    | "NumberNotIn"
+    | "NumberLessThan"
+    | "NumberGreaterThan"
+    | "NumberLessThanOrEquals"
+    | "NumberGreaterThanOrEquals"
+    | "BoolEquals"
+    | "StringIn"
+    | "StringNotIn"
+    | "StringBeginsWith"
+    | "StringEndsWith"
+    | "StringContains"
+    | "NumberInRange"
+    | "NumberNotInRange"
+    | "StringNotBeginsWith"
+    | "StringNotEndsWith"
+    | "StringNotContains"
+    | "IsNullOrUndefined"
+    | "IsNotNull";
+  /** The field/property in the event based on which you want to filter. */
+  key?: string;
+}
+
+/** Properties of the Event Subscription update. */
+export interface SubscriptionUpdateParameters {
+  /** Information about the delivery configuration of the event subscription. */
+  deliveryConfiguration?: DeliveryConfiguration;
+  /** The event delivery schema for the event subscription. */
+  eventDeliverySchema?: DeliverySchema;
+  /** Information about the filter for the event subscription. */
+  filtersConfiguration?: FiltersConfiguration;
+}
+
+/** Result of the List event subscriptions operation. */
+export interface SubscriptionsListResult {
+  /** A collection of Subscriptions. */
+  value?: Subscription[];
+  /** A link for the next page of event subscriptions */
+  nextLink?: string;
+}
+
 /** Information about the destination for an event subscription. */
 export interface EventSubscriptionDestination {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -312,7 +633,8 @@ export interface EventSubscriptionDestination {
     | "HybridConnection"
     | "ServiceBusQueue"
     | "ServiceBusTopic"
-    | "AzureFunction";
+    | "AzureFunction"
+    | "PartnerDestination";
 }
 
 /** Information about the delivery for an event subscription with resource identity. */
@@ -324,14 +646,6 @@ export interface DeliveryWithResourceIdentity {
    * Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
    */
   destination?: EventSubscriptionDestinationUnion;
-}
-
-/** The identity information with the event subscription. */
-export interface EventSubscriptionIdentity {
-  /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity. */
-  type?: EventSubscriptionIdentityType;
-  /** The user identity associated with the resource. */
-  userAssignedIdentity?: string;
 }
 
 /** Filter for the Event Subscription. */
@@ -395,23 +709,6 @@ export interface RetryPolicy {
   eventTimeToLiveInMinutes?: number;
 }
 
-/** Information about the dead letter destination for an event subscription. To configure a deadletter destination, do not directly instantiate an object of this class. Instead, instantiate an object of a derived class. Currently, StorageBlobDeadLetterDestination is the only class that derives from this class. */
-export interface DeadLetterDestination {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointType: "StorageBlob";
-}
-
-/** Information about the deadletter destination with resource identity. */
-export interface DeadLetterWithResourceIdentity {
-  /** The identity to use when dead-lettering events. */
-  identity?: EventSubscriptionIdentity;
-  /**
-   * Information about the destination where events have to be delivered for the event subscription.
-   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
-   */
-  deadLetterDestination?: DeadLetterDestinationUnion;
-}
-
 /** Properties of the Event Subscription update. */
 export interface EventSubscriptionUpdateParameters {
   /**
@@ -454,6 +751,187 @@ export interface EventSubscriptionsListResult {
   nextLink?: string;
 }
 
+/** Properties of the Topics Configuration. */
+export interface TopicsConfiguration {
+  /**
+   * The hostname for the topics configuration. This is a read-only property.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostname?: string;
+}
+
+/** Properties of the Topic Spaces Configuration. */
+export interface TopicSpacesConfiguration {
+  /** Indicate if Topic Spaces Configuration is enabled for the namespace. Default is Disabled. */
+  state?: TopicSpacesConfigurationState;
+  /**
+   * Fully qualified Azure Resource Id for the Event Grid Topic to which events will be routed to from TopicSpaces under a namespace.
+   * This property should be in the following format '/subscriptions/{subId}/resourcegroups/{resourceGroupName}/providers/microsoft.EventGrid/topics/{topicName}'.
+   * This topic should reside in the same region where namespace is located.
+   */
+  routeTopicResourceId?: string;
+  /**
+   * The endpoint for the topic spaces configuration. This is a read-only property.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostname?: string;
+  /** Routing enrichments for topic spaces configuration */
+  routingEnrichments?: RoutingEnrichments;
+  /** Client authentication settings for topic spaces configuration. */
+  clientAuthentication?: ClientAuthenticationSettings;
+  /**
+   * The maximum session expiry in hours. The property default value is 1 hour.
+   * Min allowed value is 1 hour and max allowed value is 8 hours.
+   */
+  maximumSessionExpiryInHours?: number;
+  /**
+   * The maximum number of sessions per authentication name. The property default value is 1.
+   * Min allowed value is 1 and max allowed value is 100.
+   */
+  maximumClientSessionsPerAuthenticationName?: number;
+  /** Routing identity info for topic spaces configuration. */
+  routingIdentityInfo?: RoutingIdentityInfo;
+}
+
+export interface RoutingEnrichments {
+  static?: StaticRoutingEnrichment[];
+  dynamic?: DynamicRoutingEnrichment[];
+}
+
+export interface StaticRoutingEnrichment {
+  /** Static routing enrichment key. */
+  key?: string;
+  /** Static routing enrichment value type. For e.g. this property value can be 'String'. */
+  valueType?: StaticRoutingEnrichmentType;
+}
+
+export interface DynamicRoutingEnrichment {
+  /** Dynamic routing enrichment key. */
+  key?: string;
+  /** Dynamic routing enrichment value. */
+  value?: string;
+}
+
+/** Client authentication settings for namespace resource. */
+export interface ClientAuthenticationSettings {
+  /** Alternative authentication name sources related to client authentication settings for namespace resource. */
+  alternativeAuthenticationNameSources?: AlternativeAuthenticationNameSource[];
+}
+
+/** Routing identity info for topic spaces configuration. */
+export interface RoutingIdentityInfo {
+  type?: RoutingIdentityType;
+  userAssignedIdentity?: string;
+}
+
+/** Represents available Sku pricing tiers. */
+export interface NamespaceSku {
+  /** The name of the SKU. */
+  name?: SkuName;
+  /**
+   * Specifies the number of Throughput Units that defines the capacity for the namespace. The property default value is
+   * 1 which signifies 1 Throughput Unit = 1MB/s ingress and 2MB/s egress per namespace. Min capacity is 1 and
+   * max allowed capacity is 20.
+   */
+  capacity?: number;
+}
+
+/** Properties to update namespace. */
+export interface NamespaceUpdateParameters {
+  /** Tags of the namespace resource. */
+  tags?: { [propertyName: string]: string };
+  /** Namespace resource identity information. */
+  identity?: IdentityInfo;
+  /** Represents available Sku pricing tiers. */
+  sku?: NamespaceSku;
+  /** Topic spaces configuration properties that can be updated. */
+  topicSpacesConfiguration?: UpdateTopicSpacesConfigurationInfo;
+  /**
+   * This determines if traffic is allowed over public network. By default it is enabled.
+   * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceUpdateParameterProperties.InboundIpRules" />
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
+  inboundIpRules?: InboundIpRule[];
+}
+
+/** Properties of the topic spaces configuration info of a namespace. */
+export interface UpdateTopicSpacesConfigurationInfo {
+  /** Indicate if Topic Spaces Configuration is enabled for the namespace. Default is Disabled. */
+  state?: TopicSpacesConfigurationState;
+  /** This property is used to specify custom topic to which events will be routed to from topic spaces configuration under namespace. */
+  routeTopicResourceId?: string;
+  /** Routing enrichments for topic spaces configuration. */
+  routingEnrichments?: RoutingEnrichments;
+  /** Client authentication settings for topic spaces configuration. */
+  clientAuthentication?: ClientAuthenticationSettings;
+  /**
+   * The maximum session expiry in hours. The property default value is 1 hour.
+   * Min allowed value is 1 hour and max allowed value is 8 hours.
+   */
+  maximumSessionExpiryInHours?: number;
+  /**
+   * The maximum number of sessions per authentication name. The property default value is 1.
+   * Min allowed value is 1 and max allowed value is 100.
+   */
+  maximumClientSessionsPerAuthenticationName?: number;
+  /** Routing identity info for topic spaces configuration. */
+  routingIdentityInfo?: RoutingIdentityInfo;
+}
+
+/** Result of the List Namespaces operation. */
+export interface NamespacesListResult {
+  /** A collection of namespaces. */
+  value?: Namespace[];
+  /** A link for the next page of namespaces. */
+  nextLink?: string;
+}
+
+/** Shared access keys of the Namespace. */
+export interface NamespaceSharedAccessKeys {
+  /** Shared access key1 for the namespace. */
+  key1?: string;
+  /** Shared access key2 for the namespace. */
+  key2?: string;
+}
+
+/** Namespace regenerate share access key request. */
+export interface NamespaceRegenerateKeyRequest {
+  /** Key name to regenerate key1 or key2. */
+  keyName: string;
+}
+
+/** Properties of the namespace topic update. */
+export interface NamespaceTopicUpdateParameters {
+  /**
+   * Event retention for the namespace topic expressed in days. The property default value is 1 day.
+   * Min event retention duration value is 1 day and max event retention duration value is 1 day.
+   */
+  eventRetentionInDays?: number;
+}
+
+/** Result of the List namespace topics operation. */
+export interface NamespaceTopicsListResult {
+  /** A collection of namespace topics. */
+  value?: NamespaceTopic[];
+  /** A link for the next page of namespace topics. */
+  nextLink?: string;
+}
+
+/** Shared access keys of the Topic */
+export interface TopicSharedAccessKeys {
+  /** Shared access key1 for the topic. */
+  key1?: string;
+  /** Shared access key2 for the topic. */
+  key2?: string;
+}
+
+/** Topic regenerate share access key request */
+export interface TopicRegenerateKeyRequest {
+  /** Key name to regenerate key1 or key2 */
+  keyName: string;
+}
+
 /** Result of the List Operations operation */
 export interface OperationsListResult {
   /** A collection of operations */
@@ -484,47 +962,6 @@ export interface OperationInfo {
   operation?: string;
   /** Description of the operation */
   description?: string;
-}
-
-/** Properties of the Topic update */
-export interface TopicUpdateParameters {
-  /** Tags of the Topic resource. */
-  tags?: { [propertyName: string]: string };
-  /** Topic resource identity information. */
-  identity?: IdentityInfo;
-  /**
-   * This determines if traffic is allowed over public network. By default it is enabled.
-   * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicUpdateParameterProperties.InboundIpRules" />
-   */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
-  inboundIpRules?: InboundIpRule[];
-  /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the topic. */
-  disableLocalAuth?: boolean;
-  /** The data residency boundary for the topic. */
-  dataResidencyBoundary?: DataResidencyBoundary;
-}
-
-/** Result of the List Topics operation */
-export interface TopicsListResult {
-  /** A collection of Topics */
-  value?: Topic[];
-  /** A link for the next page of topics */
-  nextLink?: string;
-}
-
-/** Shared access keys of the Topic */
-export interface TopicSharedAccessKeys {
-  /** Shared access key1 for the topic. */
-  key1?: string;
-  /** Shared access key2 for the topic. */
-  key2?: string;
-}
-
-/** Topic regenerate share access key request */
-export interface TopicRegenerateKeyRequest {
-  /** Key name to regenerate key1 or key2 */
-  keyName: string;
 }
 
 /** The partner authorization details. */
@@ -568,6 +1005,20 @@ export interface PartnerConfigurationsListResult {
   nextLink?: string;
 }
 
+/** Properties of the Partner Destination that can be updated. */
+export interface PartnerDestinationUpdateParameters {
+  /** Tags of the Partner Destination resource. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Result of the List Partner Destinations operation. */
+export interface PartnerDestinationsListResult {
+  /** A collection of partner destinations. */
+  value?: PartnerDestination[];
+  /** A link for the next page of partner destinations. */
+  nextLink?: string;
+}
+
 /** Properties of the Partner Namespace update. */
 export interface PartnerNamespaceUpdateParameters {
   /** Tags of the Partner Namespace. */
@@ -579,6 +1030,8 @@ export interface PartnerNamespaceUpdateParameters {
   publicNetworkAccess?: PublicNetworkAccess;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
   inboundIpRules?: InboundIpRule[];
+  /** Minimum TLS version of the publisher allowed to publish to this domain */
+  minimumTlsVersionAllowed?: TlsVersion;
   /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the partner namespace. */
   disableLocalAuth?: boolean;
 }
@@ -635,6 +1088,14 @@ export interface PartnerTopicsListResult {
   nextLink?: string;
 }
 
+/** Result of the List Permission Binding operation. */
+export interface PermissionBindingsListResult {
+  /** A collection of Permission Binding. */
+  value?: PermissionBinding[];
+  /** A link for the next page of Permission Binding. */
+  nextLink?: string;
+}
+
 /** Result of the list of all private endpoint connections operation. */
 export interface PrivateEndpointConnectionListResult {
   /** A collection of private endpoint connection resources. */
@@ -681,10 +1142,59 @@ export interface SystemTopicsListResult {
   nextLink?: string;
 }
 
+/** Definition of an Extended Location */
+export interface ExtendedLocation {
+  /** Fully qualified name of the extended location. */
+  name?: string;
+  /** Type of the extended location. */
+  type?: string;
+}
+
+/** Properties of the Topic update */
+export interface TopicUpdateParameters {
+  /** Tags of the Topic resource. */
+  tags?: { [propertyName: string]: string };
+  /** Topic resource identity information. */
+  identity?: IdentityInfo;
+  /** The Sku pricing tier for the topic. */
+  sku?: ResourceSku;
+  /**
+   * This determines if traffic is allowed over public network. By default it is enabled.
+   * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicUpdateParameterProperties.InboundIpRules" />
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
+  inboundIpRules?: InboundIpRule[];
+  /** Minimum TLS version of the publisher allowed to publish to this domain */
+  minimumTlsVersionAllowed?: TlsVersion;
+  /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the topic. */
+  disableLocalAuth?: boolean;
+  /** The data residency boundary for the topic. */
+  dataResidencyBoundary?: DataResidencyBoundary;
+  /** The eventTypeInfo for the topic. */
+  eventTypeInfo?: EventTypeInfo;
+}
+
+/** Result of the List Topics operation */
+export interface TopicsListResult {
+  /** A collection of Topics */
+  value?: Topic[];
+  /** A link for the next page of topics */
+  nextLink?: string;
+}
+
 /** Result of the List Event Types operation */
 export interface EventTypesListResult {
   /** A collection of event types */
   value?: EventType[];
+}
+
+/** Result of the List Topic Space operation. */
+export interface TopicSpacesListResult {
+  /** A collection of Topic Space. */
+  value?: TopicSpace[];
+  /** A link for the next page of Topic Space. */
+  nextLink?: string;
 }
 
 /** Result of the List Topic Types operation */
@@ -714,6 +1224,12 @@ export interface VerifiedPartnersListResult {
   nextLink?: string;
 }
 
+/** Partner client authentication */
+export interface PartnerClientAuthentication {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  clientAuthenticationType: "AzureAD";
+}
+
 /** This is used to express the source of an input schema mapping for a single target field in the Event Grid Event schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field in the input event schema. */
 export interface JsonField {
   /** Name of a field in the input event schema that's to be used as the source of a mapping. */
@@ -733,6 +1249,34 @@ export interface JsonFieldWithDefault {
   defaultValue?: string;
 }
 
+/** The CA Certificate resource. */
+export interface CaCertificate extends Resource {
+  /**
+   * The system metadata relating to the CaCertificate resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Description for the CA Certificate resource. */
+  description?: string;
+  /** Base64 encoded PEM (Privacy Enhanced Mail) format certificate data. */
+  encodedCertificate?: string;
+  /**
+   * Certificate issue time in UTC. This is a read-only field.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly issueTimeInUtc?: Date;
+  /**
+   * Certificate expiry time in UTC. This is a read-only field.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expiryTimeInUtc?: Date;
+  /**
+   * Provisioning state of the CA Certificate resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: CaCertificateProvisioningState;
+}
+
 /** Channel info. */
 export interface Channel extends Resource {
   /**
@@ -744,6 +1288,8 @@ export interface Channel extends Resource {
   channelType?: ChannelType;
   /** This property should be populated when channelType is PartnerTopic and represents information about the partner topic resource corresponding to the channel. */
   partnerTopicInfo?: PartnerTopicInfo;
+  /** This property should be populated when channelType is PartnerDestination and represents information about the partner destination resource corresponding to the channel. */
+  partnerDestinationInfo?: PartnerDestinationInfoUnion;
   /** Context or helpful message that can be used during the approval process by the subscriber. */
   messageForActivation?: string;
   /** Provisioning state of the channel. */
@@ -755,6 +1301,57 @@ export interface Channel extends Resource {
    * the channel and corresponding partner topic are deleted.
    */
   expirationTimeIfNotActivatedUtc?: Date;
+}
+
+/** The Client group resource. */
+export interface ClientGroup extends Resource {
+  /**
+   * The system metadata relating to the ClientGroup resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Description for the Client Group resource. */
+  description?: string;
+  /**
+   * The grouping query for the clients.
+   * Example : attributes.keyName IN ['a', 'b', 'c'].
+   */
+  query?: string;
+  /**
+   * Provisioning state of the ClientGroup resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ClientGroupProvisioningState;
+}
+
+/** The Client resource. */
+export interface Client extends Resource {
+  /**
+   * The system metadata relating to the Client resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Description for the Client resource. */
+  description?: string;
+  /** The name presented by the client for authentication. The default value is the name of the resource. */
+  authenticationName?: string;
+  /** Authentication information for the client. */
+  authentication?: ClientAuthentication;
+  /** The client certificate authentication information. */
+  clientCertificateAuthentication?: ClientCertificateAuthentication;
+  /** Indicates if the client is enabled or not. Default value is Enabled. */
+  state?: ClientState;
+  /**
+   * Attributes for the client. Supported values are int, bool, string, string[].
+   * Example:
+   * "attributes": { "room": "345", "floor": 12, "deviceTypes": ["Fan", "Light"] }
+   */
+  attributes?: { [propertyName: string]: any };
+  /**
+   * Provisioning state of the Client resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ClientProvisioningState;
 }
 
 export interface PrivateEndpointConnection extends Resource {
@@ -790,7 +1387,27 @@ export interface DomainTopic extends Resource {
   readonly provisioningState?: DomainTopicProvisioningState;
 }
 
-/** Event Subscription */
+/** Event Subscription. */
+export interface Subscription extends Resource {
+  /**
+   * The system metadata relating to Event Subscription resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Provisioning state of the event subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: SubscriptionProvisioningState;
+  /** Information about the delivery configuration of the event subscription. */
+  deliveryConfiguration?: DeliveryConfiguration;
+  /** The event delivery schema for the event subscription. */
+  eventDeliverySchema?: DeliverySchema;
+  /** Information about the filter for the event subscription. */
+  filtersConfiguration?: FiltersConfiguration;
+}
+
+/** Event Subscription. */
 export interface EventSubscription extends Resource {
   /**
    * The system metadata relating to Event Subscription resource.
@@ -839,6 +1456,29 @@ export interface EventSubscription extends Resource {
   deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
 }
 
+/** Namespace topic details. */
+export interface NamespaceTopic extends Resource {
+  /**
+   * The system metadata relating to namespace topic resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Provisioning state of the namespace topic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: NamespaceTopicProvisioningState;
+  /** Publisher type of the namespace topic. */
+  publisherType?: PublisherType;
+  /** This determines the format that is expected for incoming events published to the topic. */
+  inputSchema?: EventInputSchema;
+  /**
+   * Event retention for the namespace topic expressed in days. The property default value is 1 day.
+   * Min event retention duration value is 1 day and max event retention duration value is 1 day.
+   */
+  eventRetentionInDays?: number;
+}
+
 /** Partner configuration information */
 export interface PartnerConfiguration extends Resource {
   /**
@@ -854,6 +1494,34 @@ export interface PartnerConfiguration extends Resource {
   partnerAuthorization?: PartnerAuthorization;
   /** Provisioning state of the partner configuration. */
   provisioningState?: PartnerConfigurationProvisioningState;
+}
+
+/** The Permission binding resource. */
+export interface PermissionBinding extends Resource {
+  /**
+   * The system metadata relating to the PermissionBinding resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Description for the Permission Binding resource. */
+  description?: string;
+  /**
+   * The name of the Topic Space resource that the permission is bound to.
+   * The Topic space needs to be a resource under the same namespace the permission binding is a part of.
+   */
+  topicSpaceName?: string;
+  /** The allowed permission. */
+  permission?: PermissionType;
+  /**
+   * The name of the client group resource that the permission is bound to.
+   * The client group needs to be a resource under the same namespace the permission binding is a part of.
+   */
+  clientGroupName?: string;
+  /**
+   * Provisioning state of the PermissionBinding resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PermissionBindingProvisioningState;
 }
 
 /** Event Type for a subject under a topic */
@@ -881,6 +1549,30 @@ export interface ExtensionTopic extends Resource {
   systemTopic?: string;
 }
 
+/** The Topic space resource. */
+export interface TopicSpace extends Resource {
+  /**
+   * The system metadata relating to the TopicSpace resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Description for the Topic Space resource. */
+  description?: string;
+  /**
+   * The topic filters in the topic space.
+   * Example: "topicTemplates": [
+   *               "devices/foo/bar",
+   *               "devices/topic1/+",
+   *               "devices/${principal.name}/${principal.attributes.keyName}" ].
+   */
+  topicTemplates?: string[];
+  /**
+   * Provisioning state of the TopicSpace resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: TopicSpaceProvisioningState;
+}
+
 /** Properties of a topic type info. */
 export interface TopicTypeInfo extends Resource {
   /** Namespace of the provider of the topic type. */
@@ -899,6 +1591,8 @@ export interface TopicTypeInfo extends Resource {
   sourceResourceFormat?: string;
   /** Supported source scopes. */
   supportedScopesForSource?: TopicTypeSourceScope[];
+  /** Flag to indicate that a topic type can support both regional or global system topics */
+  areRegionalAndGlobalSourcesSupported?: boolean;
 }
 
 /** Verified partner information */
@@ -916,8 +1610,35 @@ export interface VerifiedPartner extends Resource {
   partnerDisplayName?: string;
   /** Details of the partner topic scenario. */
   partnerTopicDetails?: PartnerDetails;
+  /** Details of the partner destination scenario. */
+  partnerDestinationDetails?: PartnerDetails;
   /** Provisioning state of the verified partner. */
   provisioningState?: VerifiedPartnerProvisioningState;
+}
+
+/** Information about the WebHook of the partner destination. */
+export interface WebhookPartnerDestinationInfo extends PartnerDestinationInfo {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "WebHook";
+  /** The URL that represents the endpoint of the partner destination. */
+  endpointUrl?: string;
+  /** The base URL that represents the endpoint of the partner destination. */
+  endpointBaseUrl?: string;
+  /** Partner client authentication */
+  clientAuthentication?: PartnerClientAuthenticationUnion;
+}
+
+/** Information about the update of the WebHook of the partner destination. */
+export interface WebhookUpdatePartnerDestinationInfo
+  extends PartnerUpdateDestinationInfo {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "WebHook";
+  /** The URL that represents the endpoint of the partner destination. */
+  endpointUrl?: string;
+  /** The base URL that represents the endpoint of the partner destination. */
+  endpointBaseUrl?: string;
+  /** Partner client authentication */
+  clientAuthentication?: PartnerClientAuthenticationUnion;
 }
 
 /** This enables publishing to Event Grid using a custom input schema. This can be used to map properties from a custom input JSON schema to the Event Grid event schema. */
@@ -958,6 +1679,165 @@ export interface DynamicDeliveryAttributeMapping
   sourceField?: string;
 }
 
+/** Information about the storage blob based dead letter destination. */
+export interface StorageBlobDeadLetterDestination
+  extends DeadLetterDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "StorageBlob";
+  /** The Azure Resource ID of the storage account that is the destination of the deadletter events */
+  resourceId?: string;
+  /** The name of the Storage blob container that is the destination of the deadletter events */
+  blobContainerName?: string;
+}
+
+/** NumberIn Filter. */
+export interface NumberInFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberIn";
+  /** The set of filter values. */
+  values?: number[];
+}
+
+/** NumberNotIn Filter. */
+export interface NumberNotInFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberNotIn";
+  /** The set of filter values. */
+  values?: number[];
+}
+
+/** NumberLessThan Filter. */
+export interface NumberLessThanFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberLessThan";
+  /** The filter value. */
+  value?: number;
+}
+
+/** NumberGreaterThan Filter. */
+export interface NumberGreaterThanFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberGreaterThan";
+  /** The filter value. */
+  value?: number;
+}
+
+/** NumberLessThanOrEquals Filter. */
+export interface NumberLessThanOrEqualsFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberLessThanOrEquals";
+  /** The filter value. */
+  value?: number;
+}
+
+/** NumberGreaterThanOrEquals Filter. */
+export interface NumberGreaterThanOrEqualsFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberGreaterThanOrEquals";
+  /** The filter value. */
+  value?: number;
+}
+
+/** BoolEquals Filter. */
+export interface BoolEqualsFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "BoolEquals";
+  /** The boolean filter value. */
+  value?: boolean;
+}
+
+/** StringIn Filter. */
+export interface StringInFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringIn";
+  /** The set of filter values. */
+  values?: string[];
+}
+
+/** StringNotIn Filter. */
+export interface StringNotInFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringNotIn";
+  /** The set of filter values. */
+  values?: string[];
+}
+
+/** StringBeginsWith Filter. */
+export interface StringBeginsWithFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringBeginsWith";
+  /** The set of filter values. */
+  values?: string[];
+}
+
+/** StringEndsWith Filter. */
+export interface StringEndsWithFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringEndsWith";
+  /** The set of filter values. */
+  values?: string[];
+}
+
+/** StringContains Filter. */
+export interface StringContainsFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringContains";
+  /** The set of filter values. */
+  values?: string[];
+}
+
+/** NumberInRange Filter. */
+export interface NumberInRangeFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberInRange";
+  /** The set of filter values. */
+  values?: number[][];
+}
+
+/** NumberNotInRange Filter. */
+export interface NumberNotInRangeFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberNotInRange";
+  /** The set of filter values. */
+  values?: number[][];
+}
+
+/** StringNotBeginsWith Filter. */
+export interface StringNotBeginsWithFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringNotBeginsWith";
+  /** The set of filter values. */
+  values?: string[];
+}
+
+/** StringNotEndsWith Filter. */
+export interface StringNotEndsWithFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringNotEndsWith";
+  /** The set of filter values. */
+  values?: string[];
+}
+
+/** StringNotContains Filter. */
+export interface StringNotContainsFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringNotContains";
+  /** The set of filter values. */
+  values?: string[];
+}
+
+/** IsNullOrUndefined Filter. */
+export interface IsNullOrUndefinedFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "IsNullOrUndefined";
+}
+
+/** IsNotNull Filter. */
+export interface IsNotNullFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "IsNotNull";
+}
+
 /** Information about the webhook destination for an event subscription. */
 export interface WebHookEventSubscriptionDestination
   extends EventSubscriptionDestination {
@@ -980,6 +1860,8 @@ export interface WebHookEventSubscriptionDestination
   azureActiveDirectoryApplicationIdOrUri?: string;
   /** Delivery attribute details. */
   deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+  /** Minimum TLS version that should be supported by webhook endpoint */
+  minimumTlsVersionAllowed?: TlsVersion;
 }
 
 /** Information about the event hub destination for an event subscription. */
@@ -1002,7 +1884,7 @@ export interface StorageQueueEventSubscriptionDestination
   resourceId?: string;
   /** The name of the Storage queue under a storage account that is the destination of an event subscription. */
   queueName?: string;
-  /** Storage queue message time to live in seconds. */
+  /** Storage queue message time to live in seconds. This value cannot be zero or negative with the exception of using -1 to indicate that the Time To Live of the message is Infinite. */
   queueMessageTimeToLiveInSeconds?: number;
 }
 
@@ -1052,6 +1934,14 @@ export interface AzureFunctionEventSubscriptionDestination
   preferredBatchSizeInKilobytes?: number;
   /** Delivery attribute details. */
   deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+}
+
+export interface PartnerEventSubscriptionDestination
+  extends EventSubscriptionDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "PartnerDestination";
+  /** The Azure Resource Id that represents the endpoint of a Partner Destination of an event subscription. */
+  resourceId?: string;
 }
 
 /** NumberIn Advanced Filter. */
@@ -1203,36 +2093,37 @@ export interface IsNotNullAdvancedFilter extends AdvancedFilter {
   operatorType: "IsNotNull";
 }
 
-/** Information about the storage blob based dead letter destination. */
-export interface StorageBlobDeadLetterDestination
-  extends DeadLetterDestination {
+/** Azure Active Directory Partner Client Authentication */
+export interface AzureADPartnerClientAuthentication
+  extends PartnerClientAuthentication {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointType: "StorageBlob";
-  /** The Azure Resource ID of the storage account that is the destination of the deadletter events */
-  resourceId?: string;
-  /** The name of the Storage blob container that is the destination of the deadletter events */
-  blobContainerName?: string;
+  clientAuthenticationType: "AzureAD";
+  /** The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests. */
+  azureActiveDirectoryTenantId?: string;
+  /** The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests. */
+  azureActiveDirectoryApplicationIdOrUri?: string;
 }
 
 /** EventGrid Domain. */
 export interface Domain extends TrackedResource {
+  /** The Sku pricing tier for the Event Grid Domain resource. */
+  sku?: ResourceSku;
+  /** Identity information for the Event Grid Domain resource. */
+  identity?: IdentityInfo;
   /**
    * The system metadata relating to the Event Grid Domain resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** Identity information for the Event Grid Domain resource. */
-  identity?: IdentityInfo;
-  /**
-   * List of private endpoint connections.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * Provisioning state of the Event Grid Domain Resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: DomainProvisioningState;
+  /** Minimum TLS version of the publisher allowed to publish to this domain */
+  minimumTlsVersionAllowed?: TlsVersion;
   /**
    * Endpoint for the Event Grid Domain Resource which is used for publishing the events.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1240,6 +2131,11 @@ export interface Domain extends TrackedResource {
   readonly endpoint?: string;
   /** This determines the format that Event Grid should expect for incoming events published to the Event Grid Domain Resource. */
   inputSchema?: InputSchema;
+  /**
+   * Event Type Information for the domain. This information is provided by the publisher and can be used by the
+   * subscriber to view different types of events that are published.
+   */
+  eventTypeInfo?: EventTypeInfo;
   /** Information about the InputSchemaMapping which specified the info about mapping event payload. */
   inputSchemaMapping?: InputSchemaMappingUnion;
   /**
@@ -1280,47 +2176,70 @@ export interface Domain extends TrackedResource {
   dataResidencyBoundary?: DataResidencyBoundary;
 }
 
-/** EventGrid Topic */
-export interface Topic extends TrackedResource {
-  /** Identity information for the resource. */
+/** Namespace resource. */
+export interface Namespace extends TrackedResource {
+  /** Represents available Sku pricing tiers. */
+  sku?: NamespaceSku;
+  /** Identity information for the Namespace resource. */
   identity?: IdentityInfo;
   /**
-   * The system metadata relating to Topic resource.
+   * The system metadata relating to the namespace resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  privateEndpointConnections?: PrivateEndpointConnection[];
   /**
-   * Provisioning state of the topic.
+   * Provisioning state of the namespace resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: TopicProvisioningState;
+  readonly provisioningState?: NamespaceProvisioningState;
+  /** Topics configuration information for the namespace resource */
+  topicsConfiguration?: TopicsConfiguration;
+  /** Topic spaces configuration information for the namespace resource */
+  topicSpacesConfiguration?: TopicSpacesConfiguration;
   /**
-   * Endpoint for the topic.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
+   * Allows the user to specify if the service is zone-redundant. This is a required property and user needs to specify this value explicitly.
+   * Once specified, this property cannot be updated.
    */
-  readonly endpoint?: string;
-  /** This determines the format that Event Grid should expect for incoming events published to the topic. */
-  inputSchema?: InputSchema;
-  /** This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map various properties of a source schema to various required properties of the EventGridEvent schema. */
-  inputSchemaMapping?: InputSchemaMappingUnion;
-  /**
-   * Metric resource id for the topic.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly metricResourceId?: string;
+  isZoneRedundant?: boolean;
   /**
    * This determines if traffic is allowed over public network. By default it is enabled.
-   * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" />
+   * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceProperties.InboundIpRules" />
    */
   publicNetworkAccess?: PublicNetworkAccess;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
   inboundIpRules?: InboundIpRule[];
-  /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the topic. */
-  disableLocalAuth?: boolean;
-  /** Data Residency Boundary of the resource. */
-  dataResidencyBoundary?: DataResidencyBoundary;
+  /** Minimum TLS version of the publisher allowed to publish to this namespace. Only TLS version 1.2 is supported. */
+  minimumTlsVersionAllowed?: TlsVersion;
+}
+
+/** Event Grid Partner Destination. */
+export interface PartnerDestination extends TrackedResource {
+  /**
+   * The system metadata relating to Partner Destination resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The immutable Id of the corresponding partner registration. */
+  partnerRegistrationImmutableId?: string;
+  /** Endpoint context associated with this partner destination. */
+  endpointServiceContext?: string;
+  /**
+   * Expiration time of the partner destination. If this timer expires and the partner destination was never activated,
+   * the partner destination and corresponding channel are deleted.
+   */
+  expirationTimeIfNotActivatedUtc?: Date;
+  /**
+   * Provisioning state of the partner destination.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PartnerDestinationProvisioningState;
+  /** Activation state of the partner destination. */
+  activationState?: PartnerDestinationActivationState;
+  /** Endpoint Base URL of the partner destination */
+  endpointBaseUrl?: string;
+  /** Context or helpful message that can be used during the approval process. */
+  messageForActivation?: string;
 }
 
 /** EventGrid Partner Namespace. */
@@ -1342,6 +2261,8 @@ export interface PartnerNamespace extends TrackedResource {
    * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}.
    */
   partnerRegistrationFullyQualifiedId?: string;
+  /** Minimum TLS version of the publisher allowed to publish to this partner namespace */
+  minimumTlsVersionAllowed?: TlsVersion;
   /**
    * Endpoint for the partner namespace.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1420,13 +2341,13 @@ export interface PartnerTopic extends TrackedResource {
 
 /** EventGrid System Topic. */
 export interface SystemTopic extends TrackedResource {
-  /** Identity information for the resource. */
-  identity?: IdentityInfo;
   /**
    * The system metadata relating to System Topic resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+  /** Identity information for the resource. */
+  identity?: IdentityInfo;
   /**
    * Provisioning state of the system topic.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1443,38 +2364,229 @@ export interface SystemTopic extends TrackedResource {
   readonly metricResourceId?: string;
 }
 
-/** Known values of {@link ChannelType} that the service accepts. */
-export enum KnownChannelType {
-  /** PartnerTopic */
-  PartnerTopic = "PartnerTopic"
+/** EventGrid Topic */
+export interface Topic extends TrackedResource {
+  /** The Sku pricing tier for the topic. */
+  sku?: ResourceSku;
+  /** Identity information for the resource. */
+  identity?: IdentityInfo;
+  /** Kind of the resource. */
+  kind?: ResourceKind;
+  /** Extended location of the resource. */
+  extendedLocation?: ExtendedLocation;
+  /**
+   * The system metadata relating to Topic resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * Provisioning state of the topic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: TopicProvisioningState;
+  /**
+   * Endpoint for the topic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoint?: string;
+  /**
+   * Event Type Information for the user topic. This information is provided by the publisher and can be used by the
+   * subscriber to view different types of events that are published.
+   */
+  eventTypeInfo?: EventTypeInfo;
+  /** Minimum TLS version of the publisher allowed to publish to this topic */
+  minimumTlsVersionAllowed?: TlsVersion;
+  /** This determines the format that Event Grid should expect for incoming events published to the topic. */
+  inputSchema?: InputSchema;
+  /** This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map various properties of a source schema to various required properties of the EventGridEvent schema. */
+  inputSchemaMapping?: InputSchemaMappingUnion;
+  /**
+   * Metric resource id for the topic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metricResourceId?: string;
+  /**
+   * This determines if traffic is allowed over public network. By default it is enabled.
+   * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" />
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
+  inboundIpRules?: InboundIpRule[];
+  /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the topic. */
+  disableLocalAuth?: boolean;
+  /** Data Residency Boundary of the resource. */
+  dataResidencyBoundary?: DataResidencyBoundary;
 }
 
-/**
- * Defines values for ChannelType. \
- * {@link KnownChannelType} can be used interchangeably with ChannelType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PartnerTopic**
- */
-export type ChannelType = string;
-
-/** Known values of {@link EventDefinitionKind} that the service accepts. */
-export enum KnownEventDefinitionKind {
-  /** Inline */
-  Inline = "Inline"
+/** Defines headers for CaCertificates_delete operation. */
+export interface CaCertificatesDeleteHeaders {
+  location?: string;
 }
 
-/**
- * Defines values for EventDefinitionKind. \
- * {@link KnownEventDefinitionKind} can be used interchangeably with EventDefinitionKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Inline**
- */
-export type EventDefinitionKind = string;
+/** Defines headers for Channels_delete operation. */
+export interface ChannelsDeleteHeaders {
+  location?: string;
+}
 
-/** Known values of {@link ChannelProvisioningState} that the service accepts. */
-export enum KnownChannelProvisioningState {
+/** Defines headers for ClientGroups_delete operation. */
+export interface ClientGroupsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for Clients_delete operation. */
+export interface ClientsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for Domains_delete operation. */
+export interface DomainsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for DomainTopics_delete operation. */
+export interface DomainTopicsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for DomainTopicEventSubscriptions_delete operation. */
+export interface DomainTopicEventSubscriptionsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for TopicEventSubscriptions_delete operation. */
+export interface TopicEventSubscriptionsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for DomainEventSubscriptions_delete operation. */
+export interface DomainEventSubscriptionsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for EventSubscriptions_delete operation. */
+export interface EventSubscriptionsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for SystemTopicEventSubscriptions_delete operation. */
+export interface SystemTopicEventSubscriptionsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for NamespaceTopicEventSubscriptions_delete operation. */
+export interface NamespaceTopicEventSubscriptionsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for NamespaceTopicEventSubscriptions_update operation. */
+export interface NamespaceTopicEventSubscriptionsUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for PartnerTopicEventSubscriptions_delete operation. */
+export interface PartnerTopicEventSubscriptionsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for Namespaces_delete operation. */
+export interface NamespacesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for Namespaces_update operation. */
+export interface NamespacesUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for Namespaces_regenerateKey operation. */
+export interface NamespacesRegenerateKeyHeaders {
+  location?: string;
+}
+
+/** Defines headers for NamespaceTopics_delete operation. */
+export interface NamespaceTopicsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for NamespaceTopics_update operation. */
+export interface NamespaceTopicsUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for NamespaceTopics_regenerateKey operation. */
+export interface NamespaceTopicsRegenerateKeyHeaders {
+  location?: string;
+}
+
+/** Defines headers for PartnerConfigurations_delete operation. */
+export interface PartnerConfigurationsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for PartnerDestinations_delete operation. */
+export interface PartnerDestinationsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for PartnerDestinations_update operation. */
+export interface PartnerDestinationsUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for PartnerNamespaces_delete operation. */
+export interface PartnerNamespacesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for PartnerRegistrations_createOrUpdate operation. */
+export interface PartnerRegistrationsCreateOrUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for PartnerRegistrations_delete operation. */
+export interface PartnerRegistrationsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for PartnerTopics_delete operation. */
+export interface PartnerTopicsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for PermissionBindings_delete operation. */
+export interface PermissionBindingsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for SystemTopics_delete operation. */
+export interface SystemTopicsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for Topics_delete operation. */
+export interface TopicsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for Topics_regenerateKey operation. */
+export interface TopicsRegenerateKeyHeaders {
+  location?: string;
+}
+
+/** Defines headers for TopicSpaces_delete operation. */
+export interface TopicSpacesDeleteHeaders {
+  location?: string;
+}
+
+/** Known values of {@link CaCertificateProvisioningState} that the service accepts. */
+export enum KnownCaCertificateProvisioningState {
   /** Creating */
   Creating = "Creating",
   /** Updating */
@@ -1487,13 +2599,13 @@ export enum KnownChannelProvisioningState {
   Canceled = "Canceled",
   /** Failed */
   Failed = "Failed",
-  /** IdleDueToMirroredPartnerTopicDeletion */
-  IdleDueToMirroredPartnerTopicDeletion = "IdleDueToMirroredPartnerTopicDeletion"
+  /** Deleted */
+  Deleted = "Deleted"
 }
 
 /**
- * Defines values for ChannelProvisioningState. \
- * {@link KnownChannelProvisioningState} can be used interchangeably with ChannelProvisioningState,
+ * Defines values for CaCertificateProvisioningState. \
+ * {@link KnownCaCertificateProvisioningState} can be used interchangeably with CaCertificateProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Creating** \
@@ -1502,27 +2614,9 @@ export enum KnownChannelProvisioningState {
  * **Succeeded** \
  * **Canceled** \
  * **Failed** \
- * **IdleDueToMirroredPartnerTopicDeletion**
+ * **Deleted**
  */
-export type ChannelProvisioningState = string;
-
-/** Known values of {@link ReadinessState} that the service accepts. */
-export enum KnownReadinessState {
-  /** NeverActivated */
-  NeverActivated = "NeverActivated",
-  /** Activated */
-  Activated = "Activated"
-}
-
-/**
- * Defines values for ReadinessState. \
- * {@link KnownReadinessState} can be used interchangeably with ReadinessState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NeverActivated** \
- * **Activated**
- */
-export type ReadinessState = string;
+export type CaCertificateProvisioningState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -1547,6 +2641,222 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link ChannelType} that the service accepts. */
+export enum KnownChannelType {
+  /** PartnerTopic */
+  PartnerTopic = "PartnerTopic",
+  /** PartnerDestination */
+  PartnerDestination = "PartnerDestination"
+}
+
+/**
+ * Defines values for ChannelType. \
+ * {@link KnownChannelType} can be used interchangeably with ChannelType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PartnerTopic** \
+ * **PartnerDestination**
+ */
+export type ChannelType = string;
+
+/** Known values of {@link EventDefinitionKind} that the service accepts. */
+export enum KnownEventDefinitionKind {
+  /** Inline */
+  Inline = "Inline"
+}
+
+/**
+ * Defines values for EventDefinitionKind. \
+ * {@link KnownEventDefinitionKind} can be used interchangeably with EventDefinitionKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inline**
+ */
+export type EventDefinitionKind = string;
+
+/** Known values of {@link PartnerEndpointType} that the service accepts. */
+export enum KnownPartnerEndpointType {
+  /** WebHook */
+  WebHook = "WebHook"
+}
+
+/**
+ * Defines values for PartnerEndpointType. \
+ * {@link KnownPartnerEndpointType} can be used interchangeably with PartnerEndpointType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **WebHook**
+ */
+export type PartnerEndpointType = string;
+
+/** Known values of {@link ChannelProvisioningState} that the service accepts. */
+export enum KnownChannelProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+  /** IdleDueToMirroredPartnerTopicDeletion */
+  IdleDueToMirroredPartnerTopicDeletion = "IdleDueToMirroredPartnerTopicDeletion",
+  /** IdleDueToMirroredPartnerDestinationDeletion */
+  IdleDueToMirroredPartnerDestinationDeletion = "IdleDueToMirroredPartnerDestinationDeletion"
+}
+
+/**
+ * Defines values for ChannelProvisioningState. \
+ * {@link KnownChannelProvisioningState} can be used interchangeably with ChannelProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed** \
+ * **IdleDueToMirroredPartnerTopicDeletion** \
+ * **IdleDueToMirroredPartnerDestinationDeletion**
+ */
+export type ChannelProvisioningState = string;
+
+/** Known values of {@link ReadinessState} that the service accepts. */
+export enum KnownReadinessState {
+  /** NeverActivated */
+  NeverActivated = "NeverActivated",
+  /** Activated */
+  Activated = "Activated"
+}
+
+/**
+ * Defines values for ReadinessState. \
+ * {@link KnownReadinessState} can be used interchangeably with ReadinessState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NeverActivated** \
+ * **Activated**
+ */
+export type ReadinessState = string;
+
+/** Known values of {@link ClientGroupProvisioningState} that the service accepts. */
+export enum KnownClientGroupProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleted */
+  Deleted = "Deleted"
+}
+
+/**
+ * Defines values for ClientGroupProvisioningState. \
+ * {@link KnownClientGroupProvisioningState} can be used interchangeably with ClientGroupProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed** \
+ * **Deleted**
+ */
+export type ClientGroupProvisioningState = string;
+
+/** Known values of {@link ClientCertificateValidationScheme} that the service accepts. */
+export enum KnownClientCertificateValidationScheme {
+  /** SubjectMatchesAuthenticationName */
+  SubjectMatchesAuthenticationName = "SubjectMatchesAuthenticationName",
+  /** DnsMatchesAuthenticationName */
+  DnsMatchesAuthenticationName = "DnsMatchesAuthenticationName",
+  /** UriMatchesAuthenticationName */
+  UriMatchesAuthenticationName = "UriMatchesAuthenticationName",
+  /** IpMatchesAuthenticationName */
+  IpMatchesAuthenticationName = "IpMatchesAuthenticationName",
+  /** EmailMatchesAuthenticationName */
+  EmailMatchesAuthenticationName = "EmailMatchesAuthenticationName",
+  /** ThumbprintMatch */
+  ThumbprintMatch = "ThumbprintMatch"
+}
+
+/**
+ * Defines values for ClientCertificateValidationScheme. \
+ * {@link KnownClientCertificateValidationScheme} can be used interchangeably with ClientCertificateValidationScheme,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SubjectMatchesAuthenticationName** \
+ * **DnsMatchesAuthenticationName** \
+ * **UriMatchesAuthenticationName** \
+ * **IpMatchesAuthenticationName** \
+ * **EmailMatchesAuthenticationName** \
+ * **ThumbprintMatch**
+ */
+export type ClientCertificateValidationScheme = string;
+
+/** Known values of {@link ClientState} that the service accepts. */
+export enum KnownClientState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ClientState. \
+ * {@link KnownClientState} can be used interchangeably with ClientState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ClientState = string;
+
+/** Known values of {@link ClientProvisioningState} that the service accepts. */
+export enum KnownClientProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleted */
+  Deleted = "Deleted"
+}
+
+/**
+ * Defines values for ClientProvisioningState. \
+ * {@link KnownClientProvisioningState} can be used interchangeably with ClientProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed** \
+ * **Deleted**
+ */
+export type ClientProvisioningState = string;
 
 /** Known values of {@link PersistedConnectionStatus} that the service accepts. */
 export enum KnownPersistedConnectionStatus {
@@ -1631,6 +2941,27 @@ export enum KnownDomainProvisioningState {
  * **Failed**
  */
 export type DomainProvisioningState = string;
+
+/** Known values of {@link TlsVersion} that the service accepts. */
+export enum KnownTlsVersion {
+  /** One0 */
+  One0 = "1.0",
+  /** One1 */
+  One1 = "1.1",
+  /** One2 */
+  One2 = "1.2"
+}
+
+/**
+ * Defines values for TlsVersion. \
+ * {@link KnownTlsVersion} can be used interchangeably with TlsVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **1.0** \
+ * **1.1** \
+ * **1.2**
+ */
+export type TlsVersion = string;
 
 /** Known values of {@link InputSchema} that the service accepts. */
 export enum KnownInputSchema {
@@ -1719,6 +3050,24 @@ export enum KnownDataResidencyBoundary {
  */
 export type DataResidencyBoundary = string;
 
+/** Known values of {@link Sku} that the service accepts. */
+export enum KnownSku {
+  /** Basic */
+  Basic = "Basic",
+  /** Premium */
+  Premium = "Premium"
+}
+
+/**
+ * Defines values for Sku. \
+ * {@link KnownSku} can be used interchangeably with Sku,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Premium**
+ */
+export type Sku = string;
+
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
   /** None */
@@ -1791,6 +3140,183 @@ export enum KnownDeliveryAttributeMappingType {
  */
 export type DeliveryAttributeMappingType = string;
 
+/** Known values of {@link SubscriptionProvisioningState} that the service accepts. */
+export enum KnownSubscriptionProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+  /** AwaitingManualAction */
+  AwaitingManualAction = "AwaitingManualAction",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** DeleteFailed */
+  DeleteFailed = "DeleteFailed",
+  /** CreateFailed */
+  CreateFailed = "CreateFailed",
+  /** UpdatedFailed */
+  UpdatedFailed = "UpdatedFailed"
+}
+
+/**
+ * Defines values for SubscriptionProvisioningState. \
+ * {@link KnownSubscriptionProvisioningState} can be used interchangeably with SubscriptionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed** \
+ * **AwaitingManualAction** \
+ * **Deleted** \
+ * **DeleteFailed** \
+ * **CreateFailed** \
+ * **UpdatedFailed**
+ */
+export type SubscriptionProvisioningState = string;
+
+/** Known values of {@link DeliveryMode} that the service accepts. */
+export enum KnownDeliveryMode {
+  /** Queue */
+  Queue = "Queue"
+}
+
+/**
+ * Defines values for DeliveryMode. \
+ * {@link KnownDeliveryMode} can be used interchangeably with DeliveryMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Queue**
+ */
+export type DeliveryMode = string;
+
+/** Known values of {@link EventSubscriptionIdentityType} that the service accepts. */
+export enum KnownEventSubscriptionIdentityType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned"
+}
+
+/**
+ * Defines values for EventSubscriptionIdentityType. \
+ * {@link KnownEventSubscriptionIdentityType} can be used interchangeably with EventSubscriptionIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **UserAssigned**
+ */
+export type EventSubscriptionIdentityType = string;
+
+/** Known values of {@link DeadLetterEndPointType} that the service accepts. */
+export enum KnownDeadLetterEndPointType {
+  /** StorageBlob */
+  StorageBlob = "StorageBlob"
+}
+
+/**
+ * Defines values for DeadLetterEndPointType. \
+ * {@link KnownDeadLetterEndPointType} can be used interchangeably with DeadLetterEndPointType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **StorageBlob**
+ */
+export type DeadLetterEndPointType = string;
+
+/** Known values of {@link DeliverySchema} that the service accepts. */
+export enum KnownDeliverySchema {
+  /** CloudEventSchemaV10 */
+  CloudEventSchemaV10 = "CloudEventSchemaV1_0"
+}
+
+/**
+ * Defines values for DeliverySchema. \
+ * {@link KnownDeliverySchema} can be used interchangeably with DeliverySchema,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CloudEventSchemaV1_0**
+ */
+export type DeliverySchema = string;
+
+/** Known values of {@link FilterOperatorType} that the service accepts. */
+export enum KnownFilterOperatorType {
+  /** NumberIn */
+  NumberIn = "NumberIn",
+  /** NumberNotIn */
+  NumberNotIn = "NumberNotIn",
+  /** NumberLessThan */
+  NumberLessThan = "NumberLessThan",
+  /** NumberGreaterThan */
+  NumberGreaterThan = "NumberGreaterThan",
+  /** NumberLessThanOrEquals */
+  NumberLessThanOrEquals = "NumberLessThanOrEquals",
+  /** NumberGreaterThanOrEquals */
+  NumberGreaterThanOrEquals = "NumberGreaterThanOrEquals",
+  /** BoolEquals */
+  BoolEquals = "BoolEquals",
+  /** StringIn */
+  StringIn = "StringIn",
+  /** StringNotIn */
+  StringNotIn = "StringNotIn",
+  /** StringBeginsWith */
+  StringBeginsWith = "StringBeginsWith",
+  /** StringEndsWith */
+  StringEndsWith = "StringEndsWith",
+  /** StringContains */
+  StringContains = "StringContains",
+  /** NumberInRange */
+  NumberInRange = "NumberInRange",
+  /** NumberNotInRange */
+  NumberNotInRange = "NumberNotInRange",
+  /** StringNotBeginsWith */
+  StringNotBeginsWith = "StringNotBeginsWith",
+  /** StringNotEndsWith */
+  StringNotEndsWith = "StringNotEndsWith",
+  /** StringNotContains */
+  StringNotContains = "StringNotContains",
+  /** IsNullOrUndefined */
+  IsNullOrUndefined = "IsNullOrUndefined",
+  /** IsNotNull */
+  IsNotNull = "IsNotNull"
+}
+
+/**
+ * Defines values for FilterOperatorType. \
+ * {@link KnownFilterOperatorType} can be used interchangeably with FilterOperatorType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NumberIn** \
+ * **NumberNotIn** \
+ * **NumberLessThan** \
+ * **NumberGreaterThan** \
+ * **NumberLessThanOrEquals** \
+ * **NumberGreaterThanOrEquals** \
+ * **BoolEquals** \
+ * **StringIn** \
+ * **StringNotIn** \
+ * **StringBeginsWith** \
+ * **StringEndsWith** \
+ * **StringContains** \
+ * **NumberInRange** \
+ * **NumberNotInRange** \
+ * **StringNotBeginsWith** \
+ * **StringNotEndsWith** \
+ * **StringNotContains** \
+ * **IsNullOrUndefined** \
+ * **IsNotNull**
+ */
+export type FilterOperatorType = string;
+
 /** Known values of {@link EventSubscriptionProvisioningState} that the service accepts. */
 export enum KnownEventSubscriptionProvisioningState {
   /** Creating */
@@ -1839,7 +3365,9 @@ export enum KnownEndpointType {
   /** ServiceBusTopic */
   ServiceBusTopic = "ServiceBusTopic",
   /** AzureFunction */
-  AzureFunction = "AzureFunction"
+  AzureFunction = "AzureFunction",
+  /** PartnerDestination */
+  PartnerDestination = "PartnerDestination"
 }
 
 /**
@@ -1853,27 +3381,10 @@ export enum KnownEndpointType {
  * **HybridConnection** \
  * **ServiceBusQueue** \
  * **ServiceBusTopic** \
- * **AzureFunction**
+ * **AzureFunction** \
+ * **PartnerDestination**
  */
 export type EndpointType = string;
-
-/** Known values of {@link EventSubscriptionIdentityType} that the service accepts. */
-export enum KnownEventSubscriptionIdentityType {
-  /** SystemAssigned */
-  SystemAssigned = "SystemAssigned",
-  /** UserAssigned */
-  UserAssigned = "UserAssigned"
-}
-
-/**
- * Defines values for EventSubscriptionIdentityType. \
- * {@link KnownEventSubscriptionIdentityType} can be used interchangeably with EventSubscriptionIdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SystemAssigned** \
- * **UserAssigned**
- */
-export type EventSubscriptionIdentityType = string;
 
 /** Known values of {@link AdvancedFilterOperatorType} that the service accepts. */
 export enum KnownAdvancedFilterOperatorType {
@@ -1965,23 +3476,8 @@ export enum KnownEventDeliverySchema {
  */
 export type EventDeliverySchema = string;
 
-/** Known values of {@link DeadLetterEndPointType} that the service accepts. */
-export enum KnownDeadLetterEndPointType {
-  /** StorageBlob */
-  StorageBlob = "StorageBlob"
-}
-
-/**
- * Defines values for DeadLetterEndPointType. \
- * {@link KnownDeadLetterEndPointType} can be used interchangeably with DeadLetterEndPointType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **StorageBlob**
- */
-export type DeadLetterEndPointType = string;
-
-/** Known values of {@link TopicProvisioningState} that the service accepts. */
-export enum KnownTopicProvisioningState {
+/** Known values of {@link NamespaceProvisioningState} that the service accepts. */
+export enum KnownNamespaceProvisioningState {
   /** Creating */
   Creating = "Creating",
   /** Updating */
@@ -1993,12 +3489,20 @@ export enum KnownTopicProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** DeleteFailed */
+  DeleteFailed = "DeleteFailed",
+  /** CreateFailed */
+  CreateFailed = "CreateFailed",
+  /** UpdatedFailed */
+  UpdatedFailed = "UpdatedFailed"
 }
 
 /**
- * Defines values for TopicProvisioningState. \
- * {@link KnownTopicProvisioningState} can be used interchangeably with TopicProvisioningState,
+ * Defines values for NamespaceProvisioningState. \
+ * {@link KnownNamespaceProvisioningState} can be used interchangeably with NamespaceProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Creating** \
@@ -2006,9 +3510,181 @@ export enum KnownTopicProvisioningState {
  * **Deleting** \
  * **Succeeded** \
  * **Canceled** \
- * **Failed**
+ * **Failed** \
+ * **Deleted** \
+ * **DeleteFailed** \
+ * **CreateFailed** \
+ * **UpdatedFailed**
  */
-export type TopicProvisioningState = string;
+export type NamespaceProvisioningState = string;
+
+/** Known values of {@link TopicSpacesConfigurationState} that the service accepts. */
+export enum KnownTopicSpacesConfigurationState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for TopicSpacesConfigurationState. \
+ * {@link KnownTopicSpacesConfigurationState} can be used interchangeably with TopicSpacesConfigurationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type TopicSpacesConfigurationState = string;
+
+/** Known values of {@link StaticRoutingEnrichmentType} that the service accepts. */
+export enum KnownStaticRoutingEnrichmentType {
+  /** String */
+  String = "String"
+}
+
+/**
+ * Defines values for StaticRoutingEnrichmentType. \
+ * {@link KnownStaticRoutingEnrichmentType} can be used interchangeably with StaticRoutingEnrichmentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **String**
+ */
+export type StaticRoutingEnrichmentType = string;
+
+/** Known values of {@link AlternativeAuthenticationNameSource} that the service accepts. */
+export enum KnownAlternativeAuthenticationNameSource {
+  /** ClientCertificateSubject */
+  ClientCertificateSubject = "ClientCertificateSubject",
+  /** ClientCertificateDns */
+  ClientCertificateDns = "ClientCertificateDns",
+  /** ClientCertificateUri */
+  ClientCertificateUri = "ClientCertificateUri",
+  /** ClientCertificateIp */
+  ClientCertificateIp = "ClientCertificateIp",
+  /** ClientCertificateEmail */
+  ClientCertificateEmail = "ClientCertificateEmail"
+}
+
+/**
+ * Defines values for AlternativeAuthenticationNameSource. \
+ * {@link KnownAlternativeAuthenticationNameSource} can be used interchangeably with AlternativeAuthenticationNameSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ClientCertificateSubject** \
+ * **ClientCertificateDns** \
+ * **ClientCertificateUri** \
+ * **ClientCertificateIp** \
+ * **ClientCertificateEmail**
+ */
+export type AlternativeAuthenticationNameSource = string;
+
+/** Known values of {@link RoutingIdentityType} that the service accepts. */
+export enum KnownRoutingIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned"
+}
+
+/**
+ * Defines values for RoutingIdentityType. \
+ * {@link KnownRoutingIdentityType} can be used interchangeably with RoutingIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned**
+ */
+export type RoutingIdentityType = string;
+
+/** Known values of {@link SkuName} that the service accepts. */
+export enum KnownSkuName {
+  /** Standard */
+  Standard = "Standard"
+}
+
+/**
+ * Defines values for SkuName. \
+ * {@link KnownSkuName} can be used interchangeably with SkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard**
+ */
+export type SkuName = string;
+
+/** Known values of {@link NamespaceTopicProvisioningState} that the service accepts. */
+export enum KnownNamespaceTopicProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** DeleteFailed */
+  DeleteFailed = "DeleteFailed",
+  /** CreateFailed */
+  CreateFailed = "CreateFailed",
+  /** UpdatedFailed */
+  UpdatedFailed = "UpdatedFailed"
+}
+
+/**
+ * Defines values for NamespaceTopicProvisioningState. \
+ * {@link KnownNamespaceTopicProvisioningState} can be used interchangeably with NamespaceTopicProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed** \
+ * **Deleted** \
+ * **DeleteFailed** \
+ * **CreateFailed** \
+ * **UpdatedFailed**
+ */
+export type NamespaceTopicProvisioningState = string;
+
+/** Known values of {@link PublisherType} that the service accepts. */
+export enum KnownPublisherType {
+  /** Custom */
+  Custom = "Custom"
+}
+
+/**
+ * Defines values for PublisherType. \
+ * {@link KnownPublisherType} can be used interchangeably with PublisherType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Custom**
+ */
+export type PublisherType = string;
+
+/** Known values of {@link EventInputSchema} that the service accepts. */
+export enum KnownEventInputSchema {
+  /** CloudEventSchemaV10 */
+  CloudEventSchemaV10 = "CloudEventSchemaV1_0"
+}
+
+/**
+ * Defines values for EventInputSchema. \
+ * {@link KnownEventInputSchema} can be used interchangeably with EventInputSchema,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CloudEventSchemaV1_0**
+ */
+export type EventInputSchema = string;
 
 /** Known values of {@link PartnerConfigurationProvisioningState} that the service accepts. */
 export enum KnownPartnerConfigurationProvisioningState {
@@ -2039,6 +3715,57 @@ export enum KnownPartnerConfigurationProvisioningState {
  * **Failed**
  */
 export type PartnerConfigurationProvisioningState = string;
+
+/** Known values of {@link PartnerDestinationProvisioningState} that the service accepts. */
+export enum KnownPartnerDestinationProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+  /** IdleDueToMirroredChannelResourceDeletion */
+  IdleDueToMirroredChannelResourceDeletion = "IdleDueToMirroredChannelResourceDeletion"
+}
+
+/**
+ * Defines values for PartnerDestinationProvisioningState. \
+ * {@link KnownPartnerDestinationProvisioningState} can be used interchangeably with PartnerDestinationProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed** \
+ * **IdleDueToMirroredChannelResourceDeletion**
+ */
+export type PartnerDestinationProvisioningState = string;
+
+/** Known values of {@link PartnerDestinationActivationState} that the service accepts. */
+export enum KnownPartnerDestinationActivationState {
+  /** NeverActivated */
+  NeverActivated = "NeverActivated",
+  /** Activated */
+  Activated = "Activated"
+}
+
+/**
+ * Defines values for PartnerDestinationActivationState. \
+ * {@link KnownPartnerDestinationActivationState} can be used interchangeably with PartnerDestinationActivationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NeverActivated** \
+ * **Activated**
+ */
+export type PartnerDestinationActivationState = string;
 
 /** Known values of {@link PartnerNamespaceProvisioningState} that the service accepts. */
 export enum KnownPartnerNamespaceProvisioningState {
@@ -2172,6 +3899,57 @@ export enum KnownPartnerTopicActivationState {
  */
 export type PartnerTopicActivationState = string;
 
+/** Known values of {@link PermissionType} that the service accepts. */
+export enum KnownPermissionType {
+  /** Publisher */
+  Publisher = "Publisher",
+  /** Subscriber */
+  Subscriber = "Subscriber"
+}
+
+/**
+ * Defines values for PermissionType. \
+ * {@link KnownPermissionType} can be used interchangeably with PermissionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Publisher** \
+ * **Subscriber**
+ */
+export type PermissionType = string;
+
+/** Known values of {@link PermissionBindingProvisioningState} that the service accepts. */
+export enum KnownPermissionBindingProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleted */
+  Deleted = "Deleted"
+}
+
+/**
+ * Defines values for PermissionBindingProvisioningState. \
+ * {@link KnownPermissionBindingProvisioningState} can be used interchangeably with PermissionBindingProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed** \
+ * **Deleted**
+ */
+export type PermissionBindingProvisioningState = string;
+
 /** Known values of {@link PrivateEndpointConnectionsParentType} that the service accepts. */
 export enum KnownPrivateEndpointConnectionsParentType {
   /** Topics */
@@ -2179,7 +3957,9 @@ export enum KnownPrivateEndpointConnectionsParentType {
   /** Domains */
   Domains = "domains",
   /** PartnerNamespaces */
-  PartnerNamespaces = "partnerNamespaces"
+  PartnerNamespaces = "partnerNamespaces",
+  /** Namespaces */
+  Namespaces = "namespaces"
 }
 
 /**
@@ -2189,9 +3969,91 @@ export enum KnownPrivateEndpointConnectionsParentType {
  * ### Known values supported by the service
  * **topics** \
  * **domains** \
- * **partnerNamespaces**
+ * **partnerNamespaces** \
+ * **namespaces**
  */
 export type PrivateEndpointConnectionsParentType = string;
+
+/** Known values of {@link TopicProvisioningState} that the service accepts. */
+export enum KnownTopicProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for TopicProvisioningState. \
+ * {@link KnownTopicProvisioningState} can be used interchangeably with TopicProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type TopicProvisioningState = string;
+
+/** Known values of {@link ResourceKind} that the service accepts. */
+export enum KnownResourceKind {
+  /** Azure */
+  Azure = "Azure",
+  /** AzureArc */
+  AzureArc = "AzureArc"
+}
+
+/**
+ * Defines values for ResourceKind. \
+ * {@link KnownResourceKind} can be used interchangeably with ResourceKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Azure** \
+ * **AzureArc**
+ */
+export type ResourceKind = string;
+
+/** Known values of {@link TopicSpaceProvisioningState} that the service accepts. */
+export enum KnownTopicSpaceProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleted */
+  Deleted = "Deleted"
+}
+
+/**
+ * Defines values for TopicSpaceProvisioningState. \
+ * {@link KnownTopicSpaceProvisioningState} can be used interchangeably with TopicSpaceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed** \
+ * **Deleted**
+ */
+export type TopicSpaceProvisioningState = string;
 
 /** Known values of {@link ResourceRegionType} that the service accepts. */
 export enum KnownResourceRegionType {
@@ -2295,6 +4157,68 @@ export enum KnownVerifiedPartnerProvisioningState {
  */
 export type VerifiedPartnerProvisioningState = string;
 
+/** Known values of {@link PartnerClientAuthenticationType} that the service accepts. */
+export enum KnownPartnerClientAuthenticationType {
+  /** AzureAD */
+  AzureAD = "AzureAD"
+}
+
+/**
+ * Defines values for PartnerClientAuthenticationType. \
+ * {@link KnownPartnerClientAuthenticationType} can be used interchangeably with PartnerClientAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureAD**
+ */
+export type PartnerClientAuthenticationType = string;
+
+/** Optional parameters. */
+export interface CaCertificatesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CaCertificatesGetResponse = CaCertificate;
+
+/** Optional parameters. */
+export interface CaCertificatesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type CaCertificatesCreateOrUpdateResponse = CaCertificate;
+
+/** Optional parameters. */
+export interface CaCertificatesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CaCertificatesListByNamespaceOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
+
+/** Contains response data for the listByNamespace operation. */
+export type CaCertificatesListByNamespaceResponse = CaCertificatesListResult;
+
+/** Optional parameters. */
+export interface CaCertificatesListByNamespaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByNamespaceNext operation. */
+export type CaCertificatesListByNamespaceNextResponse = CaCertificatesListResult;
+
 /** Optional parameters. */
 export interface ChannelsGetOptionalParams
   extends coreClient.OperationOptions {}
@@ -2347,6 +4271,99 @@ export interface ChannelsListByPartnerNamespaceNextOptionalParams
 
 /** Contains response data for the listByPartnerNamespaceNext operation. */
 export type ChannelsListByPartnerNamespaceNextResponse = ChannelsListResult;
+
+/** Optional parameters. */
+export interface ClientGroupsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ClientGroupsGetResponse = ClientGroup;
+
+/** Optional parameters. */
+export interface ClientGroupsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ClientGroupsCreateOrUpdateResponse = ClientGroup;
+
+/** Optional parameters. */
+export interface ClientGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ClientGroupsListByNamespaceOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
+
+/** Contains response data for the listByNamespace operation. */
+export type ClientGroupsListByNamespaceResponse = ClientGroupsListResult;
+
+/** Optional parameters. */
+export interface ClientGroupsListByNamespaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByNamespaceNext operation. */
+export type ClientGroupsListByNamespaceNextResponse = ClientGroupsListResult;
+
+/** Optional parameters. */
+export interface ClientsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ClientsGetResponse = Client;
+
+/** Optional parameters. */
+export interface ClientsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ClientsCreateOrUpdateResponse = Client;
+
+/** Optional parameters. */
+export interface ClientsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ClientsListByNamespaceOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
+
+/** Contains response data for the listByNamespace operation. */
+export type ClientsListByNamespaceResponse = ClientsListResult;
+
+/** Optional parameters. */
+export interface ClientsListByNamespaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByNamespaceNext operation. */
+export type ClientsListByNamespaceNextResponse = ClientsListResult;
 
 /** Optional parameters. */
 export interface DomainsGetOptionalParams extends coreClient.OperationOptions {}
@@ -2482,6 +4499,79 @@ export interface DomainTopicsListByDomainNextOptionalParams
 
 /** Contains response data for the listByDomainNext operation. */
 export type DomainTopicsListByDomainNextResponse = DomainTopicsListResult;
+
+/** Optional parameters. */
+export interface DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDeliveryAttributes operation. */
+export type DomainTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+
+/** Optional parameters. */
+export interface DomainTopicEventSubscriptionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DomainTopicEventSubscriptionsGetResponse = EventSubscription;
+
+/** Optional parameters. */
+export interface DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DomainTopicEventSubscriptionsCreateOrUpdateResponse = EventSubscription;
+
+/** Optional parameters. */
+export interface DomainTopicEventSubscriptionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DomainTopicEventSubscriptionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type DomainTopicEventSubscriptionsUpdateResponse = EventSubscription;
+
+/** Optional parameters. */
+export interface DomainTopicEventSubscriptionsGetFullUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getFullUrl operation. */
+export type DomainTopicEventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl;
+
+/** Optional parameters. */
+export interface DomainTopicEventSubscriptionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type DomainTopicEventSubscriptionsListResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface DomainTopicEventSubscriptionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DomainTopicEventSubscriptionsListNextResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface TopicEventSubscriptionsGetDeliveryAttributesOptionalParams
@@ -2628,6 +4718,13 @@ export interface DomainEventSubscriptionsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type DomainEventSubscriptionsListNextResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsGetDeliveryAttributesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDeliveryAttributes operation. */
+export type EventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsGetOptionalParams
@@ -2797,13 +4894,6 @@ export interface EventSubscriptionsListByDomainTopicOptionalParams
 export type EventSubscriptionsListByDomainTopicResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
-export interface EventSubscriptionsGetDeliveryAttributesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getDeliveryAttributes operation. */
-export type EventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
-
-/** Optional parameters. */
 export interface EventSubscriptionsListGlobalBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2874,77 +4964,11 @@ export interface EventSubscriptionsListByDomainTopicNextOptionalParams
 export type EventSubscriptionsListByDomainTopicNextResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
-export interface DomainTopicEventSubscriptionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DomainTopicEventSubscriptionsGetResponse = EventSubscription;
-
-/** Optional parameters. */
-export interface DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type DomainTopicEventSubscriptionsCreateOrUpdateResponse = EventSubscription;
-
-/** Optional parameters. */
-export interface DomainTopicEventSubscriptionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface DomainTopicEventSubscriptionsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type DomainTopicEventSubscriptionsUpdateResponse = EventSubscription;
-
-/** Optional parameters. */
-export interface DomainTopicEventSubscriptionsGetFullUrlOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getFullUrl operation. */
-export type DomainTopicEventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl;
-
-/** Optional parameters. */
-export interface DomainTopicEventSubscriptionsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
-
-/** Contains response data for the list operation. */
-export type DomainTopicEventSubscriptionsListResponse = EventSubscriptionsListResult;
-
-/** Optional parameters. */
-export interface DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
+export interface SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeliveryAttributes operation. */
-export type DomainTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
-
-/** Optional parameters. */
-export interface DomainTopicEventSubscriptionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type DomainTopicEventSubscriptionsListNextResponse = EventSubscriptionsListResult;
+export type SystemTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
 
 /** Optional parameters. */
 export interface SystemTopicEventSubscriptionsGetOptionalParams
@@ -3006,18 +5030,70 @@ export interface SystemTopicEventSubscriptionsListBySystemTopicOptionalParams
 export type SystemTopicEventSubscriptionsListBySystemTopicResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
-export interface SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getDeliveryAttributes operation. */
-export type SystemTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
-
-/** Optional parameters. */
 export interface SystemTopicEventSubscriptionsListBySystemTopicNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySystemTopicNext operation. */
 export type SystemTopicEventSubscriptionsListBySystemTopicNextResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface NamespaceTopicEventSubscriptionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type NamespaceTopicEventSubscriptionsGetResponse = Subscription;
+
+/** Optional parameters. */
+export interface NamespaceTopicEventSubscriptionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type NamespaceTopicEventSubscriptionsCreateOrUpdateResponse = Subscription;
+
+/** Optional parameters. */
+export interface NamespaceTopicEventSubscriptionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface NamespaceTopicEventSubscriptionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type NamespaceTopicEventSubscriptionsUpdateResponse = Subscription;
+
+/** Optional parameters. */
+export interface NamespaceTopicEventSubscriptionsListByNamespaceTopicOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
+
+/** Contains response data for the listByNamespaceTopic operation. */
+export type NamespaceTopicEventSubscriptionsListByNamespaceTopicResponse = SubscriptionsListResult;
+
+/** Optional parameters. */
+export interface NamespaceTopicEventSubscriptionsListByNamespaceTopicNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByNamespaceTopicNext operation. */
+export type NamespaceTopicEventSubscriptionsListByNamespaceTopicNextResponse = SubscriptionsListResult;
 
 /** Optional parameters. */
 export interface PartnerTopicEventSubscriptionsGetOptionalParams
@@ -3093,20 +5169,14 @@ export interface PartnerTopicEventSubscriptionsListByPartnerTopicNextOptionalPar
 export type PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
+export interface NamespacesGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationsListResult;
-
-/** Optional parameters. */
-export interface TopicsGetOptionalParams extends coreClient.OperationOptions {}
-
 /** Contains response data for the get operation. */
-export type TopicsGetResponse = Topic;
+export type NamespacesGetResponse = Namespace;
 
 /** Optional parameters. */
-export interface TopicsCreateOrUpdateOptionalParams
+export interface NamespacesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3115,10 +5185,10 @@ export interface TopicsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type TopicsCreateOrUpdateResponse = Topic;
+export type NamespacesCreateOrUpdateResponse = Namespace;
 
 /** Optional parameters. */
-export interface TopicsDeleteOptionalParams
+export interface NamespacesDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3127,7 +5197,7 @@ export interface TopicsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface TopicsUpdateOptionalParams
+export interface NamespacesUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3135,8 +5205,11 @@ export interface TopicsUpdateOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the update operation. */
+export type NamespacesUpdateResponse = Namespace;
+
 /** Optional parameters. */
-export interface TopicsListBySubscriptionOptionalParams
+export interface NamespacesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
@@ -3145,10 +5218,10 @@ export interface TopicsListBySubscriptionOptionalParams
 }
 
 /** Contains response data for the listBySubscription operation. */
-export type TopicsListBySubscriptionResponse = TopicsListResult;
+export type NamespacesListBySubscriptionResponse = NamespacesListResult;
 
 /** Optional parameters. */
-export interface TopicsListByResourceGroupOptionalParams
+export interface NamespacesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
@@ -3157,17 +5230,17 @@ export interface TopicsListByResourceGroupOptionalParams
 }
 
 /** Contains response data for the listByResourceGroup operation. */
-export type TopicsListByResourceGroupResponse = TopicsListResult;
+export type NamespacesListByResourceGroupResponse = NamespacesListResult;
 
 /** Optional parameters. */
-export interface TopicsListSharedAccessKeysOptionalParams
+export interface NamespacesListSharedAccessKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSharedAccessKeys operation. */
-export type TopicsListSharedAccessKeysResponse = TopicSharedAccessKeys;
+export type NamespacesListSharedAccessKeysResponse = NamespaceSharedAccessKeys;
 
 /** Optional parameters. */
-export interface TopicsRegenerateKeyOptionalParams
+export interface NamespacesRegenerateKeyOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3176,28 +5249,106 @@ export interface TopicsRegenerateKeyOptionalParams
 }
 
 /** Contains response data for the regenerateKey operation. */
-export type TopicsRegenerateKeyResponse = TopicSharedAccessKeys;
+export type NamespacesRegenerateKeyResponse = NamespaceSharedAccessKeys;
 
 /** Optional parameters. */
-export interface TopicsListEventTypesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listEventTypes operation. */
-export type TopicsListEventTypesResponse = EventTypesListResult;
-
-/** Optional parameters. */
-export interface TopicsListBySubscriptionNextOptionalParams
+export interface NamespacesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type TopicsListBySubscriptionNextResponse = TopicsListResult;
+export type NamespacesListBySubscriptionNextResponse = NamespacesListResult;
 
 /** Optional parameters. */
-export interface TopicsListByResourceGroupNextOptionalParams
+export interface NamespacesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type TopicsListByResourceGroupNextResponse = TopicsListResult;
+export type NamespacesListByResourceGroupNextResponse = NamespacesListResult;
+
+/** Optional parameters. */
+export interface NamespaceTopicsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type NamespaceTopicsGetResponse = NamespaceTopic;
+
+/** Optional parameters. */
+export interface NamespaceTopicsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type NamespaceTopicsCreateOrUpdateResponse = NamespaceTopic;
+
+/** Optional parameters. */
+export interface NamespaceTopicsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface NamespaceTopicsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type NamespaceTopicsUpdateResponse = NamespaceTopic;
+
+/** Optional parameters. */
+export interface NamespaceTopicsListByNamespaceOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
+
+/** Contains response data for the listByNamespace operation. */
+export type NamespaceTopicsListByNamespaceResponse = NamespaceTopicsListResult;
+
+/** Optional parameters. */
+export interface NamespaceTopicsListSharedAccessKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSharedAccessKeys operation. */
+export type NamespaceTopicsListSharedAccessKeysResponse = TopicSharedAccessKeys;
+
+/** Optional parameters. */
+export interface NamespaceTopicsRegenerateKeyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the regenerateKey operation. */
+export type NamespaceTopicsRegenerateKeyResponse = TopicSharedAccessKeys;
+
+/** Optional parameters. */
+export interface NamespaceTopicsListByNamespaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByNamespaceNext operation. */
+export type NamespaceTopicsListByNamespaceNextResponse = NamespaceTopicsListResult;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationsListResult;
 
 /** Optional parameters. */
 export interface PartnerConfigurationsGetOptionalParams
@@ -3278,6 +5429,91 @@ export interface PartnerConfigurationsListBySubscriptionNextOptionalParams
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type PartnerConfigurationsListBySubscriptionNextResponse = PartnerConfigurationsListResult;
+
+/** Optional parameters. */
+export interface PartnerDestinationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PartnerDestinationsGetResponse = PartnerDestination;
+
+/** Optional parameters. */
+export interface PartnerDestinationsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PartnerDestinationsCreateOrUpdateResponse = PartnerDestination;
+
+/** Optional parameters. */
+export interface PartnerDestinationsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PartnerDestinationsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type PartnerDestinationsUpdateResponse = PartnerDestination;
+
+/** Optional parameters. */
+export interface PartnerDestinationsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type PartnerDestinationsListBySubscriptionResponse = PartnerDestinationsListResult;
+
+/** Optional parameters. */
+export interface PartnerDestinationsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type PartnerDestinationsListByResourceGroupResponse = PartnerDestinationsListResult;
+
+/** Optional parameters. */
+export interface PartnerDestinationsActivateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the activate operation. */
+export type PartnerDestinationsActivateResponse = PartnerDestination;
+
+/** Optional parameters. */
+export interface PartnerDestinationsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type PartnerDestinationsListBySubscriptionNextResponse = PartnerDestinationsListResult;
+
+/** Optional parameters. */
+export interface PartnerDestinationsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type PartnerDestinationsListByResourceGroupNextResponse = PartnerDestinationsListResult;
 
 /** Optional parameters. */
 export interface PartnerNamespacesGetOptionalParams
@@ -3526,6 +5762,53 @@ export interface PartnerTopicsListByResourceGroupNextOptionalParams
 export type PartnerTopicsListByResourceGroupNextResponse = PartnerTopicsListResult;
 
 /** Optional parameters. */
+export interface PermissionBindingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PermissionBindingsGetResponse = PermissionBinding;
+
+/** Optional parameters. */
+export interface PermissionBindingsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PermissionBindingsCreateOrUpdateResponse = PermissionBinding;
+
+/** Optional parameters. */
+export interface PermissionBindingsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PermissionBindingsListByNamespaceOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
+
+/** Contains response data for the listByNamespace operation. */
+export type PermissionBindingsListByNamespaceResponse = PermissionBindingsListResult;
+
+/** Optional parameters. */
+export interface PermissionBindingsListByNamespaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByNamespaceNext operation. */
+export type PermissionBindingsListByNamespaceNextResponse = PermissionBindingsListResult;
+
+/** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3552,6 +5835,9 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByResourceOptionalParams
@@ -3677,11 +5963,161 @@ export interface SystemTopicsListByResourceGroupNextOptionalParams
 export type SystemTopicsListByResourceGroupNextResponse = SystemTopicsListResult;
 
 /** Optional parameters. */
+export interface TopicsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TopicsGetResponse = Topic;
+
+/** Optional parameters. */
+export interface TopicsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type TopicsCreateOrUpdateResponse = Topic;
+
+/** Optional parameters. */
+export interface TopicsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type TopicsDeleteResponse = TopicsDeleteHeaders;
+
+/** Optional parameters. */
+export interface TopicsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface TopicsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type TopicsListBySubscriptionResponse = TopicsListResult;
+
+/** Optional parameters. */
+export interface TopicsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type TopicsListByResourceGroupResponse = TopicsListResult;
+
+/** Optional parameters. */
+export interface TopicsListSharedAccessKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSharedAccessKeys operation. */
+export type TopicsListSharedAccessKeysResponse = TopicSharedAccessKeys;
+
+/** Optional parameters. */
+export interface TopicsRegenerateKeyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the regenerateKey operation. */
+export type TopicsRegenerateKeyResponse = TopicSharedAccessKeys;
+
+/** Optional parameters. */
+export interface TopicsListEventTypesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listEventTypes operation. */
+export type TopicsListEventTypesResponse = EventTypesListResult;
+
+/** Optional parameters. */
+export interface TopicsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type TopicsListBySubscriptionNextResponse = TopicsListResult;
+
+/** Optional parameters. */
+export interface TopicsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type TopicsListByResourceGroupNextResponse = TopicsListResult;
+
+/** Optional parameters. */
 export interface ExtensionTopicsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ExtensionTopicsGetResponse = ExtensionTopic;
+
+/** Optional parameters. */
+export interface TopicSpacesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TopicSpacesGetResponse = TopicSpace;
+
+/** Optional parameters. */
+export interface TopicSpacesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type TopicSpacesCreateOrUpdateResponse = TopicSpace;
+
+/** Optional parameters. */
+export interface TopicSpacesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface TopicSpacesListByNamespaceOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
+  filter?: string;
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
+  top?: number;
+}
+
+/** Contains response data for the listByNamespace operation. */
+export type TopicSpacesListByNamespaceResponse = TopicSpacesListResult;
+
+/** Optional parameters. */
+export interface TopicSpacesListByNamespaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByNamespaceNext operation. */
+export type TopicSpacesListByNamespaceNextResponse = TopicSpacesListResult;
 
 /** Optional parameters. */
 export interface TopicTypesListOptionalParams

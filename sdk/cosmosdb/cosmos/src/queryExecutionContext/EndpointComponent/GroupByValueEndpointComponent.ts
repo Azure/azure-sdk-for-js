@@ -8,6 +8,7 @@ import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 
 interface GroupByResponse {
   result: GroupByResult;
@@ -31,21 +32,29 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     this.aggregateType = this.queryInfo.aggregates[0];
   }
 
-  public async nextItem(): Promise<Response<any>> {
+  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     // Start returning results if we have processed a full results set
     if (this.aggregateResultArray.length > 0) {
-      return { result: this.aggregateResultArray.pop(), headers: getInitialHeader() };
+      return {
+        result: this.aggregateResultArray.pop(),
+        headers: getInitialHeader(),
+      };
     }
 
     if (this.completed) {
-      return { result: undefined, headers: getInitialHeader() };
+      return {
+        result: undefined,
+        headers: getInitialHeader(),
+      };
     }
 
     const aggregateHeaders = getInitialHeader();
 
     while (this.executionContext.hasMoreResults()) {
       // Grab the next result
-      const { result, headers } = (await this.executionContext.nextItem()) as GroupByResponse;
+      const { result, headers } = (await this.executionContext.nextItem(
+        diagnosticNode
+      )) as GroupByResponse;
       mergeHeaders(aggregateHeaders, headers);
 
       // If it exists, process it via aggregators
@@ -81,14 +90,20 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
 
     // We bail early since we got an undefined result back `[{}]`
     if (this.completed) {
-      return { result: undefined, headers: aggregateHeaders };
+      return {
+        result: undefined,
+        headers: aggregateHeaders,
+      };
     }
     // If no results are left in the underlying execution context, convert our aggregate results to an array
     for (const aggregator of this.aggregators.values()) {
       this.aggregateResultArray.push(aggregator.getResult());
     }
     this.completed = true;
-    return { result: this.aggregateResultArray.pop(), headers: aggregateHeaders };
+    return {
+      result: this.aggregateResultArray.pop(),
+      headers: aggregateHeaders,
+    };
   }
 
   public hasMoreResults(): boolean {

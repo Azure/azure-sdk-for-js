@@ -37,6 +37,9 @@ import {
   AzureFirewallsUpdateTagsResponse,
   AzureFirewallsListLearnedPrefixesOptionalParams,
   AzureFirewallsListLearnedPrefixesResponse,
+  FirewallPacketCaptureParameters,
+  AzureFirewallsPacketCaptureOptionalParams,
+  AzureFirewallsPacketCaptureResponse,
   AzureFirewallsListNextResponse,
   AzureFirewallsListAllNextResponse
 } from "../models";
@@ -579,6 +582,102 @@ export class AzureFirewallsImpl implements AzureFirewalls {
   }
 
   /**
+   * Runs a packet capture on AzureFirewall.
+   * @param resourceGroupName The name of the resource group.
+   * @param azureFirewallName The name of the Azure Firewall.
+   * @param parameters Parameters supplied to run packet capture on azure firewall.
+   * @param options The options parameters.
+   */
+  async beginPacketCapture(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    parameters: FirewallPacketCaptureParameters,
+    options?: AzureFirewallsPacketCaptureOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AzureFirewallsPacketCaptureResponse>,
+      AzureFirewallsPacketCaptureResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AzureFirewallsPacketCaptureResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, azureFirewallName, parameters, options },
+      spec: packetCaptureOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AzureFirewallsPacketCaptureResponse,
+      OperationState<AzureFirewallsPacketCaptureResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Runs a packet capture on AzureFirewall.
+   * @param resourceGroupName The name of the resource group.
+   * @param azureFirewallName The name of the Azure Firewall.
+   * @param parameters Parameters supplied to run packet capture on azure firewall.
+   * @param options The options parameters.
+   */
+  async beginPacketCaptureAndWait(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    parameters: FirewallPacketCaptureParameters,
+    options?: AzureFirewallsPacketCaptureOptionalParams
+  ): Promise<AzureFirewallsPacketCaptureResponse> {
+    const poller = await this.beginPacketCapture(
+      resourceGroupName,
+      azureFirewallName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -791,6 +890,39 @@ const listLearnedPrefixesOperationSpec: coreClient.OperationSpec = {
     Parameters.azureFirewallName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const packetCaptureOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/packetCapture",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.AzureFirewallsPacketCaptureHeaders
+    },
+    201: {
+      headersMapper: Mappers.AzureFirewallsPacketCaptureHeaders
+    },
+    202: {
+      headersMapper: Mappers.AzureFirewallsPacketCaptureHeaders
+    },
+    204: {
+      headersMapper: Mappers.AzureFirewallsPacketCaptureHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.azureFirewallName2
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {

@@ -4,17 +4,16 @@ import { ConfidentialLedgerClient, isUnexpected } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { env } from "process";
 
 describe("Get ledger history", function () {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
   beforeEach(async function (this: Context) {
-    recorder = createRecorder(this);
-    client = await createClient();
+    recorder = await createRecorder(this);
+    client = await createClient(recorder);
   });
 
   afterEach(async function () {
@@ -43,7 +42,3 @@ describe("Get ledger history", function () {
     assert.typeOf(currentTransactionsResult.body.transactionId, "string");
   });
 });
-
-export function isLiveMode(): boolean {
-  return env.TEST_MODE?.toLowerCase() === "live";
-}

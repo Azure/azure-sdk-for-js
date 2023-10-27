@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PolicyDefinition, PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to This operation creates or updates a policy definition in the given subscription with the given name.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicyDefinition.json
  */
 async function createOrUpdateAPolicyDefinition() {
-  const subscriptionId = "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
+  const subscriptionId =
+    process.env["POLICY_SUBSCRIPTION_ID"] ||
+    "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policyDefinitionName = "ResourceNaming";
   const parameters: PolicyDefinition = {
     description:
@@ -55,8 +60,6 @@ async function createOrUpdateAPolicyDefinition() {
   console.log(result);
 }
 
-createOrUpdateAPolicyDefinition().catch(console.error);
-
 /**
  * This sample demonstrates how to This operation creates or updates a policy definition in the given subscription with the given name.
  *
@@ -64,7 +67,9 @@ createOrUpdateAPolicyDefinition().catch(console.error);
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicyDefinitionAdvancedParams.json
  */
 async function createOrUpdateAPolicyDefinitionWithAdvancedParameters() {
-  const subscriptionId = "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
+  const subscriptionId =
+    process.env["POLICY_SUBSCRIPTION_ID"] ||
+    "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policyDefinitionName = "EventHubDiagnosticLogs";
   const parameters: PolicyDefinition = {
     description:
@@ -116,4 +121,9 @@ async function createOrUpdateAPolicyDefinitionWithAdvancedParameters() {
   console.log(result);
 }
 
-createOrUpdateAPolicyDefinitionWithAdvancedParameters().catch(console.error);
+async function main() {
+  createOrUpdateAPolicyDefinition();
+  createOrUpdateAPolicyDefinitionWithAdvancedParameters();
+}
+
+main().catch(console.error);

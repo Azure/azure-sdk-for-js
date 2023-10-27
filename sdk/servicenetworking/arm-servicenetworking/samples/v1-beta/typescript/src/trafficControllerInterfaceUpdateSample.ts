@@ -28,12 +28,8 @@ async function patchTrafficController() {
     process.env["SERVICENETWORKING_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["SERVICENETWORKING_RESOURCE_GROUP"] || "rg1";
-  const trafficControllerName = "TC1";
-  const properties: TrafficControllerUpdate = {
-    properties: {
-      configurationEndpoints: ["abc.eastus.trafficcontroller.azure.net"]
-    }
-  };
+  const trafficControllerName = "tc1";
+  const properties: TrafficControllerUpdate = { tags: { key1: "value1" } };
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(
     credential,

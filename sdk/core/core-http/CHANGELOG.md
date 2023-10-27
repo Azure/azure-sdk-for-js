@@ -1,10 +1,7 @@
 # Release History
-
-## 3.0.0 (Unreleased)
+## 3.0.2 (Unreleased)
 
 ### Features Added
-
-- Add support for `x-ms-text` [PR# 23631](https://github.com/Azure/azure-sdk-for-js/pull/23631)
 
 ### Breaking Changes
 
@@ -12,7 +9,24 @@
 
 ### Other Changes
 
+- remove the validation that credential scopes must be a valid URL [Issue #25881](https://github.com/Azure/azure-sdk-for-js/issues/25881)
+
+## 3.0.1 (2023-04-11)
+
+### Other Changes
+
+- Upgrade dependency `xml2js` version to `^0.5.0`.
+
+## 3.0.0 (2023-02-03)
+
+### Features Added
+
+- Add support for `x-ms-text` [PR# 23631](https://github.com/Azure/azure-sdk-for-js/pull/23631)
+
+### Other Changes
+
 - Update `engines` to `"node": ">=14.0.0"`
+- Remove cookie support [Issue #24654](https://github.com/Azure/azure-sdk-for-js/issues/24654)
 
 ## 2.2.7 (2022-09-01)
 
@@ -40,7 +54,7 @@
 
 ### Bugs Fixed
 
-- Updated the HTTP tracing span names to conform to the [OpenTelemetry Specification](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md#name). [#19838](https://github.com/Azure/azure-sdk-for-js/pull/19838)
+- Updated the HTTP tracing span names to conform to the [OpenTelemetry Specification](https://github.com/open-telemetry/semantic-conventions/blob/4040095eda0159e38edfe7084ed32d3077a6ffb0/docs/http/http-spans.md#name). [#19838](https://github.com/Azure/azure-sdk-for-js/pull/19838)
   - New HTTP spans will use the `HTTP <VERB>` convention instead of using the URL path.
 
 ## 2.2.3 (2022-01-06)

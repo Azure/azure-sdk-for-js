@@ -26,7 +26,9 @@ import {
   ValidateRestoreRequestObject as ValidateRestoreRequestObjectMapper,
   AzureBackupFindRestorableTimeRangesRequest as AzureBackupFindRestorableTimeRangesRequestMapper,
   ResourceGuardResource as ResourceGuardResourceMapper,
-  PatchResourceGuardInput as PatchResourceGuardInputMapper
+  PatchResourceGuardInput as PatchResourceGuardInputMapper,
+  ResourceGuardProxyBaseResource as ResourceGuardProxyBaseResourceMapper,
+  UnlockDeleteRequest as UnlockDeleteRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -56,7 +58,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-01-01",
+    defaultValue: "2023-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -307,4 +309,28 @@ export const requestName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const resourceGuardProxyName: OperationURLParameter = {
+  parameterPath: "resourceGuardProxyName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9]*$")
+    },
+    serializedName: "resourceGuardProxyName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters15: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ResourceGuardProxyBaseResourceMapper
+};
+
+export const parameters16: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: UnlockDeleteRequestMapper
 };

@@ -11,7 +11,10 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { ResourceName as ResourceNameMapper } from "../models/mappers";
+import {
+  CheckZonePeersRequest as CheckZonePeersRequestMapper,
+  ResourceName as ResourceNameMapper
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -37,35 +40,14 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-01-01",
+    defaultValue: "2022-12-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
       name: "String"
-    }
-  }
-};
-
-export const includeExtendedLocations: OperationQueryParameter = {
-  parameterPath: ["options", "includeExtendedLocations"],
-  mapper: {
-    serializedName: "includeExtendedLocations",
-    type: {
-      name: "Boolean"
     }
   }
 };
@@ -82,6 +64,27 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const includeExtendedLocations: OperationQueryParameter = {
+  parameterPath: ["options", "includeExtendedLocations"],
+  mapper: {
+    serializedName: "includeExtendedLocations",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -92,6 +95,11 @@ export const contentType: OperationParameter = {
       name: "String"
     }
   }
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: CheckZonePeersRequestMapper
 };
 
 export const resourceNameDefinition: OperationParameter = {

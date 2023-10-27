@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RestorePointCollection,
   RestorePointCollectionsListOptionalParams,
@@ -82,7 +82,7 @@ export interface RestorePointCollections {
     resourceGroupName: string,
     restorePointCollectionName: string,
     options?: RestorePointCollectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the restore point collection. This operation will also delete all the
    * contained restore points.

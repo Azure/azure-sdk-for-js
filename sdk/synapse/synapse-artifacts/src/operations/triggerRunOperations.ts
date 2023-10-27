@@ -111,10 +111,10 @@ const rerunTriggerInstanceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.endpoint,
-    Parameters.runId,
+    Parameters.runId1,
     Parameters.triggerName
   ],
   headerParameters: [Parameters.accept],
@@ -129,10 +129,10 @@ const cancelTriggerInstanceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.endpoint,
-    Parameters.runId,
+    Parameters.runId1,
     Parameters.triggerName
   ],
   headerParameters: [Parameters.accept],
@@ -150,7 +150,7 @@ const queryTriggerRunsByWorkspaceOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.filterParameters,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

@@ -217,7 +217,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ScriptCmdletsList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -240,7 +240,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ScriptCmdlet
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -263,7 +263,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ScriptCmdletsList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [

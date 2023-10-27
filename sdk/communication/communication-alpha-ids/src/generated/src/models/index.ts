@@ -8,15 +8,22 @@
 
 import * as coreClient from "@azure/core-client";
 
-/**
- * <br>Represents a collection of settings for configuring Alpha ID support for a specific resource.
- * <br>
- *             Initially, Alpha IDs were restricted to customers that had valid use cases for them, so this configuration could be leveraged to enable its usage.
- *
- */
-export interface AlphaIdConfiguration {
-  /** Indicates whether the use of Alpha IDs is supported for a specific resource. */
-  enabled: boolean;
+/** A wrapper for a list of alpha id entities. */
+export interface AcquiredAlphaIds {
+  /** List of alpha ids. */
+  alphaIds?: AlphaId[];
+  /** Represents the URL link to the next page. */
+  nextLink?: string;
+}
+
+/** Represents an AlphaId acquired in a given country. */
+export interface AlphaId {
+  /** The value of the AlphaId e.g. 'CONTOSO', etc. */
+  value?: string;
+  /** ISO 3166 2-char code representing the country e.g. 'US'. */
+  countryCode?: string;
+  /** Date in which number was purchased. */
+  purchaseDate?: Date;
 }
 
 /** The Communication Services error. */
@@ -48,19 +55,69 @@ export interface CommunicationError {
   readonly innerError?: CommunicationError;
 }
 
+/**
+ * <br>Represents a collection of settings for configuring Dynamic Alpha ID support for a specific resource.
+ * <br>
+ *             Initially, Alpha IDs were restricted to customers that had valid use cases for them, so this configuration could be leveraged to enable its usage.
+ *
+ */
+export interface DynamicAlphaIdConfiguration {
+  /** Indicates whether the use of Dynamic Alpha IDs is supported for a specific resource. */
+  enabled: boolean;
+}
+
+/** A wrapper for a list of countries. */
+export interface SupportedCountries {
+  /** List of conutries supporting alpha ids. */
+  countries?: string[];
+}
+
 /** Optional parameters. */
-export interface AlphaIdsGetConfigurationOptionalParams
+export interface AlphaIdsGetAlphaIdsOptionalParams
+  extends coreClient.OperationOptions {
+  /** An optional parameter for how many entries to skip, for pagination purposes. */
+  skip?: number;
+  /** An optional parameter for how many entries to return, for pagination purposes. */
+  top?: number;
+}
+
+/** Contains response data for the getAlphaIds operation. */
+export type AlphaIdsGetAlphaIdsResponse = AcquiredAlphaIds;
+
+/** Optional parameters. */
+export interface AlphaIdsGetDynamicAlphaIdConfigurationOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getConfiguration operation. */
-export type AlphaIdsGetConfigurationResponse = AlphaIdConfiguration;
+/** Contains response data for the getDynamicAlphaIdConfiguration operation. */
+export type AlphaIdsGetDynamicAlphaIdConfigurationResponse = DynamicAlphaIdConfiguration;
 
 /** Optional parameters. */
-export interface AlphaIdsUpsertConfigurationOptionalParams
+export interface AlphaIdsUpsertDynamicAlphaIdConfigurationOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the upsertConfiguration operation. */
-export type AlphaIdsUpsertConfigurationResponse = AlphaIdConfiguration;
+/** Contains response data for the upsertDynamicAlphaIdConfiguration operation. */
+export type AlphaIdsUpsertDynamicAlphaIdConfigurationResponse = DynamicAlphaIdConfiguration;
+
+/** Optional parameters. */
+export interface AlphaIdsGetDynamicAlphaIdCountriesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDynamicAlphaIdCountries operation. */
+export type AlphaIdsGetDynamicAlphaIdCountriesResponse = SupportedCountries;
+
+/** Optional parameters. */
+export interface AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getPreRegisteredAlphaIdCountries operation. */
+export type AlphaIdsGetPreRegisteredAlphaIdCountriesResponse = SupportedCountries;
+
+/** Optional parameters. */
+export interface AlphaIdsGetAlphaIdsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAlphaIdsNext operation. */
+export type AlphaIdsGetAlphaIdsNextResponse = AcquiredAlphaIds;
 
 /** Optional parameters. */
 export interface AlphaIDsClientOptionalParams

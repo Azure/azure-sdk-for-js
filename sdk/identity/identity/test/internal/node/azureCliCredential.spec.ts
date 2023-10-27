@@ -4,7 +4,7 @@
 import Sinon, { createSandbox } from "sinon";
 import { AzureCliCredential } from "../../../src/credentials/azureCliCredential";
 import { GetTokenOptions } from "@azure/core-auth";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import child_process from "child_process";
 
 describe("AzureCliCredential (internal)", function () {
@@ -59,7 +59,7 @@ describe("AzureCliCredential (internal)", function () {
     stderr = "";
     const credential = new AzureCliCredential();
     const actualToken = await credential.getToken("https://service/.default", {
-      tenantId: "TENANT-ID",
+      tenantId: "12345678-1234-1234-1234-123456789012",
     } as GetTokenOptions);
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azArgs, [
@@ -71,7 +71,7 @@ describe("AzureCliCredential (internal)", function () {
         "--resource",
         "https://service",
         "--tenant",
-        "TENANT-ID",
+        "12345678-1234-1234-1234-123456789012",
       ],
     ]);
     // Used a working directory, and a shell
@@ -88,7 +88,7 @@ describe("AzureCliCredential (internal)", function () {
     stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
     stderr = "";
     const credential = new AzureCliCredential({
-      tenantId: "tenantId",
+      tenantId: "12345678-1234-1234-1234-123456789012",
     });
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
@@ -101,7 +101,7 @@ describe("AzureCliCredential (internal)", function () {
         "--resource",
         "https://service",
         "--tenant",
-        "tenantId",
+        "12345678-1234-1234-1234-123456789012",
       ],
     ]);
     // Used a working directory, and a shell
@@ -240,5 +240,63 @@ az login --scope https://test.windows.net/.default`;
       },
       { cwd: true, shell: true, timeout: 50 }
     );
+  });
+
+  for (const tenantId of [
+    "&quot;invalid-tenant-id&quot;",
+    " ",
+    "12345678-1234-1234-1234-123456789012|",
+    "12345678-1234-1234-1234-123456789012 |",
+    "<",
+    ">",
+    "\0",
+    "<12345678-1234-1234-1234-123456789012>",
+    "12345678-1234-1234-1234-123456789012&",
+    "12345678-1234-1234-1234-123456789012;",
+    "12345678-1234-1234-1234-123456789012'",
+  ]) {
+    const tenantIdErrorMessage =
+      "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://learn.microsoft.com/partner-center/find-ids-and-domain-names.";
+    const testCase =
+      tenantId === " " ? "whitespace" : tenantId === "\0" ? "null character" : `"${tenantId}"`;
+    it(`rejects invalid tenant id of ${testCase} in getToken`, async function () {
+      const credential = new AzureCliCredential();
+      await assert.isRejected(
+        credential.getToken("https://service/.default", {
+          tenantId: tenantId,
+        }),
+        tenantIdErrorMessage
+      );
+    });
+
+    it(`rejects invalid tenant id of ${testCase} in constructor`, function () {
+      assert.throws(() => {
+        new AzureCliCredential({ tenantId: tenantId });
+      }, tenantIdErrorMessage);
+    });
+  }
+
+  for (const inputScope of ["scope |", "", "\0", "scope;", "scope,", "scope'", "scope&"]) {
+    const testCase =
+      inputScope === ""
+        ? "empty string"
+        : inputScope === "\0"
+        ? "null character"
+        : `"${inputScope}"`;
+    it(`rejects invalid scope of ${testCase}`, async function () {
+      const credential = new AzureCliCredential();
+      await assert.isRejected(
+        credential.getToken(inputScope),
+        "Invalid scope was specified by the user or calling client"
+      );
+    });
+  }
+
+  it("validates correct scope", async function () {
+    stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
+    stderr = "";
+    const credential = new AzureCliCredential();
+    const actualToken = await credential.getToken("https://service/.default");
+    assert.equal(actualToken!.token, "token");
   });
 });
