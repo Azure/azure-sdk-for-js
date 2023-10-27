@@ -9,7 +9,7 @@ import {
   isReactNative,
   isWebWorker,
 } from "../../../src/index.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("checkEnvironment (node)", function () {
   describe("isBun (node)", function () {

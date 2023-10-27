@@ -4,41 +4,46 @@
   "description": "Core library for interacting with XML payloads",
   "sdk-type": "client",
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist-esm/src/index.js",
-  "browser": {
-    "./dist-esm/src/xml.js": "./dist-esm/src/xml.browser.js"
-  },
-  "react-native": {
-    "./dist/index.js": "./dist-esm/src/index.js",
-    "./dist-esm/src/xml.js": "./dist-esm/src/xml.js"
-  },
-  "types": "types/latest/core-xml.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "types/latest/*": [
-        "types/3.1/*"
-      ]
-    }
-  },
   "exports": {
+    "./package.json": "./package.json",
     ".": {
-      "types": "./types/latest/src/index.d.ts",
-      "types@<3.6": "./types/3.1/src/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist-esm/src/index.js"
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "bun": {
+        "types": "./dist/bun/index.d.ts",
+        "default": "./dist/bun/index.js"
+      },
+      "deno": {
+        "types": "./dist/deno/index.d.ts",
+        "default": "./dist/deno/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
     }
   },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
-    "build:test": "tsc -p . && dev-tool run bundle",
-    "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
+    "build:test": "tshy && dev-tool run build-test",
+    "build": "npm run clean && tshy && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* temp types *.tgz *.log",
+    "clean": "rimraf -G dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tsc -p . && api-extractor run --local",
+    "extract-api": "tshy && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -48,16 +53,13 @@
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "karma start karma.conf.cjs --single-run",
-    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true",
+    "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
+    "unit-test:browser": "vitest -c vitest.browser.config.ts",
+    "unit-test:node": "vitest",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types/latest/core-xml.d.ts",
-    "types/3.1/core-xml.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -72,47 +74,50 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-xml/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "tslib": "^2.2.0",
-    "fast-xml-parser": "^4.2.4"
+    "tslib": "^2.6.2",
+    "fast-xml-parser": "^4.3.2"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
-    "@microsoft/api-extractor": "^7.31.1",
-    "@types/chai": "^4.1.6",
-    "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
-    "@types/trusted-types": "^2.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "chai": "^4.2.0",
-    "downlevel-dts": "^0.10.0",
-    "cross-env": "^7.0.2",
+    "@microsoft/api-extractor": "^7.38.0",
+    "@types/node": "^18.11.9",
+    "@types/trusted-types": "^2.0.0",
+    "@vitest/browser": "1.0.0-beta.3",
     "eslint": "^8.0.0",
-    "esm": "^3.2.25",
-    "inherits": "^2.0.3",
-    "karma": "^6.2.0",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-coverage": "^2.0.0",
-    "karma-env-preprocessor": "^0.1.1",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-junit-reporter": "^2.0.1",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.0",
-    "prettier": "^2.5.1",
-    "rimraf": "^3.0.0",
-    "ts-node": "^10.0.0",
+    "prettier": "^3.0.3",
+    "rimraf": "^5.0.5",
+    "tshy": "^1.7.0",
     "typescript": "~5.0.0",
-    "util": "^0.12.1"
+    "vitest": "1.0.0-beta.3",
+    "webdriverio": "^8.20.4"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"
+  },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "bun",
+      "deno",
+      "react-native"
+    ]
+  },
+  "imports": {
+    "#xml": "./src/xml.ts"
   }
 }

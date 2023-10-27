@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { base64ToBytes, bufferToBase64 } from "./base64.browser.js";
+import { base64ToBytes, bufferToBase64 } from "./base64.js";
 import { bufferToHex } from "./hex.js";
-import { utf8ToBytes } from "./utf8.browser.js";
+import { utf8ToBytes } from "./utf8.js";
 
 // stubs for browser self.crypto
 interface JsonWebKey {}

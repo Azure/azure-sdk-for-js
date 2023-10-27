@@ -3,7 +3,7 @@
 
 import { isBrowser, isNode } from "../../../src/index.js";
 import { stringToUint8Array, uint8ArrayToString } from "../../../src/bytesEncoding.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("Base64", function () {
   describe("isBrowser (node)", function () {

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { parseXML, stringifyXML } from "../src/index.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("XML serializer", function () {
   describe("parseXML(string)", function () {

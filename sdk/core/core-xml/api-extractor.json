@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
-  "mainEntryPointFilePath": "types/latest/src/index.d.ts",
+  "mainEntryPointFilePath": "./dist/esm/index.d.ts",
   "docModel": {
     "enabled": true
   },
@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/latest/core-xml.d.ts"
+    "publicTrimmedFilePath": "./dist/core-xml.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {

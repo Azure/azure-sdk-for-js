@@ -1,8 +1,6 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types/latest",
     "paths": {
       "@azure/core-xml": ["./src/index.js"]
     },
@@ -10,9 +8,6 @@
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "ts-node": {
-    "esm": true
-  },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"],
-  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm"]
+  "include": ["src/**/*.ts", "src/**/*.mts", "test/**/*.ts", "samples-dev/**/*.ts"],
+  "exclude": ["node_modules", "temp", "browser", "dist", "dist-test"]
 }

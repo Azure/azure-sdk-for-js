@@ -1,0 +1,16 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.mts",
+    "../src/**/*.tsx"
+  ],
+  "exclude": [
+    ".././src/bytesEncoding-browser.mts",
+    ".././src/sha256-browser.mts",
+    ".././src/uuidUtils-react-native.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build-tmp/esm"
+  }
+}

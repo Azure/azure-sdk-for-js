@@ -44,7 +44,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   // Read the imports
   const importMap = new Map<string, string>();
-  const importField = (info.packageJson as any)?.tshy?.imports;
+  const importField = (info.packageJson as any)?.imports;
   if (importField) {
     const keys = Object.keys(importField);
     for (const key of keys) {
@@ -79,8 +79,15 @@ function compileForEnvironment(
     mkdirSync(browserTestPath, { recursive: true });
   }
 
+  // Create import map
+  const imports: Record<string, string> = {};
+  for (const [key, value] of importMap.entries()) {
+    imports[key] = value;
+  }
+
   const packageJson = {
     type: "module",
+    imports,
   };
   writeFileSync(path.join(browserTestPath, "package.json"), JSON.stringify(packageJson, null, 2));
 

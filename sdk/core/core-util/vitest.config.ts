@@ -9,16 +9,8 @@ export default defineConfig({
     outputFile: {
       junit: "test-results.browser.xml",
     },
-    browser: {
-      enabled: true,
-      headless: true,
-      name: "chrome",
-      provider: "webdriverio",
-    },
-    fakeTimers: {
-      toFake: ["setTimeout"],
-    },
     watch: false,
-    include: ["./dist-test/browser/**/*.spec.js"],
+    include: ["test/**/*.spec.ts"],
+    exclude: ["test/**/browser/*.spec.ts"],
   },
 });

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { utf8ToBytes } from "../../../src/utf8.browser.js";
+import { describe, it, assert } from "vitest";
+import { utf8ToBytes } from "../../../src/utf8.js";
 
 describe("utf-8", function () {
   describe("utf8ToBytes", function () {
