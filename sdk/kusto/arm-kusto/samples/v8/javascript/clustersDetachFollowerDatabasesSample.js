@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Detaches all followers of a database owned by this cluster.
  *
  * @summary Detaches all followers of a database owned by this cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoClusterDetachFollowerDatabases.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClusterDetachFollowerDatabases.json
  */
 async function kustoClusterDetachFollowerDatabases() {
   const subscriptionId =

@@ -19,7 +19,10 @@ import {
   CatalogsUpdateOptionalParams,
   CatalogsUpdateResponse,
   CatalogsDeleteOptionalParams,
-  CatalogsSyncOptionalParams
+  CatalogsGetSyncErrorDetailsOptionalParams,
+  CatalogsGetSyncErrorDetailsResponse,
+  CatalogsSyncOptionalParams,
+  CatalogsConnectOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -146,6 +149,19 @@ export interface Catalogs {
     options?: CatalogsDeleteOptionalParams
   ): Promise<void>;
   /**
+   * Gets catalog synchronization error details
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  getSyncErrorDetails(
+    resourceGroupName: string,
+    devCenterName: string,
+    catalogName: string,
+    options?: CatalogsGetSyncErrorDetailsOptionalParams
+  ): Promise<CatalogsGetSyncErrorDetailsResponse>;
+  /**
    * Syncs templates for a template source.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
@@ -170,5 +186,31 @@ export interface Catalogs {
     devCenterName: string,
     catalogName: string,
     options?: CatalogsSyncOptionalParams
+  ): Promise<void>;
+  /**
+   * Connects a catalog to enable syncing.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  beginConnect(
+    resourceGroupName: string,
+    devCenterName: string,
+    catalogName: string,
+    options?: CatalogsConnectOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Connects a catalog to enable syncing.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  beginConnectAndWait(
+    resourceGroupName: string,
+    devCenterName: string,
+    catalogName: string,
+    options?: CatalogsConnectOptionalParams
   ): Promise<void>;
 }

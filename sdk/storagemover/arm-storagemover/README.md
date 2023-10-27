@@ -6,7 +6,7 @@ The Azure Storage Mover REST API.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storagemover/arm-storagemover) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-storagemover) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-storagemover?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-storagemover) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

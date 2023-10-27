@@ -1,15 +1,39 @@
 # Release History
+    
+## 3.1.0 (2023-10-09)
+    
+**Features**
 
-## 3.0.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group CreationSupported
+  - Added operation group MonitoredSubscriptions
+  - Added Interface CreateResourceSupportedProperties
+  - Added Interface CreateResourceSupportedResponse
+  - Added Interface CreateResourceSupportedResponseList
+  - Added Interface CreationSupportedGetOptionalParams
+  - Added Interface CreationSupportedListOptionalParams
+  - Added Interface MonitoredSubscription
+  - Added Interface MonitoredSubscriptionProperties
+  - Added Interface MonitoredSubscriptionPropertiesList
+  - Added Interface MonitoredSubscriptionsCreateorUpdateOptionalParams
+  - Added Interface MonitoredSubscriptionsDeleteOptionalParams
+  - Added Interface MonitoredSubscriptionsGetOptionalParams
+  - Added Interface MonitoredSubscriptionsListOptionalParams
+  - Added Interface MonitoredSubscriptionsUpdateOptionalParams
+  - Added Interface SubscriptionList
+  - Added Type Alias CreationSupportedGetResponse
+  - Added Type Alias CreationSupportedListResponse
+  - Added Type Alias MonitoredSubscriptionsCreateorUpdateResponse
+  - Added Type Alias MonitoredSubscriptionsGetResponse
+  - Added Type Alias MonitoredSubscriptionsListResponse
+  - Added Type Alias MonitoredSubscriptionsUpdateResponse
+  - Added Type Alias Operation
+  - Added Type Alias Status
+  - Interface DatadogOrganizationProperties has a new optional parameter cspm
+  - Interface MonitoringTagRulesProperties has a new optional parameter automuting
+  - Interface MonitorUpdateProperties has a new optional parameter cspm
+  - Added Enum KnownOperation
+  - Added Enum KnownStatus
+    
 ## 3.0.2 (2022-11-21)
 
 **Features**
@@ -34,4 +58,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

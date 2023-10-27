@@ -33,8 +33,8 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
-    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:browser": "tsc -p . && dev-tool run bundle",
+    "build:node": "tsc -p . && dev-tool run bundle --browser-test false",
     "build:samples": "echo skipped.",
     "build:test": "tsc -p . && dev-tool run bundle",
     "build:debug": "tsc -p . && dev-tool run bundle && api-extractor run --local",
@@ -79,7 +79,7 @@
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
@@ -100,7 +100,7 @@
     "karma-source-map-support": "~1.4.0",
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
-    "nyc": "^15.0.0",
+    "c8": "^8.0.0",
     "ts-node": "^10.0.0",
     "esm": "^3.2.18"
   },

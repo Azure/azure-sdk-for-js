@@ -68,6 +68,7 @@
     "eastus",
     "ECONNRESET",
     "Eloqua",
+    "entra",
     "Esdni",
     "ESDNI",
     "etags",
@@ -318,6 +319,13 @@
       ]
     },
     {
+      "filename": "sdk/identity/**/*.md",
+      "words": [
+        "MSAL",
+        "PKCE"
+      ]
+    },
+    {
       "filename": "sdk/iot/iot-modelsrepository/review/**/*.md",
       "words": [
         "Dtmi",
@@ -427,6 +435,21 @@
       "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/review/web-pubsub-client-protobuf.api.md",
       "words": [
         "protobuf"
+      ]
+    },
+    {
+      "filename": "sdk/easm/defender-easm-rest/review/defender-easm.api.md",
+      "words": [
+        "Alexa",
+        "alexa",
+        "Asns",
+        "asns",
+        "cnames",
+        "Easm",
+        "easm",
+        "nxdomain",
+        "Whois",
+        "whois"
       ]
     }
   ]
