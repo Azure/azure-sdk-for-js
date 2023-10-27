@@ -38,7 +38,7 @@ export interface AddParticipantsRequest {
 }
 
 // @public
-export type AttachmentType = "image";
+export type AttachmentType = "image" | "unknown";
 
 // @public
 export interface ChatAttachment {
