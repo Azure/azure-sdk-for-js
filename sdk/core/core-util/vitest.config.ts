@@ -12,5 +12,17 @@ export default defineConfig({
     watch: false,
     include: ["test/**/*.spec.ts"],
     exclude: ["test/**/browser/*.spec.ts"],
+    coverage: {
+      include: ["src/**/*.ts"],
+      exclude: [
+        "src/**/*-browser.mts",
+        "src/**/*-react-native.mts",
+        "vitest*.config.ts",
+        "samples-dev/**/*.ts",
+      ],
+      provider: "v8",
+      reporter: ["text", "json", "html"],
+      reportsDirectory: "coverage",
+    },
   },
 });

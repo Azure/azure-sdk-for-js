@@ -7,7 +7,8 @@
   ],
   "exclude": [
     ".././src/bytesEncoding-browser.mts",
-    ".././src/sha256-browser.mts"
+    ".././src/sha256-browser.mts",
+    ".././src/uuidUtils-browser.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build-tmp/react-native"
