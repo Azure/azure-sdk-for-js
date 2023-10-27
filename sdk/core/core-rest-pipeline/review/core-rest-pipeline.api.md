@@ -182,6 +182,9 @@ export interface InternalPipelineOptions extends PipelineOptions {
 }
 
 // @public
+export function isMultipartRequestBody(body: RequestBodyType | undefined): body is MultipartRequestBody;
+
+// @public
 export function isRestError(e: unknown): e is RestError;
 
 // @public

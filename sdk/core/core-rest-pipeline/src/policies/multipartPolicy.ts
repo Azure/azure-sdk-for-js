@@ -69,6 +69,9 @@ function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary:
   request.body = concatenateStreams(sources.map(toStream));
 }
 
+/**
+ * Check if this request body is a multipart body
+ */
 export function isMultipartRequestBody(
   body: RequestBodyType | undefined
 ): body is MultipartRequestBody {
