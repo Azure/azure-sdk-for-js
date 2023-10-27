@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Tenant access metadata
  *
  * @summary Tenant access metadata
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadTenantAccess.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadTenantAccess.json
  */
 async function apiManagementHeadTenantAccess() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

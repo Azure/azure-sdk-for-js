@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AccessProtocol = "SMB" | "NFS";
@@ -123,6 +123,14 @@ export interface ContactDetails {
 }
 
 // @public
+export interface ContactInfo {
+    contactName: string;
+    mobile?: string;
+    phone: string;
+    phoneExtension?: string;
+}
+
+// @public
 export interface CopyLogDetails {
     copyLogDetailsType: "DataBox" | "DataBoxCustomerDisk" | "DataBoxDisk" | "DataBoxHeavy";
 }
@@ -133,9 +141,11 @@ export type CopyLogDetailsUnion = CopyLogDetails | DataBoxAccountCopyLogDetails 
 // @public
 export interface CopyProgress {
     readonly accountId?: string;
+    readonly actions?: CustomerResolutionCode[];
     readonly bytesProcessed?: number;
     readonly dataAccountType?: DataAccountType;
     readonly directoriesErroredOut?: number;
+    readonly error?: CloudError;
     readonly filesErroredOut?: number;
     readonly filesProcessed?: number;
     readonly invalidDirectoriesProcessed?: number;
@@ -177,7 +187,7 @@ export interface CustomerDiskJobSecrets extends JobSecrets {
 }
 
 // @public
-export type CustomerResolutionCode = "None" | "MoveToCleanUpDevice" | "Resume";
+export type CustomerResolutionCode = "None" | "MoveToCleanUpDevice" | "Resume" | "Restart" | "ReachOutToOperation";
 
 // @public
 export interface DataAccountDetails {
@@ -238,10 +248,27 @@ export interface DataBoxDiskCopyLogDetails extends CopyLogDetails {
 
 // @public
 export interface DataBoxDiskCopyProgress {
+    readonly actions?: CustomerResolutionCode[];
     readonly bytesCopied?: number;
+    readonly error?: CloudError;
     readonly percentComplete?: number;
     readonly serialNumber?: string;
     readonly status?: CopyStatus;
+}
+
+// @public
+export interface DataBoxDiskGranularCopyLogDetails extends GranularCopyLogDetails {
+    readonly accountId?: string;
+    copyLogDetailsType: "DataBoxCustomerDisk";
+    readonly errorLogLink?: string;
+    readonly serialNumber?: string;
+    readonly verboseLogLink?: string;
+}
+
+// @public
+export interface DataBoxDiskGranularCopyProgress extends GranularCopyProgress {
+    readonly copyStatus?: CopyStatus;
+    readonly serialNumber?: string;
 }
 
 // @public
@@ -250,6 +277,8 @@ export interface DataBoxDiskJobDetails extends JobDetails {
     readonly disksAndSizeDetails?: {
         [propertyName: string]: number;
     };
+    readonly granularCopyLogDetails?: DataBoxDiskGranularCopyLogDetails[];
+    readonly granularCopyProgress?: DataBoxDiskGranularCopyProgress[];
     jobDetailsType: "DataBoxDisk";
     passkey?: string;
     preferredDisks?: {
@@ -442,6 +471,12 @@ export interface Details {
 }
 
 // @public
+export interface DeviceErasureDetails {
+    readonly deviceErasureStatus?: StageStatus;
+    readonly erasureOrDestructionCertificateSasKey?: string;
+}
+
+// @public
 export interface DiskScheduleAvailabilityRequest extends ScheduleAvailabilityRequest {
     expectedDataSizeInTeraBytes: number;
     skuName: "DataBoxDisk";
@@ -459,6 +494,7 @@ export type DoubleEncryption = "Enabled" | "Disabled";
 // @public
 export interface EncryptionPreferences {
     doubleEncryption?: DoubleEncryption;
+    hardwareEncryption?: HardwareEncryption;
 }
 
 // @public (undocumented)
@@ -491,6 +527,38 @@ export type FilterFileType = "AzureBlob" | "AzureFile";
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface GranularCopyLogDetails {
+    copyLogDetailsType: "DataBoxCustomerDisk";
+}
+
+// @public (undocumented)
+export type GranularCopyLogDetailsUnion = GranularCopyLogDetails | DataBoxDiskGranularCopyLogDetails;
+
+// @public
+export interface GranularCopyProgress {
+    readonly accountId?: string;
+    readonly actions?: CustomerResolutionCode[];
+    readonly bytesProcessed?: number;
+    readonly dataAccountType?: DataAccountType;
+    readonly directoriesErroredOut?: number;
+    readonly error?: CloudError;
+    readonly filesErroredOut?: number;
+    readonly filesProcessed?: number;
+    readonly invalidDirectoriesProcessed?: number;
+    readonly invalidFileBytesUploaded?: number;
+    readonly invalidFilesProcessed?: number;
+    readonly isEnumerationInProgress?: boolean;
+    readonly renamedContainerCount?: number;
+    readonly storageAccountName?: string;
+    readonly totalBytesToProcess?: number;
+    readonly totalFilesToProcess?: number;
+    readonly transferType?: TransferType;
+}
+
+// @public
+export type HardwareEncryption = "Enabled" | "Disabled";
 
 // @public
 export interface HeavyScheduleAvailabilityRequest extends ScheduleAvailabilityRequest {
@@ -530,6 +598,7 @@ export interface JobDetails {
     dataExportDetails?: DataExportDetails[];
     dataImportDetails?: DataImportDetails[];
     readonly deliveryPackage?: PackageShippingDetails;
+    readonly deviceErasureDetails?: DeviceErasureDetails;
     expectedDataSizeInTeraBytes?: number;
     jobDetailsType: "DataBoxCustomerDisk" | "DataBoxDisk" | "DataBoxHeavy" | "DataBox";
     readonly jobStages?: JobStages[];
@@ -538,6 +607,7 @@ export interface JobDetails {
     preferences?: Preferences;
     readonly returnPackage?: PackageShippingDetails;
     readonly reverseShipmentLabelSasKey?: string;
+    reverseShippingDetails?: ReverseShippingDetails;
     shippingAddress?: ShippingAddress;
 }
 
@@ -558,6 +628,8 @@ export interface JobResource extends Resource {
     readonly isPrepareToShipEnabled?: boolean;
     readonly isShippingAddressEditable?: boolean;
     readonly name?: string;
+    readonly reverseShippingDetailsUpdate?: ReverseShippingDetailsEditStatus;
+    readonly reverseTransportPreferenceUpdate?: ReverseTransportPreferenceEditStatus;
     readonly startTime?: Date;
     readonly status?: StageName;
     readonly systemData?: SystemData;
@@ -582,11 +654,11 @@ export interface JobResourceUpdateParameter {
 
 // @public
 export interface Jobs {
-    beginCreate(resourceGroupName: string, jobName: string, jobResource: JobResource, options?: JobsCreateOptionalParams): Promise<PollerLike<PollOperationState<JobsCreateResponse>, JobsCreateResponse>>;
+    beginCreate(resourceGroupName: string, jobName: string, jobResource: JobResource, options?: JobsCreateOptionalParams): Promise<SimplePollerLike<OperationState<JobsCreateResponse>, JobsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, jobName: string, jobResource: JobResource, options?: JobsCreateOptionalParams): Promise<JobsCreateResponse>;
-    beginDelete(resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, jobName: string, jobResourceUpdateParameter: JobResourceUpdateParameter, options?: JobsUpdateOptionalParams): Promise<PollerLike<PollOperationState<JobsUpdateResponse>, JobsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, jobName: string, jobResourceUpdateParameter: JobResourceUpdateParameter, options?: JobsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, jobName: string, jobResourceUpdateParameter: JobResourceUpdateParameter, options?: JobsUpdateOptionalParams): Promise<JobsUpdateResponse>;
     bookShipmentPickUp(resourceGroupName: string, jobName: string, shipmentPickUpRequest: ShipmentPickUpRequest, options?: JobsBookShipmentPickUpOptionalParams): Promise<JobsBookShipmentPickUpResponse>;
     cancel(resourceGroupName: string, jobName: string, cancellationReason: CancellationReason, options?: JobsCancelOptionalParams): Promise<void>;
@@ -618,6 +690,11 @@ export interface JobsCreateOptionalParams extends coreClient.OperationOptions {
 export type JobsCreateResponse = JobResource;
 
 // @public
+export interface JobsDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface JobsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -643,7 +720,6 @@ export type JobsGetResponse = JobResource;
 
 // @public
 export interface JobsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public
@@ -666,7 +742,6 @@ export type JobsListCredentialsResponse = UnencryptedCredentialsList;
 
 // @public
 export interface JobsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public
@@ -691,6 +766,11 @@ export interface JobStages {
     readonly stageName?: StageName;
     readonly stageStatus?: StageStatus;
     readonly stageTime?: Date;
+}
+
+// @public
+export interface JobsUpdateHeaders {
+    location?: string;
 }
 
 // @public
@@ -744,9 +824,11 @@ export enum KnownDataCenterCode {
     AMS20 = "AMS20",
     AUH20 = "AUH20",
     BJB = "BJB",
+    BJS20 = "BJS20",
     BL20 = "BL20",
     BL7 = "BL7",
     BN1 = "BN1",
+    BN7 = "BN7",
     BOM01 = "BOM01",
     BY1 = "BY1",
     BY2 = "BY2",
@@ -759,6 +841,7 @@ export enum KnownDataCenterCode {
     CWL20 = "CWL20",
     CYS04 = "CYS04",
     DSM05 = "DSM05",
+    DUB07 = "DUB07",
     FRA22 = "FRA22",
     HKG20 = "HKG20",
     Invalid = "Invalid",
@@ -770,7 +853,11 @@ export enum KnownDataCenterCode {
     MNZ21 = "MNZ21",
     MWH01 = "MWH01",
     ORK70 = "ORK70",
+    OSA02 = "OSA02",
     OSA20 = "OSA20",
+    OSA22 = "OSA22",
+    PAR22 = "PAR22",
+    PNQ01 = "PNQ01",
     PUS20 = "PUS20",
     SEL20 = "SEL20",
     SEL21 = "SEL21",
@@ -778,8 +865,10 @@ export enum KnownDataCenterCode {
     SHA03 = "SHA03",
     SIN20 = "SIN20",
     SN5 = "SN5",
+    SN6 = "SN6",
     SN8 = "SN8",
     SSE90 = "SSE90",
+    SVG20 = "SVG20",
     SYD03 = "SYD03",
     SYD23 = "SYD23",
     TYO01 = "TYO01",
@@ -851,7 +940,10 @@ export interface MarkDevicesShippedRequest {
 
 // @public
 export interface MitigateJobRequest {
-    customerResolutionCode: CustomerResolutionCode;
+    customerResolutionCode?: CustomerResolutionCode;
+    serialNumberCustomerResolutionMap?: {
+        [propertyName: string]: CustomerResolutionCode;
+    };
 }
 
 // @public
@@ -936,6 +1028,8 @@ export interface PackageShippingDetails {
 export interface Preferences {
     encryptionPreferences?: EncryptionPreferences;
     preferredDataCenterRegion?: string[];
+    reverseTransportPreferences?: TransportPreferences;
+    storageAccountAccessTierPreferences?: string[];
     transportPreferences?: TransportPreferences;
 }
 
@@ -985,6 +1079,19 @@ export interface ResourceIdentity {
         [propertyName: string]: UserAssignedIdentity;
     };
 }
+
+// @public
+export interface ReverseShippingDetails {
+    contactDetails?: ContactInfo;
+    readonly isUpdated?: boolean;
+    shippingAddress?: ShippingAddress;
+}
+
+// @public
+export type ReverseShippingDetailsEditStatus = "Enabled" | "Disabled" | "NotSupported";
+
+// @public
+export type ReverseTransportPreferenceEditStatus = "Enabled" | "Disabled" | "NotSupported";
 
 // @public
 export interface ScheduleAvailabilityRequest {
@@ -1092,10 +1199,12 @@ export interface ShippingAddress {
     companyName?: string;
     country: string;
     postalCode?: string;
+    skipAddressValidation?: boolean;
     stateOrProvince?: string;
     streetAddress1: string;
     streetAddress2?: string;
     streetAddress3?: string;
+    taxIdentificationNumber?: string;
     zipExtendedCode?: string;
 }
 
@@ -1142,6 +1251,7 @@ export interface SkuInformation {
     readonly apiVersions?: string[];
     readonly capacity?: SkuCapacity;
     readonly costs?: SkuCost[];
+    readonly countriesWithinCommerceBoundary?: string[];
     readonly dataLocationToServiceLocationMap?: DataLocationToServiceLocationMap[];
     readonly disabledReason?: SkuDisabledReason;
     readonly disabledReasonMessage?: string;
@@ -1157,7 +1267,7 @@ export type SkuName = "DataBox" | "DataBoxDisk" | "DataBoxHeavy" | "DataBoxCusto
 export type StageName = string;
 
 // @public
-export type StageStatus = "None" | "InProgress" | "Succeeded" | "Failed" | "Cancelled" | "Cancelling" | "SucceededWithErrors" | "WaitingForCustomerAction" | "SucceededWithWarnings" | "WaitingForCustomerActionForKek" | "WaitingForCustomerActionForCleanUp" | "CustomerActionPerformedForCleanUp";
+export type StageStatus = "None" | "InProgress" | "Succeeded" | "Failed" | "Cancelled" | "Cancelling" | "SucceededWithErrors" | "WaitingForCustomerAction" | "SucceededWithWarnings" | "WaitingForCustomerActionForKek" | "WaitingForCustomerActionForCleanUp" | "CustomerActionPerformedForCleanUp" | "CustomerActionPerformed";
 
 // @public
 export interface StorageAccountDetails extends DataAccountDetails {
@@ -1241,6 +1351,7 @@ export interface TransportAvailabilityResponse {
 
 // @public
 export interface TransportPreferences {
+    readonly isUpdated?: boolean;
     preferredShipmentType: TransportShipmentTypes;
 }
 
@@ -1263,7 +1374,9 @@ export interface UnencryptedCredentialsList {
 export interface UpdateJobDetails {
     contactDetails?: ContactDetails;
     keyEncryptionKey?: KeyEncryptionKey;
+    preferences?: Preferences;
     returnToCustomerPackageDetails?: PackageCarrierDetails;
+    reverseShippingDetails?: ReverseShippingDetails;
     shippingAddress?: ShippingAddress;
 }
 

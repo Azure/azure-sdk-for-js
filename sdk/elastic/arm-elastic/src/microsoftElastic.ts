@@ -17,6 +17,7 @@ import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   MonitorsImpl,
+  ElasticVersionsImpl,
   MonitoredResourcesImpl,
   DeploymentInfoImpl,
   ExternalUserImpl,
@@ -39,6 +40,7 @@ import {
 import {
   Operations,
   Monitors,
+  ElasticVersions,
   MonitoredResources,
   DeploymentInfo,
   ExternalUser,
@@ -93,7 +95,7 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-elastic/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-elastic/1.0.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -149,6 +151,7 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
     this.apiVersion = options.apiVersion || "2023-02-01-preview";
     this.operations = new OperationsImpl(this);
     this.monitors = new MonitorsImpl(this);
+    this.elasticVersions = new ElasticVersionsImpl(this);
     this.monitoredResources = new MonitoredResourcesImpl(this);
     this.deploymentInfo = new DeploymentInfoImpl(this);
     this.externalUser = new ExternalUserImpl(this);
@@ -204,6 +207,7 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
 
   operations: Operations;
   monitors: Monitors;
+  elasticVersions: ElasticVersions;
   monitoredResources: MonitoredResources;
   deploymentInfo: DeploymentInfo;
   externalUser: ExternalUser;

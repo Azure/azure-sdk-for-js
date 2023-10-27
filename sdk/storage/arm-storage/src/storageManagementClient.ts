@@ -92,7 +92,7 @@ export class StorageManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-storage/18.1.1`;
+    const packageDetails = `azsdk-js-arm-storage/18.2.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -145,7 +145,7 @@ export class StorageManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01";
+    this.apiVersion = options.apiVersion || "2023-01-01";
     this.operations = new OperationsImpl(this);
     this.skus = new SkusImpl(this);
     this.storageAccounts = new StorageAccountsImpl(this);

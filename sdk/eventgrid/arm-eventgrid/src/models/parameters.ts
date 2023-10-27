@@ -12,19 +12,29 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  CaCertificate as CaCertificateMapper,
   Channel as ChannelMapper,
   ChannelUpdateParameters as ChannelUpdateParametersMapper,
+  ClientGroup as ClientGroupMapper,
+  Client as ClientMapper,
   Domain as DomainMapper,
   DomainUpdateParameters as DomainUpdateParametersMapper,
   DomainRegenerateKeyRequest as DomainRegenerateKeyRequestMapper,
   EventSubscription as EventSubscriptionMapper,
   EventSubscriptionUpdateParameters as EventSubscriptionUpdateParametersMapper,
-  Topic as TopicMapper,
-  TopicUpdateParameters as TopicUpdateParametersMapper,
+  Subscription as SubscriptionMapper,
+  SubscriptionUpdateParameters as SubscriptionUpdateParametersMapper,
+  Namespace as NamespaceMapper,
+  NamespaceUpdateParameters as NamespaceUpdateParametersMapper,
+  NamespaceRegenerateKeyRequest as NamespaceRegenerateKeyRequestMapper,
+  NamespaceTopic as NamespaceTopicMapper,
+  NamespaceTopicUpdateParameters as NamespaceTopicUpdateParametersMapper,
   TopicRegenerateKeyRequest as TopicRegenerateKeyRequestMapper,
   PartnerConfiguration as PartnerConfigurationMapper,
   PartnerConfigurationUpdateParameters as PartnerConfigurationUpdateParametersMapper,
   Partner as PartnerMapper,
+  PartnerDestination as PartnerDestinationMapper,
+  PartnerDestinationUpdateParameters as PartnerDestinationUpdateParametersMapper,
   PartnerNamespace as PartnerNamespaceMapper,
   PartnerNamespaceUpdateParameters as PartnerNamespaceUpdateParametersMapper,
   PartnerNamespaceRegenerateKeyRequest as PartnerNamespaceRegenerateKeyRequestMapper,
@@ -32,9 +42,13 @@ import {
   PartnerRegistrationUpdateParameters as PartnerRegistrationUpdateParametersMapper,
   PartnerTopic as PartnerTopicMapper,
   PartnerTopicUpdateParameters as PartnerTopicUpdateParametersMapper,
+  PermissionBinding as PermissionBindingMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   SystemTopic as SystemTopicMapper,
-  SystemTopicUpdateParameters as SystemTopicUpdateParametersMapper
+  SystemTopicUpdateParameters as SystemTopicUpdateParametersMapper,
+  Topic as TopicMapper,
+  TopicUpdateParameters as TopicUpdateParametersMapper,
+  TopicSpace as TopicSpaceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -83,10 +97,15 @@ export const resourceGroupName: OperationURLParameter = {
   }
 };
 
-export const partnerNamespaceName: OperationURLParameter = {
-  parameterPath: "partnerNamespaceName",
+export const namespaceName: OperationURLParameter = {
+  parameterPath: "namespaceName",
   mapper: {
-    serializedName: "partnerNamespaceName",
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
+      MaxLength: 50,
+      MinLength: 3
+    },
+    serializedName: "namespaceName",
     required: true,
     type: {
       name: "String"
@@ -94,10 +113,15 @@ export const partnerNamespaceName: OperationURLParameter = {
   }
 };
 
-export const channelName: OperationURLParameter = {
-  parameterPath: "channelName",
+export const caCertificateName: OperationURLParameter = {
+  parameterPath: "caCertificateName",
   mapper: {
-    serializedName: "channelName",
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
+      MaxLength: 50,
+      MinLength: 3
+    },
+    serializedName: "caCertificateName",
     required: true,
     type: {
       name: "String"
@@ -108,7 +132,7 @@ export const channelName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-06-15",
+    defaultValue: "2023-06-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -129,14 +153,9 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const channelInfo: OperationParameter = {
-  parameterPath: "channelInfo",
-  mapper: ChannelMapper
-};
-
-export const channelUpdateParameters: OperationParameter = {
-  parameterPath: "channelUpdateParameters",
-  mapper: ChannelUpdateParametersMapper
+export const caCertificateInfo: OperationParameter = {
+  parameterPath: "caCertificateInfo",
+  mapper: CaCertificateMapper
 };
 
 export const filter: OperationQueryParameter = {
@@ -169,6 +188,80 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const partnerNamespaceName: OperationURLParameter = {
+  parameterPath: "partnerNamespaceName",
+  mapper: {
+    serializedName: "partnerNamespaceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const channelName: OperationURLParameter = {
+  parameterPath: "channelName",
+  mapper: {
+    serializedName: "channelName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const channelInfo: OperationParameter = {
+  parameterPath: "channelInfo",
+  mapper: ChannelMapper
+};
+
+export const channelUpdateParameters: OperationParameter = {
+  parameterPath: "channelUpdateParameters",
+  mapper: ChannelUpdateParametersMapper
+};
+
+export const clientGroupName: OperationURLParameter = {
+  parameterPath: "clientGroupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
+      MaxLength: 50,
+      MinLength: 3
+    },
+    serializedName: "clientGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const clientGroupInfo: OperationParameter = {
+  parameterPath: "clientGroupInfo",
+  mapper: ClientGroupMapper
+};
+
+export const clientName: OperationURLParameter = {
+  parameterPath: "clientName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-a-zA-Z0-9:\\._]*$"),
+      MaxLength: 128,
+      MinLength: 1
+    },
+    serializedName: "clientName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const clientInfo: OperationParameter = {
+  parameterPath: "clientInfo",
+  mapper: ClientMapper
 };
 
 export const domainName: OperationURLParameter = {
@@ -318,6 +411,48 @@ export const systemTopicName: OperationURLParameter = {
   }
 };
 
+export const topicName1: OperationURLParameter = {
+  parameterPath: "topicName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
+      MaxLength: 50,
+      MinLength: 3
+    },
+    serializedName: "topicName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const eventSubscriptionName1: OperationURLParameter = {
+  parameterPath: "eventSubscriptionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
+      MaxLength: 50,
+      MinLength: 3
+    },
+    serializedName: "eventSubscriptionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const eventSubscriptionInfo1: OperationParameter = {
+  parameterPath: "eventSubscriptionInfo",
+  mapper: SubscriptionMapper
+};
+
+export const eventSubscriptionUpdateParameters1: OperationParameter = {
+  parameterPath: "eventSubscriptionUpdateParameters",
+  mapper: SubscriptionUpdateParametersMapper
+};
+
 export const partnerTopicName: OperationURLParameter = {
   parameterPath: "partnerTopicName",
   mapper: {
@@ -329,17 +464,32 @@ export const partnerTopicName: OperationURLParameter = {
   }
 };
 
-export const topicInfo: OperationParameter = {
-  parameterPath: "topicInfo",
-  mapper: TopicMapper
+export const namespaceInfo: OperationParameter = {
+  parameterPath: "namespaceInfo",
+  mapper: NamespaceMapper
 };
 
-export const topicUpdateParameters: OperationParameter = {
-  parameterPath: "topicUpdateParameters",
-  mapper: TopicUpdateParametersMapper
+export const namespaceUpdateParameters: OperationParameter = {
+  parameterPath: "namespaceUpdateParameters",
+  mapper: NamespaceUpdateParametersMapper
 };
 
 export const regenerateKeyRequest1: OperationParameter = {
+  parameterPath: "regenerateKeyRequest",
+  mapper: NamespaceRegenerateKeyRequestMapper
+};
+
+export const namespaceTopicInfo: OperationParameter = {
+  parameterPath: "namespaceTopicInfo",
+  mapper: NamespaceTopicMapper
+};
+
+export const namespaceTopicUpdateParameters: OperationParameter = {
+  parameterPath: "namespaceTopicUpdateParameters",
+  mapper: NamespaceTopicUpdateParametersMapper
+};
+
+export const regenerateKeyRequest2: OperationParameter = {
   parameterPath: "regenerateKeyRequest",
   mapper: TopicRegenerateKeyRequestMapper
 };
@@ -359,6 +509,32 @@ export const partnerInfo: OperationParameter = {
   mapper: PartnerMapper
 };
 
+export const partnerDestinationName: OperationURLParameter = {
+  parameterPath: "partnerDestinationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
+      MaxLength: 50,
+      MinLength: 3
+    },
+    serializedName: "partnerDestinationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const partnerDestination: OperationParameter = {
+  parameterPath: "partnerDestination",
+  mapper: PartnerDestinationMapper
+};
+
+export const partnerDestinationUpdateParameters: OperationParameter = {
+  parameterPath: "partnerDestinationUpdateParameters",
+  mapper: PartnerDestinationUpdateParametersMapper
+};
+
 export const partnerNamespaceInfo: OperationParameter = {
   parameterPath: "partnerNamespaceInfo",
   mapper: PartnerNamespaceMapper
@@ -369,7 +545,7 @@ export const partnerNamespaceUpdateParameters: OperationParameter = {
   mapper: PartnerNamespaceUpdateParametersMapper
 };
 
-export const regenerateKeyRequest2: OperationParameter = {
+export const regenerateKeyRequest3: OperationParameter = {
   parameterPath: "regenerateKeyRequest",
   mapper: PartnerNamespaceRegenerateKeyRequestMapper
 };
@@ -403,6 +579,27 @@ export const partnerTopicInfo: OperationParameter = {
 export const partnerTopicUpdateParameters: OperationParameter = {
   parameterPath: "partnerTopicUpdateParameters",
   mapper: PartnerTopicUpdateParametersMapper
+};
+
+export const permissionBindingName: OperationURLParameter = {
+  parameterPath: "permissionBindingName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
+      MaxLength: 50,
+      MinLength: 3
+    },
+    serializedName: "permissionBindingName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const permissionBindingInfo: OperationParameter = {
+  parameterPath: "permissionBindingInfo",
+  mapper: PermissionBindingMapper
 };
 
 export const parentType: OperationURLParameter = {
@@ -475,6 +672,16 @@ export const systemTopicUpdateParameters: OperationParameter = {
   mapper: SystemTopicUpdateParametersMapper
 };
 
+export const topicInfo: OperationParameter = {
+  parameterPath: "topicInfo",
+  mapper: TopicMapper
+};
+
+export const topicUpdateParameters: OperationParameter = {
+  parameterPath: "topicUpdateParameters",
+  mapper: TopicUpdateParametersMapper
+};
+
 export const scope1: OperationURLParameter = {
   parameterPath: "scope",
   mapper: {
@@ -484,6 +691,27 @@ export const scope1: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const topicSpaceName: OperationURLParameter = {
+  parameterPath: "topicSpaceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
+      MaxLength: 50,
+      MinLength: 3
+    },
+    serializedName: "topicSpaceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const topicSpaceInfo: OperationParameter = {
+  parameterPath: "topicSpaceInfo",
+  mapper: TopicSpaceMapper
 };
 
 export const verifiedPartnerName: OperationURLParameter = {

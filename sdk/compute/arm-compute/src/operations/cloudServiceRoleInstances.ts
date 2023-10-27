@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   RoleInstance,
   CloudServiceRoleInstancesListNextOptionalParams,
@@ -140,14 +144,14 @@ export class CloudServiceRoleInstancesImpl
     resourceGroupName: string,
     cloudServiceName: string,
     options?: CloudServiceRoleInstancesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -180,13 +184,13 @@ export class CloudServiceRoleInstancesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { roleInstanceName, resourceGroupName, cloudServiceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { roleInstanceName, resourceGroupName, cloudServiceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -284,14 +288,14 @@ export class CloudServiceRoleInstancesImpl
     resourceGroupName: string,
     cloudServiceName: string,
     options?: CloudServiceRoleInstancesRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -324,13 +328,13 @@ export class CloudServiceRoleInstancesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { roleInstanceName, resourceGroupName, cloudServiceName, options },
-      restartOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { roleInstanceName, resourceGroupName, cloudServiceName, options },
+      spec: restartOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -373,14 +377,14 @@ export class CloudServiceRoleInstancesImpl
     resourceGroupName: string,
     cloudServiceName: string,
     options?: CloudServiceRoleInstancesReimageOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -413,13 +417,13 @@ export class CloudServiceRoleInstancesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { roleInstanceName, resourceGroupName, cloudServiceName, options },
-      reimageOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { roleInstanceName, resourceGroupName, cloudServiceName, options },
+      spec: reimageOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -463,14 +467,14 @@ export class CloudServiceRoleInstancesImpl
     resourceGroupName: string,
     cloudServiceName: string,
     options?: CloudServiceRoleInstancesRebuildOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -503,13 +507,13 @@ export class CloudServiceRoleInstancesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { roleInstanceName, resourceGroupName, cloudServiceName, options },
-      rebuildOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { roleInstanceName, resourceGroupName, cloudServiceName, options },
+      spec: rebuildOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

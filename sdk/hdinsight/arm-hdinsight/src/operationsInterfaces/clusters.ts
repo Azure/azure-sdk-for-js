@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Cluster,
   ClustersListByResourceGroupOptionalParams,
@@ -72,8 +72,8 @@ export interface Clusters {
     parameters: ClusterCreateParametersExtended,
     options?: ClustersCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersCreateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersCreateResponse>,
       ClustersCreateResponse
     >
   >;
@@ -113,7 +113,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -150,7 +150,7 @@ export interface Clusters {
     roleName: RoleName,
     parameters: ClusterResizeParameters,
     options?: ClustersResizeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resizes the specified HDInsight cluster to the specified size.
    * @param resourceGroupName The name of the resource group.
@@ -180,7 +180,7 @@ export interface Clusters {
     roleName: RoleName,
     parameters: AutoscaleConfigurationUpdateParameter,
     options?: ClustersUpdateAutoScaleConfigurationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Updates the Autoscale Configuration for HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -208,7 +208,7 @@ export interface Clusters {
     clusterName: string,
     parameters: ClusterDiskEncryptionParameters,
     options?: ClustersRotateDiskEncryptionKeyOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Rotate disk encryption key of the specified HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -245,7 +245,7 @@ export interface Clusters {
     clusterName: string,
     parameters: UpdateGatewaySettingsParameters,
     options?: ClustersUpdateGatewaySettingsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Configures the gateway settings on the specified cluster.
    * @param resourceGroupName The name of the resource group.
@@ -284,7 +284,7 @@ export interface Clusters {
     clusterName: string,
     parameters: UpdateClusterIdentityCertificateParameters,
     options?: ClustersUpdateIdentityCertificateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Updates the cluster identity certificate.
    * @param resourceGroupName The name of the resource group.
@@ -310,7 +310,7 @@ export interface Clusters {
     clusterName: string,
     parameters: ExecuteScriptActionParameters,
     options?: ClustersExecuteScriptActionsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Executes script actions on the specified HDInsight cluster.
    * @param resourceGroupName The name of the resource group.

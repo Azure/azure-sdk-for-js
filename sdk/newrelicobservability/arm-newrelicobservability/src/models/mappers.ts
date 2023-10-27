@@ -1605,6 +1605,21 @@ export const MonitorsDeleteHeaders: coreClient.CompositeMapper = {
   }
 };
 
+export const MonitorsSwitchBillingHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitorsSwitchBillingHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const TagRulesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

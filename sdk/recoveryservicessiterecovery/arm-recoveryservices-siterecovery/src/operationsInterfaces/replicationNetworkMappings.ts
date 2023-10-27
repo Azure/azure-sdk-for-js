@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NetworkMapping,
   ReplicationNetworkMappingsListByReplicationNetworksOptionalParams,
@@ -92,8 +92,8 @@ export interface ReplicationNetworkMappings {
     input: CreateNetworkMappingInput,
     options?: ReplicationNetworkMappingsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationNetworkMappingsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationNetworkMappingsCreateResponse>,
       ReplicationNetworkMappingsCreateResponse
     >
   >;
@@ -134,7 +134,7 @@ export interface ReplicationNetworkMappings {
     networkName: string,
     networkMappingName: string,
     options?: ReplicationNetworkMappingsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete a network mapping.
    * @param resourceName The name of the recovery services vault.
@@ -173,8 +173,8 @@ export interface ReplicationNetworkMappings {
     input: UpdateNetworkMappingInput,
     options?: ReplicationNetworkMappingsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationNetworkMappingsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationNetworkMappingsUpdateResponse>,
       ReplicationNetworkMappingsUpdateResponse
     >
   >;

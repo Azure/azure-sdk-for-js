@@ -3,17 +3,24 @@
 
 import { assert } from "chai";
 import { QueueServiceClient } from "../src/QueueServiceClient";
-import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { record, delay, Recorder } from "@azure-tools/test-recorder";
+import {
+  getAlternateQSU,
+  getQSU,
+  getSASConnectionStringFromEnvironment,
+  uriSanitizers,
+} from "./utils";
+import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure/test-utils";
-import { recorderEnvSetup } from "./utils/index.browser";
+import { configureStorageClient, getUniqueName, recorderEnvSetup } from "./utils/index.browser";
 import { Context } from "mocha";
 
 describe("QueueServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
   afterEach(async function () {
@@ -21,7 +28,7 @@ describe("QueueServiceClient", () => {
   });
 
   it("listQueues with default parameters", async () => {
-    const queueServiceClient = getQSU();
+    const queueServiceClient = getQSU(recorder);
     const result = (await queueServiceClient.listQueues().byPage().next()).value;
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
@@ -39,7 +46,7 @@ describe("QueueServiceClient", () => {
   });
 
   it("listQueues with default parameters - empty prefix should not cause an error", async () => {
-    const queueServiceClient = getQSU();
+    const queueServiceClient = getQSU(recorder);
     const result = (await queueServiceClient.listQueues({ prefix: "" }).byPage().next()).value;
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
@@ -57,9 +64,9 @@ describe("QueueServiceClient", () => {
   });
 
   it("listQueues with all parameters", async () => {
-    const queueServiceClient = getQSU();
+    const queueServiceClient = getQSU(recorder);
 
-    const queueNamePrefix = recorder.getUniqueName("queue");
+    const queueNamePrefix = recorder.variable("queue", getUniqueName("queue"));
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
     const queueClient1 = queueServiceClient.getQueueClient(queueName1);
@@ -102,9 +109,9 @@ describe("QueueServiceClient", () => {
   });
 
   it("Verify PagedAsyncIterableIterator for listQueues", async () => {
-    const queueServiceClient = getQSU();
+    const queueServiceClient = getQSU(recorder);
 
-    const queueNamePrefix = recorder.getUniqueName("queue");
+    const queueNamePrefix = recorder.variable("queue", getUniqueName("queue"));
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
 
@@ -126,9 +133,9 @@ describe("QueueServiceClient", () => {
   });
 
   it("Verify PagedAsyncIterableIterator(generator .next() syntax) for listQueues", async () => {
-    const queueServiceClient = getQSU();
+    const queueServiceClient = getQSU(recorder);
 
-    const queueNamePrefix = recorder.getUniqueName("queue");
+    const queueNamePrefix = recorder.variable("queue", getUniqueName("queue"));
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
 
@@ -155,8 +162,8 @@ describe("QueueServiceClient", () => {
 
   it("Verify PagedAsyncIterableIterator(byPage()) for listQueues", async () => {
     const queueClients = [];
-    const queueServiceClient = getQSU();
-    const queueNamePrefix = recorder.getUniqueName("queue");
+    const queueServiceClient = getQSU(recorder);
+    const queueNamePrefix = recorder.variable("queue", getUniqueName("queue"));
 
     for (let i = 0; i < 4; i++) {
       const queueClient = queueServiceClient.getQueueClient(`${queueNamePrefix}x${i}`);
@@ -183,8 +190,8 @@ describe("QueueServiceClient", () => {
 
   it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listQueues", async () => {
     const queueClients = [];
-    const queueServiceClient = getQSU();
-    const queueNamePrefix = recorder.getUniqueName("queue");
+    const queueServiceClient = getQSU(recorder);
+    const queueNamePrefix = recorder.variable("queue", getUniqueName("queue"));
 
     for (let i = 0; i < 4; i++) {
       const queueClient = queueServiceClient.getQueueClient(`${queueNamePrefix}x${i}`);
@@ -228,7 +235,7 @@ describe("QueueServiceClient", () => {
   });
 
   it("getProperties with default/all parameters", async () => {
-    const queueServiceClient = getQSU();
+    const queueServiceClient = getQSU(recorder);
     const result = await queueServiceClient.getProperties();
 
     assert.ok(typeof result.requestId);
@@ -247,7 +254,7 @@ describe("QueueServiceClient", () => {
   });
 
   it("setProperties with all parameters", async () => {
-    const queueServiceClient = getQSU();
+    const queueServiceClient = getQSU(recorder);
 
     const serviceProperties = await queueServiceClient.getProperties();
 
@@ -309,7 +316,7 @@ describe("QueueServiceClient", () => {
   it("getStatistics with default/all parameters secondary", (done) => {
     let queueServiceClient: QueueServiceClient | undefined;
     try {
-      queueServiceClient = getAlternateQSU();
+      queueServiceClient = getAlternateQSU(recorder);
     } catch (err: any) {
       done();
       return;
@@ -327,8 +334,9 @@ describe("QueueServiceClient", () => {
 
   it("can be created from a sas connection string", async () => {
     const newClient = QueueServiceClient.fromConnectionString(
-      getSASConnectionStringFromEnvironment()
+      getSASConnectionStringFromEnvironment(recorder)
     );
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -337,8 +345,8 @@ describe("QueueServiceClient", () => {
   });
 
   it("can create and delete a queue", async () => {
-    const queueServiceClient = getQSU();
-    const queueName = recorder.getUniqueName("queue");
+    const queueServiceClient = getQSU(recorder);
+    const queueName = recorder.variable("queue", getUniqueName("queue"));
 
     // creates a queue
     await queueServiceClient.createQueue(queueName);
@@ -348,7 +356,7 @@ describe("QueueServiceClient", () => {
     };
     await queueServiceClient.getQueueClient(queueName).setMetadata(metadata);
 
-    const result = await getQSU().getQueueClient(queueName).getProperties();
+    const result = await getQSU(recorder).getQueueClient(queueName).getProperties();
     assert.deepEqual(result.metadata, metadata);
 
     // deletes the queue
@@ -369,6 +377,7 @@ describe("QueueServiceClient", () => {
 
   it("verify custom endpoint without valid accountName", async () => {
     const newClient = new QueueServiceClient(`https://customdomain.com/`);
+    configureStorageClient(recorder, newClient);
     assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
   });
 });

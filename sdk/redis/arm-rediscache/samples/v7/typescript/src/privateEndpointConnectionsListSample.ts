@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the private endpoint connections associated with the redis cache.
  *
  * @summary List all the private endpoint connections associated with the redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheListPrivateEndpointConnections.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-04-01/examples/RedisCacheListPrivateEndpointConnections.json
  */
 async function redisCacheListPrivateEndpointConnection() {
   const subscriptionId =

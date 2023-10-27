@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves continuous backup information for a gremlin graph.
  *
  * @summary Retrieves continuous backup information for a gremlin graph.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-03-15/examples/CosmosDBGremlinGraphBackupInformation.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBGremlinGraphBackupInformation.json
  */
 async function cosmosDbGremlinGraphBackupInformation() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

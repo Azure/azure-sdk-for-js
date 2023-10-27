@@ -24,7 +24,7 @@ async function main() {
 
   const poller = await client.beginAnalyzeDocumentFromUrl(
     PrebuiltDocumentModel,
-    // The form recognizer service will access the following URL to a receipt image and extract data from it
+    // The Document Intelligence service will access the following URL to a receipt image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/selection_mark_form.pdf"
   );
 

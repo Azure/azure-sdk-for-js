@@ -1,0 +1,101 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/identities?api-version=2022-10-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "34",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-identity/1.2.1 core-rest-pipeline/1.12.2 Node/v18.17.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "48470100-90e9-4b8b-982e-581e2374ef8a",
+        "x-ms-content-sha256": "k4k9IoKBLYipoiXK3LctfBcfghISSb6AI45ji7ILZfg=",
+        "x-ms-date": "Wed, 20 Sep 2023 22:48:51 GMT"
+      },
+      "RequestBody": {
+        "createTokenWithScopes": [
+          "voip"
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01, 2023-08-01, 2023-10-01",
+        "Connection": "keep-alive",
+        "Content-Length": "220",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 20 Sep 2023 22:48:52 GMT",
+        "MS-CV": "pyQlJ\u002BE6XU\u002BlMc/w9Vcwkg.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "x-azure-ref": "20230920T224852Z-fckmxgbqv10x90xv9zvchk7ke8000000092000000000ewe8",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-client-request-id": "48470100-90e9-4b8b-982e-581e2374ef8a",
+        "X-Processing-Time": "20ms"
+      },
+      "ResponseBody": {
+        "identity": {
+          "id": "Sanitized"
+        },
+        "accessToken": {
+          "token": "faketoken",
+          "expiresOn": "2023-09-21T22:48:52.1505315\u002B00:00"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/rooms?api-version=2023-10-30-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "98",
+        "Content-Type": "application/json",
+        "Repeatability-First-Sent": "Wed, 20 Sep 2023 22:48:52 GMT",
+        "Repeatability-Request-ID": "7909999d-ff90-4ccf-aa6d-67423e641b80",
+        "User-Agent": "azsdk-js-communication-rooms/1.1.0-beta.1 core-rest-pipeline/1.12.2 Node/v18.17.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a36a5c32-b520-4378-8aed-36bb57973c9a",
+        "x-ms-content-sha256": "mPU1DfS/sQtkBb\u002BcFFlMozW6178/XW7m1jKUDZ4apcg=",
+        "x-ms-date": "Wed, 20 Sep 2023 22:48:52 GMT"
+      },
+      "RequestBody": {
+        "validFrom": "2023-09-20T22:48:47.000Z",
+        "validUntil": "2023-09-20T22:43:47.000Z",
+        "participants": {}
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 20 Sep 2023 22:48:52 GMT",
+        "MS-CV": "p4WyPqIzw0SJQrN7k2TbQA.0",
+        "Request-Context": "appId=",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "20230920T224852Z-fckmxgbqv10x90xv9zvchk7ke8000000092000000000ewee",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-error-code": "BadRequest"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "BadRequest",
+          "message": "The request could not be understood by the server due to malformed syntax.",
+          "details": [
+            {
+              "code": "BadArgument",
+              "message": "The time range end is in the past.",
+              "target": "ValidUntil"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "validFrom": "Wed Sep 20 2023 15:48:47 GMT-0700 (Pacific Daylight Saving Time)",
+    "validUntil": "Wed Sep 20 2023 15:43:47 GMT-0700 (Pacific Daylight Saving Time)"
+  }
+}

@@ -7,5 +7,8 @@ stages:
       ServiceDirectory: search
       TimeoutInMinutes: 90
       # TODO: change 'Preview' cloud back to public after search RP fixes deletion metadata issue
-      Clouds: 'Preview'
-      SupportedClouds: 'Preview,UsGov,China'
+      Clouds: "Preview"
+      SupportedClouds: "Preview,UsGov,China"
+      CloudConfig:
+        Preview:
+          Location: "westcentralus"

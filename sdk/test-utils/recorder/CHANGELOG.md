@@ -1,14 +1,24 @@
 # Release History
 
-## 3.0.1 (Unreleased)
+## 3.1.0 (Unreleased)
 
 ### Features Added
+
+- Add support for setting `TLSValidationCert` in the Test Proxy Transport.
+- Add a `testPollingOptions` that allow skip polling wait in playback mode.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
+- Fixed a bug where environment variables were not being sanitized correctly when one's original value is a substring of another. [#27187](https://github.com/Azure/azure-sdk-for-js/pull/27187)
+
 ### Other Changes
+
+- Improved some error messages: [#26094](https://github.com/Azure/azure-sdk-for-js/pull/26094)
+  - Clarify error when attempting to redirect a request but the recorder has not been started
+  - Forward mismatch error when recording file cannot be found during `start` call in playback mode
+  - Add more descriptive message in the case that the test proxy has not been started before running the tests
 
 ## 3.0.0 (2023-03-07)
 

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClient } from "../apiManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   GlobalSchemaContract,
   GlobalSchemaListByServiceNextOptionalParams,
@@ -45,7 +49,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * Lists a collection of schemas registered with service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -129,7 +133,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * Lists a collection of schemas registered with service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -146,7 +150,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * Gets the entity state (Etag) version of the Schema specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -165,7 +169,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * Gets the details of the Schema specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -184,7 +188,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * Creates new or updates existing specified Schema of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param parameters Create or update parameters.
@@ -197,8 +201,8 @@ export class GlobalSchemaImpl implements GlobalSchema {
     parameters: GlobalSchemaContract,
     options?: GlobalSchemaCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GlobalSchemaCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<GlobalSchemaCreateOrUpdateResponse>,
       GlobalSchemaCreateOrUpdateResponse
     >
   > {
@@ -208,7 +212,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
     ): Promise<GlobalSchemaCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -241,15 +245,18 @@ export class GlobalSchemaImpl implements GlobalSchema {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, schemaId, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, schemaId, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      GlobalSchemaCreateOrUpdateResponse,
+      OperationState<GlobalSchemaCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -257,7 +264,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * Creates new or updates existing specified Schema of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param parameters Create or update parameters.
@@ -282,7 +289,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * Deletes specific Schema.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -304,7 +311,7 @@ export class GlobalSchemaImpl implements GlobalSchema {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -423,7 +430,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters55,
+  requestBody: Parameters.parameters66,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

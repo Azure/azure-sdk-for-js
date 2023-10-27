@@ -1,0 +1,20 @@
+displayNames:
+  # this makes it so these don't show up in the scenario names, 
+  # since they're just clutter.
+  1.5Gi": ""
+  4Gi": ""
+  image: ""
+matrix:
+  images:
+    node18:
+      image: Dockerfile
+  scenarios:
+    noActivity:
+       testTarget: scenarioNoActivity
+       memory: "1.5Gi"
+    checkpointStore:
+       testTarget: scenarioCheckpointStore
+       memory: "1.5Gi"
+    getRuntimeProps:
+      testTarget: scenarioGetRuntimeProps
+      memory: "1.5Gi"

@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./amlFilesystems";
 export * from "./operations";
 export * from "./skus";
 export * from "./usageModels";
@@ -14,4 +15,3 @@ export * from "./ascUsages";
 export * from "./caches";
 export * from "./storageTargets";
 export * from "./storageTargetOperations";
-export * from "./amlFilesystems";

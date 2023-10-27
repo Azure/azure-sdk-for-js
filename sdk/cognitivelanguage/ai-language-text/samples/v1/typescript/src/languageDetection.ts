@@ -33,7 +33,9 @@ export async function main() {
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
 
-  const result = await client.analyze("LanguageDetection", documents, "us");
+  const result = await client.analyze("LanguageDetection", documents, "us", {
+    modelVersion: "2022-04-10-preview",
+  });
 
   for (const doc of result) {
     if (!doc.error) {

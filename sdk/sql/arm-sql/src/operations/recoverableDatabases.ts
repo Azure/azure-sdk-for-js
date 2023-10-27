@@ -188,7 +188,7 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -209,9 +209,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion1,
     Parameters.expand,
-    Parameters.filter1
+    Parameters.filter1,
+    Parameters.apiVersion2
   ],
   urlParameters: [
     Parameters.$host,

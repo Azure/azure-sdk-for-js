@@ -45,7 +45,7 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
   /**
    * Lists all Tags descriptions in scope of API. Model similar to swagger - tagDescription is defined on
    * API level but tag may be assigned to the Operations
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -140,7 +140,7 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
   /**
    * Lists all Tags descriptions in scope of API. Model similar to swagger - tagDescription is defined on
    * API level but tag may be assigned to the Operations
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -160,7 +160,7 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
 
   /**
    * Gets the entity state version of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -183,7 +183,7 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
 
   /**
    * Get Tag description in scope of API
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -206,7 +206,7 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
 
   /**
    * Create/Update tag description in scope of the Api.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -238,7 +238,7 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
 
   /**
    * Delete tag description for the Api.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -271,7 +271,7 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -388,7 +388,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters13,
+  requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

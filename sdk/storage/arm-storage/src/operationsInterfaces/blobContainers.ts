@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ListContainerItem,
   BlobContainersListOptionalParams,
@@ -339,7 +339,7 @@ export interface BlobContainers {
     accountName: string,
     containerName: string,
     options?: BlobContainersObjectLevelWormOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * This operation migrates a blob container from container level WORM to object level immutability
    * enabled container. Prerequisites require a container level immutability policy either in locked or

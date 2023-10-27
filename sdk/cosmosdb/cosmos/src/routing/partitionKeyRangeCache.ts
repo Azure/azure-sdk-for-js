@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { MetadataLookUpType } from "../CosmosDiagnostics";
 import { PartitionKeyRange } from "../client/Container/PartitionKeyRange";
 import { ClientContext } from "../ClientContext";
 import { getIdFromLink } from "../common/helper";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import { withMetadataDiagnostics } from "../utils/diagnostics";
 import { createCompleteRoutingMap } from "./CollectionRoutingMapFactory";
 import { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap";
 import { QueryRange } from "./QueryRange";
@@ -22,12 +25,16 @@ export class PartitionKeyRangeCache {
    * @hidden
    */
   public async onCollectionRoutingMap(
-    collectionLink: string
+    collectionLink: string,
+    diagnosticNode: DiagnosticNodeInternal,
+    forceRefresh: boolean = false
   ): Promise<InMemoryCollectionRoutingMap> {
     const collectionId = getIdFromLink(collectionLink);
-    if (this.collectionRoutingMapByCollectionId[collectionId] === undefined) {
-      this.collectionRoutingMapByCollectionId[collectionId] =
-        this.requestCollectionRoutingMap(collectionLink);
+    if (this.collectionRoutingMapByCollectionId[collectionId] === undefined || forceRefresh) {
+      this.collectionRoutingMapByCollectionId[collectionId] = this.requestCollectionRoutingMap(
+        collectionLink,
+        diagnosticNode
+      );
     }
     return this.collectionRoutingMapByCollectionId[collectionId];
   }
@@ -38,18 +45,27 @@ export class PartitionKeyRangeCache {
    */
   public async getOverlappingRanges(
     collectionLink: string,
-    queryRange: QueryRange
+    queryRange: QueryRange,
+    diagnosticNode: DiagnosticNodeInternal,
+    forceRefresh: boolean = false
   ): Promise<PartitionKeyRange[]> {
-    const crm = await this.onCollectionRoutingMap(collectionLink);
+    const crm = await this.onCollectionRoutingMap(collectionLink, diagnosticNode, forceRefresh);
     return crm.getOverlappingRanges(queryRange);
   }
 
   private async requestCollectionRoutingMap(
-    collectionLink: string
+    collectionLink: string,
+    diagnosticNode: DiagnosticNodeInternal
   ): Promise<InMemoryCollectionRoutingMap> {
-    const { resources } = await this.clientContext
-      .queryPartitionKeyRanges(collectionLink)
-      .fetchAll();
+    const { resources } = await withMetadataDiagnostics(
+      async (metadataDiagnostics: DiagnosticNodeInternal) => {
+        return this.clientContext
+          .queryPartitionKeyRanges(collectionLink)
+          .fetchAllInternal(metadataDiagnostics);
+      },
+      diagnosticNode,
+      MetadataLookUpType.PartitionKeyRangeLookUp
+    );
     return createCompleteRoutingMap(resources.map((r) => [r, true]));
   }
 }

@@ -10,6 +10,7 @@ import {
   StatusCodes,
   SubStatusCodes,
 } from "../common";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { FeedOptions } from "../request";
 import { Response } from "../request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
@@ -85,9 +86,12 @@ export class DocumentProducer {
     return bufferedResults;
   }
 
-  public fetchFunction = async (options: FeedOptions): Promise<Response<Resource>> => {
+  public fetchFunction = async (
+    diagnosticNode: DiagnosticNodeInternal,
+    options: FeedOptions
+  ): Promise<Response<Resource>> => {
     const path = getPathFromLink(this.collectionLink, ResourceType.item);
-
+    diagnosticNode.addData({ partitionKeyRangeId: this.targetPartitionKeyRange.id });
     const id = getIdFromLink(this.collectionLink);
 
     return this.clientContext.queryFeed({
@@ -95,10 +99,9 @@ export class DocumentProducer {
       resourceType: ResourceType.item,
       resourceId: id,
       resultFn: (result: any) => result.Documents,
-
       query: this.query,
       options,
-
+      diagnosticNode,
       partitionKeyRangeId: this.targetPartitionKeyRange["id"],
     });
   };
@@ -153,14 +156,14 @@ export class DocumentProducer {
   /**
    * Fetches and bufferes the next page of results and executes the given callback
    */
-  public async bufferMore(): Promise<Response<any>> {
+  public async bufferMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     if (this.err) {
       throw this.err;
     }
 
     try {
       const { result: resources, headers: headerResponse } =
-        await this.internalExecutionContext.fetchMore();
+        await this.internalExecutionContext.fetchMore(diagnosticNode);
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
       if (resources !== undefined) {
@@ -191,7 +194,10 @@ export class DocumentProducer {
         const bufferedError = new FetchResult(undefined, err);
         this.fetchResults.push(bufferedError);
         // Putting a dummy result so that the rest of code flows
-        return { result: [bufferedError], headers: err.headers };
+        return {
+          result: [bufferedError],
+          headers: err.headers,
+        };
       } else {
         this._updateStates(err, err.resources === undefined);
         throw err;
@@ -211,14 +217,14 @@ export class DocumentProducer {
   /**
    * Fetches the next element in the DocumentProducer.
    */
-  public async nextItem(): Promise<Response<any>> {
+  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     if (this.err) {
       this._updateStates(this.err, undefined);
       throw this.err;
     }
 
     try {
-      const { result, headers } = await this.current();
+      const { result, headers } = await this.current(diagnosticNode);
 
       const fetchResult = this.fetchResults.shift();
       this._updateStates(undefined, result === undefined);
@@ -243,7 +249,7 @@ export class DocumentProducer {
   /**
    * Retrieve the current element on the DocumentProducer.
    */
-  public async current(): Promise<Response<any>> {
+  public async current(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     // If something is buffered just give that
     if (this.fetchResults.length > 0) {
       const fetchResult = this.fetchResults[0];
@@ -274,11 +280,11 @@ export class DocumentProducer {
     }
 
     // If there are no more bufferd items and there are still items to be fetched then buffer more
-    const { result, headers } = await this.bufferMore();
+    const { result, headers } = await this.bufferMore(diagnosticNode);
     mergeHeaders(this.respHeaders, headers);
     if (result === undefined) {
       return { result: undefined, headers: this.respHeaders };
     }
-    return this.current();
+    return this.current(diagnosticNode);
   }
 }

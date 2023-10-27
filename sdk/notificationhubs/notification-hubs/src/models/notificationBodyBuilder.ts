@@ -100,6 +100,16 @@ export interface AppleCriticalSound {
  */
 export interface AppleNativeMessage extends Record<string, any> {
   /**
+   * The Apple specific push notification information.
+   */
+  aps?: AppleApsNativeMessage;
+}
+
+/**
+ * Represents a native APNs APS message.
+ */
+export interface AppleApsNativeMessage extends Record<string, any> {
+  /**
    * The information for displaying an alert.
    */
   alert?: string | AppleAlert;
@@ -159,6 +169,31 @@ export interface AppleNativeMessage extends Record<string, any> {
    * The criteria the system evaluates to determine if it displays the notification in the current Focus.
    */
   "filter-criteria"?: string;
+
+  /**
+   * The UNIX timestamp that represents the date at which a Live Activity becomes stale, or out of date.
+   */
+  "stale-date"?: number;
+
+  /**
+   * The updated or final content for a Live Activity.
+   */
+  "content-state"?: Record<string, any>;
+
+  /**
+   * The UNIX timestamp that marks the time when you send the remote notification that updates or ends a Live Activity.
+   */
+  timestamp?: number;
+
+  /**
+   * The string that describes whether you update or end an ongoing Live Activity with the remote push notification. To update the Live Activity, use update. To end the Live Activity, use end.
+   */
+  events?: string;
+
+  /**
+   * The UNIX timestamp that represents the date at which the system ends a Live Activity and removes it from the Dynamic Island and the Lock Screen.
+   */
+  "dismissal-date"?: number;
 }
 
 /**

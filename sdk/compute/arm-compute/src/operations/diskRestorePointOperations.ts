@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DiskRestorePoint,
   DiskRestorePointListByRestorePointNextOptionalParams,
@@ -208,8 +212,8 @@ export class DiskRestorePointOperationsImpl
     grantAccessData: GrantAccessData,
     options?: DiskRestorePointGrantAccessOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DiskRestorePointGrantAccessResponse>,
+    SimplePollerLike<
+      OperationState<DiskRestorePointGrantAccessResponse>,
       DiskRestorePointGrantAccessResponse
     >
   > {
@@ -219,7 +223,7 @@ export class DiskRestorePointOperationsImpl
     ): Promise<DiskRestorePointGrantAccessResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -252,9 +256,9 @@ export class DiskRestorePointOperationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         restorePointCollectionName,
         vmRestorePointName,
@@ -262,12 +266,15 @@ export class DiskRestorePointOperationsImpl
         grantAccessData,
         options
       },
-      grantAccessOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: grantAccessOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DiskRestorePointGrantAccessResponse,
+      OperationState<DiskRestorePointGrantAccessResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -317,14 +324,14 @@ export class DiskRestorePointOperationsImpl
     vmRestorePointName: string,
     diskRestorePointName: string,
     options?: DiskRestorePointRevokeAccessOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -357,21 +364,21 @@ export class DiskRestorePointOperationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         restorePointCollectionName,
         vmRestorePointName,
         diskRestorePointName,
         options
       },
-      revokeAccessOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: revokeAccessOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

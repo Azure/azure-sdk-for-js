@@ -1,14 +1,29 @@
 # Release History
 
-## 4.7.1 (Unreleased)
+## 4.8.0-beta.1 (Unreleased)
 
 ### Features Added
+
+- Added `hsmPlatform` property to `KeyProperties`.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.7.2 (2023-08-10)
+
+### Bugs Fixed
+
+- Fixed a bug where `listPropertiesOfKeysVersions` failed to retrieve the second page of results. Issue [#26547](https://github.com/Azure/azure-sdk-for-js/issues/26547); PR [#26584](https://github.com/Azure/azure-sdk-for-js/pull/26584).
+- Bumped `@azure/core-rest-pipeline` dependency to version including the `isRestError` helper, which was used in PR [#26016](https://github.com/Azure/azure-sdk-for-js/issues/26016).
+
+## 4.7.1 (2023-06-06)
+
+### Bugs Fixed
+
+- Fixed an issue where cryptographic operations would fail if the client did not have the get permission on the key, even if it had permission for the underlying operation. Issue [#26001](https://github.com/Azure/azure-sdk-for-js/issues/26001); PR [#26016](https://github.com/Azure/azure-sdk-for-js/issues/26016)
 
 ## 4.7.0 (2023-03-09)
 

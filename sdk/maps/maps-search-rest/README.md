@@ -16,7 +16,7 @@ Key links:
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Latest versions of Safari, Chrome, Edge and Firefox.
 
 ### Prerequisites
@@ -103,20 +103,27 @@ const { isUnexpected } = require("@azure-rest/maps-search");
 
 /** Initialize the MapsSearchClient */
 const client = MapsSearch(new AzureKeyCredential("<subscription-key>"));
-/** Make a request to the geocoding API */
-const response = await client
-  .path("/search/address/{format}", "json")
-  .get({ queryParameters: { query: "400 Broad, Seattle" } });
-/** Handle error response */
-if (isUnexpected(response)) {
-  throw response.body.error;
+
+async function main(){
+  /** Make a request to the geocoding API */
+  const response = await client
+    .path("/search/address/{format}", "json")
+    .get({ queryParameters: { query: "400 Broad, Seattle" } });
+  /** Handle error response */
+  if (isUnexpected(response)) {
+    throw response.body.error;
+  }
+  /** Log the response body. */
+  console.log(`The followings are the possible coordinates of the address:`);
+  response.body.results.forEach((result) => {
+    const { lat, lon } = result.position;
+    console.log(`Latitude: ${lat}, Longitude: ${lon}`);
+  });
 }
-/** Log the response body. */
-console.log(`The followings are the possible coordinates of the address:`);
-response.body.results.forEach((result) => {
-  const { lat, lon } = result.position;
-  console.log(`Latitude: ${lat}, Longitude: ${lon}`);
-});
+
+main().catch((err) => {
+    console.log(err);
+})
 ```
 
 ### Search for an address or Point of Interest
@@ -130,19 +137,26 @@ const { isUnexpected } = require("@azure-rest/maps-search");
 
 /** Initialize the MapsSearchClient */
 const client = MapsSearch(new AzureKeyCredential("<subscription-key>"));
-/** Make a request */
-const response = await client
-  .path("/search/fuzzy/{format}", "json")
-  .get({ queryParameters: { query: "pizza", countrySet: ["fr"] } });
-/** Handle the error response */
-if (isUnexpected(response)) {
-  throw response.body.error;
-}
+
+async function main(){
+  /** Make a request */
+  const response = await client
+    .path("/search/fuzzy/{format}", "json")
+    .get({ queryParameters: { query: "pizza", countrySet: ["fr"] } });
+  /** Handle the error response */
+  if (isUnexpected(response)) {
+    throw response.body.error;
+  }
 /** Log the response body */
-response.body.results.forEach((result) => {
-  console.log(`Address: ${result.address.freeformAddress}`);
-  console.log(`Coordinate: (${result.position.lat}, ${result.position.lon})\n`);
-});
+  response.body.results.forEach((result) => {
+    console.log(`Address: ${result.address.freeformAddress}`);
+    console.log(`Coordinate: (${result.position.lat}, ${result.position.lon})\n`);
+  });
+}
+
+main().catch((err) => {
+    console.log(err);
+})
 ```
 
 ### Make a Reverse Address Search to translate coordinate location to street address
@@ -157,18 +171,25 @@ const { isUnexpected } = require("@azure-rest/maps-search");
 
 /** Initialize the MapsSearchClient */
 const client = MapsSearch(new AzureKeyCredential("<subscription-key>"));
-/** Make the request. */
-const response = await client.path("/search/address/reverse/{format}", "json").get({
-  queryParameters: { query: [37.337, -121.89] }, // [latitude, longitude],
-});
-/** Handle error response. */
-if (isUnexpected(response)) {
-  throw response.body.error;
+
+async function main(){
+  /** Make the request. */
+  const response = await client.path("/search/address/reverse/{format}", "json").get({
+    queryParameters: { query: [37.337, -121.89] }, // [latitude, longitude],
+  });
+  /** Handle error response. */
+  if (isUnexpected(response)) {
+    throw response.body.error;
+  }
+  /** Log the response body. */
+  response.body.addresses.forEach((address) => {
+    console.log(address.address.freeformAddress);
+  });
 }
-/** Log the response body. */
-response.body.addresses.forEach((address) => {
-  console.log(address.address.freeformAddress);
-});
+
+main().catch((err) => {
+    console.log(err);
+})
 ```
 
 ### Translate coordinate location into a human understandable cross street
@@ -182,21 +203,28 @@ const { isUnexpected } = require("@azure-rest/maps-search");
 
 /** Initialize the MapsSearchClient */
 const client = MapsSearch(new AzureKeyCredential("<subscription-key>"));
-/** Make the request. */
-const response = await client.path("/search/address/reverse/crossStreet/{format}", "json").get({
-  queryParameters: { query: [37.337, -121.89] },
-});
-/** Handle error response */
-if (isUnexpected(response)) {
-  throw response.body.error;
-}
-/** Log the response body */
-response.body.addresses.forEach(({ address }) => {
-  if (!address) {
-    throw Error("Unexpected error: address is undefined");
+
+async function main(){
+  /** Make the request. */
+  const response = await client.path("/search/address/reverse/crossStreet/{format}", "json").get({
+    queryParameters: { query: [37.337, -121.89] },
+  });
+  /** Handle error response */
+  if (isUnexpected(response)) {
+    throw response.body.error;
   }
-  console.log(address.streetName);
-});
+  /** Log the response body */
+  response.body.addresses.forEach(({ address }) => {
+    if (!address) {
+      throw Error("Unexpected error: address is undefined");
+    }
+    console.log(address.streetName);
+  });
+}
+
+main().catch((err) => {
+    console.log(err);
+})
 ```
 
 ## Troubleshooting

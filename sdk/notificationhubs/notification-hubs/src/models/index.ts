@@ -4,6 +4,7 @@
 export * from "./installation.js";
 export * from "./notification.js";
 export * from "./notificationBodyBuilder.js";
+export * from "./notificationHeaderBuilder.js";
 export * from "./notificationDetails.js";
 export * from "./notificationHubJob.js";
 export * from "./options.js";

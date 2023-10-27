@@ -13,12 +13,12 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Starts Assessment on SQL virtual machine.
+ * This sample demonstrates how to Starts SQL best practices Assessment on SQL virtual machine.
  *
- * @summary Starts Assessment on SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/StartAssessmentOnSqlVirtualMachine.json
+ * @summary Starts SQL best practices Assessment on SQL virtual machine.
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/StartAssessmentOnSqlVirtualMachine.json
  */
-async function startsAssessmentOnSqlVirtualMachine() {
+async function startsSqlBestPracticesAssessmentOnSqlVirtualMachine() {
   const subscriptionId =
     process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
@@ -33,7 +33,7 @@ async function startsAssessmentOnSqlVirtualMachine() {
 }
 
 async function main() {
-  startsAssessmentOnSqlVirtualMachine();
+  startsSqlBestPracticesAssessmentOnSqlVirtualMachine();
 }
 
 main().catch(console.error);

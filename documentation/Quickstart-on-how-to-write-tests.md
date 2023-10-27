@@ -22,13 +22,10 @@ This page is to help you write and run tests quickly for Javascript Codegen SDK 
 
 The Azure SDK test framework uses the [`test-recorder`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md) library, which in turn rests upon on a HTTP recording system ([testproxy](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy)) that enables tests dependent on network interaction to be run offline.
 
-At the moment, tests in our repo depend on one of the two different versions of the recorder tool (`@azure-tools/test-recorder`) - `1.a.b` and `2.x.y`. And this quickstart is based on 2.x.y version.
+Please notice that this quickstart is based on 3.x.y version of recorder tool (`@azure-tools/test-recorder`).
 
 # Prerequisites
 
-- Docker
-  - [Docker](https://www.docker.com/get-started/) is required, as the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) is running in a container during testing
-  - When running the tests, ensure the Docker daemon is running and you have permission to use it.
 - Rush 5.x
   - Install/update Rush globally via `npm install -g @microsoft/rush`
 - Any of [the LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
@@ -185,10 +182,11 @@ const envSetupForPlayback: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  AZURE_SUBSCRIPTION_ID: "azure_subscription_id"
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
-  envSetupForPlaayback,
+  envSetupForPlayback,
 };
 
 //...
@@ -280,7 +278,7 @@ const envSetupForPlayback: Record<string, string> = {
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
-  envSetupForPlaayback,
+  envSetupForPlayback,
 };
 
 /**

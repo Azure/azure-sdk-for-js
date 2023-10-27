@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LibraryResource,
   LibraryListOptionalParams,
@@ -41,7 +41,7 @@ export interface Library {
   beginFlush(
     libraryName: string,
     options?: LibraryFlushOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Flush Library
    * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
@@ -70,7 +70,7 @@ export interface Library {
   beginDelete(
     libraryName: string,
     options?: LibraryDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Library
    * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
@@ -100,7 +100,7 @@ export interface Library {
   beginCreate(
     libraryName: string,
     options?: LibraryCreateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Creates a library with the library name.
    * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the

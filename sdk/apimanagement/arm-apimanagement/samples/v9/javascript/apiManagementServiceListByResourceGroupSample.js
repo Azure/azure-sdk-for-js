@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all API Management services within a resource group.
  *
  * @summary List all API Management services within a resource group.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListServiceBySubscriptionAndResourceGroup.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListServiceBySubscriptionAndResourceGroup.json
  */
 async function apiManagementListServiceBySubscriptionAndResourceGroup() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

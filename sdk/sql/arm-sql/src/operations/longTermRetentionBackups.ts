@@ -1615,7 +1615,7 @@ const copyOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters66,
+  requestBody: Parameters.parameters64,
   queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
@@ -1648,7 +1648,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters67,
+  requestBody: Parameters.parameters65,
   queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
@@ -1791,7 +1791,7 @@ const copyByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters66,
+  requestBody: Parameters.parameters64,
   queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
@@ -1825,7 +1825,7 @@ const updateByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters67,
+  requestBody: Parameters.parameters65,
   queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,

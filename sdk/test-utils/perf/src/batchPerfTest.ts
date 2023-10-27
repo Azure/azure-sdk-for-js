@@ -2,12 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike, AbortController } from "@azure/abort-controller";
-import {
-  TestProxyHttpClient,
-  TestProxyHttpClientV1,
-  testProxyHttpPolicy,
-} from "./testProxyHttpClient";
-import { HttpClient } from "@azure/core-http";
+import { TestProxyHttpClient, testProxyHttpPolicy } from "./testProxyHttpClient";
 import { PerfTestBase } from "./perfTestBase";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 
@@ -19,7 +14,6 @@ export abstract class BatchPerfTest<
 > extends PerfTestBase<TOptions> {
   private readonly testProxy!: string;
   public testProxyHttpClient!: TestProxyHttpClient;
-  public testProxyHttpClientV1!: TestProxyHttpClientV1;
 
   public constructor() {
     super();
@@ -31,25 +25,6 @@ export abstract class BatchPerfTest<
   }
 
   public abstract runBatch(abortSignal?: AbortSignalLike): Promise<number>;
-
-  /**
-   * configureClientOptionsCoreV1
-   *
-   * For core-v1 - libraries depending on core-http
-   * Apply this method on the client options to get the proxy tool support
-   *
-   * Note: httpClient must be part of the options bag, it is required for the perf framework to update the underlying client properly
-   */
-  public configureClientOptionsCoreV1<T>(options: T & { httpClient?: HttpClient }): T {
-    if (this.testProxy) {
-      this.testProxyHttpClientV1 = new TestProxyHttpClientV1(
-        this.testProxy,
-        this.parsedOptions["insecure"].value
-      );
-      options.httpClient = this.testProxyHttpClientV1;
-    }
-    return options;
-  }
 
   /**
    * configureClientOptions
@@ -167,11 +142,9 @@ export abstract class BatchPerfTest<
     // => call the run method
     // => stop record
     // => start playback
-    let recorder: TestProxyHttpClientV1 | TestProxyHttpClient;
+    let recorder: TestProxyHttpClient;
     if (this.testProxyHttpClient) {
       recorder = this.testProxyHttpClient;
-    } else if (this.testProxyHttpClientV1) {
-      recorder = this.testProxyHttpClientV1;
     } else {
       throw new Error(
         "testProxyClient is not set, please make sure the client/options are configured properly."
@@ -193,8 +166,6 @@ export abstract class BatchPerfTest<
   private async stopPlayback() {
     if (this.testProxyHttpClient) {
       await this.testProxyHttpClient.stopPlayback();
-    } else if (this.testProxyHttpClientV1) {
-      await this.testProxyHttpClientV1.stopPlayback();
     }
   }
 }

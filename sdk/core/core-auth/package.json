@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-auth",
-  "version": "1.4.1",
+  "version": "1.5.1",
   "description": "Provides low-level interfaces and helper methods for authentication in Azure SDK",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -34,7 +34,7 @@
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
+    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -57,7 +57,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-auth/README.md",
   "sideEffects": false,
@@ -71,18 +71,22 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^16.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "downlevel-dts": "^0.10.0",
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",
-    "mocha": "^7.1.1",
+    "mocha": "^10.0.0",
     "mocha-junit-reporter": "^2.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "typescript": "~5.0.0",
-    "util": "^0.12.1"
+    "typescript": "~5.2.0",
+    "util": "^0.12.1",
+    "ts-node": "^10.0.0"
+  },
+  "//metadata": {
+    "migrationDate": "2023-03-08T18:36:03.000Z"
   }
 }

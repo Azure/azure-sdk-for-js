@@ -242,10 +242,10 @@ export const TrafficControllerListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const ResourceID: coreClient.CompositeMapper = {
+export const ResourceId: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ResourceID",
+    className: "ResourceId",
     modelProperties: {
       id: {
         serializedName: "id",
@@ -351,13 +351,6 @@ export const TrafficControllerUpdate: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "String" } }
         }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
       }
     }
   }
@@ -419,35 +412,32 @@ export const AssociationUpdate: coreClient.CompositeMapper = {
           value: { type: { name: "String" } }
         }
       },
-      properties: {
-        serializedName: "properties",
+      associationType: {
+        serializedName: "properties.associationType",
+        type: {
+          name: "String"
+        }
+      },
+      subnet: {
+        serializedName: "properties.subnet",
         type: {
           name: "Composite",
-          className: "AssociationUpdateProperties"
+          className: "AssociationSubnetUpdate"
         }
       }
     }
   }
 };
 
-export const AssociationUpdateProperties: coreClient.CompositeMapper = {
+export const AssociationSubnetUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AssociationUpdateProperties",
+    className: "AssociationSubnetUpdate",
     modelProperties: {
-      associationType: {
-        defaultValue: "subnets",
-        isConstant: true,
-        serializedName: "associationType",
+      id: {
+        serializedName: "id",
         type: {
           name: "String"
-        }
-      },
-      subnet: {
-        serializedName: "subnet",
-        type: {
-          name: "Composite",
-          className: "AssociationSubnet"
         }
       }
     }
@@ -482,22 +472,6 @@ export const FrontendListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const FrontendPropertiesIPAddress: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FrontendPropertiesIPAddress",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const FrontendUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -508,44 +482,6 @@ export const FrontendUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "FrontendUpdateProperties"
-        }
-      }
-    }
-  }
-};
-
-export const FrontendUpdateProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FrontendUpdateProperties",
-    modelProperties: {
-      mode: {
-        defaultValue: "public",
-        isConstant: true,
-        serializedName: "mode",
-        type: {
-          name: "String"
-        }
-      },
-      ipAddressVersion: {
-        serializedName: "ipAddressVersion",
-        type: {
-          name: "Enum",
-          allowedValues: ["IPv4", "IPv6"]
-        }
-      },
-      publicIPAddress: {
-        serializedName: "publicIPAddress",
-        type: {
-          name: "Composite",
-          className: "FrontendPropertiesIPAddress"
         }
       }
     }
@@ -602,7 +538,7 @@ export const TrafficController: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceID"
+              className: "ResourceId"
             }
           }
         }
@@ -615,7 +551,7 @@ export const TrafficController: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceID"
+              className: "ResourceId"
             }
           }
         }
@@ -638,8 +574,6 @@ export const Association: coreClient.CompositeMapper = {
     modelProperties: {
       ...TrackedResource.type.modelProperties,
       associationType: {
-        defaultValue: "subnets",
-        isConstant: true,
         serializedName: "properties.associationType",
         type: {
           name: "String"
@@ -669,26 +603,11 @@ export const Frontend: coreClient.CompositeMapper = {
     className: "Frontend",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      mode: {
-        defaultValue: "public",
-        isConstant: true,
-        serializedName: "properties.mode",
+      fqdn: {
+        serializedName: "properties.fqdn",
+        readOnly: true,
         type: {
           name: "String"
-        }
-      },
-      ipAddressVersion: {
-        serializedName: "properties.ipAddressVersion",
-        type: {
-          name: "Enum",
-          allowedValues: ["IPv4", "IPv6"]
-        }
-      },
-      publicIPAddress: {
-        serializedName: "properties.publicIPAddress",
-        type: {
-          name: "Composite",
-          className: "FrontendPropertiesIPAddress"
         }
       },
       provisioningState: {
@@ -758,16 +677,16 @@ export const AssociationsInterfaceDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AssociationsInterfaceDeleteHeaders",
     modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
       retryAfter: {
         serializedName: "retry-after",
         type: {
           name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }
@@ -794,16 +713,16 @@ export const FrontendsInterfaceDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "FrontendsInterfaceDeleteHeaders",
     modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
       retryAfter: {
         serializedName: "retry-after",
         type: {
           name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }

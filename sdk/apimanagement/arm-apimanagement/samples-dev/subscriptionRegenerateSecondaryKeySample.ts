@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Regenerates secondary key of existing subscription of the API Management service instance.
  *
  * @summary Regenerates secondary key of existing subscription of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementSubscriptionRegenerateSecondaryKey.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementSubscriptionRegenerateSecondaryKey.json
  */
 async function apiManagementSubscriptionRegenerateSecondaryKey() {
   const subscriptionId =

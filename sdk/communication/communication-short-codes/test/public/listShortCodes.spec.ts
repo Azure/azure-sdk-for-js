@@ -23,7 +23,7 @@ describe(`ShortCodesClient - lists Short Codes`, function () {
 
   it("can list all acquired short codes", async function () {
     for await (const shortCode of client.listShortCodes()) {
-      assert.isNotNull(shortCode.number);
+      assert.isNotNull(shortCode.value);
     }
   }).timeout(20000);
 
@@ -32,7 +32,7 @@ describe(`ShortCodesClient - lists Short Codes`, function () {
     for await (const page of pages) {
       // loop over each item in the page
       for (const shortCode of page) {
-        assert.isNotNull(shortCode.number);
+        assert.isNotNull(shortCode.value);
       }
     }
   }).timeout(20000);

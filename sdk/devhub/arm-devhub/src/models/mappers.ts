@@ -505,6 +505,99 @@ export const WorkflowRun: coreClient.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      workflowRunStatus: {
+        serializedName: "workflowRunStatus",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ArtifactGenerationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ArtifactGenerationProperties",
+    modelProperties: {
+      generationLanguage: {
+        serializedName: "generationLanguage",
+        type: {
+          name: "String"
+        }
+      },
+      languageVersion: {
+        serializedName: "languageVersion",
+        type: {
+          name: "String"
+        }
+      },
+      builderVersion: {
+        serializedName: "builderVersion",
+        type: {
+          name: "String"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "String"
+        }
+      },
+      appName: {
+        serializedName: "appName",
+        type: {
+          name: "String"
+        }
+      },
+      dockerfileOutputDirectory: {
+        serializedName: "dockerfileOutputDirectory",
+        type: {
+          name: "String"
+        }
+      },
+      manifestOutputDirectory: {
+        serializedName: "manifestOutputDirectory",
+        type: {
+          name: "String"
+        }
+      },
+      dockerfileGenerationMode: {
+        serializedName: "dockerfileGenerationMode",
+        type: {
+          name: "String"
+        }
+      },
+      manifestGenerationMode: {
+        serializedName: "manifestGenerationMode",
+        type: {
+          name: "String"
+        }
+      },
+      manifestType: {
+        serializedName: "manifestType",
+        type: {
+          name: "String"
+        }
+      },
+      imageName: {
+        serializedName: "imageName",
+        type: {
+          name: "String"
+        }
+      },
+      namespace: {
+        serializedName: "namespace",
+        type: {
+          name: "String"
+        }
+      },
+      imageTag: {
+        serializedName: "imageTag",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -597,6 +690,91 @@ export const Workflow: coreClient.CompositeMapper = {
     className: "Workflow",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      generationLanguage: {
+        serializedName:
+          "properties.artifactGenerationProperties.generationLanguage",
+        type: {
+          name: "String"
+        }
+      },
+      languageVersion: {
+        serializedName:
+          "properties.artifactGenerationProperties.languageVersion",
+        type: {
+          name: "String"
+        }
+      },
+      builderVersion: {
+        serializedName:
+          "properties.artifactGenerationProperties.builderVersion",
+        type: {
+          name: "String"
+        }
+      },
+      port: {
+        serializedName: "properties.artifactGenerationProperties.port",
+        type: {
+          name: "String"
+        }
+      },
+      appName: {
+        serializedName: "properties.artifactGenerationProperties.appName",
+        type: {
+          name: "String"
+        }
+      },
+      dockerfileOutputDirectory: {
+        serializedName:
+          "properties.artifactGenerationProperties.dockerfileOutputDirectory",
+        type: {
+          name: "String"
+        }
+      },
+      manifestOutputDirectory: {
+        serializedName:
+          "properties.artifactGenerationProperties.manifestOutputDirectory",
+        type: {
+          name: "String"
+        }
+      },
+      dockerfileGenerationMode: {
+        serializedName:
+          "properties.artifactGenerationProperties.dockerfileGenerationMode",
+        type: {
+          name: "String"
+        }
+      },
+      manifestGenerationMode: {
+        serializedName:
+          "properties.artifactGenerationProperties.manifestGenerationMode",
+        type: {
+          name: "String"
+        }
+      },
+      manifestType: {
+        serializedName: "properties.artifactGenerationProperties.manifestType",
+        type: {
+          name: "String"
+        }
+      },
+      imageName: {
+        serializedName: "properties.artifactGenerationProperties.imageName",
+        type: {
+          name: "String"
+        }
+      },
+      namespacePropertiesArtifactGenerationPropertiesNamespace: {
+        serializedName: "properties.artifactGenerationProperties.namespace",
+        type: {
+          name: "String"
+        }
+      },
+      imageTag: {
+        serializedName: "properties.artifactGenerationProperties.imageTag",
+        type: {
+          name: "String"
+        }
+      },
       repositoryOwner: {
         serializedName: "properties.githubWorkflowProfile.repositoryOwner",
         type: {
@@ -634,7 +812,7 @@ export const Workflow: coreClient.CompositeMapper = {
           className: "DeploymentProperties"
         }
       },
-      namespace: {
+      namespacePropertiesGithubWorkflowProfileNamespace: {
         serializedName: "properties.githubWorkflowProfile.namespace",
         type: {
           name: "String"
@@ -690,6 +868,7 @@ export const Workflow: coreClient.CompositeMapper = {
       },
       authStatus: {
         serializedName: "properties.githubWorkflowProfile.authStatus",
+        readOnly: true,
         type: {
           name: "String"
         }

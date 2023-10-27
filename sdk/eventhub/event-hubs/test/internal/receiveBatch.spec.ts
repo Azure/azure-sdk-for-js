@@ -88,6 +88,7 @@ testWithServiceTypes((serviceVersion) => {
         const receiver = createReceiver(
           consumerClient["_context"],
           EventHubConsumerClient.defaultConsumerGroupName,
+          "Consumer",
           partitionId,
           startPosition,
           {
@@ -143,6 +144,7 @@ testWithServiceTypes((serviceVersion) => {
         const receiver = createReceiver(
           consumerClient["_context"],
           EventHubConsumerClient.defaultConsumerGroupName,
+          "Consumer",
           partitionId,
           startPosition,
           {

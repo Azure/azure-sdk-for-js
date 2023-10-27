@@ -4,10 +4,17 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
 import { newPipeline, ShareClient, SignedIdentifier, StorageSharedKeyCredential } from "../../src";
-import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
+import {
+  configureStorageClient,
+  getBSU,
+  getConnectionStringFromEnvironment,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "../utils";
 
 describe("ShareClient Node.js only", () => {
   let shareName: string;
@@ -16,9 +23,11 @@ describe("ShareClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const serviceClient = getBSU();
-    shareName = recorder.getUniqueName("share");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const serviceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
   });
@@ -29,8 +38,8 @@ describe("ShareClient Node.js only", () => {
   });
 
   it("setAccessPolicy", async () => {
-    const yesterday = recorder.newDate("now");
-    const tomorrow = recorder.newDate("now");
+    const yesterday = new Date(recorder.variable("now", new Date().toISOString()));
+    const tomorrow = new Date(recorder.variable("now", new Date().toISOString()));
     yesterday.setDate(yesterday.getDate() - 1);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
@@ -83,9 +92,9 @@ describe("ShareClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = (shareClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = shareClient["credential"] as StorageSharedKeyCredential;
     const newClient = new ShareClient(shareClient.url, credential);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -97,13 +106,13 @@ describe("ShareClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = (shareClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = shareClient["credential"] as StorageSharedKeyCredential;
     const newClient = new ShareClient(shareClient.url, credential, {
       retryOptions: {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -115,10 +124,10 @@ describe("ShareClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = (shareClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = shareClient["credential"] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ShareClient(shareClient.url, pipeline);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -131,6 +140,7 @@ describe("ShareClient Node.js only", () => {
 
   it("can be created with a connection string and a share name", async () => {
     const newClient = new ShareClient(getConnectionStringFromEnvironment(), shareName);
+    configureStorageClient(recorder, newClient);
     const result = await newClient.getProperties();
 
     assert.ok(result.etag!.length > 0);
@@ -146,6 +156,7 @@ describe("ShareClient Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
     const result = await newClient.getProperties();
 
     assert.ok(result.etag!.length > 0);

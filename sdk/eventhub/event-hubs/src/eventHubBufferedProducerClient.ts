@@ -20,6 +20,7 @@ import { AmqpAnnotatedMessage, delay } from "@azure/core-amqp";
 import { BatchingPartitionChannel } from "./batchingPartitionChannel";
 import { PartitionAssigner } from "./impl/partitionAssigner";
 import { logger } from "./logger";
+import { getRandomName } from "./util/utils";
 
 /**
  * Contains the events that were successfully sent to the Event Hub,
@@ -205,6 +206,12 @@ export class EventHubBufferedProducerClient {
   }
 
   /**
+   * The name used to identify this EventHubBufferedProducerClient.
+   * If not specified or empty, a random unique one will be generated.
+   */
+  public readonly identifier: string;
+
+  /**
    * The `EventHubBufferedProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param connectionString - The connection string to use for connecting to the Event Hub instance.
@@ -272,28 +279,30 @@ export class EventHubBufferedProducerClient {
     options4?: EventHubBufferedProducerClientOptions
   ) {
     if (typeof eventHubNameOrOptions2 !== "string") {
-      this._producer = new EventHubProducerClient(
-        fullyQualifiedNamespaceOrConnectionString1,
-        eventHubNameOrOptions2
-      );
+      this.identifier = eventHubNameOrOptions2.identifier ?? getRandomName();
+      this._producer = new EventHubProducerClient(fullyQualifiedNamespaceOrConnectionString1, {
+        ...eventHubNameOrOptions2,
+        identifier: this.identifier,
+      });
       this._clientOptions = { ...eventHubNameOrOptions2 };
     } else if (!isCredential(credentialOrOptions3)) {
+      this.identifier = credentialOrOptions3?.identifier ?? getRandomName();
       this._producer = new EventHubProducerClient(
         fullyQualifiedNamespaceOrConnectionString1,
         eventHubNameOrOptions2,
-        credentialOrOptions3
+        { ...credentialOrOptions3, identifier: this.identifier }
       );
       this._clientOptions = { ...credentialOrOptions3! };
     } else {
+      this.identifier = options4?.identifier ?? getRandomName();
       this._producer = new EventHubProducerClient(
         fullyQualifiedNamespaceOrConnectionString1,
         eventHubNameOrOptions2,
         credentialOrOptions3,
-        options4
+        { ...options4, identifier: this.identifier }
       );
       this._clientOptions = { ...options4! };
     }
-
     // setting internal idempotent publishing option on the standard producer.
     (this._producer as any)._enableIdempotentRetries = this._clientOptions.enableIdempotentRetries;
   }

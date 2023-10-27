@@ -150,9 +150,9 @@ export const defaultCredentials: DefaultCredentialConstructor[] = [
   EnvironmentCredential,
   DefaultWorkloadIdentityCredential,
   DefaultManagedIdentityCredential,
-  DefaultAzureDeveloperCliCredential,
   DefaultAzureCliCredential,
   DefaultAzurePowershellCredential,
+  DefaultAzureDeveloperCliCredential,
 ];
 
 /**
@@ -171,9 +171,9 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    * - {@link EnvironmentCredential}
    * - {@link WorkloadIdentityCredential}
    * - {@link ManagedIdentityCredential}
-   * - {@link AzureDeveloperCliCredential}
    * - {@link AzureCliCredential}
    * - {@link AzurePowerShellCredential}
+   * - {@link AzureDeveloperCliCredential}
    *
    * Consult the documentation of these credential types for more information
    * on how they attempt authentication.
@@ -193,9 +193,9 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    * - {@link EnvironmentCredential}
    * - {@link WorkloadIdentityCredential}
    * - {@link ManagedIdentityCredential}
-   * - {@link AzureDeveloperCliCredential}
    * - {@link AzureCliCredential}
    * - {@link AzurePowerShellCredential}
+   * - {@link AzureDeveloperCliCredential}
    *
    * Consult the documentation of these credential types for more information
    * on how they attempt authentication.
@@ -215,9 +215,9 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    * - {@link EnvironmentCredential}
    * - {@link WorkloadIdentityCredential}
    * - {@link ManagedIdentityCredential}
-   * - {@link AzureDeveloperCliCredential}
    * - {@link AzureCliCredential}
    * - {@link AzurePowerShellCredential}
+   * - {@link AzureDeveloperCliCredential}
    *
    * Consult the documentation of these credential types for more information
    * on how they attempt authentication.

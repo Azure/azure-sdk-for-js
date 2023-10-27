@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MobileNetworkManagementClient } from "../mobileNetworkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SimGroup,
   SimGroupsListBySubscriptionNextOptionalParams,
@@ -28,7 +32,7 @@ import {
   SimGroupsGetResponse,
   SimGroupsCreateOrUpdateOptionalParams,
   SimGroupsCreateOrUpdateResponse,
-  TagsObject,
+  IdentityAndTagsObject,
   SimGroupsUpdateTagsOptionalParams,
   SimGroupsUpdateTagsResponse,
   SimGroupsListBySubscriptionNextResponse,
@@ -181,14 +185,14 @@ export class SimGroupsImpl implements SimGroups {
     resourceGroupName: string,
     simGroupName: string,
     options?: SimGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -221,15 +225,15 @@ export class SimGroupsImpl implements SimGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, simGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, simGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -284,8 +288,8 @@ export class SimGroupsImpl implements SimGroups {
     parameters: SimGroup,
     options?: SimGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SimGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SimGroupsCreateOrUpdateResponse>,
       SimGroupsCreateOrUpdateResponse
     >
   > {
@@ -295,7 +299,7 @@ export class SimGroupsImpl implements SimGroups {
     ): Promise<SimGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -328,15 +332,18 @@ export class SimGroupsImpl implements SimGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, simGroupName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, simGroupName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SimGroupsCreateOrUpdateResponse,
+      OperationState<SimGroupsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -365,16 +372,16 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Updates SIM group tags.
+   * Patch SIM group resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
-   * @param parameters Parameters supplied to update SIM group tags.
+   * @param parameters Parameters supplied to patch SIM group resource.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     simGroupName: string,
-    parameters: TagsObject,
+    parameters: IdentityAndTagsObject,
     options?: SimGroupsUpdateTagsOptionalParams
   ): Promise<SimGroupsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
@@ -512,7 +519,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -536,7 +543,7 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

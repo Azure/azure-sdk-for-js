@@ -1,14 +1,26 @@
 # Release History
 
-## 3.3.1 (Unreleased)
+## 4.1.0 (Unreleased)
 
 ### Features Added
+
+- Add a retryable client error that is thrown when the sender link is not ready.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.0.0 (2023-10-10)
+
+### Features Added
+
+- Changed `TokenProvider` to use native crypto libraries.  This changes the signature from `getToken` from being sync to async.
+
+### Breaking Changes
+
+- The `TokenProvider` and the `getToken` method has been changed to be async as it uses the underlying native crypto which is async.
 
 ## 3.3.0 (2023-04-06)
 

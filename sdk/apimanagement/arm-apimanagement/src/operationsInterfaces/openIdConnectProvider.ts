@@ -29,7 +29,7 @@ import {
 export interface OpenIdConnectProvider {
   /**
    * Lists of all the OpenId Connect Providers.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -40,7 +40,7 @@ export interface OpenIdConnectProvider {
   ): PagedAsyncIterableIterator<OpenidConnectProviderContract>;
   /**
    * Gets the entity state (Etag) version of the openIdConnectProvider specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param opid Identifier of the OpenID Connect Provider.
    * @param options The options parameters.
@@ -53,7 +53,7 @@ export interface OpenIdConnectProvider {
   ): Promise<OpenIdConnectProviderGetEntityTagResponse>;
   /**
    * Gets specific OpenID Connect Provider without secrets.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param opid Identifier of the OpenID Connect Provider.
    * @param options The options parameters.
@@ -66,7 +66,7 @@ export interface OpenIdConnectProvider {
   ): Promise<OpenIdConnectProviderGetResponse>;
   /**
    * Creates or updates the OpenID Connect Provider.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param opid Identifier of the OpenID Connect Provider.
    * @param parameters Create parameters.
@@ -81,7 +81,7 @@ export interface OpenIdConnectProvider {
   ): Promise<OpenIdConnectProviderCreateOrUpdateResponse>;
   /**
    * Updates the specific OpenID Connect Provider.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param opid Identifier of the OpenID Connect Provider.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -99,7 +99,7 @@ export interface OpenIdConnectProvider {
   ): Promise<OpenIdConnectProviderUpdateResponse>;
   /**
    * Deletes specific OpenID Connect Provider of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param opid Identifier of the OpenID Connect Provider.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -115,7 +115,7 @@ export interface OpenIdConnectProvider {
   ): Promise<void>;
   /**
    * Gets the client secret details of the OpenID Connect Provider.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param opid Identifier of the OpenID Connect Provider.
    * @param options The options parameters.

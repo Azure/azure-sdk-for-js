@@ -13,16 +13,20 @@ import {
   StorageManagementClient
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/DeletedFileSharesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/DeletedFileSharesList.json
  */
 async function listDeletedShares() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res9290";
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
   const accountName = "sto1590";
   const expand = "deleted";
   const options: FileSharesListOptionalParams = { expand };
@@ -39,17 +43,16 @@ async function listDeletedShares() {
   console.log(resArray);
 }
 
-listDeletedShares().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileShareSnapshotsList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileShareSnapshotsList.json
  */
 async function listShareSnapshots() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res9290";
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
   const accountName = "sto1590";
   const expand = "snapshots";
   const options: FileSharesListOptionalParams = { expand };
@@ -66,17 +69,16 @@ async function listShareSnapshots() {
   console.log(resArray);
 }
 
-listShareSnapshots().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileSharesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileSharesList.json
  */
 async function listShares() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res9290";
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
   const accountName = "sto1590";
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
@@ -90,4 +92,10 @@ async function listShares() {
   console.log(resArray);
 }
 
-listShares().catch(console.error);
+async function main() {
+  listDeletedShares();
+  listShareSnapshots();
+  listShares();
+}
+
+main().catch(console.error);

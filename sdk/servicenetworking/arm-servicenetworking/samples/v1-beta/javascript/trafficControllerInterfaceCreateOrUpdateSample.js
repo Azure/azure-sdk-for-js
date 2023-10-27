@@ -21,9 +21,9 @@ require("dotenv").config();
 async function putTrafficController() {
   const subscriptionId = process.env["SERVICENETWORKING_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SERVICENETWORKING_RESOURCE_GROUP"] || "rg1";
-  const trafficControllerName = "TC1";
+  const trafficControllerName = "tc1";
   const resource = {
-    location: "West US",
+    location: "NorthCentralUS",
     tags: { key1: "value1" },
   };
   const credential = new DefaultAzureCredential();

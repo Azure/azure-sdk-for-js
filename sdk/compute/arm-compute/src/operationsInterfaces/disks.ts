@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Disk,
   DisksListByResourceGroupOptionalParams,
@@ -58,8 +58,8 @@ export interface Disks {
     disk: Disk,
     options?: DisksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DisksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DisksCreateOrUpdateResponse>,
       DisksCreateOrUpdateResponse
     >
   >;
@@ -93,7 +93,7 @@ export interface Disks {
     disk: DiskUpdate,
     options?: DisksUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<DisksUpdateResponse>, DisksUpdateResponse>
+    SimplePollerLike<OperationState<DisksUpdateResponse>, DisksUpdateResponse>
   >;
   /**
    * Updates (patches) a disk.
@@ -135,7 +135,7 @@ export interface Disks {
     resourceGroupName: string,
     diskName: string,
     options?: DisksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a disk.
    * @param resourceGroupName The name of the resource group.
@@ -164,8 +164,8 @@ export interface Disks {
     grantAccessData: GrantAccessData,
     options?: DisksGrantAccessOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DisksGrantAccessResponse>,
+    SimplePollerLike<
+      OperationState<DisksGrantAccessResponse>,
       DisksGrantAccessResponse
     >
   >;
@@ -196,7 +196,7 @@ export interface Disks {
     resourceGroupName: string,
     diskName: string,
     options?: DisksRevokeAccessOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Revokes access to a disk.
    * @param resourceGroupName The name of the resource group.

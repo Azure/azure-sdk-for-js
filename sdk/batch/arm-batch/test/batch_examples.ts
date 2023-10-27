@@ -98,7 +98,7 @@ describe("Batch test", () => {
   };
 
   it("batchAccountOperations create test", async function () {
-    //await storageAccounts_beginCreateAndWait();
+    await storageAccounts_beginCreateAndWait();
     const res = await client.batchAccountOperations.beginCreateAndWait(resourceGroup, accountName, {
       location: location,
       autoStorage: {
@@ -318,5 +318,6 @@ describe("Batch test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
+    const res1 = await storage_client.storageAccounts.delete(resourceGroup, storageaccountName);
   });
 });

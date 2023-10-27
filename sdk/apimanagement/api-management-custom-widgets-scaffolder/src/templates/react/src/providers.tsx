@@ -20,6 +20,16 @@ export const SecretsContext = React.createContext<Secrets>({
   userId: "",
   apiVersion: "",
   managementApiUrl: "",
+  parentLocation: {
+    host: "",
+    hostname: "",
+    href: "",
+    origin: "",
+    pathname: "",
+    port: "",
+    protocol: "",
+    search: "",
+  },
 })
 export const SecretsProvider: React.FC<{children?: React.ReactNode; targetModule: TargetModule}> = (
   {children, targetModule},

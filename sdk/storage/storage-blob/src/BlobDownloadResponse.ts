@@ -341,6 +341,15 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
   }
 
   /**
+   * Returns the date and time the blob was created.
+   *
+   * @readonly
+   */
+  public get createdOn(): Date | undefined {
+    return this.originalResponse.createdOn;
+  }
+
+  /**
    * A name-value pair
    * to associate with a file storage object.
    *

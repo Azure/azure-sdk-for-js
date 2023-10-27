@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PartnerTopic,
   PartnerTopicsListBySubscriptionOptionalParams,
@@ -79,7 +79,7 @@ export interface PartnerTopics {
     resourceGroupName: string,
     partnerTopicName: string,
     options?: PartnerTopicsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete existing partner topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.

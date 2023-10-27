@@ -430,7 +430,6 @@ const listAvailableSkusByResourceGroupNextOperationSpec: coreClient.OperationSpe
       bodyMapper: Mappers.ApiError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

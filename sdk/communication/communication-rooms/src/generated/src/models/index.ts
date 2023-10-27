@@ -14,13 +14,15 @@ export interface CreateRoomRequest {
   validFrom?: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. The default value is the current date time plus 180 days. */
   validUntil?: Date;
+  /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+  pstnDialOutEnabled?: boolean;
   /** (Optional) Participants to be invited to the room. */
   participants?: { [propertyName: string]: ParticipantProperties };
 }
 
 export interface ParticipantProperties {
   /** The role of a room participant. The default value is Attendee. */
-  role?: Role;
+  role: Role;
 }
 
 /** The meeting room. */
@@ -33,6 +35,8 @@ export interface RoomModel {
   validFrom: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil: Date;
+  /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+  pstnDialOutEnabled: boolean;
 }
 
 /** The Communication Services error. */
@@ -78,11 +82,13 @@ export interface UpdateRoomRequest {
   validFrom?: Date;
   /** (Optional) The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
+  /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+  pstnDialOutEnabled?: boolean;
 }
 
 /** A collection of participants in a room. */
 export interface ParticipantsCollection {
-  /** A collection of participants */
+  /** A collection of participants. */
   value: RoomParticipant[];
   /** If there are more participants that can be retrieved, the next link will be populated. */
   nextLink?: string;
@@ -156,6 +162,8 @@ export interface RoomsCreateOptionalParams extends coreClient.OperationOptions {
   validFrom?: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. The default value is the current date time plus 180 days. */
   validUntil?: Date;
+  /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+  pstnDialOutEnabled?: boolean;
   /** (Optional) Participants to be invited to the room. */
   participants?: { [propertyName: string]: ParticipantProperties };
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-ID and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-ID is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
@@ -185,6 +193,8 @@ export interface RoomsUpdateOptionalParams extends coreClient.OperationOptions {
   validFrom?: Date;
   /** (Optional) The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
+  /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+  pstnDialOutEnabled?: boolean;
 }
 
 /** Contains response data for the update operation. */

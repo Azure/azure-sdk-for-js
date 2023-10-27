@@ -32,7 +32,7 @@ import {
 export interface Subscription {
   /**
    * Lists all subscriptions of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -43,7 +43,7 @@ export interface Subscription {
   ): PagedAsyncIterableIterator<SubscriptionContract>;
   /**
    * Gets the entity state (Etag) version of the apimanagement subscription specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.
@@ -57,7 +57,7 @@ export interface Subscription {
   ): Promise<SubscriptionGetEntityTagResponse>;
   /**
    * Gets the specified Subscription entity.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.
@@ -71,7 +71,7 @@ export interface Subscription {
   ): Promise<SubscriptionGetResponse>;
   /**
    * Creates or updates the subscription of specified user to the specified product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.
@@ -87,7 +87,7 @@ export interface Subscription {
   ): Promise<SubscriptionCreateOrUpdateResponse>;
   /**
    * Updates the details of a subscription specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.
@@ -106,7 +106,7 @@ export interface Subscription {
   ): Promise<SubscriptionUpdateResponse>;
   /**
    * Deletes the specified subscription.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.
@@ -123,7 +123,7 @@ export interface Subscription {
   ): Promise<void>;
   /**
    * Regenerates primary key of existing subscription of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.
@@ -137,7 +137,7 @@ export interface Subscription {
   ): Promise<void>;
   /**
    * Regenerates secondary key of existing subscription of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.
@@ -151,7 +151,7 @@ export interface Subscription {
   ): Promise<void>;
   /**
    * Gets the specified Subscription keys.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.

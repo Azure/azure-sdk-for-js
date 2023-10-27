@@ -26,7 +26,7 @@ jobs:
       BaseBranchName: $(DefaultBranch)
       PRBranchName: automated-rush-update-full
       CommitMsg: "Automatic rush update --full"
-      PRTitle: "Automatic rush update --full"
+      PRTitle: "[EngSys] automatic rush update --full"
       PRBody: "This is an automatic PR generated weekly with changes from running the command rush update --full"
       PushArgs: "-f"
 

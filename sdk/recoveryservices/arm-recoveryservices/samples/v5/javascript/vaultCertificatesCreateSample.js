@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Uploads a certificate for a resource.
  *
  * @summary Uploads a certificate for a resource.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PUTVaultCred.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-04-01/examples/PUTVaultCred.json
  */
 async function downloadVaultCredentialFile() {
   const subscriptionId =

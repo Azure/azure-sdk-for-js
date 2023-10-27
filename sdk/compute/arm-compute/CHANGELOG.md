@@ -1,15 +1,98 @@
 # Release History
+    
+## 21.2.0 (2023-08-14)
+    
+**Features**
 
-## 20.0.1 (Unreleased)
+  - Added Type Alias DomainNameLabelScopeTypes
+  - Added Type Alias NetworkInterfaceAuxiliaryMode
+  - Added Type Alias NetworkInterfaceAuxiliarySku
+  - Interface CreationData has a new optional parameter elasticSanResourceId
+  - Interface Disk has a new optional parameter lastOwnershipUpdateTime
+  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter auxiliaryMode
+  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter auxiliarySku
+  - Interface VirtualMachinePublicIPAddressDnsSettingsConfiguration has a new optional parameter domainNameLabelScope
+  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter auxiliarySku
+  - Interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings has a new optional parameter domainNameLabelScope
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter auxiliarySku
+  - Interface VirtualMachineScaleSetVM has a new optional parameter timeCreated
+  - Added Enum KnownDomainNameLabelScopeTypes
+  - Added Enum KnownNetworkInterfaceAuxiliaryMode
+  - Added Enum KnownNetworkInterfaceAuxiliarySku
+  - Enum KnownDiskCreateOption has a new value CopyFromSanSnapshot
+    
+    
+## 21.1.0 (2023-07-07)
+    
+**Features**
 
-### Features Added
+  - Added Type Alias FileFormat
+  - Interface GrantAccessData has a new optional parameter fileFormat
+  - Added Enum KnownFileFormat
+    
+    
+## 21.0.0 (2023-05-17)
+    
+**Features**
 
-### Breaking Changes
+  - Added operation DedicatedHosts.listAvailableSizes
+  - Added operation VirtualMachineScaleSets.beginReapply
+  - Added operation VirtualMachineScaleSets.beginReapplyAndWait
+  - Added Interface CommunityGalleryImageIdentifier
+  - Added Interface DedicatedHostSizeListResult
+  - Added Interface DedicatedHostsListAvailableSizesOptionalParams
+  - Added Interface DiskRestorePointAttributes
+  - Added Interface RestorePointEncryption
+  - Added Interface RunCommandManagedIdentity
+  - Added Interface SecurityPostureReference
+  - Added Interface VirtualMachineScaleSetsReapplyHeaders
+  - Added Interface VirtualMachineScaleSetsReapplyOptionalParams
+  - Added Type Alias DedicatedHostsListAvailableSizesResponse
+  - Added Type Alias EdgeZoneStorageAccountType
+  - Added Type Alias ExpandTypeForListVMs
+  - Added Type Alias ExpandTypesForListVMs
+  - Added Type Alias RestorePointEncryptionType
+  - Interface DedicatedHostUpdate has a new optional parameter sku
+  - Interface LinuxVMGuestPatchAutomaticByPlatformSettings has a new optional parameter bypassPlatformSafetyChecksOnUserSchedule
+  - Interface RestorePointSourceMetadata has a new optional parameter hyperVGeneration
+  - Interface RestorePointSourceVMDataDisk has a new optional parameter writeAcceleratorEnabled
+  - Interface RestorePointSourceVmosDisk has a new optional parameter writeAcceleratorEnabled
+  - Interface VirtualMachineExtension has a new optional parameter provisionAfterExtensions
+  - Interface VirtualMachineRunCommand has a new optional parameter errorBlobManagedIdentity
+  - Interface VirtualMachineRunCommand has a new optional parameter outputBlobManagedIdentity
+  - Interface VirtualMachineRunCommand has a new optional parameter treatFailureAsDeploymentFailure
+  - Interface VirtualMachineRunCommandScriptSource has a new optional parameter scriptUriManagedIdentity
+  - Interface VirtualMachineRunCommandUpdate has a new optional parameter errorBlobManagedIdentity
+  - Interface VirtualMachineRunCommandUpdate has a new optional parameter outputBlobManagedIdentity
+  - Interface VirtualMachineRunCommandUpdate has a new optional parameter treatFailureAsDeploymentFailure
+  - Interface VirtualMachineScaleSetsDeallocateOptionalParams has a new optional parameter hibernate
+  - Interface VirtualMachineScaleSetUpdate has a new optional parameter priorityMixPolicy
+  - Interface VirtualMachineScaleSetUpdate has a new optional parameter spotRestorePolicy
+  - Interface VirtualMachineScaleSetVMExtension has a new optional parameter location
+  - Interface VirtualMachineScaleSetVMExtension has a new optional parameter provisionAfterExtensions
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter computerName
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter hyperVGeneration
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osName
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osVersion
+  - Interface VirtualMachineScaleSetVMProfile has a new optional parameter securityPostureReference
+  - Interface VirtualMachinesListAllOptionalParams has a new optional parameter expand
+  - Interface VirtualMachinesListOptionalParams has a new optional parameter expand
+  - Interface WindowsVMGuestPatchAutomaticByPlatformSettings has a new optional parameter bypassPlatformSafetyChecksOnUserSchedule
+  - Added Enum KnownEdgeZoneStorageAccountType
+  - Added Enum KnownExpandTypeForListVMs
+  - Added Enum KnownExpandTypesForListVMs
+  - Added Enum KnownRestorePointEncryptionType
 
-### Bugs Fixed
+**Breaking Changes**
 
-### Other Changes
-
+  - Type of parameter identifier of interface CommunityGalleryImage is changed from GalleryImageIdentifier to CommunityGalleryImageIdentifier
+  - Type of parameter storageAccountType of interface GalleryTargetExtendedLocation is changed from StorageAccountType to EdgeZoneStorageAccountType
+  - Type of parameter diskRestorePoint of interface RestorePointSourceVMDataDisk is changed from ApiEntityReference to DiskRestorePointAttributes
+  - Type of parameter diskRestorePoint of interface RestorePointSourceVmosDisk is changed from ApiEntityReference to DiskRestorePointAttributes
+    
+    
 ## 20.0.0 (2023-01-05)
     
 **Features**
@@ -432,4 +515,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

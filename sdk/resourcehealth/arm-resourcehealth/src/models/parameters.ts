@@ -39,7 +39,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2017-07-01",
+    defaultValue: "2023-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -61,6 +61,9 @@ export const filter: OperationQueryParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "subscriptionId",
     required: true,
     type: {
@@ -82,6 +85,10 @@ export const expand: OperationQueryParameter = {
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
@@ -114,12 +121,57 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const name: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const eventTrackingId: OperationURLParameter = {
+  parameterPath: "eventTrackingId",
+  mapper: {
+    serializedName: "eventTrackingId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const impactedResourceName: OperationURLParameter = {
+  parameterPath: "impactedResourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>%?]+$")
+    },
+    serializedName: "impactedResourceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const queryStartTime: OperationQueryParameter = {
+  parameterPath: ["options", "queryStartTime"],
+  mapper: {
+    serializedName: "queryStartTime",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const issueName: OperationURLParameter = {
   parameterPath: "issueName",
   mapper: {
-    defaultValue: "default",
-    isConstant: true,
     serializedName: "issueName",
+    required: true,
     type: {
       name: "String"
     }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates SQL virtual machine group tags.
  *
  * @summary Updates SQL virtual machine group tags.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/UpdateSqlVirtualMachineGroup.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/UpdateSqlVirtualMachineGroup.json
  */
 async function updatesASqlVirtualMachineGroupTags() {
   const subscriptionId =

@@ -93,7 +93,7 @@ describe("dnsresolve test", () => {
 
   it("dnsResolvers delete clusters", async function () {
     const resArray = new Array();
-    const res = await client.dnsResolvers.beginDeleteAndWait(resourceGroup, dnsResolverName)
+    const res = await client.dnsResolvers.beginDeleteAndWait(resourceGroup, dnsResolverName, testPollingOptions)
     for await (const item of client.dnsResolvers.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

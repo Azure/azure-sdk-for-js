@@ -18,6 +18,7 @@ import {
   EmergingIssuesListNextOptionalParams,
   EmergingIssuesListOptionalParams,
   EmergingIssuesListResponse,
+  IssueNameParameter,
   EmergingIssuesGetOptionalParams,
   EmergingIssuesGetResponse,
   EmergingIssuesListNextResponse
@@ -91,16 +92,6 @@ export class EmergingIssuesImpl implements EmergingIssues {
   }
 
   /**
-   * Gets Azure services' emerging issues.
-   * @param options The options parameters.
-   */
-  get(
-    options?: EmergingIssuesGetOptionalParams
-  ): Promise<EmergingIssuesGetResponse> {
-    return this.client.sendOperationRequest({ options }, getOperationSpec);
-  }
-
-  /**
    * Lists Azure services' emerging issues.
    * @param options The options parameters.
    */
@@ -108,6 +99,21 @@ export class EmergingIssuesImpl implements EmergingIssues {
     options?: EmergingIssuesListOptionalParams
   ): Promise<EmergingIssuesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * Gets Azure services' emerging issues.
+   * @param issueName The name of the emerging issue.
+   * @param options The options parameters.
+   */
+  get(
+    issueName: IssueNameParameter,
+    options?: EmergingIssuesGetOptionalParams
+  ): Promise<EmergingIssuesGetResponse> {
+    return this.client.sendOperationRequest(
+      { issueName, options },
+      getOperationSpec
+    );
   }
 
   /**
@@ -128,22 +134,6 @@ export class EmergingIssuesImpl implements EmergingIssues {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.ResourceHealth/emergingIssues/{issueName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EmergingIssuesGetResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.issueName],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.ResourceHealth/emergingIssues",
   httpMethod: "GET",
@@ -157,6 +147,22 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.ResourceHealth/emergingIssues/{issueName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EmergingIssuesGetResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.issueName],
   headerParameters: [Parameters.accept],
   serializer
 };

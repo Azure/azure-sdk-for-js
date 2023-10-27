@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   WorkloadNetwork,
   WorkloadNetworksListNextOptionalParams,
@@ -1058,8 +1062,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     workloadNetworkSegment: WorkloadNetworkSegment,
     options?: WorkloadNetworksCreateSegmentsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreateSegmentsResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateSegmentsResponse>,
       WorkloadNetworksCreateSegmentsResponse
     >
   > {
@@ -1069,7 +1073,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     ): Promise<WorkloadNetworksCreateSegmentsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1102,19 +1106,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         segmentId,
         workloadNetworkSegment,
         options
       },
-      createSegmentsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createSegmentsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksCreateSegmentsResponse,
+      OperationState<WorkloadNetworksCreateSegmentsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1161,8 +1168,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     workloadNetworkSegment: WorkloadNetworkSegment,
     options?: WorkloadNetworksUpdateSegmentsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdateSegmentsResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateSegmentsResponse>,
       WorkloadNetworksUpdateSegmentsResponse
     >
   > {
@@ -1172,7 +1179,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     ): Promise<WorkloadNetworksUpdateSegmentsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1205,19 +1212,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         segmentId,
         workloadNetworkSegment,
         options
       },
-      updateSegmentsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateSegmentsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksUpdateSegmentsResponse,
+      OperationState<WorkloadNetworksUpdateSegmentsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1261,14 +1271,14 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     segmentId: string,
     options?: WorkloadNetworksDeleteSegmentOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1301,13 +1311,13 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateCloudName, segmentId, options },
-      deleteSegmentOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, privateCloudName, segmentId, options },
+      spec: deleteSegmentOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1387,8 +1397,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     workloadNetworkDhcp: WorkloadNetworkDhcp,
     options?: WorkloadNetworksCreateDhcpOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreateDhcpResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateDhcpResponse>,
       WorkloadNetworksCreateDhcpResponse
     >
   > {
@@ -1398,7 +1408,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     ): Promise<WorkloadNetworksCreateDhcpResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1431,19 +1441,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         dhcpId,
         workloadNetworkDhcp,
         options
       },
-      createDhcpOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createDhcpOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksCreateDhcpResponse,
+      OperationState<WorkloadNetworksCreateDhcpResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1490,8 +1503,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     workloadNetworkDhcp: WorkloadNetworkDhcp,
     options?: WorkloadNetworksUpdateDhcpOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdateDhcpResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateDhcpResponse>,
       WorkloadNetworksUpdateDhcpResponse
     >
   > {
@@ -1501,7 +1514,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     ): Promise<WorkloadNetworksUpdateDhcpResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1534,19 +1547,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         dhcpId,
         workloadNetworkDhcp,
         options
       },
-      updateDhcpOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateDhcpOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksUpdateDhcpResponse,
+      OperationState<WorkloadNetworksUpdateDhcpResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1590,14 +1606,14 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     dhcpId: string,
     options?: WorkloadNetworksDeleteDhcpOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1630,13 +1646,13 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateCloudName, dhcpId, options },
-      deleteDhcpOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, privateCloudName, dhcpId, options },
+      spec: deleteDhcpOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1754,8 +1770,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
     options?: WorkloadNetworksCreatePortMirroringOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreatePortMirroringResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreatePortMirroringResponse>,
       WorkloadNetworksCreatePortMirroringResponse
     >
   > {
@@ -1765,7 +1781,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     ): Promise<WorkloadNetworksCreatePortMirroringResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1798,19 +1814,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         portMirroringId,
         workloadNetworkPortMirroring,
         options
       },
-      createPortMirroringOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createPortMirroringOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksCreatePortMirroringResponse,
+      OperationState<WorkloadNetworksCreatePortMirroringResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1859,8 +1878,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
     options?: WorkloadNetworksUpdatePortMirroringOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdatePortMirroringResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdatePortMirroringResponse>,
       WorkloadNetworksUpdatePortMirroringResponse
     >
   > {
@@ -1870,7 +1889,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     ): Promise<WorkloadNetworksUpdatePortMirroringResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1903,19 +1922,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         portMirroringId,
         workloadNetworkPortMirroring,
         options
       },
-      updatePortMirroringOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updatePortMirroringOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksUpdatePortMirroringResponse,
+      OperationState<WorkloadNetworksUpdatePortMirroringResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1961,14 +1983,14 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     portMirroringId: string,
     privateCloudName: string,
     options?: WorkloadNetworksDeletePortMirroringOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2001,13 +2023,13 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, portMirroringId, privateCloudName, options },
-      deletePortMirroringOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, portMirroringId, privateCloudName, options },
+      spec: deletePortMirroringOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2088,8 +2110,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     workloadNetworkVMGroup: WorkloadNetworkVMGroup,
     options?: WorkloadNetworksCreateVMGroupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreateVMGroupResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateVMGroupResponse>,
       WorkloadNetworksCreateVMGroupResponse
     >
   > {
@@ -2099,7 +2121,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     ): Promise<WorkloadNetworksCreateVMGroupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2132,19 +2154,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         vmGroupId,
         workloadNetworkVMGroup,
         options
       },
-      createVMGroupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createVMGroupOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksCreateVMGroupResponse,
+      OperationState<WorkloadNetworksCreateVMGroupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2191,8 +2216,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     workloadNetworkVMGroup: WorkloadNetworkVMGroup,
     options?: WorkloadNetworksUpdateVMGroupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdateVMGroupResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateVMGroupResponse>,
       WorkloadNetworksUpdateVMGroupResponse
     >
   > {
@@ -2202,7 +2227,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     ): Promise<WorkloadNetworksUpdateVMGroupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2235,19 +2260,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         vmGroupId,
         workloadNetworkVMGroup,
         options
       },
-      updateVMGroupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateVMGroupOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksUpdateVMGroupResponse,
+      OperationState<WorkloadNetworksUpdateVMGroupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2291,14 +2319,14 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     vmGroupId: string,
     privateCloudName: string,
     options?: WorkloadNetworksDeleteVMGroupOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2331,13 +2359,13 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vmGroupId, privateCloudName, options },
-      deleteVMGroupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmGroupId, privateCloudName, options },
+      spec: deleteVMGroupOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2453,8 +2481,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     workloadNetworkDnsService: WorkloadNetworkDnsService,
     options?: WorkloadNetworksCreateDnsServiceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreateDnsServiceResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateDnsServiceResponse>,
       WorkloadNetworksCreateDnsServiceResponse
     >
   > {
@@ -2464,7 +2492,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     ): Promise<WorkloadNetworksCreateDnsServiceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2497,19 +2525,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         dnsServiceId,
         workloadNetworkDnsService,
         options
       },
-      createDnsServiceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createDnsServiceOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksCreateDnsServiceResponse,
+      OperationState<WorkloadNetworksCreateDnsServiceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2556,8 +2587,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     workloadNetworkDnsService: WorkloadNetworkDnsService,
     options?: WorkloadNetworksUpdateDnsServiceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdateDnsServiceResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateDnsServiceResponse>,
       WorkloadNetworksUpdateDnsServiceResponse
     >
   > {
@@ -2567,7 +2598,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     ): Promise<WorkloadNetworksUpdateDnsServiceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2600,19 +2631,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         dnsServiceId,
         workloadNetworkDnsService,
         options
       },
-      updateDnsServiceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateDnsServiceOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksUpdateDnsServiceResponse,
+      OperationState<WorkloadNetworksUpdateDnsServiceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2656,14 +2690,14 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     dnsServiceId: string,
     privateCloudName: string,
     options?: WorkloadNetworksDeleteDnsServiceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2696,13 +2730,13 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dnsServiceId, privateCloudName, options },
-      deleteDnsServiceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, dnsServiceId, privateCloudName, options },
+      spec: deleteDnsServiceOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2782,8 +2816,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     workloadNetworkDnsZone: WorkloadNetworkDnsZone,
     options?: WorkloadNetworksCreateDnsZoneOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreateDnsZoneResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateDnsZoneResponse>,
       WorkloadNetworksCreateDnsZoneResponse
     >
   > {
@@ -2793,7 +2827,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     ): Promise<WorkloadNetworksCreateDnsZoneResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2826,19 +2860,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         dnsZoneId,
         workloadNetworkDnsZone,
         options
       },
-      createDnsZoneOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createDnsZoneOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksCreateDnsZoneResponse,
+      OperationState<WorkloadNetworksCreateDnsZoneResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2885,8 +2922,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     workloadNetworkDnsZone: WorkloadNetworkDnsZone,
     options?: WorkloadNetworksUpdateDnsZoneOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdateDnsZoneResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateDnsZoneResponse>,
       WorkloadNetworksUpdateDnsZoneResponse
     >
   > {
@@ -2896,7 +2933,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     ): Promise<WorkloadNetworksUpdateDnsZoneResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2929,19 +2966,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         dnsZoneId,
         workloadNetworkDnsZone,
         options
       },
-      updateDnsZoneOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateDnsZoneOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksUpdateDnsZoneResponse,
+      OperationState<WorkloadNetworksUpdateDnsZoneResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2985,14 +3025,14 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     dnsZoneId: string,
     privateCloudName: string,
     options?: WorkloadNetworksDeleteDnsZoneOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -3025,13 +3065,13 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dnsZoneId, privateCloudName, options },
-      deleteDnsZoneOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, dnsZoneId, privateCloudName, options },
+      spec: deleteDnsZoneOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -3113,8 +3153,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     workloadNetworkPublicIP: WorkloadNetworkPublicIP,
     options?: WorkloadNetworksCreatePublicIPOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreatePublicIPResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreatePublicIPResponse>,
       WorkloadNetworksCreatePublicIPResponse
     >
   > {
@@ -3124,7 +3164,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     ): Promise<WorkloadNetworksCreatePublicIPResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -3157,19 +3197,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         publicIPId,
         workloadNetworkPublicIP,
         options
       },
-      createPublicIPOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createPublicIPOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksCreatePublicIPResponse,
+      OperationState<WorkloadNetworksCreatePublicIPResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -3215,14 +3258,14 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     publicIPId: string,
     privateCloudName: string,
     options?: WorkloadNetworksDeletePublicIPOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -3255,13 +3298,13 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, publicIPId, privateCloudName, options },
-      deletePublicIPOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, publicIPId, privateCloudName, options },
+      spec: deletePublicIPOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -3493,7 +3536,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetwork
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -3516,7 +3559,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -3538,7 +3581,7 @@ const listSegmentsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkSegmentsList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -3560,7 +3603,7 @@ const getSegmentOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkSegment
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -3592,7 +3635,7 @@ const createSegmentsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkSegment
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.workloadNetworkSegment,
@@ -3626,7 +3669,7 @@ const updateSegmentsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkSegment
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.workloadNetworkSegment,
@@ -3652,7 +3695,7 @@ const deleteSegmentOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -3675,7 +3718,7 @@ const listDhcpOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkDhcpList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -3697,7 +3740,7 @@ const getDhcpOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkDhcp
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -3729,7 +3772,7 @@ const createDhcpOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkDhcp
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.workloadNetworkDhcp,
@@ -3763,7 +3806,7 @@ const updateDhcpOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkDhcp
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.workloadNetworkDhcp,
@@ -3789,7 +3832,7 @@ const deleteDhcpOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -3812,7 +3855,7 @@ const listGatewaysOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkGatewayList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -3834,7 +3877,7 @@ const getGatewayOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkGateway
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -3857,7 +3900,7 @@ const listPortMirroringOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkPortMirroringList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -3879,7 +3922,7 @@ const getPortMirroringOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkPortMirroring
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -3911,7 +3954,7 @@ const createPortMirroringOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkPortMirroring
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.workloadNetworkPortMirroring,
@@ -3945,7 +3988,7 @@ const updatePortMirroringOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkPortMirroring
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.workloadNetworkPortMirroring,
@@ -3971,7 +4014,7 @@ const deletePortMirroringOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -3994,7 +4037,7 @@ const listVMGroupsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkVMGroupsList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -4016,7 +4059,7 @@ const getVMGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkVMGroup
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -4048,7 +4091,7 @@ const createVMGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkVMGroup
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.workloadNetworkVMGroup,
@@ -4082,7 +4125,7 @@ const updateVMGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkVMGroup
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.workloadNetworkVMGroup,
@@ -4108,7 +4151,7 @@ const deleteVMGroupOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -4131,7 +4174,7 @@ const listVirtualMachinesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkVirtualMachinesList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -4153,7 +4196,7 @@ const getVirtualMachineOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkVirtualMachine
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -4176,7 +4219,7 @@ const listDnsServicesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkDnsServicesList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -4198,7 +4241,7 @@ const getDnsServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkDnsService
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -4230,7 +4273,7 @@ const createDnsServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkDnsService
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.workloadNetworkDnsService,
@@ -4264,7 +4307,7 @@ const updateDnsServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkDnsService
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.workloadNetworkDnsService,
@@ -4290,7 +4333,7 @@ const deleteDnsServiceOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -4313,7 +4356,7 @@ const listDnsZonesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkDnsZonesList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -4335,7 +4378,7 @@ const getDnsZoneOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkDnsZone
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -4367,7 +4410,7 @@ const createDnsZoneOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkDnsZone
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.workloadNetworkDnsZone,
@@ -4401,7 +4444,7 @@ const updateDnsZoneOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkDnsZone
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.workloadNetworkDnsZone,
@@ -4427,7 +4470,7 @@ const deleteDnsZoneOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -4450,7 +4493,7 @@ const listPublicIPsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkPublicIPsList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -4472,7 +4515,7 @@ const getPublicIPOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkPublicIP
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -4504,7 +4547,7 @@ const createPublicIPOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkPublicIP
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.workloadNetworkPublicIP,
@@ -4530,7 +4573,7 @@ const deletePublicIPOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -4552,7 +4595,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
@@ -4573,7 +4616,7 @@ const listSegmentsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkSegmentsList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
@@ -4594,7 +4637,7 @@ const listDhcpNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkDhcpList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
@@ -4615,7 +4658,7 @@ const listGatewaysNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkGatewayList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
@@ -4636,7 +4679,7 @@ const listPortMirroringNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkPortMirroringList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
@@ -4657,7 +4700,7 @@ const listVMGroupsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkVMGroupsList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
@@ -4678,7 +4721,7 @@ const listVirtualMachinesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkVirtualMachinesList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
@@ -4699,7 +4742,7 @@ const listDnsServicesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkDnsServicesList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
@@ -4720,7 +4763,7 @@ const listDnsZonesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkDnsZonesList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
@@ -4741,7 +4784,7 @@ const listPublicIPsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkloadNetworkPublicIPsList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [

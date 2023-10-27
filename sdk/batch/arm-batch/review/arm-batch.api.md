@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AccountKeyType = "Primary" | "Secondary";
@@ -49,7 +49,6 @@ export type ApplicationGetResponse = Application;
 
 // @public
 export interface ApplicationListNextOptionalParams extends coreClient.OperationOptions {
-    maxresults?: number;
 }
 
 // @public
@@ -109,7 +108,6 @@ export type ApplicationPackageGetResponse = ApplicationPackage;
 
 // @public
 export interface ApplicationPackageListNextOptionalParams extends coreClient.OperationOptions {
-    maxresults?: number;
 }
 
 // @public
@@ -379,9 +377,9 @@ export interface BatchAccountListResult {
 
 // @public
 export interface BatchAccountOperations {
-    beginCreate(resourceGroupName: string, accountName: string, parameters: BatchAccountCreateParameters, options?: BatchAccountCreateOptionalParams): Promise<PollerLike<PollOperationState<BatchAccountCreateResponse>, BatchAccountCreateResponse>>;
+    beginCreate(resourceGroupName: string, accountName: string, parameters: BatchAccountCreateParameters, options?: BatchAccountCreateOptionalParams): Promise<SimplePollerLike<OperationState<BatchAccountCreateResponse>, BatchAccountCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, parameters: BatchAccountCreateParameters, options?: BatchAccountCreateOptionalParams): Promise<BatchAccountCreateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, options?: BatchAccountDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, options?: BatchAccountDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, options?: BatchAccountDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, accountName: string, options?: BatchAccountGetOptionalParams): Promise<BatchAccountGetResponse>;
     getDetector(resourceGroupName: string, accountName: string, detectorId: string, options?: BatchAccountGetDetectorOptionalParams): Promise<BatchAccountGetDetectorResponse>;
@@ -573,9 +571,6 @@ export type CertificateGetResponse = CertificateGetHeaders & Certificate;
 
 // @public
 export interface CertificateListByBatchAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    maxresults?: number;
-    select?: string;
 }
 
 // @public
@@ -593,7 +588,7 @@ export type CertificateListByBatchAccountResponse = ListCertificatesResult;
 
 // @public
 export interface CertificateOperations {
-    beginDelete(resourceGroupName: string, accountName: string, certificateName: string, options?: CertificateDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, certificateName: string, options?: CertificateDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, certificateName: string, options?: CertificateDeleteOptionalParams): Promise<void>;
     cancelDeletion(resourceGroupName: string, accountName: string, certificateName: string, options?: CertificateCancelDeletionOptionalParams): Promise<CertificateCancelDeletionResponse>;
     create(resourceGroupName: string, accountName: string, certificateName: string, parameters: CertificateCreateOrUpdateParameters, options?: CertificateCreateOptionalParams): Promise<CertificateCreateResponse>;
@@ -698,7 +693,7 @@ export interface ComputeNodeIdentityReference {
 export interface ContainerConfiguration {
     containerImageNames?: string[];
     containerRegistries?: ContainerRegistry[];
-    type: "DockerCompatible";
+    type: ContainerType;
 }
 
 // @public
@@ -708,6 +703,9 @@ export interface ContainerRegistry {
     registryServer?: string;
     userName?: string;
 }
+
+// @public
+export type ContainerType = string;
 
 // @public
 export type ContainerWorkingDirectory = "TaskWorkingDirectory" | "ContainerImageDefault";
@@ -857,6 +855,12 @@ export interface KeyVaultReference {
 }
 
 // @public
+export enum KnownContainerType {
+    CriCompatible = "CriCompatible",
+    DockerCompatible = "DockerCompatible"
+}
+
+// @public
 export interface LinuxUserConfiguration {
     gid?: number;
     sshPrivateKey?: string;
@@ -924,8 +928,6 @@ export type LocationGetQuotasResponse = BatchLocationQuota;
 
 // @public
 export interface LocationListSupportedCloudServiceSkusNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    maxresults?: number;
 }
 
 // @public
@@ -942,8 +944,6 @@ export type LocationListSupportedCloudServiceSkusResponse = SupportedSkusResult;
 
 // @public
 export interface LocationListSupportedVirtualMachineSkusNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    maxresults?: number;
 }
 
 // @public
@@ -981,6 +981,7 @@ export type NameAvailabilityReason = "Invalid" | "AlreadyExists";
 // @public
 export interface NetworkConfiguration {
     dynamicVnetAssignmentScope?: DynamicVNetAssignmentScope;
+    enableAcceleratedNetworking?: boolean;
     endpointConfiguration?: PoolEndpointConfiguration;
     publicIPAddressConfiguration?: PublicIPAddressConfiguration;
     subnetId?: string;
@@ -1178,9 +1179,6 @@ export type PoolIdentityType = "UserAssigned" | "None";
 
 // @public
 export interface PoolListByBatchAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    maxresults?: number;
-    select?: string;
 }
 
 // @public
@@ -1198,7 +1196,7 @@ export type PoolListByBatchAccountResponse = ListPoolsResult;
 
 // @public
 export interface PoolOperations {
-    beginDelete(resourceGroupName: string, accountName: string, poolName: string, options?: PoolDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, poolName: string, options?: PoolDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, poolName: string, options?: PoolDeleteOptionalParams): Promise<void>;
     create(resourceGroupName: string, accountName: string, poolName: string, parameters: Pool, options?: PoolCreateOptionalParams): Promise<PoolCreateResponse>;
     disableAutoScale(resourceGroupName: string, accountName: string, poolName: string, options?: PoolDisableAutoScaleOptionalParams): Promise<PoolDisableAutoScaleResponse>;
@@ -1273,7 +1271,6 @@ export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnection;
 
 // @public
 export interface PrivateEndpointConnectionListByBatchAccountNextOptionalParams extends coreClient.OperationOptions {
-    maxresults?: number;
 }
 
 // @public
@@ -1289,9 +1286,9 @@ export type PrivateEndpointConnectionListByBatchAccountResponse = ListPrivateEnd
 
 // @public
 export interface PrivateEndpointConnectionOperations {
-    beginDelete(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionDeleteResponse>, PrivateEndpointConnectionDeleteResponse>>;
+    beginDelete(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionDeleteResponse>, PrivateEndpointConnectionDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<PrivateEndpointConnectionDeleteResponse>;
-    beginUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionUpdateResponse>, PrivateEndpointConnectionUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionUpdateResponse>, PrivateEndpointConnectionUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionUpdateOptionalParams): Promise<PrivateEndpointConnectionUpdateResponse>;
     get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetOptionalParams): Promise<PrivateEndpointConnectionGetResponse>;
     listByBatchAccount(resourceGroupName: string, accountName: string, options?: PrivateEndpointConnectionListByBatchAccountOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -1332,7 +1329,6 @@ export type PrivateLinkResourceGetResponse = PrivateLinkResource;
 
 // @public
 export interface PrivateLinkResourceListByBatchAccountNextOptionalParams extends coreClient.OperationOptions {
-    maxresults?: number;
 }
 
 // @public
@@ -1520,6 +1516,7 @@ export interface VirtualMachineFamilyCoreQuota {
 // @public
 export interface VMExtension {
     autoUpgradeMinorVersion?: boolean;
+    enableAutomaticUpgrade?: boolean;
     name: string;
     protectedSettings?: Record<string, unknown>;
     provisionAfterExtensions?: string[];

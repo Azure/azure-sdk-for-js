@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PolicyClient } = require("@azure/arm-policy");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to This operation deletes the policy set definition in the given management group with the given name.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/deletePolicySetDefinitionAtManagementGroup.json
  */
 async function deleteAPolicySetDefinitionAtManagementGroupLevel() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policySetDefinitionName = "CostManagement";
   const managementGroupId = "MyManagementGroup";
   const credential = new DefaultAzureCredential();
@@ -30,4 +32,8 @@ async function deleteAPolicySetDefinitionAtManagementGroupLevel() {
   console.log(result);
 }
 
-deleteAPolicySetDefinitionAtManagementGroupLevel().catch(console.error);
+async function main() {
+  deleteAPolicySetDefinitionAtManagementGroupLevel();
+}
+
+main().catch(console.error);

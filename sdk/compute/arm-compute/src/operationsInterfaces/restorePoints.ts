@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RestorePoint,
   RestorePointsCreateOptionalParams,
@@ -34,8 +34,8 @@ export interface RestorePoints {
     parameters: RestorePoint,
     options?: RestorePointsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RestorePointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<RestorePointsCreateResponse>,
       RestorePointsCreateResponse
     >
   >;
@@ -67,7 +67,7 @@ export interface RestorePoints {
     restorePointCollectionName: string,
     restorePointName: string,
     options?: RestorePointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the restore point.
    * @param resourceGroupName The name of the resource group.

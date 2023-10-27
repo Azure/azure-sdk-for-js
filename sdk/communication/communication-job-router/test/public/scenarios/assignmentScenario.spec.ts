@@ -10,16 +10,21 @@ import {
   getWorkerRequest,
 } from "../utils/testData";
 import { assert } from "chai";
-import { JobAssignment, JobOffer, RouterAdministrationClient, RouterClient } from "../../../src";
+import {
+  RouterJobAssignment,
+  RouterJobOffer,
+  JobRouterAdministrationClient,
+  JobRouterClient,
+} from "../../../src";
 import { Context } from "mocha";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
 import { Recorder } from "@azure-tools/test-recorder";
 import { pollForJobAssignment, pollForJobOffer } from "../utils/polling";
 
-describe("RouterClient", function () {
-  let client: RouterClient;
-  let administrationClient: RouterAdministrationClient;
+describe("JobRouterClient", function () {
+  let client: JobRouterClient;
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-assignment-scenario";
@@ -67,20 +72,20 @@ describe("RouterClient", function () {
     it("should complete assignment scenario", async () => {
       await client.createJob(jobId, jobRequest);
 
-      const offer: JobOffer = await pollForJobOffer(workerId, client);
+      const offer: RouterJobOffer = await pollForJobOffer(workerId, client);
       assert.isTrue(offer.jobId === jobId);
       assert.equal(offer.capacityCost, 1);
-      assert.isNotNull(offer.offerTimeUtc);
-      assert.isNotNull(offer.expiryTimeUtc);
+      assert.isNotNull(offer.offeredAt);
+      assert.isNotNull(offer.expiresAt);
 
-      const acceptOfferResponse = await client.acceptJobOffer(workerId, offer.id!);
+      const acceptOfferResponse = await client.acceptJobOffer(workerId, offer.offerId!);
       assert.equal(acceptOfferResponse.jobId, jobId);
       assert.equal(acceptOfferResponse.workerId, workerId);
 
-      const assignment: JobAssignment = await pollForJobAssignment(jobId, client);
-      assert.isNotNull(assignment.assignTime);
-      assert.isNotNull(assignment.completeTime);
-      assert.isNotNull(assignment.closeTime);
+      const assignment: RouterJobAssignment = await pollForJobAssignment(jobId, client);
+      assert.isNotNull(assignment.assignedAt);
+      assert.isNotNull(assignment.completedAt);
+      assert.isNotNull(assignment.closedAt);
       assert.equal(assignment.workerId, workerId);
 
       const completeJobResponse = await client.completeJob(jobId, acceptOfferResponse.assignmentId);

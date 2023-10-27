@@ -82,6 +82,7 @@ testWithServiceTypes((serviceVersion) => {
         client = createReceiver(
           context,
           "$default", // consumer group
+          "ID",
           "0", // partition id
           {
             enqueuedOn: Date.now(),
@@ -97,7 +98,7 @@ testWithServiceTypes((serviceVersion) => {
         it(`initialize supports cancellation (${caseType})`, async () => {
           const abortSignal = getSignal();
           try {
-            await client.connect({ abortSignal, timeoutInMs: 60000 });
+            await client.connect({ abortSignal, timeoutInMs: 60000, prefetchCount: 1 });
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
@@ -118,7 +119,7 @@ testWithServiceTypes((serviceVersion) => {
 
         it(`receiveBatch supports cancellation when connection already exists (${caseType})`, async () => {
           // Open the connection.
-          await client.connect({ abortSignal: undefined, timeoutInMs: 60000 });
+          await client.connect({ abortSignal: undefined, timeoutInMs: 60000, prefetchCount: 1 });
           try {
             const abortSignal = getSignal();
             await client.receiveBatch(10, undefined, abortSignal);
@@ -134,7 +135,7 @@ testWithServiceTypes((serviceVersion) => {
     describe("EventHubSender", () => {
       let client: EventHubSender;
       beforeEach("instantiate EventHubSender", () => {
-        client = new EventHubSender(context, { enableIdempotentProducer: false });
+        client = new EventHubSender(context, "Sender1", { enableIdempotentProducer: false });
       });
 
       afterEach("close EventHubSender", () => {

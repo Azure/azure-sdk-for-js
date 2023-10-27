@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DeletedServiceContract,
   DeletedServicesListBySubscriptionOptionalParams,
@@ -47,7 +47,7 @@ export interface DeletedServices {
     serviceName: string,
     location: string,
     options?: DeletedServicesPurgeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Purges Api Management Service (deletes it with no option to undelete).
    * @param serviceName The name of the API Management service.

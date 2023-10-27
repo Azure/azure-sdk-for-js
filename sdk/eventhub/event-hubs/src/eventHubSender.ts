@@ -29,11 +29,11 @@ import {
 } from "./eventData";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 import {
-  createLogPrefix,
   logErrorStackTrace,
   createSimpleLogger,
   logger,
   SimpleLogger,
+  createSenderLogPrefix,
 } from "./logger";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ConnectionContext } from "./connectionContext";
@@ -162,6 +162,9 @@ export class EventHubSender {
    */
   private readonly logger: SimpleLogger;
 
+  /** The client identifier */
+  private _id: string;
+
   /**
    * Creates a new EventHubSender instance.
    * @param context - The connection context.
@@ -169,16 +172,18 @@ export class EventHubSender {
    */
   constructor(
     context: ConnectionContext,
+    senderId: string,
     { partitionId, enableIdempotentProducer, partitionPublishingOptions }: EventHubSenderOptions
   ) {
     this.address = context.config.getSenderAddress(partitionId);
     this.name = this.address;
+    this._id = senderId;
     this.audience = context.config.getSenderAudience(partitionId);
     this._context = context;
     this.partitionId = partitionId;
     this._isIdempotentProducer = enableIdempotentProducer;
     this._userProvidedPublishingOptions = partitionPublishingOptions;
-    const logPrefix = createLogPrefix(this._context.connectionId, "Sender", this.name);
+    const logPrefix = createSenderLogPrefix(this.name, this._context.connectionId);
     this.logger = createSimpleLogger(logger, logPrefix);
 
     this._onAmqpError = (eventContext: EventContext) => {
@@ -413,6 +418,7 @@ export class EventHubSender {
   private _createSenderOptions(): AwaitableSenderOptions {
     const srOptions: AwaitableSenderOptions = {
       name: this.name,
+      source: this._id,
       target: {
         address: this.address,
       },
@@ -657,8 +663,12 @@ export class EventHubSender {
    * @hidden
    * @param options - Options used to configure the EventHubSender.
    */
-  static create(context: ConnectionContext, options: EventHubSenderOptions): EventHubSender {
-    const ehSender: EventHubSender = new EventHubSender(context, options);
+  static create(
+    context: ConnectionContext,
+    senderId: string,
+    options: EventHubSenderOptions
+  ): EventHubSender {
+    const ehSender: EventHubSender = new EventHubSender(context, senderId, options);
     if (!context.senders[ehSender.name]) {
       context.senders[ehSender.name] = ehSender;
     }

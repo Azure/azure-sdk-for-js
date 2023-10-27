@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists a collection of user entities associated with the group.
  *
  * @summary Lists a collection of user entities associated with the group.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListGroupUsers.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListGroupUsers.json
  */
 async function apiManagementListGroupUsers() {
   const subscriptionId =

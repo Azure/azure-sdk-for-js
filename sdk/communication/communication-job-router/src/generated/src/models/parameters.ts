@@ -15,11 +15,13 @@ import {
   ClassificationPolicy as ClassificationPolicyMapper,
   DistributionPolicy as DistributionPolicyMapper,
   ExceptionPolicy as ExceptionPolicyMapper,
-  JobQueue as JobQueueMapper,
+  RouterQueue as RouterQueueMapper,
   RouterJob as RouterJobMapper,
   CancelJobRequest as CancelJobRequestMapper,
   CompleteJobRequest as CompleteJobRequestMapper,
   CloseJobRequest as CloseJobRequestMapper,
+  UnassignJobRequest as UnassignJobRequestMapper,
+  DeclineJobOfferRequest as DeclineJobOfferRequestMapper,
   RouterWorker as RouterWorkerMapper
 } from "../models/mappers";
 
@@ -87,11 +89,10 @@ export const apiVersion: OperationQueryParameter = {
   }
 };
 
-export const maxPageSize: OperationQueryParameter = {
-  parameterPath: ["options", "maxPageSize"],
+export const maxpagesize: OperationQueryParameter = {
+  parameterPath: ["options", "maxpagesize"],
   mapper: {
-    defaultValue: -1,
-    serializedName: "maxPageSize",
+    serializedName: "maxpagesize",
     type: {
       name: "Number"
     }
@@ -110,7 +111,7 @@ export const patch2: OperationParameter = {
 
 export const patch3: OperationParameter = {
   parameterPath: "patch",
-  mapper: JobQueueMapper
+  mapper: RouterQueueMapper
 };
 
 export const nextLink: OperationURLParameter = {
@@ -182,8 +183,8 @@ export const dispositionCode1: OperationParameter = {
   mapper: CloseJobRequestMapper
 };
 
-export const closeTime: OperationParameter = {
-  parameterPath: ["options", "closeTime"],
+export const closeAt: OperationParameter = {
+  parameterPath: ["options", "closeAt"],
   mapper: CloseJobRequestMapper
 };
 
@@ -198,18 +199,7 @@ export const status: OperationQueryParameter = {
     defaultValue: "all",
     serializedName: "status",
     type: {
-      name: "Enum",
-      allowedValues: [
-        "all",
-        "pendingClassification",
-        "queued",
-        "assigned",
-        "completed",
-        "closed",
-        "cancelled",
-        "classificationFailed",
-        "active"
-      ]
+      name: "String"
     }
   }
 };
@@ -242,6 +232,31 @@ export const classificationPolicyId: OperationQueryParameter = {
       name: "String"
     }
   }
+};
+
+export const scheduledBefore: OperationQueryParameter = {
+  parameterPath: ["options", "scheduledBefore"],
+  mapper: {
+    serializedName: "scheduledBefore",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const scheduledAfter: OperationQueryParameter = {
+  parameterPath: ["options", "scheduledAfter"],
+  mapper: {
+    serializedName: "scheduledAfter",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const unassignJobRequest: OperationParameter = {
+  parameterPath: ["options", "unassignJobRequest"],
+  mapper: UnassignJobRequestMapper
 };
 
 export const assignmentId2: OperationURLParameter = {
@@ -277,19 +292,23 @@ export const offerId: OperationURLParameter = {
   }
 };
 
+export const declineJobOfferRequest: OperationParameter = {
+  parameterPath: ["options", "declineJobOfferRequest"],
+  mapper: DeclineJobOfferRequestMapper
+};
+
 export const patch5: OperationParameter = {
   parameterPath: "patch",
   mapper: RouterWorkerMapper
 };
 
-export const status1: OperationQueryParameter = {
-  parameterPath: ["options", "status"],
+export const state: OperationQueryParameter = {
+  parameterPath: ["options", "state"],
   mapper: {
     defaultValue: "all",
-    serializedName: "status",
+    serializedName: "state",
     type: {
-      name: "Enum",
-      allowedValues: ["active", "draining", "inactive", "all"]
+      name: "String"
     }
   }
 };

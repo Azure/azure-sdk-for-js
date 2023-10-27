@@ -34,7 +34,7 @@ const examplePackageGood = `{
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -124,8 +124,8 @@ const examplePackageGood = `{
     "@types/chai-string": "^1.4.1",
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^16.0.0",
     "@types/sinon": "^9.0.4",
     "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
@@ -150,7 +150,7 @@ const examplePackageGood = `{
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^7.1.1",
+    "mocha": "^10.0.0",
     "mocha-junit-reporter": "^1.18.0",
     "moment": "^2.24.0",
     "nyc": "^14.0.0",
@@ -163,7 +163,7 @@ const examplePackageGood = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }
@@ -189,7 +189,7 @@ const examplePackageBad = `{
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -279,8 +279,8 @@ const examplePackageBad = `{
     "@types/chai-string": "^1.4.1",
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^16.0.0",
     "@types/sinon": "^9.0.4",
     "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
@@ -305,7 +305,7 @@ const examplePackageBad = `{
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^7.1.1",
+    "mocha": "^10.0.0",
     "mocha-junit-reporter": "^1.18.0",
     "moment": "^2.24.0",
     "nyc": "^14.0.0",
@@ -318,7 +318,7 @@ const examplePackageBad = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }

@@ -6,12 +6,38 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AKSIdentityType = "SystemAssigned" | "UserAssigned";
+
+// @public
+export interface AzureBlobDefinition {
+    accountKey?: string;
+    containerName?: string;
+    localAuthRef?: string;
+    managedIdentity?: ManagedIdentityDefinition;
+    sasToken?: string;
+    servicePrincipal?: ServicePrincipalDefinition;
+    syncIntervalInSeconds?: number;
+    timeoutInSeconds?: number;
+    url?: string;
+}
+
+// @public
+export interface AzureBlobPatchDefinition {
+    accountKey?: string;
+    containerName?: string;
+    localAuthRef?: string;
+    managedIdentity?: ManagedIdentityPatchDefinition;
+    sasToken?: string;
+    servicePrincipal?: ServicePrincipalPatchDefinition;
+    syncIntervalInSeconds?: number;
+    timeoutInSeconds?: number;
+    url?: string;
+}
 
 // @public
 export interface BucketDefinition {
@@ -79,14 +105,16 @@ export interface Extension extends ProxyResource {
     configurationSettings?: {
         [propertyName: string]: string;
     };
+    readonly currentVersion?: string;
     readonly customLocationSettings?: {
         [propertyName: string]: string;
     };
     readonly errorInfo?: ErrorDetail;
     extensionType?: string;
     identity?: Identity;
-    readonly installedVersion?: string;
+    readonly isSystemExtension?: boolean;
     readonly packageUri?: string;
+    plan?: Plan;
     readonly provisioningState?: ProvisioningState;
     releaseTrain?: string;
     scope?: Scope;
@@ -104,11 +132,11 @@ export interface ExtensionPropertiesAksAssignedIdentity {
 
 // @public
 export interface Extensions {
-    beginCreate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, extension: Extension, options?: ExtensionsCreateOptionalParams): Promise<PollerLike<PollOperationState<ExtensionsCreateResponse>, ExtensionsCreateResponse>>;
+    beginCreate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, extension: Extension, options?: ExtensionsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ExtensionsCreateResponse>, ExtensionsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, extension: Extension, options?: ExtensionsCreateOptionalParams): Promise<ExtensionsCreateResponse>;
-    beginDelete(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, patchExtension: PatchExtension, options?: ExtensionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ExtensionsUpdateResponse>, ExtensionsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, patchExtension: PatchExtension, options?: ExtensionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExtensionsUpdateResponse>, ExtensionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, patchExtension: PatchExtension, options?: ExtensionsUpdateOptionalParams): Promise<ExtensionsUpdateResponse>;
     get(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsGetOptionalParams): Promise<ExtensionsGetResponse>;
     list(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: ExtensionsListOptionalParams): PagedAsyncIterableIterator<Extension>;
@@ -192,6 +220,7 @@ export type FluxConfigOperationStatusGetResponse = OperationStatusResult;
 
 // @public
 export interface FluxConfiguration extends ProxyResource {
+    azureBlob?: AzureBlobDefinition;
     bucket?: BucketDefinition;
     readonly complianceState?: FluxComplianceState;
     configurationProtectedSettings?: {
@@ -204,6 +233,7 @@ export interface FluxConfiguration extends ProxyResource {
     };
     namespace?: string;
     readonly provisioningState?: ProvisioningState;
+    reconciliationWaitDuration?: string;
     readonly repositoryPublicKey?: string;
     scope?: ScopeType;
     sourceKind?: SourceKindType;
@@ -213,10 +243,12 @@ export interface FluxConfiguration extends ProxyResource {
     readonly statusUpdatedAt?: Date;
     suspend?: boolean;
     readonly systemData?: SystemData;
+    waitForReconciliation?: boolean;
 }
 
 // @public
 export interface FluxConfigurationPatch {
+    azureBlob?: AzureBlobPatchDefinition;
     bucket?: BucketPatchDefinition;
     configurationProtectedSettings?: {
         [propertyName: string]: string;
@@ -231,11 +263,11 @@ export interface FluxConfigurationPatch {
 
 // @public
 export interface FluxConfigurations {
-    beginCreateOrUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<FluxConfigurationsCreateOrUpdateResponse>, FluxConfigurationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FluxConfigurationsCreateOrUpdateResponse>, FluxConfigurationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams): Promise<FluxConfigurationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams): Promise<PollerLike<PollOperationState<FluxConfigurationsUpdateResponse>, FluxConfigurationsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FluxConfigurationsUpdateResponse>, FluxConfigurationsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams): Promise<FluxConfigurationsUpdateResponse>;
     get(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsGetOptionalParams): Promise<FluxConfigurationsGetResponse>;
     list(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: FluxConfigurationsListOptionalParams): PagedAsyncIterableIterator<FluxConfiguration>;
@@ -427,6 +459,7 @@ export enum KnownScopeType {
 
 // @public
 export enum KnownSourceKindType {
+    AzureBlob = "AzureBlob",
     Bucket = "Bucket",
     GitRepository = "GitRepository"
 }
@@ -437,10 +470,12 @@ export interface KustomizationDefinition {
     force?: boolean;
     readonly name?: string;
     path?: string;
+    postBuild?: PostBuildDefinition;
     prune?: boolean;
     retryIntervalInSeconds?: number;
     syncIntervalInSeconds?: number;
     timeoutInSeconds?: number;
+    wait?: boolean;
 }
 
 // @public
@@ -448,10 +483,12 @@ export interface KustomizationPatchDefinition {
     dependsOn?: string[];
     force?: boolean;
     path?: string;
+    postBuild?: PostBuildDefinition;
     prune?: boolean;
     retryIntervalInSeconds?: number;
     syncIntervalInSeconds?: number;
     timeoutInSeconds?: number;
+    wait?: boolean;
 }
 
 // @public
@@ -459,6 +496,16 @@ export type KustomizationValidationType = string;
 
 // @public
 export type LevelType = string;
+
+// @public
+export interface ManagedIdentityDefinition {
+    clientId?: string;
+}
+
+// @public
+export interface ManagedIdentityPatchDefinition {
+    clientId?: string;
+}
 
 // @public
 export type MessageLevelType = string;
@@ -572,6 +619,23 @@ export interface PatchExtension {
 }
 
 // @public
+export interface Plan {
+    name: string;
+    product: string;
+    promotionCode?: string;
+    publisher: string;
+    version?: string;
+}
+
+// @public
+export interface PostBuildDefinition {
+    substitute?: {
+        [propertyName: string]: string;
+    };
+    substituteFrom?: (SubstituteFromDefinition | null)[];
+}
+
+// @public
 export type ProvisioningState = string;
 
 // @public
@@ -638,6 +702,26 @@ export interface ScopeNamespace {
 export type ScopeType = string;
 
 // @public
+export interface ServicePrincipalDefinition {
+    clientCertificate?: string;
+    clientCertificatePassword?: string;
+    clientCertificateSendChain?: boolean;
+    clientId?: string;
+    clientSecret?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface ServicePrincipalPatchDefinition {
+    clientCertificate?: string;
+    clientCertificatePassword?: string;
+    clientCertificateSendChain?: boolean;
+    clientId?: string;
+    clientSecret?: string;
+    tenantId?: string;
+}
+
+// @public
 export interface SourceControlConfiguration extends ProxyResource {
     readonly complianceStatus?: ComplianceStatus;
     configurationProtectedSettings?: {
@@ -695,7 +779,7 @@ export interface SourceControlConfigurationList {
 
 // @public
 export interface SourceControlConfigurations {
-    beginDelete(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, sourceControlConfigurationName: string, options?: SourceControlConfigurationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, sourceControlConfigurationName: string, options?: SourceControlConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, sourceControlConfigurationName: string, options?: SourceControlConfigurationsDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, sourceControlConfigurationName: string, sourceControlConfiguration: SourceControlConfiguration, options?: SourceControlConfigurationsCreateOrUpdateOptionalParams): Promise<SourceControlConfigurationsCreateOrUpdateResponse>;
     get(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, sourceControlConfigurationName: string, options?: SourceControlConfigurationsGetOptionalParams): Promise<SourceControlConfigurationsGetResponse>;
@@ -738,6 +822,13 @@ export type SourceControlConfigurationsListResponse = SourceControlConfiguration
 
 // @public
 export type SourceKindType = string;
+
+// @public
+export interface SubstituteFromDefinition {
+    kind?: string;
+    name?: string;
+    optional?: boolean;
+}
 
 // @public
 export interface SystemData {

@@ -7,10 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DedicatedHost,
   DedicatedHostsListByHostGroupOptionalParams,
+  DedicatedHostsListAvailableSizesOptionalParams,
   DedicatedHostsCreateOrUpdateOptionalParams,
   DedicatedHostsCreateOrUpdateResponse,
   DedicatedHostUpdate,
@@ -38,6 +39,20 @@ export interface DedicatedHosts {
     options?: DedicatedHostsListByHostGroupOptionalParams
   ): PagedAsyncIterableIterator<DedicatedHost>;
   /**
+   * Lists all available dedicated host sizes to which the specified dedicated host can be resized. NOTE:
+   * The dedicated host sizes provided can be used to only scale up the existing dedicated host.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  listAvailableSizes(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsListAvailableSizesOptionalParams
+  ): PagedAsyncIterableIterator<string>;
+  /**
    * Create or update a dedicated host .
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
@@ -52,8 +67,8 @@ export interface DedicatedHosts {
     parameters: DedicatedHost,
     options?: DedicatedHostsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DedicatedHostsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DedicatedHostsCreateOrUpdateResponse>,
       DedicatedHostsCreateOrUpdateResponse
     >
   >;
@@ -73,7 +88,7 @@ export interface DedicatedHosts {
     options?: DedicatedHostsCreateOrUpdateOptionalParams
   ): Promise<DedicatedHostsCreateOrUpdateResponse>;
   /**
-   * Update an dedicated host .
+   * Update a dedicated host .
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host .
@@ -87,13 +102,13 @@ export interface DedicatedHosts {
     parameters: DedicatedHostUpdate,
     options?: DedicatedHostsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DedicatedHostsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DedicatedHostsUpdateResponse>,
       DedicatedHostsUpdateResponse
     >
   >;
   /**
-   * Update an dedicated host .
+   * Update a dedicated host .
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host .
@@ -119,7 +134,7 @@ export interface DedicatedHosts {
     hostGroupName: string,
     hostName: string,
     options?: DedicatedHostsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a dedicated host.
    * @param resourceGroupName The name of the resource group.
@@ -161,7 +176,7 @@ export interface DedicatedHosts {
     hostGroupName: string,
     hostName: string,
     options?: DedicatedHostsRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restart the dedicated host. The operation will complete successfully once the dedicated host has
    * restarted and is running. To determine the health of VMs deployed on the dedicated host after the

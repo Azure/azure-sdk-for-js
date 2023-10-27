@@ -19,6 +19,8 @@ import { JsonWebKey } from "../../src";
 import { stringToUint8Array } from "../public/utils/crypto";
 import { CryptographyProvider } from "../../src/cryptography/models";
 import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
+import { NoOpCredential } from "@azure-tools/test-credential";
+import { RestError, SendRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
 
 describe("internal crypto tests", () => {
   const tokenCredential: TokenCredential = {
@@ -307,6 +309,42 @@ describe("internal crypto tests", () => {
         // Setup the crypto client with our stubs
         cryptoClient["providers"] = [localProvider, remoteProvider];
         cryptoClient["remoteProvider"] = remoteProvider;
+      });
+
+      describe("when creating the client with an identifier", function () {
+        it("falls back to the remote provider when the key cannot be fetched due to permissions", async function () {
+          const sendSignRequest: SendRequest = (request) =>
+            Promise.resolve({
+              status: 200,
+              headers: createHttpHeaders(),
+              request: request,
+              bodyAsText: JSON.stringify({
+                key: {
+                  kid: `https://my_keyvault.vault.azure.net/keys/keyName/id`,
+                  value: "signature",
+                },
+              }),
+            });
+
+          const sendRequest = sinon
+            .stub()
+            .onFirstCall()
+            .returns(Promise.reject(new RestError("Forbidden", { statusCode: 403 })))
+            .onSecondCall()
+            .callsFake(sendSignRequest);
+
+          const idCryptoClient = new CryptographyClient(
+            "https://myvault.vault.azure.net/keys/keyName/id",
+            new NoOpCredential(),
+            {
+              httpClient: {
+                sendRequest,
+              },
+            }
+          );
+
+          await idCryptoClient.sign("RS256", new Uint8Array([1, 2, 3]));
+        });
       });
 
       describe("when a local provider errors", function () {

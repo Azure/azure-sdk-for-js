@@ -1,0 +1,14 @@
+apiVersion: v2
+name: jseh
+description: Stress tests for the Javascript Event Hubs SDK
+version: 0.1.1
+appVersion: v0.1
+annotations:
+  stressTest: 'true'
+  namespace: 'javascript'
+  service: "event-hubs"
+
+dependencies:
+- name: stress-test-addons
+  version: ~0.2.0
+  repository: https://stresstestcharts.blob.core.windows.net/helm/

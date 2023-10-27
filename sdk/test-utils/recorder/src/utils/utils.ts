@@ -289,6 +289,10 @@ export interface RecorderStartOptions {
    * Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided.
    */
   sanitizerOptions?: SanitizerOptions;
+  /**
+   * When a service uses a custom SSL certificate to communicate with the client.
+   */
+  tlsValidationCert?: string;
 }
 
 /**
@@ -359,3 +363,10 @@ export function assertEnvironmentVariable(variable: string): string {
   if (!value) throw new Error(`${variable} is not defined`);
   return value;
 }
+
+/**
+ * Polling options that don't wait in playback mode.
+ */
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
+};

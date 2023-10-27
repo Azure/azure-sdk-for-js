@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { KustoManagementClient } from "../kustoManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DatabasePrincipalAssignment,
   DatabasePrincipalAssignmentsListOptionalParams,
@@ -44,7 +48,7 @@ export class DatabasePrincipalAssignmentsImpl
 
   /**
    * Lists all Kusto cluster database principalAssignments.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param options The options parameters.
@@ -118,7 +122,7 @@ export class DatabasePrincipalAssignmentsImpl
 
   /**
    * Checks that the database principal assignment is valid and is not already in use.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param principalAssignmentName The name of the resource.
@@ -145,7 +149,7 @@ export class DatabasePrincipalAssignmentsImpl
 
   /**
    * Gets a Kusto cluster database principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
@@ -172,7 +176,7 @@ export class DatabasePrincipalAssignmentsImpl
 
   /**
    * Creates a Kusto cluster database principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
@@ -187,8 +191,8 @@ export class DatabasePrincipalAssignmentsImpl
     parameters: DatabasePrincipalAssignment,
     options?: DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabasePrincipalAssignmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabasePrincipalAssignmentsCreateOrUpdateResponse>,
       DatabasePrincipalAssignmentsCreateOrUpdateResponse
     >
   > {
@@ -198,7 +202,7 @@ export class DatabasePrincipalAssignmentsImpl
     ): Promise<DatabasePrincipalAssignmentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -231,9 +235,9 @@ export class DatabasePrincipalAssignmentsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         databaseName,
@@ -241,10 +245,13 @@ export class DatabasePrincipalAssignmentsImpl
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DatabasePrincipalAssignmentsCreateOrUpdateResponse,
+      OperationState<DatabasePrincipalAssignmentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -253,7 +260,7 @@ export class DatabasePrincipalAssignmentsImpl
 
   /**
    * Creates a Kusto cluster database principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
@@ -281,7 +288,7 @@ export class DatabasePrincipalAssignmentsImpl
 
   /**
    * Deletes a Kusto principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
@@ -293,14 +300,14 @@ export class DatabasePrincipalAssignmentsImpl
     databaseName: string,
     principalAssignmentName: string,
     options?: DatabasePrincipalAssignmentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -333,19 +340,19 @@ export class DatabasePrincipalAssignmentsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         databaseName,
         principalAssignmentName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -354,7 +361,7 @@ export class DatabasePrincipalAssignmentsImpl
 
   /**
    * Deletes a Kusto principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
@@ -379,7 +386,7 @@ export class DatabasePrincipalAssignmentsImpl
 
   /**
    * Lists all Kusto cluster database principalAssignments.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param options The options parameters.
@@ -408,7 +415,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CheckNameResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.principalAssignmentName2,
@@ -433,7 +440,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DatabasePrincipalAssignment
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -466,10 +473,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DatabasePrincipalAssignment
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -493,7 +500,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -517,7 +524,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DatabasePrincipalAssignmentListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

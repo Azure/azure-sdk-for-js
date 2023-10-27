@@ -36,6 +36,7 @@ import {
   MonitorsGetMetricStatusResponse,
   SwitchBillingRequest,
   MonitorsSwitchBillingOptionalParams,
+  MonitorsSwitchBillingResponse,
   MonitorsVmHostPayloadOptionalParams,
   MonitorsVmHostPayloadResponse
 } from "../models";
@@ -215,7 +216,7 @@ export interface Monitors {
     monitorName: string,
     request: SwitchBillingRequest,
     options?: MonitorsSwitchBillingOptionalParams
-  ): Promise<void>;
+  ): Promise<MonitorsSwitchBillingResponse>;
   /**
    * Returns the payload that needs to be passed in the request body for installing NewRelic agent on a
    * VM.

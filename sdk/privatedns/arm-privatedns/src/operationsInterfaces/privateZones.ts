@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateZone,
   PrivateZonesListOptionalParams,
@@ -54,8 +54,8 @@ export interface PrivateZones {
     parameters: PrivateZone,
     options?: PrivateZonesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateZonesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateZonesCreateOrUpdateResponse>,
       PrivateZonesCreateOrUpdateResponse
     >
   >;
@@ -86,8 +86,8 @@ export interface PrivateZones {
     parameters: PrivateZone,
     options?: PrivateZonesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateZonesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateZonesUpdateResponse>,
       PrivateZonesUpdateResponse
     >
   >;
@@ -116,7 +116,7 @@ export interface PrivateZones {
     resourceGroupName: string,
     privateZoneName: string,
     options?: PrivateZonesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Private DNS zone. WARNING: All DNS records in the zone will also be deleted. This
    * operation cannot be undone. Private DNS zone cannot be deleted unless all virtual network links to

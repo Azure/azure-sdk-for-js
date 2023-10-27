@@ -816,6 +816,28 @@ export interface SupportInfo {
   registerURL?: string;
 }
 
+/** The response of a FirewallStatusResource list operation. */
+export interface FirewallStatusResourceListResult {
+  /** The items on this page */
+  value: FirewallStatusResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Panorama connectivity information */
+export interface PanoramaStatus {
+  /**
+   * Primary Panorama connection status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly panoramaServerStatus?: ServerStatus;
+  /**
+   * Secondary Panorama connection status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly panoramaServer2Status?: ServerStatus;
+}
+
 /** The type used for update operations of the LocalRulestackResource. */
 export interface LocalRulestackResourceUpdate {
   /** The managed service identities assigned to this resource. */
@@ -1064,6 +1086,35 @@ export interface PreRulesResource extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+}
+
+/** Firewall Status */
+export interface FirewallStatusResource extends ProxyResource {
+  /**
+   * Panorama Managed: Default is False. Default will be CloudSec managed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isPanoramaManaged?: BooleanEnum;
+  /**
+   * Current status of the Firewall
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly healthStatus?: HealthStatus;
+  /**
+   * Detail description of current health of the Firewall
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly healthReason?: string;
+  /**
+   * Panorama Status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly panoramaStatus?: PanoramaStatus;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ReadOnlyProvisioningState;
 }
 
 /** LocalRulestack Certificate Object */
@@ -1717,6 +1768,69 @@ export enum KnownLogOption {
  */
 export type LogOption = string;
 
+/** Known values of {@link HealthStatus} that the service accepts. */
+export enum KnownHealthStatus {
+  /** Green */
+  Green = "GREEN",
+  /** Yellow */
+  Yellow = "YELLOW",
+  /** RED */
+  RED = "RED",
+  /** Initializing */
+  Initializing = "INITIALIZING"
+}
+
+/**
+ * Defines values for HealthStatus. \
+ * {@link KnownHealthStatus} can be used interchangeably with HealthStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GREEN** \
+ * **YELLOW** \
+ * **RED** \
+ * **INITIALIZING**
+ */
+export type HealthStatus = string;
+
+/** Known values of {@link ServerStatus} that the service accepts. */
+export enum KnownServerStatus {
+  /** UP */
+  UP = "UP",
+  /** Down */
+  Down = "DOWN"
+}
+
+/**
+ * Defines values for ServerStatus. \
+ * {@link KnownServerStatus} can be used interchangeably with ServerStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **UP** \
+ * **DOWN**
+ */
+export type ServerStatus = string;
+
+/** Known values of {@link ReadOnlyProvisioningState} that the service accepts. */
+export enum KnownReadOnlyProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleted */
+  Deleted = "Deleted"
+}
+
+/**
+ * Defines values for ReadOnlyProvisioningState. \
+ * {@link KnownReadOnlyProvisioningState} can be used interchangeably with ReadOnlyProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleted**
+ */
+export type ReadOnlyProvisioningState = string;
+
 /** Optional parameters. */
 export interface GlobalRulestackListOptionalParams
   extends coreClient.OperationOptions {}
@@ -2362,6 +2476,27 @@ export interface LocalRulestacksListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type LocalRulestacksListByResourceGroupNextResponse = LocalRulestackResourceListResult;
+
+/** Optional parameters. */
+export interface FirewallStatusListByFirewallsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFirewalls operation. */
+export type FirewallStatusListByFirewallsResponse = FirewallStatusResourceListResult;
+
+/** Optional parameters. */
+export interface FirewallStatusGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FirewallStatusGetResponse = FirewallStatusResource;
+
+/** Optional parameters. */
+export interface FirewallStatusListByFirewallsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFirewallsNext operation. */
+export type FirewallStatusListByFirewallsNextResponse = FirewallStatusResourceListResult;
 
 /** Optional parameters. */
 export interface CertificateObjectLocalRulestackListByLocalRulestacksOptionalParams

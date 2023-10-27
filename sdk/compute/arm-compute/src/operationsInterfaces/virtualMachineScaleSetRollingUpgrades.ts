@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
   VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
@@ -27,7 +27,7 @@ export interface VirtualMachineScaleSetRollingUpgrades {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Cancels the current virtual machine scale set rolling upgrade.
    * @param resourceGroupName The name of the resource group.
@@ -51,7 +51,7 @@ export interface VirtualMachineScaleSetRollingUpgrades {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts a rolling upgrade to move all virtual machine scale set instances to the latest available
    * Platform Image OS version. Instances which are already running the latest available OS version are
@@ -77,7 +77,7 @@ export interface VirtualMachineScaleSetRollingUpgrades {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the
    * latest available extension version. Instances which are already running the latest extension

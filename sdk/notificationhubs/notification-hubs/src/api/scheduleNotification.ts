@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { createRequest, parseNotificationSendResponse, sendRequest } from "./internal/_client.js";
+import { NonNullableRecord } from "../utils/utils.js";
 import { Notification } from "../models/notification.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
@@ -30,7 +31,10 @@ export function scheduleNotification(
       const endpoint = context.requestUrl();
       endpoint.pathname += "/schedulednotifications/";
 
-      const headers = await context.createHeaders("scheduleNotification", notification.headers);
+      const headers = await context.createHeaders(
+        "scheduleNotification",
+        notification.headers as NonNullableRecord
+      );
       headers.set("ServiceBusNotification-ScheduleTime", scheduledTime.toISOString());
       headers.set("Content-Type", notification.contentType);
       headers.set("ServiceBusNotification-Format", notification.platform);

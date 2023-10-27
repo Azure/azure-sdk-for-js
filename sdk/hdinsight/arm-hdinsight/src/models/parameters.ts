@@ -12,6 +12,7 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  Application as ApplicationMapper,
   ClusterCreateParametersExtended as ClusterCreateParametersExtendedMapper,
   ClusterPatchParameters as ClusterPatchParametersMapper,
   ClusterResizeParameters as ClusterResizeParametersMapper,
@@ -20,31 +21,13 @@ import {
   UpdateGatewaySettingsParameters as UpdateGatewaySettingsParametersMapper,
   UpdateClusterIdentityCertificateParameters as UpdateClusterIdentityCertificateParametersMapper,
   ExecuteScriptActionParameters as ExecuteScriptActionParametersMapper,
-  Application as ApplicationMapper,
-  NameAvailabilityCheckRequestParameters as NameAvailabilityCheckRequestParametersMapper,
-  ClusterCreateRequestValidationParameters as ClusterCreateRequestValidationParametersMapper,
   ClusterMonitoringRequest as ClusterMonitoringRequestMapper,
   AzureMonitorRequest as AzureMonitorRequestMapper,
   Extension as ExtensionMapper,
+  NameAvailabilityCheckRequestParameters as NameAvailabilityCheckRequestParametersMapper,
+  ClusterCreateRequestValidationParameters as ClusterCreateRequestValidationParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper
 } from "../models/mappers";
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ClusterCreateParametersExtendedMapper
-};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -106,7 +89,7 @@ export const clusterName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01",
+    defaultValue: "2023-04-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -115,12 +98,68 @@ export const apiVersion: OperationQueryParameter = {
   }
 };
 
+export const applicationName: OperationURLParameter = {
+  parameterPath: "applicationName",
+  mapper: {
+    serializedName: "applicationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ApplicationMapper
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ClusterCreateParametersExtendedMapper
+};
+
+export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: ClusterPatchParametersMapper
 };
 
-export const parameters2: OperationParameter = {
+export const parameters3: OperationParameter = {
   parameterPath: "parameters",
   mapper: ClusterResizeParametersMapper
 };
@@ -136,92 +175,32 @@ export const roleName: OperationURLParameter = {
   }
 };
 
-export const parameters3: OperationParameter = {
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: AutoscaleConfigurationUpdateParameterMapper
 };
 
-export const parameters4: OperationParameter = {
+export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: ClusterDiskEncryptionParametersMapper
 };
 
-export const parameters5: OperationParameter = {
+export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: UpdateGatewaySettingsParametersMapper
 };
 
-export const operationId: OperationURLParameter = {
-  parameterPath: "operationId",
-  mapper: {
-    serializedName: "operationId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters6: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: UpdateClusterIdentityCertificateParametersMapper
 };
 
-export const parameters7: OperationParameter = {
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: ExecuteScriptActionParametersMapper
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const applicationName: OperationURLParameter = {
-  parameterPath: "applicationName",
-  mapper: {
-    serializedName: "applicationName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters8: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ApplicationMapper
-};
-
-export const location: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const parameters9: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: NameAvailabilityCheckRequestParametersMapper
-};
-
-export const parameters10: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ClusterCreateRequestValidationParametersMapper
-};
-
-export const parameters11: OperationParameter = {
   parameterPath: "parameters",
   mapper: {
     serializedName: "parameters",
@@ -244,17 +223,17 @@ export const configurationName: OperationURLParameter = {
   }
 };
 
-export const parameters12: OperationParameter = {
+export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: ClusterMonitoringRequestMapper
 };
 
-export const parameters13: OperationParameter = {
+export const parameters11: OperationParameter = {
   parameterPath: "parameters",
   mapper: AzureMonitorRequestMapper
 };
 
-export const parameters14: OperationParameter = {
+export const parameters12: OperationParameter = {
   parameterPath: "parameters",
   mapper: ExtensionMapper
 };
@@ -263,6 +242,54 @@ export const extensionName: OperationURLParameter = {
   parameterPath: "extensionName",
   mapper: {
     serializedName: "extensionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters13: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NameAvailabilityCheckRequestParametersMapper
+};
+
+export const parameters14: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ClusterCreateRequestValidationParametersMapper
+};
+
+export const parameters15: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PrivateEndpointConnectionMapper
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const privateLinkResourceName: OperationURLParameter = {
+  parameterPath: "privateLinkResourceName",
+  mapper: {
+    serializedName: "privateLinkResourceName",
     required: true,
     type: {
       name: "String"
@@ -304,33 +331,6 @@ export const hosts: OperationParameter = {
           name: "String"
         }
       }
-    }
-  }
-};
-
-export const parameters15: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: PrivateEndpointConnectionMapper
-};
-
-export const privateEndpointConnectionName: OperationURLParameter = {
-  parameterPath: "privateEndpointConnectionName",
-  mapper: {
-    serializedName: "privateEndpointConnectionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const privateLinkResourceName: OperationURLParameter = {
-  parameterPath: "privateLinkResourceName",
-  mapper: {
-    serializedName: "privateLinkResourceName",
-    required: true,
-    type: {
-      name: "String"
     }
   }
 };

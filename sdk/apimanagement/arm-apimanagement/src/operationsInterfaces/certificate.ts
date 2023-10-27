@@ -27,7 +27,7 @@ import {
 export interface Certificate {
   /**
    * Lists a collection of all certificates in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -38,7 +38,7 @@ export interface Certificate {
   ): PagedAsyncIterableIterator<CertificateContract>;
   /**
    * Gets the entity state (Etag) version of the certificate specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param certificateId Identifier of the certificate entity. Must be unique in the current API
    *                      Management service instance.
@@ -52,7 +52,7 @@ export interface Certificate {
   ): Promise<CertificateGetEntityTagResponse>;
   /**
    * Gets the details of the certificate specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param certificateId Identifier of the certificate entity. Must be unique in the current API
    *                      Management service instance.
@@ -66,7 +66,7 @@ export interface Certificate {
   ): Promise<CertificateGetResponse>;
   /**
    * Creates or updates the certificate being used for authentication with the backend.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param certificateId Identifier of the certificate entity. Must be unique in the current API
    *                      Management service instance.
@@ -82,7 +82,7 @@ export interface Certificate {
   ): Promise<CertificateCreateOrUpdateResponse>;
   /**
    * Deletes specific certificate.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param certificateId Identifier of the certificate entity. Must be unique in the current API
    *                      Management service instance.
@@ -99,7 +99,7 @@ export interface Certificate {
   ): Promise<void>;
   /**
    * From KeyVault, Refresh the certificate being used for authentication with the backend.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param certificateId Identifier of the certificate entity. Must be unique in the current API
    *                      Management service instance.

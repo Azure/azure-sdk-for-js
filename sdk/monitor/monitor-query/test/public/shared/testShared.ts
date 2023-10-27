@@ -9,7 +9,12 @@ import {
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { createClientLogger } from "@azure/logger";
-import { LogsQueryClient, LogsTable, MetricsQueryClient } from "../../../src";
+import {
+  LogsQueryClient,
+  LogsTable,
+  MetricsQueryClient,
+  MetricsBatchQueryClient,
+} from "../../../src";
 import { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
 export const loggerForTest = createClientLogger("test");
 const replacementForLogsResourceId = env["LOGS_RESOURCE_ID"]?.startsWith("/")
@@ -39,6 +44,41 @@ export interface RecorderAndMetricsClient {
   recorder: Recorder;
 }
 
+export interface RecorderAndMetricsBatchQueryClient {
+  client: MetricsBatchQueryClient;
+  // recorder: Recorder;
+}
+
+export async function createRecorderAndMetricsBatchQueryClient(): Promise<RecorderAndMetricsBatchQueryClient> {
+  // await recorder.start(recorderOptions);
+  const testCredential = createTestCredential();
+  const batchEndPoint =
+    env["AZURE_MONITOR_BATCH_ENDPOINT"] ?? "https://eastus.metrics.monitor.azure.com/";
+  const client = new MetricsBatchQueryClient(batchEndPoint, testCredential);
+
+  return {
+    client: client,
+    // recorder: recorder,
+  };
+}
+
+export function getMetricsBatchResourceIds(): string[] {
+  const resourceId: string = assertEnvironmentVariable("LOGS_RESOURCE_ID");
+  return [resourceId, `${resourceId}2`];
+}
+
+export function getMetricsBatchNamespace(): string {
+  return env["AZURE_MONITOR_BATCH_NAMESPACE"] ?? "requests/count";
+}
+
+export function getMetricsBatchNames(): string[] {
+  const metricNamesString = env["AZURE_MONITOR_BATCH_METRICNAMES"];
+  if (!metricNamesString) {
+    return ["requests", "count"];
+  }
+  return metricNamesString.split(" ");
+}
+
 export const testEnv = new Proxy(envSetupForPlayback, {
   get: (target, key: string) => {
     return env[key] || target[key];
@@ -49,7 +89,6 @@ export async function createRecorderAndMetricsClient(
   recorder: Recorder
 ): Promise<RecorderAndMetricsClient> {
   await recorder.start(recorderOptions);
-
   const client = new MetricsQueryClient(
     createTestCredential(),
     recorder.configureClientOptions({})
@@ -66,6 +105,19 @@ export async function createRecorderAndLogsClient(
   retryOptions?: ExponentialRetryPolicyOptions
 ): Promise<RecorderAndLogsClient> {
   await recorder.start(recorderOptions);
+  await recorder.addSanitizers(
+    {
+      bodySanitizers: [
+        {
+          regex: true,
+          target: "(.*)range x from 1 to (?<step_limit>[0-9]+) step 1(.*)",
+          value: "10000000000000",
+          groupForReplace: "step_limit",
+        },
+      ],
+    },
+    ["playback", "record"]
+  );
 
   const client = new LogsQueryClient(
     createTestCredential(),

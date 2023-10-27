@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates API Management email template
  *
  * @summary Updates API Management email template
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementUpdateTemplate.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateTemplate.json
  */
 async function apiManagementUpdateTemplate() {
   const subscriptionId =

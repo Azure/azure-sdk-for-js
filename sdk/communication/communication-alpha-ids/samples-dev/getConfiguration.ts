@@ -5,7 +5,7 @@
  * @summary Get the Alpha IDs configuration that's applied for the current resource
  */
 
-import { AlphaIdConfiguration, AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
+import { DynamicAlphaIdConfiguration, AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
 import { RestError } from "@azure/core-rest-pipeline";
 
 // Load the .env file if it exists
@@ -26,7 +26,8 @@ export async function main() {
 
   try {
     // get the applied configuration for the current resource
-    const configuration: AlphaIdConfiguration = await client.getConfiguration();
+    const configuration: DynamicAlphaIdConfiguration =
+      await client.getDynamicAlphaIdConfiguration();
     usageIsEnabled = configuration.enabled;
   } catch (error) {
     // 403 errors also mean that the usage is disallowed

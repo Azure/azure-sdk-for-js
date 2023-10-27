@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ServiceNetworkingManagementClient } from "../serviceNetworkingManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Association,
   AssociationsInterfaceListByTrafficControllerNextOptionalParams,
@@ -146,7 +150,7 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
   }
 
   /**
-   * Get a Traffic Controller Association
+   * Get a Association
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
    * @param associationName Name of Association
@@ -165,7 +169,7 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
   }
 
   /**
-   * Create a Traffic Controller Association
+   * Create a Association
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
    * @param associationName Name of Association
@@ -179,8 +183,8 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
     resource: Association,
     options?: AssociationsInterfaceCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AssociationsInterfaceCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AssociationsInterfaceCreateOrUpdateResponse>,
       AssociationsInterfaceCreateOrUpdateResponse
     >
   > {
@@ -190,7 +194,7 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
     ): Promise<AssociationsInterfaceCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -223,28 +227,31 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         trafficControllerName,
         associationName,
         resource,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AssociationsInterfaceCreateOrUpdateResponse,
+      OperationState<AssociationsInterfaceCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create a Traffic Controller Association
+   * Create a Association
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
    * @param associationName Name of Association
@@ -269,7 +276,7 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
   }
 
   /**
-   * Update a Traffic Controller Association
+   * Update a Association
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
    * @param associationName Name of Association
@@ -296,7 +303,7 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
   }
 
   /**
-   * Delete a Traffic Controller Association
+   * Delete a Association
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
    * @param associationName Name of Association
@@ -307,14 +314,14 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
     trafficControllerName: string,
     associationName: string,
     options?: AssociationsInterfaceDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -347,22 +354,27 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, trafficControllerName, associationName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        trafficControllerName,
+        associationName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete a Traffic Controller Association
+   * Delete a Association
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
    * @param associationName Name of Association

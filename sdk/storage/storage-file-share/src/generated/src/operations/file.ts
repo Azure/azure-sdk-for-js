@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { File } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClientContext } from "../storageClientContext";
+import { StorageClient } from "../storageClient";
 import {
   FileCreateOptionalParams,
   FileCreateResponse,
@@ -50,15 +51,15 @@ import {
   FileRenameResponse
 } from "../models";
 
-/** Class representing a File. */
-export class File {
-  private readonly client: StorageClientContext;
+/** Class containing File operations. */
+export class FileImpl implements File {
+  private readonly client: StorageClient;
 
   /**
    * Initialize a new instance of the class File class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClientContext) {
+  constructor(client: StorageClient) {
     this.client = client;
   }
 
@@ -74,15 +75,10 @@ export class File {
     fileAttributes: string,
     options?: FileCreateOptionalParams
   ): Promise<FileCreateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      fileContentLength,
-      fileAttributes,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { fileContentLength, fileAttributes, options },
       createOperationSpec
-    ) as Promise<FileCreateResponse>;
+    );
   }
 
   /**
@@ -92,13 +88,7 @@ export class File {
   download(
     options?: FileDownloadOptionalParams
   ): Promise<FileDownloadResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      downloadOperationSpec
-    ) as Promise<FileDownloadResponse>;
+    return this.client.sendOperationRequest({ options }, downloadOperationSpec);
   }
 
   /**
@@ -109,13 +99,10 @@ export class File {
   getProperties(
     options?: FileGetPropertiesOptionalParams
   ): Promise<FileGetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getPropertiesOperationSpec
-    ) as Promise<FileGetPropertiesResponse>;
+    );
   }
 
   /**
@@ -123,13 +110,7 @@ export class File {
    * @param options The options parameters.
    */
   delete(options?: FileDeleteOptionalParams): Promise<FileDeleteResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      deleteOperationSpec
-    ) as Promise<FileDeleteResponse>;
+    return this.client.sendOperationRequest({ options }, deleteOperationSpec);
   }
 
   /**
@@ -142,14 +123,10 @@ export class File {
     fileAttributes: string,
     options?: FileSetHttpHeadersOptionalParams
   ): Promise<FileSetHttpHeadersResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      fileAttributes,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { fileAttributes, options },
       setHttpHeadersOperationSpec
-    ) as Promise<FileSetHttpHeadersResponse>;
+    );
   }
 
   /**
@@ -159,13 +136,10 @@ export class File {
   setMetadata(
     options?: FileSetMetadataOptionalParams
   ): Promise<FileSetMetadataResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       setMetadataOperationSpec
-    ) as Promise<FileSetMetadataResponse>;
+    );
   }
 
   /**
@@ -176,13 +150,10 @@ export class File {
   acquireLease(
     options?: FileAcquireLeaseOptionalParams
   ): Promise<FileAcquireLeaseResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       acquireLeaseOperationSpec
-    ) as Promise<FileAcquireLeaseResponse>;
+    );
   }
 
   /**
@@ -195,14 +166,10 @@ export class File {
     leaseId: string,
     options?: FileReleaseLeaseOptionalParams
   ): Promise<FileReleaseLeaseResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      leaseId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { leaseId, options },
       releaseLeaseOperationSpec
-    ) as Promise<FileReleaseLeaseResponse>;
+    );
   }
 
   /**
@@ -215,14 +182,10 @@ export class File {
     leaseId: string,
     options?: FileChangeLeaseOptionalParams
   ): Promise<FileChangeLeaseResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      leaseId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { leaseId, options },
       changeLeaseOperationSpec
-    ) as Promise<FileChangeLeaseResponse>;
+    );
   }
 
   /**
@@ -233,13 +196,10 @@ export class File {
   breakLease(
     options?: FileBreakLeaseOptionalParams
   ): Promise<FileBreakLeaseResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       breakLeaseOperationSpec
-    ) as Promise<FileBreakLeaseResponse>;
+    );
   }
 
   /**
@@ -264,16 +224,10 @@ export class File {
     contentLength: number,
     options?: FileUploadRangeOptionalParams
   ): Promise<FileUploadRangeResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      range,
-      fileRangeWrite,
-      contentLength,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { range, fileRangeWrite, contentLength, options },
       uploadRangeOperationSpec
-    ) as Promise<FileUploadRangeResponse>;
+    );
   }
 
   /**
@@ -295,16 +249,10 @@ export class File {
     contentLength: number,
     options?: FileUploadRangeFromURLOptionalParams
   ): Promise<FileUploadRangeFromURLResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      range,
-      copySource,
-      contentLength,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { range, copySource, contentLength, options },
       uploadRangeFromURLOperationSpec
-    ) as Promise<FileUploadRangeFromURLResponse>;
+    );
   }
 
   /**
@@ -314,13 +262,10 @@ export class File {
   getRangeList(
     options?: FileGetRangeListOptionalParams
   ): Promise<FileGetRangeListResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getRangeListOperationSpec
-    ) as Promise<FileGetRangeListResponse>;
+    );
   }
 
   /**
@@ -337,14 +282,10 @@ export class File {
     copySource: string,
     options?: FileStartCopyOptionalParams
   ): Promise<FileStartCopyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      copySource,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { copySource, options },
       startCopyOperationSpec
-    ) as Promise<FileStartCopyResponse>;
+    );
   }
 
   /**
@@ -358,14 +299,10 @@ export class File {
     copyId: string,
     options?: FileAbortCopyOptionalParams
   ): Promise<FileAbortCopyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      copyId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { copyId, options },
       abortCopyOperationSpec
-    ) as Promise<FileAbortCopyResponse>;
+    );
   }
 
   /**
@@ -375,13 +312,10 @@ export class File {
   listHandles(
     options?: FileListHandlesOptionalParams
   ): Promise<FileListHandlesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       listHandlesOperationSpec
-    ) as Promise<FileListHandlesResponse>;
+    );
   }
 
   /**
@@ -394,14 +328,10 @@ export class File {
     handleId: string,
     options?: FileForceCloseHandlesOptionalParams
   ): Promise<FileForceCloseHandlesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      handleId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { handleId, options },
       forceCloseHandlesOperationSpec
-    ) as Promise<FileForceCloseHandlesResponse>;
+    );
   }
 
   /**
@@ -413,20 +343,16 @@ export class File {
     renameSource: string,
     options?: FileRenameOptionalParams
   ): Promise<FileRenameResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      renameSource,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { renameSource, options },
       renameOperationSpec
-    ) as Promise<FileRenameResponse>;
+    );
   }
 }
 // Operation Specifications
-const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
 
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "PUT",
   responses: {
@@ -445,6 +371,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.accept1,
     Parameters.metadata,
     Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
@@ -463,7 +391,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const downloadOperationSpec: coreHttp.OperationSpec = {
+const downloadOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "GET",
   responses: {
@@ -492,13 +420,15 @@ const downloadOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.range,
     Parameters.rangeGetContentMD5
   ],
   isXML: true,
   serializer: xmlSerializer
 };
-const getPropertiesOperationSpec: coreHttp.OperationSpec = {
+const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "HEAD",
   responses: {
@@ -515,12 +445,14 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
-    Parameters.leaseId
+    Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "DELETE",
   responses: {
@@ -537,12 +469,14 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
-    Parameters.leaseId
+    Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
 };
-const setHttpHeadersOperationSpec: coreHttp.OperationSpec = {
+const setHttpHeadersOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "PUT",
   responses: {
@@ -560,6 +494,8 @@ const setHttpHeadersOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
@@ -577,7 +513,7 @@ const setHttpHeadersOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const setMetadataOperationSpec: coreHttp.OperationSpec = {
+const setMetadataOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "PUT",
   responses: {
@@ -595,12 +531,14 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.metadata,
-    Parameters.leaseId
+    Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
 };
-const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
+const acquireLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "PUT",
   responses: {
@@ -620,12 +558,14 @@ const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.action,
     Parameters.duration,
     Parameters.proposedLeaseId,
-    Parameters.requestId
+    Parameters.requestId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
 };
-const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
+const releaseLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "PUT",
   responses: {
@@ -644,12 +584,14 @@ const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.accept1,
     Parameters.requestId,
     Parameters.action1,
-    Parameters.leaseId1
+    Parameters.leaseId1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
 };
-const changeLeaseOperationSpec: coreHttp.OperationSpec = {
+const changeLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "PUT",
   responses: {
@@ -669,12 +611,14 @@ const changeLeaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.proposedLeaseId,
     Parameters.requestId,
     Parameters.leaseId1,
-    Parameters.action2
+    Parameters.action2,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
 };
-const breakLeaseOperationSpec: coreHttp.OperationSpec = {
+const breakLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "PUT",
   responses: {
@@ -693,12 +637,14 @@ const breakLeaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.accept1,
     Parameters.leaseId,
     Parameters.requestId,
-    Parameters.action4
+    Parameters.action4,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
 };
-const uploadRangeOperationSpec: coreHttp.OperationSpec = {
+const uploadRangeOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "PUT",
   responses: {
@@ -716,19 +662,22 @@ const uploadRangeOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.leaseId,
-    Parameters.contentType1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
+    Parameters.contentType2,
     Parameters.accept3,
     Parameters.range1,
     Parameters.fileRangeWrite,
     Parameters.contentLength,
     Parameters.contentMD5,
     Parameters.fileLastWrittenMode
-  ],  
-  contentType: "application/octet-stream",
+  ],
   isXML: true,
+  contentType: "application/xml; charset=utf-8",
+  mediaType: "binary",
   serializer: xmlSerializer
 };
-const uploadRangeFromURLOperationSpec: coreHttp.OperationSpec = {
+const uploadRangeFromURLOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "PUT",
   responses: {
@@ -746,6 +695,8 @@ const uploadRangeFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.allowTrailingDot,
+    Parameters.allowSourceTrailingDot,
     Parameters.range1,
     Parameters.contentLength,
     Parameters.fileLastWrittenMode,
@@ -760,7 +711,7 @@ const uploadRangeFromURLOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const getRangeListOperationSpec: coreHttp.OperationSpec = {
+const getRangeListOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "GET",
   responses: {
@@ -784,12 +735,14 @@ const getRangeListOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.range
   ],
   isXML: true,
   serializer: xmlSerializer
 };
-const startCopyOperationSpec: coreHttp.OperationSpec = {
+const startCopyOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "PUT",
   responses: {
@@ -808,12 +761,15 @@ const startCopyOperationSpec: coreHttp.OperationSpec = {
     Parameters.accept1,
     Parameters.metadata,
     Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes1,
     Parameters.fileCreationTime,
     Parameters.fileLastWriteTime,
     Parameters.fileChangeTime,
+    Parameters.allowSourceTrailingDot,
     Parameters.copySource,
     Parameters.filePermissionCopyMode,
     Parameters.ignoreReadOnly1,
@@ -822,7 +778,7 @@ const startCopyOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const abortCopyOperationSpec: coreHttp.OperationSpec = {
+const abortCopyOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "PUT",
   responses: {
@@ -844,12 +800,14 @@ const abortCopyOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.copyActionAbortConstant
   ],
   isXML: true,
   serializer: xmlSerializer
 };
-const listHandlesOperationSpec: coreHttp.OperationSpec = {
+const listHandlesOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "GET",
   responses: {
@@ -870,11 +828,16 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.comp9
   ],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.accept1],
+  headerParameters: [
+    Parameters.version,
+    Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
+  ],
   isXML: true,
   serializer: xmlSerializer
 };
-const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
+const forceCloseHandlesOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "PUT",
   responses: {
@@ -896,12 +859,14 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.handleId
   ],
   isXML: true,
   serializer: xmlSerializer
 };
-const renameOperationSpec: coreHttp.OperationSpec = {
+const renameOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}/{fileName}",
   httpMethod: "PUT",
   responses: {
@@ -919,6 +884,8 @@ const renameOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.metadata,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.renameSource,
@@ -930,6 +897,7 @@ const renameOperationSpec: coreHttp.OperationSpec = {
     Parameters.fileCreationTime,
     Parameters.fileLastWriteTime,
     Parameters.fileChangeTime,
+    Parameters.allowSourceTrailingDot,
     Parameters.fileContentType
   ],
   isXML: true,
