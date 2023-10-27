@@ -1296,6 +1296,21 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@azure/eventgrid@4.15.0:
+    resolution: {integrity: sha512-E0NOeRtOSi57MzVhRWL+HwMdEjeh5SDxn9MPTnQtmukTow2EJ1KxyZuQcrHBowX4z+4l+djKHF6qU7X2e+HjrQ==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-rest-pipeline': 1.12.1
+      '@azure/core-tracing': 1.0.1
+      '@azure/logger': 1.0.4
+      tslib: 2.6.2
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/functions@3.5.1:
     resolution: {integrity: sha512-6UltvJiuVpvHSwLcK/Zc6NfUwlkDLOFFx97BHCJzlWNsfiWwzwmTsxJXg4kE/LemKTHxPpfoPE+kOJ8hAdiKFQ==}
     dependencies:
@@ -3086,7 +3101,7 @@ packages:
   /@types/decompress@4.2.5:
     resolution: {integrity: sha512-LdL+kbcKGs9TzvB/K+OBGzPfDoP6gwwTsykYjodlzUJUUYp/43c1p1jE5YTtz3z4Ml90iruvBXbJ6+kDvb3WSQ==}
     dependencies:
-      '@types/node': 16.18.55
+      '@types/node': 18.18.6
     dev: false
 
   /@types/eslint@8.44.3:
@@ -3391,7 +3406,7 @@ packages:
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 16.18.55
+      '@types/node': 18.18.6
     dev: false
 
   /@types/ws@8.5.6:
@@ -9059,6 +9074,7 @@ packages:
 
   /sinon@15.2.0:
     resolution: {integrity: sha512-nPS85arNqwBXaIsFCkolHjGIkFo+Oxu9vbgmBJizLAhqe6P2o3Qmj3KCUoRkfhHtvgDhZdWD3risLHAUJ8npjw==}
+    deprecated: 16.1.1
     dependencies:
       '@sinonjs/commons': 3.0.0
       '@sinonjs/fake-timers': 10.3.0
@@ -11000,10 +11016,11 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-sOsK7D4xImVH5vaQtlgQ+b5hGIafj/3yjvMfR94up0ib8tL2PiDOESv9EjWtUrP2FrV+VZujDdfORe+Mms9Bow==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-Q1gGUrOYukkKiFDm1bWvcg1P7pcmQvrTVihXsYKgTJYRzfDvKDEAnE0kBsMB86MTlvEtTHvQaNZqCvEFEKmOaA==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
+      '@azure/eventgrid': 4.15.0
       '@azure/identity': 3.3.2
       '@azure/keyvault-secrets': 4.7.0
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.55)
@@ -19761,7 +19778,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-xU93B4p2NrMFlw+Q0pc+YJEeDbAX7zOw4utmoLmF3kfhm29TSCgR2w7EYzvTgZFDTrISa012fA2ByeW56NcEKQ==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-0ORJcn+QKnYzzMZh2vBlMmk4OB+Z0Dy+oIjUBxST3uD+Dai5+dWTy5lsKu6Cn3nzPCfL0G2AlJEbEH6r6mdWGw==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -20048,7 +20065,7 @@ packages:
     dev: false
 
   file:projects/identity-broker.tgz:
-    resolution: {integrity: sha512-Td7ny0f5I13ifzov1ZRpLikjV1W1K+/dP3v0wLbPRNc+5PmO83YEggizdO557ZUAqgXig0lOgOjQNs8RU5Q2zw==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-bJeT5l52RzMz9AsOWdVh1c0a1FyZTR49uO1DqkoaMLfHDSxTnSotfk6PySH3xIlHCu6AziNVtLp6PTHB5nBdeA==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
@@ -21457,10 +21474,11 @@ packages:
     dev: false
 
   file:projects/perf-eventgrid.tgz:
-    resolution: {integrity: sha512-zukn1shjJPbD3ij2j8lbmQboH7zR51lpAg4mayu43fWNf7vL5K/yyMyZbnyr2Tn62qvDZ6vezcovxWTJOVzX+w==, tarball: file:projects/perf-eventgrid.tgz}
+    resolution: {integrity: sha512-54is6xymrbE0IFQ9VuAlRosTzYnVB/ueRl623ra0n80cVuRcrNP+IWOwdF4NNh4sEStoMsx2aTbxbiEqkg4Tlw==, tarball: file:projects/perf-eventgrid.tgz}
     name: '@rush-temp/perf-eventgrid'
     version: 0.0.0
     dependencies:
+      '@azure/eventgrid': 4.15.0
       '@types/node': 16.18.55
       dotenv: 16.3.1
       eslint: 8.50.0
@@ -22206,7 +22224,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-v58t6pSQO2V8yONwW5KEjBcPCGQKo0leyK1/Xu3r9/VodjwUkhCra7MN5g8bZXMqe3wl+l5d2KNcrqaMXOmnDg==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-TYRJDw9i9Sl87uFVhvAvvk5N1Bq/7axieJRvMiK2YkRVDXO0iO4/B9B83ews5FIsNQkGVqEO8xS7cB1FEX+8Og==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -22254,7 +22272,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-CgQZNEj4Cd1d9SHnlFuFoYEeuVB4yufSziSCh6E+25sOH5CDqb0UmcagHrw+fLBeIY53n3PnF0seP9hzvp+hAg==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-gyGZU0bo+BvUmhNcsvo0xxwlBz5N0jKg1WA7wND5RV2QdkNnCFSc2dr4D5A7XaE44nHDsyil7qFh5ZC7QOt6pA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
