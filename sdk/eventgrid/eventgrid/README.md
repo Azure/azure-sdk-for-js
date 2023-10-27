@@ -218,9 +218,9 @@ await client.send([
     subject: "Event Subject",
     dataVersion: "1.0",
     data: {
-      hello: "world",
-    },
-  },
+      hello: "world"
+    }
+  }
 ]);
 ```
 
@@ -244,46 +244,53 @@ await client.send([
     subject: "Event Subject",
     dataVersion: "1.0",
     data: {
-      hello: "world",
-    },
-  },
+      hello: "world"
+    }
+  }
 ]);
 ```
 
 ### Deserializing an Event
 
-`EventGridDeserializer` can be used to deserialize events delivered by Event Grid. In this example we have a cloud event that is deserialized using `EventGridDeserializer` and use `isSystemEvent` to detect what type of events they are.
+`EventGridDeserializer` can be used to deserialize events delivered by Event Grid. When deserializing an event, you need to know the schema used to deliver the event. In this example we have events being delivered to an Azure Service Bus Queue in the Cloud Events schema. Using the Service Bus SDK we can receive these events from the Service Bus Queue and then deserialize them using `EventGridDeserializer` and use `isSystemEvent` to detect what type of events they are.
 
 ```js
+const { ServiceBusClient } = require("@azure/service-bus");
+const { DefaultAzureCredential } = require("@azure/identity");
 const { EventGridDeserializer, isSystemEvent } = require("@azure/eventgrid");
 
-async function main() {
-  const deserializer = new EventGridDeserializer();
-  const message = {
-    id: "5bc888aa-c2f4-11ea-b3de-0242ac130004",
-    source:
-      "/subscriptions/<subscriptionid>/resourceGroups/dummy-rg/providers/Microsoft.EventGrid/topics/dummy-topic",
-    specversion: "1.0",
-    type: "Microsoft.ContainerRegistry.ImagePushed",
-    subject: "Test Subject",
-    time: "2020-07-10T21:27:12.925Z",
-    data: {
-      hello: "world",
-    },
-  };
-  const deserializedMessage = await deserializer.deserializeCloudEvents(message);
-  console.log(deserializedMessage);
+const client = new ServiceBusClient("<service bus hostname>", new DefaultAzureCredential());
 
-  if (
-    deserializedMessage != null &&
-    deserializedMessage.length !== 0 &&
-    isSystemEvent("Microsoft.ContainerRegistry.ImagePushed", deserializedMessage[0])
-  ) {
-    console.log("This is a Microsoft.ContainerRegistry.ImagePushed event");
+const receiver = client.createReceiver("<queue name>", "peekLock");
+
+const consumer = new EventGridDeserializer();
+
+async function processMessage(message) {
+  // When delivering to a Service Bus Queue or Topic, EventGrid delivers a single event per message.
+  // so we just pluck the first one.
+  const event = (await consumer.deserializeCloudEvents(message.body))[0];
+
+  if (isSystemEvent("Microsoft.ContainerRegistry.ImagePushed", event)) {
+    console.log(
+      `${event.time}: Container Registry Image Pushed event for image ${event.data.target.repository}:${event.data.target.tag}`
+    );
+  } else if (isSystemEvent("Microsoft.ContainerRegistry.ImageDeleted", event)) {
+    console.log(
+      `${event.time}: Container Registry Image Deleted event for repository ${event.data.target.repository}`
+    );
   }
+
+  await message.complete();
 }
 
-main();
+console.log("starting receiver");
+
+receiver.subscribe({
+  processError: async (err) => {
+    console.error(err);
+  },
+  processMessage
+});
 ```
 
 ## Troubleshooting
@@ -298,7 +305,7 @@ const { setLogLevel } = require("@azure/logger");
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable the logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 
