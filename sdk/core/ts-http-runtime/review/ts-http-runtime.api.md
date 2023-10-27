@@ -198,7 +198,7 @@ interface DelayOptions_2 extends AbortOptions {
 export { DelayOptions_2 as DelayOptions }
 
 // @public
-export type EncodingType = "utf-8" | "base64" | "base64url";
+export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";
 
 // @public
 export interface ErrorModel {
