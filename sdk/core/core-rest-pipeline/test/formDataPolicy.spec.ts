@@ -104,14 +104,15 @@ describe("formDataPolicy", function () {
     }
 
     it("prepares a form with multiple fields correctly", async function () {
-      const result = await performRequest({ a: "va", b: "vb" });
+      // add field with spooky unicode characters to ensure encoding is working
+      const result = await performRequest({ a: "va", b: "vb", c: "👻👻" });
       assert.isUndefined(result.request.formData);
       const body = result.request.body as any;
       assert.ok(body, "expecting valid body");
       assert.ok(isMultipartRequestBody(body), "expecting body to be MultipartRequestBody");
       const parts = (body as any).parts as BodyPart[];
       const enc = new TextEncoder();
-      assert.ok(parts.length === 2, "need 2 parts");
+      assert.ok(parts.length === 3, "need 3 parts");
       assert.deepEqual(parts[0], {
         headers: createHttpHeaders({
           "Content-Disposition": `form-data; name="a"`,
@@ -123,6 +124,12 @@ describe("formDataPolicy", function () {
           "Content-Disposition": `form-data; name="b"`,
         }),
         body: enc.encode("vb"),
+      });
+      assert.deepEqual(parts[2], {
+        headers: createHttpHeaders({
+          "Content-Disposition": `form-data; name="c"`,
+        }),
+        body: enc.encode("👻👻"),
       });
     });
 

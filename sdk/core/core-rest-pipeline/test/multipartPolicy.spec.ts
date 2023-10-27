@@ -97,7 +97,7 @@ describe("multipartPolicy", function () {
     );
   });
 
-  describe("content-type request header", async function () {
+  describe("content-type request header and boundary", async function () {
     it("header is populated to multipart/mixed when not set", async function () {
       const request = await performRequest({
         headers: createHttpHeaders({}),
@@ -125,6 +125,32 @@ describe("multipartPolicy", function () {
           },
         }),
         /Got multipart request body, but content-type header was not multipart: application\/json/
+      );
+    });
+
+    it("throws when invalid boundary is set in content-type header", async function () {
+      await assert.isRejected(
+        performRequest({
+          headers: createHttpHeaders({
+            "content-type": "multipart/form-data; boundary=%%%%%%%",
+          }),
+          body: {
+            parts: [],
+          },
+        }),
+        /Multipart boundary "%%%%%%%" contains invalid characters/
+      );
+    });
+
+    it("throws when invalid boundary is set in body", async function () {
+      await assert.isRejected(
+        performRequest({
+          body: {
+            boundary: "%%%%%%%",
+            parts: [],
+          },
+        }),
+        /Multipart boundary "%%%%%%%" contains invalid characters/
       );
     });
 
@@ -195,142 +221,140 @@ describe("multipartPolicy", function () {
       await assertBodyMatches(request.body, expectedBody);
     });
 
-    describe("boundary", function () {
-      it("is present with multiple parts", async function () {
-        const request = await performRequest({
-          body: {
-            boundary: "blah",
-            parts: [
-              {
-                body: stringToUint8Array("part1", "utf-8"),
-                headers: createHttpHeaders(),
-              },
-              {
-                body: stringToUint8Array("part2", "utf-8"),
-                headers: createHttpHeaders(),
-              },
-            ],
-          },
-        });
-
-        const expectedBody = stringToUint8Array(
-          "--blah\r\n\r\npart1\r\n--blah\r\n\r\npart2\r\n--blah--\r\n\r\n",
-          "utf-8"
-        );
-        await assertBodyMatches(request.body, expectedBody);
-        assert.equal(
-          request.headers.get("Content-Length"),
-          expectedBody.byteLength.toString(),
-          "Expected Content-Length header to equal length of body"
-        );
+    it("is present with multiple parts", async function () {
+      const request = await performRequest({
+        body: {
+          boundary: "blah",
+          parts: [
+            {
+              body: stringToUint8Array("part1", "utf-8"),
+              headers: createHttpHeaders(),
+            },
+            {
+              body: stringToUint8Array("part2", "utf-8"),
+              headers: createHttpHeaders(),
+            },
+          ],
+        },
       });
 
-      it("supports Uint8Array body", async function () {
-        const request = await performRequest({
-          body: {
-            boundary: "blah",
-            parts: [
-              {
-                body: stringToUint8Array("part", "utf-8"),
-                headers: createHttpHeaders(),
-              },
-            ],
-          },
-        });
-
-        const expectedBody = stringToUint8Array("--blah\r\n\r\npart\r\n--blah--\r\n\r\n", "utf-8");
-        await assertBodyMatches(request.body, expectedBody);
-        assert.equal(
-          request.headers.get("Content-Length"),
-          expectedBody.byteLength.toString(),
-          "Expected Content-Length header to equal length of body"
-        );
-      });
-
-      it("supports Node ReadableStream body", async function () {
-        if (!isNode) {
-          this.skip();
-        }
-
-        const body = Readable.from(Buffer.from("part1", "utf-8"));
-
-        const request = await performRequest({
-          body: {
-            boundary: "blah",
-            parts: [
-              {
-                body,
-                headers: createHttpHeaders(),
-              },
-            ],
-          },
-        });
-
-        const expectedBody = stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--\r\n\r\n", "utf-8");
-        await assertBodyMatches(request.body, expectedBody);
-        assert.isUndefined(
-          request.headers.get("Content-Length"),
-          "Content-Length value should not be inferred from a stream"
-        );
-      });
-
-      it("Supports web ReadableStream body", async function () {
-        const body = new ReadableStream({
-          start(controller) {
-            controller.enqueue(new TextEncoder().encode("part1"));
-            controller.close();
-          },
-        });
-
-        const request = await performRequest({
-          body: {
-            boundary: "blah",
-            parts: [
-              {
-                body,
-                headers: createHttpHeaders(),
-              },
-            ],
-          },
-        });
-
-        const expectedBody = stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--\r\n\r\n", "utf-8");
-        await assertBodyMatches(request.body, expectedBody);
-        assert.isUndefined(
-          request.headers.get("Content-Length"),
-          "Content-Length value should not be inferred from a stream"
-        );
-      });
+      const expectedBody = stringToUint8Array(
+        "--blah\r\n\r\npart1\r\n--blah\r\n\r\npart2\r\n--blah--\r\n\r\n",
+        "utf-8"
+      );
+      await assertBodyMatches(request.body, expectedBody);
+      assert.equal(
+        request.headers.get("Content-Length"),
+        expectedBody.byteLength.toString(),
+        "Expected Content-Length header to equal length of body"
+      );
     });
 
-    describe("part headers", function () {
-      it("are present when specified", async function () {
-        const request = await performRequest({
-          body: {
-            boundary: "blah",
-            parts: [
-              {
-                body: stringToUint8Array("part1", "utf-8"),
-                headers: createHttpHeaders({
-                  "Content-Type": "text/plain",
-                  "Content-Disposition": "form-data; name=aaa; filename=test.txt",
-                }),
-              },
-            ],
-          },
-        });
-
-        const expectedBody = stringToUint8Array(
-          "--blah\r\nContent-Type: text/plain\r\nContent-Disposition: form-data; name=aaa; filename=test.txt\r\n\r\npart1\r\n--blah--\r\n\r\n",
-          "utf-8"
-        );
-        await assertBodyMatches(request.body, expectedBody);
-        assert.equal(
-          request.headers.get("Content-Length"),
-          expectedBody.byteLength.toString(),
-          "Expected Content-Length header to equal length of body"
-        );
+    it("supports Uint8Array body", async function () {
+      const request = await performRequest({
+        body: {
+          boundary: "blah",
+          parts: [
+            {
+              body: stringToUint8Array("part", "utf-8"),
+              headers: createHttpHeaders(),
+            },
+          ],
+        },
       });
+
+      const expectedBody = stringToUint8Array("--blah\r\n\r\npart\r\n--blah--\r\n\r\n", "utf-8");
+      await assertBodyMatches(request.body, expectedBody);
+      assert.equal(
+        request.headers.get("Content-Length"),
+        expectedBody.byteLength.toString(),
+        "Expected Content-Length header to equal length of body"
+      );
+    });
+
+    it("supports Node ReadableStream body", async function () {
+      if (!isNode) {
+        this.skip();
+      }
+
+      const body = Readable.from(Buffer.from("part1", "utf-8"));
+
+      const request = await performRequest({
+        body: {
+          boundary: "blah",
+          parts: [
+            {
+              body,
+              headers: createHttpHeaders(),
+            },
+          ],
+        },
+      });
+
+      const expectedBody = stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--\r\n\r\n", "utf-8");
+      await assertBodyMatches(request.body, expectedBody);
+      assert.isUndefined(
+        request.headers.get("Content-Length"),
+        "Content-Length value should not be inferred from a stream"
+      );
+    });
+
+    it("Supports web ReadableStream body", async function () {
+      const body = new ReadableStream({
+        start(controller) {
+          controller.enqueue(new TextEncoder().encode("part1"));
+          controller.close();
+        },
+      });
+
+      const request = await performRequest({
+        body: {
+          boundary: "blah",
+          parts: [
+            {
+              body,
+              headers: createHttpHeaders(),
+            },
+          ],
+        },
+      });
+
+      const expectedBody = stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--\r\n\r\n", "utf-8");
+      await assertBodyMatches(request.body, expectedBody);
+      assert.isUndefined(
+        request.headers.get("Content-Length"),
+        "Content-Length value should not be inferred from a stream"
+      );
+    });
+  });
+
+  describe("part headers", function () {
+    it("are present when specified", async function () {
+      const request = await performRequest({
+        body: {
+          boundary: "blah",
+          parts: [
+            {
+              body: stringToUint8Array("part1", "utf-8"),
+              headers: createHttpHeaders({
+                "Content-Type": "text/plain",
+                "Content-Disposition": "form-data; name=aaa; filename=test.txt",
+              }),
+            },
+          ],
+        },
+      });
+
+      const expectedBody = stringToUint8Array(
+        "--blah\r\nContent-Type: text/plain\r\nContent-Disposition: form-data; name=aaa; filename=test.txt\r\n\r\npart1\r\n--blah--\r\n\r\n",
+        "utf-8"
+      );
+      await assertBodyMatches(request.body, expectedBody);
+      assert.equal(
+        request.headers.get("Content-Length"),
+        expectedBody.byteLength.toString(),
+        "Expected Content-Length header to equal length of body"
+      );
     });
   });
 });

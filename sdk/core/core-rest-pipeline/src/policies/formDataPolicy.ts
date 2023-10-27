@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { stringToUint8Array } from "@azure/core-util";
 import { createHttpHeaders } from "../httpHeaders";
 import {
   BodyPart,
@@ -51,8 +52,6 @@ function wwwFormUrlEncode(formData: FormDataMap): string {
   return urlSearchParams.toString();
 }
 
-const encoder = new TextEncoder();
-
 async function prepareFormData(formData: FormDataMap, request: PipelineRequest): Promise<void> {
   // clear request.formData
   request.formData = undefined;
@@ -76,7 +75,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
           headers: createHttpHeaders({
             "Content-Disposition": `form-data; name="${fieldName}"`,
           }),
-          body: encoder.encode(value),
+          body: stringToUint8Array(value, "utf-8"),
         });
       } else {
         // using || instead of ?? here since if value.name is empty we should create a file name

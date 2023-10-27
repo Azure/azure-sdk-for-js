@@ -34,7 +34,8 @@ export function toStream(
 export function concatenateStreams(
   streams: ReadableStream<Uint8Array>[]
 ): ReadableStream<Uint8Array> {
-  let reader = streams.shift()?.getReader();
+  let remainingStreams = Array.from(streams);
+  let reader = remainingStreams.shift()?.getReader();
 
   async function doPull(controller: ReadableStreamDefaultController): Promise<void> {
     if (!reader) {
@@ -52,7 +53,7 @@ export function concatenateStreams(
     }
 
     if (done) {
-      reader = streams.shift()?.getReader();
+      reader = remainingStreams.shift()?.getReader();
       await doPull(controller);
     } else {
       controller.enqueue(value);
