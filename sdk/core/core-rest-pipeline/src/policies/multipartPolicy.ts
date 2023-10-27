@@ -11,7 +11,8 @@ import {
   RequestBodyType,
 } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { concatenateStreams, isBlobLike, toStream } from "../util/stream";
+import { toStream, concatenateStreams } from "../util/stream";
+import { isInMemoryBlob, isStreamableBlob } from "../util/typeGuards";
 
 function generateBoundary(): string {
   return `----AzSDKFormBoundary${randomUUID()}`;
@@ -26,8 +27,10 @@ function getLength(
 ): number | undefined {
   if (source instanceof Uint8Array) {
     return source.byteLength;
-  } else if (isBlobLike(source)) {
+  } else if (isStreamableBlob(source)) {
     return source.size;
+  } else if (isInMemoryBlob(source)) {
+    return source.content.byteLength;
   } else {
     return undefined;
   }

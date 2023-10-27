@@ -1,23 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BlobLike, FileLike } from "../interfaces";
-
-export function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
-  return Boolean(x && typeof (x as NodeJS.ReadableStream).pipe === "function");
-}
-
-export function isWebReadableStream(x: unknown): x is ReadableStream {
-  return Boolean(
-    x &&
-      typeof (x as ReadableStream).getReader === "function" &&
-      typeof (x as ReadableStream).tee === "function"
-  );
-}
-
-export function isReadableStream(x: unknown): x is ReadableStream | NodeJS.ReadableStream {
-  return isNodeReadableStream(x) || isWebReadableStream(x);
-}
+import { BlobLike } from "../interfaces";
+import { isInMemoryBlob, isStreamableBlob, isWebReadableStream } from "./typeGuards";
 
 function uint8ArrayToStream(data: Uint8Array): ReadableStream {
   return new ReadableStream({
@@ -28,23 +13,15 @@ function uint8ArrayToStream(data: Uint8Array): ReadableStream {
   });
 }
 
-export function isBlobLike(x: unknown): x is BlobLike {
-  return Boolean(
-    x && (typeof (x as BlobLike).stream === "function" || isReadableStream((x as BlobLike).stream))
-  );
-}
-
-export function isFileLike(x: unknown): x is FileLike {
-  return isBlobLike(x);
-}
-
 export function toStream(
   source: ReadableStream | NodeJS.ReadableStream | Uint8Array | BlobLike
 ): ReadableStream | NodeJS.ReadableStream {
   if (source instanceof Uint8Array) {
     return uint8ArrayToStream(source);
-  } else if (isBlobLike(source)) {
+  } else if (isStreamableBlob(source)) {
     return typeof source.stream === "function" ? source.stream() : source.stream;
+  } else if (isInMemoryBlob(source)) {
+    return uint8ArrayToStream(source.content);
   } else if (isWebReadableStream(source)) {
     return source;
   } else {
@@ -85,6 +62,10 @@ export function concatenateStreams(
   return new ReadableStream({
     pull(controller) {
       return doPull(controller);
+    },
+
+    cancel(reason) {
+      reader?.cancel(reason);
     },
   });
 }

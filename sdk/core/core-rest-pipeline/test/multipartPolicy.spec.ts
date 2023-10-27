@@ -9,7 +9,7 @@ import { multipartPolicy } from "../src/policies/multipartPolicy";
 import { assert } from "chai";
 import { PipelineRequestOptions } from "../src/pipelineRequest";
 import { isNode, stringToUint8Array } from "@azure/core-util";
-import { isNodeReadableStream, isWebReadableStream } from "../src/util/stream";
+import { isNodeReadableStream, isWebReadableStream } from "../src/util/typeGuards";
 import { Readable } from "stream";
 
 async function performRequest(

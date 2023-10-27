@@ -48,12 +48,9 @@ export interface HttpHeaders extends Iterable<[string, string]> {
 }
 
 /**
- * An interface representing a blob.
- *
- * `Blob` and `File` objects satisfy this interface, but a ReadableStream (web or Node) can be
- * used instead by creating an object with the `stream` property set to the stream.
+ * A blob that is streamable. `Blob` and `File` satisfy this interface.
  */
-export interface BlobLike {
+export interface StreamableBlob {
   /**
    * A stream (or a function that returns a stream) representing the blob's contents.
    */
@@ -65,24 +62,47 @@ export interface BlobLike {
   type?: string;
 
   /**
-   * The size of the blob.
+   * The size of the blob, if known.
    */
   size?: number;
 }
 
 /**
- * An interface representing a file to be uploaded.
- * The `File` class satisfies this interface, allowing for instances to be passed directly. If the file to be
- * uploaded is not represented by a `File` or `Blob`, an object containing a stream and optional file type and file name
+ * Blob with content as a Uint8Array
+ */
+export interface InMemoryBlob {
+  /**
+   * The content of the blob as a Uint8Array
+   */
+  content: Uint8Array;
+
+  /**
+   * The MIME type of the blob.
+   */
+  type?: string;
+}
+
+/**
+ * A type representing a blob.
+ *
+ * `Blob` and `File` objects satisfy this, but a ReadableStream (web or Node) can be
+ * used instead by creating an object with the `stream` property set to the stream.
+ */
+export type BlobLike = StreamableBlob | InMemoryBlob;
+
+/**
+ * A type representing a file to be uploaded.
+ * The `File` class satisfies this type, allowing for instances to be passed directly. If the file to be
+ * uploaded is not represented by a `File` or `Blob`, an object containing a stream or content buffer and optional file type and file name
  * can be used instead.
  */
-export interface FileLike extends BlobLike {
+export type FileLike = BlobLike & {
   /**
    * The name of the file. If no file name is present, a placeholder name of 'blob' will be used when submitting a form
    * containing the file.
    */
   name?: string;
-}
+};
 
 /**
  * A part of the request body in a multipart request.

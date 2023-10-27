@@ -75,12 +75,11 @@ export interface BearerTokenAuthenticationPolicyOptions {
     scopes: string | string[];
 }
 
+// Warning: (ae-forgotten-export) The symbol "StreamableBlob" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "InMemoryBlob" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface BlobLike {
-    size?: number;
-    stream: ReadableStream | NodeJS.ReadableStream | (() => ReadableStream | NodeJS.ReadableStream);
-    type?: string;
-}
+export type BlobLike = StreamableBlob | InMemoryBlob;
 
 // @public
 export interface BodyPart {
@@ -136,9 +135,9 @@ export interface ExponentialRetryPolicyOptions {
 }
 
 // @public
-export interface FileLike extends BlobLike {
+export type FileLike = BlobLike & {
     name?: string;
-}
+};
 
 // @public
 export type FormDataMap = {

@@ -11,9 +11,15 @@ import {
   formDataPolicy,
 } from "../src";
 import { isMultipartRequestBody } from "../src/policies/multipartPolicy";
-import { BlobLike, BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces";
+import {
+  BodyPart,
+  FormDataMap,
+  InMemoryBlob,
+  MultipartRequestBody,
+  StreamableBlob,
+} from "../src/interfaces";
 import { isNode } from "@azure/core-util";
-import { isBlobLike, isNodeReadableStream } from "../src/util/stream";
+import { isBlobLike, isInMemoryBlob, isNodeReadableStream } from "../src/util/typeGuards";
 import { Readable } from "stream";
 
 describe("formDataPolicy", function () {
@@ -196,15 +202,40 @@ describe("formDataPolicy", function () {
           })
         );
         assert.ok(isBlobLike(parts[0].body));
-        assert.ok(isNodeReadableStream((parts[0].body as BlobLike).stream));
+        assert.ok(isNodeReadableStream((parts[0].body as StreamableBlob).stream));
 
         const buffers: Buffer[] = [];
-        for await (const part of (parts[0].body as BlobLike).stream as NodeJS.ReadableStream) {
+        for await (const part of (parts[0].body as StreamableBlob)
+          .stream as NodeJS.ReadableStream) {
           buffers.push(part as Buffer);
         }
 
         const content = Buffer.concat(buffers);
         assert.deepEqual([...content], [...Buffer.from("aaa")]);
+      });
+
+      it("can upload a Uint8Array", async function () {
+        const result = await performRequest({
+          file: {
+            content: new Uint8Array([0x01, 0x02, 0x03]),
+            name: "file.bin",
+            type: "text/plain",
+          },
+        });
+
+        const parts = (result.request.body as MultipartRequestBody).parts;
+        assert.ok(parts.length === 1, "expected 1 part");
+        assert.deepEqual(
+          parts[0].headers,
+          createHttpHeaders({
+            "Content-Type": "text/plain",
+            "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
+          })
+        );
+        assert.ok(isInMemoryBlob(parts[0].body));
+
+        const content = (parts[0].body as InMemoryBlob).content;
+        assert.deepEqual([...content], [0x01, 0x02, 0x03]);
       });
     });
   });
