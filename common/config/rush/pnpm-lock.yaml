@@ -4822,7 +4822,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231026
+      typescript: 5.3.0-dev.20231027
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9573,6 +9573,37 @@ packages:
       code-block-writer: 12.0.0
     dev: false
 
+  /ts-node@10.9.1(@types/node@16.18.55)(typescript@5.0.4):
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 16.18.55
+      acorn: 8.10.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.0.4
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node@10.9.1(@types/node@16.18.55)(typescript@5.2.2):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -9784,8 +9815,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231026:
-    resolution: {integrity: sha512-TPCRnvIO1nKy3PLJwVyXwZJAQ3silk51ktcvvk1NzYoPtS9p3xX7LNodMA6DDDndhbeMkjMlxb/PmPur2Z+zUQ==}
+  /typescript@5.3.0-dev.20231027:
+    resolution: {integrity: sha512-YFAOvfXqPu/aZg27Xc6/Ftvbm5YmjgGEsVocBYbh3iZWRoYTcN3kF29ZZIdgRhoqSIN89+W29p4bBChsfVor2g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12532,7 +12563,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservicefleet.tgz:
-    resolution: {integrity: sha512-6bKcpP88Wd8C7HPJDz1mXZOCppv+1pF8LVOWO0TuaSblJDd2gQ6/2rxbkOX0n4SlW8FSPF9Pr4HP6knLxtT/qQ==, tarball: file:projects/arm-containerservicefleet.tgz}
+    resolution: {integrity: sha512-kgTLNTdhf5MdfUs1SKxQK3FCz8jSa0N14tkZIMfqshJJvo8kOyfT2D0UmdG69mG5MP14x7nmL9ElgVvJrE21BA==, tarball: file:projects/arm-containerservicefleet.tgz}
     name: '@rush-temp/arm-containerservicefleet'
     version: 0.0.0
     dependencies:
@@ -12543,18 +12574,20 @@ packages:
       '@rollup/plugin-multi-entry': 6.0.0(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
       '@types/chai': 4.3.6
+      '@types/mocha': 10.0.2
       '@types/node': 16.18.55
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@16.18.55)(rollup@2.79.1)
-      ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.2.2)
+      ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)
       tslib: 2.6.2
-      typescript: 5.2.2
+      typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -20048,7 +20081,7 @@ packages:
     dev: false
 
   file:projects/identity-broker.tgz:
-    resolution: {integrity: sha512-Td7ny0f5I13ifzov1ZRpLikjV1W1K+/dP3v0wLbPRNc+5PmO83YEggizdO557ZUAqgXig0lOgOjQNs8RU5Q2zw==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-bJeT5l52RzMz9AsOWdVh1c0a1FyZTR49uO1DqkoaMLfHDSxTnSotfk6PySH3xIlHCu6AziNVtLp6PTHB5nBdeA==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
@@ -22206,7 +22239,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-v58t6pSQO2V8yONwW5KEjBcPCGQKo0leyK1/Xu3r9/VodjwUkhCra7MN5g8bZXMqe3wl+l5d2KNcrqaMXOmnDg==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-TYRJDw9i9Sl87uFVhvAvvk5N1Bq/7axieJRvMiK2YkRVDXO0iO4/B9B83ews5FIsNQkGVqEO8xS7cB1FEX+8Og==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -22254,7 +22287,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-CgQZNEj4Cd1d9SHnlFuFoYEeuVB4yufSziSCh6E+25sOH5CDqb0UmcagHrw+fLBeIY53n3PnF0seP9hzvp+hAg==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-gyGZU0bo+BvUmhNcsvo0xxwlBz5N0jKg1WA7wND5RV2QdkNnCFSc2dr4D5A7XaE44nHDsyil7qFh5ZC7QOt6pA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
