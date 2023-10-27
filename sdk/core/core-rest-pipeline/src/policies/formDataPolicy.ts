@@ -96,6 +96,6 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
       }
     }
 
-    request.body = { parts };
+    request.body = { bodyType: "mimeMultipart", parts };
   }
 }

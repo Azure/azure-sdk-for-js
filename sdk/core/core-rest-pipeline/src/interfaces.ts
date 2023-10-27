@@ -124,6 +124,11 @@ export interface BodyPart {
  */
 export interface MultipartRequestBody {
   /**
+   * Field used to discriminate MultipartRequestBody from other body types.
+   */
+  bodyType: "mimeMultipart";
+
+  /**
    * The parts of the request body.
    */
   parts: BodyPart[];

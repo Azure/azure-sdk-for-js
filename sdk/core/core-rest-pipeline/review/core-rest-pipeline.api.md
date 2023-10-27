@@ -75,9 +75,6 @@ export interface BearerTokenAuthenticationPolicyOptions {
     scopes: string | string[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "StreamableBlob" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "InMemoryBlob" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type BlobLike = StreamableBlob | InMemoryBlob;
 
@@ -176,6 +173,12 @@ export interface HttpHeaders extends Iterable<[string, string]> {
 export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 
 // @public
+export interface InMemoryBlob {
+    content: Uint8Array;
+    type?: string;
+}
+
+// @public
 export interface InternalPipelineOptions extends PipelineOptions {
     loggingOptions?: LogPolicyOptions;
 }
@@ -213,6 +216,7 @@ export const multipartPolicyName = "multipartPolicy";
 
 // @public
 export interface MultipartRequestBody {
+    bodyType: "mimeMultipart";
     boundary?: string;
     parts: BodyPart[];
 }
@@ -419,6 +423,13 @@ export function setClientRequestIdPolicy(requestIdHeaderName?: string): Pipeline
 
 // @public
 export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
+
+// @public
+export interface StreamableBlob {
+    size?: number;
+    stream: ReadableStream | NodeJS.ReadableStream | (() => ReadableStream | NodeJS.ReadableStream);
+    type?: string;
+}
 
 // @public
 export function systemErrorRetryPolicy(options?: SystemErrorRetryPolicyOptions): PipelinePolicy;

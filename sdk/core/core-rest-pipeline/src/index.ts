@@ -11,6 +11,7 @@ export {
   HttpClient,
   HttpHeaders,
   HttpMethods,
+  InMemoryBlob,
   KeyObject,
   MultipartRequestBody,
   PipelineRequest,
@@ -22,6 +23,7 @@ export {
   RawHttpHeadersInput,
   RequestBodyType,
   SendRequest,
+  StreamableBlob,
   TlsSettings,
   TransferProgressEvent,
 } from "./interfaces";

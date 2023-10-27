@@ -80,7 +80,7 @@ function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary:
 export function isMultipartRequestBody(
   body: RequestBodyType | undefined
 ): body is MultipartRequestBody {
-  return Boolean(body && Array.isArray((body as MultipartRequestBody).parts));
+  return Boolean(body && (body as MultipartRequestBody).bodyType === "mimeMultipart");
 }
 
 /**
