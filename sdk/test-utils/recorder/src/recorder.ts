@@ -4,6 +4,7 @@
 import {
   createDefaultHttpClient,
   HttpClient,
+  isMultipartRequestBody,
   isRestError,
   PipelinePolicy,
   PipelineRequest,
@@ -414,6 +415,11 @@ export class Recorder {
   ): T & { additionalPolicies?: AdditionalPolicyConfig[] } {
     if (isLiveMode()) return options;
     if (!options.additionalPolicies) options.additionalPolicies = [];
+
+    options.additionalPolicies.push({
+      policy: this.fixedMultipartBoundaryPolicy(),
+      position: "perCall",
+    });
     options.additionalPolicies.push({
       policy: this.recorderHttpPolicy(),
       position: "perRetry",
@@ -451,11 +457,29 @@ export class Recorder {
         next: SendRequest
       ): Promise<PipelineResponse> => {
         const originalUrl = request.url;
+
         this.redirectRequest(request);
         const response = await next(request);
         this.handleTestProxyErrors(response);
         this.revertRequestChanges(request, originalUrl);
         return response;
+      },
+    };
+  }
+
+  private fixedMultipartBoundaryPolicy(): PipelinePolicy {
+    return {
+      name: "fixedMultipartBoundaryPolicy",
+      sendRequest: (request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> => {
+        if (isMultipartRequestBody(request.body)) {
+          request.body.boundary = "--RecordedTestMultipartBoundary";
+          const contentType = request.headers.get("Content-Type");
+          if (contentType) {
+            const contentTypeWithoutBoundary = contentType.split(";")[0];
+            request.headers.set("Content-Type", contentTypeWithoutBoundary);
+          }
+        }
+        return next(request);
       },
     };
   }
