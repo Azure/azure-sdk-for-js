@@ -303,7 +303,7 @@ describe("CallMedia Unit Tests", async function () {
     const sendDtmfTonesOptions: SendDtmfTonesOptions = {
       operationContext: "test_operation_context",
     };
-    const tones = ["one", "two", "three", "pound"];
+    const tones = [DtmfTone.One, DtmfTone.Two, DtmfTone.Three, DtmfTone.Pound];
 
     await callMedia.sendDtmfTones(tones, targetParticipant, sendDtmfTonesOptions);
     const request = spy.getCall(0).args[0];

@@ -28,7 +28,7 @@ import {
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 
-import { FileSource, TextSource, SsmlSource } from "./models/models";
+import { FileSource, TextSource, SsmlSource, DtmfTone } from "./models/models";
 
 import {
   PlayOptions,
@@ -279,6 +279,19 @@ export class CallMedia {
 
   /**
    *  Recognize participant input.
+   *  @deprecated This method signature is deprecated. Please use the new signature with targetParticipant and options params instead, and set maxTonesToCollect in options.
+   *  @param targetParticipant - Target participant.
+   *  @param maxTonesToCollect - Maximum number of DTMF tones to be collected.
+   *  @param options - Different attributes for recognize.
+   * */
+  public async startRecognizing(
+    targetParticipant: CommunicationIdentifier,
+    maxTonesToCollect: number,
+    options: CallMediaRecognizeDtmfOptions
+  ): Promise<void>;
+
+  /**
+   *  Recognize participant input.
    *  @param targetParticipant - Target participant.
    *  @param options - Different attributes for recognize.
    * */
@@ -289,12 +302,37 @@ export class CallMedia {
       | CallMediaRecognizeChoiceOptions
       | CallMediaRecognizeSpeechOptions
       | CallMediaRecognizeSpeechOrDtmfOptions
+  ): Promise<void>;
+  async startRecognizing(
+    targetParticipant: CommunicationIdentifier,
+    maxTonesOrOptions:
+      | number
+      | CallMediaRecognizeDtmfOptions
+      | CallMediaRecognizeChoiceOptions
+      | CallMediaRecognizeSpeechOptions
+      | CallMediaRecognizeSpeechOrDtmfOptions,
+    options?: CallMediaRecognizeDtmfOptions
   ): Promise<void> {
-    return this.callMedia.recognize(
-      this.callConnectionId,
-      this.createRecognizeRequest(targetParticipant, options),
-      {}
-    );
+    if (typeof maxTonesOrOptions === "number" && options) {
+      // Old function signature logic
+      console.warn(
+        "Deprecated function signature used. Please use the new signature with targetParticipant and options params instead, and set maxTonesToCollect in options."
+      );
+      options.maxTonesToCollect = maxTonesOrOptions;
+      return this.callMedia.recognize(
+        this.callConnectionId,
+        this.createRecognizeRequest(targetParticipant, options),
+        {}
+      );
+    } else if (typeof maxTonesOrOptions !== "number" && !options) {
+      // New function signature logic
+      return this.callMedia.recognize(
+        this.callConnectionId,
+        this.createRecognizeRequest(targetParticipant, maxTonesOrOptions),
+        {}
+      );
+    }
+    throw new Error("Invalid params");
   }
 
   /**
@@ -352,7 +390,7 @@ export class CallMedia {
    * @param options - Additional attributes for send Dtmf tones.
    * */
   public async sendDtmfTones(
-    tones: Tone[],
+    tones: Tone[] | DtmfTone[],
     targetParticipant: CommunicationIdentifier,
     options: SendDtmfTonesOptions = {}
   ): Promise<SendDtmfTonesResult> {
