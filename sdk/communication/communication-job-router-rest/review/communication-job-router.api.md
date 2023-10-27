@@ -8,6 +8,7 @@ import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { KeyCredential } from '@azure/core-auth';
 import { Paged } from '@azure/core-paging';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
@@ -15,6 +16,7 @@ import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface AcceptJobAction {
@@ -267,7 +269,7 @@ export interface ConditionalWorkerSelectorAttachmentOutput extends WorkerSelecto
 }
 
 // @public
-function createClient(endpoint: string, options?: ClientOptions): AzureCommunicationRoutingServiceClient;
+function createClient(connectionStringOrUrl: string, credentialOrOptions?: KeyCredential | TokenCredential, options?: ClientOptions): AzureCommunicationRoutingServiceClient;
 export default createClient;
 
 // @public (undocumented)

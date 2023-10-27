@@ -13,11 +13,6 @@ import JobRouter from "../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 
-
-
-
-
-
 // Create an classification policy
 async function createClassificationPolicy(): Promise<void> {
   // Create the Router Client
