@@ -5,24 +5,24 @@
  * @summary Classification policy crud
  */
 import { AzureCommunicationRoutingServiceClient } from "../src"
-import createClient from "../src/azureCommunicationRoutingServiceClient"
+import JobRouter from "../src"; import { DefaultAzureCredential } from "@azure/identity";
 
-// Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-dotenv.config();
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+
+
+
+
 
 // Get a classification policy
 
 async function getClassificationPolicy(): Promise<void> {
   // Create the Router Client
   const routerClient: AzureCommunicationRoutingServiceClient =
-    createClient(connectionString);
+    JobRouter("https://<endpoint>", new DefaultAzureCredential());
 
   const policyId = "classification-policy-123";
 
-  const result = await routerClient.path("/routing/classificationPolicies/{id}", policyId).get();
+  const result = await routerClient.path("/routing/classificationPolicies/{classificationPolicyId}", policyId).get();
 
   console.log("classification policy: " + result);
 }

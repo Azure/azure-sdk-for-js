@@ -3,43 +3,39 @@
 /**
  * @summary router job crud
  */
-import {
-  CreateQueueOptions,
-  JobrouterClient,
-  JobRouterClient,
-  UpdateJobOptions,
-} from "../src";
-
-// Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+import JobRouter from "../src";
+import { DefaultAzureCredential } from "@azure/identity";
+import { AzureCommunicationRoutingServiceClient } from "../src";
 
 // Update a router job
 async function updateRouterJob(): Promise<void> {
   // Create the JobRouter Client
-  const jobRouterClient: AzureCommunicationRoutingServiceClient =
-    createClient(connectionString);
-  const jobrouterClient: AzureCommunicationRoutingServiceClient =
-    createClient(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient =
+    JobRouter("https://<endpoint>", new DefaultAzureCredential());
 
-  const queueId = "queue-2";
-  const createOptions: CreateQueueOptions = {
-    distributionPolicyId: "distribution-policy-123",
-    name: "Main",
-    labels: {},
-  };
-  await jobrouterClient.createQueue(queueId, createOptions);
+  const queueId = "queue-123";
+  await routerClient.path("/routing/queues/{queueId}", queueId).patch({
+    contentType: "application/merge-patch+json",
+    body: {
+      distributionPolicyId: "distribution-policy-123",
+      name: "Main",
+      labels: {},
+      exceptionPolicyId: "exception-policy-123",
+    }
+  })
 
-  const jobId = "router-job-123"
-  const updateOptions: UpdateJobOptions = {
-    channelId: "general",
-    queueId: queueId,
-    labels: {},
-  };
 
-  const result = await jobRouterClient.updateJob(jobId, updateOptions);
+  const jobId = "router-job-123";
+  const result = await routerClient.path("/routing/jobs/{jobId}", jobId).patch({
+    contentType: "application/merge-patch+json",
+    body: {
+      channelId: "ChatChannel",
+      queueId: queueId,
+      channelReference: "abc",
+      priority: 2,
+      labels: {},
+    }
+  })
 
   console.log("router job: " + result);
 }

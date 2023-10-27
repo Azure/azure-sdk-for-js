@@ -3,36 +3,29 @@
 /**
  * @summary router worker crud
  */
-import { JobRouterClient, RouterWorkerItem } from "../src";
+import JobRouter, { paginate } from "../src";
+import { DefaultAzureCredential } from "@azure/identity";
+import { AzureCommunicationRoutingServiceClient } from "../src";
 
-// Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-import { assert } from "chai";
-dotenv.config();
-
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // List exception policies
 async function listRouterWorkers(): Promise<void> {
   // Create the Router Client
   const routerClient: AzureCommunicationRoutingServiceClient =
-    createClient(connectionString);
+    JobRouter("https://<endpoint>", new DefaultAzureCredential());
 
-  let pagesCount = 1;
   const maxPageSize = 3;
-  const receivedPagedItems: RouterWorkerItem[] = [];
+  // Get the first page which also contains information on how to get the next page.
+  const initialResponse = await routerClient.path("/routing/queues").get({ queryParameters: { maxpagesize: maxPageSize} })
 
-  for await (const page of routerClient.listWorkers({ maxPageSize }).byPage()) {
-    ++pagesCount;
-    console.log("page: " + pagesCount);
-    for (const policy of page) {
-      if (policy.worker) {
-        receivedPagedItems.push(policy);
-        console.log("Listing router worker with id: " + policy.worker.id);
-      }
+  if (initialResponse.status == "200") {
+    // The paginate helper creates a paged async iterator using metadata from the first page.
+    const items = paginate(routerClient, initialResponse);
+
+    // We get an PageableAsyncIterator so we need to do `for await`.
+    for await (const item of items) {
+      console.log(item);
     }
-    let pageSize = receivedPagedItems.length;
-    assert.isAtMost(pageSize, maxPageSize);
   }
 }
 

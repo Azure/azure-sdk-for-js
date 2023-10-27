@@ -4,39 +4,38 @@
  * @summary router worker crud
  */
 import { AzureCommunicationRoutingServiceClient } from "../src";
-import createClient from "../src/azureCommunicationRoutingServiceClient";
+import JobRouter from "../src"; import { DefaultAzureCredential } from "@azure/identity";
 
-// Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-dotenv.config();
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+
+
+
+
 
 // Create a router worker
 async function createRouterWorker(): Promise<void> {
   // Create the Router Client
   const routerClient: AzureCommunicationRoutingServiceClient =
-    createClient(connectionString);
+    JobRouter("https://<endpoint>", new DefaultAzureCredential());
 
   const id = "router-worker-123";
 
   const result = await routerClient.path("/routing/workers/{workerId}", id).patch({
     contentType: "application/merge-patch+json",
     body: {
-      totalCapacity: 100,
-      queueAssignments: {
-        MainQueue: {},
-        SecondaryQueue: {},
-      },
+      capacity: 100,
+      queues: [
+        "MainQueue",
+        "SecondaryQueue"
+      ],
       labels: {},
-      channelConfigurations: {
-        CustomChatChannel: {
-          capacityCostPerJob: 10,
-        },
-        CustomVoiceChannel: {
-          capacityCostPerJob: 100,
-        },
-      },
+      channels: [{
+        channelId: "CustomChatChannel",
+        capacityCostPerJob: 10
+      }, {
+        channelId: "CustomVoiceChannel",
+        capacityCostPerJob: 100
+      }],
     }
   })
 

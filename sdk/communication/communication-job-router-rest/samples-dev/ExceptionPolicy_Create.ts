@@ -4,20 +4,20 @@
  * @summary Exception policy crud
  */
 import { AzureCommunicationRoutingServiceClient } from "../src"
-import createClient from "../src/azureCommunicationRoutingServiceClient"
+import JobRouter from "../src"; import { DefaultAzureCredential } from "@azure/identity";
 
-// Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
+
+
 import { QueueLengthExceptionTrigger } from "../src";
-dotenv.config();
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+
+
 
 // Create an exception policy
 async function createExceptionPolicy(): Promise<void> {
   // Create the Router Client
   const routerClient: AzureCommunicationRoutingServiceClient =
-    createClient(connectionString);
+    JobRouter("https://<endpoint>", new DefaultAzureCredential());
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger: QueueLengthExceptionTrigger = {
@@ -27,24 +27,21 @@ async function createExceptionPolicy(): Promise<void> {
 
   const id = "exception-policy-123";
 
-  const result = await routerClient.path("/routing/exceptionPolicies/{id}", id).patch({
+  const result = await routerClient.path("/routing/exceptionPolicies/{exceptionPolicyId}", id).patch({
     contentType: "application/merge-patch+json",
     body: {
       name: "test-policy",
-      exceptionRules: {
-        MaxWaitTimeExceeded: {
-          actions: {
-            MoveJobToEscalatedQueue: {
-              kind: "reclassify",
-              classificationPolicyId: "Main",
-              labelsToUpsert: {
-                escalated: true,
-              },
-            },
+      exceptionRules: [{
+        id: "MaxWaitTimeExceeded",
+        actions: [{
+          kind: "reclassify",
+          classificationPolicyId: "Main",
+          labelsToUpsert: {
+            escalated: true,
           },
-          trigger: queueLengthExceptionTrigger,
-        },
-      },
+        }],
+        trigger: queueLengthExceptionTrigger,
+      }]
     }
   });
 

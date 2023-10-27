@@ -9,22 +9,23 @@ import {
 } from "../src";
 
 import { AzureCommunicationRoutingServiceClient } from "../src"
-import createClient from "../src/azureCommunicationRoutingServiceClient"
+import JobRouter from "../src";
+import { DefaultAzureCredential } from "@azure/identity";
 
-// Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-dotenv.config();
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+
+
+
+
 
 // Create an classification policy
 async function createClassificationPolicy(): Promise<void> {
   // Create the Router Client
   const routerClient: AzureCommunicationRoutingServiceClient =
-    createClient(connectionString);
+    JobRouter("https://<endpoint>", new DefaultAzureCredential());
 
   const distributionPolicyId = "distribution-policy-123";
-  await routerClient.path("/routing/distributionPolicies/{id}", distributionPolicyId).patch({
+  await routerClient.path("/routing/distributionPolicies/{distributionPolicyId}", distributionPolicyId).patch({
     contentType: "application/merge-patch+json",
     body: {
       name: "distribution-policy-123",
@@ -45,41 +46,38 @@ async function createClassificationPolicy(): Promise<void> {
   };
 
   const exceptionPolicyId = "exception-policy-123";
-  await routerClient.path("/routing/exceptionPolicies/{id}", exceptionPolicyId).patch({
+  await routerClient.path("/routing/exceptionPolicies/{exceptionPolicyId}", exceptionPolicyId).patch({
     contentType: "application/merge-patch+json",
     body: {
       name: "test-policy",
-      exceptionRules: {
-        MaxWaitTimeExceeded: {
-          actions: {
-            MoveJobToEscalatedQueue: {
+      exceptionRules: [{
+          id: "MaxWaitTimeExceeded",
+          actions: [{
               kind: "reclassify",
               classificationPolicyId: "Main",
               labelsToUpsert: {
                 escalated: true,
               },
-            },
-          },
+          }],
           trigger: queueLengthExceptionTrigger,
-        },
-      }
+      }]
     }
   })
 
   const classificationPolicyId = "classification-policy-123";
   const salesQueueId = "queue-123";
-  await routerClient.path("/routing/classificationPolicies/{id}", classificationPolicyId).patch({
+  await routerClient.path("/routing/classificationPolicies/{classificationPolicyId}", classificationPolicyId).patch({
     contentType: "application/merge-patch+json",
     body: {
       name: "Default Classification Policy",
       fallbackQueueId: salesQueueId,
-      queueSelectors: [
+      queueSelectorAttachments: [
         {
           kind: "static",
           queueSelector: { key: "department", labelOperator: "equal", value: "xbox" }
         },
       ],
-      workerSelectors: [{
+      workerSelectorAttachments: [{
         kind: "static",
         workerSelector: { key: "english", labelOperator: "greaterThan", value: 5 }
       }],
@@ -92,7 +90,7 @@ async function createClassificationPolicy(): Promise<void> {
   });
 
   const queueId = "queue-123";
-  await routerClient.path("/routing/queues/{id}", queueId).patch({
+  await routerClient.path("/routing/queues/{queueId}", queueId).patch({
     contentType: "application/merge-patch+json",
     body: {
       distributionPolicyId: "distribution-policy-123",
@@ -103,12 +101,12 @@ async function createClassificationPolicy(): Promise<void> {
   })
 
 
-  const result = await routerClient.path("/routing/classificationPolicies/{id}", classificationPolicyId).patch({
+  const result = await routerClient.path("/routing/classificationPolicies/{classificationPolicyId}", classificationPolicyId).patch({
     contentType: "application/merge-patch+json",
     body: {
       name: "test-policy",
       fallbackQueueId: "queue-123",
-      queueSelectors: [
+      queueSelectorAttachments: [
         {
           kind: "conditional",
           queueSelectors : [{

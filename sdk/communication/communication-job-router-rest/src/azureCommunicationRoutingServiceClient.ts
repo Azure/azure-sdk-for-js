@@ -2,16 +2,19 @@
 // Licensed under the MIT license.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
+import { TokenCredential } from "@azure/core-auth";
 import { logger } from "./logger";
 import { AzureCommunicationRoutingServiceClient } from "./clientDefinitions";
 
 /**
  * Initialize a new instance of `AzureCommunicationRoutingServiceClient`
  * @param endpoint - A sequence of textual characters.
+ * @param credentials type: TokenCredential
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
   endpoint: string,
+  credentials: TokenCredential,
   options: ClientOptions = {}
 ): AzureCommunicationRoutingServiceClient {
   const baseUrl = options.baseUrl ?? `${endpoint}`;
@@ -32,7 +35,7 @@ export default function createClient(
     },
   };
 
-  const client = getClient(baseUrl, options) as AzureCommunicationRoutingServiceClient;
+  const client = getClient(baseUrl, credentials, options) as AzureCommunicationRoutingServiceClient;
 
   return client;
 }

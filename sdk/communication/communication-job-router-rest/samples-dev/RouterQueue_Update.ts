@@ -3,28 +3,39 @@
 /**
  * @summary job queue crud
  */
-import { RouterQueueResponse, JobrouterClient } from "../src";
-
-// Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+import JobRouter from "../src";
+import { DefaultAzureCredential } from "@azure/identity";
+import { AzureCommunicationRoutingServiceClient } from "../src";
 
 // Update a router jobQueue
 async function updateJobQueue(): Promise<void> {
   // Create the Router Client
   const routerClient: AzureCommunicationRoutingServiceClient =
-    createClient(connectionString);
+    JobRouter("https://<endpoint>", new DefaultAzureCredential());
 
-  const request: RouterQueueResponse = {
-    id: "queue-123",
-    distributionPolicyId: "distribution-policy-123",
-    name: "MainNewName",
-    labels: {},
-  };
+  const distributionPolicyId = "distribution-policy-123";
+  await routerClient.path("/routing/distributionPolicies/{distributionPolicyId}", distributionPolicyId).patch({
+    contentType: "application/merge-patch+json",
+    body: {
+      name: "distribution-policy-123",
+      mode: {
+        kind: "longest-idle",
+        minConcurrentOffers: 1,
+        maxConcurrentOffers: 5,
+        bypassSelectors: false,
+      },
+      offerExpiresAfterSeconds: 120,
+    }
+  })
 
-  const result = await routerClient.updateQueue(request.id, request);
+  const queueId = "queue-123";
+  const result = await routerClient.path("/routing/queues/{queueId}", queueId).patch({
+    contentType: "application/merge-patch+json",
+    body: {
+      distributionPolicyId: distributionPolicyId,
+      name: "Main",
+    }
+  })
 
   console.log("router jobQueue: " + result);
 }

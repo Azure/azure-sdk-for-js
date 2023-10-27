@@ -3,23 +3,20 @@
 /**
  * @summary Distribution policy crud
  */
-// Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-import { AzureCommunicationRoutingServiceClient } from "../src";
-import createClient from "../src/azureCommunicationRoutingServiceClient";
-dotenv.config();
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+
+import { AzureCommunicationRoutingServiceClient } from "../src";
+import JobRouter from "../src"; import { DefaultAzureCredential } from "@azure/identity";
 
 // Create an distribution policy
 async function createDistributionPolicy(): Promise<void> {
   // Create the Router Client
   const routerClient: AzureCommunicationRoutingServiceClient =
-    createClient(connectionString);
+    JobRouter("https://<endpoint>", new DefaultAzureCredential());
 
 
   const id = "distribution-policy-123";
-  const result = await routerClient.path("/routing/distributionPolicies/{id}", id).patch({
+  const result = await routerClient.path("/routing/distributionPolicies/{distributionPolicyId}", id).patch({
     contentType: "application/merge-patch+json",
     body: {
       name: "distribution-policy-123",

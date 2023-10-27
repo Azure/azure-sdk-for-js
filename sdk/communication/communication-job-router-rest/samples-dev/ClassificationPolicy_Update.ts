@@ -5,48 +5,41 @@
  * @summary Classification policy crud
  */
 import {
-  ClassificationPolicyResponse,
   AzureCommunicationRoutingServiceClient,
 } from "../src";
-import createClient from "../src/azureCommunicationRoutingServiceClient"
+import JobRouter from "../src"; import { DefaultAzureCredential } from "@azure/identity";
 
-// Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // Update a classification policy
 async function updateClassificationPolicy(): Promise<void> {
   // Create the Router Client
   const routerClient: AzureCommunicationRoutingServiceClient =
-    createClient(connectionString);
+    JobRouter("https://<endpoint>", new DefaultAzureCredential());
 
-  const classificationPolicyRequest: ClassificationPolicyResponse = {
-    id: "classification-policy-123",
-    name: "test-policy-new-name",
-    fallbackQueueId: "queue-123",
-    queueSelectors: [
-      {
-        kind: "conditional",
-        queueSelectors: [
-          {
-            key: "foo",
-            labelOperator: "lessThan",
-            value: { default: 5 },
-          },
-        ],
-      },
-    ],
-    prioritizationRule: {
-      kind: "static-rule",
-      value: { default: 20 },
-    },
-  };
-
-  const request = classificationPolicyRequest;
-
-  const result = await routerClient.updateClassificationPolicy(request.id, request);
+  const classificationPolicyId = "classification-policy-123";
+  const salesQueueId = "queue-123";
+  const result = await routerClient.path("/routing/classificationPolicies/{classificationPolicyId}", classificationPolicyId).patch({
+    contentType: "application/merge-patch+json",
+    body: {
+      name: "Default Classification Policy",
+      fallbackQueueId: salesQueueId,
+      queueSelectorAttachments: [
+        {
+          kind: "static",
+          queueSelector: { key: "department", labelOperator: "equal", value: "xbox" }
+        },
+      ],
+      workerSelectorAttachments: [{
+        kind: "static",
+        workerSelector: { key: "english", labelOperator: "greaterThan", value: 5 }
+      }],
+      prioritizationRule: {
+        kind: "expression-rule",
+        language: "powerFx",
+        expression: "If(job.department = \"xbox\", 2, 1)"
+      }
+    }
+  });
 
   console.log("classification policy: " + result);
 }

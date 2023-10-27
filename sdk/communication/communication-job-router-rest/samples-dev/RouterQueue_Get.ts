@@ -4,24 +4,24 @@
  * @summary job queue crud
  */
 import { AzureCommunicationRoutingServiceClient } from "../src"
-import createClient from "../src/azureCommunicationRoutingServiceClient"
+import JobRouter from "../src"; import { DefaultAzureCredential } from "@azure/identity";
 
-// Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-dotenv.config();
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+
+
+
+
 
 // Get a router jobQueue
 
 async function getJobQueue(): Promise<void> {
   // Create the Router Client
   const routerClient: AzureCommunicationRoutingServiceClient =
-    createClient(connectionString);
+    JobRouter("https://<endpoint>", new DefaultAzureCredential());
 
   const entityId = "router-jobQueue-123";
 
-  const result = await routerClient.path("/routing/queues/{id}", entityId).get();
+  const result = await routerClient.path("/routing/queues/{queueId}", entityId).get();
 
   console.log("router jobQueue: " + result);
 }

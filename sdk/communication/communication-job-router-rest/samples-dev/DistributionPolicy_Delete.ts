@@ -3,23 +3,23 @@
 /**
  * @summary Distribution policy crud
  */
-// Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-import { AzureCommunicationRoutingServiceClient } from "../src"
-import createClient from "../src/azureCommunicationRoutingServiceClient"
-dotenv.config();
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+
+import { AzureCommunicationRoutingServiceClient } from "../src"
+import JobRouter from "../src"; import { DefaultAzureCredential } from "@azure/identity";
+
+
+
 
 // Delete distribution policy
 async function deleteDistributionPolicy(): Promise<void> {
   // Create the Router Client
   const routerClient: AzureCommunicationRoutingServiceClient =
-    createClient(connectionString);
+    JobRouter("https://<endpoint>", new DefaultAzureCredential());
 
   const policyId = "distribution-policy-123";
 
-  const result = await routerClient.path("/routing/distributionPolicies/{id}", policyId).delete();
+  const result = await routerClient.path("/routing/distributionPolicies/{distributionPolicyId}", policyId).delete();
 
   console.log("distribution policy: " + result);
 }
