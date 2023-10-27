@@ -45,7 +45,7 @@
     ]
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure Cognitive Language Service",
@@ -111,7 +111,7 @@
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/sinon": "^10.0.0",
     "decompress": "^4.0.0",
     "chai": "^4.2.0",

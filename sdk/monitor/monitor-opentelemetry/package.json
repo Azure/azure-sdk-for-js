@@ -38,7 +38,7 @@
     "pack": "npm pack 2>&1"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "files": [
     "dist-esm/src/",
@@ -70,7 +70,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/sinon": "^10.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
