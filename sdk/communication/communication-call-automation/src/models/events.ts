@@ -28,8 +28,10 @@ import {
   RestSendDtmfTonesFailed,
   RestToneInfo,
   Tone,
+  CollectTonesResult,
   RestCancelAddParticipantSucceeded,
   RestCancelAddParticipantFailed,
+  RecordingType,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
@@ -59,6 +61,37 @@ export type CallAutomationEvent =
   | SendDtmfTonesFailed
   | CancelAddParticipantSucceeded
   | CancelAddParticipantFailed;
+
+export {
+  RestAddParticipantSucceeded,
+  RestAddParticipantFailed,
+  RestRemoveParticipantSucceeded,
+  RestRemoveParticipantFailed,
+  RestCallConnected,
+  RestCallDisconnected,
+  RestCallTransferAccepted,
+  RestCallTransferFailed,
+  RestRecordingStateChanged,
+  RestParticipantsUpdated,
+  RestPlayCompleted,
+  RestPlayFailed,
+  RestPlayCanceled,
+  RestRecognizeCompleted,
+  RestRecognizeFailed,
+  RestRecognizeCanceled,
+  RestResultInformation,
+  RestContinuousDtmfRecognitionToneReceived,
+  RestContinuousDtmfRecognitionToneFailed,
+  RestContinuousDtmfRecognitionStopped,
+  RestSendDtmfTonesCompleted,
+  RestSendDtmfTonesFailed,
+  RestToneInfo,
+  RestCancelAddParticipantSucceeded,
+  RestCancelAddParticipantFailed,
+  CollectTonesResult,
+  Tone,
+  RecordingType,
+};
 
 export interface ResultInformation
   extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
@@ -469,12 +502,7 @@ export interface SendDtmfTonesFailed
 export interface CancelAddParticipantSucceeded
   extends Omit<
     RestCancelAddParticipantSucceeded,
-    | "callConnectionId"
-    | "serverCallId"
-    | "correlationId"
-    | "participant"
-    | "invitationId"
-    | "operationContext"
+    "callConnectionId" | "serverCallId" | "correlationId" | "invitationId" | "operationContext"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -486,8 +514,6 @@ export interface CancelAddParticipantSucceeded
   invitationId: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** The participant whoose invitation was cancelled. */
-  participant?: CommunicationIdentifier;
   /** kind of this event. */
   kind: "CancelAddParticipantSucceeded";
 }

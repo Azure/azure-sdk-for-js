@@ -25,8 +25,13 @@ import {
  * AddParticipant event result
  */
 export interface AddParticipantEventResult {
+  /** returns true if add participant was successful */
   isSuccess: boolean;
+
+  /** contains success event if the result was successful */
   successResult?: AddParticipantSucceeded;
+
+  /** contains failure event if the result was failure */
   failureResult?: AddParticipantFailed;
 }
 
@@ -34,7 +39,9 @@ export interface AddParticipantEventResult {
  * AnswerCall event result
  */
 export interface AnswerCallEventResult {
+  /** returns true if answer call was successful */
   isSuccess: boolean;
+  /** contains success event if the result was successful */
   successResult?: CallConnected;
 }
 
@@ -42,8 +49,11 @@ export interface AnswerCallEventResult {
  * CancelAllMediaOperations event result
  */
 export interface CancelAllMediaOperationsEventResult {
+  /** returns true if cancel all media was successful */
   isSuccess: boolean;
+  /** contains play cancel event if play media was canceled */
   playCanceledSuccessResult?: PlayCanceled;
+  /** contains recognize cancel event if recognize media was canceled */
   recognizeCanceledSuccessResult?: RecognizeCanceled;
 }
 
@@ -51,7 +61,9 @@ export interface CancelAllMediaOperationsEventResult {
  * CreateCall event result
  */
 export interface CreateCallEventResult {
+  /** returns true if create call was successful */
   isSuccess: boolean;
+  /** contains success event if the result was successful */
   successResult?: CallConnected;
 }
 
@@ -59,8 +71,11 @@ export interface CreateCallEventResult {
  * Play event result
  */
 export interface PlayEventResult {
+  /** returns true if play was successful */
   isSuccess: boolean;
+  /** contains success event if the result was successful */
   successResult?: PlayCompleted;
+  /** contains failure event if the result was failure */
   failureResult?: PlayFailed;
 }
 
@@ -68,8 +83,11 @@ export interface PlayEventResult {
  * RemoveParticipant event result
  */
 export interface RemoveParticipantEventResult {
+  /** returns true if remove participant was successful */
   isSuccess: boolean;
+  /** contains success event if the result was successful */
   successResult?: RemoveParticipantSucceeded;
+  /** contains failure event if the result was failure */
   failureResult?: RemoveParticipantFailed;
 }
 
@@ -77,8 +95,11 @@ export interface RemoveParticipantEventResult {
  * SendDtmf event result
  */
 export interface SendDtmfEventResult {
+  /** returns true if send dtmf was successful */
   isSuccess: boolean;
+  /** contains success event if the result was successful */
   successResult?: SendDtmfTonesCompleted;
+  /** contains failure event if the result was failure */
   failureResult?: SendDtmfTonesFailed;
 }
 
@@ -86,8 +107,11 @@ export interface SendDtmfEventResult {
  * StartRecognizing event result
  */
 export interface StartRecognizingEventResult {
+  /** returns true if recognize was successful */
   isSuccess: boolean;
+  /** contains success event if the result was successful */
   successResult?: RecognizeCompleted;
+  /** contains failure event if the result was failure */
   failureResult?: RecognizeFailed;
 }
 
@@ -95,8 +119,11 @@ export interface StartRecognizingEventResult {
  * TransferCallToParticipant event result
  */
 export interface TransferCallToParticipantEventResult {
+  /** returns true if transfer call to participant was successful */
   isSuccess: boolean;
+  /** contains success event if the result was successful */
   successResult?: CallTransferAccepted;
+  /** contains failure event if the result was failure */
   failureResult?: CallTransferFailed;
 }
 
@@ -104,7 +131,10 @@ export interface TransferCallToParticipantEventResult {
  * TransferCallToParticipant event result
  */
 export interface CancelAddParticipantEventResult {
+  /** returns true if cancel add participant was successful */
   isSuccess: boolean;
+  /** contains success event if the result was successful */
   successResult?: CancelAddParticipantSucceeded;
+  /** contains failure event if the result was failure */
   failureResult?: CancelAddParticipantFailed;
 }

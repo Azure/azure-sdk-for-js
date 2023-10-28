@@ -109,6 +109,8 @@ export interface CreateCallOptions extends OperationOptions {
   cognitiveServicesEndpoint?: string;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  /** The Custom Context. */
+  customContext?: CustomContext;
 }
 
 /**
@@ -126,7 +128,12 @@ export interface AnswerCallOptions extends OperationOptions {
 /**
  * Options to redirect call.
  */
-export type RedirectCallOptions = OperationOptions;
+export interface RedirectCallOptions extends OperationOptions {
+  /** Headers for SIP calls */
+  sipHeaders?: { [propertyName: string]: string };
+  /** Headers for VOIP calls */
+  voipHeaders?: { [propertyName: string]: string };
+}
 
 /**
  * Options to reject call.
@@ -142,6 +149,8 @@ export interface RejectCallOptions extends OperationOptions {
 export interface TransferCallToParticipantOptions extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** Used by customer to send custom context to targets. */
+  customContext?: CustomContext;
   /**
    * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
@@ -149,8 +158,6 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
   operationCallbackUrl?: string;
   /** Transferee is the participant who is transferred away. */
   transferee?: CommunicationIdentifier;
-  /** Used by customer to send custom context to targets. */
-  customContext?: CustomContext;
 }
 
 /** Options to add participants. */

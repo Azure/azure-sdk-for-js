@@ -256,6 +256,10 @@ export class CallAutomationClient {
       operationContext: options.operationContext,
       cognitiveServicesEndpoint: options.cognitiveServicesEndpoint,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
+      customContext: {
+        sipHeaders: targetParticipant.customContext?.sipHeaders,
+        voipHeaders: targetParticipant.customContext?.voipHeaders,
+      },
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(
         targetParticipant.sourceCallIdNumber
       ),
@@ -283,6 +287,10 @@ export class CallAutomationClient {
       operationContext: options.operationContext,
       cognitiveServicesEndpoint: options.cognitiveServicesEndpoint,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
+      customContext: {
+        sipHeaders: options.customContext?.sipHeaders,
+        voipHeaders: options.customContext?.voipHeaders,
+      },
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
     };
@@ -384,6 +392,11 @@ export class CallAutomationClient {
     const request: RedirectCallRequest = {
       incomingCallContext: incomingCallContext,
       target: communicationIdentifierModelConverter(targetParticipant.targetParticipant),
+      customContext: {
+        sipHeaders: targetParticipant.customContext?.sipHeaders ?? options.sipHeaders ?? undefined,
+        voipHeaders:
+          targetParticipant.customContext?.voipHeaders ?? options.voipHeaders ?? undefined,
+      },
     };
     const optionsInternal = {
       ...options,

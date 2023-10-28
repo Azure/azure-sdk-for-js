@@ -506,7 +506,7 @@ export class CallMedia {
     tones: Tone[],
     targetParticipant: CommunicationIdentifier,
     options: SendDtmfTonesOptions = {}
-  ): Promise<SendDtmfTonesOptions> {
+  ): Promise<SendDtmfTonesResult> {
     const sendDtmfTonesRequest: SendDtmfTonesRequest = {
       tones: tones,
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),

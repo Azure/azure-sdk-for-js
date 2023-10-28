@@ -22,19 +22,13 @@ import { AbortSignalLike } from "@azure/abort-controller";
  * CreateCall result
  */
 export interface CreateCallResult {
-  /*
-   * The callConnectionProperties
-   */
+  /** The callConnectionProperties */
   callConnectionProperties: CallConnectionProperties;
 
-  /*
-   * The callConnection
-   */
+  /** The callConnection */
   callConnection: CallConnection;
 
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
     timeoutInMs?: number
@@ -45,19 +39,13 @@ export interface CreateCallResult {
  * AnswerCall result
  */
 export interface AnswerCallResult {
-  /*
-   * The callConnectionProperties
-   */
+  /** The callConnectionProperties */
   callConnectionProperties: CallConnectionProperties;
 
-  /*
-   * The callConnection
-   */
+  /** The callConnection */
   callConnection: CallConnection;
 
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
     timeoutInMs?: number
@@ -80,9 +68,7 @@ export interface AddParticipantResult {
   participant?: CallParticipant;
   /** The operation context provided by client. */
   operationContext?: string;
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
     timeoutInMs?: number
@@ -93,9 +79,7 @@ export interface AddParticipantResult {
 export interface TransferCallResult {
   /** The operation context provided by client. */
   operationContext?: string;
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
     timeoutInMs?: number
@@ -106,9 +90,7 @@ export interface TransferCallResult {
 export interface RemoveParticipantResult {
   /** The operation context provided by client. */
   operationContext?: string;
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
     timeoutInMs?: number
@@ -129,9 +111,7 @@ export interface RecordingStateResult {
 
 /** The response payload for starting a call recording or getting call recording state. */
 export interface CancelAllMediaOperationsResult {
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
     timeoutInMs?: number
@@ -140,9 +120,7 @@ export interface CancelAllMediaOperationsResult {
 
 /** The response from play. */
 export interface PlayResult {
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
     timeoutInMs?: number
@@ -153,9 +131,7 @@ export interface PlayResult {
 export interface SendDtmfTonesResult {
   /** The operation context provided by client. */
   operationContext?: string;
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
     timeoutInMs?: number
@@ -164,9 +140,7 @@ export interface SendDtmfTonesResult {
 
 /** The response from recognizing. */
 export interface StartRecognizingResult {
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
     timeoutInMs?: number
@@ -179,9 +153,7 @@ export interface CancelAddParticipantResult {
   invitationId?: string;
   /** The operation context provided by client. */
   operationContext?: string;
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
     timeoutInMs?: number

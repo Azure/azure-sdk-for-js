@@ -21,11 +21,11 @@
 - Support transfer a participant in a group call to another participant.
 - Add Custom Context payload to Transfer and AddParticipant API.
 
-### Breaking Changes
+## 1.1.0-beta.3 (2023-10-19)
 
-### Bugs Fixed
+### Bug fixes
 
-### Other Changes
+- Await on downlaodToPath method will now properly wait untill download completes.
 
 ## 1.1.0-beta.2 (2023-08-30)
 
