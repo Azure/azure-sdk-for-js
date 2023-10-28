@@ -180,6 +180,14 @@ export default leafCommand(commandInfo, async (options) => {
         file: `dist-test/index.browser.js`,
         format: "umd",
         sourcemap: true,
+        // Dynamic imports are not supported in `umd` so we have to tell
+        // Rollup to inline it. This will inline dynamic imports instead of
+        // creating new chunks to create a single bundle. Only possible if a
+        // single input is provided. **Note that** this will change the
+        // execution order: A module that is only imported
+        // dynamically will be executed immediately if the dynamic import is
+        // inlined.
+        inlineDynamicImports: true,
       });
     } catch (error: any) {
       log.error(error);

@@ -647,6 +647,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/identity-broker",
+      "projectFolder": "sdk/identity/identity-broker",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/keyvault-common",
       "projectFolder": "sdk/keyvault/keyvault-common",
       "versionPolicyName": "client"

@@ -16,13 +16,19 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
+  CheckNameAvailabilityImpl,
   DiagnosticsImpl,
-  DiscoverySolutionImpl
+  DiscoverySolutionImpl,
+  SolutionImpl,
+  TroubleshootersImpl
 } from "./operations";
 import {
   Operations,
+  CheckNameAvailability,
   Diagnostics,
-  DiscoverySolution
+  DiscoverySolution,
+  Solution,
+  Troubleshooters
 } from "./operationsInterfaces";
 import { HelpRPOptionalParams } from "./models";
 
@@ -52,7 +58,7 @@ export class HelpRP extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-selfhelp/1.0.1`;
+    const packageDetails = `azsdk-js-arm-selfhelp/2.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -103,10 +109,13 @@ export class HelpRP extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-06-01";
+    this.apiVersion = options.apiVersion || "2023-09-01-preview";
     this.operations = new OperationsImpl(this);
+    this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
     this.diagnostics = new DiagnosticsImpl(this);
     this.discoverySolution = new DiscoverySolutionImpl(this);
+    this.solution = new SolutionImpl(this);
+    this.troubleshooters = new TroubleshootersImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -139,6 +148,9 @@ export class HelpRP extends coreClient.ServiceClient {
   }
 
   operations: Operations;
+  checkNameAvailability: CheckNameAvailability;
   diagnostics: Diagnostics;
   discoverySolution: DiscoverySolution;
+  solution: Solution;
+  troubleshooters: Troubleshooters;
 }

@@ -3,11 +3,11 @@
 
 import { assert } from "chai";
 import {
+  createAndStartRecorder,
   getBSU,
   getEncryptionScope_1,
   getEncryptionScope_2,
   getUniqueName,
-  recorderEnvSetup,
 } from "./utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
@@ -29,8 +29,7 @@ describe("Encryption Scope", function () {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(this.currentTest);
 
     try {
       encryptionScopeName1 = getEncryptionScope_1();

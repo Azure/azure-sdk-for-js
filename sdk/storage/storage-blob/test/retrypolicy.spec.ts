@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import { Pipeline, PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
 
 import { AbortController } from "@azure/abort-controller";
 import { ContainerClient, RestError, BlobServiceClient } from "../src";
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
 import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("RetryPolicy", () => {
@@ -151,6 +151,27 @@ describe("RetryPolicy", () => {
 
     const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
+
+    if (isPlaybackMode()) {
+      // Recorder looks into the recording for the request hitting secondary host and throws a request mismatch error.
+      // This policy is a workaround instead to mimic the live test behavior, to throw a 404 ENOTFOUND error when the request hits secondary host that does not exist
+      pipeline.addPolicy(
+        {
+          name: "secondaryHost-policy",
+          sendRequest: (req: PipelineRequest, next: SendRequest) => {
+            if (req.url.includes(secondaryHost)) {
+              throw new RestError(`getaddrinfo ENOTFOUND`, {
+                code: "ENOTFOUND",
+                statusCode: 404,
+                request: req,
+              });
+            }
+            return next(req);
+          },
+        },
+        { afterPhase: "Retry" }
+      );
+    }
 
     let finalRequestURL = "";
     try {

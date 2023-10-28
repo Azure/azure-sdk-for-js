@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added property `x509ThumbprintString` to `CertificateProperties`. This property is a hex string representation of the existing `x509Thumbprint` property added for convenience.
+
 ### Breaking Changes
 
 ### Bugs Fixed
