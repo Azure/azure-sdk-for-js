@@ -14,6 +14,7 @@ export default defineConfig({
       headless: true,
       name: "chrome",
       provider: "webdriverio",
+      slowHijackESM: false,
     },
     fakeTimers: {
       toFake: ["setTimeout"],
