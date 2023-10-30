@@ -315,6 +315,9 @@
 /sdk/cosmosdb/arm-cosmosdb/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/connectedvmware/arm-connectedvmware/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -331,6 +334,9 @@
 
 # PRLabel: %Mgmt
 /sdk/databricks/arm-databricks/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/datadog/arm-datadog/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/datacatalog/arm-datacatalog/ @qiaozha @MaryGao
@@ -746,6 +752,9 @@
 
 # PRLabel: %Mgmt
 /sdk/sphere/arm-sphere/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/web-pubsub/arm-webpubsub/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/maintenance/arm-maintenance/ @qiaozha @MaryGao

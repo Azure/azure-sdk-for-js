@@ -5,21 +5,21 @@ import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import {
   ClassificationPolicyOutput,
-  PagedClassificationPolicyItemOutput,
+  PagedClassificationPolicyOutput,
   DistributionPolicyOutput,
-  PagedDistributionPolicyItemOutput,
+  PagedDistributionPolicyOutput,
   ExceptionPolicyOutput,
-  PagedExceptionPolicyItemOutput,
+  PagedExceptionPolicyOutput,
   RouterQueueOutput,
-  PagedRouterQueueItemOutput,
+  PagedRouterQueueOutput,
   RouterJobOutput,
-  PagedRouterJobItemOutput,
+  PagedRouterJobOutput,
   RouterJobPositionDetailsOutput,
   UnassignJobResultOutput,
   AcceptJobOfferResultOutput,
   RouterQueueStatisticsOutput,
   RouterWorkerOutput,
-  PagedRouterWorkerItemOutput,
+  PagedRouterWorkerOutput,
 } from "./outputModels";
 
 export interface UpsertClassificationPolicy200Headers {
@@ -105,7 +105,7 @@ export interface DeleteClassificationPolicyDefaultResponse extends HttpResponse 
 /** The request has succeeded. */
 export interface ListClassificationPolicies200Response extends HttpResponse {
   status: "200";
-  body: PagedClassificationPolicyItemOutput;
+  body: PagedClassificationPolicyOutput;
 }
 
 export interface ListClassificationPoliciesDefaultHeaders {
@@ -202,7 +202,7 @@ export interface DeleteDistributionPolicyDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface ListDistributionPolicies200Response extends HttpResponse {
   status: "200";
-  body: PagedDistributionPolicyItemOutput;
+  body: PagedDistributionPolicyOutput;
 }
 
 export interface ListDistributionPoliciesDefaultHeaders {
@@ -299,7 +299,7 @@ export interface DeleteExceptionPolicyDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface ListExceptionPolicies200Response extends HttpResponse {
   status: "200";
-  body: PagedExceptionPolicyItemOutput;
+  body: PagedExceptionPolicyOutput;
 }
 
 export interface ListExceptionPoliciesDefaultHeaders {
@@ -396,7 +396,7 @@ export interface DeleteQueueDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface ListQueues200Response extends HttpResponse {
   status: "200";
-  body: PagedRouterQueueItemOutput;
+  body: PagedRouterQueueOutput;
 }
 
 export interface ListQueuesDefaultHeaders {
@@ -562,7 +562,7 @@ export interface CloseJobActionDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface ListJobs200Response extends HttpResponse {
   status: "200";
-  body: PagedRouterJobItemOutput;
+  body: PagedRouterJobOutput;
 }
 
 export interface ListJobsDefaultHeaders {
@@ -743,7 +743,7 @@ export interface DeleteWorkerDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface ListWorkers200Response extends HttpResponse {
   status: "200";
-  body: PagedRouterWorkerItemOutput;
+  body: PagedRouterWorkerOutput;
 }
 
 export interface ListWorkersDefaultHeaders {

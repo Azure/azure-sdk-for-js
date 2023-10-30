@@ -29,6 +29,8 @@ import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
 import { RegionalAuthority } from "../../regionalAuthority";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
+import { NativeBrokerPluginControl } from "../../plugins/provider";
+import { BrokerOptions } from "./brokerOptions";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -36,6 +38,7 @@ import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
  */
 export interface MsalNodeOptions extends MsalFlowOptions {
   tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
+  brokerOptions?: BrokerOptions;
   tokenCredentialOptions: MultiTenantTokenCredentialOptions;
   /**
    * Specifies a regional authority. Please refer to the {@link RegionalAuthority} type for the accepted values.
@@ -77,6 +80,32 @@ export const msalNodeFlowCacheControl = {
 };
 
 /**
+ * The current native broker provider, undefined by default.
+ * @internal
+ */
+export let nativeBrokerInfo:
+  | {
+      broker: msalNode.INativeBrokerPlugin;
+    }
+  | undefined = undefined;
+
+export function hasNativeBroker(): boolean {
+  return nativeBrokerInfo !== undefined;
+}
+
+/**
+ * An object that allows setting the native broker provider.
+ * @internal
+ */
+export const msalNodeFlowNativeBrokerControl: NativeBrokerPluginControl = {
+  setNativeBroker(broker): void {
+    nativeBrokerInfo = {
+      broker,
+    };
+  },
+};
+
+/**
  * MSAL partial base client for Node.js.
  *
  * It completes the input configuration with some default values.
@@ -86,10 +115,6 @@ export const msalNodeFlowCacheControl = {
  * @internal
  */
 export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
-  // protected publicApp: msalNode.PublicClientApplication | undefined;
-  // protected publicAppCae: msalNode.PublicClientApplication | undefined;
-  // protected confidentialApp: msalNode.ConfidentialClientApplication | undefined;
-  // protected confidentialAppCae: msalNode.ConfidentialClientApplication | undefined;
   private app: {
     public?: msalNode.PublicClientApplication;
     confidential?: msalNode.ConfidentialClientApplication;
@@ -108,6 +133,10 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected azureRegion?: string;
   protected createCachePlugin: (() => Promise<msalNode.ICachePlugin>) | undefined;
   protected createCachePluginCae: (() => Promise<msalNode.ICachePlugin>) | undefined;
+  protected createNativeBrokerPlugin: (() => Promise<msalNode.INativeBrokerPlugin>) | undefined;
+  protected enableMsaPassthrough?: boolean;
+  protected parentWindowHandle?: Uint8Array;
+  protected enableBroker?: boolean;
 
   /**
    * MSAL currently caches the tokens depending on the claims used to retrieve them.
@@ -128,6 +157,9 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     if (options?.getAssertion) {
       this.getAssertion = options.getAssertion;
     }
+    this.enableBroker = options?.brokerOptions?.enabled;
+    this.enableMsaPassthrough = options?.brokerOptions?.legacyEnableMsaPassthrough;
+    this.parentWindowHandle = options.brokerOptions?.parentWindowHandle;
 
     // If persistence has been configured
     if (persistenceProvider !== undefined && options.tokenCachePersistenceOptions?.enabled) {
@@ -148,6 +180,18 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
           "You must install the identity-cache-persistence plugin package (`npm install --save @azure/identity-cache-persistence`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
           "`useIdentityPlugin(cachePersistencePlugin)` before using `tokenCachePersistenceOptions`.",
+        ].join(" ")
+      );
+    }
+
+    // If broker has not been configured
+    if (!hasNativeBroker() && this.enableBroker) {
+      throw new Error(
+        [
+          "Broker for WAM was requested to be enabled, but no native broker was configured.",
+          "You must install the identity-broker plugin package (`npm install --save @azure/identity-broker`)",
+          "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
+          "`useIdentityPlugin(createNativeBrokerPlugin())` before using `enableBroker`.",
         ].join(" ")
       );
     }
@@ -255,6 +299,18 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       };
     }
 
+    if (hasNativeBroker() && this.enableBroker) {
+      this.msalConfig.broker = {
+        nativeBrokerPlugin: nativeBrokerInfo!.broker,
+      };
+      if (!this.parentWindowHandle) {
+        // error should have been thrown from within the constructor of InteractiveBrowserCredential
+        this.logger.warning(
+          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle."
+        );
+      }
+    }
+
     if (options?.enableCae) {
       this.caeApp.public = new msalNode.PublicClientApplication(this.msalConfig);
     } else {
@@ -360,6 +416,21 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       authority: options?.authority,
       claims: options?.claims,
     };
+
+    if (hasNativeBroker() && this.enableBroker) {
+      if (!silentRequest.tokenQueryParameters) {
+        silentRequest.tokenQueryParameters = {};
+      }
+      if (!this.parentWindowHandle) {
+        // error should have been thrown from within the constructor of InteractiveBrowserCredential
+        this.logger.warning(
+          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle."
+        );
+      }
+      if (this.enableMsaPassthrough) {
+        silentRequest.tokenQueryParameters["msal_request_type"] = "consumer_passthrough";
+      }
+    }
 
     try {
       this.logger.info("Attempting to acquire token silently");
