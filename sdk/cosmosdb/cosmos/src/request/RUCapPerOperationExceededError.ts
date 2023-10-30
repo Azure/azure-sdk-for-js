@@ -3,7 +3,8 @@
 /**
  * @hidden
  */
-import { ErrorResponse } from "..";
+
+import { ErrorResponse } from "./ErrorResponse";
 
 export const RUCapPerOperationExceededErrorCode = "OPERATION_RU_LIMIT_EXCEEDED";
 
