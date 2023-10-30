@@ -28,10 +28,11 @@ export function formDataPolicy(): PipelinePolicy {
         const contentType = request.headers.get("Content-Type");
         if (contentType && contentType.indexOf("application/x-www-form-urlencoded") !== -1) {
           request.body = wwwFormUrlEncode(request.formData);
-          request.formData = undefined;
         } else {
           await prepareFormData(request.formData, request);
         }
+
+        request.formData = undefined;
       }
       return next(request);
     },
@@ -56,9 +57,6 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
   if (request.body) {
     throw new Error("multipart/form-data request must not have a request body already specified");
   }
-
-  // clear request.formData
-  request.formData = undefined;
 
   // validate content type (multipart/form-data)
   const contentType = request.headers.get("Content-Type");
