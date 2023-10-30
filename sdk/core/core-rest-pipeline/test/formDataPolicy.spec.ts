@@ -11,16 +11,29 @@ import {
   formDataPolicy,
 } from "../src";
 import { isMultipartRequestBody } from "../src/policies/multipartPolicy";
-import {
-  BodyPart,
-  FormDataMap,
-  InMemoryBlob,
-  MultipartRequestBody,
-  StreamableBlob,
-} from "../src/interfaces";
-import { isNode } from "@azure/core-util";
-import { isBlobLike, isInMemoryBlob, isNodeReadableStream } from "../src/util/typeGuards";
-import { Readable } from "stream";
+import { BodyPart, FormDataMap, InMemoryBlob, MultipartRequestBody } from "../src/interfaces";
+import { isBlobLike, isInMemoryBlob } from "../src/util/typeGuards";
+
+export async function performRequest(formData: FormDataMap) {
+  const request = createPipelineRequest({
+    url: "https://bing.com",
+    headers: createHttpHeaders({
+      "Content-Type": "multipart/form-data",
+    }),
+    formData,
+  });
+  const successResponse: PipelineResponse = {
+    headers: createHttpHeaders(),
+    request,
+    status: 200,
+  };
+  const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+  next.resolves(successResponse);
+
+  const policy = formDataPolicy();
+
+  return policy.sendRequest(request, next);
+}
 
 describe("formDataPolicy", function () {
   afterEach(function () {
@@ -82,27 +95,6 @@ describe("formDataPolicy", function () {
   });
 
   describe("multipart/form-data", function () {
-    async function performRequest(formData: FormDataMap) {
-      const request = createPipelineRequest({
-        url: "https://bing.com",
-        headers: createHttpHeaders({
-          "Content-Type": "multipart/form-data",
-        }),
-        formData,
-      });
-      const successResponse: PipelineResponse = {
-        headers: createHttpHeaders(),
-        request,
-        status: 200,
-      };
-      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-      next.resolves(successResponse);
-
-      const policy = formDataPolicy();
-
-      return policy.sendRequest(request, next);
-    }
-
     it("throws if request.body is already present", async function () {
       const request = createPipelineRequest({
         url: "https://bing.com",
@@ -209,41 +201,6 @@ describe("formDataPolicy", function () {
           await new Response((parts[0].body as any).stream()).arrayBuffer()
         );
         assert.deepEqual([...buf], [1, 2, 3]);
-      });
-
-      it("can upload a Node ReadableStream", async function () {
-        if (!isNode) {
-          this.skip();
-        }
-
-        const result = await performRequest({
-          file: {
-            stream: Readable.from(Buffer.from("aaa")),
-            name: "file.bin",
-            type: "text/plain",
-          },
-        });
-
-        const parts = (result.request.body as MultipartRequestBody).parts;
-        assert.ok(parts.length === 1, "expected 1 part");
-        assert.deepEqual(
-          parts[0].headers,
-          createHttpHeaders({
-            "Content-Type": "text/plain",
-            "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
-          })
-        );
-        assert.ok(isBlobLike(parts[0].body));
-        assert.ok(isNodeReadableStream((parts[0].body as StreamableBlob).stream));
-
-        const buffers: Buffer[] = [];
-        for await (const part of (parts[0].body as StreamableBlob)
-          .stream as NodeJS.ReadableStream) {
-          buffers.push(part as Buffer);
-        }
-
-        const content = Buffer.concat(buffers);
-        assert.deepEqual([...content], [...Buffer.from("aaa")]);
       });
 
       it("can upload a Uint8Array", async function () {

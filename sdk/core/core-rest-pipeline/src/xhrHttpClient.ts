@@ -12,21 +12,7 @@ import {
 import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
 import { isMultipartRequestBody } from "./policies/multipartPolicy";
-
-function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
-  return body && typeof body.pipe === "function";
-}
-
-/**
- * Checks if the body is a ReadableStream supported by browsers
- */
-function isReadableStream(body: unknown): body is ReadableStream {
-  return Boolean(
-    body &&
-      typeof (body as ReadableStream).getReader === "function" &&
-      typeof (body as ReadableStream).tee === "function"
-  );
-}
+import { isReadableStream } from "./util/typeGuards";
 
 /**
  * A HttpClient implementation that uses XMLHttpRequest to send HTTP requests.
@@ -81,7 +67,7 @@ class XhrHttpClient implements HttpClient {
     xhr.responseType = request.streamResponseStatusCodes?.size ? "blob" : "text";
 
     const body = typeof request.body === "function" ? request.body() : request.body;
-    if (isNodeReadableStream(body) || isReadableStream(body)) {
+    if (isReadableStream(body)) {
       throw new Error("streams are not supported in XhrHttpClient.");
     }
     if (isMultipartRequestBody(body)) {

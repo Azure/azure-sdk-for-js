@@ -3,16 +3,15 @@
 
 import sinon from "sinon";
 import { createHttpHeaders } from "../src/httpHeaders";
-import { PipelineRequest, PipelineResponse, RequestBodyType, SendRequest } from "../src/interfaces";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces";
 import { createPipelineRequest } from "../src/pipelineRequest";
 import { multipartPolicy } from "../src/policies/multipartPolicy";
 import { assert } from "chai";
 import { PipelineRequestOptions } from "../src/pipelineRequest";
-import { isNode, stringToUint8Array } from "@azure/core-util";
-import { isNodeReadableStream, isWebReadableStream } from "../src/util/typeGuards";
-import { Readable } from "stream";
+import { stringToUint8Array } from "@azure/core-util";
+import { assertBodyMatches } from "./util";
 
-async function performRequest(
+export async function performRequest(
   requestOptions: Omit<PipelineRequestOptions, "url" | "method">
 ): Promise<PipelineRequest> {
   const request = createPipelineRequest({
@@ -32,34 +31,6 @@ async function performRequest(
 
   await policy.sendRequest(request, next);
   return request;
-}
-
-function assertUint8ArraySame(actual: Uint8Array, expected: Uint8Array, message?: string): void {
-  assert.sameOrderedMembers([...actual], [...expected], message);
-}
-
-async function assertBodyMatches(
-  actual: RequestBodyType | undefined,
-  expected: Uint8Array
-): Promise<void> {
-  if (!actual) {
-    assert.fail("Expected a request body");
-  }
-
-  if (isWebReadableStream(actual)) {
-    const actualBytes = new Uint8Array(await new Response(actual).arrayBuffer());
-    assertUint8ArraySame(actualBytes, expected, "body does not match");
-  } else if (isNodeReadableStream(actual)) {
-    const buffers: Buffer[] = [];
-    for await (const buffer of actual) {
-      buffers.push(buffer as Buffer);
-    }
-
-    const actualBytes = new Uint8Array(Buffer.concat(buffers));
-    assertUint8ArraySame(actualBytes, expected, "body does not match");
-  } else {
-    assert.fail(`Requst body of unexpected type: ${actual.toString()}`);
-  }
 }
 
 describe("multipartPolicy", function () {
@@ -279,34 +250,6 @@ describe("multipartPolicy", function () {
         request.headers.get("Content-Length"),
         expectedBody.byteLength.toString(),
         "Expected Content-Length header to equal length of body"
-      );
-    });
-
-    it("supports Node ReadableStream body", async function () {
-      if (!isNode) {
-        this.skip();
-      }
-
-      const body = Readable.from(Buffer.from("part1", "utf-8"));
-
-      const request = await performRequest({
-        body: {
-          bodyType: "mimeMultipart",
-          boundary: "blah",
-          parts: [
-            {
-              body,
-              headers: createHttpHeaders(),
-            },
-          ],
-        },
-      });
-
-      const expectedBody = stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--\r\n\r\n", "utf-8");
-      await assertBodyMatches(request.body, expectedBody);
-      assert.isUndefined(
-        request.headers.get("Content-Length"),
-        "Content-Length value should not be inferred from a stream"
       );
     });
 
