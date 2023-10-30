@@ -4530,7 +4530,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231027
+      typescript: 5.3.0-dev.20231029
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9327,8 +9327,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231027:
-    resolution: {integrity: sha512-YFAOvfXqPu/aZg27Xc6/Ftvbm5YmjgGEsVocBYbh3iZWRoYTcN3kF29ZZIdgRhoqSIN89+W29p4bBChsfVor2g==}
+  /typescript@5.3.0-dev.20231029:
+    resolution: {integrity: sha512-LKzbVRvhVhrfazgcr4V3dl/GuD/MasY4kDKn0lpB0vf1O1/iP5ERyerlEsvPYyeZG3f4GX3edFNpSsvu1shHSw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11111,7 +11111,7 @@ packages:
     dev: false
 
   file:projects/arm-azurestackhci.tgz:
-    resolution: {integrity: sha512-LdnU9bAPmHhKoz5/C6aDo4qNaWD1x1sRUO+eWUyQzqnjrjr36fiqRJPvvG+neG5Dk1Uat1jP6R6/B+EEqKQaAw==, tarball: file:projects/arm-azurestackhci.tgz}
+    resolution: {integrity: sha512-UdI6R0kkjI/pM6ZN/x789TSxb/+LlmJK9G5feeQofZzJ42U0ffaov7aEDp7KauZ0Mja+28N9eo/I0qOOtbObyQ==, tarball: file:projects/arm-azurestackhci.tgz}
     name: '@rush-temp/arm-azurestackhci'
     version: 0.0.0
     dependencies:
@@ -11121,9 +11121,10 @@ packages:
       '@types/node': 16.18.59
       chai: 4.3.10
       cross-env: 7.0.3
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@16.18.59)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16494,7 +16495,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-HKEZW+gnC68cGbDhIQJSsHAd6bH4Jcm4eAptGs9KWa542xVAaDOT5Pk+mPr4J6pO+tLnOMG0tkftBrpJMpBKAw==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-8cCKBl8BXbHEcFcKPRKaz8uGS57v6bC4mBeoxPUJyLZ4vQqGEhyO48/vgEixsy69fXysqElBPzVfj9wdXie7Cw==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
