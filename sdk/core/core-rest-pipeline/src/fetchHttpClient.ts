@@ -12,24 +12,7 @@ import {
 import { RestError } from "./restError";
 import { createHttpHeaders } from "./httpHeaders";
 import { isMultipartRequestBody } from "./policies/multipartPolicy";
-
-/**
- * Checks if the body is a NodeReadable stream which is not supported in Browsers
- */
-function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
-  return body && typeof body.pipe === "function";
-}
-
-/**
- * Checks if the body is a ReadableStream supported by browsers
- */
-function isReadableStream(body: unknown): body is ReadableStream {
-  return Boolean(
-    body &&
-      typeof (body as ReadableStream).getReader === "function" &&
-      typeof (body as ReadableStream).tee === "function"
-  );
-}
+import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards";
 
 /**
  * Checks if the body is a Blob or Blob-like
@@ -243,7 +226,7 @@ function buildRequestBody(request: PipelineRequest) {
     throw new Error("Multipart bodies must be handled by multipartPolicy");
   }
 
-  return isReadableStream(body)
+  return isWebReadableStream(body)
     ? { streaming: true, body: buildBodyStream(body, { onProgress: request.onUploadProgress }) }
     : { streaming: false, body };
 }
