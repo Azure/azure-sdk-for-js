@@ -15,35 +15,13 @@
     "azure",
     "cloud"
   ],
-  "main": "dist/index.cjs",
-  "module": "dist-esm/src/index.js",
-  "types": "./types/latest/core-paging.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "types/latest/*": [
-        "types/3.1/*"
-      ]
-    }
-  },
-  "exports": {
-    ".": {
-      "types": "./types/latest/src/index.d.ts",
-      "types@<3.6": "./types/3.1/src/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist-esm/src/index.js"
-    }
-  },
   "files": [
-    "types/latest/core-paging.d.ts",
-    "types/3.1",
-    "types/src",
     "dist/",
-    "dist-esm/src/",
     "LICENSE",
     "README.md"
   ],
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-paging/README.md",
@@ -51,16 +29,46 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "bun": {
+        "types": "./dist/bun/index.d.ts",
+        "default": "./dist/bun/index.js"
+      },
+      "deno": {
+        "types": "./dist/deno/index.d.ts",
+        "default": "./dist/deno/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "build:test": "echo skipped",
-    "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
+    "build": "npm run clean && tshy && dev-tool run build-test && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp *.tgz types *.log",
     "execute:samples": "echo skipped",
-    "extract-api": "tsc -p . && api-extractor run --local",
+    "extract-api": "tshy && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -69,10 +77,10 @@
     "lint:fix": "eslint package.json src --ext .ts --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "karma start karma.conf.cjs --single-run",
-    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true",
+    "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
+    "unit-test:browser": "vitest -c vitest.browser.config.ts",
+    "unit-test:node": "vitest",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": true,
@@ -82,31 +90,19 @@
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
-    "@microsoft/api-extractor": "^7.31.1",
+    "@microsoft/api-extractor": "^7.38.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@types/chai": "^4.1.6",
-    "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
-    "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
-    "downlevel-dts": "^0.10.0",
-    "eslint": "^8.0.0",
-    "esm": "^3.2.25",
-    "karma": "^6.2.0",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-coverage": "^2.0.0",
-    "karma-env-preprocessor": "^0.1.1",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-junit-reporter": "^2.0.1",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.0",
-    "prettier": "^2.5.1",
-    "rimraf": "^3.0.0",
-    "ts-node": "^10.0.0",
-    "typescript": "~5.0.0"
+    "@types/node": "^18.0.0",
+    "@vitest/browser": "1.0.0-beta.3",
+    "@vitest/coverage-v8": "1.0.0-beta.3",
+    "eslint": "^8.52.0",
+    "playwright": "^1.39.0",
+    "prettier": "^3.0.3",
+    "rimraf": "^5.0.5",
+    "tshy": "^1.7.0",
+    "typescript": "~5.0.0",
+    "vitest": "^1.0.0-beta.3",
+    "webdriverio": "^8.20.4"
   },
   "//metadata": {
     "sampleConfiguration": {
@@ -118,5 +114,21 @@
       ]
     },
     "migrationDate": "2023-03-08T18:36:03.000Z"
+  },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "bun",
+      "deno",
+      "react-native"
+    ]
   }
 }
