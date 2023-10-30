@@ -19753,13 +19753,15 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-TpzRu0yeAKJMLqZ+45QGTKQXBf4XdK97mZs1fPdjsvm7IJe+ZlCbnjnRSRJ4S9eYuPKfTgObbyu6u0KWN+vqwQ==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-Oyr7DuQisHjXIC2AXFL2awFOY8Z3G1GEeIUn6hQ9f9aJ2dr55d7GF7Rh+3nAkGteQj3U/J2bodvZ3WY39Yex4Q==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.0(@types/node@16.18.55)
+      '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
       '@types/mocha': 10.0.2
-      '@types/node': 16.18.55
+      '@types/node': 18.18.7
+      '@vitest/browser': 1.0.0-beta.3(playwright@1.39.0)(vitest@1.0.0-beta.3)(webdriverio@8.20.4)
+      '@vitest/coverage-v8': 1.0.0-beta.3(vitest@1.0.0-beta.3)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.50.0
@@ -19779,24 +19781,37 @@ packages:
       mocha: 10.2.0
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       nyc: 15.1.0
-      prettier: 2.8.8
+      prettier: 3.0.3
       puppeteer: 19.11.1(typescript@5.0.4)
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)
+      tshy: 1.7.0
       tslib: 2.6.2
       typescript: 5.0.4
+      vitest: 1.0.0-beta.3(@types/node@18.18.7)(@vitest/browser@1.0.0-beta.3)
+      webdriverio: 8.20.4(typescript@5.0.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - devtools
       - encoding
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - playwright
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
     dev: false
 
   file:projects/core-tracing.tgz:
-    resolution: {integrity: sha512-gB5ZjoZ311NS+gutQpUlvsZ23x7NfpQ6G53mVXdzQH8kjIZUo2LRl1//HasbYHiRowZXC7115KZo8My4zTXXig==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-kIiFtHFsO2Y3gYX8B6QMwG5y619uIr6h1H4vOeL0ZIcj/Z5QXRFefnW2u72OCRIQOqtzT3dRztMdtZxOsNiarg==, tarball: file:projects/core-tracing.tgz}
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
@@ -19825,7 +19840,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       playwright: 1.39.0
       prettier: 3.0.3
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       sinon: 15.2.0
       ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)
       tshy: 1.7.0
@@ -19833,9 +19848,13 @@ packages:
       typescript: 5.0.4
       util: 0.12.5
       vitest: 1.0.0-beta.3(@types/node@18.18.7)(@vitest/browser@1.0.0-beta.3)
+      webdriverio: 8.20.4(typescript@5.0.4)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
+      - devtools
+      - encoding
       - happy-dom
       - jsdom
       - less
@@ -19846,7 +19865,7 @@ packages:
       - sugarss
       - supports-color
       - terser
-      - webdriverio
+      - utf-8-validate
     dev: false
 
   file:projects/core-util.tgz:
