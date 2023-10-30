@@ -112,7 +112,7 @@ async function buildPipelineResponse(
     status: httpResponse.status,
   };
 
-  const bodyStream = isReadableStream(httpResponse.body)
+  const bodyStream = isWebReadableStream(httpResponse.body)
     ? buildBodyStream(httpResponse.body, {
         onProgress: request.onDownloadProgress,
         onEnd: abortControllerCleanup,
