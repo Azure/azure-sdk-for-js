@@ -1312,9 +1312,9 @@ packages:
       '@azure/core-tracing': 1.0.1
       '@azure/core-util': 1.6.1
       '@azure/logger': 1.0.4
-      '@azure/msal-browser': 2.38.2
+      '@azure/msal-browser': 2.38.3
       '@azure/msal-common': 7.6.0
-      '@azure/msal-node': 1.18.3
+      '@azure/msal-node': 1.18.4
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.2
@@ -1336,9 +1336,9 @@ packages:
       '@azure/core-tracing': 1.0.1
       '@azure/core-util': 1.6.1
       '@azure/logger': 1.0.4
-      '@azure/msal-browser': 2.38.2
-      '@azure/msal-common': 13.3.0
-      '@azure/msal-node': 1.18.3
+      '@azure/msal-browser': 2.38.3
+      '@azure/msal-common': 13.3.1
+      '@azure/msal-node': 1.18.4
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.2
@@ -1447,11 +1447,11 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/msal-browser@2.38.2:
-    resolution: {integrity: sha512-71BeIn2we6LIgMplwCSaMq5zAwmalyJR3jFcVOZxNVfQ1saBRwOD+P77nLs5vrRCedVKTq8RMFhIOdpMLNno0A==}
+  /@azure/msal-browser@2.38.3:
+    resolution: {integrity: sha512-2WuLFnWWPR1IdvhhysT18cBbkXx1z0YIchVss5AwVA95g7CU5CpT3d+5BcgVGNXDXbUU7/5p0xYHV99V5z8C/A==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      '@azure/msal-common': 13.3.0
+      '@azure/msal-common': 13.3.1
     dev: false
 
   /@azure/msal-browser@3.3.0:
@@ -1461,8 +1461,8 @@ packages:
       '@azure/msal-common': 14.2.0
     dev: false
 
-  /@azure/msal-common@13.3.0:
-    resolution: {integrity: sha512-/VFWTicjcJbrGp3yQP7A24xU95NiDMe23vxIU1U6qdRPFsprMDNUohMudclnd+WSHE4/McqkZs/nUU3sAKkVjg==}
+  /@azure/msal-common@13.3.1:
+    resolution: {integrity: sha512-Lrk1ozoAtaP/cp53May3v6HtcFSVxdFrg2Pa/1xu5oIvsIwhxW6zSPibKefCOVgd5osgykMi5jjcZHv8XkzZEQ==}
     engines: {node: '>=0.8.0'}
     dev: false
 
@@ -1500,11 +1500,11 @@ packages:
     requiresBuild: true
     dev: false
 
-  /@azure/msal-node@1.18.3:
-    resolution: {integrity: sha512-lI1OsxNbS/gxRD4548Wyj22Dk8kS7eGMwD9GlBZvQmFV8FJUXoXySL1BiNzDsHUE96/DS/DHmA+F73p1Dkcktg==}
+  /@azure/msal-node@1.18.4:
+    resolution: {integrity: sha512-Kc/dRvhZ9Q4+1FSfsTFDME/v6+R2Y1fuMty/TfwqE5p9GTPw08BPbKgeWinE8JRHRp+LemjQbUZsn4Q4l6Lszg==}
     engines: {node: 10 || 12 || 14 || 16 || 18}
     dependencies:
-      '@azure/msal-common': 13.3.0
+      '@azure/msal-common': 13.3.1
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
     dev: false
@@ -1801,8 +1801,8 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@grpc/grpc-js@1.9.7:
-    resolution: {integrity: sha512-yMaA/cIsRhGzW3ymCNpdlPcInXcovztlgu/rirThj2b87u3RzWUszliOqZ/pldy7yhmJPS8uwog+kZSTa4A0PQ==}
+  /@grpc/grpc-js@1.9.8:
+    resolution: {integrity: sha512-FFPzDS333Vw8hvf+1FaEsaCYVPBdNdUCw7zArTiF7+6gOzln967b4GBCBekKGqoKEgna8d3Ayxv8t+IvazXG3g==}
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
       '@grpc/proto-loader': 0.7.10
@@ -2103,7 +2103,7 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
-      '@grpc/grpc-js': 1.9.7
+      '@grpc/grpc-js': 1.9.8
       '@opentelemetry/api': 1.6.0
       '@opentelemetry/core': 1.17.1(@opentelemetry/api@1.6.0)
       '@opentelemetry/otlp-grpc-exporter-base': 0.44.0(@opentelemetry/api@1.6.0)
@@ -2274,7 +2274,7 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
-      '@grpc/grpc-js': 1.9.7
+      '@grpc/grpc-js': 1.9.8
       '@opentelemetry/api': 1.6.0
       '@opentelemetry/core': 1.17.1(@opentelemetry/api@1.6.0)
       '@opentelemetry/otlp-exporter-base': 0.44.0(@opentelemetry/api@1.6.0)
@@ -3720,8 +3720,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001555
-      electron-to-chromium: 1.4.568
+      caniuse-lite: 1.0.30001558
+      electron-to-chromium: 1.4.569
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13(browserslist@4.22.1)
     dev: false
@@ -3839,8 +3839,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001555:
-    resolution: {integrity: sha512-NzbUFKUnJ3DTcq6YyZB6+qqhfD112uR3uoEnkmfzm2wVzUNsFkU7AwBjKQ654Sp5cau0JxhFyRSn/tQZ+XfygA==}
+  /caniuse-lite@1.0.30001558:
+    resolution: {integrity: sha512-/Et7DwLqpjS47JPEcz6VnxU9PwcIdVi0ciLXRWBQdj1XFye68pSQYpV0QtPTfUKWuOaEig+/Vez2l74eDc1tPQ==}
     dev: false
 
   /catharsis@0.9.0:
@@ -4530,7 +4530,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231029
+      typescript: 5.3.0-dev.20231030
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -4551,8 +4551,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
-  /electron-to-chromium@1.4.568:
-    resolution: {integrity: sha512-3TCOv8+BY6Ltpt1/CmGBMups2IdKOyfEmz4J8yIS4xLSeMm0Rf+psSaxLuswG9qMKt+XbNbmADybtXGpTFlbDg==}
+  /electron-to-chromium@1.4.569:
+    resolution: {integrity: sha512-LsrJjZ0IbVy12ApW3gpYpcmHS3iRxH4bkKOW98y1/D+3cvDUWGcbzbsFinfUS8knpcZk/PG/2p/RnkMCYN7PVg==}
     dev: false
 
   /emitter-component@1.1.1:
@@ -9327,8 +9327,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231029:
-    resolution: {integrity: sha512-LKzbVRvhVhrfazgcr4V3dl/GuD/MasY4kDKn0lpB0vf1O1/iP5ERyerlEsvPYyeZG3f4GX3edFNpSsvu1shHSw==}
+  /typescript@5.3.0-dev.20231030:
+    resolution: {integrity: sha512-azWrF0lAiu8cBHNr6yq3RDkU/DtQScvT48ea3Ngq6oXJ/GPO0n96wCFSRQA5UbZlVVf3fAAqsUfvOdohRbrPVg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -16404,7 +16404,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
-      '@azure/msal-node': 1.18.3
+      '@azure/msal-node': 1.18.4
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.59)
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
@@ -16505,12 +16505,10 @@ packages:
       '@types/mocha': 10.0.3
       '@types/node': 16.18.59
       autorest: 3.6.3
-      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.52.0
-      esm: 3.2.25
       karma: 6.4.2(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
