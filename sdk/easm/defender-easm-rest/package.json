@@ -26,7 +26,6 @@
     "types/defender-easm.d.ts",
     "README.md",
     "LICENSE",
-    "CHANGELOG.md",
     "review/*"
   ],
   "engines": {
