@@ -561,7 +561,6 @@
 
 # PRLabel: %Mgmt
 /sdk/postgresql/arm-postgresql/ @qiaozha @MaryGao
-/sdk/postgresql/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/postgresql/arm-postgresql-flexible/ @qiaozha @MaryGao
