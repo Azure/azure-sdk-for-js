@@ -6,7 +6,7 @@ import {
   createTracingContext,
   knownContextKeys,
 } from "../src/tracingContext.js";
-import { assert } from "chai";
+import { describe, it, assert, beforeEach } from "vitest";
 import { createDefaultTracingSpan } from "../src/instrumenter.js";
 
 describe("TracingContext", () => {

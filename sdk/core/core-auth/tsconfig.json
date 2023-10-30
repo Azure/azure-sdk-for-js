@@ -1,8 +1,6 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "declarationDir": "./types",
-    "outDir": "./dist-esm",
     "paths": {
       "@azure/core-auth": ["./src/index.js"]
     },

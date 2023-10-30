@@ -9,18 +9,9 @@ export default defineConfig({
     outputFile: {
       junit: "test-results.browser.xml",
     },
-    browser: {
-      enabled: true,
-      headless: true,
-      name: "chromium",
-      provider: "playwright",
-      slowHijackESM: false,
-    },
-    fakeTimers: {
-      toFake: ["setTimeout"],
-    },
     watch: false,
-    include: ["./dist-test/browser/**/*.spec.js"],
+    include: ["test/**/*.spec.ts"],
+    exclude: ["test/**/browser/*.spec.ts"],
     coverage: {
       include: ["src/**/*.ts"],
       exclude: [
@@ -31,7 +22,7 @@ export default defineConfig({
       ],
       provider: "v8",
       reporter: ["text", "json", "html"],
-      reportsDirectory: "coverage-browser",
+      reportsDirectory: "coverage",
     },
   },
 });

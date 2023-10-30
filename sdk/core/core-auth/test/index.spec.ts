@@ -9,7 +9,7 @@ import {
   isSASCredential,
   isTokenCredential,
 } from "../src/index.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("AzureKeyCredential", () => {
   it("credential constructor throws on invalid key", () => {

@@ -3,7 +3,7 @@
 
 import * as coreAuth from "@azure/core-auth";
 import * as coreTracing from "../src/index.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 import { createTracingContext } from "../src/tracingContext.js";
 
 describe("Interface compatibility", () => {

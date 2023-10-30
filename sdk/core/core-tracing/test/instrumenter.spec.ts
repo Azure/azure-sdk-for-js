@@ -9,7 +9,7 @@ import {
   useInstrumenter,
 } from "../src/instrumenter.js";
 import { createTracingContext, knownContextKeys } from "../src/tracingContext.js";
-import { assert } from "chai";
+import { describe, it, assert, beforeEach } from "vitest";
 
 describe("Instrumenter", () => {
   describe("NoOpInstrumenter", () => {
