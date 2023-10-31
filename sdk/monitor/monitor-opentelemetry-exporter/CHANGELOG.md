@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.18 (Unreleased)
+
+### Bugs Fixed
+
+- Fix Feature and Instrumentation Statsbeat type value.
+
 ## 1.0.0-beta.17 (2023-10-09)
 
 ### Features Added
