@@ -158,9 +158,10 @@ export class CallMedia {
     cancelAllOperations(): Promise<void>;
     play(playSources: (FileSource | TextSource | SsmlSource)[], playTo: CommunicationIdentifier[], options?: PlayOptions): Promise<void>;
     playToAll(playSources: (FileSource | TextSource | SsmlSource)[], options?: PlayOptions): Promise<void>;
-    // Warning: (ae-forgotten-export) The symbol "Tone" needs to be exported by the entry point index.d.ts
-    sendDtmfTones(tones: Tone[], targetParticipant: CommunicationIdentifier, options?: SendDtmfTonesOptions): Promise<SendDtmfTonesResult>;
+    sendDtmfTones(tones: Tone[] | DtmfTone[], targetParticipant: CommunicationIdentifier, options?: SendDtmfTonesOptions): Promise<SendDtmfTonesResult>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
+    // @deprecated
+    startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, options: CallMediaRecognizeDtmfOptions): Promise<void>;
     startRecognizing(targetParticipant: CommunicationIdentifier, options: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
 }
@@ -298,6 +299,12 @@ export interface ChannelAffinity {
     targetParticipant: CommunicationIdentifier;
 }
 
+// @public (undocumented)
+export interface ChoiceResult {
+    label?: string;
+    recognizedPhrase?: string;
+}
+
 // @public
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
     operationCallbackUrl?: string;
@@ -353,7 +360,6 @@ export class CustomContext {
     }, voipHeaders: {
         [key: string]: string;
     });
-    // Warning: (ae-forgotten-export) The symbol "CustomContextHeader" needs to be exported by the entry point index.d.ts
     add(header: CustomContextHeader): void;
     sipHeaders: {
         [key: string]: string;
@@ -363,6 +369,14 @@ export class CustomContext {
     };
 }
 
+// @public (undocumented)
+export interface CustomContextHeader {
+    // (undocumented)
+    key: string;
+    // (undocumented)
+    value: string;
+}
+
 // @public
 export type DeleteRecordingOptions = OperationOptions;
 
@@ -370,6 +384,11 @@ export type DeleteRecordingOptions = OperationOptions;
 export interface DownloadRecordingOptions extends OperationOptions {
     length?: number;
     offset?: number;
+}
+
+// @public (undocumented)
+export interface DtmfResult {
+    readonly tones?: Tone[];
 }
 
 // @public
@@ -502,6 +521,9 @@ export interface RecognitionChoice {
 }
 
 // @public
+export type RecognitionType = string;
+
+// @public
 export interface RecognizeCanceled extends Omit<RestRecognizeCanceled, "callConnectionId" | "serverCallId" | "correlationId"> {
     callConnectionId: string;
     correlationId: string;
@@ -542,6 +564,9 @@ export type RecordingContent = "audio" | "audioVideo";
 export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 // @public
+export type RecordingState = string;
+
+// @public
 export interface RecordingStateChanged extends Omit<RestRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
     callConnectionId: string;
     correlationId: string;
@@ -553,8 +578,6 @@ export interface RecordingStateChanged extends Omit<RestRecordingStateChanged, "
 export interface RecordingStateResult {
     // (undocumented)
     recordingId: string;
-    // Warning: (ae-forgotten-export) The symbol "RecordingState" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     recordingState: RecordingState;
 }
@@ -749,17 +772,13 @@ export interface RestRecognizeCanceled {
 // @public (undocumented)
 export interface RestRecognizeCompleted {
     callConnectionId?: string;
-    // Warning: (ae-forgotten-export) The symbol "ChoiceResult" needs to be exported by the entry point index.d.ts
     choiceResult?: ChoiceResult;
     correlationId?: string;
-    // Warning: (ae-forgotten-export) The symbol "DtmfResult" needs to be exported by the entry point index.d.ts
     dtmfResult?: DtmfResult;
     operationContext?: string;
-    // Warning: (ae-forgotten-export) The symbol "RecognitionType" needs to be exported by the entry point index.d.ts
     recognitionType?: RecognitionType;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
-    // Warning: (ae-forgotten-export) The symbol "SpeechResult" needs to be exported by the entry point index.d.ts
     readonly speechResult?: SpeechResult;
 }
 
@@ -895,6 +914,11 @@ export class SIPUserToUserHeader implements CustomContextHeader {
 }
 
 // @public
+export interface SpeechResult {
+    speech?: string;
+}
+
+// @public
 export interface SsmlSource extends PlaySource {
     // (undocumented)
     customVoiceEndpointId?: string;
@@ -934,6 +958,9 @@ export interface TextSource extends PlaySource {
     // (undocumented)
     voiceName?: string;
 }
+
+// @public
+export type Tone = string;
 
 // @public
 export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone"> {

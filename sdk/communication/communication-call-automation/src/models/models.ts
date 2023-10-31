@@ -13,6 +13,12 @@ export {
   CallConnectionStateModel,
   CallRejectReason,
   KnownCallRejectReason,
+  RecognitionType,
+  ChoiceResult,
+  DtmfResult,
+  SpeechResult,
+  RecordingState,
+  Tone,
 } from "../generated/src/models/index";
 
 /** Properties of a call connection */
@@ -180,7 +186,7 @@ export interface ChannelAffinity {
   targetParticipant: CommunicationIdentifier;
 }
 
-interface CustomContextHeader {
+export interface CustomContextHeader {
   key: string;
   value: string;
 }
