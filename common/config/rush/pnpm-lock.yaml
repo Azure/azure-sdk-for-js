@@ -1236,6 +1236,28 @@ packages:
       - encoding
     dev: false
 
+  /@azure/core-http@3.0.3:
+    resolution: {integrity: sha512-QMib3wXotJMFhHgmJBPUF9YsyErw34H0XDFQd9CauH7TPB+RGcyl9Ayy7iURtJB04ngXhE6YwrQsWDXlSLrilg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-util': 1.6.1
+      '@azure/logger': 1.0.4
+      '@types/node-fetch': 2.6.7
+      '@types/tunnel': 0.0.3
+      form-data: 4.0.0
+      node-fetch: 2.7.0
+      process: 0.11.10
+      tslib: 2.6.2
+      tunnel: 0.0.6
+      uuid: 8.3.2
+      xml2js: 0.5.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /@azure/core-lro@2.5.4:
     resolution: {integrity: sha512-3GJiMVH7/10bulzOKGrrLeG/uCBH/9VtxqaMcB9lIqAeamI/xYQSHJL/KcsLDuH+yTjYpro/u6D/MuRe4dN70Q==}
     engines: {node: '>=14.0.0'}
@@ -1530,6 +1552,53 @@ packages:
       tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@azure/storage-blob@12.16.0:
+    resolution: {integrity: sha512-jz33rUSUGUB65FgYrTRgRDjG6hdPHwfvHe+g/UrwVG8MsyLqSxg9TaW7Yuhjxu1v1OZ5xam2NU6+IpCN0xJO8Q==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-http': 3.0.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.4
+      events: 3.3.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@azure/storage-file-datalake@12.15.0:
+    resolution: {integrity: sha512-iMJCd7UBq34k5lBlesYpiPYXXy4bWTMyd+ACyXksMj7NVS6ptKOAhCJaHScmEuiqpDyco0GvoAg5xtWqA85K9w==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-http': 3.0.3
+      '@azure/core-paging': 1.5.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.4
+      '@azure/storage-blob': 12.16.0
+      events: 3.3.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@azure/storage-file-share@12.16.0:
+    resolution: {integrity: sha512-H2sKKdGf19fK2d070M2Wf98jYywExhi5nLEbHXSKlFWx9sMwZ37rr/2YT1gZm9pTDDTzBCCrozUq173nnvRjuw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-http': 3.0.3
+      '@azure/core-paging': 1.5.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.4
+      events: 3.3.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@azure/web-pubsub-client@1.0.0-beta.2:
@@ -10046,7 +10115,7 @@ packages:
     dev: false
 
   file:projects/ai-language-text.tgz:
-    resolution: {integrity: sha512-0sFNWEhLejL3Uq2f9w16Tnt5/SkvbXZ4sgR9KEd9pq3+gLybrF0bH8bQklHEuCgN4wX1RG77pVtB1BCxmd0e6g==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-+DgFkuDXTSeYnIx6HUeWVJEsl0SpAvjPnnQtSWYTbyqMSxbQP8pWPJvXD8mb8cja4N2fUAyEnwas9p7Of9XUpQ==, tarball: file:projects/ai-language-text.tgz}
     name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
@@ -10344,11 +10413,12 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-d0oYZX8dV/u6zz5PVJUZ0Cq/GIO+qFnOY+FqeJMVmPp1vnx6+ERR5oYArFFa0/oOZXxvA47Z1fm9f9Um91vy7A==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-PZyLo4n2RoKbny+JZ/23bkhbO/2QHsSpZ1vurS8ECRbp8Aqpf7MLT5ggo5igAW2+o8nE7Qyqrcsrvn8H/4PA+A==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
+      '@azure/storage-blob': 12.16.0
       '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
       '@types/chai': 4.3.9
       '@types/mime': 3.0.3
@@ -10389,6 +10459,7 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
+      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -17849,10 +17920,11 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-3LSe4vuP/1+5cQM0Fv1KqVx/MLa9ZMb8dd65+4bLx1c52qFFsChoruurQvjPmpTTZCJqXTkFcLemrUhLTatLoA==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-SSIOu+KChoiNwvAmo7YWkhj1mYlJIIin7uNSQz7cIAk6lyhKS4KlpZYa/2oWI4DY5tJy3IXpoXueJLNN6yvGzg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
+      '@azure/storage-blob': 12.16.0
       '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
       '@types/chai': 4.3.9
       '@types/chai-as-promised': 7.1.7
@@ -17893,6 +17965,7 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - bufferutil
+      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -19691,7 +19764,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-ApBKPAJDUpNA2KSiV8UbsNitjdY98f5F91bzLTDb8iRf/HUkAYPooQzlEUU1kIvVjBwXDjhVoTkuylHphEmTnA==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-Xq/HBvsecy11GjHvNOzzXM0fUJGwc5/RM7I3COVS/e1yBYt1vFwnlpcWtgpxoIG9vEcU6pNLabxlssYFoMR1lg==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -19715,10 +19788,11 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-scza5JZM5T/+EOO/2/rbqZrfrZ1XnKSIHOdaTXY28Tj50SGps2n8Yi5lakNhaf0VMmnDr+f5qs2E6y4h+8va2w==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-Ujw8AeWpVE5C9gQ0oq4sX+Gs+bsrHa8bsoPLQjyn8GY67JmpFbxcHGJ8dTVngMG5oJUbs+vBgUdOGN4i1bIO8A==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
+      '@azure/storage-file-datalake': 12.15.0
       '@types/node': 18.18.7
       '@types/uuid': 8.3.4
       dotenv: 16.3.1
@@ -19732,14 +19806,16 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - encoding
       - supports-color
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-XJxFT6Uhv7QeS2B8TNKyEoLwtf9Q/vNrdbJ3FxgASb9c1YJu5hoDm4CzPhiRBDqfUlAJkEx4tesaGcGIWWHCLA==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-0t+FHGWVEUWNM+Tkam59lIKZVYBZr6wVfykCLLhh8G6H0GUDEemakYg7xEw4iwUN7H7HOU6OkIGHxcvF3qOZNQ==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
+      '@azure/storage-file-share': 12.16.0
       '@types/node': 18.18.7
       '@types/uuid': 8.3.4
       dotenv: 16.3.1
@@ -19753,6 +19829,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - encoding
       - supports-color
     dev: false
 
@@ -20002,11 +20079,12 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-LE2rzbd1JgT0cG4w1Q5aQ8kK4IRtzjE1zcXCKmTgYosmJYUEnePACQNBECGKYeWbfOxEPsDBCfQemY9MUGjBPw==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-1W9qYayVhueB4hN7v4PcDyE31scvALX05pIObTB7aDkXuqmnNqZBmQfFnjp+poREX24uJ9dwjJKV8aNP3dI8pA==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
+      '@azure/storage-blob': 12.16.0
       '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
@@ -20042,6 +20120,7 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
+      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -20296,10 +20375,11 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-SrfcFFxfrlddSKPzwyxq7kTEdzkx5xnLfEYYIiO/HH+IvZ6ZNvCMXeEslw5ZMMLH4Gp3Al39tYDtdc4CoWqs5A==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-2LtIcl6t12irIaBaBSP/ytxkJA5VSRJ2RUg08UJEi/NVLHhjpx+NQQn/a/ebeAwpa2DefdSkfHRhgh7zn8Qzzg==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
+      '@azure/storage-blob': 12.16.0
       '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
@@ -20400,7 +20480,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-cFLU+e9YPIEV1OyZQKRnDICwfEHMmSmIjAf0D4d5f2Md/i9NViYT/N6wXrlZcQ9M2o5LAYEJrr1OdKWI1bBp2A==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-TD5dhn4xWo4UbmiN30UGEHvilkp7V87YwYUiznUJGkH3wKHTZv1IIGDldJtYa8vZca9wJUFWZduEzkLTp7gTDg==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -20453,7 +20533,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-7IzJVoGWP4WD/0arjP5erImUJd3eCwTLmqZ2e+FEgVBROtqhYWVfUOCigu4K6fcLGyuK2BhCi2H2Rl+Gjm4jtw==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-wgVnm3obJ0R694ucRwgdWUXNu5fGu0DY5UUiN+O7ceAFQX1e99s7NhjhfIBa6897+QWZOKiSj/QE+TyztBV74g==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -20553,7 +20633,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-z5ilMJ1N/BlW+QtRKFpqC1SVvFQst0e+gMw9oBx8IU8FrU0fES9L0TW/Yam+8Bb0c9grLDtm+3fxjkGeIcXdPw==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-ohzSwZEa4zMIoTrT5WQLA/Zqd4ujIVJ3R4Wr7OzTpooyFe2BwFv0nMgb2HdwIZbFJpi/Ga0RokAA8bQML5QUsg==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:

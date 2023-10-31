@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "6.0.2"
-package-version: 12.20.0
+package-version: 12.23.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
