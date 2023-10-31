@@ -119,12 +119,12 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
 
         const endpoint = parseServiceBusConnectionString(serviceBusConnectionString).endpoint;
 
-        sharedAccessSignature = getSharedAccessSignature(
+        sharedAccessSignature = await getSharedAccessSignature(
           serviceBusConnectionString,
           entities.queue ?? `${entities.topic!}`,
           endpoint.replace(/\/+$/, "")
         );
-        sasConnectionString = getSasConnectionString(
+        sasConnectionString = await getSasConnectionString(
           serviceBusConnectionString,
           entities.queue ?? `${entities.topic!}`,
           endpoint.replace(/\/+$/, "")
@@ -206,24 +206,24 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
         await client.close();
       });
 
-      function getSharedAccessSignature(
+      async function getSharedAccessSignature(
         connectionString: string,
         path: string,
         fqdn: string
-      ): string {
+      ): Promise<string> {
         const parsed = parseServiceBusConnectionString(connectionString) as {
           sharedAccessKeyName: string;
           sharedAccessKey: string;
         };
-        return createSasTokenProvider(parsed).getToken(`${fqdn}/${path}`).token;
+        return (await createSasTokenProvider(parsed).getToken(`${fqdn}/${path}`)).token;
       }
 
-      function getSasConnectionString(
+      async function getSasConnectionString(
         connectionString: string,
         path: string,
         fqdn: string
-      ): string {
-        const sas = getSharedAccessSignature(connectionString, path, fqdn);
+      ): Promise<string> {
+        const sas = await getSharedAccessSignature(connectionString, path, fqdn);
 
         return `Endpoint=${fqdn};SharedAccessSignature=${sas}`;
       }

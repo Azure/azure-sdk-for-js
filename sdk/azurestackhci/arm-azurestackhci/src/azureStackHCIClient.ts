@@ -15,22 +15,36 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  ArcSettingsImpl,
-  ClustersImpl,
-  ExtensionsImpl,
-  OperationsImpl
+  GalleryImagesOperationsImpl,
+  OperationsImpl,
+  LogicalNetworksOperationsImpl,
+  MarketplaceGalleryImagesOperationsImpl,
+  NetworkInterfacesOperationsImpl,
+  StorageContainersOperationsImpl,
+  VirtualHardDisksOperationsImpl,
+  VirtualMachineInstancesImpl,
+  HybridIdentityMetadataOperationsImpl,
+  GuestAgentOperationsImpl,
+  GuestAgentsImpl
 } from "./operations";
 import {
-  ArcSettings,
-  Clusters,
-  Extensions,
-  Operations
+  GalleryImagesOperations,
+  Operations,
+  LogicalNetworksOperations,
+  MarketplaceGalleryImagesOperations,
+  NetworkInterfacesOperations,
+  StorageContainersOperations,
+  VirtualHardDisksOperations,
+  VirtualMachineInstances,
+  HybridIdentityMetadataOperations,
+  GuestAgentOperations,
+  GuestAgents
 } from "./operationsInterfaces";
 import { AzureStackHCIClientOptionalParams } from "./models";
 
 export class AzureStackHCIClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
   apiVersion: string;
 
   /**
@@ -43,12 +57,26 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: AzureStackHCIClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: AzureStackHCIClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: AzureStackHCIClientOptionalParams | string,
+    options?: AzureStackHCIClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -60,7 +88,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-azurestackhci/3.1.1`;
+    const packageDetails = `azsdk-js-arm-azurestackhci/4.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -113,11 +141,26 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-01";
-    this.arcSettings = new ArcSettingsImpl(this);
-    this.clusters = new ClustersImpl(this);
-    this.extensions = new ExtensionsImpl(this);
+    this.apiVersion = options.apiVersion || "2023-09-01-preview";
+    this.galleryImagesOperations = new GalleryImagesOperationsImpl(this);
     this.operations = new OperationsImpl(this);
+    this.logicalNetworksOperations = new LogicalNetworksOperationsImpl(this);
+    this.marketplaceGalleryImagesOperations = new MarketplaceGalleryImagesOperationsImpl(
+      this
+    );
+    this.networkInterfacesOperations = new NetworkInterfacesOperationsImpl(
+      this
+    );
+    this.storageContainersOperations = new StorageContainersOperationsImpl(
+      this
+    );
+    this.virtualHardDisksOperations = new VirtualHardDisksOperationsImpl(this);
+    this.virtualMachineInstances = new VirtualMachineInstancesImpl(this);
+    this.hybridIdentityMetadataOperations = new HybridIdentityMetadataOperationsImpl(
+      this
+    );
+    this.guestAgentOperations = new GuestAgentOperationsImpl(this);
+    this.guestAgents = new GuestAgentsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -149,8 +192,15 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  arcSettings: ArcSettings;
-  clusters: Clusters;
-  extensions: Extensions;
+  galleryImagesOperations: GalleryImagesOperations;
   operations: Operations;
+  logicalNetworksOperations: LogicalNetworksOperations;
+  marketplaceGalleryImagesOperations: MarketplaceGalleryImagesOperations;
+  networkInterfacesOperations: NetworkInterfacesOperations;
+  storageContainersOperations: StorageContainersOperations;
+  virtualHardDisksOperations: VirtualHardDisksOperations;
+  virtualMachineInstances: VirtualMachineInstances;
+  hybridIdentityMetadataOperations: HybridIdentityMetadataOperations;
+  guestAgentOperations: GuestAgentOperations;
+  guestAgents: GuestAgents;
 }

@@ -9,8 +9,6 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import type { FormDataEncoder } from "../../../node_modules/form-data-encoder/@type/index.d.ts";
-import { FormData, File } from "formdata-node";
 import {
   FormDataMap,
   PipelinePolicy,
@@ -18,6 +16,8 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
+import { FormData, File } from "formdata-node";
+import { FormDataEncoder } from "form-data-encoder";
 import { Readable } from "stream";
 
 /**
@@ -76,11 +76,7 @@ async function prepareFormData(
       requestForm.append(formKey, formValue);
     }
   }
-  // This library doesn't define `type` entries in the exports section of its package.json.
-  // See https://github.com/microsoft/TypeScript/issues/52363
-  const { FormDataEncoder } = await import("form-data-encoder" as any);
-
-  const encoder: FormDataEncoder = boundary
+  const encoder = boundary
     ? new FormDataEncoder(requestForm, boundary)
     : new FormDataEncoder(requestForm);
   const body = Readable.from(encoder.encode());
@@ -96,6 +92,6 @@ async function prepareFormData(
   }
 }
 
-export function createFile(data: Uint8Array | string): File {
+export async function createFile(data: Uint8Array | string): Promise<File> {
   return new File([data], "placeholder.wav");
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create a Kusto cluster principalAssignment.
  *
  * @summary Create a Kusto cluster principalAssignment.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoClusterPrincipalAssignmentsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClusterPrincipalAssignmentsCreateOrUpdate.json
  */
 async function kustoClusterPrincipalAssignmentsCreateOrUpdate() {
   const subscriptionId =

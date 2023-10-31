@@ -17,7 +17,7 @@ import { Rule } from "eslint";
  * @returns a list of Symbols containing type information for all top-level exports, or undefined if improperly configured
  */
 const getExports = (context: Rule.RuleContext): TSSymbol[] | undefined => {
-  const parserServices = context.parserServices as ParserServices;
+  const parserServices = context.sourceCode.parserServices as ParserServices;
   if (parserServices.program === undefined) {
     return undefined;
   }

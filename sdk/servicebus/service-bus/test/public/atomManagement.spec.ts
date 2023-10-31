@@ -7,7 +7,6 @@ import { DefaultAzureCredential } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
-import * as dotenv from "dotenv";
 import { parseServiceBusConnectionString } from "../../src";
 import { CreateQueueOptions } from "../../src";
 import { RuleProperties } from "../../src";
@@ -27,8 +26,6 @@ chai.use(chaiAsPromised);
 chai.use(chaiExclude);
 const should = chai.should();
 const assert = chai.assert;
-
-dotenv.config();
 
 const env = getEnvVars();
 

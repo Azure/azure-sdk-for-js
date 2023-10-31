@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Event Hubs client library samples for JavaScript",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
     "@azure/event-hubs": "latest",
     "dotenv": "latest",
     "rhea-promise": "^3.0.0",
-    "@azure/core-amqp": "^3.3.0",
+    "@azure/core-amqp": "^4.0.0",
     "ws": "^8.2.0",
     "@azure/identity": "^2.0.1",
     "https-proxy-agent": "^5.0.0"

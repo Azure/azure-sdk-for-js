@@ -278,7 +278,7 @@ main().catch((err) => {
 This example generates batch images from a given input prompt.
 
 ```js
-const { OpenAIClient } = require("@azure/openai");
+const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
 
 async function main() {
   const endpoint = "https://myaccount.openai.azure.com/";
@@ -365,7 +365,7 @@ async function main() {
   console.log("== Transcribe Audio Sample ==");
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
-  const deploymentName = "whisper-deployment";
+  const deploymentName = "whisper";
   const audio = await fs.readFile("< path to an audio file >");
   const result = await client.getAudioTranscription(deploymentName, audio);
 

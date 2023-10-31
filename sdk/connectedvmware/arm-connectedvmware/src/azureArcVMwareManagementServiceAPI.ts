@@ -16,7 +16,6 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
-  VirtualMachinesImpl,
   ResourcePoolsImpl,
   ClustersImpl,
   HostsImpl,
@@ -25,13 +24,12 @@ import {
   VirtualMachineTemplatesImpl,
   VirtualNetworksImpl,
   InventoryItemsImpl,
-  HybridIdentityMetadataOperationsImpl,
-  MachineExtensionsImpl,
-  GuestAgentsImpl
+  VirtualMachineInstancesImpl,
+  VmInstanceHybridIdentityMetadataOperationsImpl,
+  VMInstanceGuestAgentsImpl
 } from "./operations";
 import {
   Operations,
-  VirtualMachines,
   ResourcePools,
   Clusters,
   Hosts,
@@ -40,16 +38,16 @@ import {
   VirtualMachineTemplates,
   VirtualNetworks,
   InventoryItems,
-  HybridIdentityMetadataOperations,
-  MachineExtensions,
-  GuestAgents
+  VirtualMachineInstances,
+  VmInstanceHybridIdentityMetadataOperations,
+  VMInstanceGuestAgents
 } from "./operationsInterfaces";
 import { AzureArcVMwareManagementServiceAPIOptionalParams } from "./models";
 
 export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the AzureArcVMwareManagementServiceAPI class.
@@ -61,12 +59,28 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: AzureArcVMwareManagementServiceAPIOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: AzureArcVMwareManagementServiceAPIOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | AzureArcVMwareManagementServiceAPIOptionalParams
+      | string,
+    options?: AzureArcVMwareManagementServiceAPIOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -78,7 +92,7 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-connectedvmware/1.0.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-connectedvmware/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -131,9 +145,8 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-01-10-preview";
+    this.apiVersion = options.apiVersion || "2023-10-01";
     this.operations = new OperationsImpl(this);
-    this.virtualMachines = new VirtualMachinesImpl(this);
     this.resourcePools = new ResourcePoolsImpl(this);
     this.clusters = new ClustersImpl(this);
     this.hosts = new HostsImpl(this);
@@ -142,11 +155,11 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
     this.virtualMachineTemplates = new VirtualMachineTemplatesImpl(this);
     this.virtualNetworks = new VirtualNetworksImpl(this);
     this.inventoryItems = new InventoryItemsImpl(this);
-    this.hybridIdentityMetadataOperations = new HybridIdentityMetadataOperationsImpl(
+    this.virtualMachineInstances = new VirtualMachineInstancesImpl(this);
+    this.vmInstanceHybridIdentityMetadataOperations = new VmInstanceHybridIdentityMetadataOperationsImpl(
       this
     );
-    this.machineExtensions = new MachineExtensionsImpl(this);
-    this.guestAgents = new GuestAgentsImpl(this);
+    this.vMInstanceGuestAgents = new VMInstanceGuestAgentsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -179,7 +192,6 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
   }
 
   operations: Operations;
-  virtualMachines: VirtualMachines;
   resourcePools: ResourcePools;
   clusters: Clusters;
   hosts: Hosts;
@@ -188,7 +200,7 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
   virtualMachineTemplates: VirtualMachineTemplates;
   virtualNetworks: VirtualNetworks;
   inventoryItems: InventoryItems;
-  hybridIdentityMetadataOperations: HybridIdentityMetadataOperations;
-  machineExtensions: MachineExtensions;
-  guestAgents: GuestAgents;
+  virtualMachineInstances: VirtualMachineInstances;
+  vmInstanceHybridIdentityMetadataOperations: VmInstanceHybridIdentityMetadataOperations;
+  vMInstanceGuestAgents: VMInstanceGuestAgents;
 }

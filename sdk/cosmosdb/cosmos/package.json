@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for NOSQL API",
   "sdk-type": "client",
   "keywords": [
@@ -50,7 +50,7 @@
     }
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -112,8 +112,8 @@
     "@azure/logger": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/debug": "^4.1.4",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^18.0.0",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
     "@types/sinon": "^10.0.0",
@@ -125,7 +125,7 @@
     "eslint": "^8.0.0",
     "esm": "^3.2.18",
     "execa": "^5.0.0",
-    "mocha": "^7.1.1",
+    "mocha": "^10.0.0",
     "mocha-junit-reporter": "^2.0.0",
     "prettier": "^2.5.1",
     "requirejs": "^2.3.5",
@@ -133,7 +133,7 @@
     "sinon": "^15.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "nock": "^12.0.3",
     "@types/sinonjs__fake-timers": "~8.1.2",
     "@sinonjs/fake-timers": "^11.0.0",

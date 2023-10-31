@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Key Vault Keys client library samples for TypeScript",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -36,8 +36,8 @@
     "@azure/identity": "^2.1.0-beta.2"
   },
   "devDependencies": {
-    "@types/node": "^14.0.0",
-    "typescript": "~5.0.0",
+    "@types/node": "^18.0.0",
+    "typescript": "~5.2.0",
     "rimraf": "latest"
   }
 }

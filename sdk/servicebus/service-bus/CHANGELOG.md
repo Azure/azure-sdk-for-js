@@ -1,5 +1,23 @@
 # Release History
 
+## 7.9.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Add check to ensure argument to `scheduledEnqueueTimeUtc` of `scheduleMessages()` method is an instance of `Date` [PR #27396](https://github.com/Azure/azure-sdk-for-js/pull/27396)
+
+## 7.9.2 (2023-10-10)
+
+### Bugs Fixed
+
+- Fix an INTERNAL ERROR due to timing [PR #27308](https://github.com/Azure/azure-sdk-for-js/pull/27308)
+
 ## 7.9.1 (2023-09-12)
 
 ### Other Changes

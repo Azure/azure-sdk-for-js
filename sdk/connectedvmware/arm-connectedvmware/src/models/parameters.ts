@@ -12,10 +12,6 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  VirtualMachineInstallPatchesParameters as VirtualMachineInstallPatchesParametersMapper,
-  VirtualMachine as VirtualMachineMapper,
-  VirtualMachineUpdate as VirtualMachineUpdateMapper,
-  StopVirtualMachineOptions as StopVirtualMachineOptionsMapper,
   ResourcePool as ResourcePoolMapper,
   ResourcePatch as ResourcePatchMapper,
   Cluster as ClusterMapper,
@@ -25,9 +21,9 @@ import {
   VirtualMachineTemplate as VirtualMachineTemplateMapper,
   VirtualNetwork as VirtualNetworkMapper,
   InventoryItem as InventoryItemMapper,
-  HybridIdentityMetadata as HybridIdentityMetadataMapper,
-  MachineExtension as MachineExtensionMapper,
-  MachineExtensionUpdate as MachineExtensionUpdateMapper,
+  VirtualMachineInstance as VirtualMachineInstanceMapper,
+  VirtualMachineInstanceUpdate as VirtualMachineInstanceUpdateMapper,
+  StopVirtualMachineOptions as StopVirtualMachineOptionsMapper,
   GuestAgent as GuestAgentMapper
 } from "../models/mappers";
 
@@ -58,7 +54,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-01-10-preview",
+    defaultValue: "2023-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -77,6 +73,23 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: ResourcePoolMapper
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -101,43 +114,10 @@ export const resourceGroupName: OperationURLParameter = {
   }
 };
 
-export const name: OperationURLParameter = {
-  parameterPath: "name",
+export const resourcePoolName: OperationURLParameter = {
+  parameterPath: "resourcePoolName",
   mapper: {
-    serializedName: "name",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const installPatchesInput: OperationParameter = {
-  parameterPath: "installPatchesInput",
-  mapper: VirtualMachineInstallPatchesParametersMapper
-};
-
-export const body: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: VirtualMachineMapper
-};
-
-export const virtualMachineName: OperationURLParameter = {
-  parameterPath: "virtualMachineName",
-  mapper: {
-    serializedName: "virtualMachineName",
+    serializedName: "resourcePoolName",
     required: true,
     type: {
       name: "String"
@@ -147,7 +127,7 @@ export const virtualMachineName: OperationURLParameter = {
 
 export const body1: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: VirtualMachineUpdateMapper
+  mapper: ResourcePatchMapper
 };
 
 export const force: OperationQueryParameter = {
@@ -160,43 +140,7 @@ export const force: OperationQueryParameter = {
   }
 };
 
-export const retain: OperationQueryParameter = {
-  parameterPath: ["options", "retain"],
-  mapper: {
-    serializedName: "retain",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
 export const body2: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: StopVirtualMachineOptionsMapper
-};
-
-export const body3: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: ResourcePoolMapper
-};
-
-export const resourcePoolName: OperationURLParameter = {
-  parameterPath: "resourcePoolName",
-  mapper: {
-    serializedName: "resourcePoolName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const body4: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: ResourcePatchMapper
-};
-
-export const body5: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: ClusterMapper
 };
@@ -212,7 +156,7 @@ export const clusterName: OperationURLParameter = {
   }
 };
 
-export const body6: OperationParameter = {
+export const body3: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: HostMapper
 };
@@ -228,7 +172,7 @@ export const hostName: OperationURLParameter = {
   }
 };
 
-export const body7: OperationParameter = {
+export const body4: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: DatastoreMapper
 };
@@ -244,7 +188,7 @@ export const datastoreName: OperationURLParameter = {
   }
 };
 
-export const body8: OperationParameter = {
+export const body5: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: VCenterMapper
 };
@@ -260,7 +204,7 @@ export const vcenterName: OperationURLParameter = {
   }
 };
 
-export const body9: OperationParameter = {
+export const body6: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: VirtualMachineTemplateMapper
 };
@@ -276,7 +220,7 @@ export const virtualMachineTemplateName: OperationURLParameter = {
   }
 };
 
-export const body10: OperationParameter = {
+export const body7: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: VirtualNetworkMapper
 };
@@ -292,7 +236,7 @@ export const virtualNetworkName: OperationURLParameter = {
   }
 };
 
-export const body11: OperationParameter = {
+export const body8: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: InventoryItemMapper
 };
@@ -308,54 +252,44 @@ export const inventoryItemName: OperationURLParameter = {
   }
 };
 
-export const body12: OperationParameter = {
+export const body9: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: HybridIdentityMetadataMapper
+  mapper: VirtualMachineInstanceMapper
 };
 
-export const metadataName: OperationURLParameter = {
-  parameterPath: "metadataName",
+export const resourceUri: OperationURLParameter = {
+  parameterPath: "resourceUri",
   mapper: {
-    serializedName: "metadataName",
+    serializedName: "resourceUri",
     required: true,
     type: {
       name: "String"
     }
-  }
+  },
+  skipEncoding: true
 };
 
-export const extensionParameters: OperationParameter = {
-  parameterPath: "extensionParameters",
-  mapper: MachineExtensionMapper
+export const body10: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: VirtualMachineInstanceUpdateMapper
 };
 
-export const extensionName: OperationURLParameter = {
-  parameterPath: "extensionName",
+export const deleteFromHost: OperationQueryParameter = {
+  parameterPath: ["options", "deleteFromHost"],
   mapper: {
-    serializedName: "extensionName",
-    required: true,
+    serializedName: "deleteFromHost",
     type: {
-      name: "String"
+      name: "Boolean"
     }
   }
 };
 
-export const extensionParameters1: OperationParameter = {
-  parameterPath: "extensionParameters",
-  mapper: MachineExtensionUpdateMapper
+export const body11: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: StopVirtualMachineOptionsMapper
 };
 
-export const expand: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
-  mapper: {
-    serializedName: "$expand",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const body13: OperationParameter = {
+export const body12: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: GuestAgentMapper
 };

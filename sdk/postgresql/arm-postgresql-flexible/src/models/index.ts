@@ -282,7 +282,7 @@ export interface Storage {
   /** Flag to enable / disable Storage Auto grow for flexible server. */
   autoGrow?: StorageAutoGrow;
   /** Name of storage tier for IOPS. */
-  iopsTier?: AzureManagedDiskPerformanceTiers;
+  tier?: AzureManagedDiskPerformanceTiers;
   /**
    * Storage tier IOPS quantity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
