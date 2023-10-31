@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Patch packet core control plane resource.
  *
  * @summary Patch packet core control plane resource.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-06-01/examples/PacketCoreControlPlanePatch.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-09-01/examples/PacketCoreControlPlanePatch.json
  */
 async function patchPacketCoreControlPlane() {
   const subscriptionId =

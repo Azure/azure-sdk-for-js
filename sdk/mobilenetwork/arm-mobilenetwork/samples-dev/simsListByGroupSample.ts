@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all the SIMs in a SIM group.
  *
  * @summary Gets all the SIMs in a SIM group.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-06-01/examples/SimListBySimGroup.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-09-01/examples/SimListBySimGroup.json
  */
 async function listSiMSInASimGroup() {
   const subscriptionId =

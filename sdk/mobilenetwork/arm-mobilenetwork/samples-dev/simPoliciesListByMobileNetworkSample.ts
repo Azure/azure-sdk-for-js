@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all the SIM policies in a mobile network.
  *
  * @summary Gets all the SIM policies in a mobile network.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-06-01/examples/SimPolicyListByMobileNetwork.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-09-01/examples/SimPolicyListByMobileNetwork.json
  */
 async function listSimPoliciesInAMobileNetwork() {
   const subscriptionId =

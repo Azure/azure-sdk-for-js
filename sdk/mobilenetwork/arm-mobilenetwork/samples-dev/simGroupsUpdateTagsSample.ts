@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Patch SIM group resource.
  *
  * @summary Patch SIM group resource.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-06-01/examples/SimGroupPatch.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-09-01/examples/SimGroupPatch.json
  */
 async function patchSimGroup() {
   const subscriptionId =

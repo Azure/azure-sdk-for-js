@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the packet capture sessions under a packet core control plane.
  *
  * @summary Lists all the packet capture sessions under a packet core control plane.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-06-01/examples/PacketCaptureListByPacketCoreControlPlane.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-09-01/examples/PacketCaptureListByPacketCoreControlPlane.json
  */
 async function listPacketCaptureSessionsUnderAPacketCoreControlPlane() {
   const subscriptionId =

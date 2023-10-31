@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates slice tags.
  *
  * @summary Updates slice tags.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-06-01/examples/SliceUpdateTags.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-09-01/examples/SliceUpdateTags.json
  */
 async function updateNetworkSliceTags() {
   const subscriptionId =

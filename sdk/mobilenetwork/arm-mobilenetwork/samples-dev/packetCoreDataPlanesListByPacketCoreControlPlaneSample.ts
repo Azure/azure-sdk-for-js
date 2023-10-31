@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the packet core data planes associated with a packet core control plane.
  *
  * @summary Lists all the packet core data planes associated with a packet core control plane.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-06-01/examples/PacketCoreDataPlaneListByPacketCoreControlPlane.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-09-01/examples/PacketCoreDataPlaneListByPacketCoreControlPlane.json
  */
 async function listPacketCoreDataPlanesInAControlPlane() {
   const subscriptionId =

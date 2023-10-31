@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the diagnostics packages under a packet core control plane.
  *
  * @summary Lists all the diagnostics packages under a packet core control plane.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-06-01/examples/DiagnosticsPackageListByPacketCoreControlPlane.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-09-01/examples/DiagnosticsPackageListByPacketCoreControlPlane.json
  */
 async function listDiagnosticsPackagesUnderAPacketCoreControlPlane() {
   const subscriptionId =

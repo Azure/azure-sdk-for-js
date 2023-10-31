@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates site tags.
  *
  * @summary Updates site tags.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-06-01/examples/SiteUpdateTags.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-09-01/examples/SiteUpdateTags.json
  */
 async function updateMobileNetworkSiteTags() {
   const subscriptionId =

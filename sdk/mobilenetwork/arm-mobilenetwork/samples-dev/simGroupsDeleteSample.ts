@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified SIM group.
  *
  * @summary Deletes the specified SIM group.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-06-01/examples/SimGroupDelete.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-09-01/examples/SimGroupDelete.json
  */
 async function deleteSimGroup() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all supported packet core control planes versions.
  *
  * @summary Lists all supported packet core control planes versions.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-06-01/examples/PacketCoreControlPlaneVersionListBySubscription.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2023-09-01/examples/PacketCoreControlPlaneVersionListBySubscription.json
  */
 async function getSupportedPacketCoreControlPlaneVersionsBySubscription() {
   const subscriptionId =
