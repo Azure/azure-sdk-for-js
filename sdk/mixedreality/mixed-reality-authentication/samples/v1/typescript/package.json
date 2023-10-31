@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Mixed Reality Authentication client library samples for TypeScript",
   "engine": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "tsc",

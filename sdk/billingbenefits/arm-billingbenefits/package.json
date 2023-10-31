@@ -5,7 +5,7 @@
   "description": "A generated SDK for BillingBenefitsRP.",
   "version": "1.0.1",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@azure/core-lro": "^2.2.0",
@@ -40,7 +40,7 @@
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@azure/dev-tool": "^1.0.0",
     "ts-node": "^10.0.0"
   },
