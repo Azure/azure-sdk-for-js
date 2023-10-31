@@ -13,9 +13,13 @@
 
 ### Bugs Fixed
 
-- Await on downloadToPath method will now properly wait untill download completes.
-
 ### Other Changes
+
+## 1.1.0-beta.3 (2023-10-19)
+
+### Bug fixes
+
+- Await on downlaodToPath method will now properly wait untill download completes.
 
 ## 1.1.0-beta.2 (2023-08-30)
 
