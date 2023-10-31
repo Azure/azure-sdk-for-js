@@ -92,13 +92,18 @@ stages:
                         displayName: 'Validating package can be installed'
                         condition: succeeded()
 
-                      - task: PowerShell@2
-                        displayName: 'Publish to npmjs.org'
+                      - task: EsrpRelease@4
+                        displayName: 'Publish to ESRP'
                         inputs:
-                          targetType: filePath
-                          filePath: "eng/tools/publish-to-npm.ps1"
-                          arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "$(Tag)" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'
-                          pwsh: true
+                          ConnectedServiceName: 'ESRP Release Service'
+                          Intent: 'PackageDistribution'
+                          ContentType: 'npm'
+                          FolderLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                          Owners: $(Build.RequestedForEmail)
+                          Approvers: 'wesh@microsoft.com'
+                          ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
+                          MainPublisher: 'ESRPRELPACMANTEST'
+                          DomainTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
                         condition: succeeded()
 
                       - pwsh: |
