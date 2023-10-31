@@ -33,7 +33,11 @@ describe("analysis (browser)", () => {
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
 
-    const poller = await client.beginAnalyzeDocumentFromUrl("prebuilt-receipt", url, testPollingOptions);
+    const poller = await client.beginAnalyzeDocumentFromUrl(
+      "prebuilt-receipt",
+      url,
+      testPollingOptions
+    );
     const { documents: receipts } = await poller.pollUntilDone();
 
     assert.ok(
