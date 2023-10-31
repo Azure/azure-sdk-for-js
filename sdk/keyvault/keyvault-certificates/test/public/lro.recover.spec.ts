@@ -3,11 +3,10 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
 
 import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from "../../src";
-import { assertThrowsAbortError } from "./utils/common";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import { getServiceVersion } from "./utils/common";
@@ -112,30 +111,5 @@ describe("Certificates client - LRO - recoverDelete", () => {
     assert.ok(resumePoller.getOperationState().isCompleted);
 
     await testClient.flushCertificate(certificateName);
-  });
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can recover a deleted certificate with requestOptions timeout", async function (this: Context) {
-    if (isPlaybackMode()) {
-      this.skip();
-    }
-
-    const certificateName = testClient.formatName(
-      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
-    );
-    const createPoller = await client.beginCreateCertificate(
-      certificateName,
-      DefaultCertificatePolicy,
-      testPollerProperties
-    );
-    await createPoller.pollUntilDone();
-    const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
-    await deletePoller.pollUntilDone();
-    await assertThrowsAbortError(async () => {
-      await client.beginRecoverDeletedCertificate(certificateName, {
-        requestOptions: { timeout: 1 },
-        ...testPollerProperties,
-      });
-    });
   });
 });

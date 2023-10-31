@@ -62,4 +62,4 @@ export const windows365ArticlePart2 = `
          “Being able to improve healthcare, being able to improve education, economic development is going to improve the quality of life in the communities.”
          `;
 
-export const authModes = [["APIKey"]] as const;
+export const authModes = [["APIKey", "AAD"]] as const;

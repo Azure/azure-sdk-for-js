@@ -205,6 +205,41 @@ describe("[Mocked] ChatThreadClient", async function () {
     assert.equal(request.method, "GET");
   });
 
+  it("makes successful list messages request by page", async function () {
+    const { senderCommunicationIdentifier, ...rest } = mockMessage;
+
+    const mockResponse: RestModel.ChatMessagesCollection = {
+      value: [mockMessage, mockMessage, mockMessage, mockMessage, mockMessage, { ...rest }],
+    };
+
+    const mockHttpClient = generateHttpClient(200, mockResponse);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const iterator = chatThreadClient.listMessages({ maxPageSize: 2 });
+
+    let count = 0;
+    for await (const page of iterator.byPage()) {
+      // loop over each item in the page
+      for (const info of page) {
+        ++count;
+        assert.isNotNull(info);
+      }
+    }
+
+    sinon.assert.calledOnce(spy);
+    assert.equal(count, mockResponse.value?.length);
+
+    const request = spy.getCall(0).args[0];
+
+    assert.equal(
+      request.url,
+      `${baseUri}/chat/threads/${threadId}/messages?maxPageSize=2&api-version=${API_VERSION}`
+    );
+    assert.equal(request.method, "GET");
+  });
+
   it("makes successful update message request", async function () {
     const mockHttpClient = generateHttpClient(204);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
@@ -305,6 +340,35 @@ describe("[Mocked] ChatThreadClient", async function () {
     assert.equal(
       request.url,
       `${baseUri}/chat/threads/${threadId}/participants?api-version=${API_VERSION}`
+    );
+    assert.equal(request.method, "GET");
+  });
+
+  it("makes successful list chat participants request by page", async function () {
+    const mockHttpClient = generateHttpClient(200, {
+      value: [mockParticipant, mockParticipant, mockParticipant],
+    });
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const iterator = chatThreadClient.listParticipants({ maxPageSize: 2 });
+    let count = 0;
+    for await (const page of iterator.byPage()) {
+      // loop over each item in the page
+      for (const info of page) {
+        ++count;
+        assert.isNotNull(info);
+      }
+    }
+
+    sinon.assert.calledOnce(spy);
+    assert.equal(count, 3);
+
+    const request = spy.getCall(0).args[0];
+
+    assert.equal(
+      request.url,
+      `${baseUri}/chat/threads/${threadId}/participants?maxPageSize=2&api-version=${API_VERSION}`
     );
     assert.equal(request.method, "GET");
   });

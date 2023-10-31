@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an agent pool in the specified managed cluster.
  *
  * @summary Deletes an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-04-01/examples/AgentPoolsDelete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-08-01/examples/AgentPoolsDelete.json
  */
 async function deleteAgentPool() {
   const subscriptionId =

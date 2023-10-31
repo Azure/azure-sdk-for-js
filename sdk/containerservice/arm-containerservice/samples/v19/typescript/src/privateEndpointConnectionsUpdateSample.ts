@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a private endpoint connection.
  *
  * @summary Updates a private endpoint connection.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-04-01/examples/PrivateEndpointConnectionsUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-08-01/examples/PrivateEndpointConnectionsUpdate.json
  */
 async function updatePrivateEndpointConnection() {
   const subscriptionId =

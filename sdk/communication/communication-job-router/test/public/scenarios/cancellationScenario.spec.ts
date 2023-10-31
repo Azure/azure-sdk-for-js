@@ -11,14 +11,14 @@ import {
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
-import { RouterAdministrationClient, RouterClient } from "../../../src";
+import { JobRouterAdministrationClient, JobRouterClient } from "../../../src";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { pollForJobCancelled, pollForJobQueued } from "../utils/polling";
 import { timeoutMs } from "../utils/constants";
 
-describe("RouterClient", function () {
-  let client: RouterClient;
-  let administrationClient: RouterAdministrationClient;
+describe("JobRouterClient", function () {
+  let client: JobRouterClient;
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-cancellation-scenario";
@@ -68,7 +68,7 @@ describe("RouterClient", function () {
       await client.cancelJob(jobId, { dispositionCode });
       const result = await pollForJobCancelled(jobId, client);
 
-      assert.equal(result.jobStatus, "cancelled");
+      assert.equal(result.status, "cancelled");
       assert.equal(result.dispositionCode, dispositionCode);
     }).timeout(timeoutMs);
   });

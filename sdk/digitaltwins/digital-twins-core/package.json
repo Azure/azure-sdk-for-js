@@ -9,7 +9,7 @@
   "module": "dist-esm/src/index.js",
   "types": "types/digital-twins-core.d.ts",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -22,7 +22,6 @@
     "build:samples": "echo Obsolete.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-browser test-dist test-browser types *.tgz *.log",
-    "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 dist-test/index.node.js --reporter ../../../common/tools/mocha-multi-reporter.js",
     "execute:js-samples": "node ../../../common/scripts/run-samples.js samples/javascript/",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
@@ -77,14 +76,14 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^3.3.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.0",
-    "@types/sinon": "^9.0.4",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^18.0.0",
+    "@types/sinon": "^10.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
@@ -99,16 +98,18 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^7.1.1",
+    "mocha": "^10.0.0",
     "mocha-junit-reporter": "^2.0.0",
-    "nyc": "^15.0.0",
+    "c8": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "sinon": "^9.0.2",
-    "typescript": "~5.0.0",
+    "sinon": "^15.0.0",
+    "typescript": "~5.2.0",
     "util": "^0.12.1",
     "uuid": "^8.3.0",
-    "@types/uuid": "^8.0.0"
+    "@types/uuid": "^8.0.0",
+    "ts-node": "^10.0.0",
+    "esm": "^3.2.18"
   },
   "sideEffects": false,
   "//metadata": {

@@ -1,25 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { newPipeline } from "../../src/Pipeline";
+import { TokenCredential } from "@azure/core-auth";
+import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
+import { newPipeline } from "../../../storage-blob/src/Pipeline";
+import { ShareClientConfig } from "../../src/models";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
+import { configureStorageClient, SimpleTokenCredential } from "./testutils.common";
+import { env, Recorder } from "@azure-tools/test-recorder";
 
 export * from "./testutils.common";
 
 export function getGenericBSU(
+  recorder: Recorder,
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
+  config?: ShareClientConfig
 ): ShareServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
-  const accountName = (self as any).__env__[accountNameEnvVar];
+  const accountName = env[accountNameEnvVar];
+  let accountSAS = env[accountSASEnvVar];
 
-  let accountSAS: string | undefined;
-  accountSAS = (self as any).__env__[accountSASEnvVar];
-
-  if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
+  if (!accountName || !accountSAS) {
     throw new Error(
       `${accountNameEnvVar} and/or ${accountSASEnvVar} environment variables not specified.`
     );
@@ -30,24 +34,55 @@ export function getGenericBSU(
   }
 
   const credentials = new AnonymousCredential();
-  const pipeline = newPipeline(credentials, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
+  const pipeline = newPipeline(credentials);
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net${accountSAS}`;
-  return new ShareServiceClient(filePrimaryURL, pipeline);
+  const client = new ShareServiceClient(filePrimaryURL, pipeline, config);
+  configureStorageClient(recorder, client);
+  return client;
 }
 
-export function getBSU(): ShareServiceClient {
-  return getGenericBSU("");
+export function getTokenCredential(): TokenCredential {
+  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
+  const accountToken = env[accountTokenEnvVar];
+
+  if (!accountToken || accountToken === "") {
+    throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
+  }
+
+  return new SimpleTokenCredential(accountToken);
 }
 
-export function getAlternateBSU(): ShareServiceClient {
-  return getGenericBSU("SECONDARY_", "-secondary");
+export function getTokenBSU(
+  recorder: Recorder,
+  accountType: string = "",
+  accountNameSuffix: string = "",
+  shareClientConfig?: ShareClientConfig
+): ShareServiceClient {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+
+  const accountName = env[accountNameEnvVar];
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  const credential = getTokenCredential();
+  const pipeline = newPipeline(credential);
+  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
+  const client = new ShareServiceClient(blobPrimaryURL, pipeline, shareClientConfig);
+  configureStorageClient(recorder, client);
+  return client;
 }
 
-export function getSoftDeleteBSU(): ShareServiceClient {
-  return getGenericBSU("SOFT_DELETE_");
+export function getBSU(recorder: Recorder, config?: ShareClientConfig): ShareServiceClient {
+  return getGenericBSU(recorder, "", "", config);
+}
+
+export function getAlternateBSU(recorder: Recorder): ShareServiceClient {
+  return getGenericBSU(recorder, "SECONDARY_", "-secondary");
+}
+
+export function getSoftDeleteBSU(recorder: Recorder): ShareServiceClient {
+  return getGenericBSU(recorder, "SOFT_DELETE_");
 }
 
 /**
@@ -118,8 +153,12 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
-  const env = (self as any).__env__;
-  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
+  let sasToken: string = env.ACCOUNT_SAS ?? "";
+  // connection string SAS doesn't have the prefix
+  if (sasToken && sasToken.startsWith("?")) {
+    sasToken = sasToken.slice(1);
+  }
+  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${sasToken}`;
 }
 
 export function arraysEqual(a: Uint8Array, b: Uint8Array): boolean {

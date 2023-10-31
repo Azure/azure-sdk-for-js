@@ -25,7 +25,7 @@ export interface GetConstitution200Response extends HttpResponse {
 }
 
 /** The constitution is a script that assesses and applies proposals from consortium members. */
-export interface GetConstitutiondefaultResponse extends HttpResponse {
+export interface GetConstitutionDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -37,7 +37,7 @@ export interface ListConsortiumMembers200Response extends HttpResponse {
 }
 
 /** Consortium members can manage the Confidential Ledger. */
-export interface ListConsortiumMembersdefaultResponse extends HttpResponse {
+export interface ListConsortiumMembersDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -49,7 +49,7 @@ export interface GetEnclaveQuotes200Response extends HttpResponse {
 }
 
 /** A quote is an SGX enclave measurement that can be used to verify the validity of a node and its enclave. */
-export interface GetEnclaveQuotesdefaultResponse extends HttpResponse {
+export interface GetEnclaveQuotesDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -61,7 +61,7 @@ export interface ListCollections200Response extends HttpResponse {
 }
 
 /** Collection ids are user-created collections of ledger entries */
-export interface ListCollectionsdefaultResponse extends HttpResponse {
+export interface ListCollectionsDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -73,7 +73,7 @@ export interface ListLedgerEntries200Response extends HttpResponse {
 }
 
 /** A collection id may optionally be specified. Only entries in the specified (or default) collection will be returned. */
-export interface ListLedgerEntriesdefaultResponse extends HttpResponse {
+export interface ListLedgerEntriesDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -91,7 +91,7 @@ export interface CreateLedgerEntry200Response extends HttpResponse {
 }
 
 /** A collection id may optionally be specified. */
-export interface CreateLedgerEntrydefaultResponse extends HttpResponse {
+export interface CreateLedgerEntryDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -103,7 +103,7 @@ export interface GetLedgerEntry200Response extends HttpResponse {
 }
 
 /** To return older ledger entries, the relevant sections of the ledger must be read from disk and validated. To prevent blocking within the enclave, the response will indicate whether the entry is ready and part of the response, or if the loading is still ongoing. */
-export interface GetLedgerEntrydefaultResponse extends HttpResponse {
+export interface GetLedgerEntryDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -115,7 +115,7 @@ export interface GetReceipt200Response extends HttpResponse {
 }
 
 /** Gets a receipt certifying ledger contents at a particular transaction id. */
-export interface GetReceiptdefaultResponse extends HttpResponse {
+export interface GetReceiptDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -127,7 +127,7 @@ export interface GetTransactionStatus200Response extends HttpResponse {
 }
 
 /** Gets the status of an entry identified by a transaction id. */
-export interface GetTransactionStatusdefaultResponse extends HttpResponse {
+export interface GetTransactionStatusDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -139,7 +139,7 @@ export interface GetCurrentLedgerEntry200Response extends HttpResponse {
 }
 
 /** A collection id may optionally be specified. */
-export interface GetCurrentLedgerEntrydefaultResponse extends HttpResponse {
+export interface GetCurrentLedgerEntryDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -147,11 +147,10 @@ export interface GetCurrentLedgerEntrydefaultResponse extends HttpResponse {
 /** Deletes a user from the Confidential Ledger. */
 export interface DeleteUser204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a user from the Confidential Ledger. */
-export interface DeleteUserdefaultResponse extends HttpResponse {
+export interface DeleteUserDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -163,7 +162,7 @@ export interface GetUser200Response extends HttpResponse {
 }
 
 /** Gets a user. */
-export interface GetUserdefaultResponse extends HttpResponse {
+export interface GetUserDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -175,7 +174,7 @@ export interface CreateOrUpdateUser200Response extends HttpResponse {
 }
 
 /** A JSON merge patch is applied for existing users */
-export interface CreateOrUpdateUserdefaultResponse extends HttpResponse {
+export interface CreateOrUpdateUserDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }

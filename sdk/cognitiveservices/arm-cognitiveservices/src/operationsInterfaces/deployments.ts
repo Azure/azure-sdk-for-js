@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Deployment,
   DeploymentsListOptionalParams,
@@ -60,8 +60,8 @@ export interface Deployments {
     deployment: Deployment,
     options?: DeploymentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsCreateOrUpdateResponse>,
       DeploymentsCreateOrUpdateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface Deployments {
     accountName: string,
     deploymentName: string,
     options?: DeploymentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified deployment associated with the Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

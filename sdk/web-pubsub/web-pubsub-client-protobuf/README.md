@@ -9,7 +9,7 @@ You can use this library to add protobuf subprotocols including `protobuf.reliab
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 
 ### Prerequisites
 

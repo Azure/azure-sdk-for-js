@@ -10,7 +10,8 @@ Recordings take up a large amount of space in our repository and generate a lot 
 
 To be able to leverage the asset-sync workflow
 
-- To push recordings to the `"azure-sdk-assets"` repo, you should be part of `azure-sdk-write` group. Request [here](https://repos.opensource.microsoft.com/orgs/Azure/teams/azure-sdk-team) to get added in the group 
+- To push recordings to the `"azure-sdk-assets"` repo, you need **write-access** to the assets repo.
+  - [Permissions to `Azure/azure-sdk-assets`](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/785/Externalizing-Recordings-(Asset-Sync)?anchor=permissions-to-%60azure/azure-sdk-assets%60)
 - Install [Powershell]
   - Make sure "pwsh" command works at this step (If you follow the above link, "pwsh" is typically added to the system environment variables by default)
 - Add `dev-tool` to the `devDependencies` in the `package.json`.
@@ -142,14 +143,13 @@ Suppose you want to update the recording for a test, you'll re-run the test like
 
 <img width="779" alt="image" src="https://user-images.githubusercontent.com/10452642/233708630-0a50c185-dde7-4e6d-8977-2a49a1211ac9.png">
 
-The changes in the recordings can be seen in the GIT Source Control section in VS Code. 
+The changes in the recordings can be seen in the GIT Source Control section in VS Code.
 
 (Installing GIT should be enough to get this view. [VS Code Source control overview](https://code.visualstudio.com/docs/sourcecontrol/overview))
 
 Click the file on the left side to view the diff for it on the right side as shown below.
 
 <img width="1126" alt="image" src="https://user-images.githubusercontent.com/10452642/233709272-18ce109d-8f7a-488c-b5cb-74cf3636c1dc.png">
-
 
 ## Other `test-proxy` commands
 

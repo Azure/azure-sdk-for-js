@@ -20,7 +20,7 @@ export const TIME_SINCE_ENQUEUED = "timeSinceEnqueued";
  * AzureMonitorTraceExporter version.
  * @internal
  */
-export const packageVersion = "1.0.0-beta.13";
+export const packageVersion = "1.0.0-beta.17";
 
 export enum DependencyTypes {
   InProc = "InProc",
@@ -40,7 +40,7 @@ export const ApplicationInsightsAvailabilityName = "Microsoft.ApplicationInsight
 export const ApplicationInsightsEventName = "Microsoft.ApplicationInsights.Event";
 
 export const ApplicationInsightsMessageBaseType = "MessageData";
-export const ApplicationInsightsExceptionBaseType = "TelemetryExceptionData";
+export const ApplicationInsightsExceptionBaseType = "ExceptionData";
 export const ApplicationInsightsPageViewBaseType = "PageViewData";
 export const ApplicationInsightsAvailabilityBaseType = "AvailabilityData";
-export const ApplicationInsightsEventBaseType = "TelemetryEventData";
+export const ApplicationInsightsEventBaseType = "EventData";

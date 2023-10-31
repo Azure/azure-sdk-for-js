@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ProgramBriefAttachment, ShortCodesClient } from "../../../src";
-import { v1 as uuid } from "uuid";
+import { v4 as uuid } from "uuid";
 
 export function getTestProgramBriefAttachment(): ProgramBriefAttachment {
   const attachmentId = uuid();

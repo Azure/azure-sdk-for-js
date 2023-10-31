@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ElasticSanManagement } from "../elasticSanManagement";
 import {
-  ElasticSanRPOperation,
+  Operation,
   OperationsListOptionalParams,
   OperationsListResponse
 } from "../models";
@@ -37,7 +37,7 @@ export class OperationsImpl implements Operations {
    */
   public list(
     options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<ElasticSanRPOperation> {
+  ): PagedAsyncIterableIterator<Operation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -58,7 +58,7 @@ export class OperationsImpl implements Operations {
   private async *listPagingPage(
     options?: OperationsListOptionalParams,
     _settings?: PageSettings
-  ): AsyncIterableIterator<ElasticSanRPOperation[]> {
+  ): AsyncIterableIterator<Operation[]> {
     let result: OperationsListResponse;
     result = await this._list(options);
     yield result.value || [];
@@ -66,7 +66,7 @@ export class OperationsImpl implements Operations {
 
   private async *listPagingAll(
     options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<ElasticSanRPOperation> {
+  ): AsyncIterableIterator<Operation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -90,10 +90,10 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticSanOperationListResult
+      bodyMapper: Mappers.OperationListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

@@ -1,29 +1,62 @@
 # Release History
 
-## 12.20.0 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 12.22.0-beta.1 (Unreleased)
 
 ### Other Changes
 
 - Migrated dependency on `@azure/core-http` to `@azure/core-rest-pipeline`.
 
-## 12.12.0 (Unreleased)
+## 12.15.0-beta.1 (2023-08-11)
+
+### Features Added
+
+- Added support for service version 2023-08-03.
+- Added support for paginated directory delete when using AAD authentication. Note that this feature only applies to HNS storage accounts.
+
+## 12.14.0 (2023-07-12)
+
+### Features Added
+
+- Includes all features released in 12.14.0-beta.1.
+
+## 12.14.0-beta.1 (2023-05-31)
+
+### Features Added
+
+- Added support for service version 2023-01-03.
+- Added owner, group and permissions properties for response of DataLakePathClient.getProperties(), DataLakeFileClient.getProperties(), DataLakeFileClient,read(), and DataLakeDirectoryClient.getProperties().
+
+## 12.13.0 (2023-04-13)
+
+### Features Added
+
+- Includes all features released in 12.13.0-beta.1.
+
+## 12.13.0-beta.1 (2023-03-29)
+
+### Features Added
+
+- Added support for service version 2022-11-02.
+- Added support for Encryption Context.
+
+## 12.12.0 (2023-02-23)
+
+### Features Added
+
+- Includes all features released in 12.12.0-beta.1.
+- Added FileReadHeaders.CreatedOn property for interface DataLakeFileClient.read().
+
+### Bugs Fixed
+
+- Renamed option 'leaseDuration' to 'leaseDurationInSeconds' in methods DataLakeFileClient.append() and flush(), the option was added in 12.12.0-beta.1.
+- Fixed an issue of getting 403 error for file or directory name with './' or '../'
+
+## 12.12.0-beta.1 (2023-02-09)
 
 ### Features Added
 
 - Added support for service version 2021-12-02.
 - Add support for acquiring, renewing and releasing lease in methods DataLakeFileClient.append() and flush().
-
-### Breaking Changes
-
-### Bugs Fixed
-
-- Fixes the date properties(`createdOn` and `expiresOn`) in the returned responses of `DataLakeFileSystemClient` by calculating the date more accurately. [#25072](https://github.com/Azure/azure-sdk-for-js/pull/25072)
 
 ### Other Changes
 

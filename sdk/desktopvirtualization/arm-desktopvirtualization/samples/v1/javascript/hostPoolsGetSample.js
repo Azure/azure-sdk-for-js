@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a host pool.
  *
  * @summary Get a host pool.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/HostPool_Get.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/HostPool_Get.json
  */
 async function hostPoolGet() {
   const subscriptionId =

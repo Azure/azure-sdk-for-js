@@ -12,15 +12,16 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e432d9cc87bfed320d8feead4b448be9481c9181/specification/storage/data-plane/Microsoft.FileStorage/preview/2021-06-08/file.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/02ec353ce82c87447bc78e6f662adee089fff504/specification/storage/data-plane/Microsoft.FileStorage/preview/2023-01-03/file.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
 disable-async-iterators: true
 add-credentials: false
+core-http-compat-mode: true
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210218.1"
-package-version: 12.13.0
+  "@autorest/typescript": "6.0.2"
+package-version: 12.23.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -294,16 +295,6 @@ directive:
     where: $.parameters.FileChangeTime
     transform: >
       delete $.format;
-```
-
-### Retain XStore swagger behavior - Revert file permissions content-type to "application/xml" from "application/json"(unified swagger)
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{shareName}?restype=share&comp=filepermission"]
-    transform: >
-      $.put.consumes = ["application/xml"];
 ```
 
 ### Rename optionalbody -> body
@@ -855,13 +846,30 @@ directive:
       $["modelAsString"] = false;
 ```
 
-### Update service version from "2018-06-08" to "2021-10-04"
+### Correct parameter location
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2021-10-04" ];
+    where: $["parameters"]["FileRequestIntent"]
+    transform: >
+      $["x-ms-parameter-location"] = "method";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"]["AllowTrailingDot"]
+    transform: >
+      $["x-ms-parameter-location"] = "method";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"]["SourceAllowTrailingDot"]
+    transform: >
+      $["x-ms-parameter-location"] = "method";
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2Fswagger%2FREADME.png)

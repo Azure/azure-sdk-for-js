@@ -1,5 +1,5 @@
 {
-  "version": "0.1",
+  "version": "0.2",
   "language": "en",
   "languageId": "typescript,javascript",
   "dictionaries": [
@@ -68,17 +68,21 @@
     "eastus",
     "ECONNRESET",
     "Eloqua",
+    "entra",
     "Esdni",
     "ESDNI",
     "etags",
     "Eugps",
     "EUGPS",
     "Fhir",
+    "Fnhr",
     "Guids",
     "Hana",
+    "hnsw",
     "Idrg",
     "IDRG",
     "IMDS",
+    "OTLP",
     "Kubernetes",
     "kusto",
     "lcov",
@@ -105,12 +109,15 @@
     "PLREGON",
     "pnpm",
     "prettierrc",
+    "pstn",
     "pwsh",
     "Rasterize",
+    "reoffer",
+    "Resourceid",
     "Rollup",
     "rrggbb",
     "Rtsp",
-	"reoffer",
+    "reoffer",
     "rushx",
     "soundex",
     "southcentralus",
@@ -137,7 +144,9 @@
     "USUK",
     "Vertica",
     "westus",
-    "Xiaomi"
+    "Xiaomi",
+    "Onco",
+    "oncophenotype"
   ],
   "allowCompoundWords": true,
   "overrides": [
@@ -175,6 +184,7 @@
         "Adls",
         "adlsgen",
         "bangla",
+        "beider",
         "Bokmaal",
         "Decompounder",
         "haase",
@@ -190,7 +200,9 @@
         "Rslp",
         "sorani",
         "Sorani",
-        "beider"
+        "Vectorizable",
+        "vectorizer",
+        "vectorizers"
       ]
     },
     {
@@ -246,7 +258,9 @@
     },
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/README.md",
-      "words": ["iddocument"]
+      "words": [
+        "iddocument"
+      ]
     },
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
@@ -279,6 +293,13 @@
       ]
     },
     {
+      "filename": "sdk/communication/communication-call-automation/review/**/*.md",
+      "words": [
+        "ssml",
+        "Ssml"
+      ]
+    },
+    {
       "filename": "sdk/communication/communication-common/review/**/*.md",
       "words": [
         "gcch"
@@ -295,6 +316,13 @@
       "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
       "words": [
         "Dicom"
+      ]
+    },
+    {
+      "filename": "sdk/identity/**/*.md",
+      "words": [
+        "MSAL",
+        "PKCE"
       ]
     },
     {
@@ -319,7 +347,8 @@
     {
       "filename": "sdk/monitor/monitor-query/review/monitor-query.api.md",
       "words": [
-        "fourty"
+        "fourty",
+        "Milli"
       ]
     },
     {
@@ -406,6 +435,21 @@
       "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/review/web-pubsub-client-protobuf.api.md",
       "words": [
         "protobuf"
+      ]
+    },
+    {
+      "filename": "sdk/easm/defender-easm-rest/review/defender-easm.api.md",
+      "words": [
+        "Alexa",
+        "alexa",
+        "Asns",
+        "asns",
+        "cnames",
+        "Easm",
+        "easm",
+        "nxdomain",
+        "Whois",
+        "whois"
       ]
     }
   ]

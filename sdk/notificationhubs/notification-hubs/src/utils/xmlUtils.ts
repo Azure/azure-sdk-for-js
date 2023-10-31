@@ -106,7 +106,7 @@ export function serializeToAtomXmlRequest(
 export async function parseXMLError(bodyText: string): Promise<string | undefined> {
   let result: string | undefined;
   const xmlError = await parseXML(bodyText, { includeRoot: true });
-  const detail = xmlError["Detail"];
+  const detail = xmlError["Error"]["Detail"];
   if (isDefined(detail)) {
     return detail;
   }

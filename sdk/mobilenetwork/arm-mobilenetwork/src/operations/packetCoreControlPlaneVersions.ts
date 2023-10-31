@@ -18,9 +18,15 @@ import {
   PacketCoreControlPlaneVersionsListNextOptionalParams,
   PacketCoreControlPlaneVersionsListOptionalParams,
   PacketCoreControlPlaneVersionsListResponse,
+  PacketCoreControlPlaneVersionsListBySubscriptionNextOptionalParams,
+  PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams,
+  PacketCoreControlPlaneVersionsListBySubscriptionResponse,
   PacketCoreControlPlaneVersionsGetOptionalParams,
   PacketCoreControlPlaneVersionsGetResponse,
-  PacketCoreControlPlaneVersionsListNextResponse
+  PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams,
+  PacketCoreControlPlaneVersionsGetBySubscriptionResponse,
+  PacketCoreControlPlaneVersionsListNextResponse,
+  PacketCoreControlPlaneVersionsListBySubscriptionNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -92,6 +98,60 @@ export class PacketCoreControlPlaneVersionsImpl
   }
 
   /**
+   * Lists all supported packet core control planes versions.
+   * @param options The options parameters.
+   */
+  public listBySubscription(
+    options?: PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<PacketCoreControlPlaneVersion> {
+    const iter = this.listBySubscriptionPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *listBySubscriptionPagingPage(
+    options?: PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<PacketCoreControlPlaneVersion[]> {
+    let result: PacketCoreControlPlaneVersionsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    options?: PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<PacketCoreControlPlaneVersion> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
    * Gets information about the specified packet core control plane version.
    * @param versionName The name of the packet core control plane version.
    * @param options The options parameters.
@@ -117,6 +177,34 @@ export class PacketCoreControlPlaneVersionsImpl
   }
 
   /**
+   * Gets information about the specified packet core control plane version.
+   * @param versionName The name of the packet core control plane version.
+   * @param options The options parameters.
+   */
+  getBySubscription(
+    versionName: string,
+    options?: PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams
+  ): Promise<PacketCoreControlPlaneVersionsGetBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { versionName, options },
+      getBySubscriptionOperationSpec
+    );
+  }
+
+  /**
+   * Lists all supported packet core control planes versions.
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams
+  ): Promise<PacketCoreControlPlaneVersionsListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -128,6 +216,21 @@ export class PacketCoreControlPlaneVersionsImpl
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
+    );
+  }
+
+  /**
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
+   * @param options The options parameters.
+   */
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: PacketCoreControlPlaneVersionsListBySubscriptionNextOptionalParams
+  ): Promise<PacketCoreControlPlaneVersionsListBySubscriptionNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec
     );
   }
 }
@@ -167,6 +270,44 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const getBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.MobileNetwork/packetCoreControlPlaneVersions/{versionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PacketCoreControlPlaneVersion
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.versionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.MobileNetwork/packetCoreControlPlaneVersions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PacketCoreControlPlaneVersionListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -179,6 +320,25 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     }
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PacketCoreControlPlaneVersionListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };

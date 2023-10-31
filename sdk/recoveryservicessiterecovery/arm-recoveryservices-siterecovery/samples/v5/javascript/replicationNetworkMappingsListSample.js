@@ -10,17 +10,21 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all ASR network mappings in the vault.
  *
  * @summary Lists all ASR network mappings in the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationNetworkMappings_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationNetworkMappings_List.json
  */
 async function getsAllTheNetworkMappingsUnderAVault() {
-  const subscriptionId = "9112a37f-0f3e-46ec-9c00-060c6edca071";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "9112a37f-0f3e-46ec-9c00-060c6edca071";
   const resourceName = "srce2avaultbvtaC27";
-  const resourceGroupName = "srcBvte2a14C27";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "srcBvte2a14C27";
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -30,4 +34,8 @@ async function getsAllTheNetworkMappingsUnderAVault() {
   console.log(resArray);
 }
 
-getsAllTheNetworkMappingsUnderAVault().catch(console.error);
+async function main() {
+  getsAllTheNetworkMappingsUnderAVault();
+}
+
+main().catch(console.error);

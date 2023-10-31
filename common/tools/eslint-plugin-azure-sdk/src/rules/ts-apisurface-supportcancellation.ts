@@ -104,7 +104,7 @@ export = {
     "require async client methods to accept an AbortSignalLike parameter"
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
-    const parserServices = context.parserServices as ParserServices;
+    const parserServices = context.sourceCode.parserServices as ParserServices;
     if (
       parserServices.program === undefined ||
       parserServices.esTreeNodeToTSNodeMap === undefined

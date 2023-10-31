@@ -13,7 +13,7 @@ import {
 import { assert } from "chai";
 import { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { v1 as uuid } from "uuid";
+import { v4 as uuid } from "uuid";
 
 const TestCompanyName: string = "Contoso";
 const TestProgramBriefName: string = "Contoso Loyalty Program";

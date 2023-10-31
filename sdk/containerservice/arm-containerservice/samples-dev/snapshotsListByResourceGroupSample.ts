@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists snapshots in the specified subscription and resource group.
  *
  * @summary Lists snapshots in the specified subscription and resource group.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-04-01/examples/SnapshotsListByResourceGroup.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-08-01/examples/SnapshotsListByResourceGroup.json
  */
 async function listSnapshotsByResourceGroup() {
   const subscriptionId =

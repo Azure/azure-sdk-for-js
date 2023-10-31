@@ -7,7 +7,7 @@
 ```yaml
 package-name: "@azure/communication-phone-numbers"
 description: Phone number configuration client
-package-version: 1.2.0
+package-version: 1.2.1
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-phonenumber-2022-12-01
@@ -21,6 +21,7 @@ title: Phone Numbers Client
 v3: true
 use-extension:
   "@autorest/typescript": "latest"
+use-legacy-lro: true
 tracing-info:
   namespace: "Microsoft.Communication"
   packagePrefix: "Azure.Communication"

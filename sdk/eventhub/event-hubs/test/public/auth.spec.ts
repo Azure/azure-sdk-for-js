@@ -217,16 +217,18 @@ testWithServiceTypes((serviceVersion, onVersions) => {
     });
 
     describe("AzureSASCredential", () => {
-      function getSas(): string {
-        return createSasTokenProvider({
-          sharedAccessKeyName: sharedAccessKeyName!,
-          sharedAccessKey: sharedAccessKey!,
-        }).getToken(`${service.endpoint}/${service.path}`).token;
+      async function getSas(): Promise<string> {
+        return (
+          await createSasTokenProvider({
+            sharedAccessKeyName: sharedAccessKeyName!,
+            sharedAccessKey: sharedAccessKey!,
+          }).getToken(`${service.endpoint}/${service.path}`)
+        ).token;
       }
 
       describe("supports key rotation", () => {
         it("EventHubConsumerClient $management calls", async () => {
-          const sasCredential = new AzureSASCredential(getSas());
+          const sasCredential = new AzureSASCredential(await getSas());
 
           const consumerClient = new EventHubConsumerClient(
             "$Default",
@@ -255,7 +257,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
           }
 
           // Rotate credential to valid value.
-          sasCredential.update(getSas());
+          sasCredential.update(await getSas());
           await consumerClient.getEventHubProperties();
           should.exist(properties);
 
@@ -263,7 +265,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
         });
 
         it("EventHubConsumerClient receive calls", async () => {
-          const sasCredential = new AzureSASCredential(getSas());
+          const sasCredential = new AzureSASCredential(await getSas());
 
           const consumerClient = new EventHubConsumerClient(
             "$Default",
@@ -279,9 +281,9 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           await new Promise<void>((resolve, reject) => {
             // My attempt at defining the order of operations I expect to see.
-            const steps: Array<(...args: any[]) => void> = [
+            const steps: Array<(...args: any[]) => Promise<void>> = [
               // 1: wait for a `processEvents` to be called, then rotate the credentials to an invalid value and fast forward the clock!
-              (events: []) => {
+              async (events: []) => {
                 if (!Array.isArray(events)) {
                   reject(new Error("Step 1 failed. Expected to see a list of events."));
                 }
@@ -293,18 +295,18 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               },
               // 2: Since the token renewal has occurred, we should start seeing `UnauthorizedError` being thrown from our `processError` handler.
               // Rotate the credentials back to valid values.
-              (err: any) => {
+              async (err: any) => {
                 if (err.code !== "UnauthorizedError") {
                   reject(
                     new Error(`Step 2 failed. Expected ${err.code} to equal "UnauthorizedError".`)
                   );
                 }
                 // Rotate the credentials back to valid values.
-                sasCredential.update(getSas());
+                sasCredential.update(await getSas());
               },
               // 3: observe another `processEvents` call.
               // If the credentials were still invalid, we'd expect to see `processError` thrown instead.
-              (events: []) => {
+              async (events: []) => {
                 if (!Array.isArray(events)) {
                   reject(new Error("Step 3 failed. Expected to see a list of events."));
                 }
@@ -316,12 +318,10 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               "0",
               {
                 async processError(err) {
-                  const step = steps.shift();
-                  if (step) step(err);
+                  await steps.shift()?.(err);
                 },
                 async processEvents(events) {
-                  const step = steps.shift();
-                  if (step) step(events);
+                  await steps.shift()?.(events);
                 },
               },
               {
@@ -334,7 +334,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
         });
 
         it("EventHubProducerClient send calls", async () => {
-          const sasCredential = new AzureSASCredential(getSas());
+          const sasCredential = new AzureSASCredential(await getSas());
 
           const producerClient = new EventHubProducerClient(
             fullyQualifiedNamespace,
@@ -366,7 +366,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
           }
 
           // Rotate credential to valid value.
-          sasCredential.update(getSas());
+          sasCredential.update(await getSas());
 
           // This last sendBatch should succeed because we've updated our credentials again.
           // Notice that we didn't have to fast forward through time to move past a token refresh!

@@ -3,8 +3,8 @@
 import url from "url";
 import { diag } from "@opentelemetry/api";
 import { FullOperationResponse } from "@azure/core-client";
-import { bearerTokenAuthenticationPolicy, redirectPolicyName } from "@azure/core-rest-pipeline";
-import { Sender, SenderResult } from "../../types";
+import { redirectPolicyName } from "@azure/core-rest-pipeline";
+import { SenderResult } from "../../types";
 import {
   TelemetryItem as Envelope,
   ApplicationInsightsClient,
@@ -12,6 +12,7 @@ import {
   TrackOptionalParams,
 } from "../../generated";
 import { AzureMonitorExporterOptions } from "../../config";
+import { BaseSender } from "./baseSender";
 
 const applicationInsightsResource = "https://monitor.azure.com//.default";
 
@@ -19,30 +20,37 @@ const applicationInsightsResource = "https://monitor.azure.com//.default";
  * Exporter HTTP sender class
  * @internal
  */
-export class HttpSender implements Sender {
-  private readonly _appInsightsClient: ApplicationInsightsClient;
-  private _appInsightsClientOptions: ApplicationInsightsClientOptionalParams;
+export class HttpSender extends BaseSender {
+  private readonly appInsightsClient: ApplicationInsightsClient;
+  private appInsightsClientOptions: ApplicationInsightsClientOptionalParams;
 
-  constructor(endpointUrl: string, options?: AzureMonitorExporterOptions) {
+  constructor(options: {
+    endpointUrl: string;
+    instrumentationKey: string;
+    trackStatsbeat: boolean;
+    exporterOptions: AzureMonitorExporterOptions;
+    aadAudience?: string;
+  }) {
+    super(options);
     // Build endpoint using provided configuration or default values
-    this._appInsightsClientOptions = {
-      host: endpointUrl,
-      ...options,
+    this.appInsightsClientOptions = {
+      host: options.endpointUrl,
+      ...options.exporterOptions,
     };
-    this._appInsightsClient = new ApplicationInsightsClient(this._appInsightsClientOptions);
+
+    if (this.appInsightsClientOptions.credential) {
+      // Add credentialScopes
+      if (options.aadAudience) {
+        this.appInsightsClientOptions.credentialScopes = [options.aadAudience];
+      } else {
+        // Default
+        this.appInsightsClientOptions.credentialScopes = [applicationInsightsResource];
+      }
+    }
+    this.appInsightsClient = new ApplicationInsightsClient(this.appInsightsClientOptions);
 
     // Handle redirects in HTTP Sender
-    this._appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
-
-    if (options?.aadTokenCredential) {
-      let scopes: string[] = [applicationInsightsResource];
-      this._appInsightsClient.pipeline.addPolicy(
-        bearerTokenAuthenticationPolicy({
-          credential: options?.aadTokenCredential,
-          scopes: scopes,
-        })
-      );
-    }
+    this.appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
   }
 
   /**
@@ -50,24 +58,20 @@ export class HttpSender implements Sender {
    * @internal
    */
   async send(envelopes: Envelope[]): Promise<SenderResult> {
-    let options: TrackOptionalParams = {};
-    try {
-      let response: FullOperationResponse | undefined;
-      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-        response = rawResponse;
-        if (options.onResponse) {
-          options.onResponse(rawResponse, flatResponse);
-        }
+    const options: TrackOptionalParams = {};
+    let response: FullOperationResponse | undefined;
+    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+      response = rawResponse;
+      if (options.onResponse) {
+        options.onResponse(rawResponse, flatResponse);
       }
-      await this._appInsightsClient.track(envelopes, {
-        ...options,
-        onResponse,
-      });
-
-      return { statusCode: response?.status, result: response?.bodyAsText ?? "" };
-    } catch (e: any) {
-      throw e;
     }
+    await this.appInsightsClient.track(envelopes, {
+      ...options,
+      onResponse,
+    });
+
+    return { statusCode: response?.status, result: response?.bodyAsText ?? "" };
   }
 
   /**
@@ -82,7 +86,7 @@ export class HttpSender implements Sender {
     if (location) {
       const locUrl = new url.URL(location);
       if (locUrl && locUrl.host) {
-        this._appInsightsClient.host = "https://" + locUrl.host;
+        this.appInsightsClient.host = "https://" + locUrl.host;
       }
     }
   }

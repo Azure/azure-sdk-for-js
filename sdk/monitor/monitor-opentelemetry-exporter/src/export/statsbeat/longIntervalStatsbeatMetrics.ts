@@ -14,7 +14,7 @@ import {
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
-import { AzureMonitorExporterOptions, AzureMonitorStatsbeatExporter } from "../../index";
+import { AzureMonitorExporterOptions } from "../../index";
 import * as ai from "../../utils/constants/applicationinsights";
 import { StatsbeatMetrics } from "./statsbeatMetrics";
 import {
@@ -25,6 +25,7 @@ import {
   StatsbeatFeatureType,
   StatsbeatOptions,
 } from "./types";
+import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter";
 
 let instance: LongIntervalStatsbeatMetrics | null = null;
 
@@ -33,116 +34,115 @@ let instance: LongIntervalStatsbeatMetrics | null = null;
  * @internal
  */
 class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
-  private _AZURE_MONITOR_STATSBEAT_FEATURES = process.env.AZURE_MONITOR_STATSBEAT_FEATURES;
-  private _statsCollectionLongInterval: number = 86400000; // 1 day
-  private _isInitialized: boolean = false;
-
+  private AZURE_MONITOR_STATSBEAT_FEATURES = process.env.AZURE_MONITOR_STATSBEAT_FEATURES;
+  private statsCollectionLongInterval: number = 86400000; // 1 day
   // Custom dimensions
-  private _cikey: string;
-  private _runtimeVersion: string;
-  private _language: string;
-  private _version: string;
-  private _attach: string = "sdk";
+  private cikey: string;
+  private runtimeVersion: string;
+  private language: string;
+  private version: string;
+  private attach: string = "sdk";
 
-  private _commonProperties: CommonStatsbeatProperties;
-  private _attachProperties: AttachStatsbeatProperties;
+  private commonProperties: CommonStatsbeatProperties;
+  private attachProperties: AttachStatsbeatProperties;
 
-  private _feature: number = 0;
-  private _instrumentation: number = 0;
+  private feature: number = 0;
+  private instrumentation: number = 0;
 
-  private _longIntervalStatsbeatMeterProvider: MeterProvider;
-  private _longIntervalAzureExporter: AzureMonitorStatsbeatExporter;
-  private _longIntervalMetricReader: PeriodicExportingMetricReader;
-  private _longIntervalStatsbeatMeter: Meter;
+  private longIntervalStatsbeatMeterProvider: MeterProvider;
+  private longIntervalAzureExporter: AzureMonitorStatsbeatExporter;
+  private longIntervalMetricReader: PeriodicExportingMetricReader;
+  private longIntervalStatsbeatMeter: Meter;
 
   // Network Attributes
-  private _connectionString: string;
+  private connectionString: string;
 
   // Observable Gauges
-  private _featureStatsbeatGauge: ObservableGauge;
-  private _attachStatsbeatGauge: ObservableGauge;
+  private featureStatsbeatGauge: ObservableGauge;
+  private attachStatsbeatGauge: ObservableGauge;
+
+  public isInitialized: boolean = false;
 
   constructor(options: StatsbeatOptions) {
     super();
-    this._connectionString = super._getConnectionString(options.endpointUrl);
+    this.connectionString = super.getConnectionString(options.endpointUrl);
     const exporterConfig: AzureMonitorExporterOptions = {
-      connectionString: this._connectionString,
+      connectionString: this.connectionString,
     };
 
-    if (this._AZURE_MONITOR_STATSBEAT_FEATURES) {
+    if (this.AZURE_MONITOR_STATSBEAT_FEATURES) {
       try {
-        this._feature = JSON.parse(this._AZURE_MONITOR_STATSBEAT_FEATURES).feature;
-        this._instrumentation = JSON.parse(this._AZURE_MONITOR_STATSBEAT_FEATURES).instrumentation;
-      } catch (error) {
+        this.feature = JSON.parse(this.AZURE_MONITOR_STATSBEAT_FEATURES).feature;
+        this.instrumentation = JSON.parse(this.AZURE_MONITOR_STATSBEAT_FEATURES).instrumentation;
+      } catch (error: any) {
         diag.error(
           `LongIntervalStatsbeat: Failed to parse features/instrumentations (error ${error})`
         );
       }
     }
 
-    this._longIntervalStatsbeatMeterProvider = new MeterProvider();
-    this._longIntervalAzureExporter = new AzureMonitorStatsbeatExporter(exporterConfig);
+    this.longIntervalStatsbeatMeterProvider = new MeterProvider();
+    this.longIntervalAzureExporter = new AzureMonitorStatsbeatExporter(exporterConfig);
 
     // Export Long Interval Statsbeats every day
     const longIntervalMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
-      exporter: this._longIntervalAzureExporter,
+      exporter: this.longIntervalAzureExporter,
       exportIntervalMillis:
-        Number(process.env.LONG_INTERVAL_EXPORT_MILLIS) || this._statsCollectionLongInterval, // 1 day
+        Number(process.env.LONG_INTERVAL_EXPORT_MILLIS) || this.statsCollectionLongInterval, // 1 day
     };
 
-    this._longIntervalMetricReader = new PeriodicExportingMetricReader(
+    this.longIntervalMetricReader = new PeriodicExportingMetricReader(
       longIntervalMetricReaderOptions
     );
-    this._longIntervalStatsbeatMeterProvider.addMetricReader(this._longIntervalMetricReader);
-    this._longIntervalStatsbeatMeter = this._longIntervalStatsbeatMeterProvider.getMeter(
+    this.longIntervalStatsbeatMeterProvider.addMetricReader(this.longIntervalMetricReader);
+    this.longIntervalStatsbeatMeter = this.longIntervalStatsbeatMeterProvider.getMeter(
       "Azure Monitor Long Interval Statsbeat"
     );
 
     // Assign Common Properties
-    this._runtimeVersion = process.version;
-    this._language = STATSBEAT_LANGUAGE;
-    this._version = ai.packageVersion;
-    this._cikey = options.instrumentationKey;
+    this.runtimeVersion = process.version;
+    this.language = STATSBEAT_LANGUAGE;
+    this.version = ai.packageVersion;
+    this.cikey = options.instrumentationKey;
 
-    this._featureStatsbeatGauge = this._longIntervalStatsbeatMeter.createObservableGauge(
+    this.featureStatsbeatGauge = this.longIntervalStatsbeatMeter.createObservableGauge(
       StatsbeatCounter.FEATURE
     );
-    this._attachStatsbeatGauge = this._longIntervalStatsbeatMeter.createObservableGauge(
+    this.attachStatsbeatGauge = this.longIntervalStatsbeatMeter.createObservableGauge(
       StatsbeatCounter.ATTACH
     );
 
-    this._commonProperties = {
-      os: super._os,
-      rp: super._resourceProvider,
-      cikey: this._cikey,
-      runtimeVersion: this._runtimeVersion,
-      language: this._language,
-      version: this._version,
-      attach: this._attach,
+    this.commonProperties = {
+      os: super.os,
+      rp: super.resourceProvider,
+      cikey: this.cikey,
+      runtimeVersion: this.runtimeVersion,
+      language: this.language,
+      version: this.version,
+      attach: this.attach,
     };
 
-    this._attachProperties = {
-      rpId: super._resourceIdentifier,
+    this.attachProperties = {
+      rpId: super.resourceIdentifier,
     };
 
-    this._isInitialized = true;
-    this._initialize();
+    this.isInitialized = true;
+    this.initialize();
   }
 
-  private async _initialize() {
+  private async initialize() {
     try {
-      await this._getResourceProvider();
+      await this.getResourceProvider();
 
       // Add long interval observable callbacks
-      this._attachStatsbeatGauge.addCallback(this._attachCallback.bind(this));
-      this._longIntervalStatsbeatMeter.addBatchObservableCallback(
-        this._featureCallback.bind(this),
-        [this._featureStatsbeatGauge]
-      );
+      this.attachStatsbeatGauge.addCallback(this.attachCallback.bind(this));
+      this.longIntervalStatsbeatMeter.addBatchObservableCallback(this.featureCallback.bind(this), [
+        this.featureStatsbeatGauge,
+      ]);
 
       // Export Feature/Attach Statsbeat once upon app initialization
-      this._longIntervalAzureExporter.export(
-        (await this._longIntervalMetricReader.collect()).resourceMetrics,
+      this.longIntervalAzureExporter.export(
+        (await this.longIntervalMetricReader.collect()).resourceMetrics,
         (result: ExportResult) => {
           if (result.code !== ExportResultCode.SUCCESS) {
             diag.error(`LongIntervalStatsbeat: metrics export failed (error ${result.error})`);
@@ -154,38 +154,34 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     }
   }
 
-  private _featureCallback(observableResult: BatchObservableResult) {
+  private featureCallback(observableResult: BatchObservableResult) {
     let attributes;
-    if (this._instrumentation) {
+    if (this.instrumentation) {
       attributes = {
-        ...this._commonProperties,
-        feature: this._instrumentation,
+        ...this.commonProperties,
+        feature: this.instrumentation,
         type: StatsbeatFeatureType.INSTRUMENTATION,
       };
-      observableResult.observe(this._featureStatsbeatGauge, 1, { ...attributes });
+      observableResult.observe(this.featureStatsbeatGauge, 1, { ...attributes });
     }
 
-    if (this._feature) {
+    if (this.feature) {
       attributes = {
-        ...this._commonProperties,
-        feature: this._feature,
+        ...this.commonProperties,
+        feature: this.feature,
         type: StatsbeatFeatureType.FEATURE,
       };
-      observableResult.observe(this._featureStatsbeatGauge, 1, { ...attributes });
+      observableResult.observe(this.featureStatsbeatGauge, 1, { ...attributes });
     }
   }
 
-  private _attachCallback(observableResult: ObservableResult) {
-    let attributes = { ...this._commonProperties, ...this._attachProperties };
+  private attachCallback(observableResult: ObservableResult) {
+    const attributes = { ...this.commonProperties, ...this.attachProperties };
     observableResult.observe(1, attributes);
   }
 
-  public isInitialized() {
-    return this._isInitialized;
-  }
-
-  public shutdown() {
-    this._longIntervalStatsbeatMeterProvider.shutdown();
+  public shutdown(): Promise<void> {
+    return this.longIntervalStatsbeatMeterProvider.shutdown();
   }
 }
 

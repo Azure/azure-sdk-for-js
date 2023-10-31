@@ -2,16 +2,24 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
+import {
+  configureStorageClient,
+  getBSU,
+  getConnectionStringFromEnvironment,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "../utils";
 import { ShareServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("FileServiceClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
   afterEach(async function () {
@@ -19,11 +27,10 @@ describe("FileServiceClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const serviceClient = getBSU();
-    const factories = (serviceClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const serviceClient = getBSU(recorder);
+    const credential = serviceClient["credential"] as StorageSharedKeyCredential;
     const newClient = new ShareServiceClient(serviceClient.url, credential);
-
+    configureStorageClient(recorder, newClient);
     const result = await newClient.getProperties();
 
     assert.ok(typeof result.requestId);
@@ -33,12 +40,12 @@ describe("FileServiceClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const serviceClient = getBSU();
-    const factories = (serviceClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const serviceClient = getBSU(recorder);
+    const credential = serviceClient["credential"] as StorageSharedKeyCredential;
     const newClient = new ShareServiceClient(serviceClient.url, credential, {
       retryOptions: { maxTries: 5 },
     });
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -49,11 +56,11 @@ describe("FileServiceClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const serviceClient = getBSU();
-    const factories = (serviceClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const serviceClient = getBSU(recorder);
+    const credential = serviceClient["credential"] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ShareServiceClient(serviceClient.url, pipeline);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -65,6 +72,7 @@ describe("FileServiceClient Node.js only", () => {
 
   it("can be created from a connection string", async () => {
     const newClient = ShareServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -81,6 +89,8 @@ describe("FileServiceClient Node.js only", () => {
         },
       }
     );
+
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 

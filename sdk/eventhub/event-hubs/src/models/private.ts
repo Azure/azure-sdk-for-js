@@ -94,7 +94,7 @@ export interface CommonEventProcessorOptions
  * ```
  * @internal
  */
-export interface EventHubConsumerOptions {
+export interface PartitionReceiverOptions {
   /**
    * The owner level associated with an exclusive consumer.
    *

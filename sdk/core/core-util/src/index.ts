@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 export { delay, DelayOptions } from "./delay";
+export { AbortOptions, cancelablePromiseRace, AbortablePromiseBuilder } from "./aborterUtils";
 export { createAbortablePromise, CreateAbortablePromiseOptions } from "./createAbortablePromise";
 export { getRandomIntegerInclusive } from "./random";
 export { isObject, UnknownObject } from "./object";
@@ -10,3 +11,4 @@ export { computeSha256Hash, computeSha256Hmac } from "./sha256";
 export { isDefined, isObjectWithProperties, objectHasProperty } from "./typeGuards";
 export { randomUUID } from "./uuidUtils";
 export { isBrowser, isBun, isNode, isDeno, isReactNative, isWebWorker } from "./checkEnvironment";
+export { uint8ArrayToString, stringToUint8Array, EncodingType } from "./bytesEncoding";

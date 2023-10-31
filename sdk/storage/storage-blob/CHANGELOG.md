@@ -1,24 +1,67 @@
 # Release History
 
-## 12.20.0 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 12.23.0-beta.1 (Unreleased)
 
 ### Other Changes
 
 - Migrated dependency on `@azure/core-http` to `@azure/core-rest-pipeline`.
 
-## 12.13.0 (Unreleased)
+## 12.16.0-beta.1 (2023-08-11)
 
 ### Features Added
 
-### Breaking Changes
+- Added support for service version 2023-08-03.
+- Added rehydrate-pending-to-cold value to ArchiveStatus enum.
+
+## 12.15.0 (2023-07-12)
+
+### Features Added
+
+- Includes all features released in 12.15.0.
+
+## 12.15.0-beta.1 (2023-05-31)
+
+### Features Added
+
+- Added support for service version 2023-01-03.
+
+## 12.14.0 (2023-04-13)
+
+### Features Added
+
+- Includes all features released in 12.14.0-beta.1.
 
 ### Bugs Fixed
+
+- Fixed an issue of: StoragePipelineOptions is not passed into constructors for blob clients correctly when using undefined as credential parameter.
+
+## 12.14.0-beta.1 (2023-03-29)
+
+### Features Added
+
+- Added support for service version 2022-11-02.
+
+## 12.13.0 (2023-02-23)
+
+### Features Added
+
+- Includes all features released in 12.13.0-beta.1.
+- Added BlobDownloadHeaders.createdOn property for interface BlobClient.Download().
+
+### Bugs Fixed
+
+- Fixed an issue of getting 403 error for file or directory name with './' or '../'
+
+## 12.13.0-beta.1 (2023-02-09)
+
+### Features Added
+
+- Added support for service version 2021-12-02.
+- Added support for Blob Cold Tier.
+
+### Bugs Fixed
+
+- Fixed bug where IncrementalCopyOfEarlierVersionSnapshotNotAllowed was spelled incorrectly.
 
 ### Other Changes
 
@@ -322,7 +365,8 @@
   {
     blobAccessConditions: {
       modifiedAccessConditions: {
-        ifMatch: uploadResponse.eTag
+        ifMatch: uploadResponse.eTag;
+      }
     }
   }
   ```
@@ -332,7 +376,8 @@
   ```js
   {
     conditions: {
-      ifMatch: uploadResponse.eTag
+      ifMatch: uploadResponse.eTag;
+    }
   }
   ```
 

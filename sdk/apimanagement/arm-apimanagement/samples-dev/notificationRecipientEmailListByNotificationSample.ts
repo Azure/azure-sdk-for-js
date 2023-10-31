@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the list of the Notification Recipient Emails subscribed to a notification.
  *
  * @summary Gets the list of the Notification Recipient Emails subscribed to a notification.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListNotificationRecipientEmails.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListNotificationRecipientEmails.json
  */
 async function apiManagementListNotificationRecipientEmails() {
   const subscriptionId =

@@ -41,6 +41,7 @@ describe("help test", () => {
   let resourceGroup: string;
   let resourcename: string;
   let scope: string;
+  let scope1: string;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -51,23 +52,41 @@ describe("help test", () => {
     client = new HelpRP(credential, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "czwjstest";
-    resourcename = "resourcetest";
+    resourcename = "resourcetest1";
     scope = "subscriptions/" + subscriptionId;
+    scope1 = "subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.KeyVault/vaults/testkey20230703";
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it("selfhelp checkname test", async function () {
-    const res = await client.diagnostics.checkNameAvailability(
-      scope,
-      {
-        checkNameAvailabilityRequest: {
-          name: "sampleName",
-          type: "Microsoft.Help/diagnostics"
-        }
-      });
+  // I think we could skip this case, because service don't give delete api to detele this resource
+  it.skip("diagnostics create test", async function () {
+    const options = {
+      diagnosticResourceRequest: {
+        insights: [
+          {
+            solutionId: "KeyVaultUnauthorizedNetworkInsight"
+          }
+        ]
+      },
+      updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
+    }
+    const result = await client.diagnostics.beginCreateAndWait(
+      scope1,
+      resourcename,
+      options
+    );
+    assert.equal(result.name, resourcename);
+  });
+
+  it("selfhelp operation test", async function () {
+    const resArray = new Array();
+    for await (let item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0)
   });
 
 })

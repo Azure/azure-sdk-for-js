@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RecoveryServicesProvider,
   ReplicationRecoveryServicesProvidersListByReplicationFabricsOptionalParams,
@@ -86,8 +86,8 @@ export interface ReplicationRecoveryServicesProviders {
     addProviderInput: AddRecoveryServicesProviderInput,
     options?: ReplicationRecoveryServicesProvidersCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryServicesProvidersCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryServicesProvidersCreateResponse>,
       ReplicationRecoveryServicesProvidersCreateResponse
     >
   >;
@@ -124,7 +124,7 @@ export interface ReplicationRecoveryServicesProviders {
     fabricName: string,
     providerName: string,
     options?: ReplicationRecoveryServicesProvidersPurgeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to purge(force delete) a recovery services provider from the vault.
    * @param resourceName The name of the recovery services vault.
@@ -157,8 +157,8 @@ export interface ReplicationRecoveryServicesProviders {
     providerName: string,
     options?: ReplicationRecoveryServicesProvidersRefreshProviderOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ReplicationRecoveryServicesProvidersRefreshProviderResponse
       >,
       ReplicationRecoveryServicesProvidersRefreshProviderResponse
@@ -195,7 +195,7 @@ export interface ReplicationRecoveryServicesProviders {
     fabricName: string,
     providerName: string,
     options?: ReplicationRecoveryServicesProvidersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to removes/delete(unregister) a recovery services provider from the vault.
    * @param resourceName The name of the recovery services vault.

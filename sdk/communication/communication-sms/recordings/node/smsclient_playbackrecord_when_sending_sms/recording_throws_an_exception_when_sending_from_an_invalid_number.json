@@ -10,10 +10,10 @@
         "Connection": "keep-alive",
         "Content-Length": "253",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.1 core-rest-pipeline/1.8.0 Node/v14.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "b475f380-e901-4106-8547-773aa56ceac9",
-        "x-ms-content-sha256": "8xUEyGiCqPDmQ7J/gRvnP6BZG85v7a9nYKTVfFjWq2k=",
-        "x-ms-date": "Mon, 25 Apr 2022 01:04:02 GMT"
+        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "beb7d1dd-bb88-45ca-b42e-88da10222ae2",
+        "x-ms-content-sha256": "cqJWdNPDMVmkkeoznljzqk4hLbykmgkwUsg2n9AiQEo=",
+        "x-ms-date": "Wed, 21 Jun 2023 10:28:07 GMT"
       },
       "RequestBody": {
         "from": "\u002B1425555012345",
@@ -30,21 +30,23 @@
           "tag": "SMS_LIVE_TEST"
         }
       },
-      "StatusCode": 400,
+      "StatusCode": 401,
       "ResponseHeaders": {
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 25 Apr 2022 01:04:02 GMT",
-        "MS-CV": "XLxsrPROEEGsMnAP6kvGCQ.0",
+        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
+        "Content-Type": "application/json",
+        "Date": "Wed, 21 Jun 2023 10:28:07 GMT",
+        "MS-CV": "JMH8\u002BcCUWE2WDggRCI2dgw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0gvNlYgAAAABomD1KVJr4QrWgb4dWy\u002BVlV1NURURHRTA4MTUAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0t9CSZAAAAAAiJykPoCdpRKV\u002BqTKAQEY4SEVMMDFFREdFMjAwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "17ms"
+        "X-Processing-Time": "113ms"
       },
       "ResponseBody": {
-        "From": [
-          "Invalid from phone number format."
-        ]
+        "error": {
+          "code": "Unauthorized",
+          "message": ""
+        }
       }
     }
   ],

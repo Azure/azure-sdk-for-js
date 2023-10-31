@@ -2,20 +2,15 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { HttpHeaders } from "../src";
 import {
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
   isIpEndpointStyle,
 } from "../src/utils/utils.common";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "./utils";
-import { URLBuilder } from "@azure/core-http";
-import { Context } from "mocha";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
 describe("Utility Helpers", () => {
-  let recorder: Recorder;
   const protocol = "https";
   const endpointSuffix = "core.windows.net";
   const accountName = "myaccount";
@@ -42,14 +37,6 @@ describe("Utility Helpers", () => {
     );
   }
 
-  beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-  });
-
-  afterEach(async function () {
-    await recorder.stop();
-  });
-
   it("sanitizeURL redacts SAS token", () => {
     const url = "https://some.url.com/container/blob?sig=sasstring";
     const sanitized = sanitizeURL(url);
@@ -59,7 +46,7 @@ describe("Utility Helpers", () => {
 
   it("sanitizeHeaders redacts SAS token", () => {
     const url = "https://some.url.com/container/blob?sig=sasstring";
-    const headers = new HttpHeaders();
+    const headers = createHttpHeaders();
     headers.set("authorization", "Bearer abcdefg");
     headers.set("x-ms-copy-source", url);
     headers.set("otherheader", url);
@@ -123,44 +110,30 @@ describe("Utility Helpers", () => {
 
   it("isIpEndpointStyle", async () => {
     assert.equal(
-      isIpEndpointStyle(
-        URLBuilder.parse("https://192.0.0.10:1900/accountName/containerName/blobName")
-      ),
+      isIpEndpointStyle(new URL("https://192.0.0.10:1900/accountName/containerName/blobName")),
       true
     );
     assert.equal(
       isIpEndpointStyle(
-        URLBuilder.parse(
+        new URL(
           "https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/accountName/containerName/blobName"
         )
       ),
       true
     );
     assert.equal(
-      isIpEndpointStyle(
-        URLBuilder.parse("https://localhost:80/accountName/containerName/blobName")
-      ),
+      isIpEndpointStyle(new URL("https://localhost:80/accountName/containerName/blobName")),
       true
     );
 
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://192.0.0.10:1900/")), true);
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://192.0.0.10")), true);
+    assert.equal(isIpEndpointStyle(new URL("https://192.0.0.10:1900/")), true);
+    assert.equal(isIpEndpointStyle(new URL("https://192.0.0.10")), true);
 
     assert.equal(
       isIpEndpointStyle(
-        URLBuilder.parse("https://2001:db8:85a3:8d3:1319:8a2e:370:7348/accountName/containerName")
+        new URL("https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]/accountName/containerName")
       ),
       true
     );
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://2001::1")), true);
-    // assert.equal(isIpEndpointStyle(URLBuilder.parse('https://::1')), true); currently not working due to http url.ts's issue. uncomment after core lib fixed.
-
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://255")), false);
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://255.255")), false);
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://a.b.c.d")), false);
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://256.1.1.1")), false);
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://255.256.1.1")), false);
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://255.255.256.1")), false);
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://255.255.255.256")), false);
   });
 });

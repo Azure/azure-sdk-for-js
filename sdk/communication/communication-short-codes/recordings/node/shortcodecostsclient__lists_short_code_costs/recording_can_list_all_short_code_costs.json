@@ -8,26 +8,103 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 Node/v16.17.1 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 23:09:32 GMT"
+        "x-ms-date": "Tue, 01 Aug 2023 17:55:06 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Content-Length": "328",
+        "Connection": "keep-alive",
+        "Content-Length": "1428",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 23:09:35 GMT",
-        "MS-CV": "G33/Uzo8x02Nul\u002B3/e\u002B/\u002Bg.0",
+        "Date": "Tue, 01 Aug 2023 17:55:08 GMT",
+        "MS-CV": "5xs57z2y6kiJZQa1OVwNmg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0rUdtZAAAAAAZ\u002BuK/sVnxR7MPK/e3wT7tTUVYMzFFREdFMDMxMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "x-azure-ref": "20230801T175507Z-kh5ha5dd1113md7p89rn9fmq1n000000062000000001y339",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1386ms"
+        "X-Processing-Time": "719ms"
       },
       "ResponseBody": {
         "shortCodeCosts": [
+          {
+            "amount": 3000.0,
+            "currencyCode": "USD",
+            "countryCode": "CA",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "CA",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          },
+          {
+            "amount": 0.0,
+            "currencyCode": "USD",
+            "countryCode": "GB",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1600.0,
+            "currencyCode": "USD",
+            "countryCode": "GB",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          },
+          {
+            "amount": 650.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1500.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "isVanityShortCode": true,
+            "billingFrequency": "monthly"
+          },
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 3000.0,
+            "currencyCode": "USD",
+            "countryCode": "CA",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "CA",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          },
+          {
+            "amount": 0.0,
+            "currencyCode": "USD",
+            "countryCode": "GB",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1600.0,
+            "currencyCode": "USD",
+            "countryCode": "GB",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          },
           {
             "amount": 650.0,
             "currencyCode": "USD",

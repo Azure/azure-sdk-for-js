@@ -46,7 +46,7 @@ export interface KeyVaultSelectiveKeyRestorePollOperationState
   /**
    * The SAS token.
    */
-  sasToken: string;
+  sasToken?: string;
 }
 
 /**
@@ -115,6 +115,7 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
           sasTokenParameters: {
             storageResourceUri: folderUri,
             token: sasToken,
+            useManagedIdentity: sasToken === undefined,
           },
         },
       });

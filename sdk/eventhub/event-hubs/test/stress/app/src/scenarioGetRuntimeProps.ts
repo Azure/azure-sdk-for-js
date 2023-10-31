@@ -13,7 +13,7 @@ interface scenarioGetRuntimePropertiesOptions {
 function sanitizeOptions(args: string[]): Required<scenarioGetRuntimePropertiesOptions> {
   const options = parsedArgs<scenarioGetRuntimePropertiesOptions>(args);
   return {
-    testDurationInMs: options.testDurationInMs || 10 * 60 * 60 * 1000, // Default = 10 hrs
+    testDurationInMs: options.testDurationInMs || 2 * 24 * 60 * 60 * 1000, // Default = 2 days
   };
 }
 

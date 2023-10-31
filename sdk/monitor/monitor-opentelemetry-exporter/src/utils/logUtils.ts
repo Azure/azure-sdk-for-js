@@ -39,7 +39,7 @@ import {
  */
 export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | undefined {
   const time = log.hrTime ? new Date(hrTimeToMilliseconds(log.hrTime)) : new Date();
-  let sampleRate = 100;
+  const sampleRate = 100;
   const instrumentationKey = ikey;
   const tags = createTagsFromLog(log);
   const [properties, measurements] = createPropertiesFromLog(log);
@@ -49,13 +49,13 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
 
   if (!log.attributes[ApplicationInsightsBaseType]) {
     // Get Exception attributes if available
-    let exceptionType = log.attributes[SemanticAttributes.EXCEPTION_TYPE];
+    const exceptionType = log.attributes[SemanticAttributes.EXCEPTION_TYPE];
     if (exceptionType) {
-      let exceptionMessage = log.attributes[SemanticAttributes.EXCEPTION_MESSAGE];
-      let exceptionStacktrace = log.attributes[SemanticAttributes.EXCEPTION_STACKTRACE];
+      const exceptionMessage = log.attributes[SemanticAttributes.EXCEPTION_MESSAGE];
+      const exceptionStacktrace = log.attributes[SemanticAttributes.EXCEPTION_STACKTRACE];
       name = ApplicationInsightsExceptionName;
       baseType = ApplicationInsightsExceptionBaseType;
-      let exceptionDetails: TelemetryExceptionDetails = {
+      const exceptionDetails: TelemetryExceptionDetails = {
         typeName: String(exceptionType),
         message: String(exceptionMessage),
         hasFullStack: exceptionStacktrace ? true : false,
@@ -125,9 +125,9 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
       if (
         !(
           key.startsWith("_MS.") ||
-          key == SemanticAttributes.EXCEPTION_TYPE ||
-          key == SemanticAttributes.EXCEPTION_MESSAGE ||
-          key == SemanticAttributes.EXCEPTION_STACKTRACE
+          key === SemanticAttributes.EXCEPTION_TYPE ||
+          key === SemanticAttributes.EXCEPTION_MESSAGE ||
+          key === SemanticAttributes.EXCEPTION_STACKTRACE
         )
       ) {
         properties[key] = log.attributes[key] as string;
@@ -199,6 +199,9 @@ function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): MonitorDo
         case ApplicationInsightsEventBaseType:
           baseData = JSON.parse(log.body) as TelemetryEventData;
           break;
+      }
+      if (typeof baseData?.message === "object") {
+        baseData.message = JSON.stringify(baseData.message);
       }
     } catch (err) {
       diag.error("AzureMonitorLogExporter failed to parse Application Insights Telemetry");

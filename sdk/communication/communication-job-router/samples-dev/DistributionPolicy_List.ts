@@ -5,7 +5,10 @@
  */
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { DistributionPolicyItem, RouterAdministrationClient } from "@azure/communication-job-router";
+import {
+  DistributionPolicyItem,
+  JobRouterAdministrationClient,
+} from "@azure/communication-job-router";
 import { assert } from "chai";
 dotenv.config();
 
@@ -14,13 +17,16 @@ const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 // List distribution policies
 async function listDistributionPolicies(): Promise<void> {
   // Create the Router Client
-  const routerAdministrationClient: RouterAdministrationClient = new RouterAdministrationClient(connectionString);
+  const routerAdministrationClient: JobRouterAdministrationClient =
+    new JobRouterAdministrationClient(connectionString);
 
   let pagesCount = 1;
   const maxPageSize = 3;
   const receivedPagedItems: DistributionPolicyItem[] = [];
 
-  for await (const page of routerAdministrationClient.listDistributionPolicies({ maxPageSize: maxPageSize }).byPage()) {
+  for await (const page of routerAdministrationClient
+    .listDistributionPolicies({ maxPageSize })
+    .byPage()) {
     ++pagesCount;
     console.log("page: " + pagesCount);
     for (const policy of page) {
@@ -32,7 +38,6 @@ async function listDistributionPolicies(): Promise<void> {
     let pageSize = receivedPagedItems.length;
     assert.isAtMost(pageSize, maxPageSize);
   }
-
-};
+}
 
 listDistributionPolicies().catch(console.error);

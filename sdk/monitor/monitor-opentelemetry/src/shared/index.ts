@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { AzureMonitorOpenTelemetryConfig } from "./config";
+export { InternalConfig } from "./config";

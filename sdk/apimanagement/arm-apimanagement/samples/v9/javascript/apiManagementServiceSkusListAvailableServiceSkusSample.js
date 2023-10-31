@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all available SKU for a given API Management service
  *
  * @summary Gets all available SKU for a given API Management service
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListSKUs-Consumption.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListSKUs-Consumption.json
  */
 async function apiManagementListSkUsConsumption() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -38,7 +38,7 @@ async function apiManagementListSkUsConsumption() {
  * This sample demonstrates how to Gets all available SKU for a given API Management service
  *
  * @summary Gets all available SKU for a given API Management service
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListSKUs-Dedicated.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListSKUs-Dedicated.json
  */
 async function apiManagementListSkUsDedicated() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

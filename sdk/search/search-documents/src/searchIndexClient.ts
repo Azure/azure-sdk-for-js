@@ -6,7 +6,6 @@
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { SDK_VERSION } from "./constants";
 import { AnalyzeResult } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
@@ -133,18 +132,8 @@ export class SearchIndexClient {
     this.credential = credential;
     this.options = options;
 
-    const libInfo = `azsdk-js-search-documents/${SDK_VERSION}`;
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
-      ...options,
+      ...this.options,
       ...{
         loggingOptions: {
           logger: logger.info,
@@ -161,7 +150,7 @@ export class SearchIndexClient {
     };
 
     this.serviceVersion =
-      options.serviceVersion ?? options.apiVersion ?? utils.defaultServiceVersion;
+      this.options.serviceVersion ?? this.options.apiVersion ?? utils.defaultServiceVersion;
     this.apiVersion = this.serviceVersion;
 
     this.client = new GeneratedClient(
@@ -171,8 +160,8 @@ export class SearchIndexClient {
     );
 
     if (isTokenCredential(credential)) {
-      const scope: string = options.audience
-        ? `${options.audience}/.default`
+      const scope: string = this.options.audience
+        ? `${this.options.audience}/.default`
         : `${KnownSearchAudience.AzurePublicCloud}/.default`;
 
       this.client.pipeline.addPolicy(
@@ -800,16 +789,16 @@ export class SearchIndexClient {
    * Retrieves the SearchClient corresponding to this SearchIndexClient
    * @param indexName - Name of the index
    * @param options - SearchClient Options
-   * @typeParam Model - An optional type that represents the documents stored in
+   * @typeParam TModel - An optional type that represents the documents stored in
    * the search index. For the best typing experience, all non-key fields should
    * be marked optional and nullable, and the key property should have the
    * non-nullable type `string`.
    */
-  public getSearchClient<Model extends object>(
+  public getSearchClient<TModel extends object>(
     indexName: string,
     options?: GetSearchClientOptions
-  ): SearchClient<Model> {
-    return new SearchClient<Model>(
+  ): SearchClient<TModel> {
+    return new SearchClient<TModel>(
       this.endpoint,
       indexName,
       this.credential,

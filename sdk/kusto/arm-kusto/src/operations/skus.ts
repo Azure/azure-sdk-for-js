@@ -33,7 +33,7 @@ export class SkusImpl implements Skus {
 
   /**
    * Lists eligible region SKUs for Kusto resource provider by Azure region.
-   * @param location Azure location (region) name.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   public list(
@@ -78,7 +78,7 @@ export class SkusImpl implements Skus {
 
   /**
    * Lists eligible region SKUs for Kusto resource provider by Azure region.
-   * @param location Azure location (region) name.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   private _list(
@@ -103,7 +103,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SkuDescriptionList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

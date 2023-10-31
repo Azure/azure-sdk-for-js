@@ -1,6 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
 import { KeyCredential } from "@azure/core-auth";
 
 /**
@@ -32,14 +40,6 @@ export class OpenAIKeyCredential implements KeyCredential {
     return this._key;
   }
 
-  /**
-   * Change the value of the key.
-   *
-   * Updates will take effect upon the next request after
-   * updating the key value.
-   *
-   * @param newKey - The new key value to be used
-   */
   /**
    * Change the value of the key.
    *

@@ -18,9 +18,7 @@ import {
   initializeLockRenewalOperationInfo,
   initializeOperationInfo,
   OperationInfo,
-  saveDiscrepanciesFromTrackedMessages,
   SnapshotOptions,
-  TrackedMessageIdsInfo,
 } from "./utils";
 import Long from "long";
 import * as appInsights from "applicationinsights";
@@ -57,15 +55,14 @@ export function captureConsoleOutputToAppInsights() {
 }
 
 export class ServiceBusStressTester {
-  private messagesSent: ServiceBusMessage[] = [];
-  private messagesReceived: ServiceBusMessage[] = [];
-  private trackedMessageIds: TrackedMessageIdsInfo = {};
-  private snapshotTimer: NodeJS.Timer;
+  private messagesSentCount: number = 0;
+  private messagesReceivedCount: number = 0;
+  private snapshotTimer: NodeJS.Timeout;
   private startedAt!: Date;
   private _numErrors = 0;
 
   public numMessagesSent(): number {
-    return this.messagesSent.length;
+    return this.messagesSentCount;
   }
 
   // Send metrics
@@ -105,7 +102,6 @@ export class ServiceBusStressTester {
       : this.snapshotOptions.snapshotIntervalInMs;
 
     this.startedAt = new Date();
-    this.messagesSent = [];
     this.snapshotTimer = setInterval(this.snapshot.bind(this), snapshotIntervalMs);
   }
 
@@ -166,9 +162,8 @@ export class ServiceBusStressTester {
    * Tracks a sent message for reporting.
    */
   public trackSentMessages(messages: ServiceBusMessage[]) {
-    this.trackMessageIds(messages, "sent");
     this.sendInfo.numberOfSuccesses++;
-    this.messagesSent = this.messagesSent.concat(messages);
+    this.messagesSentCount = this.messagesSentCount + messages.length;
   }
 
   public async receiveMessages(
@@ -202,8 +197,7 @@ export class ServiceBusStressTester {
    * @param messages
    */
   public addReceivedMessage(messages: ServiceBusReceivedMessage[]) {
-    this.trackMessageIds(messages, "received");
-    this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
+    this.messagesReceivedCount = this.messagesReceivedCount + messages.length;
     this.receiveInfo.numberOfSuccesses++;
   }
 
@@ -216,8 +210,7 @@ export class ServiceBusStressTester {
       const messages = await receiver.peekMessages(maxMsgCount, {
         fromSequenceNumber,
       });
-      this.trackMessageIds(messages, "received");
-      this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
+      this.messagesReceivedCount = this.messagesReceivedCount + messages.length;
       this.receiveInfo.numberOfSuccesses++;
       return messages;
     } catch (error: any) {
@@ -259,8 +252,7 @@ export class ServiceBusStressTester {
           );
         }
       }
-      this.trackMessageIds([message], "received");
-      this.messagesReceived = this.messagesReceived.concat(message as ServiceBusReceivedMessage);
+      this.messagesReceivedCount = this.messagesReceivedCount;
       this.receiveInfo.numberOfSuccesses++;
     };
     const processError = async (processErrorArgs: ProcessErrorArgs) => {
@@ -303,39 +295,6 @@ export class ServiceBusStressTester {
         from,
         ...extraProperties,
       },
-    });
-  }
-
-  private trackMessageIds(messages: ServiceBusMessage[], path: "sent" | "received") {
-    messages.forEach((msg) => {
-      if (!msg.messageId) {
-        console.error("No message ID for sent message");
-        throw new Error(
-          "No message ID for tracked message. Make sure you initialize .messageId before sending messages."
-        );
-      }
-
-      if (path === "sent") {
-        if (this.trackedMessageIds[msg.messageId as string]) {
-          throw new Error(`${msg.messageId} has already been tracked as sent!`);
-        }
-
-        const destination = (this.trackedMessageIds[msg.messageId as string] = {
-          sentCount: 0,
-          receivedCount: 0,
-          settledCount: 0,
-        });
-
-        destination.sentCount = destination.sentCount + 1;
-      } else if (path === "received") {
-        if (!this.trackedMessageIds[msg.messageId as string]) {
-          throw new Error(
-            `${msg.messageId} was not tracked as sent, can't increment receive count`
-          );
-        }
-
-        this.trackedMessageIds[msg.messageId as string].receivedCount++;
-      }
     });
   }
 
@@ -387,7 +346,6 @@ export class ServiceBusStressTester {
   public async completeMessage(receiver: ServiceBusReceiver, message: ServiceBusReceivedMessage) {
     try {
       await receiver.completeMessage(message);
-      this.trackedMessageIds[message.messageId! as string].settledCount++;
     } catch (error: any) {
       console.error(`Error in message completion with id: ${message.messageId} `, error);
       this.trackError("complete", error);
@@ -445,8 +403,8 @@ export class ServiceBusStressTester {
     const elapsedTimeInSeconds = (new Date().valueOf() - this.startedAt.valueOf()) / 1000;
 
     eventProperties["elapsedTimeInSeconds"] = elapsedTimeInSeconds;
-    eventProperties["messsages.sent"] = this.messagesSent.length;
-    eventProperties["messages.received"] = this.messagesReceived.length;
+    eventProperties["messsages.sent"] = this.messagesSentCount;
+    eventProperties["messages.received"] = this.messagesReceivedCount;
 
     if (this.snapshotOptions.snapshotFocus?.includes("send-info")) {
       eventProperties["send.pass"] = this.sendInfo.numberOfSuccesses;
@@ -475,6 +433,10 @@ export class ServiceBusStressTester {
       eventProperties["close.receiver.fail"] = this.closeInfo.receiver.numberOfFailures;
     }
 
+    const { rss, heapUsed } = process.memoryUsage();
+    eventProperties["memoryUsage.rssMB"] = Math.round((rss / 1024 / 1024) * 100) / 100;
+    eventProperties["memoryUsage.heapUsedMB"] = Math.round((heapUsed / 1024 / 1024) * 100) / 100;
+
     eventProperties["errorCount"] = this._numErrors;
     this._numErrors = 0;
 
@@ -495,26 +457,6 @@ export class ServiceBusStressTester {
 
     await this.snapshot();
 
-    if (this.snapshotOptions.snapshotFocus?.includes("receive-info")) {
-      const output = await saveDiscrepanciesFromTrackedMessages(this.trackedMessageIds);
-
-      defaultClient.trackEvent({
-        name: "discrepencies",
-        properties: {
-          messages_sent_but_never_received: output.messages_sent_but_never_received.join(","),
-          messages_not_sent_but_received: output.messages_not_sent_but_received.join(","),
-          messages_sent_multiple_times: output.messages_sent_multiple_times.join(","),
-          messages_sent_once_but_received_multiple_times:
-            output.messages_sent_once_but_received_multiple_times.join(","),
-          messages_sent_once_and_received_once:
-            output.messages_sent_once_and_received_once.join(","),
-        },
-      });
-    }
-
-    // TODO: Log tracked messages in JSON
-    // TODO: Have a copy of sentMessages and match them with receivedMessages, have the leftover 'message-id's in the logged file maybe
-    // TODO: Add an argument to "end()" to not delete the resource
     clearInterval(this.snapshotTimer);
     for (const id in this.messageLockRenewalInfo.lockRenewalTimers) {
       clearTimeout(this.messageLockRenewalInfo.lockRenewalTimers[id]);

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the upgrade profile for an agent pool.
  *
  * @summary Gets the upgrade profile for an agent pool.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-04-01/examples/AgentPoolsGetUpgradeProfile.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-08-01/examples/AgentPoolsGetUpgradeProfile.json
  */
 async function getUpgradeProfileForAgentPool() {
   const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";

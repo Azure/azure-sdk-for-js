@@ -21,20 +21,21 @@ import {
 import { EventDataInternal, ReceivedEventData, fromRheaMessage } from "./eventData";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";
 import {
-  createLogPrefix,
   createSimpleLogger,
   logErrorStackTrace,
   logObj,
   logger as azureLogger,
   SimpleLogger,
+  createReceiverLogPrefix,
 } from "./logger";
 import { ConnectionContext } from "./connectionContext";
-import { EventHubConsumerOptions } from "./models/private";
+import { PartitionReceiverOptions } from "./models/private";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { createAbortablePromise } from "@azure/core-util";
 import { TimerLoop } from "./util/timerLoop";
 import { getRandomName } from "./util/utils";
 import { withAuth } from "./withAuth";
+import { receiverIdPropertyName } from "./util/constants";
 
 type Writable<T> = {
   -readonly [P in keyof T]: T[P];
@@ -106,14 +107,15 @@ interface ReceiverState {
 export function createReceiver(
   ctx: ConnectionContext,
   consumerGroup: string,
+  consumerId: string,
   partitionId: string,
   eventPosition: EventPosition,
-  options: EventHubConsumerOptions = {}
+  options: PartitionReceiverOptions = {}
 ): PartitionReceiver {
   const address = ctx.config.getReceiverAddress(partitionId, consumerGroup);
   const name = getRandomName(address);
   const audience = ctx.config.getReceiverAudience(partitionId, consumerGroup);
-  const logPrefix = createLogPrefix(ctx.connectionId, "Receiver", name);
+  const logPrefix = createReceiverLogPrefix(consumerId, ctx.connectionId, partitionId);
   const logger = createSimpleLogger(azureLogger, logPrefix);
   const queue: ReceivedEventData[] = [];
   const state: ReceiverState = {
@@ -165,6 +167,7 @@ export function createReceiver(
         state.authLoop = await withAuth(
           () =>
             setupLink(
+              consumerId,
               ctx,
               name,
               address,
@@ -418,7 +421,7 @@ function onMessage(
   context: EventContext,
   obj: WritableReceiver,
   queue: ReceivedEventData[],
-  options: EventHubConsumerOptions
+  options: PartitionReceiverOptions
 ): void {
   if (!context.message) {
     return;
@@ -495,6 +498,7 @@ async function onSessionClose(
 }
 
 function createRheaOptions(
+  consumerId: string,
   name: string,
   address: string,
   obj: PartitionReceiver,
@@ -503,15 +507,19 @@ function createRheaOptions(
   prefetchCount: number,
   eventPosition: EventPosition,
   logger: SimpleLogger,
-  options: EventHubConsumerOptions
+  options: PartitionReceiverOptions
 ): RheaReceiverOptions {
-  const rheaOptions: RheaReceiverOptions & { source: Source } = {
+  const rheaOptions: RheaReceiverOptions & { source: Source; properties: Record<string, any> } = {
     name,
     autoaccept: true,
+    target: consumerId,
     source: {
       address,
     },
     credit_window: prefetchCount,
+    properties: {
+      [receiverIdPropertyName]: consumerId,
+    },
     onClose: (context) => onClose(context, state, logger),
     onSessionClose: (context) => onSessionClose(context, state, logger),
     onError: (context) => onError(context, obj, state.link, logger),
@@ -520,9 +528,7 @@ function createRheaOptions(
   };
   const ownerLevel = options.ownerLevel;
   if (typeof ownerLevel === "number") {
-    rheaOptions.properties = {
-      [Constants.attachEpoch]: types.wrap_long(ownerLevel),
-    };
+    rheaOptions.properties[Constants.attachEpoch] = types.wrap_long(ownerLevel);
   }
   if (options.trackLastEnqueuedEventProperties) {
     rheaOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
@@ -537,6 +543,7 @@ function createRheaOptions(
 }
 
 async function setupLink(
+  consumerId: string,
   ctx: ConnectionContext,
   name: string,
   address: string,
@@ -546,10 +553,11 @@ async function setupLink(
   prefetchCount: number,
   eventPosition: EventPosition,
   logger: SimpleLogger,
-  options: EventHubConsumerOptions,
+  options: PartitionReceiverOptions,
   abortSignal?: AbortSignalLike
 ): Promise<void> {
   const rheaOptions = createRheaOptions(
+    consumerId,
     name,
     address,
     obj,

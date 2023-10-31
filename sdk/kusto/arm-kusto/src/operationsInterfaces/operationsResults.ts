@@ -15,8 +15,8 @@ import {
 export interface OperationsResults {
   /**
    * Returns operation results.
-   * @param location Azure location (region) name.
-   * @param operationId The Guid of the operation ID
+   * @param location The name of Azure region.
+   * @param operationId The ID of an ongoing async operation.
    * @param options The options parameters.
    */
   get(

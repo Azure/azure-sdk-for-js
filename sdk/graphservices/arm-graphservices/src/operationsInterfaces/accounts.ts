@@ -7,10 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AccountResource,
   AccountsListByResourceGroupOptionalParams,
-  AccountsListBySubscriptionOptionalParams
+  AccountsListBySubscriptionOptionalParams,
+  AccountsGetOptionalParams,
+  AccountsGetResponse,
+  AccountsCreateAndUpdateOptionalParams,
+  AccountsCreateAndUpdateResponse,
+  AccountPatchResource,
+  AccountsUpdateOptionalParams,
+  AccountsUpdateResponse,
+  AccountsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,4 +41,70 @@ export interface Accounts {
   listBySubscription(
     options?: AccountsListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<AccountResource>;
+  /**
+   * Returns account resource for a given name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: AccountsGetOptionalParams
+  ): Promise<AccountsGetResponse>;
+  /**
+   * Create or update account resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param accountResource Account details.
+   * @param options The options parameters.
+   */
+  beginCreateAndUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    accountResource: AccountResource,
+    options?: AccountsCreateAndUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccountsCreateAndUpdateResponse>,
+      AccountsCreateAndUpdateResponse
+    >
+  >;
+  /**
+   * Create or update account resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param accountResource Account details.
+   * @param options The options parameters.
+   */
+  beginCreateAndUpdateAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    accountResource: AccountResource,
+    options?: AccountsCreateAndUpdateOptionalParams
+  ): Promise<AccountsCreateAndUpdateResponse>;
+  /**
+   * Update account details.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param accountResource Account patch details.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    accountResource: AccountPatchResource,
+    options?: AccountsUpdateOptionalParams
+  ): Promise<AccountsUpdateResponse>;
+  /**
+   * Deletes a account resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: AccountsDeleteOptionalParams
+  ): Promise<void>;
 }

@@ -18,9 +18,10 @@ optional-response-headers: true
 v3: true
 disable-async-iterators: true
 add-credentials: false
+core-http-compat-mode: true
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210218.1"
-package-version: 12.12.0
+  "@autorest/typescript": "6.0.3"
+package-version: 12.23.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -226,13 +227,13 @@ directive:
       $["x-ms-client-name"] = "queueAnalyticsLogging"
 ```
 
-### Update service version from "2018-03-28" to "2021-10-04"
+### Update service version from "2018-03-28" to "2023-01-03"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2021-10-04" ];
+    transform: $.enum = [ "2023-01-03" ];
 ```
 
 ### Rename AccessPolicy start -> startsOn

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ElasticSanManagement } from "../elasticSanManagement";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ElasticSan,
   ElasticSansListBySubscriptionNextOptionalParams,
@@ -212,8 +216,8 @@ export class ElasticSansImpl implements ElasticSans {
     parameters: ElasticSan,
     options?: ElasticSansCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ElasticSansCreateResponse>,
+    SimplePollerLike<
+      OperationState<ElasticSansCreateResponse>,
       ElasticSansCreateResponse
     >
   > {
@@ -223,7 +227,7 @@ export class ElasticSansImpl implements ElasticSans {
     ): Promise<ElasticSansCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -256,15 +260,18 @@ export class ElasticSansImpl implements ElasticSans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, elasticSanName, parameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, elasticSanName, parameters, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ElasticSansCreateResponse,
+      OperationState<ElasticSansCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -305,8 +312,8 @@ export class ElasticSansImpl implements ElasticSans {
     parameters: ElasticSanUpdate,
     options?: ElasticSansUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ElasticSansUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ElasticSansUpdateResponse>,
       ElasticSansUpdateResponse
     >
   > {
@@ -316,7 +323,7 @@ export class ElasticSansImpl implements ElasticSans {
     ): Promise<ElasticSansUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -349,15 +356,18 @@ export class ElasticSansImpl implements ElasticSans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, elasticSanName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, elasticSanName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ElasticSansUpdateResponse,
+      OperationState<ElasticSansUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -395,14 +405,14 @@ export class ElasticSansImpl implements ElasticSans {
     resourceGroupName: string,
     elasticSanName: string,
     options?: ElasticSansDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -435,15 +445,15 @@ export class ElasticSansImpl implements ElasticSans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, elasticSanName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, elasticSanName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -529,7 +539,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ElasticSanList
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -546,7 +556,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ElasticSanList
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -576,7 +586,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ElasticSan
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters,
@@ -609,7 +619,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ElasticSan
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters1,
@@ -634,7 +644,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -656,7 +666,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ElasticSan
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -677,7 +687,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ElasticSanList
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
@@ -696,7 +706,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ElasticSanList
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a snapshot.
  *
  * @summary Deletes a snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-04-01/examples/SnapshotsDelete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-08-01/examples/SnapshotsDelete.json
  */
 async function deleteSnapshot() {
   const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";

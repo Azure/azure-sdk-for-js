@@ -37,7 +37,7 @@ export interface KeyVaultRestorePollOperationState
   /**
    * The SAS token.
    */
-  sasToken: string;
+  sasToken?: string;
   /**
    * The Folder name of the blob where the previous successful full backup was stored
    */
@@ -111,6 +111,7 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
           sasTokenParameters: {
             storageResourceUri: folderUri,
             token: sasToken,
+            useManagedIdentity: sasToken === undefined,
           },
         },
       });

@@ -6,7 +6,7 @@
  */
 export const packageJsonInfo = {
   name: "@azure/event-hubs",
-  version: "5.11.0",
+  version: "5.11.3",
 };
 
 /**
@@ -18,6 +18,9 @@ export const idempotentProducerAmqpPropertyNames = {
   producerId: "com.microsoft:producer-id",
   producerSequenceNumber: "com.microsoft:producer-sequence-number",
 } as const;
+
+/** @internal */
+export const receiverIdPropertyName = "com.microsoft:receiver-name";
 
 /**
  * @internal

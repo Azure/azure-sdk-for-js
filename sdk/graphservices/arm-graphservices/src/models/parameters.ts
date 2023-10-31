@@ -43,7 +43,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-22-preview",
+    defaultValue: "2023-04-13",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -81,18 +81,6 @@ export const resourceGroupName: OperationURLParameter = {
   }
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
 export const resourceName: OperationURLParameter = {
   parameterPath: "resourceName",
   mapper: {
@@ -124,4 +112,16 @@ export const accountResource: OperationParameter = {
 export const accountResource1: OperationParameter = {
   parameterPath: "accountResource",
   mapper: AccountPatchResourceMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };

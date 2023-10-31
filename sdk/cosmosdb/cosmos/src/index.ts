@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 export { DEFAULT_PARTITION_KEY_PATH } from "./common/partitionKeys";
 export { StatusCodes, StatusCodesType, PartitionKeyRangePropertiesNames } from "./common";
-export { extractPartitionKey } from "./extractPartitionKey";
 export { setAuthorizationTokenHeaderUsingMasterKey } from "./auth";
 export {
   Operation,
@@ -49,8 +48,15 @@ export {
   IndexKind,
   Location,
   PartitionKey,
+  PrimitivePartitionKeyValue,
+  NullPartitionKeyType,
+  NonePartitionKeyType,
+  PartitionKeyKind,
   PartitionKeyDefinition,
+  PartitionKeyDefinitionVersion,
+  PartitionKeyBuilder,
   PermissionMode,
+  PriorityLevel,
   TriggerOperation,
   TriggerType,
   UserDefinedFunctionType,
@@ -61,6 +67,12 @@ export { ContainerRequest } from "./client/Container/ContainerRequest";
 export { Constants, OperationType, ResourceType, HTTPMethod } from "./common";
 export { RetryOptions } from "./retry";
 export * from "./request";
+
+export {
+  DiagnosticNodeInternal,
+  DiagnosticDataValue,
+  DiagnosticNodeType,
+} from "./diagnostics/DiagnosticNodeInternal";
 
 export {
   CosmosHeaders,
@@ -86,13 +98,25 @@ export { ClientContext } from "./ClientContext";
 
 export {
   CosmosDiagnostics,
-  MetadataLookUpDiagnostics,
-  RetryDiagnostics,
   MetadataLookUpDiagnostic,
-  FailedRequestAttemptDiagnostic,
+  MetadataLookUpDiagnostics,
   MetadataLookUpType,
+  RetryDiagnostics,
+  FailedRequestAttemptDiagnostic,
+  GatewayStatistics,
   ClientSideRequestStatistics,
+  ClientConfigDiagnostic,
+  DiagnosticNode,
 } from "./CosmosDiagnostics";
+
+export {
+  ChangeFeedPullModelIterator,
+  ChangeFeedIteratorOptions,
+  ChangeFeedIteratorResponse,
+  ChangeFeedStartFrom,
+  FeedRange,
+} from "./client/ChangeFeed";
+export { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 
 export { GlobalEndpointManager } from "./globalEndpointManager";
 export { SasTokenPermissionKind } from "./common/constants";

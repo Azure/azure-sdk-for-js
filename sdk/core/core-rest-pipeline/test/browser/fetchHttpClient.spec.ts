@@ -17,23 +17,37 @@ const streamBody = new ReadableStream({
   },
 });
 
-function createResponse(statusCode: number, body = "", chunkDelay = 0): Response {
+function createResponse(
+  statusCode: number,
+  body = "",
+  chunkDelay = 0,
+  chunkNumber?: number,
+  abortSignal?: AbortSignalLike
+): Response {
   const stream = new ReadableStream({
     async start(controller) {
       const encoder = new TextEncoder();
       const view = encoder.encode(body);
-
-      if (view.length > 1) {
+      if (chunkNumber) {
+        for (let i = 0; i < chunkNumber; i++) {
+          const chunk = view.slice(i, i + 1);
+          controller.enqueue(chunk);
+          await delay(chunkDelay);
+          if (abortSignal?.aborted) {
+            throw new AbortError();
+          }
+        }
+      } else if (view.length > 1) {
         const first = view.slice(0, 1);
         const second = view.slice(1);
         controller.enqueue(first);
         await delay(chunkDelay);
         controller.enqueue(second);
-        controller.close();
       } else {
         controller.enqueue(view);
-        controller.close();
       }
+
+      controller.close();
     },
   });
   return new Response(stream, { status: statusCode });
@@ -104,6 +118,46 @@ describe("FetchHttpClient", function () {
       assert.fail(`Expected await to throw`);
     } catch (e: any) {
       assert.strictEqual(e.name, "AbortError");
+    }
+  });
+
+  it("should return AbortError while reading stream", async function () {
+    clock = sinon.useFakeTimers();
+    const body = "This is an example text for abort test";
+    fetchMock.callsFake(async (_url, options) => {
+      if (!options.signal) {
+        throw new Error("Abort signal is not received");
+      }
+      return createResponse(200, body, 0, 20, options.signal);
+    });
+    const controller = new AbortController();
+    const url = `http://localhost:3000/files/stream/abort`;
+    const client = createFetchHttpClient();
+    const request = createPipelineRequest({
+      url,
+      abortSignal: controller.signal,
+      allowInsecureConnection: true,
+      method: "GET",
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([200]),
+    });
+    const promise = client.sendRequest(request);
+    clock.tick(100);
+    controller.abort();
+    clock.tick(1);
+    try {
+      const response = await promise;
+      const reader = response.browserStreamBody!.getReader();
+      let finishReading = false;
+      while (!finishReading) {
+        const chunk = await reader.read();
+        if (chunk.done) {
+          finishReading = true;
+        }
+      }
+      assert.fail(`Expected await to throw`);
+    } catch (error: any) {
+      assert.strictEqual(error.name, "AbortError");
     }
   });
 
@@ -341,6 +395,7 @@ describe("FetchHttpClient", function () {
           typeof (body as ReadableStream).tee === "function",
         "expecting ReadableStream request body"
       );
+      assert.strictEqual(options.duplex, "half");
       const reader = (body as ReadableStream).getReader();
       const data = await reader.read();
       assert.equal(data.value, requestText, "unexpected request text");

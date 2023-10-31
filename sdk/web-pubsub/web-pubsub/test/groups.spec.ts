@@ -13,7 +13,7 @@ describe("Group client working with a group", function () {
   let recorder: Recorder;
   let client: WebPubSubGroup;
   let lastResponse: FullOperationResponse | undefined;
-  function onResponse(response: FullOperationResponse) {
+  function onResponse(response: FullOperationResponse): void {
     lastResponse = response;
   }
   beforeEach(async function () {
@@ -44,6 +44,7 @@ describe("Group client working with a group", function () {
     await client.sendToAll("hello", {
       contentType: "text/plain",
       filter: "userId ne 'user1'",
+      messageTtlSeconds: 60,
       onResponse,
     });
     assert.equal(lastResponse?.status, 202);
@@ -100,5 +101,73 @@ describe("Group client working with a group", function () {
 
   afterEach(async function () {
     await recorder.stop();
+  });
+});
+
+describe("client working with multiple groups", function () {
+  let recorder: Recorder;
+  let lastResponse: FullOperationResponse | undefined;
+  let hubClient: WebPubSubServiceClient;
+  function onResponse(response: FullOperationResponse): void {
+    lastResponse = response;
+  }
+  beforeEach(async function () {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    hubClient = new WebPubSubServiceClient(
+      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+      "simplechat",
+      recorder.configureClientOptions({})
+    );
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  it("can join multiple groups with filter", async (): Promise<void> => {
+    await hubClient.addConnectionsToGroups(["group1", "group2"], "userId eq 'user 1'", {
+      onResponse,
+    });
+    assert.equal(lastResponse?.status, 200);
+
+    let error;
+    try {
+      await hubClient.addConnectionsToGroups(["group1", "group2"], "invalid filter");
+    } catch (e: any) {
+      if (e.name !== "RestError") {
+        throw e;
+      }
+
+      error = e;
+    }
+    assert.equal(error.statusCode, 400);
+    assert.equal(
+      JSON.parse(error.message).message,
+      "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')"
+    );
+  });
+
+  it("can leave multiple groups with filter", async () => {
+    await hubClient.removeConnectionsFromGroups(["group1", "group2"], "userId eq 'user 1'", {
+      onResponse,
+    });
+    assert.equal(lastResponse?.status, 200);
+
+    let error;
+    try {
+      await hubClient.removeConnectionsFromGroups(["group1", "group2"], "invalid filter");
+    } catch (e: any) {
+      if (e.name !== "RestError") {
+        throw e;
+      }
+
+      error = e;
+    }
+    assert.equal(error.statusCode, 400);
+    assert.equal(
+      JSON.parse(error.message).message,
+      "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')"
+    );
   });
 });

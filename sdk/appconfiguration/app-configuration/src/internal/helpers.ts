@@ -3,17 +3,23 @@
 
 import {
   ConfigurationSetting,
-  ConfigurationSettingId,
   ConfigurationSettingParam,
   HttpOnlyIfChangedField,
   HttpOnlyIfUnchangedField,
   HttpResponseField,
   HttpResponseFields,
-  ListConfigurationSettingsOptions,
   ListRevisionsOptions,
+  ListSettingsOptions,
+  ListSnapshotsOptions,
+  ConfigurationSnapshot,
+  SnapshotResponse,
 } from "../models";
 import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
-import { GetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
+import {
+  GetKeyValuesOptionalParams,
+  GetSnapshotsOptionalParams,
+  KeyValue,
+} from "../generated/src/models";
 import {
   SecretReferenceHelper,
   SecretReferenceValue,
@@ -21,7 +27,25 @@ import {
 } from "../secretReference";
 import { isDefined } from "@azure/core-util";
 import { logger } from "../logger";
+import { OperationOptions } from "@azure/core-client";
 
+/**
+ * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
+ * Also provides `fields` which allows you to selectively choose which fields are populated in the
+ * result.
+ */
+export interface SendConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
+  /**
+   * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
+   */
+  snapshotName?: string;
+}
+/**
+ * Entity with etag. Represent both ConfigurationSetting and Snapshot
+ */
+interface EtagEntity {
+  etag?: string;
+}
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
  * @internal
@@ -50,7 +74,7 @@ export function quoteETag(etag: string | undefined): string | undefined {
  * @internal
  */
 export function checkAndFormatIfAndIfNoneMatch(
-  configurationSetting: ConfigurationSettingId,
+  objectWithEtag: EtagEntity,
   options: HttpOnlyIfChangedField & HttpOnlyIfUnchangedField
 ): { ifMatch: string | undefined; ifNoneMatch: string | undefined } {
   if (options.onlyIfChanged && options.onlyIfUnchanged) {
@@ -66,11 +90,11 @@ export function checkAndFormatIfAndIfNoneMatch(
   let ifNoneMatch;
 
   if (options.onlyIfUnchanged) {
-    ifMatch = quoteETag(configurationSetting.etag);
+    ifMatch = quoteETag(objectWithEtag.etag);
   }
 
   if (options.onlyIfChanged) {
-    ifNoneMatch = quoteETag(configurationSetting.etag);
+    ifNoneMatch = quoteETag(objectWithEtag.etag);
   }
 
   return {
@@ -80,7 +104,7 @@ export function checkAndFormatIfAndIfNoneMatch(
 }
 
 /**
- * Transforms some of the key fields in ListConfigurationSettingsOptions and ListRevisionsOptions
+ * Transforms some of the key fields in SendConfigurationSettingsOptions and ListRevisionsOptions
  * so they can be added to a request using AppConfigurationGetKeyValuesOptionalParams.
  * - `options.acceptDateTime` is converted into an ISO string
  * - `select` is populated with the proper field names from `options.fields`
@@ -89,14 +113,13 @@ export function checkAndFormatIfAndIfNoneMatch(
  * @internal
  */
 export function formatFiltersAndSelect(
-  listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
+  listConfigOptions: ListRevisionsOptions
 ): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
   let acceptDatetime: string | undefined = undefined;
 
   if (listConfigOptions.acceptDateTime) {
     acceptDatetime = listConfigOptions.acceptDateTime.toISOString();
   }
-
   return {
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
@@ -105,6 +128,41 @@ export function formatFiltersAndSelect(
   };
 }
 
+/**
+ * Transforms some of the key fields in SendConfigurationSettingsOptions
+ * so they can be added to a request using AppConfigurationGetKeyValuesOptionalParams.
+ * - `options.acceptDateTime` is converted into an ISO string
+ * - `select` is populated with the proper field names from `options.fields`
+ * - keyFilter, labelFilter, snapshotName are moved to key, label, and snapshot respectively.
+ *
+ * @internal
+ */
+export function formatConfigurationSettingsFiltersAndSelect(
+  listConfigOptions: SendConfigurationSettingsOptions
+): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime" | "snapshot"> {
+  const { snapshotName: snapshot, ...options } = listConfigOptions;
+  return {
+    ...formatFiltersAndSelect(options),
+    snapshot,
+  };
+}
+/**
+ * Transforms some of the key fields in ListSnapshotsOptions
+ * so they can be added to a request using AppConfigurationGetSnapshotsOptionalParams.
+ * - `select` is populated with the proper field names from `options.fields`
+ * - keyFilter and labelFilter are moved to key and label, respectively.
+ *
+ * @internal
+ */
+export function formatSnapshotFiltersAndSelect(
+  listSnapshotOptions: ListSnapshotsOptions
+): Pick<GetSnapshotsOptionalParams, "name" | "select" | "status"> {
+  return {
+    name: listSnapshotOptions.nameFilter,
+    status: listSnapshotOptions.statusFilter,
+    select: listSnapshotOptions.fields,
+  };
+}
 /**
  * Handles translating a Date acceptDateTime into a string as needed by the API
  * @param newOptions - A newer style options with acceptDateTime as a date (and with proper casing!)
@@ -273,6 +331,21 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
 
   delete setting.eTag;
   return setting;
+}
+
+/**
+ * @internal
+ */
+export function transformSnapshotResponse<T extends ConfigurationSnapshot>(
+  snapshot: T
+): SnapshotResponse {
+  if (hasUnderscoreResponse(snapshot)) {
+    Object.defineProperty(snapshot, "_response", {
+      enumerable: false,
+      value: snapshot._response,
+    });
+  }
+  return snapshot as any;
 }
 
 /**

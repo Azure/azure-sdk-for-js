@@ -1,6 +1,6 @@
 # Release History
 
-## 5.1.1 (Unreleased)
+## 6.0.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,24 @@
 
 ### Other Changes
 
+## 6.0.0-beta.1 (2023-06-07)
+    
+**Features**
+
+  - Added Interface ManagedServiceIdentity
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias ManagedServiceIdentityType
+  - Interface IotDpsPropertiesDescription has a new optional parameter portalOperationsHostName
+  - Interface ProvisioningServiceDescription has a new optional parameter identity
+  - Interface Resource has a new optional parameter resourcegroup
+  - Interface Resource has a new optional parameter subscriptionid
+  - Added Enum KnownManagedServiceIdentityType
+
+**Breaking Changes**
+
+  - Type of parameter code of interface ErrorDetails is changed from string to number
+    
+    
 ## 5.1.0 (2023-01-05)
     
 **Features**
@@ -62,4 +80,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

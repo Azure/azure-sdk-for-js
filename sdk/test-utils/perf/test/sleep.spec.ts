@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PerfTest, PerfOptionDictionary } from "../src";
-import { delay } from "@azure/core-http";
+import { delay } from "@azure/core-util";
 
 interface SleepOptions {
   "initial-delay-ms": number;

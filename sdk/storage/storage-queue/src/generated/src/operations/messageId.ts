@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { MessageId } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClientContext } from "../storageClientContext";
+import { StorageClient } from "../storageClient";
 import {
   MessageIdUpdateOptionalParams,
   MessageIdUpdateResponse,
@@ -17,15 +18,15 @@ import {
   MessageIdDeleteResponse
 } from "../models";
 
-/** Class representing a MessageId. */
-export class MessageId {
-  private readonly client: StorageClientContext;
+/** Class containing MessageId operations. */
+export class MessageIdImpl implements MessageId {
+  private readonly client: StorageClient;
 
   /**
    * Initialize a new instance of the class MessageId class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClientContext) {
+  constructor(client: StorageClient) {
     this.client = client;
   }
 
@@ -48,15 +49,10 @@ export class MessageId {
     visibilityTimeout: number,
     options?: MessageIdUpdateOptionalParams
   ): Promise<MessageIdUpdateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      popReceipt,
-      visibilityTimeout,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { popReceipt, visibilityTimeout, options },
       updateOperationSpec
-    ) as Promise<MessageIdUpdateResponse>;
+    );
   }
 
   /**
@@ -69,20 +65,16 @@ export class MessageId {
     popReceipt: string,
     options?: MessageIdDeleteOptionalParams
   ): Promise<MessageIdDeleteResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      popReceipt,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { popReceipt, options },
       deleteOperationSpec
-    ) as Promise<MessageIdDeleteResponse>;
+    );
   }
 }
 // Operation Specifications
-const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
 
-const updateOperationSpec: coreHttp.OperationSpec = {
+const updateOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}/messages/{messageid}",
   httpMethod: "PUT",
   responses: {
@@ -112,7 +104,7 @@ const updateOperationSpec: coreHttp.OperationSpec = {
   mediaType: "xml",
   serializer: xmlSerializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}/messages/{messageid}",
   httpMethod: "DELETE",
   responses: {

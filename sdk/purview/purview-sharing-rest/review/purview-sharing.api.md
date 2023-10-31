@@ -286,6 +286,9 @@ export function isUnexpected(response: SentSharesDeleteSentShareInvitation202Res
 // @public (undocumented)
 export function isUnexpected(response: SentSharesNotifyUserSentShareInvitation200Response | SentSharesNotifyUserSentShareInvitationDefaultResponse): response is SentSharesNotifyUserSentShareInvitationDefaultResponse;
 
+// @public (undocumented)
+export function isUnexpected(response: ShareResourcesGetAllShareResources200Response | ShareResourcesGetAllShareResourcesDefaultResponse): response is ShareResourcesGetAllShareResourcesDefaultResponse;
+
 // @public
 export interface OperationResponseOutput {
     endTime?: string;
@@ -547,7 +550,6 @@ export interface ReceivedSharesGetAllAttachedReceivedSharesQueryParamProperties 
     filter?: string;
     orderby?: string;
     referenceName: string;
-    skipToken?: string;
 }
 
 // @public (undocumented)
@@ -591,7 +593,6 @@ export interface ReceivedSharesGetAllDetachedReceivedSharesQueryParam {
 export interface ReceivedSharesGetAllDetachedReceivedSharesQueryParamProperties {
     filter?: string;
     orderby?: string;
-    skipToken?: string;
 }
 
 // @public (undocumented)
@@ -681,6 +682,7 @@ export interface Routes {
     (path: "/sentShares/{sentShareId}/sentShareInvitations", sentShareId: string): SentSharesGetAllSentShareInvitations;
     (path: "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}", sentShareId: string, sentShareInvitationId: string): SentSharesGetSentShareInvitation;
     (path: "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}:notify", sentShareId: string, sentShareInvitationId: string): SentSharesNotifyUserSentShareInvitation;
+    (path: "/shareResources"): ShareResourcesGetAllShareResources;
 }
 
 // @public
@@ -932,7 +934,6 @@ export interface SentSharesGetAllSentShareInvitationsQueryParam {
 export interface SentSharesGetAllSentShareInvitationsQueryParamProperties {
     filter?: string;
     orderby?: string;
-    skipToken?: string;
 }
 
 // @public (undocumented)
@@ -977,7 +978,6 @@ export interface SentSharesGetAllSentSharesQueryParamProperties {
     filter?: string;
     orderby?: string;
     referenceName: string;
-    skipToken?: string;
 }
 
 // @public (undocumented)
@@ -1121,6 +1121,71 @@ export interface ServiceInvitationPropertiesOutput {
     readonly state?: "Unknown" | "Succeeded" | "Creating" | "Deleting" | "Moving" | "Failed";
     targetActiveDirectoryId: string;
     targetObjectId: string;
+}
+
+// @public
+export interface ShareResource extends ProxyResource {
+    receivedSharesCount?: number;
+    sentSharesCount?: number;
+    storeKind?: "AdlsGen2Account" | "BlobAccount";
+    storeReference?: StoreReference;
+}
+
+// @public
+export interface ShareResourceListOutput {
+    nextLink?: string;
+    value: Array<ShareResourceOutput>;
+}
+
+// @public
+export interface ShareResourceOutput extends ProxyResourceOutput {
+    receivedSharesCount?: number;
+    sentSharesCount?: number;
+    storeKind?: "AdlsGen2Account" | "BlobAccount";
+    storeReference?: StoreReferenceOutput;
+}
+
+// @public (undocumented)
+export interface ShareResourcesGetAllShareResources {
+    get(options?: ShareResourcesGetAllShareResourcesParameters): StreamableMethod<ShareResourcesGetAllShareResources200Response | ShareResourcesGetAllShareResourcesDefaultResponse>;
+}
+
+// @public
+export interface ShareResourcesGetAllShareResources200Response extends HttpResponse {
+    // (undocumented)
+    body: ShareResourceListOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ShareResourcesGetAllShareResourcesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface ShareResourcesGetAllShareResourcesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: PurviewShareErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & ShareResourcesGetAllShareResourcesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ShareResourcesGetAllShareResourcesParameters = ShareResourcesGetAllShareResourcesQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface ShareResourcesGetAllShareResourcesQueryParam {
+    // (undocumented)
+    queryParameters?: ShareResourcesGetAllShareResourcesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface ShareResourcesGetAllShareResourcesQueryParamProperties {
+    filter?: string;
+    orderby?: string;
 }
 
 // @public

@@ -10,17 +10,21 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to The operation to update an ASR network mapping.
  *
  * @summary The operation to update an ASR network mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationNetworkMappings_Update.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationNetworkMappings_Update.json
  */
 async function updatesNetworkMapping() {
-  const subscriptionId = "9112a37f-0f3e-46ec-9c00-060c6edca071";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "9112a37f-0f3e-46ec-9c00-060c6edca071";
   const resourceName = "srce2avaultbvtaC27";
-  const resourceGroupName = "srcBvte2a14C27";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "srcBvte2a14C27";
   const fabricName = "b0cef6e9a4437b81803d0b55ada4f700ab66caae59c35d62723a1589c0cd13ac";
   const networkName = "e2267b5c-2650-49bd-ab3f-d66aae694c06";
   const networkMappingName = "corpe2amap";
@@ -45,4 +49,8 @@ async function updatesNetworkMapping() {
   console.log(result);
 }
 
-updatesNetworkMapping().catch(console.error);
+async function main() {
+  updatesNetworkMapping();
+}
+
+main().catch(console.error);

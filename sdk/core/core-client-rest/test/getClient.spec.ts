@@ -6,6 +6,7 @@ import { getCachedDefaultHttpsClient } from "../src/clientHelpers";
 import { getClient } from "../src/getClient";
 import sinon from "sinon";
 import {
+  HttpClient,
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
@@ -199,5 +200,41 @@ describe("getClient", () => {
     const policies = client.pipeline.getOrderedPolicies();
     assert.isTrue(policies.indexOf(policy2) < policies.indexOf(retryPolicy));
     assert.isTrue(policies.indexOf(retryPolicy) < policies.indexOf(policy1));
+  });
+
+  it("should use the client setting for `allowInsecureConnection` when the request setting is undefined", async () => {
+    const fakeHttpClient: HttpClient = {
+      sendRequest: async (request) => {
+        assert.isTrue(request.allowInsecureConnection);
+        return { headers: createHttpHeaders(), status: 200, request };
+      },
+    };
+
+    const client = getClient("https://example.org", {
+      allowInsecureConnection: true,
+      httpClient: fakeHttpClient,
+    });
+
+    await client.pathUnchecked("/foo").get({
+      allowInsecureConnection: undefined,
+    });
+  });
+
+  it("should not use the client setting for `allowInsecureConnection` when the request setting is false", async () => {
+    const fakeHttpClient: HttpClient = {
+      sendRequest: async (request) => {
+        assert.isFalse(request.allowInsecureConnection);
+        return { headers: createHttpHeaders(), status: 200, request };
+      },
+    };
+
+    const client = getClient("https://example.org", {
+      allowInsecureConnection: true,
+      httpClient: fakeHttpClient,
+    });
+
+    await client.pathUnchecked("/foo").get({
+      allowInsecureConnection: false,
+    });
   });
 });

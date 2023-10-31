@@ -4,8 +4,6 @@
 import chai from "chai";
 const assert = chai.assert;
 import { ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../../src";
-import * as dotenv from "dotenv";
-dotenv.config();
 
 export class TestMessage {
   static sessionId: string = "my-session";

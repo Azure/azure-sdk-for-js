@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or Updates a user.
  *
  * @summary Creates or Updates a user.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateUser.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateUser.json
  */
 async function apiManagementCreateUser() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

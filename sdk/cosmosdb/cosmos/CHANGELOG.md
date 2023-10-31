@@ -1,6 +1,6 @@
 # Release History
 
-## 3.17.4 (Unreleased)
+## 4.0.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,163 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.0.0 (2023-09-12)
+🎉 v4 release! 🎉 Many new features, bug fixes, and a few breaking changes.
+- Summary of new added features 
+  - Diagnostics: A diagnostic object has been added to responses of api operations ie. point lookups, bulk & batch operations, query and error responses, which contains information related to metadata lookups, retries, request and reponse latencies and payload siezes.
+  - Hierarchical Partitioning: Containers with hierarchical partitions are now supported. [docs](https://learn.microsoft.com/azure/cosmos-db/hierarchical-partition-keys)
+  - Index metrics: can be enabled to show both utilized indexed paths and recommended indexed paths. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/index-metrics?tabs=javascript)
+  - New Changefeed iterator: which can consume changes for a specific partition key, a feed range or an entire container. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-pull-model?tabs=JavaScript)
+  - Priority based throttling is now supported. [docs](https://devblogs.microsoft.com/cosmosdb/introducing-priority-based-execution-in-azure-cosmos-db-preview/)
+
+### New Features
+
+#### Diagnostics
+- Since `diagnostics` is added to all Response objects. You could programatically access `CosmosDiagnostic` as follows. 
+```js
+  // For point look up operations
+  const { container, diagnostics: containerCreateDiagnostic } =
+    await database.containers.createIfNotExists({
+      id: containerId,
+      partitionKey: {
+        paths: ["/key1"],
+      },
+  });
+
+  // For Batch operations
+   const operations: OperationInput[] = [
+    {
+      operationType: BulkOperationType.Create,
+      resourceBody: { id: 'A', key: "A", school: "high" },
+    },
+  ];
+  const response = await container.items.batch(operations, "A"); 
+  const diagnostics = response.diagnostics
+
+  // For Bulk operations
+   const operations: OperationInput[] = [
+    {
+      operationType: BulkOperationType.Create,
+      resourceBody: { id: 'A', key: "A", school: "high" },
+    },
+  ];
+  const response = await container.items.bulk(operations);; 
+  const diagnostics = response.diagnostics
+
+  // For query operations
+  const queryIterator = container.items.query("select * from c");
+  const { resources, diagnostics } = await queryIterator.fetchAll();
+
+  // While error handling
+  try {
+    // Some operation that might fail
+  } catch (err) {
+    const diagnostics = err.diagnostics
+  }
+```
+#### Hierarchical Partitioning
+- Here is a sampele for creating container with Hierarchical Partitions
+
+  ```js
+  const containerDefinition = {
+    id: "Test Database",
+    partitionKey: {
+      paths: ["/name", "/address/zip"],
+      version: PartitionKeyDefinitionVersion.V2,
+      kind: PartitionKeyKind.MultiHash,
+    },
+  }
+  const { container } = await database.containers.createIfNotExists(containerDefinition);
+  console.log(container.id);
+  ```
+- Definition of PartitionKey has been changed to support Hierarchical partitioning. Here is how to use the new definition.
+  - The operations for which PartitionKey can be derived from Request body, providing PartitionKey is optional as always i.e
+    ```js
+      const item = {
+        id: 1,
+        name: 'foo',
+        address: {
+          zip: 100
+        },
+        active: true
+      }
+      await container.items.create(item);
+    ```
+  - Here is sample for operations which require hierarchical partition to be passed.
+
+    ```js
+    await container.item("1", ["foo", 100]).read();
+    ```
+    OR
+    ```js
+    const partitionKey: PartitionKey = new PartitionKeyBuilder()
+      .addValue("foo")
+      .addValue(100)
+      .build();
+    await container.item("1", partitionKey).read();
+    ```
+  - If you are not using Hierarchical Partitioning feature, Definition of Partition Key is practically backward compatible.
+    ```js
+    await container.item("1", "1").read();
+    ```
+
+#### New Change feed Iterator
+
+The v4 SDK now supports [Change feed pull model](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-pull-model?tabs=JavaScript). 
+
+***Note: There are no breaking changes, the old change feed iterator is still supported.***
+
+Major Differences:
+- The new iterator allows fetching change feed for a partition key, a feed range, or an entire container, compared to the older iterator, which was limited to fetching change feed for a partition key only.
+ 
+- The new implementation is effectively an infinite list of items that encompasses all future writes and updates. The `hasMoreResults` property  now always returns `true`, unlike the older implementation, which returned `false` when a `NotModified` status code was received from the backend.
+
+Here is an example of creating and using the new change feed iterator:
+```js
+const changeFeedOptions = {
+    changeFeedStartFrom : ChangeFeedStartFrom.Beginning("partition key or feed range"),
+    maxItemCount: 10
+} 
+const iterator = container.items.getChangeFeedIterator(changeFeedOptions);
+while(iterator.hasMoreResults) {
+    const res = await iterator.readNext();
+    // process res
+}
+```
+#### Index Metrics [#20194](https://github.com/Azure/azure-sdk-for-js/issues/20194)
+
+Azure Cosmos DB provides indexing metrics for optimizing query performance, especially when you're unsure about adjusting the indexing policy.
+You can enable indexing metrics for a query by setting the PopulateIndexMetrics property to true(default=false).
+
+```js
+const { resources: resultsIndexMetrics, indexMetrics } = await container.items
+    .query(querySpec, { populateIndexMetrics: true })
+    .fetchAll();
+```
+
+We only recommend enabling the index metrics for troubleshooting query performance.
+
+#### Enhanced Retry Utility for Improved SDK Reliability [#23475](https://github.com/Azure/azure-sdk-for-js/issues/23475)
+
+Improved the retry utility to align with other language SDKs. Now, it automatically retries requests on the next available region when encountering HTTP 503 errors (Service Unavailable)
+and handles HTTP timeouts more effectively, enhancing the SDK's reliability.
+
+#### Priority based throttling [docs](https://devblogs.microsoft.com/cosmosdb/introducing-priority-based-execution-in-azure-cosmos-db-preview/) [#26393](https://github.com/Azure/azure-sdk-for-js/pull/26393/files)
+
+Priority-based execution is a capability which allows users to specify priority for the request sent to Azure Cosmos DB. Based on the priority specified by the user, if there are more requests than the configured RU/s in a second, then Azure Cosmos DB will throttle low priority requests to allow high priority requests to execute.
+You can enable priority based throttling by setting priorityLevel property.
+
+```js
+const response = await container.item(document.id).read<TestItem>({ priorityLevel: PriorityLevel.Low });
+```
+
+### Bugs Fixed
+- Updated response codes for the getDatabase() method. [#25932](https://github.com/Azure/azure-sdk-for-js/issues/25932)
+- Fix Upsert operation failing when partition key of container is `/id` and `/id` is missing in the document. [#21383](https://github.com/Azure/azure-sdk-for-js/issues/21383)
+
+### Breaking Changes
+- The definition of PartitionKey is changed, PartitionKeyDefinition is now a independent type. [#23416](https://github.com/Azure/azure-sdk-for-js/issues/23416)
 
 ## 3.17.3 (2023-02-13)
 

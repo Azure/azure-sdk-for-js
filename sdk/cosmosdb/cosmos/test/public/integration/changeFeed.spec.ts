@@ -4,6 +4,7 @@ import assert from "assert";
 import { Suite } from "mocha";
 import { RequestOptions } from "../../../src";
 import { Container, ContainerDefinition } from "../../../src";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 describe("Change Feed Iterator", function (this: Suite) {
@@ -21,7 +22,9 @@ describe("Change Feed Iterator", function (this: Suite) {
     before(async function () {
       const containerDef: ContainerDefinition = {
         partitionKey: {
-          paths: ["/key"],
+          paths: ["/key1", "/key2"],
+          kind: PartitionKeyKind.MultiHash,
+          version: PartitionKeyDefinitionVersion.V2,
         },
       };
       const throughput: RequestOptions = { offerThroughput: 25100 };
@@ -31,10 +34,10 @@ describe("Change Feed Iterator", function (this: Suite) {
         containerDef,
         throughput
       );
-      await container.items.create({ id: "item1", key: "0" });
-      await container.items.create({ id: "item2", key: "0" });
-      await container.items.create({ id: "item1", key: "1" });
-      await container.items.create({ id: "item2", key: "1" });
+      await container.items.create({ id: "item1", key1: "0", key2: 0 });
+      await container.items.create({ id: "item2", key1: "0", key2: 0 });
+      await container.items.create({ id: "item1", key1: "1", key2: 1 });
+      await container.items.create({ id: "item2", key1: "1", key2: 1 });
     });
 
     it("should throw if used with no partition key or partition key range id", async function () {
@@ -53,7 +56,7 @@ describe("Change Feed Iterator", function (this: Suite) {
     });
 
     it("should fetch updated items only", async function () {
-      const iterator = container.items.changeFeed("0", { startFromBeginning: true });
+      const iterator = container.items.changeFeed(["0", 0], { startFromBeginning: true });
 
       const { result: items, headers } = await iterator.fetchNext();
       assert(headers.etag, "change feed response should have etag header");
@@ -89,7 +92,9 @@ describe("Change Feed Iterator", function (this: Suite) {
     before(async function () {
       const containerDef: ContainerDefinition = {
         partitionKey: {
-          paths: ["/key"],
+          paths: ["/key1", "/key2"],
+          kind: PartitionKeyKind.MultiHash,
+          version: PartitionKeyDefinitionVersion.V2,
         },
       };
       const throughput: RequestOptions = { offerThroughput: 25100 };
@@ -99,8 +104,8 @@ describe("Change Feed Iterator", function (this: Suite) {
         containerDef,
         throughput
       );
-      await container.items.create({ id: "item1", key: "0" });
-      await container.items.create({ id: "item1", key: "1" });
+      await container.items.create({ id: "item1", key1: "0", key2: 0 });
+      await container.items.create({ id: "item1", key1: "1", key2: 1 });
     });
 
     after(async function () {
@@ -108,7 +113,7 @@ describe("Change Feed Iterator", function (this: Suite) {
     });
 
     it("should fetch new items only", async function () {
-      const iterator = container.items.changeFeed("0");
+      const iterator = container.items.changeFeed(["0", 0]);
 
       const { result: items, headers } = await iterator.fetchNext();
       assert(headers.etag, "change feed response should have etag header");
@@ -117,7 +122,8 @@ describe("Change Feed Iterator", function (this: Suite) {
       const { resource: itemThatWasCreated } = await container.items.create({
         id: "item2",
         prop: 1,
-        key: "0",
+        key1: "0",
+        key2: 0,
       });
 
       const { result: itemsAfterCreate } = await iterator.fetchNext();
@@ -140,10 +146,10 @@ describe("Change Feed Iterator", function (this: Suite) {
       const { result: itemsShouldBeEmptyWithNoNewCreates } = await iterator.fetchNext();
       assert.equal(itemsShouldBeEmptyWithNoNewCreates.length, 0, "should be nothing new");
 
-      await container.items.create({ id: "item3", key: "0" });
-      await container.items.create({ id: "item4", key: "0" });
-      await container.items.create({ id: "item3", key: "1" });
-      await container.items.create({ id: "item4", key: "1" });
+      await container.items.create({ id: "item3", key1: "0", key2: 0 });
+      await container.items.create({ id: "item4", key1: "0", key2: 0 });
+      await container.items.create({ id: "item3", key1: "1", key2: 1 });
+      await container.items.create({ id: "item4", key1: "1", key2: 1 });
       const { result: itemsShouldHave2NewItems } = await iterator.fetchNext();
       assert.equal(itemsShouldHave2NewItems.length, 2, "there should be 2 results");
       const { result: shouldHaveNoItems } = await iterator.fetchNext();

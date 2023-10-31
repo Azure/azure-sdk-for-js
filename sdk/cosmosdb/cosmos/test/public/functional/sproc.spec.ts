@@ -5,6 +5,7 @@ import { Context } from "mocha";
 import { Suite } from "mocha";
 import { Constants } from "../../../src";
 import { Container, StoredProcedureDefinition } from "../../../src/";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
 import {
   bulkInsertItems,
   getTestContainer,
@@ -207,6 +208,75 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
     const { resource: result2 } = await container.scripts
       .storedProcedure(sproc.id)
       .execute(1, null);
+    assert(result2 !== undefined);
+    assert.equal(result2.length, 1);
+    assert.equal(JSON.stringify(result2[0]), JSON.stringify(documents[4]));
+  });
+
+  it("nativeApi Should execute stored procedure with partition key successfully name based : Hierarachial partitions", async function () {
+    const database = await getTestDatabase("sproc test database");
+    // create container
+    const partitionKey1 = "key1";
+    const partitionKey2 = "key2";
+
+    const containerDefinition = {
+      id: "coll1",
+      partitionKey: {
+        paths: ["/" + partitionKey1, "/" + partitionKey2],
+        version: PartitionKeyDefinitionVersion.V2,
+        kind: PartitionKeyKind.MultiHash,
+      },
+    };
+
+    const { resource: containerResult } = await database.containers.create(containerDefinition, {
+      offerThroughput: 12000,
+    });
+    const container = await database.container(containerResult.id);
+
+    const querySproc = {
+      id: "querySproc",
+      body: function () {
+        const context = getContext();
+        const container2 = context.getCollection();
+        const response = context.getResponse();
+
+        // query for players
+        const query = "SELECT r.id, r.key1, r.key2, r.prop FROM r";
+        const accept = container2.queryDocuments(
+          container2.getSelfLink(),
+          query,
+          {},
+          function (err: any, documents: any) {
+            if (err) throw new Error("Error" + err.message);
+            response.setBody(documents);
+          }
+        );
+
+        if (!accept) throw "Unable to read player details, abort ";
+      },
+    };
+
+    const documents = [
+      { id: "document1" },
+      { id: "document2", key1: null, key2: "a", prop: 1 },
+      { id: "document3", key1: false, key2: "a", prop: 1 },
+      { id: "document4", key1: true, key2: "a", prop: 1 },
+      { id: "document5", key1: 1, key2: "a", prop: 1 },
+      { id: "document6", key1: "A", key2: "a", prop: 1 },
+    ];
+
+    await bulkInsertItems(container, documents);
+    const { resource: sproc } = await container.scripts.storedProcedures.create(querySproc);
+    const { resource: result } = await container.scripts
+      .storedProcedure(sproc.id)
+      .execute([null, "a"], []);
+    assert(result !== undefined);
+    assert.equal(result.length, 1);
+    assert.equal(JSON.stringify(result[0]), JSON.stringify(documents[1]));
+
+    const { resource: result2 } = await container.scripts
+      .storedProcedure(sproc.id)
+      .execute([1, "a"], null);
     assert(result2 !== undefined);
     assert.equal(result2.length, 1);
     assert.equal(JSON.stringify(result2[0]), JSON.stringify(documents[4]));

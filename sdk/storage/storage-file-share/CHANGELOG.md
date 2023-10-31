@@ -1,12 +1,54 @@
 # Release History
 
-## 12.13.0 (Unreleased)
+## 12.23.0-beta.1 (Unreleased)
+
+### Other Changes
+
+- Migrated dependency on `@azure/core-http` to `@azure/core-rest-pipeline`.
+
+## 12.15.0 (2023-07-12)
 
 ### Features Added
 
-### Breaking Changes
+- Includes all features released in 12.15.0.
+
+## 12.15.0-beta.1 (2023-05-31)
+
+### Features Added
+
+- Added support for service version 2023-01-03.
+- Added access rights in each handles returned by ShareDirectoryClient.listHandles()/ShareFileClient.listHandles().
+
+## 12.14.0 (2023-04-13)
+
+### Features Added
+
+- Includes all features released in 12.14.0-beta.1.
+
+## 12.14.0-beta.1 (2023-03-29)
+
+### Features Added
+
+- Added support for service version 2022-11-02.
+- Added support OAuth.
+- Added support for Trailing Dot.
+
+## 12.13.0 (2023-02-23)
+
+### Features Added
+
+- Includes all features released in 12.13.0-beta.1.
 
 ### Bugs Fixed
+
+- Fixed an issue of getting 403 error for blob name with './' or '../'
+
+## 12.13.0-beta.1 (2023-02-09)
+
+### Features Added
+
+- Added support for service version 2021-12-02.
+- Added support for invalid XML characters in file and directory names for ShareDirectoryClient.listFilesAndDirectories(), .listHandles(), and ShareFileClient.listHandles().
 
 ### Other Changes
 

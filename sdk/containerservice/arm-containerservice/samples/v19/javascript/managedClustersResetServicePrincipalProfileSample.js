@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to This action cannot be performed on a cluster that is not using a service principal
  *
  * @summary This action cannot be performed on a cluster that is not using a service principal
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-04-01/examples/ManagedClustersResetServicePrincipalProfile.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-08-01/examples/ManagedClustersResetServicePrincipalProfile.json
  */
 async function resetServicePrincipalProfile() {
   const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";

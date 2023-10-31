@@ -9,7 +9,7 @@ import * as path from "path";
 import { Duplex } from "stream";
 import * as zlib from "zlib";
 
-import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 
 import {
   FileSASPermissions,
@@ -23,12 +23,16 @@ import {
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 import {
   bodyToString,
+  configureStorageClient,
   createRandomLocalFile,
-  getBlobServceClient,
+  getBlobServiceClient,
   getBSU,
   getTokenCredential,
+  getUniqueName,
   recorderEnvSetup,
+  uriSanitizers,
 } from "../utils";
+import { isNode } from "@azure/core-util";
 
 describe("FileClient Node.js only", () => {
   let shareName: string;
@@ -43,29 +47,45 @@ describe("FileClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const serviceClient = getBSU();
-    shareName = recorder.getUniqueName("share");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    const serviceClient = getBSU(recorder);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: [
+            "x-ms-file-rename-source",
+            "x-ms-copy-source",
+            "x-ms-copy-source-authorization",
+          ],
+        },
+        uriSanitizers,
+      },
+      ["record", "playback"]
+    );
+    shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
 
-    dirName = recorder.getUniqueName("dir");
+    dirName = recorder.variable("dir", getUniqueName("dir"));
     dirClient = shareClient.getDirectoryClient(dirName);
     await dirClient.create();
 
-    fileName = recorder.getUniqueName("file");
+    fileName = recorder.variable("file", getUniqueName("file"));
     fileClient = dirClient.getFileClient(fileName);
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (shareClient) {
       await shareClient.delete();
-      await recorder.stop();
     }
+    await recorder.stop();
   });
 
-  it("uploadData - large Buffer as data", async () => {
-    recorder.skip("node", "Temp File - recorder doesn't support saving the file");
+  it("uploadData - large Buffer as data", async function () {
+    if (isNode && !isLiveMode()) {
+      this.skip();
+    }
     await fileClient.create(257 * 1024 * 1024 * 1024);
     const tempFolderPath = "temp";
     if (!fs.existsSync(tempFolderPath)) {
@@ -75,7 +95,10 @@ describe("FileClient Node.js only", () => {
     await fileClient.uploadData(fs.readFileSync(tempFileLarge));
 
     const downloadResponse = await fileClient.download();
-    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    const downloadedFile = path.join(
+      tempFolderPath,
+      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+    );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -86,7 +109,7 @@ describe("FileClient Node.js only", () => {
   }).timeout(timeoutForLargeFileUploadingTest);
 
   it("upload with buffer and default parameters", async () => {
-    const body: string = recorder.getUniqueName("randomstring");
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const bodyBuffer = Buffer.from(body);
 
     await fileClient.create(body.length);
@@ -102,7 +125,7 @@ describe("FileClient Node.js only", () => {
   });
 
   it("upload with Node.js stream", async () => {
-    const body: string = recorder.getUniqueName("randomstring");
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
 
     await fileClient.create(body.length);
     await fileClient.uploadRange(
@@ -120,7 +143,7 @@ describe("FileClient Node.js only", () => {
   });
 
   it("upload with Chinese string body and default parameters", async () => {
-    const body: string = recorder.getUniqueName("randomstring你好");
+    const body: string = recorder.variable("randomstring你好", getUniqueName("randomstring你好"));
     const bodyLength = Buffer.byteLength(body);
 
     await fileClient.create(bodyLength);
@@ -137,9 +160,9 @@ describe("FileClient Node.js only", () => {
     };
     await fileClient.setMetadata(metadata);
 
-    const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = fileClient["credential"] as StorageSharedKeyCredential;
     const newClient = new ShareFileClient(fileClient.url, credential);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -158,13 +181,13 @@ describe("FileClient Node.js only", () => {
     };
     await fileClient.setMetadata(metadata);
 
-    const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = fileClient["credential"] as StorageSharedKeyCredential;
     const newClient = new ShareFileClient(fileClient.url, credential, {
       retryOptions: {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -183,10 +206,10 @@ describe("FileClient Node.js only", () => {
     };
     await fileClient.setMetadata(metadata);
 
-    const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = fileClient["credential"] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ShareFileClient(fileClient.url, pipeline);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -204,9 +227,8 @@ describe("FileClient Node.js only", () => {
     await fileClient.uploadRange(fileContent, 0, fileContent.length);
 
     // Get a SAS for fileURL
-    const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
-    const expiresOn = recorder.newDate("now");
+    const credential = fileClient["credential"] as StorageSharedKeyCredential;
+    const expiresOn = new Date(recorder.variable("now", new Date().toISOString()));
     expiresOn.setDate(expiresOn.getDate() + 1);
     const sas = generateFileSASQueryParameters(
       {
@@ -218,7 +240,7 @@ describe("FileClient Node.js only", () => {
       credential
     );
 
-    const fileName2 = recorder.getUniqueName("file2");
+    const fileName2 = recorder.variable("file2", getUniqueName("file2"));
     const fileURL2 = dirClient.getFileClient(fileName2);
 
     await fileURL2.create(1024);
@@ -240,9 +262,8 @@ describe("FileClient Node.js only", () => {
     await fileClient.uploadRange(fileContent, 0, fileContent.length);
 
     // Get a SAS for fileURL
-    const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
-    const expiresOn = recorder.newDate("now");
+    const credential = fileClient["credential"] as StorageSharedKeyCredential;
+    const expiresOn = new Date(recorder.variable("now", new Date().toISOString()));
     expiresOn.setDate(expiresOn.getDate() + 1);
     const sas = generateFileSASQueryParameters(
       {
@@ -254,7 +275,7 @@ describe("FileClient Node.js only", () => {
       credential
     );
 
-    const fileName2 = recorder.getUniqueName("file2");
+    const fileName2 = recorder.variable("file2", getUniqueName("file2"));
     const fileURL2 = dirClient.getFileClient(fileName2);
 
     const createResult = await fileURL2.create(1024);
@@ -285,24 +306,22 @@ describe("FileClient Node.js only", () => {
   });
 
   it("uploadRangeFromURL - source bearer token", async function (this: Context) {
-    if (!isPlaybackMode()) {
-      // Enable this case, when the STG78 feature is enabled in production.
-      this.skip();
-    }
-    const blobServiceClient = getBlobServceClient();
+    const blobServiceClient = getBlobServiceClient(recorder);
     const containerClient = blobServiceClient.getContainerClient(
-      recorder.getUniqueName("container")
+      recorder.variable("container", getUniqueName("container"))
     );
     await containerClient.create();
-    const blockBlob = containerClient.getBlockBlobClient(recorder.getUniqueName("blockBlob"));
+    const blockBlob = containerClient.getBlockBlobClient(
+      recorder.variable("blockBlob", getUniqueName("blockBlob"))
+    );
 
     const blobContent = "a".repeat(512) + "b".repeat(512);
 
     await blockBlob.upload(blobContent, blobContent.length);
 
-    const fileName2 = recorder.getUniqueName("file2");
+    const fileName2 = recorder.variable("file2", getUniqueName("file2"));
     const tokenCredential = getTokenCredential();
-    const accessToken = await tokenCredential.getToken([]);
+    const accessToken = await tokenCredential.getToken(["https://storage.azure.com/.default"]);
     const fileURL2 = dirClient.getFileClient(fileName2);
 
     await fileURL2.create(1024);
@@ -328,7 +347,11 @@ describe("FileClient Node.js only", () => {
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
 
-  it("should not decompress during downloading", async () => {
+  it("should not decompress during downloading", async function () {
+    // recorder doesn't save binary payload correctly
+    if (!isLiveMode()) {
+      this.skip();
+    }
     const body: string = "hello world body string!";
     const deflated = zlib.deflateSync(body);
 

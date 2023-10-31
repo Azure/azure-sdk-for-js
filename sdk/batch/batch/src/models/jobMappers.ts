@@ -40,7 +40,6 @@ export {
   JobDisableParameter,
   JobEnableHeaders,
   JobExecutionInformation,
-  JobGetAllLifetimeStatisticsHeaders,
   JobGetHeaders,
   JobGetTaskCountsHeaders,
   JobListFromJobScheduleHeaders,

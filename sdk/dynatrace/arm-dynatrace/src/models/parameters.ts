@@ -14,10 +14,10 @@ import {
 import {
   MonitorResource as MonitorResourceMapper,
   MonitorResourceUpdate as MonitorResourceUpdateMapper,
+  MarketplaceSaaSResourceDetailsRequest as MarketplaceSaaSResourceDetailsRequestMapper,
   SSODetailsRequest as SSODetailsRequestMapper,
   LinkableEnvironmentRequest as LinkableEnvironmentRequestMapper,
   TagRule as TagRuleMapper,
-  TagRuleUpdate as TagRuleUpdateMapper,
   DynatraceSingleSignOnResource as DynatraceSingleSignOnResourceMapper
 } from "../models/mappers";
 
@@ -48,7 +48,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-09-01",
+    defaultValue: "2023-04-27",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -120,11 +120,16 @@ export const resource1: OperationParameter = {
 };
 
 export const request: OperationParameter = {
+  parameterPath: "request",
+  mapper: MarketplaceSaaSResourceDetailsRequestMapper
+};
+
+export const request1: OperationParameter = {
   parameterPath: ["options", "request"],
   mapper: SSODetailsRequestMapper
 };
 
-export const request1: OperationParameter = {
+export const request2: OperationParameter = {
   parameterPath: "request",
   mapper: LinkableEnvironmentRequestMapper
 };
@@ -158,11 +163,6 @@ export const resource2: OperationParameter = {
 };
 
 export const resource3: OperationParameter = {
-  parameterPath: "resource",
-  mapper: TagRuleUpdateMapper
-};
-
-export const resource4: OperationParameter = {
   parameterPath: "resource",
   mapper: DynatraceSingleSignOnResourceMapper
 };

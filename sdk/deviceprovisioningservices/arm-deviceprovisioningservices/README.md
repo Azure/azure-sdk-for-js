@@ -6,7 +6,7 @@ API for using the Azure IoT Hub Device Provisioning Service features.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceprovisioningservices/arm-deviceprovisioningservices) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-deviceprovisioningservices) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-deviceprovisioningservices) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-deviceprovisioningservices?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
