@@ -368,6 +368,10 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(metrics.length, 2, "Metrics count");
         assert.strictEqual(metrics[0].descriptor.name, StatsbeatCounter.FEATURE);
         assert.strictEqual(metrics[1].descriptor.name, StatsbeatCounter.ATTACH);
+        // Instrumentation statsbeat
+        assert.strictEqual(metrics[0].dataPoints[0].attributes.type, 1);
+        // Feature statsbeat
+        assert.strictEqual(metrics[0].dataPoints[1].attributes.type, 0);
 
         // Clean up env variables
         delete process.env.STATSBEAT_INSTRUMENTATIONS;
