@@ -7,7 +7,7 @@ import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "@azure/monito
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export abstract class MonitorOpenTelemetryTest<TOptions> extends PerfTest<TOptions> {  
+export abstract class MonitorOpenTelemetryTest<TOptions> extends PerfTest<TOptions> {
   constructor() {
     super();
     const options: AzureMonitorOpenTelemetryOptions = {
