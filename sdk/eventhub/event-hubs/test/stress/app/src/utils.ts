@@ -72,6 +72,7 @@ export function createEventHubsProducerClient(
 
 
 export function generateHeapSnapshot(fileName: string, folderName?: string) {
+  console.log(`Generating heap snapshot ${fileName}`);
   const snapshotStream = v8.getHeapSnapshot();
   // It's important that the filename end with `.heapsnapshot`,
   // otherwise Chrome DevTools won't open it.
