@@ -14,6 +14,7 @@ import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
 import { Resource } from "@opentelemetry/resources";
 import { StandardMetrics } from "../../../../src/metrics/standardMetrics";
 import { InternalConfig } from "../../../../src/shared";
+import { getDependencyTarget } from "../../../../src/metrics/utils";
 
 describe("#StandardMetricsHandler", () => {
   let exportStub: sinon.SinonStub;
@@ -228,16 +229,16 @@ describe("#StandardMetricsHandler", () => {
     let attributes: Attributes;
 
     attributes = { [SemanticAttributes.HTTP_URL]: "http://testHttpHost" };
-    assert.strictEqual(autoCollect["_getDependencyTarget"](attributes), "http://testHttpHost");
+    assert.strictEqual(getDependencyTarget(attributes), "http://testHttpHost");
 
     attributes = { [SemanticAttributes.NET_PEER_NAME]: "testNetPeerName" };
-    assert.strictEqual(autoCollect["_getDependencyTarget"](attributes), "testNetPeerName");
+    assert.strictEqual(getDependencyTarget(attributes), "testNetPeerName");
 
     attributes = { [SemanticAttributes.NET_PEER_IP]: "testNetPeerIp" };
-    assert.strictEqual(autoCollect["_getDependencyTarget"](attributes), "testNetPeerIp");
+    assert.strictEqual(getDependencyTarget(attributes), "testNetPeerIp");
 
     attributes = { "unknown.attribute": "value" };
-    assert.strictEqual(autoCollect["_getDependencyTarget"](attributes), "");
+    assert.strictEqual(getDependencyTarget(attributes), "");
   });
 
   it("should retrieve meter provider", () => {
