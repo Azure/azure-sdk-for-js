@@ -552,7 +552,10 @@ describe("AppConfigurationClient", () => {
     let count = 0;
 
     /** Simulating a setting in production that will be made read only */
-    const productionASettingId = {
+    const productionASettingId: Pick<
+      ConfigurationSetting,
+      "key" | "label" | "value" | "contentType"
+    > = {
       key: "",
       label: "",
       value: "[A] production value",

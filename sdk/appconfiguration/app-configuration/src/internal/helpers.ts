@@ -230,6 +230,8 @@ export function transformKeyValue<T>(kvp: T & KeyValue): T & ConfigurationSettin
 
   delete setting.locked;
 
+  if (kvp.label) setting.label = kvp.label;
+  if (kvp.contentType) setting.contentType = kvp.contentType;
   return setting;
 }
 
@@ -408,12 +410,4 @@ export function hasUnderscoreResponse<T extends object>(
   result: T
 ): result is T & HttpResponseField<any> {
   return Object.prototype.hasOwnProperty.call(result, "_response");
-}
-/**
- * @internal
- */
-export function formatLabelForConfigurationSetting(
-  label: string | null | undefined
-): string | undefined {
-  return label === null ? undefined : label;
 }

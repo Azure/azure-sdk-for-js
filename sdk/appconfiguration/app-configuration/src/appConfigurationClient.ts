@@ -66,7 +66,6 @@ import {
   formatFieldsForSelect,
   formatFiltersAndSelect,
   formatSnapshotFiltersAndSelect,
-  formatLabelForConfigurationSetting,
   makeConfigurationSettingEmpty,
   serializeAsConfigurationSettingParam,
   transformKeyValue,
@@ -210,13 +209,12 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
-
         logger.info("[addConfigurationSetting] Creating a key value pair");
         try {
           const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
             ifNoneMatch: "*",
-            label: formatLabelForConfigurationSetting(configurationSetting.label),
-            entity: { ...keyValue, label: formatLabelForConfigurationSetting(keyValue.label) },
+            label: configurationSetting.label,
+            entity: keyValue,
             ...updatedOptions,
           });
           const response = transformKeyValueResponse(originalResponse);
@@ -256,7 +254,7 @@ export class AppConfigurationClient {
         let status;
         logger.info("[deleteConfigurationSetting] Deleting key value pair");
         const originalResponse = await this.client.deleteKeyValue(id.key, {
-          label: formatLabelForConfigurationSetting(id.label),
+          label: id.label,
           ...updatedOptions,
           ...checkAndFormatIfAndIfNoneMatch(id, options),
           onResponse: (response) => {
@@ -293,7 +291,7 @@ export class AppConfigurationClient {
         logger.info("[getConfigurationSetting] Getting key value pair");
         const originalResponse = await this.client.getKeyValue(id.key, {
           ...updatedOptions,
-          label: formatLabelForConfigurationSetting(id.label),
+          label: id.label,
           select: formatFieldsForSelect(options.fields),
           ...formatAcceptDateTime(options),
           ...checkAndFormatIfAndIfNoneMatch(id, options),
@@ -497,8 +495,8 @@ export class AppConfigurationClient {
         const response = transformKeyValueResponse(
           await this.client.putKeyValue(configurationSetting.key, {
             ...updatedOptions,
-            label: formatLabelForConfigurationSetting(configurationSetting.label),
-            entity: { ...keyValue, label: formatLabelForConfigurationSetting(keyValue.label) },
+            label: configurationSetting.label,
+            entity: keyValue,
             ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
           })
         );
@@ -526,14 +524,14 @@ export class AppConfigurationClient {
           logger.info("[setReadOnly] Setting read-only status to ${readOnly}");
           response = await this.client.putLock(id.key, {
             ...newOptions,
-            label: formatLabelForConfigurationSetting(id.label),
+            label: id.label,
             ...checkAndFormatIfAndIfNoneMatch(id, options),
           });
         } else {
           logger.info("[setReadOnly] Deleting read-only lock");
           response = await this.client.deleteLock(id.key, {
             ...newOptions,
-            label: formatLabelForConfigurationSetting(id.label),
+            label: id.label,
             ...checkAndFormatIfAndIfNoneMatch(id, options),
           });
         }
