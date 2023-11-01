@@ -16,6 +16,7 @@ import {
   CallLocator,
   ChannelAffinity,
   CustomContext,
+  CallIntelligenceOptions,
 } from "./models";
 
 /** Options to configure the recognize operation. */
@@ -102,16 +103,16 @@ export interface CreateCallOptions extends OperationOptions {
   sourceDisplayName?: string;
   /** The operation context. */
   operationContext?: string;
-  /** The Azure cognitive services end point url. */
-  cognitiveServicesEndpoint?: string;
+  /** AI options for the call. */
+  callIntelligenceOptions?: CallIntelligenceOptions;
 }
 
 /**
  * Options to answer a call.
  */
 export interface AnswerCallOptions extends OperationOptions {
-  /** The Azure cognitive services end point url. */
-  cognitiveServicesEndpoint?: string;
+  /** AI options for the call. */
+  callIntelligenceOptions?: CallIntelligenceOptions;
   /** The operation context. */
   operationContext?: string;
 }
