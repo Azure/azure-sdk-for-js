@@ -7,10 +7,10 @@ import {
   AnalyzeTextResultOutput,
   AnalyzeImageResultOutput,
   TextBlocklistOutput,
-  TextBlocklistListOutput,
-  AddBlockItemsResultOutput,
-  TextBlockItemOutput,
-  TextBlockItemListOutput,
+  PagedTextBlocklistOutput,
+  AddOrUpdateTextBlocklistItemsResultOutput,
+  TextBlocklistItemOutput,
+  PagedTextBlocklistItemOutput,
 } from "./outputModels";
 
 /** The request has succeeded. */
@@ -81,7 +81,8 @@ export interface CreateOrUpdateTextBlocklistDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface CreateOrUpdateTextBlocklistDefaultResponse extends HttpResponse {
+export interface CreateOrUpdateTextBlocklistDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & CreateOrUpdateTextBlocklistDefaultHeaders;
@@ -106,7 +107,7 @@ export interface DeleteTextBlocklistDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface ListTextBlocklists200Response extends HttpResponse {
   status: "200";
-  body: TextBlocklistListOutput;
+  body: PagedTextBlocklistOutput;
 }
 
 export interface ListTextBlocklistsDefaultHeaders {
@@ -121,42 +122,42 @@ export interface ListTextBlocklistsDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface AddBlockItems200Response extends HttpResponse {
+export interface AddOrUpdateBlocklistItems200Response extends HttpResponse {
   status: "200";
-  body: AddBlockItemsResultOutput;
+  body: AddOrUpdateTextBlocklistItemsResultOutput;
 }
 
-export interface AddBlockItemsDefaultHeaders {
+export interface AddOrUpdateBlocklistItemsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AddBlockItemsDefaultResponse extends HttpResponse {
+export interface AddOrUpdateBlocklistItemsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AddBlockItemsDefaultHeaders;
+  headers: RawHttpHeaders & AddOrUpdateBlocklistItemsDefaultHeaders;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface RemoveBlockItems204Response extends HttpResponse {
+export interface RemoveBlocklistItems204Response extends HttpResponse {
   status: "204";
 }
 
-export interface RemoveBlockItemsDefaultHeaders {
+export interface RemoveBlocklistItemsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface RemoveBlockItemsDefaultResponse extends HttpResponse {
+export interface RemoveBlocklistItemsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & RemoveBlockItemsDefaultHeaders;
+  headers: RawHttpHeaders & RemoveBlocklistItemsDefaultHeaders;
 }
 
 /** The request has succeeded. */
 export interface GetTextBlocklistItem200Response extends HttpResponse {
   status: "200";
-  body: TextBlockItemOutput;
+  body: TextBlocklistItemOutput;
 }
 
 export interface GetTextBlocklistItemDefaultHeaders {
@@ -173,7 +174,7 @@ export interface GetTextBlocklistItemDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface ListTextBlocklistItems200Response extends HttpResponse {
   status: "200";
-  body: TextBlockItemListOutput;
+  body: PagedTextBlocklistItemOutput;
 }
 
 export interface ListTextBlocklistItemsDefaultHeaders {

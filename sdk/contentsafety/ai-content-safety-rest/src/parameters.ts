@@ -6,19 +6,19 @@ import {
   AnalyzeTextOptions,
   AnalyzeImageOptions,
   TextBlocklist,
-  AddBlockItemsOptions,
-  RemoveBlockItemsOptions,
+  AddOrUpdateTextBlocklistItemsOptions,
+  RemoveTextBlocklistItemsOptions,
 } from "./models";
 
 export interface AnalyzeTextBodyParam {
-  /** The request of text analysis. */
+  /** The text analysis request. */
   body: AnalyzeTextOptions;
 }
 
 export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
 
 export interface AnalyzeImageBodyParam {
-  /** The analysis request of the image. */
+  /** The image analysis request. */
   body: AnalyzeImageOptions;
 }
 
@@ -37,23 +37,26 @@ export interface CreateOrUpdateTextBlocklistMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type CreateOrUpdateTextBlocklistParameters = CreateOrUpdateTextBlocklistMediaTypesParam &
-  CreateOrUpdateTextBlocklistBodyParam &
-  RequestParameters;
+export type CreateOrUpdateTextBlocklistParameters =
+  CreateOrUpdateTextBlocklistMediaTypesParam &
+    CreateOrUpdateTextBlocklistBodyParam &
+    RequestParameters;
 export type DeleteTextBlocklistParameters = RequestParameters;
 export type ListTextBlocklistsParameters = RequestParameters;
 
-export interface AddBlockItemsBodyParam {
-  body?: AddBlockItemsOptions;
+export interface AddOrUpdateBlocklistItemsBodyParam {
+  body?: AddOrUpdateTextBlocklistItemsOptions;
 }
 
-export type AddBlockItemsParameters = AddBlockItemsBodyParam & RequestParameters;
+export type AddOrUpdateBlocklistItemsParameters =
+  AddOrUpdateBlocklistItemsBodyParam & RequestParameters;
 
-export interface RemoveBlockItemsBodyParam {
-  body?: RemoveBlockItemsOptions;
+export interface RemoveBlocklistItemsBodyParam {
+  body?: RemoveTextBlocklistItemsOptions;
 }
 
-export type RemoveBlockItemsParameters = RemoveBlockItemsBodyParam & RequestParameters;
+export type RemoveBlocklistItemsParameters = RemoveBlocklistItemsBodyParam &
+  RequestParameters;
 export type GetTextBlocklistItemParameters = RequestParameters;
 
 export interface ListTextBlocklistItemsQueryParamProperties {
@@ -69,4 +72,5 @@ export interface ListTextBlocklistItemsQueryParam {
   queryParameters?: ListTextBlocklistItemsQueryParamProperties;
 }
 
-export type ListTextBlocklistItemsParameters = ListTextBlocklistItemsQueryParam & RequestParameters;
+export type ListTextBlocklistItemsParameters =
+  ListTextBlocklistItemsQueryParam & RequestParameters;

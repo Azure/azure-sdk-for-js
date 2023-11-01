@@ -15,10 +15,10 @@ import {
   DeleteTextBlocklistDefaultResponse,
   ListTextBlocklists200Response,
   ListTextBlocklistsDefaultResponse,
-  AddBlockItems200Response,
-  AddBlockItemsDefaultResponse,
-  RemoveBlockItems204Response,
-  RemoveBlockItemsDefaultResponse,
+  AddOrUpdateBlocklistItems200Response,
+  AddOrUpdateBlocklistItemsDefaultResponse,
+  RemoveBlocklistItems204Response,
+  RemoveBlocklistItemsDefaultResponse,
   GetTextBlocklistItem200Response,
   GetTextBlocklistItemDefaultResponse,
   ListTextBlocklistItems200Response,
@@ -32,10 +32,12 @@ const responseMap: Record<string, string[]> = {
   "PATCH /text/blocklists/{blocklistName}": ["200", "201"],
   "DELETE /text/blocklists/{blocklistName}": ["204"],
   "GET /text/blocklists": ["200"],
-  "POST /text/blocklists/{blocklistName}:addBlockItems": ["200"],
-  "POST /text/blocklists/{blocklistName}:removeBlockItems": ["204"],
-  "GET /text/blocklists/{blocklistName}/blockItems/{blockItemId}": ["200"],
-  "GET /text/blocklists/{blocklistName}/blockItems": ["200"],
+  "POST /text/blocklists/{blocklistName}:addOrUpdateBlocklistItems": ["200"],
+  "POST /text/blocklists/{blocklistName}:removeBlocklistItems": ["204"],
+  "GET /text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}": [
+    "200",
+  ],
+  "GET /text/blocklists/{blocklistName}/blocklistItems": ["200"],
 };
 
 export function isUnexpected(
@@ -60,16 +62,24 @@ export function isUnexpected(
   response: ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse
 ): response is ListTextBlocklistsDefaultResponse;
 export function isUnexpected(
-  response: AddBlockItems200Response | AddBlockItemsDefaultResponse
-): response is AddBlockItemsDefaultResponse;
+  response:
+    | AddOrUpdateBlocklistItems200Response
+    | AddOrUpdateBlocklistItemsDefaultResponse
+): response is AddOrUpdateBlocklistItemsDefaultResponse;
 export function isUnexpected(
-  response: RemoveBlockItems204Response | RemoveBlockItemsDefaultResponse
-): response is RemoveBlockItemsDefaultResponse;
+  response:
+    | RemoveBlocklistItems204Response
+    | RemoveBlocklistItemsDefaultResponse
+): response is RemoveBlocklistItemsDefaultResponse;
 export function isUnexpected(
-  response: GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse
+  response:
+    | GetTextBlocklistItem200Response
+    | GetTextBlocklistItemDefaultResponse
 ): response is GetTextBlocklistItemDefaultResponse;
 export function isUnexpected(
-  response: ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse
+  response:
+    | ListTextBlocklistItems200Response
+    | ListTextBlocklistItemsDefaultResponse
 ): response is ListTextBlocklistItemsDefaultResponse;
 export function isUnexpected(
   response:
@@ -86,10 +96,10 @@ export function isUnexpected(
     | DeleteTextBlocklistDefaultResponse
     | ListTextBlocklists200Response
     | ListTextBlocklistsDefaultResponse
-    | AddBlockItems200Response
-    | AddBlockItemsDefaultResponse
-    | RemoveBlockItems204Response
-    | RemoveBlockItemsDefaultResponse
+    | AddOrUpdateBlocklistItems200Response
+    | AddOrUpdateBlocklistItemsDefaultResponse
+    | RemoveBlocklistItems204Response
+    | RemoveBlocklistItemsDefaultResponse
     | GetTextBlocklistItem200Response
     | GetTextBlocklistItemDefaultResponse
     | ListTextBlocklistItems200Response
@@ -101,8 +111,8 @@ export function isUnexpected(
   | CreateOrUpdateTextBlocklistDefaultResponse
   | DeleteTextBlocklistDefaultResponse
   | ListTextBlocklistsDefaultResponse
-  | AddBlockItemsDefaultResponse
-  | RemoveBlockItemsDefaultResponse
+  | AddOrUpdateBlocklistItemsDefaultResponse
+  | RemoveBlocklistItemsDefaultResponse
   | GetTextBlocklistItemDefaultResponse
   | ListTextBlocklistItemsDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
@@ -137,17 +147,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || ""
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;
