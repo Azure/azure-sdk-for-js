@@ -78,7 +78,7 @@ export interface ConfigurationSettingId {
    * The label for this setting. Leaving this undefined means this
    * setting does not have a label.
    */
-  label?: string;
+  label?: string | null;
 }
 /**
  * Necessary fields for updating or creating a new configuration setting

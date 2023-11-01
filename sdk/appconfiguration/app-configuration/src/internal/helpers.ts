@@ -409,3 +409,11 @@ export function hasUnderscoreResponse<T extends object>(
 ): result is T & HttpResponseField<any> {
   return Object.prototype.hasOwnProperty.call(result, "_response");
 }
+/**
+ * @internal
+ */
+export function formatLabelForConfigurationSetting(
+  label: string | null | undefined
+): string | undefined {
+  return label === null ? undefined : label;
+}

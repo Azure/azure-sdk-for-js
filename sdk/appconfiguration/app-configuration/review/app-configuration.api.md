@@ -72,7 +72,7 @@ export type ConfigurationSetting<T extends string | FeatureFlagValue | SecretRef
 export interface ConfigurationSettingId {
     etag?: string;
     key: string;
-    label?: string;
+    label?: string | null;
 }
 
 // @public
