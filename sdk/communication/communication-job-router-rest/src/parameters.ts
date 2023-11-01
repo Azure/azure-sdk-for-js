@@ -9,11 +9,11 @@ import {
   ExceptionPolicy,
   RouterQueue,
   RouterJob,
-  CancelJobRequest,
-  CompleteJobRequest,
-  CloseJobRequest,
-  UnassignJobRequest,
-  DeclineJobOfferRequest,
+  CancelJobOptions,
+  CompleteJobOptions,
+  CloseJobOptions,
+  UnassignJobOptions,
+  DeclineJobOfferOptions,
   RouterWorker,
 } from "./models";
 
@@ -227,21 +227,21 @@ export type ReclassifyJobActionParameters = ReclassifyJobActionBodyParam & Reque
 
 export interface CancelJobActionBodyParam {
   /** Request model for cancelling job. */
-  body?: CancelJobRequest;
+  body?: CancelJobOptions;
 }
 
 export type CancelJobActionParameters = CancelJobActionBodyParam & RequestParameters;
 
 export interface CompleteJobActionBodyParam {
   /** Request model for completing job. */
-  body: CompleteJobRequest;
+  body: CompleteJobOptions;
 }
 
 export type CompleteJobActionParameters = CompleteJobActionBodyParam & RequestParameters;
 
 export interface CloseJobActionBodyParam {
   /** Request model for closing job. */
-  body: CloseJobRequest;
+  body: CloseJobOptions;
 }
 
 export type CloseJobActionParameters = CloseJobActionBodyParam & RequestParameters;
@@ -282,7 +282,7 @@ export type GetInQueuePositionParameters = RequestParameters;
 
 export interface UnassignJobActionBodyParam {
   /** Request body for unassign route. */
-  body?: UnassignJobRequest;
+  body?: UnassignJobOptions;
 }
 
 export type UnassignJobActionParameters = UnassignJobActionBodyParam & RequestParameters;
@@ -290,7 +290,7 @@ export type AcceptJobActionParameters = RequestParameters;
 
 export interface DeclineJobActionBodyParam {
   /** Request model for declining offer. */
-  body?: DeclineJobOfferRequest;
+  body?: DeclineJobOfferOptions;
 }
 
 export type DeclineJobActionParameters = DeclineJobActionBodyParam & RequestParameters;

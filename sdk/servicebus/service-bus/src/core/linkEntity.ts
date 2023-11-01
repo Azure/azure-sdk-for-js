@@ -137,7 +137,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * The token renewal timer that keeps track of when
    * the Client Entity is due for token renewal.
    */
-  private _tokenRenewalTimer?: NodeJS.Timer;
+  private _tokenRenewalTimer?: NodeJS.Timeout;
   /**
    * Indicates token timeout
    */
@@ -336,7 +336,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   private async closeLinkImpl(): Promise<void> {
     this._logger.verbose(`${this._logPrefix} closeLinkImpl() called`);
 
-    clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+    clearTimeout(this._tokenRenewalTimer as NodeJS.Timeout);
     this._tokenRenewalTimer = undefined;
 
     if (this._link) {

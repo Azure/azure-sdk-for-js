@@ -40,7 +40,7 @@
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "keywords": [
     "azure",
@@ -79,6 +79,6 @@
     "source-map-support": "^0.5.9",
     "typescript": "~5.2.0",
     "ts-node": "^10.0.0",
-    "@types/node": "^16.0.0"
+    "@types/node": "^18.0.0"
   }
 }

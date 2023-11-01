@@ -125,6 +125,6 @@ export interface VirtualMachineInfo {
 }
 
 export enum StatsbeatFeatureType {
-  FEATURE = "Feature",
-  INSTRUMENTATION = "Instrumentation",
+  FEATURE = 0,
+  INSTRUMENTATION = 1,
 }

@@ -29,7 +29,7 @@
     "review/*"
   ],
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -71,7 +71,7 @@
     "@azure/test-utils": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "autorest": "latest",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "mkdirp": "^1.0.4",
