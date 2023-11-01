@@ -7,12 +7,10 @@
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface BackTranslationOutput {
@@ -29,7 +27,7 @@ export interface BreakSentenceItemOutput {
 }
 
 // @public (undocumented)
-export function buildMultiCollection(queryParameters: string[], parameterName: string): string;
+export function buildMultiCollection(items: string[], parameterName: string): string;
 
 // @public
 export interface CommonScriptModelOutput {
@@ -40,7 +38,7 @@ export interface CommonScriptModelOutput {
 }
 
 // @public
-function createClient(endpoint: undefined | string, credential?: undefined | TranslatorCredential | KeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
+function createClient(endpoint: string, options?: ClientOptions): TextTranslationClient;
 export default createClient;
 
 // @public
@@ -514,10 +512,10 @@ export interface TranslateQueryParamProperties {
     fromScript?: string;
     includeAlignment?: boolean;
     includeSentenceLength?: boolean;
-    profanityAction?: "NoAction" | "Marked" | "Deleted";
-    profanityMarker?: "Asterisk" | "Tag";
+    profanityAction?: string;
+    profanityMarker?: string;
     suggestedFrom?: string;
-    textType?: "plain" | "html";
+    textType?: string;
     to: string;
     toScript?: string;
 }
@@ -535,15 +533,7 @@ export interface TranslationOutput {
     sentLen?: SentenceLengthOutput;
     text: string;
     to: string;
-    transliteration?: TransliterationOutput;
-}
-
-// @public (undocumented)
-export interface TranslatorCredential {
-    // (undocumented)
-    key: string;
-    // (undocumented)
-    region: string;
+    transliteration?: TransliteratedTextOutput;
 }
 
 // @public
@@ -629,12 +619,6 @@ export interface TransliterationLanguageOutput {
     name: string;
     nativeName: string;
     scripts: Array<TransliterableScriptOutput>;
-}
-
-// @public
-export interface TransliterationOutput {
-    script: string;
-    text: string;
 }
 
 // (No @packageDocumentation comment for this package)

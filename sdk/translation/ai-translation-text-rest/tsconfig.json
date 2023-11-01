@@ -1,11 +1,5 @@
 {
   "extends": "../../../tsconfig.package",
-  "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
-    "paths": {
-      "@azure-rest/ai-translation-text": ["./src/index"]
-    }
-  },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "compilerOptions": { "outDir": "./dist-esm", "declarationDir": "./types" },
+  "include": ["src/**/*.ts", "./test/**/*.ts"]
 }
