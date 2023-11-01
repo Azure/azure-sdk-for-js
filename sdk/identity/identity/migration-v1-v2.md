@@ -139,7 +139,7 @@ try {
 
 On the browser, the `InteractiveBrowserCredential` now uses the [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with [PKCE](https://tools.ietf.org/html/rfc7636) rather than [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) to better support browsers with enhanced security restrictions.
 
-To migrate to v2 of the `InteractiveBrowserCredential`, your Azure Active Directory app registration needs to change. Take one of the following actions:
+To migrate to v2 of the `InteractiveBrowserCredential`, your Microsoft Entra app registration needs to change. Take one of the following actions:
 
 - Create a [new app registration](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#create-the-app-registration).
 - [Update your existing app registration to support the Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/migrate-spa-implicit-to-auth-code).

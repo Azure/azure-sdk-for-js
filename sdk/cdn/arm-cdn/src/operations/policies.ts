@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CdnManagementClient } from "../cdnManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CdnWebApplicationFirewallPolicy,
   PoliciesListNextOptionalParams,
@@ -151,8 +155,8 @@ export class PoliciesImpl implements Policies {
     cdnWebApplicationFirewallPolicy: CdnWebApplicationFirewallPolicy,
     options?: PoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PoliciesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PoliciesCreateOrUpdateResponse>,
       PoliciesCreateOrUpdateResponse
     >
   > {
@@ -162,7 +166,7 @@ export class PoliciesImpl implements Policies {
     ): Promise<PoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -195,18 +199,21 @@ export class PoliciesImpl implements Policies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         policyName,
         cdnWebApplicationFirewallPolicy,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PoliciesCreateOrUpdateResponse,
+      OperationState<PoliciesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -250,8 +257,8 @@ export class PoliciesImpl implements Policies {
     cdnWebApplicationFirewallPolicyPatchParameters: CdnWebApplicationFirewallPolicyPatchParameters,
     options?: PoliciesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PoliciesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PoliciesUpdateResponse>,
       PoliciesUpdateResponse
     >
   > {
@@ -261,7 +268,7 @@ export class PoliciesImpl implements Policies {
     ): Promise<PoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -294,18 +301,21 @@ export class PoliciesImpl implements Policies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         policyName,
         cdnWebApplicationFirewallPolicyPatchParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PoliciesUpdateResponse,
+      OperationState<PoliciesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -514,7 +524,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

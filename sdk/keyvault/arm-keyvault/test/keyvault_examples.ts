@@ -51,8 +51,8 @@ describe("Keyvault test", () => {
     const credential = createTestCredential();
     client = new KeyVaultManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "czwjstest";
-    vaultName = "myvaultzzzz";
+    resourceGroup = "myjstest";
+    vaultName = "myvaultzzzz" + "231019";
   });
 
   afterEach(async function () {

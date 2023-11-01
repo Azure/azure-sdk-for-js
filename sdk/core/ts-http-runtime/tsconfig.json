@@ -1,0 +1,12 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": {
+      "@typespec/ts-http-runtime": ["./src/index"]
+    },
+    "lib": ["dom", "dom.iterable"]
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"]
+}

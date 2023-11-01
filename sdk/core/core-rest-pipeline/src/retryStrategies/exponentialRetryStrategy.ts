@@ -105,6 +105,7 @@ export function isSystemError(err?: RestError): boolean {
     err.code === "ESOCKETTIMEDOUT" ||
     err.code === "ECONNREFUSED" ||
     err.code === "ECONNRESET" ||
-    err.code === "ENOENT"
+    err.code === "ENOENT" ||
+    err.code === "ENOTFOUND"
   );
 }

@@ -16,17 +16,21 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   MarketplaceAgreementsImpl,
+  CreationSupportedImpl,
   MonitorsImpl,
   OperationsImpl,
   TagRulesImpl,
-  SingleSignOnConfigurationsImpl
+  SingleSignOnConfigurationsImpl,
+  MonitoredSubscriptionsImpl
 } from "./operations";
 import {
   MarketplaceAgreements,
+  CreationSupported,
   Monitors,
   Operations,
   TagRules,
-  SingleSignOnConfigurations
+  SingleSignOnConfigurations,
+  MonitoredSubscriptions
 } from "./operationsInterfaces";
 import { MicrosoftDatadogClientOptionalParams } from "./models";
 
@@ -62,7 +66,7 @@ export class MicrosoftDatadogClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-datadog/3.0.3`;
+    const packageDetails = `azsdk-js-arm-datadog/3.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -115,12 +119,14 @@ export class MicrosoftDatadogClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-03-01";
+    this.apiVersion = options.apiVersion || "2023-01-01";
     this.marketplaceAgreements = new MarketplaceAgreementsImpl(this);
+    this.creationSupported = new CreationSupportedImpl(this);
     this.monitors = new MonitorsImpl(this);
     this.operations = new OperationsImpl(this);
     this.tagRules = new TagRulesImpl(this);
     this.singleSignOnConfigurations = new SingleSignOnConfigurationsImpl(this);
+    this.monitoredSubscriptions = new MonitoredSubscriptionsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -153,8 +159,10 @@ export class MicrosoftDatadogClient extends coreClient.ServiceClient {
   }
 
   marketplaceAgreements: MarketplaceAgreements;
+  creationSupported: CreationSupported;
   monitors: Monitors;
   operations: Operations;
   tagRules: TagRules;
   singleSignOnConfigurations: SingleSignOnConfigurations;
+  monitoredSubscriptions: MonitoredSubscriptions;
 }

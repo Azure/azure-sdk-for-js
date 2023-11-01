@@ -4,7 +4,7 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
 import { MsalAuthorizationCode } from "../msal/nodeFlows/msalAuthorizationCode";
@@ -17,11 +17,11 @@ import { tracingClient } from "../util/tracing";
 const logger = credentialLogger("AuthorizationCodeCredential");
 
 /**
- * Enables authentication to Azure Active Directory using an authorization code
+ * Enables authentication to Microsoft Entra ID using an authorization code
  * that was obtained through the authorization code flow, described in more detail
- * in the Azure Active Directory documentation:
+ * in the Microsoft Entra ID documentation:
  *
- * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
+ * https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow
  */
 export class AuthorizationCodeCredential implements TokenCredential {
   private msalFlow: MsalFlow;
@@ -34,7 +34,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   /**
    * Creates an instance of AuthorizationCodeCredential with the details needed
    * to request an access token using an authentication that was obtained
-   * from Azure Active Directory.
+   * from Microsoft Entra ID.
    *
    * It is currently necessary for the user of this credential to initiate
    * the authorization code flow to obtain an authorization code to be used
@@ -42,7 +42,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
    *
    * https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v2/manual/authorizationCodeSample.ts
    *
-   * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
+   * @param tenantId - The Microsoft Entra tenant (directory) ID or name.
    *                 'common' may be used when dealing with multi-tenant scenarios.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param clientSecret - A client secret that was generated for the App Registration
@@ -64,7 +64,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   /**
    * Creates an instance of AuthorizationCodeCredential with the details needed
    * to request an access token using an authentication that was obtained
-   * from Azure Active Directory.
+   * from Microsoft Entra ID.
    *
    * It is currently necessary for the user of this credential to initiate
    * the authorization code flow to obtain an authorization code to be used
@@ -72,7 +72,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
    *
    * https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v2/manual/authorizationCodeSample.ts
    *
-   * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
+   * @param tenantId - The Microsoft Entra tenant (directory) ID or name.
    *                 'common' may be used when dealing with multi-tenant scenarios.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param authorizationCode - An authorization code that was received from following the
@@ -119,7 +119,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
 
     // TODO: Validate tenant if provided
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
 
@@ -136,7 +136,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.

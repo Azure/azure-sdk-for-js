@@ -1,5 +1,15 @@
 # Release History
 
+## 4.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.0.0 (2023-09-12)
 🎉 v4 release! 🎉 Many new features, bug fixes, and a few breaking changes.
 - Summary of new added features 

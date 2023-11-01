@@ -5,7 +5,7 @@
   "description": "Azure SDK Core client library samples for JavaScript",
   "type": "module",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "repository": {
     "type": "git",

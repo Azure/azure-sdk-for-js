@@ -624,8 +624,8 @@ export const Storage: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      iopsTier: {
-        serializedName: "iopsTier",
+      tier: {
+        serializedName: "tier",
         type: {
           name: "String"
         }
