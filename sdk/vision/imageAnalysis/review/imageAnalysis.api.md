@@ -130,8 +130,8 @@ export class ImageAnalysisClient {
     analyzeFromStream(imageContent: Uint8Array, options?: AnalyzeFromStreamOptions): Promise<ImageAnalysisResult>;
     analyzeFromUrl(imageContent: ImageUrl, options?: AnalyzeFromUrlOptions): Promise<ImageAnalysisResult>;
     readonly pipeline: Pipeline;
-    segmentFromStream(mode: segmentationMode, imageContent: Uint8Array, options?: SegmentFromStreamOptions): Promise<Uint8Array>;
-    segmentFromUrl(mode: segmentationMode, imageContent: ImageUrl, options?: SegmentFromUrlOptions): Promise<Uint8Array>;
+    segmentFromStream(mode: SegmentationMode, imageContent: Uint8Array, options?: SegmentFromStreamOptions): Promise<Uint8Array>;
+    segmentFromUrl(mode: SegmentationMode, imageContent: ImageUrl, options?: SegmentFromUrlOptions): Promise<Uint8Array>;
 }
 
 // @public (undocumented)
@@ -183,7 +183,7 @@ export interface ReadResult {
 }
 
 // @public
-export type segmentationMode = string;
+export type SegmentationMode = string;
 
 // @public (undocumented)
 export interface SegmentFromStreamOptions extends OperationOptions {

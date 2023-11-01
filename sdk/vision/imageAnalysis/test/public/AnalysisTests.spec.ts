@@ -72,7 +72,7 @@ describe("Analyze Tests", () => {
     ];
     const someFeatures: VisualFeatures[] = ["Caption", "Read"];
 
-    const fileLocation = process.env.TEST_IMAGE_INPUT_PATH ? process.env.TEST_IMAGE_INPUT_PATH : assert.fail("TEST_IMAGE_INPUT_PATH is not defined");
+    const fileLocation = process.env.TEST_IMAGE_INPUT_PATH ? process.env.TEST_IMAGE_INPUT_PATH : "./test/image-analysis-sample.jpg";
 
     for (const testFeatures of [allFeatures, someFeatures]) {
       const fileStream = fs.readFileSync(fileLocation);
@@ -293,4 +293,3 @@ describe("Analyze Tests", () => {
   }
 
 });
-
