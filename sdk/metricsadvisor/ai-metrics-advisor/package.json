@@ -18,7 +18,7 @@
   "browser": {},
   "types": "./types/ai-metrics-advisor.d.ts",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/metricsadvisor/ai-metrics-advisor/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
@@ -103,7 +103,7 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/sinon": "^10.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",

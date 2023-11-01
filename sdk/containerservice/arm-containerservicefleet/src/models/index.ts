@@ -129,49 +129,6 @@ export interface FleetListResult {
   nextLink?: string;
 }
 
-/** The FleetHubProfile configures the fleet hub. */
-export interface FleetHubProfile {
-  /** DNS prefix used to create the FQDN for the Fleet hub. */
-  dnsPrefix?: string;
-  /** The access profile for the Fleet hub API server. */
-  apiServerAccessProfile?: APIServerAccessProfile;
-  /** The agent profile for the Fleet hub. */
-  agentProfile?: AgentProfile;
-  /**
-   * The FQDN of the Fleet hub.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fqdn?: string;
-  /**
-   * The Kubernetes version of the Fleet hub.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly kubernetesVersion?: string;
-  /**
-   * The Azure Portal FQDN of the Fleet hub.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly portalFqdn?: string;
-}
-
-/** Access profile for the Fleet hub API server. */
-export interface APIServerAccessProfile {
-  /** Whether to create the Fleet hub as a private cluster or not. */
-  enablePrivateCluster?: boolean;
-  /** Whether to enable apiserver vnet integration for the Fleet hub or not. */
-  enableVnetIntegration?: boolean;
-  /** The subnet to be used when apiserver vnet integration is enabled. It is required when creating a new Fleet with BYO vnet. */
-  subnetId?: string;
-}
-
-/** Agent profile for the Fleet hub. */
-export interface AgentProfile {
-  /** The ID of the subnet which the Fleet hub node will join on startup. If this is not specified, a vnet and subnet will be generated and used. */
-  subnetId?: string;
-  /** The virtual machine size of the Fleet hub. */
-  vmSize?: string;
-}
-
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
   /**
@@ -536,8 +493,6 @@ export interface Fleet extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: FleetProvisioningState;
-  /** The FleetHubProfile configures the Fleet's hub. */
-  hubProfile?: FleetHubProfile;
 }
 
 /** A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure. */

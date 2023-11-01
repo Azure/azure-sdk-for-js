@@ -81,7 +81,7 @@
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "keywords": [
     "azure",
@@ -104,7 +104,7 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.3.1",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "chai": "^4.3.6",
     "dotenv": "^16.0.0",
     "downlevel-dts": "^0.10.0",

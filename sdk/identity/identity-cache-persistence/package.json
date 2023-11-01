@@ -38,7 +38,7 @@
     "LICENSE"
   ],
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
@@ -60,8 +60,8 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/core-auth": "^1.5.0",
-    "@azure/identity": "^3.3.1",
-    "@azure/msal-node": "^2.0.0",
+    "@azure/identity": "4.0.0-beta.2",
+    "@azure/msal-node": "^2.3.0",
     "@azure/msal-node-extensions": "1.0.0-alpha.25",
     "keytar": "^7.6.0",
     "tslib": "^2.2.0"
@@ -75,7 +75,7 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/jws": "^3.2.2",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/qs": "^6.5.3",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",

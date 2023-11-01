@@ -23,7 +23,7 @@
   "module": "dist-esm/keyvault-keys/src/index.js",
   "types": "./types/keyvault-keys.d.ts",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "files": [
     "types/keyvault-keys.d.ts",
@@ -124,7 +124,7 @@
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/sinon": "^10.0.0",
     "cross-env": "^7.0.2",
     "dayjs": "^1.10.7",
