@@ -203,7 +203,7 @@ export class CallAutomationClient {
       targets: [communicationIdentifierModelConverter(targetParticipant.targetParticipant)],
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
-      cognitiveServicesEndpoint: options.cognitiveServicesEndpoint,
+      callIntelligenceOptions: options.callIntelligenceOptions,
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(
         targetParticipant.sourceCallIdNumber
       ),
@@ -229,7 +229,7 @@ export class CallAutomationClient {
       targets: targetParticipants.map((target) => communicationIdentifierModelConverter(target)),
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
-      cognitiveServicesEndpoint: options.cognitiveServicesEndpoint,
+      callIntelligenceOptions: options.callIntelligenceOptions,
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
     };
@@ -248,14 +248,10 @@ export class CallAutomationClient {
     callbackUrl: string,
     options: AnswerCallOptions = {}
   ): Promise<AnswerCallResult> {
-    const {
-      cognitiveServicesEndpoint: cognitiveServicesEndpoint,
-      operationContext,
-      ...operationOptions
-    } = options;
+    const { callIntelligenceOptions, operationContext, ...operationOptions } = options;
     const request: AnswerCallRequest = {
       incomingCallContext,
-      cognitiveServicesEndpoint,
+      callIntelligenceOptions,
       operationContext,
       callbackUri: callbackUrl,
       answeredBy: this.sourceIdentity,

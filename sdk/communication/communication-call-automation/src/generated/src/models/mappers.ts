@@ -59,10 +59,11 @@ export const CreateCallRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      cognitiveServicesEndpoint: {
-        serializedName: "cognitiveServicesEndpoint",
+      callIntelligenceOptions: {
+        serializedName: "callIntelligenceOptions",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CallIntelligenceOptionsInternal"
         }
       }
     }
@@ -163,6 +164,21 @@ export const MicrosoftTeamsUserIdentifierModel: coreClient.CompositeMapper = {
       },
       cloud: {
         serializedName: "cloud",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CallIntelligenceOptionsInternal: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CallIntelligenceOptionsInternal",
+    modelProperties: {
+      cognitiveServicesEndpoint: {
+        serializedName: "cognitiveServicesEndpoint",
         type: {
           name: "String"
         }
@@ -340,10 +356,11 @@ export const AnswerCallRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      cognitiveServicesEndpoint: {
-        serializedName: "cognitiveServicesEndpoint",
+      callIntelligenceOptions: {
+        serializedName: "callIntelligenceOptions",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CallIntelligenceOptionsInternal"
         }
       },
       answeredBy: {
@@ -2274,11 +2291,17 @@ export const ContinuousDtmfRecognitionToneReceived: coreClient.CompositeMapper =
     name: "Composite",
     className: "ContinuousDtmfRecognitionToneReceived",
     modelProperties: {
-      toneInfo: {
-        serializedName: "toneInfo",
+      sequenceId: {
+        serializedName: "sequenceId",
+        readOnly: true,
         type: {
-          name: "Composite",
-          className: "ToneInfo"
+          name: "Number"
+        }
+      },
+      tone: {
+        serializedName: "tone",
+        type: {
+          name: "String"
         }
       },
       callConnectionId: {
@@ -2308,29 +2331,6 @@ export const ContinuousDtmfRecognitionToneReceived: coreClient.CompositeMapper =
       },
       operationContext: {
         serializedName: "operationContext",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ToneInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ToneInfo",
-    modelProperties: {
-      sequenceId: {
-        serializedName: "sequenceId",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      tone: {
-        serializedName: "tone",
-        required: true,
         type: {
           name: "String"
         }
