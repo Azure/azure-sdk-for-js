@@ -66,6 +66,10 @@ async function scenario27253Test() {
     hundredSecondsCounter++;
   }
 
+  console.log(`Test completed.`)
+  console.log(`eventsReceivedCount: ${stressBase.eventsReceivedCount}, totalEventsSent: ${totalEventsSent}`)
+  console.log(`terminalCase: ${terminalCase}`)
+  console.log(`time elapsed: ${new Date().valueOf() - startedAt.valueOf()}ms (given testDuration: ${testDurationInMs}ms) `);
   await consumerClient.close();
   await stressBase.endTest();
 }
