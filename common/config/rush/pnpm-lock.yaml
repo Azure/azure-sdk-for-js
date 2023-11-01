@@ -1100,6 +1100,9 @@ dependencies:
   '@rush-temp/ts-http-runtime':
     specifier: file:./projects/ts-http-runtime.tgz
     version: file:projects/ts-http-runtime.tgz
+  '@rush-temp/vite-plugin-browser-test-map':
+    specifier: file:./projects/vite-plugin-browser-test-map.tgz
+    version: file:projects/vite-plugin-browser-test-map.tgz
   '@rush-temp/web-pubsub':
     specifier: file:./projects/web-pubsub.tgz
     version: file:projects/web-pubsub.tgz
@@ -21832,6 +21835,21 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/vite-plugin-browser-test-map.tgz:
+    resolution: {integrity: sha512-dYNyIjAKaW7BnFVE9fzl/SZmPm9dnHUk07GfV9snfz+li9HlalG+PWzFp0PUpdjNFbwrR/ZzId9pS+3+eS5Z7w==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
+    name: '@rush-temp/vite-plugin-browser-test-map'
+    version: 0.0.0
+    dependencies:
+      '@types/node': 18.18.7
+      eslint: 8.52.0
+      prettier: 2.8.8
+      rimraf: 3.0.2
+      tslib: 2.6.2
+      typescript: 5.2.2
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/web-pubsub-client-protobuf.tgz:
