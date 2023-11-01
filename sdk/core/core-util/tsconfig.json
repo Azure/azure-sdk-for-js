@@ -4,15 +4,5 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types/latest"
   },
-  "exclude": [
-    "node_modules",
-    "types",
-    "temp",
-    "browser",
-    "dist",
-    "dist-esm",
-    "./samples/**/*.ts",
-    "test",
-    "vitest.*.ts"
-  ]
+  "include": ["src/**/*.ts"]
 }
