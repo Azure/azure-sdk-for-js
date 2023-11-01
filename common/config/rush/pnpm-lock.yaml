@@ -863,6 +863,9 @@ dependencies:
   '@rush-temp/identity-vscode':
     specifier: file:./projects/identity-vscode.tgz
     version: file:projects/identity-vscode.tgz
+  '@rush-temp/imageAnalysis':
+    specifier: file:./projects/imageAnalysis.tgz
+    version: file:projects/imageAnalysis.tgz
   '@rush-temp/iot-device-update':
     specifier: file:./projects/iot-device-update.tgz
     version: file:projects/iot-device-update.tgz
@@ -4533,7 +4536,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231025
+      typescript: 5.3.0-dev.20231030
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -8948,6 +8951,37 @@ packages:
       code-block-writer: 12.0.0
     dev: false
 
+  /ts-node@10.9.1(@types/node@16.18.55)(typescript@5.0.4):
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 16.18.55
+      acorn: 8.10.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.0.4
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node@10.9.1(@types/node@16.18.55)(typescript@5.2.2):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -9152,8 +9186,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231025:
-    resolution: {integrity: sha512-DW0GNkWzKHnI9lcYCVIw5SO5nzlaZ9iHAdcN7zCxt/OJsKg7s33xRtEa5nmPTIC5qvKzLLZboWWBJ+KRD9cKFw==}
+  /typescript@5.3.0-dev.20231030:
+    resolution: {integrity: sha512-azWrF0lAiu8cBHNr6yq3RDkU/DtQScvT48ea3Ngq6oXJ/GPO0n96wCFSRQA5UbZlVVf3fAAqsUfvOdohRbrPVg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -19076,6 +19110,49 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/imageAnalysis.tgz:
+    resolution: {integrity: sha512-PhuB6RTCrcEX7B0fNXxtCDaMY2RZx0eQpuY9S81kSKw24yjmhp1KnRV2OMp/VZ/ig54EMfh0zAW8UM2Wcv3c9w==, tarball: file:projects/imageAnalysis.tgz}
+    name: '@rush-temp/imageAnalysis'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.38.0(@types/node@16.18.55)
+      '@types/chai': 4.3.6
+      '@types/mocha': 10.0.2
+      '@types/node': 16.18.55
+      autorest: 3.6.3
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      eslint: 8.50.0
+      karma: 6.4.2(debug@4.3.4)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-junit-reporter: 2.0.1(karma@6.4.2)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.2)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.4.0
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      mocha-junit-reporter: 1.23.3(mocha@10.2.0)
+      nyc: 15.1.0
+      prettier: 2.8.8
+      rimraf: 5.0.5
+      source-map-support: 0.5.21
+      ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)
+      tslib: 2.6.2
+      typescript: 5.0.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/iot-device-update.tgz:
     resolution: {integrity: sha512-FFJbv+2+2gRUSd3f2XPHtH9dqEciDg9skW4Z6gWRUlQ7r2wnLavtIwKueZSlD3rUYbKg1G9HNr0bVdtB8qCQgQ==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
@@ -21032,7 +21109,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-v58t6pSQO2V8yONwW5KEjBcPCGQKo0leyK1/Xu3r9/VodjwUkhCra7MN5g8bZXMqe3wl+l5d2KNcrqaMXOmnDg==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-TYRJDw9i9Sl87uFVhvAvvk5N1Bq/7axieJRvMiK2YkRVDXO0iO4/B9B83ews5FIsNQkGVqEO8xS7cB1FEX+8Og==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -21080,7 +21157,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-GQi6OI2UWagiy4TeQ8ppMHNavRaQM+zw3ZfmnvzBt8ciXbKEvHGELPv8K7p+BoOvIuMBr07lRui/294fb+RNdQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-B9HeR4c9MNUuwCw0IrbFkEsqgy4K1e1YOSQkmV5GBd9KQi5gfUQhjagQgzMFKn4cu78mnKghdD/IM/XyybMgyg==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:

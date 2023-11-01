@@ -1,0 +1,3371 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.38.0",
+    "schemaVersion": 1011,
+    "oldestForwardsCompatibleVersion": 1001,
+    "tsdocConfig": {
+      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+      "noStandardTags": true,
+      "tagDefinitions": [
+        {
+          "tagName": "@alpha",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@beta",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@defaultValue",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@decorator",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@deprecated",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@eventProperty",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@example",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@experimental",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@inheritDoc",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@internal",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@label",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@link",
+          "syntaxKind": "inline",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@override",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@packageDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@param",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@privateRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@public",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@readonly",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@remarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@returns",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@sealed",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@see",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@throws",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@typeParam",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@virtual",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@betaDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@internalRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@preapproved",
+          "syntaxKind": "modifier"
+        }
+      ],
+      "supportForTags": {
+        "@alpha": true,
+        "@beta": true,
+        "@defaultValue": true,
+        "@decorator": true,
+        "@deprecated": true,
+        "@eventProperty": true,
+        "@example": true,
+        "@experimental": true,
+        "@inheritDoc": true,
+        "@internal": true,
+        "@label": true,
+        "@link": true,
+        "@override": true,
+        "@packageDocumentation": true,
+        "@param": true,
+        "@privateRemarks": true,
+        "@public": true,
+        "@readonly": true,
+        "@remarks": true,
+        "@returns": true,
+        "@sealed": true,
+        "@see": true,
+        "@throws": true,
+        "@typeParam": true,
+        "@virtual": true,
+        "@betaDocumentation": true,
+        "@internalRemarks": true,
+        "@preapproved": true
+      },
+      "reportUnsupportedHtmlElements": false
+    }
+  },
+  "kind": "Package",
+  "canonicalReference": "@azure/imageAnalysis!",
+  "docComment": "",
+  "name": "@azure/imageAnalysis",
+  "preserveMemberOrder": false,
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "@azure/imageAnalysis!",
+      "name": "",
+      "preserveMemberOrder": false,
+      "members": [
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!AnalyzeFromStreamOptions:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface AnalyzeFromStreamOptions extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "OperationOptions",
+              "canonicalReference": "@azure-rest/core-client!OperationOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "fileUrlPath": "src/models/options.ts",
+          "releaseTag": "Public",
+          "name": "AnalyzeFromStreamOptions",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!AnalyzeFromStreamOptions#contentType:member",
+              "docComment": "/**\n * The format of the HTTP payload.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "contentType?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "contentType",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!AnalyzeFromStreamOptions#genderNeutralCaption:member",
+              "docComment": "/**\n * Boolean flag for enabling gender-neutral captioning for caption and denseCaptions features. If this parameter is not specified, the default value is \"false\".\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "genderNeutralCaption?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "genderNeutralCaption",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!AnalyzeFromStreamOptions#language:member",
+              "docComment": "/**\n * The desired language for output generation. If this parameter is not specified, the default value is \"en\". See https://aka.ms/cv-languages for a list of supported languages.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "language?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "language",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!AnalyzeFromStreamOptions#modelName:member",
+              "docComment": "/**\n * The name of the custom trained model. This parameter needs to be specified if the parameter \"features\" is not specified.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "modelName?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "modelName",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!AnalyzeFromStreamOptions#smartCropsAspectRatios:member",
+              "docComment": "/**\n * A list of aspect ratios to use for smartCrops feature. Aspect ratios are calculated by dividing the target crop width by the height. Supported values are between 0.75 and 1.8 (inclusive). Multiple values should be comma-separated. If this parameter is not specified, the service will return one crop suggestion with an aspect ratio it sees fit between 0.5 and 2.0 (inclusive).\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "smartCropsAspectRatios?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "smartCropsAspectRatios",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!AnalyzeFromStreamOptions#visualFeatures:member",
+              "docComment": "/**\n * A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Tags, Caption, DenseCaptions, Objects, Read, SmartCrops, People. At least one visual feature must be specified for Image Analysis.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "visualFeatures?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "VisualFeatures",
+                  "canonicalReference": "@azure/imageAnalysis!VisualFeatures:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "visualFeatures",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 2
+            }
+          ]
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!AnalyzeFromUrlOptions:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface AnalyzeFromUrlOptions extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "OperationOptions",
+              "canonicalReference": "@azure-rest/core-client!OperationOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "fileUrlPath": "src/models/options.ts",
+          "releaseTag": "Public",
+          "name": "AnalyzeFromUrlOptions",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!AnalyzeFromUrlOptions#contentType:member",
+              "docComment": "/**\n * The format of the HTTP payload.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "contentType?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "contentType",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!AnalyzeFromUrlOptions#genderNeutralCaption:member",
+              "docComment": "/**\n * Boolean flag for enabling gender-neutral captioning for caption and denseCaptions features. If this parameter is not specified, the default value is \"false\".\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "genderNeutralCaption?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "genderNeutralCaption",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!AnalyzeFromUrlOptions#language:member",
+              "docComment": "/**\n * The desired language for output generation. If this parameter is not specified, the default value is \"en\". See https://aka.ms/cv-languages for a list of supported languages.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "language?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "language",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!AnalyzeFromUrlOptions#modelName:member",
+              "docComment": "/**\n * The name of the custom trained model. This parameter needs to be specified if the parameter \"features\" is not specified.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "modelName?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "modelName",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!AnalyzeFromUrlOptions#smartCropsAspectRatios:member",
+              "docComment": "/**\n * A list of aspect ratios to use for smartCrops feature. Aspect ratios are calculated by dividing the target crop width by the height. Supported values are between 0.75 and 1.8 (inclusive). Multiple values should be comma-separated. If this parameter is not specified, the service will return one crop suggestion with an aspect ratio it sees fit between 0.5 and 2.0 (inclusive).\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "smartCropsAspectRatios?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "smartCropsAspectRatios",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!AnalyzeFromUrlOptions#visualFeatures:member",
+              "docComment": "/**\n * A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Tags, Caption, DenseCaptions, Objects, Read, SmartCrops, People. At least one visual feature must be specified for Image Analysis.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "visualFeatures?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "VisualFeatures",
+                  "canonicalReference": "@azure/imageAnalysis!VisualFeatures:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "visualFeatures",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 2
+            }
+          ]
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!BoundingBox:interface",
+          "docComment": "/**\n * A basic rectangle\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface BoundingBox "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "BoundingBox",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!BoundingBox#h:member",
+              "docComment": "/**\n * Height of the box\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "h: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "h",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!BoundingBox#w:member",
+              "docComment": "/**\n * Width of the box\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "w: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "w",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!BoundingBox#x:member",
+              "docComment": "/**\n * X coordinate\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "x: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "x",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!BoundingBox#y:member",
+              "docComment": "/**\n * Y coordinate\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "y: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "y",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!CaptionResult:interface",
+          "docComment": "/**\n * A brief description of what the image depicts.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface CaptionResult "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "CaptionResult",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!CaptionResult#confidence:member",
+              "docComment": "/**\n * The level of confidence the service has in the caption.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "confidence: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "confidence",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!CaptionResult#text:member",
+              "docComment": "/**\n * The text of the caption.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "text: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "text",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!CropRegion:interface",
+          "docComment": "/**\n * A region identified for smart cropping. There will be one region returned for each requested aspect ratio.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface CropRegion "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "CropRegion",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!CropRegion#aspectRatio:member",
+              "docComment": "/**\n * The aspect ratio of the crop region.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "aspectRatio: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "aspectRatio",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!CropRegion#boundingBox:member",
+              "docComment": "/**\n * The bounding box of the crop region.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "boundingBox: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "BoundingBox",
+                  "canonicalReference": "@azure/imageAnalysis!BoundingBox:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "boundingBox",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!CustomModelResult:interface",
+          "docComment": "/**\n * Describes the result of image analysis using a custom model.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface CustomModelResult "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "CustomModelResult",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!CustomModelResult#objectsResult:member",
+              "docComment": "/**\n * The list of predicted objects.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "objectsResult: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ObjectsResult",
+                  "canonicalReference": "@azure/imageAnalysis!ObjectsResult:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "objectsResult",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!CustomModelResult#tagsResult:member",
+              "docComment": "/**\n * The list of predicted tags.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "tagsResult: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "TagsResult",
+                  "canonicalReference": "@azure/imageAnalysis!TagsResult:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "tagsResult",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!DenseCaption:interface",
+          "docComment": "/**\n * A brief description of what the image depicts.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface DenseCaption "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "DenseCaption",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DenseCaption#boundingBox:member",
+              "docComment": "/**\n * The bounding box of the caption.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "boundingBox: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "BoundingBox",
+                  "canonicalReference": "@azure/imageAnalysis!BoundingBox:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "boundingBox",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DenseCaption#confidence:member",
+              "docComment": "/**\n * The level of confidence the service has in the caption.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "confidence: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "confidence",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DenseCaption#text:member",
+              "docComment": "/**\n * The text of the caption.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "text: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "text",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!DenseCaptionsResult:interface",
+          "docComment": "/**\n * A list of captions.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface DenseCaptionsResult "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "DenseCaptionsResult",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DenseCaptionsResult#values:member",
+              "docComment": "/**\n * The list of captions.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "values: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DenseCaption",
+                  "canonicalReference": "@azure/imageAnalysis!DenseCaption:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "values",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!DetectedObject:interface",
+          "docComment": "/**\n * Describes a detected object in an image.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface DetectedObject "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "DetectedObject",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DetectedObject#boundingBox:member",
+              "docComment": "/**\n * Gets a rectangular boundary within which the object was detected.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "boundingBox: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "BoundingBox",
+                  "canonicalReference": "@azure/imageAnalysis!BoundingBox:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "boundingBox",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DetectedObject#tags:member",
+              "docComment": "/**\n * Classification confidences of the detected object.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "tags: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DetectedTag",
+                  "canonicalReference": "@azure/imageAnalysis!DetectedTag:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "tags",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!DetectedPerson:interface",
+          "docComment": "/**\n * Represents a person detected in an image\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface DetectedPerson "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "DetectedPerson",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DetectedPerson#boundingBox:member",
+              "docComment": "/**\n * Gets a rectangular boundary within which the person was detected.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly boundingBox: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "BoundingBox",
+                  "canonicalReference": "@azure/imageAnalysis!BoundingBox:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "boundingBox",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DetectedPerson#confidence:member",
+              "docComment": "/**\n * Gets the confidence value of the detected person.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly confidence: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "confidence",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!DetectedTag:interface",
+          "docComment": "/**\n * An entity observation in the image, along with the confidence score.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface DetectedTag "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "DetectedTag",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DetectedTag#confidence:member",
+              "docComment": "/**\n * The level of confidence that the entity was observed.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "confidence: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "confidence",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DetectedTag#name:member",
+              "docComment": "/**\n * Name of the entity.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "name: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "name",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!DocumentLine:interface",
+          "docComment": "/**\n * A content line object consisting of an adjacent sequence of content elements, such as words and selection marks.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface DocumentLine "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "DocumentLine",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentLine#boundingBox:member",
+              "docComment": "/**\n * The bounding box of the line.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "boundingBox: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "boundingBox",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentLine#content:member",
+              "docComment": "/**\n * Concatenated content of the contained elements in reading order.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "content: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "content",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentLine#spans:member",
+              "docComment": "/**\n * Location of the line in the reading order concatenated content.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "spans: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DocumentSpan",
+                  "canonicalReference": "@azure/imageAnalysis!DocumentSpan:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "spans",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!DocumentPage:interface",
+          "docComment": "/**\n * The content and layout elements extracted from a page from the input.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface DocumentPage "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "DocumentPage",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentPage#angle:member",
+              "docComment": "/**\n * The general orientation of the content in clockwise direction, measured in degrees between (-180, 180].\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "angle: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "angle",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentPage#height:member",
+              "docComment": "/**\n * The height of the image/PDF in pixels/inches, respectively.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "height: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "height",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentPage#lines:member",
+              "docComment": "/**\n * Extracted lines from the page, potentially containing both textual and visual elements.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "lines: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DocumentLine",
+                  "canonicalReference": "@azure/imageAnalysis!DocumentLine:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "lines",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentPage#pageNumber:member",
+              "docComment": "/**\n * 1-based page number in the input document.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "pageNumber: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "pageNumber",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentPage#spans:member",
+              "docComment": "/**\n * Location of the page in the reading order concatenated content.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "spans: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DocumentSpan",
+                  "canonicalReference": "@azure/imageAnalysis!DocumentSpan:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "spans",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentPage#width:member",
+              "docComment": "/**\n * The width of the image/PDF in pixels/inches, respectively.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "width: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "width",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentPage#words:member",
+              "docComment": "/**\n * Extracted words from the page.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "words: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DocumentWord",
+                  "canonicalReference": "@azure/imageAnalysis!DocumentWord:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "words",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!DocumentSpan:interface",
+          "docComment": "/**\n * Contiguous region of the concatenated content property, specified as an offset and length.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface DocumentSpan "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "DocumentSpan",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentSpan#length:member",
+              "docComment": "/**\n * Number of characters in the content represented by the span.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "length: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "length",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentSpan#offset:member",
+              "docComment": "/**\n * Zero-based index of the content represented by the span.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "offset: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "offset",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!DocumentStyle:interface",
+          "docComment": "/**\n * An object representing observed text styles.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface DocumentStyle "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "DocumentStyle",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentStyle#confidence:member",
+              "docComment": "/**\n * Confidence of correctly identifying the style.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "confidence: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "confidence",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentStyle#isHandwritten:member",
+              "docComment": "/**\n * Is content handwritten or not.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "isHandwritten: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "isHandwritten",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentStyle#spans:member",
+              "docComment": "/**\n * Location of the text elements in the concatenated content the style applies to.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "spans: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DocumentSpan",
+                  "canonicalReference": "@azure/imageAnalysis!DocumentSpan:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "spans",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!DocumentWord:interface",
+          "docComment": "/**\n * A word object consisting of a contiguous sequence of characters. For non-space delimited languages, such as Chinese, Japanese, and Korean, each character is represented as its own word.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface DocumentWord "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "DocumentWord",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentWord#boundingBox:member",
+              "docComment": "/**\n * Bounding box of the word.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "boundingBox: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "boundingBox",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentWord#confidence:member",
+              "docComment": "/**\n * Confidence of correctly extracting the word.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "confidence: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "confidence",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentWord#content:member",
+              "docComment": "/**\n * Text content of the word.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "content: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "content",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!DocumentWord#span:member",
+              "docComment": "/**\n * Location of the word in the reading order concatenated content.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "span: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DocumentSpan",
+                  "canonicalReference": "@azure/imageAnalysis!DocumentSpan:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "span",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@azure/imageAnalysis!ImageAnalysisClient:class",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class ImageAnalysisClient "
+            }
+          ],
+          "fileUrlPath": "src/ImageAnalysisClient.ts",
+          "releaseTag": "Public",
+          "isAbstract": false,
+          "name": "ImageAnalysisClient",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisClient:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `ImageAnalysisClient` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(endpoint: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", credential: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "KeyCredential",
+                  "canonicalReference": "@azure/core-auth!KeyCredential:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ImageAnalysisClientOptions",
+                  "canonicalReference": "@azure/imageAnalysis!ImageAnalysisClientOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "endpoint",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "credential",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  },
+                  "isOptional": true
+                }
+              ]
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisClient#analyzeFromStream:member(1)",
+              "docComment": "/**\n * Performs a single Image Analysis operation\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "analyzeFromStream(imageContent: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Uint8Array",
+                  "canonicalReference": "!Uint8Array:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "AnalyzeFromStreamOptions",
+                  "canonicalReference": "@azure/imageAnalysis!AnalyzeFromStreamOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ImageAnalysisResult",
+                  "canonicalReference": "@azure/imageAnalysis!ImageAnalysisResult:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 9
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "imageContent",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": true
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "analyzeFromStream"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisClient#analyzeFromUrl:member(1)",
+              "docComment": "/**\n * Performs a single Image Analysis operation\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "analyzeFromUrl(imageContent: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ImageUrl",
+                  "canonicalReference": "@azure/imageAnalysis!ImageUrl:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "AnalyzeFromUrlOptions",
+                  "canonicalReference": "@azure/imageAnalysis!AnalyzeFromUrlOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ImageAnalysisResult",
+                  "canonicalReference": "@azure/imageAnalysis!ImageAnalysisResult:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 9
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "imageContent",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": true
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "analyzeFromUrl"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisClient#pipeline:member",
+              "docComment": "/**\n * The pipeline used by this client to make requests\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readonly pipeline: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Pipeline",
+                  "canonicalReference": "@azure/core-rest-pipeline!Pipeline:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "pipeline",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisClient#segmentFromStream:member(1)",
+              "docComment": "/**\n * Segment the input image. An image stream of content type 'image/png' is returned, where the pixel values depend on the analysis mode. The returned image has the same dimensions as the input image for modes: foregroundMatting. The returned image has the same aspect ratio and same dimensions as the input image up to a limit of 16 megapixels for modes: backgroundRemoval.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "segmentFromStream(mode: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "segmentationMode",
+                  "canonicalReference": "@azure/imageAnalysis!segmentationMode:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", imageContent: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Uint8Array",
+                  "canonicalReference": "!Uint8Array:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "SegmentFromStreamOptions",
+                  "canonicalReference": "@azure/imageAnalysis!SegmentFromStreamOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Uint8Array",
+                  "canonicalReference": "!Uint8Array:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 11
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "mode",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "imageContent",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  },
+                  "isOptional": true
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "segmentFromStream"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisClient#segmentFromUrl:member(1)",
+              "docComment": "/**\n * Segment the input image. An image stream of content type 'image/png' is returned, where the pixel values depend on the analysis mode. The returned image has the same dimensions as the input image for modes: foregroundMatting. The returned image has the same aspect ratio and same dimensions as the input image up to a limit of 16 megapixels for modes: backgroundRemoval.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "segmentFromUrl(mode: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "segmentationMode",
+                  "canonicalReference": "@azure/imageAnalysis!segmentationMode:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", imageContent: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ImageUrl",
+                  "canonicalReference": "@azure/imageAnalysis!ImageUrl:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "SegmentFromUrlOptions",
+                  "canonicalReference": "@azure/imageAnalysis!SegmentFromUrlOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Uint8Array",
+                  "canonicalReference": "!Uint8Array:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 11
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "mode",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "imageContent",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  },
+                  "isOptional": true
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "segmentFromUrl"
+            }
+          ],
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!ImageAnalysisClientOptions:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ImageAnalysisClientOptions extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ClientOptions",
+              "canonicalReference": "@azure-rest/core-client!ClientOptions:type"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "fileUrlPath": "src/api/ImageAnalysisContext.ts",
+          "releaseTag": "Public",
+          "name": "ImageAnalysisClientOptions",
+          "preserveMemberOrder": false,
+          "members": [],
+          "extendsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 2
+            }
+          ]
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!ImageAnalysisResult:interface",
+          "docComment": "/**\n * Describe the combined results of different types of image analysis.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ImageAnalysisResult "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "ImageAnalysisResult",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisResult#captionResult:member",
+              "docComment": "/**\n * A CaptionResult for the image.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "captionResult?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "CaptionResult",
+                  "canonicalReference": "@azure/imageAnalysis!CaptionResult:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "captionResult",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisResult#customModelResult:member",
+              "docComment": "/**\n * A list of categories for the image.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "customModelResult?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "CustomModelResult",
+                  "canonicalReference": "@azure/imageAnalysis!CustomModelResult:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "customModelResult",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisResult#denseCaptionsResult:member",
+              "docComment": "/**\n * A denseCaptionsResult for the image.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "denseCaptionsResult?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DenseCaptionsResult",
+                  "canonicalReference": "@azure/imageAnalysis!DenseCaptionsResult:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "denseCaptionsResult",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisResult#metadata:member",
+              "docComment": "/**\n * The model used for the analysis\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "metadata: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ImageMetadata",
+                  "canonicalReference": "@azure/imageAnalysis!ImageMetadata:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "metadata",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisResult#modelVersion:member",
+              "docComment": "/**\n * The model used for the analysis\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "modelVersion: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "modelVersion",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisResult#objectsResult:member",
+              "docComment": "/**\n * A list of objects for the image.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "objectsResult?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ObjectsResult",
+                  "canonicalReference": "@azure/imageAnalysis!ObjectsResult:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "objectsResult",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisResult#peopleResult:member",
+              "docComment": "/**\n * A list of people for the image.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "peopleResult?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "PeopleResult",
+                  "canonicalReference": "@azure/imageAnalysis!PeopleResult:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "peopleResult",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisResult#readResult:member",
+              "docComment": "/**\n * A readResult for the image.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "readResult?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ReadResult",
+                  "canonicalReference": "@azure/imageAnalysis!ReadResult:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "readResult",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisResult#smartCropsResult:member",
+              "docComment": "/**\n * A list of regions for the image.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "smartCropsResult?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "SmartCropsResult",
+                  "canonicalReference": "@azure/imageAnalysis!SmartCropsResult:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "smartCropsResult",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ImageAnalysisResult#tagsResult:member",
+              "docComment": "/**\n * A list of tags for the image.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "tagsResult?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "TagsResult",
+                  "canonicalReference": "@azure/imageAnalysis!TagsResult:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "tagsResult",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!ImageMetadata:interface",
+          "docComment": "/**\n * The image metadata information such as height and width.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ImageMetadata "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "ImageMetadata",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ImageMetadata#height:member",
+              "docComment": "/**\n * The height of the image in pixels.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "height: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "height",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ImageMetadata#width:member",
+              "docComment": "/**\n * The width of the image in pixels.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "width: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "width",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!ImageUrl:interface",
+          "docComment": "/**\n * A JSON document with a URL pointing to the image that is to be analyzed.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ImageUrl "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "ImageUrl",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ImageUrl#url:member",
+              "docComment": "/**\n * Publicly reachable URL of an image.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "url: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "url",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!ObjectsResult:interface",
+          "docComment": "/**\n * Describes detected objects in an image.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ObjectsResult "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "ObjectsResult",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ObjectsResult#values:member",
+              "docComment": "/**\n * An array of detected objects.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "values: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DetectedObject",
+                  "canonicalReference": "@azure/imageAnalysis!DetectedObject:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "values",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!PeopleResult:interface",
+          "docComment": "/**\n * An object describing whether the image contains people.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface PeopleResult "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "PeopleResult",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!PeopleResult#values:member",
+              "docComment": "/**\n * An array of detected people.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "values: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DetectedPerson",
+                  "canonicalReference": "@azure/imageAnalysis!DetectedPerson:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "values",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!ReadResult:interface",
+          "docComment": "/**\n * The results of an Read operation.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ReadResult "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "ReadResult",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ReadResult#content:member",
+              "docComment": "/**\n * Concatenate string representation of all textual and visual elements in reading order.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "content: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "content",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ReadResult#modelVersion:member",
+              "docComment": "/**\n * The model used to generate the Read result.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "modelVersion: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "modelVersion",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ReadResult#pages:member",
+              "docComment": "/**\n * A list of analyzed pages.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "pages: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DocumentPage",
+                  "canonicalReference": "@azure/imageAnalysis!DocumentPage:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "pages",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ReadResult#stringIndexType:member",
+              "docComment": "/**\n * The method used to compute string offset and length, possible values include: 'textElements', 'unicodeCodePoint', 'utf16CodeUnit' etc.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "stringIndexType: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "stringIndexType",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!ReadResult#styles:member",
+              "docComment": "/**\n * Extracted font styles.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "styles: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DocumentStyle",
+                  "canonicalReference": "@azure/imageAnalysis!DocumentStyle:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "styles",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@azure/imageAnalysis!segmentationMode:type",
+          "docComment": "/**\n * \"backgroundRemoval\", \"foregroundMatting\"\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type segmentationMode = "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "segmentationMode",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!SegmentFromStreamOptions:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface SegmentFromStreamOptions extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "OperationOptions",
+              "canonicalReference": "@azure-rest/core-client!OperationOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "fileUrlPath": "src/models/options.ts",
+          "releaseTag": "Public",
+          "name": "SegmentFromStreamOptions",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!SegmentFromStreamOptions#contentType:member",
+              "docComment": "/**\n * The format of the HTTP payload.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "contentType?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "contentType",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 2
+            }
+          ]
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!SegmentFromUrlOptions:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface SegmentFromUrlOptions extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "OperationOptions",
+              "canonicalReference": "@azure-rest/core-client!OperationOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "fileUrlPath": "src/models/options.ts",
+          "releaseTag": "Public",
+          "name": "SegmentFromUrlOptions",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!SegmentFromUrlOptions#contentType:member",
+              "docComment": "/**\n * The format of the HTTP payload.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "contentType?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "contentType",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 2
+            }
+          ]
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!SmartCropsResult:interface",
+          "docComment": "/**\n * Smart cropping result.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface SmartCropsResult "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "SmartCropsResult",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!SmartCropsResult#values:member",
+              "docComment": "/**\n * Recommended regions for cropping the image.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "values: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "CropRegion",
+                  "canonicalReference": "@azure/imageAnalysis!CropRegion:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "values",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/imageAnalysis!TagsResult:interface",
+          "docComment": "/**\n * A list of tags with confidence level.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface TagsResult "
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "TagsResult",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/imageAnalysis!TagsResult#values:member",
+              "docComment": "/**\n * A list of tags with confidence level.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "values: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DetectedTag",
+                  "canonicalReference": "@azure/imageAnalysis!DetectedTag:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "values",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@azure/imageAnalysis!VisualFeatures:type",
+          "docComment": "/**\n * \"tags\", \"caption\", \"denseCaptions\", \"objects\", \"read\", \"smartCrops\", \"people\"\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type VisualFeatures = "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/models/models.ts",
+          "releaseTag": "Public",
+          "name": "VisualFeatures",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        }
+      ]
+    }
+  ]
+}

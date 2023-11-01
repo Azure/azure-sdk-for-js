@@ -2140,6 +2140,11 @@
       "packageName": "@azure/arm-playwrighttesting",
       "projectFolder": "sdk/playwrighttesting/arm-playwrighttesting",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/imageAnalysis",
+      "projectFolder": "sdk/vision/imageAnalysis",
+      "versionPolicyName": "client"
     }
   ]
 }
