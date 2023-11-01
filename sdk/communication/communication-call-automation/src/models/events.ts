@@ -26,7 +26,6 @@ import {
   ContinuousDtmfRecognitionStopped as RestContinuousDtmfRecognitionStopped,
   SendDtmfTonesCompleted as RestSendDtmfTonesCompleted,
   SendDtmfTonesFailed as RestSendDtmfTonesFailed,
-  ToneInfo as RestToneInfo,
   Tone,
   CancelAddParticipantSucceeded as RestCancelAddParticipantSucceeded,
   CancelAddParticipantFailed as RestCancelAddParticipantFailed,
@@ -83,7 +82,6 @@ export {
   RestContinuousDtmfRecognitionStopped,
   RestSendDtmfTonesCompleted,
   RestSendDtmfTonesFailed,
-  RestToneInfo,
   RestCancelAddParticipantSucceeded,
   RestCancelAddParticipantFailed,
 };
@@ -378,27 +376,22 @@ export interface RecognizeCanceled
   kind: "RecognizeCanceled";
 }
 
-/** The information about the tone. */
-export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone"> {
-  /** The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed. */
-  sequenceId: number;
-  /** Defines values for Tone. */
-  tone: Tone;
-}
-
 /** Event sent when Dtmf tone received from targeted participant in call. */
 export interface ContinuousDtmfRecognitionToneReceived
   extends Omit<
     RestContinuousDtmfRecognitionToneReceived,
-    | "toneInfo"
+    | "sequenceId"
+    | "tone"
     | "callConnectionId"
     | "serverCallId"
     | "correlationId"
     | "operationContext"
     | "resultInformation"
   > {
-  /** Information about Tone. */
-  toneInfo: ToneInfo;
+  /** The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed. */
+  sequenceId: number;
+  /** Defines values for Tone. */
+  tone: Tone;
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -446,7 +439,7 @@ export interface ContinuousDtmfRecognitionStopped
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext: string;
+  operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
@@ -466,7 +459,7 @@ export interface SendDtmfTonesCompleted
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext: string;
+  operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
@@ -486,7 +479,7 @@ export interface SendDtmfTonesFailed
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext: string;
+  operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */

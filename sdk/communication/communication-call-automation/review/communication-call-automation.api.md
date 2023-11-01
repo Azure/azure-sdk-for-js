@@ -52,7 +52,7 @@ export interface AddParticipantSucceeded extends Omit<RestAddParticipantSucceede
 
 // @public
 export interface AnswerCallOptions extends OperationOptions {
-    cognitiveServicesEndpoint?: string;
+    callIntelligenceOptions?: CallIntelligenceOptions;
     operationContext?: string;
 }
 
@@ -130,6 +130,11 @@ export interface CallDisconnected extends Omit<RestCallDisconnected, "callConnec
     correlationId: string;
     kind: "CallDisconnected";
     serverCallId: string;
+}
+
+// @public
+export interface CallIntelligenceOptions {
+    cognitiveServicesEndpoint?: string;
 }
 
 // @public
@@ -316,7 +321,7 @@ export interface ContinuousDtmfRecognitionStopped extends Omit<RestContinuousDtm
     callConnectionId: string;
     correlationId: string;
     kind: "ContinuousDtmfRecognitionStopped";
-    operationContext: string;
+    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -332,19 +337,20 @@ export interface ContinuousDtmfRecognitionToneFailed extends Omit<RestContinuous
 }
 
 // @public
-export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuousDtmfRecognitionToneReceived, "toneInfo" | "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"> {
+export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuousDtmfRecognitionToneReceived, "sequenceId" | "tone" | "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "ContinuousDtmfRecognitionToneReceived";
     operationContext?: string;
     resultInformation?: ResultInformation;
+    sequenceId: number;
     serverCallId: string;
-    toneInfo: ToneInfo;
+    tone: Tone;
 }
 
 // @public
 export interface CreateCallOptions extends OperationOptions {
-    cognitiveServicesEndpoint?: string;
+    callIntelligenceOptions?: CallIntelligenceOptions;
     operationContext?: string;
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
@@ -721,8 +727,10 @@ export interface RestContinuousDtmfRecognitionToneReceived {
     correlationId?: string;
     operationContext?: string;
     resultInformation?: RestResultInformation;
+    readonly sequenceId?: number;
     serverCallId?: string;
-    toneInfo?: RestToneInfo;
+    // (undocumented)
+    tone?: Tone;
 }
 
 // @public
@@ -847,13 +855,6 @@ export interface RestSendDtmfTonesFailed {
     serverCallId?: string;
 }
 
-// @public
-export interface RestToneInfo {
-    sequenceId: number;
-    // (undocumented)
-    tone: Tone;
-}
-
 // @public (undocumented)
 export interface ResultInformation extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
     code: number;
@@ -869,7 +870,7 @@ export interface SendDtmfTonesCompleted extends Omit<RestSendDtmfTonesCompleted,
     callConnectionId: string;
     correlationId: string;
     kind: "SendDtmfTonesCompleted";
-    operationContext: string;
+    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -879,7 +880,7 @@ export interface SendDtmfTonesFailed extends Omit<RestSendDtmfTonesFailed, "call
     callConnectionId: string;
     correlationId: string;
     kind: "SendDtmfTonesFailed";
-    operationContext: string;
+    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -960,12 +961,6 @@ export interface TextSource extends PlaySource {
 
 // @public
 export type Tone = string;
-
-// @public
-export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone"> {
-    sequenceId: number;
-    tone: Tone;
-}
 
 // @public
 export interface TransferCallResult {

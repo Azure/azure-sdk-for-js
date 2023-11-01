@@ -25,8 +25,8 @@ export interface CreateCallRequest {
   operationContext?: string;
   /** The callback URI. */
   callbackUri: string;
-  /** The identifier of the Cognitive Service resource assigned to this call. */
-  cognitiveServicesEndpoint?: string;
+  /** AI options for the call. */
+  callIntelligenceOptions?: CallIntelligenceOptionsInternal;
 }
 
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
@@ -63,6 +63,12 @@ export interface MicrosoftTeamsUserIdentifierModel {
   isAnonymous?: boolean;
   /** The cloud that the Microsoft Teams user belongs to. By default 'public' if missing. */
   cloud?: CommunicationCloudEnvironmentModel;
+}
+
+/** AI options for the call. */
+export interface CallIntelligenceOptionsInternal {
+  /** The identifier of the Cognitive Service resource assigned to this call. */
+  cognitiveServicesEndpoint?: string;
 }
 
 /** Properties of a call connection */
@@ -129,8 +135,8 @@ export interface AnswerCallRequest {
   callbackUri: string;
   /** A customer set value used to track the answering of a call. */
   operationContext?: string;
-  /** The endpoint URL of the Azure Cognitive Services resource attached */
-  cognitiveServicesEndpoint?: string;
+  /** AI options for the call. */
+  callIntelligenceOptions?: CallIntelligenceOptionsInternal;
   /** The identifier of the call automation entity which answers the call */
   answeredBy?: CommunicationUserIdentifierModel;
 }
@@ -825,8 +831,12 @@ export interface ContinuousDtmfRecognitionToneFailed {
 }
 
 export interface ContinuousDtmfRecognitionToneReceived {
-  /** Information about Tone. */
-  toneInfo?: ToneInfo;
+  /**
+   * The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sequenceId?: number;
+  tone?: Tone;
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -837,13 +847,6 @@ export interface ContinuousDtmfRecognitionToneReceived {
   resultInformation?: ResultInformation;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-}
-
-/** The information about the tone. */
-export interface ToneInfo {
-  /** The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed. */
-  sequenceId: number;
-  tone: Tone;
 }
 
 export interface ContinuousDtmfRecognitionStopped {

@@ -262,3 +262,9 @@ export class CustomContext {
     }
   }
 }
+
+/** AI options for the call. */
+export interface CallIntelligenceOptions {
+  /** The identifier of the Cognitive Service resource assigned to this call. */
+  cognitiveServicesEndpoint?: string;
+}
