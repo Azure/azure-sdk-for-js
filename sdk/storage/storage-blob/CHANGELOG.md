@@ -1,6 +1,6 @@
 # Release History
 
-## 12.23.0-beta.1 (Unreleased)
+## 12.23.0-beta.1 (2023-11-01)
 
 ### Other Changes
 
