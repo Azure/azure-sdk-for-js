@@ -3,7 +3,7 @@
 
 /**
  * Syntax:
- * Run the following command from `common/tools` folder:
+ *    Run the following command from `common/tools` folder:
  *    node generate-package-for-commit.js <commit> <service-folder> <package-name>
  * 
  * Example:
