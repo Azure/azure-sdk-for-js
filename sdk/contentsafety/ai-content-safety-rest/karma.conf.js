@@ -37,12 +37,6 @@ module.exports = function (config) {
         included: false,
         served: true,
       },
-      {
-        pattern: "./samples-dev/example-data/*.png",
-        watched: false,
-        included: false,
-        served: true,
-      },
     ],
 
     // list of files / patterns to exclude
@@ -65,8 +59,6 @@ module.exports = function (config) {
       "AZURE_TENANT_ID",
       "SUBSCRIPTION_ID",
       "RECORDINGS_RELATIVE_PATH",
-      "CONTENT_SAFETY_ENDPOINT",
-      "CONTENT_SAFETY_API_KEY",
     ],
 
     // test results reporter to use

@@ -1,12 +1,5 @@
 {
   "extends": "../../../tsconfig.package",
-  "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
-    "lib": ["es6", "dom"],
-    "paths": {
-      "@azure-rest/ai-content-safety": ["./src/index"]
-    }
-  },
-  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
+  "compilerOptions": { "outDir": "./dist-esm", "declarationDir": "./types" },
+  "include": ["src/**/*.ts", "./test/**/*.ts"]
 }
