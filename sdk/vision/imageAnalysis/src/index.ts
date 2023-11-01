@@ -29,7 +29,7 @@ export {
   CropRegion,
   ImageUrl,
   VisualFeatures,
-  segmentationMode,
+  SegmentationMode,
   AnalyzeFromStreamOptions,
   AnalyzeFromUrlOptions,
   SegmentFromUrlOptions,

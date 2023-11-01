@@ -6,8 +6,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "lib": ["esnext", "dom"],
-    "rootDir": ".",
-    "paths": { "@azure/imageAnalysis": ["./src/index"] }
+    "rootDir": "."
   },
   "ts-node": { "esm": true },
   "include": ["src/**/*.ts", "./test/**/*.ts"]

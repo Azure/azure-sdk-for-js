@@ -4,7 +4,7 @@
 import {
   ImageAnalysisResult,
   ImageUrl,
-  segmentationMode,
+  SegmentationMode,
 } from "../models/models.js";
 import {
   isUnexpected,
@@ -400,7 +400,7 @@ export async function analyzeFromUrl(
 
 export function _segmentFromUrlSend(
   context: Client,
-  mode: segmentationMode,
+  mode: SegmentationMode,
   imageContent: ImageUrl,
   options: SegmentFromUrlOptions = { requestOptions: {} }
 ): StreamableMethod<SegmentFromUrl200Response | SegmentFromUrlDefaultResponse> {
@@ -429,7 +429,7 @@ export async function _segmentFromUrlDeserialize(
 /** Segment the input image. An image stream of content type 'image/png' is returned, where the pixel values depend on the analysis mode. The returned image has the same dimensions as the input image for modes: foregroundMatting. The returned image has the same aspect ratio and same dimensions as the input image up to a limit of 16 megapixels for modes: backgroundRemoval. */
 export async function segmentFromUrl(
   context: Client,
-  mode: segmentationMode,
+  mode: SegmentationMode,
   imageContent: ImageUrl,
   options: SegmentFromUrlOptions = { requestOptions: {} }
 ): Promise<Uint8Array> {
@@ -444,7 +444,7 @@ export async function segmentFromUrl(
 
 export function _segmentFromStreamSend(
   context: Client,
-  mode: segmentationMode,
+  mode: SegmentationMode,
   imageContent: Uint8Array,
   options: SegmentFromStreamOptions = { requestOptions: {} }
 ): StreamableMethod<
@@ -475,7 +475,7 @@ export async function _segmentFromStreamDeserialize(
 /** Segment the input image. An image stream of content type 'image/png' is returned, where the pixel values depend on the analysis mode. The returned image has the same dimensions as the input image for modes: foregroundMatting. The returned image has the same aspect ratio and same dimensions as the input image up to a limit of 16 megapixels for modes: backgroundRemoval. */
 export async function segmentFromStream(
   context: Client,
-  mode: segmentationMode,
+  mode: SegmentationMode,
   imageContent: Uint8Array,
   options: SegmentFromStreamOptions = { requestOptions: {} }
 ): Promise<Uint8Array> {

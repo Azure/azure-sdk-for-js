@@ -25,7 +25,7 @@ export {
   CropRegion,
   ImageUrl,
   VisualFeatures,
-  segmentationMode,
+  SegmentationMode,
 } from "./models.js";
 export {
   AnalyzeFromStreamOptions,

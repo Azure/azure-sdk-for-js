@@ -219,4 +219,4 @@ export interface ImageUrl {
 export type VisualFeatures = string;
 /** The segmentation mode requested. */
 /** "backgroundRemoval", "foregroundMatting" */
-export type segmentationMode = string;
+export type SegmentationMode = string;

@@ -6,7 +6,7 @@ import { Pipeline } from "@azure/core-rest-pipeline";
 import {
   ImageAnalysisResult,
   ImageUrl,
-  segmentationMode,
+  SegmentationMode,
 } from "./models/models.js";
 import {
   AnalyzeFromStreamOptions,
@@ -58,7 +58,7 @@ export class ImageAnalysisClient {
 
   /** Segment the input image. An image stream of content type 'image/png' is returned, where the pixel values depend on the analysis mode. The returned image has the same dimensions as the input image for modes: foregroundMatting. The returned image has the same aspect ratio and same dimensions as the input image up to a limit of 16 megapixels for modes: backgroundRemoval. */
   segmentFromUrl(
-    mode: segmentationMode,
+    mode: SegmentationMode,
     imageContent: ImageUrl,
     options: SegmentFromUrlOptions = { requestOptions: {} }
   ): Promise<Uint8Array> {
@@ -67,7 +67,7 @@ export class ImageAnalysisClient {
 
   /** Segment the input image. An image stream of content type 'image/png' is returned, where the pixel values depend on the analysis mode. The returned image has the same dimensions as the input image for modes: foregroundMatting. The returned image has the same aspect ratio and same dimensions as the input image up to a limit of 16 megapixels for modes: backgroundRemoval. */
   segmentFromStream(
-    mode: segmentationMode,
+    mode: SegmentationMode,
     imageContent: Uint8Array,
     options: SegmentFromStreamOptions = { requestOptions: {} }
   ): Promise<Uint8Array> {
