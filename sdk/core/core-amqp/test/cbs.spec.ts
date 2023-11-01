@@ -4,15 +4,18 @@
 import { CbsClient, TokenType, defaultCancellableLock } from "../src/index.js";
 import { AbortController } from "@azure/abort-controller";
 import { Connection } from "rhea-promise";
-import { assert } from "chai";
 import { createConnectionStub } from "./utils/createConnectionStub.js";
 import { isError } from "@azure/core-util";
-import { stub } from "sinon";
+import { describe, it, assert, afterEach, vi } from "vitest";
 
 describe("CbsClient", function () {
   const TEST_FAILURE = "Test failure";
 
   describe("init", function () {
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
     it("honors already aborted abortSignal", async function () {
       const cbsClient = new CbsClient(new Connection(), "lock");
 
@@ -65,7 +68,7 @@ describe("CbsClient", function () {
     it("honors abortSignal", async function () {
       const connectionStub = new Connection();
       // Stub 'open' because creating a real connection will fail.
-      stub(connectionStub, "open").resolves({} as any);
+      vi.spyOn(connectionStub, "open");
 
       const cbsClient = new CbsClient(connectionStub, "lock");
 

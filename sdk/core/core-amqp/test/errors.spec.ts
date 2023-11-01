@@ -2,10 +2,8 @@
 // Licensed under the MIT license.
 
 import * as Errors from "../src/errors.js";
-import * as chai from "chai";
 import { AbortError } from "@azure/abort-controller";
-
-const should = chai.should();
+import { describe, it, assert } from "vitest";
 
 class AMQPError {
   name = "AmqpProtocolError";
@@ -18,15 +16,15 @@ class AMQPError {
   }
 }
 
-describe("Errors", function () {
-  describe("translate", function () {
-    it("Does not touch errors that are neither AmqpError nor SystemError", function () {
+describe("Errors", () => {
+  describe("translate", () => {
+    it("Does not touch errors that are neither AmqpError nor SystemError", () => {
       const testError = new Error("Test error");
       const translatedError = Errors.translate(testError);
       translatedError.should.deep.equal(testError);
     });
 
-    it("Wraps non-object inputs in errors", function () {
+    it("Wraps non-object inputs in errors", () => {
       const cases = [
         { input: "test", outputErrorMessage: "test" },
         { input: 1234, outputErrorMessage: "1234" },
@@ -37,8 +35,8 @@ describe("Errors", function () {
       for (let i = 0; i < cases.length; i++) {
         const translatedError = Errors.translate(cases[i].input as any);
 
-        should.equal(translatedError.name, "Error");
-        should.equal(
+        assert.equal(translatedError.name, "Error");
+        assert.equal(
           translatedError.message,
           cases[i].outputErrorMessage,
           "Unexpected error message."
@@ -46,58 +44,58 @@ describe("Errors", function () {
       }
     });
 
-    it("Does not touch TypeError", function () {
+    it("Does not touch TypeError", () => {
       const testError = new TypeError("This is a wrong type!!");
       const translatedError = Errors.translate(testError);
       translatedError.should.deep.equal(testError);
     });
 
-    it("Does not touch RangeError", function () {
+    it("Does not touch RangeError", () => {
       const testError = new RangeError("Out of range!!");
       const translatedError = Errors.translate(testError);
       translatedError.should.deep.equal(testError);
     });
 
-    it("Sets retryable to true, if input is custom error and name is OperationTimeoutError", function () {
+    it("Sets retryable to true, if input is custom error and name is OperationTimeoutError", () => {
       const err = new Error("error message");
       err.name = "OperationTimeoutError";
       const translatedError = Errors.translate(err) as Errors.MessagingError;
-      should.equal(translatedError.name === "MessagingError", true);
-      should.equal(translatedError.code === "OperationTimeoutError", true);
-      translatedError.message.should.equal(err.message);
-      translatedError.stack!.should.equal(err.stack);
-      translatedError.retryable.should.equal(true);
+      assert.equal(translatedError.name, "MessagingError");
+      assert.equal(translatedError.code, "OperationTimeoutError");
+      assert.equal(translatedError.message, err.message);
+      assert.equal(translatedError.stack, err.stack);
+      assert.isTrue(translatedError.retryable);
     });
 
-    it("Sets retryable to true, if input is custom error and name is InsufficientCreditError", function () {
+    it("Sets retryable to true, if input is custom error and name is InsufficientCreditError", () => {
       const err = new Error("error message");
       err.name = "InsufficientCreditError";
       const translatedError = Errors.translate(err) as Errors.MessagingError;
-      should.equal(translatedError.name === "MessagingError", true);
-      should.equal(translatedError.code === "InsufficientCreditError", true);
-      translatedError.message.should.equal(err.message);
-      translatedError.stack!.should.equal(err.stack);
-      translatedError.retryable.should.equal(true);
+      assert.equal(translatedError.name, "MessagingError");
+      assert.equal(translatedError.code, "InsufficientCreditError");
+      assert.equal(translatedError.message, err.message);
+      assert.equal(translatedError.stack, err.stack);
+      assert.isTrue(translatedError.retryable);
     });
 
-    it("Does not sets retryable to true, if input is custom error and name is SendOperationFailedError", function () {
+    it("Does not sets retryable to true, if input is custom error and name is SendOperationFailedError", () => {
       const err = new Error("error message");
       err.name = "SendOperationFailedError";
       const translatedError = Errors.translate(err) as Errors.MessagingError;
-      should.equal(translatedError.name === "MessagingError", true);
-      should.equal(translatedError.code === "SendOperationFailedError", true);
-      translatedError.message.should.equal(err.message);
-      translatedError.stack!.should.equal(err.stack);
-      translatedError.retryable.should.equal(false);
+      assert.equal(translatedError.name, "MessagingError");
+      assert.equal(translatedError.code, "SendOperationFailedError");
+      assert.equal(translatedError.message, err.message);
+      assert.equal(translatedError.stack, err.stack);
+      assert.isFalse(translatedError.retryable);
     });
 
-    it("Does not set retryable, if input is the custom AbortError", function () {
+    it("Does not set retryable, if input is the custom AbortError", () => {
       const err = new AbortError("error message");
       const translatedError = Errors.translate(err);
-      should.equal(translatedError.name === "AbortError", true);
-      translatedError.message.should.equal(err.message);
-      translatedError.stack!.should.equal(err.stack);
-      should.equal((translatedError as Errors.MessagingError).retryable, undefined);
+      assert.equal(translatedError.name, "AbortError");
+      assert.equal(translatedError.message, err.message);
+      assert.equal(translatedError.stack, err.stack);
+      assert.isUndefined((translatedError as Errors.MessagingError).retryable);
     });
 
     [
@@ -118,23 +116,24 @@ describe("Errors", function () {
       },
       { from: "<unknown>", to: "MessagingError", message: "some message" },
     ].forEach(function (mapping) {
-      it("translates " + mapping.from + " into " + mapping.to, function () {
+      it("translates " + mapping.from + " into " + mapping.to, () => {
         const err: any = new AMQPError(mapping.from, mapping.message);
         const translatedError = Errors.translate(err) as Errors.MessagingError;
         // <unknown> won't have a code since it has no matching condition
         if (translatedError.code) {
-          translatedError.code.should.equal(mapping.to);
+          assert.equal(translatedError.code, mapping.to);
         }
-        translatedError.name.should.equal("MessagingError");
+
+        assert.equal(translatedError.name, "MessagingError");
         if (
           translatedError.code === "ServerBusyError" ||
           translatedError.code === "MessagingError" ||
           // eslint-disable-next-line eqeqeq
           translatedError.code == undefined
         ) {
-          translatedError.retryable.should.equal(true);
+          assert.isTrue(translatedError.retryable);
         } else {
-          translatedError.retryable.should.equal(false);
+          assert.isFalse(translatedError.retryable);
         }
       });
     });
@@ -171,19 +170,17 @@ describe("Errors", function () {
         message: "code: ESOMETHINGRANDOM, errno: ESOMETHINGRANDOM, syscall: read",
       },
     ].forEach(function (mapping) {
-      it(
-        "SystemError from node.js  with code: '" + mapping.code + "' to a MessagingError",
-        function () {
-          const translatedError = Errors.translate(mapping as any) as Errors.MessagingError;
-          translatedError.name.should.equal("MessagingError");
-          translatedError.code!.should.equal(mapping.code);
-          if (["ECONNRESET", "ECONNREFUSED", "EBUSY"].indexOf(mapping.code) !== -1) {
-            translatedError.retryable.should.equal(true);
-          } else {
-            translatedError.retryable.should.equal(false);
-          }
+      it("SystemError from node.js  with code: '" + mapping.code + "' to a MessagingError", () => {
+        const translatedError = Errors.translate(mapping as any) as Errors.MessagingError;
+        assert.equal(translatedError.name, "MessagingError");
+        assert.equal(translatedError.code, mapping.code);
+
+        if (["ECONNRESET", "ECONNREFUSED", "EBUSY"].indexOf(mapping.code) !== -1) {
+          assert.isTrue(translatedError.retryable);
+        } else {
+          assert.isFalse(translatedError.retryable);
         }
-      );
+      });
     });
   });
 });

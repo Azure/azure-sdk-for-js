@@ -1,25 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as chai from "chai";
 import { AmqpMessageHeader, AmqpMessageProperties } from "../src/index.js";
 import {
   MessageHeader as RheaMessageHeader,
   MessageProperties as RheaMessageProperties,
 } from "rhea-promise";
-
-chai.should();
+import { describe, it, assert } from "vitest";
 
 describe("message", function () {
   describe("header", function () {
-    it("should be able to convert empty AmqpMessageHeader to RheaMessageHeader", function (done) {
+    it("should be able to convert empty AmqpMessageHeader to RheaMessageHeader", () => {
       const msgHeader: AmqpMessageHeader = {};
       const amqpMsgHeader: RheaMessageHeader = AmqpMessageHeader.toRheaMessageHeader(msgHeader);
-      JSON.stringify(amqpMsgHeader).should.equal(JSON.stringify(msgHeader));
-      done();
+      assert.equal(JSON.stringify(amqpMsgHeader), JSON.stringify(msgHeader));
     });
 
-    it("should be able to convert AmqpMessageHeader with falsy values to RheaMessageHeader", function (done) {
+    it("should be able to convert AmqpMessageHeader with falsy values to RheaMessageHeader", () => {
       const msgHeader: AmqpMessageHeader = {
         deliveryCount: 0,
         durable: false,
@@ -35,18 +32,16 @@ describe("message", function () {
         ttl: 0,
       };
       const amqpMsgHeader: RheaMessageHeader = AmqpMessageHeader.toRheaMessageHeader(msgHeader);
-      JSON.stringify(amqpMsgHeader).should.equal(JSON.stringify(amqpMsgHeaderExpected));
-      done();
+      assert.equal(JSON.stringify(amqpMsgHeader), JSON.stringify(amqpMsgHeaderExpected));
     });
 
-    it("should be able to convert empty RheaMessageHeader to AmqpMessageHeader", function (done) {
+    it("should be able to convert empty RheaMessageHeader to AmqpMessageHeader", () => {
       const amqpMsgHeader: RheaMessageHeader = {};
       const msgHeader: AmqpMessageHeader = AmqpMessageHeader.fromRheaMessageHeader(amqpMsgHeader);
-      JSON.stringify(msgHeader).should.equal(JSON.stringify(amqpMsgHeader));
-      done();
+      assert.equal(JSON.stringify(amqpMsgHeader), JSON.stringify(msgHeader));
     });
 
-    it("should be able to convert RheaMessageHeader with falsy values to AmqpMessageHeader", function (done) {
+    it("should be able to convert RheaMessageHeader with falsy values to AmqpMessageHeader", () => {
       const msgHeaderExpected: AmqpMessageHeader = {
         deliveryCount: 0,
         durable: false,
@@ -62,21 +57,19 @@ describe("message", function () {
         ttl: 0,
       };
       const msgHeader: AmqpMessageHeader = AmqpMessageHeader.fromRheaMessageHeader(amqpMsgHeader);
-      JSON.stringify(msgHeader).should.equal(JSON.stringify(msgHeaderExpected));
-      done();
+      assert.equal(JSON.stringify(msgHeader), JSON.stringify(msgHeaderExpected));
     });
   });
 
   describe("properties", function () {
-    it("should be able to convert empty AmqpMessageProperties to RheaMessageProperties", function (done) {
+    it("should be able to convert empty AmqpMessageProperties to RheaMessageProperties", () => {
       const msgProperties: AmqpMessageProperties = {};
       const amqpMsgProperties: RheaMessageProperties =
         AmqpMessageProperties.toRheaMessageProperties(msgProperties);
-      JSON.stringify(amqpMsgProperties).should.equal(JSON.stringify(msgProperties));
-      done();
+      assert.equal(JSON.stringify(amqpMsgProperties), JSON.stringify(msgProperties));
     });
 
-    it("should be able to convert AmqpMessageProperties with falsy values to RheaMessageProperties", function (done) {
+    it("should be able to convert AmqpMessageProperties with falsy values to RheaMessageProperties", () => {
       const msgProperties: AmqpMessageProperties = {
         absoluteExpiryTime: 0,
         contentEncoding: "",
@@ -109,19 +102,17 @@ describe("message", function () {
       };
       const amqpMsgProperties: RheaMessageProperties =
         AmqpMessageProperties.toRheaMessageProperties(msgProperties);
-      JSON.stringify(amqpMsgProperties).should.equal(JSON.stringify(amqpMsgPropertiesExpected));
-      done();
+      assert.equal(JSON.stringify(amqpMsgProperties), JSON.stringify(amqpMsgPropertiesExpected));
     });
 
-    it("should be able to convert empty RheaMessageProperties to AmqpMessageProperties", function (done) {
+    it("should be able to convert empty RheaMessageProperties to AmqpMessageProperties", () => {
       const amqpMsgProperties: RheaMessageProperties = {};
       const msgProperties: AmqpMessageProperties =
         AmqpMessageProperties.fromRheaMessageProperties(amqpMsgProperties);
-      JSON.stringify(msgProperties).should.equal(JSON.stringify(amqpMsgProperties));
-      done();
+      assert.equal(JSON.stringify(msgProperties), JSON.stringify(amqpMsgProperties));
     });
 
-    it("should be able to convert RheaMessageProperties with falsy values to AmqpMessageProperties", function (done) {
+    it("should be able to convert RheaMessageProperties with falsy values to AmqpMessageProperties", () => {
       const msgPropertiesExpected: AmqpMessageProperties = {
         absoluteExpiryTime: 0,
         contentEncoding: "",
@@ -154,8 +145,7 @@ describe("message", function () {
       };
       const msgProperties: RheaMessageProperties =
         AmqpMessageProperties.fromRheaMessageProperties(amqpMsgProperties);
-      JSON.stringify(msgProperties).should.equal(JSON.stringify(msgPropertiesExpected));
-      done();
+      assert.equal(JSON.stringify(msgProperties), JSON.stringify(msgPropertiesExpected));
     });
   });
 });
