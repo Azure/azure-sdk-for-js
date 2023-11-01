@@ -2,12 +2,13 @@
 
 ## 1.5.0-beta.3 (Unreleased)
 
-
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Update `label` and `contentType` representation in the output from `null` to `undefined` to make it consistent with the input type [#27622](https://github.com/Azure/azure-sdk-for-js/pull/27622)
 
 ### Other Changes
 
