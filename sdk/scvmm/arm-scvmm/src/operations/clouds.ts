@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { Scvmm } from "../scvmm";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Cloud,
   CloudsListByResourceGroupNextOptionalParams,
@@ -28,6 +32,7 @@ import {
   CloudsCreateOrUpdateOptionalParams,
   CloudsCreateOrUpdateResponse,
   CloudsDeleteOptionalParams,
+  CloudsDeleteResponse,
   ResourcePatch,
   CloudsUpdateOptionalParams,
   CloudsUpdateResponse,
@@ -50,7 +55,7 @@ export class CloudsImpl implements Clouds {
 
   /**
    * List of Clouds in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -173,36 +178,36 @@ export class CloudsImpl implements Clouds {
 
   /**
    * Implements Cloud GET method.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cloudResourceName Name of the Cloud.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    cloudName: string,
+    cloudResourceName: string,
     options?: CloudsGetOptionalParams
   ): Promise<CloudsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, cloudName, options },
+      { resourceGroupName, cloudResourceName, options },
       getOperationSpec
     );
   }
 
   /**
    * Onboards the ScVmm fabric cloud as an Azure cloud resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cloudResourceName Name of the Cloud.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    cloudName: string,
+    cloudResourceName: string,
     body: Cloud,
     options?: CloudsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CloudsCreateOrUpdateResponse>,
       CloudsCreateOrUpdateResponse
     >
   > {
@@ -212,7 +217,7 @@ export class CloudsImpl implements Clouds {
     ): Promise<CloudsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -245,15 +250,18 @@ export class CloudsImpl implements Clouds {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, cloudName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, cloudResourceName, body, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CloudsCreateOrUpdateResponse,
+      OperationState<CloudsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -261,20 +269,20 @@ export class CloudsImpl implements Clouds {
 
   /**
    * Onboards the ScVmm fabric cloud as an Azure cloud resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cloudResourceName Name of the Cloud.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    cloudName: string,
+    cloudResourceName: string,
     body: Cloud,
     options?: CloudsCreateOrUpdateOptionalParams
   ): Promise<CloudsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      cloudName,
+      cloudResourceName,
       body,
       options
     );
@@ -283,22 +291,24 @@ export class CloudsImpl implements Clouds {
 
   /**
    * Deregisters the ScVmm fabric cloud from Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cloudResourceName Name of the Cloud.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    cloudName: string,
+    cloudResourceName: string,
     options?: CloudsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<OperationState<CloudsDeleteResponse>, CloudsDeleteResponse>
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<CloudsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -331,15 +341,18 @@ export class CloudsImpl implements Clouds {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, cloudName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, cloudResourceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CloudsDeleteResponse,
+      OperationState<CloudsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -347,18 +360,18 @@ export class CloudsImpl implements Clouds {
 
   /**
    * Deregisters the ScVmm fabric cloud from Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cloudResourceName Name of the Cloud.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    cloudName: string,
+    cloudResourceName: string,
     options?: CloudsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<CloudsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      cloudName,
+      cloudResourceName,
       options
     );
     return poller.pollUntilDone();
@@ -366,18 +379,18 @@ export class CloudsImpl implements Clouds {
 
   /**
    * Updates the Clouds resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cloudResourceName Name of the Cloud.
    * @param body Clouds patch payload.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    cloudName: string,
+    cloudResourceName: string,
     body: ResourcePatch,
     options?: CloudsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<CloudsUpdateResponse>, CloudsUpdateResponse>
+    SimplePollerLike<OperationState<CloudsUpdateResponse>, CloudsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -385,7 +398,7 @@ export class CloudsImpl implements Clouds {
     ): Promise<CloudsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -418,15 +431,18 @@ export class CloudsImpl implements Clouds {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, cloudName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, cloudResourceName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CloudsUpdateResponse,
+      OperationState<CloudsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -434,20 +450,20 @@ export class CloudsImpl implements Clouds {
 
   /**
    * Updates the Clouds resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cloudResourceName Name of the Cloud.
    * @param body Clouds patch payload.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    cloudName: string,
+    cloudResourceName: string,
     body: ResourcePatch,
     options?: CloudsUpdateOptionalParams
   ): Promise<CloudsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      cloudName,
+      cloudResourceName,
       body,
       options
     );
@@ -456,7 +472,7 @@ export class CloudsImpl implements Clouds {
 
   /**
    * List of Clouds in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -484,7 +500,7 @@ export class CloudsImpl implements Clouds {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -519,7 +535,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -534,14 +550,14 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudName
+    Parameters.cloudResourceName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -566,7 +582,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudName
+    Parameters.cloudResourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -574,13 +590,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.CloudsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.CloudsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.CloudsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.CloudsDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -590,14 +614,14 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudName
+    Parameters.cloudResourceName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -622,7 +646,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudName
+    Parameters.cloudResourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

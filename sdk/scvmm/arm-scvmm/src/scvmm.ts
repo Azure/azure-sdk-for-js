@@ -19,45 +19,62 @@ import {
   OperationsImpl,
   CloudsImpl,
   VirtualNetworksImpl,
-  VirtualMachinesImpl,
   VirtualMachineTemplatesImpl,
   AvailabilitySetsImpl,
-  InventoryItemsImpl
+  InventoryItemsImpl,
+  VirtualMachineInstancesImpl,
+  VirtualMachineInstanceHybridIdentityMetadataImpl,
+  VMInstanceGuestAgentsImpl
 } from "./operations";
 import {
   VmmServers,
   Operations,
   Clouds,
   VirtualNetworks,
-  VirtualMachines,
   VirtualMachineTemplates,
   AvailabilitySets,
-  InventoryItems
+  InventoryItems,
+  VirtualMachineInstances,
+  VirtualMachineInstanceHybridIdentityMetadata,
+  VMInstanceGuestAgents
 } from "./operationsInterfaces";
 import { ScvmmOptionalParams } from "./models";
 
 export class Scvmm extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
   apiVersion: string;
 
   /**
    * Initializes a new instance of the Scvmm class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
-   *                       00000000-0000-0000-0000-000000000000).
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: ScvmmOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: ScvmmOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: ScvmmOptionalParams | string,
+    options?: ScvmmOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -69,7 +86,7 @@ export class Scvmm extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-scvmm/1.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-scvmm/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -122,15 +139,19 @@ export class Scvmm extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-06-05-preview";
+    this.apiVersion = options.apiVersion || "2023-10-07";
     this.vmmServers = new VmmServersImpl(this);
     this.operations = new OperationsImpl(this);
     this.clouds = new CloudsImpl(this);
     this.virtualNetworks = new VirtualNetworksImpl(this);
-    this.virtualMachines = new VirtualMachinesImpl(this);
     this.virtualMachineTemplates = new VirtualMachineTemplatesImpl(this);
     this.availabilitySets = new AvailabilitySetsImpl(this);
     this.inventoryItems = new InventoryItemsImpl(this);
+    this.virtualMachineInstances = new VirtualMachineInstancesImpl(this);
+    this.virtualMachineInstanceHybridIdentityMetadata = new VirtualMachineInstanceHybridIdentityMetadataImpl(
+      this
+    );
+    this.vMInstanceGuestAgents = new VMInstanceGuestAgentsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -166,8 +187,10 @@ export class Scvmm extends coreClient.ServiceClient {
   operations: Operations;
   clouds: Clouds;
   virtualNetworks: VirtualNetworks;
-  virtualMachines: VirtualMachines;
   virtualMachineTemplates: VirtualMachineTemplates;
   availabilitySets: AvailabilitySets;
   inventoryItems: InventoryItems;
+  virtualMachineInstances: VirtualMachineInstances;
+  virtualMachineInstanceHybridIdentityMetadata: VirtualMachineInstanceHybridIdentityMetadata;
+  vMInstanceGuestAgents: VMInstanceGuestAgents;
 }
