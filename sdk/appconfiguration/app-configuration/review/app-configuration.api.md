@@ -26,16 +26,6 @@ export interface AddConfigurationSettingResponse extends ConfigurationSetting, S
 }
 
 // @public
-export type AppConfigurationApiVersion = (typeof AppConfigurationApiVersion)[keyof typeof AppConfigurationApiVersion];
-
-// @public
-export const AppConfigurationApiVersion: {
-    readonly Latest: "2023-10-01";
-    readonly Stable: "2023-10-01";
-    readonly "2023-10-01": "2023-10-01";
-};
-
-// @public
 export class AppConfigurationClient {
     constructor(connectionString: string, options?: AppConfigurationClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
@@ -58,7 +48,6 @@ export class AppConfigurationClient {
 
 // @public
 export interface AppConfigurationClientOptions extends CommonClientOptions {
-    apiVersion?: AppConfigurationApiVersion;
 }
 
 // @public

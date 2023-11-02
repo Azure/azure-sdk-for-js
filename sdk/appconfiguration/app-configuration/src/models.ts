@@ -15,46 +15,7 @@ import {
 /**
  * Provides configuration options for AppConfigurationClient.
  */
-export interface AppConfigurationClientOptions extends CommonClientOptions {
-  /**
-   * The version of the App Configuration REST API to call.
-   *
-   * Default: AppConfigurationApiVersion.Latest ("2023-10-01")
-   */
-  apiVersion?: AppConfigurationApiVersion;
-}
-
-/**
- * Valid values of the App Configuration service REST API version.
- */
-export type AppConfigurationApiVersion =
-  (typeof AppConfigurationApiVersion)[keyof typeof AppConfigurationApiVersion];
-
-/**
- * Supported and common values of AppConfigurationApiVersion.
- */
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AppConfigurationApiVersion = {
-  /**
-   * The newest version of the service known to be supported by the client (default).
-   *
-   * If using a beta package version, this will be identical to the latest preview version. Otherwise, it will be
-   * identical to the latest stable version.
-   */
-  Latest: "2023-10-01",
-
-  /**
-   * The newest stable version of the service known to be supported by the package. This will be a Generally Available
-   * (GA) version, even if the package version is a beta.
-   */
-  Stable: "2023-10-01",
-
-
-  /**
-   * App Configuration API version 2023-10-01.
-   */
-  "2023-10-01": "2023-10-01",
-} as const;
+export interface AppConfigurationClientOptions extends CommonClientOptions {}
 
 /**
  * Fields that uniquely identify a configuration setting
