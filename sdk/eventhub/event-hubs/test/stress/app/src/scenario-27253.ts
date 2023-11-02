@@ -71,6 +71,7 @@ async function scenario27253Test() {
   console.log(`terminalCase: ${terminalCase}`)
   console.log(`time elapsed: ${new Date().valueOf() - startedAt.valueOf()}ms (given testDuration: ${testDurationInMs}ms) `);
   await consumerClient.close();
+  generateHeapSnapshot("check-memLeak-last", process.env.DEBUG_SHARE);
   await stressBase.endTest();
 }
 
