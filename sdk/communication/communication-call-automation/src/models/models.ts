@@ -210,8 +210,8 @@ export function createCustomCallingContext(): CustomCallingContext {
       if (kind === "voip") {
         _voipHeaders.append(name, value);
       }
-    }
-  }
+    },
+  };
 }
 
 /** AI options for the call. */
