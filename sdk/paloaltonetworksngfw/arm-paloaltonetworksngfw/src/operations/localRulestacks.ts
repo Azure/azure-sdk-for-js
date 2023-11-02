@@ -27,6 +27,14 @@ import {
   LocalRulestacksListByResourceGroupNextOptionalParams,
   LocalRulestacksListByResourceGroupOptionalParams,
   LocalRulestacksListByResourceGroupResponse,
+  LocalRulestacksListAppIdsOptionalParams,
+  LocalRulestacksListAppIdsResponse,
+  Country,
+  LocalRulestacksListCountriesOptionalParams,
+  LocalRulestacksListCountriesResponse,
+  PredefinedUrlCategory,
+  LocalRulestacksListPredefinedUrlCategoriesOptionalParams,
+  LocalRulestacksListPredefinedUrlCategoriesResponse,
   LocalRulestacksGetOptionalParams,
   LocalRulestacksGetResponse,
   LocalRulestacksCreateOrUpdateOptionalParams,
@@ -43,14 +51,8 @@ import {
   AdvSecurityObjectTypeEnum,
   LocalRulestacksListAdvancedSecurityObjectsOptionalParams,
   LocalRulestacksListAdvancedSecurityObjectsResponse,
-  LocalRulestacksListAppIdsOptionalParams,
-  LocalRulestacksListAppIdsResponse,
-  LocalRulestacksListCountriesOptionalParams,
-  LocalRulestacksListCountriesResponse,
   LocalRulestacksListFirewallsOptionalParams,
   LocalRulestacksListFirewallsResponse,
-  LocalRulestacksListPredefinedUrlCategoriesOptionalParams,
-  LocalRulestacksListPredefinedUrlCategoriesResponse,
   SecurityServicesTypeEnum,
   LocalRulestacksListSecurityServicesOptionalParams,
   LocalRulestacksListSecurityServicesResponse,
@@ -189,6 +191,255 @@ export class LocalRulestacksImpl implements LocalRulestacks {
   ): AsyncIterableIterator<LocalRulestackResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List of AppIds for LocalRulestack ApiVersion
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param localRulestackName LocalRulestack resource name
+   * @param options The options parameters.
+   */
+  public listAppIds(
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksListAppIdsOptionalParams
+  ): PagedAsyncIterableIterator<string> {
+    const iter = this.listAppIdsPagingAll(
+      resourceGroupName,
+      localRulestackName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAppIdsPagingPage(
+          resourceGroupName,
+          localRulestackName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listAppIdsPagingPage(
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksListAppIdsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<string[]> {
+    let result: LocalRulestacksListAppIdsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAppIds(
+        resourceGroupName,
+        localRulestackName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listAppIds(
+        resourceGroupName,
+        localRulestackName,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listAppIdsPagingAll(
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksListAppIdsOptionalParams
+  ): AsyncIterableIterator<string> {
+    for await (const page of this.listAppIdsPagingPage(
+      resourceGroupName,
+      localRulestackName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List of countries for Rulestack
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param localRulestackName LocalRulestack resource name
+   * @param options The options parameters.
+   */
+  public listCountries(
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksListCountriesOptionalParams
+  ): PagedAsyncIterableIterator<Country> {
+    const iter = this.listCountriesPagingAll(
+      resourceGroupName,
+      localRulestackName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listCountriesPagingPage(
+          resourceGroupName,
+          localRulestackName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listCountriesPagingPage(
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksListCountriesOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Country[]> {
+    let result: LocalRulestacksListCountriesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listCountries(
+        resourceGroupName,
+        localRulestackName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listCountries(
+        resourceGroupName,
+        localRulestackName,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listCountriesPagingAll(
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksListCountriesOptionalParams
+  ): AsyncIterableIterator<Country> {
+    for await (const page of this.listCountriesPagingPage(
+      resourceGroupName,
+      localRulestackName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List predefined URL categories for rulestack
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param localRulestackName LocalRulestack resource name
+   * @param options The options parameters.
+   */
+  public listPredefinedUrlCategories(
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams
+  ): PagedAsyncIterableIterator<PredefinedUrlCategory> {
+    const iter = this.listPredefinedUrlCategoriesPagingAll(
+      resourceGroupName,
+      localRulestackName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPredefinedUrlCategoriesPagingPage(
+          resourceGroupName,
+          localRulestackName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listPredefinedUrlCategoriesPagingPage(
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<PredefinedUrlCategory[]> {
+    let result: LocalRulestacksListPredefinedUrlCategoriesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listPredefinedUrlCategories(
+        resourceGroupName,
+        localRulestackName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listPredefinedUrlCategories(
+        resourceGroupName,
+        localRulestackName,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPredefinedUrlCategoriesPagingAll(
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams
+  ): AsyncIterableIterator<PredefinedUrlCategory> {
+    for await (const page of this.listPredefinedUrlCategoriesPagingPage(
+      resourceGroupName,
+      localRulestackName,
       options
     )) {
       yield* page;
@@ -580,7 +831,7 @@ export class LocalRulestacksImpl implements LocalRulestacks {
    * @param localRulestackName LocalRulestack resource name
    * @param options The options parameters.
    */
-  listAppIds(
+  private _listAppIds(
     resourceGroupName: string,
     localRulestackName: string,
     options?: LocalRulestacksListAppIdsOptionalParams
@@ -597,7 +848,7 @@ export class LocalRulestacksImpl implements LocalRulestacks {
    * @param localRulestackName LocalRulestack resource name
    * @param options The options parameters.
    */
-  listCountries(
+  private _listCountries(
     resourceGroupName: string,
     localRulestackName: string,
     options?: LocalRulestacksListCountriesOptionalParams
@@ -631,7 +882,7 @@ export class LocalRulestacksImpl implements LocalRulestacks {
    * @param localRulestackName LocalRulestack resource name
    * @param options The options parameters.
    */
-  listPredefinedUrlCategories(
+  private _listPredefinedUrlCategories(
     resourceGroupName: string,
     localRulestackName: string,
     options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams

@@ -1173,12 +1173,12 @@ export interface LocalRulestacks {
     getChangeLog(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksGetChangeLogOptionalParams): Promise<LocalRulestacksGetChangeLogResponse>;
     getSupportInfo(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksGetSupportInfoOptionalParams): Promise<LocalRulestacksGetSupportInfoResponse>;
     listAdvancedSecurityObjects(resourceGroupName: string, localRulestackName: string, typeParam: AdvSecurityObjectTypeEnum, options?: LocalRulestacksListAdvancedSecurityObjectsOptionalParams): Promise<LocalRulestacksListAdvancedSecurityObjectsResponse>;
-    listAppIds(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListAppIdsOptionalParams): Promise<LocalRulestacksListAppIdsResponse>;
+    listAppIds(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListAppIdsOptionalParams): PagedAsyncIterableIterator<string>;
     listByResourceGroup(resourceGroupName: string, options?: LocalRulestacksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<LocalRulestackResource>;
     listBySubscription(options?: LocalRulestacksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<LocalRulestackResource>;
-    listCountries(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListCountriesOptionalParams): Promise<LocalRulestacksListCountriesResponse>;
+    listCountries(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListCountriesOptionalParams): PagedAsyncIterableIterator<Country>;
     listFirewalls(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListFirewallsOptionalParams): Promise<LocalRulestacksListFirewallsResponse>;
-    listPredefinedUrlCategories(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams): Promise<LocalRulestacksListPredefinedUrlCategoriesResponse>;
+    listPredefinedUrlCategories(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams): PagedAsyncIterableIterator<PredefinedUrlCategory>;
     listSecurityServices(resourceGroupName: string, localRulestackName: string, typeParam: SecurityServicesTypeEnum, options?: LocalRulestacksListSecurityServicesOptionalParams): Promise<LocalRulestacksListSecurityServicesResponse>;
     revert(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksRevertOptionalParams): Promise<void>;
     update(resourceGroupName: string, localRulestackName: string, properties: LocalRulestackResourceUpdate, options?: LocalRulestacksUpdateOptionalParams): Promise<LocalRulestacksUpdateResponse>;
@@ -1391,6 +1391,7 @@ export interface NetworkProfile {
     enableEgressNat: EgressNat;
     networkType: NetworkType;
     publicIps: IPAddress[];
+    trustedRanges?: string[];
     vnetConfiguration?: VnetConfiguration;
     vwanConfiguration?: VwanConfiguration;
 }
