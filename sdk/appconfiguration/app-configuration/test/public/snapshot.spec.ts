@@ -101,7 +101,7 @@ describe("AppConfigurationClient snapshot", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async function () {
+    it("accepts  operation options", async function () {
       if (isPlaybackMode()) this.skip();
       await assertThrowsAbortError(async () => {
         await client.beginCreateSnapshotAndWait(snapshot1, {
@@ -146,7 +146,7 @@ describe("AppConfigurationClient snapshot", () => {
       );
     });
 
-    it.skip("accepts operation options", async function () {
+    it("accepts operation options", async function () {
       if (isPlaybackMode()) this.skip();
       await assertThrowsAbortError(async () => {
         await client.archiveSnapshot(newSnapshot.name, {
@@ -173,7 +173,7 @@ describe("AppConfigurationClient snapshot", () => {
       await client.archiveSnapshot(newSnapshot.name);
     });
 
-    it.skip("accepts operation options", async function () {
+    it("accepts operation options", async function () {
       if (isPlaybackMode()) this.skip();
       await assertThrowsAbortError(async () => {
         await client.recoverSnapshot(newSnapshot.name, {
@@ -196,7 +196,7 @@ describe("AppConfigurationClient snapshot", () => {
     });
 
     // Check issue https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts operation options", async function () {
+    it("accepts operation options", async function () {
       if (isPlaybackMode()) this.skip();
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
       await assertThrowsAbortError(async () => {
