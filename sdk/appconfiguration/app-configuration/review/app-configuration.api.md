@@ -30,10 +30,9 @@ export type AppConfigurationApiVersion = (typeof AppConfigurationApiVersion)[key
 
 // @public
 export const AppConfigurationApiVersion: {
-    readonly Latest: "2022-11-01-preview";
-    readonly Stable: "1.0";
-    readonly "1.0": "1.0";
-    readonly "2022-11-01-preview": "2022-11-01-preview";
+    readonly Latest: "2023-10-01";
+    readonly Stable: "2023-10-01";
+    readonly "2023-10-01": "2023-10-01";
 };
 
 // @public

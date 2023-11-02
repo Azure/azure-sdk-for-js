@@ -19,7 +19,7 @@ export interface AppConfigurationClientOptions extends CommonClientOptions {
   /**
    * The version of the App Configuration REST API to call.
    *
-   * Default: AppConfigurationApiVersion.Latest ("2022-11-01-preview")
+   * Default: AppConfigurationApiVersion.Latest ("2023-10-01")
    */
   apiVersion?: AppConfigurationApiVersion;
 }
@@ -41,23 +41,19 @@ export const AppConfigurationApiVersion = {
    * If using a beta package version, this will be identical to the latest preview version. Otherwise, it will be
    * identical to the latest stable version.
    */
-  Latest: "2022-11-01-preview",
+  Latest: "2023-10-01",
 
   /**
    * The newest stable version of the service known to be supported by the package. This will be a Generally Available
    * (GA) version, even if the package version is a beta.
    */
-  Stable: "1.0",
+  Stable: "2023-10-01",
+
 
   /**
-   * App Configuration API version "1.0" (GA).
+   * App Configuration API version 2023-10-01.
    */
-  "1.0": "1.0",
-
-  /**
-   * App Configuration API version 2022-11-01-preview.
-   */
-  "2022-11-01-preview": "2022-11-01-preview",
+  "2023-10-01": "2023-10-01",
 } as const;
 
 /**

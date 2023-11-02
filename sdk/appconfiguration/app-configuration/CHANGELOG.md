@@ -1,15 +1,11 @@
 # Release History
 
-## 1.5.0-beta.3 (Unreleased)
-
+## 1.5.0 (2023-11-07)
 
 ### Features Added
 
-### Breaking Changes
+- With the new API version `2023-10-01`, the configuration snapshot feature is generally available.
 
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.5.0-beta.2 (2023-10-10)
 
