@@ -683,6 +683,39 @@ export class MessageSession extends LinkEntity<Receiver> {
 
         try {
           await this._onMessage(bMessage);
+
+          // If we've made it this far, then user's message handler completed fine. Let us try
+          // completing the message.
+          if (
+            this.autoComplete &&
+            this.receiveMode === "peekLock" &&
+            !bMessage.delivery.remote_settled
+          ) {
+            try {
+              logger.verbose(
+                "%s Auto completing the message with id '%s' on the receiver.",
+                this.logPrefix,
+                bMessage.messageId
+              );
+              await completeMessage(bMessage, this._context, this.entityPath, this._retryOptions);
+            } catch (completeError: any) {
+              const translatedError = translateServiceBusError(completeError);
+              logger.logError(
+                translatedError,
+                "%s An error occurred while completing the message with id '%s' on the " +
+                  "receiver",
+                this.logPrefix,
+                bMessage.messageId
+              );
+              this._notifyError({
+                error: translatedError,
+                errorSource: "complete",
+                entityPath: this.entityPath,
+                fullyQualifiedNamespace: this._context.config.host,
+                identifier: this.identifier,
+              });
+            }
+          }
         } catch (err: any) {
           logger.logError(
             err,
@@ -747,38 +780,6 @@ export class MessageSession extends LinkEntity<Receiver> {
             // this isn't something we expect in normal operation - we'd only get here
             // because of a bug in our code.
             this.processCreditError(err);
-          }
-        }
-
-        // If we've made it this far, then user's message handler completed fine. Let us try
-        // completing the message.
-        if (
-          this.autoComplete &&
-          this.receiveMode === "peekLock" &&
-          !bMessage.delivery.remote_settled
-        ) {
-          try {
-            logger.verbose(
-              "%s Auto completing the message with id '%s' on the receiver.",
-              this.logPrefix,
-              bMessage.messageId
-            );
-            await completeMessage(bMessage, this._context, this.entityPath, this._retryOptions);
-          } catch (completeError: any) {
-            const translatedError = translateServiceBusError(completeError);
-            logger.logError(
-              translatedError,
-              "%s An error occurred while completing the message with id '%s' on the " + "receiver",
-              this.logPrefix,
-              bMessage.messageId
-            );
-            this._notifyError({
-              error: translatedError,
-              errorSource: "complete",
-              entityPath: this.entityPath,
-              fullyQualifiedNamespace: this._context.config.host,
-              identifier: this.identifier,
-            });
           }
         }
       };
