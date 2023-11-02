@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Update `label` and `contentType` representation in the output from `null` to `undefined` to make it consistent with the input type [#27622](https://github.com/Azure/azure-sdk-for-js/pull/27622)
+- To match the input type, change the output representation of `label` and `contentType` from `null` to `undefined` when these properties are empty or not defined in the configuration setting object. [#27622](https://github.com/Azure/azure-sdk-for-js/pull/27622)
 
 ### Other Changes
 
