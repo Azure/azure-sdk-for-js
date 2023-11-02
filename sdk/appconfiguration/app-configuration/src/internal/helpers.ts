@@ -227,11 +227,13 @@ export function transformKeyValue<T>(kvp: T & KeyValue): T & ConfigurationSettin
     ...kvp,
     isReadOnly: !!kvp.locked,
   };
-
   delete setting.locked;
-
-  if (kvp.label) setting.label = kvp.label;
-  if (kvp.contentType) setting.contentType = kvp.contentType;
+  if (!setting.label) {
+    delete setting.label;
+  }
+  if (!setting.contentType) {
+    delete setting.contentType;
+  }
   return setting;
 }
 
