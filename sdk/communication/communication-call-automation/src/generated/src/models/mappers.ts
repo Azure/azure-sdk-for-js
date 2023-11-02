@@ -450,8 +450,8 @@ export const TransferToParticipantRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      customContext: {
-        serializedName: "customContext",
+      customCallingContext: {
+        serializedName: "customCallingContext",
         type: {
           name: "Composite",
           className: "CustomContext"
@@ -1072,8 +1072,8 @@ export const AddParticipantRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      customContext: {
-        serializedName: "customContext",
+      customCallingContext: {
+        serializedName: "customCallingContext",
         type: {
           name: "Composite",
           className: "CustomContext"

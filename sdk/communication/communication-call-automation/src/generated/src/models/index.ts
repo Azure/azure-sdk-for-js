@@ -170,15 +170,15 @@ export interface TransferToParticipantRequest {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUri?: string;
-  /** Used by customer to send custom context to targets */
-  customContext?: CustomContext;
+  /** Used by customer to send custom calling context to targets */
+  customCallingContext?: CustomContext;
 }
 
-/** The custom context which will be sent to the target */
+/** The custom calling context which will be sent to the target */
 export interface CustomContext {
-  /** Custom context VoiP headers */
+  /** Custom calling context VoiP headers */
   voipHeaders?: { [propertyName: string]: string };
-  /** Custom context SIP headers */
+  /** Custom calling context SIP headers */
   sipHeaders?: { [propertyName: string]: string };
 }
 
@@ -390,8 +390,8 @@ export interface AddParticipantRequest {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUri?: string;
-  /** Used by customer to send custom context to targets */
-  customContext?: CustomContext;
+  /** Used by customer to send custom calling context to targets */
+  customCallingContext?: CustomContext;
 }
 
 /** The response payload for adding participants to the call. */
