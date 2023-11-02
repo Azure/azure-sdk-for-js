@@ -11,7 +11,6 @@ import {
 } from "./interfaces";
 import { RestError } from "./restError";
 import { createHttpHeaders } from "./httpHeaders";
-import { isMultipartRequestBody } from "./policies/multipartPolicy";
 import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards";
 
 /**
@@ -221,9 +220,6 @@ function buildRequestBody(request: PipelineRequest) {
   const body = typeof request.body === "function" ? request.body() : request.body;
   if (isNodeReadableStream(body)) {
     throw new Error("Node streams are not supported in browser environment.");
-  }
-  if (isMultipartRequestBody(body)) {
-    throw new Error("Multipart bodies must be handled by multipartPolicy");
   }
 
   return isWebReadableStream(body)
