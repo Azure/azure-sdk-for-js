@@ -251,3 +251,62 @@ describe("Test Index metrics", function (this: Suite) {
     return createdContainer;
   }
 });
+
+describe("Test RU Capping query", function (this: Suite) {
+  beforeEach(async function () {
+    await removeAllDatabases();
+  });
+
+  it("For Single partition query", async function () {
+    const collectionId = "testCollection4";
+    const createdContainerSinglePartition = await setupContainer(
+      "RU Capping test db for single partition",
+      collectionId,
+      4000
+    );
+
+    createdContainerSinglePartition.items.create({ id: "myId1", pk: "pk1", name: "test1" });
+    createdContainerSinglePartition.items.create({ id: "myId2", pk: "pk2", name: "test2" });
+    createdContainerSinglePartition.items.create({ id: "myId3", pk: "pk2", name: "test2" });
+
+    const query1 = "SELECT * from " + collectionId + " where " + collectionId + ".name = 'test2'";
+    const queryOptions: FeedOptions = { maxItemCount: 1 };
+    const queryIterator = createdContainerSinglePartition.items.query(query1, queryOptions);
+    // Case 1: RU Cap breached
+    try {
+      await queryIterator.fetchNext({ ruCapPerOperation: 2 });
+      assert.fail("Must throw exception");
+    } catch (err) {
+      assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
+      assert.ok(err.body);
+      assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
+    }
+    // Case 2: RU Cap not breached
+    while (queryIterator.hasMoreResults()) {
+      const { resources: results } = await queryIterator.fetchNext({ ruCapPerOperation: 10 });
+      if (results === undefined) {
+        continue;
+      }
+      assert.equal(results.length, 1);
+    }
+  });
+
+  async function setupContainer(datbaseName: string, collectionId: string, throughput?: number) {
+    const database = await getTestDatabase(datbaseName);
+
+    const collectionDefinition = {
+      id: collectionId,
+      partitionKey: {
+        paths: ["/pk"],
+      },
+    };
+    const collectionOptions = { offerThroughput: throughput };
+
+    const { resource: createdCollectionDef } = await database.containers.create(
+      collectionDefinition,
+      collectionOptions
+    );
+    const createdContainer = database.container(createdCollectionDef.id);
+    return createdContainer;
+  }
+});

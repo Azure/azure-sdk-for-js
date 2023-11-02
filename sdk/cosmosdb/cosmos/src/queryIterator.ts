@@ -5,7 +5,7 @@
 
 import { ClientContext } from "./ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
-import { getPathFromLink, ResourceType, StatusCodes } from "./common";
+import { getPathFromLink, ResourceType, RUConsumed, StatusCodes } from "./common";
 import {
   CosmosHeaders,
   DefaultQueryExecutionContext,
@@ -166,6 +166,10 @@ export class QueryIterator<T> {
    */
   public async fetchNext(operationOptions?: OperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      let ruConsumed: RUConsumed | undefined;
+      if (operationOptions && operationOptions.ruCapPerOperation) {
+        ruConsumed = { value: 0 };
+      }
       this.queryPlanPromise = withMetadataDiagnostics(
         async (metadataNode: DiagnosticNodeInternal) => {
           return this.fetchQueryPlan(metadataNode);
@@ -177,15 +181,22 @@ export class QueryIterator<T> {
         await this.init();
       }
 
-      console.log(operationOptions);
       let response: Response<any>;
       try {
-        response = await this.queryExecutionContext.fetchMore(diagnosticNode);
+        response = await this.queryExecutionContext.fetchMore(
+          diagnosticNode,
+          operationOptions,
+          ruConsumed
+        );
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
           try {
-            response = await this.queryExecutionContext.fetchMore(diagnosticNode);
+            response = await this.queryExecutionContext.fetchMore(
+              diagnosticNode,
+              operationOptions,
+              ruConsumed
+            );
           } catch (queryError: any) {
             this.handleSplitError(queryError);
           }

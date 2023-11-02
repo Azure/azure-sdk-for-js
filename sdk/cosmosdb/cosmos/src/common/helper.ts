@@ -360,3 +360,7 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
     key: AccountKey,
   };
 }
+
+export interface RUConsumed {
+  value: number;
+}

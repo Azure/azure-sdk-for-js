@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AzureLogger, createClientLogger } from "@azure/logger";
-import { Constants } from "../common";
+import { Constants, RUConsumed } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
-import { FeedOptions, Response } from "../request";
+import { FeedOptions, OperationOptions, Response } from "../request";
 import { getInitialHeader } from "./headerUtils";
 import { ExecutionContext } from "./index";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { addDignosticChild } from "../utils/diagnostics";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
+import { RUCapPerOperationExceededError } from "../request/RUCapPerOperationExceededError";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 /** @hidden */
@@ -121,7 +122,11 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   /**
    * Fetches the next batch of the feed and pass them as an array to a callback
    */
-  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: OperationOptions,
+    ruConsumed?: RUConsumed
+  ): Promise<Response<any>> {
     return addDignosticChild(
       async (childDiagnosticNode: DiagnosticNodeInternal) => {
         if (this.currentPartitionIndex >= this.fetchFunctions.length) {
@@ -214,6 +219,22 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           // and partition queries have the same response schema
           responseHeaders[Constants.HttpHeaders.QueryMetrics] = {};
           responseHeaders[Constants.HttpHeaders.QueryMetrics]["0"] = queryMetrics;
+        }
+
+        if (
+          operationOptions &&
+          operationOptions.ruCapPerOperation &&
+          ruConsumed &&
+          ruConsumed.value !== undefined
+        ) {
+          ruConsumed.value += responseHeaders[Constants.HttpHeaders.RequestCharge] || 0;
+          if (ruConsumed.value > operationOptions.ruCapPerOperation) {
+            // For RUCapPerOperationExceededError error, we will be marking state as inProgress as we want to support continue
+            throw new RUCapPerOperationExceededError(
+              "Request Unit limit per Operation call exceeded",
+              resources
+            );
+          }
         }
 
         return { result: resources, headers: responseHeaders };
