@@ -21,7 +21,7 @@ const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 export abstract class BaseSender {
   private readonly persister: PersistentStorage;
   private numConsecutiveRedirects: number;
-  private retryTimer: NodeJS.Timer | null;
+  private retryTimer: NodeJS.Timeout | null;
   private networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
   private longIntervalStatsbeatMetrics;
   private statsbeatFailureCount: number = 0;

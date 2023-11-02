@@ -13,7 +13,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "keywords": [
     "azure",
@@ -63,7 +63,7 @@
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
     "@types/mime": "^3.0.1",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/yargs": "^17.0.10",
     "@types/yargs-parser": "^21.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -80,7 +80,7 @@
     "dotenv": "^16.0.0",
     "@azure/test-utils": "^1.0.0",
     "@types/mustache": "^4.2.1",
-    "sinon": "^15.0.0",
+    "sinon": "^17.0.0",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",

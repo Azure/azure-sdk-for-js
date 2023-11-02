@@ -10,7 +10,7 @@
   },
   "types": "./types/src/index.d.ts",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -74,7 +74,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/sinon": "^10.0.0",
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
@@ -84,7 +84,7 @@
     "karma-env-preprocessor": "^0.1.1",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "sinon": "^15.0.0",
+    "sinon": "^17.0.0",
     "typescript": "~5.2.0",
     "ts-node": "^10.0.0"
   }

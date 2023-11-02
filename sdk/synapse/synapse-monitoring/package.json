@@ -23,7 +23,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -54,7 +54,7 @@
     "typescript": "~5.2.0",
     "uglify-js": "^3.4.9",
     "ts-node": "^10.0.0",
-    "@types/node": "^16.0.0"
+    "@types/node": "^18.0.0"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"

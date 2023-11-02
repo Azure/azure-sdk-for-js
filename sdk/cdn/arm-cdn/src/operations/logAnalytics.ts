@@ -260,7 +260,7 @@ const getLogAnalyticsMetricsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -290,7 +290,7 @@ const getLogAnalyticsRankingsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -312,7 +312,7 @@ const getLogAnalyticsLocationsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -334,7 +334,7 @@ const getLogAnalyticsResourcesOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -365,7 +365,7 @@ const getWafLogAnalyticsMetricsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -396,7 +396,7 @@ const getWafLogAnalyticsRankingsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
   serializer
