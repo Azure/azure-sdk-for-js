@@ -170,7 +170,7 @@
     "regenerator-runtime": "^0.13.3",
     "rimraf": "^3.0.0",
     "shx": "^0.3.2",
-    "sinon": "^15.0.0",
+    "sinon": "^17.0.0",
     "ts-node": "^10.0.0",
     "typescript": "~5.2.0",
     "uglify-js": "^3.4.9",
