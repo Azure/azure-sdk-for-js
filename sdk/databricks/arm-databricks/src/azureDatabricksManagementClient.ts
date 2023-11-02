@@ -8,11 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   WorkspacesImpl,
@@ -20,7 +15,8 @@ import {
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl,
   OutboundNetworkDependenciesEndpointsImpl,
-  VNetPeeringImpl
+  VNetPeeringImpl,
+  AccessConnectorsImpl
 } from "./operations";
 import {
   Workspaces,
@@ -28,13 +24,13 @@ import {
   PrivateLinkResources,
   PrivateEndpointConnections,
   OutboundNetworkDependenciesEndpoints,
-  VNetPeering
+  VNetPeering,
+  AccessConnectors
 } from "./operationsInterfaces";
 import { AzureDatabricksManagementClientOptionalParams } from "./models";
 
 export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
 
   /**
@@ -64,7 +60,7 @@ export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-databricks/3.0.0-beta.5`;
+    const packageDetails = `azsdk-js-arm-databricks/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -117,7 +113,6 @@ export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-04-01-preview";
     this.workspaces = new WorkspacesImpl(this);
     this.operations = new OperationsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -126,35 +121,7 @@ export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
       this
     );
     this.vNetPeering = new VNetPeeringImpl(this);
-    this.addCustomApiVersionPolicy(options.apiVersion);
-  }
-
-  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
-  private addCustomApiVersionPolicy(apiVersion?: string) {
-    if (!apiVersion) {
-      return;
-    }
-    const apiVersionPolicy = {
-      name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
-        const param = request.url.split("?");
-        if (param.length > 1) {
-          const newParams = param[1].split("&").map((item) => {
-            if (item.indexOf("api-version") > -1) {
-              return "api-version=" + apiVersion;
-            } else {
-              return item;
-            }
-          });
-          request.url = param[0] + "?" + newParams.join("&");
-        }
-        return next(request);
-      }
-    };
-    this.pipeline.addPolicy(apiVersionPolicy);
+    this.accessConnectors = new AccessConnectorsImpl(this);
   }
 
   workspaces: Workspaces;
@@ -163,4 +130,5 @@ export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
   privateEndpointConnections: PrivateEndpointConnections;
   outboundNetworkDependenciesEndpoints: OutboundNetworkDependenciesEndpoints;
   vNetPeering: VNetPeering;
+  accessConnectors: AccessConnectors;
 }
