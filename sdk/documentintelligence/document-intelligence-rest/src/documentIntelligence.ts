@@ -3,7 +3,7 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger";
-import { TokenCredential, KeyCredential } from "@azure/core-auth";
+import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import { DocumentIntelligenceClient } from "./clientDefinitions";
 
 /**
@@ -44,12 +44,14 @@ export default function createClient(
 
   const client = getClient(baseUrl, credentials, options) as DocumentIntelligenceClient;
 
-  client.pipeline.addPolicy({
-    name: "customKeyCredentialPolicy",
-    async sendRequest(request, next) {
-      request.headers.set("Authorization", "bearer " + credentials.key);
-      return next(request);
-    },
-  });
+  if (!isTokenCredential(credentials)) {
+    client.pipeline.addPolicy({
+      name: "customKeyCredentialPolicy",
+      async sendRequest(request, next) {
+        request.headers.set("Authorization", "bearer " + credentials.key);
+        return next(request);
+      },
+    });
+  }
   return client;
 }
