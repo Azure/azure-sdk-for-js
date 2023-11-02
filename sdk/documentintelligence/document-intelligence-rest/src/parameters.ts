@@ -10,7 +10,6 @@ import {
   CopyAuthorization,
   BuildDocumentClassifierRequest,
   ClassifyDocumentRequest,
-  CompleteChatRequest,
 } from "./models";
 
 export type ListOperationsParameters = RequestParameters;
@@ -251,39 +250,3 @@ export type ClassifyDocumentParameters = ClassifyDocumentQueryParam &
   ClassifyDocumentBodyParam &
   RequestParameters;
 export type GetClassifyResultParameters = RequestParameters;
-
-export interface BuildIndexBodyParam {
-  /**
-   * Input content.
-   *
-   * Value may contain any sequence of octets
-   */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
-}
-
-export interface BuildIndexMediaTypesParam {
-  /** Input content type. */
-  contentType:
-    | "application/octet-stream"
-    | "application/pdf"
-    | "image/jpeg"
-    | "image/png"
-    | "image/tiff"
-    | "image/bmp"
-    | "image/heif"
-    | "text/html"
-    | "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    | "application/vnd.openxmlformats-officedocument.presentationml.presentation";
-}
-
-export type BuildIndexParameters = BuildIndexMediaTypesParam &
-  BuildIndexBodyParam &
-  RequestParameters;
-
-export interface CompleteBodyParam {
-  /** Complete chat request parameters. */
-  body: CompleteChatRequest;
-}
-
-export type CompleteParameters = CompleteBodyParam & RequestParameters;

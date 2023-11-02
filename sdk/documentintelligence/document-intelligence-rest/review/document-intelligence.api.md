@@ -254,12 +254,6 @@ export interface AzureBlobFileListContentSourceOutput {
 }
 
 // @public
-export interface BoundingRegion {
-    pageNumber: number;
-    polygon: number[];
-}
-
-// @public
 export interface BoundingRegionOutput {
     pageNumber: number;
     polygon: number[];
@@ -324,52 +318,6 @@ export interface BuildDocumentModelRequest {
 }
 
 // @public (undocumented)
-export interface BuildIndex {
-    post(options: BuildIndexParameters): StreamableMethod<BuildIndex202Response | BuildIndexDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface BuildIndex202Headers {
-    // (undocumented)
-    "operation-location": string;
-}
-
-// @public
-export interface BuildIndex202Response extends HttpResponse {
-    // (undocumented)
-    headers: RawHttpHeaders & BuildIndex202Headers;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export interface BuildIndexBodyParam {
-    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
-}
-
-// @public (undocumented)
-export interface BuildIndexDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public
-export interface BuildIndexLogicalResponse extends HttpResponse {
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface BuildIndexMediaTypesParam {
-    contentType: "application/octet-stream" | "application/pdf" | "image/jpeg" | "image/png" | "image/tiff" | "image/bmp" | "image/heif" | "text/html" | "application/vnd.openxmlformats-officedocument.wordprocessingml.document" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" | "application/vnd.openxmlformats-officedocument.presentationml.presentation";
-}
-
-// @public (undocumented)
-export type BuildIndexParameters = BuildIndexMediaTypesParam & BuildIndexBodyParam & RequestParameters;
-
-// @public (undocumented)
 export interface BuildModel {
     post(options: BuildModelParameters): StreamableMethod<BuildModel202Response | BuildModelDefaultResponse>;
 }
@@ -409,39 +357,6 @@ export interface BuildModelLogicalResponse extends HttpResponse {
 
 // @public (undocumented)
 export type BuildModelParameters = BuildModelBodyParam & RequestParameters;
-
-// @public
-export interface ChatCitation {
-    boundingRegions?: Array<BoundingRegion>;
-    content: string;
-    label: string;
-}
-
-// @public
-export interface ChatCitationOutput {
-    boundingRegions?: Array<BoundingRegionOutput>;
-    content: string;
-    label: string;
-}
-
-// @public
-export interface ChatCompletionOutput {
-    message: ChatMessageOutput;
-}
-
-// @public
-export interface ChatMessage {
-    citations?: Array<ChatCitation>;
-    content: string;
-    role: string;
-}
-
-// @public
-export interface ChatMessageOutput {
-    citations?: Array<ChatCitationOutput>;
-    content: string;
-    role: string;
-}
 
 // @public
 export interface ClassifierDocumentTypeDetails {
@@ -574,40 +489,6 @@ export interface ClassifyDocumentRequest {
     base64Source?: string;
     urlSource?: string;
 }
-
-// @public (undocumented)
-export interface Complete {
-    post(options: CompleteParameters): StreamableMethod<Complete200Response | CompleteDefaultResponse>;
-}
-
-// @public
-export interface Complete200Response extends HttpResponse {
-    // (undocumented)
-    body: ChatCompletionOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface CompleteBodyParam {
-    body: CompleteChatRequest;
-}
-
-// @public
-export interface CompleteChatRequest {
-    messages: Array<ChatMessage>;
-}
-
-// @public (undocumented)
-export interface CompleteDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type CompleteParameters = CompleteBodyParam & RequestParameters;
 
 // @public
 export interface ComponentDocumentModelDetails {
@@ -933,19 +814,15 @@ export interface DocumentModelCopyToOperationDetailsOutput extends OperationDeta
 }
 
 // @public
-export interface DocumentModelDetailsOutput extends DocumentModelSummaryOutput {
+export interface DocumentModelDetailsOutput {
+    apiVersion?: string;
     azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
     azureBlobSource?: AzureBlobContentSourceOutput;
-    buildMode: string;
-    docTypes?: Record<string, DocumentTypeDetailsOutput>;
-}
-
-// @public
-export interface DocumentModelSummaryOutput {
-    readonly apiVersion?: string;
-    readonly createdDateTime: string;
+    buildMode?: string;
+    createdDateTime: string;
     description?: string;
-    readonly expirationDateTime?: string;
+    docTypes?: Record<string, DocumentTypeDetailsOutput>;
+    expirationDateTime?: string;
     modelId: string;
     tags?: Record<string, string>;
 }
@@ -1242,9 +1119,6 @@ export function getLongRunningPoller<TResult extends CopyModelToLogicalResponse 
 export function getLongRunningPoller<TResult extends BuildClassifierLogicalResponse | BuildClassifierDefaultResponse>(client: Client, initialResponse: BuildClassifier202Response | BuildClassifierDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
-export function getLongRunningPoller<TResult extends BuildIndexLogicalResponse | BuildIndexDefaultResponse>(client: Client, initialResponse: BuildIndex202Response | BuildIndexDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
-
-// @public (undocumented)
 export function getLongRunningPoller<TResult extends AnalyzeDocumentFromStreamLogicalResponse | AnalyzeDocumentFromStreamDefaultResponse>(client: Client, initialResponse: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
@@ -1326,7 +1200,7 @@ export type GetResourceInfoParameters = RequestParameters;
 
 // @public
 export interface InnerErrorOutput {
-    code: string;
+    code?: string;
     innererror?: InnerErrorOutput;
     message?: string;
 }
@@ -1386,12 +1260,6 @@ export function isUnexpected(response: ClassifyDocumentFromStream202Response | C
 export function isUnexpected(response: GetClassifyResult200Response | GetClassifyResultDefaultResponse): response is GetClassifyResultDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: BuildIndex202Response | BuildIndexLogicalResponse | BuildIndexDefaultResponse): response is BuildIndexDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: Complete200Response | CompleteDefaultResponse): response is CompleteDefaultResponse;
-
-// @public (undocumented)
 export interface ListClassifiers {
     get(options?: ListClassifiersParameters): StreamableMethod<ListClassifiers200Response | ListClassifiersDefaultResponse>;
 }
@@ -1423,7 +1291,7 @@ export interface ListModels {
 // @public
 export interface ListModels200Response extends HttpResponse {
     // (undocumented)
-    body: PagedDocumentModelSummaryOutput;
+    body: PagedDocumentModelDetailsOutput;
     // (undocumented)
     status: "200";
 }
@@ -1447,7 +1315,7 @@ export interface ListOperations {
 // @public
 export interface ListOperations200Response extends HttpResponse {
     // (undocumented)
-    body: PagedOperationSummaryOutput;
+    body: PagedOperationDetailsOutput;
     // (undocumented)
     status: "200";
 }
@@ -1474,19 +1342,6 @@ export interface OperationDetailsOutputParent {
     // (undocumented)
     kind: string;
     lastUpdatedDateTime: string;
-    readonly operationId: string;
-    percentCompleted?: number;
-    resourceLocation: string;
-    status: string;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface OperationSummaryOutput {
-    apiVersion?: string;
-    createdDateTime: string;
-    kind: string;
-    lastUpdatedDateTime: string;
     operationId: string;
     percentCompleted?: number;
     resourceLocation: string;
@@ -1498,10 +1353,10 @@ export interface OperationSummaryOutput {
 export type PagedDocumentClassifierDetailsOutput = Paged<DocumentClassifierDetailsOutput>;
 
 // @public
-export type PagedDocumentModelSummaryOutput = Paged<DocumentModelSummaryOutput>;
+export type PagedDocumentModelDetailsOutput = Paged<DocumentModelDetailsOutput>;
 
 // @public
-export type PagedOperationSummaryOutput = Paged<OperationSummaryOutput>;
+export type PagedOperationDetailsOutput = Paged<OperationDetailsOutput>;
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -1549,8 +1404,6 @@ export interface Routes {
     (path: "/documentClassifiers/{classifierId}", classifierId: string): GetClassifier;
     (path: "/documentClassifiers/{classifierId}:analyze", classifierId: string): ClassifyDocumentFromStream;
     (path: "/documentClassifiers/{classifierId}/analyzeResults/{resultId}", classifierId: string, resultId: string): GetClassifyResult;
-    (path: "/chat:build"): BuildIndex;
-    (path: "/chat/{chatId}:complete", chatId: string): Complete;
 }
 
 // (No @packageDocumentation comment for this package)

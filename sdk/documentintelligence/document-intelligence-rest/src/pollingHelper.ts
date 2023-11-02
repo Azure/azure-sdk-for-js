@@ -29,9 +29,6 @@ import {
   ClassifyDocumentFromStream202Response,
   ClassifyDocumentFromStreamDefaultResponse,
   ClassifyDocumentFromStreamLogicalResponse,
-  BuildIndex202Response,
-  BuildIndexDefaultResponse,
-  BuildIndexLogicalResponse,
 } from "./responses";
 /**
  * Helper function that builds a Poller object to help polling a long running operation.
@@ -66,13 +63,6 @@ export async function getLongRunningPoller<
 >(
   client: Client,
   initialResponse: BuildClassifier202Response | BuildClassifierDefaultResponse,
-  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
-): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
-export async function getLongRunningPoller<
-  TResult extends BuildIndexLogicalResponse | BuildIndexDefaultResponse
->(
-  client: Client,
-  initialResponse: BuildIndex202Response | BuildIndexDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<

@@ -44,11 +44,6 @@ import {
   ClassifyDocumentFromStreamDefaultResponse,
   GetClassifyResult200Response,
   GetClassifyResultDefaultResponse,
-  BuildIndex202Response,
-  BuildIndexLogicalResponse,
-  BuildIndexDefaultResponse,
-  Complete200Response,
-  CompleteDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -76,9 +71,6 @@ const responseMap: Record<string, string[]> = {
   "POST /documentClassifiers/{classifierId}:analyze": ["202"],
   "GET /documentClassifiers/{classifierId}:analyze": ["200", "202"],
   "GET /documentClassifiers/{classifierId}/analyzeResults/{resultId}": ["200"],
-  "POST /chat:build": ["202"],
-  "GET /chat:build": ["200", "202"],
-  "POST /chat/{chatId}:complete": ["200"],
 };
 
 export function isUnexpected(
@@ -147,12 +139,6 @@ export function isUnexpected(
   response: GetClassifyResult200Response | GetClassifyResultDefaultResponse
 ): response is GetClassifyResultDefaultResponse;
 export function isUnexpected(
-  response: BuildIndex202Response | BuildIndexLogicalResponse | BuildIndexDefaultResponse
-): response is BuildIndexDefaultResponse;
-export function isUnexpected(
-  response: Complete200Response | CompleteDefaultResponse
-): response is CompleteDefaultResponse;
-export function isUnexpected(
   response:
     | ListOperations200Response
     | ListOperationsDefaultResponse
@@ -196,11 +182,6 @@ export function isUnexpected(
     | ClassifyDocumentFromStreamDefaultResponse
     | GetClassifyResult200Response
     | GetClassifyResultDefaultResponse
-    | BuildIndex202Response
-    | BuildIndexLogicalResponse
-    | BuildIndexDefaultResponse
-    | Complete200Response
-    | CompleteDefaultResponse
 ): response is
   | ListOperationsDefaultResponse
   | GetDocumentModelBuildOperationDefaultResponse
@@ -219,9 +200,7 @@ export function isUnexpected(
   | GetClassifierDefaultResponse
   | DeleteClassifierDefaultResponse
   | ClassifyDocumentFromStreamDefaultResponse
-  | GetClassifyResultDefaultResponse
-  | BuildIndexDefaultResponse
-  | CompleteDefaultResponse {
+  | GetClassifyResultDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

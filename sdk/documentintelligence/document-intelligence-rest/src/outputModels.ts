@@ -4,7 +4,7 @@
 import { Paged } from "@azure/core-paging";
 
 /** Operation info. */
-export interface OperationSummaryOutput {
+export interface OperationDetailsOutputParent {
   /** Operation ID */
   operationId: string;
   /**
@@ -19,47 +19,38 @@ export interface OperationSummaryOutput {
   createdDateTime: string;
   /** Date and time (UTC) when the status was last updated. */
   lastUpdatedDateTime: string;
-  /**
-   * Type of operation.
-   *
-   * Possible values: documentModelBuild, documentModelCompose, documentModelCopyTo, documentClassifierBuild, chatBuild
-   */
-  kind: string;
   /** URL of the resource targeted by this operation. */
   resourceLocation: string;
   /** API version used to create this operation. */
   apiVersion?: string;
   /** List of key-value tag attributes associated with the document model. */
   tags?: Record<string, string>;
+  /** Encountered error. */
+  error?: ErrorModelOutput;
+  kind: string;
 }
 
-/** Error response object. */
-export interface ErrorResponseOutput {
-  /** Error info. */
-  error: ErrorModelOutput;
-}
-
-/** Error info. */
+/** The error object. */
 export interface ErrorModelOutput {
-  /** Error code. */
+  /** One of a server-defined set of error codes. */
   code: string;
-  /** Error message. */
+  /** A human-readable representation of the error. */
   message: string;
-  /** Target of the error. */
+  /** The target of the error. */
   target?: string;
-  /** List of detailed errors. */
+  /** An array of details about specific errors that led to this reported error. */
   details?: Array<ErrorModelOutput>;
-  /** Detailed error. */
+  /** An object containing more specific information than the current object about the error. */
   innererror?: InnerErrorOutput;
 }
 
-/** Detailed error. */
+/** An object containing more specific information about the error. */
 export interface InnerErrorOutput {
-  /** Error code. */
-  code: string;
-  /** Error message. */
+  /** One of a server-defined set of error codes. */
+  code?: string;
+  /** A human-readable representation of the error. */
   message?: string;
-  /** Detailed error. */
+  /** Inner error. */
   innererror?: InnerErrorOutput;
 }
 
@@ -72,13 +63,25 @@ export interface DocumentModelBuildOperationDetailsOutput extends OperationDetai
 }
 
 /** Document model info. */
-export interface DocumentModelDetailsOutput extends DocumentModelSummaryOutput {
+export interface DocumentModelDetailsOutput {
+  /** Unique document model name. */
+  modelId: string;
+  /** Document model description. */
+  description?: string;
+  /** Date and time (UTC) when the document model was created. */
+  createdDateTime: string;
+  /** Date and time (UTC) when the document model will expire. */
+  expirationDateTime?: string;
+  /** API version used to create this document model. */
+  apiVersion?: string;
+  /** List of key-value tag attributes associated with the document model. */
+  tags?: Record<string, string>;
   /**
    * Custom document model build mode.
    *
    * Possible values: template, neural
    */
-  buildMode: string;
+  buildMode?: string;
   /**
    * Azure Blob Storage location containing the training data.  Either
    * azureBlobSource or azureBlobFileListSource must be specified.
@@ -141,22 +144,6 @@ export interface DocumentFieldSchemaOutput {
   items?: DocumentFieldSchemaOutput;
   /** Named sub-fields of the object field. */
   properties?: Record<string, DocumentFieldSchemaOutput>;
-}
-
-/** Document model summary. */
-export interface DocumentModelSummaryOutput {
-  /** Unique document model name. */
-  modelId: string;
-  /** Document model description. */
-  description?: string;
-  /** Date and time (UTC) when the document model was created. */
-  readonly createdDateTime: string;
-  /** Date and time (UTC) when the document model will expire. */
-  readonly expirationDateTime?: string;
-  /** API version used to create this document model. */
-  readonly apiVersion?: string;
-  /** List of key-value tag attributes associated with the document model. */
-  tags?: Record<string, string>;
 }
 
 /** Get Operation response object. */
@@ -222,31 +209,10 @@ export interface ClassifierDocumentTypeDetailsOutput {
   azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
 }
 
-/** Get Operation response object. */
-export interface OperationDetailsOutputParent {
-  /** Operation ID */
-  readonly operationId: string;
-  /**
-   * Operation status.
-   *
-   * Possible values: notStarted, running, failed, succeeded, canceled
-   */
-  status: string;
-  /** Operation progress (0-100). */
-  percentCompleted?: number;
-  /** Date and time (UTC) when the operation was created. */
-  createdDateTime: string;
-  /** Date and time (UTC) when the status was last updated. */
-  lastUpdatedDateTime: string;
-  /** URL of the resource targeted by this operation. */
-  resourceLocation: string;
-  /** API version used to create this operation. */
-  apiVersion?: string;
-  /** List of key-value tag attributes associated with the document model. */
-  tags?: Record<string, string>;
-  /** Encountered error. */
-  error?: ErrorModelOutput;
-  kind: string;
+/** Error response object. */
+export interface ErrorResponseOutput {
+  /** Error info. */
+  error: ErrorModelOutput;
 }
 
 /** General information regarding the current resource. */
@@ -280,7 +246,7 @@ export interface AnalyzeResultOperationOutput {
   /**
    * Operation status.
    *
-   * Possible values: notStarted, running, failed, succeeded
+   * Possible values: notStarted, running, failed, succeeded, canceled
    */
   status: string;
   /** Date and time (UTC) when the analyze operation was submitted. */
@@ -844,41 +810,15 @@ export interface CopyAuthorizationOutput {
   expirationDateTime: string;
 }
 
-/** Chat message. */
-export interface ChatMessageOutput {
-  /** Role of the chat message. */
-  role: string;
-  /** Chat message content. */
-  content: string;
-  /** List of citations mentioned in message. */
-  citations?: Array<ChatCitationOutput>;
-}
-
-/** Citation mention. */
-export interface ChatCitationOutput {
-  /** Display label for the citation. */
-  label: string;
-  /** Snippet of cited text. */
-  content: string;
-  /** Bounding regions covering the cited text. */
-  boundingRegions?: Array<BoundingRegionOutput>;
-}
-
-/** Generated response for a chat conversation. */
-export interface ChatCompletionOutput {
-  /** Chat message. */
-  message: ChatMessageOutput;
-}
-
-/** Get Operation response object. */
+/** Operation info. */
 export type OperationDetailsOutput =
   | DocumentModelBuildOperationDetailsOutput
   | DocumentModelComposeOperationDetailsOutput
   | DocumentModelCopyToOperationDetailsOutput
   | DocumentClassifierBuildOperationDetailsOutput;
-/** Paged collection of OperationSummary items */
-export type PagedOperationSummaryOutput = Paged<OperationSummaryOutput>;
-/** Paged collection of DocumentModelSummary items */
-export type PagedDocumentModelSummaryOutput = Paged<DocumentModelSummaryOutput>;
+/** Paged collection of OperationDetails items */
+export type PagedOperationDetailsOutput = Paged<OperationDetailsOutput>;
+/** Paged collection of DocumentModelDetails items */
+export type PagedDocumentModelDetailsOutput = Paged<DocumentModelDetailsOutput>;
 /** Paged collection of DocumentClassifierDetails items */
 export type PagedDocumentClassifierDetailsOutput = Paged<DocumentClassifierDetailsOutput>;

@@ -17,7 +17,7 @@ export default function createClient(
   credentials: TokenCredential | KeyCredential,
   options: ClientOptions = {}
 ): DocumentIntelligenceClient {
-  const baseUrl = options.baseUrl ?? `${endpoint}/formrecognizer`;
+  const baseUrl = options.baseUrl ?? `${endpoint}/documentintelligence`;
   options.apiVersion = options.apiVersion ?? "2023-10-31-preview";
   options = {
     ...options,
@@ -44,5 +44,12 @@ export default function createClient(
 
   const client = getClient(baseUrl, credentials, options) as DocumentIntelligenceClient;
 
+  client.pipeline.addPolicy({
+    name: "customKeyCredentialPolicy",
+    async sendRequest(request, next) {
+      request.headers.set("Authorization", "bearer " + credentials.key);
+      return next(request);
+    },
+  });
   return client;
 }

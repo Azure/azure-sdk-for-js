@@ -26,8 +26,6 @@ import {
   ClassifyDocumentFromStreamParameters,
   ClassifyDocumentParameters,
   GetClassifyResultParameters,
-  BuildIndexParameters,
-  CompleteParameters,
 } from "./parameters";
 import {
   ListOperations200Response,
@@ -78,10 +76,6 @@ import {
   ClassifyDocumentDefaultResponse,
   GetClassifyResult200Response,
   GetClassifyResultDefaultResponse,
-  BuildIndex202Response,
-  BuildIndexDefaultResponse,
-  Complete200Response,
-  CompleteDefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -245,20 +239,6 @@ export interface GetClassifyResult {
   ): StreamableMethod<GetClassifyResult200Response | GetClassifyResultDefaultResponse>;
 }
 
-export interface BuildIndex {
-  /** Builds a chat index from documents. */
-  post(
-    options: BuildIndexParameters
-  ): StreamableMethod<BuildIndex202Response | BuildIndexDefaultResponse>;
-}
-
-export interface Complete {
-  /** Generates a response for the given chat conversation. */
-  post(
-    options: CompleteParameters
-  ): StreamableMethod<Complete200Response | CompleteDefaultResponse>;
-}
-
 export interface Routes {
   /** Resource for '/operations' has methods for the following verbs: get */
   (path: "/operations"): ListOperations;
@@ -303,10 +283,6 @@ export interface Routes {
     classifierId: string,
     resultId: string
   ): GetClassifyResult;
-  /** Resource for '/chat:build' has methods for the following verbs: post */
-  (path: "/chat:build"): BuildIndex;
-  /** Resource for '/chat/\{chatId\}:complete' has methods for the following verbs: post */
-  (path: "/chat/{chatId}:complete", chatId: string): Complete;
 }
 
 export type DocumentIntelligenceClient = Client & {

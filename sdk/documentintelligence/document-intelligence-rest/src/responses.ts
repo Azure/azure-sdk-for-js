@@ -4,7 +4,7 @@
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse } from "@azure-rest/core-client";
 import {
-  PagedOperationSummaryOutput,
+  PagedOperationDetailsOutput,
   ErrorResponseOutput,
   DocumentModelBuildOperationDetailsOutput,
   DocumentModelComposeOperationDetailsOutput,
@@ -15,16 +15,15 @@ import {
   AnalyzeResultOperationOutput,
   DocumentModelDetailsOutput,
   CopyAuthorizationOutput,
-  PagedDocumentModelSummaryOutput,
+  PagedDocumentModelDetailsOutput,
   PagedDocumentClassifierDetailsOutput,
   DocumentClassifierDetailsOutput,
-  ChatCompletionOutput,
 } from "./outputModels";
 
 /** The request has succeeded. */
 export interface ListOperations200Response extends HttpResponse {
   status: "200";
-  body: PagedOperationSummaryOutput;
+  body: PagedOperationDetailsOutput;
 }
 
 export interface ListOperationsDefaultResponse extends HttpResponse {
@@ -234,7 +233,7 @@ export interface CopyModelToLogicalResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface ListModels200Response extends HttpResponse {
   status: "200";
-  body: PagedDocumentModelSummaryOutput;
+  body: PagedDocumentModelDetailsOutput;
 }
 
 export interface ListModelsDefaultResponse extends HttpResponse {
@@ -351,37 +350,6 @@ export interface GetClassifyResult200Response extends HttpResponse {
 }
 
 export interface GetClassifyResultDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-}
-
-export interface BuildIndex202Headers {
-  "operation-location": string;
-}
-
-/** The request has been accepted for processing, but processing has not yet completed. */
-export interface BuildIndex202Response extends HttpResponse {
-  status: "202";
-  headers: RawHttpHeaders & BuildIndex202Headers;
-}
-
-export interface BuildIndexDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-}
-
-/** The final response for long-running buildIndex operation */
-export interface BuildIndexLogicalResponse extends HttpResponse {
-  status: "200";
-}
-
-/** The request has succeeded. */
-export interface Complete200Response extends HttpResponse {
-  status: "200";
-  body: ChatCompletionOutput;
-}
-
-export interface CompleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }

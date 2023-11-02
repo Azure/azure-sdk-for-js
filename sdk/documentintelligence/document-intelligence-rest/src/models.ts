@@ -39,19 +39,6 @@ export interface ClassifierDocumentTypeDetails {
   azureBlobFileListSource?: AzureBlobFileListContentSource;
 }
 
-/** Bounding polygon on a specific page of the input. */
-export interface BoundingRegion {
-  /** 1-based page number of page containing the bounding region. */
-  pageNumber: number;
-  /**
-   * Bounding polygon on the page, or the entire page if not specified.
-   * Coordinates specified relative to the top-left of the page. The numbers
-   * represent the x, y values of the polygon vertices, clockwise from the left
-   * (-180 degrees inclusive) relative to the element orientation.
-   */
-  polygon: number[];
-}
-
 /** Document analysis parameters. */
 export interface AnalyzeDocumentRequest {
   /** Document URL to analyze.  Either urlSource or base64Source must be specified. */
@@ -158,30 +145,4 @@ export interface ClassifyDocumentRequest {
    * must be specified.
    */
   base64Source?: string;
-}
-
-/** Complete chat request parameters. */
-export interface CompleteChatRequest {
-  /** Chat message history. */
-  messages: Array<ChatMessage>;
-}
-
-/** Chat message. */
-export interface ChatMessage {
-  /** Role of the chat message. */
-  role: string;
-  /** Chat message content. */
-  content: string;
-  /** List of citations mentioned in message. */
-  citations?: Array<ChatCitation>;
-}
-
-/** Citation mention. */
-export interface ChatCitation {
-  /** Display label for the citation. */
-  label: string;
-  /** Snippet of cited text. */
-  content: string;
-  /** Bounding regions covering the cited text. */
-  boundingRegions?: Array<BoundingRegion>;
 }
