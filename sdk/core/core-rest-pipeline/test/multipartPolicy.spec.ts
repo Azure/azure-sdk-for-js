@@ -72,8 +72,7 @@ describe("multipartPolicy", function () {
     it("header is populated to multipart/mixed when not set", async function () {
       const request = await performRequest({
         headers: createHttpHeaders({}),
-        body: {
-          bodyType: "mimeMultipart",
+        multipartBody: {
           parts: [],
         },
       });
@@ -92,8 +91,7 @@ describe("multipartPolicy", function () {
           headers: createHttpHeaders({
             "content-type": "application/json",
           }),
-          body: {
-            bodyType: "mimeMultipart",
+          multipartBody: {
             parts: [],
           },
         }),
@@ -107,8 +105,7 @@ describe("multipartPolicy", function () {
           headers: createHttpHeaders({
             "content-type": "multipart/form-data; boundary=%%%%%%%",
           }),
-          body: {
-            bodyType: "mimeMultipart",
+          multipartBody: {
             parts: [],
           },
         }),
@@ -119,8 +116,7 @@ describe("multipartPolicy", function () {
     it("throws when invalid boundary is set in body", async function () {
       await assert.isRejected(
         performRequest({
-          body: {
-            bodyType: "mimeMultipart",
+          multipartBody: {
             boundary: "%%%%%%%",
             parts: [],
           },
@@ -134,8 +130,7 @@ describe("multipartPolicy", function () {
         headers: createHttpHeaders({
           "content-type": "multipart/alternative",
         }),
-        body: {
-          bodyType: "mimeMultipart",
+        multipartBody: {
           parts: [],
         },
       });
@@ -153,8 +148,7 @@ describe("multipartPolicy", function () {
         headers: createHttpHeaders({
           "content-type": "multipart/form-data; boundary=blah",
         }),
-        body: {
-          bodyType: "mimeMultipart",
+        multipartBody: {
           parts: [],
         },
       });
@@ -171,8 +165,7 @@ describe("multipartPolicy", function () {
         headers: createHttpHeaders({
           "content-type": "multipart/alternative",
         }),
-        body: {
-          bodyType: "mimeMultipart",
+        multipartBody: {
           boundary: "blah",
           parts: [],
         },
@@ -189,8 +182,7 @@ describe("multipartPolicy", function () {
   describe("multipart request body", function () {
     it("request with no parts matches spec", async function () {
       const request = await performRequest({
-        body: {
-          bodyType: "mimeMultipart",
+        multipartBody: {
           boundary: "blah",
           parts: [],
         },
@@ -202,8 +194,7 @@ describe("multipartPolicy", function () {
 
     it("is present with multiple parts", async function () {
       const request = await performRequest({
-        body: {
-          bodyType: "mimeMultipart",
+        multipartBody: {
           boundary: "blah",
           parts: [
             {
@@ -232,8 +223,7 @@ describe("multipartPolicy", function () {
 
     it("supports Uint8Array body", async function () {
       const request = await performRequest({
-        body: {
-          bodyType: "mimeMultipart",
+        multipartBody: {
           boundary: "blah",
           parts: [
             {
@@ -262,8 +252,7 @@ describe("multipartPolicy", function () {
       });
 
       const request = await performRequest({
-        body: {
-          bodyType: "mimeMultipart",
+        multipartBody: {
           boundary: "blah",
           parts: [
             {
@@ -286,8 +275,7 @@ describe("multipartPolicy", function () {
   describe("part headers", function () {
     it("are present when specified", async function () {
       const request = await performRequest({
-        body: {
-          bodyType: "mimeMultipart",
+        multipartBody: {
           boundary: "blah",
           parts: [
             {

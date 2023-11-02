@@ -58,11 +58,7 @@ export {
   setClientRequestIdPolicyName,
 } from "./policies/setClientRequestIdPolicy";
 export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy";
-export {
-  isMultipartRequestBody,
-  multipartPolicy,
-  multipartPolicyName,
-} from "./policies/multipartPolicy";
+export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy";
 export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy";
 export {
   redirectPolicy,

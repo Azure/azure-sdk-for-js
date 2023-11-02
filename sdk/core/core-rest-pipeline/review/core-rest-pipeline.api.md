@@ -184,9 +184,6 @@ export interface InternalPipelineOptions extends PipelineOptions {
 }
 
 // @public
-export function isMultipartRequestBody(body: RequestBodyType | undefined): body is MultipartRequestBody;
-
-// @public
 export function isRestError(e: unknown): e is RestError;
 
 // @public
@@ -216,7 +213,6 @@ export const multipartPolicyName = "multipartPolicy";
 
 // @public
 export interface MultipartRequestBody {
-    bodyType: "mimeMultipart";
     boundary?: string;
     parts: BodyPart[];
 }
@@ -269,6 +265,7 @@ export interface PipelineRequest {
     formData?: FormDataMap;
     headers: HttpHeaders;
     method: HttpMethods;
+    multipartBody?: MultipartRequestBody;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
@@ -291,6 +288,7 @@ export interface PipelineRequestOptions {
     formData?: FormDataMap;
     headers?: HttpHeaders;
     method?: HttpMethods;
+    multipartBody?: MultipartRequestBody;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
@@ -362,7 +360,7 @@ export interface RedirectPolicyOptions {
 }
 
 // @public
-export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | MultipartRequestBody | string | null;
+export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
 
 // @public
 export class RestError extends Error {
