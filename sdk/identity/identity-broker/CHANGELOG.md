@@ -1,14 +1,9 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0 (2023-11-06)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- First GA release of the plugin package `@azure/identity-broker` to [support authentication through broker such as WAM](https://learn.microsoft.com/azure/active-directory/develop/scenario-desktop-acquire-token-wam). This plugin works with the [`brokerOptions` on `InteractiveBrowserCredential` added in the `@azure/identity` package].
 
 ## 1.0.0-beta.1 (2023-10-23)
 
