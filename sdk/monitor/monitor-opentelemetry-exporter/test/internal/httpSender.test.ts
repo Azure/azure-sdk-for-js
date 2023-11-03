@@ -304,7 +304,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      sender["retryTimer"] = "foo" as unknown as NodeJS.Timer;
+      sender["retryTimer"] = "foo" as unknown as NodeJS.Timeout;
       const response = successfulBreezeResponse(1);
       scope.reply(200, JSON.stringify(response));
 

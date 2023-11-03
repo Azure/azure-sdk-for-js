@@ -21,7 +21,7 @@ export type ReceiverHandlers = Pick<
 export interface DeferredPromiseAndTimer {
   resolve: (value?: any) => void;
   reject: (reason?: any) => void;
-  timer: NodeJS.Timer;
+  timer: NodeJS.Timeout;
 }
 
 /**
