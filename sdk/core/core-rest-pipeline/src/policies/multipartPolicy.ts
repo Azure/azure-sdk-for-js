@@ -126,8 +126,7 @@ export function multipartPolicy(): PipelinePolicy {
         );
       }
 
-      const contentType = parsedHeader[1];
-      const parsedBoundary = parsedHeader[2];
+      const [, contentType, parsedBoundary] = parsedHeader;
       if (parsedBoundary && boundary && parsedBoundary !== boundary) {
         throw new Error(
           `Multipart boundary was specified as ${parsedBoundary} in the header, but got ${boundary} in the request body`
