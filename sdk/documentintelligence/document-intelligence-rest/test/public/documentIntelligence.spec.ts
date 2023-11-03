@@ -86,7 +86,7 @@ describe("DocumentIntelligenceClient", () => {
         },
         queryParameters: { locale: "en-IN" },
       });
-      // add a test for stream
+    // add a test for stream
 
     if (isUnexpected(initialResponse)) {
       throw initialResponse.body.error;
