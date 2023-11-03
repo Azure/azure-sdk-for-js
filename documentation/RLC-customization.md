@@ -1,77 +1,17 @@
 # Customization on the RLC rest-level client libraries
 
-## The whole process
+## Generate RLC Client
 
-1. **Update configuration**
-    We can update `tsp-location.yaml` under sdk project folder to set the typespec project. 
-  
-    We can refer to the [tsp-location.yaml](https://github.com/Azure/azure-sdk-tools/blob/main/doc/common/TypeSpec-Project-Scripts.md#tsp-locationyaml) which describes the supported properties in the file.
+Follow [quickstart](https://aka.ms/azsdk/rlc/js) to generate the rest-level client from OpenAPI specs.
 
-2. **Create `sources` folder**
+It's advised to put the generated code into the folder `generated`, add your customization code under the folder `src` and then export or re-export them as needed.
 
-    If this is your first time to customize code, we need to create a `sources` folder to put our customization and generated code.
+```yaml
+source-code-folder-path: ./src/generated
+```
 
-    ```shell
-    cd sdk/communication/communication-job-router-rest
-    mkdir sources
-    ```
+## Custom authentication
 
-3. **Generate code**
-
-    Run the following two scripts from project directory (i.e your current directory is `path/to/azure-sdk-for-js/sdk/communication/communication-job-router-rest`) to generate the code:
-
-    > NOTE: These scripts require PowerShell version 7 or higher
-
-    ```ps
-    pwsh ../../../eng/common/scripts/TypeSpec-Project-Sync.ps1 .
-    ```
-    followed by
-
-    ```ps
-    pwsh ../../../eng/common/scripts/TypeSpec-Project-Generate.ps1 .
-    ```
-
-    The version of TypeSpec-TS is configured in [emitter-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package.json). Change it in local, if you would like to use a different version of `typespec-ts`.
-
-    After generated the SDK should be generated under `sources/generated` folder.
-
-4. **Create `customizations` folder under `sources`**
-
-    All customization codes should be under the `sources/customizations` folder so if no just create one.
-
-    ```shell
-    mkdir sources/customizations
-    ```
-
-5. **Customize code**
-
-    We give an example on how to customize the authentication in following sections and you could refer for more details.
-
-6. **Run command to apply customization**
-
-    Once we finish our customization we will run command to apply them. First we could add below script under `scripts` section in  `package.json`.
-    ```json
-      "customize": "rimraf src && dev-tool customization apply -s sources/generated/src && npm run format",
-    ```
-
-    Then run `rushx customize` command to apply:
-
-    ```shell
-    rushx customize
-    ```
-
-## Detailed customization example
-
-### Customization tool
-
-
-Simply speaking the customization tool would `merge` the codes under `customizations` and ones under `generated/src`. So you can imagine that:
-- If the customizations folder is empty which means there is no newly-applied code under generated SDKs;
-- If I'd like to add a new file `OpenAIKeyCredential` including customized `KeyCredential` at the top level, I could add it [here](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/customizations/OpenAIKeyCredential.ts) and don't forget to expose it in [index.ts](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/customizations/index.ts#L17) file;
-- If I'd like to override the generated `createClient` with my own customization policy, I would create the same filename and same method name. Then the newly one would override the existing one e.g: [generated method](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/generated/src/api/operations.ts#L232) and [customized method](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/customizations/api/operations.ts#L329).
-
-
-### Customize authentication
 Some services require a custom authentication flow. For example Metrics Advisor uses Key Authentication, however MA requires 2 headers for key authentication `Ocp-Apim-Subscription-Key` and `x-api-key`, which is different to the usual key authentication which only requires a single key.
 
 In this case we customize as follows:
@@ -167,6 +107,189 @@ const client = MetricsAdvisor("https://<endopoint>", {
 });
 ```
 
+## Custom paging helper
+
+Eventhough the code generator provides a pagination helper for RLCs, there are services that implement their own pagination pattern, different to the standard specification of `x-ms-pageable`.
+
+One example is the Metrics Advisor service, which implements a pagination pattern in which getting the next page can be called with `GET` or `POST` depending on the resource.
+
+The standard pagination pattern, assumes `GET` for getting the next pages. In this case we implemented a custom paginate helper that has the same public interface as the generated helper but under the hoods has an additional pagination implementation to use `POST`. Also this custom helper has an internal map that indicates which operations need `POST` and which need `GET`.
+
+Here is the implementation in Metrics Advisor and remember to replace the `paginationMapping` as yours. The generated paging helper is hidden and the custom paginate helper is exposed.
+
+```typescript
+import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
+import { Client, createRestError, PathUncheckedResponse } from "@azure-rest/core-client";
+import { PaginateReturn, PagingOptions } from "./generated/paginateHelper";
+
+export function paginate<TResponse extends PathUncheckedResponse>(
+  client: Client,
+  initialResponse: TResponse,
+  options: PagingOptions<TResponse> = {}
+): PagedAsyncIterableIterator<PaginateReturn<TResponse>> {
+  // internal map to indicate which operation uses which method
+  const paginationMapping: Record<string, any> = {
+    "/feedback/metric/query": {
+      method: "POST",
+    },
+    "/dataFeeds": {
+      method: "GET",
+    },
+    "/hooks": {
+      method: "GET",
+    },
+  };
+
+  // Extract element type from initial response
+  type TElement = PaginateReturn<TResponse>;
+  let firstRun = true;
+  // We need to check the response for success before trying to inspect it looking for
+  // the properties to use for nextLink and itemName
+  checkPagingRequest(initialResponse);
+  const { itemName, nextLinkName } = getPaginationProperties(initialResponse);
+  const { customGetPage } = options;
+  const pagedResult: PagedResult<TElement[]> = {
+    firstPageLink: "",
+    getPage:
+      typeof customGetPage === "function"
+        ? customGetPage
+        : async (pageLink: string) => {
+            // Calculate using get or post
+            let result;
+            if (paginationMapping[initialResponse.request.url]?.method == "POST") {
+              result = firstRun
+                ? initialResponse
+                : await client.pathUnchecked(pageLink).post({ body: initialResponse.request.body });
+            } else {
+              result = firstRun ? initialResponse : await client.pathUnchecked(pageLink).get();
+            }
+            firstRun = false;
+            checkPagingRequest(result);
+            const nextLink = getNextLink(result.body, nextLinkName);
+            const values = getElements<TElement>(result.body, itemName);
+            return {
+              page: values,
+              nextPageLink: nextLink,
+            };
+          },
+  };
+
+  return getPagedAsyncIterator(pagedResult);
+}
+```
+
+The example code to call the helper.
+
+```typescript
+import MetricsAdvisor, { paginate } from "@azure-rest/ai-metricsadvisor";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = MetricsAdvisor("https://<endopoint>", new DefaultAzureCredential());
+
+const initResponse = await client.listDataFeeds({
+  queryParameters: {
+    dataFeedName: "js-test-",
+    $skip: 1,
+    $maxpagesize: 1,
+  },
+});
+
+const dataFeeds = paginate(client, initResponse);
+for await (const dataFeed of dataFeeds) {
+  console.log(data);
+}
+```
+
+## Custom data transform helpers
+
+There may be times in which transforming the data from the service would be beneficial. When a transformation is common for our customers we may decide to expose helper transformation functions. These helper transformations are optional and customers can decide to use them or not, the calls maintain the original data form from the Service.
+
+If we export `toDataFeedDetailResponse` which may convert the REST model to a common one, so that the customers could call this way:
+
+```typescript
+import MetricsAdvisor, { toDataFeedDetailResponse } from "@azure-rest/ai-metricsadvisor";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = MetricsAdvisor("https://<endpoint>", new DefaultAzureCredential());
+const listResponse = await client.listDataFeeds(<parameter>);
+if (listResponse.status != "201") {
+  throw new Error("Error");
+}
+
+// Transforms service data into a more useful shape
+const formattedDatafeed = toDataFeedDetailResponse(listResponse);
+```
+
+## Multi-client packages
+
+There are cases where 2 services are closely related that most users will need to use both in the same application, in this case, we may opt for multi-client packages. Each client can be imported individually without a top-level client, this is to work nicely with bundler TreeShaking.
+
+We could leverage the autorest batch option and enable multi-client flag in our `README.md` to generate two or more service clients.
+
+Here is an example in metrics advisor, we have two clients `MetricsAdvisorClient` and `MetricsAdvisorAdministrationClient`.
+
+### Use multi-client flag and batch option
+
+Add the `multi-client` flag in our readme and use the `batch` autorest option to create the two clients:
+
+```yaml $(multi-client)
+batch:
+  - metrics-advisor: true
+  - metrics-advisor-admin: true
+```
+
+### Specify configurations for each individual clients
+
+For each individual clients specify your client name and swagger file. Make sure that you don't have one Swagger with operations that are designed to be in two different clients so that clients should correspond to a clear set of Swagger files.
+
+Normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/agrifood/agrifood-farming-rest` folder for Farmbeats account modules. That folder will be your **${PROJECT_ROOT} folder**.
+
+```yaml $(metrics-advisor) == true
+title: MetricsAdvisorClient
+description: Metrics Advisor Client
+output-folder: ${PROJECT_ROOT}/src
+source-code-folder-path: ./client
+input-file: /your/swagger/folder/metricsadvisor.json
+```
+
+```yaml $(metrics-advisor-admin) == true
+title: MetricsAdvisorAdministrationClient
+description: Metrics Advisor Admin Client
+output-folder: ${PROJECT_ROOT}/src
+source-code-folder-path: ./admin
+input-file: /your/swagger/folder/metricsadvisor-admin.json
+```
+
+### Generate code with `--multi-client`
+
+When generating the code specify that what we want is multi-client so append the flag in command line `--multi-client`. After generation the folder structure would be like below:
+
+```
+${PROJECT_ROOT}/
+├─ src/
+│  ├─ client/
+│  │  ├─ MetricsAdvisorClient.ts
+│  │  ├─ index.ts
+│  ├─ admin/
+│  │  ├─ MetricsAdvisorAdministrationClient.ts
+│  │  ├─ index.ts
+│  ├─ index.ts
+```
+
+### Example code to call any client
+
+```typescript
+import {
+  MetricsAdvisorAdministrationClient,
+  MetricsAdvisorClient,
+} from "@azure-rest/ai-metrics-advisor";
+const adminClient = MetricsAdvisorAdministrationClient.createClient(endpoint, credential);
+// call any admin operation
+const createdResponse = await adminClient.createDataFeed(`<parameter>`);
+const maClient = MetricsAdvisorClient.createClient(endpoint, credential);
+// call any non-admin operation
+const listedResponse = await maClient.getIncidentsByAnomalyDetectionConfiguration(`<parameter>`);
+```
 
 ## RLC Customization Considerations
 
