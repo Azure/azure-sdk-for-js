@@ -4,7 +4,7 @@ This package provides a plugin to the Azure Identity library for JavaScript ([`@
 
 An authentication broker is an application that runs on a user’s machine that manages the authentication handshakes and token maintenance for connected accounts. Currently, only the Windows authentication broker, Web Account Manager (WAM), is supported.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker) | [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-broker/samples) | [API Reference Documentation](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity-broker/1.0.0-beta.1/index.html) | [Microsoft Entra ID documentation] (https://learn.microsoft.com/entra/identity/)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker) | [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-broker/samples) | [API reference documentation](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity-broker/1.0.0-beta.1/index.html) | [Microsoft Entra ID documentation] (https://learn.microsoft.com/entra/identity/)
 
 ## Getting started
 
