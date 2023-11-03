@@ -4495,7 +4495,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231031
+      typescript: 5.4.0-dev.20231103
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9272,8 +9272,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231031:
-    resolution: {integrity: sha512-+w6szmOFr7GSWj/eNFgHdYqubMux9B5ao5LFoGdn712gbDYMpLwqLNkPLpJHD9chl/2wc/W96iSfALkZs7sVXQ==}
+  /typescript@5.4.0-dev.20231103:
+    resolution: {integrity: sha512-XOrpoRg1DWN7ei3AFomL+UrpRBseaODTiWWRfZd6AVeT7ODLjQZ+CDUxK6Aj2XPvEthIOaqijvwIxZe6vlNwlQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -16442,20 +16442,22 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-v40ifxSJUdSYd+zmF+v8k4WCHJvcHdHoD6liGBZrPgSpnT6pjCOQNQGsORrdwBg8lOp4RNnJA5+BcvI2u6tTew==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-OSGYkiYu1mGWHXcwr8tZ2vCV+E5eOoFJ+xFjHjqbfV+J885f9B8AO35SE63SX/oKivhOSA7leWekUaCZbOcuRQ==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
-      '@azure/identity': 2.1.0
+      '@azure/identity': 3.3.2
       '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
       '@types/node': 18.18.7
       autorest: 3.6.3
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.52.0
+      esm: 3.2.25
       karma: 6.4.2(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1

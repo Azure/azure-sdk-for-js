@@ -1,6 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
 /** A container for the rules that govern how jobs are classified. */
 export interface ClassificationPolicy {
   /** Friendly name of this policy. */
@@ -732,6 +740,9 @@ export interface SuspendMode extends JobMatchingModeParent {
   /** The type discriminator describing SuspendMode */
   kind: "suspend";
 }
+
+/** Request payload for reclassifying jobs */
+export interface ReclassifyJobOptions extends Record<string, string> {}
 
 /** Request payload for deleting a job */
 export interface CancelJobOptions {
