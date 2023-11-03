@@ -139,7 +139,7 @@ export interface CallIntelligenceOptions {
 
 // @public
 export interface CallInvite {
-    customContext?: CustomContext;
+    customCallingContext?: CustomCallingContext;
     readonly sourceCallIdNumber?: PhoneNumberIdentifier;
     // (undocumented)
     sourceDisplayName?: string;
@@ -360,27 +360,14 @@ export interface CreateCallOptions extends OperationOptions {
 export type CreateCallResult = CallResult;
 
 // @public
-export class CustomContext {
-    constructor(sipHeaders: {
-        [key: string]: string;
-    }, voipHeaders: {
-        [key: string]: string;
-    });
-    add(header: CustomContextHeader): void;
-    sipHeaders: {
-        [key: string]: string;
-    };
-    voipHeaders: {
-        [key: string]: string;
-    };
-}
+export function createCustomCallingContext(): CustomCallingContext;
 
-// @public (undocumented)
-export interface CustomContextHeader {
+// @public
+export interface CustomCallingContext {
     // (undocumented)
-    key: string;
-    // (undocumented)
-    value: string;
+    add: (kind: "sipx" | "sipuui" | "voip", name: string, value: string) => void;
+    _sipHeaders?: Headers;
+    _voipHeaders?: Headers;
 }
 
 // @public
@@ -897,24 +884,6 @@ export interface SendDtmfTonesResult {
 }
 
 // @public
-export interface SIPCustomHeader extends CustomContextHeader {
-}
-
-// @public
-export class SIPCustomHeader implements CustomContextHeader {
-    constructor(key: string, value: string);
-}
-
-// @public
-export interface SIPUserToUserHeader extends CustomContextHeader {
-}
-
-// @public
-export class SIPUserToUserHeader implements CustomContextHeader {
-    constructor(value: string);
-}
-
-// @public
 export interface SpeechResult {
     speech?: string;
 }
@@ -969,7 +938,7 @@ export interface TransferCallResult {
 
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
-    customContext?: CustomContext;
+    customCallingContext?: CustomCallingContext;
     operationCallbackUrl?: string;
     operationContext?: string;
     transferee?: CommunicationIdentifier;
@@ -979,15 +948,6 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
 export enum VoiceKind {
     Female = "female",
     Male = "male"
-}
-
-// @public
-export interface VoipHeader extends CustomContextHeader {
-}
-
-// @public
-export class VoipHeader implements CustomContextHeader {
-    constructor(key: string, value: string);
 }
 
 // (No @packageDocumentation comment for this package)

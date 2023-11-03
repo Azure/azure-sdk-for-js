@@ -15,7 +15,7 @@ import {
   RecordingFormat,
   CallLocator,
   ChannelAffinity,
-  CustomContext,
+  CustomCallingContext,
   CallIntelligenceOptions,
 } from "./models";
 
@@ -143,8 +143,8 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
   operationCallbackUrl?: string;
   /** Transferee is the participant who is transferred away. */
   transferee?: CommunicationIdentifier;
-  /** Used by customer to send custom context to targets. */
-  customContext?: CustomContext;
+  /** Used by customer to send custom calling context to targets. */
+  customCallingContext?: CustomCallingContext;
 }
 
 /** Options to add participants. */
