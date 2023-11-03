@@ -306,7 +306,7 @@ Configuration is attempted in the above order. For example, if values for a clie
 
 ## Continuous Access Evaluation
 
-As of version 3.3.0, accessing resources protected by [Continuous Access Evaluation](https://learn.microsoft.com/entra/conditional-access/concept-continuous-access-evaluation) (CAE) is possible on a per-request basis. This can be enabled using the [`GetTokenOptions.enableCae(boolean)` API](https://learn.microsoft.com/javascript/api/@azure/core-auth/gettokenoptions?view=azure-node-latest#@azure-core-auth-gettokenoptions-enablecae). CAE isn't supported for developer credentials.
+As of version 3.3.0, accessing resources protected by [Continuous Access Evaluation](https://learn.microsoft.com/entra/identity/conditional-access/concept-continuous-access-evaluation) (CAE) is possible on a per-request basis. This can be enabled using the [`GetTokenOptions.enableCae(boolean)` API](https://learn.microsoft.com/javascript/api/@azure/core-auth/gettokenoptions?view=azure-node-latest#@azure-core-auth-gettokenoptions-enablecae). CAE isn't supported for developer credentials.
 
 ## Token caching
 
