@@ -1154,7 +1154,7 @@ describe("AppConfigurationClient", () => {
       );
       assert.strictEqual(
         replacedResult.contentType,
-        null,
+        undefined,
         "Unexpected contentType in result from setConfigurationSetting()."
       );
 
@@ -1256,7 +1256,7 @@ describe("AppConfigurationClient", () => {
       );
       assert.strictEqual(
         replacedResult.contentType,
-        null,
+        undefined,
         "Unexpected contentType in result from setConfigurationSetting()."
       );
 
@@ -1300,7 +1300,7 @@ describe("AppConfigurationClient", () => {
       );
       assert.strictEqual(
         result.contentType,
-        null,
+        undefined,
         "Unexpected contentType in result from setConfigurationSetting()."
       );
     });

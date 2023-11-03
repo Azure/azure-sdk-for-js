@@ -4,8 +4,13 @@
 
 ### Features Added
 
-- With the new API version `2023-10-01`, the configuration snapshot feature is generally available.
+- With the new API version `2023-10-01`, the configuration snapshot feature is generally available. Snapshots can be created with filters that determine which key-value pairs are contained within the snapshot, creating an immutable, composed view of the configuration store. The [`AppConfigurationClient`](https://docs.microsoft.com/javascript/api/@azure/app-configuration/appconfigurationclient) has some terminology changes from App Configuration in the portal. Snapshots are represented as `ConfigurationSnapshot` objects. See [`snapshot.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/snapshot.ts) for more information now how to use snapshots.
 
+### Breaking Changes
+
+### Bugs Fixed
+
+- To match the input type, change the output representation of `label` and `contentType` from `null` to `undefined` when these properties are empty or not defined in the configuration setting object. [#27622](https://github.com/Azure/azure-sdk-for-js/pull/27622)
 
 ## 1.5.0-beta.2 (2023-10-10)
 
