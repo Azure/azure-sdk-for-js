@@ -109,6 +109,37 @@ describe("Queries", function (this: Suite) {
       assert(counter === 2, "iterator should have run 3 times");
     });
 
+    it("asyncIterator with operationOptions", async function () {
+      const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
+      let counter = 0;
+      // Case 1: When RU Cap not breached
+      for await (const { resources: docs } of queryIterator.getAsyncIterator()) {
+        if (counter === 0) {
+          assert.equal(docs[0].id, resources.doc1.id, "first document should be doc1");
+          assert.equal(docs[1].id, resources.doc2.id, "second document should be doc2");
+        } else {
+          assert.equal(docs[0].id, resources.doc3.id, "third document should be doc3");
+        }
+        counter++;
+      }
+      assert(counter === 2, "iterator should have run 3 times");
+
+      // Case 2: When RU Cap breached
+      try {
+        for await (const { resources: docs } of queryIterator.getAsyncIterator({
+          ruCapPerOperation: 5,
+        })) {
+          assert.equal(docs[0].id, resources.doc1.id, "first document should be doc1");
+          assert.equal(docs[1].id, resources.doc2.id, "second document should be doc2");
+        }
+      } catch (err) {
+        assert.ok(
+          err.code === "OPERATION_RU_LIMIT_EXCEEDED",
+          "Error code should be OPERATION_RU_LIMIT_EXCEEDED"
+        );
+      }
+    });
+
     it("executeNext", async function () {
       let queryIterator = resources.container.items.readAll({
         maxItemCount: 2,

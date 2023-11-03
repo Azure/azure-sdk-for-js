@@ -81,7 +81,9 @@ export class QueryIterator<T> {
    * }
    * ```
    */
-  public async *getAsyncIterator(): AsyncIterable<FeedResponse<T>> {
+  public async *getAsyncIterator(
+    operationOptions?: OperationOptions
+  ): AsyncIterable<FeedResponse<T>> {
     this.reset();
     let diagnosticNode = new DiagnosticNodeInternal(
       this.clientContext.diagnosticLevel,
@@ -89,15 +91,27 @@ export class QueryIterator<T> {
       null
     );
     this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
+    let ruConsumed: RUConsumed | undefined;
+    if (operationOptions && operationOptions.ruCapPerOperation) {
+      ruConsumed = { value: 0 };
+    }
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
       try {
-        response = await this.queryExecutionContext.fetchMore(diagnosticNode);
+        response = await this.queryExecutionContext.fetchMore(
+          diagnosticNode,
+          operationOptions,
+          ruConsumed
+        );
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
           try {
-            response = await this.queryExecutionContext.fetchMore(diagnosticNode);
+            response = await this.queryExecutionContext.fetchMore(
+              diagnosticNode,
+              operationOptions,
+              ruConsumed
+            );
           } catch (queryError: any) {
             this.handleSplitError(queryError);
           }
@@ -264,6 +278,12 @@ export class QueryIterator<T> {
             operationOptions,
             ruConsumed
           );
+        } else if (error.code === "OPERATION_RU_LIMIT_EXCEEDED") {
+          error.body.fetchedSoFarResults.forEach((item: any) => {
+            this.fetchAllTempResources.push(item);
+          });
+          error.body.fetchedSoFarResults = this.fetchAllTempResources;
+          throw error;
         } else {
           throw error;
         }
@@ -323,14 +343,15 @@ export class QueryIterator<T> {
   }
 
   private needsQueryPlan(error: ErrorResponse): error is ErrorResponse {
+    let needsQueryPlanValue = false;
     if (
       error.body?.additionalErrorInfo ||
       error.message.includes("Cross partition query only supports")
     ) {
-      return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
-    } else {
-      throw error;
+      needsQueryPlanValue =
+        error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
     }
+    return needsQueryPlanValue;
   }
 
   private initPromise: Promise<void>;
