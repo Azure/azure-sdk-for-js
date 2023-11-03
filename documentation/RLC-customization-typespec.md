@@ -1,8 +1,8 @@
 # Customization on the RLC rest-level client libraries
 
-## The whole process
+## Customization process
 
-0. **prerequisite**
+0. **Prerequisite**
     
     Before any customization process please ensure your existing SDK repo could run commands `rush update && rush build -t @azure-rest/communication-job-router` successfully so that below commands could be touched. You could refer others steps in [get started doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-quickstart.md).
 
