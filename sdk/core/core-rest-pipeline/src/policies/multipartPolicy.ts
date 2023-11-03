@@ -19,9 +19,11 @@ function generateBoundary(): string {
 }
 
 function encodeHeaders(headers: HttpHeaders): string {
-  return Array.from(headers)
-    .map(([name, value]) => `${name}: ${value}\r\n`)
-    .join("");
+  let result = "";
+  for (const [key, value] of headers) {
+    result += `${key}: ${value}\r\n`;
+  }
+  return result;
 }
 
 function getLength(

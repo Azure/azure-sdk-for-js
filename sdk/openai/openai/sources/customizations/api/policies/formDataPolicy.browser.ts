@@ -27,10 +27,10 @@ export function formDataWithFileUploadPolicy(): PipelinePolicy {
           const formValue = formData[formKey];
           if (Array.isArray(formValue)) {
             for (const subValue of formValue) {
-              requestForm.append(formKey, subValue);
+              requestForm.append(formKey, subValue as string | Blob);
             }
           } else {
-            requestForm.append(formKey, formValue);
+            requestForm.append(formKey, formValue as string | Blob);
           }
         }
 

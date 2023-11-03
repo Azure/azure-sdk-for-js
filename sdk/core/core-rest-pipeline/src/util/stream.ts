@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { Readable } from "stream";
+import { ReadableStream as AsyncIterableReadableStream } from "stream/web";
 import { BlobLike } from "../interfaces";
 import {
   isInMemoryBlob,
@@ -10,20 +11,15 @@ import {
   isWebReadableStream,
 } from "./typeGuards";
 
-function nodeStreamFromWebStream(webStream: ReadableStream): NodeJS.ReadableStream {
-  return Readable.from(
-    (async function* () {
-      const reader = webStream.getReader();
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) {
-          return;
-        }
+function assertAsyncIterable(webStream: any): asserts webStream is AsyncIterableReadableStream {
+  if (!(webStream as any)[Symbol.asyncIterator]) {
+    throw new Error("Expected ReadableStream in Node to have @@asyncIterator");
+  }
+}
 
-        yield value;
-      }
-    })()
-  );
+function nodeStreamFromWebStream(webStream: ReadableStream<Uint8Array>): NodeJS.ReadableStream {
+  assertAsyncIterable(webStream);
+  return Readable.fromWeb(webStream);
 }
 
 export function toStream(

@@ -55,7 +55,7 @@
   "dependencies": {
     "@azure/core-auth": "^1.3.2",
     "@azure-tools/test-recorder": "^3.0.0",
-    "@azure/identity": "^3.3.0"
+    "@azure/identity": "^4.0.0-beta.1"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",

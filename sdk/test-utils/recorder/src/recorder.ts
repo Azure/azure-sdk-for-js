@@ -35,6 +35,7 @@ import { setRecordingOptions } from "./options";
 import { isNode } from "@azure/core-util";
 import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
+import { AdditionalPolicyConfig } from "@azure/core-client";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -409,9 +410,10 @@ export class Recorder {
    *
    * Note: Client Options must have "additionalPolicies" as part of the options.
    */
-  public configureClientOptions<T, U>(
-    options: T & { additionalPolicies?: U[] }
-  ): T & { additionalPolicies?: U[] } {
+  public configureClientOptions<
+    T,
+    U extends { position: "perCall" | "perRetry"; policy: unknown } = AdditionalPolicyConfig
+  >(options: T & { additionalPolicies?: U[] }): T & { additionalPolicies?: U[] } {
     if (isLiveMode()) return options;
     if (!options.additionalPolicies) options.additionalPolicies = [];
 

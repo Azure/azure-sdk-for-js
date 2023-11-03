@@ -14,7 +14,7 @@ function uint8ArrayToStream(data: Uint8Array): ReadableStream {
 }
 
 export function toStream(
-  source: ReadableStream | NodeJS.ReadableStream | Uint8Array | BlobLike
+  source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | BlobLike
 ): ReadableStream | NodeJS.ReadableStream {
   if (source instanceof Uint8Array) {
     return uint8ArrayToStream(source);
@@ -37,7 +37,7 @@ export function concatenateStreams(
   let remainingStreams = Array.from(streams);
   let reader = remainingStreams.shift()?.getReader();
 
-  async function doPull(controller: ReadableStreamDefaultController): Promise<void> {
+  async function doPull(controller: ReadableStreamDefaultController<Uint8Array>): Promise<void> {
     if (!reader) {
       controller.close();
       return;
@@ -60,7 +60,7 @@ export function concatenateStreams(
     }
   }
 
-  return new ReadableStream({
+  return new ReadableStream<Uint8Array>({
     pull(controller) {
       return doPull(controller);
     },
