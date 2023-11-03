@@ -3,6 +3,7 @@
 ## The whole process
 
 1. **Update configuration**
+    
     We can update `tsp-location.yaml` under sdk project folder to set the typespec project. 
   
     We can refer to the [tsp-location.yaml](https://github.com/Azure/azure-sdk-tools/blob/main/doc/common/TypeSpec-Project-Scripts.md#tsp-locationyaml) which describes the supported properties in the file.
