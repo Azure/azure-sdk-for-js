@@ -167,6 +167,16 @@ export class CallConnection {
     return listParticipantResponse;
   }
 
+  private createHeadersDictonaryInternal(headers: Headers | undefined): { [key: string]: string } {
+    const dictionary: { [key: string]: string } = {};
+    if (headers) {
+      headers.forEach((value, key) => {
+        dictionary[key] = value;
+      });
+    }
+    return dictionary;
+  }
+
   /**
    * Add a participant to the call
    *
@@ -185,9 +195,13 @@ export class CallConnection {
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
       operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
-      customContext: {
-        sipHeaders: targetParticipant.customContext?.sipHeaders,
-        voipHeaders: targetParticipant.customContext?.voipHeaders,
+      customCallingContext: {
+        sipHeaders: this.createHeadersDictonaryInternal(
+          targetParticipant.customCallingContext?._sipHeaders
+        ),
+        voipHeaders: this.createHeadersDictonaryInternal(
+          targetParticipant.customCallingContext?._voipHeaders
+        ),
       },
     };
     const optionsInternal = {
@@ -226,9 +240,11 @@ export class CallConnection {
       operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
       transferee: options.transferee && communicationIdentifierModelConverter(options.transferee),
-      customContext: {
-        sipHeaders: options.customContext?.sipHeaders,
-        voipHeaders: options.customContext?.voipHeaders,
+      customCallingContext: {
+        sipHeaders: this.createHeadersDictonaryInternal(options.customCallingContext?._sipHeaders),
+        voipHeaders: this.createHeadersDictonaryInternal(
+          options.customCallingContext?._voipHeaders
+        ),
       },
     };
     const optionsInternal = {
