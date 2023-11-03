@@ -1,67 +1,77 @@
 # Customization on the RLC rest-level client libraries
 
-## Generate RLC Client
+## The whole process
 
-1. Update configuration
-We can update `tsp-location.yaml` under sdk project folder to set the typespec project. And we can refer to the [tsp-location.yaml](https://github.com/Azure/azure-sdk-tools/blob/main/doc/common/TypeSpec-Project-Scripts.md#tsp-locationyaml) which describes the supported properties in the file.
+1. **Update configuration**
+    We can update `tsp-location.yaml` under sdk project folder to set the typespec project. 
+  
+    We can refer to the [tsp-location.yaml](https://github.com/Azure/azure-sdk-tools/blob/main/doc/common/TypeSpec-Project-Scripts.md#tsp-locationyaml) which describes the supported properties in the file.
 
-1. Create `sources` folder
-If this is your first time to customize code, we need to create a `sources` folder to put our customization and generated code.
+2. **Create `sources` folder**
 
-```shell
-cd sdk/communication/communication-job-router-rest
-mkdir sources
-```
+    If this is your first time to customize code, we need to create a `sources` folder to put our customization and generated code.
 
-1. Generate code
+    ```shell
+    cd sdk/communication/communication-job-router-rest
+    mkdir sources
+    ```
 
-Run the following two scripts from project directory (i.e your current directory is `path/to/azure-sdk-for-js/sdk/communication/communication-job-router-rest`) to generate the code:
+3. **Generate code**
 
-> NOTE: These scripts require PowerShell version 7 or higher
+    Run the following two scripts from project directory (i.e your current directory is `path/to/azure-sdk-for-js/sdk/communication/communication-job-router-rest`) to generate the code:
 
-```ps
-pwsh ../../../eng/common/scripts/TypeSpec-Project-Sync.ps1 .
-```
-followed by
+    > NOTE: These scripts require PowerShell version 7 or higher
 
-```ps
-pwsh ../../../eng/common/scripts/TypeSpec-Project-Generate.ps1 .
-```
+    ```ps
+    pwsh ../../../eng/common/scripts/TypeSpec-Project-Sync.ps1 .
+    ```
+    followed by
 
-The version of TypeSpec-TS is configured in [emitter-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package.json). Change it in local, if you would like to use a different version of `typespec-ts`.
+    ```ps
+    pwsh ../../../eng/common/scripts/TypeSpec-Project-Generate.ps1 .
+    ```
 
-After generated the SDK should be generated under `sources/generated` folder.
+    The version of TypeSpec-TS is configured in [emitter-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package.json). Change it in local, if you would like to use a different version of `typespec-ts`.
 
-1. Create `customizations` folder under `sources`
+    After generated the SDK should be generated under `sources/generated` folder.
 
-All customization codes should be under the `sources/customizations` folder so if no just create one.
+4. **Create `customizations` folder under `sources`**
 
-```shell
-mkdir sources/customizations
-```
+    All customization codes should be under the `sources/customizations` folder so if no just create one.
 
-1. Customize code
+    ```shell
+    mkdir sources/customizations
+    ```
 
-We give an example on how to customize the authentication in following sections and you could refer for more details.
+5. **Customize code**
 
-1. Run command to apply customization
+    We give an example on how to customize the authentication in following sections and you could refer for more details.
 
-Once we finish our customization we will run command to apply them. First we could add below script under `package.json`.
-```json
-  "customize": "rimraf src && dev-tool customization apply -s sources/generated/src && npm run format",
-```
+6. **Run command to apply customization**
 
-Then run `rushx customize` command to apply:
+    Once we finish our customization we will run command to apply them. First we could add below script under `scripts` section in  `package.json`.
+    ```json
+      "customize": "rimraf src && dev-tool customization apply -s sources/generated/src && npm run format",
+    ```
 
-```shell
-rushx customize
-```
+    Then run `rushx customize` command to apply:
 
-## Custom authentication
+    ```shell
+    rushx customize
+    ```
 
-Before customizations we should understand that the `customizations` folder and `generated/src` folder would share the same code structure. Simply speaking our customization tool would 
+## Detailed customization example
+
+### Customization tool
 
 
+Simply speaking the customization tool would `merge` the codes under `customizations` and ones under `generated/src`. So you can imagine that:
+- If the customizations folder is empty which means there is no newly-applied code under generated SDKs;
+- If I'd like to add a new file `OpenAIKeyCredential` including customized `KeyCredential` at the top level, I could add it [here](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/customizations/OpenAIKeyCredential.ts) and don't forget to expose it in [index.ts](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/customizations/index.ts#L17) file;
+- If I'd like to override the generated `createClient` with my own customization policy, I would create the same filename and same method name. Then the newly one would override the existing one e.g: [generated method](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/generated/src/api/operations.ts#L232) and [customized method](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/customizations/api/operations.ts#L329).
+
+
+### Customize authentication
 Some services require a custom authentication flow. For example Metrics Advisor uses Key Authentication, however MA requires 2 headers for key authentication `Ocp-Apim-Subscription-Key` and `x-api-key`, which is different to the usual key authentication which only requires a single key.
 
 In this case we customize as follows:
