@@ -29,7 +29,6 @@ import { handleEnvSetup } from "./utils/envSetupForPlayback";
 import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher";
 import { addTransform, Transform } from "./transform";
 import { createRecordingRequest } from "./utils/createRecordingRequest";
-import { AdditionalPolicyConfig } from "@azure/core-client";
 import { logger } from "./log";
 import { setRecordingOptions } from "./options";
 import { isNode } from "@azure/core-util";
@@ -409,20 +408,20 @@ export class Recorder {
    *
    * Note: Client Options must have "additionalPolicies" as part of the options.
    */
-  public configureClientOptions<T>(
-    options: T & { additionalPolicies?: AdditionalPolicyConfig[] }
-  ): T & { additionalPolicies?: AdditionalPolicyConfig[] } {
+  public configureClientOptions<T, U>(
+    options: T & { additionalPolicies?: U[] }
+  ): T & { additionalPolicies?: U[] } {
     if (isLiveMode()) return options;
     if (!options.additionalPolicies) options.additionalPolicies = [];
 
     options.additionalPolicies.push({
       policy: this.fixedMultipartBoundaryPolicy(),
       position: "perCall",
-    });
+    } as U);
     options.additionalPolicies.push({
       policy: this.recorderHttpPolicy(),
       position: "perRetry",
-    });
+    } as U);
     return options;
   }
 
