@@ -228,8 +228,6 @@ export interface StartRecordingOptions extends OperationOptions {
   recordingChannel?: RecordingChannel;
   /** The format type of call recording. */
   recordingFormat?: RecordingFormat;
-  /** Pause on start call recording option. */
-  pauseOnStart?: boolean;
   /**
    * The sequential order in which audio channels are assigned to participants in the unmixed recording.
    * When 'recordingChannelType' is set to 'unmixed' and `audioChannelParticipantOrdering` is not specified,
