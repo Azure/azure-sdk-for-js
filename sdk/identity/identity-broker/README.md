@@ -38,7 +38,7 @@ If this is your first time using `@azure/identity` or Microsoft Entra ID, we rec
 
 ### Parent window handles
 
-When authenticating with the broker via `InteractiveBrowserCredential`, a parent window handle is required to ensure that the authentication dialog is shown correctly over the requesting window. In the context of graphical user interfaces on devices, a window handle is a unique identifier that the operating system assigns to each window. For the Windows operating system, this is an integer value that serves as a reference to a specific window.
+When authenticating with the broker via `InteractiveBrowserCredential`, a parent window handle is required to ensure that the authentication dialog is shown correctly over the requesting window. In the context of graphical user interfaces on devices, a window handle is a unique identifier that the operating system assigns to each window. For the Windows operating system, this handle is an integer value that serves as a reference to a specific window.
 
 ## Microsoft account (MSA) passthrough
 
