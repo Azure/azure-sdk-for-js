@@ -10,7 +10,7 @@ import {
   HttpHeaders,
   RestError,
   createHttpHeaders,
-  MultipartRequestBody,
+  isMultipartRequestBody,
 } from "@azure/core-rest-pipeline";
 
 function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
@@ -26,10 +26,6 @@ function isReadableStream(body: unknown): body is ReadableStream {
       typeof (body as ReadableStream).getReader === "function" &&
       typeof (body as ReadableStream).tee === "function"
   );
-}
-
-function isMultipartRequestBody(body: any): body is MultipartRequestBody {
-  return Boolean(body && Array.isArray(body.parts));
 }
 
 /**
