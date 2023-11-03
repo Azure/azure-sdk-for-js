@@ -4,6 +4,7 @@
 import {
   createDefaultHttpClient,
   HttpClient,
+  isMultipartRequestBody,
   isRestError,
   PipelinePolicy,
   PipelineRequest,
@@ -469,8 +470,8 @@ export class Recorder {
     return {
       name: "fixedMultipartBoundaryPolicy",
       sendRequest: (request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> => {
-        if (request.multipartBody) {
-          request.multipartBody.boundary = "--RecordedTestMultipartBoundary";
+        if (isMultipartRequestBody(request.body)) {
+          request.body.boundary = "--RecordedTestMultipartBoundary";
           const contentType = request.headers.get("Content-Type");
           if (contentType) {
             const contentTypeWithoutBoundary = contentType.split(";")[0];

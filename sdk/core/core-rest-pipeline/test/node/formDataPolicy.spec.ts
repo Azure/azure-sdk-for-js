@@ -15,7 +15,7 @@ describe("formDataPolicy (node-only)", function () {
       },
     });
 
-    const parts = (result.request.multipartBody as MultipartRequestBody).parts;
+    const parts = (result.request.body as MultipartRequestBody).parts;
     assert.ok(parts.length === 1, "expected 1 part");
     assert.deepEqual(
       parts[0].headers,

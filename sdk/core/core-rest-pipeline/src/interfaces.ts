@@ -124,6 +124,11 @@ export interface BodyPart {
  */
 export interface MultipartRequestBody {
   /**
+   * Field used to discriminate MultipartRequestBody from other body types.
+   */
+  bodyType: "mimeMultipart";
+
+  /**
    * The parts of the request body.
    */
   parts: BodyPart[];
@@ -151,6 +156,7 @@ export type RequestBodyType =
   | ArrayBuffer
   | ArrayBufferView
   | FormData
+  | MultipartRequestBody
   | string
   | null;
 
@@ -223,11 +229,6 @@ export interface PipelineRequest {
    * The HTTP body content (if any)
    */
   body?: RequestBodyType;
-
-  /**
-   * Body for a multipart request.
-   */
-  multipartBody?: MultipartRequestBody;
 
   /**
    * To simulate a browser form post

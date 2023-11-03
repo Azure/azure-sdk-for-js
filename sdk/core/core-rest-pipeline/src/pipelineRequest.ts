@@ -5,7 +5,6 @@ import {
   FormDataMap,
   HttpHeaders,
   HttpMethods,
-  MultipartRequestBody,
   PipelineRequest,
   ProxySettings,
   RequestBodyType,
@@ -58,11 +57,6 @@ export interface PipelineRequestOptions {
    * The HTTP body content (if any)
    */
   body?: RequestBodyType;
-
-  /**
-   * Body for a multipart request.
-   */
-  multipartBody?: MultipartRequestBody;
 
   /**
    * To simulate a browser form post
@@ -124,7 +118,6 @@ class PipelineRequestImpl implements PipelineRequest {
   public timeout: number;
   public withCredentials: boolean;
   public body?: RequestBodyType;
-  public multipartBody?: MultipartRequestBody;
   public formData?: FormDataMap;
   public streamResponseStatusCodes?: Set<number>;
   public enableBrowserStreams: boolean;
@@ -144,7 +137,6 @@ class PipelineRequestImpl implements PipelineRequest {
     this.headers = options.headers ?? createHttpHeaders();
     this.method = options.method ?? "GET";
     this.timeout = options.timeout ?? 0;
-    this.multipartBody = options.multipartBody;
     this.formData = options.formData;
     this.disableKeepAlive = options.disableKeepAlive ?? false;
     this.proxySettings = options.proxySettings;

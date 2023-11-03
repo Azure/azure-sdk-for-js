@@ -10,6 +10,7 @@ import {
   createPipelineRequest,
   formDataPolicy,
 } from "../src";
+import { isMultipartRequestBody } from "../src/policies/multipartPolicy";
 import { BodyPart, FormDataMap, InMemoryBlob, MultipartRequestBody } from "../src/interfaces";
 import { isBlobLike, isInMemoryBlob } from "../src/util/typeGuards";
 
@@ -123,9 +124,10 @@ describe("formDataPolicy", function () {
       // add field with spooky unicode characters to ensure encoding is working
       const result = await performRequest({ a: "va", b: "vb", c: "👻👻" });
       assert.isUndefined(result.request.formData);
-      const multipartBody = result.request.multipartBody as any;
-      assert.ok(multipartBody, "expecting multipartBody to be defined");
-      const parts = (multipartBody as any).parts as BodyPart[];
+      const body = result.request.body as any;
+      assert.ok(body, "expecting valid body");
+      assert.ok(isMultipartRequestBody(body), "expecting body to be MultipartRequestBody");
+      const parts = (body as any).parts as BodyPart[];
       const enc = new TextEncoder();
       assert.ok(parts.length === 3, "need 3 parts");
       assert.deepEqual(parts[0], {
@@ -160,7 +162,7 @@ describe("formDataPolicy", function () {
           }),
         });
 
-        const parts = (result.request.multipartBody as MultipartRequestBody).parts;
+        const parts = (result.request.body as MultipartRequestBody).parts;
         assert.ok(parts.length === 1, "expected 1 part");
         assert.deepEqual(
           parts[0].headers,
@@ -185,7 +187,7 @@ describe("formDataPolicy", function () {
           file: new Blob([new Uint8Array([1, 2, 3])]),
         });
 
-        const parts = (result.request.multipartBody as MultipartRequestBody).parts;
+        const parts = (result.request.body as MultipartRequestBody).parts;
         assert.ok(parts.length === 1, "expected 1 part");
         assert.deepEqual(
           parts[0].headers,
@@ -210,7 +212,7 @@ describe("formDataPolicy", function () {
           },
         });
 
-        const parts = (result.request.multipartBody as MultipartRequestBody).parts;
+        const parts = (result.request.body as MultipartRequestBody).parts;
         assert.ok(parts.length === 1, "expected 1 part");
         assert.deepEqual(
           parts[0].headers,

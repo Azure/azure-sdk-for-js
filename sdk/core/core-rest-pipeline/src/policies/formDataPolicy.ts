@@ -54,6 +54,10 @@ function wwwFormUrlEncode(formData: FormDataMap): string {
 }
 
 async function prepareFormData(formData: FormDataMap, request: PipelineRequest): Promise<void> {
+  if (request.body) {
+    throw new Error("multipart/form-data request must not have a request body already specified");
+  }
+
   // validate content type (multipart/form-data)
   const contentType = request.headers.get("Content-Type");
   if (contentType && !contentType.startsWith("multipart/form-data")) {
@@ -94,6 +98,6 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
       }
     }
 
-    request.multipartBody = { parts };
+    request.body = { bodyType: "mimeMultipart", parts };
   }
 }

@@ -14,7 +14,8 @@ describe("multipartPolicy (node-only)", function () {
     const body = Readable.from(Buffer.from("part1", "utf-8"));
 
     const request = await performRequest({
-      multipartBody: {
+      body: {
+        bodyType: "mimeMultipart",
         boundary: "blah",
         parts: [
           {

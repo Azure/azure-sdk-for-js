@@ -2,7 +2,14 @@
 // Licensed under the MIT license.
 
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
-import { BlobLike, BodyPart, HttpHeaders, PipelineRequest } from "../interfaces";
+import {
+  BlobLike,
+  BodyPart,
+  HttpHeaders,
+  MultipartRequestBody,
+  PipelineRequest,
+  RequestBodyType,
+} from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { toStream, concatenateStreams } from "../util/stream";
 import { isInMemoryBlob, isStreamableBlob } from "../util/typeGuards";
@@ -68,6 +75,15 @@ function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary:
 }
 
 /**
+ * Check if this request body is a multipart body
+ */
+export function isMultipartRequestBody(
+  body: RequestBodyType | undefined
+): body is MultipartRequestBody {
+  return Boolean(body && (body as MultipartRequestBody).bodyType === "mimeMultipart");
+}
+
+/**
  * Name of multipart policy
  */
 export const multipartPolicyName = "multipartPolicy";
@@ -94,15 +110,11 @@ export function multipartPolicy(): PipelinePolicy {
   return {
     name: multipartPolicyName,
     sendRequest(request, next) {
-      if (!request.multipartBody) {
+      if (!isMultipartRequestBody(request.body)) {
         return next(request);
       }
 
-      if (request.body) {
-        throw new Error("multipartBody and regular body cannot be set at the same time");
-      }
-
-      let boundary = request.multipartBody.boundary;
+      let boundary = request.body.boundary;
 
       let contentTypeHeader = request.headers.get("Content-Type") ?? "multipart/mixed";
       const parsedHeader = contentTypeHeader.match(/^(multipart\/[^ ;]+)(?:; *boundary=(.+))?$/);
@@ -123,9 +135,7 @@ export function multipartPolicy(): PipelinePolicy {
       boundary ??= parsedBoundary ?? generateBoundary();
       assertValidBoundary(boundary);
       request.headers.set("Content-Type", `${contentType}; boundary=${boundary}`);
-      buildRequestBody(request, request.multipartBody.parts, boundary);
-
-      request.multipartBody = undefined;
+      buildRequestBody(request, request.body.parts, boundary);
 
       return next(request);
     },
