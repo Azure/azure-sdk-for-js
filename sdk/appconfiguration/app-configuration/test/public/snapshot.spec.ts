@@ -100,7 +100,6 @@ describe("AppConfigurationClient snapshot", () => {
       await client.archiveSnapshot(newSnapshot.name);
     });
 
-    // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
     it("accepts  operation options", async function () {
       if (!isLiveMode()) this.skip();
       await assertThrowsAbortError(async () => {
@@ -197,7 +196,6 @@ describe("AppConfigurationClient snapshot", () => {
       await client.archiveSnapshot(newSnapshot.name);
     });
 
-    // Check issue https://github.com/Azure/azure-sdk-for-js/issues/26447
     it("accepts operation options", async function () {
       if (!isLiveMode()) this.skip();
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
