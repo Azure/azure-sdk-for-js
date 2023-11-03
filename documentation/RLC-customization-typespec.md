@@ -2,6 +2,10 @@
 
 ## The whole process
 
+0. **prerequisite**
+    
+    Before any customization process please ensure your existing SDK repo could run commands `rush update && rush build -t @azure-rest/communication-job-router` successfully so that below commands could be touched. You could refer others steps in [get started doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-quickstart.md).
+
 1. **Update configuration**
     
     You can update `tsp-location.yaml` under sdk project folder to set the typespec project. 
@@ -62,7 +66,6 @@
 ## Detailed customization example
 
 ### Customization tool
-
 
 Simply speaking the customization tool would `merge` the codes under `customizations` and ones under `generated/src`. So you can imagine that:
 - If the customizations folder is empty which means there is no newly-applied code under generated SDKs;
