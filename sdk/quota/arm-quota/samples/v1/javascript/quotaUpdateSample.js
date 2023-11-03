@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  CurrentQuotaLimitBase,
-  AzureQuotaExtensionAPI
-} from "@azure/arm-quota";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update the quota limit for a specific resource to the specified value:
@@ -31,19 +26,15 @@ async function quotasRequestPatchForCompute() {
   const resourceName = "standardFSv2Family";
   const scope =
     "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Compute/locations/eastus";
-  const createQuotaRequest: CurrentQuotaLimitBase = {
+  const createQuotaRequest = {
     properties: {
       name: { value: "standardFSv2Family" },
-      limit: { limitObjectType: "LimitValue", value: 10 }
-    }
+      limit: { limitObjectType: "LimitValue", value: 10 },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
-  const result = await client.quota.beginUpdateAndWait(
-    resourceName,
-    scope,
-    createQuotaRequest
-  );
+  const result = await client.quota.beginUpdateAndWait(resourceName, scope, createQuotaRequest);
   console.log(result);
 }
 
@@ -61,20 +52,16 @@ async function quotasRequestPatchForNetwork() {
   const resourceName = "MinPublicIpInterNetworkPrefixLength";
   const scope =
     "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Network/locations/eastus";
-  const createQuotaRequest: CurrentQuotaLimitBase = {
+  const createQuotaRequest = {
     properties: {
       name: { value: "MinPublicIpInterNetworkPrefixLength" },
       limit: { limitObjectType: "LimitValue", value: 10 },
-      resourceType: "MinPublicIpInterNetworkPrefixLength"
-    }
+      resourceType: "MinPublicIpInterNetworkPrefixLength",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
-  const result = await client.quota.beginUpdateAndWait(
-    resourceName,
-    scope,
-    createQuotaRequest
-  );
+  const result = await client.quota.beginUpdateAndWait(resourceName, scope, createQuotaRequest);
   console.log(result);
 }
 
