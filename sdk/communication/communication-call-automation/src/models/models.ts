@@ -202,7 +202,7 @@ export function createCustomCallingContext(): CustomCallingContext {
   return {
     add: (kind, name, value) => {
       if (kind === "sipuui") {
-        _sipHeaders.append("User-to-User", value);
+        _sipHeaders.append("User-To-User", value);
       }
       if (kind === "sipx") {
         _sipHeaders.append("X-MS-Custom-" + name, value);
