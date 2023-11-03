@@ -3,8 +3,8 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { logger } from "./logger";
-import { AzureCommunicationRoutingServiceClient } from "./clientDefinitions";
+import { logger } from "../generated/src/logger";
+import { AzureCommunicationRoutingServiceClient } from "../generated/src/clientDefinitions";
 import { parseClientArguments } from "@azure/communication-common";
 /**
  * Initialize a new instance of `AzureCommunicationRoutingServiceClient`
