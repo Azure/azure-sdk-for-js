@@ -42,7 +42,7 @@ When authenticating with the broker via `InteractiveBrowserCredential`, a parent
 
 ## Microsoft account (MSA) passthrough
 
-Microsoft accounts (MSA) are personal accounts created by users to access Microsoft services. MSA-passthrough is a legacy configuration which enables users to get tokens to resources which normally do not accept MSA logins. This is only available to first-party applications. Users authenticating with an application that is configured to use MSA-passthrough can set `legacyEnableMsaPassthrough` to `True` inside `InteractiveBrowserCredentialNodeOptions.brokerOptions`  to allow these personal accounts to be listed by WAM.
+Microsoft accounts (MSA) are personal accounts created by users to access Microsoft services. MSA passthrough is a legacy configuration which enables users to get tokens to resources which normally don't accept MSA logins. This feature is only available to first-party applications. Users authenticating with an application that is configured to use MSA passthrough can set `legacyEnableMsaPassthrough` to `true` inside `InteractiveBrowserCredentialNodeOptions.brokerOptions` to allow these personal accounts to be listed by WAM.
 
 ## Redirect URIs
 
