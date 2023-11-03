@@ -254,7 +254,7 @@ describe("Test Index metrics", function (this: Suite) {
 
 describe("Test RU Capping query", function (this: Suite) {
   beforeEach(async function () {
-    await removeAllDatabases();
+    // await removeAllDatabases();
   });
 
   it("For Single partition query", async function () {
@@ -271,10 +271,10 @@ describe("Test RU Capping query", function (this: Suite) {
 
     const query1 = "SELECT * from " + collectionId + " where " + collectionId + ".name = 'test2'";
     const queryOptions: FeedOptions = { maxItemCount: 1 };
-    const queryIterator = createdContainerSinglePartition.items.query(query1, queryOptions);
+    const queryIterator1 = createdContainerSinglePartition.items.query(query1, queryOptions);
     // Case 1: RU Cap breached
     try {
-      await queryIterator.fetchNext({ ruCapPerOperation: 2 });
+      await queryIterator1.fetchNext({ ruCapPerOperation: 2 });
       assert.fail("Must throw exception");
     } catch (err) {
       assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
@@ -282,13 +282,29 @@ describe("Test RU Capping query", function (this: Suite) {
       assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
     }
     // Case 2: RU Cap not breached
-    while (queryIterator.hasMoreResults()) {
-      const { resources: results } = await queryIterator.fetchNext({ ruCapPerOperation: 10 });
+    while (queryIterator1.hasMoreResults()) {
+      const { resources: results } = await queryIterator1.fetchNext({ ruCapPerOperation: 10 });
       if (results === undefined) {
         continue;
       }
       assert.equal(results.length, 1);
     }
+
+    const query2 = "SELECT * from " + collectionId;
+    const queryiterator2 = createdContainerSinglePartition.items.query(query2, queryOptions);
+    // Case 3: RU Cap breached for fetchAll operation
+    try {
+      await queryiterator2.fetchAll({ ruCapPerOperation: 10 });
+      assert.fail("Must throw exception");
+    } catch (err) {
+      assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
+      assert.ok(err.body);
+      assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
+    }
+
+    // Case 4: RU Cap not breached for fetchAll operation
+    const { resources: results } = await queryiterator2.fetchAll({ ruCapPerOperation: 40 });
+    assert.equal(results.length, 3);
   });
 
   async function setupContainer(datbaseName: string, collectionId: string, throughput?: number) {

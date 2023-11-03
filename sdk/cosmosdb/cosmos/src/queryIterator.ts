@@ -138,19 +138,21 @@ export class QueryIterator<T> {
 
   public async fetchAll(operationOptions?: OperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      console.log(operationOptions);
-      return this.fetchAllInternal(diagnosticNode);
+      return this.fetchAllInternal(diagnosticNode, operationOptions);
     }, this.clientContext);
   }
 
   /**
    * @hidden
    */
-  public async fetchAllInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>> {
+  public async fetchAllInternal(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: OperationOptions
+  ): Promise<FeedResponse<T>> {
     this.reset();
     let response: FeedResponse<T>;
     try {
-      response = await this.toArrayImplementation(diagnosticNode);
+      response = await this.toArrayImplementation(diagnosticNode, operationOptions);
     } catch (error: any) {
       this.handleSplitError(error);
     }
@@ -227,8 +229,13 @@ export class QueryIterator<T> {
   }
 
   private async toArrayImplementation(
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: OperationOptions
   ): Promise<FeedResponse<T>> {
+    let ruConsumed: RUConsumed | undefined;
+    if (operationOptions && operationOptions.ruCapPerOperation) {
+      ruConsumed = { value: 0 };
+    }
     this.queryPlanPromise = withMetadataDiagnostics(
       async (metadataNode: DiagnosticNodeInternal) => {
         return this.fetchQueryPlan(metadataNode);
@@ -244,11 +251,19 @@ export class QueryIterator<T> {
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
       try {
-        response = await this.queryExecutionContext.nextItem(diagnosticNode);
+        response = await this.queryExecutionContext.nextItem(
+          diagnosticNode,
+          operationOptions,
+          ruConsumed
+        );
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
-          response = await this.queryExecutionContext.nextItem(diagnosticNode);
+          response = await this.queryExecutionContext.nextItem(
+            diagnosticNode,
+            operationOptions,
+            ruConsumed
+          );
         } else {
           throw error;
         }

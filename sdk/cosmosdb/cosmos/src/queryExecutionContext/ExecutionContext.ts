@@ -6,7 +6,11 @@ import { OperationOptions, Response } from "../request";
 
 /** @hidden */
 export interface ExecutionContext {
-  nextItem: (diagnosticNode: DiagnosticNodeInternal) => Promise<Response<any>>;
+  nextItem: (
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: OperationOptions,
+    ruConsumed?: RUConsumed
+  ) => Promise<Response<any>>;
   hasMoreResults: () => boolean;
   fetchMore?: (
     diagnosticNode: DiagnosticNodeInternal,
