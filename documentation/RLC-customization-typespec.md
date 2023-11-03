@@ -4,9 +4,9 @@
 
 1. **Update configuration**
     
-    We can update `tsp-location.yaml` under sdk project folder to set the typespec project. 
+    You can update `tsp-location.yaml` under sdk project folder to set the typespec project. 
   
-    We can refer to the [tsp-location.yaml](https://github.com/Azure/azure-sdk-tools/blob/main/doc/common/TypeSpec-Project-Scripts.md#tsp-locationyaml) which describes the supported properties in the file.
+    You can refer to the [tsp-location.yaml](https://github.com/Azure/azure-sdk-tools/blob/main/doc/common/TypeSpec-Project-Scripts.md#tsp-locationyaml) which describes the supported properties in the file.
 
 2. **Create `sources` folder**
 
@@ -32,13 +32,11 @@
     pwsh ../../../eng/common/scripts/TypeSpec-Project-Generate.ps1 .
     ```
 
-    The version of TypeSpec-TS is configured in [emitter-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package.json). Change it in local, if you would like to use a different version of `typespec-ts`.
-
     After generated the SDK should be generated under `sources/generated` folder.
 
 4. **Create `customizations` folder under `sources`**
 
-    All customization codes should be under the `sources/customizations` folder so if no just create one.
+    All customization codes should be under the `sources/customizations` so if no just create one.
 
     ```shell
     mkdir sources/customizations
@@ -55,7 +53,7 @@
       "customize": "rimraf src && dev-tool customization apply -s sources/generated/src && npm run format",
     ```
 
-    Then run `rushx customize` command to apply:
+    Then run `rushx customize` command to apply, then all changes should be under `src` project root folder. 
 
     ```shell
     rushx customize
@@ -68,8 +66,9 @@
 
 Simply speaking the customization tool would `merge` the codes under `customizations` and ones under `generated/src`. So you can imagine that:
 - If the customizations folder is empty which means there is no newly-applied code under generated SDKs;
-- If I'd like to add a new file `OpenAIKeyCredential` including customized `KeyCredential` at the top level, I could add it [here](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/customizations/OpenAIKeyCredential.ts) and don't forget to expose it in [index.ts](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/customizations/index.ts#L17) file;
-- If I'd like to override the generated `createClient` with my own customization policy, I would create the same filename and same method name. Then the newly one would override the existing one e.g: [generated method](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/generated/src/api/operations.ts#L232) and [customized method](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/customizations/api/operations.ts#L329).
+- If I'd like to add a new file like `OpenAIKeyCredential` which includes customized `KeyCredential` at the top level, I could add it [here](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/customizations/OpenAIKeyCredential.ts) and don't forget to expose it in [index.ts](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/customizations/index.ts#L17) file;
+- If I'd like to change the generated `createClient`, I would create the same filename and same method name but with my own logic. Then the newly one would override the existing one e.g: [generated method](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/generated/src/api/operations.ts#L232) and [customized method](https://github.com/Azure/azure-sdk-for-js/blob/79a6000fb3c733ad444660b880a0c25a2cf5c7ff/sdk/openai/openai/sources/customizations/api/operations.ts#L329);
+- If I expect no changes for other code snippet, I can do nothing for them.
 
 
 ### Customize authentication
