@@ -1334,9 +1334,9 @@ packages:
       '@azure/core-tracing': 1.0.1
       '@azure/core-util': 1.6.1
       '@azure/logger': 1.0.4
-      '@azure/msal-browser': 2.38.2
+      '@azure/msal-browser': 2.38.3
       '@azure/msal-common': 7.6.0
-      '@azure/msal-node': 1.18.3
+      '@azure/msal-node': 1.18.4
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.2
@@ -1358,15 +1358,37 @@ packages:
       '@azure/core-tracing': 1.0.1
       '@azure/core-util': 1.6.1
       '@azure/logger': 1.0.4
-      '@azure/msal-browser': 2.38.2
-      '@azure/msal-common': 13.3.0
-      '@azure/msal-node': 1.18.3
+      '@azure/msal-browser': 2.38.3
+      '@azure/msal-common': 13.3.1
+      '@azure/msal-node': 1.18.4
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.2
       stoppable: 1.1.0
       tslib: 2.6.2
       uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/identity@4.0.0-beta.1:
+    resolution: {integrity: sha512-KCabwX5KamDESbol1ElSpzLUS42g/xUbSAx7TlGLBTx2SrGWVgErpbNcoxxRr7QpJHGN81Ka/8RBRjFqMi+UaQ==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-rest-pipeline': 1.12.2
+      '@azure/core-tracing': 1.0.1
+      '@azure/core-util': 1.6.1
+      '@azure/logger': 1.0.4
+      '@azure/msal-browser': 3.3.0
+      '@azure/msal-node': 2.3.0
+      events: 3.3.0
+      jws: 4.0.0
+      open: 8.4.2
+      stoppable: 1.1.0
+      tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1469,11 +1491,11 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/msal-browser@2.38.2:
-    resolution: {integrity: sha512-71BeIn2we6LIgMplwCSaMq5zAwmalyJR3jFcVOZxNVfQ1saBRwOD+P77nLs5vrRCedVKTq8RMFhIOdpMLNno0A==}
+  /@azure/msal-browser@2.38.3:
+    resolution: {integrity: sha512-2WuLFnWWPR1IdvhhysT18cBbkXx1z0YIchVss5AwVA95g7CU5CpT3d+5BcgVGNXDXbUU7/5p0xYHV99V5z8C/A==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      '@azure/msal-common': 13.3.0
+      '@azure/msal-common': 13.3.1
     dev: false
 
   /@azure/msal-browser@3.3.0:
@@ -1483,8 +1505,8 @@ packages:
       '@azure/msal-common': 14.2.0
     dev: false
 
-  /@azure/msal-common@13.3.0:
-    resolution: {integrity: sha512-/VFWTicjcJbrGp3yQP7A24xU95NiDMe23vxIU1U6qdRPFsprMDNUohMudclnd+WSHE4/McqkZs/nUU3sAKkVjg==}
+  /@azure/msal-common@13.3.1:
+    resolution: {integrity: sha512-Lrk1ozoAtaP/cp53May3v6HtcFSVxdFrg2Pa/1xu5oIvsIwhxW6zSPibKefCOVgd5osgykMi5jjcZHv8XkzZEQ==}
     engines: {node: '>=0.8.0'}
     dev: false
 
@@ -1522,11 +1544,11 @@ packages:
     requiresBuild: true
     dev: false
 
-  /@azure/msal-node@1.18.3:
-    resolution: {integrity: sha512-lI1OsxNbS/gxRD4548Wyj22Dk8kS7eGMwD9GlBZvQmFV8FJUXoXySL1BiNzDsHUE96/DS/DHmA+F73p1Dkcktg==}
+  /@azure/msal-node@1.18.4:
+    resolution: {integrity: sha512-Kc/dRvhZ9Q4+1FSfsTFDME/v6+R2Y1fuMty/TfwqE5p9GTPw08BPbKgeWinE8JRHRp+LemjQbUZsn4Q4l6Lszg==}
     engines: {node: 10 || 12 || 14 || 16 || 18}
     dependencies:
-      '@azure/msal-common': 13.3.0
+      '@azure/msal-common': 13.3.1
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
     dev: false
@@ -1870,8 +1892,8 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@grpc/grpc-js@1.9.7:
-    resolution: {integrity: sha512-yMaA/cIsRhGzW3ymCNpdlPcInXcovztlgu/rirThj2b87u3RzWUszliOqZ/pldy7yhmJPS8uwog+kZSTa4A0PQ==}
+  /@grpc/grpc-js@1.9.8:
+    resolution: {integrity: sha512-FFPzDS333Vw8hvf+1FaEsaCYVPBdNdUCw7zArTiF7+6gOzln967b4GBCBekKGqoKEgna8d3Ayxv8t+IvazXG3g==}
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
       '@grpc/proto-loader': 0.7.10
@@ -2112,7 +2134,7 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
-      '@grpc/grpc-js': 1.9.7
+      '@grpc/grpc-js': 1.9.8
       '@opentelemetry/api': 1.6.0
       '@opentelemetry/core': 1.17.1(@opentelemetry/api@1.6.0)
       '@opentelemetry/otlp-grpc-exporter-base': 0.44.0(@opentelemetry/api@1.6.0)
@@ -2283,7 +2305,7 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
-      '@grpc/grpc-js': 1.9.7
+      '@grpc/grpc-js': 1.9.8
       '@opentelemetry/api': 1.6.0
       '@opentelemetry/core': 1.17.1(@opentelemetry/api@1.6.0)
       '@opentelemetry/otlp-exporter-base': 0.44.0(@opentelemetry/api@1.6.0)
@@ -3303,20 +3325,20 @@ packages:
       negotiator: 0.6.3
     dev: false
 
-  /acorn-import-assertions@1.9.0(acorn@8.11.1):
+  /acorn-import-assertions@1.9.0(acorn@8.11.2):
     resolution: {integrity: sha512-cmMwop9x+8KFhxvKrKfPYmN6/pKTYYHBqLa0DfvVZcKMJWNyWLnaqND7dx/qn66R7ewM1UX5XMaDVP5wlVTaVA==}
     peerDependencies:
       acorn: ^8
     dependencies:
-      acorn: 8.11.1
+      acorn: 8.11.2
     dev: false
 
-  /acorn-jsx@5.3.2(acorn@8.11.1):
+  /acorn-jsx@5.3.2(acorn@8.11.2):
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
-      acorn: 8.11.1
+      acorn: 8.11.2
     dev: false
 
   /acorn-walk@8.3.0:
@@ -3324,8 +3346,8 @@ packages:
     engines: {node: '>=0.4.0'}
     dev: false
 
-  /acorn@8.11.1:
-    resolution: {integrity: sha512-IJTNCJMRHfRfb8un89z1QtS0x890C2QUrUxFMK8zy+RizcId6mfnqOf68Bu9YkDgpLYuvCm6aYbwDatXVZPjMQ==}
+  /acorn@8.11.2:
+    resolution: {integrity: sha512-nc0Axzp/0FILLEVsm4fNwLCwMttvhEI263QtVPQcbpfZZ3ts0hLsZGOpE6czNlid7CJ9MlyH8reXkpsf3YUY4w==}
     engines: {node: '>=0.4.0'}
     hasBin: true
     dev: false
@@ -3685,8 +3707,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001554
-      electron-to-chromium: 1.4.568
+      caniuse-lite: 1.0.30001558
+      electron-to-chromium: 1.4.569
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13(browserslist@4.22.1)
     dev: false
@@ -3804,8 +3826,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001554:
-    resolution: {integrity: sha512-A2E3U//MBwbJVzebddm1YfNp7Nud5Ip+IPn4BozBmn4KqVX7AvluoIDFWjsv5OkGnKUXQVmMSoMKLa3ScCblcQ==}
+  /caniuse-lite@1.0.30001558:
+    resolution: {integrity: sha512-/Et7DwLqpjS47JPEcz6VnxU9PwcIdVi0ciLXRWBQdj1XFye68pSQYpV0QtPTfUKWuOaEig+/Vez2l74eDc1tPQ==}
     dev: false
 
   /catharsis@0.9.0:
@@ -4495,7 +4517,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231103
+      typescript: 5.3.0-dev.20231102
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -4516,8 +4538,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
-  /electron-to-chromium@1.4.568:
-    resolution: {integrity: sha512-3TCOv8+BY6Ltpt1/CmGBMups2IdKOyfEmz4J8yIS4xLSeMm0Rf+psSaxLuswG9qMKt+XbNbmADybtXGpTFlbDg==}
+  /electron-to-chromium@1.4.569:
+    resolution: {integrity: sha512-LsrJjZ0IbVy12ApW3gpYpcmHS3iRxH4bkKOW98y1/D+3cvDUWGcbzbsFinfUS8knpcZk/PG/2p/RnkMCYN7PVg==}
     dev: false
 
   /emitter-component@1.1.1:
@@ -4924,8 +4946,8 @@ packages:
     resolution: {integrity: sha512-oruZaFkjorTpF32kDSI5/75ViwGeZginGGy2NoOSg3Q9bnwlnmDm4HLnkl0RE3n+njDXR037aY1+x58Z/zFdwQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
-      acorn: 8.11.1
-      acorn-jsx: 5.3.2(acorn@8.11.1)
+      acorn: 8.11.2
+      acorn-jsx: 5.3.2(acorn@8.11.2)
       eslint-visitor-keys: 3.4.3
     dev: false
 
@@ -5539,7 +5561,7 @@ packages:
       fs.realpath: 1.0.0
       minimatch: 8.0.4
       minipass: 4.2.8
-      path-scurry: 1.6.3
+      path-scurry: 1.10.1
     dev: false
 
   /global@4.4.0:
@@ -5785,8 +5807,8 @@ packages:
   /import-in-the-middle@1.4.2:
     resolution: {integrity: sha512-9WOz1Yh/cvO/p69sxRmhyQwrIGGSp7EIdcb+fFNVi7CzQGQB8U1/1XrKVSbEd/GNOAeM0peJtmi7+qphe7NvAw==}
     dependencies:
-      acorn: 8.11.1
-      acorn-import-assertions: 1.9.0(acorn@8.11.1)
+      acorn: 8.11.2
+      acorn-import-assertions: 1.9.0(acorn@8.11.2)
       cjs-module-lexer: 1.2.3
       module-details-from-path: 1.0.3
     dev: false
@@ -6573,7 +6595,7 @@ packages:
       socket.io: 4.7.2
       source-map: 0.6.1
       tmp: 0.2.1
-      ua-parser-js: 0.7.36
+      ua-parser-js: 0.7.37
       yargs: 16.2.0
     transitivePeerDependencies:
       - bufferutil
@@ -7661,14 +7683,6 @@ packages:
       minipass: 7.0.4
     dev: false
 
-  /path-scurry@1.6.3:
-    resolution: {integrity: sha512-RAmB+n30SlN+HnNx6EbcpoDy9nwdpcGPnEKrJnu6GZoDWBdIjo1UQMVtW2ybtC7LC2oKLcMq8y5g8WnKLiod9g==}
-    engines: {node: '>=16 || 14 >=14.17'}
-    dependencies:
-      lru-cache: 7.18.3
-      minipass: 4.2.8
-    dev: false
-
   /path-to-regexp@0.1.7:
     resolution: {integrity: sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==}
     dev: false
@@ -8583,8 +8597,8 @@ packages:
       supports-color: 7.2.0
     dev: false
 
-  /sinon@17.0.1:
-    resolution: {integrity: sha512-wmwE19Lie0MLT+ZYNpDymasPHUKTaZHUH/pKEubRXIzySv9Atnlw+BUMGCzWgV7b7wO+Hw6f1TEOr0IUnmU8/g==}
+  /sinon@17.0.0:
+    resolution: {integrity: sha512-p4lJiYKBoOEVUxxVIC9H1MM2znG1/c8gud++I2BauJA5hsz7hHsst35eurNWXTusBsIq66FzOQbZ/uMdpvbPIQ==}
     dependencies:
       '@sinonjs/commons': 3.0.0
       '@sinonjs/fake-timers': 11.2.2
@@ -9096,7 +9110,7 @@ packages:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
       '@types/node': 18.18.7
-      acorn: 8.11.1
+      acorn: 8.11.2
       acorn-walk: 8.3.0
       arg: 4.1.3
       create-require: 1.1.1
@@ -9127,7 +9141,7 @@ packages:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
       '@types/node': 18.18.7
-      acorn: 8.11.1
+      acorn: 8.11.2
       acorn-walk: 8.3.0
       arg: 4.1.3
       create-require: 1.1.1
@@ -9280,14 +9294,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231103:
-    resolution: {integrity: sha512-XOrpoRg1DWN7ei3AFomL+UrpRBseaODTiWWRfZd6AVeT7ODLjQZ+CDUxK6Aj2XPvEthIOaqijvwIxZe6vlNwlQ==}
+  /typescript@5.3.0-dev.20231102:
+    resolution: {integrity: sha512-M1maLdHyAvE+y4w27IBplkqekR5Lzf2B7XualvF3lXJUC2165swvSmpThFdfHcXxP/+/SYmLI9z2CVvN7pEK+g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
-  /ua-parser-js@0.7.36:
-    resolution: {integrity: sha512-CPPLoCts2p7D8VbybttE3P2ylv0OBZEAy7a12DsulIEcAiMtWJy+PBgMXgWDI80D5UwqE8oQPHYnk13tm38M2Q==}
+  /ua-parser-js@0.7.37:
+    resolution: {integrity: sha512-xV8kqRKM+jhMvcHWUKthV9fNebIzrNy//2O9ZwWcfiBFR5f25XVZPLlEajk/sf3Ra15V92isyQqnIEXRDaZWEA==}
     dev: false
 
   /uc.micro@1.0.6:
@@ -10071,7 +10085,7 @@ packages:
       prettier: 2.8.8
       rimraf: 3.0.2
       rollup: 3.29.4
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -10118,7 +10132,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -10168,7 +10182,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -10238,7 +10252,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -10329,7 +10343,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -10418,7 +10432,7 @@ packages:
       prettier: 2.8.8
       rimraf: 3.0.2
       rollup: 3.29.4
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -10468,7 +10482,7 @@ packages:
       mustache: 4.2.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -10516,7 +10530,7 @@ packages:
       nock: 12.0.3
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16149,7 +16163,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16195,7 +16209,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16245,7 +16259,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16295,7 +16309,7 @@ packages:
       mockdate: 3.0.5
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16359,7 +16373,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
-      '@azure/msal-node': 1.18.3
+      '@azure/msal-node': 1.18.4
       '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
@@ -16387,7 +16401,7 @@ packages:
       prettier: 2.8.8
       process: 0.11.10
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16434,7 +16448,7 @@ packages:
       mocha-junit-reporter: 1.23.3(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16460,12 +16474,10 @@ packages:
       '@types/mocha': 10.0.3
       '@types/node': 18.18.7
       autorest: 3.6.3
-      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.52.0
-      esm: 3.2.25
       karma: 6.4.2(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -16528,7 +16540,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16574,7 +16586,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16621,7 +16633,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16658,7 +16670,7 @@ packages:
       mocha: 10.2.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 1.14.1
       typescript: 5.2.2
@@ -16705,7 +16717,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16752,7 +16764,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16800,7 +16812,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16846,7 +16858,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16966,7 +16978,7 @@ packages:
       rhea: 3.0.2
       rhea-promise: 3.0.1
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -17038,7 +17050,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -17079,7 +17091,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -17159,7 +17171,7 @@ packages:
       regenerator-runtime: 0.13.11
       rimraf: 3.0.2
       shx: 0.3.4
-      sinon: 17.0.1
+      sinon: 17.0.0
       tough-cookie: 4.1.3
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -17289,7 +17301,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -17375,7 +17387,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -17419,7 +17431,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -17512,7 +17524,7 @@ packages:
       requirejs: 2.3.6
       rimraf: 3.0.2
       semaphore: 1.1.0
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -17558,7 +17570,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -17757,7 +17769,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -17879,7 +17891,7 @@ packages:
       puppeteer: 19.11.1(typescript@5.2.2)
       rhea-promise: 3.0.1
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -17925,7 +17937,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -18177,10 +18189,11 @@ packages:
     dev: false
 
   file:projects/identity-broker.tgz:
-    resolution: {integrity: sha512-1EQgUHTo2pxMnzMt8wmVj+9+ni14V68oPkB45xFtgi9SzfZEFwZ9toqSKiDl5Fj82EurHUi+6SXGkeODluyZsA==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-IHVPicxkUV7K71ze6miruZVilVdHQMvm7xbM1DN095RqCEje1whEdPcVOmzvfRggcGZYPg1djws5LiLkYuy0Wg==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 4.0.0-beta.1
       '@azure/msal-node': 2.3.0
       '@azure/msal-node-extensions': 1.0.5
       '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
@@ -18207,10 +18220,11 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-6/Buwo0UgJdZ34X/JJeAQyBSmWzYkwYjG+AnVp/Y70PujbVvS2bcJ9bpqPTcJtKIUA1pMpYggaAIUJIDDcPFpQ==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-Z5sE20BlSCrUoWPnETIfeq2HlzQr5D6RR1E5qjhEdMWxSMSrYZfo9YFw3MGN9ZyZZ8r9r/BnRZw9xbst8za1wQ==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 4.0.0-beta.1
       '@azure/msal-node': 2.3.0
       '@azure/msal-node-extensions': 1.0.0-alpha.25
       '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
@@ -18229,7 +18243,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -18266,7 +18280,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -18323,7 +18337,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       stoppable: 1.1.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -18418,7 +18432,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -18453,7 +18467,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -18497,7 +18511,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -18528,7 +18542,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -18574,7 +18588,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -18618,7 +18632,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -18709,7 +18723,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -19073,7 +19087,7 @@ packages:
       pako: 2.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -19117,7 +19131,7 @@ packages:
       nock: 12.0.3
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -19163,7 +19177,7 @@ packages:
       nock: 12.0.3
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -19348,7 +19362,7 @@ packages:
       mocha-junit-reporter: 1.23.3(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -20131,7 +20145,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -20316,7 +20330,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -20380,7 +20394,7 @@ packages:
       puppeteer: 19.11.1(typescript@5.2.2)
       rhea-promise: 3.0.1
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -20400,6 +20414,7 @@ packages:
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
+      '@azure/storage-blob': 12.16.0
       '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
@@ -20431,7 +20446,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -20536,7 +20551,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -20588,7 +20603,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -20733,7 +20748,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -20832,7 +20847,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -21178,7 +21193,7 @@ packages:
       mocha: 10.2.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -21226,7 +21241,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -21288,7 +21303,7 @@ packages:
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
       rollup: 3.29.4
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -21344,7 +21359,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -21386,7 +21401,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
@@ -21433,7 +21448,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      sinon: 17.0.1
+      sinon: 17.0.0
       source-map-support: 0.5.21
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
