@@ -2,12 +2,13 @@
 
 ## 1.5.0-beta.3 (Unreleased)
 
-
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- To match the input type, change the output representation of `label` and `contentType` from `null` to `undefined` when these properties are empty or not defined in the configuration setting object. [#27622](https://github.com/Azure/azure-sdk-for-js/pull/27622)
 
 ### Other Changes
 

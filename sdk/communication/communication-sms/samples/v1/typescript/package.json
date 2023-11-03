@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Communication Services - SMS client library samples for TypeScript",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "tsc",

@@ -178,7 +178,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    * The session lock renewal timer that keeps
    * track of when the MessageSession is due for session lock renewal.
    */
-  private _sessionLockRenewalTimer?: NodeJS.Timer;
+  private _sessionLockRenewalTimer?: NodeJS.Timeout;
 
   private _totalAutoLockRenewDuration: number;
 
