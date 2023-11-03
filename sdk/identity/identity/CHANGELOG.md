@@ -6,7 +6,7 @@
 - All the features shipped as part of 4.0.0-beta.1 will be GA with this version. The most important feature being the support of brokered authentication on Windows OS, such as WAM.
 
 ### Breaking Changes
-- Starting v4.0.0 of `@azure/identity`, node 20 will be supported and node 16 will no longer be supported.
+- Starting with v4.0.0 of `@azure/identity`, Node.js v20 will be supported and Node.js v16 will no longer be supported.
 
 ## 4.0.0-beta.1 (2023-10-26)
 
