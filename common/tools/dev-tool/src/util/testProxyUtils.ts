@@ -187,7 +187,10 @@ export function createAssetsJson(project: ProjectInfo): Promise<void> {
 const execPromise = promisify(exec);
 
 async function getRecordingsDirectory(project: ProjectInfo): Promise<string> {
-  const { stdout } = await execPromise(`${await getTestProxyExecutable()} config locate -a assets.json`, { cwd: project.path });
+  const { stdout } = await execPromise(
+    `${await getTestProxyExecutable()} config locate -a assets.json`,
+    { cwd: project.path }
+  );
   const lines = stdout.split("\n");
 
   // the directory is the second-to-last line of output (there's some other log output that comes out from the test proxy first, and the last line is empty)
@@ -200,7 +203,11 @@ export async function linkRecordingsDirectory() {
   const recordingsDirectory = await getRecordingsDirectory(project);
   const projectRelativeToRoot = path.relative(root, project.path);
 
-  const trueRecordingsDirectory = path.join(recordingsDirectory, projectRelativeToRoot, 'recordings/');
+  const trueRecordingsDirectory = path.join(
+    recordingsDirectory,
+    projectRelativeToRoot,
+    "recordings/"
+  );
   const relativeRecordingsDirectory = path.relative(project.path, trueRecordingsDirectory);
 
   const symlinkLocation = path.join(project.path, "_recordings");
@@ -210,7 +217,9 @@ export async function linkRecordingsDirectory() {
     if (stat.isSymbolicLink()) {
       await fs.unlink(symlinkLocation);
     } else {
-      log.warn("Could not create symbolic link to recordings directory: a file exists at _recordings already.");
+      log.warn(
+        "Could not create symbolic link to recordings directory: a file exists at _recordings already."
+      );
       return;
     }
   }
@@ -272,7 +281,8 @@ export async function isProxyToolActive(): Promise<boolean> {
     await axios.get(`http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`);
 
     log.info(
-      `Proxy tool seems to be active at http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000
+      `Proxy tool seems to be active at http://localhost:${
+        process.env.TEST_PROXY_HTTP_PORT ?? 5000
       }\n`
     );
     return true;

@@ -38,7 +38,7 @@
     }
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "files": [
     "dist/",
@@ -141,7 +141,7 @@
     "@types/chai-as-promised": "^7.1.0",
     "@types/debug": "^4.1.4",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
     "chai": "^4.2.0",
@@ -175,7 +175,7 @@
     "typescript": "~5.2.0",
     "uuid": "^8.3.0",
     "ws": "^8.0.0",
-    "sinon": "^15.0.0",
+    "sinon": "^17.0.0",
     "@types/sinon": "^10.0.0",
     "events": "^3.0.0"
   }

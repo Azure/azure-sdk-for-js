@@ -337,40 +337,49 @@ export interface ListWorkers {
 }
 
 export interface Routes {
-  /** Resource for '/routing/classificationPolicies/\{id\}' has methods for the following verbs: patch, get, delete */
-  (path: "/routing/classificationPolicies/{id}", id: string): UpsertClassificationPolicy;
+  /** Resource for '/routing/classificationPolicies/\{classificationPolicyId\}' has methods for the following verbs: patch, get, delete */
+  (
+    path: "/routing/classificationPolicies/{classificationPolicyId}",
+    classificationPolicyId: string
+  ): UpsertClassificationPolicy;
   /** Resource for '/routing/classificationPolicies' has methods for the following verbs: get */
   (path: "/routing/classificationPolicies"): ListClassificationPolicies;
-  /** Resource for '/routing/distributionPolicies/\{id\}' has methods for the following verbs: patch, get, delete */
-  (path: "/routing/distributionPolicies/{id}", id: string): UpsertDistributionPolicy;
+  /** Resource for '/routing/distributionPolicies/\{distributionPolicyId\}' has methods for the following verbs: patch, get, delete */
+  (
+    path: "/routing/distributionPolicies/{distributionPolicyId}",
+    distributionPolicyId: string
+  ): UpsertDistributionPolicy;
   /** Resource for '/routing/distributionPolicies' has methods for the following verbs: get */
   (path: "/routing/distributionPolicies"): ListDistributionPolicies;
-  /** Resource for '/routing/exceptionPolicies/\{id\}' has methods for the following verbs: patch, get, delete */
-  (path: "/routing/exceptionPolicies/{id}", id: string): UpsertExceptionPolicy;
+  /** Resource for '/routing/exceptionPolicies/\{exceptionPolicyId\}' has methods for the following verbs: patch, get, delete */
+  (
+    path: "/routing/exceptionPolicies/{exceptionPolicyId}",
+    exceptionPolicyId: string
+  ): UpsertExceptionPolicy;
   /** Resource for '/routing/exceptionPolicies' has methods for the following verbs: get */
   (path: "/routing/exceptionPolicies"): ListExceptionPolicies;
-  /** Resource for '/routing/queues/\{id\}' has methods for the following verbs: patch, get, delete */
-  (path: "/routing/queues/{id}", id: string): UpsertQueue;
+  /** Resource for '/routing/queues/\{queueId\}' has methods for the following verbs: patch, get, delete */
+  (path: "/routing/queues/{queueId}", queueId: string): UpsertQueue;
   /** Resource for '/routing/queues' has methods for the following verbs: get */
   (path: "/routing/queues"): ListQueues;
-  /** Resource for '/routing/jobs/\{id\}' has methods for the following verbs: patch, get, delete */
-  (path: "/routing/jobs/{id}", id: string): UpsertJob;
-  /** Resource for '/routing/jobs/\{id\}:reclassify' has methods for the following verbs: post */
-  (path: "/routing/jobs/{id}:reclassify", id: string): ReclassifyJobAction;
-  /** Resource for '/routing/jobs/\{id\}:cancel' has methods for the following verbs: post */
-  (path: "/routing/jobs/{id}:cancel", id: string): CancelJobAction;
-  /** Resource for '/routing/jobs/\{id\}:complete' has methods for the following verbs: post */
-  (path: "/routing/jobs/{id}:complete", id: string): CompleteJobAction;
-  /** Resource for '/routing/jobs/\{id\}:close' has methods for the following verbs: post */
-  (path: "/routing/jobs/{id}:close", id: string): CloseJobAction;
+  /** Resource for '/routing/jobs/\{jobId\}' has methods for the following verbs: patch, get, delete */
+  (path: "/routing/jobs/{jobId}", jobId: string): UpsertJob;
+  /** Resource for '/routing/jobs/\{jobId\}:reclassify' has methods for the following verbs: post */
+  (path: "/routing/jobs/{jobId}:reclassify", jobId: string): ReclassifyJobAction;
+  /** Resource for '/routing/jobs/\{jobId\}:cancel' has methods for the following verbs: post */
+  (path: "/routing/jobs/{jobId}:cancel", jobId: string): CancelJobAction;
+  /** Resource for '/routing/jobs/\{jobId\}:complete' has methods for the following verbs: post */
+  (path: "/routing/jobs/{jobId}:complete", jobId: string): CompleteJobAction;
+  /** Resource for '/routing/jobs/\{jobId\}:close' has methods for the following verbs: post */
+  (path: "/routing/jobs/{jobId}:close", jobId: string): CloseJobAction;
   /** Resource for '/routing/jobs' has methods for the following verbs: get */
   (path: "/routing/jobs"): ListJobs;
-  /** Resource for '/routing/jobs/\{id\}/position' has methods for the following verbs: get */
-  (path: "/routing/jobs/{id}/position", id: string): GetInQueuePosition;
-  /** Resource for '/routing/jobs/\{id\}/assignments/\{assignmentId\}:unassign' has methods for the following verbs: post */
+  /** Resource for '/routing/jobs/\{jobId\}/position' has methods for the following verbs: get */
+  (path: "/routing/jobs/{jobId}/position", jobId: string): GetInQueuePosition;
+  /** Resource for '/routing/jobs/\{jobId\}/assignments/\{assignmentId\}:unassign' has methods for the following verbs: post */
   (
-    path: "/routing/jobs/{id}/assignments/{assignmentId}:unassign",
-    id: string,
+    path: "/routing/jobs/{jobId}/assignments/{assignmentId}:unassign",
+    jobId: string,
     assignmentId: string
   ): UnassignJobAction;
   /** Resource for '/routing/workers/\{workerId\}/offers/\{offerId\}:accept' has methods for the following verbs: post */
@@ -385,8 +394,8 @@ export interface Routes {
     workerId: string,
     offerId: string
   ): DeclineJobAction;
-  /** Resource for '/routing/queues/\{id\}/statistics' has methods for the following verbs: get */
-  (path: "/routing/queues/{id}/statistics", id: string): GetQueueStatistics;
+  /** Resource for '/routing/queues/\{queueId\}/statistics' has methods for the following verbs: get */
+  (path: "/routing/queues/{queueId}/statistics", queueId: string): GetQueueStatistics;
   /** Resource for '/routing/workers/\{workerId\}' has methods for the following verbs: patch, get, delete */
   (path: "/routing/workers/{workerId}", workerId: string): UpsertWorker;
   /** Resource for '/routing/workers' has methods for the following verbs: get */

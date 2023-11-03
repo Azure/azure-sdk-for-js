@@ -46,7 +46,7 @@
     ]
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -100,7 +100,7 @@
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/prettier": "~2.6.3",
     "@types/sinon": "^10.0.0",
     "chai": "^4.2.0",
@@ -125,7 +125,7 @@
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "rollup": "^3.0.0",
-    "sinon": "^15.0.0",
+    "sinon": "^17.0.0",
     "typescript": "~5.2.0",
     "ts-node": "^10.0.0"
   },
