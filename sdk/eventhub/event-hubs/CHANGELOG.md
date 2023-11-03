@@ -7,6 +7,7 @@
 ### Breaking Changes
 
 ### Bugs Fixed
+- Improve event prefetching to not overload the internal queue.
 
 ### Other Changes
 
