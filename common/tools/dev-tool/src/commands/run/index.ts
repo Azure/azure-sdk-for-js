@@ -10,6 +10,7 @@ export default subCommand(commandInfo, {
   "test:node-js-input": () => import("./testNodeJSInput"),
   "test:browser": () => import("./testBrowser"),
   "check-api": () => import("./check-api"),
+  "extract-api": () => import("./extract-api"),
   bundle: () => import("./bundle"),
 
   // "vendored" is a special command that passes through execution to dev-tool's own commands
