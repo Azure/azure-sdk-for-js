@@ -101,7 +101,7 @@ main().catch((error) => {
   process.exit(1);
 });
 ```
-For an example of using Electron app for retrieving a window handle, check [this sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-broker/samples/v1/typescript/src/index.ts).
+For an example of using an Electron app for retrieving a window handle, see [this sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-broker/samples/v1/typescript/src/index.ts).
 
 ## Troubleshooting
 
