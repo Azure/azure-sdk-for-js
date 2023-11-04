@@ -1,76 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { getClient, ClientOptions } from "@azure-rest/core-client";
+import { logger } from "./logger";
 import { KeyCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import {
-  ImageAnalysisResult,
-  ImageUrl,
-  SegmentationMode,
-} from "./models/models.js";
-import {
-  AnalyzeFromStreamOptions,
-  AnalyzeFromUrlOptions,
-  SegmentFromUrlOptions,
-  SegmentFromStreamOptions,
-} from "./models/options.js";
-import {
-  createImageAnalysis,
-  ImageAnalysisClientOptions,
-  ImageAnalysisContext,
-  analyzeFromStream,
-  analyzeFromUrl,
-  segmentFromUrl,
-  segmentFromStream,
-} from "./api/index.js";
+import { ImageAnalysisClient } from "./clientDefinitions";
 
-export { ImageAnalysisClientOptions } from "./api/ImageAnalysisContext.js";
+/**
+ * Initialize a new instance of `ImageAnalysisClient`
+ * @param endpoint - Supported Cognitive Services endpoints (protocol and hostname, for example:
+ * https://<resource-name>.cognitiveservices.azure.com).
+ * @param credentials - uniquely identify client credential
+ * @param options - the parameter for all optional parameters
+ */
+export default function createClient(
+  endpoint: string,
+  credentials: KeyCredential,
+  options: ClientOptions = {}
+): ImageAnalysisClient {
+  const baseUrl = options.baseUrl ?? `${endpoint}/computervision`;
+  options.apiVersion = options.apiVersion ?? "2023-04-01-preview";
+  options = {
+    ...options,
+    credentials: {
+      apiKeyHeaderName:
+        options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
+    },
+  };
 
-export class ImageAnalysisClient {
-  private _client: ImageAnalysisContext;
-  /** The pipeline used by this client to make requests */
-  public readonly pipeline: Pipeline;
+  const userAgentInfo = `azsdk-js-imageAnalysis-rest/1.0.0-beta.1`;
+  const userAgentPrefix =
+    options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+      ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
+      : `${userAgentInfo}`;
+  options = {
+    ...options,
+    userAgentOptions: {
+      userAgentPrefix,
+    },
+    loggingOptions: {
+      logger: options.loggingOptions?.logger ?? logger.info,
+    },
+  };
 
-  constructor(
-    endpoint: string,
-    credential: KeyCredential,
-    options: ImageAnalysisClientOptions = {}
-  ) {
-    this._client = createImageAnalysis(endpoint, credential, options);
-    this.pipeline = this._client.pipeline;
-  }
+  const client = getClient(
+    baseUrl,
+    credentials,
+    options
+  ) as ImageAnalysisClient;
 
-  /** Performs a single Image Analysis operation */
-  analyzeFromStream(
-    imageContent: Uint8Array,
-    options: AnalyzeFromStreamOptions = { requestOptions: {} }
-  ): Promise<ImageAnalysisResult> {
-    return analyzeFromStream(this._client, imageContent, options);
-  }
-
-  /** Performs a single Image Analysis operation */
-  analyzeFromUrl(
-    imageContent: ImageUrl,
-    options: AnalyzeFromUrlOptions = { requestOptions: {} }
-  ): Promise<ImageAnalysisResult> {
-    return analyzeFromUrl(this._client, imageContent, options);
-  }
-
-  /** Segment the input image. An image stream of content type 'image/png' is returned, where the pixel values depend on the analysis mode. The returned image has the same dimensions as the input image for modes: foregroundMatting. The returned image has the same aspect ratio and same dimensions as the input image up to a limit of 16 megapixels for modes: backgroundRemoval. */
-  segmentFromUrl(
-    mode: SegmentationMode,
-    imageContent: ImageUrl,
-    options: SegmentFromUrlOptions = { requestOptions: {} }
-  ): Promise<Uint8Array> {
-    return segmentFromUrl(this._client, mode, imageContent, options);
-  }
-
-  /** Segment the input image. An image stream of content type 'image/png' is returned, where the pixel values depend on the analysis mode. The returned image has the same dimensions as the input image for modes: foregroundMatting. The returned image has the same aspect ratio and same dimensions as the input image up to a limit of 16 megapixels for modes: backgroundRemoval. */
-  segmentFromStream(
-    mode: SegmentationMode,
-    imageContent: Uint8Array,
-    options: SegmentFromStreamOptions = { requestOptions: {} }
-  ): Promise<Uint8Array> {
-    return segmentFromStream(this._client, mode, imageContent, options);
-  }
+  return client;
 }

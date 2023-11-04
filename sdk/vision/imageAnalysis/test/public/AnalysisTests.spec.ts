@@ -2,16 +2,14 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import {
   ImageAnalysisClient,
-  CaptionResult,
-  VisualFeatures,
-  ImageAnalysisResult,
-  ReadResult,
-  ObjectsResult,
-  TagsResult,
+  CaptionResultOutput,
+  ImageAnalysisResultOutput,
+  ReadResultOutput,
+  ObjectsResultOutput,
+  TagsResultOutput,
 } from "../../src/index.js";
 import * as fs from "fs";
-
-import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { createClient, createRecorder } from "./utils/recordedClient";
 import { Recorder } from "@azure-tools/test-recorder";
 
 describe("Analyze Tests", () => {
@@ -28,7 +26,7 @@ describe("Analyze Tests", () => {
   });
 
   it("Analyze from URL", async function () {
-    const allFeatures: VisualFeatures[] = [
+    const allFeatures: string[] = [
       "Caption",
       "DenseCaptions",
       "Objects",
@@ -38,30 +36,40 @@ describe("Analyze Tests", () => {
       "Tags",
     ];
 
-    const someFeatures: VisualFeatures[] = [
+    const someFeatures: string[] = [
       "Caption",
       "Read",
     ];
 
-    const testFeaturesList: VisualFeatures[][] = [allFeatures, someFeatures];
+    const testFeaturesList: string[][] = [allFeatures, someFeatures];
 
     for (const testFeatures of testFeaturesList) {
-      const iaResult = await client.analyzeFromUrl(
-        { url: "https://aka.ms/azai/vision/image-analysis-sample.jpg" },
+      const result = await client.path("/imageanalysis:analyze").post(
         {
-          visualFeatures: testFeatures,
-          smartCropsAspectRatios: [0.9, 1.33],
+          body:
+          {
+            url: "https://aka.ms/azai/vision/image-analysis-sample.jpg"
+          },
+          queryParameters:
+          {
+            features: testFeatures,
+            smartCropsAspectRatios: [0.9, 1.33]
+          },
+          contentType: "application/json"
         }
       );
 
-      assert.isNotNull(iaResult);
+      assert.isNotNull(result);
+      assert.isTrue(result.status === "200");
+      
+      const iaResult: ImageAnalysisResultOutput = result.body as ImageAnalysisResultOutput;
 
       validateResponse(iaResult, testFeatures, false);
     }
   });
 
   it("Analyze from Stream", async function () {
-    const allFeatures: VisualFeatures[] = [
+    const allFeatures: string[] = [
       "Caption",
       "DenseCaptions",
       "Objects",
@@ -70,32 +78,36 @@ describe("Analyze Tests", () => {
       "SmartCrops",
       "Tags",
     ];
-    const someFeatures: VisualFeatures[] = ["Caption", "Read"];
+    const someFeatures: string[] = ["Caption", "Read"];
 
     const fileLocation = process.env.TEST_IMAGE_INPUT_PATH ? process.env.TEST_IMAGE_INPUT_PATH : "./test/image-analysis-sample.jpg";
 
     for (const testFeatures of [allFeatures, someFeatures]) {
       const fileStream = fs.readFileSync(fileLocation);
-      const result = await client.analyzeFromStream(
-        new Uint8Array(fileStream),
+      const result = await client.path("/imageanalysis:analyze").post(
         {
-          visualFeatures: testFeatures,
-          smartCropsAspectRatios: [0.9, 1.33],
+          body: new Uint8Array(fileStream),
+          queryParameters: {
+            features: testFeatures,
+            smartCropsAspectRatios: [0.9, 1.33],
+          },
+          contentType: "application/octet-stream"
         }
       );
 
       assert.isNotNull(result);
-      const iaResult = result;
-      assert.isNotNull(iaResult);
 
-      // Replace the 'validateResponse' function call with the TypeScript equivalent function  
-      // validateResponse(iaResult, testFeatures, false);  
+      assert.isTrue(result.status === "200");
+      
+      const iaResult: ImageAnalysisResultOutput = result.body as ImageAnalysisResultOutput;
+      
+      validateResponse(iaResult, testFeatures, false);
     }
   });
 
   function validateResponse(
-    iaResult: ImageAnalysisResult,
-    testFeatures: VisualFeatures[],
+    iaResult: ImageAnalysisResultOutput,
+    testFeatures: string[],
     genderNeutral: boolean
   ) {
     validateMetadata(iaResult);
@@ -146,7 +158,7 @@ describe("Analyze Tests", () => {
     }
   }
 
-  function validateReadResult(readResult: ReadResult) {
+  function validateReadResult(readResult: ReadResultOutput) {
     assert.isNotNull(readResult);
     assert.isFalse(readResult.modelVersion.trim() === "");
     assert.isFalse(readResult.content.trim() === "");
@@ -162,14 +174,14 @@ describe("Analyze Tests", () => {
     }
   }
 
-  function validateMetadata(iaResult: ImageAnalysisResult) {
+  function validateMetadata(iaResult: ImageAnalysisResultOutput) {
     assert.isAbove(iaResult.metadata.height, 0);
     assert.isAbove(iaResult.metadata.width, 0);
     assert.isFalse(iaResult.modelVersion.trim() === "");
   }
 
   function validateCaption(
-    captionResult: CaptionResult,
+    captionResult: CaptionResultOutput,
     genderNeutral: boolean
   ) {
     assert.isNotNull(captionResult);
@@ -184,7 +196,7 @@ describe("Analyze Tests", () => {
     assert.isTrue(captionResult.text.toLowerCase().includes("laptop"));
   }
 
-  function validateDenseCaptions(iaResult: ImageAnalysisResult) {
+  function validateDenseCaptions(iaResult: ImageAnalysisResultOutput) {
     const denseCaptionsResult = iaResult.denseCaptionsResult;
 
     assert.isNotNull(denseCaptionsResult);
@@ -217,7 +229,7 @@ describe("Analyze Tests", () => {
     }
   }
 
-  function validateObjectsResult(objectsResult: ObjectsResult) {
+  function validateObjectsResult(objectsResult: ObjectsResultOutput) {
     assert.isNotNull(objectsResult);
     assert.isAtLeast(objectsResult.values.length, 0);
 
@@ -235,7 +247,7 @@ describe("Analyze Tests", () => {
     assert.isAtLeast(objectsResult.values.filter(v => v.tags.filter(t => t.name.toLowerCase() === "person")).length, 0);
   }
 
-  function validateTags(tagsResult: TagsResult) {
+  function validateTags(tagsResult: TagsResultOutput) {
     assert.isNotNull(tagsResult);
     assert.isNotNull(tagsResult.values);
     assert.isAtLeast(tagsResult.values.length, 0);
@@ -259,7 +271,7 @@ describe("Analyze Tests", () => {
     assert.isAtLeast(found, 2);
   }
 
-  function validatePeopleResult(iaResult: ImageAnalysisResult) {
+  function validatePeopleResult(iaResult: ImageAnalysisResultOutput) {
     const peopleResult = iaResult.peopleResult;
 
     assert.isNotNull(peopleResult);
@@ -277,7 +289,7 @@ describe("Analyze Tests", () => {
     }
   }
 
-  function validateSmartCrops(iaResult: ImageAnalysisResult) {
+  function validateSmartCrops(iaResult: ImageAnalysisResultOutput) {
     const smartCropsResult = iaResult.smartCropsResult;
     assert.isNotNull(smartCropsResult);
 

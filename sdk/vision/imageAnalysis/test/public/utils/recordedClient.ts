@@ -3,8 +3,8 @@
 
 import { Context } from "mocha";
 import { Recorder, RecorderStartOptions, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import "./env.js";
-import { ImageAnalysisClient } from "../../../src/ImageAnalysisClient.js";
+import "./env";
+import importedCreateClient, { ImageAnalysisClient } from "../../../src/index";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const envSetupForPlayback: Record<string, string> = {
@@ -34,5 +34,5 @@ export async function createClient(recorder: Recorder): Promise<ImageAnalysisCli
   const endpoint = assertEnvironmentVariable("VISION_ENDPOINT");
   const key = assertEnvironmentVariable("VISION_KEY");
   const credential = new AzureKeyCredential(key);
-  return new ImageAnalysisClient(endpoint, credential, recorder.configureClientOptions({}));
+  return importedCreateClient(endpoint, credential, recorder.configureClientOptions({}));
 }

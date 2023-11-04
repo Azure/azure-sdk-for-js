@@ -6,7 +6,7 @@ import {
   AnalyzeFromStreamDefaultResponse,
   SegmentFromUrl200Response,
   SegmentFromUrlDefaultResponse,
-} from "./responses.js";
+} from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "POST /imageanalysis:analyze": ["200"],

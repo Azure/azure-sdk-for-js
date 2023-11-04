@@ -5,11 +5,9 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import {
   ImageAnalysisClient,
-  SegmentationMode
 } from "../../src/index.js";
 import * as fs from "fs";
-
-import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { createClient, createRecorder } from "./utils/recordedClient";
 import { Recorder } from "@azure-tools/test-recorder";
 
 describe("Segment Tests", () => {
@@ -26,26 +24,37 @@ describe("Segment Tests", () => {
   });
 
   it("Segment from URL", async function () {
-    const segmentationModes: SegmentationMode[] = [
+    const segmentationModes: string[] = [
       "ForegroundMatting",
       "BackgroundRemoval",
     ];
 
     for (const mode of segmentationModes) {
-      const result = await client.segmentFromUrl(mode, {
-        url: "https://aka.ms/azai/vision/image-analysis-sample.jpg",
-      });
+      const result = await client.path("/imageanalysis:segment").post(
+        {
+          body: {
+            url: "https://aka.ms/azai/vision/image-analysis-sample.jpg",
+          },
+          queryParameters:
+          {
+            mode: mode
+          },
+          contentType: "application/json"
+        });
 
       assert.isNotNull(result);
-      const newImage = result;
-      assert.isNotNull(newImage);
+
+      assert.isTrue(result.status === "200");
+
+      const newImage = result.body as Uint8Array;
+      assert.notStrictEqual(newImage, undefined);
 
       validateResponse(newImage, mode);
     }
   });
 
   it("Segment from Stream", async function () {
-    const segmentationModes: SegmentationMode[] = [
+    const segmentationModes: string[] = [
       "ForegroundMatting",
       "BackgroundRemoval",
     ];
@@ -54,20 +63,28 @@ describe("Segment Tests", () => {
 
     for (const mode of segmentationModes) {
       const fileStream = fs.readFileSync(fileLocation);
-      const result = await client.segmentFromStream(
-        mode,
-        new Uint8Array(fileStream)
-      );
+      const result = await client.path("/imageanalysis:segment").post(
+        {
+          body: new Uint8Array(fileStream),
+          queryParameters:
+          {
+            mode: mode
+          },
+          contentType: "application/octet-stream"
+        });
 
       assert.isNotNull(result);
-      const newImage = result;
-      assert.isNotNull(newImage);
+
+      assert.isTrue(result.status === "200");
+
+      const newImage = result.body as Uint8Array;
+      assert.notStrictEqual(newImage, undefined);
 
       validateResponse(newImage, mode);
     }
   });
 
-  function validateResponse(data: Uint8Array, mode: SegmentationMode) {
+  function validateResponse(data: Uint8Array, mode: string) {
     const dataArray = data;
 
     // Validate size of output image  

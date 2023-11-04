@@ -4,33 +4,127 @@
 
 ```ts
 
+/// <reference types="node" />
+
+import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
+import { ErrorResponse } from '@azure-rest/core-client';
+import { HttpResponse } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
+import { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
 
 // @public (undocumented)
-export interface AnalyzeFromStreamOptions extends OperationOptions {
-    contentType?: string;
-    genderNeutralCaption?: boolean;
-    language?: string;
-    modelName?: string;
-    smartCropsAspectRatios?: number[];
-    visualFeatures?: VisualFeatures[];
-}
-
-// @public (undocumented)
-export interface AnalyzeFromUrlOptions extends OperationOptions {
-    contentType?: string;
-    genderNeutralCaption?: boolean;
-    language?: string;
-    modelName?: string;
-    smartCropsAspectRatios?: number[];
-    visualFeatures?: VisualFeatures[];
+export interface AnalyzeFromStream {
+    post(options: AnalyzeFromStreamParameters): StreamableMethod<AnalyzeFromStream200Response | AnalyzeFromStreamDefaultResponse>;
+    post(options: AnalyzeFromUrlParameters): StreamableMethod<AnalyzeFromUrl200Response | AnalyzeFromUrlDefaultResponse>;
 }
 
 // @public
-export interface BoundingBox {
+export interface AnalyzeFromStream200Response extends HttpResponse {
+    // (undocumented)
+    body: ImageAnalysisResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface AnalyzeFromStreamBodyParam {
+    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+}
+
+// @public (undocumented)
+export interface AnalyzeFromStreamDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface AnalyzeFromStreamDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & AnalyzeFromStreamDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface AnalyzeFromStreamMediaTypesParam {
+    contentType: "application/octet-stream";
+}
+
+// @public (undocumented)
+export type AnalyzeFromStreamParameters = AnalyzeFromStreamQueryParam & AnalyzeFromStreamMediaTypesParam & AnalyzeFromStreamBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface AnalyzeFromStreamQueryParam {
+    // (undocumented)
+    queryParameters?: AnalyzeFromStreamQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface AnalyzeFromStreamQueryParamProperties {
+    "gender-neutral-caption"?: boolean;
+    "model-name"?: string;
+    "smartcrops-aspect-ratios"?: number[];
+    features?: string[];
+    language?: string;
+}
+
+// @public
+export interface AnalyzeFromUrl200Response extends HttpResponse {
+    // (undocumented)
+    body: ImageAnalysisResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface AnalyzeFromUrlBodyParam {
+    body: ImageUrl;
+}
+
+// @public (undocumented)
+export interface AnalyzeFromUrlDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface AnalyzeFromUrlDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & AnalyzeFromUrlDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface AnalyzeFromUrlMediaTypesParam {
+    contentType: "application/json";
+}
+
+// @public (undocumented)
+export type AnalyzeFromUrlParameters = AnalyzeFromUrlQueryParam & AnalyzeFromUrlMediaTypesParam & AnalyzeFromUrlBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface AnalyzeFromUrlQueryParam {
+    // (undocumented)
+    queryParameters?: AnalyzeFromUrlQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface AnalyzeFromUrlQueryParamProperties {
+    "gender-neutral-caption"?: boolean;
+    "model-name"?: string;
+    "smartcrops-aspect-ratios"?: number[];
+    features?: string[];
+    language?: string;
+}
+
+// @public
+export interface BoundingBoxOutput {
     h: number;
     w: number;
     x: number;
@@ -38,122 +132,117 @@ export interface BoundingBox {
 }
 
 // @public
-export interface CaptionResult {
+export interface CaptionResultOutput {
     confidence: number;
     text: string;
 }
 
 // @public
-export interface CropRegion {
+function createClient(endpoint: string, credentials: KeyCredential, options?: ClientOptions): ImageAnalysisClient;
+export default createClient;
+
+// @public
+export interface CropRegionOutput {
     aspectRatio: number;
-    boundingBox: BoundingBox;
+    boundingBox: BoundingBoxOutput;
 }
 
 // @public
-export interface CustomModelResult {
-    objectsResult: ObjectsResult;
-    tagsResult: TagsResult;
+export interface CustomModelResultOutput {
+    objectsResult: ObjectsResultOutput;
+    tagsResult: TagsResultOutput;
 }
 
 // @public
-export interface DenseCaption {
-    boundingBox: BoundingBox;
+export interface DenseCaptionOutput {
+    boundingBox: BoundingBoxOutput;
     confidence: number;
     text: string;
 }
 
 // @public
-export interface DenseCaptionsResult {
-    values: DenseCaption[];
+export interface DenseCaptionsResultOutput {
+    values: Array<DenseCaptionOutput>;
 }
 
 // @public
-export interface DetectedObject {
-    boundingBox: BoundingBox;
-    tags: DetectedTag[];
+export interface DetectedObjectOutput {
+    boundingBox: BoundingBoxOutput;
+    tags: Array<DetectedTagOutput>;
 }
 
 // @public
-export interface DetectedPerson {
-    readonly boundingBox: BoundingBox;
+export interface DetectedPersonOutput {
+    readonly boundingBox: BoundingBoxOutput;
     readonly confidence: number;
 }
 
 // @public
-export interface DetectedTag {
+export interface DetectedTagOutput {
     confidence: number;
     name: string;
 }
 
 // @public
-export interface DocumentLine {
+export interface DocumentLineOutput {
     boundingBox: number[];
     content: string;
-    spans: DocumentSpan[];
+    spans: Array<DocumentSpanOutput>;
 }
 
 // @public
-export interface DocumentPage {
+export interface DocumentPageOutput {
     angle: number;
     height: number;
-    lines: DocumentLine[];
+    lines: Array<DocumentLineOutput>;
     pageNumber: number;
-    spans: DocumentSpan[];
+    spans: Array<DocumentSpanOutput>;
     width: number;
-    words: DocumentWord[];
+    words: Array<DocumentWordOutput>;
 }
 
 // @public
-export interface DocumentSpan {
+export interface DocumentSpanOutput {
     length: number;
     offset: number;
 }
 
 // @public
-export interface DocumentStyle {
+export interface DocumentStyleOutput {
     confidence: number;
     isHandwritten: boolean;
-    spans: DocumentSpan[];
+    spans: Array<DocumentSpanOutput>;
 }
 
 // @public
-export interface DocumentWord {
+export interface DocumentWordOutput {
     boundingBox: number[];
     confidence: number;
     content: string;
-    span: DocumentSpan;
+    span: DocumentSpanOutput;
 }
 
 // @public (undocumented)
-export class ImageAnalysisClient {
-    constructor(endpoint: string, credential: KeyCredential, options?: ImageAnalysisClientOptions);
-    analyzeFromStream(imageContent: Uint8Array, options?: AnalyzeFromStreamOptions): Promise<ImageAnalysisResult>;
-    analyzeFromUrl(imageContent: ImageUrl, options?: AnalyzeFromUrlOptions): Promise<ImageAnalysisResult>;
-    readonly pipeline: Pipeline;
-    segmentFromStream(mode: SegmentationMode, imageContent: Uint8Array, options?: SegmentFromStreamOptions): Promise<Uint8Array>;
-    segmentFromUrl(mode: SegmentationMode, imageContent: ImageUrl, options?: SegmentFromUrlOptions): Promise<Uint8Array>;
-}
-
-// @public (undocumented)
-export interface ImageAnalysisClientOptions extends ClientOptions {
-}
+export type ImageAnalysisClient = Client & {
+    path: Routes;
+};
 
 // @public
-export interface ImageAnalysisResult {
-    captionResult?: CaptionResult;
-    customModelResult?: CustomModelResult;
-    denseCaptionsResult?: DenseCaptionsResult;
-    metadata: ImageMetadata;
+export interface ImageAnalysisResultOutput {
+    captionResult?: CaptionResultOutput;
+    customModelResult?: CustomModelResultOutput;
+    denseCaptionsResult?: DenseCaptionsResultOutput;
+    metadata: ImageMetadataOutput;
     modelVersion: string;
-    objectsResult?: ObjectsResult;
-    peopleResult?: PeopleResult;
-    readResult?: ReadResult;
-    smartCropsResult?: SmartCropsResult;
-    tagsResult?: TagsResult;
+    objectsResult?: ObjectsResultOutput;
+    peopleResult?: PeopleResultOutput;
+    readResult?: ReadResultOutput;
+    smartCropsResult?: SmartCropsResultOutput;
+    tagsResult?: TagsResultOutput;
 }
 
 // @public
-export interface ImageMetadata {
+export interface ImageMetadataOutput {
     height: number;
     width: number;
 }
@@ -164,49 +253,148 @@ export interface ImageUrl {
 }
 
 // @public
-export interface ObjectsResult {
-    values: DetectedObject[];
+export interface ImageUrlOutput {
+    url: string;
+}
+
+// @public (undocumented)
+export function isUnexpected(response: AnalyzeFromStream200Response | AnalyzeFromStreamDefaultResponse): response is AnalyzeFromStreamDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: SegmentFromUrl200Response | SegmentFromUrlDefaultResponse): response is SegmentFromUrlDefaultResponse;
+
+// @public
+export interface ObjectsResultOutput {
+    values: Array<DetectedObjectOutput>;
 }
 
 // @public
-export interface PeopleResult {
-    values: DetectedPerson[];
+export interface PeopleResultOutput {
+    values: Array<DetectedPersonOutput>;
 }
 
 // @public
-export interface ReadResult {
+export interface ReadResultOutput {
     content: string;
     modelVersion: string;
-    pages: DocumentPage[];
+    pages: Array<DocumentPageOutput>;
     stringIndexType: string;
-    styles: DocumentStyle[];
-}
-
-// @public
-export type SegmentationMode = string;
-
-// @public (undocumented)
-export interface SegmentFromStreamOptions extends OperationOptions {
-    contentType?: string;
+    styles: Array<DocumentStyleOutput>;
 }
 
 // @public (undocumented)
-export interface SegmentFromUrlOptions extends OperationOptions {
-    contentType?: string;
+export interface Routes {
+    (path: "/imageanalysis:analyze"): AnalyzeFromStream;
+    (path: "/imageanalysis:segment"): SegmentFromUrl;
 }
 
 // @public
-export interface SmartCropsResult {
-    values: CropRegion[];
+export interface SegmentFromStream200Response extends HttpResponse {
+    body: Uint8Array;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface SegmentFromStreamBodyParam {
+    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+}
+
+// @public (undocumented)
+export interface SegmentFromStreamDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface SegmentFromStreamDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & SegmentFromStreamDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface SegmentFromStreamMediaTypesParam {
+    contentType: "application/octet-stream";
+}
+
+// @public (undocumented)
+export type SegmentFromStreamParameters = SegmentFromStreamQueryParam & SegmentFromStreamMediaTypesParam & SegmentFromStreamBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface SegmentFromStreamQueryParam {
+    // (undocumented)
+    queryParameters: SegmentFromStreamQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface SegmentFromStreamQueryParamProperties {
+    mode: string;
+}
+
+// @public (undocumented)
+export interface SegmentFromUrl {
+    post(options: SegmentFromUrlParameters): StreamableMethod<SegmentFromUrl200Response | SegmentFromUrlDefaultResponse>;
+    post(options: SegmentFromStreamParameters): StreamableMethod<SegmentFromStream200Response | SegmentFromStreamDefaultResponse>;
 }
 
 // @public
-export interface TagsResult {
-    values: DetectedTag[];
+export interface SegmentFromUrl200Response extends HttpResponse {
+    body: Uint8Array;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface SegmentFromUrlBodyParam {
+    body: ImageUrl;
+}
+
+// @public (undocumented)
+export interface SegmentFromUrlDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface SegmentFromUrlDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & SegmentFromUrlDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface SegmentFromUrlMediaTypesParam {
+    contentType: "application/json";
+}
+
+// @public (undocumented)
+export type SegmentFromUrlParameters = SegmentFromUrlQueryParam & SegmentFromUrlMediaTypesParam & SegmentFromUrlBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface SegmentFromUrlQueryParam {
+    // (undocumented)
+    queryParameters: SegmentFromUrlQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface SegmentFromUrlQueryParamProperties {
+    mode: string;
 }
 
 // @public
-export type VisualFeatures = string;
+export interface SmartCropsResultOutput {
+    values: Array<CropRegionOutput>;
+}
+
+// @public
+export interface TagsResultOutput {
+    values: Array<DetectedTagOutput>;
+}
 
 // (No @packageDocumentation comment for this package)
 

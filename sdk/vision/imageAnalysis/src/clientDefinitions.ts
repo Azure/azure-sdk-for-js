@@ -6,7 +6,7 @@ import {
   AnalyzeFromUrlParameters,
   SegmentFromUrlParameters,
   SegmentFromStreamParameters,
-} from "./parameters.js";
+} from "./parameters";
 import {
   AnalyzeFromStream200Response,
   AnalyzeFromStreamDefaultResponse,
@@ -16,7 +16,7 @@ import {
   SegmentFromUrlDefaultResponse,
   SegmentFromStream200Response,
   SegmentFromStreamDefaultResponse,
-} from "./responses.js";
+} from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface AnalyzeFromStream {
@@ -56,6 +56,6 @@ export interface Routes {
   (path: "/imageanalysis:segment"): SegmentFromUrl;
 }
 
-export type ImageAnalysisContext = Client & {
+export type ImageAnalysisClient = Client & {
   path: Routes;
 };

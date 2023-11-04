@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { RequestParameters } from "@azure-rest/core-client";
-import { ImageUrl } from "./models.js";
+import { ImageUrl } from "./models";
 
 export interface AnalyzeFromStreamBodyParam {
   /**
