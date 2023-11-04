@@ -42,13 +42,13 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: (options.authorizationScopes && options.credentials?.scopes) ?? [
-        `${baseUrl}/.default`,
-      ],
-      apiKeyHeaderName:
-        (options.apiKeyHeader && options.credentials?.apiKeyHeaderName) ?? "api-key",
+      scopes: options.authorizationScopes ?? options.credentials?.scopes ?? [`${baseUrl}/.default`],
+      apiKeyHeaderName: options.apiKeyHeader ?? options.credentials?.apiKeyHeaderName ?? "api-key",
     },
   };
-  const client = getClient(baseUrl, credentials, options) as ChatProtocolContext;
+  const client = {
+    ...getClient(baseUrl, credentials, options),
+    chatRoute: options?.chatRoute ?? "/chat",
+  } as ChatProtocolContext;
   return client;
 }

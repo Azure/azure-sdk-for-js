@@ -4,7 +4,7 @@
 import { getClient } from "@azure-rest/core-client";
 import { logger } from "../../generated/src/logger.js";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
-import { ChatProtocolContext } from "../../generated/src/rest/clientDefinitions.js";
+import { ChatProtocolContext } from "./clientDefinitions.js";
 import { ChatProtocolClientOptions } from "../api/ChatProtocolContext.js";
 
 /**
@@ -34,15 +34,14 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: (options.authorizationScopes && options.credentials?.scopes) ?? [
-        `${baseUrl}/.default`,
-      ],
-      apiKeyHeaderName:
-        (options.apiKeyHeader && options.credentials?.apiKeyHeaderName) ?? "api-key",
+      scopes: options.authorizationScopes ?? options.credentials?.scopes ?? [`${baseUrl}/.default`],
+      apiKeyHeaderName: options.apiKeyHeader ?? options.credentials?.apiKeyHeaderName ?? "api-key",
     },
   };
 
-  const client = getClient(baseUrl, credentials, options) as ChatProtocolContext;
-
+  const client = {
+    ...getClient(baseUrl, credentials, options),
+    chatRoute: options?.chatRoute ?? "/chat",
+  } as ChatProtocolContext;
   return client;
 }
