@@ -12,11 +12,11 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ChatChoice {
-    context?: Record<string, any>;
+    context?: Record<string, unknown>;
     finishReason: FinishReason;
     index: number;
     message: ChatMessage;
-    sessionState?: any;
+    sessionState?: unknown;
 }
 
 // @public
@@ -31,9 +31,9 @@ export interface ChatCompletionChunk {
 
 // @public
 export interface ChatCompletionOptions {
-    context?: Record<string, any>;
+    context?: Record<string, unknown>;
     messages: ChatMessage[];
-    sessionState?: any;
+    sessionState?: unknown;
     stream: false;
 }
 
@@ -41,14 +41,14 @@ export interface ChatCompletionOptions {
 export interface ChatMessage {
     content: string;
     role: ChatRole;
-    sessionState?: any;
+    sessionState?: unknown;
 }
 
 // @public
 export interface ChatMessageDelta {
     content?: string;
     role?: ChatRole;
-    sessionState?: any;
+    sessionState?: unknown;
 }
 
 // @public (undocumented)
@@ -62,6 +62,12 @@ export class ChatProtocolClient {
 
 // @public (undocumented)
 export interface ChatProtocolClientOptions extends ClientOptions {
+    // (undocumented)
+    apiKeyHeader?: string;
+    // (undocumented)
+    authorizationScopes?: string[];
+    // (undocumented)
+    chatRoute?: string;
 }
 
 // @public
@@ -69,11 +75,11 @@ export type ChatRole = string;
 
 // @public
 export interface ChoiceDelta {
-    context?: Record<string, any>;
+    context?: Record<string, unknown>;
     delta: ChatMessageDelta;
     finishReason?: FinishReason;
     index: number;
-    sessionState?: any;
+    sessionState?: unknown;
 }
 
 // @public (undocumented)
@@ -89,9 +95,9 @@ export type FinishReason = string;
 
 // @public
 export interface StreamingChatCompletionOptions {
-    context?: Record<string, any>;
+    context?: Record<string, unknown>;
     messages: ChatMessage[];
-    sessionState?: any;
+    sessionState?: unknown;
     stream: true;
 }
 

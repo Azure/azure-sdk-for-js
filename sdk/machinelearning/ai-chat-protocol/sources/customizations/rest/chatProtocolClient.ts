@@ -1,19 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
 import { getClient } from "@azure-rest/core-client";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { ChatProtocolClientOptions } from "../ChatProtocolClient.js";
-import { logger } from "../logger.js";
-import { ChatProtocolContext } from "./clientDefinitions.js";
+import { logger } from "../../generated/src/logger.js";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
+import { ChatProtocolContext } from "../../generated/src/rest/clientDefinitions.js";
+import { ChatProtocolClientOptions } from "../api/ChatProtocolContext.js";
 
 /**
  * Initialize a new instance of `ChatProtocolContext`
@@ -49,6 +41,8 @@ export default function createClient(
         (options.apiKeyHeader && options.credentials?.apiKeyHeaderName) ?? "api-key",
     },
   };
+
   const client = getClient(baseUrl, credentials, options) as ChatProtocolContext;
+
   return client;
 }

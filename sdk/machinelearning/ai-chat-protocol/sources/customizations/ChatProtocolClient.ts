@@ -8,7 +8,7 @@ import {
   ChatCompletionChunk,
   ChatMessage,
 } from "../generated/src/models/models.js";
-import { ChatProtocolContext } from "../generated/src/rest";
+import { ChatProtocolContext } from "./rest/clientDefinitions.js";
 import { createStreaming } from "./api/operations.js";
 import { CompletionOptions } from "./models/options.js";
 
@@ -33,6 +33,6 @@ export class ChatProtocolClient {
       sessionState: options.sessionState,
       context: options.context,
     };
-    return create(this._client, body, options);
+    return create(this._client, this._client.chatRoute, body, options);
   }
 }

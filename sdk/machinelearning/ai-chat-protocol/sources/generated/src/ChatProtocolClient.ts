@@ -37,17 +37,19 @@ export class ChatProtocolClient {
 
   /** Creates a new streaming chat completion. */
   createStreaming(
+    operationRoute: string,
     body: StreamingChatCompletionOptions,
     options: CreateStreamingOptions = { requestOptions: {} }
   ): Promise<ChatCompletionChunk> {
-    return createStreaming(this._client, body, options);
+    return createStreaming(this._client, operationRoute, body, options);
   }
 
   /** Creates a new chat completion. */
   create(
+    operationRoute: string,
     body: ChatCompletionOptions,
     options: CreateOptions = { requestOptions: {} }
   ): Promise<ChatCompletion> {
-    return create(this._client, body, options);
+    return create(this._client, operationRoute, body, options);
   }
 }

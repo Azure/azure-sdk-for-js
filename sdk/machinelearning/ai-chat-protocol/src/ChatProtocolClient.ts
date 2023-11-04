@@ -62,6 +62,6 @@ export class ChatProtocolClient {
       sessionState: options.sessionState,
       context: options.context,
     };
-    return create(this._client, body, options);
+    return create(this._client, this._client.chatRoute, body, options);
   }
 }

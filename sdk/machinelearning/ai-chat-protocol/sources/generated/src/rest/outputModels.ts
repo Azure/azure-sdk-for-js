@@ -17,7 +17,7 @@ export interface ChatMessageOutput {
    * sends a new one. The data in this field can be used to implement stateful services, such as remembering previous
    * conversations or user preferences.
    */
-  session_state?: any;
+  sessionState?: any;
 }
 
 /** A single response to a streaming completion request. */
@@ -38,7 +38,7 @@ export interface ChoiceDeltaOutput {
    * sends a new one. The data in this field can be used to implement stateful services, such as remembering previous
    * conversations or user preferences.
    */
-  session_state?: any;
+  sessionState?: any;
   /**
    * Context allows the chat app to receive extra parameters from the client, such as temperature, functions, or
    * customer_info. These parameters are specific to the chat app and not understood by the generic clients.
@@ -49,7 +49,7 @@ export interface ChoiceDeltaOutput {
    *
    * Possible values: stop, length
    */
-  finish_reason?: string;
+  finishReason?: string;
 }
 
 /** The representation of a delta message received in a streaming completion. */
@@ -68,7 +68,7 @@ export interface ChatMessageDeltaOutput {
    * sends a new one. The data in this field can be used to implement stateful services, such as remembering previous
    * conversations or user preferences.
    */
-  session_state?: any;
+  sessionState?: any;
 }
 
 /** Representation of the response to a chat completion request. */
@@ -89,7 +89,7 @@ export interface ChatChoiceOutput {
    * sends a new one. The data in this field can be used to implement stateful services, such as remembering previous
    * conversations or user preferences.
    */
-  session_state?: any;
+  sessionState?: any;
   /**
    * Context allows the chat app to receive extra parameters from the client, such as temperature, functions, or
    * customer_info. These parameters are specific to the chat app and not understood by the generic clients.
@@ -100,5 +100,5 @@ export interface ChatChoiceOutput {
    *
    * Possible values: stop, length
    */
-  finish_reason: string;
+  finishReason: string;
 }

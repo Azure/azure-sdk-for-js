@@ -17,15 +17,16 @@ import { CreateStreamingOptions, CreateOptions } from "../models/options.js";
 
 export function _createStreamingSend(
   context: Client,
+  operationRoute: string,
   body: StreamingChatCompletionOptions,
   options: CreateStreamingOptions = { requestOptions: {} }
 ): StreamableMethod<CreateStreaming200Response> {
-  return context.path("/chat").post({
+  return context.path("/{operationRoute}", operationRoute).post({
     ...operationOptionsToRequestParameters(options),
     body: {
       messages: body.messages as any,
       stream: body["stream"],
-      session_state: body["sessionState"],
+      sessionState: body["sessionState"],
       context: body["context"],
     },
   });
@@ -44,11 +45,11 @@ export async function _createStreamingDeserialize(
       delta: {
         content: p.delta["content"],
         role: p.delta["role"],
-        sessionState: p.delta["session_state"],
+        sessionState: p.delta["sessionState"],
       },
-      sessionState: p["session_state"],
+      sessionState: p["sessionState"],
       context: p["context"],
-      finishReason: p["finish_reason"],
+      finishReason: p["finishReason"],
     })),
   };
 }
@@ -56,24 +57,26 @@ export async function _createStreamingDeserialize(
 /** Creates a new streaming chat completion. */
 export async function createStreaming(
   context: Client,
+  operationRoute: string,
   body: StreamingChatCompletionOptions,
   options: CreateStreamingOptions = { requestOptions: {} }
 ): Promise<ChatCompletionChunk> {
-  const result = await _createStreamingSend(context, body, options);
+  const result = await _createStreamingSend(context, operationRoute, body, options);
   return _createStreamingDeserialize(result);
 }
 
 export function _createSend(
   context: Client,
+  operationRoute: string,
   body: ChatCompletionOptions,
   options: CreateOptions = { requestOptions: {} }
 ): StreamableMethod<Create200Response> {
-  return context.path("/chat").post({
+  return context.path("/{operationRoute}", operationRoute).post({
     ...operationOptionsToRequestParameters(options),
     body: {
       messages: body.messages as any,
       stream: body["stream"],
-      session_state: body["sessionState"],
+      sessionState: body["sessionState"],
       context: body["context"],
     },
   });
@@ -88,9 +91,9 @@ export async function _createDeserialize(result: Create200Response): Promise<Cha
     choices: (result.body["choices"] ?? []).map((p) => ({
       index: p["index"],
       message: p.message as any,
-      sessionState: p["session_state"],
+      sessionState: p["sessionState"],
       context: p["context"],
-      finishReason: p["finish_reason"],
+      finishReason: p["finishReason"],
     })),
   };
 }
@@ -98,9 +101,10 @@ export async function _createDeserialize(result: Create200Response): Promise<Cha
 /** Creates a new chat completion. */
 export async function create(
   context: Client,
+  operationRoute: string,
   body: ChatCompletionOptions,
   options: CreateOptions = { requestOptions: {} }
 ): Promise<ChatCompletion> {
-  const result = await _createSend(context, body, options);
+  const result = await _createSend(context, operationRoute, body, options);
   return _createDeserialize(result);
 }

@@ -9,9 +9,9 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { CreateStreamingParameters, CreateParameters } from "./parameters.js";
-import { CreateStreaming200Response, Create200Response } from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
+import { CreateParameters, CreateStreamingParameters } from "./parameters.js";
+import { Create200Response, CreateStreaming200Response } from "./responses.js";
 
 export interface CreateStreaming {
   /** Creates a new streaming chat completion. */
@@ -21,10 +21,10 @@ export interface CreateStreaming {
 }
 
 export interface Routes {
-  /** Resource for '/chat' has methods for the following verbs: post */
-  (path: "/chat"): CreateStreaming;
+  (path: string): CreateStreaming;
 }
 
 export type ChatProtocolContext = Client & {
   path: Routes;
+  chatRoute: string;
 };

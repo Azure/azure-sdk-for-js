@@ -13,8 +13,8 @@ export interface CreateStreaming {
 }
 
 export interface Routes {
-  /** Resource for '/chat' has methods for the following verbs: post */
-  (path: "/chat"): CreateStreaming;
+  /** Resource for '/\{operationRoute\}' has methods for the following verbs: post */
+  (path: "/{operationRoute}", operationRoute: string): CreateStreaming;
 }
 
 export type ChatProtocolContext = Client & {

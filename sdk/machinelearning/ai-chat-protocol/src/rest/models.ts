@@ -21,7 +21,7 @@ export interface StreamingChatCompletionOptions {
    * sends a new one. The data in this field can be used to implement stateful services, such as remembering previous
    * conversations or user preferences.
    */
-  session_state?: unknown;
+  sessionState?: unknown;
   /**
    * Context allows the chat app to receive extra parameters from the client, such as temperature, functions, or
    * customer_info. These parameters are specific to the chat app and not understood by the generic clients.
@@ -45,7 +45,7 @@ export interface ChatMessage {
    * sends a new one. The data in this field can be used to implement stateful services, such as remembering previous
    * conversations or user preferences.
    */
-  session_state?: unknown;
+  sessionState?: unknown;
 }
 
 /** The configuration for a chat completion request. */
@@ -60,7 +60,7 @@ export interface ChatCompletionOptions {
    * sends a new one. The data in this field can be used to implement stateful services, such as remembering previous
    * conversations or user preferences.
    */
-  session_state?: unknown;
+  sessionState?: unknown;
   /**
    * Context allows the chat app to receive extra parameters from the client, such as temperature, functions, or
    * customer_info. These parameters are specific to the chat app and not understood by the generic clients.
