@@ -2,7 +2,18 @@
 
 ## 12.0.0 (2023-11-07)
 
+### Features Added
+
+- Added support for vector search
+- Added support for semantic search and reranking
+- New `SearchIndexerSkill`s
+  - `EntityLinkingSkill`
+  - `EntityRecognitionSkillV3`
+  - `PIIDetectionSkill`
+  - `SentimentSkillV3`
+
 ### Breaking Changes
+
 - Trivial type changes
   - In multiple locations: All nullable optional properties can no longer be assigned `null`. Use `undefined` instead.
   - In multiple locations: Some properties with `any` type have been narrowed. 
@@ -33,16 +44,6 @@
 - Added type narrowing for response types based on `select`ed fields
 - For types that are generic on a model type, the model type is now constrained to extend `object`
 
-### Features Added
-
-- Added support for vector search
-- Added support for semantic search and reranking
-- New `SearchIndexerSkill`s
-  - `EntityLinkingSkill`
-  - `EntityRecognitionSkillV3`
-  - `PIIDetectionSkill`
-  - `SentimentSkillV3`
-
 ### Other Changes
 
 - Deprecated `apiVersion` in favor of `serviceVersion` in clients:
@@ -51,6 +52,7 @@
   - `SearchIndexerClient`
 
 ### Note
+
 - This GA release introduces bug fixes, convenience improvements, and select features from prior beta releases. Except for the features listed in these release notes, no preview features are being pulled into this release.
 
 ## 11.3.3 (2023-09-27)
