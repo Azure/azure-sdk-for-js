@@ -145,7 +145,7 @@ export interface ListSearchResultsPageSettings {
  * Options for retrieving completion text for a partial searchText.
  */
 export type AutocompleteOptions<TModel extends object> = OperationOptions &
-  AutocompleteRequestOptions<TModel>;
+  AutocompleteRequest<TModel>;
 /**
  * Options for committing a full search request.
  */
@@ -159,7 +159,7 @@ export type SearchOptions<
 export type SuggestOptions<
   TModel extends object,
   TFields extends SelectFields<TModel> = SelectFields<TModel>
-> = OperationOptions & SuggestRequestOptions<TModel, TFields>;
+> = OperationOptions & SuggestRequest<TModel, TFields>;
 
 /**
  * An iterator for search results of a paticular query. Will make requests
@@ -579,7 +579,7 @@ export interface SearchDocumentsPageResult<
 /**
  * Parameters for filtering, sorting, fuzzy matching, and other suggestions query behaviors.
  */
-export interface SuggestRequestOptions<
+export interface SuggestRequest<
   TModel extends object,
   TFields extends SelectFields<TModel> = SelectFields<TModel>
 > {
@@ -677,7 +677,7 @@ export interface SuggestDocumentsResult<
 /**
  * Parameters for fuzzy matching, and other autocomplete query behaviors.
  */
-export interface AutocompleteRequestOptions<TModel extends object> {
+export interface AutocompleteRequest<TModel extends object> {
   /**
    * Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles
    * and 'oneTermWithContext' to use the current context while producing auto-completed terms.

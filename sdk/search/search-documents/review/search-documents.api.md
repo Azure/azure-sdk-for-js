@@ -23,21 +23,21 @@ export interface AnalyzedTokenInfo {
 }
 
 // @public
-export interface AnalyzeResult {
-    tokens: AnalyzedTokenInfo[];
-}
-
-// @public
-export type AnalyzeTextOptions = OperationOptions & AnalyzeTextRequestOptions;
-
-// @public
-export type AnalyzeTextRequestOptions = {
+export type AnalyzeRequest = {
     text: string;
     analyzerName?: LexicalAnalyzerName;
     tokenizerName?: LexicalTokenizerName;
     tokenFilters?: TokenFilterName[];
     charFilters?: CharFilterName[];
 };
+
+// @public
+export interface AnalyzeResult {
+    tokens: AnalyzedTokenInfo[];
+}
+
+// @public
+export type AnalyzeTextOptions = OperationOptions & AnalyzeRequest;
 
 // @public
 export interface AsciiFoldingTokenFilter extends BaseTokenFilter {
@@ -55,10 +55,10 @@ export interface AutocompleteItem {
 export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
 
 // @public
-export type AutocompleteOptions<TModel extends object> = OperationOptions & AutocompleteRequestOptions<TModel>;
+export type AutocompleteOptions<TModel extends object> = OperationOptions & AutocompleteRequest<TModel>;
 
 // @public
-export interface AutocompleteRequestOptions<TModel extends object> {
+export interface AutocompleteRequest<TModel extends object> {
     autocompleteMode?: AutocompleteMode;
     filter?: string;
     highlightPostTag?: string;
@@ -788,128 +788,7 @@ export interface KeywordTokenizer {
 }
 
 // @public
-export enum KnownCharFilterNames {
-    HtmlStrip = "html_strip"
-}
-
-// @public
-export enum KnownCustomEntityLookupSkillLanguage {
-    Da = "da",
-    De = "de",
-    En = "en",
-    Es = "es",
-    Fi = "fi",
-    Fr = "fr",
-    It = "it",
-    Ko = "ko",
-    Pt = "pt"
-}
-
-// @public
-export enum KnownEntityRecognitionSkillLanguage {
-    Ar = "ar",
-    Cs = "cs",
-    Da = "da",
-    De = "de",
-    El = "el",
-    En = "en",
-    Es = "es",
-    Fi = "fi",
-    Fr = "fr",
-    Hu = "hu",
-    It = "it",
-    Ja = "ja",
-    Ko = "ko",
-    Nl = "nl",
-    No = "no",
-    Pl = "pl",
-    PtBR = "pt-BR",
-    PtPT = "pt-PT",
-    Ru = "ru",
-    Sv = "sv",
-    Tr = "tr",
-    ZhHans = "zh-Hans",
-    ZhHant = "zh-Hant"
-}
-
-// @public
-export enum KnownImageAnalysisSkillLanguage {
-    Ar = "ar",
-    Az = "az",
-    Bg = "bg",
-    Bs = "bs",
-    Ca = "ca",
-    Cs = "cs",
-    Cy = "cy",
-    Da = "da",
-    De = "de",
-    El = "el",
-    En = "en",
-    Es = "es",
-    Et = "et",
-    Eu = "eu",
-    Fi = "fi",
-    Fr = "fr",
-    Ga = "ga",
-    Gl = "gl",
-    He = "he",
-    Hi = "hi",
-    Hr = "hr",
-    Hu = "hu",
-    Id = "id",
-    It = "it",
-    Ja = "ja",
-    Kk = "kk",
-    Ko = "ko",
-    Lt = "lt",
-    Lv = "lv",
-    Mk = "mk",
-    Ms = "ms",
-    Nb = "nb",
-    Nl = "nl",
-    Pl = "pl",
-    Prs = "prs",
-    Pt = "pt",
-    PtBR = "pt-BR",
-    PtPT = "pt-PT",
-    Ro = "ro",
-    Ru = "ru",
-    Sk = "sk",
-    Sl = "sl",
-    SrCyrl = "sr-Cyrl",
-    SrLatn = "sr-Latn",
-    Sv = "sv",
-    Th = "th",
-    Tr = "tr",
-    Uk = "uk",
-    Vi = "vi",
-    Zh = "zh",
-    ZhHans = "zh-Hans",
-    ZhHant = "zh-Hant"
-}
-
-// @public
-export enum KnownKeyPhraseExtractionSkillLanguage {
-    Da = "da",
-    De = "de",
-    En = "en",
-    Es = "es",
-    Fi = "fi",
-    Fr = "fr",
-    It = "it",
-    Ja = "ja",
-    Ko = "ko",
-    Nl = "nl",
-    No = "no",
-    Pl = "pl",
-    PtBR = "pt-BR",
-    PtPT = "pt-PT",
-    Ru = "ru",
-    Sv = "sv"
-}
-
-// @public
-export enum KnownLexicalAnalyzerNames {
+export enum KnownAnalyzerNames {
     ArLucene = "ar.lucene",
     ArMicrosoft = "ar.microsoft",
     BgLucene = "bg.lucene",
@@ -1006,20 +885,171 @@ export enum KnownLexicalAnalyzerNames {
 }
 
 // @public
-export enum KnownLexicalTokenizerNames {
-    Classic = "classic",
-    EdgeNGram = "edgeNGram",
-    Keyword = "keyword_v2",
-    Letter = "letter",
-    Lowercase = "lowercase",
-    MicrosoftLanguageStemmingTokenizer = "microsoft_language_stemming_tokenizer",
-    MicrosoftLanguageTokenizer = "microsoft_language_tokenizer",
-    NGram = "nGram",
-    PathHierarchy = "path_hierarchy_v2",
-    Pattern = "pattern",
-    Standard = "standard_v2",
-    UaxUrlEmail = "uax_url_email",
-    Whitespace = "whitespace"
+export enum KnownBlobIndexerDataToExtract {
+    AllMetadata = "allMetadata",
+    ContentAndMetadata = "contentAndMetadata",
+    StorageMetadata = "storageMetadata"
+}
+
+// @public
+export enum KnownBlobIndexerImageAction {
+    GenerateNormalizedImagePerPage = "generateNormalizedImagePerPage",
+    GenerateNormalizedImages = "generateNormalizedImages",
+    None = "none"
+}
+
+// @public
+export enum KnownBlobIndexerParsingMode {
+    Default = "default",
+    DelimitedText = "delimitedText",
+    Json = "json",
+    JsonArray = "jsonArray",
+    JsonLines = "jsonLines",
+    Text = "text"
+}
+
+// @public
+export enum KnownBlobIndexerPDFTextRotationAlgorithm {
+    DetectAngles = "detectAngles",
+    None = "none"
+}
+
+// @public
+export enum KnownCharFilterNames {
+    HtmlStrip = "html_strip"
+}
+
+// @public
+export enum KnownCustomEntityLookupSkillLanguage {
+    Da = "da",
+    De = "de",
+    En = "en",
+    Es = "es",
+    Fi = "fi",
+    Fr = "fr",
+    It = "it",
+    Ko = "ko",
+    Pt = "pt"
+}
+
+// @public
+export enum KnownEntityCategory {
+    Datetime = "datetime",
+    Email = "email",
+    Location = "location",
+    Organization = "organization",
+    Person = "person",
+    Quantity = "quantity",
+    Url = "url"
+}
+
+// @public
+export enum KnownEntityRecognitionSkillLanguage {
+    Ar = "ar",
+    Cs = "cs",
+    Da = "da",
+    De = "de",
+    El = "el",
+    En = "en",
+    Es = "es",
+    Fi = "fi",
+    Fr = "fr",
+    Hu = "hu",
+    It = "it",
+    Ja = "ja",
+    Ko = "ko",
+    Nl = "nl",
+    No = "no",
+    Pl = "pl",
+    PtBR = "pt-BR",
+    PtPT = "pt-PT",
+    Ru = "ru",
+    Sv = "sv",
+    Tr = "tr",
+    ZhHans = "zh-Hans",
+    ZhHant = "zh-Hant"
+}
+
+// @public
+export enum KnownImageAnalysisSkillLanguage {
+    Ar = "ar",
+    Az = "az",
+    Bg = "bg",
+    Bs = "bs",
+    Ca = "ca",
+    Cs = "cs",
+    Cy = "cy",
+    Da = "da",
+    De = "de",
+    El = "el",
+    En = "en",
+    Es = "es",
+    Et = "et",
+    Eu = "eu",
+    Fi = "fi",
+    Fr = "fr",
+    Ga = "ga",
+    Gl = "gl",
+    He = "he",
+    Hi = "hi",
+    Hr = "hr",
+    Hu = "hu",
+    Id = "id",
+    It = "it",
+    Ja = "ja",
+    Kk = "kk",
+    Ko = "ko",
+    Lt = "lt",
+    Lv = "lv",
+    Mk = "mk",
+    Ms = "ms",
+    Nb = "nb",
+    Nl = "nl",
+    Pl = "pl",
+    Prs = "prs",
+    Pt = "pt",
+    PtBR = "pt-BR",
+    PtPT = "pt-PT",
+    Ro = "ro",
+    Ru = "ru",
+    Sk = "sk",
+    Sl = "sl",
+    SrCyrl = "sr-Cyrl",
+    SrLatn = "sr-Latn",
+    Sv = "sv",
+    Th = "th",
+    Tr = "tr",
+    Uk = "uk",
+    Vi = "vi",
+    Zh = "zh",
+    ZhHans = "zh-Hans",
+    ZhHant = "zh-Hant"
+}
+
+// @public
+export enum KnownImageDetail {
+    Celebrities = "celebrities",
+    Landmarks = "landmarks"
+}
+
+// @public
+export enum KnownKeyPhraseExtractionSkillLanguage {
+    Da = "da",
+    De = "de",
+    En = "en",
+    Es = "es",
+    Fi = "fi",
+    Fr = "fr",
+    It = "it",
+    Ja = "ja",
+    Ko = "ko",
+    Nl = "nl",
+    No = "no",
+    Pl = "pl",
+    PtBR = "pt-BR",
+    PtPT = "pt-PT",
+    Ru = "ru",
+    Sv = "sv"
 }
 
 // @public
@@ -1197,10 +1227,32 @@ export enum KnownOcrSkillLanguage {
 }
 
 // @public
+export enum KnownRegexFlags {
+    CanonEq = "CANON_EQ",
+    CaseInsensitive = "CASE_INSENSITIVE",
+    Comments = "COMMENTS",
+    DotAll = "DOTALL",
+    Literal = "LITERAL",
+    Multiline = "MULTILINE",
+    UnicodeCase = "UNICODE_CASE",
+    UnixLines = "UNIX_LINES"
+}
+
+// @public
 export enum KnownSearchAudience {
     AzureChina = "https://search.azure.cn",
     AzureGovernment = "https://search.azure.us",
     AzurePublicCloud = "https://search.azure.com"
+}
+
+// @public
+export enum KnownSearchIndexerDataSourceType {
+    AdlsGen2 = "adlsgen2",
+    AzureBlob = "azureblob",
+    AzureSql = "azuresql",
+    AzureTable = "azuretable",
+    CosmosDb = "cosmosdb",
+    MySql = "mysql"
 }
 
 // @public
@@ -1257,6 +1309,12 @@ export enum KnownSplitSkillLanguage {
     Tr = "tr",
     Ur = "ur",
     Zh = "zh"
+}
+
+// @public
+export enum KnownTextSplitMode {
+    Pages = "pages",
+    Sentences = "sentences"
 }
 
 // @public
@@ -1362,6 +1420,34 @@ export enum KnownTokenFilterNames {
     Unique = "unique",
     Uppercase = "uppercase",
     WordDelimiter = "word_delimiter"
+}
+
+// @public
+export enum KnownTokenizerNames {
+    Classic = "classic",
+    EdgeNGram = "edgeNGram",
+    Keyword = "keyword_v2",
+    Letter = "letter",
+    Lowercase = "lowercase",
+    MicrosoftLanguageStemmingTokenizer = "microsoft_language_stemming_tokenizer",
+    MicrosoftLanguageTokenizer = "microsoft_language_tokenizer",
+    NGram = "nGram",
+    PathHierarchy = "path_hierarchy_v2",
+    Pattern = "pattern",
+    Standard = "standard_v2",
+    UaxUrlEmail = "uax_url_email",
+    Whitespace = "whitespace"
+}
+
+// @public
+export enum KnownVisualFeature {
+    Adult = "adult",
+    Brands = "brands",
+    Categories = "categories",
+    Description = "description",
+    Faces = "faces",
+    Objects = "objects",
+    Tags = "tags"
 }
 
 // @public
@@ -2258,10 +2344,10 @@ export interface SuggestDocumentsResult<TModel extends object, TFields extends S
 export type SuggestNarrowedModel<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = (<T>() => T extends TModel ? true : false) extends <T>() => T extends never ? true : false ? TModel : (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false ? TModel : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false ? keyof ExtractDocumentKey<TModel> extends never ? TModel : ExtractDocumentKey<TModel> : TFields extends SelectFields<TModel> ? NarrowedModel<TModel, TFields> : never;
 
 // @public
-export type SuggestOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = OperationOptions & SuggestRequestOptions<TModel, TFields>;
+export type SuggestOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = OperationOptions & SuggestRequest<TModel, TFields>;
 
 // @public
-export interface SuggestRequestOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> {
+export interface SuggestRequest<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> {
     filter?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;

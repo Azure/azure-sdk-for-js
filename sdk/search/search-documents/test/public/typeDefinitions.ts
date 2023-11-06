@@ -16,8 +16,8 @@ import {
 
 import {
   KnownCharFilterNames,
-  KnownLexicalAnalyzerNames,
-  KnownLexicalTokenizerNames,
+  KnownAnalyzerNames,
+  KnownTokenizerNames,
   KnownTokenFilterNames,
 } from "../../src/index";
 
@@ -28,16 +28,16 @@ type IsIdentical<T1, T2> = (<T>() => T extends T1 ? true : false) extends <T>() 
   : never;
 
 type ExpectKnownCharFilterNames = `${KnownCharFilterName}`;
-type ExpectKnownLexicalAnalyzerNames = `${KnownLexicalAnalyzerName}`;
-type ExpectKnownLexicalTokenizerNames = `${KnownLexicalTokenizerName}`;
+type ExpectKnownAnalyzerNames = `${KnownLexicalAnalyzerName}`;
+type ExpectKnownTokenizerNames = `${KnownLexicalTokenizerName}`;
 type ExpectKnownTokenFilterNames = `${KnownTokenFilterName}`;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 function fun() {
   const a: IsIdentical<ExpectKnownCharFilterNames, `${KnownCharFilterNames}`> = "pass";
-  const b: IsIdentical<ExpectKnownLexicalAnalyzerNames, `${KnownLexicalAnalyzerNames}`> = "pass";
-  const c: IsIdentical<ExpectKnownLexicalTokenizerNames, `${KnownLexicalTokenizerNames}`> = "pass";
+  const b: IsIdentical<ExpectKnownAnalyzerNames, `${KnownAnalyzerNames}`> = "pass";
+  const c: IsIdentical<ExpectKnownTokenizerNames, `${KnownTokenizerNames}`> = "pass";
   const d: IsIdentical<ExpectKnownTokenFilterNames, `${KnownTokenFilterNames}`> = "pass";
 
   return [a, b, c, d];

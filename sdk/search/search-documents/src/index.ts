@@ -9,7 +9,7 @@ export {
 } from "./searchIndexingBufferedSender";
 export {
   AutocompleteOptions,
-  AutocompleteRequestOptions,
+  AutocompleteRequest,
   CountDocumentsOptions,
   DeleteDocumentsOptions,
   ExcludedODataTypes,
@@ -26,7 +26,7 @@ export {
   SearchRequestOptions,
   SearchResult,
   SuggestDocumentsResult,
-  SuggestRequestOptions,
+  SuggestRequest,
   SuggestResult,
   SuggestOptions,
   MergeDocumentsOptions,
@@ -126,7 +126,7 @@ export {
   LuceneStandardTokenizer,
   EdgeNGramTokenFilter,
   KeywordTokenizer,
-  AnalyzeTextRequestOptions,
+  AnalyzeRequest,
   SearchResourceEncryptionKey,
   SearchIndexStatistics,
   SearchServiceStatistics,
@@ -172,8 +172,6 @@ export {
   TextSplitMode,
   TextTranslationSkillLanguage,
   VisualFeature,
-  KnownCharFilterNames,
-  KnownTokenFilterNames,
   SearchIndexerKnowledgeStore,
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
@@ -317,8 +315,20 @@ export {
   LexicalAnalyzerName,
   LexicalTokenizerName,
   TokenFilterName,
-  KnownLexicalAnalyzerName as KnownLexicalAnalyzerNames,
-  KnownLexicalTokenizerName as KnownLexicalTokenizerNames,
+  KnownLexicalAnalyzerName as KnownAnalyzerNames,
+  KnownLexicalTokenizerName as KnownTokenizerNames,
+  KnownBlobIndexerDataToExtract,
+  KnownBlobIndexerImageAction,
+  KnownBlobIndexerParsingMode,
+  KnownBlobIndexerPDFTextRotationAlgorithm,
+  KnownEntityCategory,
+  KnownImageDetail,
+  KnownRegexFlags,
+  KnownSearchIndexerDataSourceType,
+  KnownTextSplitMode,
+  KnownVisualFeature,
+  KnownCharFilterName as KnownCharFilterNames,
+  KnownTokenFilterName as KnownTokenFilterNames,
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
 export { createSynonymMapFromFile } from "./synonymMapHelper";

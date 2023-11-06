@@ -3,7 +3,7 @@
 
 import {
   GeographyPoint,
-  KnownLexicalAnalyzerNames,
+  KnownAnalyzerNames,
   SearchClient,
   SearchIndex,
   SearchIndexClient,
@@ -43,13 +43,13 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         type: "Edm.String",
         name: "description",
         searchable: true,
-        analyzerName: KnownLexicalAnalyzerNames.EnLucene,
+        analyzerName: KnownAnalyzerNames.EnLucene,
       },
       {
         type: "Edm.String",
         name: "descriptionFr",
         searchable: true,
-        analyzerName: KnownLexicalAnalyzerNames.FrLucene,
+        analyzerName: KnownAnalyzerNames.FrLucene,
       },
       {
         type: "Edm.String",
@@ -151,13 +151,13 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             type: "Edm.String",
             name: "description",
             searchable: true,
-            analyzerName: KnownLexicalAnalyzerNames.EnLucene,
+            analyzerName: KnownAnalyzerNames.EnLucene,
           },
           {
             type: "Edm.String",
             name: "descriptionFr",
             searchable: true,
-            analyzerName: KnownLexicalAnalyzerNames.FrLucene,
+            analyzerName: KnownAnalyzerNames.FrLucene,
           },
           {
             type: "Edm.String",
