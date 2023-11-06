@@ -948,7 +948,7 @@ export interface ExtractiveQueryAnswer {
    * The confidence threshold. Default threshold is 0.7
    */
   threshold?: number;
-};
+}
 
 /**
  * A value that specifies whether answers should be returned as part of the search response.
@@ -961,7 +961,7 @@ export type QueryAnswer = ExtractiveQueryAnswer;
 export interface ExtractiveQueryCaption {
   captionType: "extractive";
   highlight?: boolean;
-};
+}
 
 /**
  * A value that specifies whether captions should be returned as part of the search response.

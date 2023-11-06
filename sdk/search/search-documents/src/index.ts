@@ -173,7 +173,7 @@ export {
   TextTranslationSkillLanguage,
   VisualFeature,
   SearchIndexerKnowledgeStore,
-  KnownAnalyzerNames
+  KnownAnalyzerNames,
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";

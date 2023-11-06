@@ -260,15 +260,17 @@ export function convertAnalyzersToPublic(
         } as PatternAnalyzer);
         break;
       case "#Microsoft.Azure.Search.CustomAnalyzer":
-        const customAnalyzer = analyzer as BaseCustomAnalyzer;
-        const { name, tokenizerName, tokenFilters } = customAnalyzer;
-        const publicAnalyzer: CustomAnalyzer = {
-          ...customAnalyzer,
-          name: name,
-          tokenizerName,
-          tokenFilters: tokenFilters as TokenFilterName[],
-        };
-        result.push(publicAnalyzer);
+        {
+          const customAnalyzer = analyzer as BaseCustomAnalyzer;
+          const { name, tokenizerName, tokenFilters } = customAnalyzer;
+          const publicAnalyzer: CustomAnalyzer = {
+            ...customAnalyzer,
+            name: name,
+            tokenizerName,
+            tokenFilters: tokenFilters as TokenFilterName[],
+          };
+          result.push(publicAnalyzer);
+        }
         break;
     }
   }

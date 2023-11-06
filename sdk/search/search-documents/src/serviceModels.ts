@@ -353,7 +353,7 @@ export interface AnalyzeRequest {
    * only be set when using the tokenizer parameter.
    */
   charFilters?: CharFilterName[];
-};
+}
 
 /**
  * Options for analyze text operation.
