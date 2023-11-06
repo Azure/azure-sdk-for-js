@@ -201,8 +201,7 @@ describe("formDataPolicy", function () {
 
       it("can upload a Uint8Array using createFile", async function () {
         const result = await performRequest({
-          file: createFile(new Uint8Array([0x01, 0x02, 0x03]), {
-            name: "file.bin",
+          file: createFile(new Uint8Array([0x01, 0x02, 0x03]), "file.bin", {
             type: "text/plain",
           }),
         });

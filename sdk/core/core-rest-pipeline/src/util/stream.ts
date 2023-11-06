@@ -5,9 +5,31 @@ import { Readable } from "stream";
 import { ReadableStream as AsyncIterableReadableStream } from "stream/web";
 import { isBlob, isNodeReadableStream, isWebReadableStream } from "./typeGuards";
 
+async function* streamAsyncIterator(
+  this: ReadableStream<Uint8Array>
+): AsyncIterableIterator<Uint8Array> {
+  const reader = this.getReader();
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        return;
+      }
+
+      yield value;
+    }
+  } finally {
+    reader.releaseLock();
+  }
+}
+
 function makeAsyncIterable<T>(webStream: any): asserts webStream is AsyncIterableReadableStream<T> {
-  if (!(webStream as any)[Symbol.asyncIterator]) {
-    throw new Error("Expected ReadableStream in Node to have @@asyncIterator");
+  if (!webStream[Symbol.asyncIterator]) {
+    webStream[Symbol.asyncIterator] = streamAsyncIterator.bind(webStream);
+  }
+
+  if (!webStream.values) {
+    webStream.values = streamAsyncIterator.bind(webStream);
   }
 }
 
